@@ -1,27 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+ 
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+ 
+/* div.Hero {
+  @apply grid justify-center;
+  grid-template-columns: 0.8fr; Default setting for screens above md
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  @screen md {
+    grid-template-columns: 0.4fr 0.6fr; Adjust for screens md and below
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+.inputs {
+  @apply border h-8 rounded-lg w-[240px] outline-none px-1 py-3;
+} */
