@@ -10,28 +10,28 @@ const ContactCard = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
-  // Custom arrow components with custom class names
-  const NextArrow = (props) => (
-    <div
-      {...props}
-      className="absolute top-[685px] sm:top-[340px] md:top-[400px] lg:top-[450px] left-[80px] border h-[48px] w-[48px] rounded-full cursor-pointer hover:bg-blue-300"
-    >
-      <div className=" flex justify-center mt-4 ">
-        <Image src={"/icon_2.png"} height={16} width={16} alt="Next Arrow" />
-      </div>
-    </div>
-  );
+  // // Custom arrow components with custom class names
+  // const NextArrow = (props) => (
+  //   <div
+  //     {...props}
+  //     className="absolute top-[685px] sm:top-[340px] md:top-[400px] lg:top-[450px] left-[80px] border h-[48px] w-[48px] rounded-full cursor-pointer hover:bg-blue-300"
+  //   >
+  //     <div className=" flex justify-center mt-4 ">
+  //       <Image src={"/icon_2.png"} height={16} width={16} alt="Next Arrow" />
+  //     </div>
+  //   </div>
+  // );
 
-  const PrevArrow = (props) => (
-    <div
-      {...props}
-      className="absolute top-[685px] sm:top-[340px] md:top-[400px] lg:top-[450px] border h-[48px] w-[48px] rounded-full cursor-pointer hover:bg-blue-300"
-    >
-      <div className=" flex justify-center mt-4 ">
-        <Image src={"/icon.png"} height={16} width={16} alt="Prev Arrow" />
-      </div>
-    </div>
-  );
+  // const PrevArrow = (props) => (
+  //   <div
+  //     {...props}
+  //     className="absolute top-[685px] sm:top-[340px] md:top-[400px] lg:top-[450px] border h-[48px] w-[48px] rounded-full cursor-pointer hover:bg-blue-300"
+  //   >
+  //     <div className=" flex justify-center mt-4 ">
+  //       <Image src={"/icon.png"} height={16} width={16} alt="Prev Arrow" />
+  //     </div>
+  //   </div>
+  // );
 
   const users = [
     {
@@ -82,7 +82,7 @@ const ContactCard = () => {
   ];
 
   const sliderSettings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
@@ -91,15 +91,15 @@ const ContactCard = () => {
     centerPadding: "1%", // Set centerPadding to 0 for the first slide
 
     slidesToShow: 1.01,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
     autoplay: true,
     autoplaySpeed: 3000,
-    appendDots: (dots) => (
-      <div style={{ position: "absolute", top: "330px", right: "482px" }}>
-        <ul style={{ margin: "0" }}> {dots} </ul>
-      </div>
-    ),
+    // appendDots: (dots) => (
+    //   <div style={{ position: "absolute", top: "330px", right: "482px" }}>
+    //     <ul style={{ margin: "0" }}> {dots} </ul>
+    //   </div>
+    // ),
   };
 
   return (
@@ -151,11 +151,11 @@ const ContactCard = () => {
           </div>
         ))}
       </Slider>
-          <div className="sm:hidden mt-40 flex flex-col gap-4">
-            <button className=" w-[100%] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-white  bg-BlueHomz  px-2 py-1 hover:text-[18px] ">
+          <div className="sm:hidden mt-20 flex flex-col gap-4">
+            <button className=" w-[100%] h-[48px] text-[16px]  hover:h-[54px] rounded-md font-normal  text-white  bg-BlueHomz  px-2 py-1 hover:text-[18px] ">
               Get started
             </button>
-            <button className=" w-[100%] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-blue border border-BlueHomz bg-transparent px-2 py-1 hover:text-[18px]">
+            <button className=" w-[100%] h-[48px] text-[16px]   hover:h-[54px] rounded-md font-normal  text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1 hover:text-[18px]">
               Contact us
             </button>
           </div>

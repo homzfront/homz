@@ -16,3 +16,12 @@
 .inputs {
   @apply border h-8 rounded-lg w-[240px] outline-none px-1 py-3;
 } */
+.react-tel-input .form-control {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	height: 2.8125rem !important;
+  /* padding-left: 0 !important;
+  padding-right: 0 !important; */
+	width: 104% !important;
+  /* padding-left: -20px !important/; */
+}

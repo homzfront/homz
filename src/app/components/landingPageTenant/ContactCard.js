@@ -129,11 +129,11 @@ const ContactCard = () => {
         ))}
       </Slider>
           <div className="sm:hidden mt-[80px] flex flex-col gap-4">
-            <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal  text-white  bg-BlueHomz  px-2 py-1 hover:text-[18px] ">
+            <button className=" w-[100%] h-[48px] hover:h-[50px] text-[16px] rounded-md font-normal  text-white  bg-BlueHomz  px-2 py-1 hover:text-[18px] ">
             Contact us
 
             </button>
-            <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal  text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1 hover:text-[18px]">
+            <button className=" w-[100%] h-[48px] hover:h-[50px] text-[16px] rounded-md font-normal  text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1 hover:text-[18px]">
               Get started
             </button>
           </div>

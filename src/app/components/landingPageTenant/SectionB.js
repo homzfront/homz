@@ -51,7 +51,7 @@ const SectionB = () => {
           </p>
         </div>
         <div className="flex flex-row justify-center md:justify-between mt-10">
-          <div className="hidden  md:grid grid-col-1 max-w-sm">
+          <div className="hidden gap-4 md:grid grid-col-1 max-w-sm">
             {cards.map((card, index) => (
               <div key={index}>
                 <div
@@ -64,7 +64,7 @@ const SectionB = () => {
                     alt={`${card.title}-img`}
                   />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex mt-3 gap-1 flex-col">
                   <p className="font-[700] text-[20px] text-BlackHomz">
                     {card.title}
                   </p>

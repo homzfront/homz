@@ -38,7 +38,7 @@ const SectionC = () => {
                   alt={`${card.title}-img`}
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex mt-3 gap-1 flex-col">
                 <p className="font-[700] text-[20px] text-BlackHomz">
                   {card.title}
                 </p>
