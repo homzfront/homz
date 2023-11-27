@@ -3,7 +3,7 @@ import React from "react";
 
 const AllInOne = () => {
   return (
-    <div className="mt-[200px] px-2">
+    <div className="mt-[200px] max-w-[1160px] m-auto px-6">
       <p className="text-[23px] font-[700] text-center text-BlackHomz">
         Your All-in-One Solution for Success — Seamless, Efficient, and
         Empowering.

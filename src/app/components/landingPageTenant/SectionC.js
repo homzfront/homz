@@ -18,7 +18,7 @@ const SectionC = () => {
     },
   ];
   return (
-    <div className="mt-20">
+    <div className="mt-20 max-w-[1160px] m-auto px-6">
         <div className=" md:hidden ">
             <p className="text-center text-[23px] font-[700] text-BlackHomz">
             Your All-in-One Solution For Comfort.
@@ -63,14 +63,14 @@ const SectionC = () => {
           <h1 className="font-[700] text-center text-[30px] md:text-[36px]">
           Elevate Your Renting Experience Today
           </h1>
-          <p className=" md:inline hidden font-[500] text-[20px]">
+          <p className="mt-[-20px] md:inline hidden font-[500] text-[20px]">
           Join over 2,000+ renters who are living a stress-free life.
            </p>
           <div className="flex gap-4">
-            <button className=" w-[171px] h-[48px] text-[16px] hover:w-[186px]  hover:h-[54px] rounded-md font-[500px]  text-BlackHomz  bg-white  px-2 py-1 hover:text-[18px] ">
+            <button className=" w-[171px] h-[48px] text-[16px] rounded-md font-[500px]  text-BlackHomz  bg-white  px-2 py-1 hover:bg-transparent hover:text-white border hover:border-white ">
             Get started for free
             </button>
-            <button className=" w-[108px] h-[48px] text-[16px] hover:w-[126px]  hover:h-[54px] rounded-md font-normal  text-white border bg-transparent px-2 py-1 hover:text-[18px]">
+            <button className=" w-[108px] h-[48px] text-[16px] rounded-md font-normal  text-white border bg-transparent px-2 py-1 hover:bg-white hover:text-BlackHomz">
             Contact us
             </button>
           </div>

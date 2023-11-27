@@ -25,21 +25,21 @@ const SectionTwo = () => {
   ];
 
   return (
-    <div className="hidden md:grid gap-4 mt-16 grid-cols-1 max-w-[768px] px-[64px] md:grid-cols-2 sm:p-0 sm:max-w-full xl:grid-cols-3">
+    <div className=" hidden md:grid gap-2 mt-16 grid-cols-1 max-w-[768px] px-[64px] md:grid-cols-2 sm:p-0 sm:max-w-full xl:grid-cols-3">
       {cards.map((card, index) => (
         <div
           key={index}
-          className="flex flex-col h-auto lg:h-[186px] w-full justify-around items-center"
+          className="flex flex-col  h-auto lg:h-[256px] w-full justify-center items-center"
         >
-          <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
+          <div className="rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100">
             <Image
               src={card.icon}
-              height={20}
-              width={20}
+              height={32}
+              width={32}
               alt={`${card.title}-img`}
             />
           </div>
-          <div className="flex flex-col justify-between items-center h-max">
+          <div className="flex flex-col justify-center mt-5 gap-1 items-center h-max">
             <p className="font-[700] text-[20px] text-center">{card.title}</p>
             <p className="font-[400] text-[18px] text-center">
               {card.description}

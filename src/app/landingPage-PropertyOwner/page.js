@@ -8,7 +8,7 @@ import FAQs from '../components/landingPageProOwn/FAQs';
 
 const LandingPagePO = () => {
   return (
-    <div>
+    <div className=''>
         <Hero/>
         <Features/>
         <HowItWorks/>

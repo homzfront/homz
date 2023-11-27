@@ -15,6 +15,7 @@ module.exports = {
       colors: {
         BlackHomz: '#202020',
         BlueHomz: '#006AFF',
+        BlueHomz2: '#0058D4',
         GrayHomz: '#4E4E4E'
       },
     },

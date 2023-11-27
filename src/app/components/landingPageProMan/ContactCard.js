@@ -10,28 +10,6 @@ const ContactCard = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
-  // // Custom arrow components with custom class names
-  // const NextArrow = (props) => (
-  //   <div
-  //     {...props}
-  //     className="absolute top-[685px] sm:top-[340px] md:top-[400px] lg:top-[450px] left-[80px] border h-[48px] w-[48px] rounded-full cursor-pointer hover:bg-blue-300"
-  //   >
-  //     <div className=" flex justify-center mt-4 ">
-  //       <Image src={"/icon_2.png"} height={16} width={16} alt="Next Arrow" />
-  //     </div>
-  //   </div>
-  // );
-
-  // const PrevArrow = (props) => (
-  //   <div
-  //     {...props}
-  //     className="absolute top-[685px] sm:top-[340px] md:top-[400px] lg:top-[450px] border h-[48px] w-[48px] rounded-full cursor-pointer hover:bg-blue-300"
-  //   >
-  //     <div className=" flex justify-center mt-4 ">
-  //       <Image src={"/icon.png"} height={16} width={16} alt="Prev Arrow" />
-  //     </div>
-  //   </div>
-  // );
 
   const users = [
     {
@@ -89,27 +67,19 @@ const ContactCard = () => {
     className: "center",
     centerMode: true,
     centerPadding: "1%", // Set centerPadding to 0 for the first slide
-
     slidesToShow: 1.01,
-    // nextArrow: <NextArrow />,
-    // prevArrow: <PrevArrow />,
     autoplay: true,
     autoplaySpeed: 3000,
-    // appendDots: (dots) => (
-    //   <div style={{ position: "absolute", top: "330px", right: "482px" }}>
-    //     <ul style={{ margin: "0" }}> {dots} </ul>
-    //   </div>
-    // ),
   };
 
   return (
-    <div className="mt-[60px] relative">
-      <Slider {...sliderSettings}>
+    <div className="mt-[60px] max-w-[1160px] m-auto px-6 relative">
+           <Slider {...sliderSettings}>
         {users.map((user) => (
           <div key={user.id}>
-            <div className="flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
-              <div className="flex flex-col justify-start p-12">
-                <div className="star-rating">
+            <div className="h-auto   flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
+              <div className="flex flex-col gap-4 w-full justify-start p-12">
+                <div className="star-rating mt-8">
                   {[...Array(5)].map((star, index) => {
                     index += 1;
                     return (
@@ -134,18 +104,22 @@ const ContactCard = () => {
                     );
                   })}
                 </div>
-                <h1 className="font-[500] text:[28px]  lg:text-[36px] mb-4 text-BlackHomz">
+                <h1 className="font-[500] text:[24px] lg:text-[28px] mb-4 text-BlackHomz">
                   {user.content}
                 </h1>
-                <p className="font-[500] text-[14px] lg:text-[18px] text-BlackHomz">
-                  - {user.name}
-                </p>
-                <p className="font-[500] text-[14px] lg:text-[18px] text-GrayHomz">
-                  {user.position}
-                </p>
+                <div>
+                  <p className="font-[500] text-[14px] lg:text-[16px] text-BlackHomz">
+                    - {user.name}
+                  </p>
+                  <p className="font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
+                    {user.position}
+                  </p>
+                </div>
               </div>
-              <div className="w-full  h-full rounded-2xl object-cover">
-                {user.image}
+              <div className="w-full  max-w-[480px] h-auto rounded-2xl overflow-hidden">
+                <div className="w-full h-full  sm:bg-cover sm:bg-center">
+                  {user.image}
+                </div>
               </div>
             </div>
           </div>

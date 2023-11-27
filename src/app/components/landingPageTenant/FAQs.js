@@ -47,7 +47,7 @@ const FAQs = () => {
         "Yes, our software is cloud-based, allowing you to access it securely from any device with an internet connection, providing flexibility in managing your properties from various locations."      },
   ];
   return (
-    <div className="mt-[140px] mb-[60px]">
+    <div className="mt-[140px] mb-[60px] max-w-[1160px] m-auto px-6">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-[36px] font-[700] text-center text-BlackHomz">Frequently asked questions</h1>
         <p className="text-[20px] font-[500] text-center text-GrayHomz">
@@ -78,7 +78,7 @@ const FAQs = () => {
         <p className="md:text-[18px] text-center md:text-start text-[16px]  font-[400] "> 
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
-        <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:w-[146px]  hover:h-[54px]">
+        <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">
           Get in touch
         </button>
       </div>

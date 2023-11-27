@@ -3,14 +3,17 @@ import React from "react";
 
 const Section = () => {
   return (
-    <div className=" flex flex-col gap-14 p-4">
+    <div className=" flex flex-col mt-10 max-w-[1160px] m-auto px-6 gap-14 py-4">
       <div>
         <div className="flex flex-col justify-center items-center">
-          <p className="text-[41px] font-[700] text-center leading-tight text-BlackHomz">
+          <p className=" hidden sm:inline text-[41px] font-[700] text-center leading-tight text-BlackHomz">
             All-in-one account portal to manage and monitor your property and
             schedule maintenance.
           </p>
-          <p className="text-[20px] max-w-[1024px] font-[500] mt-2 text-center text-GrayHomz">
+          <p className="text-[29px] sm:hidden font-[700] text-center">
+          All-In-One Portal For Property Management
+          </p>
+          <p className="text-[18px] sm:text-[20px] max-w-[1024px] font-[500] mt-2 text-center text-GrayHomz">
             Elevate your property management game with our intuitive and
             efficient software solution. Seamlessly manage your renter database,
             incentivize on-time payments, and gain a clear financial overview.

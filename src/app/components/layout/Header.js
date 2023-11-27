@@ -10,7 +10,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="text-BlackHomz px-4 font-normal sm:flex justify-between text-[16px] max-w-[1160px] items-center m-auto py-8 shadow-m">
+    <div className="text-BlackHomz px-6 font-normal sm:flex justify-between text-[16px] max-w-[1160px] items-center m-auto pt-12 shadow-m">
       <Link href={'/'}>
         <Image
           src={"/Homz_Logo_Blue.png"}
@@ -26,7 +26,7 @@ const Header = () => {
           open ? "block" : "hidden sm:flex"
         }`}
       >
-        <div className="flex  gap-6 flex-col sm:flex-row">
+        <div className="flex  gap-10 flex-col sm:flex-row">
           <Link href={"/"} className="hover:text-blue-400">
             Home
           </Link>
@@ -49,7 +49,7 @@ const Header = () => {
           </Link>
           <Link
             href="/register"
-            className=" text-md  w-[147px] rounded-md font-normal  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400"
+            className=" text-md  w-[147px] rounded-[4px] font-normal  text-white bg-BlueHomz2 items-center flex justify-center h-[48px] py-1 hover:bg-blue-400"
           >
             Create Account 
           </Link>
@@ -57,7 +57,7 @@ const Header = () => {
       </nav>
       <div
         onClick={() => setOpen(!open)}
-        className="sm:hidden absolute right-8 top-5 cursor-pointer"
+        className="sm:hidden absolute right-8 top-[48px] cursor-pointer"
       >
         {open ? <Close /> : <Menu />}
       </div>

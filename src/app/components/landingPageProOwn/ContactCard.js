@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 const ContactCard = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  
+
   const users = [
     {
       id: 1,
@@ -72,7 +72,7 @@ const ContactCard = () => {
   };
 
   return (
-    <div className="mt-[60px] ">
+    <div className="mt-[60px] max-w-[1160px] m-auto px-6">
       <Slider {...sliderSettings}>
         {users.map((user) => (
           <div key={user.id}>

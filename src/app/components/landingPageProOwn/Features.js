@@ -39,7 +39,7 @@ const Features = () => {
   ];
 
   return (
-    <div className="mt-[120px] flex flex-col items-center gap-[80px]">
+    <div className="mt-[120px] max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[80px]">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
         <h2 className=" text-BlueHomz text-[18px]  text-center font-[500]">
           Features
@@ -54,7 +54,7 @@ const Features = () => {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative">
-          <div className="hidden lg:inline absolute left-[-100px]">
+          <div className="hidden lg:inline absolute left-[-160px]">
             <Image src={"/image1_2.png"} width={610} height={506} />
           </div>
         </div>

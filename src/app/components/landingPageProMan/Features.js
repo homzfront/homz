@@ -57,24 +57,24 @@ const Features = () => {
   ];
 
   return (
-    <div className="mt-[120px] flex flex-col items-center gap-[80px]">
+    <div className="mt-[120px] max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[80px]">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
         <h2 className=" text-BlueHomz text-[18px]  text-center font-[500]">
           Features
         </h2>
-        <h1 className="text-[36px] text-center font-[700] text-BlackHomz">
+        <h1 className="text-[23px] sm:text-[36px] text-center font-[700] text-BlackHomz">
           All you need to stand out as a property manager
         </h1>
-        <p className="text-[20px] max-w-[735px] text-center font-[400] text-GrayHomz">
+        <p className="text-[18px] sm:text-[20px] max-w-[735px] text-center font-[400] text-GrayHomz">
           Our comprehensive software offers everything you need to stand out,
           elevate your efficiency and thrive as a property manager.
         </p>
       </div>
-      <div className="hidden md:grid max-w-[768px] px-[64px] sm:p-0 sm:max-w-full md:grid-cols-2 gap-6 mt-2 xl:grid-cols-3">
+      <div className="hidden md:grid max-w-[100%] px-[64px] sm:px-0 sm:max-w-full md:grid-cols-2 gap-1  xl:grid-cols-3">
         {cards.map((card, index) => (
           <div
             key={index}
-            className="flex flex-col h-auto lg:h-[186px] w-full justify-around items-center"
+            className="flex flex-col h-auto lg:h-[216px] w-full justify-around items-center"
           >
             <div
               className={`rounded-full h-[52px] w-[52px] flex justify-center items-center bg-BlueHomz`}
@@ -86,7 +86,7 @@ const Features = () => {
                 alt={`${card.title}-img`}
               />
             </div>
-            <div className="flex flex-col justify-between items-center h-max">
+            <div className="flex flex-col gap-1 justify-between items-center h-max">
               <p className="font-[700] text-[20px] text-center text-BlackHomz">
                 {card.title}
               </p>

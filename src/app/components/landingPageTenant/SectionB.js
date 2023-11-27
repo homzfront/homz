@@ -38,7 +38,7 @@ const SectionB = () => {
   ];
 
   return (
-    <div className="mt-20">
+    <div className="mt-20 max-w-[1160px] m-auto px-6">
       <div>
         <div className=" w-[100%] md:w-[50%]">
           <h1 className="text-BlueHomz text-[18px] md:text-start text-center font-[500]">Features</h1>

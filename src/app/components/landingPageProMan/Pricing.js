@@ -101,15 +101,15 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="mt-[120px] flex flex-col items-center gap-[60px]">
+    <div className="mt-[120px] max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
         <h2 className="  text-BlueHomz text-[18px]  text-center font-[500]">
           Pricing
         </h2>
-        <h1 className="text-[36px] text-center font-[700]">
+        <h1 className="text-[23px] sm:text-[36px] text-center font-[700]">
           Simple, transparent pricing
         </h1>
-        <p className="text-[20px] text-center text-GrayHomz font-[500]">
+        <p className="text-[18px] sm:text-[20px] text-center text-GrayHomz font-[500]">
           We believe our enterprise plans should be accessible to all property
           managers.
         </p>

@@ -38,7 +38,7 @@ const HowItWorks = () => {
     },
   ];
   return (
-    <div className="mt-[120px] flex flex-col items-center">
+    <div className="mt-[150px] max-w-[1160px] m-auto px-6 flex flex-col items-center">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
         <h1 className="text-[36px] text-center font-[700] text-BlackHomz">
           How it Works
@@ -108,14 +108,14 @@ const HowItWorks = () => {
         </div>
       </div>
       <div className="mt-16 flex flex-col justify-around items-center py-[60px] px-8 bg-[url('/Background_image.png')] text-white rounded-lg shadow-2xl bg-cover bg-center bg-black max-w-full sm:w-[670px]  md:w-[786px] lg:w-[824px] xl:w-[1159px] h-[303px]">
-          <h1 className="font-[700] text-center text-[28px] md:text-[36px]">
+          <h1 className=" mt-[-20px] sm:mt-0 font-[700] text-center text-[20px] sm:text-[36px]">
           Join over 2,000+ property owners who are scaling up.
           </h1>
-          <div className="flex gap-4">
-            <button className=" w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-BlackHomz  bg-white  px-2 py-1 hover:text-[18px] ">
+          <div className="flex flex-col sm:flex-row w-full sm:w-auto mt-3  gap-4">
+            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-BlackHomz  bg-white  px-2 py-1 hover:text-[18px] ">
               Get started
             </button>
-            <button className=" w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-white border bg-transparent px-2 py-1 hover:text-[18px]">
+            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-white border bg-transparent px-2 py-1 hover:text-[18px]">
               Contact us
             </button>
           </div>
