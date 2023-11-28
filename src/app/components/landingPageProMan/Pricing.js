@@ -148,16 +148,16 @@ const Pricing = () => {
           ))}
         </Slider>
       </div>
-      <div>
-        <div className="flex flex-col justify-around items-center py-[60px] px-8 bg-[url('/Background_image.png')] text-white rounded-lg shadow-2xl bg-cover bg-center bg-black max-w-full sm:w-[670px]  md:w-[786px] lg:w-[824px] xl:w-[1159px] h-[303px]">
-          <h1 className="font-[700] text-center text-[28px] md:text-[36px]">
+      <div className="mt-4">
+        <div className="flex flex-col justify-around items-center py-[60px] px-8 bg-[url('/Background_image.png')] text-white rounded-[20px] shadow-2xl bg-cover bg-center bg-black max-w-full sm:w-[670px]  md:w-[786px] lg:w-[824px] xl:w-[1159px] h-[253px]">
+          <h1 className="font-[700] text-center text-[20px] md:text-[36px]">
             Start your 14-day free trial
           </h1>
-          <div className="flex gap-4">
-            <button className=" w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-BlueHomz  bg-white  px-2 py-1 hover:text-[18px] ">
+          <div className="mt-4 sm:mt-0 flex w-full flex-col sm:flex-row sm:w-auto gap-4">
+            <button className="w-full sm:w-[116px] h-[48px] text-[16px]  hover:bg-transparent  hover:text-white hover:border rounded-md font-normal  text-BlueHomz  bg-white  px-2 py-1">
               Get started
             </button>
-            <button className=" w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-white border bg-transparent px-2 py-1 hover:text-[18px]">
+            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
               Contact us
             </button>
           </div>

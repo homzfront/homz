@@ -10,7 +10,7 @@ import FAQs from '../components/landingPageProMan/FAQs';
 
 const LandingPagePM = () => {
   return (
-    <div className='max-w-[1160px] m-auto  px-6'>
+    <div className=''>
         <Section/>
         <SectionTwo/>
         <Features/>

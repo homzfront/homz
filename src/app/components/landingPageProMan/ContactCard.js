@@ -10,7 +10,6 @@ const ContactCard = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
-
   const users = [
     {
       id: 1,
@@ -73,8 +72,8 @@ const ContactCard = () => {
   };
 
   return (
-    <div className="mt-[60px] max-w-[1160px] m-auto px-6 relative">
-           <Slider {...sliderSettings}>
+    <div className="mt-[60px] max-w-[1257px] ml-auto px-6 relative">
+      <Slider {...sliderSettings}>
         {users.map((user) => (
           <div key={user.id}>
             <div className="h-auto   flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
@@ -125,14 +124,14 @@ const ContactCard = () => {
           </div>
         ))}
       </Slider>
-          <div className="sm:hidden mt-20 flex flex-col gap-4">
-            <button className=" w-[100%] h-[48px] text-[16px]  hover:h-[54px] rounded-md font-normal  text-white  bg-BlueHomz  px-2 py-1 hover:text-[18px] ">
-              Get started
-            </button>
-            <button className=" w-[100%] h-[48px] text-[16px]   hover:h-[54px] rounded-md font-normal  text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1 hover:text-[18px]">
-              Contact us
-            </button>
-          </div>
+      <div className="sm:hidden mt-20 flex flex-col gap-4">
+        <button className=" w-[100%] h-[48px] text-[16px]  rounded-md font-normal hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz  text-white  bg-BlueHomz  px-2 py-1">
+          Get started
+        </button>
+        <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal hover:bg-BlueHomz hover:text-white text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1">
+          Contact us
+        </button>
+      </div>
     </div>
   );
 };

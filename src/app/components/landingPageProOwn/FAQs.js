@@ -52,8 +52,8 @@ const FAQs = () => {
   return (
     <div className="mt-[160px] max-w-[1160px] m-auto px-6 mb-[60px]">
       <div className="flex flex-col justify-center items-center">
-        <h1 className="text-[36px] font-[700] text-center text-BlackHomz">Frequently asked questions</h1>
-        <p className="text-[20px] font-[500] text-center text-GrayHomz">
+        <h1 className="sm:text-[36px] text-[23px] font-[700] text-center text-BlackHomz">Frequently asked questions</h1>
+        <p className="sm:text-[20px] text-[18px] font-[500] text-center text-GrayHomz">
           Everything you need to know about our management solution.
         </p>
       </div>

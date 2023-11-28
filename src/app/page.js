@@ -10,11 +10,11 @@ export default function Home() {
   return (
     <div className="m-auto max-w-[1440px]">
       <div>
-        {/* <ContactPage/> */}
+        <ContactPage/>
         {/* <LandingPageTenant/> */}
         {/* <AboutUs/> */}
         {/* <LandingPagePM/> */}
-        <LandingPagePO/>
+        {/* <LandingPagePO/> */}
       </div>
     </div>
   )

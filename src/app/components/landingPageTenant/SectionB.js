@@ -42,15 +42,15 @@ const SectionB = () => {
       <div>
         <div className=" w-[100%] md:w-[50%]">
           <h1 className="text-BlueHomz text-[18px] md:text-start text-center font-[500]">Features</h1>
-          <h1 className="text-[36px] md:text-start text-center font-[700] text-BlackHomz">
+          <h1 className="text-[23px] mt-2 leading-tight sm:leading-none sm:text-[36px] md:text-start text-center font-[700] text-BlackHomz">
             Elevate Your Renting Experience
           </h1>
-          <p className="text-[20px] md:text-start text-center font-[500] text-GrayHomz">
+          <p className="text-[18px] mt-2 sm:text-[20px] md:text-start text-center font-[500] text-GrayHomz">
             Our intuitive features redefines convenience and ease in your
             everyday living
           </p>
         </div>
-        <div className="flex flex-row justify-center md:justify-between mt-10">
+        <div className="mt-14 flex flex-row justify-center md:justify-between">
           <div className="hidden gap-4 md:grid grid-col-1 max-w-sm">
             {cards.map((card, index) => (
               <div key={index}>
@@ -64,7 +64,7 @@ const SectionB = () => {
                     alt={`${card.title}-img`}
                   />
                 </div>
-                <div className="flex mt-3 gap-1 flex-col">
+                <div className="flex mt-5 gap-1 flex-col">
                   <p className="font-[700] text-[20px] text-BlackHomz">
                     {card.title}
                   </p>
@@ -76,12 +76,12 @@ const SectionB = () => {
             ))}
           </div>
           
-      <div className="md:hidden max-w-sm gap-6 mt-2">
+      <div className="md:hidden px-6  max-w-sm gap-6 mt-2">
         <Slider {...settings}>
           {cards.map((card, index) => (
             <div
               key={index}
-              className="flex flex-col h-[260px] border rounded-lg p-8  max-w-sm "
+              className="flex flex-col h-[260px] border rounded-[20px] p-8  max-w-sm "
             >
               <div
                 className={`m-auto rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100`}

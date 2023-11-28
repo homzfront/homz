@@ -26,13 +26,13 @@ const Features = () => {
     },
     {
       icon: "/verify.png",
-      title: "Monitor All Properties In One Place",
+      title: "Get Verified Renters on Your Property",
       description:
-        "Secure your home effortlessly with our convenient rental loan options tailored for you.",
+      "Secure your home effortlessly with our convenient rental loan options tailored for you.",
     },
     {
       icon: "/buildings-2_2.png",
-      title: "Get Verified Renters on Your Property",
+      title: "Monitor All Properties In One Place",
       description:
         "Secure your home effortlessly with our convenient rental loan options tailored for you.",
     },
@@ -59,7 +59,7 @@ const Features = () => {
           </div>
         </div>
         <div className="">
-          <div className="hidden md:grid max-w-[768px] px-[64px] sm:p-0  sm:max-w-full md:grid-cols-2 gap-4 mt-8 xl:grid-cols-2">
+          <div className="hidden md:grid max-w-[768px] px-[64px] sm:p-0  sm:max-w-full md:grid-cols-2 gap-6 mt-8 xl:grid-cols-2">
             {cards.map((card, index) => (
               <div
                 key={index}
@@ -75,7 +75,7 @@ const Features = () => {
                     alt={`${card.title}-img`}
                   />
                 </div>
-                <div className="flex flex-col justify-between h-max">
+                <div className="flex flex-col gap-1 justify-between h-max">
                   <p className="font-[700] text-[20px] text-BlackHomz">
                     {card.title}
                   </p>
@@ -91,7 +91,7 @@ const Features = () => {
               {cards.map((card, index) => (
                 <div
                   key={index}
-                  className="flex flex-col h-[260px] border rounded-lg p-8  max-w-sm "
+                  className="flex flex-col h-[260px] border rounded-[20px] p-6  max-w-sm "
                 >
                   <div
                     className={`m-auto rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100`}

@@ -72,7 +72,7 @@ const ContactCard = () => {
   };
 
   return (
-    <div className="mt-[60px] max-w-[1160px] m-auto px-6">
+    <div className="mt-[60px] max-w-[1257px] ml-auto px-6">
       <Slider {...sliderSettings}>
         {users.map((user) => (
           <div key={user.id}>
@@ -125,10 +125,10 @@ const ContactCard = () => {
         ))}
       </Slider>
       <div className="sm:hidden mt-20 flex flex-col gap-4">
-        <button className=" w-[100%] h-[48px] text-[16px]  hover:h-[54px] rounded-md font-normal  text-white  bg-BlueHomz  px-2 py-1 hover:text-[18px] ">
+        <button className=" w-[100%] h-[48px] text-[16px]  rounded-md font-normal hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz  text-white  bg-BlueHomz  px-2 py-1">
           Get started
         </button>
-        <button className=" w-[100%] h-[48px] text-[16px]   hover:h-[54px] rounded-md font-normal  text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1 hover:text-[18px]">
+        <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal hover:bg-BlueHomz hover:text-white text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1">
           Contact us
         </button>
       </div>

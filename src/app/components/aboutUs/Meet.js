@@ -41,7 +41,7 @@ const Meet = () => {
     },
   ];
   return (
-    <div className="max-w-[1160px] mt-10 m-auto px-6">
+    <div className="max-w-[1160px] mt-20 m-auto px-6">
       <div className="items-center flex justify-center">
         <div className="mt-14 max-w-[914px]">
           <h1 className="text-[24px] sm:text-[60px] text-center font-[700] text-BlackHomz">

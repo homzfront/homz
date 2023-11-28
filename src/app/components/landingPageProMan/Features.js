@@ -70,11 +70,11 @@ const Features = () => {
           elevate your efficiency and thrive as a property manager.
         </p>
       </div>
-      <div className="hidden md:grid max-w-[100%] px-[64px] sm:px-0 sm:max-w-full md:grid-cols-2 gap-1  xl:grid-cols-3">
+      <div className="hidden mt-[-30px] md:grid max-w-[100%] px-[64px] sm:px-0 sm:max-w-full md:grid-cols-2 lg:gap-1 gap-4  xl:grid-cols-3">
         {cards.map((card, index) => (
           <div
             key={index}
-            className="flex flex-col h-auto lg:h-[216px] w-full justify-around items-center"
+            className="flex flex-col h-auto lg:h-[206px] w-full justify-around items-center"
           >
             <div
               className={`rounded-full h-[52px] w-[52px] flex justify-center items-center bg-BlueHomz`}
@@ -97,12 +97,12 @@ const Features = () => {
           </div>
         ))}
       </div>
-      <div className="md:hidden max-w-sm gap-6 mt-2">
+      <div className="md:hidden px-6 max-w-sm gap-6 mt-2">
         <Slider {...settings}>
           {cards.map((card, index) => (
             <div
               key={index}
-              className="flex flex-col h-[260px] border rounded-lg p-8  max-w-sm "
+              className="flex flex-col h-[260px] border rounded-[20px] p-8  max-w-sm "
             >
               <div
                 className={`m-auto rounded-full h-[52px] w-[52px] flex justify-center items-center bg-BlueHomz`}
@@ -128,17 +128,17 @@ const Features = () => {
       </div>
       <div className="">
         <div className="flex flex-col justify-around items-center p-8 bg-[url('/Background_image.png')] text-white rounded-lg shadow-2xl bg-cover bg-center bg-BlueHomz max-w-full xl:w-[1159px] h-[303px]">
-          <h1 className="font-[700] text-center text-[30px] md:text-[36px]">
+          <h1 className="font-[700] text-center text-[20px] md:text-[36px]">
             Elevate your property management game today
           </h1>
           <p className=" md:inline hidden font-[500] text-[20px]">
             Join over 2,000+ property managers who are scaling up.
           </p>
-          <div className="flex gap-4">
-            <button className=" w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-BlueHomz  bg-white  px-2 py-1 hover:text-[18px] ">
+          <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-4">
+            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border   hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
               Get started
             </button>
-            <button className=" w-[116px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-white border bg-transparent px-2 py-1 hover:text-[18px]">
+            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white   hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
               Contact us
             </button>
           </div>

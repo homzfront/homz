@@ -3,7 +3,7 @@ import React from "react";
 
 const Section = () => {
   return (
-    <div className=" flex flex-col mt-10 max-w-[1160px] m-auto px-6 gap-14 py-4">
+    <div className=" flex flex-col mt-16 max-w-[1160px] m-auto px-6 gap-14 py-4">
       <div>
         <div className="flex flex-col justify-center items-center">
           <p className=" hidden sm:inline text-[41px] font-[700] text-center leading-tight text-BlackHomz">
@@ -20,7 +20,7 @@ const Section = () => {
           </p>
         </div>
         <div className="flex justify-center items-center">
-          <button className="text-md w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal  text-white bg-BlueHomz  px-4 py-1 hover:bg-blue-400">
+          <button className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal  text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
             Get Started
           </button>
         </div>

@@ -25,7 +25,8 @@ const SectionTwo = () => {
   ];
 
   return (
-    <div className=" hidden md:grid gap-2 mt-16 grid-cols-1 max-w-[768px] px-[64px] md:grid-cols-2 sm:p-0 sm:max-w-full xl:grid-cols-3">
+<div className="max-w-[1160px] m-auto px-6">
+<div className=" hidden md:grid gap-2 mt-16 grid-cols-1 max-w-[768px] px-[64px] md:grid-cols-2 sm:p-0 sm:max-w-full xl:grid-cols-3">
       {cards.map((card, index) => (
         <div
           key={index}
@@ -48,6 +49,7 @@ const SectionTwo = () => {
         </div>
       ))}
     </div>
+</div>
   );
 };
 
