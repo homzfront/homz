@@ -72,7 +72,7 @@ const ContactCard = () => {
   };
 
   return (
-    <div className="mt-[60px] max-w-[1257px] ml-auto px-6 relative">
+    <div className="mt-[60px] max-w-[1225px] ml-auto px-6 relative">
       <Slider {...sliderSettings}>
         {users.map((user) => (
           <div key={user.id}>
