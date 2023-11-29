@@ -18,21 +18,21 @@ const SelectPlan = () => {
       title: "Enterprise Plan ",
       content:
         "Seamless & efficient solution to manage your Tenants & Estates.",
-      link: "/enterprise-plan",
+      link: "plan/enterprise-plan",
     },
     {
       id: 3,
       image: "/Image13.png",
       title: "Manage Property/Estate",
       content: "Monitor your Estates & properties with an intuitive dashboard.",
-      link: "/manage-property",
+      link: "plan/manage-property",
     },
     {
       id: 4,
       image: "/Image14.png",
       title: "List Property",
       content: "List your property & find verified renters & buyers with ease.",
-      link: "/list-property",
+      link: "plan/list-property",
     },
   ];
   return (
