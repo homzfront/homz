@@ -5,8 +5,9 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px] px-8  sm:px-[140px] py-10 border mt-36 bg-black text-white">
-      <div className="flex md:text-sm  flex-col lg:flex-row items-center justify-center  lg:flex lg:items-start">
+    <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10  mt-36 bg-black text-white">
+      <div className=" items-center flex justify-center flex-col m-auto max-w-[1165px]">
+      <div className="flex md:text-sm lg:w-full xl:w-[1165px] flex-col lg:flex-row items-center justify-center  lg:flex lg:items-start">
         <div className="max-w-[338px] md:max-w-full lg:w-auto">
           <div>
             <Image
@@ -70,9 +71,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex md:text-sm pr-[160px] sm:pr-0   md:max-w-full max-w-[338px]  flex-col gap-6 mt-10 lg:mt-[-10px] lg:grid  md:grid md:grid-cols-2 lg:grid-cols-4">
-          <div className="leading-loose pl-0 lg:pl-[40px]">
-            <h2 className="font-[700]  text-[16px]  mb-2 md:mb-5">Useful Links</h2>
+        <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4">
+          <div className="leading-loose pl-0 ">
+            <h2 className="font-[700] text-[16px]  mb-2 md:mb-5">Useful Links</h2>
             <p>About Us</p>
             <p>Properties</p>
             <p>Privacy Policy</p>
@@ -81,7 +82,7 @@ const Footer = () => {
             <p>FAQs</p>
           </div>
           <div className="leading-loose  ">
-            <h2 className="font-[700] text-[16px]  mb-2 md:mb-4">Popular States</h2>
+            <h2 className="font-[700] text-[16px] mb-2 md:mb-4">Popular States</h2>
             <p>Properties in Lagos</p>
             <p>Properties in Delta</p>
             <p>Properties in Kano</p>
@@ -90,7 +91,7 @@ const Footer = () => {
             <p>Properties in Ogun</p>
             <p>Properties in Oyo</p>
           </div>
-          <div className="leading-loose ">
+          <div className="leading-loose mt-0 md:mt-2 xl:mt-0 ">
             <h2 className="font-[700]  text-[16px] mb-2 md:mb-4">Popular Cities</h2>
             <p>Lekki</p>
             <p>Ikeja</p>
@@ -100,7 +101,7 @@ const Footer = () => {
             <p>Kano</p>
             <p>Asaba</p>
           </div>          
-          <div className="leading-loose  ">
+          <div className="leading-loose mt-0 md:mt-2 xl:mt-0 ">
             <h2 className="font-[700] text-[16px]  mb-2 md:mb-4">Popular Lands for sale</h2>
             <p>Lands in Lagos</p>
             <p>Lands in Asaba</p>
@@ -113,6 +114,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="mt-10 m-auto lg:max-w-full max-w-[338px] md:text-sm lg:text-center">&copy; 2022 Homz.ng. All rights reserved</div>
+      </div>
     </div>
   );
 };
