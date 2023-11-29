@@ -7,11 +7,11 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from "next/navigation";
 
 const VerifyEmail = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [visible, setVisible] = useState(false);
+  const router = useRouter();
+
   const [error, setError] = useState(false);
   const [verificationSuccess, setVerificationSuccess] = useState(false);
 
@@ -28,15 +28,22 @@ const VerifyEmail = () => {
     setOTP(["", "", "", ""]);
   };
 
-  const [otp, setOTP] = useState(["", "", "", ""]);
-  const [isClipboard, setClipboard] = useState("");
+  const handleEmailVerification = (e) => {
+    e.preventDefault();
 
-  useEffect(() => {
-    // Check if clipboard content is a 4-digit code
-    if (isClipboard && /^\d{4}$/.test(isClipboard)) {
-      setOTP(isClipboard.split(""));
-    }
-  }, [isClipboard]);
+    router.push('/select-plan')
+  };
+
+
+  const [otp, setOTP] = useState(["", "", "", ""]);
+  // const [isClipboard, setClipboard] = useState("");
+
+  // useEffect(() => {
+  //   // Check if clipboard content is a 4-digit code
+  //   if (isClipboard && /^\d{4}$/.test(isClipboard)) {
+  //     setOTP(isClipboard.split(""));
+  //   }
+  // }, [isClipboard]);
 
   const handleInputChange = (index, value) => {
     if (/^\d$/.test(value)) {
@@ -55,14 +62,14 @@ const VerifyEmail = () => {
     }
   };
 
-  const handlePaste = (clipboardContent) => {
-    if (/^\d{4}$/.test(clipboardContent)) {
-      setOTP(clipboardContent.split(""));
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
+  // const handlePaste = (clipboardContent) => {
+  //   if (/^\d{4}$/.test(clipboardContent)) {
+  //     setOTP(clipboardContent.split(""));
+  //     setError(false);
+  //   } else {
+  //     setError(true);
+  //   }
+  // };
 
   const isOTPComplete = otp.every((digit) => /^\d$/.test(digit));
 
@@ -77,9 +84,6 @@ const VerifyEmail = () => {
     arrows: false,
   };
 
-  const Visible = () => {
-    setVisible(true);
-  };
 
   const images = [
     {
@@ -222,10 +226,7 @@ const VerifyEmail = () => {
                   Your email has successfully been verified. Click below to continue with your account setup.
                 </p>
                 <button
-                  onClick={() => {
-                    // Redirect or perform any action on continue
-                    console.log("Continue with account setup");
-                  }}
+                  onClick={handleEmailVerification}
                   className="mt-4 bg-BlueHomz text-white font-[700] text-[16px] w-full rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
                 >
                   Continue

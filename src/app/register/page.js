@@ -61,7 +61,7 @@ const Register = () => {
   };
 
   const Visible = () => {
-    setVisible(true);
+    setVisible(!visible);
   };
 
   const images = [
