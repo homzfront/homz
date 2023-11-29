@@ -11,10 +11,10 @@ export default function Home() {
     <div>
       <Header />
       <div className="m-auto max-w-[1440px]">
-        <ContactPage />
+        {/* <ContactPage /> */}
         {/* <LandingPageTenant/> */}
         {/* <AboutUs/> */}
-        {/* <LandingPagePM/> */}
+        <LandingPagePM/>
         {/* <LandingPagePO/> */}
       </div>
       <Footer />

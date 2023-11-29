@@ -109,14 +109,14 @@ const ContactCard = () => {
                     );
                   })}
                 </div>
-                <h1 className="font-[500] text:[24px] lg:text-[28px] mb-4 text-BlackHomz">
+                <h1 className="font-[500] text:[24px] lg:text-[36px] mb-4 text-BlackHomz">
                   {user.content}
                 </h1>
                 <div>
-                  <p className="font-[500] text-[14px] lg:text-[16px] text-BlackHomz">
+                  <p className="font-[500] text-[14px] lg:text-[18px] text-BlackHomz">
                     - {user.name}
                   </p>
-                  <p className="font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
+                  <p className="mt-3 font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
                     {user.position}
                   </p>
                 </div>
