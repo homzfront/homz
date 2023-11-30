@@ -1,6 +1,7 @@
 import React from 'react'
-import Hero from '../components/aboutUs/Hero';
-import Meet from '../components/aboutUs/Meet';
+import Hero from '@/components/aboutUs/Hero';
+import Meet from '@/components/aboutUs/Meet';
+// import Meet from '@/components/aboutUs/Meet';
 
 const AboutUs = () => {
   return (

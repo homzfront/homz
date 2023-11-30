@@ -2,10 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { useState } from "react";
-import "react-quill/dist/quill.bubble.css";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import DropDown from "./DropDown";
+
 
 const ContactDoc = () => {
   const options = [

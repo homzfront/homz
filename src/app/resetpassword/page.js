@@ -1,6 +1,6 @@
 "use client";
-import BashedEye from "../components/icons/BashedEye";
-import Eye from "../components/icons/Eye";
+import BashedEye from "@/components/icons/BashedEye";
+import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";

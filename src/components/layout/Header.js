@@ -30,11 +30,17 @@ const Header = () => {
           <Link href={"/"} className="hover:text-blue-400">
             Home
           </Link>
-          <Link href={""} className="hover:text-blue-400 relative mr-4 flex ">
-            Properties <Down className="absolute right-[-20px] top-1"/>
+          <Link href={"/landingPage-PropertyOwner"} className="hover:text-blue-400">
+            Management
+          </Link>
+          <Link href={"/landing-page-property"} className="hover:text-blue-400 ">
+            Enterprise
+          </Link>
+          <Link href={"/landing-page-tenant"} className="hover:text-blue-400 ">
+            Tenant
           </Link>
           <Link href={""} className="hover:text-blue-400 ">
-            Enterprise
+            List Property
           </Link>
         </div>
 

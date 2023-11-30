@@ -1,6 +1,5 @@
 "use client";
-import BashedEye from "../components/icons/BashedEye";
-import Eye from "../components/icons/Eye";
+
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -151,7 +150,7 @@ const VerifyEmail = () => {
                 <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
                   We sent an OTP to
                   <span className="text-BlackHomz font-[500]">
-                    Samson@gmail.com
+                    <> </>Samson@gmail.com
                   </span>
                 </p>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">

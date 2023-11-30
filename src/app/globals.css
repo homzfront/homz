@@ -3,6 +3,13 @@
 @tailwind utilities;
  
 
+
+.ListProperty {
+  @apply grid justify-center;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 20px;
+
+}
  
 /* div.Hero {
   @apply grid justify-center;
@@ -12,6 +19,8 @@
     grid-template-columns: 0.4fr 0.6fr; Adjust for screens md and below
   }
 }
+
+
 
 .inputs {
   @apply border h-8 rounded-lg w-[240px] outline-none px-1 py-3;
