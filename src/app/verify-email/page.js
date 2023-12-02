@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import "slick-carousel/slick/slick.css";
@@ -11,14 +11,24 @@ import { useRouter } from "next/navigation";
 
 const VerifyEmail = () => {
   const router = useRouter();
-  const email = localStorage.getItem("email");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [error2, setError2] = useState('');
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [otp, setOTP] = useState(["", "", "", ""]);
+  useEffect(() => {
+    // Check if window is defined (client side) before accessing localStorage
+    if (typeof window !== "undefined") {
+      const storedEmail = localStorage.getItem("email");
+      setEmail(storedEmail);
+    }
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
 
     try {
       // Make a POST request to verify the OTP
