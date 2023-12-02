@@ -49,10 +49,17 @@ const Hero = () => {
       </div>
       <div className="mt-[100px] grid md:grid-cols-4 grid-cols-2 gap-4">
         {box.map((data) => (
-          <div key={data.id} className="border flex justify-around items-center h-[135px] rounded-lg">
+          <div
+            key={data.id}
+            className="border flex justify-around items-center h-[135px] rounded-lg"
+          >
             <div className="flex flex-col items-center ">
-              <div className="text-[28px] sm:text-[52px] text-BlackHomz font-[700]">{data.value}</div>
-              <div className="text-[9px] sm:text-[16px] text-BlackHomz font-[400]">{data.Content}</div>
+              <div className="text-[28px] sm:text-[52px] text-BlackHomz font-[700]">
+                {data.value}
+              </div>
+              <div className="text-[9px] sm:text-[16px] text-BlackHomz font-[400]">
+                {data.Content}
+              </div>
             </div>
           </div>
         ))}

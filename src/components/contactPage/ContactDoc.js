@@ -52,12 +52,10 @@ const ContactDoc = () => {
         setFormError("");
       } else {
         // Handle unexpected status codes
-        const errorw = response.data.message
+        const errorw = response.data.message;
         console.log("Unexpected status code:", errorw);
-        setFormError(errorw)
-        
+        setFormError(errorw);
       }
-
     } catch (error) {
       console.error("Error submitting form:", error);
     }
