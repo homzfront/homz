@@ -8,6 +8,7 @@ import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -16,12 +17,10 @@ const VerifyEmail = () => {
   const [error2, setError2] = useState('');
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [otp, setOTP] = useState(["", "", "", ""]);
+  
   useEffect(() => {
-    // Check if window is defined (client side) before accessing localStorage
-    if (typeof window !== "undefined") {
-      const storedEmail = localStorage.getItem("email");
-      setEmail(storedEmail);
-    }
+    const storedEmail = Cookies.get("email");
+    setEmail(storedEmail);
   }, []);
 
 
