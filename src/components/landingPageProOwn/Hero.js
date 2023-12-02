@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Hero = () => {
@@ -15,19 +16,21 @@ const Hero = () => {
               monitoring your properties with our comprehensive management
               services.
             </p>
-            <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-full sm:w-[116px]">
-              Get Started
-            </button>
+            <Link href={"./register"}>
+              <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-full sm:w-[116px]">
+                Get Started
+              </button>
+            </Link>
           </div>
           <div className="hidden sm:flex w-full max-w-[1160px] mt-[120px] mb-8 h-[360px] justify-center items-center mx-auto">
-  <Image
-    src={"/Hand-drawn line.png"}
-    height={350}
-    width={794}
-    alt="OwnerImg"
-    className="object-fill w-full"
-  />
-</div>
+            <Image
+              src={"/Hand-drawn line.png"}
+              height={350}
+              width={794}
+              alt="OwnerImg"
+              className="object-fill w-full"
+            />
+          </div>
 
           <div className="sm:hidden flex bg-center h-[360px] justify-center items-center mt-[40px]">
             <Image

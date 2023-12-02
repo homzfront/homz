@@ -3,24 +3,73 @@ import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from "next/navigation";
+import axios from "axios"; // Don't forget to import axios
+ // Use the useProfileContext hook to get setUser
+import { ProfileContext } from "../useContext/context";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const { user, setUser } = useContext(ProfileContext);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // fetch('/api/register', {
-    //   method: "POST",
-    //   body: JSON.stringify({email, username, password}),
-    //   headers: {'Content-Type' : 'application/json'}
-    // })
+    if (!password || !email) {
+      setLoginError("Please fill in all fields.");
+      return;
+    }
+
+    // Check if the password meets the length requirement
+    if (password.length < 8) {
+      // Handle password error
+      setLoginError("Password must be at least 8 characters");
+      return;
+    }
+
+    try {
+      // Make a POST request to the login endpoint
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
+
+      if (response.data.statuscode === 201) {
+        alert("Done!");
+        // Handle the response as needed
+        console.log("Login successful", response.data);
+        setUser(response.data.data);
+        // router.push("/");
+        // Reset the form data after submitting
+        setEmail("");
+        setPassword("");
+      } else {
+        // Handle unexpected status codes
+        const error = response.data.message;
+        console.log("Unexpected status code:", error);
+        setLoginError(error);
+      }
+    } catch (error) {
+      // Handle errors
+      console.error("Login error", error);
+      // setLoginError(error.response.data.message);
+    }
   };
+
+
+  
 
   const settings = {
     dots: true,
@@ -40,15 +89,15 @@ const Login = () => {
   const images = [
     {
       icon: "/Hand-drawn line_22.png",
-      alt: "people"
+      alt: "people",
     },
     {
       icon: "/Hand-drawn line (2).png",
-      alt: "people"
+      alt: "people",
     },
     {
       icon: "/Hand-drawn line (1).png",
-      alt: "people"
+      alt: "people",
     },
   ];
 
@@ -97,10 +146,10 @@ const Login = () => {
           <div className="h-[85%]  py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
               <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
-              Welcome Back
+                Welcome Back
               </h1>
               <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
-              Welcome back, please enter your details.
+                Welcome back, please enter your details.
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4">
@@ -135,10 +184,15 @@ const Login = () => {
                       )}
                     </div>
                   </div>
-                  <span className=" hidden mt-[-10px] font[400] text-[13px] text-GrayHomz">
-                    Must be at least 8 characters
-                  </span>
-                  <Link href={"/forgetpassword"} className="font-[700] text-BlueHomz text-[13px]">
+                  {loginError && (
+                    <span className="mt-[-10px] font[400] text-[13px] text-red-500">
+                      {loginError}
+                    </span>
+                  )}
+                  <Link
+                    href={"/forgetpassword"}
+                    className="font-[700] text-BlueHomz text-[13px]"
+                  >
                     Forgot Password
                   </Link>
                 </div>

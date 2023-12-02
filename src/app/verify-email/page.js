@@ -2,47 +2,63 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
+import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
 
 const VerifyEmail = () => {
   const router = useRouter();
-
+  const email = localStorage.getItem("email");
   const [error, setError] = useState(false);
+  const [error2, setError2] = useState('');
   const [verificationSuccess, setVerificationSuccess] = useState(false);
+  const [otp, setOTP] = useState(["", "", "", ""]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // fetch('/api/register', {
-    //   method: "POST",
-    //   body: JSON.stringify({email, username, password}),
-    //   headers: {'Content-Type' : 'application/json'}
-    // })
-    // Your logic for submitting the OTP
-    console.log("Submitting OTP:", otp.join(""));
-    setVerificationSuccess(true);
-    setOTP(["", "", "", ""]);
+
+    try {
+      // Make a POST request to verify the OTP
+      const response = await axios.post("http://localhost:5000/api/auth/verification", {
+        email: email, // Replace with the actual email
+        pincode: otp.join(""),
+      });
+   
+        console.log("OTP verification successful", response.data);
+        setVerificationSuccess(true);
+        setError(false);
+        setError2('')
+
+    } catch (error) {
+      // Handle errors
+      console.error("OTP verification error", error);
+      setError2(error.response.data.error);
+      setError(true);
+    
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Server responded with error:", error.response.data);
+        
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server");
+        setError2("No response received from the server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up the request:", error.message);
+        
+      }
+    }
   };
 
   const handleEmailVerification = (e) => {
     e.preventDefault();
-
-    router.push('/select-plan')
+    router.push('/select-plan');
   };
-
-
-  const [otp, setOTP] = useState(["", "", "", ""]);
-  // const [isClipboard, setClipboard] = useState("");
-
-  // useEffect(() => {
-  //   // Check if clipboard content is a 4-digit code
-  //   if (isClipboard && /^\d{4}$/.test(isClipboard)) {
-  //     setOTP(isClipboard.split(""));
-  //   }
-  // }, [isClipboard]);
 
   const handleInputChange = (index, value) => {
     if (/^\d$/.test(value)) {
@@ -61,15 +77,6 @@ const VerifyEmail = () => {
     }
   };
 
-  // const handlePaste = (clipboardContent) => {
-  //   if (/^\d{4}$/.test(clipboardContent)) {
-  //     setOTP(clipboardContent.split(""));
-  //     setError(false);
-  //   } else {
-  //     setError(true);
-  //   }
-  // };
-
   const isOTPComplete = otp.every((digit) => /^\d$/.test(digit));
 
   const settings = {
@@ -82,7 +89,6 @@ const VerifyEmail = () => {
     autoplaySpeed: 3000,
     arrows: false,
   };
-
 
   const images = [
     {
@@ -150,7 +156,7 @@ const VerifyEmail = () => {
                 <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
                   We sent an OTP to
                   <span className="text-BlackHomz font-[500]">
-                    <> </>Samson@gmail.com
+                    <> </> {email}
                   </span>
                 </p>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -172,8 +178,11 @@ const VerifyEmail = () => {
                       ))}
                     </div>
                     <p className="mt-[-10px] text-[14px] font-[400] text-GrayHomz2">
-                      Enter OTP sent to Samson@gmail.com
+                      Enter OTP sent to <> </> {email}
                     </p>
+                    {error2 && (
+                      <span className="text-red-500">{error2}</span>
+                    )}
                     {isOTPComplete ? (
                       <button
                         type="submit"
@@ -217,7 +226,7 @@ const VerifyEmail = () => {
                 </form>
               </div>
             ) : (
-                <div className="flex flex-col max-w-[360px] mt-2 items-center">
+              <div className="flex flex-col max-w-[360px] mt-2 items-center">
                 <h1 className="text-[36px] font-[700] text-BlackHomz">
                   Email Verified
                 </h1>
@@ -231,19 +240,19 @@ const VerifyEmail = () => {
                   Continue
                 </button>
                 <div className="mt-4 flex justify-center gap-1">
-                    <Image
-                      src={"/arrow-left.png"}
-                      className=""
-                      height={17}
-                      width={16}
-                    />
-                    <Link
-                      href={"/login"}
-                      className="text-center text-[14px] font-[700]"
-                    >
-                      Go back to Log In
-                    </Link>
-                  </div>
+                  <Image
+                    src={"/arrow-left.png"}
+                    className=""
+                    height={17}
+                    width={16}
+                  />
+                  <Link
+                    href={"/login"}
+                    className="text-center text-[14px] font-[700]"
+                  >
+                    Go back to Log In
+                  </Link>
+                </div>
               </div>
             )}
           </div>

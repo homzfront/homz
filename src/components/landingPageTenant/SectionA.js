@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const SectionA = () => {
@@ -16,9 +17,11 @@ const SectionA = () => {
           <button className="w-full  sm:w-[109px] h-[48px] text-[16px]  rounded-md  bg-BlueHomz  text-white hover:bg-white hover:text-BlueHomz hover:border-BlueHomz hover:border font-[700] px-2 py-1 ">
             Get started
           </button>
-          <button className=" w-full  sm:w-[180px] h-[48px] text-[16px] rounded-md  text-BlueHomz border-BlueHomz  hover:border-none hover:bg-BlueHomz hover:text-white font-[500]  border bg-transparent px-2 py-1">
-            Know more about us
+         <Link href={"./contact-page"}>
+         <button className=" w-full  sm:w-auto h-[48px] text-[16px] rounded-md  text-BlueHomz border-BlueHomz  hover:border-none hover:bg-BlueHomz hover:text-white font-[500]  border bg-transparent px-2 py-1">
+            Contact us
           </button>
+         </Link>
         </div>
       </div>
       <div className="w-full">
