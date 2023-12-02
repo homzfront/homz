@@ -4,7 +4,7 @@ import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-
+import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,41 +12,64 @@ import { useRouter } from "next/navigation";
 
 const Register = () => {
   const router = useRouter();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const [passwordError, setPasswordError] = useState("");
   const [visible, setVisible] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.password || !formData.email) {
+      setPasswordError("Please fill in all fields.");
+      return;
+    }
 
     // Check if the password meets the length requirement
     if (formData.password.length < 8) {
-      setPasswordError(true);
-      return; // Stop the submission if the password is too short
+      // Handle password error
+      setPasswordError("Passowrd must be at least 8 characters");
+      return;
     }
 
-    // Continue with your registration logic
-    // fetch('/api/register', {
-    //   method: "POST",
-    //   body: JSON.stringify({email: formData.email, password: formData.password}),
-    //   headers: {'Content-Type' : 'application/json'}
-    // })
+    try {
+      // Make a POST request to the registration endpoint
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
-    // Reset the form data after submitting
-    setFormData({ email: "", password: "" });
-    setPasswordError(false);
-    router.push('/verify-email')
+      if (response.data.statuscode === 201) {
+        alert("Done!");
+        // Handle the response as needed
+        console.log("Registration successful", response.data);
 
+        // setPasswordError('');
+        localStorage.setItem("email", formData.email);
+        router.push(`/verify-email`);
+
+        // Reset the form data after submitting
+        setFormData({ email: "", password: "" });
+      } else {
+        // Handle unexpected status codes
+        const errorw = response.data.message;
+        console.log("Unexpected status code:", errorw);
+        setPasswordError(errorw);
+      }
+    } catch (error) {
+      // Handle errors
+      console.error("Registration error", error.response.data);
+      setPasswordError(error.response.data.message);
+    }
   };
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
-    setPasswordError(false); // Reset password error when the user types
+    // Reset password error when the user types
   };
 
   const settings = {
@@ -170,7 +193,7 @@ const Register = () => {
                   </div>
                   {passwordError && (
                     <span className="mt-[-10px] font[400] text-[13px] text-red-500">
-                      Must be at least 8 characters
+                      {passwordError}
                     </span>
                   )}
                 </div>

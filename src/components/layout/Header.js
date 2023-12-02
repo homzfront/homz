@@ -1,13 +1,17 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Menu from "../icons/Menu";
 import Close from "../icons/Close";
 import Image from "next/image";
 import Down from "../icons/Down";
+import { ProfileContext } from "@/app/useContext/context";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+
+  const { user } = useContext(ProfileContext);
+  console.log(user);
 
   return (
     <div className="text-BlackHomz px-6 font-normal sm:flex justify-between text-[16px] max-w-[1160px] items-center m-auto pt-12 shadow-m">

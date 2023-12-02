@@ -32,7 +32,7 @@ const ContactCard = () => {
       image: (
         <Image
           className="rounded-2xl"
-          src={"/image (2).png"}
+          src={"/image22.png"}
           width={480}
           height={464}
         />
@@ -47,7 +47,7 @@ const ContactCard = () => {
       image: (
         <Image
           className="rounded-2xl"
-          src={"/image.png"}
+          src={"/image23.png"}
           width={480}
           height={464}
         />

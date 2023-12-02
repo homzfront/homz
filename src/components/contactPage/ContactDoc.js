@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { useState } from "react";
-
+import axios from "axios";
 
 const ContactDoc = () => {
   const options = [
@@ -21,17 +21,52 @@ const ContactDoc = () => {
   const [phoneNo, setPhoneNo] = useState();
   const [message, setMessage] = useState("");
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [formError, setFormError] = useState("");
 
-  async function handleSubmit(e) {}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !phoneNo || !message) {
+      setFormError("Please fill in all fields.");
+      return;
+    }
+    try {
+      const response = await axios.post("http://localhost:5000/api/enquires", {
+        fullname: name,
+        email,
+        phoneNumber: phoneNo,
+        message,
+        enquireType: formData.document_options.toLocaleLowerCase(),
+      });
 
+      if (response.data.statuscode === 201) {
+        console.log("Form submitted successfully:", response.data);
+        alert("Done!");
+        // Clear form fields or reset form state
+        setName("");
+        setEmail("");
+        setPhoneNo("");
+        setMessage("");
+        setFormData({
+          document_options: options[0].label,
+        });
+        setFormError("");
+      } else {
+        // Handle unexpected status codes
+        const errorw = response.data.message
+        console.log("Unexpected status code:", errorw);
+        setFormError(errorw)
+        
+      }
 
-
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   const handleDropdownChange = (value) => {
     setFormData({ ...formData, document_options: value });
     setDropdownOpen(false);
   };
-
 
   return (
     <div className="flex w-full mt-20 justify-center">
@@ -166,7 +201,9 @@ const ContactDoc = () => {
                   <span className="mr-2">{formData.document_options}</span>
                   <svg
                     className={`w-5 h-5 ${
-                      isDropdownOpen ? "transform rotate-180 transition duration-300 ease-in-out" : ""
+                      isDropdownOpen
+                        ? "transform rotate-180 transition duration-300 ease-in-out"
+                        : ""
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -226,6 +263,7 @@ const ContactDoc = () => {
               value={phoneNo}
               className="border px-4 h-[45px] rounded-md"
               fullWidth="true"
+              minLength={9} // Set the maximum length to 9 digits
               onChange={(e) => setPhoneNo(e.target.value)}
             />
             <label className="text-BlackHomz mt-4 text-[14px] font-[500] mb-1">
@@ -237,7 +275,13 @@ const ContactDoc = () => {
               className="rounded-md px-4 h-[156px] border py-2"
               onChange={(e) => setMessage(e.target.value)}
             />
-            <button className="bg-BlueHomz mt-4 hover:bg-blue-400 text-white h-10 w-full rounded-md">
+            {formError && (
+              <span className="text-red-500 mt-2">{formError}</span>
+            )}
+            <button
+              type="submit"
+              className="bg-BlueHomz mt-4 hover:bg-blue-400 text-white h-10 w-full rounded-md"
+            >
               Send Message
             </button>
           </form>
