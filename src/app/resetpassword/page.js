@@ -111,6 +111,7 @@ const ResetPassword = () => {
                   className="ml-2"
                   height={27}
                   width={131}
+                  alt="img"
                 />
               </Link>
               <div className="">
@@ -140,7 +141,7 @@ const ResetPassword = () => {
             &copy; 2022 Homz.ng. All rights reserved
           </div>
         </div>
-        <div className="w-[794px] flex flex-col justify-around items-center">
+        <div className="w-[794px] px-6 flex flex-col justify-around items-center">
           <div className="h-[85%]  py-4">
             {!succPass ? (
               <div className="flex flex-col max-w-[360px] mt-1">
@@ -224,6 +225,7 @@ const ResetPassword = () => {
                     className=""
                     height={17}
                     width={16}
+                    alt="img"
                   />
                   <Link
                     href={"/login"}

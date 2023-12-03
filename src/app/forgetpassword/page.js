@@ -162,6 +162,7 @@ const ForgotPassword = () => {
                     className=""
                     height={17}
                     width={16}
+                    alt="img"
                   />
                   <Link
                     href={"/login"}
@@ -200,6 +201,7 @@ const ForgotPassword = () => {
                     className=""
                     height={17}
                     width={16}
+                    alt="img"
                   />
                   <Link
                     href={"/login"}

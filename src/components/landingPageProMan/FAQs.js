@@ -52,7 +52,9 @@ const FAQs = () => {
   return (
     <div className="mt-[160px] max-w-[1160px] m-auto px-6 mb-[60px]">
       <div className="flex flex-col justify-center items-center">
-        <h1 className="sm:text-[36px] text-[23px]  font-[700] text-center text-BlackHomz">Frequently asked questions</h1>
+        <h1 className="sm:text-[36px] text-[23px]  font-[700] text-center text-BlackHomz">
+          Frequently asked questions
+        </h1>
         <p className="sm:text-[20px] text-[18px] font-[500] text-center text-GrayHomz">
           Everything you need to know about our management solution.
         </p>
@@ -67,18 +69,27 @@ const FAQs = () => {
             }`}
             onClick={() => toggleFAQ(data.id)}
           >
-            <div className="mt-[50px] flex  justify-between flex-row">
-              <h3 className="md:text-[18px] text-[16px] font-[500] text-BlackHomz">{data.question}</h3>
-              <div> {expandedFAQs[data.id] ? <Minus /> : <Plus />}</div>
+            <div className="mt-[50px] flex justify-between flex-row">
+              <h3 className="md:text-[18px] text-[16px] font-[500] text-BlackHomz pr-2">
+                {data.question}
+              </h3>
+              <div className="mt-[5px]">
+                {" "}
+                {expandedFAQs[data.id] ? <Minus /> : <Plus />}
+              </div>
             </div>
-            {expandedFAQs[data.id] && <p className="text-[16px] text-GrayHomz font-[400]">{data.answer}</p>}
+            {expandedFAQs[data.id] && (
+              <p className="text-[16px] text-GrayHomz font-[400]">
+                {data.answer}
+              </p>
+            )}
           </div>
         ))}
       </div>
 
       <div className="mt-[60px] text-white flex flex-col justify-center items-center h-[210px] gap-2  max-w-[1159px] rounded-md bg-BlueHomz">
         <h1 className="text-[20px] font-[600]">Still have questions?</h1>
-        <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] "> 
+        <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] ">
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
         <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">

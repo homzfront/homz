@@ -16,7 +16,7 @@ const PricingCard = ({ price, title, billing, features }) => (
     {features.map((feature, i) => (
       <div key={i} className="flex flex-row items-center gap-2">
         <div className="h-[14px] w-[16px] bg-green-200 flex justify-center border rounded-full">
-          <Image height={10.5} width={12} src={"/IconMark.png"} />
+          <Image height={10.5} width={12} alt="img" src={"/IconMark.png"} />
         </div>
         <p>{feature}</p>
       </div>
@@ -133,7 +133,7 @@ const Pricing = () => {
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
                 <div className="h-[14px] w-[16px] bg-green-200 flex justify-center border rounded-full">
-                  <Image height={10.5} width={12} src={"/IconMark.png"} />
+                  <Image height={10.5} width={12} alt="img" src={"/IconMark.png"} />
                 </div>
                 <p>{feature}</p>
               </div>

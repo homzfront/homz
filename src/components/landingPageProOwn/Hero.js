@@ -17,7 +17,7 @@ const Hero = () => {
               services.
             </p>
             <Link href={"./register"}>
-              <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-full sm:w-[116px]">
+              <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-[116px]">
                 Get Started
               </button>
             </Link>

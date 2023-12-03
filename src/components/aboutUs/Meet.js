@@ -60,7 +60,7 @@ const Meet = () => {
           <div key={data.id} className="border p-8 rounded-lg">
             <div className="flex flex-col items-center justify-center">
               <div>
-                <Image src={data.Img} height={235} width={235} />
+                <Image src={data.Img} height={235} alt="img" width={235} />
               </div>
               <div className="text-[9px] sm:text-[24px] text-center text-BlackHomz font-[800]">
                 {data.Name}

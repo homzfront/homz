@@ -72,6 +72,7 @@ const ListProperty = () => {
               src={"/Featured icon.png"}
               height={48}
               width={48}
+              alt="img"
             />
             <p className="text-center text-[24px] font-[700] text-BlackHomz mb-4">
               Account Created
@@ -91,7 +92,7 @@ const ListProperty = () => {
         <div className="h-[29px]  mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse  sm:items-center p-7 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>
           <Link href={"/select-plan"}>
-            <Image src={"/Link.png"} height={24} width={132} />
+            <Image src={"/Link.png"} height={24} alt="img" width={132} />
           </Link>
         </div>
         <div className="w-full h-[320px] m-auto">
@@ -137,6 +138,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div className="flex flex-col mt-[70px]">
@@ -163,6 +165,7 @@ const ListProperty = () => {
                               height={40}
                               width={40}
                               className=""
+                              alt="img"
                             />
                           </div>
                         </div>
@@ -244,6 +247,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div>
@@ -252,12 +256,14 @@ const ListProperty = () => {
                           height={24}
                           width={24}
                           className="mb-2 cursor-pointer"
+                          alt="img"
                         />
                         <Image
                           src={"/trush-square.png"}
                           height={24}
                           width={24}
                           className="cursor-pointer"
+                          alt="img"
                         />
                       </div>
                     </div>
@@ -284,6 +290,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div>
@@ -292,12 +299,14 @@ const ListProperty = () => {
                           height={24}
                           width={24}
                           className="mb-2 cursor-pointer"
+                          alt="img"
                         />
                         <Image
                           src={"/trush-square.png"}
                           height={24}
                           width={24}
                           className="cursor-pointer"
+                          alt="img"
                         />
                       </div>
                     </div>
@@ -328,6 +337,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
@@ -336,6 +346,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-10">
@@ -344,6 +355,7 @@ const ListProperty = () => {
                             src={"/add-square (1).png"}
                             height={40}
                             width={40}
+                            alt="img"
                             className=""
                           />
                         </div>
@@ -353,6 +365,7 @@ const ListProperty = () => {
                             height={40}
                             width={40}
                             className=""
+                            alt="img"
                           />
                         </div>
                       </div>
@@ -370,6 +383,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div className="flex flex-col">

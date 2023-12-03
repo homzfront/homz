@@ -114,6 +114,7 @@ const Register = () => {
                   className="ml-2"
                   height={27}
                   width={131}
+                  alt="img"
                 />
               </Link>
               <div className="">
@@ -144,7 +145,7 @@ const Register = () => {
           </div>
         </div>
         <div className="w-[794px] flex flex-col justify-around items-center">
-          <div className="h-[85%]  py-4">
+          <div className="h-[85%] px-6  py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
               <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
                 Create Account
