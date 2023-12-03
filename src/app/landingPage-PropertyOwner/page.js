@@ -9,12 +9,12 @@ import FAQs from '@/components/landingPageProOwn/FAQs';
 const LandingPagePO = () => {
   return (
     <div className=''>
-        {/* <Hero/> */}
-        {/* <Features/> */}
-        {/* <HowItWorks/> */}
-        {/* <Contact/> */}
+        <Hero/>
+        <Features/>
+        <HowItWorks/>
+        <Contact/>
         <ContactCard/>
-        {/* <FAQs/> */}
+        <FAQs/>
     </div>
   )
 }
