@@ -21,6 +21,8 @@ const ContactCard = () => {
           width={480}
           height={464}
           alt="img"
+          style={{ width: "auto", height: "auto" }} 
+          priority
         />
       ),
       position: "Property Manager",
@@ -37,6 +39,8 @@ const ContactCard = () => {
           width={480}
           height={464}
           alt="img"
+          style={{ width: "auto", height: "auto" }} 
+          priority
         />
       ),
       position: "Property Manager",
@@ -53,6 +57,8 @@ const ContactCard = () => {
           width={480}
           height={464}
           alt="img"
+          style={{ width: "auto", height: "auto" }} 
+          priority
         />
       ),
       position: "Property Manager",

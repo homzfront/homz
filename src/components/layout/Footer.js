@@ -13,8 +13,10 @@ const Footer = () => {
               <Image
                 src={"/Homz_colorless.png"}
                 alt="HOMZ"
-                height={"100"}
-                width={"100"}
+                height={27}
+                width={131}  
+                style={{ width: "auto", height: "auto" }} 
+                
               />
             </Link>
             <p className="mt-7 lg:max-w-[280px]">
@@ -30,6 +32,7 @@ const Footer = () => {
                     alt="Instagram"
                     height={"25"}
                     width={"25"}
+                    
                   />
                 </Link>
                 <Link href={""}>

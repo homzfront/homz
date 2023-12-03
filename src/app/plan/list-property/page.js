@@ -375,6 +375,7 @@ const ListProperty = () => {
                           height={40}
                           width={40}
                           className=""
+                          alt="img"
                         />
                       </div>
                       <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">

@@ -18,9 +18,11 @@ const ContactCard = () => {
         <Image
           className="rounded-2xl"
           src={"/image (2).png"}
-          width={480}
+          width={481}
           height={464}
           alt="img"
+          style={{ width: "auto", height: "auto" }} 
+          priority
         />
       ),
       position: "Property Owner",
@@ -37,6 +39,8 @@ const ContactCard = () => {
           width={480}
           height={464}
           alt="img"
+          style={{ width: "auto", height: "auto" }}
+          priority 
         />
       ),
       position: "Property Owner",
@@ -53,6 +57,8 @@ const ContactCard = () => {
           width={480}
           height={464}
           alt="img"
+          style={{ width: "auto", height: "auto" }} 
+          priority 
         />
       ),
       position: "Property Owner",
