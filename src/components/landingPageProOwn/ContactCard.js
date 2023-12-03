@@ -20,6 +20,7 @@ const ContactCard = () => {
           src={"/image (2).png"}
           width={480}
           height={464}
+          alt="img"
         />
       ),
       position: "Property Owner",
@@ -35,6 +36,7 @@ const ContactCard = () => {
           src={"/image22.png"}
           width={480}
           height={464}
+          alt="img"
         />
       ),
       position: "Property Owner",
@@ -50,6 +52,7 @@ const ContactCard = () => {
           src={"/image23.png"}
           width={480}
           height={464}
+          alt="img"
         />
       ),
       position: "Property Owner",

@@ -107,7 +107,7 @@ const Pricing = () => {
       <div className="max-w-[1156px] m-auto flex flex-col gap-[80px] ">
         <div className="h-[29px]  mt-10 sm:mt-0 p-7">
           <Link href={"/plan/enterprise-plan"}>
-            <Image src={"/Link (1).png"} height={25} width={85} />
+            <Image src={"/Link (1).png"} alt="img" height={25} width={85} />
           </Link>
         </div>
         <div className="mt-[-50px] m-auto px-8 h-[800px]"> 
@@ -144,7 +144,7 @@ const Pricing = () => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div className="h-[14px] w-[16px] bg-green-200 flex justify-center border rounded-full">
-                      <Image height={10.5} width={12} src={"/IconMark.png"} />
+                      <Image height={10.5} alt="img" width={12} src={"/IconMark.png"} />
                     </div>
                     <p>{feature}</p>
                   </div>

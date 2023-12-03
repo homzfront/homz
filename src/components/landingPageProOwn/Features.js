@@ -55,7 +55,7 @@ const Features = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative">
           <div className="hidden lg:inline absolute left-[-160px]">
-            <Image src={"/image1_2.png"} width={610} height={506} />
+            <Image src={"/image1_2.png"} width={610} height={506} alt="img" />
           </div>
         </div>
         <div className="">

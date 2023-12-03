@@ -42,6 +42,7 @@ const ManageProperty = () => {
               src={"/Featured icon.png"}
               height={48}
               width={48}
+              alt="img"
             />
             <p className="text-center text-[24px] font-[700] text-BlackHomz mb-4">
               Account Created
@@ -63,7 +64,7 @@ const ManageProperty = () => {
             Manage Propeerty/Estate With Homz
           </p>
           <Link href={"/select-plan"}>
-            <Image src={"/Link.png"} height={24} width={132} />
+            <Image src={"/Link.png"} height={24} alt="img" width={132} />
           </Link>
         </div>
         <div className="w-full h-[320px] m-auto">

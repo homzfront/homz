@@ -125,6 +125,7 @@ const VerifyEmail = () => {
                   src={"/Homz_colorless.png"}
                   className="ml-3"
                   height={27}
+                  alt="img"
                   width={131}
                 />
               </Link>
@@ -155,7 +156,7 @@ const VerifyEmail = () => {
             &copy; 2022 Homz.ng. All rights reserved
           </div>
         </div>
-        <div className="w-[794px] flex flex-col justify-around items-center">
+        <div className="w-[794px] px-6 flex flex-col justify-around items-center">
           <div className="h-[85%]  py-4">
             {!verificationSuccess ? (
               <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
@@ -224,6 +225,7 @@ const VerifyEmail = () => {
                       className=""
                       height={17}
                       width={16}
+                      alt="img"
                     />
                     <Link
                       href={"/register"}

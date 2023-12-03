@@ -54,7 +54,7 @@ const SelectPlan = () => {
                 className="h-[488px] mt-2 w-[262px] py-2 items-center hover:border-[2px] hover:border-BlueHomz rounded-[20px] shadow-lg flex justify-around flex-col"
               >
                 <div>
-                  <Image src={data.image} height={200} width={214} />
+                  <Image src={data.image} alt="img" height={200} width={214} />
                 </div>
                 <div className="font-[500] w-full h-[10vh]  px-6 text-[20px] text-BlackHomz">
                   <h1 className="text-start">{data.title}</h1>

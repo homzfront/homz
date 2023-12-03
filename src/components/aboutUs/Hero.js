@@ -44,7 +44,7 @@ const Hero = () => {
           </button>
         </div>
         <div className="w-[100%]">
-          <Image src={"/Rectangle 44.png"} width={524} height={460} />
+          <Image src={"/Rectangle 44.png"} width={524} alt="img" height={460} />
         </div>
       </div>
       <div className="mt-[100px] grid md:grid-cols-4 grid-cols-2 gap-4">
@@ -81,7 +81,7 @@ const Hero = () => {
           </button>
         </div>
         <div className="w-[100%]">
-          <Image src={"/Rectangle 49.png"} width={524} height={460} />
+          <Image src={"/Rectangle 49.png"} width={524} alt="img" height={460} />
         </div>
       </div>
     </div>
