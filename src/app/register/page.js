@@ -9,6 +9,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const router = useRouter();
@@ -44,13 +46,15 @@ const Register = () => {
       );
 
       if (response.data.statuscode === 201) {
+        toast.success('User created');
         alert("Done!");
         // Handle the response as needed
         console.log("Registration successful", response.data);
 
         // setPasswordError('');
-        localStorage.setItem("email", formData.email);
+        // localStorage.setItem("email", formData.email);
         router.push(`/verify-email`);
+        Cookies.set('email', formData.email);
 
         // Reset the form data after submitting
         setFormData({ email: "", password: "" });
@@ -106,7 +110,7 @@ const Register = () => {
     <div className="">
       <div className="flex m-auto max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <div className="flex flex-col px-8  justify-around items-center">
+          <div className="flex flex-col   justify-around items-center">
             <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
               <Link href={"/"}>
                 <Image

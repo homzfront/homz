@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios"; // Don't forget to import axios
  // Use the useProfileContext hook to get setUser
 import { ProfileContext } from "../useContext/context";
-
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -47,6 +47,7 @@ const Login = () => {
       );
 
       if (response.data.statuscode === 201) {
+        toast.success('login successful');
         alert("Done!");
         // Handle the response as needed
         console.log("Login successful", response.data);
@@ -105,7 +106,7 @@ const Login = () => {
     <div className="">
       <div className="flex m-auto max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <div className="flex flex-col px-8  justify-around items-center">
+          <div className="flex flex-col  justify-around items-center">
             <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
               <Link href={"/"}>
                 <Image

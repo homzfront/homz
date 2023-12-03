@@ -82,8 +82,10 @@ const Features = () => {
               <Image
                 src={card.icon}
                 height={32}
-                width={32}
+                width={33}
                 alt={`${card.title}-img`}
+                style={{ width: "auto", height: "auto" }} 
+                
               />
             </div>
             <div className="flex flex-col gap-1 justify-between items-center h-max">

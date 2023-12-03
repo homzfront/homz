@@ -20,10 +20,10 @@ const Header = () => {
         <Image
           src={"/Homz_Logo_Blue.png"}
           alt="HOMZ"
-          height={"100"}
+          height={28}
           className="cursor-pointer "
           
-          width={"100"}
+          width={131}
         />
       </Link>
       <nav
@@ -35,16 +35,16 @@ const Header = () => {
           <Link href={"/"} className="hover:text-blue-400">
             Home
           </Link>
-          <Link href={"/landingPage-PropertyOwner"} className="hover:text-blue-400">
+          <Link href={"/landingPage-PropertyOwner"} className="hover:text-blue-400"onClick={() => setOpen(false)}>
             Management
           </Link>
-          <Link href={"/landing-page-property"} className="hover:text-blue-400 ">
+          <Link href={"/landing-page-property"} className="hover:text-blue-400 "onClick={() => setOpen(false)}>
             Enterprise
           </Link>
-          <Link href={"/landing-page-tenant"} className="hover:text-blue-400 ">
+          <Link href={"/landing-page-tenant"} className="hover:text-blue-400 " onClick={() => setOpen(false)}>
             Tenant
           </Link>
-          <Link href={""} className="hover:text-blue-400 ">
+          <Link href={""} className="hover:text-blue-400 " onClick={() => setOpen(false)}>
             List Property
           </Link>
         </div>

@@ -62,7 +62,7 @@ const ForgotPassword = () => {
     <div className="">
       <div className="flex m-auto max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <div className="flex flex-col px-8  justify-around items-center">
+          <div className="flex flex-col justify-around items-center">
             <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
               <Link href={"/"}>
                 <Image
@@ -70,6 +70,7 @@ const ForgotPassword = () => {
                   className="ml-2"
                   height={27}
                   width={131}
+                  alt="img"
                 />
               </Link>
               <div className="">
