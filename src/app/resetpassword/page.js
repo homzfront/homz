@@ -141,7 +141,7 @@ const ResetPassword = () => {
             &copy; 2022 Homz.ng. All rights reserved
           </div>
         </div>
-        <div className="w-[794px] px-6 flex flex-col justify-around items-center">
+        <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
           <div className="h-[85%]  py-4">
             {!succPass ? (
               <div className="flex flex-col max-w-[360px] mt-1">

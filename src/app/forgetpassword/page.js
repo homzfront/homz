@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [sentEmail, setSentMail] = useState(false);
@@ -100,7 +101,7 @@ const ForgotPassword = () => {
             &copy; 2022 Homz.ng. All rights reserved
           </div>
         </div>
-        <div className="w-[794px] flex flex-col justify-around items-center">
+        <div className="sm:w-[794px] w-full flex flex-col justify-around items-center">
           <div className="h-[85%]  py-4">
             {!sentEmail ? (
               <div className="flex flex-col max-w-[360px] mt-1">
@@ -179,7 +180,7 @@ const ForgotPassword = () => {
                   Reset Password
                 </h1>
                 <p className="mt-1 text-[16px] font-[400] text-center text-GrayHomz">
-                  We have sent a reset password to <br /> Samson@gmail.com
+                  We have sent a reset password to <br /> {email}
                 </p>
                 <Link
                   href={"/resetpassword"}

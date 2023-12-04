@@ -14,17 +14,7 @@ const ContactCard = () => {
     {
       id: 1,
       name: "Engr. Simon Peter",
-      image: (
-        <Image
-          className="rounded-2xl"
-          src={"/image (2).png"}
-          width={481}
-          height={464}
-          alt="img"
-          style={{ width: "auto", height: "auto" }} 
-          priority
-        />
-      ),
+      image: "/image (2).png",
       position: "Property Owner",
       content:
         "Entrusting our property to Homz.ng was the best decision we made.",
@@ -32,17 +22,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Sunday Ojo",
-      image: (
-        <Image
-          className="rounded-2xl"
-          src={"/image22.png"}
-          width={480}
-          height={464}
-          alt="img"
-          style={{ width: "auto", height: "auto" }}
-          priority 
-        />
-      ),
+      image: "/image22.png",
       position: "Property Owner",
       content:
         "It's a relief to have such a dependable partner managing our property—efficiency at its finest!",
@@ -50,17 +30,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Victor Akpan",
-      image: (
-        <Image
-          className="rounded-2xl"
-          src={"/image23.png"}
-          width={480}
-          height={464}
-          alt="img"
-          style={{ width: "auto", height: "auto" }} 
-          priority 
-        />
-      ),
+      image: "/image23.png",
       position: "Property Owner",
       content:
         "Selling our property became a stress-free journey with their seller-centric approach.",
@@ -81,13 +51,13 @@ const ContactCard = () => {
   };
 
   return (
-    <div className="mt-[60px] max-w-[1299px] ml-auto px-6 relative">
-      <div className="">
+    <div className="mt-[60px] max-w-[1299px]  m-auto px-6 relative">
+      <div className="ml-[3%]">
         <Slider {...sliderSettings}>
           {users.map((user) => (
             <div key={user.id}>
-              <div className="h-auto   flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
-                <div className="flex flex-col gap-4 w-full justify-start p-12">
+              <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
+                <div className="flex flex-col gap-4 w-full justify-start px-12">
                   <div className="star-rating mt-8">
                     {[...Array(5)].map((star, index) => {
                       index += 1;
@@ -97,8 +67,8 @@ const ContactCard = () => {
                           key={index}
                           className={`focus:outline-none ${
                             index <= (hover || rating)
-                              ? "text-BlueHomz"
-                              : "text-gray-300"
+                            ? "text-gray-300"
+                              : "text-BlueHomz"
                           }`}
                           onClick={() => setRating(index)}
                           onMouseEnter={() => setHover(index)}
@@ -113,21 +83,29 @@ const ContactCard = () => {
                       );
                     })}
                   </div>
-                  <h1 className="font-[500] text:[24px] lg:text-[36px] mb-4 text-BlackHomz">
+                  <h1 className="font-[500] h-auto text:[24px] lg:text-[36px] mb-1 lg:mb-4 text-BlackHomz">
                     {user.content}
                   </h1>
                   <div>
                     <p className="font-[500] text-[14px] lg:text-[18px] text-BlackHomz">
                       - {user.name}
                     </p>
-                    <p className="mt-3 font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
+                    <p className="lg:mt-3 mt-0 mb-2 sm:mb-0 font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
                       {user.position}
                     </p>
                   </div>
                 </div>
                 <div className="w-full  max-w-[480px] h-auto rounded-2xl overflow-hidden">
                   <div className="w-full h-full  sm:bg-cover sm:bg-center">
-                    {user.image}
+                    <Image
+                      className="rounded-2xl"
+                      src={user.image}
+                      width={481}
+                      height={464}
+                      alt="img"
+                      style={{ width: "auto", height: "auto" }}
+                      priority
+                    />
                   </div>
                 </div>
               </div>

@@ -9,9 +9,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
 import axios from "axios"; // Don't forget to import axios
- // Use the useProfileContext hook to get setUser
-import { ProfileContext } from "../useContext/context";
-import { toast } from 'react-toastify';
+// Use the useProfileContext hook to get setUser
+// import { ProfileContext } from "../useContext/context";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const router = useRouter();
 
-  const { user, setUser } = useContext(ProfileContext);
+  // const { user, setUser } = useContext(ProfileContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,12 +48,17 @@ const Login = () => {
       );
 
       if (response.data.statuscode === 201) {
-        toast.success('login successful');
+        toast.success("login successful");
         alert("Done!");
         // Handle the response as needed
         console.log("Login successful", response.data);
-        setUser(response.data.data);
-        // router.push("/");
+        // setUser(response.data);
+        const { email, id, isverified, role } = response.data.data;
+        // setUser({ email, id, isverified, role });
+        const userData = { email, id, isverified, role };
+        console.log(userData);
+        Cookies.set("user", userData);
+        router.push("/");
         // Reset the form data after submitting
         setEmail("");
         setPassword("");
@@ -68,9 +74,6 @@ const Login = () => {
       // setLoginError(error.response.data.message);
     }
   };
-
-
-  
 
   const settings = {
     dots: true,
@@ -104,7 +107,7 @@ const Login = () => {
 
   return (
     <div className="">
-      <div className="flex m-auto max-w-[1440px] h-[1024px]">
+      <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <div className="flex flex-col  justify-around items-center">
             <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
@@ -144,7 +147,7 @@ const Login = () => {
             &copy; 2022 Homz.ng. All rights reserved
           </div>
         </div>
-        <div className="w-[794px] px-6 flex flex-col justify-around items-center">
+        <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
           <div className="h-[85%]  py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
               <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
