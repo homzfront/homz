@@ -95,7 +95,7 @@ const ContactCard = () => {
                   <p className="font-[500] text-[14px] lg:text-[18px] text-BlackHomz">
                     - {user.name}
                   </p>
-                  <p className="lg:mt-3 mt-0 mb-2 sm:mb-0 font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
+                  <p className="lg:mt-3 mt-0 mb-5 sm:mb-0 font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
                     {user.position}
                   </p>
                 </div>
@@ -109,7 +109,7 @@ const ContactCard = () => {
                     height={464}
                     alt="img"
                     style={{ width: "auto", height: "auto" }}
-                    priority
+                  
                   />
                 </div>
               </div>

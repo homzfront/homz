@@ -106,7 +106,7 @@ const Login = () => {
   ];
 
   return (
-    <div className="">
+    <div className="px-6">
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <div className="flex flex-col  justify-around items-center">
