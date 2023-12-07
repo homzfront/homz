@@ -6,6 +6,13 @@ const SelectPlan = () => {
   const Data = [
     {
       id: 1,
+      image: "/Image13.png",
+      title: "Manage Property/Estate",
+      content: "Monitor your Estates & properties with an intuitive dashboard.",
+      link: "plan/manage-property",
+    },
+    {
+      id: 2,
       image: "/Image11.png",
       title: "Tenant Management",
       content:
@@ -13,19 +20,12 @@ const SelectPlan = () => {
       link: "plan/tenant-management",
     },
     {
-      id: 2,
+      id: 3,
       image: "/Image12.png",
       title: "Enterprise Plan ",
       content:
         "Seamless & efficient solution to manage your Tenants & Estates.",
       link: "plan/enterprise-plan",
-    },
-    {
-      id: 3,
-      image: "/Image13.png",
-      title: "Manage Property/Estate",
-      content: "Monitor your Estates & properties with an intuitive dashboard.",
-      link: "plan/manage-property",
     },
     {
       id: 4,
@@ -62,11 +62,23 @@ const SelectPlan = () => {
                 <p className="font-[400] mt-[-10px] text-[16px] text-GrayHomz px-6">
                   {data.content}
                 </p>
-                <Link href={data.link}>
-                  <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
-                    Get Started
+                
+                  
+                {data.id === 3 || data.id === 2 || data.id === 1 || data.id === 4 ? (
+                  <Link href={data.link}>
+                    <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
+                      Get Started
+                    </button>
+                  </Link>
+                ) : (
+                  <button
+                    className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-gray-300 cursor-not-allowed"
+                    disabled
+                  >
+                    Coming Soon
                   </button>
-                </Link>
+                )}
+ 
               </div>
             ))}
           </div>

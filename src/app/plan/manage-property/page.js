@@ -1,41 +1,61 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import api from "@/utils/api";
 
 const ManageProperty = () => {
-  const options = [
-    // { id: 1, label: "Property Management" },
-    // { id: 2, label: "Property Listing" },
-    // { id: 3, label: "Enterprise Solution" },
-    // { id: 4, label: "Renter Management" },
-    // Add more options as needed
-  ];
+  const [formError, setFormError] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [estate, setEstate] = useState("");
+  const [numberOfHouses, setNumberOfHouses] = useState("");
+  const [estateAddress, setEstateAddress] = useState("");
 
-  const [formData, setFormData] = useState({
-    document_options: "Select your preferred estate", // Default value is the first option
-  });
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNo, setPhoneNo] = useState();
-  const [message, setMessage] = useState("");
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
 
   async function handleSubmit(e) {
-    // Show the confirmation box
-    setSubmitConfirmationVisible(true);
+    e.preventDefault();
+
+    if (fullName === '' || phoneNo === '' || estate === '' || estateAddress === '' || numberOfHouses === '') {
+      return setFormError('Fill in all fields')
+    }
+
+    // Prepare data to be sent
+    const requestData = {
+      fullName,
+      phoneNumber: phoneNo,
+      estate,
+      estateAddress,
+      numberOfHouses: parseInt(numberOfHouses), // Convert to integer if needed
+      email: Cookies.get("email"), // Using the email from the user context
+    };
+
+    // Send the data to your API endpoint
+    try {
+      const response = await api.post(
+        "http://localhost:5000/api/manageProperty/createProfile",
+        requestData
+      );
+
+      if (response.data.statuscode === 200 || 201) {
+        setSubmitConfirmationVisible(true);
+        console.log("form successfully filled ", response.data);
+      } else {
+        setFormError(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      setFormError(error.response?.data?.message)
+    }
   }
 
-  const handleDropdownChange = (value) => {
-    setFormData({ ...formData, document_options: value });
-    setDropdownOpen(false);
-  };
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -77,9 +97,9 @@ const ManageProperty = () => {
                 <input
                   type="text"
                   placeholder="Enter your full name"
-                  value={name}
+                  value={fullName}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
 
@@ -87,62 +107,24 @@ const ManageProperty = () => {
                 <label className="text-[14px] font-[500] text-BlackHomz">
                   Estate
                 </label>
-                <div className="relative">
-                  <div
-                    className={`text-GrayHomz2 px-4 h-[45px]  border text-[14px] w-full rounded-md mb-1 p-2 cursor-pointer  ${
-                      isDropdownOpen ? "border" : ""
-                    }`}
-                    onClick={() => setDropdownOpen(!isDropdownOpen)}
-                  >
-                    <div className="flex justify-between  items-center">
-                      <span className="mr-2">{formData.document_options}</span>
-                      <svg
-                        className={`w-5 h-5 ${
-                          isDropdownOpen
-                            ? "transform rotate-180 transition duration-300 ease-in-out"
-                            : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                  {isDropdownOpen && (
-                    <div className=" left-0 mt-2 w-full transition duration-1000  ease-in-out bg-white border rounded shadow-lg">
-                      {/* Dropdown Options */}
-                      {options.map((option) => (
-                        <div
-                          key={option.id}
-                          placeholder="Select your preferred estate"
-                          className="placeholder:text-[14px] cursor-pointer p-2 m-2 hover:rounded-md hover:text-white hover:bg-BlueHomz"
-                          onClick={() => handleDropdownChange(option.label)}
-                        >
-                          {option.label}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <input
+                  type="text"
+                  placeholder="Enter the name of estate"
+                  value={estate}
+                  className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
+                  onChange={(e) => setEstate(e.target.value)}
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
                   Phone Number <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Enter your phone number"
-                  value={name}
+                  value={phoneNo}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setPhoneNo(e.target.value)}
                 />
                 <span className="text-[13px] font-[400] text-GrayHomz">
                   Note: You will receive a confirmation call & email on your
@@ -156,9 +138,9 @@ const ManageProperty = () => {
                 <input
                   type="text"
                   placeholder="Enter the no. of houses in the estate"
-                  value={name}
+                  value={numberOfHouses}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setNumberOfHouses(e.target.value)}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -168,9 +150,10 @@ const ManageProperty = () => {
                 <input
                   type="text"
                   placeholder="Enter your email"
-                  value={name}
+                  // value={user.email || emailII || Cookies.get('email')}
+                  value={Cookies.get("email")}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setName(e.target.value)}
+                  disabled
                 />
                 <span className="text-[13px] font-[400] text-GrayHomz">
                   Note: You will receive a confirmation call & email on your
@@ -184,11 +167,16 @@ const ManageProperty = () => {
                 <input
                   type="text"
                   placeholder="Enter the estate's address"
-                  value={name}
+                  value={estateAddress}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setEstateAddress(e.target.value)}
                 />
               </div>
+              {formError && (
+                <p className="text-[14px] font-[400] text-red-500">
+                  {formError}
+                </p>
+              )}
             </form>
             <div className="w-[100%] mt-12 p-6">
               <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">
