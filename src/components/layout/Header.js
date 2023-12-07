@@ -4,14 +4,49 @@ import React, { useContext, useState } from "react";
 import Menu from "../icons/Menu";
 import Close from "../icons/Close";
 import Image from "next/image";
+import useProfileStore from "@/store/profile";
+import { useEffect } from "react";
 
-import { ProfileContext } from "@/app/useContext/context";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const { fetchProfile, user, loading, logout } = useProfileStore();
 
-  const { user } = useContext(ProfileContext);
+  useEffect(() => {
+    if (!user) {
+      fetchProfile();
+    }
+  }, [user]);
+  // console.log(fetchProfile())
   console.log(user);
+  const isUserPresent = user && Object.keys(user).length > 0;
+
+  console.log(isUserPresent)
+  
+  // Function to extract username from email address
+  const extractUsername = (userOrEmail) => {
+    let email;
+  
+    if (typeof userOrEmail === 'string') {
+      // If the input is a string, assume it's an email
+      email = userOrEmail;
+    } else if (userOrEmail && userOrEmail.email) {
+      // If the input is an object with an 'email' property, use that email
+      email = userOrEmail.email;
+    } 
+  
+    // Split the email address by "@" to get an array
+    const parts = email.split("@");
+  
+    // The username is the first part of the array (index 0)
+    const username = parts[0];
+  
+    return username;
+  };
+
+
+
+
 
 
   return (
@@ -52,18 +87,32 @@ const Header = () => {
         <div
           className={`mt-[-30px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0 `}
         >
-          <Link
-            href="/login"
-            className="hover:text-blue-400"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/register"
-            className="  w-[147px] rounded-[4px]  text-white bg-BlueHomz2 items-center flex justify-center h-[48px] py-1 hover:bg-blue-400"
-          >
-            Create Account 
-          </Link>
+          {loading ? (
+          <p>Loading...</p>
+        ) : isUserPresent ? (
+          <div className="flex items-center">
+            <p className="mr-4">Welcome, {extractUsername(user)}!</p>
+            <button
+              onClick={() => logout(logout)}
+              className="w-[97px] rounded-[4px]  text-white bg-BlueHomz2 h-[48px] py-1 hover:bg-blue-400"
+            >
+              Logout
+            </button>
+            {/* Add more user information or actions as needed */}
+          </div>
+        ) : (
+          <>
+            <Link href="/login" className="hover:text-blue-400">
+              Sign in
+            </Link>
+            <Link
+              href="/register"
+              className="  w-[147px] rounded-[4px]  text-white bg-BlueHomz2 items-center flex justify-center h-[48px] py-1 hover:bg-blue-400"
+            >
+              Create Account
+            </Link>
+          </>
+        )}
         </div>
       </nav>
       <div

@@ -1,71 +1,101 @@
 "use client";
+import api from "@/utils/api";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { useState, useRef } from "react";
 
 const ListProperty = () => {
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: false,
-    autoplaySpeed: 3000,
-  };
-
-  const imageAdd = [
-    {
-      image: "/add-square (1).png",
-    },
-    {
-      image: "/add-square (1).png",
-    },
-    {
-      image: "/add-square (1).png",
-    },
-    {
-      image: "/add-square (1).png",
-    },
-    {
-      image: "/add-square (1).png",
-    },
-  ];
-  const options = [
-    // { id: 1, label: "Property Management" },
-    // { id: 2, label: "Property Listing" },
-    // { id: 3, label: "Enterprise Solution" },
-    // { id: 4, label: "Renter Management" },
-    // Add more options as needed
-  ];
-
-  const [formData, setFormData] = useState({
-    document_options: "Select your preferred estate", // Default value is the first option
-  });
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNo, setPhoneNo] = useState();
-  const [message, setMessage] = useState("");
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [businessName, setBusinessName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [whatsappLink, setWhatsappLink] = useState("");
+  const [formError, setFormError] = useState(false);
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const inputRef = useRef(null);
 
-  async function handleSubmit(e) {
-    // Show the confirmation box
-    setSubmitConfirmationVisible(true);
-  }
-
-  const handleDropdownChange = (value) => {
-    setFormData({ ...formData, document_options: value });
-    setDropdownOpen(false);
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      setUploadedImage(formData);
+    }
   };
+
+  const handleImageRemove = () => {
+    setUploadedImage(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      fullName === "" ||
+      phoneNumber === "" ||
+      businessName === "" ||
+      whatsappLink === ""
+    ) {
+      return setFormError("Fill in all fields");
+    }
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("businessName", businessName);
+    formData.append("whatsappLink", whatsappLink);
+    // formData.append("email", Cookies.get("profile")); // Using the email from the user context
+    if (uploadedImage) {
+      formData.append("file", uploadedImage.get("file"));
+    }
+    console.log(uploadedImage)
+    
+   // Log the contents of formData
+// Log the contents of formData
+console.log("FormData contents:");
+
+formData.forEach((value, key) => {
+  console.log(`${key}: ${value}`);
+});
+
+
+    // Send the data to your API endpoint
+    try {
+      const response = await api.post(
+        "/listingProperty/createAccount",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+ 
+      if (
+        response.data.statuscode === 200 ||
+        response.data.statuscode === 201
+      ) {
+        setSubmitConfirmationVisible(true);
+        console.log("form successfully filled ", response.data);
+      } else {
+        setFormError(response.data.message);
+
+      }
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      setFormError(error.response?.data?.message);
+      setFormError(error.response?.data?.error);
+    }
+  };
+
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -89,7 +119,7 @@ const ListProperty = () => {
         </div>
       )}
       <div className="max-w-[1156px] m-auto flex flex-col gap-[80px]">
-        <div className="h-[29px]  mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse  sm:items-center p-7 justify-between">
+        <div className="h-[29px] mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse sm:items-center p-7 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>
           <Link href={"/select-plan"}>
             <Image src={"/Link.png"} height={24} alt="img" width={132} />
@@ -98,80 +128,84 @@ const ListProperty = () => {
         <div className="w-full h-[320px] m-auto">
           <div className="max-w-[1156px] m-auto">
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <form className="grid grid-cols-1 gap-6 px-8 sm:pr-6 sm:pl-8">
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-[500] text-BlackHomz">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={name}
-                    className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-[500] text-BlackHomz">
-                    Business Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your business name"
-                    value={name}
-                    className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="md:hidden ">
-                  <div>
+              <div className="max-w-[552px] mx-10">
+                <div className="flex justify-between flex-col gap-8">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[14px] font-[500] text-BlackHomz">
+                      Business Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter your business name"
+                      value={businessName}
+                      className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
+                      onChange={(e) => setBusinessName(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-4">
                     <h1 className="font-[700] text-[14px] text-BlackHomz">
                       Business Logo
                     </h1>
-                    <p className="font-[400] text-[14px] text-GrayHomz">
+                    <p className="font-[400] text-[14px] mt-[-12px] text-GrayHomz">
                       Upload your business logo
                     </p>
-                    <div className="flex gap-2 mt-4 mb-6">
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/add-square (1).png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
+                    <div className="flex gap-2 ">
+                      <div
+                        className={
+                          !uploadedImage
+                            ? `h-[111px] bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]`
+                            : `h-[111px] justify-center flex rounded-[12px] w-[111px] bg-none`
+                        }
+                      >
+                        {uploadedImage ? (
+                          <Image
+                            src={URL.createObjectURL(uploadedImage.get("file"))}
+                            height={100}
+                            width={100}
+                            className="object-cover"
+                            alt="img"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                        ) : (
+                          <Image
+                            src={"/uploadimage.png"}
+                            height={40}
+                            width={40}
+                            className=""
+                            alt="img"
+                          />
+                        )}
                       </div>
-                      <div className="flex flex-col mt-[70px]">
-                        <span className="text-[13px] font-[400] text-GrayHomz2">
-                          Supported formats are .jpg and .png
-                        </span>
-                        <span className="text-[11px] font-[400] text-GrayHomz2">
-                          Fill size must not exceed 5 mb
-                        </span>
+                      <div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageUpload}
+                          ref={inputRef}
+                        />
+                        <Image
+                          src={"/add-square.png"}
+                          height={24}
+                          width={24}
+                          className="mb-2 cursor-pointer"
+                          alt="img"
+                          onClick={() => inputRef.current.click()}
+                        />
+                        {uploadedImage && (
+                          <Image
+                            src={"/trush-square.png"}
+                            height={24}
+                            width={24}
+                            className="cursor-pointer"
+                            alt="img"
+                            onClick={handleImageRemove}
+                          />
+                        )}
                       </div>
                     </div>
-                    <h1 className="font-[700] text-[14px] text-BlackHomz">
-                      Property Photos
-                    </h1>
-                    <p className="font-[400] text-[14px]  text-GrayHomz">
-                      Upload property photos
-                    </p>
-                    <Slider {...settings}>
-                      {imageAdd.map((image, index) => (
-                        <div className="grid " key={index}>
-                          <div className="mt-4 h-[111px] cursor-pointer bg-blue-100 justify-around items-center flex rounded-[8px] w-[111px]">
-                            <Image
-                              src={image.image}
-                              height={40}
-                              width={40}
-                              className=""
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </Slider>
-                    <div className="mt-6 flex flex-col">
+
+                    <div className="flex flex-col mb-8">
                       <span className="text-[13px] font-[400] text-GrayHomz2">
                         Supported formats are .jpg and .png
                       </span>
@@ -181,28 +215,18 @@ const ListProperty = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <form className="grid grid-cols-1 gap-6 px-8 sm:pr-6 sm:pl-8">
                 <div className="flex flex-col gap-2">
                   <label className="text-[14px] font-[500] text-BlackHomz">
-                    Home Address <span className="text-red-500">*</span>
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter your house address"
-                    value={name}
+                    placeholder="Enter your full name"
+                    value={fullName}
                     className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-[500] text-BlackHomz">
-                    WhatsApp Link
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Add WhatsApp link"
-                    value={name}
-                    className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setFullName(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -212,12 +236,23 @@ const ListProperty = () => {
                   <input
                     type="text"
                     placeholder="Enter your email"
-                    value={name}
+                    value={email}
                     className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-
+                <div className="flex flex-col gap-2">
+                  <label className="text-[14px] font-[500] text-BlackHomz">
+                    WhatsApp Link
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Add WhatsApp link"
+                    value={whatsappLink}
+                    className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
+                    onChange={(e) => setWhatsappLink(e.target.value)}
+                  />
+                </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-[14px] font-[500] text-BlackHomz">
                     Phone Number
@@ -225,180 +260,17 @@ const ListProperty = () => {
                   <input
                     type="text"
                     placeholder="Enter your phone number"
-                    value={name}
+                    value={phoneNumber}
                     className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
               </form>
-              <div className="md:inline hidden max-w-[552px] mx-10">
-                <div className="flex justify-between">
-                  <div className="flex flex-col gap-4">
-                    <h1 className="font-[700] text-[14px] text-BlackHomz">
-                      Business Logo
-                    </h1>
-                    <p className="font-[400] text-[14px] mt-[-12px] text-GrayHomz">
-                      Upload your business logo
-                    </p>
-                    <div className="flex gap-2 ">
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/uploadimage.png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      </div>
-                      <div>
-                        <Image
-                          src={"/add-square.png"}
-                          height={24}
-                          width={24}
-                          className="mb-2 cursor-pointer"
-                          alt="img"
-                        />
-                        <Image
-                          src={"/trush-square.png"}
-                          height={24}
-                          width={24}
-                          className="cursor-pointer"
-                          alt="img"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[13px] font-[400] text-GrayHomz2">
-                        Supported formats are .jpg and .png
-                      </span>
-                      <span className="text-[11px] font-[400] text-GrayHomz2">
-                        Fill size must not exceed 5 mb
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <h1 className="font-[700] text-[14px] text-BlackHomz">
-                      Cover Image
-                    </h1>
-                    <p className="font-[400] text-[14px] mt-[-12px] text-GrayHomz">
-                      Upload your cover image
-                    </p>
-                    <div className="flex gap-2 ">
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/uploadimage.png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      </div>
-                      <div>
-                        <Image
-                          src={"/add-square.png"}
-                          height={24}
-                          width={24}
-                          className="mb-2 cursor-pointer"
-                          alt="img"
-                        />
-                        <Image
-                          src={"/trush-square.png"}
-                          height={24}
-                          width={24}
-                          className="cursor-pointer"
-                          alt="img"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[13px] font-[400] text-GrayHomz2">
-                        Supported formats are .jpg and .png
-                      </span>
-                      <span className="text-[11px] font-[400] text-GrayHomz2">
-                        Fill size must not exceed 5 mb
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col justify-around mt-10">
-                  <div>
-                    <h1 className="font-[700] text-[14px] text-BlackHomz">
-                      Property Photos
-                    </h1>
-                    <p className="font-[400] text-[14px]  text-GrayHomz">
-                      Upload property photos
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <div className="ListProperty">
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/uploadimage.png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      </div>
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/add-square (1).png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-10">
-                        <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                          <Image
-                            src={"/add-square (1).png"}
-                            height={40}
-                            width={40}
-                            alt="img"
-                            className=""
-                          />
-                        </div>
-                        <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                          <Image
-                            src={"/add-square (1).png"}
-                            height={40}
-                            width={40}
-                            className=""
-                            alt="img"
-                          />
-                        </div>
-                      </div>
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/add-square (1).png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      </div>
-                      <div className="h-[111px] cursor-pointer bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]">
-                        <Image
-                          src={"/add-square (1).png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-[13px] font-[400] text-GrayHomz2">
-                          Supported formats are .jpg and .png
-                        </span>
-                        <span className="text-[11px] font-[400] text-GrayHomz2">
-                          Fill size must not exceed 5 mb{" "}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {formError && (
+                <span className="px-10 mt-2 text-red-500 text-[14px] font-normal">
+                  {formError}
+                </span>
+              )}
             </div>
             <div className="w-[100%] mt-16 p-6">
               <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">

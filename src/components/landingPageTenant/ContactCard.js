@@ -44,62 +44,60 @@ const ContactCard = () => {
     slidesToScroll: 1,
     className: "center",
     centerMode: true,
-    centerPadding: "1%", // Set centerPadding to 0 for the first slide
-    slidesToShow: 1.01,
+    // centerPadding: "1%", // Set centerPadding to 0 for the first slide
+    slidesToShow: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    appendDots: (dots) => (
-      <div style={{ marginBottom: "-20px" }}>
-        <ul style={{ margin: "0" }}> {dots} </ul>
-      </div>
-    ),
   };
 
   return (
     <div className="mt-[60px] max-w-[1299px]  m-auto px-6 relative">
-    <div className="ml-[3%]">
-      <Slider {...sliderSettings}>
-        {users.map((user) => (
-          <div key={user.id}>
-            <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
-              <div className="flex flex-col gap-4 w-full justify-start px-12">
-                <div className="star-rating mt-8">
-                  {[...Array(5)].map((star, index) => {
-                    index += 1;
-                    return (
-                      <button
-                        type="button"
-                        key={index}
-                        className={`focus:outline-none ${
-                          index <= (hover || rating)
-                          ? "text-gray-300"
-                            : "text-BlueHomz"
-                        }`}
-                        onClick={() => setRating(index)}
-                        onMouseEnter={() => setHover(index)}
-                        onMouseLeave={() => setHover(rating)}
-                        onDoubleClick={() => {
-                          setRating(0);
-                          setHover(0);
-                        }}
-                      >
-                        <span className="text-2xl">&#9733;</span>
-                      </button>
-                    );
-                  })}
+      <div className="ml-[3%]">
+        <Slider {...sliderSettings}>
+          {users.map((user) => (
+            <div key={user.id}>
+              <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
+                <div className="h-[40vh] sm:h-auto xl:h-[30vh]">
+                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-12">
+                    <div className="star-rating mt-8">
+                      {[...Array(5)].map((star, index) => {
+                        index += 1;
+                        return (
+                          <button
+                            type="button"
+                            key={index}
+                            className={`focus:outline-none ${
+                              index <= (hover || rating)
+                                ? "text-gray-300"
+                                : "text-BlueHomz"
+                            }`}
+                            onClick={() => setRating(index)}
+                            onMouseEnter={() => setHover(index)}
+                            onMouseLeave={() => setHover(rating)}
+                            onDoubleClick={() => {
+                              setRating(0);
+                              setHover(0);
+                            }}
+                          >
+                            <span className="text-2xl">&#9733;</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <h1 className="font-[500] h-auto text:[24px] sm:text-[13px] lg:text-[22px] xl:text-[36px] mb-1 md:mb-0 xl:mb-4 text-BlackHomz">
+                      {user.content}
+                    </h1>
+                    <div>
+                      <p className="font-[500] text-[14px] sm:text-[11px] lg:text-[16px] xl:text-[18px] text-BlackHomz">
+                        - {user.name}
+                      </p>
+                      <p className="xl:mt-3 mt-0 mb-4 sm:mb-4 font-[500]  text-[14px] sm:text-[9px] lg:text-[14px] xl:text-[16px] text-GrayHomz">
+                        {user.position}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <h1 className="font-[500] h-auto text:[24px] lg:text-[36px] mb-1 lg:mb-4 text-BlackHomz">
-                  {user.content}
-                </h1>
-                <div>
-                  <p className="font-[500] text-[14px] lg:text-[18px] text-BlackHomz">
-                    - {user.name}
-                  </p>
-                  <p className="lg:mt-3 mt-0 mb-5 sm:mb-0 font-[500] text-[14px] lg:text-[16px] text-GrayHomz">
-                    {user.position}
-                  </p>
-                </div>
-              </div>
+
               <div className="w-full  max-w-[480px] h-auto rounded-2xl overflow-hidden">
                 <div className="w-full h-full  sm:bg-cover sm:bg-center">
                   <Image

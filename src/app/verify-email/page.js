@@ -9,49 +9,50 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VerifyEmail = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
-  const [error2, setError2] = useState('');
+  const [error2, setError2] = useState("");
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [otp, setOTP] = useState(["", "", "", ""]);
-  
+
   useEffect(() => {
     const storedEmail = Cookies.get("email");
     setEmail(storedEmail);
   }, []);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-
     try {
       // Make a POST request to verify the OTP
-      const response = await axios.post("http://localhost:5000/api/auth/verification", {
-        email: email, // Replace with the actual email
-        pincode: otp.join(""),
-      });
-   
-        console.log("OTP verification successful", response.data);
-        setVerificationSuccess(true);
-        setError(false);
-        setError2('')
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/verification",
+        {
+          email: email, // Replace with the actual email
+          pincode: otp.join(""),
+        }
+      );
 
+      console.log("OTP verification successful", response.data);
+      setVerificationSuccess(true);
+      setError(false);
+      setError2("");
     } catch (error) {
       // Handle errors
       console.error("OTP verification error", error);
       setError2(error.response.data.error);
       setError(true);
-    
+
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.error("Server responded with error:", error.response.data);
-        
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");
@@ -59,14 +60,30 @@ const VerifyEmail = () => {
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error("Error setting up the request:", error.message);
-        
       }
     }
   };
 
+  const ResendOtp = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Make a POST request to verify the OTP
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/requestnewopt",
+        {
+          email: email, // Replace with the actual email
+          pincode: otp.join(""),
+        }
+      );
+      toast.success('OTP SENT')
+    } catch (error){
+      toast.error(error.response?.data?.message)
+    }
+  };
   const handleEmailVerification = (e) => {
     e.preventDefault();
-    router.push('/select-plan');
+    router.push("/select-plan");
   };
 
   const handleInputChange = (index, value) => {
@@ -115,7 +132,20 @@ const VerifyEmail = () => {
   ];
 
   return (
-    <div className="px-6">
+    <div className="">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="flex m-auto  max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <div className="flex flex-col justify-around items-center">
@@ -156,11 +186,11 @@ const VerifyEmail = () => {
             &copy; 2022 Homz.ng. All rights reserved
           </div>
         </div>
-        <div className="w-[794px] px-6 flex flex-col justify-around items-center">
-          <div className="h-[85%]  py-4">
+        <div className="w-[794px]  flex flex-col justify-around items-center">
+          <div className="h-[85%] px-6 w-[320px] sm:w-full  py-4">
             {!verificationSuccess ? (
-              <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
-                <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
+              <div className="flex flex-col gap-6 m-auto max-w-[320px]  sm:max-w-[360px]">
+                <h1 className="text-start text-[30px]  sm:text-[36px] font-[700] text-BlackHomz">
                   Check Your Email
                 </h1>
                 <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
@@ -171,7 +201,7 @@ const VerifyEmail = () => {
                 </p>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-4 w-360">
-                    <div className="flex gap-2 h-[72px]">
+                    <div className="flex w-[320px] sm:w-full gap-2 h-[72px]">
                       {otp.map((digit, index) => (
                         <input
                           key={index}
@@ -181,7 +211,7 @@ const VerifyEmail = () => {
                           onChange={(e) =>
                             handleInputChange(index, e.target.value)
                           }
-                          className={`border rounded-md text-[41px] font-[700] text-GrayHomz w-[80px] p-2 text-center ${
+                          className={`border rounded-md text-[41px] font-[700] text-GrayHomz w-[60px] sm:w-[80px] p-2 text-center ${
                             error ? "border-red-500" : ""
                           }`}
                         />
@@ -190,9 +220,7 @@ const VerifyEmail = () => {
                     <p className="mt-[-10px] text-[14px] font-[400] text-GrayHomz2">
                       Enter OTP sent to <> </> {email}
                     </p>
-                    {error2 && (
-                      <span className="text-red-500">{error2}</span>
-                    )}
+                    {error2 && <span className="text-red-500">{error2}</span>}
                     {isOTPComplete ? (
                       <button
                         type="submit"
@@ -212,12 +240,14 @@ const VerifyEmail = () => {
                   </div>
                   <p className="text-center font-[400] text-[14px]">
                     Didn't receive the email?
-                    <Link
-                      className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
-                      href={""}
-                    >
-                      Click to resend
-                    </Link>
+                    <button onClick={ResendOtp}>
+                      <Link
+                        className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
+                        href={""}
+                      >
+                        Click to resend
+                      </Link>
+                    </button>
                   </p>
                   <div className="flex justify-center gap-1">
                     <Image
@@ -237,12 +267,13 @@ const VerifyEmail = () => {
                 </form>
               </div>
             ) : (
-              <div className="flex flex-col max-w-[360px] mt-2 items-center">
+              <div className="flex flex-col m-auto max-w-[360px] mt-2 items-center">
                 <h1 className="text-[36px] font-[700] text-BlackHomz">
                   Email Verified
                 </h1>
                 <p className="mt-4 text-[16px] font-[400] text-GrayHomz">
-                  Your email has successfully been verified. Click below to continue with your account setup.
+                  Your email has successfully been verified. Click below to
+                  continue with your account setup.
                 </p>
                 <button
                   onClick={handleEmailVerification}
