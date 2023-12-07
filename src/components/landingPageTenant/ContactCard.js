@@ -14,7 +14,7 @@ const ContactCard = () => {
     {
       id: 1,
       name: "John Daniels",
-      image: "/image.png",
+      image: "/static/images/image.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -22,7 +22,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Ayomide Uriel",
-      image: "/image.png",
+      image: "/static/images/image.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -30,7 +30,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Costa David",
-      image: "/image.png",
+      image: "/static/images/image.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
