@@ -59,7 +59,7 @@ const ContactCard = () => {
               <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
                 <div className=" sm:h-auto xl:h-[30vh]">
                   <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12">
-                    {/* <div className="star-rating mt-8">
+                    <div className="star-rating mt-8">
                       {[...Array(5)].map((star, index) => {
                         index += 1;
                         return (
@@ -83,7 +83,7 @@ const ContactCard = () => {
                           </button>
                         );
                       })}
-                    </div> */}
+                    </div>
                     <h1 className="font-[500] h-auto text:[24px] sm:text-[13px] lg:text-[22px] xl:text-[36px] mb-1 md:mb-0 xl:mb-4 text-BlackHomz">
                       {user.content}
                     </h1>
