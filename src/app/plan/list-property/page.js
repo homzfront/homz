@@ -50,7 +50,7 @@ const ListProperty = () => {
     formData.append("whatsappLink", whatsappLink);
     // formData.append("email", Cookies.get("profile")); // Using the email from the user context
     if (uploadedImage) {
-      formData.append("file", uploadedImage.get("file"));
+      formData.append("coverImage", uploadedImage.get("file"));
     }
     console.log(uploadedImage)
     

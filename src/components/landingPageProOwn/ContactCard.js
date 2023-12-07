@@ -44,7 +44,7 @@ const ContactCard = () => {
     slidesToScroll: 1,
     className: "center",
     centerMode: true,
-    // centerPadding: "1%", // Set centerPadding to 0 for the first slide
+    centerPadding: "1%", // Set centerPadding to 0 for the first slide
     slidesToShow: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -57,8 +57,8 @@ const ContactCard = () => {
           {users.map((user) => (
             <div key={user.id}>
               <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
-                <div className="h-[40vh] sm:h-auto xl:h-[30vh]">
-                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-12">
+                <div className="sm:h-auto xl:h-[30vh]">
+                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12">
                     <div className="star-rating mt-8">
                       {[...Array(5)].map((star, index) => {
                         index += 1;
