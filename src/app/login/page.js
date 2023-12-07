@@ -14,6 +14,7 @@ import useProfileStore from "@/store/profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
+import { signIn } from 'next-auth/react';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +22,10 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
   const router = useRouter();
+  
+  const handleGoogleSignIn = () => {
+    signIn('google');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +33,8 @@ const Login = () => {
       setLoginError("Please fill in all fields.");
       return;
     }
+
+  
 
     // Check if the password meets the length requirement
     if (password.length < 8) {
@@ -218,7 +225,7 @@ const Login = () => {
                   Log In
                 </button>
                 <div className="">
-                  <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
+                  <button onClick={handleGoogleSignIn}  className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
                     <Image
                       className=""
                       src={"/Social icon.png"}
