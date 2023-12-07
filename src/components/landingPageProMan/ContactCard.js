@@ -99,7 +99,7 @@ const ContactCard = () => {
                 </div>
 
                 <div className="w-full  max-w-[480px] h-auto rounded-2xl ">
-                  <div className="w-full h-full ">
+                  <div className="w-full h-full  sm:bg-cover smbg-center">
                     <Image
                       className="rounded-2xl "
                       src={user.image}
