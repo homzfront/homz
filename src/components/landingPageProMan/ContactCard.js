@@ -42,6 +42,9 @@ const ContactCard = () => {
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
+    className: "center",
+    centerMode: true,
+    // centerPadding: "1%", // Set centerPadding to 0 for the first slide
     slidesToShow: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -95,8 +98,8 @@ const ContactCard = () => {
                   </div>
                 </div>
 
-                <div className="w-full  max-w-[480px] h-auto rounded-2xl overflow-hidden">
-                  <div className="w-full h-full  sm:bg-cover sm:bg-center">
+                <div className="w-full  max-w-[480px] h-auto rounded-2xl ">
+                  <div className="w-full h-full ">
                     <Image
                       className="rounded-2xl "
                       src={user.image}
