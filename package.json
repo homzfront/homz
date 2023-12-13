@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "alpinejs": "^3.13.3",
     "axios": "^1.6.2",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-phone-input-2": "^2.15.1",
     "react-quill": "^2.0.0",

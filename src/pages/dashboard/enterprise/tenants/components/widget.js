@@ -1,0 +1,56 @@
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import RentInfo from "./rentInfo";
+import PaymentHis from "./paymentHis";
+import Maintenance from "./maintenance";
+
+const Widget = () => {
+  const [active, setActive] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
+  const [activeThree, setActiveThree] = useState(false);
+  const handlePageChange = () => {
+    setActive(false);
+    setActiveTwo(false);
+    setActiveThree(false);
+  };
+
+  const handlePageChangeTwo = () => {
+    setActiveTwo(true);
+    setActive(true);
+    setActiveThree(false);
+  };
+
+  const handlePageChangeThree = () => {
+    setActiveThree(true);
+    setActiveTwo(false);
+    setActive(true);
+  };
+  return (
+    <div>
+      <div className="relative inline-block w-[722px] shadow-md bg-white rounded-[12px]">
+        <div className="flex mt-5  px-4 gap-4 cursor-pointer w-full">
+          <div className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${!active ? "bg-BlueHomz text-white " : ""}`} onClick={handlePageChange}>
+            <p>Rent Information</p>
+          </div>
+          <div className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${activeTwo ? "bg-BlueHomz text-white " : ""}`} onClick={handlePageChangeTwo}>
+            <p>Payment History</p>
+          </div>
+          <div className={`rounded-md h-[37px] flex flex-row gap-1 w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${activeThree ? "bg-BlueHomz text-white " : ""}`} onClick={handlePageChangeThree}>
+            <p>Maintenance Request</p>
+            <span className={` rounded-[40%] w-[30px] ${activeThree ? "bg-white text-GrayHomz" : "bg-whiteblue text-BlueHomz "}`}>
+              2
+            </span>
+          </div>
+        </div>
+        <div className="px-4 mt-5 h-[55vh] rounded-[12px]">
+          <div className={`${!active ? "inline" : "hidden"}`}><RentInfo/></div>
+          <div className={`${activeTwo ? "inline" : "hidden"}`}><PaymentHis/></div>
+          <div className={`${activeThree ? "inline" : "hidden"}`}><Maintenance/></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Widget;

@@ -11,39 +11,33 @@
 
 }
  
-/* div.Hero {
-  @apply grid justify-center;
-  grid-template-columns: 0.8fr; Default setting for screens above md
-
-  @screen md {
-    grid-template-columns: 0.4fr 0.6fr; Adjust for screens md and below
-  }
+.dashboard {
+  @apply grid;
+  grid-template-columns: 268px 1fr 1fr 1fr;
+  grid-template-rows: 0.2fr 3fr;
+  grid-template-areas: 
+  'sidebar header header header'
+  'sidebar pagepart pagepart pagepart';
+  /* height: 100%; */
 }
 
 
+.header{
+  @apply grid;
+  grid-area: header;
+  border-bottom: 1px rgb(225, 225, 225) solid; 
+}
 
-.inputs {
-  @apply border h-8 rounded-lg w-[240px] outline-none px-1 py-3;
-} */
-/* .react-tel-input .form-control {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-	height: 2.8125rem !important;
-  /* padding-left: 0 !important;
-  padding-right: 0 !important; */
-	/* width: 104% !important; */
-  /* padding-left: -20px !important/; */
+.sidebar{
+  @apply grid;
+  grid-area: sidebar;
+}
 
+.dashboard{
+  @apply grid;
+  grid-area: pagepart;
+}
 
-
-/* .hide-number-arrows {
-  -webkit-appearance: none;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-} */
 
 .custom-dropdown {
   appearance: none;
