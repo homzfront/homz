@@ -6,7 +6,7 @@ import TenantsTwo from "./tenantsTwo";
 import Data from "../Data.json"
 import Modal from "./components/modal";
 
-const tenants = () => {
+const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const toggleInvite = () => {
     setInviteTenant(true);
@@ -76,4 +76,4 @@ const tenants = () => {
   );
 };
 
-export default tenants;
+export default Tenants;

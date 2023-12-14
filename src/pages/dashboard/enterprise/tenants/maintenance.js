@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Value from "@/pages/dashboard/enterprise/maintenanceData";
 import YesNOModal from "./components/yesNOModal";
+
 const Maintenance = () => {
   const [data, setData] = useState(Value);
   const [showConfrim, setShowConfirm] = useState(false);
@@ -40,12 +41,12 @@ const Maintenance = () => {
     setShowConfirmation(true);
   };
   const remove = () => {
-    setShowConfirm(false)
-  }
+    setShowConfirm(false);
+  };
 
   const returnHome = () => {
-    setShowConfirm(false)
-  }
+    setShowConfirm(false);
+  };
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -130,10 +131,15 @@ const Maintenance = () => {
                   </td>
                   <td className="py-[15px] pl-12">
                     {showYesOrNo ? (
-                      <YesNOModal  confirmH={handleToggleMenu(data.id)} returnHome={returnHome} removeH={remove(data.id)} showConfirmation={showConfirmation} />
+                      <YesNOModal
+                        confirmH={handleToggleMenu(data.id)}
+                        returnHome={returnHome}
+                        removeH={remove(data.id)}
+                        showConfirmation={showConfirmation}
+                      />
                     ) : (
                       <button
-                        onClick={()=>showYesAndNo(data.id)}
+                        onClick={() => showYesAndNo(data.id)}
                         className={`flex items-center px-2 py-1 rounded-md gap-1 ${
                           data.Action
                             ? "text-white bg-BlueHomz"

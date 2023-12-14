@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import DropDown from './components/dropDown'
 
-const propertylisting = () => {
+const Propertylisting = () => {
   return (
     <div className="w-[1081px] p-8">
     <div className=" flex justify-between  items-center">
@@ -54,4 +54,4 @@ const propertylisting = () => {
   )
 }
 
-export default propertylisting
+export default Propertylisting

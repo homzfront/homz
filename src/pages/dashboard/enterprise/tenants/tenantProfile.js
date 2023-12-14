@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
+
 const TenantProfile = () => {
   return (
     <div className="max-w-[1081px] ">

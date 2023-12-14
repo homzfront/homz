@@ -1,6 +1,6 @@
 import React from "react";
 
-const yesNOModal = (confirmH, returnH, showConfirmation, returnHome) => {
+const YesNOModal = (confirmH, returnH, showConfirmation, returnHome) => {
   return (
     <div>
       {showConfirmation ? (
@@ -32,4 +32,4 @@ const yesNOModal = (confirmH, returnH, showConfirmation, returnHome) => {
   );
 };
 
-export default yesNOModal;
+export default YesNOModal;

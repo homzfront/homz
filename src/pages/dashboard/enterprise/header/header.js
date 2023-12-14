@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 
-const header = () => {
+const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
 
   const handleToggleMenu = () => {
@@ -66,4 +66,4 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;

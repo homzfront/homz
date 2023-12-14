@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import DropDown from "./components/dropDown";
 import EstateForm from "./estateForm";
 
-const estate = () => {
+const Estate = () => {
   const [registrationForm, setRegistrationForm] = useState(false);
   const openRegistrationForm = () => {
     setRegistrationForm(true);
@@ -13,7 +13,7 @@ const estate = () => {
   return (
     <div>
       {registrationForm ? (
-        
+
         <EstateForm/>
       ) : (
         <div className="w-[1081px] p-8">
@@ -78,4 +78,4 @@ const estate = () => {
   );
 };
 
-export default estate;
+export default Estate;

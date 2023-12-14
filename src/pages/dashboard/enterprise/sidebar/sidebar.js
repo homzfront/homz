@@ -1,10 +1,9 @@
 "use client";
-import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const sidebar = () => {
+const Sidebar = () => {
   
   const Data = [
     {
@@ -233,4 +232,4 @@ const sidebar = () => {
   );
 };
 
-export default sidebar;
+export default Sidebar;
