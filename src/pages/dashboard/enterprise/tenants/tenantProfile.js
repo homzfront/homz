@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Widget from "./components/widget.js";
-import ProfileCard from "./components/profileCard.js";
+import Widget from "./widget.js";
+import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
 const TenantProfile = () => {
   return (
@@ -10,17 +10,17 @@ const TenantProfile = () => {
         <Image
           alt=""
           src={"/static/dashboard/enterprisemanager/tenants/Header.png"}
-          height={1172}
-          width={204}
-          layout="responsive" // Set layout to responsive
-          className="object-contain"
+          height={204}
+          width={1172}
+          style={{ height: 'auto', width: 'auto' }}
+          
         />
       </div>
       <div className="flex gap-6 mt-[-20px] px-8">
         <div className="w-[350px]">
           <ProfileCard />
         </div>
-        <div>
+        <div className="">
           <Widget />
         </div>
       </div>

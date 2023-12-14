@@ -55,7 +55,7 @@ const sidebar = () => {
     {
       id: 6,
       image: "/static/dashboard/enterprisemanager/sidebar/application.png",
-      image2: "",
+      image2: "/static/dashboard/enterprisemanager/sidebar/application.png",
       link: "",
       name: "Applications",
       coming: "Coming soon",
@@ -102,14 +102,14 @@ const sidebar = () => {
     {
       id: 1,
       image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      image2: "",
+      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
       link: "",
       name: "Switch",
     },
     {
       id: 2,
       image: "/static/dashboard/enterprisemanager/sidebar/logout.png",
-      image2: "",
+      image2: "/static/dashboard/enterprisemanager/sidebar/logout.png",
       link: "",
       name: "Logout",
     },

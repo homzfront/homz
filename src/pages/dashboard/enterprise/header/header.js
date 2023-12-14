@@ -19,7 +19,7 @@ const header = () => {
           <input
             type="text"
             className="border h-[40px] pl-8 rounded-md w-[320px]"
-            value={""}
+          
             placeholder="search"
           />
           <Image

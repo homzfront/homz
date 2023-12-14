@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import DropDown from "./components/dropDown";
+import DropDown from "./components/threeDropDown";
 import Image from "next/image";
 import TenantsTwo from "./tenantsTwo";
 import Data from "../Data.json"
