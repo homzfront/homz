@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import DropDown from "./components/threeDropDown";
 import Image from "next/image";
 import TenantsTwo from "./tenantsTwo";
-import Data from "../Data.json"
+import Data from "../../../../components/Data/Data.js"
 import Modal from "./components/modal";
 
 const Tenants = () => {
@@ -16,9 +16,9 @@ const Tenants = () => {
     document.body.style.overflow = inviteTenant ? "hidden" : "auto";
   }, [inviteTenant]);
 
-
-
-  const data = Data.Data  
+  
+  const data = Data 
+  console.log(data.length); 
   return (
     <div className="w-[1081px] p-8">
       {inviteTenant ? (

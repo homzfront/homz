@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 function PopUpMenuTwo({ data }) {
+  console.log(data.id) 
     return (
       <div className="drop-down absolute text-GrayHomz font-[500] text-[13px] right-[50px] border   rounded-md bg-white flex flex-col items-center justify-around">
         <Link href={`/dashboard/enterprise-property/tenants/profile/${data.id}`}>
