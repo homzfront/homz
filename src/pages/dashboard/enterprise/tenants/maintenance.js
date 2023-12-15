@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import Value from "@/pages/dashboard/enterprise/maintenanceData";
+import Value from "../../../../components/Data/MaintenanceData.js";
 import YesNOModal from "./components/yesNOModal";
 
 const Maintenance = () => {
   const [data, setData] = useState(Value);
+  console.log(data)
   const [showConfrim, setShowConfirm] = useState(false);
   const [showYesOrNo, setShowYesOrNo] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);

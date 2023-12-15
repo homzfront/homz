@@ -1,10 +1,14 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import Value from "@/pages/dashboard/enterprise/paymentData";
+import Value from "@/components/Data/PaymentData";
+
+console.log(Value); 
 
 const Table = () => {
-  const [data, setData] = useState(Value);
+  const [data, setData] = useState(Value); 
+
+  console.log(data.length)
 
   const ITEMS_PER_PAGE = 4;
 
