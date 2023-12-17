@@ -3,6 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 function PopUpMenuTwo({ data, handleDelete }) {
+  if (!data) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
   console.log(data);
     return (
       <div className="drop-down absolute text-GrayHomz font-[500] text-[13px] right-[50px] border   rounded-md bg-white flex flex-col items-center justify-around">

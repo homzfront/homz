@@ -12,10 +12,14 @@ const ListedEstates = ({ Data }) => {
 
   const ITEMS_PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
+  // Ensure that Data is defined and not null
+  const totalPages = Data ? Math.ceil(Data.length / ITEMS_PER_PAGE) : 0;
+
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = Data.slice(startIndex, endIndex);
+
+  // Use optional chaining to handle cases where Data is undefined
+  const currentData = Data?.slice(startIndex, endIndex) || [];
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -29,9 +33,9 @@ const ListedEstates = ({ Data }) => {
     setCurrentPage(page);
   };
 
-  // Use reduce to generate an array of the first three pages
+  // Use optional chaining to handle cases where Data is undefined
   const firstThreePages = Array.from(
-    { length: Math.min(totalPages, 3) },
+    { length: Math.min(totalPages || 0, 3) },
     (_, index) => index + 1
   );
 
@@ -39,6 +43,7 @@ const ListedEstates = ({ Data }) => {
     setPopUpMenu(!popUpMenu);
     setSelectedDataId(id);
   };
+
 
   return (
     <div className="w-[1081px]">
