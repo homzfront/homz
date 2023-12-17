@@ -7,6 +7,9 @@ import Image from "next/image";
 import Input from "./components/inputEstate";
 
 const ListedEstates = ({ Data }) => {
+  if (!Data) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
 
