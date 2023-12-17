@@ -17,7 +17,7 @@ const Button = ({currentPage, totalPages, handleNext, handlePageClick, handlePre
       </button>
     </div>
     <div className="w-[350px] flex items-center justify-around">
-      {firstThreePages.map((page) => (
+      {firstThreePages && firstThreePages.map((page) => (
         <button
           key={page}
           onClick={() => handlePageClick(page)}

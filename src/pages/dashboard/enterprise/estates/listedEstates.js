@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
-import InputTwo from "../components/inputTwo";
+
 
 import Image from "next/image";
 import Input from "./components/inputEstate";

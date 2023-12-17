@@ -8,7 +8,7 @@ import Button from "../components/button";
 const TenantsTwo = ({ Data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [data, setData] = useState(Data)
+  const [data, setData] = useState(Data || []);
 
   const ITEMS_PER_PAGE = 10;
 
