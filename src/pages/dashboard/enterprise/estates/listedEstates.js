@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
-
-
 import Image from "next/image";
 import Input from "./components/inputEstate";
 
 const ListedEstates = ({ Data }) => {
+  // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
+
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const ITEMS_PER_PAGE = 8;
-  const [currentPage, setCurrentPage] = useState(1);
-  // Ensure that Data is defined and not null
-  const totalPages = Data ? Math.ceil(Data.length / ITEMS_PER_PAGE) : 0;
-
+  const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-
-  // Use optional chaining to handle cases where Data is undefined
-  const currentData = Data?.slice(startIndex, endIndex) || [];
+  const currentData = Data.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -46,7 +42,6 @@ const ListedEstates = ({ Data }) => {
     setPopUpMenu(!popUpMenu);
     setSelectedDataId(id);
   };
-
 
   return (
     <div className="w-[1081px]">
