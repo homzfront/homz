@@ -81,7 +81,7 @@ const Estate = () => {
         }
     ]
 
-    const data = Data;
+    const data = Data || [];
     console.log(data);
 
   const [registrationForm, setRegistrationForm] = useState(false);

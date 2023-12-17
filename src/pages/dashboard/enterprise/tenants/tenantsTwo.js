@@ -76,7 +76,7 @@ const TenantsTwo = ({ Data }) => {
               </tr>
             </thead>
             <tbody className="">
-              {currentData.map((data) => (
+              {currentData && currentData.map((data) => (
                 <tr key={data.id} className=" w-2 border-t-[1px] items-center">
                   <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                     <Image
