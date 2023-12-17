@@ -4,7 +4,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Sidebar = () => {
-  
   const Data = [
     {
       id: 1,
@@ -63,7 +62,8 @@ const Sidebar = () => {
     {
       id: 7,
       image: "/static/dashboard/enterprisemanager/sidebar/maintenance.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/maintenanceWhite.png",
+      image2:
+        "/static/dashboard/enterprisemanager/sidebar/maintenanceWhite.png",
       link: "/dashboard/enterprise-property/maintenance",
       name: "Maintenance",
       coming: null,
@@ -114,7 +114,7 @@ const Sidebar = () => {
     },
   ];
 
- const [pathname, setPathname] = useState("");
+  const [pathname, setPathname] = useState("");
 
   useEffect(() => {
     // Function to get the current URL
@@ -128,19 +128,18 @@ const Sidebar = () => {
     const extractPathname = (url) => {
       const parsedUrl = new URL(url);
       let pathname = parsedUrl.pathname;
-    
+
       // Split the pathname into segments
-      const segments = pathname.split('/').filter(Boolean); // Remove empty segments
-    
+      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
+
       // Keep only the first three segments
       const firstThreeSegments = segments.slice(0, 3);
-    
+
       // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join('/')}`;
-    
+      pathname = `/${firstThreeSegments.join("/")}`;
+
       return pathname;
     };
-    
 
     setPathname(extractPathname(url()));
   }, []);

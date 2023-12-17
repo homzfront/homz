@@ -1,23 +1,104 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React, { useState } from "react";
 import DropDown from "./components/dropDown";
 import EstateForm from "./estateForm";
 
+import ListedEstates from "./listedEstates";
+
 const Estate = () => {
+  
+    const Data = [
+        {
+            id : 1,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 2,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 3,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 4,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 5,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 6,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 7,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 8,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 9,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        },
+        {
+            id : 10,
+            estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
+            estateName: "Suncity New Estate",
+            estateAddress: "Alagomeji Area, Yaba, Lagos",
+            noOfApartment: 22
+        }
+    ]
+
+    const data = Data;
+    console.log(data);
+
   const [registrationForm, setRegistrationForm] = useState(false);
+
   const openRegistrationForm = () => {
     setRegistrationForm(true);
   };
 
   return (
     <div>
-      {registrationForm ? (
-
-        <EstateForm/>
+      {data.length >= 1 ? (
+        <ListedEstates Data={data} />
+      ) : registrationForm ? (
+        <EstateForm />
       ) : (
         <div className="w-[1081px] p-8">
-          <div className=" flex justify-between  items-center">
+          <div className="flex justify-between items-center">
             <div className="flex gap-1">
               <p>Estates</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
@@ -56,7 +137,6 @@ const Estate = () => {
             <p className="text-[18px] font-[400] text-GrayHomz">
               Add your estates so your Tenants can see them
             </p>
-
             <button
               onClick={openRegistrationForm}
               className="p-[12px] w-[185px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"

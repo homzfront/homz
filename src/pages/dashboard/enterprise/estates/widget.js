@@ -129,7 +129,7 @@ const Widget = () => {
             />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
-            <Documents />
+            <Documents handlePageChangeThree={handlePageChangeThree} />
           </div>
         </div>
       </div>

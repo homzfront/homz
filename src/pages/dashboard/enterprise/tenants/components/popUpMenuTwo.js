@@ -2,8 +2,7 @@ import React from 'react'
 import Image from "next/image";
 import Link from "next/link";
 
-function PopUpMenuTwo({ data }) {
-  console.log(data.id) 
+function PopUpMenuTwo({ data, handleDelete }) {
     return (
       <div className="drop-down absolute text-GrayHomz font-[500] text-[13px] right-[50px] border   rounded-md bg-white flex flex-col items-center justify-around">
         <Link href={`/dashboard/enterprise-property/tenants/profile/${data.id}`}>
@@ -13,8 +12,9 @@ function PopUpMenuTwo({ data }) {
                 "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
               }
               alt=""
-              height={16}
+              height={17}
               width={16}
+              style={{ height: "auto", width: "auto" }}
             />
             View Profile
           </div>
