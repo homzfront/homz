@@ -1,20 +1,24 @@
-
-
 import React, { useState } from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
 import Input from "./components/inputEstate";
 
-const ListedEstates = ({ Data }) => {
+const ListedEstates = ({
+  Data,
+  selectedDataId,
+  setSelectedDataId,
+  popUpMenu,
+  setPopUpMenu,
+  currentPage,
+  setCurrentPage,
+}) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
 
-  const [selectedDataId, setSelectedDataId] = useState(null);
-  const [popUpMenu, setPopUpMenu] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+
 
   const ITEMS_PER_PAGE = 8;
   const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
@@ -112,7 +116,13 @@ const ListedEstates = ({ Data }) => {
       </div>
 
       <div className="px-8 py-4 h-[850px] flex flex-col justify-between">
-        <EstateCard Data={currentData} handleToggleMenu={handleToggleMenu} data={currentData}  popUpMenu={popUpMenu} selectedDataId={selectedDataId} />
+        <EstateCard
+          Data={currentData}
+          handleToggleMenu={handleToggleMenu}
+          data={currentData}
+          popUpMenu={popUpMenu}
+          selectedDataId={selectedDataId}
+        />
         <Button
           firstThreePages={firstThreePages}
           currentPage={currentPage}

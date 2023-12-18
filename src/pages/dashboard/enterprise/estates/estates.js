@@ -90,12 +90,14 @@ const Estate = () => {
     },
   ];
 
-  
+  const [selectedDataId, setSelectedDataId] = useState(null);
+  const [popUpMenu, setPopUpMenu] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
-  const [data, setData] = useState(Data || [])
-  
-    console.log(data);
-  
+  const [data, setData] = useState(Data || []);
+
+  console.log(data);
+
   const openRegistrationForm = () => {
     setRegistrationForm(true);
   };
@@ -103,7 +105,15 @@ const Estate = () => {
   return (
     <div>
       {data.length >= 1 ? (
-        <ListedEstates Data={data} />
+        <ListedEstates
+          Data={data}
+          selectedDataId={selectedDataId}
+          setSelectedDataId={setSelectedDataId}
+          popUpMenu={popUpMenu}
+          setPopUpMenu={setPopUpMenu}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       ) : registrationForm ? (
         <EstateForm />
       ) : (
