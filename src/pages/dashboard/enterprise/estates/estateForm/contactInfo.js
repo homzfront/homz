@@ -1,5 +1,5 @@
 import React from "react";
-import Input from "../components/input";
+import Input from "../../components/input";
 import Image from "next/image";
 
 const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {

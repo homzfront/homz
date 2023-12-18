@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ImageUpload from "./components/imageUpload";
+import ImageUpload from "../components/imageUpload";
 import Image from "next/image";
 
 const AddPhotos = ({ handlePageChange, handlePageChangeThree }) => {

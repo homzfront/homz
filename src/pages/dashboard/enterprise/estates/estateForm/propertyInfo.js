@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Input from "../components/input";
-import DropDown from "../components/dropDown";
+import Input from "../../components/input";
+import DropDown from "../../components/dropDown";
 import Image from "next/image";
 
 const PropertyInfo = ({handlePageChangeTwo}) => {

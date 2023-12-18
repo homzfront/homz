@@ -1,10 +1,10 @@
 import React from 'react'
-import TenantProfile from '@/pages/dashboard/enterprise/tenants/secondPage/tenantProfile'
+import Dashboard from '@/pages/dashboard/enterprise/estates/dashboard/dashboard';
 
 const App = () => {
   return (
     <div className=''>
-        <TenantProfile />
+        <Dashboard />
     </div>
   )
 }

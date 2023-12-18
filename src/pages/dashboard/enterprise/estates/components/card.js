@@ -14,6 +14,7 @@ const Card = ({
   data,
   handleToggleMenu,
 }) => {
+
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
 
   const handleToggleMenuClick = () => {

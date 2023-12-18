@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import YesNOModal from "./components/yesNOModal";
-import Button from "../components/button.js";
+import YesNOModal from "../components/yesNOModal";
+import Button from "../../components/button.js";
 
 const Maintenance = () => {
   const Data = [

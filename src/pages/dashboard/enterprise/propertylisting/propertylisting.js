@@ -12,26 +12,6 @@ const Propertylisting = () => {
           <span className="text-BlueHomz ">0</span>
         </span>
       </div>
-      <div className="flex items-center gap-2">
-        <p className="text-[16px] font-[400] text-BlackHomz">Filter by: </p>
-        <DropDown />
-
-        <input
-          type="date"
-          className="border items-center gap-4 flex text-GrayHomz2 px-4 h-10 w-[120px] mb-1 p-2 rounded cursor-pointer"
-        />
-        <button className="border border-BlueHomz items-center gap-4 flex text-BlueHomz  px-4 h-10 w-[120px] mb-1 p-2 rounded cursor-pointer">
-          <span>
-            <Image
-              src={"/static/dashboard/enterprisemanager/dashboard/repeat.png"}
-              alt=""
-              height={17}
-              width={16}
-            />
-          </span>
-          Reset
-        </button>
-      </div>
     </div>
     <div className="flex flex-col gap-3 mt-5">
       <h1 className="text-[41px] font-[700] text-BlueHomz">Get Started</h1>

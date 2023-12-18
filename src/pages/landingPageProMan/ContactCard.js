@@ -18,6 +18,7 @@ const ContactCard = () => {
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
+        rating: 5,
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ const ContactCard = () => {
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
+      rating: 5,
     },
     {
       id: 3,
@@ -34,6 +36,7 @@ const ContactCard = () => {
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
+        rating: 5,
     },
   ];
 

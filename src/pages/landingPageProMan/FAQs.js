@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Minus from "../icons/Minus";
-import Plus from "../icons/Plus";
+import Minus from "../../components/icons/Minus";
+import Plus from "../../components/icons/Plus";
 
 const FAQs = () => {
   const [expandedFAQs, setExpandedFAQs] = useState({});

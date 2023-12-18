@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Minus from "../icons/Minus";
-import Plus from "../icons/Plus";
+import Minus from "../../components/icons/Minus";
+import Plus from "../../components/icons/Plus";
 
 const FAQs = () => {
   const [expandedFAQs, setExpandedFAQs] = useState({});
@@ -17,29 +17,29 @@ const FAQs = () => {
     {
       id: 1,
       question:
-        "How do you handle property maintenance, and what role do property owners play in the process?",
+        "How user-friendly is the software, and what kind of training is required?",
       answer:
-        "  We streamline property maintenance with an efficient process. Property owners are informed of maintenance requests, and our team coordinates all necessary actions, ensuring a hassle-free experience for both owners and tenants.",
+        "Our software is designed with simplicity in mind, and minimal training is needed.",
     },
     {
       id: 2,
       question:
-        "What measures do you take to protect the property and its value during tenant occupancy?",
+        "Is my financial information secure when using the software for rent payments?",
       answer:
-        "  We conduct regular property inspections, address maintenance needs promptly, and enforce lease agreements to protect your property. Our goal is to maintain and enhance the value of your investment throughout tenancy.",
+        "Yes, we prioritize the security of your financial information. Our software uses encryption and follows industry standards to protect your data.",
     },
     {
       id: 3,
-      question: "How do I get started with your property management services?",
+      question: "How can I request maintenance services through the software?",
       answer:
-        "  Simply click on the “Get started” buttons or reach out to us via our contact page. We'll guide you through the onboarding process and discuss how our services align with your property management goals.",
+        "It's easy! Simply navigate to the maintenance section on the platform, fill out a brief request form, and the property management will address it promptly.",
     },
     {
       id: 4,
       question:
-        "Is there ongoing communication with property owners, and how can I stay informed about my property's status?",
+        "Can I receive notifications for important updates and announcements from property management?",
       answer:
-        "  Communication is key. We provide regular updates through the dedicated dashboard, monthly statements, and responsive customer support. Property owners are always in the loop regarding their property's status and performance.",
+        "Yes, our software allows you to customize your notification preferences, ensuring you receive important updates in real-time.",
     },
     {
       id: 5,
@@ -50,7 +50,7 @@ const FAQs = () => {
     },
   ];
   return (
-    <div className="mt-[160px] max-w-[1160px] m-auto px-6 mb-[60px]">
+    <div className="mt-[140px] mb-[60px] max-w-[1160px] m-auto px-6">
       <div className="flex flex-col justify-center items-center">
         <h1 className="sm:text-[36px] text-[23px] font-[700] text-center text-BlackHomz">
           Frequently asked questions
@@ -64,7 +64,7 @@ const FAQs = () => {
         {FAQsData.map((data) => (
           <div
             key={data.id}
-            className={`flex flex-col  max-w-[380px] gap-2 h-auto pb-4 border-b-2 md:max-w-[768px] m-auto cursor-pointer ${
+            className={`flex flex-col max-w-[380px] gap-2 h-auto pb-4 border-b-2 md:max-w-[768px] m-auto cursor-pointer ${
               expandedFAQs[data.id] ? "expanded" : ""
             }`}
             onClick={() => toggleFAQ(data.id)}
@@ -73,7 +73,10 @@ const FAQs = () => {
               <h3 className="md:text-[18px] text-[16px] font-[500] text-BlackHomz pr-2">
                 {data.question}
               </h3>
-              <div className="mt-[5px]"> {expandedFAQs[data.id] ? <Minus /> : <Plus />}</div>
+              <div className="mt-[5px]">
+                {" "}
+                {expandedFAQs[data.id] ? <Minus /> : <Plus />}
+              </div>
             </div>
             {expandedFAQs[data.id] && (
               <p className="text-[16px] text-GrayHomz font-[400]">
@@ -86,7 +89,7 @@ const FAQs = () => {
 
       <div className="mt-[60px] text-white flex flex-col justify-center items-center h-[210px] gap-2  max-w-[1159px] rounded-md bg-BlueHomz">
         <h1 className="text-[20px] font-[600]">Still have questions?</h1>
-        <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] ">
+        <p className="md:text-[18px] text-center md:text-start text-[16px]  font-[400] ">
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
         <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">

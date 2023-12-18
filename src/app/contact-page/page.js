@@ -1,6 +1,6 @@
 import React from 'react'
-import ContactDoc from '@/components/contactPage/ContactDoc';
-import ContactB from '@/components/contactPage/ContactB';
+import ContactDoc from '@/pages/contactPage/ContactDoc';
+import ContactB from '@/pages/contactPage/ContactB';
 
 const ContactPage = () => {
   

@@ -1,12 +1,12 @@
 import React from 'react'
-import Section from '@/components/landingPageProMan/Section';
-import SectionTwo from '@/components/landingPageProMan/SectionTwo';
-import Features from '@/components/landingPageProMan/Features';
-import Pricing from '@/components/landingPageProMan/Pricing';
-import AllInOne from '@/components/landingPageProMan/AllInOne';
-import Contact from '@/components/landingPageProMan/Contact';
-import ContactCard from '@/components/landingPageProMan/ContactCard';
-import FAQs from '@/components/landingPageProMan/FAQs';
+import Section from '@/pages/landingPageProMan/Section';
+import SectionTwo from '@/pages/landingPageProMan/SectionTwo';
+import Features from '@/pages/landingPageProMan/Features';
+import Pricing from '@/pages/landingPageProMan/Pricing';
+import AllInOne from '@/pages/landingPageProMan/AllInOne';
+import Contact from '@/pages/landingPageProMan/Contact';
+import ContactCard from '@/pages/landingPageProMan/ContactCard';
+import FAQs from '@/pages/landingPageProMan/FAQs';
 
 const LandingPagePM = () => {
   return (

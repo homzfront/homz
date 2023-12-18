@@ -1,10 +1,11 @@
+import EstateInfo from '@/pages/dashboard/enterprise/estates/estateInfo/estateInfo';
 import React from 'react'
-import TenantProfile from '@/pages/dashboard/enterprise/tenants/secondPage/tenantProfile'
+
 
 const App = () => {
   return (
     <div className=''>
-        <TenantProfile />
+        <EstateInfo/>
     </div>
   )
 }

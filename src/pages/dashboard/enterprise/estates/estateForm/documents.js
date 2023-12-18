@@ -1,7 +1,7 @@
 import React from "react";
-import Input from "../components/inputTwo";
+import Input from "../../components/inputTwo";
 import Image from "next/image";
-import FileUpload from "./components/fileUpload";
+import FileUpload from "../components/fileUpload";
 
 const Documents = ({handlePageChangeThree}) => {
   return (

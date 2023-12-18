@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "./components/box";
-import Table from "./components/table";
+import Box from "../components/box";
+import Table from "../components/table";
 
 const PaymentHis = () => {
   return (

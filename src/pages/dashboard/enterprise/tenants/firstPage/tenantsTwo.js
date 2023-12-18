@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import PopUpMenuTwo from "./components/popUpMenuTwo";
-import Button from "../components/button";
+import PopUpMenuTwo from "../components/popUpMenuTwo";
+import Button from "../../components/button";
 
 
 const TenantsTwo = ({ Data }) => {
