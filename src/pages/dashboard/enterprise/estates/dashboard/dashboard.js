@@ -1,16 +1,16 @@
 import React from "react";
 import HomeCard from "../components/homeCard";
 import RevCard from "../components/revCard";
-import Return from "../components/Return";
 import TenantsCard from "../components/tenantCard";
 import Maintenance from "../components/maintenanceCard";
+import ToggleReturn from "../components/Return";
 
 const Dashboard = () => {
   return (
     <div className="w-[1068px]">
       <div className="px-8 py-8">
         <div className="mt-4">
-          <Return
+          <ToggleReturn
             first={"Go Back"}
             second={"Estate Name"}
             third={"Dashboard"}

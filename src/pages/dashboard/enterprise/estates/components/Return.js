@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Return = ({first, second, third, href1, href2, href3}) => {
+const ToggleReturn = ({first, second, third, href1, href2, href3}) => {
   return (
     <div className="w-[475px] flex gap-2 items-center">
       <Image
@@ -24,4 +24,4 @@ const Return = ({first, second, third, href1, href2, href3}) => {
   );
 };
 
-export default Return;
+export default ToggleReturn;

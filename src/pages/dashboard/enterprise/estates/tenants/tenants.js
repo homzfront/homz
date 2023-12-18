@@ -1,7 +1,7 @@
 import React from "react";
 import TenantsTwo from "../../tenants/firstPage/tenantsTwo";
 import Image from "next/image";
-import Return from "../components/Return";
+import ToggleReturn from "../components/Return";
 
 const Tenants = () => {
   const Data = [
@@ -442,7 +442,7 @@ const Tenants = () => {
   return (
     <div className="w-[1075px]  p-8">
       <div className="mb-4">
-      <Return
+      <ToggleReturn
         first={"Go Back"}
         second={"Estate Name"}
         third={"Tenants"}

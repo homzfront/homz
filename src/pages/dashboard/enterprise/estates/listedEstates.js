@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
