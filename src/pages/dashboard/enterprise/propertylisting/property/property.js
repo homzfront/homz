@@ -12,8 +12,7 @@ const Property = () => {
                 second={"Property Name"}
                 third={"Property Details"}
                 href2={"/dashboard/enterprise-property/propertylisting"}
-                href3={""}
-                href1={""}
+                href1={"/dashboard/enterprise-property/propertylisting"}
               />
             </div>
             <div><Widget /></div>

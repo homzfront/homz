@@ -13,8 +13,7 @@ const EstateInfo = () => {
             second={"Estate Name"}
             third={"Estate Information"}
             href2={"/dashboard/enterprise-property/estates"}
-            href3={""}
-            href1={""}
+            href1={"/dashboard/enterprise-property/estates"}
           />
         </div>
         <div><Widget /></div>

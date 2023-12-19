@@ -17,9 +17,9 @@ const ToggleReturn = ({first, second, third, href1, href2, href3}) => {
       <Link href={href2} className="text-[16px] font-[400] text-GrayHomz">
         {second}<> </>/
       </Link>
-      <Link href={href3} className="text-[20px] font-[500] text-GrayHomz">
+      <div className="text-[20px] font-[500] text-GrayHomz">
         {third}
-      </Link>
+      </div>
     </div>
   );
 };

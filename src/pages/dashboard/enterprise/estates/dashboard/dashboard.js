@@ -15,8 +15,7 @@ const Dashboard = () => {
             second={"Estate Name"}
             third={"Dashboard"}
             href2={"/dashboard/enterprise-property/estates"}
-            href3={""}
-            href1={""}
+            href1={"/dashboard/enterprise-property/estates"}
           />
         </div>
         <div className="mt-8 w-[784px] justify-between flex gap-5">

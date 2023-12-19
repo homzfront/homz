@@ -447,8 +447,7 @@ const Tenants = () => {
         second={"Estate Name"}
         third={"Tenants"}
         href2={"/dashboard/enterprise-property/estates"}
-        href3={""}
-        href1={""}
+        href1={"/dashboard/enterprise-property/estates"}
       />
       </div>
       <div className=" flex justify-between items-center">
