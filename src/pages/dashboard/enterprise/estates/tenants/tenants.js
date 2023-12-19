@@ -1,7 +1,7 @@
 import React from "react";
 import TenantsTwo from "../../tenants/firstPage/tenantsTwo";
 import Image from "next/image";
-import ToggleReturn from "../components/Return";
+import Link from "next/link";
 
 const Tenants = () => {
   const Data = [
@@ -442,13 +442,31 @@ const Tenants = () => {
   return (
     <div className="w-[1075px]  p-8">
       <div className="mb-4">
-      <ToggleReturn
-        first={"Go Back"}
-        second={"Estate Name"}
-        third={"Tenants"}
-        href2={"/dashboard/enterprise-property/estates"}
-        href1={"/dashboard/enterprise-property/estates"}
-      />
+      <div className="w-[475px] flex gap-2 items-center">
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+              }
+              alt=""
+              height={16}
+              width={16}
+            />
+            <Link
+              href={"/dashboard/enterprise-property/estates"}
+              className="text-[14px] font-[400] text-GrayHomz2"
+            >
+              Go Back
+            </Link>
+            <Link
+              href={"/dashboard/enterprise-property/estates"}
+              className="text-[16px] font-[400] text-GrayHomz"
+            >
+              Estate Name<> </>/
+            </Link>
+            <div className="text-[20px] font-[500] text-GrayHomz">
+            Tenants
+            </div>
+          </div>
       </div>
       <div className=" flex justify-between items-center">
         <div className="flex gap-2 ">
