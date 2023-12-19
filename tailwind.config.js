@@ -33,7 +33,9 @@ module.exports = {
         error: '#D92D20',
         warningBg: '#FCF3EB',
         successBg: '#CDEADD',
-        warning2: '#DC6803',
+        inputBg: "#F6F6F6",
+        walletBg: "#EEF5FF"
+   
 
 
       },

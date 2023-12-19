@@ -19,14 +19,13 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   return (
     <div className={`relative inline-block ${className}`}>
       <div
-        className={`text-BlackHomz px-4 border h-[45px] p-3 rounded-md cursor-pointer ${
-          isOpen ? "border z-[-3px]" : ""
+        className={`text-BlackHomz px-4 h-[45px] bg-inputBg p-3 rounded-md cursor-pointer ${
+          isOpen ? "border" : ""
         }`}
         onClick={handleDropdownToggle}
-     
       >
         <div className="flex items-center justify-between">
-          <span className="mr-2">{selectedOption?.label || selectOption }</span>
+          <span className="mr-2 text-GrayHomz6 text-[14px] font-[500]">{selectedOption?.label || selectOption }</span>
           <div className={`w-5 h-5 ${isOpen ? "transform rotate-180" : ""}`}>
             <Image src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png" height={16} width={16} alt="" />
           </div>
@@ -34,11 +33,11 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
       </div>
 
       {isOpen && (
-        <div className="p-2 block top-14 w-full text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md">
+        <div className=" absolute top-14 w-full text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md">
           {options.map((option) => (
             <div
               key={option.id}
-              className="p-2 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
+              className=" p-2 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
               onClick={() => handleOptionClick(option)}
             >
               {option.label} 

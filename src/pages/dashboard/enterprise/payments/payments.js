@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Header from "./components/header";
+import Widget from "./components/widget";
+
 
 const Payment = () => {
   return (
-    <div>payment</div>
-  )
-}
+    <div className=" w-[1080px] p-8">
+      <Header />
+      <Widget />
+    </div>
+  );
+};
 
-export default Payment
+export default Payment;

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ImageUpload from "../../components/imageUpload";
 import Image from "next/image";
 
-const Photos = ({ handlePageChange, handlePageChangeThree }) => {
+const Photos = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
   const [uploadedImage3, setUploadedImage3] = useState(null);
