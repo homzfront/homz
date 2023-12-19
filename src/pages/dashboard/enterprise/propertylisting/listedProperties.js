@@ -14,18 +14,13 @@ const ListedProperties = ({
   setPopUpMenu,
   currentPage,
   setCurrentPage,
+  setSelectedValue,
+  handleSelect
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-  const [selectedValue, setSelectedValue] = useState(null);
-
-  const handleSelect = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedValue(option);
-  };
 
   const options = [
     { id: 1, label: "Apartment" },
