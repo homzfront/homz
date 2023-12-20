@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
-import ConfirmModal from "../components/confirmModal";
+import ConfirmModal from "../../components/confirmModal";
 import Dropdown from "../../components/dropDown";
 
 const RentInfo = ({ active }) => {

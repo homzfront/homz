@@ -52,11 +52,11 @@ const Sidebar = () => {
     },
     {
       id: 6,
-      image: "/static/dashboard/enterprisemanager/sidebar/application.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/application.png",
-      link: "",
-      name: "Applications",
-      coming: "Coming soon",
+      image: "/static/dashboard/enterprisemanager/sidebar/RequestBlack.png",
+      image2: "/static/dashboard/enterprisemanager/sidebar/Request.png",
+      link: "/dashboard/enterprise-property/request",
+      name: "Request",
+      coming: null,
       active: false,
     },
     {
