@@ -106,7 +106,7 @@ const Payment = () => {
         {saveCard && data.length >= 1 ? (
           <div>
             {data.map((data) => (
-              <div className="flex justify-between">
+              <div key={data.id} className="flex justify-between">
                 <div className="mt-1 flex flex-col">
                   <label>Current Card</label>
                   {data.cardNumber}
