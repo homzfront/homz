@@ -3,6 +3,17 @@
 @tailwind utilities;
  
 
+/* Add this to your existing styles or create a separate stylesheet */
+.scrollbar-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: #d1e4ff;
+ /* Set the width of the scrollbar track */
+}
+
+.scrollbar-container::-webkit-scrollbar-thumb {
+  background-color: #006AFF;  /* Make the scrollbar thumb transparent to hide it */  
+}
+
 
 .ListProperty {
   @apply grid justify-center;

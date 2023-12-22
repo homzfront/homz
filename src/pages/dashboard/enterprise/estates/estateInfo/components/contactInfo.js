@@ -36,7 +36,7 @@ const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {
           type={"text"}
         />
       </div>
-      <div className="mt-[20%] flex justify-end">
+      <div className="mt-[10%] flex justify-end">
         <button className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
           Update
         </button>

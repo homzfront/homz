@@ -1,15 +1,20 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
+import PopUpMenuAlert from "./components/popUpMenuAlert";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
+  const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
 
   const handleToggleMenu = () => {
     setPopUpMenu(!popUpMenu);
+  };
 
+  const handleToggleMenuTwo = () => {
+    setPopUpMenuTwo(!popUpMenuTwo);
   };
 
   return (
@@ -19,7 +24,6 @@ const Header = () => {
           <input
             type="text"
             className="border h-[40px] pl-8 rounded-md w-[320px]"
-          
             placeholder="search"
           />
           <Image
@@ -31,7 +35,7 @@ const Header = () => {
           />
         </div>
         <div className="flex gap-4 items-center">
-          <Link href={""}>
+          <Link href={""} onClick={handleToggleMenuTwo}>
             <Image
               src={
                 "/static/dashboard/enterprisemanager/header/notification.png"
@@ -40,6 +44,7 @@ const Header = () => {
               height={25}
               width={24}
             />
+            {popUpMenuTwo && <PopUpMenuAlert />}
           </Link>
           <Link href={""}>
             <Image
@@ -57,9 +62,8 @@ const Header = () => {
               width={40}
               className="rounded-full"
             />
-            {popUpMenu && (<PopUpMenu />)}
+            {popUpMenu && <PopUpMenu />}
           </Link>
-          
         </div>
       </div>
     </div>

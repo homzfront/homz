@@ -53,7 +53,7 @@ const FileUpload = () => {
 };
 
 const dropzoneStyles = {
-  border: '2px dashed #202020',
+  border: '1px solid #202020',
   borderRadius: '4px',
   padding: '20px',
   textAlign: 'center',

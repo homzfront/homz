@@ -2,7 +2,7 @@ import React from "react";
 import PropertyListing from "@/pages/dashboard/enterprise/propertylisting/propertylisting";
 const App = () => {
   return (
-    <div className="dashboard">
+    <div className="dashboard h-[900px]">
       <PropertyListing />
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react'
 import Support from '@/pages/dashboard/enterprise/support/support'
 const App = () => {
   return (
-    <div className='dashboard'>
+    <div className='dashboard h-[900px]'>
         <Support />
     </div>
   )

@@ -35,7 +35,7 @@ const Card = ({
           priority
         />
         <div className="p-4 flex gap-3 h-full flex-col">
-          <div className="relative flex justify-between">
+          <div className="relative flex justify-between items-center">
             <p className="font-[700] text-[16px] text-BlueHomz">{value2}</p>
             <Image
               src={

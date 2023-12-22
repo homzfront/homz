@@ -136,7 +136,7 @@ const ListedProperties = ({
         </div>
       </div>
 
-      <div className="px-8 py-4 h-[850px] flex flex-col justify-between">
+      <div className="px-8 py-4 h-[750px] flex flex-col justify-between">
         <PropertyCard
           Data={currentData}
           handleToggleMenu={handleToggleMenu}

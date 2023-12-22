@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Widget from "./widget";
 
 const Setting = () => {
   return (
-    <div>setting</div>
-  )
-}
+    <div>
+      <div className="w-[1080px]">
+        <p className="font-[500] text-[20px] text-GrayHomz px-8 pt-8">Dashboard Settings</p>
+        <Widget />
+      </div>
+    </div>
+  );
+};
 
-export default Setting
+export default Setting;
