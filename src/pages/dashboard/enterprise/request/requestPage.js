@@ -52,6 +52,9 @@ const RequestPage = () => {
         user.Id === id ? { ...user, Request: false } : user
       )
     );
+    setFriendRequests((prevRequests) =>
+    prevRequests.filter((user) => user.Id !== id)
+  );
     setDone(!done);
   };
   const returnToPage = () => {

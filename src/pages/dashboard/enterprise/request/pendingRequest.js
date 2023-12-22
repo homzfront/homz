@@ -27,7 +27,7 @@ const PendingRequest = ({
             <div className="flex gap-1">
               <p>Tenancy Request</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">{friendRequests.length}</span>
+                <span className="text-BlueHomz ">{friendRequests?.length}</span>
               </span>
             </div>
           </div>
