@@ -1,11 +1,13 @@
+import useConversationStore from "@/store/useConversationStore";
 import Image from "next/image";
 import React from "react";
 
-const Message = ({ selectedData }) => {
+const Message = () => {
+  const { Data } = useConversationStore();
   return (
     <div className="w-full text-center h-[500px] flex flex-col justify-between ">
       <div className="text-[18px] font-[500] text-GrayHomz">
-        {selectedData.Name}
+        {Data.Name}
       </div>
       <div className="relative">
         <input

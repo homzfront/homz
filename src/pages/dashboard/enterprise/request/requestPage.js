@@ -91,7 +91,7 @@ const RequestPage = () => {
 
   return (
     <div>
-      {friendRequests.length >= 1 ? (
+      {friendRequests ? (
         <PendingRequest
           selectedDataId={selectedDataId}
           popUpMenu={popUpMenu}
