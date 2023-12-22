@@ -1,6 +1,7 @@
 "use client";
 import useConversationStore from "@/store/useConversationStore";
 import Image from "next/image";
+import Link from "next/link";
 
 const Sidebar = () => {
   const { Data, selectedTenantId } = useConversationStore();
