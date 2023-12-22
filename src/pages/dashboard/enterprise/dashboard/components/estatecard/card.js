@@ -7,7 +7,7 @@ const Card = () => {
     <div className="border rounded-[12px] p-6 w-[30%] flex flex-col gap-8">
       <div className="flex justify-between">
         <h3 className="font-[500] text-[14px] text-BlueHomz">Estates</h3>
-        <Link href={""} className="flex items-center">
+        <Link href={"/dashboard/enterprise-property/estates"} className="flex items-center">
           <h3 className=" text-[11px] font-[400] text-BlackHomz">view all estates</h3>
           <span>
             <Image

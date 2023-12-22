@@ -93,7 +93,7 @@ const TenantsCard = () => {
           <p>Tenants</p>
           <p>6/200</p>
         </div>
-        <Link href={"/dashboard/enterprise-property/tenants/tenantlist"} className="flex gap-1 items-center">
+        <Link href={"/dashboard/enterprise-property/tenants"} className="flex gap-1 items-center">
           <p className="text-[13px] font-[400]">View All</p>
           <Image
             src={

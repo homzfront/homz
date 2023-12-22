@@ -6,7 +6,7 @@ import Link from "next/link";
 const EstateForm = () => {
   return (
     <div>
-      <Link href={""}>
+      <Link href={"/dashboard/enterprise-property/estates"}>
         <div className="px-8 pt-8 flex items-center">
           <div>
             <Image
