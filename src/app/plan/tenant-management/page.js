@@ -139,7 +139,7 @@ const TenantManagement = () => {
               )}
             </form>
             <div className="w-[100%] mt-16 p-6">
-              <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">
+              <Link href={"/dashboard/enterprise-property/dashboard"} className="max-w-[1156px] mt-[40px] m-auto">
                 <button
                   onClick={handleSubmit}
                   className="w-full ml-1 rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz"

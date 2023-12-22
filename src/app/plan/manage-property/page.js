@@ -70,7 +70,7 @@ const ManageProperty = () => {
             <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
               Your account has been successfully created.
             </p>
-            <Link href="/dashboard">
+            <Link href="/dashboard/enterprise-property/dashboard">
               <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
                 Go to Dashboard
               </button>
