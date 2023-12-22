@@ -19,6 +19,11 @@ const PendingRequest = ({
   returnToPage,
 }) => {
   console.log(friendRequests);
+  if (!friendRequests) {
+    return null; // or display a loading state or any other fallback
+  }
+
+
   return (
     <div className="w-[1080px] p-8">
       <div className="flex justify-between items-center mb-4">
