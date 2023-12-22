@@ -10,7 +10,7 @@ const StartConversation = () => {
   const [selectedTenantId, setSelectedTenantId] = useState(false);
   const [selectedData, setSelectedData] = useState([]);
   const { Data, setSelection } = useConversationStore();
-
+const[user, setUser] = useState(selectedData || [])
 
   // useEffect to handle scrolling
   useEffect(() => {
@@ -43,7 +43,7 @@ const StartConversation = () => {
     <div>
       {selectedTenantId ? (
         <div>
-            <Message selectedData={selectedData}/>
+            <Message selectedData={user}/>
         </div>
       ) : (
         <div className=" h-[550px] w-full flex justify-center items-center flex-col">

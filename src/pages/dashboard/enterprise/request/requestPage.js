@@ -35,7 +35,6 @@ const RequestPage = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [data, setData] = useState(Data || []); // Assuming Data is defined elsewhere
   const [inviteTenant, setInviteTenant] = useState(false);
   const [friendRequests, setFriendRequests] = useState(Data || []);
   const [done, setDone] = useState(false)
