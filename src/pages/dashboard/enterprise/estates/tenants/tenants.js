@@ -440,7 +440,7 @@ const Tenants = () => {
   ];
 
   return (
-    <div className="w-[1075px]  p-8">
+    <div className="w-[1147px]  p-8">
       <div className="mb-4">
       <div className="w-[475px] flex gap-2 items-center">
             <Image
@@ -509,7 +509,7 @@ const Tenants = () => {
             Add Tenant
           </button>
           <button
-            className={`p-[12px] h-10 w-[153px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
+            className={`p-[12px] h-10 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
           >
             <Image
               src={

@@ -99,7 +99,7 @@ const ListedEstates = ({
               Add Tenant
             </button>
             <button
-              className={`p-[12px] h-10 w-[153px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
+              className={`p-[12px] h-10 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
             >
               <Image
                 src={

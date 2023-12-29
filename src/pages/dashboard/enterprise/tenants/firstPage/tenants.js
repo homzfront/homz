@@ -526,7 +526,7 @@ const Tenants = () => {
                   </button>
                   <button
                     onClick={toggleInvite}
-                    className={`p-[12px] h-10 mt-[-5px] ml-8 w-[143px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${
+                    className={`p-[12px] h-10 mt-[-5px] ml-8 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${
                       data.length < 1 ? "hidden" : "inline"
                     }`}
                   >
