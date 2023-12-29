@@ -7,12 +7,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const ContactCard = () => {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
 
   const users = [
     {
       id: 1,
       name: "John Daniels",
-      image: "/static/images/image.png",
+      image: "/Hand-drawn line (2).png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -20,7 +22,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Ayomide Uriel",
-      image: "/static/images/image.png",
+      image: "/Hand-drawn line (1).png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -28,7 +30,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Costa David",
-      image: "/static/images/image.png",
+      image: "/Hand-drawn line_22.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -55,15 +57,54 @@ const ContactCard = () => {
           {users.map((user) => (
             <div key={user.id}>
               <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
-                
+                <div className="sm:h-auto xl:h-[30vh]">
+                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12">
+                    <div className="star-rating mt-8">
+                      {[...Array(5)].map((star, index) => {
+                        index += 1;
+                        return (
+                          <button
+                            type="button"
+                            key={index}
+                            className={`focus:outline-none ${
+                              index <= (hover || rating)
+                                ? "text-gray-300"
+                                : "text-BlueHomz"
+                            }`}
+                            onClick={() => setRating(index)}
+                            onMouseEnter={() => setHover(index)}
+                            onMouseLeave={() => setHover(rating)}
+                            onDoubleClick={() => {
+                              setRating(0);
+                              setHover(0);
+                            }}
+                          >
+                            <span className="text-2xl">&#9733;</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <h1 className="font-[500] h-auto text:[24px] sm:text-[13px] lg:text-[22px] xl:text-[36px] mb-1 md:mb-0 xl:mb-4 text-BlackHomz">
+                      {user.content}
+                    </h1>
+                    <div>
+                      <p className="font-[500] text-[14px] sm:text-[11px] lg:text-[16px] xl:text-[18px] text-BlackHomz">
+                        - {user.name}
+                      </p>
+                      <p className="xl:mt-3 mt-0 mb-4 sm:mb-4 font-[500]  text-[14px] sm:text-[9px] lg:text-[14px] xl:text-[16px] text-GrayHomz">
+                        {user.position}
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
               <div className="w-full  max-w-[480px] h-auto rounded-2xl ">
                 <div className="w-full h-full  sm:bg-cover sm:bg-center">
                   <Image
-                    className="rounded-lg"
+                    className="rounded-2xl"
                     src={user.image}
-                    width={240}
-                    height={232}
+                    height={399}
+                    width={333}
                     alt="img"
                     style={{ width: "auto", height: "auto" }}
                   
