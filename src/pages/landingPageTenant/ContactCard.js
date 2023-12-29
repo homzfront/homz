@@ -7,14 +7,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const ContactCard = () => {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+
 
   const users = [
     {
       id: 1,
       name: "John Daniels",
-      image: "/Hand-drawn line (2).png",
+      image: "/static/images/papaDrinking.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -22,7 +21,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Ayomide Uriel",
-      image: "/Hand-drawn line (1).png",
+      image: "/static/images/papaDrinking.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -30,7 +29,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Costa David",
-      image: "/Hand-drawn line_22.png",
+      image: "/static/images/papaDrinking.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -60,27 +59,9 @@ const ContactCard = () => {
                 <div className="sm:h-auto xl:h-[30vh]">
                   <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12">
                     <div className="star-rating mt-8">
-                      {[...Array(5)].map((star, index) => {
-                        index += 1;
+                      {[...Array(5)].map((index) => {
                         return (
-                          <button
-                            type="button"
-                            key={index}
-                            className={`focus:outline-none ${
-                              index <= (hover || rating)
-                                ? "text-gray-300"
-                                : "text-BlueHomz"
-                            }`}
-                            onClick={() => setRating(index)}
-                            onMouseEnter={() => setHover(index)}
-                            onMouseLeave={() => setHover(rating)}
-                            onDoubleClick={() => {
-                              setRating(0);
-                              setHover(0);
-                            }}
-                          >
-                            <span className="text-2xl">&#9733;</span>
-                          </button>
+                            <span key={index} className="text-BlueHomz text-2xl">&#9733;</span>
                         );
                       })}
                     </div>
@@ -97,7 +78,6 @@ const ContactCard = () => {
                     </div>
                   </div>
                 </div>
-
               <div className="w-full  max-w-[480px] h-auto rounded-2xl ">
                 <div className="w-full h-full  sm:bg-cover sm:bg-center">
                   <Image
