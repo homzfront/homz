@@ -13,7 +13,7 @@ const ContactCard = () => {
     {
       id: 1,
       name: "John Daniels",
-      image: "/static/images/papaDrinking.png",
+      image: "/static/images/tenantManTesti.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -21,7 +21,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Ayomide Uriel",
-      image: "/static/images/papaDrinking.png",
+      image: "/static/images/tenantManTesti.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -29,7 +29,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Costa David",
-      image: "/static/images/papaDrinking.png",
+      image: "/static/images/tenantManTesti.png",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -55,10 +55,10 @@ const ContactCard = () => {
         <Slider {...sliderSettings}>
           {users.map((user) => (
             <div key={user.id}>
-              <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
+              <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-[40px] border">
                 <div className="sm:h-auto xl:h-[30vh]">
-                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12">
-                    <div className="star-rating mt-8">
+                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12 my-6 sm:my-0">
+                    <div className="star-rating sm:mt-14">
                       {[...Array(5)].map((index) => {
                         return (
                             <span key={index} className="text-BlueHomz text-2xl">&#9733;</span>
@@ -78,12 +78,12 @@ const ContactCard = () => {
                     </div>
                   </div>
                 </div>
-              <div className="w-full  max-w-[480px] h-auto rounded-2xl ">
-                <div className="w-full h-full  sm:bg-cover sm:bg-center">
+              <div className="w-full max-w-[480px] h-auto">
+                <div className="sm:bg-cover sm:bg-center">
                   <Image
-                    className="rounded-2xl"
+                    className="rounded-[30px]"
                     src={user.image}
-                    width={481}
+                    width={480}
                     height={464}
                     alt="img"
                     style={{ width: "auto", height: "auto" }}
