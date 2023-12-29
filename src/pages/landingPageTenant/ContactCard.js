@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-const image = require('../images/image.png');
+const image = require('../images/image.png') || [];
 
 const ContactCard = () => {
   const [rating, setRating] = useState(0);
