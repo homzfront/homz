@@ -55,30 +55,15 @@ const ContactCard = () => {
           {users.map((user) => (
             <div key={user.id}>
               <div className="h-auto flex flex-col-reverse sm:flex-row max-w-[460px] sm:max-w-full md:max-w-[820px] lg:max-w-full xl:max-w-[1308px] mr-0  sm:mr-4  rounded-2xl border">
-                <div className="sm:h-auto xl:h-[30vh]">
-                  <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12">
-                    
-                    <h1 className="font-[500] h-auto text:[24px] sm:text-[13px] lg:text-[22px] xl:text-[36px] mb-1 md:mb-0 xl:mb-4 text-BlackHomz">
-                      {user.content}
-                    </h1>
-                    <div>
-                      <p className="font-[500] text-[14px] sm:text-[11px] lg:text-[16px] xl:text-[18px] text-BlackHomz">
-                        - {user.name}
-                      </p>
-                      <p className="xl:mt-3 mt-0 mb-4 sm:mb-4 font-[500]  text-[14px] sm:text-[9px] lg:text-[14px] xl:text-[16px] text-GrayHomz">
-                        {user.position}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                
 
               <div className="w-full  max-w-[480px] h-auto rounded-2xl ">
                 <div className="w-full h-full  sm:bg-cover sm:bg-center">
                   <Image
                     className="rounded-lg"
                     src={user.image}
-                    width={480}
-                    height={464}
+                    width={240}
+                    height={232}
                     alt="img"
                     style={{ width: "auto", height: "auto" }}
                   
