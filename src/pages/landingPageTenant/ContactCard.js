@@ -103,8 +103,8 @@ const ContactCard = () => {
                   <Image
                     className="rounded-2xl"
                     src={user.image}
-                    height={399}
-                    width={333}
+                    width={481}
+                    height={464}
                     alt="img"
                     style={{ width: "auto", height: "auto" }}
                   
