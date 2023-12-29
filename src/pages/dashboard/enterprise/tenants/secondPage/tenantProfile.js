@@ -7,7 +7,7 @@ import Image from "next/image.js";
 const TenantProfile = () => {
   return (
     <div className="max-w-[1147px] ">
-      <div className="max-w-[1147px]">
+      <div className="w-[1147px]">
         <Image
           alt=""
           src={"/static/dashboard/enterprisemanager/tenants/Header.png"}

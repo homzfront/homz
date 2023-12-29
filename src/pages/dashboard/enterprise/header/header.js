@@ -18,7 +18,7 @@ const Header = () => {
   };
 
   return (
-    <div className="header max-w-[1147px]">
+    <div className="header w-[1147px]">
       <div className="flex justify-between items-center py-8 px-10">
         <div className="relative">
           <input
