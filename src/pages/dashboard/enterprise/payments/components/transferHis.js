@@ -108,7 +108,7 @@ const TransferHis = () => {
                       {data.TransDate}
                     </span>
                   </div>
-                  <div className="text-[10px] font-[400] text-Success w-[65px]">
+                  <div className="text-[10px] font-[400] text-Success w-[75px]">
                     {data.Amount}
                   </div>
                 </div>
@@ -135,7 +135,7 @@ const TransferHis = () => {
                       {data.TransDate}
                     </span>
                   </div>
-                  <div className="text-[10px] font-[400] text-error w-[65px]">
+                  <div className="text-[10px] font-[400] text-error w-[75px]">
                     {data.Amount}
                   </div>
                 </div>
