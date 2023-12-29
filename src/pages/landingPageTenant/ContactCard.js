@@ -41,13 +41,11 @@ const ContactCard = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToScroll: 1,
-    className: "center",
-    centerMode: true,
-    centerPadding: "1%", // Set centerPadding to 0 for the first slide
     slidesToShow: 1,
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    arrows: false,
   };
 
   return (

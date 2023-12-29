@@ -14,7 +14,7 @@ const SectionA = () => {
           communication in just one click!
         </p>
         <div className="flex sm:mb-0 mb-10 pt-4 sm:flex-row flex-col gap-4">
-          <button className="w-full  sm:w-[109px] h-[48px] text-[16px]  rounded-md  bg-BlueHomz  text-white hover:bg-white hover:text-BlueHomz hover:border-BlueHomz hover:border font-[700] px-2 py-1 ">
+          <button className="w-full  sm:w-[120px] h-[48px] text-[16px]  rounded-md  bg-BlueHomz  text-white hover:bg-white hover:text-BlueHomz hover:border-BlueHomz hover:border font-[700] px-2 py-1 ">
             Get started
           </button>
          <Link href={"./contact-page"}>
