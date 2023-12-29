@@ -1,5 +1,4 @@
-// Create a file, e.g., store.js
-import create from 'zustand';
+import { create } from 'zustand'
 
 const useConversationStore = create((set) => ({
   selectedTenantId: false,

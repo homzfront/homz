@@ -65,7 +65,7 @@ const ListedProperties = ({
   };
 
   return (
-    <div className="w-[1081px]">
+    <div className="w-[1147px]">
       <div className="p-8">
         <div className="flex gap-2 mb-6">
           <p>Properties</p>

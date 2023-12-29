@@ -1,13 +1,11 @@
 import React from "react";
 import Widget from "./widget";
 import Image from "next/image";
-import Link from "next/link";
 
-const PropertyForm = () => {
+const PropertyForm = ({returnToStartRegistration}) => {
   return (
     <div>
-      <Link href={""}>
-        <div className="px-8 pt-8 flex items-center">
+        <div className="px-8 pt-8 flex items-center cursor-pointer" onClick={returnToStartRegistration}>
           <div>
             <Image
               src={
@@ -20,7 +18,6 @@ const PropertyForm = () => {
           </div>
           <div className="text-GrayHomz2 text-[14px] font-[400]">Go Back</div>
         </div>
-      </Link>
       <Widget />
     </div>
   );

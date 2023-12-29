@@ -7,11 +7,14 @@
 .scrollbar-container::-webkit-scrollbar {
   width: 6px;
   background-color: #d1e4ff;
+  border-top-right-radius: 30px; 
  /* Set the width of the scrollbar track */
 }
 
 .scrollbar-container::-webkit-scrollbar-thumb {
   background-color: #006AFF;  /* Make the scrollbar thumb transparent to hide it */  
+  padding-top: 10px;
+  border-top-right-radius: 30px;
 }
 
 
@@ -21,33 +24,33 @@
   gap: 20px;
 
 }
- 
 .dashboard {
   @apply grid;
   grid-template-columns: 268px 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 3fr;
   grid-template-areas: 
-  'sidebar header header header'
-  'sidebar pagepart pagepart pagepart';
-  /* height: 100%; */
-  /* width: 1440px;  */
+    'sidebar header header header'
+    'sidebar pagepart pagepart pagepart';
+  max-width: 1440px; /* Set the maximum width to 1440px */
+  width: 100%; /* Allow it to take 100% width within the max-width */
 }
 
-
-.header{
+.header {
   @apply grid;
   grid-area: header;
   border-bottom: 1px rgb(225, 225, 225) solid; 
 }
 
-.sidebar{
+.sidebar {
   @apply grid;
   grid-area: sidebar;
 }
 
-.dashboard{
+.dashboard {
   @apply grid;
   grid-area: pagepart;
+  max-width: 1440px; /* Set the maximum width to 1440px */
+  width: 100%; /* Allow it to take 100% width within the max-width */
 }
 
 

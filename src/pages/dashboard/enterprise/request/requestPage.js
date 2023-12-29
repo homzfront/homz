@@ -114,7 +114,7 @@ const RequestPage = () => {
           <Modal setInviteTenant={setInviteTenant} />
         </div>
       ) : (
-        <div className="w-[1081px] p-8">
+        <div className="w-[1147px] p-8">
           <div className="flex justify-between items-center">
             <div className="flex gap-1">
               <p>Tenancy Request</p>

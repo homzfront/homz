@@ -102,6 +102,9 @@ const Estate = () => {
     setRegistrationForm(true);
   };
 
+  const returnToStartRegistration = () => {
+    setRegistrationForm(false);
+  }
   return (
     <div>
       {data.length >= 1 ? (
@@ -115,9 +118,9 @@ const Estate = () => {
           setCurrentPage={setCurrentPage}
         />
       ) : registrationForm ? (
-        <EstateForm />
+        <EstateForm returnToStartRegistration={returnToStartRegistration}/>
       ) : (
-        <div className="w-[1081px] p-8">
+        <div className="w-[1147px] p-8">
           <div className="flex justify-between items-center">
             <div className="flex gap-1">
               <p>Estates</p>

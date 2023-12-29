@@ -1,7 +1,25 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 const SectionOne = () => {
+  const [copiedState, setCopiedState] = useState({
+    copied: false,
+    copiedII: false,
+    copiedIII: false,
+    copiedIV: false,
+  });
+
+  const handleCopyClick = async (text, identifier) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
+      setTimeout(() => setCopiedState((prevState) => ({ ...prevState, [identifier]: false })), 2000); // Clear the copied state after 2 seconds
+    } catch (error) {
+      console.error('Unable to copy to clipboard:', error);
+    }
+  };
+
+
   return (
     <div>
         <div className="max-w-[420px] gap-6  flex flex-col">
@@ -19,32 +37,48 @@ const SectionOne = () => {
               />
             </div>
             <div className="flex gap-5 flex-col">
-              <div className="  flex gap-2">
-                <p className="text-[16px] font-[400] text-GrayHomz ">
-                  +23481012345678
-                </p>
-                <div>
-                  <Image
-                    className="cursor-pointer"
-                    src={"/copy.png"}
-                    alt="copy-img"
-                    height={16}
-                    width={17}
-                  />
-                </div>
+            <div className="flex gap-2">
+              <p className="text-[16px] font-[400] text-GrayHomz ">
+                +23481012345678
+              </p>
+              <div
+                onClick={() => handleCopyClick('+23481012345678', 'copied')}
+                className="relative"
+              >
+                <Image
+                  className="cursor-pointer"
+                  src={"/copy.png"}
+                  alt="copy-img"
+                  height={16}
+                  width={17}
+                />
+                {copiedState.copied && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
-              <div className="flex gap-2 pl-4">
-                <p className="text-[16px] font-[400] text-GrayHomz ">
-                  +2349012345678
-                </p>
-                <div>
-                  <Image
-                    className="cursor-pointer"
-                    src={"/copy.png"}
-                    alt="copy-img"
-                    height={16}
-                    width={17}
-                  />
+            </div>
+            <div className="flex gap-2 pl-4">
+              <p className="text-[16px] font-[400] text-GrayHomz ">
+                +2349012345678
+              </p>
+              <div
+                onClick={() => handleCopyClick('+2349012345678', 'copiedII')}
+                className="relative"
+              >
+                <Image
+                  className="cursor-pointer"
+                  src={"/copy.png"}
+                  alt="copy-img"
+                  height={16}
+                  width={17}
+                />
+                {copiedState.copiedII && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
                 </div>
               </div>
             </div>
@@ -57,7 +91,7 @@ const SectionOne = () => {
               <p className="text-[16px] font-[400] underline text-GrayHomz ">
                 info@homz.ng
               </p>
-              <div>
+              <div  onClick={() => handleCopyClick('info@homz.ng', 'copiedIII')} className='relative'>
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -65,6 +99,11 @@ const SectionOne = () => {
                   height={16}
                   width={17}
                 />
+                       {copiedState.copiedIII && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -103,7 +142,7 @@ const SectionOne = () => {
             </div>
             <div className="flex gap-1">
               <p className="text-[16px] font-[400] text-GrayHomz ">homz.ng</p>
-              <div>
+              <div    onClick={() => handleCopyClick('homz.ng', 'copiedIV')} className='relative'>
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -111,6 +150,11 @@ const SectionOne = () => {
                   height={12}
                   width={17}
                 />
+               {copiedState.copiedIV && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>

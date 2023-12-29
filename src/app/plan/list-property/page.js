@@ -3,7 +3,7 @@ import api from "@/utils/api";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const ListProperty = () => {
   const [fullName, setFullName] = useState("");
@@ -52,16 +52,15 @@ const ListProperty = () => {
     if (uploadedImage) {
       formData.append("coverImage", uploadedImage.get("file"));
     }
-    console.log(uploadedImage)
-    
-   // Log the contents of formData
-// Log the contents of formData
-console.log("FormData contents:");
+    console.log(uploadedImage);
 
-formData.forEach((value, key) => {
-  console.log(`${key}: ${value}`);
-});
+    // Log the contents of formData
+    // Log the contents of formData
+    console.log("FormData contents:");
 
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
 
     // Send the data to your API endpoint
     try {
@@ -74,7 +73,7 @@ formData.forEach((value, key) => {
           },
         }
       );
- 
+
       if (
         response.data.statuscode === 200 ||
         response.data.statuscode === 201
@@ -83,7 +82,6 @@ formData.forEach((value, key) => {
         console.log("form successfully filled ", response.data);
       } else {
         setFormError(response.data.message);
-
       }
     } catch (error) {
       console.error("Error creating profile:", error);
@@ -92,10 +90,21 @@ formData.forEach((value, key) => {
     }
   };
 
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = isSubmitConfirmationVisible
+      ? "hidden"
+      : "auto";
+    if (isSubmitConfirmationVisible) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [isSubmitConfirmationVisible]);
+
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-35">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"

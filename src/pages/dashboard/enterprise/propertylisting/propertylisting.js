@@ -117,6 +117,10 @@ const PropertyListing = () => {
     setRegistrationForm(true);
   };
 
+  const returnToStartRegistration = () => {
+    setRegistrationForm(false);
+  }
+
   return (
     <>
       {data.length >= 1 ? (
@@ -132,9 +136,9 @@ const PropertyListing = () => {
           handleSelect={handleSelect}
         />
       ) : registrationForm ? (
-        <PropertyForm />
+        <PropertyForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
-        <div className="w-[1081px] p-8">
+        <div className="w-[1147px] p-8">
           <div className="flex justify-between items-center">
             <div className="flex gap-1">
               <p>Properties</p>

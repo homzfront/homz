@@ -60,34 +60,34 @@ const TenantsCard = () => {
       Status: "Pending",
       DueDate: "4th January, 2024",
     },
-    // {
-    //   id: 8,
-    //   Tenant: "Adeyemo Olayemi",
-    //   Estate: "Sunrise Estate",
-    //   Rent: "N750,000",
-    //   Status: "Over Due",
-    //   DueDate: "4th January, 2024",
-    // },
-    // {
-    //   id: 9,
-    //   Tenant: "Adeyemo Olayemi",
-    //   Estate: "Sunrise Estate",
-    //   Rent: "N750,000",
-    //   Status: "Pending",
-    //   DueDate: "4th January, 2024",
-    // },
-    // {
-    //   id: 10,
-    //   Tenant: "Adeyemo Olayemi",
-    //   Estate: "Sunrise Estate",
-    //   Rent: "N750,000",
-    //   Status: "Paid",
-    //   DueDate: "4th January, 2024",
-    // },
+    {
+      id: 8,
+      Tenant: "Adeyemo Olayemi",
+      Estate: "Sunrise Estate",
+      Rent: "N750,000",
+      Status: "Over Due",
+      DueDate: "4th January, 2024",
+    },
+    {
+      id: 9,
+      Tenant: "Adeyemo Olayemi",
+      Estate: "Sunrise Estate",
+      Rent: "N750,000",
+      Status: "Pending",
+      DueDate: "4th January, 2024",
+    },
+    {
+      id: 10,
+      Tenant: "Adeyemo Olayemi",
+      Estate: "Sunrise Estate",
+      Rent: "N750,000",
+      Status: "Paid",
+      DueDate: "4th January, 2024",
+    },
   ];
 
   return (
-    <div className="rounded-[12px] border w-[55%]">
+    <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Tenants</p>
@@ -105,7 +105,7 @@ const TenantsCard = () => {
           />
         </Link>
       </div>
-      <div className="">
+      <div className=" ">
         <table border="1" className="w-full ">
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">

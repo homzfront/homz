@@ -52,7 +52,7 @@ const HomesCard = () => {
           {Data.map((data) => (
             <div key={data.id} className="flex gap-2">
               <h3
-                className={` h-[6px] w-[6px] rounded-full mt-1 ${
+                className={` h-[6px] w-[7px] rounded-full mt-1 ${
                   data.text === "Vacant Homes" ? "bg-lightblue" : ""
                 }  ${data.text === "Rented Homes" ? "bg-darkblue" : ""} ${
                   data.text === "Total Homes" ? "bg-whiteblue" : ""

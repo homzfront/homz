@@ -12,7 +12,7 @@ const Box = ({
     dueDate
 }) => {
   return (
-    <div className={`h-[80px] w-[210px] py-2 flex flex-col justify-around border ${border}  rounded-md px-[24px] bg-${bgColor}`}>
+    <div className={`h-[80px] w-[220px] py-2 flex flex-col justify-around border ${border}  rounded-md px-[24px] bg-${bgColor}`}>
       <div  className={`${textColor} text-[13px] font-[600] `}>{type}</div>
       <div className={`text-[11px] font-[400] ${textColor3}`}>{payDate} </div>
       <div className={`text-[14px] font-[500] ${textColor2}`}>{money}</div>

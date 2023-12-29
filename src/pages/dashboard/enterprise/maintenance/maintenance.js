@@ -5,7 +5,7 @@ import MaintenanceTable from "./components/maintenanceTable";
 
 const Maintenance = () => {
   return (
-    <div className="relative block w-[1080px] p-8">
+    <div className="relative block w-[1147px] p-8">
       <div className="">
         <div className="flex justify-between items-center">
           <p className="text-[20px] font-[500] text-BlackHomz">Maintenance</p>

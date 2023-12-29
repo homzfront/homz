@@ -5,7 +5,7 @@ import Widget from "./components/widget";
 
 const Payment = () => {
   return (
-    <div className=" w-[1080px] p-8">
+    <div className=" w-[1147px] p-8">
       <Header />
       <Widget />
     </div>

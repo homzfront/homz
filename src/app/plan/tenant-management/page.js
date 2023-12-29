@@ -2,10 +2,10 @@
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const TenantManagement = () => {
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [estate, setEstate] = useState("");
@@ -13,44 +13,59 @@ const TenantManagement = () => {
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
 
-    async function handleSubmit(e) {
-      e.preventDefault();
-      if (fullName === '' || phoneNo === '' || estate === '' || houseAddress === '') {
-        return setFormError('Fill in all fields')
-      }
-  
-      // Prepare data to be sent
-      const requestData = {
-        fullName,
-        phoneNumber: phoneNo,
-        houseAddress,
-        estate
-      };
-  
-      // Send the data to your API endpoint
-      try {
-        const response = await api.post(
-          "http://localhost:5000/api/tenants/createaccount",
-          requestData
-        );
-  
-        if (response.data.statuscode === 200 || 201) {
-          setSubmitConfirmationVisible(true);
-          console.log("form successfully filled ", response.data);
-        } else {
-          setFormError(response.data.message);
-        }
-      } catch (error) {
-        console.error("Error creating profile:", error);
-        setFormError(error.response?.data?.message)
-      }
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (
+      fullName === "" ||
+      phoneNo === "" ||
+      estate === "" ||
+      houseAddress === ""
+    ) {
+      return setFormError("Fill in all fields");
     }
 
+    // Prepare data to be sent
+    const requestData = {
+      fullName,
+      phoneNumber: phoneNo,
+      houseAddress,
+      estate,
+    };
+
+    // Send the data to your API endpoint
+    try {
+      const response = await api.post(
+        "http://localhost:5000/api/tenants/createaccount",
+        requestData
+      );
+
+      if (response.data.statuscode === 200 || 201) {
+        setSubmitConfirmationVisible(true);
+        console.log("form successfully filled ", response.data);
+      } else {
+        setFormError(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      setFormError(error.response?.data?.message);
+    }
+  }
+
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = isSubmitConfirmationVisible
+      ? "hidden"
+      : "auto";
+    if (isSubmitConfirmationVisible) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [isSubmitConfirmationVisible]);
 
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-35">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -121,7 +136,7 @@ const TenantManagement = () => {
                   onChange={(e) => setEstate(e.target.value)}
                 />
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
                   Phone Number
@@ -135,11 +150,16 @@ const TenantManagement = () => {
                 />
               </div>
               {formError && (
-                <span className="text-red-500 text-[14px] font-[400]">{formError}</span>
+                <span className="text-red-500 text-[14px] font-[400]">
+                  {formError}
+                </span>
               )}
             </form>
             <div className="w-[100%] mt-16 p-6">
-              <Link href={"/dashboard/enterprise-property/dashboard"} className="max-w-[1156px] mt-[40px] m-auto">
+              <Link
+                href={"/dashboard/enterprise-property/dashboard"}
+                className="max-w-[1156px] mt-[40px] m-auto"
+              >
                 <button
                   onClick={handleSubmit}
                   className="w-full ml-1 rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz"

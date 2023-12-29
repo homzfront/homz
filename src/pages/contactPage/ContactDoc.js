@@ -12,6 +12,29 @@ const ContactDoc = () => {
     { id: 4, label: "Renter Management" },
     // Add more options as needed
   ];
+  const [copiedState, setCopiedState] = useState({
+    copied: false,
+    copiedII: false,
+    copiedIII: false,
+    copiedIV: false,
+  });
+
+  const handleCopyClick = async (text, identifier) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
+      setTimeout(
+        () =>
+          setCopiedState((prevState) => ({
+            ...prevState,
+            [identifier]: false,
+          })),
+        2000
+      ); // Clear the copied state after 2 seconds
+    } catch (error) {
+      console.error("Unable to copy to clipboard:", error);
+    }
+  };
 
   const [formData, setFormData] = useState({
     document_options: options[0].label, // Default value is the first option
@@ -91,7 +114,10 @@ const ContactDoc = () => {
                 <p className="text-[20px] font-[500] text-GrayHomz ">
                   +23481012345678
                 </p>
-                <div>
+                <div
+                  onClick={() => handleCopyClick("+2348012345678", "copied")}
+                  className="relative"
+                >
                   <Image
                     className="cursor-pointer"
                     src={"/copy.png"}
@@ -99,13 +125,21 @@ const ContactDoc = () => {
                     height={16}
                     width={17}
                   />
+                  {copiedState.copied && (
+                    <span className="text-[11px] text-Success italic absolute">
+                      Copied!
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex gap-2 pl-4">
                 <p className="text-[20px] font-[500] text-GrayHomz ">
                   +2349012345678
                 </p>
-                <div>
+                <div
+                  onClick={() => handleCopyClick("+2349012345678", "copiedII")}
+                  className="relative"
+                >
                   <Image
                     className="cursor-pointer"
                     src={"/copy.png"}
@@ -113,6 +147,11 @@ const ContactDoc = () => {
                     height={16}
                     width={17}
                   />
+                  {copiedState.copiedII && (
+                    <span className="text-[11px] text-Success italic absolute">
+                      Copied!
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -125,7 +164,10 @@ const ContactDoc = () => {
               <p className="text-[20px] font-[500] underline text-GrayHomz ">
                 info@homz.ng
               </p>
-              <div>
+              <div
+                onClick={() => handleCopyClick("info@homz.ng", "copiedIII")}
+                className="relative"
+              >
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -133,6 +175,11 @@ const ContactDoc = () => {
                   height={16}
                   width={17}
                 />
+                {copiedState.copiedIII && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -171,7 +218,10 @@ const ContactDoc = () => {
             </div>
             <div className="flex gap-1">
               <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
-              <div>
+              <div
+                onClick={() => handleCopyClick("homz.ng", "copiedIV")}
+                className="relative"
+              >
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -179,6 +229,11 @@ const ContactDoc = () => {
                   height={12}
                   width={17}
                 />
+                {copiedState.copiedIV && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -293,7 +348,10 @@ const ContactDoc = () => {
               <p className="text-[20px] font-[500] text-GrayHomz ">
                 +23481012345678
               </p>
-              <div>
+              <div
+                onClick={() => handleCopyClick("+2348012345678", "copied")}
+                className="relative"
+              >
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -301,13 +359,21 @@ const ContactDoc = () => {
                   height={16}
                   width={17}
                 />
+                {copiedState.copied && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex sm:hidden gap-2">
               <p className="text-[20px] font-[500] text-GrayHomz ">
                 +2349012345678
               </p>
-              <div>
+              <div
+                onClick={() => handleCopyClick("+2349012345678", "copiedII")}
+                className="relative"
+              >
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -315,6 +381,11 @@ const ContactDoc = () => {
                   height={16}
                   width={17}
                 />
+                {copiedState.copiedII && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -326,7 +397,10 @@ const ContactDoc = () => {
               <p className="text-[20px] font-[500] underline text-GrayHomz ">
                 info@homz.ng
               </p>
-              <div>
+              <div
+                onClick={() => handleCopyClick("info@homz.ng", "copiedIII")}
+                className="relative"
+              >
                 <Image
                   className="cursor-pointer"
                   src={"/copy.png"}
@@ -334,6 +408,11 @@ const ContactDoc = () => {
                   height={16}
                   width={17}
                 />
+                {copiedState.copiedIII && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -373,7 +452,10 @@ const ContactDoc = () => {
           </div>
           <div className="flex">
             <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
-            <div>
+            <div
+              onClick={() => handleCopyClick("homz.ng", "copiedIV")}
+              className="relative"
+            >
               <Image
                 className="cursor-pointer"
                 src={"/copy.png"}
@@ -381,6 +463,11 @@ const ContactDoc = () => {
                 height={12}
                 width={17}
               />
+              {copiedState.copiedIV && (
+                <span className="text-[11px] text-Success italic absolute">
+                  Copied!
+                </span>
+              )}
             </div>
           </div>
         </div>

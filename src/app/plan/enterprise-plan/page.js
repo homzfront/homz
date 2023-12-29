@@ -2,7 +2,7 @@
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const EnterprisePlan = () => {
   const [formError, setFormError] = useState("");
@@ -17,8 +17,15 @@ const EnterprisePlan = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (fullName === '' || phoneNo === '' || estate === '' || estateAddress === '' || businessName === '' || numberOfHouses === '') {
-      return setFormError('Fill in all fields')
+    if (
+      fullName === "" ||
+      phoneNo === "" ||
+      estate === "" ||
+      estateAddress === "" ||
+      businessName === "" ||
+      numberOfHouses === ""
+    ) {
+      return setFormError("Fill in all fields");
     }
     // Prepare data to be sent
     const requestData = {
@@ -45,14 +52,25 @@ const EnterprisePlan = () => {
       }
     } catch (error) {
       console.error("Error creating profile:", error);
-      setFormError(error.response?.data?.message)
+      setFormError(error.response?.data?.message);
     }
   }
+
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = isSubmitConfirmationVisible
+      ? "hidden"
+      : "auto";
+    if (isSubmitConfirmationVisible) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [isSubmitConfirmationVisible]);
 
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen md:h-[700px] w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen md:h-[700px] w-full inset-0 flex items-center justify-center bg-black bg-opacity-35">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -160,11 +178,11 @@ const EnterprisePlan = () => {
                   onChange={(e) => setEstateAddress(e.target.value)}
                 />
               </div>
-            {formError && (
-              <p className="text-[14px] font-[400] text-red-500">
-                {formError}
-              </p>
-            )}
+              {formError && (
+                <p className="text-[14px] font-[400] text-red-500">
+                  {formError}
+                </p>
+              )}
             </form>
             <div className="w-[100%] mt-12 p-6">
               <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">

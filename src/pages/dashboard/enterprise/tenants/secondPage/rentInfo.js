@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import ConfirmModal from "../../components/confirmModal";
-import Dropdown from "../../components/dropDown";
+import Dropdown from "../../components/dropDownTwo";
 
 const RentInfo = ({ active }) => {
   const [confirm, setConfirm] = useState(false);

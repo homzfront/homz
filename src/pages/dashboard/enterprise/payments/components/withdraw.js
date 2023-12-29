@@ -4,7 +4,7 @@ import Input from "./input";
 
 const Withdraw = () => {
   return (
-    <div className="p-5 border rounded-[12px] flex flex-col gap-4">
+    <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[503px]">
       <div className="flex gap-1 items-center">
         <Image
           src={"/static/dashboard/enterprisemanager/payment/received.png"}

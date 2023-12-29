@@ -25,7 +25,7 @@ const PendingRequest = ({
 
 
   return (
-    <div className="w-[1080px] p-8">
+    <div className="w-[1147px] p-8">
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="flex justify-between items-center">

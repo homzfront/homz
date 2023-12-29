@@ -1,5 +1,4 @@
-// useProfileStore.js
-import create from "zustand";
+import { create } from 'zustand'
 import Cookies from "js-cookie";
 import api from "@/utils/api";
 
