@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+const image = require('@/images/image.png');
 
 const ContactCard = () => {
   const [rating, setRating] = useState(0);
@@ -14,7 +15,7 @@ const ContactCard = () => {
     {
       id: 1,
       name: "John Daniels",
-      image: "/static/images/image.png",
+      image: image,
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -22,7 +23,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Ayomide Uriel",
-      image: "/static/images/image.png",
+      image: image,
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -30,7 +31,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Costa David",
-      image: "/static/images/image.png",
+      image: image,
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -41,11 +42,13 @@ const ContactCard = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
     slidesToScroll: 1,
+    className: "center",
+    centerMode: true,
+    centerPadding: "1%", // Set centerPadding to 0 for the first slide
+    slidesToShow: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    arrows: false,
   };
 
   return (
