@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const Dashboard = () => {
   return (
-    <div className="w-[1068px]">
+    <div className="w-[1147px]">
       <div className="px-8 py-8">
         <div className="mt-4">
           <div className="w-[475px] flex gap-2 items-center">

@@ -60,40 +60,40 @@ const TenantsCard = () => {
       Status: "Pending",
       DueDate: "4th January, 2024",
     },
-    // {
-    //   id: 8,
-    //   Tenant: "Adeyemo Olayemi",
-    //   Estate: "Sunrise Estate",
-    //   Rent: "N750,000",
-    //   Status: "Over Due",
-    //   DueDate: "4th January, 2024",
-    // },
-    // {
-    //   id: 9,
-    //   Tenant: "Adeyemo Olayemi",
-    //   Estate: "Sunrise Estate",
-    //   Rent: "N750,000",
-    //   Status: "Pending",
-    //   DueDate: "4th January, 2024",
-    // },
-    // {
-    //   id: 10,
-    //   Tenant: "Adeyemo Olayemi",
-    //   Estate: "Sunrise Estate",
-    //   Rent: "N750,000",
-    //   Status: "Paid",
-    //   DueDate: "4th January, 2024",
-    // },
+    {
+      id: 8,
+      Tenant: "Adeyemo Olayemi",
+      Estate: "Sunrise Estate",
+      Rent: "N750,000",
+      Status: "Over Due",
+      DueDate: "4th January, 2024",
+    },
+    {
+      id: 9,
+      Tenant: "Adeyemo Olayemi",
+      Estate: "Sunrise Estate",
+      Rent: "N750,000",
+      Status: "Pending",
+      DueDate: "4th January, 2024",
+    },
+    {
+      id: 10,
+      Tenant: "Adeyemo Olayemi",
+      Estate: "Sunrise Estate",
+      Rent: "N750,000",
+      Status: "Paid",
+      DueDate: "4th January, 2024",
+    },
   ];
 
   return (
-    <div className="rounded-[12px] border w-[55%]">
+    <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Tenants</p>
           <p>6/200</p>
         </div>
-        <Link href={"/dashboard/enterprise-property/tenants/tenantlist"} className="flex gap-1 items-center">
+        <Link href={"/dashboard/enterprise-property/tenants"} className="flex gap-1 items-center">
           <p className="text-[13px] font-[400]">View All</p>
           <Image
             src={

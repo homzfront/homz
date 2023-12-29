@@ -105,6 +105,10 @@ const Estate = () => {
   const returnToStartRegistration = () => {
     setRegistrationForm(false);
   }
+
+  const addNewEstate = () => {
+    setRegistrationForm(true);
+  }
   return (
     <div>
       {data.length >= 1 ? (
@@ -116,6 +120,9 @@ const Estate = () => {
           setPopUpMenu={setPopUpMenu}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          addNewEstate={addNewEstate}
+          registrationForm={registrationForm}
+          returnToStartRegistration={returnToStartRegistration}
         />
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration}/>

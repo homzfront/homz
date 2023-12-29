@@ -49,13 +49,13 @@ const Maintenance = () => {
   ];
 
   return (
-    <div className="rounded-[12px] border w-[45%]">
+    <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Maintenance Request</p>
           <p>6/50</p>
         </div>
-        <Link href={""} className="flex gap-1 items-center">
+        <Link href={"/dashboard/enterprise-property/maintenance"} className="flex gap-1 items-center">
           <p className="text-[13px] font-[400]">View All</p>
           <Image
             src={
