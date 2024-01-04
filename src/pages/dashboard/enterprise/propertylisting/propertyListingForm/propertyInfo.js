@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
 import DropDown from "../../components/dropDown";
+import AcAndRejModel from "../../components/acAndRejModel";
 
-const PropertyInfo = ({ handlePageChangeTwo }) => {
+const PropertyInfo = ({ handlePageChangeTwo, returnToStartRegistration }) => {
   const [selectedValue, setSelectedValue] = useState(null);
+  const [showCancelDialogue, setShowCancelDialogue] = useState(false);
 
   const handleSelect = (option) => {
     // Handle the selected value as needed
     console.log("Selected Option:", option);
     setSelectedValue(option);
+  };
+
+  // useEffect to handle scrolling
+useEffect(() => {
+  document.body.style.overflow =showCancelDialogue ? "hidden" : "auto";
+  if (showCancelDialogue) {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+  }
+}, [showCancelDialogue]);
+
+  const handleShowCancelDialogue = () => {
+    setShowCancelDialogue(!showCancelDialogue);
+  };
+
+  const returnHomeTwo = () => {
+    setShowCancelDialogue(false);
   };
 
   const options = [
@@ -146,11 +165,20 @@ const PropertyInfo = ({ handlePageChangeTwo }) => {
         </div>
       </div>
       <div className="flex justify-between mt-8">
-          <div >
-            <button className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz">Cancel</button>
-          </div>
-          <div className="">
-            <button onClick={handlePageChangeTwo} className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5">Next 
+        <div>
+          <button
+            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz"
+            onClick={handleShowCancelDialogue}
+          >
+            Cancel
+          </button>
+        </div>
+        <div className="">
+          <button
+            onClick={handlePageChangeTwo}
+            className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+          >
+            Next
             <Image
               src={
                 "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
@@ -159,9 +187,21 @@ const PropertyInfo = ({ handlePageChangeTwo }) => {
               height={16}
               width={16}
             />
-            </button>
-          </div>
+          </button>
         </div>
+      </div>
+      {showCancelDialogue && (
+        <div>
+          <AcAndRejModel
+            header={"Are you sure you want to cancel?"}
+            button={"Yes"}
+            buttonTwo={"No, take me back"}
+            returnHome={returnToStartRegistration}
+            returnHomeTwo={returnHomeTwo}
+
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -5,7 +5,7 @@ import AddPhotos from "./addPhotos.js";
 import ContactInfo from "./contactInfo.js";
 import Documents from "./documents.js"; // Import your fourth component
 
-const Widget = () => {
+const Widget = ({returnToStartRegistration}) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -114,6 +114,7 @@ const Widget = () => {
             <PropertyInfo
               active={active}
               handlePageChangeTwo={handlePageChangeTwo}
+              returnToStartRegistration={returnToStartRegistration}
             />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>

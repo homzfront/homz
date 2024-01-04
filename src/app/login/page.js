@@ -14,6 +14,7 @@ import useProfileStore from "@/store/profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
+import Loading from "@/components/mainmenu/loading";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -21,6 +22,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
 
   // const handleGoogleSignIn = () => {
@@ -29,6 +31,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true); // Set loading to true when submitting the form
+
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       return;
@@ -39,6 +45,8 @@ const Login = () => {
     // Check if the password meets the length requirement
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
+      setLoading(false); // Reset loading state
+     
       return;
     }
 
@@ -66,16 +74,19 @@ const Login = () => {
           loading: false,
         });
         router.push("/");
+        setLoading(false);
         setEmail("");
         setPassword("");
       } else {
         const error = response.data.message;
         console.log("Unexpected status code:", error);
         setLoginError(error);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Login error", error);
       setLoginError(error.response?.data?.message);
+      setLoading(false);
     }
   };
 
@@ -111,6 +122,7 @@ const Login = () => {
 
   return (
     <div className="">
+    
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -125,6 +137,7 @@ const Login = () => {
         theme="dark"
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
+      {loading ? (<div><Loading/></div>) : ''}
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <div className="flex flex-col  justify-around items-center">
             <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">

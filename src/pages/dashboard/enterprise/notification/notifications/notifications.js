@@ -1,0 +1,61 @@
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import PopNotification from "../components/popNotification";
+
+const Notifications = ({ Data }) => {
+  const [selectedId, setSelectedId] = useState([]);
+  const [openAndClose, setOpenAndClose] = useState(false);
+  const selectedData = (data) => {
+    setSelectedId(data);
+    setOpenAndClose(!openAndClose);
+  };
+  console.log(selectedId);
+
+  const closeMenu = () => {
+    setOpenAndClose(false);
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = openAndClose ? "hidden" : "auto";
+    if (openAndClose) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [openAndClose]);
+
+  return (
+    <div className="h-full overflow-auto scrollbar-container">
+      {Data.map((data) => (
+        <div key={data.Id} className="">
+          <div className="flex items-start justify-between items-center border-b pt-3 pb-3">
+            <div className="rounded-full shadow-md p-2 ml-5">
+              <Image src={data.Image} alt="" height={40} width={40} />
+            </div>
+            <div className="w-[85%]">
+              <p className="text-[16px] font-[600] text-BlackHomz">
+                {data.Noti}
+              </p>
+              <p className="text-[16px] font-[400] text-GrayHomz">
+                {data.Text}
+              </p>
+              <p className="text-[13px] font-[400] text-GrayHomz">
+                {data.Time}
+              </p>
+            </div>
+            <p
+              onClick={() => selectedData(data)}
+              className={`pr-5 text-[16px] font-[600] text-BlueHomz cursor-pointer`}
+            >
+              Open
+            </p>
+          </div>
+        </div>
+      ))}
+      {openAndClose && (
+       <PopNotification selectedId={selectedId} closeMenu={closeMenu}/>
+      )}
+    </div>
+  );
+};
+
+export default Notifications;

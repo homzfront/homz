@@ -70,7 +70,7 @@ const EnterprisePlan = () => {
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen md:h-[700px] w-full inset-0 flex items-center justify-center bg-black bg-opacity-35">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen md:h-[700px] w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"

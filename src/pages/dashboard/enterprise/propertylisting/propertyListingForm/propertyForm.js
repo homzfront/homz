@@ -18,7 +18,7 @@ const PropertyForm = ({returnToStartRegistration}) => {
           </div>
           <div className="text-GrayHomz2 text-[14px] font-[400]">Go Back</div>
         </div>
-      <Widget />
+      <Widget  returnToStartRegistration={returnToStartRegistration}/>
     </div>
   );
 };

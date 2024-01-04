@@ -1,9 +1,11 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
 import Input from "./components/inputEstate";
 import EstateForm from "./estateForm/estateForm";
+import Modal from "../tenants/components/modal";
 
 const ListedEstates = ({
   Data,
@@ -50,6 +52,15 @@ const ListedEstates = ({
     setPopUpMenu(!popUpMenu);
     setSelectedDataId(id);
   };
+  const [inviteTenant, setInviteTenant] = useState(false);
+  const toggleInvite = () => {
+    setInviteTenant(true);
+  };
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = inviteTenant ? "hidden" : "auto";
+  }, [inviteTenant]);
+
 
   return (
     <div className="w-[1147px]">
@@ -91,7 +102,8 @@ const ListedEstates = ({
               </div>
               <div className="flex gap-2">
                 <button
-                  className={`p-[12px] h-10 w-[130px] border border-BlueHomz bg-white text-BlueHomz rounded-md flex items-center gap-1 text-[14px] font-[700]`}
+                  onClick={toggleInvite}
+                  className={`p-[12px] h-10 w-[135px] border border-BlueHomz bg-white text-BlueHomz rounded-md flex items-center justify-center gap-1 text-[14px] font-[700]`}
                 >
                   <Image
                     src={
@@ -102,7 +114,7 @@ const ListedEstates = ({
                     height={17}
                     style={{ height: "auto", width: "auto" }}
                   />
-                  Add Tenant
+                  Invite Tenant
                 </button>
                 <button
                   onClick={addNewEstate}
@@ -139,6 +151,12 @@ const ListedEstates = ({
               handlePrev={handlePrev}
             />
           </div>
+        </div>
+      )}
+
+      {inviteTenant && (
+        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <Modal setInviteTenant={setInviteTenant} />
         </div>
       )}
     </div>

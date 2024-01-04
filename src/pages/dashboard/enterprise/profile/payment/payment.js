@@ -3,25 +3,29 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ConfirmModal from "../../components/confirmModal";
 import AcAndRejModel from "../../components/acAndRejModel";
+import CollectCardDetails from "./components/collectCardDetails";
+import YesNOModal from "../../tenants/components/yesNOModal";
 
 const Payment = () => {
   const [fillCard, setFillCard] = useState(false);
   const [data, setData] = useState([]);
   const [cvv, setCvv] = useState("");
   const [expireDate, setExpireDate] = useState("");
-  const [saveCard, setSaveCard] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [verified, setVerified] = useState(false);
   const [removeCard, setRemoveCard] = useState(false);
-  const [verifyDelete, setVerifyDelete] = useState(false)
+  const [verifyDelete, setVerifyDelete] = useState(false);
+  const [verify, setVerify] = useState(false);
+  const [verifyII, setVerifyII] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState(null);
 
   useEffect(() => {
     document.body.style.overflow = verified || verifyDelete ? "hidden" : "auto";
-    if (verified || verifyDelete ) {
+    if (verified || verifyDelete) {
       // Scroll to the top of the page
       window.scrollTo(0, 0);
     }
-  }, [verified, verifyDelete ]);
+  }, [verified, verifyDelete]);
 
   const handleCardNumberChange = (e) => {
     // Remove non-numeric characters from the input
@@ -36,19 +40,27 @@ const Payment = () => {
   };
   const showCardInput = () => {
     setFillCard(!fillCard);
+    setVerify(!verify);
+  };
+  const showCardInputII = () => {
+    setFillCard(!fillCard);
+    setVerifyII(!verifyII);
   };
   const offCardInput = () => {
     setFillCard(false);
+    setVerify(false);
   };
 
   const popRemoveCard = () => {
-    setRemoveCard(!removeCard);
+    setVerifyDelete(!verifyDelete);
   };
 
   const DeleteCardInput = (id) => {
     // Use the setData function to update the state by filtering out the card with the specified ID
     setData((prevData) => prevData.filter((card) => card.id !== id));
-    setVerifyDelete(!verifyDelete)
+    // setVerifyDelete(!verifyDelete);
+    setVerifyDelete(false);
+    setRemoveCard(!removeCard);
   };
 
   const AcceptCardInput = (e) => {
@@ -67,20 +79,26 @@ const Payment = () => {
     setCvv("");
     setCardNumber("");
     setExpireDate("");
-    setSaveCard(true);
     setFillCard(false);
     setVerified(!verified);
   };
 
-
   const Close = () => {
     setVerified(false);
+    setVerifyII(false);
+    setVerify(false);
   };
 
   const CloseTwo = () => {
     setVerifyDelete(false);
+    setRemoveCard(false);
   };
   console.log(data);
+  const reversedData = data.slice().reverse();
+  const lastData = () => {
+    return data[data.length - 1];
+  };
+  console.log(lastData);
   return (
     <div>
       <p className="font-[700] text-[14px] text-GrayHomz">Enterprise Plan</p>
@@ -102,43 +120,12 @@ const Payment = () => {
         Link your debit card for easy and seamless payments
       </p>
 
-      <div className="py-4 rounded-lg  h-auto   bg-inputBg px-4 mt-2">
-        {saveCard && data.length >= 1 ? (
+      <div className="py-4 rounded-lg  h-auto bg-inputBg px-4 mt-2 relative ">
+        {data.length >= 1 ? (
           <div>
-            {data.map((data) => (
-              <div key={data.id} className="flex justify-between">
-                <div className="mt-1 flex flex-col">
-                  <label>Current Card</label>
-                  {data.cardNumber}
-                </div>
-                {removeCard && (
-                  <div>
-                    <AcAndRejModel
-                      header={"Remove Card?"}
-                      body={"Are you sure about this?"}
-                      button={"Yes"}
-                      buttonTwo={"No, go back"}
-                      returnHome={DeleteCardInput(data.id)}
-                      returnHomeTwo={Close}
-                    />
-                  </div>
-                )}
-                {saveCard ? (
-                  <div>
-                    <button
-                      onClick={showCardInput}
-                      className="mt-2 font-[500] text-[16px] w-[145px] h-[37px] rounded-md bg-BlueHomz text-white"
-                    >
-                      Add Another Card
-                    </button>
-                    <button
-                      onClick={popRemoveCard}
-                      className="ml-4 font-[500] text-[16px] w-[145px] h-[37px] rounded-md text-BlueHomz border border-BlueHomz"
-                    >
-                      Remove Card
-                    </button>
-                  </div>
-                ) : (
+            <div className="absolute right-4 top-4">
+              {verifyII ? (
+                <div className="flex justify-between  items-center">
                   <div>
                     <button
                       onClick={AcceptCardInput}
@@ -153,11 +140,55 @@ const Payment = () => {
                       Cancel
                     </button>
                   </div>
-                ) }
-              </div>
-            ))}
+                </div>
+              ) : (
+                <div>
+                  <button
+                    onClick={showCardInputII}
+                    className="mt-2 font-[500] px-2 text-[16px] w-[165px] h-[37px] rounded-md bg-BlueHomz text-white"
+                  >
+                    Add Another Card
+                  </button>
+                  <button
+                    onClick={popRemoveCard}
+                    className="ml-4 font-[500] text-[16px] w-[145px] h-[37px] rounded-md text-BlueHomz border border-BlueHomz"
+                  >
+                    Remove Card
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="mt-12">
+              {reversedData.map((data) => (
+                <div
+                  key={data.id}
+                  className="flex flex-col text-GrayHomz2 gap-2"
+                >
+                  <div className="text-[16px] font-400">
+                    {data.id === lastData().id && "Current Card "}
+                  </div>
+                  <label
+                    htmlFor={`card-${data.id}`}
+                    className="flex items-center gap-2"
+                  >
+                    <input
+                      type="radio"
+                      name="selectedCard"
+                      className="h-6 w-6 radio-input"
+                      id={`card-${data.id}`}
+                      value={data.id}
+                      checked={selectedCardId === data.id}
+                      onChange={() => setSelectedCardId(data.id)}
+                    />
+                    <div className="border w-[524px] h-[45px] px-4 flex items-center rounded-md">
+                      {data.cardNumber}
+                    </div>
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
-        ) : fillCard ? (
+        ) : verify ? (
           <div className="flex justify-between  items-center">
             <p className="font-[500] text-[16px] text-GrayHomz2">
               Add a new card
@@ -180,7 +211,7 @@ const Payment = () => {
         ) : (
           <div className="flex justify-between  items-center">
             <p className="font-[500] text-[16px] text-GrayHomz2">
-              You’re currently on the enterprise plus plan
+              Add a new card
             </p>
             <button
               onClick={showCardInput}
@@ -193,65 +224,15 @@ const Payment = () => {
       </div>
 
       {fillCard && (
-        <div className="mt-2 flex gap-4">
-          <div className="flex flex-col">
-            <label
-              htmlFor="cardNumber"
-              className="text-[14px] font-[500] text-GrayHomz"
-            >
-              Card Number
-            </label>
-            <span className="text-[13px] font-[400] text-GrayHomz">
-              Enter the 16 - digit card number on your card
-            </span>
-            <input
-              type="text"
-              id="cardNumber"
-              name="cardNumber"
-              className="border p-4 w-[100%] rounded-md"
-              value={cardNumber}
-              onChange={handleCardNumberChange}
-              placeholder="0000-0000-0000-0000"
-              maxLength={19} // Set the maximum length to prevent exceeding the desired format
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="CVV"
-              className="text-[14px] font-[500] text-GrayHomz"
-            >
-              CVV
-            </label>
-            <span className="text-[13px] font-[400] text-GrayHomz">
-              Enter the 3 - digit number behind your card
-            </span>
-            <input
-              type="number"
-              placeholder="000"
-              value={cvv}
-              className="border p-4 w-[100%] rounded-md"
-              onChange={(e) => setCvv(e.target.value)}
-              maxLength={3}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="CVV"
-              className="text-[14px] font-[500] text-GrayHomz"
-            >
-              Expiry Date
-            </label>
-            <span className="text-[13px] font-[400] text-GrayHomz">
-              Enter the expiry date of your card
-            </span>
-            <input
-              type="date"
-              className="border p-4 w-[100%] rounded-md"
-              placeholder="add card details"
-              value={expireDate}
-              onChange={(e) => setExpireDate(e.target.value)}
-            />
-          </div>
+        <div>
+          <CollectCardDetails
+            handleCardNumberChange={handleCardNumberChange}
+            cardNumber={cardNumber}
+            setCvv={setCvv}
+            cvv={cvv}
+            expireDate={expireDate}
+            setExpireDate={setExpireDate}
+          />
         </div>
       )}
       {verified && (
@@ -266,12 +247,22 @@ const Payment = () => {
       )}
       {verifyDelete && (
         <div>
-          <ConfirmModal
-            header={"Card Removed"}
-            button={"Close"}
-            returnHome={CloseTwo}
+          <AcAndRejModel
+            header={"Remove Card?"}
+            body={"Are you sure about this?"}
+            button={"Yes"}
+            buttonTwo={"No, go back"}
+            returnHome={() => DeleteCardInput(selectedCardId)}
+            returnHomeTwo={CloseTwo}
           />
         </div>
+      )}
+      {removeCard && (
+        <ConfirmModal
+          header={"Card Removed"}
+          button={"Close"}
+          returnHome={CloseTwo}
+        />
       )}
     </div>
   );

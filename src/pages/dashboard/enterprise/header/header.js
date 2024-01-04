@@ -34,8 +34,8 @@ const Header = () => {
             width={16}
           />
         </div>
-        <div className="flex gap-4 items-center">
-          <Link href={""} onClick={handleToggleMenuTwo}>
+        <div className="flex gap-4 items-center relative">
+          <div onClick={handleToggleMenuTwo} className="cursor-pointer">
             <Image
               src={
                 "/static/dashboard/enterprisemanager/header/notification.png"
@@ -45,8 +45,8 @@ const Header = () => {
               width={24}
             />
             {popUpMenuTwo && <PopUpMenuAlert />}
-          </Link>
-          <Link href={""}>
+          </div>
+          <Link href={"/dashboard/enterprise-property/letterHead"}>
             <Image
               src={"/static/dashboard/enterprisemanager/header/sms.png"}
               alt=""

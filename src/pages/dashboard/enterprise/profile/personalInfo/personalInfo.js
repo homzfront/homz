@@ -5,7 +5,7 @@ import UpdateButton from "../components/updateButton";
 const PersonalInfo = () => {
   return (
     <div className="mt-8">
-      <div className="w-[498px]">
+      <div className="w-[498px] flex flex-col gap-4">
         <Input
           label={"Full Name"}
           placeholder={"Victor Simon"}

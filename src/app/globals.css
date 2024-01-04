@@ -33,6 +33,7 @@
     'sidebar pagepart pagepart pagepart';
   max-width: 1440px; /* Set the maximum width to 1440px */
   width: 100%; /* Allow it to take 100% width within the max-width */
+  margin: auto
 }
 
 .header {
@@ -78,3 +79,32 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2)
   
 }
+
+
+.radio-input {
+  /* Basic styles */
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+
+   /* Custom ring */
+  --ring-width: 1px;
+  --ring-color: #adadad;  /* Replace with your desired color */
+  box-shadow: inset 0 0 0 var(--ring-width) var(--ring-color); 
+  /* transition: box-shadow 0.2s ease-in-out; 
+
+  /* Checked state styles */
+  &:checked {
+    background-color: #4E4E4E;
+  }
+}
+
+/* .radio-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+} */
+

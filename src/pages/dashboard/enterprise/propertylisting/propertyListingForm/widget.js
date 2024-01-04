@@ -6,7 +6,7 @@ import ContactInfo from "./contactInfo.js";
 import AddPictures from "./addPictures.js"
 
 
-const Widget = () => {
+const Widget = ({returnToStartRegistration}) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -113,6 +113,7 @@ const Widget = () => {
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
             <PropertyInfo
+            returnToStartRegistration={returnToStartRegistration}
               active={active}
               handlePageChangeTwo={handlePageChangeTwo}
             />

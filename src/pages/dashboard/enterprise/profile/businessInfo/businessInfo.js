@@ -5,7 +5,7 @@ import UpdateButton from "../components/updateButton";
 const BusinessInfo = () => {
   return (
     <div className="mt-8">
-      <div className="w-[498px]">
+      <div className="w-[498px] flex gap-4 flex-col">
         <Input
           label={"Business Name"}
           placeholder={"Victostates"}

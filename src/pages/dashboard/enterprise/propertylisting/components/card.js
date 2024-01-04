@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenu from "./popUpMenu";
+import Link from "next/link";
 
 const Card = ({
   value1,
@@ -25,6 +26,7 @@ const Card = ({
   return (
     <div className="h-[285px] rounded-lg shadow-md">
       <div>
+      <Link href={`/dashboard/enterprise-property/propertylisting/propertyImages/${data}`}>
         <Image
           src={value1}
           height={168}
@@ -33,7 +35,8 @@ const Card = ({
           className="rounded-lg"
           style={{ height: "auto", width: "auto" }}
           priority
-        />
+          />
+          </Link>
         <div className="p-4 flex gap-3 h-full flex-col">
           <div className="relative flex justify-between items-center">
             <p className="font-[700] text-[16px] text-BlueHomz">{value2}</p>
@@ -62,10 +65,10 @@ const Card = ({
               <Image src={Image2} height={17} width={16} alt="" style={{ height: "auto", width: "auto" }}/>
               <p className="font-[400] text-[11px] text-GrayHomz">{value4}</p>
             </div>
-            <div className="flex gap-2 items-center">
+            <Link href={""} className="flex gap-2 items-center">
               <Image src={Image3} height={12} width={13} alt=""/>
               <p className="font-[400] text-[11px] text-GrayHomz">{value5}</p>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
