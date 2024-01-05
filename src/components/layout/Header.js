@@ -12,12 +12,13 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const { fetchProfile, user, loading, logout } = useProfileStore();
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (!user) {
       fetchProfile();
     }
-  }, [user]);
-  // console.log(fetchProfile())
+  }, [user, fetchProfile]);
+
   console.log(user);
   const isUserPresent = user && Object.keys(user).length > 0;
 

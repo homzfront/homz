@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
@@ -18,14 +18,15 @@ const ListedEstates = ({
   addNewEstate,
   registrationForm,
   returnToStartRegistration,
+  setInviteTenant,
+  inviteTenant,
 }) => {
-  const [inviteTenant, setInviteTenant] = useState(false);
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-    // Ensure Data is defined before use
-    const data = Data || []; // Assign an empty array if Data is undefined
+  // Ensure Data is defined before use
+  const data = Data || []; // Assign an empty array if Data is undefined
 
   const ITEMS_PER_PAGE = 8;
   const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
@@ -59,11 +60,6 @@ const ListedEstates = ({
   const toggleInvite = () => {
     setInviteTenant(true);
   };
-  // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = inviteTenant ? "hidden" : "auto";
-  }, [inviteTenant]);
-
 
   return (
     <div className="w-[1147px]">

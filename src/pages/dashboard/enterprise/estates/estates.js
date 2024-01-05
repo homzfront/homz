@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropDown from "./components/dropDown";
 import EstateForm from "./estateForm/estateForm";
 
@@ -96,6 +96,12 @@ const Estate = () => {
   const [registrationForm, setRegistrationForm] = useState(false);
   const [data, setData] = useState(Data || []);
 
+  const [inviteTenant, setInviteTenant] = useState(false);
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = inviteTenant ? "hidden" : "auto";
+  }, [inviteTenant]);
+
   console.log(data);
 
   const openRegistrationForm = () => {
@@ -104,15 +110,17 @@ const Estate = () => {
 
   const returnToStartRegistration = () => {
     setRegistrationForm(false);
-  }
+  };
 
   const addNewEstate = () => {
     setRegistrationForm(true);
-  }
+  };
   return (
     <div>
       {data.length >= 1 ? (
         <ListedEstates
+          setInviteTenant={setInviteTenant}
+          inviteTenant={inviteTenant}
           Data={data}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
@@ -125,7 +133,7 @@ const Estate = () => {
           returnToStartRegistration={returnToStartRegistration}
         />
       ) : registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration}/>
+        <EstateForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
         <div className="w-[1147px] p-8">
           <div className="flex justify-between items-center">
