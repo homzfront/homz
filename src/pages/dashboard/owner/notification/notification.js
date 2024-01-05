@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./header/header";
 import Filter from "./filter/filter";
 import Notifications from "./notifications/notifications";
@@ -87,6 +87,14 @@ const Data = [
 ];
 
 const Notification = () => {
+  const [openAndClose, setOpenAndClose] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = openAndClose ? "hidden" : "auto";
+    if (openAndClose) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [openAndClose]);
    // Ensure that Data is defined and not null
    if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
@@ -133,8 +141,8 @@ const Notification = () => {
           </p>
         </div>
       ) : (
-        <Notifications Data={data} />
-      )}
+        <Notifications Data={data} openAndClose={openAndClose} setOpenAndClose={setOpenAndClose} />
+        )}
     </div>
   );
 };

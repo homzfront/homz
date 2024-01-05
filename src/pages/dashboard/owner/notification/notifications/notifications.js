@@ -2,9 +2,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import PopNotification from "../components/popNotification";
 
-const Notifications = ({ Data }) => {
+const Notifications = ({ Data, openAndClose, setOpenAndClose }) => {
   const [selectedId, setSelectedId] = useState([]);
-  const [openAndClose, setOpenAndClose] = useState(false);
 
      // Ensure that Data is defined and not null
      if (!Data) {
@@ -24,13 +23,6 @@ const Notifications = ({ Data }) => {
     setOpenAndClose(false);
   };
 
-  useEffect(() => {
-    document.body.style.overflow = openAndClose ? "hidden" : "auto";
-    if (openAndClose) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [openAndClose]);
 
   return (
     <div className="h-full overflow-auto scrollbar-container">
