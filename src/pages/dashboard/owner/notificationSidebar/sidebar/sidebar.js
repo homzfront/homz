@@ -27,7 +27,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="shadow-lg">
         <div className="relative w-full h-[1024px] p-8 flex flex-col justify-start">
-        <Link href={"/dashboard/enterprise-property/dashboard"}>
+        <Link href={"/dashboard/property-owner/dashboard"}>
           <div>
             <Image
               src={"/Homz_Logo_Blue.png"}

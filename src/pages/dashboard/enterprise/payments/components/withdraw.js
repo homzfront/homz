@@ -18,6 +18,9 @@ const Withdraw = () => {
     }
   }, [fillBankDetails]);
 
+  
+    // Ensure Data is defined before use
+    const bankdata = bankDetails || []; // Assign an empty array if Data is undefined
 
   const handleAddBankDetails = () => {
     setFillBankDetails(!fillBankDetails);
@@ -40,7 +43,7 @@ const Withdraw = () => {
       <p className="text-[13px] font-[400] text-GrayHomz">
         Withdraw from your wallet balance to your local bank account
       </p>
-      {bankDetails < 1 ? (
+      {bankdata < 1 ? (
         <div
           className="bg-BlueHomz rounded-md w-[212px] h-[37px] flex items-center justify-center"
           onClick={handleAddBankDetails}
@@ -51,8 +54,8 @@ const Withdraw = () => {
         </div>
       ) : (
         <div className="w-full">
-          {bankDetails.map((details) => (
-            <div>
+          {bankdata.map((details, index) => (
+            <div key={index}>
               <div className="flex gap-4 w-[240px] justify-between">
                 <p className="text-[11px] font-[400] text-GrayHomz">
                   Account Number

@@ -46,7 +46,7 @@ const Header = () => {
             />
             {popUpMenuTwo && <PopUpMenuAlert />}
           </div>
-          <Link href={"/dashboard/enterprise-property/letterHead"}>
+          <Link href={"/dashboard/property-owner/letterHead"}>
             <Image
               src={"/static/dashboard/enterprisemanager/header/sms.png"}
               alt=""

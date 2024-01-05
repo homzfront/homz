@@ -8,11 +8,17 @@ const PropertyCard = ({
   popUpMenu,
   selectedDataId,
 }) => {
+    // Ensure that Data is defined and not null
+    if (!Data) {
+      return null; // or handle accordingly, e.g., return a loading state
+    }
+      // Ensure Data is defined before use
+      const data = Data || []; // Assign an empty array if Data is undefined
+  
   return (
     <div className="grid grid-cols-4 gap-4 ">
-      {Data &&
-        Data.map((data) => (
-          <div>
+      {data &&
+        data.map((data) => (
             <Card
               key={data.id}
               value4={data.noOfApartment}
@@ -35,7 +41,7 @@ const PropertyCard = ({
               }
             />
   
-          </div>
+     
 
         ))}
     </div>

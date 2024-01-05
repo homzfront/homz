@@ -26,7 +26,7 @@ const Card = ({
   return (
     <div className="h-[285px] rounded-lg shadow-md">
       <div>
-      <Link href={`/dashboard/enterprise-property/propertylisting/propertyImages/${data}`}>
+      <Link href={`/dashboard/property-owner/propertylisting/propertyImages/${data}`}>
         <Image
           src={value1}
           height={168}

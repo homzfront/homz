@@ -452,13 +452,13 @@ const Tenants = () => {
               width={16}
             />
             <Link
-              href={"/dashboard/enterprise-property/estates"}
+              href={"/dashboard/property-owner/estates"}
               className="text-[14px] font-[400] text-GrayHomz2"
             >
               Go Back
             </Link>
             <Link
-              href={"/dashboard/enterprise-property/estates"}
+              href={"/dashboard/property-owner/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
               Estate Name<> </>/

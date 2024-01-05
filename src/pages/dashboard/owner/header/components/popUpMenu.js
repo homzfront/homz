@@ -22,7 +22,7 @@ const PopUpMenu = () => {
           </span>
         </div>
       </Link>
-      <Link href={"/dashboard/enterprise-property/notifications"} className="hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center  py-2 px-4 w-full  text-center">
+      <Link href={"/dashboard/property-owner/notifications"} className="hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center  py-2 px-4 w-full  text-center">
         <Image
           src={"/static/dashboard/enterprisemanager/header/notification.png"}
           alt=""

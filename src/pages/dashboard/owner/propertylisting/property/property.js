@@ -18,13 +18,13 @@ const Property = () => {
               width={16}
             />
             <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
+              href={"/dashboard/property-owner/propertylisting"}
               className="text-[14px] font-[400] text-GrayHomz2"
             >
               Go Back
             </Link>
             <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
+              href={"/dashboard/property-owner/propertylisting"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
               Property Name<> </>/

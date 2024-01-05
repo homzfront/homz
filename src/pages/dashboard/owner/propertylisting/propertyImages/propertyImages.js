@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import BodyPropertyImage from "./components/bodyPropertyImage";
 import ImageModal from "./components/imageModal";
+import StarRatingPL from "../starRatingPL/starRatingPL";
 
 const Data = [
   {
@@ -55,8 +56,15 @@ const Data = [
 
 const PropertyImages = () => {
   const [data, setData] = useState(Data || []);
-  //   const dataOne = data.map.splice(0,1)
-  //   console.log(dataOne);
+  const [showRating, setShowRating] = useState(false);
+
+  const showRatingPage = () => {
+    setShowRating(!showRating);
+  };
+
+  const goBack = () => {
+    setShowRating(false);
+  };
   console.log(data);
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -89,9 +97,15 @@ console.log(selectedImage);
   
   return (
     <div className="p-8 w-[1147px]">
+      {showRating ? (
+        <div>
+          <StarRatingPL goBack={goBack}/>
+        </div>
+      ) : (
+        <div>
       <div className="flex justify-between items-center">
         <Link
-          href={"/dashboard/enterprise-property/propertylisting"}
+          href={"/dashboard/property-owner/propertylisting"}
           className="flex gap-2 items-center"
         >
           <Image
@@ -152,8 +166,10 @@ console.log(selectedImage);
       )}
       </div>
         <div>
-                <BodyPropertyImage/>
+                <BodyPropertyImage showRatingPage={showRatingPage}/>
+                </div>
         </div>
+      )}
     </div>
   );
 };

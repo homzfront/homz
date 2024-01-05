@@ -78,7 +78,7 @@ const PopUpMenuAlert = () => {
       <div className="absolute right-[110px] top-[40px] w-[400px] h-[400px] rounded-lg bg-white shadow-md p-4 z-20">
         <div className="flex justify-between items-center">
           <p className="text-[13px] font-[500] text-BlackHomz">Notifications</p>
-          <Link href={"/dashboard/enterprise-property/notificationPage"}  className="flex items-center gap-1">
+          <Link href={"/dashboard/property-owner/notificationPage"}  className="flex items-center gap-1">
             <p
              
               className="text-[13px] font-[400] text-GrayHomz cursor-pointer"

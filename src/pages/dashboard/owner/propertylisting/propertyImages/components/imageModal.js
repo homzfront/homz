@@ -23,9 +23,9 @@ const ImageModal = ({
   };
 
   return (
-    <div className="text-white modal-overlay absolute top-0 z-20 h-screen max-w-[1440px] m-auto  inset-0 flex items-center  bg-black flex justify-center items-center">
-      <div className="modal-content h-screen flex justify-between py-4 flex-col">
-        <div className="flex w-full justify-between h-[5%]">
+    <div className="text-white absolute top-0 z-20 h-screen max-w-[1440px] m-auto  inset-0  bg-black flex justify-center items-center">
+      <div className="h-screen flex justify-between py-4 flex-col">
+       <div className="flex w-full justify-between h-[5%]">
           <span className="text-[14px] font-[400]">{`${
             currentImageIndex + 1
           }/${totalImages}`}</span>

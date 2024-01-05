@@ -19,16 +19,19 @@ const ListedEstates = ({
   registrationForm,
   returnToStartRegistration,
 }) => {
+  const [inviteTenant, setInviteTenant] = useState(false);
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
+    // Ensure Data is defined before use
+    const data = Data || []; // Assign an empty array if Data is undefined
 
   const ITEMS_PER_PAGE = 8;
-  const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = Data.slice(startIndex, endIndex);
+  const currentData = data.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -52,7 +55,7 @@ const ListedEstates = ({
     setPopUpMenu(!popUpMenu);
     setSelectedDataId(id);
   };
-  const [inviteTenant, setInviteTenant] = useState(false);
+
   const toggleInvite = () => {
     setInviteTenant(true);
   };

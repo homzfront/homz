@@ -7,7 +7,7 @@ const Notify = () => {
   const Data = [];
   return (
     <div className="w-[1147px] px-8 py-4">
-      <Link href={"/dashboard/enterprise-property/dashboard"} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
+      <Link href={"/dashboard/property-owner/dashboard"} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
         <Image
           src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
           alt=""

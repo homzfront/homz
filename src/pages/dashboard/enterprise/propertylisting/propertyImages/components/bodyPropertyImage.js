@@ -1,7 +1,9 @@
 "use client";
+import StarRating from "@/components/mainmenu/starRating";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import StarRatingPL from "../../starRatingPL/starRatingPL";
 
 const minidata = [
   {
@@ -26,8 +28,14 @@ const minidata = [
   },
 ];
 
-const BodyPropertyImage = () => {
+const BodyPropertyImage = ({showRatingPage}) => {
   const [miniData, setMiniData] = useState(minidata || []);
+  const [copiedState, setCopiedState] = useState({
+    copied: false,
+    copiedII: false,
+    copiedIII: false,
+  });
+ 
 
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -46,14 +54,10 @@ const BodyPropertyImage = () => {
     }
   };
 
-  const [copiedState, setCopiedState] = useState({
-    copied: false,
-    copiedII: false,
-    copiedIII: false,
-  });
+
 
   return (
-    <div>
+    <div className="">
       <div className="flex justify-between">
         <p className="text-[23px] font-[700] text-GrayHomz">
           3-Bedroom Bungalow
@@ -96,9 +100,9 @@ const BodyPropertyImage = () => {
             </p>
           </div>
         </div>
-        <Link
-          href={`/dashboard/enterprise-property/propertylisting/starRating`}
-          className="flex gap-4 items-center border-b pb-6"
+        <div
+          onClick={showRatingPage}
+          className="flex gap-4 items-center border-b pb-6 cursor-pointer"
         >
           <div>
             {[...Array(5)].map((index) => {
@@ -112,7 +116,7 @@ const BodyPropertyImage = () => {
           <p className="text-[14px] font-[500] text-BlackHomz mt-1">
             12 <span className="text-BlueHomz">(Ratings/Reviews)</span>
           </p>
-        </Link>
+        </div>
         <div className="border-b py-4">
           {miniData.map((data) => (
             <div key={data.id} className="flex flex-col my-2">

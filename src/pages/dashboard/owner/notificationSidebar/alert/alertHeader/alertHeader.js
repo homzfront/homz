@@ -6,7 +6,7 @@ const AlertHeader = () => {
   return (
     <div>
       <div className="flex justify-between items-center py-8 px-10">
-      <Link href={"/dashboard/enterprise-property/dashboard"} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
+      <Link href={"/dashboard/property-owner/dashboard"} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
         <Image
           src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
           alt=""

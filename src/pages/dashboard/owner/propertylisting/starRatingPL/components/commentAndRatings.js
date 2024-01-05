@@ -88,10 +88,7 @@ const CommentAndRatings = () => {
     setCurrentPage(page);
   };
 
-  const handleToggleMenu = (id) => {
-    setPopUpMenuTwo(!popUpMenuTwo);
-    setSelectedDataId(id);
-  };
+
 
   // Use reduce to generate an array of the first three pages
   const firstThreePages = Array.from(
