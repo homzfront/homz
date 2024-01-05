@@ -162,10 +162,9 @@ const PropertyImages = () => {
             {openSelectedImage && (
               <ImageModal
                 imageData={selectedImage.data}
-                selectedImage={openSelectedImage}
                 onClose={closeImageModal}
-                totalImages={data.length}
-                item={selectedImage.index}
+                totalImages={data?.length}
+                item={selectedImage?.index}
               />
             )}
           </div>
