@@ -9,7 +9,14 @@ const ImageModal = ({
   totalImages,
   item,
 }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(item);
+   // Ensure that Data is defined and not null
+   if (!item) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
+  // Ensure Data is defined before use
+  const items = item || []; // Assign an empty array if Data is undefined
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(items || []);
 
 
   const goToNextImage = () => {
@@ -54,7 +61,7 @@ const ImageModal = ({
           </button>
           <div className="w-[1110px] m-auto max-h-[540px]">
             <Image
-              src={imageData[currentImageIndex].image}
+              src={imageData[currentImageIndex]?.image}
               alt=""
               height={752}
               width={1110}

@@ -5,6 +5,15 @@ import PopNotification from "../components/popNotification";
 const Notifications = ({ Data }) => {
   const [selectedId, setSelectedId] = useState([]);
   const [openAndClose, setOpenAndClose] = useState(false);
+
+   // Ensure that Data is defined and not null
+   if (!Data) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
+  // Ensure Data is defined before use
+  const data = Data || []; // Assign an empty array if Data is undefined
+
+
   const selectedData = (data) => {
     setSelectedId(data);
     setOpenAndClose(!openAndClose);
@@ -25,9 +34,9 @@ const Notifications = ({ Data }) => {
 
   return (
     <div className="h-full overflow-auto scrollbar-container">
-      {Data.map((data) => (
+      {data.map((data) => (
         <div key={data.Id} className="">
-          <div className="flex items-start justify-between items-center border-b pt-3 pb-3">
+          <div className="flex justify-between items-center border-b pt-3 pb-3">
             <div className="rounded-full shadow-md p-2 ml-5">
               <Image src={data.Image} alt="" height={40} width={40} />
             </div>

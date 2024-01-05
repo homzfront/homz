@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const Receipt = ({ closeReceipt, captureReceipt }) => {
+const Receipt = ({ closeReceipt }) => {
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       <div className="h-[660px] w-[530px] bg-white rounded-lg p-8">
@@ -92,7 +92,7 @@ const Receipt = ({ closeReceipt, captureReceipt }) => {
               </p>
             </div>
           </div>
-          <button onClick={captureReceipt} className="w-full h-[48px] bg-BlueHomz rounded-md text-white">
+          <button className="w-full h-[48px] bg-BlueHomz rounded-md text-white">
             Share Receipt
           </button>
           <div className="border-t grid grid-cols-2 gap-2 pt-4">

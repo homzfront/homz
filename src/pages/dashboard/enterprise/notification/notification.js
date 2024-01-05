@@ -87,7 +87,13 @@ const Data = [
 ];
 
 const Notification = () => {
-  const [data, setData] = useState(Data || []);
+   // Ensure that Data is defined and not null
+   if (!Data) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
+  // Ensure Data is defined before use
+  const data = Data || []; // Assign an empty array if Data is undefined
+
   return (
     <div className="h-screen">
       <Header />
@@ -100,13 +106,13 @@ const Notification = () => {
             </p>
           </div>
         </div>
-        {data.length >= 1 && (
+        {data?.length >= 1 && (
           <div>
             <Filter />
           </div>
         )}
       </div>
-      {data.length < 1 ? (
+      {data?.length < 1 ? (
         <div className="flex flex-col justify-center items-center gap-2 mt-36">
           <div>
             <Image

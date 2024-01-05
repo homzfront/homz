@@ -2,6 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 
 const PopNotification = ({selectedId, closeMenu}) => {
+     // Ensure that Data is defined and not null
+     if (!selectedId) {
+      return null; // or handle accordingly, e.g., return a loading state
+    }
+    // Ensure Data is defined before use
+    const data = selectedId || []; // Assign an empty array if Data is undefined
+  
   return (
     <div>
          <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
@@ -11,7 +18,7 @@ const PopNotification = ({selectedId, closeMenu}) => {
                 <div className="flex gap-8 items-center">
                   <div className="rounded-full shadow-md p-2">
                     <Image
-                      src={selectedId.Image}
+                      src={data?.Image}
                       alt=""
                       height={40}
                       width={40}
@@ -19,10 +26,10 @@ const PopNotification = ({selectedId, closeMenu}) => {
                   </div>
                   <div>
                     <p className="text-[16px] font-[600] text-BlackHomz">
-                      {selectedId.Noti}
+                      {data?.Noti}
                     </p>
                     <p className="text-[13px] font-[400] text-GrayHomz">
-                      {selectedId.Time}
+                      {data?.Time}
                     </p>
                   </div>
                 </div>
@@ -44,7 +51,7 @@ const PopNotification = ({selectedId, closeMenu}) => {
               </div>
             </div>
             <p className="text-[16px] font-[400] text-GrayHomz p-8">
-              {selectedId.Text}
+              {data?.Text}
             </p>
           </div>
         </div>

@@ -83,24 +83,6 @@ const TransferDetails = () => {
 
   const receiptRef = useRef(null);
 
-  const captureReceipt = async () => {
-    try {
-      const canvas = await html2canvas(receiptRef.current);
-      const imgData = canvas.toDataURL("image/png");
-
-      // You can choose to either download the image or create a PDF
-      // For simplicity, we'll create a PDF in this example
-
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "PNG", 10, 10, 190, 0);
-      pdf.save("receipt.pdf");
-    } catch (error) {
-      console.error("Error capturing receipt:", error);
-    }
-  };
-
-  console.log(captureReceipt());
-
   console.log(transfer);
 
   return (
@@ -108,7 +90,7 @@ const TransferDetails = () => {
       <div>
         {receipt && (
           <div>
-            <Receipt closeReceipt={closeReceipt} captureReceipt={captureReceipt} />
+            <Receipt closeReceipt={closeReceipt}  />
           </div>
         )}
       </div>
