@@ -1,13 +1,12 @@
 // ImageModal.js
 "use client";
-import React, { useState } from "react";
 import Image from "next/image";
 
 const ImageModal = ({
-  imageData,
+  imageData = [],
   onClose,
-  totalImages,
-  currentImageIndex,
+  totalImages = 0,
+  currentImageIndex = null,
   setCurrentImageIndex,
 }) => {
   const goToNextImage = () => {
@@ -28,7 +27,7 @@ const ImageModal = ({
       <div className="h-screen flex justify-between py-4 flex-col">
         <div className="flex w-full justify-between h-[5%]">
           <span className="text-[14px] font-[400]">{`${
-            currentImageIndex + 1
+        currentImageIndex &&  currentImageIndex + 1
           }/${totalImages}`}</span>
           <button className="flex gap-2 items-center" onClick={onClose}>
             <Image

@@ -3,8 +3,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const ImageModal = ({ imageData, onClose, totalImages, item }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(null || item);
+const ImageModal = ({
+  onClose,
+  item = 0,
+  imageData = [],
+  totalImages = 0,
+}) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(item);
   console.log(currentImageIndex);
 
   const goToNextImage = () => {
@@ -49,7 +54,7 @@ const ImageModal = ({ imageData, onClose, totalImages, item }) => {
           </button>
           <div className="w-[1110px] m-auto max-h-[540px]">
             <Image
-              src={imageData[currentImageIndex].image}
+              src={imageData[currentImageIndex]?.image}
               alt=""
               height={752}
               width={1110}
