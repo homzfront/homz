@@ -61,13 +61,12 @@ const PropertyImages = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
-console.log(selectedImage);
+  console.log(selectedImage);
   const remainder = data.length - 7;
 
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: data, item: item });
-    setOpenSelectedImage(!openSelectedImage)
-
+    setOpenSelectedImage(!openSelectedImage);
   };
 
   const closeImageModal = () => {
@@ -77,16 +76,15 @@ console.log(selectedImage);
 
   console.log(openSelectedImage);
 
-    // useEffect to handle scrolling
-    useEffect(() => {
-        document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
-        if (openSelectedImage) {
-          // Scroll to the top of the page
-          window.scrollTo(0, 0);
-        }
-      }, [openSelectedImage]);
-    
-  
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
+    if (openSelectedImage) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [openSelectedImage]);
+
   return (
     <div className="p-8 w-[1147px]">
       <div className="flex justify-between items-center">
@@ -141,19 +139,19 @@ console.log(selectedImage);
             </div>
           ))}
         </div>
-        {openSelectedImage && (
-        <ImageModal
-          imageData={selectedImage.data}
-          selectedImage={openSelectedImage}
-          onClose={closeImageModal}
-          totalImages={data.length}
-          item={selectedImage.index}
-        />
-      )}
+        {openSelectedImage && data.length >= 1 && (
+          <ImageModal
+            imageData={selectedImage.data}
+            onClose={closeImageModal}
+            totalImages={data?.length}
+            currentImageIndex={currentImageIndex}
+            setCurrentImageIndex={setCurrentImageIndex}
+          />
+        )}
       </div>
-        <div>
-                <BodyPropertyImage/>
-        </div>
+      <div>
+        <BodyPropertyImage />
+      </div>
     </div>
   );
 };

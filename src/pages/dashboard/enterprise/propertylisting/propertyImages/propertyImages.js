@@ -161,7 +161,7 @@ const PropertyImages = () => {
                 </div>
               ))}
             </div>
-            {openSelectedImage && (
+            {openSelectedImage && data.length >= 1 && (
               <ImageModal
                 imageData={selectedImage.data}
                 onClose={closeImageModal}

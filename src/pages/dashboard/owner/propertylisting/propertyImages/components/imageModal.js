@@ -3,14 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const ImageModal = ({
-  imageData,
-  onClose,
-  totalImages,
-  item,
-}) => {
+const ImageModal = ({ imageData, onClose, totalImages, item }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(null || item);
-  console.log(currentImageIndex)
+  console.log(currentImageIndex);
 
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % totalImages);
