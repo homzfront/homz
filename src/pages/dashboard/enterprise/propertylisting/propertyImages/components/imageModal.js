@@ -7,18 +7,10 @@ const ImageModal = ({
   imageData,
   onClose,
   totalImages,
-  item,
+  currentImageIndex,
+  setCurrentImageIndex
 }) => {
-   // Ensure that Data is defined and not null
-   if (!item) {
-    return null; // or handle accordingly, e.g., return a loading state
-  }
-  // Ensure Data is defined before use
-  const items = item || []; // Assign an empty array if Data is undefined
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(items);
-
-
+ 
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % totalImages);
   };

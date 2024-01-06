@@ -57,6 +57,9 @@ const Data = [
 const PropertyImages = () => {
   const [data, setData] = useState(Data || []);
   const [showRating, setShowRating] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+
 
   const showRatingPage = () => {
     setShowRating(!showRating);
@@ -75,6 +78,7 @@ const PropertyImages = () => {
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: data, item: item });
     setOpenSelectedImage(!openSelectedImage);
+    setCurrentImageIndex(imageIndex);
   };
 
   const closeImageModal = () => {
@@ -83,7 +87,7 @@ const PropertyImages = () => {
   };
 
   console.log(openSelectedImage);
-
+  console.log(currentImageIndex);
   // useEffect to handle scrolling
   useEffect(() => {
     document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
@@ -164,7 +168,8 @@ const PropertyImages = () => {
                 imageData={selectedImage.data}
                 onClose={closeImageModal}
                 totalImages={data?.length}
-                item={selectedImage?.index}
+              currentImageIndex={currentImageIndex}
+              setCurrentImageIndex={setCurrentImageIndex}
               />
             )}
           </div>
