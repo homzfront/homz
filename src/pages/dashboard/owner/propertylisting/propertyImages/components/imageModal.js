@@ -9,8 +9,8 @@ const ImageModal = ({
   totalImages,
   item,
 }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(item);
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(null || item);
+  console.log(currentImageIndex)
 
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % totalImages);

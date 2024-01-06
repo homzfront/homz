@@ -20,6 +20,10 @@ const ImageModal = ({
       (prevIndex) => (prevIndex - 1 + totalImages) % totalImages
     );
   };
+  console.log(imageData)
+  console.log(totalImages)
+  console.log(currentImageIndex)
+
 
   return (
     <div className="text-white absolute top-0 z-20 h-screen max-w-[1440px] m-auto  inset-0  bg-black flex justify-center items-center">

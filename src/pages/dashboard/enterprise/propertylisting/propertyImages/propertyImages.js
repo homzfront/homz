@@ -57,9 +57,7 @@ const Data = [
 const PropertyImages = () => {
   const [data, setData] = useState(Data || []);
   const [showRating, setShowRating] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(null);
 
   const showRatingPage = () => {
     setShowRating(!showRating);
@@ -101,7 +99,7 @@ const PropertyImages = () => {
     <div className="p-8 w-[1147px]">
       {showRating ? (
         <div>
-          <StarRatingPL goBack={goBack}/>
+          <StarRatingPL goBack={goBack} />
         </div>
       ) : (
         <div>
@@ -168,8 +166,8 @@ const PropertyImages = () => {
                 imageData={selectedImage.data}
                 onClose={closeImageModal}
                 totalImages={data?.length}
-              currentImageIndex={currentImageIndex}
-              setCurrentImageIndex={setCurrentImageIndex}
+                currentImageIndex={currentImageIndex}
+                setCurrentImageIndex={setCurrentImageIndex}
               />
             )}
           </div>
