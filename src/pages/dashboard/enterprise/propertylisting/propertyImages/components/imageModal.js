@@ -16,7 +16,7 @@ const ImageModal = ({
   // Ensure Data is defined before use
   const items = item || []; // Assign an empty array if Data is undefined
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(items || []);
+  const [currentImageIndex, setCurrentImageIndex] = useState(items);
 
 
   const goToNextImage = () => {
