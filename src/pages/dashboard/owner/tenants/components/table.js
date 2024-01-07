@@ -58,109 +58,110 @@ const Value = [
     Action: false,
   },
   {
-      id: 7,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 8,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 9,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 10,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 11,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 12,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 13,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Confirmed",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 14,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 15,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Confirmed",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },     {
-      id: 16,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Pending",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
-    {
-      id: 17,
-      Date: "4th January, 2024",
-      DueDate: "4th January, 2024",
-      RentPaid: "N750,000",
-      Status: "Confirmed",
-      PropertyType: "4th January, 2024",
-      Action: false,
-    },
+    id: 7,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 8,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 9,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 10,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 11,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 12,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 13,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Confirmed",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 14,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 15,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Confirmed",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 16,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Pending",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
+  {
+    id: 17,
+    Date: "4th January, 2024",
+    DueDate: "4th January, 2024",
+    RentPaid: "N750,000",
+    Status: "Confirmed",
+    PropertyType: "4th January, 2024",
+    Action: false,
+  },
 ];
 
 const Table = () => {
-  const [data, setData] = useState(Value); 
+  const [data, setData] = useState(Value);
 
-  console.log(data.length)
+  console.log(data.length);
 
   const ITEMS_PER_PAGE = 4;
 
@@ -185,20 +186,6 @@ const Table = () => {
     setCurrentPage(page);
   };
 
-  const handleToggleMenu = (id) => {
-    // Find the index of the selected data
-    const dataIndex = data.findIndex((item) => item.id === id);
-
-    // Update the Action property to true
-    data[dataIndex].Action = !data[dataIndex].Action;
-
-    // Log the updated data to the console
-    console.log("Updated data:", data);
-
-    // Update the state with the modified data
-    setData([...data]);
-  };
-
   // Use reduce to generate an array of the first three pages
   const firstThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
@@ -217,7 +204,6 @@ const Table = () => {
                 <th className="text-left ">Rent Paid</th>
                 <th className="text-left ">Property Type</th>
                 <th className="text-left ">Status</th>
-                <th className="text-left ">Action</th>
               </tr>
             </thead>
             <tbody className="">
@@ -260,24 +246,6 @@ const Table = () => {
                     >
                       {data.Status}
                     </span>
-                  </td>
-                  <td className="py-[15px] pr-4">
-                    <button
-                      onClick={() => handleToggleMenu(data.id)}
-                      className={`flex items-center px-2 py-1 rounded-md gap-1 ${
-                        data.Action
-                          ? "text-white bg-BlueHomz"
-                          : "text-GrayHomz5 bg-GrayHomz6"
-                      }`}
-                    >
-                      Confirm
-                      <Image
-                        src="/static/dashboard/enterprisemanager/tenants/tick-circle.png"
-                        alt=""
-                        height={16}
-                        width={16}
-                      />
-                    </button>
                   </td>
                 </tr>
               ))}

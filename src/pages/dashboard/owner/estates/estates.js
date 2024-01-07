@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import DropDown from "./components/dropDown";
 import EstateForm from "./estateForm/estateForm";
 
 import ListedEstates from "./listedEstates";
@@ -95,11 +94,6 @@ const Estate = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
   const [data, setData] = useState(Data || []);
-  const [inviteTenant, setInviteTenant] = useState(false);
-  // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = inviteTenant ? "hidden" : "auto";
-  }, [inviteTenant]);
 
   console.log(data);
 
@@ -111,15 +105,11 @@ const Estate = () => {
     setRegistrationForm(false);
   };
 
-  const addNewEstate = () => {
-    setRegistrationForm(true);
-  };
+
   return (
     <div>
       {data.length >= 1 ? (
         <ListedEstates
-          setInviteTenant={setInviteTenant}
-          inviteTenant={inviteTenant}
           Data={data}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
@@ -127,7 +117,6 @@ const Estate = () => {
           setPopUpMenu={setPopUpMenu}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          addNewEstate={addNewEstate}
           registrationForm={registrationForm}
           returnToStartRegistration={returnToStartRegistration}
         />

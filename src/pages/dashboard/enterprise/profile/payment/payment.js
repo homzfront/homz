@@ -20,12 +20,12 @@ const Payment = () => {
   const [selectedCardId, setSelectedCardId] = useState(null);
 
   useEffect(() => {
-    document.body.style.overflow = verified || verifyDelete ? "hidden" : "auto";
-    if (verified || verifyDelete) {
+    document.body.style.overflow = verified || verifyDelete || removeCard ? "hidden" : "auto";
+    if (verified || verifyDelete || removeCard) {
       // Scroll to the top of the page
       window.scrollTo(0, 0);
     }
-  }, [verified, verifyDelete]);
+  }, [verified, verifyDelete, removeCard]);
 
   const handleCardNumberChange = (e) => {
     // Remove non-numeric characters from the input

@@ -60,47 +60,8 @@ const Maintenance = () => {
   
   const [data, setData] = useState(Data);
   console.log(data);
-  const [showConfrim, setShowConfirm] = useState(false);
-  const [showYesOrNo, setShowYesOrNo] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const showYesAndNo = (id) => {
-    const dataIndex = data.findIndex((item) => item.id === id);
 
-    // Update the Action property to true
-    data[dataIndex].Action = !data[dataIndex].Action;
-
-    // Log the updated data to the console
-    console.log("Updated data:", data);
-
-    // Update the state with the modified data
-    setData([...data]);
-    setShowYesOrNo(true);
-  };
-  const handleToggleMenu = (id) => {
-    setShowConfirm(true);
-    if (showConfrim) {
-      // Find the index of the selected data
-      const dataIndex = data.findIndex((item) => item.id === id);
-
-      // Update the Action property to true
-      data[dataIndex].Action = !data[dataIndex].Action;
-
-      // Log the updated data to the console
-      console.log("Updated data:", data);
-
-      // Update the state with the modified data
-      setData([...data]);
-    }
-    setShowConfirmation(true);
-  };
-  const remove = () => {
-    setShowConfirm(false);
-  };
-
-  const returnHome = () => {
-    setShowConfirm(false);
-  };
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -138,15 +99,15 @@ const Maintenance = () => {
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
                 <th className="text-left pl-6">Tenant</th>
-                <th className="text-left ">Subject</th>
+                <th className="text-left pl-[-10px]">Subject</th>
                 <th className="text-left ">Status</th>
-                <th className="pl-12"></th>
+        
               </tr>
             </thead>
             <tbody className="">
               {currentData.map((data) => (
                 <tr key={data.id} className=" w-2 border-t-[1px] items-center">
-                  <td className="flex items-center gap-1  pl-6 text-GrayHomz4 font-[500] text-[11px]">
+                  <td className="flex items-center gap-1 mr-[-30px]  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                     <Image
                       src={
                         "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
@@ -183,33 +144,7 @@ const Maintenance = () => {
                       {data.Status}
                     </span>
                   </td>
-                  <td className="py-[15px] pl-12">
-                    {showYesOrNo ? (
-                      <YesNOModal
-                        confirmH={handleToggleMenu(data.id)}
-                        returnHome={returnHome}
-                        removeH={remove(data.id)}
-                        showConfirmation={showConfirmation}
-                      />
-                    ) : (
-                      <button
-                        onClick={() => showYesAndNo(data.id)}
-                        className={`flex items-center px-2 py-1 rounded-md gap-1 ${
-                          data.Action
-                            ? "text-white bg-BlueHomz"
-                            : "text-GrayHomz5 bg-GrayHomz6"
-                        }`}
-                      >
-                        Confirm
-                        <Image
-                          src="/static/dashboard/enterprisemanager/tenants/tick-circle.png"
-                          alt=""
-                          height={16}
-                          width={16}
-                        />
-                      </button>
-                    )}
-                  </td>
+                 
                 </tr>
               ))}
             </tbody>

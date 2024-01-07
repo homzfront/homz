@@ -4,7 +4,7 @@ import FileUpload from "./components/fileUpload";
 import UpdateButton from "../components/updateButton";
 
 
-const BusinessLogo = () => {
+const ProfilePicture = () => {
   return (
     <div className="mt-8">
       <div className="">
@@ -15,4 +15,4 @@ const BusinessLogo = () => {
   );
 };
 
-export default BusinessLogo;
+export default ProfilePicture;

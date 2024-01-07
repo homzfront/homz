@@ -27,14 +27,14 @@ const PropertyInfo = ({handlePageChangeTwo}) => {
 
   return (
     <div className="">
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <h1 className="font-[700] text-[23px] text-BlueHomz">
           Estate Information
         </h1>
         <p className="text-[18px] font-[400] text-GrayHomz">
           Kindly fill in the accurate estate information
         </p>
-      </div>
+      </div> */}
       <div className="grid grid-cols-2 gap-8 py-4 mt-2">
         <div className="w-[100%] flex flex-col gap-3">
           <div>
@@ -102,11 +102,11 @@ const PropertyInfo = ({handlePageChangeTwo}) => {
           ></textarea>
         </div>
       </div>
-      <div className="mt-[7%] flex justify-end">
+      {/* <div className="mt-[7%] flex justify-end">
         <button className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
           Update
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

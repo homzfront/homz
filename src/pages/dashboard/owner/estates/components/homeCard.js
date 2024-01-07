@@ -44,26 +44,10 @@ const Data = [
 const HomeCard = () => {
   return (
     <div className="border w-[100%] rounded-[12px] ">
-      <div className="flex justify-between ">
+      <div className="">
         <h1 className="text-BlueHomz px-6 pt-6 pb-3 font-[500] text-[14px]">
           Homes
         </h1>
-        <div className="flex flex-col pr-4 pt-4">
-          <div>
-            <h3 className="text-[11px] font-[400] text-BlackHomz">
-              Add New Tenant
-            </h3>
-            <Image
-              alt=""
-              height={40}
-              width={40}
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/add-square-blue.png"
-              }
-              className="ml-10 cursor-pointer"
-            />
-          </div>
-        </div>
       </div>
       <div className="flex justify-between gap-1 pt-3 px-3 pb-3">
         <div className="h-[98px]">

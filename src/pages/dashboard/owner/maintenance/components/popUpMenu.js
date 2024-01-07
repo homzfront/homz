@@ -20,7 +20,7 @@ function PopUpMenu({ data }) {
             width={16}
             style={{ height: "auto", width: "auto" }}
           />
-          View Profile
+          View Request
         </div>
       </Link>
     </div>

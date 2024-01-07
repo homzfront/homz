@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
-import Input from "./components/inputEstate";
 import EstateForm from "./estateForm/estateForm";
-import Modal from "../tenants/components/modal";
+
 
 const ListedEstates = ({
   Data,
@@ -15,11 +14,8 @@ const ListedEstates = ({
   setPopUpMenu,
   currentPage,
   setCurrentPage,
-  addNewEstate,
   registrationForm,
   returnToStartRegistration,
-  setInviteTenant,
-  inviteTenant,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -57,79 +53,41 @@ const ListedEstates = ({
     setSelectedDataId(id);
   };
 
-  const toggleInvite = () => {
-    setInviteTenant(true);
-  };
-
   return (
     <div className="w-[1147px]">
       {registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
         <div>
-          <div className="p-8">
+          <div className="p-8 flex justify-between items-center">
             <div className="flex gap-2 mb-6">
               <p>Estate</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
                 <span className="text-BlueHomz ">{Data.length}</span>
               </span>
             </div>
-            <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-center gap-2">
-                <p className="text-[16px] font-[400] text-BlackHomz pr-2">
-                  Filter by:{" "}
-                </p>
-                <Input placeholder={"State"} type={"text"} />
-                <Input placeholder={"Area"} type={"text"} />
-                <input
-                  type="date"
-                  className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
-                />
-                <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
-                  <span>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                      }
-                      alt=""
-                      height={17}
-                      width={16}
-                    />
-                  </span>
-                  Reset
-                </button>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={toggleInvite}
-                  className={`p-[12px] h-10 w-[135px] border border-BlueHomz bg-white text-BlueHomz rounded-md flex items-center justify-center gap-1 text-[14px] font-[700]`}
-                >
+
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-[16px] font-[400] text-BlackHomz pr-2">
+                Filter by:{" "}
+              </p>
+              <input
+                type="date"
+                className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
+              />
+              <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+                <span>
                   <Image
                     src={
-                      "/static/dashboard/enterprisemanager/estate/add-square.png"
+                      "/static/dashboard/enterprisemanager/dashboard/repeat.png"
                     }
                     alt=""
-                    width={16}
                     height={17}
-                    style={{ height: "auto", width: "auto" }}
-                  />
-                  Invite Tenant
-                </button>
-                <button
-                  onClick={addNewEstate}
-                  className={`p-[12px] h-10 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
-                >
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-                    }
-                    alt=""
                     width={16}
-                    height={16}
                   />
-                  Add New Estate
-                </button>
-              </div>
+                </span>
+                Reset
+              </button>
             </div>
           </div>
 
@@ -150,12 +108,6 @@ const ListedEstates = ({
               handlePrev={handlePrev}
             />
           </div>
-        </div>
-      )}
-
-      {inviteTenant && (
-        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal setInviteTenant={setInviteTenant} />
         </div>
       )}
     </div>

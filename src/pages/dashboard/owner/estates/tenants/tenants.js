@@ -442,31 +442,27 @@ const Tenants = () => {
   return (
     <div className="w-[1147px]  p-8">
       <div className="mb-4">
-      <div className="w-[475px] flex gap-2 items-center">
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
-            <Link
-              href={"/dashboard/property-owner/estates"}
-              className="text-[14px] font-[400] text-GrayHomz2"
-            >
-              Go Back
-            </Link>
-            <Link
-              href={"/dashboard/property-owner/estates"}
-              className="text-[16px] font-[400] text-GrayHomz"
-            >
-              Estate Name<> </>/
-            </Link>
-            <div className="text-[20px] font-[500] text-GrayHomz">
-            Tenants
-            </div>
-          </div>
+        <div className="w-[475px] flex gap-2 items-center">
+          <Image
+            src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
+            alt=""
+            height={16}
+            width={16}
+          />
+          <Link
+            href={"/dashboard/property-owner/estates"}
+            className="text-[14px] font-[400] text-GrayHomz2"
+          >
+            Go Back
+          </Link>
+          <Link
+            href={"/dashboard/property-owner/estates"}
+            className="text-[16px] font-[400] text-GrayHomz"
+          >
+            Estate Name<> </>/
+          </Link>
+          <div className="text-[20px] font-[500] text-GrayHomz">Tenants</div>
+        </div>
       </div>
       <div className=" flex justify-between items-center">
         <div className="flex gap-2 ">
@@ -495,37 +491,10 @@ const Tenants = () => {
             Reset
           </button>
         </div>
-        <div className="flex gap-2">
-          <button
-            className={`p-[12px] h-10 w-[130px] border border-BlueHomz bg-white text-BlueHomz rounded-md flex items-center gap-1 text-[14px] font-[700]`}
-          >
-            <Image
-              src={"/static/dashboard/enterprisemanager/estate/add-square.png"}
-              alt=""
-              width={16}
-              height={17}
-              style={{ height: "auto", width: "auto" }}
-            />
-            Add Tenant
-          </button>
-          <button
-            className={`p-[12px] h-10 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
-          >
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-              }
-              alt=""
-              width={16}
-              height={16}
-            />
-            Add New Estate
-          </button>
-        </div>
       </div>
-              <div className="h-[734px] mb-4">
-              <TenantsTwo Data={Data} />
-              </div>
+      <div className="h-[734px] mb-4">
+        <TenantsTwo Data={Data} />
+      </div>
     </div>
   );
 };

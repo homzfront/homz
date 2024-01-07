@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import BodyPropertyImage from "./components/bodyPropertyImage";
 import ImageModal from "./components/imageModal";
+import StarRatingPL from "../starRatingPL/starRatingPL";
 
 const Data = [
   {
@@ -55,19 +56,27 @@ const Data = [
 
 const PropertyImages = () => {
   const [data, setData] = useState(Data || []);
-  //   const dataOne = data.map.splice(0,1)
-  //   console.log(dataOne);
+  const [showRating, setShowRating] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(null);
+
+  const showRatingPage = () => {
+    setShowRating(!showRating);
+  };
+
+  const goBack = () => {
+    setShowRating(false);
+  };
   console.log(data);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
-console.log(selectedImage);
+  console.log(selectedImage);
   const remainder = data.length - 7;
 
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: data, item: item });
-    setOpenSelectedImage(!openSelectedImage)
-
+    setOpenSelectedImage(!openSelectedImage);
+    setCurrentImageIndex(imageIndex);
   };
 
   const closeImageModal = () => {
@@ -76,84 +85,97 @@ console.log(selectedImage);
   };
 
   console.log(openSelectedImage);
+  console.log(currentImageIndex);
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
+    if (openSelectedImage) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [openSelectedImage]);
 
-    // useEffect to handle scrolling
-    useEffect(() => {
-        document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
-        if (openSelectedImage) {
-          // Scroll to the top of the page
-          window.scrollTo(0, 0);
-        }
-      }, [openSelectedImage]);
-    
-  
   return (
     <div className="p-8 w-[1147px]">
-      <div className="flex justify-between items-center">
-        <Link
-          href={"/dashboard/enterprise-property/propertylisting"}
-          className="flex gap-2 items-center"
-        >
-          <Image
-            src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
-            height={16}
-            width={16}
-            alt=""
-          />
-          <p className="text-[11px] font-[400]">Go Back</p>
-        </Link>
-        <button>
-          <p className="text-[14px] font-[400] text-BlueHomz">Edit Property</p>
-        </button>
-      </div>
-      <div className="mt-4 ml-3">
-        <div className="flex flex-wrap gap-4">
-          {data.map((item, index) => (
-            <div
-              key={item.id}
-              className={`cursor-pointer ${
-                index === 0 ? "flex-shrink-0" : "flex-grow"
-              }`}
-              onClick={() => openImageModal(index, item)}
-            >
-              {index === 0 || index <= 5 ? (
-                <Image
-                  src={item.image}
-                  alt=""
-                  height={index === 0 ? 368 : 161}
-                  width={index === 0 ? 1110 : 162}
-                  className={`rounded-md ${index === 0 ? "w-[1055px]" : ""}`}
-                />
-              ) : index === 6 ? (
-                <div className="relative inline-block rounded-md flex-grow">
-                  <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
-                    <p>+{remainder} more</p>
-                  </div>
-                  <Image
-                    src={item.image}
-                    alt=""
-                    height={161}
-                    width={162}
-                    className="rounded-md"
-                  />
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-        {openSelectedImage && (
-        <ImageModal
-          imageData={selectedImage.data}
-          selectedImage={openSelectedImage}
-          onClose={closeImageModal}
-          totalImages={data.length}
-          item={selectedImage.index}
-        />
-      )}
-      </div>
+      {showRating ? (
         <div>
-                <BodyPropertyImage/>
+          <StarRatingPL goBack={goBack} />
         </div>
+      ) : (
+        <div>
+          <div className="flex justify-between items-center">
+            <Link
+              href={"/dashboard/enterprise-property/propertylisting"}
+              className="flex gap-2 items-center"
+            >
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                }
+                height={16}
+                width={16}
+                alt=""
+              />
+              <p className="text-[11px] font-[400]">Go Back</p>
+            </Link>
+            <button>
+              <p className="text-[14px] font-[400] text-BlueHomz">
+                Edit Property
+              </p>
+            </button>
+          </div>
+          <div className="mt-4 ml-3">
+            <div className="flex flex-wrap gap-4">
+              {data.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`cursor-pointer ${
+                    index === 0 ? "flex-shrink-0" : "flex-grow"
+                  }`}
+                  onClick={() => openImageModal(index, item)}
+                >
+                  {index === 0 || index <= 5 ? (
+                    <Image
+                      src={item.image}
+                      alt=""
+                      height={index === 0 ? 368 : 161}
+                      width={index === 0 ? 1110 : 162}
+                      className={`rounded-md ${
+                        index === 0 ? "w-[1055px]" : ""
+                      }`}
+                    />
+                  ) : index === 6 ? (
+                    <div className="relative inline-block rounded-md flex-grow">
+                      <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
+                        <p>+{remainder} more</p>
+                      </div>
+                      <Image
+                        src={item.image}
+                        alt=""
+                        height={161}
+                        width={162}
+                        className="rounded-md"
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            {openSelectedImage && data.length >= 1 && (
+              <ImageModal
+                imageData={selectedImage.data}
+                onClose={closeImageModal}
+                totalImages={data?.length}
+                currentImageIndex={currentImageIndex}
+                setCurrentImageIndex={setCurrentImageIndex}
+              />
+            )}
+          </div>
+          <div>
+            <BodyPropertyImage showRatingPage={showRatingPage} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove }) => {
   return (
     <div className="flex gap-2">
       <div
-        className={`h-[140px] rounded-[8px] w-[140px] justify-center items-center flex ${
+        className={`h-[196px] rounded-lg w-[196px] justify-center items-center flex ${
           uploadedImage
             ? ""
             : "bg-blue-100 "

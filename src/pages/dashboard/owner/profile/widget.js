@@ -1,17 +1,14 @@
 "use client"
-import React, { useState } from "react";
-import BusinessInfo from "./businessInfo/businessInfo.js";
-import BusinessLogo from "./businessLogo/businessLogo.js";
 import PersonalInfo from "./personalInfo/personalInfo.js";
-import Payment from "./payment/payment.js";
 import ChangePassword from "./changePassword/changePassword.js";
+import { useState } from "react";
+import ProfilePicture from "./profilePicture/profilePicture.js";
 
 const pages = [
-  { id: 1, name: "Business Information", component: <BusinessInfo /> },
-  { id: 2, name: "Business Logo", component: <BusinessLogo /> },
-  { id: 3, name: "Personal Information", component: <PersonalInfo /> },
-  { id: 4, name: "Payment", component: <Payment /> },
-  { id: 5, name: "Change Password", component: <ChangePassword /> },
+
+  { id: 1, name: "Personal Information", component: <PersonalInfo /> },
+  { id: 2, name: "Profile Picture", component: <ProfilePicture /> },
+  { id: 3, name: "Change Password", component: <ChangePassword /> },
 ];
 
 const Widget = () => {
@@ -24,7 +21,7 @@ const Widget = () => {
   return (
     <div>
       <div className="w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-[771px] cursor-pointer">
+        <div className="flex mt-5 gap-2 justify-between w-[471px] cursor-pointer">
           {pages.map((page) => (
             <div
               key={page.id}

@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 
-const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove }) => {
+const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove, width, height }) => {
   const inputRef = useRef(null);
 
   const handleImageUpload = (e) => {
@@ -22,7 +22,7 @@ const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove }) => {
   return (
     <div className="flex gap-2">
       <div
-        className={`h-[196px] rounded-[8px] w-[196px] justify-center items-center flex ${
+        className={`h-[${height}px] rounded-[8px] w-[${width}px] justify-center items-center flex ${
           uploadedImage
             ? ""
             : "bg-blue-100 "
@@ -31,9 +31,9 @@ const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove }) => {
         {uploadedImage ? (
           <Image
             src={URL.createObjectURL(uploadedImage.get("file"))}
-            height={100}
-            width={100}
-            className="object-cover"
+            height={height}
+            width={width}
+            className="object-contain"
             alt="img"
             style={{ width: "auto", height: "auto" }}
           />

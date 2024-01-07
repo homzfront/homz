@@ -1,7 +1,9 @@
 "use client";
+import StarRating from "@/components/mainmenu/starRating";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import StarRatingPL from "../../starRatingPL/starRatingPL";
 
 const minidata = [
   {
@@ -33,6 +35,7 @@ const BodyPropertyImage = ({showRatingPage}) => {
     copiedII: false,
     copiedIII: false,
   });
+ 
 
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -54,7 +57,7 @@ const BodyPropertyImage = ({showRatingPage}) => {
 
 
   return (
-    <div>
+    <div className="">
       <div className="flex justify-between">
         <p className="text-[23px] font-[700] text-GrayHomz">
           3-Bedroom Bungalow
@@ -99,7 +102,7 @@ const BodyPropertyImage = ({showRatingPage}) => {
         </div>
         <div
           onClick={showRatingPage}
-            className="flex gap-4 items-center border-b pb-6 cursor-pointer"
+          className="flex gap-4 items-center border-b pb-6 cursor-pointer"
         >
           <div>
             {[...Array(5)].map((index) => {

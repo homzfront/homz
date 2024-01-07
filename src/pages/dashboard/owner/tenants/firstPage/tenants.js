@@ -524,22 +524,7 @@ const Tenants = () => {
                     </span>
                     Reset
                   </button>
-                  <button
-                    onClick={toggleInvite}
-                    className={`p-[12px] h-10 mt-[-5px] ml-8 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${
-                      data.length < 1 ? "hidden" : "inline"
-                    }`}
-                  >
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-                      }
-                      alt=""
-                      width={16}
-                      height={16}
-                    />
-                    Invite Tenant
-                  </button>
+                  
                 </div>
               </div>
               <TenantsTwo Data={data} />

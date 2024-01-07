@@ -62,10 +62,7 @@ const Card = ({
               <Image src={Image2} height={17} width={16} alt="" style={{ height: "auto", width: "auto" }}/>
               <p className="font-[400] text-[11px] text-GrayHomz">{value4}</p>
             </div>
-            {/* <div className="flex gap-2">
-              <Image src={Image3} height={12} width={16} alt="" style={{ height: "auto", width: "auto" }}/>
-              <p className="font-[400] text-[11px] text-GrayHomz">{value5}</p>
-            </div> */}
+       
           </div>
         </div>
       </div>
