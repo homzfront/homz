@@ -1,7 +1,5 @@
-import React from "react";
-import Input from "../../../components/inputTwo";
+import React, { useState } from "react";
 import Image from "next/image";
-import FileUpload from "../../components/fileUpload";
 import PopUpMenuDoc from "../../components/popUpMenuDoc";
 
 const Data = [
@@ -29,15 +27,6 @@ const Documents = ({ handlePageChangeThree }) => {
 
   return (
     <div className="">
-      <div className="flex flex-col">
-        <h1 className="text-[23px] font-[700] text-BlueHomz">Add Document</h1>
-        <p className="text-[18px] font-[400] text-GrayHomz ">
-          Upload necessary documents for your Tenants to acess.
-        </p>
-        {/* <p className="text-[13px] font-[400] text-GrayHomz2">
-          Supported formats are .jpg and .png and file size must not exceed 5 mb
-        </p> */}
-      </div>
       <div className="flex gap-4">
         {data &&
           data.map((data) => (
@@ -82,7 +71,29 @@ const Documents = ({ handlePageChangeThree }) => {
               </div>
             </div>
           ))}
+        <div>
+          <div className="h-[200px] w-[160px] border rounded-md py-5 px-2 flex flex-col">
+            <div className="m-auto">
+              <Image
+                src={"/static/dashboard/enterprisemanager/estate/add.png"}
+                height={71}
+                width={72}
+                alt=""
+                className="cursor-pointer"
+              />
+            </div>
+            <div>
+              <p className="text-[13px] font-[500] text-BlackHomz text-center">
+                Click to add new document
+              </p>
+              <p className="mt-2 text-[10px] font-[400] text-GrayHomz2 text-center">
+                PDF (max. 3mb)
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className="mt-[10%] flex justify-end">
         <button className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
           Update

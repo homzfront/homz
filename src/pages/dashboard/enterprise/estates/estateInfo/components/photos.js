@@ -19,29 +19,38 @@ const Photos = () => {
           Supported formats are .jpg and .png and file size must not exceed 5 mb
         </p>
       </div>
-      <div className="flex mt-8">
-        <div className="w-[235px] flex justify-start">
-          <ImageUpload
-            onImageRemove={setUploadedImage}
-            onImageUpload={setUploadedImage}
-            uploadedImage={uploadedImage}
-          />
+      <div className="flex gap-4 mt-4">
+        <div className="">
+          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo</p>
+          <div className="mt-4 w-[235px] flex justify-start">
+            <ImageUpload
+              onImageRemove={setUploadedImage}
+              onImageUpload={setUploadedImage}
+              uploadedImage={uploadedImage}
+            />
+          </div>
         </div>
-        <div className="w-[235px] flex justify-start">
-          <ImageUpload
-            onImageRemove={setUploadedImage2}
-            onImageUpload={setUploadedImage2}
-            uploadedImage={uploadedImage2}
-          />
-        </div>
-        <div className="w-[235px] flex justify-start">
-          <ImageUpload
-            onImageRemove={setUploadedImage3}
-            onImageUpload={setUploadedImage3}
-            uploadedImage={uploadedImage3}
-          />
+        <div className="">
+          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos</p>
+          <div className="mt-4 flex">
+            <div className="w-[235px] flex justify-start">
+              <ImageUpload
+                onImageRemove={setUploadedImage2}
+                onImageUpload={setUploadedImage2}
+                uploadedImage={uploadedImage2}
+              />
+            </div>
+            <div className="w-[235px] flex justify-start">
+              <ImageUpload
+                onImageRemove={setUploadedImage3}
+                onImageUpload={setUploadedImage3}
+                uploadedImage={uploadedImage3}
+              />
+            </div>
+          </div>
         </div>
       </div>
+
       <div className="mt-[10%] flex justify-end">
         <button className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
           Update
