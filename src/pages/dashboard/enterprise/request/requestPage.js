@@ -37,8 +37,18 @@ const RequestPage = () => {
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [inviteTenant, setInviteTenant] = useState(false);
   const [friendRequests, setFriendRequests] = useState(Data || []);
-  const [done, setDone] = useState(false)
-  const [doneTwo, setDoneTwo] = useState(false)
+  const [done, setDone] = useState(false);
+  const [doneTwo, setDoneTwo] = useState(false);
+
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow =
+      inviteTenant || popUpMenu || popUpMenuTwo ? "hidden" : "auto";
+    if (inviteTenant || popUpMenu || popUpMenuTwo) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [inviteTenant, popUpMenu, popUpMenuTwo]);
 
   const toggleInvite = () => {
     setInviteTenant(true);
@@ -53,8 +63,8 @@ const RequestPage = () => {
       )
     );
     setFriendRequests((prevRequests) =>
-    prevRequests.filter((user) => user.Id !== id)
-  );
+      prevRequests.filter((user) => user.Id !== id)
+    );
     setDone(!done);
   };
   const returnToPage = () => {
@@ -62,7 +72,7 @@ const RequestPage = () => {
     setDoneTwo(false);
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
-  }
+  };
   console.log(friendRequests);
   const handleReject = (id) => {
     // Remove the user with the given id from the friend requests
@@ -85,12 +95,6 @@ const RequestPage = () => {
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
   };
-
-  // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow =
-      inviteTenant || popUpMenu || popUpMenuTwo ? "hidden" : "auto";
-  }, [inviteTenant, popUpMenu, popUpMenuTwo]);
 
   return (
     <div>

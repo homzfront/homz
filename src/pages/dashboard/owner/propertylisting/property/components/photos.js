@@ -16,7 +16,7 @@ const Photos = () => {
 
   return (
     <div className="">
-      <div className="grid w-[880px]">
+      <div className="grid w-[1000px]">
         <div className="flex mt-8 justify-between">
           <div className="w-[120px] flex justify-start">
             <ImageUpload
@@ -92,7 +92,7 @@ const Photos = () => {
           </div>
         </div>
       </div>
-      <div className="mt-[20%] flex justify-end">
+      <div className="mt-[20%] flex justify-end w-[1081px]">
         <button className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
           Update
         </button>
