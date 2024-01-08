@@ -1,17 +1,14 @@
 // ImageModal.js
 "use client";
-import React, { useState } from "react";
 import Image from "next/image";
 
 const ImageModal = ({
-  onClose,
-  item = 0,
   imageData = [],
+  onClose,
   totalImages = 0,
+  currentImageIndex = 1,
+  setCurrentImageIndex,
 }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(item);
-  console.log(currentImageIndex);
-
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % totalImages);
   };
@@ -21,13 +18,18 @@ const ImageModal = ({
       (prevIndex) => (prevIndex - 1 + totalImages) % totalImages
     );
   };
+  console.log(imageData);
+  console.log(totalImages);
+  console.log(currentImageIndex);
 
   return (
-    <div className="text-white modal-overlay absolute top-0 z-20 h-screen max-w-[1440px] m-auto inset-0 bg-black flex justify-center items-center">
-      <div className="modal-content h-screen flex justify-between py-4 flex-col">
+    <div className="text-white absolute top-0 z-20 h-screen max-w-[1440px] m-auto  inset-0  bg-black flex justify-center items-center">
+      <div className="h-screen flex justify-between py-4 flex-col">
         <div className="flex w-full justify-between h-[5%]">
           <span className="text-[14px] font-[400]">{`${
-            currentImageIndex + 1
+            currentImageIndex && currentImageIndex === 0
+              ? currentImageIndex === 1
+              : currentImageIndex + 1
           }/${totalImages}`}</span>
           <button className="flex gap-2 items-center" onClick={onClose}>
             <Image

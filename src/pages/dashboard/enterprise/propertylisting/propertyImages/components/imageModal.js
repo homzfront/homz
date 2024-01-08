@@ -27,7 +27,9 @@ const ImageModal = ({
       <div className="h-screen flex justify-between py-4 flex-col">
         <div className="flex w-full justify-between h-[5%]">
           <span className="text-[14px] font-[400]">{`${
-        currentImageIndex &&  currentImageIndex + 1
+            currentImageIndex && currentImageIndex === 0
+              ? currentImageIndex === 1
+              : currentImageIndex + 1
           }/${totalImages}`}</span>
           <button className="flex gap-2 items-center" onClick={onClose}>
             <Image
