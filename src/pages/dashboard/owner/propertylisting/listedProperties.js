@@ -4,8 +4,6 @@ import Button from "../components/button";
 import Image from "next/image";
 import Dropdown from "../components/dropDownTwo";
 
-
-
 const ListedProperties = ({
   Data,
   selectedDataId,
@@ -14,8 +12,8 @@ const ListedProperties = ({
   setPopUpMenu,
   currentPage,
   setCurrentPage,
-  setSelectedValue,
-  handleSelect
+  openRegistrationForm,
+  handleSelect,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -96,7 +94,7 @@ const ListedProperties = ({
               options={options}
               onSelect={handleSelect}
               selectOption={"Property Type"}
-            className={"text-[14px] font-[500] text-GrayHomz2"}
+              className={"text-[14px] font-[500] text-GrayHomz2"}
             />
             <Dropdown
               options={options}
@@ -120,6 +118,7 @@ const ListedProperties = ({
           </div>
           <div className="">
             <button
+              onClick={openRegistrationForm}
               className={`p-[12px] h-[45px] w-[173px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
             >
               <Image

@@ -134,6 +134,7 @@ const PropertyListing = () => {
           setCurrentPage={setCurrentPage}
           setSelectedValue={setSelectedValue}
           handleSelect={handleSelect}
+          openRegistrationForm={openRegistrationForm}
         />
       ) : registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />

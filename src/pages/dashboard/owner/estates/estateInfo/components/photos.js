@@ -12,7 +12,7 @@ const Photos = () => {
     <div>
       <div className="flex flex-col gap-2 max-h-[800px] justify-between">
         <div className="">
-          <div className="mt-4 w-[1110px] h-auto mb-2 py-5 flex justify-start">
+          <div className="mt-4 w-[1110px] h-[368px] mb-2 py-5 flex justify-start">
             <ImageUpload
               onImageRemove={setUploadedImage}
               onImageUpload={setUploadedImage}
