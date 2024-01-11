@@ -54,7 +54,7 @@ const Data = [
 
 const RevCard = () => {
   return (
-    <div className="border w-[36%] rounded-[12px] ">
+    <div className="border w-[40%] rounded-[12px] ">
       <div className="flex justify-between items-center px-6 pt-6 pb-3">
         <h1 className="text-BlueHomz font-[500] text-[14px]">Revenue</h1>
         <Link href={""}>

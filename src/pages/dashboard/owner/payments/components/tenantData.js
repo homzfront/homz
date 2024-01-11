@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import PopUpMenuTwo from "../../tenants/components/popUpMenuTwo";
 import Button from "../../components/button";
+import StatusDropdownII from "../../components/statusDropDownII";
 
 const TenantData = () => {
   const Data = [
@@ -23,7 +24,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -71,7 +72,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -119,7 +120,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -167,7 +168,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -215,7 +216,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -275,7 +276,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -311,7 +312,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -359,7 +360,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -407,7 +408,7 @@ const TenantData = () => {
       Tenant: "Adeyemo Olayemi",
       Estate: "Sunrise Estate",
       Purpose: "2 years rents",
-      Status: "Paid",
+      Status: "Confirmed",
       DueDate: "4th January, 2024",
       ApartmentNo: "Apartment1",
       PaymentDate: "4th December, 2023",
@@ -442,6 +443,7 @@ const TenantData = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [data, setData] = useState(Data || []);
+  const [openDropdowns, setOpenDropdowns] = useState({});
 
   const ITEMS_PER_PAGE = 6;
 
@@ -476,6 +478,32 @@ const TenantData = () => {
     { length: Math.min(totalPages, 3) },
     (_, index) => index + 1
   );
+
+  const handleStatusChange = (status, dataId) => {
+    // Handle status change logic here
+    console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
+    // Close the corresponding dropdown
+    setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
+    // Correctly update DueDate for the corresponding tenant:
+    // const data = Data.find((tenant) => tenant.id === dataId).Status = status;
+    // console.log(data)
+    // Find the index of the data item with the given dataId
+    const dataIndex = data.findIndex((item) => item.id === dataId);
+
+    if (dataIndex !== -1) {
+      // Update the DueDate property of the found item
+      const updatedData = [...data];
+      updatedData[dataIndex].Status = status;
+
+      // Update the state with the new data
+      setData(updatedData);
+      console.log(data);
+    }
+  };
+
+  const toggleDropdown = (dataId) => {
+    setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
+  };
 
   const handleDelete = (profileId) => {
     // Logic to delete the profile with the given ID
@@ -537,25 +565,16 @@ const TenantData = () => {
                       {data.Purpose}
                     </td>
                     <td
-                      className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] w-24`}
+                      className={`text-GrayHomz py-[15px] pr-4 font-[500]  text-[11px] w-24`}
                     >
-                      <span
-                        className={`p-[6px] rounded-md text-center  ${
-                          data.Status === "Pending"
-                            ? "bg-warningBg text-warning2 px-[10px]"
-                            : ""
-                        } ${
-                          data.Status === "Paid"
-                            ? "bg-successBg text-Success px-[21px]"
-                            : ""
-                        } ${
-                          data.Status === "Over Due"
-                            ? "bg-error text-white px-2"
-                            : ""
-                        }`}
-                      >
-                        {data.Status}
-                      </span>
+                      <StatusDropdownII
+                        data={data}
+                        handleStatusChange={(status) =>
+                          handleStatusChange(status, data.id)
+                        }
+                        isOpen={openDropdowns[data.id] || false}
+                        toggleDropdown={() => toggleDropdown(data.id)}
+                      />
                     </td>
                     <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {data.Estate}
@@ -576,7 +595,7 @@ const TenantData = () => {
                         />
                       </button>
                       {popUpMenuTwo && selectedDataId === data.id && (
-                        <PopUpMenuTwo data={data} handleDelete={handleDelete} />
+                        <PopUpMenuTwo data={data} />
                       )}
                     </td>
                   </tr>

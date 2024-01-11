@@ -3,11 +3,13 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenuTwo from "../components/popUpMenuTwo";
 import Button from "../../components/button";
+import StatusDropdown from "../../components/statusDropDown";
 
 const TenantsTwo = ({ Data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [data, setData] = useState(Data || []);
+  const [openDropdowns, setOpenDropdowns] = useState({});
 
   const ITEMS_PER_PAGE = 10;
 
@@ -31,7 +33,6 @@ const TenantsTwo = ({ Data }) => {
   const handlePageClick = (page) => {
     setCurrentPage(page);
   };
-
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
     setSelectedDataId(id);
@@ -43,16 +44,31 @@ const TenantsTwo = ({ Data }) => {
     (_, index) => index + 1
   );
 
-  const handleDelete = (profileId) => {
-    // Logic to delete the profile with the given ID
-    console.log(`Deleting profile with ID: ${profileId}`);
-    // Perform your delete logic here...
-    // For example, you can update the state to remove the profile
-    const updatedData = data.filter((profile) => profile.id !== profileId);
-    // Set the updated data to the state
-    setData(updatedData); // Assuming you have a state variable 'setData'
+  const handleStatusChange = (status, dataId) => {
+    // Handle status change logic here
+    console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
+    // Close the corresponding dropdown
+    setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
+    // Correctly update DueDate for the corresponding tenant:
+    // const data = Data.find((tenant) => tenant.id === dataId).Status = status;
+    // console.log(data)
+    // Find the index of the data item with the given dataId
+    const dataIndex = data.findIndex((item) => item.id === dataId);
+
+    if (dataIndex !== -1) {
+      // Update the DueDate property of the found item
+      const updatedData = [...data];
+      updatedData[dataIndex].Status = status;
+
+      // Update the state with the new data
+      setData(updatedData);
+      console.log
+    }
   };
 
+  const toggleDropdown = (dataId) => {
+    setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
+  };
   return (
     <div className="mt-6">
       <div className=" border w-full">
@@ -114,23 +130,14 @@ const TenantsTwo = ({ Data }) => {
                     <td
                       className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] w-24`}
                     >
-                      <span
-                        className={`p-[6px] rounded-md text-center  ${
-                          data.Status === "Pending"
-                            ? "bg-warningBg text-warning2 px-[10px]"
-                            : ""
-                        } ${
-                          data.Status === "Paid"
-                            ? "bg-successBg text-Success px-[21px]"
-                            : ""
-                        } ${
-                          data.Status === "Over Due"
-                            ? "bg-error text-white px-2"
-                            : ""
-                        }`}
-                      >
-                        {data.Status}
-                      </span>
+                      <StatusDropdown
+                        data={data}
+                        handleStatusChange={(status) =>
+                          handleStatusChange(status, data.id)
+                        }
+                        isOpen={openDropdowns[data.id] || false}
+                        toggleDropdown={() => toggleDropdown(data.id)}
+                      />
                     </td>
                     <td className="text-GrayHomz py-[15px] font-[500] text-[11px] pr-2">
                       {data.DueDate}
@@ -148,7 +155,7 @@ const TenantsTwo = ({ Data }) => {
                         />
                       </button>
                       {popUpMenuTwo && selectedDataId === data.id && (
-                        <PopUpMenuTwo data={data} handleDelete={handleDelete} />
+                        <PopUpMenuTwo data={data} />
                       )}
                     </td>
                   </tr>

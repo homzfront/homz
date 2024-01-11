@@ -5,9 +5,9 @@ import Link from "next/link";
 
 const Property = () => {
   return (
-    <div className="w-[1075px] p-8">
+    <div className="w-[1147px] p-8">
       <div>
-        <div>
+        <div className="flex justify-between items-center">
           <div className="w-[475px] flex gap-2 items-center">
             <Image
               src={
@@ -33,6 +33,7 @@ const Property = () => {
               Property Details
             </div>
           </div>
+          <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
         </div>
         <div>
           <Widget />

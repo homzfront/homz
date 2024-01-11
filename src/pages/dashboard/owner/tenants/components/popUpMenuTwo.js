@@ -23,7 +23,7 @@ function PopUpMenuTwo({ data, handleDelete }) {
             View Profile
           </div>
         </Link>
-        <button onClick={() => handleDelete(data.id)}>
+        {/* <button onClick={() => handleDelete(data.id)}>
           <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1 rounded-sm w-[160px] text-center">
             <Image
               src={
@@ -36,7 +36,7 @@ function PopUpMenuTwo({ data, handleDelete }) {
             />
             Delete Profile
           </div>
-        </button>
+        </button> */}
       </div>
     );
   }

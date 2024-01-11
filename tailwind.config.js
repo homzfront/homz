@@ -16,6 +16,7 @@ module.exports = {
         BlackHomz: '#202020',
         BlueHomz: '#006AFF',
         BlueHomz2: '#0058D4',
+        BlueHomz3: '#F9FBFF',
         GrayHomz: '#4E4E4E',
         GrayHomz2: '#A9A9A9',
         GrayHomz3: '#9BB9E4',
@@ -23,6 +24,9 @@ module.exports = {
         GrayHomz6: '#E6E6E6',
         GrayHomz5: '#D5D5D5',
         Success: '#039855',
+        Success2: '#81CBAA',
+        Success3: '#EBF7F2',
+        Success4: '#ABDDC6',
         whiteblue: '#EEF5FF',
         lightblue: '#559CFF',
         darkblue: '#0058D4',
@@ -30,11 +34,14 @@ module.exports = {
         darkgreen: '#039855',
         warning: '#E89A57',
         warning2: '#DC6803',
+        warning3: '#EDB381',
+        warning4: '#FCF3EB',
         error: '#D92D20',
         warningBg: '#FCF3EB',
         successBg: '#CDEADD',
         inputBg: "#F6F6F6",
-        walletBg: "#EEF5FF"
+        walletBg: "#EEF5FF",
+        withdrawBg: "#FBFDFF",
    
 
 

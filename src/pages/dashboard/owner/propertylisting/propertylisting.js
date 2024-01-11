@@ -102,6 +102,7 @@ const PropertyListing = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
+  const [registrationFormForPP, setRegistrationFormForPP] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
   const [data, setData] = useState(Data || []); // Assuming Data is defined elsewhere
 
@@ -119,7 +120,13 @@ const PropertyListing = () => {
 
   const returnToStartRegistration = () => {
     setRegistrationForm(false);
+    setRegistrationFormForPP(false);
   }
+
+  
+  const openRegistrationFormForPP = () => {
+    setRegistrationFormForPP(true);
+  };
 
   return (
     <>
@@ -134,7 +141,9 @@ const PropertyListing = () => {
           setCurrentPage={setCurrentPage}
           setSelectedValue={setSelectedValue}
           handleSelect={handleSelect}
-          openRegistrationForm={openRegistrationForm}
+          openRegistrationFormForPP={openRegistrationFormForPP}
+          registrationFormForPP={registrationFormForPP}
+          returnToStartRegistration={returnToStartRegistration}
         />
       ) : registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />

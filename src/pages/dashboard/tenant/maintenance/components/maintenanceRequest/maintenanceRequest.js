@@ -1,0 +1,100 @@
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+
+const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
+  const [subject, setSubject] = useState("");
+  const [requestDate, setRequestDate] = useState("");
+
+  console.log(subject);
+  console.log(requestDate);
+
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
+
+    const randomNumber = () => {
+        return Math.random()
+    }
+
+    const newData = {
+        id: randomNumber(),
+        subject,
+        requestDate
+    }
+
+    setData([
+        ...data, newData
+    ])
+
+    setSubject('');
+    setRequestDate('');    
+  }
+
+  
+
+
+ // useEffect to store data from localStorage when the component mounts
+ useEffect(() => {
+    localStorage.setItem("DataII", JSON.stringify(data));
+  }, [data]);
+
+  console.log(data);
+
+  return (
+    <div className="p-8">
+      <div className="flex gap-4 items-center">
+        <div
+          onClick={closeMaintenanceForm}
+          className="flex items-center gap-1 cursor-pointer"
+        >
+          <Image
+            src={"/static/dashboard/tenant/maintenance/arrow-left.png"}
+            alt=""
+            height={16}
+            width={16}
+          />
+          <p className="text-[14px] font-[400] text-GrayHomz2">Go Back</p>
+        </div>
+        <p className="text-[20px] font-[500] text-BlackHomz">
+          Maintenance Request
+        </p>
+      </div>
+      <p className="mt-2 text-[16px] font-[400] text-GrayHomz">
+        Fill in the problem that needs maintenance in your home
+      </p>
+      <div className="mt-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-[14px] font-[500] text-BlackHomz">
+            Subject{" "}
+            <span className="text-[11px] font-[400] text-GrayHomz">
+              (State the problem that needs maintenance)
+            </span>
+          </label>
+          <input
+            type="text"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            placeholder="E.g Broken Window"
+            className="px-4 h-[45px] w-[475px] border rounded-[4px]"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-[14px] font-[500] text-BlackHomz">
+            Request Date
+          </label>
+          <input
+            value={requestDate}
+            onChange={(e) => setRequestDate(e.target.value)}
+            className="px-4 h-[45px] w-[475px] border rounded-[4px] text-GrayHomz2"
+            type="date"
+          />
+        </div>
+        <button onClick={handleSubmit} className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]">
+          Send Request
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default MaintenanceRequest;

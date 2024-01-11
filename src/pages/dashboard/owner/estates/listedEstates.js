@@ -3,7 +3,6 @@ import React from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
-import EstateForm from "./estateForm/estateForm";
 
 
 const ListedEstates = ({
@@ -14,8 +13,6 @@ const ListedEstates = ({
   setPopUpMenu,
   currentPage,
   setCurrentPage,
-  registrationForm,
-  returnToStartRegistration,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -55,61 +52,57 @@ const ListedEstates = ({
 
   return (
     <div className="w-[1147px]">
-      {registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration} />
-      ) : (
-        <div>
-          <div className="p-8 flex justify-between items-center">
-            <div className="flex gap-2 mb-6">
-              <p>Estate</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">{Data.length}</span>
-              </span>
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <p className="text-[16px] font-[400] text-BlackHomz pr-2">
-                Filter by:{" "}
-              </p>
-              <input
-                type="date"
-                className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
-              />
-              <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
-                <span>
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                    }
-                    alt=""
-                    height={17}
-                    width={16}
-                  />
-                </span>
-                Reset
-              </button>
-            </div>
+      <div>
+        <div className="p-8 flex justify-between items-center">
+          <div className="flex gap-2 mb-6">
+            <p>Estate</p>
+            <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+              <span className="text-BlueHomz ">{Data.length}</span>
+            </span>
           </div>
 
-          <div className="px-8 py-4 h-[750px] flex flex-col justify-between">
-            <EstateCard
-              Data={currentData}
-              handleToggleMenu={handleToggleMenu}
-              data={currentData}
-              popUpMenu={popUpMenu}
-              selectedDataId={selectedDataId}
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-[16px] font-[400] text-BlackHomz pr-2">
+              Filter by:{" "}
+            </p>
+            <input
+              type="date"
+              className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
             />
-            <Button
-              firstThreePages={firstThreePages}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handleNext={handleNext}
-              handlePageClick={handlePageClick}
-              handlePrev={handlePrev}
-            />
+            <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+              <span>
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/repeat.png"
+                  }
+                  alt=""
+                  height={17}
+                  width={16}
+                />
+              </span>
+              Reset
+            </button>
           </div>
         </div>
-      )}
+
+        <div className="px-8 py-4 h-[750px] flex flex-col justify-between">
+          <EstateCard
+            Data={currentData}
+            handleToggleMenu={handleToggleMenu}
+            data={currentData}
+            popUpMenu={popUpMenu}
+            selectedDataId={selectedDataId}
+          />
+          <Button
+            firstThreePages={firstThreePages}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handleNext={handleNext}
+            handlePageClick={handlePageClick}
+            handlePrev={handlePrev}
+          />
+        </div>
+      </div>
     </div>
   );
 };

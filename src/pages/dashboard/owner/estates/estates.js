@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import EstateForm from "./estateForm/estateForm";
 
 import ListedEstates from "./listedEstates";
 
@@ -92,19 +91,9 @@ const Estate = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [registrationForm, setRegistrationForm] = useState(false);
   const [data, setData] = useState(Data || []);
 
   console.log(data);
-
-  const openRegistrationForm = () => {
-    setRegistrationForm(true);
-  };
-
-  const returnToStartRegistration = () => {
-    setRegistrationForm(false);
-  };
-
 
   return (
     <div>
@@ -117,42 +106,34 @@ const Estate = () => {
           setPopUpMenu={setPopUpMenu}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          registrationForm={registrationForm}
-          returnToStartRegistration={returnToStartRegistration}
         />
-      ) : registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
         <div className="w-[1147px] p-8">
           <div className="flex justify-between items-center">
             <div className="flex gap-1">
               <p>Estates</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">0</span>
+                <span className="text-BlueHomz ">{data?.length}</span>
               </span>
             </div>
           </div>
-          <div className="flex flex-col gap-3 mt-5">
-            <h1 className="text-[41px] font-[700] text-BlueHomz">
-              Get Started
-            </h1>
-            <p className="text-[18px] font-[400] text-GrayHomz">
-              Add your estates so your Tenants can see them
-            </p>
-            <button
-              onClick={openRegistrationForm}
-              className="p-[12px] w-[185px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
-            >
+          <div className="h-[850px] w-full flex items-center justify-around">
+            <div className="">
               <Image
                 src={
-                  "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
+                  "/static/dashboard/enterprisemanager/estate/EmptyEstate.png"
                 }
                 alt=""
-                width={16}
-                height={16}
+                height={120}
+                width={120}
+                className="m-auto"
               />
-              Add New Estates
-            </button>
+              <p className="text-[36px] font-[700] text-BlueHomz text-center">Estates</p>
+              <p className="text-[14px] font-[500] text-GrayHomz text-center">
+                Your estates will be visible here once they’re added by your
+                estate manager
+              </p>
+            </div>
           </div>
         </div>
       )}
