@@ -61,7 +61,7 @@ const RentInfo = ({ data }) => {
         ) : (
           <div className="flex gap-4 mt-8">
             {data.map((data) => (
-              <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
+              <div key={data.id} className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
                 <p className="text-[11px] font-[400] text-white mb-2">
                   {data.name}
                 </p>

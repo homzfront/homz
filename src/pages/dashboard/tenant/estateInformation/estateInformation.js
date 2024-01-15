@@ -20,7 +20,7 @@ const Data = [
     EmergencyII: "0000 - 000 - 0000",
   },
 ];
-const estateInformation = () => {
+const EstateInformation = () => {
   const [openEstate, setOpenEstate] = useState(false);
   const [openLinkModal, setOpenLinkModal] = useState(false);
   const [linkConfirmationModal, setLinkConfirmationModal] = useState(false);
@@ -115,4 +115,4 @@ const estateInformation = () => {
   );
 };
 
-export default estateInformation;
+export default EstateInformation;
