@@ -15,7 +15,7 @@ const EditAmountToSave = ({
   setConfirmModalIV,
 }) => {
   const [newSavingTarget, setNewSavingTarget] = useState(
-    selectedSavings.amountToSave || []
+    selectedSavings?.amountToSave
   );
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
@@ -31,7 +31,7 @@ const EditAmountToSave = ({
       const updatedValue = parseInt(newSavingTarget);
       console.log(updatedValue);
   
-      const amountToSave = parseInt(selectedSavings.amountToSave);
+      const amountToSave = parseInt(selectedSavings?.amountToSave);
       console.log(amountToSave);
   
       const amountToSaveII =
@@ -42,7 +42,7 @@ const EditAmountToSave = ({
     // Perform any validation if needed
     // ...
 
-    if ((walletBalance +  amountToSave) >= updatedValue && updatedValue <= selectedSavings.rentTarget) {
+    if ((walletBalance +  amountToSave) >= updatedValue && updatedValue <= selectedSavings?.rentTarget) {
       // Call the updateRentTarget function with the new rentTarget value
       updateSaveTarget(newSavingTarget);
       setOpenConfirmModal(!openConfirmModal);

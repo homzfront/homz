@@ -22,7 +22,7 @@ const Wallet = ({
   const confirm = () => {
     // Add the amountToSave back to the wallet
     const updatedWalletBalance =
-      parseInt(data[0].wallet) + parseInt(selectedSavings.amountToSave);
+      parseInt(data[0]?.wallet) + parseInt(selectedSavings?.amountToSave);
 
     // Update the wallet balance in the data
     setData((prevData) => [
