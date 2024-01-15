@@ -21,7 +21,7 @@ const EditRentTarget = ({
   const handleUpdate = () => {
     // Perform any validation if needed
     // ...
-    if (newRentTarget > selectedSavings.amountToSave ) {
+    if (newRentTarget > selectedSavings.amountToSave || newRentTarget === selectedSavings.amountToSave) {
         // Call the updateRentTarget function with the new rentTarget value
         updateRentTarget(newRentTarget);
         setConfirmModalII(!confirmModalII);
@@ -66,9 +66,10 @@ const EditRentTarget = ({
               <input
                 type="number"
                 value={newRentTarget}
-                onChange={(e) =>
-                  setNewRentTarget(e.target.value)
-                } /* Add (e) parameter here */
+                onChange={(e) => {
+                  setNewRentTarget(e.target.value);
+                
+                }} /* Add (e) parameter here */
                 className={`${
                   isInvalid ? "ring ring-red-500" : ""
                 }  text-warning px-4 outline-none mt-2 w-full h-[45px] rounded-[4px] bg-warning4`}

@@ -4,11 +4,11 @@ import TransferHis from './components/transferHis/transferHis';
 import Withdraw from './components/withdraw/withdraw';
 import Activities from './components/activities/ativities';
 
-const Wallet = () => {
+const Wallet = ({activeTwo}) => {
   return (
     <div className='w-full flex gap-4 py-8'>
         <div className='flex flex-col w-[550px] h-[700px] justify-between mx-8'>
-            <WalletBalance/>
+            <WalletBalance activeTwo={activeTwo}/>
             <Withdraw/>
             <Activities />
         </div>

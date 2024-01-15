@@ -25,7 +25,7 @@ const Maintenance = () => {
   console.log(data);
   return (
     <div className="w-[1147px]">
-      {data && data.length >= 1 ? (
+      {data && data.length >= 5 ? (
         <div>
           <Request/>
         </div>

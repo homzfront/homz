@@ -1,19 +1,36 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import All from "./all";
 import InProgress from "./inProgress";
 import PendingRequests from "./pendingRequests";
 import Resolved from "./resolved";
 
-const pages = [
-
-  { id: 1, name: "All", component: <All /> },
-  { id: 2, name: "In-progress", component: <InProgress /> },
-  { id: 3, name: "Pending Requests", component: <PendingRequests /> },
-  { id: 4, name: "Resolved", component: <Resolved /> },
-];
-
 const Widget = () => {
+  const [Data, setData] = useState([]);
+
+  // useEffect to load data from localStorage when the component mounts
+  useEffect(() => {
+    const savedData = localStorage.getItem("DataII");
+    if (savedData) {
+      setData(JSON.parse(savedData));
+    }
+  }, []);
+
+  const data = Data || [];
+
+  console.log(data);
+
+  const pages = [
+    { id: 1, name: "All", component: <All data={data} /> },
+    { id: 2, name: "In-progress", component: <InProgress data={data} /> },
+    {
+      id: 3,
+      name: "Pending Requests",
+      component: <PendingRequests data={data} />,
+    },
+    { id: 4, name: "Resolved", component: <Resolved data={data} /> },
+  ];
+
   const [active, setActive] = useState(pages[0].id);
 
   const handlePageChange = (id) => {

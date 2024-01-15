@@ -62,7 +62,7 @@ const TenantsTwo = ({ Data }) => {
 
       // Update the state with the new data
       setData(updatedData);
-      console.log
+      console.log;
     }
   };
 
@@ -71,97 +71,91 @@ const TenantsTwo = ({ Data }) => {
   };
   return (
     <div className="mt-6">
-      <div className=" border w-full">
+      <div className=" border w-full rounded-t-[12px]">
+        <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
+          <div className="w-[15%] ">Tenant</div>
+          <div className="w-[10%] ">Estate</div>
+          <div className="w-[11%] ">Apartment No</div>
+          <div className="w-[11%] ">Address</div>
+          <div className="w-[10%] ">Email</div>
+          <div className="w-[10%] pl-1">Phone No</div>
+          <div className="w-[7%] pl-1">Rent</div>
+          <div className="w-[13%] pl-1">Status</div>
+          <div className="w-[10%] ">Due Date</div>
+          <div className="w-[3%] "></div>
+        </div>
+
         <div className="">
-          <table border="1" className="w-full ">
-            <thead className="">
-              <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6">Tenant</th>
-                <th className="text-left ">Estate</th>
-                <th className="text-left " style={{ width: "100px" }}>
-                  Apartment No
-                </th>
-                <th className="text-left ">Address</th>
-                <th className="text-left ">Email</th>
-                <th className="text-left ">Phone No</th>
-                <th className="text-left">Rent</th>
-                <th className="text-left">Status</th>
-                <th className="text-left ">Due Date</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody className="">
-              {currentData &&
-                currentData.map((data) => (
-                  <tr
-                    key={data.id}
-                    className=" w-2 border-t-[1px] items-center"
-                  >
-                    <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
-                        }
-                        alt=""
-                        width={30}
-                        height={30}
-                        className="py-[15px]"
-                      />
-                      <span className="py-[15px]">{data.Tenant}</span>
-                    </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {data.Estate}
-                    </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {data.ApartmentNo}
-                    </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {data.Address}
-                    </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {data.Email}
-                    </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {data.PhoneNo}
-                    </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {data.Rent}
-                    </td>
-                    <td
-                      className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] w-24`}
-                    >
-                      <StatusDropdown
-                        data={data}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, data.id)
-                        }
-                        isOpen={openDropdowns[data.id] || false}
-                        toggleDropdown={() => toggleDropdown(data.id)}
-                      />
-                    </td>
-                    <td className="text-GrayHomz py-[15px] font-[500] text-[11px] pr-2">
-                      {data.DueDate}
-                    </td>
-                    <td className="relative py-[15px] pr-4">
-                      <button onClick={() => handleToggleMenu(data.id)}>
-                        <Image
-                          src={
-                            "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                          }
-                          alt=""
-                          height={21}
-                          width={20}
-                          style={{ height: "auto", width: "auto" }}
-                        />
-                      </button>
-                      {popUpMenuTwo && selectedDataId === data.id && (
-                        <PopUpMenuTwo data={data} />
-                      )}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          {currentData &&
+            currentData.map((data) => (
+              <div
+                key={data.id}
+                className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
+              >
+                {/* Apply the same styles as the header to each column in the body */}
+                <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
+                    }
+                    alt=""
+                    width={30}
+                    height={30}
+                    className=""
+                  />
+                  <span className="">{data.Tenant}</span>
+                </div>
+                <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
+                  {data.Estate}
+                </div>
+                <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
+                  {data.ApartmentNo}
+                </div>
+                <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
+                  {data.Address}
+                </div>
+                <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
+                  <span className="break-words">{data.Email}</span>
+                </div>
+                <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
+                  {data.PhoneNo}
+                </div>
+                <div className="text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
+                  {data.Rent}
+                </div>
+                <div
+                  className={`text-GrayHomz w-[13%] font-[500] text-[11px] text-start`}
+                >
+                  <StatusDropdown
+                    data={data}
+                    handleStatusChange={(status) =>
+                      handleStatusChange(status, data.id)
+                    }
+                    isOpen={openDropdowns[data.id] || false}
+                    toggleDropdown={() => toggleDropdown(data.id)}
+                  />
+                </div>
+                <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
+                  {data.DueDate}
+                </div>
+                <div className="relative w-[3%]">
+                  <button onClick={() => handleToggleMenu(data.id)}>
+                    <Image
+                      src={
+                        "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                      }
+                      alt=""
+                      height={21}
+                      width={20}
+                      style={{ height: "auto", width: "auto" }}
+                    />
+                  </button>
+                  {popUpMenuTwo && selectedDataId === data.id && (
+                    <PopUpMenuTwo data={data} />
+                  )}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
       <Button

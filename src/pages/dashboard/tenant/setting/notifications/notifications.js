@@ -16,9 +16,15 @@ const Notifications = () => {
   return (
     <div>
       <div className="border-t p-8">
+        <div className="rounded-md text-[16px] font-[400] text-GrayHomz h-[56px] w-[600px] bg-inputBg flex flex-col p-8 justify-center">
+          <div className="flex gap-2 items-center">
+            <ToggleButton onToggle={handleToggle2} isOpen={!isOpen2} />
+            <p className=""> Messages</p>
+          </div>
+        </div>
         <div className="mt-4 rounded-md text-[16px] font-[400] text-GrayHomz h-[56px] w-[600px] bg-inputBg flex flex-col p-8 justify-center">
           <div className="flex gap-2 items-center">
-            <ToggleButton onToggle={handleToggle3} isOpen={!isOpen3} />{" "}
+            <ToggleButton onToggle={handleToggle3} isOpen={!isOpen3} />
             <p className="">Alerts</p>
           </div>
         </div>

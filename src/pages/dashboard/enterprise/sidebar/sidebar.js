@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import ConfirmModalI from "../components/confirmModalI";
 
 const Sidebar = () => {
   const Data = [
@@ -105,16 +106,18 @@ const Sidebar = () => {
       link: "",
       name: "Switch",
     },
-    {
-      id: 2,
-      image: "/static/dashboard/enterprisemanager/sidebar/logout.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/logout.png",
-      link: "",
-      name: "Logout",
-    },
   ];
 
   const [pathname, setPathname] = useState("");
+  const [logoutModal, setLogoutModal] = useState(false);
+
+  const logout = () => {
+    setLogoutModal(!logoutModal);
+  };
+
+  const closeLogout = () => {
+    setLogoutModal(false);
+  };
 
   useEffect(() => {
     // Function to get the current URL
@@ -143,6 +146,18 @@ const Sidebar = () => {
 
     setPathname(extractPathname(url()));
   }, []);
+
+
+    // useEffect to handle scrolling
+useEffect(() => {
+  document.body.style.overflow = logoutModal ? "hidden" : "auto";
+  if (logoutModal) {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+  }
+}, [logoutModal]);
+
+
   console.log(pathname);
 
   return (
@@ -224,7 +239,30 @@ const Sidebar = () => {
                 <span className="">{data.name}</span>
               </Link>
             ))}
+             <div
+              onClick={logout}
+              className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
+                 `}
+            >
+              <Image
+                src="/static/dashboard/enterprisemanager/sidebar/logout.png"
+                height={16}
+                width={16}
+                alt="img"
+              />
+              <span className="">Logout</span>
+            </div>
           </div>
+          {logoutModal && (
+            <ConfirmModalI
+              header={"Are you leaving?"}
+              body={"You’re about to exit your dashboard"}
+              button={"Yes, log me out"}
+              buttonTwo={"No, take me back"}
+              returnHome={""}
+              returnHomeTwo={closeLogout}
+            />
+          )}
         </div>
       </div>
     </div>

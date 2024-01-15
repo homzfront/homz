@@ -23,11 +23,11 @@ const SectionOne = () => {
   return (
     <div>
         <div className="max-w-[420px] gap-6  flex flex-col">
-          <p className="text-[16px] mt-2 font-[400] text-GrayHomz ">
+          <p className="text-[16px] w-[380px] mt-2 font-[400] text-GrayHomz ">
             Any questions or remarks? Just send us a message. Fill up the form
             and our team will get back to you.
           </p>
-          <div className=" mt-8 flex gap-8">
+          <div className=" mt-6 flex gap-8">
             <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
               <Image
                 src={"/call.png"}

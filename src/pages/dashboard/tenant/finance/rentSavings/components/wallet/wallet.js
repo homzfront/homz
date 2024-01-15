@@ -17,7 +17,7 @@ const Wallet = ({ selectedSavings, closeWallet, setData, data }) => {
         ...prevData[0],
         wallet: updatedWalletBalance.toString(),
         Data: prevData[0].Data.map((item) =>
-          item.id === selectedSavings.id ? { ...item, amountToSave: "" } : item
+          item.id === selectedSavings.id ? { ...item, amountToSave: 0 } : item
         ), // Set amountToSave to empty string for the selectedSavings
       },
     ]);

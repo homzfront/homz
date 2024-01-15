@@ -8,7 +8,7 @@ function PopUpMenuTwo({ data, handleDelete }) {
   }
   console.log(data);
     return (
-      <div className="drop-down absolute top-10  text-GrayHomz font-[500] text-[13px] right-[35px] border   rounded-md bg-white flex flex-col items-center justify-around">
+      <div className="drop-down absolute top-7  text-GrayHomz font-[500] text-[13px] right-[27px] border   rounded-md bg-white flex flex-col items-center justify-around">
         <Link href={`/dashboard/property-owner/tenants/profile/${data.id}`}>
           <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[160px] text-center">
             <Image

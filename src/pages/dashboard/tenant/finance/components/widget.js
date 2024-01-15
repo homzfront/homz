@@ -51,7 +51,7 @@ const Widget = () => {
             <RentSavings />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <Wallet />
+            <Wallet activeTwo={activeTwo}/>
           </div>
         </div>
       </div>

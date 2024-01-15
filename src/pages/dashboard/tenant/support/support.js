@@ -25,37 +25,46 @@ const Support = () => {
     setDoneDialogue(false);
   };
 
-    // useEffect to handle scrolling
-// useEffect to handle scrolling
-useEffect(() => {
-  document.body.style.overflow = proceed || doneDialogue ? "hidden" : "auto";
-  if (proceed || doneDialogue) {
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-  }
-}, [proceed, doneDialogue]);
+  // useEffect to handle scrolling
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = proceed || doneDialogue ? "hidden" : "auto";
+    if (proceed || doneDialogue) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [proceed, doneDialogue]);
 
   return (
     <div className=" w-[1147px] p-8">
       <h1 className="text-[20px] font-[500] mb-4 text-BlackHomz">Support</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         <SectionOne />
         <div>
-          <div className="flex flex-col max-w-[780px]">
-            <Input label={"Full Name"} type={"text"} placeholder={"FullName"} />
-            <Input
-              label={"Phone Number"}
-              type={"text"}
-              placeholder={"Phone Number"}
-            />
-            <label className="text-BlackHomz mt-4 text-[14px] font-[500] mb-1">
-              Your Message
-            </label>
-            <textarea
-              placeholder="Your Message"
-              className="rounded-md px-4 h-[156px] border py-2"
-            />
-
+          <div className="flex flex-col gap-4 max-w-[780px]">
+            <div>
+              <Input
+                label={"Full Name"}
+                type={"text"}
+                placeholder={"FullName"}
+              />
+            </div>
+            <div>
+              <Input
+                label={"Phone Number"}
+                type={"text"}
+                placeholder={"Phone Number"}
+              />
+            </div>
+            <div className="w-full flex flex-col gap-2">
+              <label className="text-BlackHomz text-[14px] font-[500] mb-1">
+                Your Message
+              </label>
+              <textarea
+                placeholder="Your Message"
+                className ="rounded-md px-4 h-[156px] border py-2"
+              />
+            </div>
             <button
               onClick={OpenProceedDialogue}
               className="bg-BlueHomz mt-4 hover:bg-blue-400 text-white h-10 w-full rounded-md"

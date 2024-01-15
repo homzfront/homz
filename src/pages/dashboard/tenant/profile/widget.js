@@ -3,12 +3,13 @@ import PersonalInfo from "./personalInfo/personalInfo.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
+import RentInformation from "./rentInformation/rentInformation.js";
 
 const pages = [
-
-  { id: 1, name: "Personal Information", component: <PersonalInfo /> },
-  { id: 2, name: "Profile Picture", component: <ProfilePicture /> },
-  { id: 3, name: "Change Password", component: <ChangePassword /> },
+  { id: 1, name: "Rent Information", component: <RentInformation /> },
+  { id: 2, name: "Personal Information", component: <PersonalInfo /> },
+  { id: 3, name: "Profile Picture", component: <ProfilePicture /> },
+  { id: 4, name: "Change Password", component: <ChangePassword /> },
 ];
 
 const Widget = () => {
@@ -21,7 +22,7 @@ const Widget = () => {
   return (
     <div>
       <div className="w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-[471px] cursor-pointer">
+        <div className="flex mt-5 gap-2 justify-between w-[590px] cursor-pointer">
           {pages.map((page) => (
             <div
               key={page.id}

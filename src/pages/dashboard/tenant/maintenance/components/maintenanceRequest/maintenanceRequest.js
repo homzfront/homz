@@ -1,9 +1,19 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import ConfirmModalI from "../../../components/confirmModalI";
 
 const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
   const [subject, setSubject] = useState("");
   const [requestDate, setRequestDate] = useState("");
+  const [openAccept, setOpenAccept] = useState(false);
+
+  const accept = () => {
+    setOpenAccept(!openAccept);
+  }
+
+  const closeAccept = () => {
+    setOpenAccept(false);
+  }
 
   console.log(subject);
   console.log(requestDate);
@@ -42,6 +52,11 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
 
   return (
     <div className="p-8">
+      {/* {
+        openAccept && (
+          <ConfirmModalI header={"Proceed To Send Request?"} body={""}/>
+        )
+      } */}
       <div className="flex gap-4 items-center">
         <div
           onClick={closeMaintenanceForm}

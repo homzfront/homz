@@ -1,9 +1,36 @@
-import React from 'react'
+import React from "react";
 
-const Resolved = () => {
+const Resolved = ({ data }) => {
+  console.log(data);
   return (
-    <div>Resolved</div>
-  )
-}
+    <div>
+      <div className="text-[13px] font-[500] text-BlackHomz flex px-8 py-4 bg-walletBg">
+        <p className="w-[180px]">Subject</p>
+        <p className="w-[180px]">Request Date</p>
+        <p className="w-[180px]">Status</p>
+      </div>
+      <div className="">
+        {data?.map((data) => (
+          <div
+            key={data.id}
+            className={`text-[11px] font-[400] text-GrayHomz px-8 py-4 border-b ${
+              data.id > 0.8 ? "flex" : "hidden"
+            }`}
+          >
+            <p className="w-[180px]">{data.subject}</p>
+            <p className="w-[180px]">{data.requestDate}</p>
+            <p className="w-[180px] ">
+              {" "}
+              <span
+                className={`px-3 py-1 rounded-[8px] bg-successBg text-Success`}
+              > Resolved</span>
+             
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default Resolved
+export default Resolved;

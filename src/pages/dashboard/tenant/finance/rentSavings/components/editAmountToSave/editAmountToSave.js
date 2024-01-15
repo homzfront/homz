@@ -11,9 +11,9 @@ const EditAmountToSave = ({
   setOpenEditModalToSave,
   data,
   setData,
+  confirmModalIV,
+  setConfirmModalIV,
 }) => {
-  const [confirmModalIV, setConfirmModalIV] = useState(false);
-
   const [newSavingTarget, setNewSavingTarget] = useState(
     selectedSavings.amountToSave
   );
@@ -21,26 +21,34 @@ const EditAmountToSave = ({
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
 
+      // Check if the updated value is more than the wallet balance
+      const walletBalance = parseInt(data[0].wallet);
+      console.log(walletBalance);
+  
+      const updatedValue = parseInt(newSavingTarget);
+      console.log(updatedValue);
+  
+      const amountToSave = parseInt(selectedSavings.amountToSave);
+      console.log(amountToSave);
+  
+      const amountToSaveII =
+      walletBalance +  amountToSave;
+      console.log(amountToSaveII)
+
   const handleUpdate = () => {
     // Perform any validation if needed
     // ...
 
-    // Check if the updated value is more than the wallet balance
-    const walletBalance = parseInt(data[0].wallet);
-    const updatedValue = parseInt(newSavingTarget);
-
-    console.log(walletBalance); 
-
-    if (updatedValue > walletBalance) {
-      // Set isInvalid to true if the updated value is more than the wallet balance
-      setIsInvalid(true);
-      setConfirmModalIV(false);
-      return;
+    if ((walletBalance +  amountToSave) >= updatedValue && updatedValue <= selectedSavings.rentTarget) {
+      // Call the updateRentTarget function with the new rentTarget value
+      updateSaveTarget(newSavingTarget);
+      setOpenConfirmModal(!openConfirmModal);
     }
 
-    // Call the updateRentTarget function with the new rentTarget value
-    updateSaveTarget(newSavingTarget);
-    setOpenConfirmModal(!openConfirmModal);
+    // Set isInvalid to true if the updated value is more than the wallet balance
+    setIsInvalid(true);
+    setConfirmModalIV(false);
+    return;
   };
 
   console.log(selectedSavings);
@@ -103,16 +111,15 @@ const EditAmountToSave = ({
               Increase or decrease your rent target
             </p>
             <p className="mt-8 text-[13px] font-[500] text-GrayHomz">
-              Rent Target <span className=" text-GrayHomz2"> (N)</span>
+              Enter Amount To Save <span className=" text-GrayHomz2"> (N)</span>
             </p>
             <div className="flex flex-col gap-6">
               <input
                 type="number"
                 value={newSavingTarget}
                 onChange={(e) => {
-                  const updatedValue = parseInt(e.target.value);
                   setNewSavingTarget(e.target.value);
-                  setIsInvalid(updatedValue > parseInt(data[0].wallet));
+                  setIsInvalid(false)
                 }}
                 className={`outline-none text-Success mt-2 w-full h-[45px] rounded-[4px] bg-successBg placeholder:text-Success4 placeholder:text-[13px] placeholder:font-[500] px-4 ${
                   isInvalid ? "ring ring-red-500" : "" // Apply ring-red-500 if isInvalid is true

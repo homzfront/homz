@@ -18,14 +18,20 @@ const RentSavings = () => {
   const [confirmModalII, setConfirmModalII] = useState(false);
   const [viewSavings, setViewSavings] = useState(false);
   const [displayWallet, setDisplayWallet] = useState(false);
+  const [confirmModalIV, setConfirmModalIV] = useState(false);
 
   // useEffect to load data from localStorage when the component mounts
-  useEffect(() => {
-    const savedData = localStorage.getItem("Data");
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    }
-  }, []);
+  useEffect(
+    () => {
+      const savedData = localStorage.getItem("Data");
+      if (savedData) {
+        setData(JSON.parse(savedData));
+      }
+    },
+    [],
+    confirmModalIV,
+    openEditModalToSave
+  );
 
   console.log(data);
   const datas = data[0].Data;
@@ -63,7 +69,7 @@ const RentSavings = () => {
     openEditModalToSave,
     openEditModal,
     viewSavings,
-    displayWallet
+    displayWallet,
   ]);
 
   const openNewSavings = () => {
@@ -114,15 +120,41 @@ const RentSavings = () => {
 
   const updateSaveTarget = (newAmountToSave) => {
     setData((prevData) => {
-      // Find the selectedSavings in the data array and update its amountToSave
-      const updatedData = prevData.map((item) => ({
-        ...item,
-        Data: item.Data.map((dataItem) =>
-          dataItem.id === selectedSavings.id
-            ? { ...dataItem, amountToSave: newAmountToSave }
-            : dataItem
-        ),
-      }));
+      const updatedData = prevData.map((item) => {
+        if (item.Data.some((dataItem) => dataItem.id === selectedSavings.id)) {
+          const updatedItem = {
+            ...item,
+            Data: item.Data.map((dataItem) => {
+              if (dataItem.id === selectedSavings.id) {
+                // Calculate the new wallet balance
+                const newWalletBalance =
+                  parseInt(item.wallet) +
+                  parseInt(dataItem.amountToSave) -
+                  parseInt(newAmountToSave);
+
+                console.log(newWalletBalance);
+
+                // Deduct amountToSave from the wallet balance
+                setData((prevData) => [
+                  {
+                    ...prevData[0],
+                    wallet: newWalletBalance.toString(),
+                  },
+                ]);
+                // Return the updated data item
+                return { ...dataItem, amountToSave: newAmountToSave };
+              } else {
+                return dataItem;
+              }
+            }),
+          };
+
+          return updatedItem;
+        } else {
+          return item;
+        }
+      });
+
       return updatedData;
     });
   };
@@ -219,7 +251,9 @@ const RentSavings = () => {
           openWallet={openWallet}
           closeWallet={closeWallet}
           dataWallet={data}
-          setDataWallet= {setData}
+          setDataWallet={setData}
+          confirmModalIV={confirmModalIV}
+          setConfirmModalIV={setConfirmModalIV}
         />
       )}
     </div>

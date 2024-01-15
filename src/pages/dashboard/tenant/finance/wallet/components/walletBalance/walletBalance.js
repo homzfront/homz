@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import RentInformation from "../../../components/rentInformation";
 
-const WalletBalance = () => {
+const WalletBalance = ({activeTwo}) => {
   const [data, setData] = useState("");
   const [rent, setRent] = useState(false);
 
@@ -21,7 +21,7 @@ const WalletBalance = () => {
     if (savedData) {
       setData(JSON.parse(savedData));
     }
-  }, []);
+  }, [activeTwo]);
 
   const formatNumberWithCommas = (number) => {
     if (number == undefined) {

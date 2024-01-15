@@ -27,7 +27,9 @@ const Savings = ({
   closeWallet,
   displayWallet,
   dataWallet,
-  setDataWallet
+  setDataWallet,
+  setConfirmModalIV,
+  confirmModalIV
 }) => {
   const formatDate = (inputDate) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -68,6 +70,8 @@ const Savings = ({
           updateSaveTarget={updateSaveTarget}
           setOpenEditModalToSave={setOpenEditModalToSave}
           data={dataWallet} setData={setDataWallet}
+          setConfirmModalIV={setConfirmModalIV}
+          confirmModalIV={confirmModalIV}
         />
       )}
       {viewSavings && (
