@@ -4,10 +4,10 @@ import AcAndRejModalII from "../modals/acAndRejModalII";
 import ConfirmWallet from "../modals/confirmWallet";
 
 const Wallet = ({
-  selectedSavings = null || [],
+  selectedSavings = [],
   closeWallet,
   setData,
-  data = null || [],
+  data = [],
 }) => {
   if (!selectedSavings) {
     return []

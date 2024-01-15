@@ -7,9 +7,9 @@ import AcAndRejModalII from "../modals/acAndRejModalII";
 const EditAmountToSave = ({
   closeEditRentToSave,
   selectedSavings = null || [],
-  updateSaveTarget = null || [],
+  updateSaveTarget = [],
   setOpenEditModalToSave,
-  data = null || [],
+  data = [],
   setData,
   confirmModalIV,
   setConfirmModalIV,
@@ -18,9 +18,9 @@ const EditAmountToSave = ({
   if (!selectedSavings) {
     return []
   };
-  
+
   const [newSavingTarget, setNewSavingTarget] = useState(
-    selectedSavings.amountToSave = null || []
+    selectedSavings.amountToSave 
   );
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
