@@ -1,7 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
-const RentInfo = ({ data }) => {
+const RentInfo = ({ data = null }) => {
+  if (!data) {
+    return null;
+  }
   return (
     <div>
       <div

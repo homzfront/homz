@@ -3,11 +3,14 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const StatusDropdown = ({
-  data,
+  data = null,
   handleStatusChange,
   isOpen,
   toggleDropdown,
 }) => {
+  if (!data) {
+    return null;
+  }
   return (
     <div className="dropdown">
       <button

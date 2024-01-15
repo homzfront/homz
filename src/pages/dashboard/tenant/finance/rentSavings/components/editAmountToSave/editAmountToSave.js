@@ -15,13 +15,14 @@ const EditAmountToSave = ({
   setConfirmModalIV,
 }) => {
   const [newSavingTarget, setNewSavingTarget] = useState(
-    selectedSavings.amountToSave 
+    selectedSavings.amountToSave || []
   );
-
-
-
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
+
+  if (!data) {
+    return null;
+  }
 
       // Check if the updated value is more than the wallet balance
       const walletBalance = parseInt(data[0].wallet);

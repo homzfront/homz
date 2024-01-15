@@ -4,13 +4,20 @@ import AcAndRejModalII from "../modals/acAndRejModalII";
 import ConfirmWallet from "../modals/confirmWallet";
 
 const Wallet = ({
-  selectedSavings = null,
+  selectedSavings = {},
   closeWallet,
   setData,
-  data = null,
+  data = {},
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
+  if (!data) {
+    return null;
+  }
+
+  if (!selectedSavings) {
+    return null;
+  }
 
   const confirm = () => {
     // Add the amountToSave back to the wallet

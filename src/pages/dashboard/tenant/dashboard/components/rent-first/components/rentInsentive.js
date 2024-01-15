@@ -1,6 +1,9 @@
 import React from "react";
 
-const RentInsentive = ({ data }) => {
+const RentInsentive = ({ data = null }) => {
+  if (!data) {
+    return null;
+  }
   return (
     <div className="w-[454px] h-[203px] border p-[24px] rounded-[12px]">
       <div className="h-full w-full flex flex-col justify-between">
