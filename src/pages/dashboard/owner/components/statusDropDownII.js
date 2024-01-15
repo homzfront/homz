@@ -3,11 +3,15 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const StatusDropdownII = ({
-  data,
+  data = null || [],
   handleStatusChange,
   isOpen,
   toggleDropdown,
 }) => {
+   // Ensure that Data is defined and not null
+   if (!data) {
+    return []; // or handle accordingly, e.g., return a loading state
+  }
   return (
     <div className="dropdown">
       <button

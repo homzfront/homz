@@ -4,7 +4,11 @@ import InProgress from "./inProgress";
 import PendingRequests from "./pendingRequests";
 import Resolved from "./resolved";
 
-const All = ({ data }) => {
+const All = ({ data = null || [] }) => {
+   // Ensure that Data is defined and not null
+   if (!data) {
+    return []; // or handle accordingly, e.g., return a loading state
+  }
   return (
     <div>
       <div className="">

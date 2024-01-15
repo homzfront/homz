@@ -9,6 +9,9 @@ const Wallet = ({
   setData,
   data = null || [],
 }) => {
+  if (!selectedSavings) {
+    return []
+  }
   const [showConfirm, setShowConfirm] = useState(false);
 
   const confirm = () => {

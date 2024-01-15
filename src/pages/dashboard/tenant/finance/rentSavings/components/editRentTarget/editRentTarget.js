@@ -4,15 +4,18 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const EditRentTarget = ({
-  selectedSavings = null,
+  selectedSavings = null || [],
   closeEditRentTarget,
   updateRentTarget,
   confirmModalII,
   setConfirmModalII,
   closeEditRentTargetII,
 }) => {
+  if (!selectedSavings) {
+    return []
+  }
   const [newRentTarget, setNewRentTarget] = useState(
-    selectedSavings.rentTarget || []
+    selectedSavings.rentTarget = null || []
   );
   const [isInvalid, setIsInvalid] = useState(false);
 
