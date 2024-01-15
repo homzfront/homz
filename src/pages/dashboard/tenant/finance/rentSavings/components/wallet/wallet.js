@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import AcAndRejModalII from "../modals/acAndRejModalII";
 import ConfirmWallet from "../modals/confirmWallet";
 
-const Wallet = ({ selectedSavings, closeWallet, setData, data }) => {
+const Wallet = ({
+  selectedSavings = null || [],
+  closeWallet,
+  setData,
+  data = null || [],
+}) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const confirm = () => {

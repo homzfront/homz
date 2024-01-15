@@ -6,16 +6,16 @@ import AcAndRejModalII from "../modals/acAndRejModalII";
 
 const EditAmountToSave = ({
   closeEditRentToSave,
-  selectedSavings,
-  updateSaveTarget,
+  selectedSavings = null,
+  updateSaveTarget = null,
   setOpenEditModalToSave,
-  data,
+  data = null,
   setData,
   confirmModalIV,
   setConfirmModalIV,
 }) => {
   const [newSavingTarget, setNewSavingTarget] = useState(
-    selectedSavings.amountToSave
+    selectedSavings.amountToSave  || []
   );
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);

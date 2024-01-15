@@ -6,7 +6,7 @@ import ViewSavings from "../viewSavings/viewSavings";
 import Wallet from "../wallet/wallet";
 
 const Savings = ({
-  data,
+  data = null,
   handleEditClick,
   openEditModal,
   selectedSavings,
@@ -83,7 +83,7 @@ const Savings = ({
       {displayWallet && (
         <Wallet closeWallet={closeWallet} selectedSavings={selectedSavings} data={dataWallet} setData={setDataWallet} />
       )}
-      {data.map((data) => (
+      {data && data.map((data) => (
         <div key={data.id} className="p-8 border-b m-auto">
           <div className="flex w-full justify-between items-center ">
             <div className="flex gap-4">
