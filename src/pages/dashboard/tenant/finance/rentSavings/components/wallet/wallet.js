@@ -9,10 +9,8 @@ const Wallet = ({
   setData,
   data = null,
 }) => {
-  if (!selectedSavings) {
-    return null
-  }
   const [showConfirm, setShowConfirm] = useState(false);
+
 
   const confirm = () => {
     // Add the amountToSave back to the wallet

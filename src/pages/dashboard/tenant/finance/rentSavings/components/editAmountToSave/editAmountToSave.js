@@ -14,14 +14,11 @@ const EditAmountToSave = ({
   confirmModalIV,
   setConfirmModalIV,
 }) => {
-
-  if (!selectedSavings) {
-    return []
-  };
-
   const [newSavingTarget, setNewSavingTarget] = useState(
     selectedSavings.amountToSave 
   );
+
+
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);

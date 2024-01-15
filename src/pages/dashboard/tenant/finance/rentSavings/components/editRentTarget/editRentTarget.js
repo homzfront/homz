@@ -11,10 +11,7 @@ const EditRentTarget = ({
   setConfirmModalII,
   closeEditRentTargetII,
 }) => {
-  if (!selectedSavings) {
-    return []
-  }
-  console.log(selectedSavings)
+
   const [newRentTarget, setNewRentTarget] = useState(
     selectedSavings.rentTarget
   );
