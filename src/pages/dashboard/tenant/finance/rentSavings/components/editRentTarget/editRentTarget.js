@@ -4,9 +4,9 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const EditRentTarget = ({
-  selectedSavings = [],
+  selectedSavings = {},
   closeEditRentTarget,
-  updateRentTarget = [],
+  updateRentTarget = {},
   confirmModalII,
   setConfirmModalII,
   closeEditRentTargetII,
