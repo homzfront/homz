@@ -6,7 +6,7 @@ import AcAndRejModalII from "../modals/acAndRejModalII";
 
 const EditAmountToSave = ({
   closeEditRentToSave,
-  selectedSavings = null || [],
+  selectedSavings =  [],
   updateSaveTarget = [],
   setOpenEditModalToSave,
   data = [],

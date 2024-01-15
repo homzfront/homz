@@ -6,7 +6,7 @@ import React, { useState } from "react";
 const EditRentTarget = ({
   selectedSavings = [],
   closeEditRentTarget,
-  updateRentTarget,
+  updateRentTarget = [],
   confirmModalII,
   setConfirmModalII,
   closeEditRentTargetII,
