@@ -4,10 +4,10 @@ import AcAndRejModalII from "../modals/acAndRejModalII";
 import ConfirmWallet from "../modals/confirmWallet";
 
 const Wallet = ({
-  selectedSavings = {},
+  selectedSavings = null,
   closeWallet,
   setData,
-  data = {},
+  data = null,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
