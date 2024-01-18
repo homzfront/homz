@@ -155,6 +155,7 @@ const Sidebar = () => {
       <div className="shadow-lg">
         <div className="w-full h-[1024px] px-6 flex flex-col justify-around">
           <div>
+          <Link href={"/"}>
             <Image
               src={"/Homz_Logo_Blue.png"}
               height={28}
@@ -162,6 +163,7 @@ const Sidebar = () => {
               priority
               alt="img"
             />
+          </Link>
           </div>
           <div className="grid gap-3 ">
             {Data.map((data) => (

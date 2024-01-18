@@ -1,9 +1,28 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
+import api from "@/utils/api";
 
-const Property = () => {
+const Property = ({id}) => {
+
+  const  [data, setData] = useState([])
+  console.log(id);
+
+
+  useEffect(()=> {
+    const estateData = async () => {
+      const response = await api.get(`/properties/${id}`)
+      const estate = await response.data;
+      setData(estate)
+    }
+    estateData();
+  }, [])
+
+  console.log(data);
+
+
   return (
     <div className="w-[1147px] p-8">
       <div>
@@ -36,7 +55,7 @@ const Property = () => {
           <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
         </div>
         <div>
-          <Widget />
+          <Widget data={data}/>
         </div>
       </div>
     </div>

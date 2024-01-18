@@ -15,8 +15,8 @@ const ListedProperties = ({
   setCurrentPage,
   handleSelect,
   returnToStartRegistration,
-  openRegistrationFormForPP,
-  registrationFormForPP,
+  registrationForm,
+  addNewProperty
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -65,9 +65,11 @@ const ListedProperties = ({
     setSelectedDataId(id);
   };
 
+  console.log(currentData);
+
   return (
     <div className="w-[1147px]">
-      {registrationFormForPP ? (
+      {registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
         <div>
@@ -126,7 +128,7 @@ const ListedProperties = ({
               </div>
               <div className="">
                 <button
-                  onClick={openRegistrationFormForPP}
+                  onClick={addNewProperty}
                   className={`p-[12px] h-[45px] w-[173px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
                 >
                   <Image

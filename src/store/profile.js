@@ -24,9 +24,11 @@ const useProfileStore = create((set) => ({
     }
   },
 
+  // console.log(fetchProfile())
+
   logout: async () => {
     try {
-      await api.post("http://localhost:5000/api/auth/logout");
+      await api.post("/auth/logout");
       set({ user: null, isLoggedIn: false });
       Cookies.remove("profile");
       Cookies.remove("email")

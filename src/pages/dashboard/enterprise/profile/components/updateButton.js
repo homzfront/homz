@@ -2,17 +2,14 @@
 import React, { useEffect, useState } from "react";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmModal from "../../components/confirmModal";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import Loading from "@/components/mainmenu/loading";
 
-const UpdateButton = () => {
+const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading}) => {
   
   const [showDialogue, setShowDialogue] = useState(false);
-  const [doneUpdate, setDoneUpdate] = useState(false);
   const handleUpdate = () => {
     setShowDialogue(!showDialogue)
-  }
-
-  const updateDone = () => {
-    setDoneUpdate(!doneUpdate)
   }
 
   const returnHomeTwo = () => {
@@ -35,6 +32,9 @@ const UpdateButton = () => {
 
   return (
     <div className="">
+      {
+        loading && <Loading/>
+      }
       <div className="mt-[20%] flex justify-end">
         <button onClick={handleUpdate} className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
           Update

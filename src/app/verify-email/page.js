@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "@/utils/api";
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -31,8 +32,8 @@ const VerifyEmail = () => {
 
     try {
       // Make a POST request to verify the OTP
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/verification",
+      const response = await api.post(
+        "/auth/verification",
         {
           email: email, // Replace with the actual email
           pincode: otp.join(""),
@@ -69,8 +70,8 @@ const VerifyEmail = () => {
 
     try {
       // Make a POST request to verify the OTP
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/requestnewopt",
+      const response = await api.post(
+        "/auth/requestnewopt",
         {
           email: email, // Replace with the actual email
           pincode: otp.join(""),

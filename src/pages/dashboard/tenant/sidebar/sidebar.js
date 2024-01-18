@@ -138,13 +138,15 @@ useEffect(() => {
     <div className="sidebar">
       <div className="shadow-lg">
         <div className="m-auto h-[70px] px-6 flex flex-col justify-end">
-          <Image
-            src={"/Homz_Logo_Blue.png"}
-            height={28}
-            width={131}
-            priority
-            alt="img"
-          />
+        <Link href={"/"}>
+            <Image
+              src={"/Homz_Logo_Blue.png"}
+              height={28}
+              width={131}
+              priority
+              alt="img"
+            />
+          </Link>
         </div>
         <div className="w-full h-[1024px] px-6 flex flex-col justify-around">
           <div className="grid gap-3 ">

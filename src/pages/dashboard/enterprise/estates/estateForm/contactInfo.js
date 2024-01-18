@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
 
-const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {
+const ContactInfo = ({
+  handlePageChangeTwo,
+  handlePageChangeFour,
+  managerPhoneNumber,
+  emergencyPhoneNumber,
+  utilityServicePhoneNumber,
+  securityPhoneNumber,
+  setEmergencyPhoneNumber,
+  setManagerPhoneNumber,
+  setSecurityPhoneNumber,
+  setUtilityServicePhoneNumber,
+}) => {
+
+
+  console.log(managerPhoneNumber);
+  console.log(emergencyPhoneNumber);
+  console.log(utilityServicePhoneNumber);
+  console.log(securityPhoneNumber);
+
   return (
     <div className="p-8">
       <div>
@@ -17,23 +35,31 @@ const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {
         <Input
           label={"Manager’s Phone Number"}
           placeholder={"0000 - 000 - 0000"}
-          type={"text"}
+          type={"number"}
+          value={managerPhoneNumber}
+          onChange={(e) => setManagerPhoneNumber(e.target.value)}
         />
         <Input
           label={"Emergency Phone Number"}
           placeholder={"0000 - 000 - 0000"}
-          type={"text"}
+          type={"number"}
+          value={emergencyPhoneNumber}
+          onChange={(e) => setEmergencyPhoneNumber(e.target.value)}
         />
         <Input
           label={"Utility Services Phone Number"}
           placeholder={"0000 - 000 - 0000"}
-          type={"text"}
+          type={"number"}
           span2={"(Dry cleaning, Waste disposal, etc)"}
+          value={utilityServicePhoneNumber}
+          onChange={(e) => setUtilityServicePhoneNumber(e.target.value)}
         />
         <Input
           label={"Security  Phone Number"}
           placeholder={"0000 - 000 - 0000"}
-          type={"text"}
+          type={"number"}
+          value={securityPhoneNumber}
+          onChange={(e) => setSecurityPhoneNumber(e.target.value)}
         />
       </div>
       <div className="mt-[20%] flex justify-between">
@@ -68,7 +94,7 @@ const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {
             Next
             <Image
               src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
+                "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
               }
               alt=""
               height={16}

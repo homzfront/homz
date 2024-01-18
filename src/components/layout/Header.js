@@ -18,7 +18,7 @@ const Header = () => {
       fetchProfile();
     }
   }, [user, fetchProfile]);
-
+2
   console.log(user);
   const isUserPresent = user && Object.keys(user).length > 0;
 

@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "@/utils/api";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -20,8 +21,8 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/forgotpassword",
+      const response = await api.post(
+        "/auth/forgotpassword",
         { email }
       );
 
@@ -41,8 +42,8 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/forgotpassword",
+      const response = await api.post(
+        "/auth/forgotpassword",
         { email }
       );
 

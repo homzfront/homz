@@ -1,11 +1,16 @@
-// const { ProfileProvider } = require("./useContext/context");
+// _app.js
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
+const queryClient = new QueryClient();
 
-// function MyApp({ Component, pageProps }) {
-//   return (
-//     <ProfileProvider>
+function MyApp({ Component, pageProps }) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  );
+}
 
-//       <Component {...pageProps} />
-//     </ProfileProvider>
-//   );
-// }
+export default MyApp;

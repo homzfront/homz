@@ -5,7 +5,7 @@ import React from "react";
 const PopUpMenu = ({data}) => {
   
   return (
-    <div className="drop-down absolute text-GrayHomz font-[500] top-8 right-2 border h-[140px] w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
+    <div className="z-20 drop-down absolute text-GrayHomz font-[500] top-8 right-2 border h-[140px] w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
       <div className=" h-[30px] rounded-md flex gap-1 items-center  px-2 w-full ">
         <div className="hover:bg-whiteblue h-full w-full rounded-md">
           <Link href={`/dashboard/enterprise-property/estates/dashboard/${data}`}>

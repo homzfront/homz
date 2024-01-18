@@ -2,7 +2,25 @@ import Image from "next/image";
 import React from "react";
 import Input from "../../components/input";
 
-const RentDetails = ({ handlePageChangeThree, handlePageChange }) => {
+const RentDetails = ({
+  handlePageChangeThree,
+  handlePageChange,
+  monthlyRent,
+  maintenanceFee,
+  totalFee,
+  agencyFee,
+  yearlyRent,
+  setMonthlyRent,
+  setMaintenanceFee,
+  setTotalFee,
+  setAgencyFee,
+  setYearlyRent,
+}) => {
+  console.log(totalFee)
+  console.log(yearlyRent)
+  console.log(monthlyRent)
+  console.log(maintenanceFee)
+  console.log(agencyFee)
   return (
     <div className="px-8">
       <div className="text-[23px] font-[700] text-BlueHomz mt-2">
@@ -18,28 +36,38 @@ const RentDetails = ({ handlePageChangeThree, handlePageChange }) => {
         <Input
           label={"How much is the monthly rent?"}
           placeholder={"N  00.00"}
-          type={"text"}
+          type={"number"}
+          value={monthlyRent}
+          onChange={(e)=>setMonthlyRent(e.target.value)}
         />
         <Input
           label={"How much is the yearly rent?"}
           placeholder={"N  00.00"}
-          type={"text"}
+          type={"number"}
+          value={yearlyRent}
+          onChange={(e)=>setYearlyRent(e.target.value)}
         />
 
         <Input
           label={"How much is the maintenance fee?"}
           placeholder={"N  00.00"}
-          type={"text"}
+          type={"number"}
+          value={maintenanceFee}
+          onChange={(e)=>setMaintenanceFee(e.target.value)}
         />
         <Input
           label={"How much is the Agency fee?"}
           placeholder={"N  00.00"}
-          type={"text"}
+          type={"number"}
+          value={agencyFee}
+          onChange={(e)=>setAgencyFee(e.target.value)}
         />
         <Input
           label={"How much is the total fee?"}
           placeholder={"N  00.00"}
-          type={"text"}
+          type={"number"}
+          value={totalFee}
+          onChange={(e)=>setTotalFee(e.target.value)}
         />
       </div>
       <div className="mt-8 flex justify-between">
@@ -60,22 +88,45 @@ const RentDetails = ({ handlePageChangeThree, handlePageChange }) => {
             Previous
           </button>
         </div>
-        <div>
-          <button
-            onClick={handlePageChangeThree}
-            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
-          >
-            Next
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
-          </button>
-        </div>
+        {!maintenanceFee ||
+        !yearlyRent ||
+        !monthlyRent ||
+        !totalFee ||
+        !agencyFee ? (
+          <div className="">
+            <button
+              disabled
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
+            </button>
+          </div>
+        ) : (
+          <div className="">
+            <button
+              onClick={handlePageChangeThree}
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

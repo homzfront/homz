@@ -1,9 +1,26 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-const EstateInfo = () => {
+import api from "@/utils/api";
+
+const EstateInfo = ({id}) => {
+  const  [data, setData] = useState([])
+  console.log(id);
+
+
+  useEffect(()=> {
+    const estateData = async () => {
+      const response = await api.get(`/estates/${id}`)
+      const estate = await response.data;
+      setData(estate)
+    }
+    estateData();
+  }, [])
+
+  console.log(data);
+
   return (
     <div className="w-[1075px] p-8">
       <div>
@@ -35,11 +52,14 @@ const EstateInfo = () => {
           </div>
         </div>
         <div>
-          <Widget />
+          <Widget data={data} />
         </div>
       </div>
     </div>
   );
+
+
+  
 };
 
 export default EstateInfo;

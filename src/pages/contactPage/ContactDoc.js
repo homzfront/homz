@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import api from "@/utils/api";
 
 const ContactDoc = () => {
   const options = [
@@ -53,7 +54,7 @@ const ContactDoc = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/api/enquires", {
+      const response = await api.post("/enquires", {
         fullname: name,
         email,
         phoneNumber: phoneNo,

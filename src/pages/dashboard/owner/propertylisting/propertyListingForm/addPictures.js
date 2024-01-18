@@ -4,16 +4,73 @@ import React, { useState } from "react";
 import ImageUpload from "../components/imageUpload";
 import Image from "next/image";
 
-const Photos = ({ handlePageChangeTwo, handlePageChangeFour }) => {
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [uploadedImage2, setUploadedImage2] = useState(null);
-  const [uploadedImage3, setUploadedImage3] = useState(null);
-  const [uploadedImage4, setUploadedImage4] = useState(null);
-  const [uploadedImage5, setUploadedImage5] = useState(null);
-  const [uploadedImage6, setUploadedImage6] = useState(null);
-  const [uploadedImage7, setUploadedImage7] = useState(null);
-  const [uploadedImage8, setUploadedImage8] = useState(null);
-  const [uploadedImageCoverPhoto, setUploadedImageCoverPhoto] = useState(null);
+const Photos = ({
+  handlePageChangeTwo,
+  handlePageChangeFour,
+  uploadedImageCoverPhoto,
+  setUploadedImageCoverPhoto,
+  uploadedImage,
+  setUploadedImage,
+  uploadedImage2,
+  setUploadedImage2,
+  uploadedImage3,
+  setUploadedImage3,
+  uploadedImage4,
+  setUploadedImage4,
+  uploadedImage5,
+  setUploadedImage5,
+  uploadedImage6,
+  setUploadedImage6,
+  uploadedImage7,
+  setUploadedImage7,
+  uploadedImage8,
+  setUploadedImage8,
+}) => {
+  const handleImageUploadCoverPhoto = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImageCoverPhoto(file);
+  };
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage(file);
+  };
+  const handleImageUpload2 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage2(file);
+  };
+  const handleImageUpload3 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage3(file);
+  };
+  const handleImageUpload4 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage4(file);
+  };
+  const handleImageUpload5 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage5(file);
+  };
+  const handleImageUpload6 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage6(file);
+  };
+  const handleImageUpload7 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage7(file);
+  };
+  const handleImageUpload8 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setUploadedImage8(file);
+  };
 
   return (
     <div className="px-8 block w-[1080px]">
@@ -34,7 +91,7 @@ const Photos = ({ handlePageChangeTwo, handlePageChangeFour }) => {
             <div className="w-[120px] flex justify-start mt-4">
               <ImageUpload
                 onImageRemove={setUploadedImageCoverPhoto}
-                onImageUpload={setUploadedImageCoverPhoto}
+                handleImageUpload={handleImageUploadCoverPhoto}
                 uploadedImage={uploadedImageCoverPhoto}
               />
             </div>
@@ -46,28 +103,28 @@ const Photos = ({ handlePageChangeTwo, handlePageChangeFour }) => {
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage}
-                onImageUpload={setUploadedImage}
+                handleImageUpload={handleImageUpload}
                 uploadedImage={uploadedImage}
               />
             </div>
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage2}
-                onImageUpload={setUploadedImage2}
+                handleImageUpload={handleImageUpload2}
                 uploadedImage={uploadedImage2}
               />
             </div>
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage3}
-                onImageUpload={setUploadedImage3}
+                handleImageUpload={handleImageUpload3}
                 uploadedImage={uploadedImage3}
               />
             </div>
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage4}
-                onImageUpload={setUploadedImage4}
+                handleImageUpload={handleImageUpload4}
                 uploadedImage={uploadedImage4}
               />
             </div>
@@ -76,28 +133,28 @@ const Photos = ({ handlePageChangeTwo, handlePageChangeFour }) => {
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage5}
-                onImageUpload={setUploadedImage5}
+                handleImageUpload={handleImageUpload5}
                 uploadedImage={uploadedImage5}
               />
             </div>
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage6}
-                onImageUpload={setUploadedImage6}
+                handleImageUpload={handleImageUpload6}
                 uploadedImage={uploadedImage6}
               />
             </div>
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage7}
-                onImageUpload={setUploadedImage7}
+                handleImageUpload={handleImageUpload7}
                 uploadedImage={uploadedImage7}
               />
             </div>
             <div className="w-[120px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage8}
-                onImageUpload={setUploadedImage8}
+                handleImageUpload={handleImageUpload8}
                 uploadedImage={uploadedImage8}
               />
             </div>
@@ -119,20 +176,41 @@ const Photos = ({ handlePageChangeTwo, handlePageChangeFour }) => {
             Previous
           </button>
         </div>
-        <div>
-          <button
-            onClick={handlePageChangeFour}
-            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
-          >
-            Next
-            <Image
-              src="/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
-              alt=""
-              height={16}
-              width={16}
-            />
-          </button>
-        </div>
+        {uploadedImageCoverPhoto === null ? (
+          <div className="">
+            <button
+              disabled
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
+            </button>
+          </div>
+        ) : (
+          <div className="">
+            <button
+              onClick={handlePageChangeFour}
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

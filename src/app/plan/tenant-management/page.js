@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,20 +10,21 @@ const TenantManagement = () => {
   const [fullName, setFullName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [estate, setEstate] = useState("");
+  const [loading, setLoading] = useState(false);
   const [houseAddress, setHouseAddress] = useState("");
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (
-      fullName === "" ||
-      phoneNo === "" ||
-      estate === "" ||
-      houseAddress === ""
-    ) {
-      return setFormError("Fill in all fields");
+
+    if (fullName === "" || phoneNo === "" || houseAddress === "") {
+      return setFormError("Fill in all required fields");
     }
+
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true);
 
     // Prepare data to be sent
     const requestData = {
@@ -34,36 +36,41 @@ const TenantManagement = () => {
 
     // Send the data to your API endpoint
     try {
-      const response = await api.post(
-        "http://localhost:5000/api/tenants/createaccount",
-        requestData
-      );
+      const response = await api.post("/tenants/createaccount", requestData);
 
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
+        setLoading(false);
         console.log("form successfully filled ", response.data);
       } else {
         setFormError(response.data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error creating profile:", error);
       setFormError(error.response?.data?.message);
+      setLoading(false);
     }
   }
 
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = isSubmitConfirmationVisible
-      ? "hidden"
-      : "auto";
-    if (isSubmitConfirmationVisible) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [isSubmitConfirmationVisible]);
+  useEffect(
+    () => {
+      document.body.style.overflow = isSubmitConfirmationVisible
+        ? "hidden"
+        : "auto";
+      if (isSubmitConfirmationVisible) {
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
+      }
+    },
+    [isSubmitConfirmationVisible],
+    loading
+  );
 
   return (
     <div className="pt-[64px] relative">
+      {loading && <Loading />}
       {isSubmitConfirmationVisible && (
         <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="bg-white p-8 rounded-md">
@@ -80,7 +87,7 @@ const TenantManagement = () => {
             <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
               Your account has been successfully created.
             </p>
-            <Link href="/dashboard">
+            <Link href="/dashboard/tenant/dashboard">
               <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
                 Go to Dashboard
               </button>

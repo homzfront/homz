@@ -1,106 +1,43 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import DropDown from "./components/dropDown";
 import EstateForm from "./estateForm/estateForm";
-
 import ListedEstates from "./listedEstates";
+import useEstateStore from "@/store/estates";
+import { fetchEstates } from "@/api/estateService";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const Estate = () => {
-  const Data = [
-    {
-      id: 1,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 2,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 3,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 4,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 5,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 6,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 7,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 8,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 9,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 10,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-  ];
+  const { estates, setEstates } = useEstateStore();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchEstates();
+        const estate = data.data?.results?.[0].data;
+        setEstates(estate);
+        setData(estate);
+        setLoading(false);
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(estates);
 
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
-  const [data, setData] = useState(Data || []);
-
   const [inviteTenant, setInviteTenant] = useState(false);
+
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = inviteTenant ? "hidden" : "auto";
-  }, [inviteTenant]);
+  useBodyScroll([inviteTenant, loading]);
 
   console.log(data);
 
@@ -116,8 +53,10 @@ const Estate = () => {
     setRegistrationForm(true);
   };
   return (
-    <div>
-      {data.length >= 1 ? (
+    <div className="w-[1147px]">
+      {loading ? (
+        <LoadingII />
+      ) : data && data.length >= 1 ? (
         <ListedEstates
           setInviteTenant={setInviteTenant}
           inviteTenant={inviteTenant}

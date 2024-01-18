@@ -147,16 +147,14 @@ const Sidebar = () => {
     setPathname(extractPathname(url()));
   }, []);
 
-
-    // useEffect to handle scrolling
-useEffect(() => {
-  document.body.style.overflow = logoutModal ? "hidden" : "auto";
-  if (logoutModal) {
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-  }
-}, [logoutModal]);
-
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = logoutModal ? "hidden" : "auto";
+    if (logoutModal) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [logoutModal]);
 
   console.log(pathname);
 
@@ -164,7 +162,7 @@ useEffect(() => {
     <div className="sidebar">
       <div className="shadow-lg">
         <div className="w-full h-[1024px] px-6 flex flex-col justify-around">
-          <div>
+          <Link href={"/"}>
             <Image
               src={"/Homz_Logo_Blue.png"}
               height={28}
@@ -172,7 +170,7 @@ useEffect(() => {
               priority
               alt="img"
             />
-          </div>
+          </Link>
           <div className="grid gap-3 ">
             {Data.map((data) => (
               <Link
@@ -239,7 +237,7 @@ useEffect(() => {
                 <span className="">{data.name}</span>
               </Link>
             ))}
-             <div
+            <div
               onClick={logout}
               className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
                  `}

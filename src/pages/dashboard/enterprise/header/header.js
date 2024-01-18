@@ -26,13 +26,17 @@ const Header = () => {
             className="border h-[40px] pl-8 rounded-md w-[320px]"
             placeholder="search"
           />
-          <Image
-            src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
-            alt=""
-            className="absolute top-3 left-3"
-            height={17}
-            width={16}
-          />
+         
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/header/search-normal.png"
+              }
+              alt=""
+              className="absolute top-3 left-3"
+              height={17}
+              width={16}
+            />
+   
         </div>
         <div className="flex gap-4 items-center relative">
           <div onClick={handleToggleMenuTwo} className="cursor-pointer">

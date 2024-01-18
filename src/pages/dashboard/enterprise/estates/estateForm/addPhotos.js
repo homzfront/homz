@@ -3,10 +3,67 @@ import React, { useState } from "react";
 import ImageUpload from "../components/imageUpload";
 import Image from "next/image";
 
-const AddPhotos = ({ handlePageChange, handlePageChangeThree }) => {
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [uploadedImage2, setUploadedImage2] = useState(null);
-  const [uploadedImage3, setUploadedImage3] = useState(null);
+const AddPhotos = ({
+  handlePageChange,
+  handlePageChangeThree,
+  uploadedImage,
+  uploadedImage2,
+  uploadedImage3,
+  setUploadedImage,
+  setUploadedImage2,
+  setUploadedImage3,
+}) => {
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append("coverPhoto", file);
+
+    //   // Log properties indirectly by iterating over entries
+    //   for (const pair of formData.entries()) {
+    //     console.log(pair[0], pair[1]);
+    //   }
+
+    // }
+    setUploadedImage(file);
+  };
+
+  const handleImageUpload2 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append("photos", file);
+
+    //   // Log properties indirectly by iterating over entries
+    //   for (const pair of formData.entries()) {
+    //     console.log(pair[0], pair[1]);
+    //   }
+
+      setUploadedImage2(file);
+    
+  };
+
+  const handleImageUpload3 = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append("photos", file);
+
+    //   // Log properties indirectly by iterating over entries
+    //   for (const pair of formData.entries()) {
+    //     console.log(pair[0], pair[1]);
+    //   }
+
+      setUploadedImage3(file);
+    
+  };
+
+  console.log(uploadedImage);
+  console.log(uploadedImage2);
+  console.log(uploadedImage3);
 
   return (
     <div className="px-8 block">
@@ -25,8 +82,9 @@ const AddPhotos = ({ handlePageChange, handlePageChangeThree }) => {
           <div className="mt-4 w-[235px] flex justify-start">
             <ImageUpload
               onImageRemove={setUploadedImage}
-              onImageUpload={setUploadedImage}
+              handleImageUpload={handleImageUpload}
               uploadedImage={uploadedImage}
+              file={"coverPhoto"}
             />
           </div>
         </div>
@@ -36,15 +94,17 @@ const AddPhotos = ({ handlePageChange, handlePageChangeThree }) => {
             <div className="w-[235px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage2}
-                onImageUpload={setUploadedImage2}
+                handleImageUpload={handleImageUpload2}
                 uploadedImage={uploadedImage2}
+                file={"photos"}
               />
             </div>
             <div className="w-[235px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage3}
-                onImageUpload={setUploadedImage3}
+                handleImageUpload={handleImageUpload3}
                 uploadedImage={uploadedImage3}
+                file={"photos"}
               />
             </div>
           </div>
@@ -69,22 +129,41 @@ const AddPhotos = ({ handlePageChange, handlePageChangeThree }) => {
             Previous
           </button>
         </div>
-        <div>
-          <button
-            onClick={handlePageChangeThree}
-            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
-          >
-            Next
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
-          </button>
-        </div>
+        {uploadedImage === null ? (
+          <div className="">
+            <button
+              disabled
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
+            </button>
+          </div>
+        ) : (
+          <div className="">
+            <button
+              onClick={handlePageChangeThree}
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -34,6 +34,7 @@ const ListedEstates = ({
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentData = data.slice(startIndex, endIndex);
 
+  console.log(currentData);
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };

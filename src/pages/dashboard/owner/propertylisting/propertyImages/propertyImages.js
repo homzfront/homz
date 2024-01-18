@@ -105,7 +105,7 @@ const PropertyImages = () => {
         <div>
           <div className="flex justify-between items-center">
             <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
+              href={"/dashboard/property-owner/propertylisting"}
               className="flex gap-2 items-center"
             >
               <Image

@@ -1,27 +1,53 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
-import DropDown from "../../components/dropDown";
+import DropDown from "../../components/dropDownTwo";
 import Image from "next/image";
 import AcAndRejModel from "../../components/acAndRejModel";
 
-const PropertyInfo = ({handlePageChangeTwo, returnToStartRegistration}) => {
+const PropertyInfo = ({
+  handlePageChangeTwo,
+  returnToStartRegistration,
+  selectedArea,
+  selectedState,
+  name,
+  numberOfHouses,
+  description,
+  size,
+  address,
+  setSelectedArea,
+  setSelectedState,
+  setName,
+  setAddress,
+  setSize,
+  setNumberOfHouses,
+  setDescription,
+}) => {
   const [showCancelDialogue, setShowCancelDialogue] = useState(false);
+  console.log(selectedArea);
+  console.log(selectedState);
+  console.log(name);
+  console.log(numberOfHouses);
+  console.log(description);
+  console.log(size);
+  console.log(address);
 
-  const handleSelect = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedValue(option);
+  const handleSelectArea = (option) => {
+    setSelectedArea(option);
+  };
+
+  const handleSelectState = (option) => {
+    setSelectedState(option);
   };
 
   // useEffect to handle scrolling
-useEffect(() => {
-  document.body.style.overflow =showCancelDialogue ? "hidden" : "auto";
-  if (showCancelDialogue) {
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-  }
-}, [showCancelDialogue]);
+  useEffect(() => {
+    document.body.style.overflow = showCancelDialogue ? "hidden" : "auto";
+    if (showCancelDialogue) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [showCancelDialogue]);
 
   const handleShowCancelDialogue = () => {
     setShowCancelDialogue(!showCancelDialogue);
@@ -30,7 +56,6 @@ useEffect(() => {
   const returnHomeTwo = () => {
     setShowCancelDialogue(false);
   };
-
 
   const options = [
     { id: 1, label: "Ajah" },
@@ -62,6 +87,8 @@ useEffect(() => {
               placeholder={"Estate Name"}
               type={"text"}
               span={"*"}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex flex-col justify-between ">
@@ -72,7 +99,7 @@ useEffect(() => {
               <div>
                 <DropDown
                   options={options}
-                  onSelect={handleSelect}
+                  onSelect={handleSelectArea}
                   selectOption={"Select Area"}
                   className={"w-[230px]"}
                 />
@@ -80,7 +107,7 @@ useEffect(() => {
               <div>
                 <DropDown
                   options={optionsTwo}
-                  onSelect={handleSelect}
+                  onSelect={handleSelectState}
                   selectOption={"Select State"}
                   className={"w-[230px]"}
                 />
@@ -93,16 +120,26 @@ useEffect(() => {
               placeholder={"Enter Estate Address"}
               type={"text"}
               span={"*"}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
           <div>
-            <Input label={"Estate Size"} placeholder={"0.00"} type={"text"} />
+            <Input
+              label={"Estate Size"}
+              placeholder={"0.00"}
+              type={"number"}
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+            />
           </div>
           <div>
             <Input
               label={"Total No of Houses In Estate"}
               placeholder={"0"}
-              type={"text"}
+              type={"Number"}
+              value={numberOfHouses}
+              onChange={(e) => setNumberOfHouses(e.target.value)}
             />
           </div>
         </div>
@@ -118,27 +155,63 @@ useEffect(() => {
           <textarea
             className="mt-4 h-[363px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
             placeholder="Estate Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
       </div>
-        <div className="flex justify-between">
-          <div >
-            <button       onClick={handleShowCancelDialogue} className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz">Cancel</button>
-          </div>
+      <div className="flex justify-between">
+        <div>
+          <button
+            onClick={handleShowCancelDialogue}
+            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz"
+          >
+            Cancel
+          </button>
+        </div>
+        {!name ||
+        !selectedArea ||
+        !selectedState ||
+        !address ||
+        !size ||
+        !numberOfHouses ||
+        !description ? (
           <div className="">
-            <button onClick={handlePageChangeTwo} className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5">Next 
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
+            <button
+              disabled
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
             </button>
           </div>
-        </div>
-        {showCancelDialogue && (
+        ) : (
+          <div className="">
+            <button
+              onClick={handlePageChangeTwo}
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
+            </button>
+          </div>
+        )}
+      </div>
+      {showCancelDialogue && (
         <div>
           <AcAndRejModel
             header={"Are you sure you want to cancel?"}
@@ -146,7 +219,6 @@ useEffect(() => {
             buttonTwo={"No, take me back"}
             returnHome={returnToStartRegistration}
             returnHomeTwo={returnHomeTwo}
-
           />
         </div>
       )}

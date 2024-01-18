@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import api from "@/utils/api";
+import Loading from "@/components/mainmenu/loading";
 
 const ResetPassword = () => {
   const queryString = window.location.search;
@@ -25,6 +26,7 @@ const ResetPassword = () => {
   const [visibleTwo, setVisibleTwo] = useState(false);
   const [passwordError, setPasswordError] = useState("");
   const [succPass, setSuccPass] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const isValidPassword = (password) => {
     return password.length >= 8;
@@ -62,6 +64,8 @@ const ResetPassword = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await axios.patch(
         `http://localhost:5000/api/auth/resetPassword/${token}`,
@@ -76,9 +80,11 @@ const ResetPassword = () => {
       );
 
       setSuccPass(true);
+      setLoading(false);
     } catch (error) {
       setPasswordError("error", error.response?.data?.message);
       console.error("Error resetting password:", error);
+      setLoading(false)
     }
   };
   const settings = {
@@ -109,6 +115,9 @@ const ResetPassword = () => {
 
   return (
     <div className="">
+      {
+        loading && <Loading/>
+      }
       <div className="flex m-auto  max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <div className="flex flex-col  justify-around items-center">

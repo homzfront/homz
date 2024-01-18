@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import PopUpMenuDoc from "../components/popUpMenuDoc";
+import Loading from "@/components/mainmenu/loading";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import AcAndRejModel from "../../components/acAndRejModel";
+import ConfirmEstateListing from "../components/confirmEstateListing";
 
 const Data = [
   {
@@ -15,11 +21,21 @@ const Data = [
   },
 ];
 
-const Documents = ({handlePageChangeThree}) => {
-
+const Documents = ({
+  handlePageChangeThree,
+  handleSubmit,
+  loading,
+  yesOrNoModal,
+  openYesOrNo,
+  closeYesOrNoModal,
+  showConfirm,
+  closeAllModals,
+}) => {
   const data = Data || [];
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
+
+  useBodyScroll([loading, showConfirm, yesOrNoModal]);
 
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
@@ -27,6 +43,39 @@ const Documents = ({handlePageChangeThree}) => {
   };
   return (
     <div className="px-8 py-4">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      {loading && <Loading />}
+      {showConfirm && (
+        <ConfirmEstateListing
+          header={"Property(estate) Added Successfully"}
+          body={"Click on the button below to view estate"}
+          button={"View Property(estate)"}
+          returnHome={closeAllModals}
+        />
+      )}
+      {yesOrNoModal && (
+        <div>
+          <AcAndRejModel
+            header={"Proceed to Add Estate?"}
+            button={"Yes"}
+            buttonTwo={"Close"}
+            returnHome={handleSubmit}
+            returnHomeTwo={closeYesOrNoModal}
+          />
+        </div>
+      )}
       <div className="flex flex-col">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Document</h1>
         <p className="text-[18px] font-[400] text-GrayHomz ">
@@ -122,20 +171,17 @@ const Documents = ({handlePageChangeThree}) => {
           </button>
         </div>
         <div className="flex gap-4">
-          <button
-
-            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
-          >
+          <button className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center">
             Skip
           </button>
           <button
-            disabled
-            className="opacity-[20%] text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[100px] justify-center items-center"
+            onClick={openYesOrNo}
+            className="text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[150px] justify-center items-center"
           >
-            Next
+            Add Estate
             <Image
               src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
+                "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
               }
               alt=""
               height={16}

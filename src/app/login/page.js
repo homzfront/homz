@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
+import useBodyScroll from "@/components/general/useBodyScroll";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -24,6 +25,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
+  useBodyScroll([loading])
 
   // const handleGoogleSignIn = () => {
   //   signIn('google');
@@ -32,51 +34,70 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
-
+  
     setLoading(true); // Set loading to true when submitting the form
-
+  
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
+      setLoading(false);
       return;
     }
-
   
-
     // Check if the password meets the length requirement
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
-      setLoading(false); // Reset loading state
-     
+      setLoading(false);
       return;
     }
-
+  
     try {
-      const response = await api.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
-
+      const response = await api.post("/auth/login", {
+        email: email,
+        password: password,
+      });
+  
       if (response.data.statuscode === 201) {
-        toast.success("login successful");
-        console.log(response.data.data);
+        toast.success("Login successful");
         const { data } = response.data;
-        Cookies.set("profile", data.email);
-
-        
-        // This line sets isLoggedIn to true
- 
-        useProfileStore.setState({
-          user: data,
-          isLoggedIn: true,
-          loading: false,
-        });
-        router.push("/");
-        setLoading(false);
-        setEmail("");
-        setPassword("");
+  
+        // Fetch user profile immediately after login
+        const profileResponse = await api.get("/user/profile");
+  
+        if (profileResponse.data.statuscode === 200 || 201) {
+          const profileData = profileResponse.data;
+  
+          // Use the profileData to determine which page to navigate to
+          if (profileData?.user?.accounts?.[0].name === "TENANT") {
+            // If the user is an admin, navigate to the admin page
+            router.push("/dashboard/tenant/dashboard");
+          } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
+            // If the user is a property owner, navigate to the property owner page
+            router.push("/dashboard/enterprise-property/dashboard");
+          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY") {
+            // If the user is a property owner, navigate to the property owner page
+            router.push("/dashboard/property-owner/dashboard");
+          } else {
+            // For other roles or if no specific role is defined, navigate to the default page
+            router.push("/");
+          }
+  
+          // Set user and profile in state
+          useProfileStore.setState({
+            user: data,
+            profile: profileData,
+            isLoggedIn: true,
+            loading: false,
+          });
+  
+          setLoading(false);
+          setEmail("");
+          setPassword("");
+        } else {
+          const profileError = profileResponse.data.message;
+          console.log("Unexpected status code for profile:", profileError);
+          setLoginError(profileError);
+          setLoading(false);
+        }
       } else {
         const error = response.data.message;
         console.log("Unexpected status code:", error);
@@ -89,7 +110,7 @@ const Login = () => {
       setLoading(false);
     }
   };
-
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -137,7 +158,7 @@ const Login = () => {
         theme="dark"
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
-      {loading ? (<div><Loading/></div>) : ''}
+      {loading && <Loading />}
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <div className="flex flex-col  justify-around items-center">
             <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">

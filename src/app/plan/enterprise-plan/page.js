@@ -1,7 +1,10 @@
 "use client";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const EnterprisePlan = () => {
@@ -14,9 +17,14 @@ const EnterprisePlan = () => {
   const [estateAddress, setEstateAddress] = useState("");
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+  const [loading, setLoading] = useState(false); // Loading state;
+  useBodyScroll([loading, isSubmitConfirmationVisible]);
+
+
 
   async function handleSubmit(e) {
     e.preventDefault();
+   
     if (
       fullName === "" ||
       phoneNo === "" ||
@@ -26,11 +34,18 @@ const EnterprisePlan = () => {
       numberOfHouses === ""
     ) {
       return setFormError("Fill in all fields");
+    
+     
     }
+
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true); 
+
     // Prepare data to be sent
     const requestData = {
       fullName,
-      phoneNumber: phoneNo,
+      phoneNumber: parseInt(phoneNo),
       estate,
       estateAddress,
       numberOfHouses: parseInt(numberOfHouses), // Convert to integer if needed
@@ -40,35 +55,28 @@ const EnterprisePlan = () => {
     // Send the data to your API endpoint
     try {
       const response = await api.post(
-        "http://localhost:5000/api/enterprisePlan/createaccount",
+        "/enterprisePlan/createaccount/freeTrial",
         requestData
       );
 
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
         console.log("form successfully filled ", response.data);
+       setLoading(false);
       } else {
         setFormError(response.data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error creating profile:", error);
       setFormError(error.response?.data?.message);
+      setLoading(false);
     }
   }
 
-  // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = isSubmitConfirmationVisible
-      ? "hidden"
-      : "auto";
-    if (isSubmitConfirmationVisible) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [isSubmitConfirmationVisible]);
-
   return (
     <div className="pt-[64px] relative">
+      {loading && <Loading />}
       {isSubmitConfirmationVisible && (
         <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen md:h-[700px] w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="bg-white p-8 rounded-md">

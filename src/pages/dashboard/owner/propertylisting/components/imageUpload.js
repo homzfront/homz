@@ -2,17 +2,9 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 
-const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove }) => {
+const ImageUpload = ({ uploadedImage, handleImageUpload, onImageRemove }) => {
   const inputRef = useRef(null);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      onImageUpload(formData);
-    }
-  };
 
   const handleImageRemove = () => {
     onImageRemove(null);
@@ -29,7 +21,7 @@ const ImageUpload = ({ uploadedImage, onImageUpload, onImageRemove }) => {
       >
         {uploadedImage ? (
           <Image
-            src={URL.createObjectURL(uploadedImage.get("file"))}
+            src={URL?.createObjectURL(uploadedImage)}
             height={100}
             width={100}
             className="object-cover"

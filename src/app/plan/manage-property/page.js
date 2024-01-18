@@ -42,7 +42,7 @@ const ManageProperty = () => {
     // Send the data to your API endpoint
     try {
       const response = await api.post(
-        "http://localhost:5000/api/manageProperty/createProfile",
+        "/manageProperty/createProfile",
         requestData
       );
 
