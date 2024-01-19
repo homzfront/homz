@@ -20,7 +20,8 @@ export const updateEstateInfo = async (estateId) => {
 export const fetchEstatesSpecificUSer = async (id) => {
   try {
     const response = await api.get(`/estates/${id}`);
-    return response.data
+    console.log(response.data.data)
+    return response.data.data
   } catch (error) {
     console.error('Error fetching estates:', error);
     throw error;

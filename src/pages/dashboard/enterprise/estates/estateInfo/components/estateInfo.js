@@ -4,24 +4,29 @@ import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import LoadingII from "@/components/mainmenu/loadingII";
-import { useMutation } from "react-query";
+// import { useMutation } from "react-query";
 import { updateEstateInfo } from "@/api/estateService";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   console.log(data);
   const [loading, setLoading] = useState(false);
-  useBodyScroll([loading])
- 
+  useBodyScroll([loading]);
+
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [name, setName] = useState(data?.name);
   const [address, setAddress] = useState(data?.address);
   const [size, setSize] = useState(parseInt(data?.size));
-  const [numberOfHouses, setNumberOfHouses] = useState(
-    data?.numberOfHouses
-  );
+  const [numberOfHouses, setNumberOfHouses] = useState(data?.numberOfHouses);
   const [description, setDescription] = useState(data?.description);
   const handleSelectArea = (option) => {
     // Handle the selected value as needed
@@ -47,44 +52,50 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
     { id: 3, label: "Calabar" },
   ];
 
-  console.log(data._id);
+  console.log(data?._id);
 
-// Define a mutation for updating the data
-const mutation = useMutation(updateEstateInfo, {
-  onSuccess: () => {
-    // Invalidate the query to refetch the data
-    queryClient.invalidateQueries(['singleEstate', data._id]);
-  },
-});
+  // Define a mutation for updating the data
+  const mutation = useMutation(()=>updateEstateInfo, {
+    onSuccess: () => {
+      // Invalidate the query to refetch the data
+      queryClient.invalidateQueries(["singleEstate", data?._id]);
+    },
+    queryClient: queryClient,
+  });
+
   // Your updateDone function
-const updateDone = async (e) => {
-  e.preventDefault();
-  if (loading || mutation.isLoading) return; // Do nothing if already loading
+  const updateDone = async (e) => {
+    e.preventDefault();
+    if (loading || mutation.isLoading) return; // Do nothing if already loading
 
-  setLoading(true); // Set loading to true when submitting the form
+    setLoading(true); // Set loading to true when submitting the form
 
-  try {
-    const updatedData = {
-      name,
-      address,
-      size: parseInt(size),
-      numberOfHouses: parseInt(numberOfHouses),
-      description,
-      state: selectedState?.label,
-      area: selectedArea?.label,
-    };
+    try {
+      const updatedData = {
+        name,
+        address,
+        size: parseInt(size),
+        numberOfHouses: parseInt(numberOfHouses),
+        description,
+        state: selectedState?.label,
+        area: selectedArea?.label,
+      };
 
-    // Call the mutation to update the data
-    await mutation.mutateAsync({ estateId: data._id, updatedData });
+      // Call the mutation to update the data
+      await mutation.mutateAsync({
+        estateId: data?._id,
+        updatedData,
+        queryClient,
+      });
 
-    setLoading(false);
-    toast.success("Update successful");
-  } catch (error) {
-    console.error("Update error", error);
-    setLoading(false);
-    toast.error("Update failed");
-  }
-};
+      setLoading(false);
+      toast.success("Update successful");
+    } catch (error) {
+      console.error("Update error", error);
+      setLoading(false);
+      toast.error("Update failed");
+    }
+  };
 
   return (
     <div className="">
@@ -119,7 +130,7 @@ const updateDone = async (e) => {
               type={"text"}
               span={"*"}
               value={name}
-              onChange={(e)=> setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex flex-col justify-between ">
@@ -152,7 +163,7 @@ const updateDone = async (e) => {
               type={"text"}
               span={"*"}
               value={address}
-              onChange={(e)=> setAddress(e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
           <div>
@@ -161,7 +172,7 @@ const updateDone = async (e) => {
               value={size}
               placeholder={"0.00"}
               type={"number"}
-              onChange={(e)=> setSize(e.target.value)}
+              onChange={(e) => setSize(e.target.value)}
             />
           </div>
           <div>
@@ -170,7 +181,7 @@ const updateDone = async (e) => {
               placeholder={"0"}
               type={"number"}
               value={numberOfHouses}
-              onChange={(e)=> setNumberOfHouses(e.target.value)}
+              onChange={(e) => setNumberOfHouses(e.target.value)}
             />
           </div>
         </div>
@@ -187,12 +198,15 @@ const updateDone = async (e) => {
             className="mt-4 h-[363px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
             placeholder="Estate Description"
             value={description}
-            onChange={(e)=> setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
       </div>
       <div className="mt-[7%] flex justify-end">
-        <button onClick={updateDone} className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
+        <button
+          onClick={updateDone}
+          className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
+        >
           Update
         </button>
       </div>

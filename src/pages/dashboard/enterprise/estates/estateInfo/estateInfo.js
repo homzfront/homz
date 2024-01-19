@@ -3,24 +3,27 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-import api from "@/utils/api";
 import { fetchEstatesSpecificUSer, updateEstateInfo } from "@/api/estateService";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const EstateInfo = ({id}) => {
-  const { data, isLoading, isError } = useQuery('singleEstate', () => fetchEstatesSpecificUSer(id));
-  
-
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['singleEstate', id],  // Include 'id' in the queryKey
+    queryFn: () => fetchEstatesSpecificUSer(id),  // Wrap the function in another function
+  });
   console.log(id);
+  console.log(isLoading);
+  console.log(isError);
+    console.log(data);
 
   if (isError) {
     return <div>Error fetching data</div>;
   }
 
+  if (!data) {
+    return isLoading
+  }
 
-console.log(isLoading);
-console.log(isError);
-  console.log(data);
 
   return (
     <div className="w-[1075px] p-8">
@@ -53,7 +56,7 @@ console.log(isError);
           </div>
         </div>
         <div>
-          <Widget data={data} />
+          <Widget data={data} isLoading={isLoading} />
         </div>
       </div>
     </div>

@@ -7,7 +7,8 @@ import useEstateStore from "@/store/estates";
 import { fetchEstates, fetchEstatesMe } from "@/api/estateService";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
+
 
 const Estate = () => {
   const { estates, setEstates } = useEstateStore();
@@ -17,15 +18,16 @@ const Estate = () => {
   const [registrationForm, setRegistrationForm] = useState(false);
   const [inviteTenant, setInviteTenant] = useState(false);
 
-  const { data, isLoading, isError } = useQuery("AllEstate", () =>
-    fetchEstates()
-  );
-
+  const { data, isLoading, isError } = useQuery({ queryKey: ['AllEstate'],  queryFn: fetchEstates });
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, isLoading]);
 
   if (isError) {
     return <div>Error fetching data</div>;
+  }
+
+  if (!data) {
+    return isLoading
   }
 
   const estate = data.data?.results?.[0].data;
