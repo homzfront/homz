@@ -4,41 +4,32 @@ import React, { useEffect, useState } from "react";
 import EstateForm from "./estateForm/estateForm";
 import ListedEstates from "./listedEstates";
 import useEstateStore from "@/store/estates";
-import { fetchEstates } from "@/api/estateService";
+import { fetchEstates, fetchEstatesMe } from "@/api/estateService";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
+import { useQuery } from "react-query";
 
 const Estate = () => {
   const { estates, setEstates } = useEstateStore();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchEstates();
-        const estate = data.data?.results?.[0].data;
-        setEstates(estate);
-        setData(estate);
-        setLoading(false);
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  console.log(estates);
-
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
   const [inviteTenant, setInviteTenant] = useState(false);
 
-  // useEffect to handle scrolling
-  useBodyScroll([inviteTenant, loading]);
+  const { data, isLoading, isError } = useQuery("AllEstate", () =>
+    fetchEstates()
+  );
 
+  // useEffect to handle scrolling
+  useBodyScroll([inviteTenant, isLoading]);
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
+  const estate = data.data?.results?.[0].data;
+  console.log(estate);
   console.log(data);
 
   const openRegistrationForm = () => {
@@ -54,13 +45,13 @@ const Estate = () => {
   };
   return (
     <div className="w-[1147px]">
-      {loading ? (
+      {isLoading ? (
         <LoadingII />
-      ) : data && data.length >= 1 ? (
+      ) : estate && estate.length >= 1 ? (
         <ListedEstates
           setInviteTenant={setInviteTenant}
           inviteTenant={inviteTenant}
-          Data={data}
+          Data={estate}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
           popUpMenu={popUpMenu}

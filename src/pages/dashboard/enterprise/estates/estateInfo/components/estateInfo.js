@@ -1,30 +1,19 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
-import Image from "next/image";
-import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/components/general/useBodyScroll";
-import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingII from "@/components/mainmenu/loadingII";
+import { useMutation } from "react-query";
+import { updateEstateInfo } from "@/api/estateService";
 
 const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   console.log(data);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   useBodyScroll([loading])
-  useEffect(() => {
-    // Check if data and required properties are available
-    if (data) {
-      setName(data.name || "");
-      setAddress(data.address || "");
-      setSize(parseInt(data.size) || 0);
-      setNumberOfHouses(data.numberOfHouses || "");
-      setDescription(data.description || "");
-      setLoading(false); // Set loading to false once data is available
-    }
-  }, [data]);
+ 
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [name, setName] = useState(data?.name);
@@ -58,44 +47,44 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
     { id: 3, label: "Calabar" },
   ];
 
-  const updateDone = async (e) => {
-    e.preventDefault();
-    if (loading) return; // Do nothing if already loading
+  console.log(data._id);
 
-    setLoading(true); // Set loading to true when submitting the form
+// Define a mutation for updating the data
+const mutation = useMutation(updateEstateInfo, {
+  onSuccess: () => {
+    // Invalidate the query to refetch the data
+    queryClient.invalidateQueries(['singleEstate', data._id]);
+  },
+});
+  // Your updateDone function
+const updateDone = async (e) => {
+  e.preventDefault();
+  if (loading || mutation.isLoading) return; // Do nothing if already loading
 
-    try {
-      const response = await api.patch(`/estates/${data._id}/estateInformation`, {
-        name,
-        address,
-        size: parseInt(size),
-        numberOfHouses: parseInt(numberOfHouses),
-        description,
-        state: selectedState?.label,
-        area: selectedArea?.label
-      });
+  setLoading(true); // Set loading to true when submitting the form
 
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
-        setLoading(false);
-        toast.success("update successful");
+  try {
+    const updatedData = {
+      name,
+      address,
+      size: parseInt(size),
+      numberOfHouses: parseInt(numberOfHouses),
+      description,
+      state: selectedState?.label,
+      area: selectedArea?.label,
+    };
 
-      } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Login error", error);
-      setLoading(false);
-      toast.error("update falied");
-      // setLoginError(error.response?.data?.message);
-      console.log(error.response?.data?.message)
-    }
-  };
+    // Call the mutation to update the data
+    await mutation.mutateAsync({ estateId: data._id, updatedData });
 
+    setLoading(false);
+    toast.success("Update successful");
+  } catch (error) {
+    console.error("Update error", error);
+    setLoading(false);
+    toast.error("Update failed");
+  }
+};
 
   return (
     <div className="">

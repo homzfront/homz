@@ -4,21 +4,22 @@ import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
 import api from "@/utils/api";
+import { fetchEstatesSpecificUSer, updateEstateInfo } from "@/api/estateService";
+import { useMutation, useQuery } from "react-query";
 
 const EstateInfo = ({id}) => {
-  const  [data, setData] = useState([])
+  const { data, isLoading, isError } = useQuery('singleEstate', () => fetchEstatesSpecificUSer(id));
+  
+
   console.log(id);
 
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
 
-  useEffect(()=> {
-    const estateData = async () => {
-      const response = await api.get(`/estates/${id}`)
-      const estate = await response.data;
-      setData(estate)
-    }
-    estateData();
-  }, [])
 
+console.log(isLoading);
+console.log(isError);
   console.log(data);
 
   return (
