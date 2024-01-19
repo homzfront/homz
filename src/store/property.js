@@ -1,4 +1,3 @@
-// /src/store/estateStore.js
 import { create } from 'zustand'
 
 const usePropertyListedAllStore = create((set) => ({

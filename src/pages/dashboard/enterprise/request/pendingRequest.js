@@ -17,7 +17,10 @@ const PendingRequest = ({
   done,
   doneTwo,
   returnToPage,
+  tenantData,
+  setTenantData
 }) => {
+  console.log(tenantData);
   console.log(friendRequests);
   if (!friendRequests) {
     return null; // or display a loading state or any other fallback

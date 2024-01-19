@@ -1,7 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchEstatesMe } from "@/api/estateService";
+import { toast } from "react-toastify";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import Loading from "@/components/mainmenu/loading";
+import api from "@/utils/api";
 
 const Modal = ({setInviteTenant}) => {
   const [dropdowns, setDropdowns] = useState({
@@ -12,13 +17,31 @@ const Modal = ({setInviteTenant}) => {
   });
   const [showLinkBox, setShowLinkBox] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [estates, setEstates] = useState([]);
+  const [link, setLink] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const estateOptions = [
-    { id: 1, label: "Heaven Estate Lekki", link: "https://heaven.com/estate1" },
-    { id: 2, label: "Ipaja Estate", link: "https://ipaja.com/estate2" },
-    { id: 3, label: "Diamond Estate", link: "https://diamond.com/estate3" },
-    { id: 4, label: "Ajao Estate", link: "https://ajao.com/estate4" },
-  ];
+
+  useBodyScroll([loading])
+  console.log(selectedOptions?.estate);
+  console.log(link)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchEstatesMe();
+        const estate = data.data?.results?.[0].data;
+        setEstates(estate);
+        setLoading(false);
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(estates);
+
 
   const handleDropdownClick = (dropdown) => {
     setDropdowns((prev) => ({
@@ -27,16 +50,40 @@ const Modal = ({setInviteTenant}) => {
     }));
   };
 
-  const handleGetLink = (dropdown) => {
-    if (selectedOptions.estate === null) {
-      return setDropdowns((prev) => ({
-        ...prev,
-        [dropdown]: !prev[dropdown],
-      }));
-    } else {
-      setShowLinkBox(true);
+  const handleGetLink = async (e) => {
+    e.preventDefault();
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true); // Set loading to true when submitting the form
+
+    try {
+      const response = await api.post(`/enterprisePlan/generate-invitation-link`, {
+        estate: selectedOptions?.estate
+      });
+
+      if (response.data.statuscode === 201 || 200) {
+        console.log(response.data.data);
+        console.log("form successfully updated ", response.data);
+        setLoading(false);
+        toast.success("update successful");
+        setLink(response.data.data)
+        setShowLinkBox(true);
+
+      } else {
+        const error = response.data.message;
+        console.log("Unexpected status code:", error);
+        toast.error("update falied");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Login error", error);
+      setLoading(false);
+      toast.error("update falied");
+      // setLoginError(error.response?.data?.message);
+      console.log(error.response?.data?.message)
     }
-  };
+  }
+
 
   const handleDropdown = (option) => {
     setDropdowns((prev) => ({
@@ -51,7 +98,7 @@ const Modal = ({setInviteTenant}) => {
 
   const handleCopyClick = async () => {
     try {
-      await navigator.clipboard.writeText(selectedOptions.estate?.link);
+      await navigator.clipboard.writeText(link);
       setCopied(true);
     } catch (error) {
       console.error("Unable to copy to clipboard:", error);
@@ -62,8 +109,17 @@ const Modal = ({setInviteTenant}) => {
   
   }
 
+  {
+    estates && estates.map((estate) => (
+      <div key={estate._id}>
+        {estate.name || "Select Estate"}
+      </div>
+    ))
+  }
+
   return (
     <div className="max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
+      {loading && <Loading/>}
       {copied ? (
         <div className="max-w-[464px] m-auto">
           <div className="w-[464px] px-8 flex flex-col justify-center items-center gap-5">
@@ -106,7 +162,7 @@ const Modal = ({setInviteTenant}) => {
               className={`flex text-[14px] font-[500] text-GrayHomz2 justify-between items-center `}
             >
               <span className="mr-2">
-                {selectedOptions.estate?.label || "Select Estate"}
+                {selectedOptions?.estate || "Select Estate"}
               </span>
               <div
                 className={`w-5 h-5 ${
@@ -140,13 +196,13 @@ const Modal = ({setInviteTenant}) => {
           </div>
           {dropdowns["estateOptions"] && (
             <div className="absolute top-14 w-full text-GrayHomz2 text-[14px]   bg-white rounded-md shadow-md">
-              {estateOptions.map((option) => (
+              {estates && estates.map((estate) => (
                 <div
-                  key={option.id}
+                  key={estate._id}
                   className="p-2  cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
-                  onClick={() => handleDropdown(option)}
+                  onClick={() => handleDropdown(estate.name)}
                 >
-                  {option.label}
+                  {estate.name}
                 </div>
               ))}
             </div>
@@ -154,7 +210,7 @@ const Modal = ({setInviteTenant}) => {
         </div>
         <div>
           <button
-            onClick={() => handleGetLink("estateOptions")}
+            onClick={handleGetLink}
             className={`mt-4 border rounded-md w-full h-[48px] py-[8px] px-4 text-white bg-BlueHomz text-[16px] font-[700] ${
               showLinkBox ? "hidden" : ""
             }`}
@@ -166,7 +222,7 @@ const Modal = ({setInviteTenant}) => {
           <div className="mt-[-15px] rounded-md">
             <div className="flex border justify-between h-[48px] bg-whiteblue rounded-md p-2 items-center mb-2">
               <span className="mr-2 text-GrayHomz2 text-[14px] font-[500]">
-                {selectedOptions.estate?.link}
+                {link}
               </span>
               <span onClick={handleCopyClick}>
                 {" "}

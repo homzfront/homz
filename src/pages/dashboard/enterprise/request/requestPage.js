@@ -3,40 +3,20 @@ import React, { useEffect, useState } from "react";
 import PendingRequest from "./pendingRequest";
 import Image from "next/image";
 import Modal from "../tenants/components/modal";
+import { fetchTenantRequest } from "@/api/estateService";
+import useTenantRequestStore from "@/store/tenantRequest";
+import LoadingII from "@/components/mainmenu/loadingII";
+import { fetchSpecificTenant } from "@/api/tenantSevice";
 
 const RequestPage = () => {
-  const Data = [
-    {
-      Id: 1,
-      Name: "Tunde Olayemi",
-      Image: "/static/dashboard/enterprisemanager/request/Avatar.png",
-      Request: true,
-    },
-    {
-      Id: 2,
-      Name: "Jimoh Michael",
-      Image: null,
-      Request: true,
-    },
-    {
-      Id: 3,
-      Name: "Fortune Winifred",
-      Image: "/static/dashboard/enterprisemanager/request/Avatar.png",
-      Request: true,
-    },
-    {
-      Id: 4,
-      Name: "Haruna Ishola",
-      Image: "",
-      Request: true,
-    },
-  ];
-
+  const { request, setRequest } = useTenantRequestStore();
+  const [data, setData] = useState([]);
+  const [tenantData, setTenantData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [inviteTenant, setInviteTenant] = useState(false);
-  const [friendRequests, setFriendRequests] = useState(Data || []);
   const [done, setDone] = useState(false);
   const [doneTwo, setDoneTwo] = useState(false);
 
@@ -50,6 +30,32 @@ const RequestPage = () => {
     }
   }, [inviteTenant, popUpMenu, popUpMenuTwo]);
 
+  console.log(data);
+  console.log(request);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchTenantRequest();
+        console.log(data);
+        const request = data.data?.tenantRequest;
+        console.log(request);
+        const tenantPromises = await request?.map((tenant) => fetchSpecificTenant(tenant.tenant));
+        const tenantData = await Promise.all(tenantPromises);
+        console.log(tenantData);
+        setRequest(request);
+        setTenantData(tenantData);
+        setData(request);
+        setLoading(false);
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const toggleInvite = () => {
     setInviteTenant(true);
   };
@@ -57,12 +63,12 @@ const RequestPage = () => {
   const handleAccept = (id) => {
     console.log(id);
     // Find the user with the given id and update the request status
-    setFriendRequests((prevRequests) =>
+    setData((prevRequests) =>
       prevRequests.map((user) =>
         user.Id === id ? { ...user, Request: false } : user
       )
     );
-    setFriendRequests((prevRequests) =>
+    setData((prevRequests) =>
       prevRequests.filter((user) => user.Id !== id)
     );
     setDone(!done);
@@ -73,10 +79,10 @@ const RequestPage = () => {
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
   };
-  console.log(friendRequests);
+
   const handleReject = (id) => {
     // Remove the user with the given id from the friend requests
-    setFriendRequests((prevRequests) =>
+    setData((prevRequests) =>
       prevRequests.filter((user) => user.Id !== id)
     );
     setDoneTwo(!doneTwo);
@@ -98,12 +104,13 @@ const RequestPage = () => {
 
   return (
     <div>
-      {friendRequests ? (
+      {loading && <LoadingII />}
+      {data ? (
         <PendingRequest
           selectedDataId={selectedDataId}
           popUpMenu={popUpMenu}
           popUpMenuTwo={popUpMenuTwo}
-          friendRequests={friendRequests}
+          friendRequests={data}
           handleAccept={handleAccept}
           handleReject={handleReject}
           handleToggleMenu={handleToggleMenu}
@@ -112,6 +119,8 @@ const RequestPage = () => {
           done={done}
           doneTwo={doneTwo}
           returnToPage={returnToPage}
+          tenantData={tenantData}
+          setTenantData= {setTenantData}
         />
       ) : inviteTenant ? (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
