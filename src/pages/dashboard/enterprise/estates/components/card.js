@@ -24,14 +24,16 @@ const Card = ({
   return (
     <div className="h-[285px] rounded-lg shadow-md">
       <div className="">
-        <div className="h-[168px] w-full rounded-lg overflow-hidden relative">
+        <div style={{position:"relative"}} className="h-[168px] w-full rounded-lg overflow-hidden relative">
           <Image
             src={value1}
-            layout="fill"
-            objectFit="cover"
+            fill
+            priority={true} 
             alt=""
             className="rounded-lg"
-            
+            style={{objectFit:"cover"}}   
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 70vw, 100vw" // Add this line
+
           />
         </div>
 
