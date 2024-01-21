@@ -1,11 +1,13 @@
+import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Estate from "./estates";
 
 const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }) {
+export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      {<Component {...pageProps} />}
+      <Estate/>
     </QueryClientProvider>
   );
 }
