@@ -56,7 +56,7 @@ const SliderComponent = ({ users }) => {
                     width={480}
                     height={464}
                     alt="img"
-                    style={{ width: "auto", height: "auto" }}
+                    style={{ width: "100%", height: "100%" }}
                   
                   />
                 </div>
