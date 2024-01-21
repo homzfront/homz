@@ -16,9 +16,9 @@ export const ReactQueryProvider = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <EstateInfo />
         <EstateInfoII />
-        <PropertyDetails/>
-        <Property/>
-      <Estate/>
+        <PropertyDetails />
+        <Property />
+        <Estate />
       </QueryClientProvider>
     </div>
   );
