@@ -1,6 +1,6 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { ReactQueryProvider } from "../../useReactQuery";
+import { ReactQueryProvider } from "../useReactQuery";
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
