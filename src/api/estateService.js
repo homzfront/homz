@@ -14,6 +14,7 @@ export const fetchEstates = async () => {
 export const updateEstateInfo = async (estateId) => {
   console.log(estateId);
   const response = await api.patch(`/estates/${estateId.estateId}/estateInformation`, estateId.updatedData);
+  console.log(response?.data)
   return response.data;
 };
 
