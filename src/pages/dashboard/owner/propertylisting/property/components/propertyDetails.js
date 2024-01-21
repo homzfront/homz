@@ -4,26 +4,24 @@ import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
 import Image from "next/image";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import useBodyScroll from "@/components/general/useBodyScroll";
+import { fetchUpdateSingleProperty } from "@/api/propertyService";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+} from "@tanstack/react-query";
 
-const PropertyDetails = ({ handlePageChangeTwo, data }) => {
+const queryClient = new QueryClient();
+
+const PropertyDetails = ({ handlePageChangeTwo, data, isLoading }) => {
   console.log(data);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    // Check if data and required properties are available
-    if (data) {
-      setName(data.name || "");
-      setAddress(data.address || "");
-      setDescription(data.description || "");
-      setNumberOfBathrooms(parseInt(data.numberOfBathrooms));
-      setNumberOfRooms(parseInt(data.numberOfRooms));
-      setLoading(false); // Set loading to false once data is available
-    }
-  }, [data]);
+  console.log(isLoading);
+  const [loading, setLoading] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [name, setName] = useState(data?.name);
@@ -33,16 +31,14 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
   const [numberOfBathrooms, setNumberOfBathrooms] = useState(null);
   const [description, setDescription] = useState(data?.description);
 
-
-  console.log(name)
-  console.log(address)
-  console.log(description)
-  console.log(selectedState?.label)
-  console.log(selectedArea?.label)
-  console.log(parseInt(numberOfRooms?.label))
-  console.log(parseInt(numberOfBathrooms?.label))
-  console.log(propertyType?.label)
-
+  console.log(name);
+  console.log(address);
+  console.log(description);
+  console.log(selectedState?.label);
+  console.log(selectedArea?.label);
+  console.log(parseInt(numberOfRooms?.label));
+  console.log(parseInt(numberOfBathrooms?.label));
+  console.log(propertyType?.label);
 
   const options = [
     { id: 1, label: "apartment" },
@@ -60,7 +56,6 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
     { id: 6, label: "Ekaite" },
     { id: 7, label: "Musa" },
     { id: 8, label: "Jalingo" },
-
   ];
 
   const optionsThree = [
@@ -122,38 +117,41 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
     setNumberOfBathrooms(option);
   };
 
+  // Define a mutation for updating the data
+  const mutation = useMutation(() => fetchUpdateSingleProperty, {
+    onSuccess: () => {
+      // Invalidate the query to refetch the data
+      queryClient.invalidateQueries(["singleProperty", data?._id]);
+    },
+    queryClient: queryClient,
+  });
+
   const updateDone = async (e) => {
     e.preventDefault();
-    if (loading) return; // Do nothing if already loading
+    if (loading || mutation.isLoading) return; // Do nothing if already loading
 
     setLoading(true); // Set loading to true when submitting the form
 
     try {
-      const response = await api.patch(
-        `/properties/${data._id}/property-detail`,
-        {
-          name,
-          address,
-          description,
-          state: selectedState?.label,
-          area: selectedArea?.label,
-          numberOfRooms: parseInt(numberOfRooms?.label),
-          numberOfBathrooms: parseInt(numberOfBathrooms?.label),
-          propertyType: propertyType?.label,
-        }
-      );
+      const updatedData = {
+        name,
+        address,
+        description,
+        state: selectedState?.label,
+        area: selectedArea?.label,
+        numberOfRooms: parseInt(numberOfRooms?.label),
+        numberOfBathrooms: parseInt(numberOfBathrooms?.label),
+        propertyType: propertyType?.label,
+      };
 
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
-        setLoading(false);
-        toast.success("update successful");
-      } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
-        setLoading(false);
-      }
+      // Call the mutation to update the data
+      await mutation.mutateAsync({
+        id: data?._id,
+        updatedData,
+        queryClient,
+      });
+      setLoading(false);
+      toast.success("update successful");
     } catch (error) {
       console.error("Login error", error);
       toast.error("update falied");
@@ -163,7 +161,7 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
     }
   };
 
-  useBodyScroll([loading])
+  useBodyScroll([loading, isLoading]);
 
   return (
     <div className="mt-2">
@@ -180,7 +178,7 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
         pauseOnHover
         theme="dark"
       />
-      {loading && <Loading />}
+      {(loading || isLoading) && <Loading />}
       <div className="flex justify-between items-start">
         <div className="flex flex-col justify-between gap-4">
           <div className="">
@@ -286,7 +284,10 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
         </div>
       </div>
       <div className="mt-[20%] flex justify-end">
-        <button onClick={updateDone} className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
+        <button
+          onClick={updateDone}
+          className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
+        >
           Update
         </button>
       </div>

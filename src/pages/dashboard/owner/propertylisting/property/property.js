@@ -3,25 +3,26 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-import api from "@/utils/api";
+import { fetchSingleProperty } from "@/api/propertyService";
+import { useQuery } from "@tanstack/react-query";
 
 const Property = ({id}) => {
 
-  const  [data, setData] = useState([])
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['singleProperty', id],  // Include 'id' in the queryKey
+    queryFn: () => fetchSingleProperty(id),  // Wrap the function in another function
+  });
+
   console.log(id);
-
-
-  useEffect(()=> {
-    const estateData = async () => {
-      const response = await api.get(`/properties/${id}`)
-      const estate = await response.data;
-      setData(estate)
-    }
-    estateData();
-  }, [])
-
   console.log(data);
 
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
+
+  if (!data) {
+    return isLoading
+  }
 
   return (
     <div className="w-[1147px] p-8">
@@ -55,7 +56,7 @@ const Property = ({id}) => {
           <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
         </div>
         <div>
-          <Widget data={data}/>
+          <Widget data={data} isLoading={isLoading}/>
         </div>
       </div>
     </div>

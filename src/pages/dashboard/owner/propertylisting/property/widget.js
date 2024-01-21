@@ -5,7 +5,7 @@ import RentDetails from "./components/rentDetails.js";
 import Photos from "./components/photos.js";
 import ContactDetails from "./components/contactDetails.js";
 
-const Widget = ({data}) => {
+const Widget = ({data, isLoading}) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -88,16 +88,16 @@ const Widget = ({data}) => {
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <PropertyDetails data={data.data}/>
+            <PropertyDetails data={data?.data} isLoading={isLoading}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <RentDetails data={data.data}/>
+            <RentDetails data={data?.data}/>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <Photos data={data.data}/>
+            <Photos data={data?.data}/>
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
-            <ContactDetails data={data.data}/>
+            <ContactDetails data={data?.data}/>
           </div>
         </div>
       </div>
