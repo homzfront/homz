@@ -11,9 +11,10 @@ export const fetchEstates = async () => {
   }
 };
 
-export const updateEstateInfo = async (estateId) => {
+export const updateEstateInfo = async (estateId, updatedData ) => {
   console.log(estateId);
-  const response = await api.patch(`/estates/${estateId.estateId}/estateInformation`, estateId.updatedData);
+  console.log(updatedData);
+  const response = await api.patch(`/estates/${estateId}/estateInformation`, updatedData);
   console.log(response?.data)
   return response.data;
 };

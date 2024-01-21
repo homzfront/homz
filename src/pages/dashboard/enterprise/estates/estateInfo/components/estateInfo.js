@@ -20,8 +20,8 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   const [loading, setLoading] = useState(false);
   useBodyScroll([loading]);
 
-  const [selectedArea, setSelectedArea] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(data?.area);
+  const [selectedState, setSelectedState] = useState(data?.state);
   const [name, setName] = useState(data?.name);
   const [address, setAddress] = useState(data?.address);
   const [size, setSize] = useState(parseInt(data?.size));
@@ -54,13 +54,20 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   console.log(data?._id);
 
   // Define a mutation for updating the data
-  const mutation = useMutation(() => updateEstateInfo, {
-    onSuccess: () => {
-      // Invalidate the query to refetch the data
-      queryClient.invalidateQueries(["singleEstate", data?._id]);
-    },
-    queryClient: queryClient,
-  });
+  const mutation = useMutation(
+    () =>
+      updateEstateInfo({
+        estateId: data?._id,
+        updatedData,
+      }),
+    {
+      onSuccess: () => {
+        // Invalidate the query to refetch the data
+        queryClient.invalidateQueries(["singleEstate", data?._id]);
+      },
+      queryClient: queryClient,
+    }
+  );
 
   // Your updateDone function
   const updateDone = async (e) => {
@@ -79,13 +86,15 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
         state: selectedState?.label,
         area: selectedArea?.label,
       };
+
+      console.log(updatedData);
       // Call the mutation to update the data
       await mutation.mutateAsync({
         estateId: data?._id,
         updatedData,
         queryClient,
       });
-
+      console.log();
       setLoading(false);
       toast.success("Update successful");
     } catch (error) {
@@ -96,7 +105,8 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   };
 
   return (
-    <div className="">
+    <QueryClientProvider client={queryClient}>
+      <div className="">
         <ToastContainer
           position="top-center"
           autoClose={2000}
@@ -208,10 +218,9 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
             Update
           </button>
         </div>
-    </div>
+      </div>
+    </QueryClientProvider>
   );
 };
-
-
 
 export default PropertyInfo;

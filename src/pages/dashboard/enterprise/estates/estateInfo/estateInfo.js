@@ -7,7 +7,13 @@ import {
   fetchEstatesSpecificUSer,
   updateEstateInfo,
 } from "@/api/estateService";
-import { QueryClientProvider, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const EstateInfo = ({ id }) => {
   const { data, isLoading, isError } = useQuery({
@@ -28,8 +34,8 @@ const EstateInfo = ({ id }) => {
   }
 
   return (
-    <div className="w-[1075px] p-8">
-
+    <QueryClientProvider client={queryClient}>
+      <div className="w-[1075px] p-8">
         <div>
           <div>
             <div className="w-[475px] flex gap-2 items-center">
@@ -62,8 +68,8 @@ const EstateInfo = ({ id }) => {
             <Widget data={data} isLoading={isLoading} />
           </div>
         </div>
-
-    </div>
+      </div>
+    </QueryClientProvider>
   );
 };
 
