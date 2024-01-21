@@ -3,74 +3,63 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  fetchEstatesSpecificUSer,
-  updateEstateInfo,
-} from "@/api/estateService";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import api from "@/utils/api";
 
-const queryClient = new QueryClient();
-
-const EstateInfo = ({ id }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["singleEstate", id], // Include 'id' in the queryKey
-    queryFn: () => fetchEstatesSpecificUSer(id), // Wrap the function in another function
-  });
+const EstateInfo = ({id}) => {
+  const  [data, setData] = useState([])
   console.log(id);
-  console.log(isLoading);
-  console.log(isError);
+
+
+  useEffect(()=> {
+    const estateData = async () => {
+      const response = await api.get(`/estates/${id}`)
+      const estate = await response.data;
+      setData(estate)
+    }
+    estateData();
+  }, [])
+
   console.log(data);
 
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
-
-  if (!data) {
-    return isLoading;
-  }
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="w-[1075px] p-8">
+    <div className="w-[1075px] p-8">
+      <div>
         <div>
-          <div>
-            <div className="w-[475px] flex gap-2 items-center">
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-              />
-              <Link
-                href={"/dashboard/enterprise-property/estates"}
-                className="text-[14px] font-[400] text-GrayHomz2"
-              >
-                Go Back
-              </Link>
-              <Link
-                href={"/dashboard/enterprise-property/estates"}
-                className="text-[16px] font-[400] text-GrayHomz"
-              >
-                Estate Name<> </>/
-              </Link>
-              <div className="text-[20px] font-[500] text-GrayHomz">
-                Estate Information
-              </div>
+          <div className="w-[475px] flex gap-2 items-center">
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+              }
+              alt=""
+              height={16}
+              width={16}
+            />
+            <Link
+              href={"/dashboard/enterprise-property/estates"}
+              className="text-[14px] font-[400] text-GrayHomz2"
+            >
+              Go Back
+            </Link>
+            <Link
+              href={"/dashboard/enterprise-property/estates"}
+              className="text-[16px] font-[400] text-GrayHomz"
+            >
+              Estate Name<> </>/
+            </Link>
+            <div className="text-[20px] font-[500] text-GrayHomz">
+              Estate Information
             </div>
           </div>
-          <div>
-            <Widget data={data} isLoading={isLoading} />
-          </div>
+        </div>
+        <div>
+          <Widget data={data} />
         </div>
       </div>
-    </QueryClientProvider>
+    </div>
   );
+
+
+  
 };
 
 export default EstateInfo;
