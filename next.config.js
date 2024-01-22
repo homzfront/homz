@@ -8,15 +8,11 @@ module.exports = {
     images: {
       domains: ['res.cloudinary.com'],
     },
-  };
-  
-
-  module.exports = {
     async headers() {
       return [
         {
           // matching all API routes
-          source: "/api/:path*",
+          source: "/(.*)",
           headers: [
             { key: "Access-Control-Allow-Credentials", value: "true" },
             { key: "Access-Control-Allow-Origin", value: "*" },
@@ -28,4 +24,6 @@ module.exports = {
       ]
     }
   };
+  
+
   

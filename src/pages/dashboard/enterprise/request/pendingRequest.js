@@ -158,10 +158,10 @@ const PendingRequest = ({
                       <div>
                         <AcceptAndRejectModel
                           header={"Proceed To Add  tenant to Property?"}
-                          body={`${data.tenants.fullName} will be added as a tenant to New Suncity Estate.`}
+                          body={`${data.tenants.fullName} will be added as a tenant to ${request.estate} Estate.`}
                           button={"Yes, Proceed"}
                           buttonTwo={"Cancel"}
-                          returnHome={() => ConfirmTenantRequest(selectedDataId, "accepted")}
+                          returnHome={() => handleAccept(selectedDataId)}
                           returnHomeTwo={returnHomeTwo}
                         />
                       </div>
@@ -170,7 +170,7 @@ const PendingRequest = ({
                       <div key={request._id}>
                         <AcceptAndRejectModel
                           header={"Decline Tenant Request?"}
-                          body={`You’re about to decline ${data.tenants.fullName}’s request to join New Suncity Estate.`}
+                          body={`You’re about to decline ${data.tenants.fullName}’s request to join ${request.estate} Estate.`}
                           button={"Yes, Proceed"}
                           buttonTwo={"Cancel"}
                           returnHome={() => handleReject(selectedDataId)}

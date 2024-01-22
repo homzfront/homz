@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../../../components/confirmModalI";
+import { maintenanceByTenant } from "@/api/maintenanceService";
 
 const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
   const [subject, setSubject] = useState("");
@@ -9,42 +10,42 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
 
   const accept = () => {
     setOpenAccept(!openAccept);
-  }
+  };
 
   const closeAccept = () => {
     setOpenAccept(false);
-  }
+  };
 
   console.log(subject);
   console.log(requestDate);
 
-  const handleSubmit = (e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const randomNumber = () => {
-        return Math.random()
-    }
+    if (loading) return; // Do nothing if already loading
 
-    const newData = {
-        id: randomNumber(),
+    setLoading(true); // Set loading to true when submitting the form
+
+    try {
+      const maintenanceData = {
         subject,
-        requestDate
+        requestDate,
+      };
+
+      const data = await maintenanceByTenant(maintenanceData);
+      console.log(data);
+      setLoading(false);
+      setSubject("");
+      setRequestDate("");
+    } catch {
+      setLoading(false);
     }
 
-    setData([
-        ...data, newData
-    ])
+   
+  };
 
-    setSubject('');
-    setRequestDate('');    
-  }
-
-  
-
-
- // useEffect to store data from localStorage when the component mounts
- useEffect(() => {
+  // useEffect to store data from localStorage when the component mounts
+  useEffect(() => {
     localStorage.setItem("DataII", JSON.stringify(data));
   }, [data]);
 
@@ -104,7 +105,10 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
             type="date"
           />
         </div>
-        <button onClick={handleSubmit} className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]">
+        <button
+          onClick={handleSubmit}
+          className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]"
+        >
           Send Request
         </button>
       </div>

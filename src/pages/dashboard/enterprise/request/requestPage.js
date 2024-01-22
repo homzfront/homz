@@ -73,13 +73,6 @@ const RequestPage = () => {
     try {
       // Call ConfirmTenantRequest with "accepted" status
       await ConfirmTenantRequest(id, "accepted");
-
-      // // Update state or perform other actions as needed
-      // setData((prevRequests) =>
-      //   prevRequests.map((user) =>
-      //     user._id === id ? { ...user, Request: false } : user
-      //   )
-      // );
       setDone(!done);
     } catch (error) {
       console.error("Error accepting tenant request:", error);
@@ -90,11 +83,6 @@ const RequestPage = () => {
     try {
       // Call ConfirmTenantRequest with "declined" status
       await ConfirmTenantRequest(id, "declined");
-
-      // // Update state or perform other actions as needed
-      // setData((prevRequests) =>
-      //   prevRequests.filter((user) => user._id !== id)
-      // );
       setDoneTwo(!doneTwo);
     } catch (error) {
       console.error("Error declining tenant request:", error);

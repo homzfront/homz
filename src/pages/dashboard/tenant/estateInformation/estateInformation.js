@@ -138,7 +138,7 @@ const EstateInformation = () => {
         <div>
           <AcAndRejModelEs
             header={"Proceed To Join Estate?"}
-            body={"You’re about to join Suncity New Estate"}
+            body={"You’re about to join Estate"}
             button={"Yes"}
             buttonTwo={"No"}
             returnHomeTwo={closeLink}
