@@ -10,6 +10,7 @@ const api = axios.create({
     // You can set other headers as needed
   },
   withCredentials: true,
+  credentials: 'include'
 });
 
 

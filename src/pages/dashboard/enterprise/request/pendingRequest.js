@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import AcceptAndRejectModel from "./components/acceptAndRejectModel";
 import ConfirmModal from "../components/confirmModal";
+import { ConfirmTenantRequest } from "@/api/requestService";
 
 const PendingRequest = ({
   popUpMenu,
@@ -18,7 +19,7 @@ const PendingRequest = ({
   doneTwo,
   returnToPage,
   tenantData,
-  setTenantData
+  setTenantData,
 }) => {
   console.log(tenantData);
   console.log(friendRequests);
@@ -26,6 +27,39 @@ const PendingRequest = ({
     return null; // or display a loading state or any other fallback
   }
 
+  const pendingData = friendRequests.filter(item => item.status === 'pending');
+
+  // Get the length of the filtered data
+  const pendingCount = pendingData.length;
+
+  console.log(pendingCount);
+
+  function timeAgo(timestamp) {
+    const currentDate = new Date();
+    const createdAtDate = new Date(timestamp);
+    const timeDifference = currentDate - createdAtDate;
+
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 1) {
+      return `${days} days ago`;
+    } else if (hours > 1) {
+      return `${hours} hours ago`;
+    } else if (minutes > 1) {
+      return `${minutes} minutes ago`;
+    } else {
+      return `${seconds} seconds ago`;
+    }
+  }
+
+  // Example usage:
+  const timestamp = "2024-01-19T05:14:45.672Z";
+  console.log(timeAgo(timestamp));
+
+  console.log(selectedDataId);
 
   return (
     <div className="w-[1147px] p-8">
@@ -35,7 +69,9 @@ const PendingRequest = ({
             <div className="flex gap-1">
               <p>Tenancy Request</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">{friendRequests?.length}</span>
+                <span className="text-BlueHomz ">
+                  {pendingCount}
+                </span>
               </span>
             </div>
           </div>
@@ -62,100 +98,108 @@ const PendingRequest = ({
         </div>
       </div>
       <div>
-        {friendRequests.map((data) => (
-          <div key={data.Id} className="">
-            {data.Request === true && (
-              <div className="flex items-center justify-between border-t border-b py-2">
-                <div className="flex gap-4">
-                  <div>
-                    {data.Image === null ||
-                    data.Image === "" ||
-                    data.Image === undefined ? (
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/request/AvatarEmpty.png"
-                        }
-                        alt=""
-                        height={40}
-                        width={40}
-                      />
-                    ) : (
-                      <Image src={data.Image} alt="" height={40} width={40} />
+        {friendRequests.map((request) => (
+          <div key={request._id} className={`${request.status === "accepted" ? "hidden" : ""}`}>
+            {tenantData.map((data) => (
+              <div key={data.tenants._id}>
+                {request.tenant === data.tenants._id && (
+                  <div className="flex items-center justify-between w-full border-t border-b py-2">
+                    <div className="flex gap-4">
+                      <div>
+                        {data.tenants.coverPhoto ? (
+                          <Image
+                            src={data.tenants.coverPhoto.url}
+                            alt=""
+                            height={40}
+                            width={40}
+                            className="rounded-full"
+                          />
+                        ) : (
+                          <Image
+                            src={
+                              "/static/dashboard/enterprisemanager/request/AvatarEmpty.png"
+                            }
+                            alt=""
+                            height={40}
+                            width={40}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-[16px] font-[600] text-BlackHomz">
+                          {data.tenants.fullName}
+                        </p>
+                        <p className="text-[14px] font-[400] text-GrayHomz">
+                          {data.tenants.fullName} has sent a request to join{" "}
+                          <span className="text-[14px] font-[600] text-GrayHomz">
+                            {request.estate} Estate
+                          </span>
+                        </p>
+                        <p className="text-[13px] font-[400] text-GrayHomz">
+                          {timeAgo(request.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => handleToggleMenu(request._id)}
+                        className="text-[14px] font-[700] text-white bg-BlueHomz px-3 py-1 rounded-md"
+                      >
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => handleToggleMenuTwo(request._id)}
+                        className="text-[14px] font-[700] text-BlueHomz border border-BlueHomz px-3 py-1 rounded-md"
+                      >
+                        Decline
+                      </button>
+                    </div>
+                    {popUpMenu && selectedDataId === request._id && (
+                      <div>
+                        <AcceptAndRejectModel
+                          header={"Proceed To Add  tenant to Property?"}
+                          body={`${data.tenants.fullName} will be added as a tenant to New Suncity Estate.`}
+                          button={"Yes, Proceed"}
+                          buttonTwo={"Cancel"}
+                          returnHome={() => ConfirmTenantRequest(selectedDataId, "accepted")}
+                          returnHomeTwo={returnHomeTwo}
+                        />
+                      </div>
+                    )}
+                    {popUpMenuTwo && selectedDataId === request._id && (
+                      <div key={request._id}>
+                        <AcceptAndRejectModel
+                          header={"Decline Tenant Request?"}
+                          body={`You’re about to decline ${data.tenants.fullName}’s request to join New Suncity Estate.`}
+                          button={"Yes, Proceed"}
+                          buttonTwo={"Cancel"}
+                          returnHome={() => handleReject(selectedDataId)}
+                          returnHomeTwo={returnHomeTwo}
+                        />
+                      </div>
+                    )}
+                    {done && (
+                      <div>
+                        <ConfirmModal
+                          header={"Tenant Added Successfully"}
+                          returnHome={returnToPage}
+                          button={"View Tenants"}
+                        />
+                      </div>
+                    )}
+                    {doneTwo && (
+                      <div>
+                        <ConfirmModal
+                          header={"Tenant Request Declined Successfully"}
+                          returnHome={returnToPage}
+                          button={"Close"}
+                        />
+                      </div>
                     )}
                   </div>
-                  <div>
-                    <p className="text-[16px] font-[600] text-BlackHomz">
-                      {data.Name}
-                    </p>
-                    <p className="text-[14px] font-[400] text-GrayHomz">
-                      {data.Name} has sent a request to join{" "}
-                      <span className="text-[14px] font-[600] text-GrayHomz">
-                        New Suncity Estate
-                      </span>
-                    </p>
-                    <p className="text-[13px] font-[400] text-GrayHomz">
-                      2 hours ago
-                    </p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => handleToggleMenu(data.Id)}
-                    className="text-[14px] font-[700] text-white bg-BlueHomz px-3 py-1 rounded-md"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => handleToggleMenuTwo(data.Id)}
-                    className="text-[14px] font-[700] text-BlueHomz border border-BlueHomz px-3 py-1 rounded-md"
-                  >
-                    Decline
-                  </button>
-                </div>
+                )}
               </div>
-            )}
-            {popUpMenu && selectedDataId === data.Id && (
-              <div>
-                <AcceptAndRejectModel
-                  header={"Proceed To Add  tenant to Property?"}
-                  body={`${data.Name} will be added as a tenant to New Suncity Estate.`}
-                  button={"Yes, Proceed"}
-                  buttonTwo={"Cancel"}
-                  returnHome={() => handleAccept(data.Id)}
-                  returnHomeTwo={returnHomeTwo}
-                />
-              </div>
-            )}
-            {popUpMenuTwo && selectedDataId === data.Id && (
-              <div key={data.Id}>
-                <AcceptAndRejectModel
-                  header={"Decline Tenant Request?"}
-                  body={`You’re about to decline ${data.Name}’s request to join New Suncity Estate.`}
-                  button={"Yes, Proceed"}
-                  buttonTwo={"Cancel"}
-                  returnHome={() => handleReject(data.Id)}
-                  returnHomeTwo={returnHomeTwo}
-                />
-              </div>
-            )}
-            {done && (
-              <div>
-                <ConfirmModal
-                  header={"Tenant Added Successfully"}
-                  returnHome={returnToPage}
-                  button={"View Tenants"}
-                />
-              </div>
-            )}
-            {doneTwo && (
-              <div>
-                <ConfirmModal
-                  header={"Tenant Request Declined Successfully"}
-                  returnHome={returnToPage}
-                  button={"Close"}
-                />
-              </div>
-            )}
+            ))}
           </div>
         ))}
       </div>

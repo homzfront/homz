@@ -7,6 +7,7 @@ import { fetchTenantRequest } from "@/api/estateService";
 import useTenantRequestStore from "@/store/tenantRequest";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { fetchSpecificTenant } from "@/api/tenantSevice";
+import { ConfirmTenantRequest } from "@/api/requestService";
 
 const RequestPage = () => {
   const { request, setRequest } = useTenantRequestStore();
@@ -60,19 +61,7 @@ const RequestPage = () => {
     setInviteTenant(true);
   };
 
-  const handleAccept = (id) => {
-    console.log(id);
-    // Find the user with the given id and update the request status
-    setData((prevRequests) =>
-      prevRequests.map((user) =>
-        user.Id === id ? { ...user, Request: false } : user
-      )
-    );
-    setData((prevRequests) =>
-      prevRequests.filter((user) => user.Id !== id)
-    );
-    setDone(!done);
-  };
+
   const returnToPage = () => {
     setDone(false);
     setDoneTwo(false);
@@ -80,13 +69,38 @@ const RequestPage = () => {
     setPopUpMenuTwo(false);
   };
 
-  const handleReject = (id) => {
-    // Remove the user with the given id from the friend requests
-    setData((prevRequests) =>
-      prevRequests.filter((user) => user.Id !== id)
-    );
-    setDoneTwo(!doneTwo);
+  const handleAccept = async (id) => {
+    try {
+      // Call ConfirmTenantRequest with "accepted" status
+      await ConfirmTenantRequest(id, "accepted");
+
+      // // Update state or perform other actions as needed
+      // setData((prevRequests) =>
+      //   prevRequests.map((user) =>
+      //     user._id === id ? { ...user, Request: false } : user
+      //   )
+      // );
+      setDone(!done);
+    } catch (error) {
+      console.error("Error accepting tenant request:", error);
+    }
   };
+
+  const handleReject = async (id) => {
+    try {
+      // Call ConfirmTenantRequest with "declined" status
+      await ConfirmTenantRequest(id, "declined");
+
+      // // Update state or perform other actions as needed
+      // setData((prevRequests) =>
+      //   prevRequests.filter((user) => user._id !== id)
+      // );
+      setDoneTwo(!doneTwo);
+    } catch (error) {
+      console.error("Error declining tenant request:", error);
+    }
+  };
+
 
   const handleToggleMenu = (id) => {
     setPopUpMenu(!popUpMenu);
