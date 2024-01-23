@@ -5,9 +5,6 @@ import PopUpMenu from "./popUpMenu";
 import Button from "../../components/button";
 
 const MaintenanceTable = ({ request, tenantData }) => {
-  if (!request || !tenantData) {
-    return null; // or display a loading state or any other fallback
-  }
 
 
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -17,12 +14,12 @@ const MaintenanceTable = ({ request, tenantData }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(request.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(request?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = request.slice(startIndex, endIndex);
+  const currentData = request?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -126,7 +123,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
                       key={request?.tenant}
                       className="w-2 border-t-[1px] items-center"
                     >
-                      {tenantData.map((data) => (
+                      {tenantData && tenantData.map((data) => (
                         <React.Fragment key={data?.tenants._id}>
                           {request?.tenant === data?.tenants._id && (
                             <>
