@@ -2,17 +2,30 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../../../components/confirmModalI";
 import { maintenanceByTenant } from "@/api/maintenanceService";
+import Loading from "@/components/mainmenu/loading";
+import { Fascinate } from "next/font/google";
+import ConfirmModal from "../../../components/confirmModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useBodyScroll from "@/components/general/useBodyScroll";
 
 const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
   const [subject, setSubject] = useState("");
   const [requestDate, setRequestDate] = useState("");
   const [openAccept, setOpenAccept] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const accept = () => {
     setOpenAccept(!openAccept);
   };
 
   const closeAccept = () => {
+    setOpenAccept(false);
+  };
+
+  const closeConfirm = () => {
+    setConfirm(false);
     setOpenAccept(false);
   };
 
@@ -37,27 +50,54 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
       setLoading(false);
       setSubject("");
       setRequestDate("");
-    } catch {
+      setConfirm(!confirm);
+      toast.success("maintenance request sent!");
+    } catch (error) {
+      console.log(error?.response.data);
       setLoading(false);
+      toast.error(error?.response?.data.error);
     }
-
-   
   };
 
-  // useEffect to store data from localStorage when the component mounts
-  useEffect(() => {
-    localStorage.setItem("DataII", JSON.stringify(data));
-  }, [data]);
-
   console.log(data);
+  useBodyScroll([loading, confirm, openAccept]);
 
   return (
     <div className="p-8">
-      {/* {
-        openAccept && (
-          <ConfirmModalI header={"Proceed To Send Request?"} body={""}/>
-        )
-      } */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      {loading && <Loading />}
+      {openAccept && (
+        <ConfirmModalI
+          header={"Proceed To Send Request?"}
+          body={`You’re sending maintenance request for ${subject}`}
+          button={"Yes, send request"}
+          buttonTwo={"Cancel"}
+          returnHome={handleSubmit}
+          returnHomeTwo={closeAccept}
+        />
+      )}
+      {confirm && (
+        <ConfirmModal
+          header={"Request Successful"}
+          body={
+            "Your property manager has been notified of your request and will attend to it soon."
+          }
+          button={"Okay"}
+          returnHome={closeConfirm}
+        />
+      )}
       <div className="flex gap-4 items-center">
         <div
           onClick={closeMaintenanceForm}
@@ -106,7 +146,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
           />
         </div>
         <button
-          onClick={handleSubmit}
+          onClick={accept}
           className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]"
         >
           Send Request
