@@ -7,10 +7,10 @@ const StatusDropDownMain = ({
   isOpen,
   toggleDropdown,
 }) => {
-  // Ensure that Data is defined and not null
-  if (!data) {
-    return []; // or handle accordingly, e.g., return a loading state
-  }
+  // // Ensure that Data is defined and not null
+  // if (!data) {
+  //   return []; // or handle accordingly, e.g., return a loading state
+  // }
 
   console.log(data);  // State to manage the selected status
 
