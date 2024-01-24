@@ -65,21 +65,24 @@ const Header = () => {
             Home
           </Link>
           <Link
-            href={"/landingPage-PropertyOwner"}
+            // href={"/landingPage-PropertyOwner"}
             className="hover:text-blue-400"
+            href={""}
             onClick={() => setOpen(false)}
           >
             Management
           </Link>
           <Link
-            href={"/landing-page-property"}
+            // href={"/landing-page-property"}
+            href={""}
             className="hover:text-blue-400 "
             onClick={() => setOpen(false)}
           >
             Enterprise
           </Link>
           <Link
-            href={"/landing-page-tenant"}
+            // href={"/landing-page-tenant"}
+            href={""}
             className="hover:text-blue-400 "
             onClick={() => setOpen(false)}
           >

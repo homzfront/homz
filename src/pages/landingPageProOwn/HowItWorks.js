@@ -4,6 +4,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
 const HowItWorks = () => {
   const settings = {
@@ -108,18 +109,24 @@ const HowItWorks = () => {
         </div>
       </div>
       <div className="mt-16 flex flex-col justify-around items-center py-[60px] px-8 bg-[url('/Background_image.png')] text-white rounded-lg shadow-2xl bg-cover bg-center bg-black max-w-full sm:w-[670px]  md:w-[786px] lg:w-[824px] xl:w-[1159px] h-[303px]">
-          <h1 className=" mt-[-20px] sm:mt-0 font-[700] text-center text-[20px] sm:text-[36px]">
+        <h1 className=" mt-[-20px] sm:mt-0 font-[700] text-center text-[20px] sm:text-[36px]">
           Join over 2,000+ property owners who are scaling up.
-          </h1>
-          <div className="flex flex-col sm:flex-row w-full sm:w-auto mt-3  gap-4">
+        </h1>
+        <div className="flex flex-col sm:flex-row w-full sm:w-auto mt-3  gap-4">
+          <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
             <button className="w-full sm:w-[116px] font-[700] h-[48px] text-[16px] hover:bg-transparent hover:border  hover:text-white rounded-md  text-BlackHomz  bg-white  px-2 py-1">
-              Get started
+              {/* Get started */}
+              Join Waitlist
             </button>
+          </Link>
+          <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
             <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:text-BlackHomz  hover:bg-white rounded-md font-normal  text-white border bg-transparent px-2 py-1">
-              Contact us
+              {/* Contact us */}
+              Join Waitlist
             </button>
-          </div>
+          </Link>
         </div>
+      </div>
     </div>
   );
 };

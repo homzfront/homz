@@ -2,10 +2,9 @@ import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import Link from "next/link";
 
 const SliderComponent = ({ users }) => {
-
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -31,7 +30,9 @@ const SliderComponent = ({ users }) => {
                     <div className="star-rating sm:mt-14">
                       {[...Array(5)].map((index) => {
                         return (
-                            <span key={index} className="text-BlueHomz text-2xl">&#9733;</span>
+                          <span key={index} className="text-BlueHomz text-2xl">
+                            &#9733;
+                          </span>
                         );
                       })}
                     </div>
@@ -48,31 +49,34 @@ const SliderComponent = ({ users }) => {
                     </div>
                   </div>
                 </div>
-              <div className="w-full max-w-[480px] h-auto">
-                <div className="sm:bg-cover sm:bg-center">
-                  <Image
-                    className="rounded-[30px]"
-                    src={user.image}
-                    width={480}
-                    height={464}
-                    alt="img"
-                    style={{ width: "100%", height: "100%" }}
-                  
-                  />
+                <div className="w-full max-w-[480px] h-auto">
+                  <div className="sm:bg-cover sm:bg-center">
+                    <Image
+                      className="rounded-[30px]"
+                      src={user.image}
+                      width={480}
+                      height={464}
+                      alt="img"
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
       </div>
       <div className="sm:hidden mt-[80px] flex flex-col gap-4">
-        <button className=" w-[100%] h-[48px] text-[16px]  rounded-md font-normal hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz  text-white  bg-BlueHomz  px-2 py-1">
-          Get started
-        </button>
-        <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal hover:bg-BlueHomz hover:text-white text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1">
-          Contact us
-        </button>
+        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+          <button className=" w-[100%] h-[48px] text-[16px]  rounded-md font-normal hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz  text-white  bg-BlueHomz  px-2 py-1">
+            {/* Get started */} Join Waitlist
+          </button>
+        </Link>
+        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+          <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal hover:bg-BlueHomz hover:text-white text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1">
+            {/* Contact us */} Join Waitlist
+          </button>
+        </Link>
       </div>
     </div>
   );
