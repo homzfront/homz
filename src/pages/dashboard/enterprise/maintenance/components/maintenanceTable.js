@@ -23,12 +23,12 @@ const MaintenanceTable = ({ request, tenantData }) => {
 
   // Create a lookup object for faster access
   const tenantLookup = {};
-  tenantData.forEach((tenant) => {
+  tenantData?.forEach((tenant) => {
     tenantLookup[tenant?.tenants._id] = tenant?.tenants;
   });
 
   // Now, you can iterate through maintenanceRequests and access the corresponding tenantData using the lookup
-  const MaintenanceRequests = request.map((request) => ({
+  const MaintenanceRequests = request?.map((request) => ({
     ...request,
     tenantData: tenantLookup[request?.tenant],
   }));
@@ -175,7 +175,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
             <div className=" flex-[0.2]"></div>
           </div>
           <div className="flex flex-col">
-            {currentData.map((request) => (
+            {currentData && currentData?.map((request) => (
               <div
                 key={request?._id}
                 className="flex bg-white border-t-[1px] items-center px-8 h-[64px]"
