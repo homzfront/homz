@@ -18,10 +18,12 @@ const Maintenance = () => {
         const request = data?.data;
         setRequest(request);
         console.log(request);
-        const tenantPromises = await request?.map((tenant) => fetchSpecificTenant(tenant.tenant));
+        const tenantPromises = await request?.map((tenant) =>
+          fetchSpecificTenant(tenant.tenant)
+        );
         const tenantData = await Promise.all(tenantPromises);
         console.log(tenantData);
-        setTenantData(tenantData)
+        setTenantData(tenantData);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -39,7 +41,6 @@ const Maintenance = () => {
   const pendingCount = pendingRequest?.length;
   console.log(pendingCount);
 
-
   const resolvedRequest = request.filter((request) => {
     return request.status === "resolved";
   });
@@ -49,44 +50,47 @@ const Maintenance = () => {
 
   return (
     <div className="relative block w-[1147px] p-8">
-      {loading && <LoadingII />}
-      <div className="">
-        <div className="flex justify-between items-center">
-          <p className="text-[20px] font-[500] text-BlackHomz">Maintenance</p>
-          <Filter />
-        </div>
-        <div className="absolute border-t w-full left-0 top-[105px]"></div>
-        <div className="flex gap-4 mt-[70px]">
-          <Box
-            type={"Total Requests"}
-            money={request?.length}
-            border={"border-BlueHomz"}
-            textColor={"text-BlueHomz"}
-            textColor2={"text-BlueHomz"}
-            bgColor={"whiteblue"}
-          />
-          <Box
-            type={"Pending Request"}
-            money={pendingCount}
-            border={"border-warning2"}
-            textColor={"text-warning2"}
-            textColor2={"text-BlackHomz"}
-            bgColor={"warningBg"}
-          />
-          <Box
-            type={"Resolved Requests"}
-            money={resolvedCount}
-            border={"border-Success"}
-            textColor={"text-Success"}
-            textColor2={"text-BlackHomz"}
-            bgColor={"successBg"}
-          />
-        </div>
+      {loading ? (
+        <LoadingII />
+      ) : (
+        <div className="">
+          <div className="flex justify-between items-center">
+            <p className="text-[20px] font-[500] text-BlackHomz">Maintenance</p>
+            <Filter />
+          </div>
+          <div className="absolute border-t w-full left-0 top-[105px]"></div>
+          <div className="flex gap-4 mt-[70px]">
+            <Box
+              type={"Total Requests"}
+              money={request?.length}
+              border={"border-BlueHomz"}
+              textColor={"text-BlueHomz"}
+              textColor2={"text-BlueHomz"}
+              bgColor={"whiteblue"}
+            />
+            <Box
+              type={"Pending Request"}
+              money={pendingCount}
+              border={"border-warning2"}
+              textColor={"text-warning2"}
+              textColor2={"text-BlackHomz"}
+              bgColor={"warningBg"}
+            />
+            <Box
+              type={"Resolved Requests"}
+              money={resolvedCount}
+              border={"border-Success"}
+              textColor={"text-Success"}
+              textColor2={"text-BlackHomz"}
+              bgColor={"successBg"}
+            />
+          </div>
 
-        <div>
-          <MaintenanceTable  request={request} tenantData={tenantData}/>
+          <div>
+            <MaintenanceTable request={request} tenantData={tenantData} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

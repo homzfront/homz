@@ -29,7 +29,7 @@ const Sidebar = () => {
       image: "/static/dashboard/enterprisemanager/sidebar/estatedark.png",
       image2: "/static/dashboard/enterprisemanager/sidebar/estates.png",
       link: "/dashboard/enterprise-property/estates",
-      name: "Estates",
+      name: "Property Management",
       coming: null,
       active: false,
     },

@@ -17,6 +17,7 @@ module.exports = {
         BlueHomz: '#006AFF',
         BlueHomz2: '#0058D4',
         BlueHomz3: '#F9FBFF',
+        BlueHomz4:'#559CFF',
         GrayHomz: '#4E4E4E',
         GrayHomz2: '#A9A9A9',
         GrayHomz3: '#9BB9E4',

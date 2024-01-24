@@ -110,7 +110,7 @@ const TenantsCard = () => {
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
-              <th className="text-left ">Estate</th>
+              <th className="text-left ">Property</th>
               <th className="text-left">Rent</th>
               <th className="text-left">Status</th>
               <th className="text-left pr-6">Due Date</th>
