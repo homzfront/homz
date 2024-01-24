@@ -10,6 +10,9 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 export const metadata = {
   title: "Homz",
   description: "Effortless Property Ownership Starts Here.",
+  icons: {
+    icon: "/icon.png",
+    },
 };
 
 export default function RootLayout({ children }) {

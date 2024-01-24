@@ -119,10 +119,10 @@ const HowItWorks = () => {
               Join Waitlist
             </button>
           </Link>
-          <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+          <Link href={"/contact-page"}>
             <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:text-BlackHomz  hover:bg-white rounded-md font-normal  text-white border bg-transparent px-2 py-1">
-              {/* Contact us */}
-              Join Waitlist
+              Contact us
+        
             </button>
           </Link>
         </div>

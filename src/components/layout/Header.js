@@ -117,14 +117,21 @@ const Header = () => {
           </div>
         ) : (
           <>
-            <Link href="/login" className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
+            <Link 
+            // href="/login"
+            // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+            href={""}
+             className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
               Sign in
+
             </Link>
             <Link
-              href="/register"
+              // href="/register"
+           href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
               className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""}`}
             >
-              Create Account
+              {/* Create Account */}
+              Join Waitlist
             </Link>
           </>
         )}

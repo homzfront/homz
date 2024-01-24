@@ -72,9 +72,9 @@ const SliderComponent = ({ users }) => {
             {/* Get started */} Join Waitlist
           </button>
         </Link>
-        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+        <Link href={"/contact-page"}>
           <button className=" w-[100%] h-[48px] text-[16px] rounded-md font-normal hover:bg-BlueHomz hover:text-white text-BlueHomz  border border-BlueHomz bg-transparent px-2 py-1">
-            {/* Contact us */} Join Waitlist
+            Contact us
           </button>
         </Link>
       </div>
