@@ -67,9 +67,9 @@ const SliderComponent = ({ users }) => {
         </Slider>
       </div>
       <div className="sm:hidden mt-[80px] flex flex-col gap-4">
-        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+        <Link href={"/register"}>
           <button className=" w-[100%] h-[48px] text-[16px]  rounded-md font-normal hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz  text-white  bg-BlueHomz  px-2 py-1">
-            {/* Get started */} Join Waitlist
+            Get started
           </button>
         </Link>
         <Link href={"/contact-page"}>

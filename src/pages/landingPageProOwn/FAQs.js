@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Minus from "../../components/icons/Minus";
 import Plus from "../../components/icons/Plus";
-import Link from "next/link";
 
 const FAQs = () => {
   const [expandedFAQs, setExpandedFAQs] = useState({});
@@ -74,10 +73,7 @@ const FAQs = () => {
               <h3 className="md:text-[18px] text-[16px] font-[500] text-BlackHomz pr-2">
                 {data.question}
               </h3>
-              <div className="mt-[5px]">
-                {" "}
-                {expandedFAQs[data.id] ? <Minus /> : <Plus />}
-              </div>
+              <div className="mt-[5px]"> {expandedFAQs[data.id] ? <Minus /> : <Plus />}</div>
             </div>
             {expandedFAQs[data.id] && (
               <p className="text-[16px] text-GrayHomz font-[400]">
@@ -93,12 +89,9 @@ const FAQs = () => {
         <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] ">
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
-        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
-          <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">
-            {/* Get in touch */}
-            Join Waitlist
-          </button>
-        </Link>
+        <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">
+          Get in touch
+        </button>
       </div>
     </div>
   );
