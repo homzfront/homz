@@ -55,10 +55,11 @@ const ContactDoc = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     if (!name || !email || !phoneNo || !message) {
       setFormError("Please fill in all fields.");
       return;
+    } else {
+      setLoading(true);
     }
     try {
       const response = await api.post("/enquires", {
