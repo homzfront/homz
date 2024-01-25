@@ -9,19 +9,17 @@ import api from "@/utils/api.js";
 import { useRouter } from "next/navigation.js";
 
 const Widget = ({ returnToStartRegistration }) => {
-  
   // to push to dashboard/property-listing
   const router = useRouter();
 
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(false); // State for the fourth page
+  // const [activeFour, setActiveFour] = useState(false); // State for the fourth page
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [yesOrNoModal, setYesOrNoModal] = useState(false);
-
-
+  const [visibleAddProperty, setVisibleAddProperty] = useState(false);
 
   // Form states
   // propertyInfo
@@ -45,7 +43,6 @@ const Widget = ({ returnToStartRegistration }) => {
     useState("");
   const [securityPhoneNumber, setSecurityPhoneNumber] = useState("");
   console.log(uploadedImage);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,7 +93,7 @@ const Widget = ({ returnToStartRegistration }) => {
         setEmergencyPhoneNumber("");
         setUtilityServicePhoneNumber("");
         setSecurityPhoneNumber("");
-        setShowConfirm(!showConfirm)
+        setShowConfirm(!showConfirm);
       } else {
         const error = response.data.message;
         console.log("Unexpected status code:", error);
@@ -117,7 +114,8 @@ const Widget = ({ returnToStartRegistration }) => {
     setActive(false);
     setActiveTwo(false);
     setActiveThree(false);
-    setActiveFour(false); // Reset the state for the fourth page
+    // setActiveFour(false);
+     // Reset the state for the fourth page
   };
 
   const handlePageChangeTwo = () => {
@@ -125,22 +123,24 @@ const Widget = ({ returnToStartRegistration }) => {
     setActiveTwo(true);
     setActive(true);
     setActiveThree(false);
-    setActiveFour(false);
+    // setActiveFour(false);
   };
 
   const handlePageChangeThree = () => {
     setActiveThree(true);
     setActiveTwo(false);
     setActive(true);
-    setActiveFour(false); // Reset the state for the fourth page
+
+    // setActiveFour(false); 
+    // Reset the state for the fourth page
   };
 
-  const handlePageChangeFour = () => {
-    setActiveFour(true);
-    setActiveThree(false);
-    setActiveTwo(false);
-    setActive(true);
-  };
+  // const handlePageChangeFour = () => {
+  //   setActiveFour(true);
+  //   setActiveThree(false);
+  //   setActiveTwo(false);
+  //   setActive(true);
+  // };
 
   const openYesOrNo = () => {
     setYesOrNoModal(!yesOrNoModal);
@@ -148,11 +148,13 @@ const Widget = ({ returnToStartRegistration }) => {
 
   const closeYesOrNoModal = () => {
     setYesOrNoModal(false);
+    setVisibleAddProperty(false);
   };
 
   const closeAllModals = () => {
     setShowConfirm(false);
     setYesOrNoModal(false);
+    setVisibleAddProperty(false);
     // Add a unique query parameter
     router.push("/dashboard/enterprise-property/estates?refresh=true");
 
@@ -162,18 +164,11 @@ const Widget = ({ returnToStartRegistration }) => {
     router.replace({ pathname, query }, undefined, { shallow: true });
   };
 
-  const openConfrimDialogue = () => {
-    setShowConfirm(!showConfirm);
-  };
-
-  const closeConfirmDialogue = () => {
-    setShowConfirm(false);
-  };
 
   return (
     <div>
       <div className="inline-block w-[1147px] h-auto py-4">
-        <div className="z-0 absolute w-[1147px] pr-[67px] pl-[96px] py-[27px]">
+        <div className="z-0 absolute w-[1122px] pr-[67px] pl-[96px] py-[27px]">
           <div className="border-[1px]"></div>
         </div>
         <div className="z-1 relative flex mt-5 gap-4 justify-between px-8 cursor-pointer w-[1147px]">
@@ -223,7 +218,7 @@ const Widget = ({ returnToStartRegistration }) => {
             </div>
             <p className="text-[14px] font-400">Contact Information</p>
           </div>
-          <div className="flex flex-col items-center gap-2 justify-center">
+          {/* <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col p-2 items-center justify-center ${
                 activeFour
@@ -237,7 +232,7 @@ const Widget = ({ returnToStartRegistration }) => {
               ></div>
             </div>
             <p className="text-[14px] font-400">Documents</p>
-          </div>
+          </div> */}
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
@@ -276,7 +271,6 @@ const Widget = ({ returnToStartRegistration }) => {
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <ContactInfo
               handlePageChangeTwo={handlePageChangeTwo}
-              handlePageChangeFour={handlePageChangeFour}
               managerPhoneNumber={managerPhoneNumber}
               emergencyPhoneNumber={emergencyPhoneNumber}
               utilityServicePhoneNumber={utilityServicePhoneNumber}
@@ -285,11 +279,6 @@ const Widget = ({ returnToStartRegistration }) => {
               setManagerPhoneNumber={setManagerPhoneNumber}
               setSecurityPhoneNumber={setSecurityPhoneNumber}
               setUtilityServicePhoneNumber={setUtilityServicePhoneNumber}
-            />
-          </div>
-          <div className={`${activeFour ? "inline" : "hidden"}`}>
-            <Documents
-              handlePageChangeThree={handlePageChangeThree}
               handleSubmit={handleSubmit}
               loading={loading}
               yesOrNoModal={yesOrNoModal}
@@ -297,8 +286,13 @@ const Widget = ({ returnToStartRegistration }) => {
               closeYesOrNoModal={closeYesOrNoModal}
               showConfirm={showConfirm}
               closeAllModals={closeAllModals}
+              visibleAddProperty={visibleAddProperty}
+              setVisibleAddProperty={setVisibleAddProperty}
             />
           </div>
+          {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
+            <Documents handlePageChangeThree={handlePageChangeThree} />
+          </div> */}
         </div>
       </div>
     </div>

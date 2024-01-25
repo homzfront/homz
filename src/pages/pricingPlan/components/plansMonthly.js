@@ -8,7 +8,7 @@ const Plans = () => {
       title: "Enterprise starter",
       billing: "Billed monthly",
       features: [
-        "Up to 5 estates",
+        "Up to 5 properties",
         "Up to 2 users",
         "Free Trial",
         "Accounts & reporting",
@@ -24,7 +24,7 @@ const Plans = () => {
       title: "Enterprise plus",
       billing: "Billed monthly",
       features: [
-        "Up to 20 estates",
+        "Up to 20 properties",
         "Up to 5 users",
         "Free Trial",
         "Accounts & reporting",
@@ -40,7 +40,7 @@ const Plans = () => {
       title: "Enterprise premium",
       billing: "Billed monthly",
       features: [
-        "Up to 100 estates",
+        "Up to 100 properties",
         "Unlimited",
         "Free Trial",
         "Accounts & reporting",
@@ -56,7 +56,7 @@ const Plans = () => {
       title: "Premium plan",
       billing: "Billed monthly",
       features: [
-        "Unlimited Estates",
+        "Unlimited Properties",
         "Unlimited Users",
         "Free Trial",
         "Accounts & reporting",

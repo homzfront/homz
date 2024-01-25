@@ -75,21 +75,32 @@ const Estate = () => {
         <EstateForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
         <div className="w-[1147px] p-8">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-1">
-              <p>Estates</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">0</span>
+          <div className="flex flex-col gap-2 justify-between">
+            <div className="flex gap-2 items-center">
+              <p>Properties</p>
+              <span className="bg-whiteblue w-6 h-6 flex justify-center items-center rounded-sm">
+                <span className="text-BlueHomz text-[18px] font-[400]">0</span>
               </span>
             </div>
+            <p className="text-[18px] font-[400] text-GrayHomz">
+            Add your properties so you can seamlessly manage them
+            </p>
           </div>
-          <div className="flex flex-col gap-3 mt-5">
+          <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
+            <div className="bg-whiteblue rounded-[100%] flex justify-center items-center h-[120px] w-[120px]">
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/estate/buildings-2.png"
+                }
+                height={88}
+                width={89}
+                alt=""
+                className="mt-1"
+              />
+            </div>
             <h1 className="text-[41px] font-[700] text-BlueHomz">
               Get Started
             </h1>
-            <p className="text-[18px] font-[400] text-GrayHomz">
-              Add your estates so your Tenants can see them
-            </p>
             <button
               onClick={openRegistrationForm}
               className="p-[12px] w-[185px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
@@ -102,7 +113,7 @@ const Estate = () => {
                 width={16}
                 height={16}
               />
-              Add New Estates
+              Add New Property
             </button>
           </div>
         </div>

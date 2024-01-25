@@ -98,7 +98,7 @@ const ManageProperty = () => {
       <div className="max-w-[1156px] m-auto flex flex-col gap-[80px]">
         <div className="h-[29px]  mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse  sm:items-center p-7 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">
-            Manage Propeerty/Estate With Homz
+            Manage Property/Estate With Homz
           </p>
           <Link href={"/select-plan"}>
             <Image src={"/Link.png"} height={24} alt="img" width={132} />
@@ -122,11 +122,11 @@ const ManageProperty = () => {
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Estate
+             Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the name of estate"
+                  placeholder="Enter the name of property"
                   value={estate}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstate(e.target.value)}
@@ -150,11 +150,11 @@ const ManageProperty = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  No. of Houses in the Estate
+                  No. of Houses in the Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the no. of houses in the estate"
+                  placeholder="Enter the no. of houses in the property"
                   value={numberOfHouses}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setNumberOfHouses(e.target.value)}
@@ -179,11 +179,11 @@ const ManageProperty = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Address of Estate
+                  Address of Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the estate's address"
+                  placeholder="Enter the property's address"
                   value={estateAddress}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstateAddress(e.target.value)}

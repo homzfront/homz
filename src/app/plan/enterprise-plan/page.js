@@ -20,11 +20,9 @@ const EnterprisePlan = () => {
   const [loading, setLoading] = useState(false); // Loading state;
   useBodyScroll([loading, isSubmitConfirmationVisible]);
 
-
-
   async function handleSubmit(e) {
     e.preventDefault();
-   
+
     if (
       fullName === "" ||
       phoneNo === "" ||
@@ -34,13 +32,11 @@ const EnterprisePlan = () => {
       numberOfHouses === ""
     ) {
       return setFormError("Fill in all fields");
-    
-     
     }
 
     if (loading) return; // Do nothing if already loading
 
-    setLoading(true); 
+    setLoading(true);
 
     // Prepare data to be sent
     const requestData = {
@@ -62,7 +58,7 @@ const EnterprisePlan = () => {
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
         console.log("form successfully filled ", response.data);
-       setLoading(false);
+        setLoading(false);
       } else {
         setFormError(response.data.message);
         setLoading(false);
@@ -140,11 +136,11 @@ const EnterprisePlan = () => {
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Estate
+                  Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the name of estate"
+                  placeholder="Enter the name of property"
                   value={estate}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstate(e.target.value)}
@@ -164,11 +160,11 @@ const EnterprisePlan = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  No. of Houses in the Estate
+                  No. of Houses in the Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the no. of houses in the estate"
+                  placeholder="Enter the no. of houses in the property"
                   value={numberOfHouses}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setNumberOfHouses(e.target.value)}
@@ -176,11 +172,11 @@ const EnterprisePlan = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Address of Estate
+                  Address of Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the estate's address"
+                  placeholder="Enter the property's address"
                   value={estateAddress}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstateAddress(e.target.value)}
@@ -193,17 +189,20 @@ const EnterprisePlan = () => {
               )}
             </form>
             <div className="w-[100%] mt-12 p-6">
-              <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">
-                <button
-                  onClick={handleSubmit}
-                  className="w-full ml-1 rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz"
-                >
-                  Start 14-day Free Trial
+              <Link
+                href={"/plan/pricing"}
+                className="max-w-[1156px] mt-[40px] m-auto"
+              >
+                <button className="w-full ml-1  rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz">
+                  Choose a paid plan to enjoy more features
                 </button>
               </Link>
-              <Link href={"/plan/pricing"} className="max-w-[1156px] m-auto">
-                <button className="w-full ml-1 mt-4 rounded-md h-[48px] border text-BlueHomz border-BlueHomz bg-white hover:bg-BlueHomz hover:text-white ">
-                  Choose a paid plan to enjoy more features
+              <Link href={""} className="max-w-[1156px]   m-auto">
+                <button
+                  onClick={handleSubmit}
+                  className="w-full ml-1 mt-4 rounded-md h-[48px] border text-BlackHomz border-BlueHomz bg-white hover:bg-BlueHomz hover:text-white "
+                >
+                  Start 14-day Free Trial
                 </button>
               </Link>
             </div>

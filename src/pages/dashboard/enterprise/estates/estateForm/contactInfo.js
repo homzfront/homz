@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
+import Loading from "@/components/mainmenu/loading";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import AcAndRejModel from "../../components/acAndRejModel";
+import ConfirmEstateListing from "../components/confirmEstateListing";
 
 const ContactInfo = ({
   handlePageChangeTwo,
-  handlePageChangeFour,
   managerPhoneNumber,
   emergencyPhoneNumber,
   utilityServicePhoneNumber,
@@ -13,8 +18,21 @@ const ContactInfo = ({
   setManagerPhoneNumber,
   setSecurityPhoneNumber,
   setUtilityServicePhoneNumber,
+  handleSubmit,
+  loading,
+  yesOrNoModal,
+  openYesOrNo,
+  closeYesOrNoModal,
+  showConfirm,
+  closeAllModals,
+  visibleAddProperty,
+  setVisibleAddProperty,
 }) => {
+  useBodyScroll([loading, showConfirm, yesOrNoModal]);
 
+  const ableAddProperty = () => {
+    setVisibleAddProperty(true);
+  };
 
   console.log(managerPhoneNumber);
   console.log(emergencyPhoneNumber);
@@ -23,6 +41,39 @@ const ContactInfo = ({
 
   return (
     <div className="p-8">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      {loading && <Loading />}
+      {showConfirm && (
+        <ConfirmEstateListing
+          header={"Property(estate) Added Successfully"}
+          body={"Click on the button below to view property"}
+          button={"View Property(estate)"}
+          returnHome={closeAllModals}
+        />
+      )}
+      {yesOrNoModal && (
+        <div>
+          <AcAndRejModel
+            header={"Proceed to Add Property?"}
+            button={"Yes"}
+            buttonTwo={"Close"}
+            returnHome={handleSubmit}
+            returnHomeTwo={closeYesOrNoModal}
+          />
+        </div>
+      )}
       <div>
         <h1 className="text-[23px] font-[700] text-BlueHomz">
           Contact Information
@@ -37,14 +88,20 @@ const ContactInfo = ({
           placeholder={"0000 - 000 - 0000"}
           type={"number"}
           value={managerPhoneNumber}
-          onChange={(e) => setManagerPhoneNumber(e.target.value)}
+          onChange={(e) => {
+            setManagerPhoneNumber(e.target.value);
+            setVisibleAddProperty(!!e.target.value);
+          }}
         />
         <Input
           label={"Emergency Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"number"}
           value={emergencyPhoneNumber}
-          onChange={(e) => setEmergencyPhoneNumber(e.target.value)}
+          onChange={(e) => {
+            setEmergencyPhoneNumber(e.target.value);
+            setVisibleAddProperty(!!e.target.value);
+          }}
         />
         <Input
           label={"Utility Services Phone Number"}
@@ -52,14 +109,20 @@ const ContactInfo = ({
           type={"number"}
           span2={"(Dry cleaning, Waste disposal, etc)"}
           value={utilityServicePhoneNumber}
-          onChange={(e) => setUtilityServicePhoneNumber(e.target.value)}
+          onChange={(e) => {
+            setUtilityServicePhoneNumber(e.target.value);
+            setVisibleAddProperty(!!e.target.value);
+          }}
         />
         <Input
           label={"Security  Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"number"}
           value={securityPhoneNumber}
-          onChange={(e) => setSecurityPhoneNumber(e.target.value)}
+          onChange={(e) => {
+            setSecurityPhoneNumber(e.target.value);
+            setVisibleAddProperty(!!e.target.value);
+          }}
         />
       </div>
       <div className="mt-[20%] flex justify-between">
@@ -68,7 +131,6 @@ const ContactInfo = ({
             onClick={handlePageChangeTwo}
             className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
           >
-            {" "}
             <Image
               src={
                 "/static/dashboard/enterprisemanager/dashboard/arrow-left-blue.png"
@@ -82,25 +144,46 @@ const ContactInfo = ({
         </div>
         <div className="flex gap-4">
           <button
-            onClick={handlePageChangeFour}
+            onClick={ableAddProperty}
             className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
           >
             Skip
           </button>
-          <button
-            onClick={handlePageChangeFour}
-            className="text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[100px] justify-center items-center"
-          >
-            Next
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
-          </button>
+          {visibleAddProperty ? (
+            <button
+              onClick={openYesOrNo}
+              className={`text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[150px] justify-center items-center ${
+                visibleAddProperty ? "block" : "hidden"
+              }`}
+            >
+              Add Property
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
+            </button>
+          ) : (
+            <button
+              disabled
+              className={`text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5 flex w-[150px] justify-center items-center ${
+                visibleAddProperty ? "hidden" : "block"
+              }`}
+            >
+              Add Property
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -70,9 +70,11 @@ const ListedEstates = ({
         <div>
           <div className="p-8">
             <div className="flex gap-2 mb-6">
-              <p>Estate</p>
+              <p>Properties</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">{Data.length}</span>
+                <span className="text-BlueHomz text-[18px] font-[400]">
+                  {Data.length}
+                </span>
               </span>
             </div>
             <div className=" flex justify-between items-center">
@@ -128,7 +130,7 @@ const ListedEstates = ({
                     width={16}
                     height={16}
                   />
-                  Add New Estate
+                  Add New Property
                 </button>
               </div>
             </div>

@@ -133,11 +133,11 @@ const TenantManagement = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Estate
+                  Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the name of estate"
+                  placeholder="Enter the name of property"
                   value={estate}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstate(e.target.value)}

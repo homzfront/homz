@@ -28,7 +28,7 @@ const PopUpMenu = ({data}) => {
         <div className="hover:bg-whiteblue h-full w-full rounded-md">
           <Link href={`/dashboard/enterprise-property/estates/estateInfo/${data}`}>
             <p className="text-[13px] font-[500] py-1 px-2 text-GrayHomz hover:text-BlueHomz">
-              Manage Estate Information
+              Manage Property Information
             </p>
           </Link>
         </div>

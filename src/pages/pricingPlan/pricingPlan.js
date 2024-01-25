@@ -6,17 +6,8 @@ import Image from "next/image";
 const PricingPlan = () => {
   return (
     <div className="w-[1410px] px-8 py-4 m-auto">
-      <Link
-        href={"/dashboard/enterprise-property/profile"}
-        className="flex gap-1 pl-12"
-      >
-        <Image
-          src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
-          height={16}
-          width={16}
-          alt=""
-        />
-        <p className="text-[11px] font-[400]">Go Back</p>
+      <Link href={"/dashboard/enterprise-property/profile"}>
+        <Image src={"/Link (1).png"} alt="img" height={25} width={85} />
       </Link>
       <div className="flex flex-col justify-center items-center">
         <div className="max-w-[897px] flex flex-col items-center gap-3">

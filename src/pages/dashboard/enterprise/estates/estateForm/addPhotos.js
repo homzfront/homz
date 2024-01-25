@@ -70,7 +70,7 @@ const AddPhotos = ({
       <div className="flex flex-col gap-2">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
         <p className="text-[18px] font-[400] text-GrayHomz ">
-          Add at least one photo of your estate
+          Add at least one photo of your property
         </p>
         <p className="text-[13px] font-[400] text-GrayHomz2">
           Supported formats are .jpg and .png and file size must not exceed 5 mb

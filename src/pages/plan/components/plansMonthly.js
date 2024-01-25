@@ -1,12 +1,12 @@
 import Image from "next/image";
 import React from "react";
 
-const PlansYearly = () => {
+const Plans = () => {
   const pricingPlans = [
     {
-      price: "N95,000",
+      price: "N9,500",
       title: "Enterprise starter",
-      billing: "Billed yearly",
+      billing: "Billed monthly",
       features: [
         "Up to 5 properties",
         "Up to 2 users",
@@ -20,9 +20,9 @@ const PlansYearly = () => {
       status: false,
     },
     {
-      price: "N190,000",
+      price: "N19,000",
       title: "Enterprise plus",
-      billing: "Billed yearly",
+      billing: "Billed monthly",
       features: [
         "Up to 20 properties",
         "Up to 5 users",
@@ -36,9 +36,9 @@ const PlansYearly = () => {
       status: false,
     },
     {
-      price: "N300,000",
+      price: "N30,000",
       title: "Enterprise premium",
-      billing: "Billed yearly",
+      billing: "Billed monthly",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -54,7 +54,7 @@ const PlansYearly = () => {
     {
       price: "Contact Sales", // You might want to provide an actual price for the premium plan
       title: "Premium plan",
-      billing: "Billed yearly",
+      billing: "Billed monthly",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -68,8 +68,9 @@ const PlansYearly = () => {
       status: false,
     },
   ];
+
   return (
-    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
+    <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
@@ -128,4 +129,4 @@ const PlansYearly = () => {
   );
 };
 
-export default PlansYearly;
+export default Plans;

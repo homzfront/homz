@@ -22,7 +22,7 @@ const EstateInfo = ({id}) => {
   console.log(data);
 
   return (
-    <div className="w-[1075px] p-8">
+    <div className="w-[1147px] p-8">
       <div>
         <div>
           <div className="w-[475px] flex gap-2 items-center">
@@ -44,10 +44,10 @@ const EstateInfo = ({id}) => {
               href={"/dashboard/enterprise-property/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Estate Name<> </>/
+              Property Name<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
-              Estate Information
+              Property Information
             </div>
           </div>
         </div>

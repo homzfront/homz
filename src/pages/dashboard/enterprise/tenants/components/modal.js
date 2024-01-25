@@ -148,7 +148,7 @@ const Modal = ({setInviteTenant}) => {
               showLinkBox ? "hidden" : ""
             }`}
           >
-            Select the estate you’re inviting your Tenant(s) to
+            Select the property you’re inviting your Tenant(s) to
           </p>
         </div>
         <div className="relative inline-block w-full">
@@ -162,7 +162,7 @@ const Modal = ({setInviteTenant}) => {
               className={`flex text-[14px] font-[500] text-GrayHomz2 justify-between items-center `}
             >
               <span className="mr-2">
-                {selectedOptions?.estate || "Select Estate"}
+                {selectedOptions?.estate || "Select Property"}
               </span>
               <div
                 className={`w-5 h-5 ${
@@ -188,10 +188,10 @@ const Modal = ({setInviteTenant}) => {
             }`}
             >
             <p className="text-[14px] font-[400] text-GrayHomz">
-              Yet to add an estate?{" "}
+              Yet to add a property?{" "}
             </p>
             <Link href={""} className="text-BlueHomz text-[14px]  font-[700]">
-              Add New Estate
+              Add New Property
             </Link>
           </div>
           {dropdowns["estateOptions"] && (

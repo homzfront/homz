@@ -55,7 +55,7 @@ const RentInfo = ({ active }) => {
           placeholder={"2-Bedroom Bungalow"}
         />
         <Input label={"Duration"} type={"type"} placeholder={"1 Year"} />
-        <Input label={"Estate"} type={"type"} placeholder={"Estate Name"} />
+        <Input label={"Property"} type={"type"} placeholder={"Property Name"} />
         <Input
           label={"Start Date"}
           type={"type"}

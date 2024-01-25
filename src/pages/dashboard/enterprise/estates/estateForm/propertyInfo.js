@@ -73,18 +73,18 @@ const PropertyInfo = ({
     <div className="px-8">
       <div className="mt-8">
         <h1 className="font-[700] text-[23px] text-BlueHomz">
-          Estate Information
+          Property Information
         </h1>
         <p className="text-[18px] font-[400] text-GrayHomz">
-          Kindly fill in the accurate estate information
+          Kindly fill in the accurate property information
         </p>
       </div>
       <div className="grid grid-cols-2 gap-8 py-4 mt-2">
         <div className="w-[100%] flex flex-col gap-3">
           <div>
             <Input
-              label={"Estate Name"}
-              placeholder={"Estate Name"}
+              label={"Property Name"}
+              placeholder={"Property Name"}
               type={"text"}
               span={"*"}
               value={name}
@@ -93,7 +93,7 @@ const PropertyInfo = ({
           </div>
           <div className="flex flex-col justify-between ">
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-              Estate Location <span className="text-error">*</span>
+              Property Location <span className="text-error">*</span>
             </div>
             <div className="flex justify-between ">
               <div>
@@ -116,8 +116,8 @@ const PropertyInfo = ({
           </div>
           <div>
             <Input
-              label={"Estate Address"}
-              placeholder={"Enter Estate Address"}
+              label={"Property Address"}
+              placeholder={"Enter Property Address"}
               type={"text"}
               span={"*"}
               value={address}
@@ -126,7 +126,7 @@ const PropertyInfo = ({
           </div>
           <div>
             <Input
-              label={"Estate Size"}
+              label={"Property Size"}
               placeholder={"0.00"}
               type={"number"}
               value={size}
@@ -135,7 +135,7 @@ const PropertyInfo = ({
           </div>
           <div>
             <Input
-              label={"Total No of Houses In Estate"}
+              label={"Total No of Houses In Property"}
               placeholder={"0"}
               type={"Number"}
               value={numberOfHouses}
@@ -146,15 +146,15 @@ const PropertyInfo = ({
         <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
           <div>
             <label className="text-[14px] font-[500] text-BlackHomz ">
-              Estate Description <span className="text-error">*</span>
+              Property Description <span className="text-error">*</span>
             </label>
             <p className="text-[13px] font-[400] text-GrayHomz ">
-              Give short description of your estate.
+              Give short description of your property.
             </p>
           </div>
           <textarea
             className="mt-4 h-[363px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
-            placeholder="Estate Description"
+            placeholder="Property Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>

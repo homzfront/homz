@@ -60,7 +60,7 @@ const Documents = ({
       {showConfirm && (
         <ConfirmEstateListing
           header={"Property(estate) Added Successfully"}
-          body={"Click on the button below to view estate"}
+          body={"Click on the button below to view property"}
           button={"View Property(estate)"}
           returnHome={closeAllModals}
         />
@@ -68,7 +68,7 @@ const Documents = ({
       {yesOrNoModal && (
         <div>
           <AcAndRejModel
-            header={"Proceed to Add Estate?"}
+            header={"Proceed to Add Property?"}
             button={"Yes"}
             buttonTwo={"Close"}
             returnHome={handleSubmit}
