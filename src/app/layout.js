@@ -1,6 +1,9 @@
+
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/utils/useReactQuery";
+import GoogleAnalytics from "@/utils/googleAnalytics";
+import "dotenv/config";
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -12,12 +15,15 @@ export const metadata = {
   description: "Effortless Property Ownership Starts Here.",
   icons: {
     icon: "/icon.png",
-    },
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+        <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+      ) : null}
       <body className={plus_Jakarta_Sans.className}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
