@@ -4,6 +4,10 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import api from "@/utils/api";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import Loading from "@/components/mainmenu/loading";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';   
 
 const ContactDoc = () => {
   const options = [
@@ -20,6 +24,8 @@ const ContactDoc = () => {
     copiedIV: false,
   });
 
+  const [loading, setLoading] = useState(false);
+  useBodyScroll([loading]);
   const handleCopyClick = async (text, identifier) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -49,6 +55,7 @@ const ContactDoc = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!name || !email || !phoneNo || !message) {
       setFormError("Please fill in all fields.");
       return;
@@ -64,7 +71,7 @@ const ContactDoc = () => {
 
       if (response.data.statuscode === 201) {
         console.log("Form submitted successfully:", response.data);
-        alert("Done!");
+      
         // Clear form fields or reset form state
         setName("");
         setEmail("");
@@ -74,14 +81,20 @@ const ContactDoc = () => {
           document_options: options[0].label,
         });
         setFormError("");
+        setLoading(false);
+        toast.success("Message sent!")
       } else {
         // Handle unexpected status codes
         const errorw = response.data.message;
         console.log("Unexpected status code:", errorw);
         setFormError(errorw);
+        setLoading(false);
+        toast.error("Failed to send message.")
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      setLoading(false);
+      toast.error("failed to send message")
     }
   };
 
@@ -92,6 +105,22 @@ const ContactDoc = () => {
 
   return (
     <div className="flex w-full mt-20 justify-center">
+      
+     <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+ 
+      {loading && <Loading />}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
         <div className="max-w-[420px] gap-6 pt-4 flex flex-col">
           <h1 className="text-[60px] font-[700] leading-tight text-BlackHomz">
@@ -244,7 +273,7 @@ const ContactDoc = () => {
             <label className="text-BlackHomz mt-4 text-[16px] font-[500] mb-1">
               What will you like to enquire about?
             </label>
-            <div className="relative">
+            <div className="relative inline-block">
               <div
                 className={`text-BlackHomz px-4 h-[45px]  border text-[16px] max-w-[780px] font-[500] mb-1 p-2 rounded cursor-pointer  ${
                   isDropdownOpen ? "border" : ""
@@ -274,7 +303,7 @@ const ContactDoc = () => {
                 </div>
               </div>
               {isDropdownOpen && (
-                <div className=" left-0 mt-2 w-full max-w-[780px] transition duration-1000  ease-in-out   bg-white border rounded shadow-lg">
+                <div className="absolute z-20 left-0 mt-2 w-full max-w-[780px] transition duration-1000  ease-in-out   bg-white border rounded shadow-lg">
                   {/* Dropdown Options */}
                   {options.map((option) => (
                     <div
