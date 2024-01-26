@@ -20,6 +20,7 @@ const TransferDetails = () => {
   const [transferToggleModal, setTransferToggleModal] = useState(false);
   const [successfulTansferModal, setSuccessfulTansferModal] = useState(false);
   const [receipt, setReceipt] = useState(false);
+  const [shareAbleReceipt, setShareAbleReceipt] = useState(false);
 
   // useEffect to handle scrolling
   useEffect(() => {
@@ -85,12 +86,36 @@ const TransferDetails = () => {
 
   console.log(transfer);
 
+  const openShareAbleReceipt = () => {
+    setShareAbleReceipt((prevShareAbleReceipt) => {
+      // Toggle shareAbleReceipt
+      const newShareAbleReceipt = !prevShareAbleReceipt;
+  
+      // Set Receipt to false
+      setReceipt(false);
+  
+      // Return the new value for shareAbleReceipt
+      return newShareAbleReceipt;
+    });
+  };
+  
+
+  const closeShareAbleReceipt = () => {
+    setShareAbleReceipt(false);
+  };
+
   return (
     <div>
       <div>
+        {shareAbleReceipt && (
+          <ShareAbleReceipt closeShareAbleReceipt={closeShareAbleReceipt} />
+        )}
         {receipt && (
           <div>
-            <Receipt closeReceipt={closeReceipt}  />
+            <Receipt
+              closeReceipt={closeReceipt}
+              openShareAbleReceipt={openShareAbleReceipt}
+            />
           </div>
         )}
       </div>
@@ -180,9 +205,6 @@ const TransferDetails = () => {
             changeInput={(e) => setDescription(e.target.value)}
           />
         </div>
-      </div>
-      <div className="hidden" ref={receiptRef}>
-        <ShareAbleReceipt/>
       </div>
     </div>
   );

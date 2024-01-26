@@ -19,19 +19,22 @@ const MaintenanceTable = ({ request, tenantData }) => {
 
   console.log(openDropdowns);
 
+  console.log(request);
+  console.log(tenantData);
   // Assuming maintenanceRequests and tenantData are your arrays
 
   // Create a lookup object for faster access
   const tenantLookup = {};
   tenantData?.forEach((tenant) => {
-    tenantLookup[tenant?.tenants._id] = tenant?.tenants;
+    tenantLookup[tenant?.data._id] = tenant?.data;
   });
 
   // Now, you can iterate through maintenanceRequests and access the corresponding tenantData using the lookup
   const MaintenanceRequests = request?.map((request) => ({
     ...request,
-    tenantData: tenantLookup[request?.tenant],
+    tenantData: tenantLookup[request?.tenant._id],
   }));
+  console.log(MaintenanceRequests);
 
   const ITEMS_PER_PAGE = 6;
 
@@ -141,7 +144,6 @@ const MaintenanceTable = ({ request, tenantData }) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  console.log(MaintenanceRequests);
 
   useBodyScroll([loading]);
 
@@ -164,7 +166,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
       <div className="mt-8">
         <div className=" w-full rounded-t-xl border">
           <div className="flex rounded-t-xl bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz items-center px-8">
-            <div className=" flex-1">Tenant</div>
+            <div className=" flex-[1.3]">Tenant</div>
             <div className=" flex-1">Subject</div>
             <div className=" flex-1">Status</div>
             <div className=" flex-1">Request Date</div>
@@ -180,7 +182,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
                 key={request?._id}
                 className="flex bg-white border-t-[1px] items-center px-8 h-[64px]"
               >
-                <div className="flex-1 flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
+                <div className="flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
                   {request.tenantData?.coverPhoto?.url === null ||
                   request.tenantData?.coverPhoto?.url === undefined ? (
                     <Image
@@ -201,7 +203,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
                       className=" rounded-[100%]"
                     />
                   )}
-                  <span className="py-[15px]">
+                  <span className="py-[15px] ">
                     {request?.tenantData?.fullName}
                   </span>
                 </div>

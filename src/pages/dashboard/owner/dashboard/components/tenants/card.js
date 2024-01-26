@@ -7,7 +7,7 @@ const TenantsCard = () => {
     {
       id: 1,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -15,7 +15,7 @@ const TenantsCard = () => {
     {
       id: 2,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Paid",
       DueDate: "4th January, 2024",
@@ -23,7 +23,7 @@ const TenantsCard = () => {
     {
       id: 3,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -31,7 +31,7 @@ const TenantsCard = () => {
     {
       id: 4,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -39,7 +39,7 @@ const TenantsCard = () => {
     {
       id: 5,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -47,7 +47,7 @@ const TenantsCard = () => {
     {
       id: 6,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Paid",
       DueDate: "4th January, 2024",
@@ -55,7 +55,7 @@ const TenantsCard = () => {
     {
       id: 7,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -63,7 +63,7 @@ const TenantsCard = () => {
     {
       id: 8,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -71,7 +71,7 @@ const TenantsCard = () => {
     {
       id: 9,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -79,7 +79,7 @@ const TenantsCard = () => {
     {
       id: 10,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Rent: "N750,000",
       Status: "Paid",
       DueDate: "4th January, 2024",
@@ -110,7 +110,7 @@ const TenantsCard = () => {
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
-              <th className="text-left ">Estate</th>
+              <th className="text-left ">Property</th>
               <th className="text-left">Rent</th>
               <th className="text-left">Status</th>
               <th className="text-left pr-6">Due Date</th>

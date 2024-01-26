@@ -4,23 +4,23 @@ import React, { useState } from "react";
 
 const DropDown = () => {
   const [dropdowns, setDropdowns] = useState({
-    estate: false,
+    property: false,
     home: false,
     status: false,
   });
 
   const [selectedOptions, setSelectedOptions] = useState({
-    estate: null,
+    property: null,
     home: null,
     status: null,
   });
 
   const options = {
-    estate: [
-      { id: 1, label: "Estate" },
-      { id: 2, label: "Estate" },
-      { id: 3, label: "Estate" },
-      { id: 4, label: "Estate" },
+    property: [
+      { id: 1, label: "Property" },
+      { id: 2, label: "Property" },
+      { id: 3, label: "Property" },
+      { id: 4, label: "Property" },
     ],
     home: [
       { id: 1, label: "Home" },

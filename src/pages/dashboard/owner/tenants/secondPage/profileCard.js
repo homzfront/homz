@@ -28,18 +28,14 @@ const ProfileCard = () => {
             AdeyemoOla@gmail.com
           </p>
         </div>
-        <div className="flex justify-between gap-3">
+        <div className="flex justify-between gap-3 mb-4">
           <p className="text-[13px] font-[400] text-GrayHomz">Address</p>
           <p className="text-[13px] font-[500] text-BlackHomz w-[65%]">
             17, Alapere, Alagomeji Area, Yaba, Lagos
           </p>
         </div>
       </div>
-      <div>
-        <button className="h-[45px] my-5 w-full rounded-md text-white font-[700] text-[16px] bg-BlueHomz">
-          Send Message
-        </button>
-      </div>
+  
     </div>
   );
 };

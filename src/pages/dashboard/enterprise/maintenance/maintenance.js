@@ -18,8 +18,9 @@ const Maintenance = () => {
         const request = data?.data;
         setRequest(request);
         console.log(request);
-        const tenantPromises = await request?.map((tenant) =>
-          fetchSpecificTenant(tenant.tenant)
+        const tenantPromises = await request?.results.map((tenant) =>
+       
+          fetchSpecificTenant(tenant.tenant._id)
         );
         const tenantData = await Promise.all(tenantPromises);
         console.log(tenantData);
@@ -34,14 +35,14 @@ const Maintenance = () => {
   }, []);
 
   console.log(request);
-  const pendingRequest = request.filter((request) => {
+  const pendingRequest = request?.results?.filter((request) => {
     return request.status === "pending";
   });
   // Get the length of the filtered data
   const pendingCount = pendingRequest?.length;
   console.log(pendingCount);
 
-  const resolvedRequest = request.filter((request) => {
+  const resolvedRequest = request?.results?.filter((request) => {
     return request.status === "resolved";
   });
   // Get the length of the filtered data
@@ -62,7 +63,7 @@ const Maintenance = () => {
           <div className="flex gap-4 mt-[70px]">
             <Box
               type={"Total Requests"}
-              money={request?.length}
+              money={request?.results?.length}
               border={"border-BlueHomz"}
               textColor={"text-BlueHomz"}
               textColor2={"text-BlueHomz"}
@@ -87,7 +88,7 @@ const Maintenance = () => {
           </div>
 
           <div>
-            <MaintenanceTable request={request} tenantData={tenantData} />
+            <MaintenanceTable request={request?.results} tenantData={tenantData} />
           </div>
         </div>
       )}

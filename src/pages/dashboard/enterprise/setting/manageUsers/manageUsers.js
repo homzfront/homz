@@ -130,20 +130,20 @@ const ManageUsers = () => {
             {isOpen && (
               <div className="mt-4 flex flex-col gap-2">
                 <p className="text-[14px] font-[500]">
-                  Select estate you want property owner to view
+                  Select property you want property owner to view
                 </p>
                 <DropDown
                   options={option2}
                   className={"w-[350px]"}
                   onSelect={handleSelectEstate}
-                  selectOption={"Select Estate"}
+                  selectOption={"Select Property"}
                 />
                <div className="flex gap-1"> 
                <p className="text-[14px] font-[400] text-GrayHomz">
-                  Yet to add an estate?
+                  Yet to add a property?
                 </p>
                 <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
-                  Add New Estate
+                  Add New Property
                 </Link>
                 </div>
               </div>

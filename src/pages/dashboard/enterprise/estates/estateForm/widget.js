@@ -168,7 +168,7 @@ const Widget = ({ returnToStartRegistration }) => {
   return (
     <div>
       <div className="inline-block w-[1147px] h-auto py-4">
-        <div className="z-0 absolute w-[1122px] pr-[67px] pl-[96px] py-[27px]">
+        <div className="z-0 absolute w-[1119px] pr-[67px] pl-[96px] py-[27px]">
           <div className="border-[1px]"></div>
         </div>
         <div className="z-1 relative flex mt-5 gap-4 justify-between px-8 cursor-pointer w-[1147px]">

@@ -54,10 +54,10 @@ const ListedEstates = ({
     <div className="w-[1147px]">
       <div>
         <div className="p-8 flex justify-between items-center">
-          <div className="flex gap-2 mb-6">
-            <p>Estate</p>
-            <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-              <span className="text-BlueHomz ">{Data.length}</span>
+          <div className="flex gap-2 items-center">
+          <p className="text-[20px] font-[500]">Properties</p>
+              <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+                <span className="text-BlueHomz text-[18px] font-[400]">{Data.length}</span>
             </span>
           </div>
 

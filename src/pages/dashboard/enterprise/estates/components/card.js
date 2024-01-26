@@ -13,6 +13,7 @@ const Card = ({
   Image3,
   data,
   handleToggleMenu,
+  
 }) => {
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
 

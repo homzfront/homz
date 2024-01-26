@@ -71,15 +71,16 @@ const Estate = () => {
           registrationForm={registrationForm}
           returnToStartRegistration={returnToStartRegistration}
         />
+      
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
         <div className="w-[1147px] p-8">
           <div className="flex flex-col gap-2 justify-between">
             <div className="flex gap-2 items-center">
-              <p>Properties</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center items-center rounded-sm">
-                <span className="text-BlueHomz text-[18px] font-[400]">0</span>
+              <p className="text-[20px] font-[500]">Properties</p>
+              <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+                <span className="text-BlueHomz  text-[18px] font-[400]">0</span>
               </span>
             </div>
             <p className="text-[18px] font-[400] text-GrayHomz">

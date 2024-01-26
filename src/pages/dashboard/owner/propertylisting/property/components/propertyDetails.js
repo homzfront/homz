@@ -270,15 +270,15 @@ const PropertyDetails = ({ handlePageChangeTwo, data }) => {
           <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
             <div>
               <label className="text-[14px] font-[500] text-BlackHomz ">
-                Estate Description <span className="text-error">*</span>
+                Property Description <span className="text-error">*</span>
               </label>
               <p className="text-[13px] font-[400] text-GrayHomz ">
-                Give short description of your estate.
+                Give short description of your property.
               </p>
             </div>
             <textarea
               className="mt-1 h-[295px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
-              placeholder="Estate Description"
+              placeholder="Property Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>

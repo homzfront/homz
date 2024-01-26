@@ -35,15 +35,15 @@ const Estates = () => {
           </div>
           <div className="flex gap-2 items-center">
             <ToggleButton onToggle={handleToggle2} isOpen={!isOpen2} />
-            <p>New Document</p>
+            <p>[Document added by property manager]</p>
           </div>
           <div className="flex gap-2 items-center">
             <ToggleButton onToggle={handleToggle3} isOpen={isOpen3} />
-            <p>Document 3</p>
+            <p>[Document added by property manager]</p>
           </div>
           <div className="flex gap-2 items-center">
             <ToggleButton onToggle={handleToggle4} isOpen={isOpen4} />
-            <p>Document 4</p>
+            <p>[Document added by property manager]</p>
           </div>
         </div>
       </div>

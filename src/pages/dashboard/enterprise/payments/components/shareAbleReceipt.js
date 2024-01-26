@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const ShareAbleReceipt = () => {
+const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
  
@@ -13,6 +13,7 @@ const ShareAbleReceipt = () => {
               alt=""
               height={64}
               width={64}
+              onClick={closeShareAbleReceipt}
             />
             <p className="text-GrayHomz text-[18px] font-[500]">Company Name</p>
           </div>
@@ -91,7 +92,7 @@ const ShareAbleReceipt = () => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                Estate manager’s email@gmail.com
+                Property manager’s email@gmail.com
               </p>
             </div>
             <div className="flex items-center gap-2">

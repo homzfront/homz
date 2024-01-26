@@ -5,13 +5,7 @@ import InputSetting from "../components/inputSetting";
 import SaveChanges from "../components/saveChanges";
 
 const Tenants = () => {
-  const documentNames = [
-    "Full Name",
-    "New DocumentApartment Address",
-    "Apartment Number",
-    "Estate",
-    "Phone Number",
-  ];
+
   const [toggles, setToggles] = useState([false, true, true, true, true]);
   const [isOpen2, setIsOpen2] = useState(false);
   const [isOpen3, setIsOpen3] = useState(true);
@@ -39,23 +33,7 @@ const Tenants = () => {
   return (
     <div>
       <div className="border-t p-8">
-        <div className="text-[14px] font-[400] text-GrayHomz">
-          Customize the information required from tenants on their "Update
-          biodata form."
-        </div>
-
-        <div className="mt-8 rounded-md text-[16px] font-[400] text-GrayHomz h-[280px] w-[600px] bg-inputBg flex flex-col p-8 justify-between">
-          {toggles.map((isOpen, index) => (
-            <div key={index} className="flex gap-2 items-center">
-              <ToggleButton
-                onToggle={() => handleToggle(index)}
-                isOpen={!isOpen}
-              />
-              <p>{documentNames[index]}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 rounded-md text-[16px] font-[400] text-GrayHomz h-[56px] w-[600px] bg-inputBg flex flex-col p-8 justify-center">
+        <div className=" rounded-md text-[16px] font-[400] text-GrayHomz h-[56px] w-[600px] bg-inputBg flex flex-col p-8 justify-center">
           <div className="flex gap-2 items-center">
             <ToggleButton onToggle={handleToggle2} isOpen={!isOpen2} />{" "}
             <p className="">Allow messages from tenants</p>
@@ -84,7 +62,7 @@ const Tenants = () => {
           />
         </div>
       </div>
-            <div className="mt-[-110px]">
+            <div className="">
             <SaveChanges/>
             </div>
     </div>

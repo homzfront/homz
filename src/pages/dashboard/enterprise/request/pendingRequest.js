@@ -100,15 +100,15 @@ const PendingRequest = ({
       <div>
         {friendRequests.map((request) => (
           <div key={request._id} className={`${request.status === "accepted" ? "hidden" : ""}`}>
-            {tenantData.map((data) => (
-              <div key={data.tenants._id}>
-                {request.tenant === data.tenants._id && (
+            {tenantData?.map((data) => (
+              <div key={data?.data._id}>
+                {request.tenant === data?.data._id && (
                   <div className="flex items-center justify-between w-full border-t border-b py-2">
                     <div className="flex gap-4">
                       <div>
-                        {data.tenants.coverPhoto ? (
+                        {data?.data.coverPhoto ? (
                           <Image
-                            src={data.tenants.coverPhoto.url}
+                            src={data?.data.coverPhoto.url}
                             alt=""
                             height={40}
                             width={40}
@@ -127,12 +127,12 @@ const PendingRequest = ({
                       </div>
                       <div>
                         <p className="text-[16px] font-[600] text-BlackHomz">
-                          {data.tenants.fullName}
+                          {data?.data.fullName}
                         </p>
                         <p className="text-[14px] font-[400] text-GrayHomz">
-                          {data.tenants.fullName} has sent a request to join{" "}
+                          {data?.data.fullName} has sent a request to join{" "}
                           <span className="text-[14px] font-[600] text-GrayHomz">
-                            {request.estate} Estate
+                            {request.estate} Property
                           </span>
                         </p>
                         <p className="text-[13px] font-[400] text-GrayHomz">
@@ -158,7 +158,7 @@ const PendingRequest = ({
                       <div>
                         <AcceptAndRejectModel
                           header={"Proceed To Add  tenant to Property?"}
-                          body={`${data.tenants.fullName} will be added as a tenant to ${request.estate} Estate.`}
+                          body={`${data?.data.fullName} will be added as a tenant to ${request.estate} Property.`}
                           button={"Yes, Proceed"}
                           buttonTwo={"Cancel"}
                           returnHome={() => handleAccept(selectedDataId)}
@@ -170,7 +170,7 @@ const PendingRequest = ({
                       <div key={request._id}>
                         <AcceptAndRejectModel
                           header={"Decline Tenant Request?"}
-                          body={`You’re about to decline ${data.tenants.fullName}’s request to join ${request.estate} Estate.`}
+                          body={`You’re about to decline ${data?.data.fullName}’s request to join ${request.estate} Property.`}
                           button={"Yes, Proceed"}
                           buttonTwo={"Cancel"}
                           returnHome={() => handleReject(selectedDataId)}

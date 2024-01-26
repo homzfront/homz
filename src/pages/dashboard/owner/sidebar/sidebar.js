@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../components/confirmModalI";
+import useProfileStore from "@/store/profile";
 
 const Sidebar = () => {
   const Data = [
@@ -29,7 +30,7 @@ const Sidebar = () => {
       image: "/static/dashboard/enterprisemanager/sidebar/estatedark.png",
       image2: "/static/dashboard/enterprisemanager/sidebar/estates.png",
       link: "/dashboard/property-owner/estates",
-      name: "Estates",
+      name: "Property Management",
       coming: null,
       active: false,
     },
@@ -94,15 +95,17 @@ const Sidebar = () => {
       id: 1,
       image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
       image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      link: "",
+      link: "/switch-profile",
       name: "Switch",
     },
   ];
 
+  const { logout } = useProfileStore();
+
   const [pathname, setPathname] = useState("");
   const [logoutModal, setLogoutModal] = useState(false);
 
-  const logout = () => {
+  const logoutII = () => {
     setLogoutModal(!logoutModal);
   };
 
@@ -171,6 +174,8 @@ const Sidebar = () => {
                 key={data.id}
                 href={data.link}
                 className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
+                  data.name === "Property Management" ? "h-[60px]" : ""
+                } ${
                   pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : " hover:bg-blue-100"
@@ -232,7 +237,7 @@ const Sidebar = () => {
               </Link>
             ))}
              <div
-              onClick={logout}
+              onClick={logoutII}
               className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
                  `}
             >
@@ -251,7 +256,7 @@ const Sidebar = () => {
               body={"You’re about to exit your dashboard"}
               button={"Yes, log me out"}
               buttonTwo={"No, take me back"}
-              returnHome={""}
+              returnHome={() => logout(logout)}
               returnHomeTwo={closeLogout}
             />
           )}

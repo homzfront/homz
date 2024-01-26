@@ -51,7 +51,7 @@ const Widget = () => {
               onClick={handlePageChange}
               justify-center
             >
-              <p className="text-[14px] font-500">Estate Information</p>
+              <p className="text-[14px] font-500">Property Information</p>
             </div>
           </div>
 

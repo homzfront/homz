@@ -10,7 +10,7 @@ const Estate = () => {
       id: 1,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -18,7 +18,7 @@ const Estate = () => {
       id: 2,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -26,7 +26,7 @@ const Estate = () => {
       id: 3,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -34,7 +34,7 @@ const Estate = () => {
       id: 4,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -42,7 +42,7 @@ const Estate = () => {
       id: 5,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -50,7 +50,7 @@ const Estate = () => {
       id: 6,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -58,7 +58,7 @@ const Estate = () => {
       id: 7,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -66,7 +66,7 @@ const Estate = () => {
       id: 8,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -74,7 +74,7 @@ const Estate = () => {
       id: 9,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -82,7 +82,7 @@ const Estate = () => {
       id: 10,
       estateImage:
         "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Estate",
+      estateName: "Suncity New Property",
       estateAddress: "Alagomeji Area, Yaba, Lagos",
       noOfApartment: 22,
     },
@@ -110,10 +110,10 @@ const Estate = () => {
       ) : (
         <div className="w-[1147px] p-8">
           <div className="flex justify-between items-center">
-            <div className="flex gap-1">
-              <p>Estates</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">{data?.length}</span>
+          <div className="flex gap-2 items-center">
+              <p className="text-[20px] font-[500]">Properties</p>
+              <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+               <span className="text-BlueHomz text-[18px] font-[400]">{data?.length}</span>
               </span>
             </div>
           </div>
@@ -128,10 +128,10 @@ const Estate = () => {
                 width={120}
                 className="m-auto"
               />
-              <p className="text-[36px] font-[700] text-BlueHomz text-center">Estates</p>
+              <p className="text-[36px] font-[700] text-BlueHomz text-center">Properties</p>
               <p className="text-[14px] font-[500] text-GrayHomz text-center">
-                Your estates will be visible here once they’re added by your
-                estate manager
+                Your properties will be visible here once they’re added by your
+                property manager
               </p>
             </div>
           </div>

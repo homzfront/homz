@@ -462,10 +462,10 @@ const Tenants = () => {
         <div className="">
           {data.length < 1 ? (
             <div>
-              <div className="flex gap-1">
-                <p>Tenants</p>
-                <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                  <span className="text-BlueHomz ">{data.length}</span>
+              <div className="flex gap-2 items-center">
+                <p className="text-[20px] font-[500]">Tenants</p>
+                <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+                  <span className="text-BlueHomz text-[18px] font-[400]">{data.length}</span>
                 </span>
               </div>
               <div className="flex flex-col gap-3 mt-5">
@@ -495,9 +495,9 @@ const Tenants = () => {
           ) : (
             <div>
               <div className=" flex justify-between  items-center">
-                <div className="flex gap-1">
-                  <p>Tenants</p>
-                  <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+                <div className="flex gap-2 items-center">
+                  <p className="text-[20px] font-[500]">Tenants</p>
+                  <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
                     <span className="text-BlueHomz text-[18px] font-[400]">
                       {data.length}
                     </span>

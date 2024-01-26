@@ -48,14 +48,14 @@ const RentInfo = ({ active }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-4">
+      <div  className="grid grid-cols-2 gap-4 text-GrayHomz2">
         <Input
           label={"Property Type"}
           type={"type"}
           placeholder={"2-Bedroom Bungalow"}
         />
         <Input label={"Duration"} type={"type"} placeholder={"1 Year"} />
-        <Input label={"Estate"} type={"type"} placeholder={"Estate Name"} />
+        <Input label={"Property"} type={"type"} placeholder={"Property Name"} />
         <Input
           label={"Start Date"}
           type={"type"}
@@ -77,26 +77,6 @@ const RentInfo = ({ active }) => {
           <Dropdown options={options} selectOption={"Select an option"} onSelect={handleSelect} />
         </div>
       </div>
-      <div className="mt-6">
-        <button
-          onClick={handleConfirm}
-          className={` ${
-            !active ? "inline" : "hidden"
-          } h-[48px] border border-BlueHomz rounded-md w-full`}
-        >
-          Save Update
-        </button>
-      </div>
-      {confirm ? (
-        <ConfirmModal
-          body={"Tenant Information has successfully been updated"}
-          header={"Update Saved"}
-          button={"Okay"}
-          returnHome={returnHome}
-        />
-      ) : (
-        ""
-      )}
     </div>
   );
 };

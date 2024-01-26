@@ -9,7 +9,7 @@ const Value = [
     DueDate: "4th January, 2024",
     RentPaid: "N750,000",
     Status: "Confirmed",
-    PropertyType: "4th January, 2024",
+    PropertyType: "2-bedroom Bungalow",
     Action: false,
   },
   {
@@ -18,7 +18,7 @@ const Value = [
     DueDate: "4th January, 2024",
     RentPaid: "N750,000",
     Status: "Pending",
-    PropertyType: "4th January, 2024",
+    PropertyType: "2-bedroom Bungalow",
     Action: false,
   },
   {
@@ -27,7 +27,7 @@ const Value = [
     DueDate: "4th January, 2024",
     RentPaid: "N750,000",
     Status: "Confirmed",
-    PropertyType: "4th January, 2024",
+    PropertyType: "2-bedroom Bungalow",
     Action: false,
   },
   {
@@ -36,7 +36,7 @@ const Value = [
     DueDate: "4th January, 2024",
     RentPaid: "N750,000",
     Status: "Pending",
-    PropertyType: "4th January, 2024",
+    PropertyType: "2-bedroom Bungalow",
     Action: false,
   },
   {
@@ -45,7 +45,7 @@ const Value = [
     DueDate: "4th January, 2024",
     RentPaid: "N750,000",
     Status: "Pending",
-    PropertyType: "4th January, 2024",
+    PropertyType: "2-bedroom Bungalow",
     Action: false,
   },
   {
@@ -54,7 +54,7 @@ const Value = [
     DueDate: "4th January, 2024",
     RentPaid: "N750,000",
     Status: "Pending",
-    PropertyType: "4th January, 2024",
+    PropertyType: "2-bedroom Bungalow",
     Action: false,
   },
   {
@@ -63,7 +63,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -72,7 +72,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -81,7 +81,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -90,7 +90,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -99,7 +99,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -108,7 +108,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -117,7 +117,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Confirmed",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -126,7 +126,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -135,7 +135,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Confirmed",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },     {
       id: 16,
@@ -143,7 +143,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Pending",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
     {
@@ -152,7 +152,7 @@ const Value = [
       DueDate: "4th January, 2024",
       RentPaid: "N750,000",
       Status: "Confirmed",
-      PropertyType: "4th January, 2024",
+      PropertyType: "2-bedroom Bungalow",
       Action: false,
     },
 ];
@@ -215,7 +215,7 @@ const Table = () => {
                 <th className="text-left pl-6">Date</th>
                 <th className="text-left ">Due Date</th>
                 <th className="text-left ">Rent Paid</th>
-                <th className="text-left ">Property Type</th>
+                <th className="text-left ">Apartment Type</th>
                 <th className="text-left ">Status</th>
                 <th className="text-left ">Action</th>
               </tr>

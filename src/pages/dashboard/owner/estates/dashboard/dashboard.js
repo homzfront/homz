@@ -30,7 +30,7 @@ const Dashboard = () => {
               href={"/dashboard/property-owner/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Estate Name<> </>/
+              Property Name<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Dashboard

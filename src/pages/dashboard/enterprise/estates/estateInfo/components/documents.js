@@ -51,12 +51,36 @@ const Documents = ({ handlePageChangeThree }) => {
 
   const openProceed = () => {
     setProceedToUpload(true);
-  }
-  useBodyScroll([addNewDoc]);
+  };
+
+  const closeProceed = () => {
+    setProceedToUpload(false);
+  };
+  useBodyScroll([addNewDoc, proceedToUpload]);
 
   return (
     <div className="">
-      
+      {proceedToUpload && (
+        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="bg-white rounded-[12px] h-[225px] w-[464px] py-[26px] px-[32px] flex flex-col justify-between">
+            <p className=" w-full text-center text-[20px] font-[700] text-BlackHomz">Proceed to Add Document?</p>
+            <div className="flex flex-col w-full gap-4">
+              <button
+                onClick={closeProceed}
+                className="h-[48px] w-full text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+              >
+                Yes
+              </button>
+              <button
+                onClick={closeProceed}
+                className="h-[48px] w-full border border-BlueHomz text-BlueHomz hover:bg-BlueHomz hover:text-white hover:border-white"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {addNewDoc && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-white rounded-[12px] h-[326px] w-[464px] py-[22px] px-[32px] flex flex-col justify-between">
@@ -94,7 +118,8 @@ const Documents = ({ handlePageChangeThree }) => {
                   console.log(e.target.files[0]);
                   setDocument(e.target.files[0]);
                   // Close the modal or perform any other actions
-                 openProceed()
+                  openProceed();
+                  closeAddDocument();
                 }}
               />
               <button

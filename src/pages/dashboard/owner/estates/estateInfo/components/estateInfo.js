@@ -1,10 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import Input from "../../../components/input";
-import DropDown from "../../../components/dropDown";
-import Image from "next/image";
 
-const PropertyInfo = ({handlePageChangeTwo}) => {
+
+const PropertyInfo = () => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const handleSelect = (option) => {
@@ -27,86 +25,32 @@ const PropertyInfo = ({handlePageChangeTwo}) => {
 
   return (
     <div className="">
-      {/* <div className="mt-8">
-        <h1 className="font-[700] text-[23px] text-BlueHomz">
-          Estate Information
-        </h1>
-        <p className="text-[18px] font-[400] text-GrayHomz">
-          Kindly fill in the accurate estate information
-        </p>
-      </div> */}
-      <div className="grid grid-cols-2 gap-8 py-4 mt-2">
-        <div className="w-[100%] flex flex-col gap-3">
-          <div>
-            <Input
-              label={"Estate Name"}
-              placeholder={"Estate Name"}
-              type={"text"}
-              span={"*"}
-            />
-          </div>
-          <div className="flex flex-col justify-between ">
-            <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-              Estate Location <span className="text-error">*</span>
-            </div>
-            <div className="flex justify-between ">
-              <div>
-                <DropDown
-                  options={options}
-                  onSelect={handleSelect}
-                  selectOption={"Select Area"}
-                  className={"w-[230px]"}
-                />
-              </div>
-              <div>
-                <DropDown
-                  options={optionsTwo}
-                  onSelect={handleSelect}
-                  selectOption={"Select State"}
-                  className={"w-[230px]"}
-                />
-              </div>
-            </div>
-          </div>
-          <div>
-            <Input
-              label={"Estate Address"}
-              placeholder={"Enter Estate Address"}
-              type={"text"}
-              span={"*"}
-            />
-          </div>
-          <div>
-            <Input label={"Estate Size"} placeholder={"0.00"} type={"text"} />
-          </div>
-          <div>
-            <Input
-              label={"Total No of Houses In Estate"}
-              placeholder={"0"}
-              type={"text"}
-            />
-          </div>
+      <div className="mt-8 rounded-[12px] text-[16px] font-[400] text-GrayHomz h-[351px] w-[1108px] bg-inputBg flex flex-col gap-2 p-8 justify-between">
+        <div className="flex gap-2 items-center w-full">
+          <p className="w-[40%]">Property Name</p>
+          <p className="font-[500] text-BlackHomz">[Property Name]</p>
         </div>
-        <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
-          <div>
-            <label className="text-[14px] font-[500] text-BlackHomz ">
-              Estate Description <span className="text-error">*</span>
-            </label>
-            <p className="text-[13px] font-[400] text-GrayHomz ">
-              Give short description of your estate.
-            </p>
-          </div>
-          <textarea
-            className="mt-4 h-[363px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
-            placeholder="Estate Description"
-          ></textarea>
+        <div className="flex gap-2 items-center w-full">
+          <p className="w-[40%]">Property Location</p>
+          <p className="font-[500] text-BlackHomz">[Area], [State]</p>
+        </div>
+        <div className="flex gap-2 items-center w-full">
+          <p className="w-[40%]">Property Address</p>
+          <p className="font-[500] text-BlackHomz">[Property Address]</p>
+        </div>
+        <div className="flex gap-2 items-center w-full">
+          <p className="w-[40%]">Property Size</p>
+          <p className="font-[500] text-BlackHomz">0.00 Sqm</p>
+        </div>
+        <div className="flex gap-2 items-center w-full">
+          <p className="w-[40%]">Total No of Apartments in Property</p>
+          <p className="font-[500] text-BlackHomz">[Number of apartments]</p>
+        </div>
+        <div className="flex gap-2 items-center w-full">
+          <p className="w-[40%]">Property Description</p>
+          <p className="font-[500] text-BlackHomz">[Description entered by property manager]</p>
         </div>
       </div>
-      {/* <div className="mt-[7%] flex justify-end">
-        <button className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
-          Update
-        </button>
-      </div> */}
     </div>
   );
 };

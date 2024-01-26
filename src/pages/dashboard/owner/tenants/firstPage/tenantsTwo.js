@@ -74,7 +74,7 @@ const TenantsTwo = ({ Data }) => {
       <div className=" border w-full rounded-t-[12px]">
         <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
           <div className="w-[15%] ">Tenant</div>
-          <div className="w-[10%] ">Estate</div>
+          <div className="w-[10%] ">Property</div>
           <div className="w-[11%] ">Apartment No</div>
           <div className="w-[11%] ">Address</div>
           <div className="w-[10%] ">Email</div>
