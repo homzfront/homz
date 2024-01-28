@@ -1,12 +1,11 @@
-// In your app initialization file (e.g., _app.js or index.js)
-import { QueryClient, QueryClientProvider } from 'react-query';
+"use client"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Your component tree */}
       <Component {...pageProps} />
     </QueryClientProvider>
   );
