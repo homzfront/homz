@@ -83,23 +83,33 @@ const PropertyListing = () => {
       ) : registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
-        <div className="w-[1147px] p-8">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-1">
-              <p>Properties</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">0</span>
+<div className="w-[1147px] p-8">
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 items-center">
+              <p className="text-[20px] font-[500]">Listed Properties</p>
+              <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+                <span className="text-BlueHomz  text-[18px] font-[400]">0</span>
               </span>
             </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-5">
-            <h1 className="text-[41px] font-[700] text-BlueHomz">
-              Get Started
-            </h1>
             <p className="text-[18px] font-[400] text-GrayHomz">
               List your properties so Tenants can see them.
             </p>
           </div>
+          <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
+            <div className="bg-whiteblue rounded-[100%] flex justify-center items-center h-[120px] w-[120px]">
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/propertyList/buliding.png"
+                }
+                height={88}
+                width={89}
+                alt=""
+                className="mb-2"
+              />
+            </div>
+            <h1 className="text-[41px] font-[700] text-BlueHomz">
+              Get Started
+            </h1>
           <button
             onClick={openRegistrationForm}
             className="p-[12px] w-[145px] mt-3 bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
@@ -112,7 +122,9 @@ const PropertyListing = () => {
             />
             List Property
           </button>
+          </div>
         </div>
+
       )}
     </div>
   );

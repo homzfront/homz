@@ -32,7 +32,7 @@ const Filter = () => {
             <Dropdown
               options={options}
               onSelect={handleSelect}
-              selectOption={"Estate"}
+              selectOption={"Property"}
               className={"w-[150px] text-[14px] font-[500] text-GrayHomz2"}
             />
 

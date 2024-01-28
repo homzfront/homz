@@ -91,7 +91,7 @@ const ShareAbleReceipt = () => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                Estate manager’s email@gmail.com
+                Property manager’s email@gmail.com
               </p>
             </div>
             <div className="flex items-center gap-2">

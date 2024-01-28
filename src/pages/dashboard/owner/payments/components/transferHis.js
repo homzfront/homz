@@ -58,6 +58,10 @@ const TransferHis = () => {
       Amount: "N1,500,000 ",
     },
   ];
+
+  const getFirstLetter = (str) => {
+    return str[0];
+  };
   return (
     <div className="p-5 border rounded-[12px] mt-8 overflow-auto h-[323px] scrollbar-container">
       <div className="flex justify-between items-center">
@@ -96,8 +100,10 @@ const TransferHis = () => {
                       height={21}
                       alt=""
                     />
-                    <div>
-                      <Image src={data.Image} alt="" height={32} width={32} />
+                    <div className="w-[32px] h-[32px] rounded-[100%] flex items-center justify-center bg-BlueHomz">
+                      <p className="text-[16px] font-[500] text-white">
+                        {getFirstLetter(data.From)}
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[-5px]">
@@ -123,8 +129,10 @@ const TransferHis = () => {
                       height={21}
                       alt=""
                     />
-                    <div>
-                      <Image src={data.Image} alt="" height={32} width={32} />
+                     <div className="w-[32px] h-[32px] rounded-[100%] flex items-center justify-center bg-warning2">
+                    <p className="text-[16px] font-[500] text-white">
+                        {getFirstLetter(data.From)}
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[-5px]">

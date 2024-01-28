@@ -10,7 +10,7 @@ const TenantData = () => {
     {
       id: 1,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -22,7 +22,7 @@ const TenantData = () => {
     {
       id: 2,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -34,7 +34,7 @@ const TenantData = () => {
     {
       id: 3,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -46,7 +46,7 @@ const TenantData = () => {
     {
       id: 4,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -58,7 +58,7 @@ const TenantData = () => {
     {
       id: 5,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -70,7 +70,7 @@ const TenantData = () => {
     {
       id: 6,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -82,7 +82,7 @@ const TenantData = () => {
     {
       id: 7,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -94,7 +94,7 @@ const TenantData = () => {
     {
       id: 8,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -106,7 +106,7 @@ const TenantData = () => {
     {
       id: 9,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -118,7 +118,7 @@ const TenantData = () => {
     {
       id: 10,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -130,7 +130,7 @@ const TenantData = () => {
     {
       id: 11,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -142,7 +142,7 @@ const TenantData = () => {
     {
       id: 12,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -154,7 +154,7 @@ const TenantData = () => {
     {
       id: 13,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -166,7 +166,7 @@ const TenantData = () => {
     {
       id: 14,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -178,7 +178,7 @@ const TenantData = () => {
     {
       id: 15,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -190,7 +190,7 @@ const TenantData = () => {
     {
       id: 16,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -202,7 +202,7 @@ const TenantData = () => {
     {
       id: 17,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -214,7 +214,7 @@ const TenantData = () => {
     {
       id: 18,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -226,7 +226,7 @@ const TenantData = () => {
     {
       id: 19,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -238,7 +238,7 @@ const TenantData = () => {
     {
       id: 20,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -250,7 +250,7 @@ const TenantData = () => {
     {
       id: 21,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -262,7 +262,7 @@ const TenantData = () => {
     {
       id: 22,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -274,7 +274,7 @@ const TenantData = () => {
     {
       id: 23,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -286,7 +286,7 @@ const TenantData = () => {
     {
       id: 24,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -298,7 +298,7 @@ const TenantData = () => {
     {
       id: 25,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -310,7 +310,7 @@ const TenantData = () => {
     {
       id: 26,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -322,7 +322,7 @@ const TenantData = () => {
     {
       id: 27,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -334,7 +334,7 @@ const TenantData = () => {
     {
       id: 28,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -346,7 +346,7 @@ const TenantData = () => {
     {
       id: 29,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -358,7 +358,7 @@ const TenantData = () => {
     {
       id: 30,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -370,7 +370,7 @@ const TenantData = () => {
     {
       id: 31,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -382,7 +382,7 @@ const TenantData = () => {
     {
       id: 32,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -394,7 +394,7 @@ const TenantData = () => {
     {
       id: 33,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -406,7 +406,7 @@ const TenantData = () => {
     {
       id: 34,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Confirmed",
       DueDate: "4th January, 2024",
@@ -418,7 +418,7 @@ const TenantData = () => {
     {
       id: 35,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Over Due",
       DueDate: "4th January, 2024",
@@ -430,7 +430,7 @@ const TenantData = () => {
     {
       id: 36,
       Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Estate",
+      Estate: "Sunrise Property",
       Purpose: "2 years rents",
       Status: "Pending",
       DueDate: "4th January, 2024",
@@ -528,7 +528,7 @@ const TenantData = () => {
                 <th className="text-left ">Amount</th>
                 <th className="text-left ">Purpose</th>
                 <th className="text-left " style={{ width: "110px" }}>Payment Status</th>
-                <th className="text-left ">Estate</th>
+                <th className="text-left ">Property</th>
                 <th className="text-left">Apartment No</th>
                 <th></th>
               </tr>

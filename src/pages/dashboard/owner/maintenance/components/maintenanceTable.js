@@ -138,7 +138,7 @@ const MaintenanceTable = () => {
                     Status
                   </th>
                   <th className="text-left ">Request Date</th>
-                  <th className="text-left ">Estate</th>
+                  <th className="text-left ">Property</th>
                   <th className="text-left">Apartment No</th>
                   <th className="text-left " style={{ width: "110px" }}>Address</th>
                   <th className="text-left ">Phone No</th>
