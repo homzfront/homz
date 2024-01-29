@@ -13,11 +13,10 @@ const ListedProperties = ({
   setPopUpMenu,
   currentPage,
   setCurrentPage,
-  setSelectedValue,
   handleSelect,
   returnToStartRegistration,
   registrationForm,
-  openRegistrationForm
+  addNewProperty
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -66,17 +65,20 @@ const ListedProperties = ({
     setSelectedDataId(id);
   };
 
+  console.log(currentData);
+
   return (
     <div className="w-[1147px]">
       {registrationForm ? (
-         <PropertyForm returnToStartRegistration={returnToStartRegistration} />
-         ) : (
+        <PropertyForm returnToStartRegistration={returnToStartRegistration} />
+      ) : (
         <div>
+          {" "}
           <div className="p-8">
-            <div className="flex gap-2 items-center mb-6">
-              <p className="text-[20px] font-[500]">Properties</p>
-                      <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-                <span className="text-BlueHomz  text-[18px] font-[400]">{Data.length}</span>
+            <div className="flex gap-2 mb-6">
+              <p>Properties</p>
+              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+                <span className="text-BlueHomz ">{Data.length}</span>
               </span>
             </div>
             <div className=" flex justify-between items-center">
@@ -126,7 +128,7 @@ const ListedProperties = ({
               </div>
               <div className="">
                 <button
-                     onClick={openRegistrationForm}
+                  onClick={addNewProperty}
                   className={`p-[12px] h-[45px] w-[173px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700]`}
                 >
                   <Image
@@ -142,7 +144,6 @@ const ListedProperties = ({
               </div>
             </div>
           </div>
-
           <div className="px-8 py-4 h-[750px] flex flex-col justify-between">
             <PropertyCard
               Data={currentData}

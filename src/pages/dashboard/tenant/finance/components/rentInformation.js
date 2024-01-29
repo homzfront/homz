@@ -78,7 +78,7 @@ const RentInformation = ({ closeRentPay }) => {
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
       {shareAble ? (
-        <div on>
+        <div>
           <ShareAbleReceipt closeShareAbleReceipt={closeShareAbleReceipt}/>
         </div>
       ) : receipt ? (
@@ -139,10 +139,10 @@ const RentInformation = ({ closeRentPay }) => {
             <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-2">
               <div className="w-full flex gap-4">
                 <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                  Estate Manager
+                  Property Manager
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  Estate Manager’s Registered Name
+                  Property Manager’s Registered Name
                 </p>
               </div>
               <div className="w-full flex gap-4">
@@ -155,10 +155,10 @@ const RentInformation = ({ closeRentPay }) => {
               </div>
               <div className="w-full flex gap-4">
                 <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                  Estate
+                  Property
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  New Suncity Estate
+                  New Suncity Property
                 </p>
               </div>
               <div className="w-full flex gap-4">
@@ -171,7 +171,7 @@ const RentInformation = ({ closeRentPay }) => {
               </div>
               <div className="w-full flex gap-4">
                 <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                  Base Rent
+                  Rent
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
                   N750,000
@@ -184,20 +184,12 @@ const RentInformation = ({ closeRentPay }) => {
               Is your rent information incorrect?
             </p>
             <p className="text-BlueHomz text-[11px] font-[400]">
-              Message Estate Manager
+              Message Property Manager
             </p>
           </div>
 
           <div className="flex flex-col gap-4 my-6">
-            <div className="w-full flex gap-4">
-              <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
-                Total Rent
-              </p>
-              <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
-                N 1,500,000
-              </p>
-            </div>
-            <div className="w-full flex gap-4">
+          <div className="w-full flex gap-4">
               <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
                 Rent Duration
               </p>
@@ -212,6 +204,15 @@ const RentInformation = ({ closeRentPay }) => {
                 />
               </div>
             </div>
+            <div className="w-full flex gap-4">
+              <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
+                Total Rent
+              </p>
+              <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
+                N 1,500,000
+              </p>
+            </div>
+
             <div className="w-full flex gap-4">
               <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
                 Payment Date

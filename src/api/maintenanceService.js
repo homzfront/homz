@@ -11,6 +11,17 @@ export const maintenanceByTenant = async (data) => {
   }
 };
 
+export const maintenanceByASpecificTenant = async () => {
+  try {
+    const response = await api.get(`/maintenances/tenant/`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching estates:", error);
+    throw error;
+  }
+};
+
 export const maintenanceAllByTenant = async (id) => {
   try {
     const response = await api.post(`/maintenances/tenant/${id}`);

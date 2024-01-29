@@ -1,109 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ListedProperties from "./listedProperties";
 import PropertyForm from "./propertyListingForm/propertyForm";
+import { propertyForMe } from "@/api/propertyService";
+import usePropertyListedAllStore from "@/store/property";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const PropertyListing = () => {
-  const Data = [
-    {
-      id: 1,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 5,
-    },
-    {
-      id: 2,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 4,
-    },
-    {
-      id: 3,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 5,
-    },
-    {
-      id: 4,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 4,
-    },
-    {
-      id: 5,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 3,
-    },
-    {
-      id: 6,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 5,
-    },
-    {
-      id: 7,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 5,
-    },
-    {
-      id: 8,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 5,
-    },
-    {
-      id: 9,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 2,
-    },
-    {
-      id: 10,
-      estateImage:
-        "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-      estateName: "5-Bedroom Bungalow",
-      estateAddress: "Yaba, Lagos",
-      noOfApartment: "4,000,000 per year",
-      rating: 1,
-    },
-  ];
+  const { propertyListedAll, setPropertyListedAll } =
+    usePropertyListedAllStore();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await propertyForMe();
+        console.log(data);
+        const properties = data.data?.results?.[0].data;
+        console.log(properties);
+        setPropertyListedAll(properties);
+        setData(properties);
+        setLoading(false);
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(data);
+  console.log(propertyListedAll);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
-  const [data, setData] = useState(Data || []); // Assuming Data is defined elsewhere
 
   const handleSelect = (option) => {
     // Handle the selected value as needed
@@ -121,9 +55,15 @@ const PropertyListing = () => {
     setRegistrationForm(false);
   };
 
+  const addNewProperty = () => {
+    setRegistrationForm(true);
+  };
+
   return (
-    <>
-      {data.length >= 1 ? (
+    <div className="w-[1147px]">
+      {loading ? (
+        <LoadingII />
+      ) : data.length >= 1 ? (
         <ListedProperties
           Data={data}
           selectedDataId={selectedDataId}
@@ -134,9 +74,9 @@ const PropertyListing = () => {
           setCurrentPage={setCurrentPage}
           setSelectedValue={setSelectedValue}
           handleSelect={handleSelect}
-          returnToStartRegistration={returnToStartRegistration}
+          addNewProperty={addNewProperty}
           registrationForm={registrationForm}
-          openRegistrationForm={openRegistrationForm}
+          returnToStartRegistration={returnToStartRegistration}
         />
       ) : registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />
@@ -168,22 +108,22 @@ const PropertyListing = () => {
             <h1 className="text-[41px] font-[700] text-BlueHomz">
               Get Started
             </h1>
-          <button
-            onClick={openRegistrationForm}
-            className="p-[12px] w-[145px] mt-3 bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
-          >
-            <Image
-              src="/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-              alt=""
-              width={16}
-              height={16}
-            />
-            List Property
-          </button>
+            <button
+              onClick={openRegistrationForm}
+              className="p-[12px] w-[145px] mt-3 bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
+            >
+              <Image
+                src="/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
+                alt=""
+                width={16}
+                height={16}
+              />
+              List Property
+            </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

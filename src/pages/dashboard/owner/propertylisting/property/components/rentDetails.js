@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import useBodyScroll from "@/components/general/useBodyScroll";
-import Loading from "@/components/mainmenu/loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "@/utils/api";
+import { rentDetails } from "@/api/propertyService";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const RentDetails = ({ data }) => {
   useEffect(() => {
@@ -35,35 +35,33 @@ const RentDetails = ({ data }) => {
     if (loading) return; // Do nothing if already loading
     setLoading(true); // Set loading to true when submitting the form
 
-
     try {
-      const response = await api.patch(
-        `/properties/${data._id}/rent-detail`,
-        {
-          maintenanceFee: parseInt(maintenanceFee),
-          monthlyRent: parseInt(monthlyRent),
-          totalFee: parseInt(totalFee),
-          agencyFee: parseInt(agencyFee),
-          yearlyRent: parseInt(yearlyRent),
-        }
+      const updatedData = {
+        maintenanceFee: parseInt(maintenanceFee),
+        monthlyRent: parseInt(monthlyRent),
+        totalFee: parseInt(totalFee),
+        agencyFee: parseInt(agencyFee),
+        yearlyRent: parseInt(yearlyRent),
+      };
+
+      const { success, upDateddata, error } = await rentDetails(
+        data._id,
+        updatedData
       );
 
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
-        toast.success("update successful");
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
         setLoading(false);
+        toast.success("Update successful");
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
+        console.error("Update failed", error);
+        toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
-      toast.error("update falied");
+      console.error("Update error", error);
       setLoading(false);
-      console.log(error.response?.data?.message);
+      toast.error("Update failed");
     }
   };
 
@@ -82,51 +80,59 @@ const RentDetails = ({ data }) => {
         pauseOnHover
         theme="dark"
       />
-      {loading && <Loading />}
-      <div className="grid grid-cols-2 gap-4 mt-6">
-        <Input
-          label={"How much is the monthly rent?"}
-          placeholder={"N  00.00"}
-          type={"number"}
-          value={monthlyRent}
-          onChange={(e) => setMonthlyRent(e.target.value)}
-        />
-        <Input
-          label={"How much is the yearly rent?"}
-          placeholder={"N  00.00"}
-          type={"number"}
-          value={yearlyRent}
-          onChange={(e) => setYearlyRent(e.target.value)}
-        />
+      {loading ? (
+        <LoadingII />
+      ) : (
+        <div>
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <Input
+              label={"How much is the monthly rent?"}
+              placeholder={"N  00.00"}
+              type={"number"}
+              value={monthlyRent}
+              onChange={(e) => setMonthlyRent(e.target.value)}
+            />
+            <Input
+              label={"How much is the yearly rent?"}
+              placeholder={"N  00.00"}
+              type={"number"}
+              value={yearlyRent}
+              onChange={(e) => setYearlyRent(e.target.value)}
+            />
 
-        <Input
-          label={"How much is the maintenance fee?"}
-          placeholder={"N  00.00"}
-          type={"number"}
-          value={maintenanceFee}
-          onChange={(e) => setMaintenanceFee(e.target.value)}
-        />
-        <Input
-          label={"How much is the Agency fee?"}
-          placeholder={"N  00.00"}
-          type={"number"}
-          value={agencyFee}
-          onChange={(e) => setAgencyFee(e.target.value)}
-        />
-        <Input
-          label={"How much is the total fee?"}
-          placeholder={"N  00.00"}
-          type={"number"}
-          value={totalFee}
-          onChange={(e) => setTotalFee(e.target.value)}
-        />
-      </div>
+            <Input
+              label={"How much is the maintenance fee?"}
+              placeholder={"N  00.00"}
+              type={"number"}
+              value={maintenanceFee}
+              onChange={(e) => setMaintenanceFee(e.target.value)}
+            />
+            <Input
+              label={"How much is the Agency fee?"}
+              placeholder={"N  00.00"}
+              type={"number"}
+              value={agencyFee}
+              onChange={(e) => setAgencyFee(e.target.value)}
+            />
+            <Input
+              label={"How much is the total fee?"}
+              placeholder={"N  00.00"}
+              type={"number"}
+              value={totalFee}
+              onChange={(e) => setTotalFee(e.target.value)}
+            />
+          </div>
 
-      <div className="mt-[20%] flex justify-end">
-        <button onClick={updateDone} className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
-          Update
-        </button>
-      </div>
+          <div className="mt-[20%] flex justify-end">
+            <button
+              onClick={updateDone}
+              className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

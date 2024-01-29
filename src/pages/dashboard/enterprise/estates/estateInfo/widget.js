@@ -47,16 +47,14 @@ const Widget = ({ data, isLoading }) => {
       <div className="w-full h-auto py-4">
         <div className="w-full mt-5 flex justify-between items-center">
           <div className=" flex  gap-4 justify-between w-[620px] cursor-pointer">
-            <div className="flex flex-col items-center gap-2 justify-center">
-              <div
-                className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-                  !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
-                }`}
-                onClick={handlePageChange}
-                justify-center
-              >
-                <p className="text-[14px] font-500">Property Information</p>
-              </div>
+            <div
+              className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
+                !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+              }`}
+              onClick={(e) => handlePageChange(e)}
+              justify-center
+            >
+              <p className="text-[14px] font-500">Property Information</p>
             </div>
 
             <div className="flex flex-col items-center gap-2 justify-center">
@@ -64,7 +62,7 @@ const Widget = ({ data, isLoading }) => {
                 className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                   activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
                 }`}
-                onClick={handlePageChangeTwo}
+                onClick={(e) => handlePageChangeTwo(e)}
               >
                 <p className="text-[14px] font-500">Photo(s)</p>
               </div>
@@ -74,7 +72,7 @@ const Widget = ({ data, isLoading }) => {
                 className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                   activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
                 }`}
-                onClick={handlePageChangeThree}
+                onClick={(e) => handlePageChangeThree(e)}
               >
                 <p className="text-[14px] font-500">Contact Information</p>
               </div>
@@ -84,16 +82,21 @@ const Widget = ({ data, isLoading }) => {
                 className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                   activeFour ? "bg-BlueHomz text-white" : "text-BlackHomz "
                 }`}
-                onClick={handlePageChangeFour}
+                onClick={(e) => handlePageChangeFour(e)}
               >
                 <p className="text-[14px] font-500">Documents</p>
               </div>
             </div>
           </div>
           <button className="flex items-center gap-1">
-            <Image src={"/static/dashboard/enterprisemanager/estate/setting-2.png"} height={20} width={20} alt=""/>
+            <Image
+              src={"/static/dashboard/enterprisemanager/estate/setting-2.png"}
+              height={20}
+              width={20}
+              alt=""
+            />
             <p className="text-BlueHomz text-[14px] font-[400]">
-            Manage all documents that will be available to tenants
+              Manage all documents that will be available to tenants
             </p>
           </button>
         </div>
@@ -105,7 +108,7 @@ const Widget = ({ data, isLoading }) => {
             <Photos data={data} />
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`} data={data}>
-            <ContactInfo />
+            <ContactInfo  data={data}/>
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
             <Documents />

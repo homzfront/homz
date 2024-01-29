@@ -30,7 +30,7 @@ const Widget = ({data}) => {
               onClick={handlePageChange}
               justify-center
             >
-              <p className="text-[14px] font-500">Estate Information</p>
+              <p className="text-[14px] font-500">Property Information</p>
             </div>
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">

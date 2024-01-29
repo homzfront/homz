@@ -23,31 +23,31 @@ const StartConversionPopUp = ({dropStartConvo, onSelectData}) => {
         Id: 1,
         Name: "Tunde Olayemi",
         Image: "/static/dashboard/enterprisemanager/settings/Avatar.png",
-        Estate: "Sunrise Estate"
+        Estate: "Sunrise Property"
       },
       {
         Id: 2,
         Name: "Jimoh Michael",
         Image: "/static/dashboard/enterprisemanager/settings/Avatar.png",
-        Estate: "Heaven Estate"
+        Estate: "Heaven Property"
       },
       {
         Id: 3,
         Name: "Fortune Winifred",
         Image: "/static/dashboard/enterprisemanager/settings/Avatar.png",
-        Estate: "Diamond Estate"
+        Estate: "Diamond Property"
       },
       {
         Id: 4,
         Name: "Haruna Ishola",
         Image: "/static/dashboard/enterprisemanager/settings/Avatar.png",
-        Estate: "Ajao Estate"
+        Estate: "Ajao Property"
       },
       {
         Id: 5,
         Name: "Ibrahim Kehinde",
         Image: "/static/dashboard/enterprisemanager/settings/Avatar.png",
-        Estate: "Heaven Estate"
+        Estate: "Heaven Property"
       },
       {
         Id: 6,

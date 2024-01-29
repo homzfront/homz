@@ -1,6 +1,54 @@
 import React from "react";
 
 const InProgress = ({ data }) => {
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+    const day = date.getDate();
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    // Function to add ordinal suffix to day
+    function getOrdinalSuffix(day) {
+      if (day > 10 && day < 20) {
+        return "th";
+      } else {
+        const lastDigit = day % 10;
+        switch (lastDigit) {
+          case 1:
+            return "st";
+          case 2:
+            return "nd";
+          case 3:
+            return "rd";
+          default:
+            return "th";
+        }
+      }
+    }
+
+    const ordinalSuffix = getOrdinalSuffix(day);
+    const formattedDate = `${day}${ordinalSuffix} ${monthNames[monthIndex]}, ${year}`;
+
+    return formattedDate;
+  }
+
+  const smallLetter = (str) => {
+    return str.charAt(0).toLowerCase() + str.slice(1);
+  };
   console.log(data);
   return (
     <div>
@@ -12,24 +60,26 @@ const InProgress = ({ data }) => {
         </div>
       </div>
       <div className="">
-        {data?.map((data) => (
-          <div
-            key={data.id}
-            className={`text-[11px] font-[400] text-GrayHomz px-8 py-4 border-b ${
-              data.id === 0.003339754343843593 ? "flex" : "hidden"
-            }`}
-          >
-            <p className="w-[180px]">{data.subject}</p>
-            <p className="w-[180px]">{data.requestDate}</p>
-            <p className="w-[180px] ">
-              {" "}
-              <span
-                className={`px-3 py-1 rounded-[8px] bg-warning2 text-warningBg`}
-              >In-progress</span>
-              
-            </p>
-          </div>
-        ))}
+        {data &&
+          data?.data.map(
+            (data) =>
+              smallLetter(data?.status) === "in-progress" && (
+                <div
+                  key={data._id}
+                  className={`text-[11px] font-[400] text-GrayHomz flex px-8 py-4 border-b`}
+                >
+                  <p className="w-[180px]">{data?.subject}</p>
+                  <p className="w-[180px]">{formatDate(data?.requestDate)}</p>
+                  <p className="w-[180px] ">
+                    <span
+                      className={`px-3 py-1 rounded-[8px] bg-warning2 text-warningBg`}
+                    >
+                      In-progress
+                    </span>
+                  </p>
+                </div>
+              )
+          )}
       </div>
     </div>
   );

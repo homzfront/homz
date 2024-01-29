@@ -3,7 +3,7 @@ import Dropdown from "../../../components/dropDownTwo";
 import Image from "next/image";
 import Widget from "../widget/widget";
 
-const Request = () => {
+const Request = (data) => {
     const options = [
         {
           id: 1,
@@ -18,7 +18,7 @@ const Request = () => {
           label: "Resolved",
         },
       ];
-    
+    console.log(data);
   return (
     <div>
       <div className="p-9 flex items-center justify-between w-full border-b">
@@ -46,7 +46,7 @@ const Request = () => {
         </div>
       </div>
       <div>
-        <Widget/>
+        <Widget data={data}/>
       </div>
     </div>
   );

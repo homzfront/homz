@@ -5,9 +5,9 @@ const RentInformation = () => {
     <div>
       <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-2">
         <div className="w-full flex gap-4 mt-2">
-          <p className="text-BlackHomz text-[14px] font-[400] w-[40%]">Estate</p>
+          <p className="text-BlackHomz text-[14px] font-[400] w-[40%]">Property</p>
           <p className="text-GrayHomz text-[16px] font-[500] w-[60%]">
-            New Suncity Estate
+            New Suncity Property
           </p>
         </div>
         <div className="w-full flex gap-4 mt-2">
@@ -58,10 +58,10 @@ const RentInformation = () => {
         </div>
         <div className="w-full flex gap-4 mt-2">
           <p className="text-BlackHomz text-[14px] font-[400] w-[40%]">
-            Estate Manager
+          Payment Status
           </p>
           <p className="text-GrayHomz text-[16px] font-[500] w-[60%]">
-            Estate Manager’s Registered Name
+          Pending
           </p>
         </div>
       </div>

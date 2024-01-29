@@ -2,12 +2,14 @@ import Property from '@/pages/dashboard/enterprise/propertylisting/property/prop
 import React from 'react'
 
 
-const App = () => {
+const App = async ({ params }) => {
+  const { id } = params;
+
   return (
     <div className=''>
-        <Property/>
+        <Property id={id} />
     </div>
-  )
-}
+  );
+};
 
 export default App;

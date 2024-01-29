@@ -8,9 +8,6 @@ import LoadingII from "@/components/mainmenu/loadingII";
 
 const Photos = ({ data }) => {
   console.log(data);
-  if (!data) {
-    return error;
-  }
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
   const [uploadedImage3, setUploadedImage3] = useState(null);
@@ -18,6 +15,8 @@ const Photos = ({ data }) => {
   const [publicId, setPublicID] = useState([]);
   const [publicId2, setPublicID2] = useState([]);
 
+
+  console.log(uploadedImage);
   console.log(publicId2);
   console.log(publicId);
   console.log(data?.coverPhoto?.url);
@@ -62,9 +61,6 @@ const Photos = ({ data }) => {
       setLoading(false);
       return;
     }
-
-    const formData = new FormData();
-    formData.append("coverPhoto", uploadedImage);
 
     try {
       const { success, updatedImage, error } = await updateEstateCoverPhoto(
@@ -131,35 +127,6 @@ const Photos = ({ data }) => {
                   uploadedImage={uploadedImage}
                   image={data?.coverPhoto?.url}
                 />
-              </div>
-            </div>
-            <div className="">
-              <p className=" text-[13px] font-[500] text-GrayHomz">
-                Other photos
-              </p>
-              <div className="mt-4 flex">
-                {/* First Image Box */}
-                <div className="w-[235px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage2}
-                    handleImageUpload={(e) =>
-                      handleImageUpload2(e, data?.photos?.[0]?.publicId)
-                    }
-                    uploadedImage={uploadedImage2}
-                    image={data?.photos?.[0]?.url}
-                  />
-                </div>
-                {/* Second Image Box */}
-                <div className="w-[235px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage3}
-                    handleImageUpload={(e) =>
-                      handleImageUpload3(e, data?.photos?.[1]?.publicId)
-                    }
-                    uploadedImage={uploadedImage3}
-                    image={data?.photos?.[1]?.url}
-                  />
-                </div>
               </div>
             </div>
           </div>

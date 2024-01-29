@@ -3,10 +3,7 @@ import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -16,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/components/general/useBodyScroll";
+import SliderAuth from "@/components/auth/slider";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -111,35 +109,10 @@ const Login = () => {
     }
   };
   
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-  };
-
   const Visible = () => {
     setVisible(!visible);
   };
 
-  const images = [
-    {
-      icon: "/Hand-drawn line_22.png",
-      alt: "people",
-    },
-    {
-      icon: "/Hand-drawn line (2).png",
-      alt: "people",
-    },
-    {
-      icon: "/Hand-drawn line (1).png",
-      alt: "people",
-    },
-  ];
 
   return (
     <div className="">
@@ -159,45 +132,9 @@ const Login = () => {
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
       {loading && <Loading />}
-        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <div className="flex flex-col  justify-around items-center">
-            <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
-              <Link href={"/"}>
-                <Image
-                  src={"/Homz_colorless.png"}
-                  className="ml-2"
-                  height={27}
-                  width={131}
-                  alt="img"
-                />
-              </Link>
-              <div className="">
-                <Slider {...settings}>
-                  {images.map((card, index) => (
-                    <div key={index} className="">
-                      <Image
-                        src={card.icon}
-                        height={399}
-                        width={333}
-                        alt={`${card.alt}-img`}
-                        className="w-full h-auto"
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-              <div>
-                <p className="text-[20px] mt-6 text-white text-start font-[500]">
-                  All-In-One Account Portal To Find, Manage And Monitor Your
-                  Property Effortlessly.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="font-[600] pt-[140px] text-GrayHomz3 text-center  text-[14px]">
-            &copy; 2022 Homz.ng. All rights reserved
-          </div>
-        </div>
+      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
+        <SliderAuth/>
+      </div>
         <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 W-[320px] sm:w-full py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">

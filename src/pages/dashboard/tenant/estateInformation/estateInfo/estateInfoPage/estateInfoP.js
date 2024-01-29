@@ -39,7 +39,7 @@ const EstateInfoP = ({ data }) => {
               <div className="w-full h-[172px] bg-inputBg rounded-[12px] px-6 py-8 flex flex-col justify-between">
                 <div className="flex justify-between w-[540px]">
                   <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
-                    Estate Name
+                    Property Name
                   </p>
                   <p className="text-[16px] font-[500] text-BlackHomz w-[360px]">
                     {data.EstateName}
@@ -47,7 +47,7 @@ const EstateInfoP = ({ data }) => {
                 </div>
                 <div className="flex justify-between w-[540px]">
                   <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
-                    Estate Location
+                    Property Location
                   </p>
                   <p className="text-[16px] font-[500] text-BlackHomz w-[360px]">
                     {data.EstateLocation}
@@ -55,7 +55,7 @@ const EstateInfoP = ({ data }) => {
                 </div>
                 <div className="flex justify-between w-[540px]">
                   <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
-                    Estate Address
+                    Property Address
                   </p>
                   <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
                     {data.EstateAddress}
@@ -156,7 +156,7 @@ const EstateInfoP = ({ data }) => {
                   </div>
                   <div className="flex justify-between w-[580px]">
                     <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
-                      Estate Address
+                      Property Address
                     </p>
                     <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
                       {data.EmergencyII}

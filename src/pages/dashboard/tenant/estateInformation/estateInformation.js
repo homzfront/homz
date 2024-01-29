@@ -13,9 +13,9 @@ import AcAndRejModelEs from "./components/acAndRejModalEs";
 const Data = [
   {
     id: 1,
-    EstateName: "New Suncity Estate",
+    EstateName: "New Suncity Property",
     EstateLocation: "Yaba, Lagos",
-    EstateAddress: "Estate's full address",
+    EstateAddress: "Property's full address",
     Manager: "0000 - 000 - 0000",
     Emergency: "0000 - 000 - 0000",
     UtilityService: "0000 - 000 - 0000",
@@ -137,8 +137,8 @@ const EstateInformation = () => {
       {openLinkModal && (
         <div>
           <AcAndRejModelEs
-            header={"Proceed To Join Estate?"}
-            body={"You’re about to join Estate"}
+            header={"Proceed To Join Property?"}
+            body={"You’re about to join Property"}
             button={"Yes"}
             buttonTwo={"No"}
             returnHomeTwo={closeLink}
@@ -151,7 +151,7 @@ const EstateInformation = () => {
           <ConfirmModal
             header={"Request sent"}
             body={
-              "Your request to join Suncity New  Estate has been sent to the estate manager."
+              "Your request to join Suncity New Property has been sent to the property manager."
             }
             button={"Close"}
             returnHome={closeLinkConfirmationModal}

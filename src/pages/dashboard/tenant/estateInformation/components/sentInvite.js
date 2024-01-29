@@ -15,9 +15,9 @@ const SentInvite = () => {
           <p className="text-[20px] font-[500] text-white">Request Sent</p>
 
           <p className="text-[16px] font-[500] text-white">
-            Kindly check back, your request to join Name of Estate has been sent
-            to the estate manager. You’ll receive a notification with the status
-            of your request shortly.
+            Kindly check back, your request to join Name of Property has been
+            sent to the property manager. You’ll receive a notification with the
+            status of your request shortly.
           </p>
         </div>
       </div>

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import GetStarted from "./components/getStarted/getStarted";
 import MaintenanceRequest from "./components/maintenanceRequest/maintenanceRequest";
 import Request from "./components/request/request";
+import { maintenanceByASpecificTenant } from "@/api/maintenanceService";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const Maintenance = () => {
   const [maintenanceReq, setMaintenanceReq] = useState(false);
@@ -11,10 +13,9 @@ const Maintenance = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchEstates();
-        const estate = data.data?.results?.[0].data;
-        setEstates(estate);
-        setData(estate);
+        const data = await maintenanceByASpecificTenant();
+        const request = data
+        setData(request?.data?.results);
         setLoading(false);
       } catch (error) {
         // Handle error if needed
@@ -23,7 +24,7 @@ const Maintenance = () => {
 
     fetchData();
   }, []);
-  
+
   const openMaintenanceForm = () => {
     setMaintenanceReq(!maintenanceReq);
   };
@@ -31,20 +32,15 @@ const Maintenance = () => {
     setMaintenanceReq(false);
   };
 
-  //   // useEffect to load data from localStorage when the component mounts
-  useEffect(() => {
-    const savedData = localStorage.getItem("DataII");
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    }
-  }, []);
 
   console.log(data);
   return (
     <div className="w-[1147px]">
-      {data && data.length >= 5 ? (
+      {loading ? (
+        <LoadingII />
+      ) : data && data.length >= 1 ? (
         <div>
-          <Request/>
+          <Request data={data}/>
         </div>
       ) : maintenanceReq ? (
         <div>

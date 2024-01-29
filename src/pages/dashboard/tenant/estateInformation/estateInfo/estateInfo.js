@@ -7,7 +7,7 @@ const EstateInfo = ({ data }) => {
       <div>
         <div>
           <p className="text-[20px] font-[500] text-GrayHomz">
-            Estate Information
+            Property Information
           </p>
         </div>
 

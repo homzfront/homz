@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ListedProperties from "./listedProperties";
 import PropertyForm from "./propertyListingForm/propertyForm";
-import { fetchPropertyListedAll } from "@/api/propertyService";
+import { propertyForMe } from "@/api/propertyService";
 import usePropertyListedAllStore from "@/store/property";
-import useBodyScroll from "@/components/general/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 
 const PropertyListing = () => {
@@ -17,7 +16,7 @@ const PropertyListing = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchPropertyListedAll();
+        const data = await propertyForMe();
         console.log(data);
         const properties = data.data?.results?.[0].data;
         console.log(properties);
@@ -32,7 +31,6 @@ const PropertyListing = () => {
     fetchData();
   }, []);
 
-  useBodyScroll([loading]);
   console.log(data);
   console.log(propertyListedAll);
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -83,7 +81,7 @@ const PropertyListing = () => {
       ) : registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
-<div className="w-[1147px] p-8">
+        <div className="w-[1147px] p-8">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Listed Properties</p>
@@ -110,21 +108,20 @@ const PropertyListing = () => {
             <h1 className="text-[41px] font-[700] text-BlueHomz">
               Get Started
             </h1>
-          <button
-            onClick={openRegistrationForm}
-            className="p-[12px] w-[145px] mt-3 bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
-          >
-            <Image
-              src="/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-              alt=""
-              width={16}
-              height={16}
-            />
-            List Property
-          </button>
+            <button
+              onClick={openRegistrationForm}
+              className="p-[12px] w-[145px] mt-3 bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
+            >
+              <Image
+                src="/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
+                alt=""
+                width={16}
+                height={16}
+              />
+              List Property
+            </button>
           </div>
         </div>
-
       )}
     </div>
   );

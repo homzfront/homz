@@ -81,10 +81,10 @@ const Receipt = ({ closeReceipt, shareReceipt }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Estate
+                Property
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                New Suncity Estate
+                New Suncity Property
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -97,10 +97,10 @@ const Receipt = ({ closeReceipt, shareReceipt }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Estate Manager
+                Property Manager
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                Estate Manager’s Registered Name
+                Property Manager’s Registered Name
               </p>
             </div>
           </div>
@@ -143,7 +143,7 @@ const Receipt = ({ closeReceipt, shareReceipt }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                Estate manager’s email@gmail.com
+                Property manager’s email@gmail.com
               </p>
             </div>
             <div className="flex items-center gap-2">

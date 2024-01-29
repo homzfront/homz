@@ -48,6 +48,22 @@ export const updateEstateInfo = async (estateId, updatedData) => {
   }
 };
 
+export const updateContactInfo = async (estateId, updatedData) => {
+  console.log(estateId);
+  console.log(updatedData);
+  try {
+    const response = await api.patch(
+      `/estates/${estateId}/estate-contact-information`,
+      updatedData
+    );
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+
 export const updateEstateCoverPhoto = async (estateId, uploadedImage) => {
   console.log(estateId);
   console.log(uploadedImage);

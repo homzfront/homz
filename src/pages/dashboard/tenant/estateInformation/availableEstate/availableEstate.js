@@ -10,70 +10,70 @@ const Data = [
   {
     id: 1,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 2,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 3,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 4,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 5,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 6,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 7,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 8,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 9,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
   {
     id: 10,
     estateImage: "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-    estateName: "Suncity New Estate",
+    estateName: "Suncity New Property",
     estateAddress: "Alagomeji Area, Yaba, Lagos",
     noOfApartment: 22,
   },
@@ -131,10 +131,10 @@ const AvailableEstate = ({ closeAvailableEstate, openLink }) => {
             <p className="text-[14px] font-[400px] text-GrayHomz2">Go Back</p>
           </div>
 
-          <p className="text-[20px] font-[500px] text-GrayHomz">Join Estate</p>
+          <p className="text-[20px] font-[500px] text-GrayHomz">Join Property</p>
         </div>
         <p className="mt-2 text-[14px] font-[400px] text-GrayHomz">
-          Select and join the estate where your rented property is located.
+          Select and join the property where your rented property is located.
         </p>
         <div>
           <div>

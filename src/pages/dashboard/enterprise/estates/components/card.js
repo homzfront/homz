@@ -13,7 +13,6 @@ const Card = ({
   Image3,
   data,
   handleToggleMenu,
-  
 }) => {
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
 
@@ -25,17 +24,21 @@ const Card = ({
   return (
     <div className="h-[285px] rounded-lg shadow-md">
       <div className="">
-        <div style={{position:"relative"}} className="h-[168px] w-full rounded-lg overflow-hidden relative">
-          <Image
-            src={value1}
-            fill
-            priority={true} 
-            alt=""
-            className="rounded-lg"
-            style={{objectFit:"cover"}}   
-            sizes="(max-width: 640px) 100vw, (max-width: 768px) 70vw, 100vw" // Add this line
-
-          />
+        <div
+          style={{ position: "relative" }}
+          className="h-[168px] w-full rounded-lg overflow-hidden relative"
+        >
+          {value1 && (
+            <Image
+              src={value1}
+              fill
+              priority={true}
+              alt=""
+              className="rounded-lg"
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 70vw, 100vw"
+            />
+          )}
         </div>
 
         <div className="p-4 flex gap-3 h-full flex-col">

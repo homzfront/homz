@@ -5,30 +5,23 @@ import InProgress from "./inProgress";
 import PendingRequests from "./pendingRequests";
 import Resolved from "./resolved";
 
-const Widget = () => {
-  const [Data, setData] = useState([]);
+const Widget = ({data}) => {
+  const [datas, setDatas] = useState([]);
 
-  // useEffect to load data from localStorage when the component mounts
-  useEffect(() => {
-    const savedData = localStorage.getItem("DataII");
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    }
-  }, []);
 
-  const data = Data || [];
+  const TenantData = data || [];
 
   console.log(data);
 
   const pages = [
-    { id: 1, name: "All", component: <All data={data} /> },
-    { id: 2, name: "In-progress", component: <InProgress data={data} /> },
+    { id: 1, name: "All", component: <All data={TenantData} /> },
+    { id: 2, name: "In-progress", component: <InProgress data={TenantData} /> },
     {
       id: 3,
       name: "Pending Requests",
-      component: <PendingRequests data={data} />,
+      component: <PendingRequests data={TenantData} />,
     },
-    { id: 4, name: "Resolved", component: <Resolved data={data} /> },
+    { id: 4, name: "Resolved", component: <Resolved data={TenantData} /> },
   ];
 
   const [active, setActive] = useState(pages[0].id);

@@ -38,7 +38,7 @@ const InviteLink = ({ openLink, loading, inviteLink, setInviteLink }) => {
         Have an Invite Link?
       </p>
       <p className="mt-2 text-[18px] font-[400] text-GrayHomz">
-        Paste in your invite link to join estate
+        Paste in your invite link to join property
       </p>
       <div className="flex items-center gap-4">
         <input
@@ -52,7 +52,7 @@ const InviteLink = ({ openLink, loading, inviteLink, setInviteLink }) => {
             onClick={(e) => handleOpenLink(e)}
           className="bg-BlueHomz text-white h-[48px] w-[108px] rounded-[4px]"
         >
-          Join Estate
+          Join Property
         </button>
       </div>
     </div>

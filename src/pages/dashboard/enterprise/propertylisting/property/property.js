@@ -1,13 +1,32 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchSingleProperty } from "@/api/propertyService";
 
-const Property = () => {
+const Property = ({id}) => {
+
+  const  [data, setData] = useState([])
+  console.log(id);
+
+
+  useEffect(()=> {
+    const estateData = async () => {
+      const response = await fetchSingleProperty(id);
+      const estate = await response;
+      setData(estate)
+    }
+    estateData();
+  }, [])
+
+  console.log(data);
+
+
   return (
-    <div className="w-[1075px] p-8">
+    <div className="w-[1147px] p-8">
       <div>
-        <div>
+        <div className="flex justify-between items-center">
           <div className="w-[475px] flex gap-2 items-center">
             <Image
               src={
@@ -33,9 +52,10 @@ const Property = () => {
               Property Details
             </div>
           </div>
+          <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
         </div>
         <div>
-          <Widget />
+          <Widget data={data}/>
         </div>
       </div>
     </div>
