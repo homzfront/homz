@@ -1,7 +1,5 @@
-import AboutUs from "./about-us/page";
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
-import ContactPage from "./contact-page/page";
 import LandingPagePO from "./landingPage-PropertyOwner/page";
 
 export default function Home() {

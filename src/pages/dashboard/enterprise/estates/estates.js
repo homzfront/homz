@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import EstateForm from "./estateForm/estateForm";
 import ListedEstates from "./listedEstates";
 import useEstateStore from "@/store/estates";
-import { fetchEstates } from "@/api/estateService";
+import { fetchEstatesMe } from "@/api/estateService";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 
@@ -15,7 +15,7 @@ const Estate = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchEstates();
+        const data = await fetchEstatesMe();
         const estate = data.data?.results?.[0].data;
         setEstates(estate);
         setData(estate);

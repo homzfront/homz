@@ -1,20 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/imageUploadII";
-import Loading from "@/components/mainmenu/loading";
-import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { updateEstateCoverPhoto } from "@/api/estateService";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const Photos = ({ data }) => {
   console.log(data);
+  if (!data) {
+    return error;
+  }
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
   const [uploadedImage3, setUploadedImage3] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [publicId, setPublicID] = useState([]);
+  const [publicId2, setPublicID2] = useState([]);
 
+  console.log(publicId2);
+  console.log(publicId);
   console.log(data?.coverPhoto?.url);
-console.log(data?._id);
+  console.log(data?._id);
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
@@ -23,23 +30,25 @@ console.log(data?._id);
       setLoading(false); // Set loading to false once data is available
     }
   }, [data]);
-console.log(uploadedImage);
+  console.log(uploadedImage);
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     console.log(file);
     setUploadedImage(file);
   };
 
-  const handleImageUpload2 = (e) => {
+  const handleImageUpload2 = (e, publicId) => {
     const file = e.target.files[0];
     console.log(file);
     setUploadedImage2(file);
+    setPublicID(publicId);
   };
 
-  const handleImageUpload3 = (e) => {
+  const handleImageUpload3 = (e, publicId) => {
     const file = e.target.files[0];
     console.log(file);
     setUploadedImage3(file);
+    setPublicID2(publicId);
   };
 
   const handleSubmit = async (e) => {
@@ -49,7 +58,6 @@ console.log(uploadedImage);
     setLoading(true); // Set loading to true when submitting the form
 
     if (!uploadedImage) {
-      // Handle the case where uploadedImage is not defined
       console.error("No image uploaded");
       setLoading(false);
       return;
@@ -58,50 +66,30 @@ console.log(uploadedImage);
     const formData = new FormData();
     formData.append("coverPhoto", uploadedImage);
 
-    // Convert FormData to object
-    const formDataObject = {};
-    formData.forEach((value, key) => {
-      formDataObject[key] = value;
-    });
-
-    console.log(formDataObject);
-    
     try {
-      const response = await api.patch(
-        `/estates/${data._id}/cover-photo`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            // add other headers as needed
-          },
-        }
+      const { success, updatedImage, error } = await updateEstateCoverPhoto(
+        data._id,
+        uploadedImage
       );
 
-
-      
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
+      if (success) {
+        console.log("Form successfully updated", updatedImage);
         setLoading(false);
-        toast.success("update successful");
+        toast.success("Update successful");
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
+        console.error("Update failed", error);
+        toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
-      console.error(error.response?.data?.message);
+      console.error("Update error", error);
       setLoading(false);
-      // setLoginError(error.response?.data?.message);
+      toast.error("Update failed");
     }
   };
 
   return (
     <div className=" block">
-      {loading && <Loading />}
       {
         <ToastContainer
           position="top-center"
@@ -117,55 +105,75 @@ console.log(uploadedImage);
           theme="dark"
         />
       }
-      <div className="flex flex-col gap-2">
-        <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
-        <p className="text-[18px] font-[400] text-GrayHomz ">
-          Add at least one photo of your property
-        </p>
-        <p className="text-[13px] font-[400] text-GrayHomz2">
-          Supported formats are .jpg and .png and file size must not exceed 5 mb
-        </p>
-      </div>
-      <div className="flex gap-4 mt-4">
-        <div className="">
-          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo</p>
-          <div className="mt-4 w-[235px] flex justify-start">
-            <ImageUpload
-              onImageRemove={setUploadedImage}
-              handleImageUpload={handleImageUpload}
-              uploadedImage={uploadedImage}
-            />
+      {loading ? (
+        <LoadingII />
+      ) : (
+        <div>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
+            <p className="text-[18px] font-[400] text-GrayHomz ">
+              Add at least one photo of your property
+            </p>
+            <p className="text-[13px] font-[400] text-GrayHomz2">
+              Supported formats are .jpg and .png and file size must not exceed
+              5 mb
+            </p>
           </div>
-        </div>
-        <div className="">
-          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos</p>
-          <div className="mt-4 flex">
-            <div className="w-[235px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage2}
-                handleImageUpload={handleImageUpload2}
-                uploadedImage={uploadedImage2}
-              />
+          <div className="flex gap-4 mt-4">
+            <div className="">
+              <p className=" text-[13px] font-[500] text-GrayHomz">
+                Cover photo
+              </p>
+              <div className="mt-4 w-[235px] flex justify-start">
+                <ImageUpload
+                  onImageRemove={setUploadedImage}
+                  handleImageUpload={handleImageUpload}
+                  uploadedImage={uploadedImage}
+                  image={data?.coverPhoto?.url}
+                />
+              </div>
             </div>
-            <div className="w-[235px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage3}
-                handleImageUpload={handleImageUpload3}
-                uploadedImage={uploadedImage3}
-              />
+            <div className="">
+              <p className=" text-[13px] font-[500] text-GrayHomz">
+                Other photos
+              </p>
+              <div className="mt-4 flex">
+                {/* First Image Box */}
+                <div className="w-[235px] flex justify-start">
+                  <ImageUpload
+                    onImageRemove={setUploadedImage2}
+                    handleImageUpload={(e) =>
+                      handleImageUpload2(e, data?.photos?.[0]?.publicId)
+                    }
+                    uploadedImage={uploadedImage2}
+                    image={data?.photos?.[0]?.url}
+                  />
+                </div>
+                {/* Second Image Box */}
+                <div className="w-[235px] flex justify-start">
+                  <ImageUpload
+                    onImageRemove={setUploadedImage3}
+                    handleImageUpload={(e) =>
+                      handleImageUpload3(e, data?.photos?.[1]?.publicId)
+                    }
+                    uploadedImage={uploadedImage3}
+                    image={data?.photos?.[1]?.url}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="mt-[10%] flex justify-end">
-        <button
-          onClick={handleSubmit}
-          className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
-        >
-          Update
-        </button>
-      </div>
+          <div className="mt-[10%] flex justify-end">
+            <button
+              onClick={handleSubmit}
+              className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

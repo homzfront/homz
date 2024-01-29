@@ -4,6 +4,7 @@ import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
 import api from "@/utils/api";
+import { fetchEstatesSpecificUSer } from "@/api/estateService";
 
 const EstateInfo = ({id}) => {
   const  [data, setData] = useState([])
@@ -12,8 +13,8 @@ const EstateInfo = ({id}) => {
 
   useEffect(()=> {
     const estateData = async () => {
-      const response = await api.get(`/estates/${id}`)
-      const estate = await response.data;
+      const response = await fetchEstatesSpecificUSer(id)
+      const estate = await response;
       setData(estate)
     }
     estateData();

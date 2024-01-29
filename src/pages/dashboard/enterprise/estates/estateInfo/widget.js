@@ -12,6 +12,8 @@ const Widget = ({ data, isLoading }) => {
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false); // State for the fourth page
 
+  console.log(data);
+
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);
@@ -100,9 +102,9 @@ const Widget = ({ data, isLoading }) => {
             <EstateInfo active={active} isLoading={isLoading} data={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <Photos data={data?.data} />
+            <Photos data={data} />
           </div>
-          <div className={`${activeThree ? "inline" : "hidden"}`}>
+          <div className={`${activeThree ? "inline" : "hidden"}`} data={data}>
             <ContactInfo />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>

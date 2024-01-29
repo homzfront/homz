@@ -4,6 +4,8 @@ import React from 'react';
 const App = async ({ params }) => {
   const { id } = params;
 
+  console.log(id);
+
   return (
     <div className=''>
         <EstateInfo id={id} />
