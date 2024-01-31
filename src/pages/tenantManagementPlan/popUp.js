@@ -21,8 +21,8 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
 
 
   // Extract unique areas & states
-  const options = [...new Set(estateData.map((item) => item.area))];
-  const options2 = [...new Set(estateData.map((item) => item.state))];
+  const options = [...new Set(estateData?.map((item) => item.area))];
+  const options2 = [...new Set(estateData?.map((item) => item.state))];
   // Create options object with id for each area
 
 
