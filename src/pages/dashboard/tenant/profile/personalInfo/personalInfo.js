@@ -57,7 +57,7 @@ const PersonalInfo = ({ data }) => {
       toast.error("Update failed");
     }
   };
-  
+
   return (
     <div className="mt-8">
       <ToastContainer
@@ -88,7 +88,13 @@ const PersonalInfo = ({ data }) => {
           value={phoneNo}
           onChange={(e) => setPhoneNo(e.target.value)}
         />
-        <Input label={"Email"} placeholder={"Victor@gmail.com"} value={data?.user?.email} type={"text"} />
+        <Input
+          label={"Email"}
+          placeholder={"Victor@gmail.com"}
+          readOnly
+          value={data?.user?.email}
+          type={"text"}
+        />
         <Input
           label={"House Address"}
           placeholder={"House Address"}

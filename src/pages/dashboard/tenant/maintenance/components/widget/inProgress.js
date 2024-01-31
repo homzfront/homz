@@ -49,7 +49,6 @@ const InProgress = ({ data }) => {
   const smallLetter = (str) => {
     return str.charAt(0).toLowerCase() + str.slice(1);
   };
-  console.log(data);
   return (
     <div>
       <div>
@@ -61,11 +60,11 @@ const InProgress = ({ data }) => {
       </div>
       <div className="">
         {data &&
-          data?.data.map(
+          data?.data?.map(
             (data) =>
               smallLetter(data?.status) === "in-progress" && (
                 <div
-                  key={data._id}
+                  key={data?._id}
                   className={`text-[11px] font-[400] text-GrayHomz flex px-8 py-4 border-b`}
                 >
                   <p className="w-[180px]">{data?.subject}</p>

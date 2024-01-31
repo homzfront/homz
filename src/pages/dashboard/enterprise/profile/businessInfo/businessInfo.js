@@ -91,6 +91,7 @@ const BusinessInfo = ({ data }) => {
         <Input
           label={"Email"}
           value={data?.user?.email}
+          readOnly
           placeholder={"Victor@gmail.com"}
           type={"text"}
         />

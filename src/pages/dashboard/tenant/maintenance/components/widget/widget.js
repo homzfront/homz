@@ -11,7 +11,6 @@ const Widget = ({data}) => {
 
   const TenantData = data || [];
 
-  console.log(data);
 
   const pages = [
     { id: 1, name: "All", component: <All data={TenantData} /> },
@@ -34,7 +33,7 @@ const Widget = ({data}) => {
     <div>
       <div className="w-full h-auto py-4">
         <div className="flex mt-5 gap-2 justify-between w-[471px] px-8 cursor-pointer">
-          {pages.map((page) => (
+          {pages?.map((page) => (
             <div
               key={page.id}
               className={`flex flex-col items-center py-2 px-3 justify-center rounded-md  ${
@@ -47,12 +46,12 @@ const Widget = ({data}) => {
           ))}
         </div>
         <div className="my-5 rounded-[12px]">
-          {pages.map((page) => (
+          {pages?.map((page) => (
             <div
               key={page.id}
               className={active === page.id ? "inline" : "hidden"}
             >
-              {page.component}
+              {page?.component}
             </div>
           ))}
         </div>

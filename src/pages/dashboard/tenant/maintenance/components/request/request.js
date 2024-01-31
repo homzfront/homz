@@ -4,6 +4,7 @@ import Image from "next/image";
 import Widget from "../widget/widget";
 
 const Request = (data) => {
+
     const options = [
         {
           id: 1,
@@ -18,7 +19,6 @@ const Request = (data) => {
           label: "Resolved",
         },
       ];
-    console.log(data);
   return (
     <div>
       <div className="p-9 flex items-center justify-between w-full border-b">

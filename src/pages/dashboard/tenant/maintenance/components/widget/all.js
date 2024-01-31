@@ -71,13 +71,13 @@ const All = ({ data = null || [] }) => {
         </div>
         <div>
           {data &&
-            data?.data.map((data) => (
+            data?.data?.map((data) => (
               <div
-                key={data._id}
+                key={data?._id}
                 className={`text-[11px] font-[400] text-GrayHomz flex px-8 py-4 border-b`}
               >
-                <p className="w-[180px]">{data.subject}</p>
-                <p className="w-[180px]">{formatDate(data.requestDate)}</p>
+                <p className="w-[180px]">{data?.subject}</p>
+                <p className="w-[180px]">{formatDate(data?.requestDate)}</p>
                 <p className="w-[180px]">
                   <span
                     className={`px-3 py-1 rounded-[8px] ${

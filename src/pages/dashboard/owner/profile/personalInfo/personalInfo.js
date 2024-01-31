@@ -6,8 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePersonalInformation } from "@/api/propertyService";
 
-const PersonalInfo = ({data}) => {
-  console.log(data)
+const PersonalInfo = ({ data }) => {
+  console.log(data);
   const [fullName, setFullName] = useState("");
   const [houseAddress, setHouseAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
@@ -89,7 +89,13 @@ const PersonalInfo = ({data}) => {
           value={houseAddress}
           onChange={(e) => setHouseAddress(e.target.value)}
         />
-        <Input label={"Email"} placeholder={"Victor@gmail.com"} value={data?.user?.email} type={"text"} />
+        <Input
+          label={"Email"}
+          placeholder={"Victor@gmail.com"}
+          readOnly
+          value={data?.user?.email}
+          type={"text"}
+        />
         <Input
           label={"Phone Number"}
           placeholder={"0000 - 000 - 0000"}

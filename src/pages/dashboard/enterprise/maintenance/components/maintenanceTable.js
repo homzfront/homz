@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
+import LoadingTable from "./loadingTable";
 
 const MaintenanceTable = ({ request, tenantData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -162,7 +163,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
         pauseOnHover
         theme="dark"
       />
-      {loading && <LoadingII />}
+      {loading && <LoadingTable />}
       <div className="mt-8">
         <div className=" w-full rounded-t-xl border">
           <div className="flex rounded-t-xl bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz items-center px-8">

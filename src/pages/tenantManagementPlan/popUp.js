@@ -19,23 +19,20 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
     setSelectedArea(null);
   };
 
-  console.log(estateData);
 
   // Extract unique areas & states
   const options = [...new Set(estateData.map((item) => item.area))];
   const options2 = [...new Set(estateData.map((item) => item.state))];
   // Create options object with id for each area
 
-  // Now 'options' will have properties for each unique area with an 'id'
-  console.log(options);
 
   // Filter estateData based on selectedState, selectedArea, and searchQuery
-  const filteredData = estateData.filter(
+  const filteredData = estateData?.filter(
     (data) =>
       (!selectedState || data?.location.state === selectedState) &&
       (!selectedArea || data?.location.area === selectedArea) &&
       (!searchQuery ||
-        data?.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        data?.name?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -139,7 +136,7 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
 
         <div className=" overflow-auto h-[55%] scrollbar-container px-8">
           {/* Set max height and overflow-auto for scrolling */}
-          {filteredData.map((data, index) => (
+          {filteredData?.map((data, index) => (
             <div
               key={index}
               className={`flex items-center justify-between h-[64px] px-4 ${

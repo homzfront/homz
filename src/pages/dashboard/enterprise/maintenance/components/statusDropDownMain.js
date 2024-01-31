@@ -36,7 +36,7 @@ const StatusDropDownMain = ({
       </button>
 
       <ul
-        className={`dropdown-menu absolute left-[315px] mt-2 w-[95px] h-[80px] flex flex-col items-start justify-around px-2 py-1 bg-white shadow-md rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none ${
+        className={`dropdown-menu absolute  mt-2 w-[95px] h-[80px] flex flex-col items-start justify-around px-2 py-1 bg-white shadow-md rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none ${
           isOpen ? "block" : "hidden"
         }`}
       >
