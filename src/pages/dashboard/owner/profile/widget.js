@@ -1,20 +1,28 @@
-"use client"
+"use client";
 import PersonalInfo from "./personalInfo/personalInfo.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
 
 const pages = [
-
-  { id: 1, name: "Personal Information", component: <PersonalInfo /> },
-  { id: 2, name: "Profile Picture", component: <ProfilePicture /> },
+  {
+    id: 1,
+    name: "Personal Information",
+    component: (data) => <PersonalInfo data={data} />,
+  },
+  {
+    id: 2,
+    name: "Profile Picture",
+    component: (data) => <ProfilePicture data={data} />,
+  },
   { id: 3, name: "Change Password", component: <ChangePassword /> },
 ];
 
-const Widget = () => {
+const Widget = ({ data }) => {
   const [active, setActive] = useState(pages[0].id);
 
-  const handlePageChange = (id) => {
+  const handlePageChange = (e, id) => {
+    e.preventDefault();
     setActive(id);
   };
 
@@ -28,7 +36,7 @@ const Widget = () => {
               className={`flex flex-col items-center py-2 px-3 justify-center rounded-md  ${
                 active === page.id ? "bg-BlueHomz text-white" : "text-BlackHomz"
               }`}
-              onClick={() => handlePageChange(page.id)}
+              onClick={(e) => handlePageChange(e, page.id)}
             >
               <p className="text-[14px] font-500">{page.name}</p>
             </div>
@@ -40,7 +48,9 @@ const Widget = () => {
               key={page.id}
               className={active === page.id ? "inline" : "hidden"}
             >
-              {page.component}
+              {typeof page.component === "function"
+                ? page.component(data)
+                : page.component}
             </div>
           ))}
         </div>

@@ -1,63 +1,60 @@
-"use client"
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import FileUpload from "./components/fileUpload";
+"use client";
+import React, { useCallback, useRef, useState } from "react";
 import UpdateButton from "../components/updateButton";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
-import api from "@/utils/api";
+import { updateProfilePicture } from "@/api/tenantSevice";
 
-
-const ProfilePicture = () => {
+const ProfilePicture = ({ data }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const inputRef = useRef(null);
   const [doneUpdate, setDoneUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showDialogue, setShowDialogue] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     console.log(acceptedFiles[0]); // Log the acceptedFiles array to see its structure
 
     const file = acceptedFiles[0];
- console.log(file);
+    console.log(file);
     setUploadedImage(file);
-
   }, []);
 
   console.log(uploadedImage);
+
   const updateDone = async () => {
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true); // Set loading to true when submitting the form
+
+    if (!uploadedImage) {
+      console.error("No image uploaded");
+      setLoading(false);
+      return;
+    }
+
     try {
+      const { success, updatedImage, error } = await updateProfilePicture(
+        uploadedImage
+      );
 
-      if (loading) return; // Do nothing if already loading
-
-      setLoading(true); // Set loading to true when submitting the form
-     // Create FormData
-     const formData = new FormData();
-     formData.append("coverPhoto", uploadedImage);
- 
-      // Use uploadedImage or any other relevant data in the update request
-      const response = await api.patch("/tenants/profileImage", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          // add other headers as needed
-        },
-      });
-
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
-        setDoneUpdate(!doneUpdate);
+      if (success) {
+        console.log("Form successfully updated", updatedImage);
         setLoading(false);
-        setUploadedImage(null);
+        setDoneUpdate(true);
+        setShowDialogue(false);
+        toast.success("Update successful");
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
+        console.error("Update failed", error);
+        toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Update error", error);
       setLoading(false);
-      // setLoginError(error.response?.data?.message);
+      toast.error("Update failed");
     }
   };
 
@@ -87,7 +84,7 @@ const ProfilePicture = () => {
           <div className="flex gap-2">
             <div
               className={`w-[237px] h-[237px] rounded-full flex items-center justify-center ${
-                uploadedImage ? "" : "bg-GrayHomz5"
+                uploadedImage ? "" : ""
               }`}
             >
               {uploadedImage ? (
@@ -101,16 +98,38 @@ const ProfilePicture = () => {
                     style={{ width: "auto", height: "auto" }}
                   />
                 </div>
-              ) : (
-                <div className="w-[237px] h-[237px] rounded-full flex items-center justify-center">
+              ) : data ? (
+                <div className=" flex items-start">
                   <Image
-                    src="/static/dashboard/enterprisemanager/profile/user.png"
-                    height={52}
-                    width={52}
+                    src={data?.coverPhoto?.url}
+                    height={100}
+                    width={100}
+                    className="object-cover h-full w-full rounded-full"
+                    alt="img"
+                    style={{ width: "auto", height: "auto" }}
+                  />
+                  <Image
+                    src={"/static/dashboard/enterprisemanager/estate/add.png"}
+                    height={36}
+                    width={36}
                     className="cursor-pointer"
                     alt="img"
                     onClick={() => inputRef.current.click()}
                   />
+                </div>
+              ) : (
+                <div>
+                  {" "}
+                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
+                    <Image
+                      src="/static/dashboard/enterprisemanager/profile/user.png"
+                      height={52}
+                      width={52}
+                      className="cursor-pointer"
+                      alt="img"
+                      onClick={() => inputRef.current.click()}
+                    />
+                  </div>
                 </div>
               )}
             </div>
@@ -169,6 +188,8 @@ const ProfilePicture = () => {
         doneUpdate={doneUpdate}
         setDoneUpdate={setDoneUpdate}
         loading={loading}
+        showDialogue={showDialogue}
+        setShowDialogue={setShowDialogue}
       />
     </div>
   );

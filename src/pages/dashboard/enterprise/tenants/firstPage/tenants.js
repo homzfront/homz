@@ -465,16 +465,29 @@ const Tenants = () => {
               <div className="flex gap-2 items-center">
                 <p className="text-[20px] font-[500]">Tenants</p>
                 <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-                  <span className="text-BlueHomz text-[18px] font-[400]">{data.length}</span>
+                  <span className="text-BlueHomz text-[18px] font-[400]">
+                    {data.length}
+                  </span>
                 </span>
               </div>
-              <div className="flex flex-col gap-3 mt-5">
+              <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
+                <div className="bg-whiteblue rounded-[100%] flex justify-center items-center h-[120px] w-[120px]">
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/tenants/profile-2user.png"
+                    }
+                    height={88}
+                    width={88}
+                    alt=""
+                    className="mt-1"
+                  />
+                </div>
                 <h1 className="text-[41px] font-[700] text-BlueHomz">
                   Get Started
                 </h1>
                 <p className="text-[18px] font-[400] text-GrayHomz">
                   Share your unique link to invite your tenants to your
-                  properties.
+                  properties.{" "}
                 </p>
                 <button
                   onClick={toggleInvite}

@@ -2,15 +2,27 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
-import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
+import { updateBussinessInformation } from "@/api/enterpriseManagerService";
 
-const BusinessInfo = () => {
+const BusinessInfo = ({ data }) => {
+  console.log(data);
   const [businessName, setBusinessName] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
   const [businessPhoneNo, setBusinessPhoneNo] = useState("");
   const [doneUpdate, setDoneUpdate] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [showDialogue, setShowDialogue] = useState(false);
+
+  useEffect(() => {
+    // Check if data and required properties are available
+    if (data) {
+      setBusinessName(data?.businessName || "");
+      setBusinessAddress(data?.businessAddress || "");
+      setBusinessPhoneNo(parseInt(data?.phoneNumber) || 0);
+      setLoading(false);
+    }
+  }, [data]);
 
   const updateDone = async (e) => {
     e.preventDefault();
@@ -19,30 +31,30 @@ const BusinessInfo = () => {
     setLoading(true); // Set loading to true when submitting the form
 
     try {
-      const response = await api.patch("/enterprisePlan/bussinessInformation", {
+      const updatedData = {
         businessName,
         businessAddress,
         businessPhoneNumber: parseInt(businessPhoneNo),
-      });
+      };
+      const { success, upDateddata, error } = await updateBussinessInformation(
+        updatedData
+      );
 
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
-        setDoneUpdate(!doneUpdate);
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
         setLoading(false);
-        setBusinessName('')
-        setBusinessAddress('')
-        setBusinessPhoneNo('')
+        setShowDialogue(false);
+        setDoneUpdate(true);
+        toast.success("Update successful");
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
+        console.error("Update failed", error);
+        toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Update error", error);
       setLoading(false);
-      // setLoginError(error.response?.data?.message);
+      toast.error("Update failed");
     }
   };
 
@@ -67,22 +79,27 @@ const BusinessInfo = () => {
           placeholder={"Victostates"}
           type={"text"}
           value={businessName}
-          onChange={(e)=>setBusinessName(e.target.value)}
+          onChange={(e) => setBusinessName(e.target.value)}
         />
         <Input
           label={"Business Address"}
           placeholder={"Business Address"}
           type={"text"}
           value={businessAddress}
-          onChange={(e)=>setBusinessAddress(e.target.value)}
+          onChange={(e) => setBusinessAddress(e.target.value)}
         />
-        <Input label={"Email"} placeholder={"Victor@gmail.com"} type={"text"} />
+        <Input
+          label={"Email"}
+          value={data?.user?.email}
+          placeholder={"Victor@gmail.com"}
+          type={"text"}
+        />
         <Input
           label={"Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
           value={businessPhoneNo}
-          onChange={(e)=>setBusinessPhoneNo(e.target.value)}
+          onChange={(e) => setBusinessPhoneNo(e.target.value)}
         />
       </div>
       <UpdateButton
@@ -90,6 +107,8 @@ const BusinessInfo = () => {
         doneUpdate={doneUpdate}
         setDoneUpdate={setDoneUpdate}
         loading={loading}
+        showDialogue={showDialogue}
+        setShowDialogue={setShowDialogue}
       />
     </div>
   );

@@ -1,18 +1,8 @@
 import api from "@/utils/api";
 
-export const fetchSpecificTenant = async (id) => {
+export const enterpriseMe = async () => {
     try {
-      const response = await api.get(`/tenants/${id}`);
-      return response.data
-    } catch (error) {
-      console.error('Error fetching estates:', error);
-      throw error;
-    }
-  };
-
-  export const tenantMe = async () => {
-    try {
-      const response = await api.get("/tenants/me");
+      const response = await api.get("/enterprisePlan/me");
       console.log(response);
       return response.data;
     } catch (error) {
@@ -25,7 +15,7 @@ export const fetchSpecificTenant = async (id) => {
     console.log(updatedData);
     try {
       const response = await api.patch(
-        `/tenants/personalInformation`,
+        `/enterprisePlan/personalInformation`,
         updatedData
       );
       return { success: true, upDateddata: response.data.data };
@@ -35,11 +25,27 @@ export const fetchSpecificTenant = async (id) => {
     }
   };
 
-  export const updateProfilePicture = async (uploadedImage) => {
+
+  export const updateBussinessInformation = async ( updatedData) => {
+    console.log(updatedData);
+    try {
+      const response = await api.patch(
+        `/enterprisePlan/bussinessInformation`,
+        updatedData
+      );
+      return { success: true, upDateddata: response.data.data };
+    } catch (error) {
+      console.error("Update error", error);
+      return { success: false, error: error?.response.data.message };
+    }
+  };
+
+  
+export const updateBusinessLogo = async (uploadedImage) => {
     console.log(uploadedImage);
   
     const formData = new FormData();
-    formData.append("coverPhoto", uploadedImage);
+    formData.append("businessLogo", uploadedImage);
   
     // Convert FormData to object
     const formDataObject = {};
@@ -55,7 +61,7 @@ export const fetchSpecificTenant = async (id) => {
         // add other headers as needed
       };
       const response = await api.patch(
-        "/tenants/profileImage",
+        "/enterprisePlan/bussinesslogo",
         formData,
         { headers }
       );
@@ -75,16 +81,17 @@ export const fetchSpecificTenant = async (id) => {
 };
 
 export const updatePassword = async ( updatedData ) => {
-  console.log(updatedData);
-  try {
-    const response = await api.patch(
-      `/auth/change/password`,
-      updatedData
-    );
-    console.log(response)
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    console.error("Update error", error);
-    return { success: false, error: error?.response.data.message };
-  }
-};
+    console.log(updatedData);
+    try {
+      const response = await api.patch(
+        `/auth/change/password`,
+        updatedData
+      );
+      console.log(response)
+      return { success: true, upDateddata: response.data.data };
+    } catch (error) {
+      console.error("Update error", error);
+      return { success: false, error: error?.response.data.message };
+    }
+  };
+

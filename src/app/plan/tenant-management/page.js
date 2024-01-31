@@ -1,5 +1,8 @@
 "use client";
+import { fetchEstates } from "@/api/estateService";
+import useBodyScroll from "@/components/general/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
+import Popup from "@/pages/tenantManagementPlan/popUp";
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +17,28 @@ const TenantManagement = () => {
   const [houseAddress, setHouseAddress] = useState("");
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [estatesData, setEstatesData] = useState([])
 
+  const handleSelect = (value) => {
+    setInputValue(value);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchEstates();
+        const estate = data.data?.results?.[0].data;
+        setEstatesData(estate);
+        setLoading(false);
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+
+    fetchData();
+  }, []);
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -29,7 +53,7 @@ const TenantManagement = () => {
     // Prepare data to be sent
     const requestData = {
       fullName,
-      phoneNumber: phoneNo,
+      phoneNumber: parseInt(phoneNo),
       houseAddress,
       estate,
     };
@@ -54,19 +78,7 @@ const TenantManagement = () => {
   }
 
   // useEffect to handle scrolling
-  useEffect(
-    () => {
-      document.body.style.overflow = isSubmitConfirmationVisible
-        ? "hidden"
-        : "auto";
-      if (isSubmitConfirmationVisible) {
-        // Scroll to the top of the page
-        window.scrollTo(0, 0);
-      }
-    },
-    [isSubmitConfirmationVisible],
-    loading
-  );
+  useBodyScroll([isSubmitConfirmationVisible, loading]);
 
   return (
     <div className="pt-[64px] relative">
@@ -137,11 +149,20 @@ const TenantManagement = () => {
                 </label>
                 <input
                   type="text"
+                  value={inputValue}
                   placeholder="Enter the name of property"
-                  value={estate}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setEstate(e.target.value)}
+                  onClick={() => setShowPopup(true)}
+                  readOnly
                 />
+                {showPopup && (
+                  <Popup
+                    onClose={() => setShowPopup(false)}
+                    onSelect={handleSelect}
+                    setEstate={setEstate}
+                    estateData= {estatesData}
+                  />
+                )}
               </div>
 
               <div className="flex flex-col gap-2">

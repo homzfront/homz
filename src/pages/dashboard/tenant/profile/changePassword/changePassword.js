@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import InputVisible from "./components/inputVisible";
 import UpdateButton from "../components/updateButton";
-import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { updatePassword } from "@/api/tenantSevice";
 
 const ChangePassword = () => {
   const [password, setPassword] = useState("");
@@ -12,6 +13,7 @@ const ChangePassword = () => {
   const [passwordError, setPasswordError] = useState("");
   const [doneUpdate, setDoneUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showDialogue, setShowDialogue] = useState(false);
 
   const isValidPassword = (password) => {
     return password.length >= 8;
@@ -26,6 +28,8 @@ const ChangePassword = () => {
 
     if (!isValidPassword(newPassword)) {
       setPasswordError("New password should be at least 8 characters");
+      setLoading(false);
+      setShowDialogue(false);
       return;
     }
 
@@ -33,43 +37,53 @@ const ChangePassword = () => {
       setPasswordError(
         "New password must be different from the current password"
       );
+      setLoading(false);
+      setShowDialogue(false);
       return;
     }
 
     if (newPassword !== reEnterPassword) {
       setPasswordError("Passwords don't match");
+      setLoading(false);
+      setShowDialogue(false);
       return;
     }
 
     try {
-      // Make a PATCH request to change the password
-      const response = await api.patch("/auth/change/password", {
+      const updatedData = {
         currentPassword: password,
         confirmPassword: newPassword,
         newPassword: reEnterPassword,
-      });
+      };
 
-      if (response.data.statuscode === 200 || 201) {
-        console.log(response.data.data);
-        console.log("password successfully updated", response.data);
-        setDoneUpdate(!doneUpdate);
-        setPassword('')
-        setNewPassword('')
-        setReEnterPassword('')
+      const { success, upDateddata, error } = await updatePassword(updatedData);
+
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
+        setPassword("");
+        setNewPassword("");
+        setReEnterPassword("");
         setLoading(false);
+        setDoneUpdate(true);
+        setShowDialogue(false);
+        setPasswordError("");
+        toast.success("Update successful");
       } else {
+        console.error("Update failed", error);
         setPasswordError(response.data.message);
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
+        toast.error(error);
         setLoading(false);
+        setShowDialogue(false);
       }
     } catch (error) {
+      console.error("Update error", error);
       setPasswordError(
         "Error changing password",
         error.response?.data?.message
       );
       setLoading(false);
-      console.error("Error changing password:", error);
+      toast.error("Update failed");
+      setShowDialogue(false);
     }
   };
 
@@ -114,12 +128,17 @@ const ChangePassword = () => {
           label={"Re-enter Password"}
           placeholder={"Re-enter  password"}
         />
+        {passwordError && (
+          <div className="text-error italic text-[11px]">{passwordError}</div>
+        )}
       </div>
       <UpdateButton
         updateDone={updateDone}
         doneUpdate={doneUpdate}
         setDoneUpdate={setDoneUpdate}
         loading={loading}
+        showDialogue={showDialogue}
+        setShowDialogue={setShowDialogue}
       />
     </div>
   );

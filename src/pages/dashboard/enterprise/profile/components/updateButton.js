@@ -1,13 +1,12 @@
 "use client"
-import React, { useEffect, useState } from "react";
 import AcAndRejModel from "../../components/acAndRejModel";
-import ConfirmModal from "../../components/confirmModal";
-import useBodyScroll from "@/components/general/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
+import ConfirmModal from "../../../../../components/general/confirmUpdateModal";
+import useBodyScroll from "@/components/general/useBodyScroll";
 
-const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading}) => {
+const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading, showDialogue, setShowDialogue}) => {
   
-  const [showDialogue, setShowDialogue] = useState(false);
+ 
   const handleUpdate = () => {
     setShowDialogue(!showDialogue)
   }
@@ -22,13 +21,7 @@ const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading}) => {
     setShowDialogue(false)
   }
 
-  useEffect(() => {
-    document.body.style.overflow = showDialogue || doneUpdate ? "hidden" : "auto";
-    if (showDialogue || doneUpdate) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [showDialogue, doneUpdate]);
+  useBodyScroll([showDialogue, doneUpdate]);
 
   return (
     <div className="">

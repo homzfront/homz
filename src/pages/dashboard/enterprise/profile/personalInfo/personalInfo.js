@@ -1,20 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
-import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { updatePersonalInformation } from "@/api/enterpriseManagerService";
 
-const PersonalInfo = () => {
+const PersonalInfo = ({data}) => {
+  console.log(data)
   const [fullName, setFullName] = useState("");
   const [houseAddress, setHouseAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [doneUpdate, setDoneUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showDialogue, setShowDialogue] = useState(false);
 
-  console.log(fullName);
-  console.log(houseAddress);
-  console.log(phoneNo);
+  useEffect(() => {
+    // Check if data and required properties are available
+    if (data) {
+      setFullName(data?.fullName || "");
+      setHouseAddress(data?.houseAddress || "");
+      setPhoneNo(parseInt(data?.phoneNumber) || 0);
+      setLoading(false); // Set loading to false once data is available
+    }
+  }, [data]);
 
   const updateDone = async (e) => {
     e.preventDefault();
@@ -23,32 +32,33 @@ const PersonalInfo = () => {
     setLoading(true); // Set loading to true when submitting the form
 
     try {
-      const response = await api.patch("/enterprisePlan/personalInformation", {
+      const updatedData = {
         fullName,
         houseAddress,
         phoneNumber: parseInt(phoneNo),
-      });
+      };
+      const { success, upDateddata, error } = await updatePersonalInformation(
+        updatedData
+      );
 
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
-        setDoneUpdate(!doneUpdate);
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
         setLoading(false);
-        setPhoneNo('')
-        setHouseAddress('')
-        setFullName('')
+        setDoneUpdate(true);
+        setShowDialogue(false);
+        toast.success("Update successful");
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("update falied");
+        console.error("Update failed", error);
+        toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Update error", error);
       setLoading(false);
-      // setLoginError(error.response?.data?.message);
+      toast.error("Update failed");
     }
   };
+
   return (
     <div className="mt-8">
       <ToastContainer
@@ -79,7 +89,7 @@ const PersonalInfo = () => {
           value={houseAddress}
           onChange={(e) => setHouseAddress(e.target.value)}
         />
-        <Input label={"Email"} placeholder={"Victor@gmail.com"} type={"text"} />
+        <Input label={"Email"} placeholder={"Victor@gmail.com"} value={data?.user?.email} type={"text"} />
         <Input
           label={"Phone Number"}
           placeholder={"0000 - 000 - 0000"}
@@ -93,6 +103,8 @@ const PersonalInfo = () => {
         doneUpdate={doneUpdate}
         setDoneUpdate={setDoneUpdate}
         loading={loading}
+        showDialogue={showDialogue}
+        setShowDialogue={setShowDialogue}
       />
     </div>
   );

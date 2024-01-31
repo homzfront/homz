@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import BusinessInfo from "./businessInfo/businessInfo.js";
 import BusinessLogo from "./businessLogo/businessLogo.js";
@@ -7,17 +7,30 @@ import Payment from "./payment/payment.js";
 import ChangePassword from "./changePassword/changePassword.js";
 
 const pages = [
-  { id: 1, name: "Business Information", component: <BusinessInfo /> },
-  { id: 2, name: "Business Logo", component: <BusinessLogo /> },
-  { id: 3, name: "Personal Information", component: <PersonalInfo /> },
-  { id: 4, name: "Payment", component: <Payment /> },
+  {
+    id: 1,
+    name: "Business Information",
+    component: (data) => <BusinessInfo data={data} />,
+  },
+  {
+    id: 2,
+    name: "Business Logo",
+    component: (data) => <BusinessLogo data={data} />,
+  },
+  {
+    id: 3,
+    name: "Personal Information",
+    component: (data) => <PersonalInfo data={data} />, // Use a function to pass data dynamically
+  },
+  { id: 4, name: "Payment", component: (data) => <Payment data={data} /> },
   { id: 5, name: "Change Password", component: <ChangePassword /> },
 ];
 
-const Widget = () => {
+const Widget = ({ data }) => {
   const [active, setActive] = useState(pages[0].id);
 
-  const handlePageChange = (id) => {
+  const handlePageChange = (e, id) => {
+    e.preventDefault()
     setActive(id);
   };
 
@@ -31,7 +44,7 @@ const Widget = () => {
               className={`flex flex-col items-center py-2 px-3 justify-center rounded-md  ${
                 active === page.id ? "bg-BlueHomz text-white" : "text-BlackHomz"
               }`}
-              onClick={() => handlePageChange(page.id)}
+              onClick={(e) => handlePageChange(e, page.id)}
             >
               <p className="text-[14px] font-500">{page.name}</p>
             </div>
@@ -43,7 +56,9 @@ const Widget = () => {
               key={page.id}
               className={active === page.id ? "inline" : "hidden"}
             >
-              {page.component}
+              {typeof page.component === "function"
+                ? page.component(data)
+                : page.component}
             </div>
           ))}
         </div>
