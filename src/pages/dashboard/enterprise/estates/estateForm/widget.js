@@ -44,6 +44,13 @@ const Widget = ({ returnToStartRegistration }) => {
   const [securityPhoneNumber, setSecurityPhoneNumber] = useState("");
   console.log(uploadedImage);
 
+  const trimSpaces = (input) => {
+    if (typeof input === 'string') {
+      return input.trim();
+    }
+    return input;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
@@ -58,7 +65,7 @@ const Widget = ({ returnToStartRegistration }) => {
     formData.append("state", selectedState?.label);
     formData.append("address", address);
     formData.append("size", parseInt(size));
-    formData.append("name", name);
+    formData.append("name", trimSpaces(name));
     formData.append("numberOfHouses", numberOfHouses);
     formData.append("description", description);
     formData.append("managerPhoneNumber", parseInt(managerPhoneNumber));

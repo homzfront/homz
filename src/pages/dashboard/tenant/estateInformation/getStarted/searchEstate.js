@@ -11,7 +11,7 @@ const SearchEstate = ({ openAvailableEstate }) => {
         </p>
         <button
           onClick={openAvailableEstate}
-          className="bg-BlueHomz w-[178px] h-[48px] text-white flex items-center justify-center gap-2 rounded-[4px]"
+          className="bg-BlueHomz w-[198px] h-[48px] text-white flex items-center justify-center gap-2 rounded-[4px]"
         >
           <Image
             src={"/static/dashboard/tenant/estateInfo/search-normal.png"}

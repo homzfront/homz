@@ -98,7 +98,21 @@ const ProfilePicture = ({ data }) => {
                     style={{ width: "auto", height: "auto" }}
                   />
                 </div>
-              ) : data ? (
+              ) : !data?.coverPhoto?.url ? (
+                <div>
+                  {" "}
+                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
+                    <Image
+                      src="/static/dashboard/enterprisemanager/profile/user.png"
+                      height={52}
+                      width={52}
+                      className="cursor-pointer"
+                      alt="img"
+                      onClick={() => inputRef.current.click()}
+                    />
+                  </div>
+                </div>
+              ) : (
                 <div className=" flex items-start">
                   <Image
                     src={data?.coverPhoto?.url}
@@ -116,20 +130,6 @@ const ProfilePicture = ({ data }) => {
                     alt="img"
                     onClick={() => inputRef.current.click()}
                   />
-                </div>
-              ) : (
-                <div>
-                  {" "}
-                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
-                    <Image
-                      src="/static/dashboard/enterprisemanager/profile/user.png"
-                      height={52}
-                      width={52}
-                      className="cursor-pointer"
-                      alt="img"
-                      onClick={() => inputRef.current.click()}
-                    />
-                  </div>
                 </div>
               )}
             </div>

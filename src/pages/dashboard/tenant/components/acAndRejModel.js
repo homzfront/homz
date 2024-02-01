@@ -20,16 +20,13 @@ const AcAndRejModel = ({
               {body}
             </p>
             <button
-              onClick={
-                returnHome}
+              onClick={(e) => returnHome(e)}
               className="mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500]"
             >
               {button}
             </button>
             <button
-              onClick={
-                returnHomeTwo
-              }
+              onClick={returnHomeTwo}
               className="mt-4 h-[48px] rounded-md w-full border border-BlueHomz text-BlueHomz text-[16px] font-[500]"
             >
               {buttonTwo}

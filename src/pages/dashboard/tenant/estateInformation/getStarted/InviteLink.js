@@ -50,7 +50,7 @@ const InviteLink = ({ openLink, loading, inviteLink, setInviteLink }) => {
         />
         <button
             onClick={(e) => handleOpenLink(e)}
-          className="bg-BlueHomz text-white h-[48px] w-[108px] rounded-[4px]"
+          className="bg-BlueHomz text-white h-[48px] w-[128px] rounded-[4px]"
         >
           Join Property
         </button>

@@ -4,55 +4,75 @@ import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
 
-const pages = [
-  {
-    id: 1,
-    name: "Personal Information",
-    component: (data) => <PersonalInfo data={data} />,
-  },
-  {
-    id: 2,
-    name: "Profile Picture",
-    component: (data) => <ProfilePicture data={data} />,
-  },
-  { id: 3, name: "Change Password", component: <ChangePassword /> },
-];
-
 const Widget = ({ data }) => {
-  const [active, setActive] = useState(pages[0].id);
+  const [active, setActive] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
+  const [activeThree, setActiveThree] = useState(false);
 
-  const handlePageChange = (e, id) => {
-    e.preventDefault();
-    setActive(id);
+  const handlePageChange = () => {
+    setActive(false);
+    setActiveTwo(false);
+    setActiveThree(false);
+  };
+
+  const handlePageChangeTwo = () => {
+    setActiveTwo(true);
+    setActive(true);
+    setActiveThree(false);
+  };
+
+  const handlePageChangeThree = () => {
+    setActiveThree(true);
+    setActiveTwo(false);
+    setActive(true);
   };
 
   return (
     <div>
       <div className="w-full h-auto py-4">
         <div className="flex mt-5 gap-2 justify-between w-[471px] cursor-pointer">
-          {pages.map((page) => (
+          <div
+            className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
+              !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+            }`}
+            onClick={(e) => handlePageChange(e)}
+            justify-center
+          >
+            <p className="text-[14px] font-500">Personal Information</p>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              key={page.id}
-              className={`flex flex-col items-center py-2 px-3 justify-center rounded-md  ${
-                active === page.id ? "bg-BlueHomz text-white" : "text-BlackHomz"
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
+                activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
               }`}
-              onClick={(e) => handlePageChange(e, page.id)}
+              onClick={(e) => handlePageChangeTwo(e)}
             >
-              <p className="text-[14px] font-500">{page.name}</p>
+              <p className="text-[14px] font-500">Profile Picture</p>
             </div>
-          ))}
-        </div>
-        <div className="my-5 rounded-[12px]">
-          {pages.map((page) => (
+          </div>
+          <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              key={page.id}
-              className={active === page.id ? "inline" : "hidden"}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
+                activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
+              }`}
+              onClick={(e) => handlePageChangeThree(e)}
             >
-              {typeof page.component === "function"
-                ? page.component(data)
-                : page.component}
+              <p className="text-[14px] font-500">Change Password</p>
             </div>
-          ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="my-5 rounded-[12px]">
+        <div className={`${!active ? "inline" : "hidden"}`}>
+          <PersonalInfo data={data} />
+        </div>
+        <div className={`${activeTwo ? "inline" : "hidden"}`}>
+          <ProfilePicture data={data} />
+        </div>
+        <div className={`${activeThree ? "inline" : "hidden"}`}>
+          <ChangePassword />
         </div>
       </div>
     </div>

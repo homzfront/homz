@@ -8,6 +8,7 @@ import { useDropzone } from "react-dropzone";
 import { updateProfilePicture } from "@/api/tenantSevice";
 
 const ProfilePicture = ({ data }) => {
+  console.log(data);
   const [uploadedImage, setUploadedImage] = useState(null);
   const inputRef = useRef(null);
   const [doneUpdate, setDoneUpdate] = useState(false);
@@ -24,7 +25,8 @@ const ProfilePicture = ({ data }) => {
 
   console.log(uploadedImage);
 
-  const updateDone = async () => {
+  const updateDone = async (e) => {
+    e.preventDefault()
     if (loading) return; // Do nothing if already loading
 
     setLoading(true); // Set loading to true when submitting the form
@@ -98,7 +100,21 @@ const ProfilePicture = ({ data }) => {
                     style={{ width: "auto", height: "auto" }}
                   />
                 </div>
-              ) : data ? (
+              ) : !data?.coverPhoto?.url ? (
+                <div>
+                  {" "}
+                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
+                    <Image
+                      src="/static/dashboard/enterprisemanager/profile/user.png"
+                      height={52}
+                      width={52}
+                      className="cursor-pointer"
+                      alt="img"
+                      onClick={() => inputRef.current.click()}
+                    />
+                  </div>
+                </div>
+              ) : (
                 <div className=" flex items-start">
                   <Image
                     src={data?.coverPhoto?.url}
@@ -116,20 +132,6 @@ const ProfilePicture = ({ data }) => {
                     alt="img"
                     onClick={() => inputRef.current.click()}
                   />
-                </div>
-              ) : (
-                <div>
-                  {" "}
-                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
-                    <Image
-                      src="/static/dashboard/enterprisemanager/profile/user.png"
-                      height={52}
-                      width={52}
-                      className="cursor-pointer"
-                      alt="img"
-                      onClick={() => inputRef.current.click()}
-                    />
-                  </div>
                 </div>
               )}
             </div>

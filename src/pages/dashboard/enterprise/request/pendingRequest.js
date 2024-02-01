@@ -99,7 +99,7 @@ const PendingRequest = ({
       </div>
       <div>
         {friendRequests.map((request) => (
-          <div key={request._id} className={`${request.status === "accepted" ? "hidden" : ""}`}>
+          <div key={request._id} className={`${request?.status === "accepted" || request?.status === "declined" ? "hidden" : ""}`}>
             {tenantData?.map((data) => (
               <div key={data?.data._id}>
                 {request.tenant === data?.data._id && (
@@ -140,7 +140,7 @@ const PendingRequest = ({
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 w-full justify-end">
                       <button
                         onClick={() => handleToggleMenu(request._id)}
                         className="text-[14px] font-[700] text-white bg-BlueHomz px-3 py-1 rounded-md"

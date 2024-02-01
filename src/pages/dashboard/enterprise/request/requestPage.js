@@ -8,6 +8,7 @@ import useTenantRequestStore from "@/store/tenantRequest";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { fetchSpecificTenant } from "@/api/tenantSevice";
 import { ConfirmTenantRequest } from "@/api/requestService";
+import useBodyScroll from "@/components/general/useBodyScroll";
 
 const RequestPage = () => {
   const { request, setRequest } = useTenantRequestStore();
@@ -22,38 +23,31 @@ const RequestPage = () => {
   const [doneTwo, setDoneTwo] = useState(false);
 
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow =
-      inviteTenant || popUpMenu || popUpMenuTwo ? "hidden" : "auto";
-    if (inviteTenant || popUpMenu || popUpMenuTwo) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [inviteTenant, popUpMenu, popUpMenuTwo]);
+  useBodyScroll([inviteTenant, popUpMenu, popUpMenuTwo]);
 
   console.log(data);
   console.log(request);
 
+  const fetchData = async () => {
+    try {
+      const data = await fetchTenantRequest();
+      console.log(data);
+      const request = data.data?.tenantRequest;
+      console.log(request);
+      const tenantPromises = await request?.map((tenant) =>
+        fetchSpecificTenant(tenant.tenant)
+      );
+      const tenantData = await Promise.all(tenantPromises);
+      console.log(tenantData);
+      setRequest(request);
+      setTenantData(tenantData);
+      setData(request);
+      setLoading(false);
+    } catch (error) {
+      // Handle error if needed
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchTenantRequest();
-        console.log(data);
-        const request = data.data?.tenantRequest;
-        console.log(request);
-        const tenantPromises = await request?.map((tenant) =>
-          fetchSpecificTenant(tenant.tenant)
-        );
-        const tenantData = await Promise.all(tenantPromises);
-        console.log(tenantData);
-        setRequest(request);
-        setTenantData(tenantData);
-        setData(request);
-        setLoading(false);
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
 
     fetchData();
   }, []);
@@ -62,11 +56,19 @@ const RequestPage = () => {
     setInviteTenant(true);
   };
 
-  const returnToPage = () => {
+  const returnToPage = async() => {
     setDone(false);
     setDoneTwo(false);
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
+    setLoading(true)
+    try {
+   
+      fetchData();
+     
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   const handleAccept = async (id) => {
@@ -80,9 +82,11 @@ const RequestPage = () => {
   };
 
   const handleReject = async (id) => {
+  
     try {
       // Call ConfirmTenantRequest with "declined" status
       await ConfirmTenantRequest(id, "declined");
+
       setDoneTwo(!doneTwo);
     } catch (error) {
       console.error("Error declining tenant request:", error);
@@ -137,7 +141,7 @@ const RequestPage = () => {
               </span>
             </div>
             <p className="text-[18px] font-[400] text-GrayHomz">
-            All requests from new tenants are displayed here
+              All requests from new tenants are displayed here
             </p>
           </div>
           <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">

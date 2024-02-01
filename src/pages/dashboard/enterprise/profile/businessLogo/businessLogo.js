@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updateBusinessLogo } from "@/api/enterpriseManagerService";
 
-
 const BusinessLogo = ({ data }) => {
   console.log(data);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -15,7 +14,6 @@ const BusinessLogo = ({ data }) => {
   const [doneUpdate, setDoneUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showDialogue, setShowDialogue] = useState(false);
-
 
   const onDrop = useCallback(async (acceptedFiles) => {
     console.log(acceptedFiles[0]); // Log the acceptedFiles array to see its structure
@@ -27,9 +25,7 @@ const BusinessLogo = ({ data }) => {
 
   console.log(uploadedImage);
 
-
   const updateDone = async () => {
-
     if (loading) return; // Do nothing if already loading
 
     setLoading(true); // Set loading to true when submitting the form
@@ -103,7 +99,21 @@ const BusinessLogo = ({ data }) => {
                     style={{ width: "auto", height: "auto" }}
                   />
                 </div>
-              ) : data ? (
+              ) : !data?.businessLogo?.url ? (
+                <div>
+                  {" "}
+                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
+                    <Image
+                      src="/static/dashboard/enterprisemanager/profile/user.png"
+                      height={52}
+                      width={52}
+                      className="cursor-pointer"
+                      alt="img"
+                      onClick={() => inputRef.current.click()}
+                    />
+                  </div>
+                </div>
+              ) : (
                 <div className=" flex items-start">
                   <Image
                     src={data?.businessLogo?.url}
@@ -121,20 +131,6 @@ const BusinessLogo = ({ data }) => {
                     alt="img"
                     onClick={() => inputRef.current.click()}
                   />
-                </div>
-              ) : (
-                <div>
-                  {" "}
-                  <div className="w-[237px] h-[237px] bg-GrayHomz5 rounded-full flex items-center justify-center">
-                    <Image
-                      src="/static/dashboard/enterprisemanager/profile/user.png"
-                      height={52}
-                      width={52}
-                      className="cursor-pointer"
-                      alt="img"
-                      onClick={() => inputRef.current.click()}
-                    />
-                  </div>
                 </div>
               )}
             </div>

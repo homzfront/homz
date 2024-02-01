@@ -28,162 +28,180 @@ const EstateInfoP = ({ data }) => {
     }
   };
 
-  const Data = data || null;
-  console.log(Data);
+
+  function formatStringWithHyphens(value) {
+    if (value === null || value === undefined || value === 'NaN') {
+      return "_______";
+    }
+    // Convert the value to a string
+    const stringValue = value.toString();
+    // Insert hyphens after the first 4 digits
+    const formattedValue = stringValue.replace(/(\d{4})/g, '$1-');
+    // Remove the last hyphen
+    return formattedValue.slice(0, -1);
+  }
+  
+
+  console.log(data);
   return (
     <div>
       <div className="">
-        {Data &&
-          Data.map((data) => (
-            <div key={data.id}>
-              <div className="w-full h-[172px] bg-inputBg rounded-[12px] px-6 py-8 flex flex-col justify-between">
-                <div className="flex justify-between w-[540px]">
-                  <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
-                    Property Name
-                  </p>
-                  <p className="text-[16px] font-[500] text-BlackHomz w-[360px]">
-                    {data.EstateName}
-                  </p>
-                </div>
-                <div className="flex justify-between w-[540px]">
-                  <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
-                    Property Location
-                  </p>
-                  <p className="text-[16px] font-[500] text-BlackHomz w-[360px]">
-                    {data.EstateLocation}
-                  </p>
-                </div>
-                <div className="flex justify-between w-[540px]">
-                  <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
-                    Property Address
-                  </p>
-                  <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
-                    {data.EstateAddress}
-                    <Image
-                      src={"/static/dashboard/tenant/estateInfo/copy.png"}
-                      alt=""
-                      height={16}
-                      width={16}
-                      className="cursor-pointer"
-                      onClick={() =>
-                        handleCopyClick(`${data.EstateAddress}`, "copied")
-                      }
-                    />
-                    {copiedState.copied && (
-                      <span className=" text-[10px] font-[400] italic text-Success">
-                        copied
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-6 w-full h-[284px] bg-inputBg rounded-[12px] px-6 py-8 flex flex-col justify-between">
-                <p className="text-[16px] font-[500] text-BlueHomz">
-                  Contact Information
-                </p>
-                <div className="h-[174px] flex flex-col justify-between">
-                  <div className="flex justify-between w-[580px]">
-                    <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
-                      Manager
-                    </p>
-                    <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
-                      {data.Manager}
-                      <Image
-                        src={"/static/dashboard/tenant/estateInfo/copy.png"}
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="cursor-pointer"
-                        onClick={() =>
-                          handleCopyClick(`${data.Manager}`, "copiedV")
-                        }
-                      />
-                      {copiedState.copiedV && (
-                        <span className=" text-[10px] font-[400] italic text-Success">
-                          copied
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="flex justify-between w-[580px]">
-                    <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
-                      Emergency
-                    </p>
-                    <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
-                      {data.Emergency}
-                      <Image
-                        src={"/static/dashboard/tenant/estateInfo/copy.png"}
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="cursor-pointer"
-                        onClick={() =>
-                          handleCopyClick(`${data.Emergency}`, "copiedII")
-                        }
-                      />
-                      {copiedState.copiedII && (
-                        <span className=" text-[10px] font-[400] italic text-Success">
-                          copied
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="flex justify-between w-[580px]">
-                    <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
-                      Utility Service <br />
-                      <span className="text-[11px] font-[400] text-GrayHomz w-[180px]">
-                        (Dry cleaning, waste disposal, etc)
-                      </span>
-                    </p>
-                    <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
-                      {data.UtilityService}
-                      <Image
-                        src={"/static/dashboard/tenant/estateInfo/copy.png"}
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="cursor-pointer"
-                        onClick={() =>
-                          handleCopyClick(`${data.UtilityService}`, "copiedIII")
-                        }
-                      />
-                      {copiedState.copiedIII && (
-                        <span className=" text-[10px] font-[400] italic text-Success">
-                          copied
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <div className="flex justify-between w-[580px]">
-                    <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
-                      Property Address
-                    </p>
-                    <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-2 items-center">
-                      {data.EmergencyII}
-                      <Image
-                        src={"/static/dashboard/tenant/estateInfo/copy.png"}
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="cursor-pointer"
-                        onClick={() =>
-                          handleCopyClick(`${data.EmergencyII}`, "copiedIV")
-                        }
-                      />
-                      {copiedState.copiedIV && (
-                        <span className=" text-[10px] font-[400] italic text-Success">
-                          copied
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <div className="w-full h-[172px] bg-inputBg rounded-[12px] px-6 py-8 flex flex-col justify-between">
+          <div className="flex justify-between w-[540px]">
+            <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
+              Property Name
+            </p>
+            <p className="text-[16px] font-[500] text-BlackHomz w-[360px]">
+              {data?.estateId?.name}
+            </p>
+          </div>
+          <div className="flex justify-between w-[540px]">
+            <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
+              Property Location
+            </p>
+            <p className="text-[16px] font-[500] text-BlackHomz w-[360px]">
+              {data?.estateId?.area}, {data?.estateId?.state}
+            </p>
+          </div>
+          <div className="flex justify-between w-[540px]">
+            <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
+              Property Address
+            </p>
+            <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-3 items-center">
+              {data?.estateId?.address}
+              <Image
+                src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                alt=""
+                height={16}
+                width={16}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleCopyClick(`${data?.estateId?.address}`, "copied")
+                }
+              />
+              {copiedState.copied && (
+                <span className=" text-[10px] font-[400] italic text-Success">
+                  copied
+                </span>
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="mt-6 w-full h-[284px] bg-inputBg rounded-[12px] px-6 py-8 flex flex-col justify-between">
+          <p className="text-[16px] font-[500] text-BlueHomz">
+            Contact Information
+          </p>
+          <div className="h-[174px] flex flex-col justify-between">
+            <div className="flex justify-between w-[580px]">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
+                Manager
+              </p>
+              <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-3 items-center">
+                {formatStringWithHyphens(data?.estateId?.managerPhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.managerPhoneNumber}`,
+                      "copiedV"
+                    )
+                  }
+                />
+                {copiedState.copiedV && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
             </div>
-          ))}
+            <div className="flex justify-between w-[580px]">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
+                Emergency
+              </p>
+              <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-3 items-center">
+                {formatStringWithHyphens(data?.estateId?.emergencyPhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.emergencyPhoneNumber}`,
+                      "copiedII"
+                    )
+                  }
+                />
+                {copiedState.copiedII && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+            <div className="flex justify-between w-[580px]">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
+                Utility Service <br />
+                <span className="text-[11px] font-[400] text-GrayHomz w-[180px]">
+                  (Dry cleaning, waste disposal, etc)
+                </span>
+              </p>
+              <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-3 items-center">
+                {formatStringWithHyphens(data?.estateId?.utilityServicePhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.utilityServicePhoneNumber}`,
+                      "copiedIII"
+                    )
+                  }
+                />
+                {copiedState.copiedIII && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+            <div className="flex justify-between w-[580px]">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
+              Security
+              </p>
+              <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-3 items-center">
+                {formatStringWithHyphens(data?.estateId?.securityPhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.securityPhoneNumber}`,
+                      "copiedIV"
+                    )
+                  }
+                />
+                {copiedState.copiedIV && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div></div>
     </div>
   );
 };

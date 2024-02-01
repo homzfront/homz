@@ -48,6 +48,14 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
     setSelectedState(option);
   };
 
+  const trimSpaces = (input) => {
+    if (typeof input === 'string') {
+      return input.trim();
+    }
+    return input;
+  };
+
+
   const options = [
     { id: 1, label: "Ajah" },
     { id: 2, label: "Lekki" },
@@ -68,7 +76,7 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
 
     try {
       const updatedData = {
-        name,
+        name: trimSpaces(name),
         address,
         size: parseInt(size),
         numberOfHouses: parseInt(numberOfHouses),

@@ -7,39 +7,31 @@ import ConfirmModal from "../components/confirmModal";
 import SentInvite from "./components/sentInvite";
 import EstateInfo from "./estateInfo/estateInfo";
 import { toast } from "react-toastify";
-import api from "@/utils/api";
 import AcAndRejModelEs from "./components/acAndRejModalEs";
+import tenantProfile from "@/store/tenantProfile";
+import LoadingII from "@/components/mainmenu/loadingII";
+import useBodyScroll from "@/components/general/useBodyScroll";
+import { sendInviteProperty } from "@/api/tenantSevice";
 
-const Data = [
-  {
-    id: 1,
-    EstateName: "New Suncity Property",
-    EstateLocation: "Yaba, Lagos",
-    EstateAddress: "Property's full address",
-    Manager: "0000 - 000 - 0000",
-    Emergency: "0000 - 000 - 0000",
-    UtilityService: "0000 - 000 - 0000",
-    EmergencyII: "0000 - 000 - 0000",
-  },
-];
 const EstateInformation = () => {
   const [openEstate, setOpenEstate] = useState(false);
   const [openLinkModal, setOpenLinkModal] = useState(false);
   const [linkConfirmationModal, setLinkConfirmationModal] = useState(false);
   const [invitLinkSent, setInviteLinkSent] = useState(false);
-  const [data, setData] = useState(Data || []);
-  const [loading, setLoading] = useState(false)
+
+  const [loadingii, setLoadingII] = useState(false);
   const [inviteLink, setInviteLink] = useState("");
 
-  // useEffect to handle scrolling
+  const { data, loading, fetchData } = tenantProfile();
+
   useEffect(() => {
-    document.body.style.overflow =
-      openLinkModal || linkConfirmationModal ? "hidden" : "auto";
-    if (openLinkModal || linkConfirmationModal) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [openLinkModal, linkConfirmationModal]);
+    fetchData(); // Fetch data on component mount
+  }, []);
+
+  console.log(data);
+
+  // useEffect to handle scrolling
+  useBodyScroll([openLinkModal, linkConfirmationModal]);
 
   const openAvailableEstate = () => {
     setOpenEstate(!openEstate);
@@ -51,15 +43,14 @@ const EstateInformation = () => {
 
   function extractQueryParams(url) {
     const searchParams = new URL(url).searchParams;
-    const estate = searchParams.get('estate');
-    const invitation = searchParams.get('invitation');
-  
+    const estate = searchParams.get("estate");
+    const invitation = searchParams.get("invitation");
+
     return { estate, invitation };
   }
 
-  const openLink =  () => {
+  const openLink = () => {
     setOpenLinkModal(!openLinkModal);
-
   };
 
   const closeLink = () => {
@@ -67,40 +58,33 @@ const EstateInformation = () => {
   };
 
   const openLinkConfirmationModal = async () => {
-    if (loading) return; // Do nothing if already loading
-    setLoading(true); // Set loading to true when submitting the form
+    if (loadingii) return; // Do nothing if already loadingii
+    setLoadingII(true); // Set loadingii to true when submitting the form
 
     const url = inviteLink;
     const { estate, invitation } = extractQueryParams(url);
-    console.log(inviteLink);
-    console.log(estate)
+    console.log(estate);
     console.log(invitation)
-    
     try {
-      const response = await api.patch(`/tenantLink/add-tenant-estate-link?estate=${estate}&invitation=${invitation}`, {
-        estate: estate,
-        invitation: invitation
-      });
+      const { success, upDateddata, error } = await sendInviteProperty(
+        estate,
+        invitation
+      );
 
-      if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("request sent", response.data);
-        setLoading(false);
-        toast.success("update successful");
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
+        setLoadingII(false);
         setLinkConfirmationModal(!linkConfirmationModal);
-
+        toast.success("Update successful");
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        toast.error("request failed");
-        setLoading(false);
+        console.error("Update failed", error);
+        toast.error(error);
+        setLoadingII(false);
       }
     } catch (error) {
-      console.error("Login error", error);
-      setLoading(false);
-      toast.error("update falied");
-      // setLoginError(error.response?.data?.message);
-      console.log(error.response?.data?.message)
+      console.error("Update error", error);
+      setLoadingII(false);
+      toast.error("Update failed");
     }
   };
 
@@ -113,7 +97,9 @@ const EstateInformation = () => {
 
   return (
     <div className="w-[1147px]">
-      {data.length >= 2 ? (
+      {loading ? (
+        <LoadingII />
+      ) : data?.status === "accepted" ? (
         <EstateInfo data={data} />
       ) : openEstate ? (
         <div className=" relative">
@@ -130,7 +116,12 @@ const EstateInformation = () => {
         <div>
           <SearchEstate openAvailableEstate={openAvailableEstate} />
           <div className="border-t mt-6 w-full">
-            <InviteLink openLink={openLink}  inviteLink={inviteLink} setInviteLink={setInviteLink} loading={loading}/>
+            <InviteLink
+              openLink={openLink}
+              inviteLink={inviteLink}
+              setInviteLink={setInviteLink}
+              loading={loadingii}
+            />
           </div>
         </div>
       )}
@@ -151,7 +142,7 @@ const EstateInformation = () => {
           <ConfirmModal
             header={"Request sent"}
             body={
-              "Your request to join Suncity New Property has been sent to the property manager."
+              "Your request to join Property has been sent to the property manager."
             }
             button={"Close"}
             returnHome={closeLinkConfirmationModal}
