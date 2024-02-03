@@ -217,7 +217,6 @@ const Table = () => {
                 <th className="text-left ">Rent Paid</th>
                 <th className="text-left ">Apartment Type</th>
                 <th className="text-left ">Status</th>
-                <th className="text-left ">Action</th>
               </tr>
             </thead>
             <tbody className="">
@@ -261,24 +260,7 @@ const Table = () => {
                       {data.Status}
                     </span>
                   </td>
-                  <td className="py-[15px] pr-4">
-                    <button
-                      onClick={() => handleToggleMenu(data.id)}
-                      className={`flex items-center px-2 py-1 rounded-md gap-1 ${
-                        data.Action
-                          ? "text-white bg-BlueHomz"
-                          : "text-GrayHomz5 bg-GrayHomz6"
-                      }`}
-                    >
-                      Confirm
-                      <Image
-                        src="/static/dashboard/enterprisemanager/tenants/tick-circle.png"
-                        alt=""
-                        height={16}
-                        width={16}
-                      />
-                    </button>
-                  </td>
+             
                 </tr>
               ))}
             </tbody>

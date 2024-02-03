@@ -4,23 +4,32 @@ import React, { useState } from "react";
 import PopUpMenuTwo from "../components/popUpMenuTwo";
 import Button from "../../components/button";
 import StatusDropdown from "../../components/statusDropDown";
+import { updatePaymentStatusTenant } from "@/api/tenantSevice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 
 const TenantsTwo = ({ Data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [data, setData] = useState(Data || []);
   const [openDropdowns, setOpenDropdowns] = useState({});
+  const [loadingRows, setLoadingRows] = useState({});
+
+  console.log(openDropdowns);
+
+  console.log(Data);
 
   const ITEMS_PER_PAGE = 10;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = Data.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -44,33 +53,116 @@ const TenantsTwo = ({ Data }) => {
     (_, index) => index + 1
   );
 
-  const handleStatusChange = (status, dataId) => {
-    // Handle status change logic here
-    console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
-    // Close the corresponding dropdown
-    setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
-    // Correctly update DueDate for the corresponding tenant:
-    // const data = Data.find((tenant) => tenant.id === dataId).Status = status;
-    // console.log(data)
-    // Find the index of the data item with the given dataId
-    const dataIndex = data.findIndex((item) => item.id === dataId);
+  const handleStatusChange = async (status, dataId, id) => {
+    setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
 
-    if (dataIndex !== -1) {
-      // Update the DueDate property of the found item
-      const updatedData = [...data];
-      updatedData[dataIndex].Status = status;
+    function lowerCase(str) {
+      if (typeof str === "string" && str.trim() !== "") {
+        return str.toLowerCase();
+      } else {
+        return "";
+      }
+    }
 
-      // Update the state with the new data
-      setData(updatedData);
-      console.log;
+    const name = "AKin Idan";
+    console.log(lowerCase(name));
+
+    try {
+      // Handle status change logic here
+      console.log(`Changing status to: ${status} for data with ID: ${id}`);
+      const data = await updatePaymentStatusTenant({
+        id,
+        status: lowerCase(status),
+      });
+      console.log(data);
+      toast.success("status updated successfully");
+      // Close the corresponding dropdown
+      setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
+    } catch (error) {
+      console.log(error);
+      toast.error(error);
+    }
+    finally {
+      setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
     }
   };
 
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
+
+  function addCommasToNumber(number) {
+    // Convert the number to a string
+    const numberString = number?.toString();
+    // Use regular expression to add commas
+    const formattedNumber = numberString?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return `N ${formattedNumber}`;
+  }
+
+  function formatDate(inputDate) {
+    if (inputDate === "" || inputDate === null || inputDate === undefined) {
+      return "_______"; // Render the actual name if it exists
+    } else {
+      const date = new Date(inputDate);
+      const day = date.getDate();
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const monthIndex = date.getMonth();
+      const year = date.getFullYear();
+
+      // Function to add ordinal suffix to day
+      function getOrdinalSuffix(day) {
+        if (day > 10 && day < 20) {
+          return "th";
+        } else {
+          const lastDigit = day % 10;
+          switch (lastDigit) {
+            case 1:
+              return "st";
+            case 2:
+              return "nd";
+            case 3:
+              return "rd";
+            default:
+              return "th";
+          }
+        }
+      }
+      const ordinalSuffix = getOrdinalSuffix(day);
+      const formattedDate = `${day}${ordinalSuffix} ${monthNames[monthIndex]}, ${year}`;
+
+      return formattedDate;
+    }
+  }
+
   return (
     <div className="mt-6">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <div className=" border w-full rounded-t-[12px]">
         <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
           <div className="w-[15%] ">Tenant</div>
@@ -94,52 +186,83 @@ const TenantsTwo = ({ Data }) => {
               >
                 {/* Apply the same styles as the header to each column in the body */}
                 <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
-                    }
-                    alt=""
-                    width={30}
-                    height={30}
-                    className=""
-                  />
-                  <span className="">{data.Tenant}</span>
+                  {!data?.coverPhoto?.url ? (
+                    <Image
+                      src={
+                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                      }
+                      alt=""
+                      width={30}
+                      height={30}
+                      className=""
+                    />
+                  ) : (
+                    <Image
+                      src={data?.coverPhoto?.url}
+                      alt=""
+                      width={30}
+                      height={30}
+                      className="rounded-[100%]"
+                    />
+                  )}
+                  <span className="">{data?.fullName}</span>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                  {data.Estate}
+                  {data?.estateId.name}
                 </div>
                 <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                  {data.ApartmentNo}
+                  {`${
+                    data?.rentInfo?.apartmentNumber
+                      ? data?.rentInfo?.apartmentNumber
+                      : "______"
+                  }`}
                 </div>
                 <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                  {data.Address}
+                  {data?.houseAddress}
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
-                  <span className="break-words">{data.Email}</span>
+                  <span className="break-words">{data?.user?.email}</span>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
-                  {data.PhoneNo}
+                  {data?.phoneNumber}
                 </div>
                 <div className="text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
-                  {data.Rent}
+                  {`${
+                    data?.rentInfo?.totalRent
+                      ? addCommasToNumber(data?.rentInfo?.totalRent)
+                      : "______"
+                  }`}
                 </div>
                 <div
                   className={`text-GrayHomz w-[13%] font-[500] text-[11px] text-start`}
                 >
-                  <StatusDropdown
-                    data={data}
-                    handleStatusChange={(status) =>
-                      handleStatusChange(status, data.id)
-                    }
-                    isOpen={openDropdowns[data.id] || false}
-                    toggleDropdown={() => toggleDropdown(data.id)}
-                  />
+                  {data?.rentInfo?.paymentStatus ? (
+                    <StatusDropdown
+                      data={data}
+                      handleStatusChange={(status) =>
+                        handleStatusChange(
+                          status,
+                          data._id,
+                          data?.rentInfo?._id
+                        )
+                      }
+                      isOpen={openDropdowns[data._id] || false}
+                      toggleDropdown={() => toggleDropdown(data._id)}
+                      loading={loadingRows[data._id] || false}
+                    />
+                  ) : (
+                    "______"
+                  )}
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                  {data.DueDate}
+                  {`${
+                    data?.rentInfo?.dueDate
+                      ? formatDate(data?.rentInfo?.dueDate)
+                      : "______"
+                  }`}
                 </div>
                 <div className="relative w-[3%]">
-                  <button onClick={() => handleToggleMenu(data.id)}>
+                  <button onClick={() => handleToggleMenu(data._id)}>
                     <Image
                       src={
                         "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -150,8 +273,8 @@ const TenantsTwo = ({ Data }) => {
                       style={{ height: "auto", width: "auto" }}
                     />
                   </button>
-                  {popUpMenuTwo && selectedDataId === data.id && (
-                    <PopUpMenuTwo data={data} />
+                  {popUpMenuTwo && selectedDataId === data._id && (
+                    <PopUpMenuTwo data={data._id} />
                   )}
                 </div>
               </div>

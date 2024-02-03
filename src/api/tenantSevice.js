@@ -1,6 +1,7 @@
 import api from "@/utils/api";
 
 export const fetchSpecificTenant = async (id) => {
+  console.log(id)
   try {
     const response = await api.get(`/tenants/${id}`);
     return response.data;
@@ -13,6 +14,17 @@ export const fetchSpecificTenant = async (id) => {
 export const tenantMe = async () => {
   try {
     const response = await api.get("/tenants/me");
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching estates:", error);
+    throw error;
+  }
+};
+
+export const tenantEnterprise = async () => {
+  try {
+    const response = await api.get("/tenants/enterprise");
     console.log(response);
     return response.data;
   } catch (error) {
@@ -111,5 +123,62 @@ export const sendInviteProperty = async (estate, invitation) => {
   } catch (error) {
     console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const getSpecificTenantRentInfo = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/rentInformation/${id}`);
+    console.log(response);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const updateSpecificTenantRentInfo = async (id, updatedData) => {
+  const {
+    propertyType,
+    apartmentNumber,
+    rent,
+    duration,
+    startDate,
+    dueDate,
+    paymentStatus,
+    property,
+  } = updatedData;
+  try {
+    const response = await api.patch(`/rentInformation/${id}`, { 
+      propertyType,
+      apartmentNumber,
+      rent,
+      duration,
+      startDate,
+      dueDate,
+      paymentStatus,
+      property,
+     });
+    console.log(response);
+    return { success: true, upDateddata: response?.data.data };
+  }  catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response?.data }; // Adjusted this line
+  }
+}
+
+export const updatePaymentStatusTenant = async ({ id, status }) => {
+  console.log(id);
+  console.log(status);
+  try {
+    const response = await api.patch(`/rentInformation/${id}/status`, {
+      paymentStatus: status,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching estates:", error);
+    throw error;
   }
 };

@@ -5,7 +5,7 @@ import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
 
-const Widget = () => {
+const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -60,19 +60,19 @@ const Widget = () => {
                   : "bg-whiteblue text-BlueHomz "
               }`}
             >
-              2
+              {data?.data?.maintenanceRequests?.length}
             </span>
           </div>
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <RentInfo active={active} />
+            <RentInfo profile={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <PaymentHis />
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <Maintenance />
+            <Maintenance  data={data}/>
           </div>
         </div>
       </div>

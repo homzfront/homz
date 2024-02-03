@@ -6,11 +6,11 @@ import Button from "../../components/button";
 import StatusDropDownMain from "./statusDropDownMain";
 import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; 
+import "react-toastify/dist/ReactToastify.css";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
-import LoadingTable from "./loadingTable";
+import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 
 const MaintenanceTable = ({ request, tenantData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -141,10 +141,9 @@ const MaintenanceTable = ({ request, tenantData }) => {
     return formattedDate;
   }
 
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
+  // const capitalizeFirstLetter = (str) => {
+  //   return str.charAt(0).toUpperCase() + str.slice(1);
+  // };
 
   useBodyScroll([loading]);
 
@@ -178,98 +177,89 @@ const MaintenanceTable = ({ request, tenantData }) => {
             <div className=" flex-[0.2]"></div>
           </div>
           <div className="flex flex-col">
-            {currentData && currentData?.map((request) => (
-              <div
-                key={request?._id}
-                className="flex bg-white border-t-[1px] items-center px-8 h-[64px]"
-              >
-                <div className="flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
-                  {request.tenantData?.coverPhoto?.url === null ||
-                  request.tenantData?.coverPhoto?.url === undefined ? (
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                      }
-                      alt=""
-                      width={40}
-                      height={40}
-                      className=" rounded-full"
-                    />
-                  ) : (
-                    <Image
-                      src={request.tenantData?.coverPhoto?.url}
-                      alt=""
-                      width={40}
-                      height={40}
-                      className=" rounded-[100%]"
-                    />
-                  )}
-                  <span className="py-[15px] ">
-                    {request?.tenantData?.fullName}
-                  </span>
-                </div>
-                <div className="flex-1 text-GrayHomz  font-[500] text-[11px]">
-                  {request?.subject}
-                </div>
-                <div className="flex-1 flex items-center ">
-                  <div
-                    className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] ${
-                      request?.status === "pending"
-                        ? "bg-warningBg text-warning2 "
-                        : ""
-                    } ${
-                      request?.status === "resolved"
-                        ? "bg-successBg text-Success "
-                        : ""
-                    } ${
-                      request?.status === "in-progress"
-                        ? "bg-warning2  text-warningBg "
-                        : ""
-                    }`}
-                  >
-                    <StatusDropDownMain
-                      data={request}
-                      handleStatusChange={(status) =>
-                        handleStatusChange(status, request._id)
-                      }
-                      isOpen={openDropdowns[request._id] || false}
-                      toggleDropdown={() => toggleDropdown(request._id)}
-                    />
+            {currentData &&
+              currentData?.map((request) => (
+                <div
+                  key={request?._id}
+                  className="flex bg-white border-t-[1px] items-center px-8 h-[64px]"
+                >
+                  <div className="flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
+                    {request.tenantData?.coverPhoto?.url === null ||
+                    request.tenantData?.coverPhoto?.url === undefined ? (
+                      <Image
+                        src={
+                          "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                        }
+                        alt=""
+                        width={40}
+                        height={40}
+                        className=" rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        src={request.tenantData?.coverPhoto?.url}
+                        alt=""
+                        width={40}
+                        height={40}
+                        className=" rounded-[100%]"
+                      />
+                    )}
+                    <span className="py-[15px] ">
+                      {request?.tenantData?.fullName}
+                    </span>
+                  </div>
+                  <div className="flex-1 text-GrayHomz  font-[500] text-[11px]">
+                    {request?.subject}
+                  </div>
+                  <div className="flex-1 flex items-center ">
+                    <div
+                      className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] `}
+                    >
+                      <StatusDropDownMain
+                        data={request}
+                        handleStatusChange={(status) =>
+                          handleStatusChange(status, request._id)
+                        }
+                        isOpen={openDropdowns[request._id] || false}
+                        toggleDropdown={() => toggleDropdown(request._id)}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                    {formatDate(request?.requestDate)}
+                  </div>
+                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                    {request?.tenantData?.estateId?.name}
+                  </div>
+                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                    {request.tenantData?.rentInfo?.apartmentNumber
+                      ? request.tenantData?.rentInfo?.apartmentNumber
+                      : "-----"}
+                  </div>
+                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                    {request?.tenantData?.houseAddress}
+                  </div>
+                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                    {request?.tenantData?.phoneNumber}
+                  </div>
+                  <div className="flex-[0.2] relative ">
+                    <button onClick={() => handleToggleMenu(request._id)}>
+                      <Image
+                        src={
+                          "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                        }
+                        alt=""
+                        height={21}
+                        width={20}
+                        style={{ height: "auto", width: "auto" }}
+                      />
+                    </button>
+                    {popUpMenuTwo && selectedDataId === request._id && (
+                      <PopUpMenu data={request} />
+                    )}
                   </div>
                 </div>
-                <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                  {formatDate(request?.requestDate)}
-                </div>
-                <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                  {request?.tenantData?.estateId?.name}
-                </div>
-                <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                  {/* {data?.tenants?.ApartmentNo} */} -----
-                </div>
-                <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                  {request?.tenantData?.houseAddress}
-                </div>
-                <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                  {request?.tenantData?.phoneNumber}
-                </div>
-                <div className="flex-[0.2] relative ">
-                  <button onClick={() => handleToggleMenu(request._id)}>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                      }
-                      alt=""
-                      height={21}
-                      width={20}
-                      style={{ height: "auto", width: "auto" }}
-                    />
-                  </button>
-                  {popUpMenuTwo && selectedDataId === request._id && (
-                    <PopUpMenu data={request} />
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         <Button

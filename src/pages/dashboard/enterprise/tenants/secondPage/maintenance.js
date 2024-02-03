@@ -1,116 +1,47 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import YesNOModal from "../components/yesNOModal";
 import Button from "../../components/button.js";
+import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingTable from "../../../../../components/mainmenu/loadingTable.js";
+import StatusDropDownMain from "../components/statusDropDownMain.js";
+const Maintenance = ({ data }) => {
+  const [loadingRows, setLoadingRows] = useState({});
 
-const Maintenance = () => {
-  const Data = [
-    {
-      id: 1,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "In-progress",
-      Action: false,
-    },
-    {
-      id: 2,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Pending",
-      Action: false,
-    },
-    {
-      id: 3,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Resolved",
-      Action: false,
-    },
-    {
-      id: 4,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Resolved",
-      Action: false,
-    },
-    {
-      id: 5,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "In-progress",
-      Action: false,
-    },
-    {
-      id: 6,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Pending",
-      Action: false,
-    },
-    {
-      id: 7,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Resolved",
-      Action: false,
-    },
-  ];
-
-  
-  const [data, setData] = useState(Data);
+  const MaintenanceRequests = data?.data?.maintenanceRequests;
+  console.log(MaintenanceRequests);
   console.log(data);
-  const [showConfrim, setShowConfirm] = useState(false);
-  const [showYesOrNo, setShowYesOrNo] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const showYesAndNo = (id) => {
-    const dataIndex = data.findIndex((item) => item.id === id);
-
-    // Update the Action property to true
-    data[dataIndex].Action = !data[dataIndex].Action;
-
-    // Log the updated data to the console
-    console.log("Updated data:", data);
-
-    // Update the state with the modified data
-    setData([...data]);
-    setShowYesOrNo(true);
-  };
-  const handleToggleMenu = (id) => {
-    setShowConfirm(true);
-    if (showConfrim) {
-      // Find the index of the selected data
-      const dataIndex = data.findIndex((item) => item.id === id);
-
-      // Update the Action property to true
-      data[dataIndex].Action = !data[dataIndex].Action;
-
-      // Log the updated data to the console
-      console.log("Updated data:", data);
-
-      // Update the state with the modified data
-      setData([...data]);
+  // Create a new array with each element containing maintenance request and user information
+  const newDataArray = data?.data?.maintenanceRequests.map(
+    (maintenanceRequest) => {
+      return {
+        _id: maintenanceRequest?._id,
+        maintenanceRequest,
+        user: {
+          fullName: data?.data?.fullName,
+          coverPhoto: data?.data?.coverPhoto,
+        },
+      };
     }
-    setShowConfirmation(true);
-  };
-  const remove = () => {
-    setShowConfirm(false);
-  };
+  );
 
-  const returnHome = () => {
-    setShowConfirm(false);
-  };
+  console.log(newDataArray);
+
+  const [openDropdowns, setOpenDropdowns] = useState({});
+
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(newDataArray?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = newDataArray?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -130,85 +61,99 @@ const Maintenance = () => {
     (_, index) => index + 1
   );
 
+  const handleStatusChange = async (status, dataId) => {
+    setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
+    try {
+      // Handle status change logic here
+      console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
+      const data = await updateMaintenanceReqestByTenant({
+        id: dataId,
+        status,
+      });
+      console.log(data);
+      toast.success("status updated successfully");
+      // Close the corresponding dropdown
+      setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
+    } catch (error) {
+      console.log(error);
+      toast.error(error);
+    } finally {
+      setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
+    }
+  };
+  
+  const toggleDropdown = (dataId) => {
+    setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
+  };
+
   return (
     <div className="mt-6">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className=" border w-full">
         <div className="">
           <table border="1" className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6">Tenant</th>
-                <th className="text-left ">Subject</th>
-                <th className="text-left ">Status</th>
-                <th className="pl-12"></th>
+                <th className="text-left pl-6 w-[40%]">Tenant</th>
+                <th className="text-left w-[35%] ">Subject</th>
+                <th className="text-left w-[25%] pl-1">Status</th>
               </tr>
             </thead>
             <tbody className="">
-              {currentData.map((data) => (
-                <tr key={data.id} className=" w-2 border-t-[1px] items-center">
-                  <td className="flex items-center gap-1  pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
-                      }
-                      alt=""
-                      width={30}
-                      height={30}
-                      className="py-[15px]"
-                    />
-                    <span className="py-[15px]">{data.Tenant}</span>
+              {currentData?.map((data) => (
+                <tr key={data._id} className=" border-t-[1px] items-center">
+                  <td className="pt-2 flex items-center gap-1  pl-6 text-GrayHomz4 font-[500] text-[11px]">
+                    {data?.user?.coverPhoto?.url === null ||
+                    data?.user?.coverPhoto?.url === undefined ? (
+                      <Image
+                        src={
+                          "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                        }
+                        alt=""
+                        width={40}
+                        height={40}
+                        className=" rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        src={data?.user?.coverPhoto?.url}
+                        alt=""
+                        width={40}
+                        height={40}
+                        className=" rounded-[100%]"
+                      />
+                    )}
+                    <span className="">{data?.user?.fullName}</span>
                   </td>
-                  <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                    {data.Subject}
+                  <td className="text-GrayHomz py-[15px] w-[35%] font-[500] text-[11px]">
+                    {data?.maintenanceRequest?.subject}
                   </td>
 
                   <td
-                    className={`text-GrayHomz py-[15px]  font-[500]  text-[11px] w-24`}
+                    className={`text-GrayHomz py-[15px] pl-1  w-[25%] font-[500]  text-[11px]`}
                   >
-                    <span
-                      className={`p-[6px] rounded-lg text-center ${
-                        data.Status === "Pending"
-                          ? "bg-warningBg text-warning2 px-[18px]"
-                          : ""
-                      } ${
-                        data.Status === "Resolved"
-                          ? "bg-successBg text-Success px-4"
-                          : ""
-                      } ${
-                        data.Status === "In-progress"
-                          ? "bg-warning2  text-warningBg px-[10px]"
-                          : ""
-                      }`}
-                    >
-                      {data.Status}
-                    </span>
-                  </td>
-                  <td className="py-[15px] pl-12">
-                    {showYesOrNo ? (
-                      <YesNOModal
-                        confirmH={handleToggleMenu(data.id)}
-                        returnHome={returnHome}
-                        removeH={remove(data.id)}
-                        showConfirmation={showConfirmation}
+                      <StatusDropDownMain
+                        data={data}
+                        handleStatusChange={(status) =>
+                          handleStatusChange(status, data._id)
+                        }
+                        isOpen={openDropdowns[data._id] || false}
+                        toggleDropdown={() => toggleDropdown(data._id)}
+                        loading={loadingRows[data._id] || false}
                       />
-                    ) : (
-                      <button
-                        onClick={() => showYesAndNo(data.id)}
-                        className={`flex items-center px-2 py-1 rounded-md gap-1 ${
-                          data.Action
-                            ? "text-white bg-BlueHomz"
-                            : "text-GrayHomz5 bg-GrayHomz6"
-                        }`}
-                      >
-                        Confirm
-                        <Image
-                          src="/static/dashboard/enterprisemanager/tenants/tick-circle.png"
-                          alt=""
-                          height={16}
-                          width={16}
-                        />
-                      </button>
-                    )}
+                
                   </td>
                 </tr>
               ))}
