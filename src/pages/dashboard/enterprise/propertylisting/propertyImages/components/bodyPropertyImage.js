@@ -1,41 +1,66 @@
 "use client";
-import StarRating from "@/components/mainmenu/starRating";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
-import StarRatingPL from "../../starRatingPL/starRatingPL";
 
-const minidata = [
-  {
-    id: 1,
-    text1: "Property Type",
-    text2: "Bungalow",
-  },
-  {
-    id: 2,
-    text1: "Address",
-    text2: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-  },
-  {
-    id: 3,
-    text1: "Rooms",
-    text2: "5",
-  },
-  {
-    id: 4,
-    text1: "Bathrooms",
-    text2: "4",
-  },
-];
+const BodyPropertyImage = ({ showRatingPage, data, user }) => {
+  console.log(data);
 
-const BodyPropertyImage = ({showRatingPage}) => {
-  const [miniData, setMiniData] = useState(minidata || []);
+  function capitalizeFirstLetter(str) {
+    if (str && typeof str === "string") {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    } else {
+      // Return an empty string or handle the error as needed
+      return "";
+    }
+  }
+  function addCommasToNumber(number) {
+    // Convert the number to a string
+    const numberString = number?.toString();
+    // Use regular expression to add commas
+    const formattedNumber = numberString?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return `N ${formattedNumber}`;
+  }
+
+  function getTimeAgo(postedTime) {
+    const postedDate = new Date(postedTime);
+    const currentDate = new Date();
+
+    const timeDifferenceInMilliseconds = currentDate - postedDate;
+    const timeDifferenceInSeconds = Math.floor(
+      timeDifferenceInMilliseconds / 1000
+    );
+    const timeDifferenceInMinutes = Math.floor(timeDifferenceInSeconds / 60);
+    const timeDifferenceInHours = Math.floor(timeDifferenceInMinutes / 60);
+    const timeDifferenceInDays = Math.floor(timeDifferenceInHours / 24);
+
+    if (timeDifferenceInDays >= 1) {
+      // If the time difference is 1 day or more, return days ago
+      return `${timeDifferenceInDays} ${
+        timeDifferenceInDays === 1 ? "day" : "days"
+      } ago`;
+    } else if (timeDifferenceInHours >= 1) {
+      // If the time difference is 1 hour or more, return hours ago
+      return `${timeDifferenceInHours} ${
+        timeDifferenceInHours === 1 ? "hour" : "hours"
+      } ago`;
+    } else {
+      // Otherwise, return minutes ago
+      return `${timeDifferenceInMinutes} ${
+        timeDifferenceInMinutes === 1 ? "minute" : "minutes"
+      } ago`;
+    }
+  }
+
+  // Example usage:
+  const postedTime = "2024-02-04T20:33:56.156Z";
+  const timeAgo = getTimeAgo(postedTime);
+  console.log(`Time ago: ${timeAgo}`);
+
   const [copiedState, setCopiedState] = useState({
     copied: false,
     copiedII: false,
     copiedIII: false,
   });
- 
 
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -53,14 +78,12 @@ const BodyPropertyImage = ({showRatingPage}) => {
       console.error("Unable to copy to clipboard:", error);
     }
   };
-
-
-
+  console.log(user);
   return (
-    <div className="">
+    <div className="pl-2 pt-4">
       <div className="flex justify-between">
         <p className="text-[23px] font-[700] text-GrayHomz">
-          3-Bedroom Bungalow
+          {capitalizeFirstLetter(data?.data?.name)}
         </p>
         <div className="flex gap-2 items-center">
           <Image
@@ -74,7 +97,8 @@ const BodyPropertyImage = ({showRatingPage}) => {
       </div>
       <div className="flex flex-col gap-2 mt-2">
         <p className="text-[23px] font-[700] text-GrayHomz">
-          4,000,000 <span className="text-[18px] font-[500]">per year</span>
+          {addCommasToNumber(data?.data?.yearlyRent)}{" "}
+          <span className="text-[18px] font-[500]">per year</span>
         </p>
         <div className="flex items-center gap-4">
           <div className="flex gap-2 items-center">
@@ -86,7 +110,11 @@ const BodyPropertyImage = ({showRatingPage}) => {
               height={24}
               width={24}
             />
-            <p className="text-[14px] font-[500] text-GrayHomz2">Yaba, Lagos</p>
+            <p className="text-[14px] font-[500] text-GrayHomz2">
+              {" "}
+              {capitalizeFirstLetter(data?.data?.area)},{" "}
+              {capitalizeFirstLetter(data?.data?.state)}
+            </p>
           </div>
           <div className="flex gap-2 items-center">
             <Image
@@ -96,7 +124,7 @@ const BodyPropertyImage = ({showRatingPage}) => {
               width={24}
             />
             <p className="text-[14px] font-[500] text-GrayHomz2">
-              Posted 4 hours ago.
+              Posted {`${getTimeAgo(data?.data?.createdAt)}`}.
             </p>
           </div>
         </div>
@@ -117,55 +145,63 @@ const BodyPropertyImage = ({showRatingPage}) => {
             12 <span className="text-BlueHomz">(Ratings/Reviews)</span>
           </p>
         </div>
-        <div className="border-b py-4">
-          {miniData.map((data) => (
-            <div key={data.id} className="flex flex-col my-2">
-              <div className="flex">
-                <p className="text-[14px] font-[400] text-GrayHomz w-[20%]">
-                  {data.text1}
-                </p>
-                <p
-                  className={`text-[14px] font-[500] w-[40%] ${
-                    data.id === 1 ? "text-BlackHomz" : "text-GrayHomz"
-                  }`}
-                >
-                  {data.text2}
-                </p>
-              </div>
+        <div className="border-b pt-2 pb-4">
+          <div key={data.id} className="flex flex-col my-2 gap-3">
+            <div className="flex">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[20%]">
+                Property Type
+              </p>
+              <p className={`text-[14px] font-[500] w-[40%] text-BlackHomz`}>
+                {capitalizeFirstLetter(data?.data?.propertyType)}
+              </p>
             </div>
-          ))}
+            <div className="flex">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[20%]">
+                Address
+              </p>
+              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+                {data?.data?.address}
+              </p>
+            </div>
+            <div className="flex">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[20%]">
+                Rooms
+              </p>
+              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+                {data?.data?.numberOfRooms}
+              </p>
+            </div>
+            <div className="flex">
+              <p className="text-[14px] font-[400] text-GrayHomz w-[20%]">
+                Bathrooms
+              </p>
+              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+                {data?.data?.numberOfBathrooms}
+              </p>
+            </div>
+          </div>
         </div>
         <p className="text-[14px] font-[500] text-GrayHomz border-b pt-4 pb-6">
-          This lovely home features 5 spacious rooms, providing ample space for
-          your family's needs. With 4 well-appointed bathrooms, comfort and
-          convenience are at the forefront. Enjoy the tranquility of this clean
-          and well-maintained area, complemented by good road access and
-          reliable lighting. Your ideal home awaits, offering a perfect blend of
-          modern living in a peaceful and well-connected environment.
+          {data?.data?.description}
         </p>
         <div className="mt-3 flex flex-col gap-4 h-[180px]">
           <p className="text-[13px] font-[400] text-GrayHomz2">
             Property Owner
           </p>
           <div className="flex gap-2 items-center">
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/propertyList/Avatar.png"
-              }
-              alt=""
-              height={40}
-              width={40}
-            />
-            <p className="text-[18px] font-[500] text-GrayHomz">Victor Simon</p>
+            <Image src={user?.businessLogo?.url} alt="" height={40} width={40} className="rounded-full" />
+            <p className="text-[18px] font-[500] text-GrayHomz">
+              {user?.fullName}
+            </p>
           </div>
-          <div className="flex gap-6"> 
+          <div className="flex gap-6">
             <div>
               <p className="text-[13px] font-[400] text-BlackHomz">
                 Phone Number
               </p>
               <div className="mt-2 bg-whiteblue w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
                 <p className="text-[14px] font-[500] text-BlueHomz">
-                  0000 - 000 - 0000
+                  {user?.phoneNumber}
                 </p>
                 <Image
                   src={
@@ -174,7 +210,9 @@ const BodyPropertyImage = ({showRatingPage}) => {
                   width={16}
                   height={17}
                   alt=""
-                  onClick={() => handleCopyClick("0000 - 000 - 0000", "copied")}
+                  onClick={() =>
+                    handleCopyClick(`${user?.phoneNumber}`, "copied")
+                  }
                   className="cursor-pointer"
                 />
               </div>
@@ -185,12 +223,10 @@ const BodyPropertyImage = ({showRatingPage}) => {
               </div>
             </div>
             <div>
-              <p className="text-[13px] font-[400] text-BlackHomz">
-               Email
-              </p>
+              <p className="text-[13px] font-[400] text-BlackHomz">Email</p>
               <div className="mt-2 bg-whiteblue w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
                 <p className="text-[14px] font-[500] text-BlueHomz">
-                Victor@gmail.com
+                  {user?.user?.email}
                 </p>
                 <Image
                   src={
@@ -199,7 +235,9 @@ const BodyPropertyImage = ({showRatingPage}) => {
                   width={16}
                   height={17}
                   alt=""
-                  onClick={() => handleCopyClick("Victor@gmail.com", "copiedII")}
+                  onClick={() =>
+                    handleCopyClick(`${user?.user?.email}`, "copiedII")
+                  }
                   className="cursor-pointer"
                 />
               </div>
@@ -210,10 +248,12 @@ const BodyPropertyImage = ({showRatingPage}) => {
               </div>
             </div>
             <div>
-              <p className="text-[13px] font-[400] text-BlackHomz">WhatsApp Link</p>
+              <p className="text-[13px] font-[400] text-BlackHomz">
+                WhatsApp Link
+              </p>
               <div className="mt-2 bg-whiteblue w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
                 <p className="text-[14px] font-[500] text-BlueHomz">
-                WA.com/Your-Link
+                  {data?.data?.contacts?.whatsapp}
                 </p>
                 <Image
                   src={
@@ -223,7 +263,10 @@ const BodyPropertyImage = ({showRatingPage}) => {
                   height={17}
                   alt=""
                   onClick={() =>
-                    handleCopyClick("WA.com/Your-Link", "copiedIII")
+                    handleCopyClick(
+                      `${data?.data?.contacts?.whatsapp}`,
+                      "copiedIII"
+                    )
                   }
                   className="cursor-pointer"
                 />

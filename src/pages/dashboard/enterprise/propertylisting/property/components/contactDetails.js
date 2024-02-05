@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import { updateContactInfo } from "@/api/propertyService";
 import LoadingII from "@/components/mainmenu/loadingII";
@@ -30,7 +29,13 @@ const ContactDetails = ({ data }) => {
 
     if (loading) return; // Do nothing if already loading
     setLoading(true); // Set loading to true when submitting the form
-
+    // Validate WhatsApp link format
+    const whatsappRegex = /^https:\/\/wa\.me\/\d{10,}$/;
+    if (!whatsappRegex.test(whatsapp)) {
+      toast.error("Invalid WhatsApp link format");
+      setLoading(false)
+      return;
+    }
     try {
       const updatedData = {
         whatsapp,
@@ -59,19 +64,6 @@ const ContactDetails = ({ data }) => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       {loading ? (
         <LoadingII />
       ) : (

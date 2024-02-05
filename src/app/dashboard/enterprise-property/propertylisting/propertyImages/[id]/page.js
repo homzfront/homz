@@ -1,12 +1,14 @@
 import PropertyImages from '@/pages/dashboard/enterprise/propertylisting/propertyImages/propertyImages';
 import React from 'react'
 
-const App = () => {
+const App = ({ params }) => {
+  const { id } = params;
   return (
     <div>
-        <PropertyImages/>
+        <PropertyImages id={id}/>
     </div>
   )
 }
 
 export default App;
+

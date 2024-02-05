@@ -3,11 +3,9 @@ import Input from "../../components/input";
 import Image from "next/image";
 import AcAndRejModel from "../../components/acAndRejModel";
 import useBodyScroll from "@/components/general/useBodyScroll";
-import ConfirmModal from "../../components/confirmModal";
 import ConfirmPropertyListing from "../components/confirmPropertyListing";
 import Loading from "@/components/mainmenu/loading";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const ContactInfo = ({
   handlePageChangeThree,
@@ -31,21 +29,6 @@ const ContactInfo = ({
   useBodyScroll([openConfirmationModal, yesOrNoModal, loading]);
   return (
     <div className="px-8">
-      {
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeButton={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      }
       {loading && <Loading />}
       {openConfirmationModal && (
         <ConfirmPropertyListing

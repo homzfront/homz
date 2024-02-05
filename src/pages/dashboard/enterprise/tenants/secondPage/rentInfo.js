@@ -4,6 +4,7 @@ import ConfirmModal from "../../components/confirmModal";
 import Dropdown from "../../components/dropDownTwo";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import {
+  createSpecificTenantRentInfo,
   getSpecificTenantRentInfo,
   updateSpecificTenantRentInfo,
 } from "@/api/tenantSevice";
@@ -38,7 +39,7 @@ const RentInfo = ({ profile }) => {
 
   function addYearsToValues(integers) {
     if (integers === "" || integers === null || integers === undefined) {
-      return "_______"; // Render the actual name if it exists
+      return ""; // Render the actual name if it exists
     } else {
       const plural = integers !== 1 ? "s" : ""; // Add 's' for values other than 1
       return `${integers} year${plural}`;
@@ -55,27 +56,26 @@ const RentInfo = ({ profile }) => {
 
   console.log(data);
 
-  useEffect(() => {
-    if (!profile?.data?.rentInfo) {
-      return;
+useEffect(() => {
+  if (!profile?.data?.rentInfo?._id) {
+    return;
+  }
+
+  const rentInformation = async () => {
+    try {
+      const response = await getSpecificTenantRentInfo(
+        `${profile.data.rentInfo._id}`
+      );
+      const rentInfo = response;
+      setData(rentInfo);
+    } catch (error) {
+      console.error("Error fetching rent information", error);
+      // Handle the error as needed
     }
-  
-    const rentInformation = async () => {
-      try {
-        const response = await getSpecificTenantRentInfo(
-          `${profile.data.rentInfo._id}`
-        );
-        const rentInfo = response;
-        setData(rentInfo);
-      } catch (error) {
-        console.error("Error fetching rent information", error);
-        // Handle the error as needed
-      }
-    };
-  
-    rentInformation();
-  }, [profile]);
-  
+  };
+
+  rentInformation();
+}, [profile]);
 
   useEffect(() => {
     // Check if data and required properties are available
@@ -118,6 +118,49 @@ const RentInfo = ({ profile }) => {
   console.log(lowerCase(selectedValue));
   console.log(property);
 
+
+  const handleConfirm2 = async (e) => {
+    e.preventDefault();
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true); // Set loading to true when submitting the form
+    if (dueDate <= startDate) {
+      setLoading(false);
+      toast.error("Invalid start date and due date");
+      return;
+    }
+    try {
+      const updatedData = {
+        propertyType,
+        apartmentNumber: parseInt(apartmentNumber),
+        rent: parseInt(rent),
+        duration: parseInt(duration),
+        startDate,
+        dueDate,
+        paymentStatus: lowerCase(selectedValue),
+        property,
+      };
+      const id = profile?.data?._id;
+      console.log(id);
+      const { success, upDateddata, error } =
+        await createSpecificTenantRentInfo(id, updatedData);
+
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
+        setLoading(false);
+        toast.success("Update successful");
+        setConfirm(!confirm);
+      } else {
+        console.error("Update failed", error);
+        toast.error(error);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Update error", error);
+      setLoading(false);
+      toast.error("Update failed");
+    }
+  }
   const handleConfirm = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
@@ -259,10 +302,12 @@ const RentInfo = ({ profile }) => {
         <div className="mt-6">
           {data == !{} ? (
             <button
-              disabled
-              className={`h-[48px] border text-GrayHomz border-GrayHomz rounded-md w-full flex justify-center items-center`}
+              onClick={handleConfirm2}
+              className={` ${
+                loading ? "pointer-events-none border-GrayHomz" : ""
+              } h-[48px] border border-BlueHomz rounded-md w-full flex justify-center items-center`}
             >
-              Save Update
+              {loading ? <LoadingForm /> : "Save Update"}
             </button>
           ) : (
             <button

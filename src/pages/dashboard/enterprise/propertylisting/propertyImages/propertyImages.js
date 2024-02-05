@@ -5,57 +5,33 @@ import React, { useEffect, useState } from "react";
 import BodyPropertyImage from "./components/bodyPropertyImage";
 import ImageModal from "./components/imageModal";
 import StarRatingPL from "../starRatingPL/starRatingPL";
+import { fetchSingleProperty } from "@/api/propertyService";
+import { enterpriseMe } from "@/api/enterpriseManagerService";
+import LoadingII from "@/components/mainmenu/loadingII";
 
-const Data = [
-  {
-    id: 1,
-    image:
-      "/static/dashboard/enterprisemanager/propertyList/parlorLandscape.png",
-  },
-  {
-    id: 2,
-    image: "/static/dashboard/enterprisemanager/propertyList/dinner.png",
-  },
-  {
-    id: 3,
-    image: "/static/dashboard/enterprisemanager/propertyList/kitchen.png",
-  },
-  {
-    id: 4,
-    image: "/static/dashboard/enterprisemanager/propertyList/parlor.png",
-  },
-  {
-    id: 5,
-    image: "/static/dashboard/enterprisemanager/propertyList/kitchen.png",
-  },
-  {
-    id: 6,
-    image: "/static/dashboard/enterprisemanager/propertyList/parlor2.png",
-  },
-  {
-    id: 7,
-    image: "/static/dashboard/enterprisemanager/propertyList/dinner2.png",
-  },
-  {
-    id: 8,
-    image: "/static/dashboard/enterprisemanager/propertyList/parlor.png",
-  },
-  {
-    id: 9,
-    image: "/static/dashboard/enterprisemanager/propertyList/kitchen.png",
-  },
-  {
-    id: 10,
-    image: "/static/dashboard/enterprisemanager/propertyList/dinner.png",
-  },
-  {
-    id: 11,
-    image: "/static/dashboard/enterprisemanager/propertyList/parlor.png",
-  },
-];
 
-const PropertyImages = () => {
-  const [data, setData] = useState(Data || []);
+const PropertyImages = ({ id }) => {
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
+  console.log(id);
+
+  useEffect(() => {
+    const estateData = async () => {
+      const response = await fetchSingleProperty(id);
+      const data2 = await enterpriseMe();
+      const estate = await response;
+      setUser(data2.data)
+      setData(estate);
+      setLoading(false);
+    };
+    estateData();
+  }, []);
+
+  
+
+  console.log(data);
+  console.log(user)
   const [showRating, setShowRating] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
 
@@ -68,13 +44,36 @@ const PropertyImages = () => {
   };
   console.log(data);
 
+  const newData = {
+    coverPhoto: data?.data?.coverPhoto,
+    photos: data?.data?.photos,
+  };
+
+  console.log(newData);
+
+  let combinedData = []; // Declare combinedData outside the if block
+
+  if (newData && newData.coverPhoto && newData.photos) {
+    combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
+      url: item.url,
+    }));
+
+    console.log(combinedData);
+  } else {
+    console.error("Invalid or missing data structure.");
+  }
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   console.log(selectedImage);
-  const remainder = data.length - 7;
+  if (combinedData.length === 8) {
+   return remainder = combinedData.length - 7;
+  }
 
   const openImageModal = (imageIndex, item) => {
-    setSelectedImage({ index: imageIndex, data: data, item: item });
+    console.log(imageIndex)
+    console.log(item)
+    setSelectedImage({ index: imageIndex, data: combinedData, item: item });
     setOpenSelectedImage(!openSelectedImage);
     setCurrentImageIndex(imageIndex);
   };
@@ -97,7 +96,7 @@ const PropertyImages = () => {
 
   return (
     <div className="p-8 w-[1147px]">
-      {showRating ? (
+      {loading ? <LoadingII/> : showRating ? (
         <div>
           <StarRatingPL goBack={goBack} />
         </div>
@@ -118,61 +117,61 @@ const PropertyImages = () => {
               />
               <p className="text-[11px] font-[400]">Go Back</p>
             </Link>
-            <button>
-              <p className="text-[14px] font-[400] text-BlueHomz">
+        
+            <Link href={`/dashboard/enterprise-property/propertylisting/property/${id}`} className="text-[14px] font-[400] text-BlueHomz">
                 Edit Property
-              </p>
-            </button>
+              </Link>
           </div>
           <div className="mt-4 ml-3">
             <div className="flex flex-wrap gap-4">
-              {data.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={`cursor-pointer ${
-                    index === 0 ? "flex-shrink-0" : "flex-grow"
-                  }`}
-                  onClick={() => openImageModal(index, item)}
-                >
-                  {index === 0 || index <= 5 ? (
-                    <Image
-                      src={item.image}
-                      alt=""
-                      height={index === 0 ? 368 : 161}
-                      width={index === 0 ? 1110 : 162}
-                      className={`rounded-md ${
-                        index === 0 ? "w-[1055px]" : ""
-                      }`}
-                    />
-                  ) : index === 6 ? (
-                    <div className="relative inline-block rounded-md flex-grow">
-                      <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
-                        <p>+{remainder} more</p>
-                      </div>
+              {combinedData &&
+                combinedData?.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className={` ${
+                      index === 0 ? "flex-shrink-0" : "flex-grow"
+                    }`}
+                    onClick={() => openImageModal(index, item)}
+                  >
+                    {index === 0 || index <= 5 ? (
                       <Image
-                        src={item.image}
+                        src={item.url}
                         alt=""
-                        height={161}
-                        width={162}
-                        className="rounded-md"
+                        height={index === 0 ? 368 : 161}
+                        width={index === 0 ? 1110 : 162}
+                        className={`rounded-md cursor-pointer ${
+                          index === 0 ? "w-[1055px]" : ""
+                        }`}
                       />
-                    </div>
-                  ) : null}
-                </div>
-              ))}
+                    ) : index === 6 ? (
+                      <div className="cursor-pointer relative inline-block rounded-md flex-grow">
+                        <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
+                          <p>+{remainder} more</p>
+                        </div>
+                        <Image
+                          src={item.url}
+                          alt=""
+                          height={161}
+                          width={162}
+                          className="rounded-md"
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
             </div>
-            {openSelectedImage && data.length >= 1 && (
+            {openSelectedImage && combinedData.length >= 1 && (
               <ImageModal
                 imageData={selectedImage.data}
                 onClose={closeImageModal}
-                totalImages={data?.length}
+                totalImages={combinedData?.length}
                 currentImageIndex={currentImageIndex}
                 setCurrentImageIndex={setCurrentImageIndex}
               />
             )}
           </div>
           <div>
-            <BodyPropertyImage showRatingPage={showRatingPage} />
+            <BodyPropertyImage data={data} showRatingPage={showRatingPage} user={user}/>
           </div>
         </div>
       )}

@@ -12,6 +12,17 @@ const PropertyListing = () => {
     usePropertyListedAllStore();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedRooms, setSelectedRooms] = useState(null);
+
+  const clear = () => {
+    setSelectedProperty(null);
+    setSelectedState(null);
+    setSelectedArea(null);
+    setSelectedRooms(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +41,27 @@ const PropertyListing = () => {
 
     fetchData();
   }, []);
+
+  const options = [...new Set(data?.map((item) => item?.location.state))];
+  console.log(options);
+
+  const options2 = [...new Set(data?.map((item) => item?.location.area))];
+  console.log(options2);
+
+  const options3 = [...new Set(data?.map((item) => item?.propertyType))];
+  console.log(options3);
+
+  const options4 = [...new Set(data?.map((item) => item?.numberOfBathrooms))];
+  const optionsRoom = options4.sort((a, b) => a - b);
+  console.log(optionsRoom);
+
+  const filteredData = data?.filter(
+    (data) =>
+      (!selectedState || data?.location.state === selectedState) &&
+      (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedProperty || data?.propertyType === selectedProperty) &&
+      (!selectedRooms || data?.numberOfBathrooms === selectedRooms)
+  );
 
   console.log(data);
   console.log(propertyListedAll);
@@ -65,7 +97,7 @@ const PropertyListing = () => {
         <LoadingII />
       ) : data.length >= 1 ? (
         <ListedProperties
-          Data={data}
+        Data={filteredData}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
           popUpMenu={popUpMenu}
@@ -77,6 +109,19 @@ const PropertyListing = () => {
           addNewProperty={addNewProperty}
           registrationForm={registrationForm}
           returnToStartRegistration={returnToStartRegistration}
+          selectedArea={selectedArea}
+          selectedProperty={selectedProperty}
+          selectedRooms={selectedRooms}
+          selectedState={selectedState}
+          optionsRoom={optionsRoom}
+          options={options}
+          options2={options2}
+          options3={options3}
+          setSelectedArea={setSelectedArea}
+          setSelectedProperty={setSelectedProperty}
+          setSelectedRooms={setSelectedRooms}
+          setSelectedState={setSelectedState}
+          clear={clear}
         />
       ) : registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} />

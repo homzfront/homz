@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import PropertyCard from "./components/propertyCard";
 import Button from "../components/button";
 import Image from "next/image";
-import Dropdown from "../components/dropDownTwo";
+
 import PropertyForm from "./propertyListingForm/propertyForm";
+import Dropdown from "../components/dropDownFilter";
 
 const ListedProperties = ({
   Data,
@@ -16,25 +17,26 @@ const ListedProperties = ({
   handleSelect,
   returnToStartRegistration,
   registrationForm,
-  addNewProperty
+  addNewProperty,
+  selectedArea,
+  selectedProperty,
+  selectedRooms,
+  selectedState,
+  setSelectedState,
+  setSelectedArea,
+  setSelectedProperty,
+  setSelectedRooms,
+  optionsRoom,
+  options,
+  options2,
+  options3,
+  clear,
+  user
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-
-  const options = [
-    { id: 1, label: "Apartment" },
-    { id: 2, label: "Duplex" },
-    { id: 3, label: "Self Contain" },
-    { id: 4, label: "Studio Room" },
-  ];
-  const options2 = [
-    { id: 1, label: "Abuja" },
-    { id: 2, label: "Lagos" },
-    { id: 3, label: "Ekiti" },
-    { id: 4, label: "Jos" },
-  ];
 
   const ITEMS_PER_PAGE = 8;
   const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
@@ -82,37 +84,61 @@ const ListedProperties = ({
               </span>
             </div>
             <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2  w-[70%]">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
-
-                <Dropdown
-                  options={options2}
-                  onSelect={handleSelect}
-                  selectOption={"State"}
-                  className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
-                />
-
-                <Dropdown
-                  options={options2}
-                  onSelect={handleSelect}
-                  selectOption={"Area"}
-                  className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
-                />
-                <Dropdown
-                  options={options}
-                  onSelect={handleSelect}
-                  selectOption={"Property Type"}
-                  className={"text-[14px] font-[500] text-GrayHomz2"}
-                />
-                <Dropdown
-                  options={options}
-                  onSelect={handleSelect}
-                  selectOption={"Bedroom"}
-                  className={"w-[120px] text-[14px] font-[500] text-GrayHomz2"}
-                />
-                <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+                <div className="w-[120px]">
+                  <Dropdown
+                    options={options}
+                    onSelect={(option) => setSelectedState(option)}
+                    selectOption={
+                      selectedState === null ? "State" : selectedState
+                    }
+                    className={
+                      "text-[14px] font-[500] text-GrayHomz2"
+                    }
+                  />
+                </div>
+                <div className="w-[120px]">
+                  <Dropdown
+                    options={options2}
+                    onSelect={(option) => setSelectedArea(option)}
+                    selectOption={selectedArea === null ? "Area" : selectedArea}
+                    className={
+                      "text-[14px] font-[500] text-GrayHomz2"
+                    }
+                  />
+                </div>
+                <div className="w-[180px]">
+                  <Dropdown
+                    options={options3}
+                    onSelect={(option) => setSelectedProperty(option)}
+                    selectOption={
+                      selectedProperty === null
+                        ? "Property Type"
+                        : selectedProperty
+                    }
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                </div>
+                <div className="w-[120px]">
+                  <Dropdown
+                    options={optionsRoom}
+                    onSelect={(option) => setSelectedRooms(option)}
+                    selectOption={
+                      selectedRooms === null ? "Bedroom" : selectedRooms
+                    }
+                    className={
+                      "w-[120px] text-[14px] font-[500] text-GrayHomz2"
+                    }
+                  />
+                </div>
+                <button
+                  type="text"
+                  onClick={clear}
+                  className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[102px] mb-1 p-1 rounded cursor-pointer"
+                >
                   <span>
                     <Image
                       src={

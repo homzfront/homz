@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/imageUpload";
-import api from "@/utils/api";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {  toast } from "react-toastify";
 import LoadingII from "@/components/mainmenu/loadingII";
-import { updatePropertyCoverPhoto } from "@/api/propertyService";
-
+import {
+  updatePropertyCoverPhoto,
+  updatePropertyOtherPhoto,
+} from "@/api/propertyService";
 
 const Photos = ({ data }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -76,68 +76,80 @@ const Photos = ({ data }) => {
     setUploadedImage8(file);
   };
 
+  console.log(data);
+  console.log(data?.photos?.[0].publicId);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
-
+  
     setLoading(true); // Set loading to true when submitting the form
-
-    // formData.append("photos", uploadedImage);
-    // formData.append("photos", uploadedImage2);
-    // formData.append("photos", uploadedImage3);
-    // formData.append("photos", uploadedImage4);
-    // formData.append("photos", uploadedImage5);
-    // formData.append("photos", uploadedImage6);
-    // formData.append("photos", uploadedImage7);
-    // formData.append("photos", uploadedImage8);
-    const formData = new FormData();
-    formData.append("coverPhoto", uploadedImageCoverPhoto);
-
-    if (!uploadedImageCoverPhoto) {
-      console.error("No image uploaded");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { success, updatedImage, error } = await updatePropertyCoverPhoto(
-        data._id,
-        uploadedImageCoverPhoto
+  
+    // Create an array to hold all promises
+    const updatePromises = [];
+  
+    // Cover photo
+    if (uploadedImageCoverPhoto) {
+      updatePromises.push(
+        updatePropertyCoverPhoto(data._id, uploadedImageCoverPhoto)
       );
-
-      if (success) {
-        console.log("Form successfully updated", updatedImage);
-        setLoading(false);
-        toast.success("Update successful");
-      } else {
-        console.error("Update failed", error);
-        toast.error(error);
-        setLoading(false);
-      }
+    }
+  
+    // Other photos
+    if (uploadedImage) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage,
+          data?.photos?.[0].publicId
+        )
+      );
+    }
+  
+    if (uploadedImage2) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage2,
+          data?.photos?.[1].publicId
+        )
+      );
+    }
+  
+    if (uploadedImage3) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[2].publicId
+        )
+      );
+    }
+  
+    try {
+      // Execute all promises simultaneously
+      const responses = await Promise.all(updatePromises);
+  
+      // Handle responses
+      responses.forEach(({ success, updatedImage, error }, index) => {
+        if (success) {
+          console.log(`Image ${index + 1} successfully updated`, updatedImage);
+          toast.success(`Update ${index + 1} successful`);
+        } else {
+          console.error(`Update ${index + 1} failed`, error);
+          toast.error(`Update ${index + 1} failed: ${error}`);
+        }
+      });
     } catch (error) {
       console.error("Update error", error);
-      setLoading(false);
       toast.error("Update failed");
+    } finally {
+      setLoading(false); // Set loading to false after all updates are attempted
     }
   };
-
+  
   return (
     <div className="px-8 block w-[1055px]">
-      {
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeButton={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      }
       {loading ? (
         <LoadingII />
       ) : (
@@ -168,6 +180,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage}
                     handleImageUpload={handleImageUpload}
                     uploadedImage={uploadedImage}
+                    image={data?.photos?.[0].url}
                   />
                 </div>
                 <div className="w-[120px] flex justify-start">
@@ -175,6 +188,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage2}
                     handleImageUpload={handleImageUpload2}
                     uploadedImage={uploadedImage2}
+                    image={data?.photos?.[1]?.url}
                   />
                 </div>
                 <div className="w-[120px] flex justify-start">
@@ -182,6 +196,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage3}
                     handleImageUpload={handleImageUpload3}
                     uploadedImage={uploadedImage3}
+                    image={data?.photos?.[2]?.url}
                   />
                 </div>
                 <div className="w-[120px] flex justify-start">

@@ -6,7 +6,7 @@ import Modal from "../components/modal";
 import useBodyScroll from "@/components/general/useBodyScroll";
 import tenantsDataForLoggedInEnterprise from "@/store/tenantData";
 import LoadingII from "@/components/mainmenu/loadingII";
-import Dropdown from "../components/DropDown";
+import Dropdown from "../../components/dropDownFilter";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);

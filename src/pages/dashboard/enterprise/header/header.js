@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
 
-const Header = () => {
+const Header = ({ toggleSidebar }) => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
 
@@ -16,6 +16,7 @@ const Header = () => {
   const handleToggleMenuTwo = () => {
     setPopUpMenuTwo(!popUpMenuTwo);
   };
+
 
   return (
     <div className="header w-[1147px]">

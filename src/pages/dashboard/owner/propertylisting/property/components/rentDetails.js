@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import useBodyScroll from "@/components/general/useBodyScroll";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { rentDetails } from "@/api/propertyService";
 import LoadingII from "@/components/mainmenu/loadingII";
 
@@ -67,19 +66,6 @@ const RentDetails = ({ data }) => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       {loading ? (
         <LoadingII />
       ) : (

@@ -4,8 +4,10 @@ import PropertyDetails from "./components/propertyDetails.js";
 import RentDetails from "./components/rentDetails.js";
 import Photos from "./components/photos.js";
 import ContactDetails from "./components/contactDetails.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Widget = ({data, isLoading}) => {
+const Widget = ({ data, isLoading }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -41,6 +43,21 @@ const Widget = ({data, isLoading}) => {
 
   return (
     <div>
+      {
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeButton={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      }
       <div className="w-full h-auto py-4">
         <div className=" flex mt-5 gap-4 justify-between w-[571px] cursor-pointer">
           <div className="flex flex-col items-center gap-2 justify-center">
@@ -88,16 +105,16 @@ const Widget = ({data, isLoading}) => {
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <PropertyDetails data={data?.data} isLoading={isLoading}/>
+            <PropertyDetails data={data?.data} isLoading={isLoading} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <RentDetails data={data?.data}/>
+            <RentDetails data={data?.data} />
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <Photos data={data?.data}/>
+            <Photos data={data?.data} />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
-            <ContactDetails data={data?.data}/>
+            <ContactDetails data={data?.data} />
           </div>
         </div>
       </div>

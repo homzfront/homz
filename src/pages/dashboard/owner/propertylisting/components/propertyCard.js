@@ -46,7 +46,7 @@ console.log(data);
             value4={`${formatNumberWithCommas(data?.yearlyRent)} per year`}
             value5={"5"}
             Image3={"/static/dashboard/enterprisemanager/propertyList/full.png"}
-            value3={`${data.area}, ${data.state}`}
+            value3={`${data?.location.area}, ${data?.location.state}`}
             value2={data?.name}
             value1={data?.coverPhoto?.url}
             data={data._id}

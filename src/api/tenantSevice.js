@@ -138,6 +138,38 @@ export const getSpecificTenantRentInfo = async (id) => {
   }
 };
 
+export const createSpecificTenantRentInfo = async (id, updatedData) => {
+  const {
+    propertyType,
+    apartmentNumber,
+    rent,
+    duration,
+    startDate,
+    dueDate,
+    paymentStatus,
+    property,
+  } = updatedData;
+  try {
+    const response = await api.post(`/rentInformation/${id}`, { 
+      propertyType,
+      apartmentNumber,
+      rent,
+      duration,
+      startDate,
+      dueDate,
+      paymentStatus,
+      property,
+     });
+    console.log(response);
+    return { success: true, upDateddata: response?.data.data };
+  }  catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response?.data }; // Adjusted this line
+  }
+}
+
+
+
 export const updateSpecificTenantRentInfo = async (id, updatedData) => {
   const {
     propertyType,

@@ -5,15 +5,14 @@ import RentDetails from "./rentDetails.js";
 import ContactInfo from "./contactInfo.js";
 import AddPictures from "./addPictures.js";
 import api from "@/utils/api.js";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation.js";
 
 const Widget = ({ returnToStartRegistration }) => {
-  
   // to push to dashboard/property-listing
   const router = useRouter();
 
-  
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -51,13 +50,12 @@ const Widget = ({ returnToStartRegistration }) => {
   const [maintenanceFee, setMaintenanceFee] = useState("");
   const [totalFee, setTotalFee] = useState("");
   const [agencyFee, setAgencyFee] = useState("");
-  const [yearlyRent, setYearlyRent] = useState("");
+  const [yearlyRent, setYearlyRent] = useState(``);
 
   // contactInfo
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
-
 
   console.log(selectedArea?.label);
   console.log(selectedState?.label);
@@ -103,6 +101,7 @@ const Widget = ({ returnToStartRegistration }) => {
     formData.append("coverPhoto", uploadedImageCoverPhoto);
     formData.append("photos", uploadedImage);
     formData.append("photos", uploadedImage2);
+    formData.append("photos", uploadedImage3);
     formData.append("monthlyRent", parseInt(monthlyRent));
     formData.append("yearlyRent", parseInt(yearlyRent));
     formData.append("totalFee", parseInt(totalFee));
@@ -158,11 +157,25 @@ const Widget = ({ returnToStartRegistration }) => {
         setYesOrNoModal(false);
       }
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Update error", error);
       setLoading(false);
-      toast.error(`${error.response?.data?.message}`);
+
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        console.error("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        console.error("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
+
       setYesOrNoModal(false);
-      // setLoginError(error.response?.data?.message);
     }
   };
 
@@ -205,18 +218,24 @@ const Widget = ({ returnToStartRegistration }) => {
   const closeAllModals = () => {
     setOpenConfirmationModal(false);
     setYesOrNoModal(false);
-    // Add a unique query parameter
-    router.push("/dashboard/enterprise-property/propertylisting?refresh=true");
-
-    // Remove the query parameter to prevent it from staying in the URL
-    const { pathname, query } = router;
-    delete query.refresh;
-    router.replace({ pathname, query }, undefined, { shallow: true });
+    returnToStartRegistration();
   };
-
 
   return (
     <div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="inline-block w-[1147px] h-auto py-4">
         <div className="z-0 absolute w-[1147px] pr-[96px] pl-[96px] py-[27px]">
           <div className="border-[1px]"></div>

@@ -6,7 +6,7 @@ const ImageModal = ({
   imageData = [],
   onClose,
   totalImages = 0,
-  currentImageIndex = 1,
+  currentImageIndex = null,
   setCurrentImageIndex,
 }) => {
   const goToNextImage = () => {
@@ -56,7 +56,7 @@ const ImageModal = ({
           </button>
           <div className="w-[1110px] m-auto max-h-[540px]">
             <Image
-              src={imageData[currentImageIndex]?.image}
+              src={imageData[currentImageIndex]?.url}
               alt=""
               height={752}
               width={1110}

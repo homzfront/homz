@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { updatePropertyDetails } from "@/api/propertyService";
 import LoadingII from "@/components/mainmenu/loadingII";
 
@@ -161,19 +160,6 @@ const PropertyDetails = ({ data }) => {
 
   return (
     <div className="mt-2">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       {loading ? (
         <LoadingII />
       ) : (

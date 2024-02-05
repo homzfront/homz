@@ -109,6 +109,47 @@ export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
 };
 
 
+export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
+  console.log(id);
+  console.log(uploadedImage);
+  console.log(publicId)
+  const formData = new FormData();
+  formData.append("photos", uploadedImage);
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  console.log(formDataObject);
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+      // add other headers as needed
+    };
+    const response = await api.patch(
+      `/properties/${id}/photos?publicId=${publicId}`,
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      console.log(response.data.data);
+      console.log("form successfully updated ", response?.data);
+      return { success: true, updatedImage: response };
+    } else {
+      const error = response.data.message;
+      console.log("Unexpected status code:", error);
+    }
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+
 
 export const rentDetails = async (id, updatedData) => {
   console.log(updatedData);

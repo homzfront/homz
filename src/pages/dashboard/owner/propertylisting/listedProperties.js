@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropertyCard from "./components/propertyCard";
 import Button from "../components/button";
 import Image from "next/image";
-import Dropdown from "../components/dropDownTwo";
+import Dropdown from "@/components/mainmenu/dropDownTwo"
 import PropertyForm from "./propertyListingForm/propertyForm";
 
 const ListedProperties = ({
@@ -16,25 +16,25 @@ const ListedProperties = ({
   handleSelect,
   returnToStartRegistration,
   registrationForm,
-  addNewProperty
+  addNewProperty,
+  selectedArea,
+  selectedProperty,
+  selectedRooms,
+  selectedState,
+  setSelectedState,
+  setSelectedArea,
+  setSelectedProperty,
+  setSelectedRooms,
+  optionsRoom,
+  options,
+  options2,
+  options3,
+  clear,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-
-  const options = [
-    { id: 1, label: "Apartment" },
-    { id: 2, label: "Duplex" },
-    { id: 3, label: "Self Contain" },
-    { id: 4, label: "Studio Room" },
-  ];
-  const options2 = [
-    { id: 1, label: "Abuja" },
-    { id: 2, label: "Lagos" },
-    { id: 3, label: "Ekiti" },
-    { id: 4, label: "Jos" },
-  ];
 
   const ITEMS_PER_PAGE = 8;
   const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
@@ -88,31 +88,43 @@ const ListedProperties = ({
                 </p>
 
                 <Dropdown
-                  options={options2}
-                  onSelect={handleSelect}
-                  selectOption={"State"}
+                  options={options}
+                  onSelect={(option) => setSelectedState(option)}
+                  selectOption={
+                    selectedState === null ? "State" : selectedState
+                  }
                   className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
                 />
 
                 <Dropdown
                   options={options2}
-                  onSelect={handleSelect}
-                  selectOption={"Area"}
+                  onSelect={(option) => setSelectedArea(option)}
+                  selectOption={selectedArea === null ? "Area" : selectedArea}
                   className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
                 />
                 <Dropdown
-                  options={options}
-                  onSelect={handleSelect}
-                  selectOption={"Property Type"}
+                  options={options3}
+                  onSelect={(option) => setSelectedProperty(option)}
+                  selectOption={
+                    selectedProperty === null
+                      ? "Property Type"
+                      : selectedProperty
+                  }
                   className={"text-[14px] font-[500] text-GrayHomz2"}
                 />
                 <Dropdown
-                  options={options}
-                  onSelect={handleSelect}
-                  selectOption={"Bedroom"}
+                  options={optionsRoom}
+                  onSelect={(option) => setSelectedRooms(option)}
+                  selectOption={
+                    selectedRooms === null ? "Bedroom" : selectedRooms
+                  }
                   className={"w-[120px] text-[14px] font-[500] text-GrayHomz2"}
                 />
-                <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+                <button
+                  type="text"
+                  onClick={clear}
+                  className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer"
+                >
                   <span>
                     <Image
                       src={
