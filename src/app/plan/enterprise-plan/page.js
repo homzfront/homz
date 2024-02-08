@@ -1,5 +1,5 @@
 "use client";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import Image from "next/image";

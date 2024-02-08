@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import AcAndRejModelEs from "./components/acAndRejModalEs";
 import tenantProfile from "@/store/tenantProfile";
 import LoadingII from "@/components/mainmenu/loadingII";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import { sendInviteProperty } from "@/api/tenantSevice";
 
 const EstateInformation = () => {

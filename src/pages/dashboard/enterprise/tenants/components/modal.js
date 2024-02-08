@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchEstatesMe } from "@/api/estateService";
 import { toast } from "react-toastify";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 

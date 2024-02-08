@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const TransferHis = () => {
+const TransferHis = ({ illuminateWallet }) => {
   const Data = [
     {
       Id: 1,
@@ -66,26 +66,58 @@ const TransferHis = () => {
     <div className="p-5 border rounded-[12px] mt-8 overflow-auto h-[323px] scrollbar-container">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <Image
-            src={"/static/dashboard/enterprisemanager/payment/clock.png"}
-            alt=""
-            height={21}
-            width={20}
-          />
-          <p className="text-[14px] font-[500] text-GrayHomz">Activities</p>
+          {illuminateWallet ? (
+            <Image
+              src={"/static/dashboard/enterprisemanager/payment/clock.png"}
+              alt=""
+              height={21}
+              width={20}
+            />
+          ) : (
+            <Image
+              src={"/static/dashboard/tenant/finance/clock.png"}
+              alt=""
+              height={21}
+              width={20}
+            />
+          )}
+          <p
+            className={`text-[14px] font-[500] ${
+              illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+            }`}
+          >
+            Activities
+          </p>
         </div>
 
         <div className="flex gap-1 items-center">
-          <p className="text-[13px] font-[400] text-BlackHomz">View All</p>
-          <Image
-            src={"/static/dashboard/enterprisemanager/payment/arrow-right.png"}
-            alt=""
-            height={17}
-            width={17}
-          />
+          <p
+            className={`text-[13px] font-[400]   ${
+              illuminateWallet ? "text-BlackHomz" : "text-GrayHomz6"
+            }`}
+          >
+            View All
+          </p>
+          {illuminateWallet ? (
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/payment/arrow-right.png"
+              }
+              alt=""
+              height={17}
+              width={17}
+            />
+          ) : (
+            <Image
+              src={"/static/dashboard/tenant/finance/arrow-right.png"}
+              alt=""
+              height={17}
+              width={17}
+            />
+          )}
         </div>
       </div>
-      <div>
+      <div className={`${illuminateWallet ? "block" : "hidden"}`}>
         {Data.map((data) => (
           <div key={data.Id}>
             <div>
@@ -129,8 +161,8 @@ const TransferHis = () => {
                       height={21}
                       alt=""
                     />
-                     <div className="w-[32px] h-[32px] rounded-[100%] flex items-center justify-center bg-warning2">
-                    <p className="text-[16px] font-[500] text-white">
+                    <div className="w-[32px] h-[32px] rounded-[100%] flex items-center justify-center bg-warning2">
+                      <p className="text-[16px] font-[500] text-white">
                         {getFirstLetter(data.From)}
                       </p>
                     </div>

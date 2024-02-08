@@ -94,15 +94,13 @@ const BankForm = ({ closeMenu, setBankDetails }) => {
             </p>
             <div
               onClick={closeMenu}
-              className="cursor-pointer bg-GrayHomz6 h-8 w-8 rounded-md flex items-center justify-center"
+              className="cursor-pointer h-8 w-8 rounded-md flex items-center justify-center"
             >
               <Image
-                src={
-                  "/static/dashboard/enterprisemanager/notification/Icon.png"
-                }
+                src={"/static/dashboard/tenant/finance/close-square.png"}
                 alt=""
-                height={12}
-                width={12}
+                height={24}
+                width={24}
               />
             </div>
           </div>

@@ -5,7 +5,7 @@ import EstateForm from "./estateForm/estateForm";
 import ListedEstates from "./listedEstates";
 import useEstateStore from "@/store/estates";
 import { fetchEstatesMe } from "@/api/estateService";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 
 const Estate = () => {

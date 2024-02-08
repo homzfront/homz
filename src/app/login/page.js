@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import SliderAuth from "@/components/auth/slider";
 // import { signIn } from 'next-auth/react';
 
@@ -71,7 +71,7 @@ const Login = () => {
           } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
             // If the user is a property owner, navigate to the property owner page
             router.push("/dashboard/enterprise-property/dashboard");
-          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY") {
+          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY" || profileData?.user?.accounts?.[0].name === "MANAGE_PROPERTY") {
             // If the user is a property owner, navigate to the property owner page
             router.push("/dashboard/property-owner/dashboard");
           } else {

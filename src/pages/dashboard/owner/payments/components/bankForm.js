@@ -1,55 +1,30 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Input from "../../components/input";
-import Dropdown from "../../components/dropDownTwo";
-import YesNOModal from "../../tenants/components/yesNOModal";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmModal from "../../components/confirmModal";
+import BankSelect from "./selectBank";
 
-const BankForm = ({ closeMenu, setBankDetails }) => {
-  const options = [
-    {
-      Id: 1,
-      label: "First Bank",
-    },
-    {
-      Id: 2,
-      label: "Access Bank",
-    },
-    {
-      Id: 3,
-      label: "GTBank",
-    },
-    {
-      Id: 4,
-      label: "Polaris Bank",
-    },
-    {
-      Id: 5,
-      label: "Opay",
-    },
-    {
-      Id: 6,
-      label: "Wema Bank",
-    },
-    {
-      Id: 7,
-      label: "Kuda",
-    },
-  ];
+const BankForm = ({ closeMenu, setBankDetails, Banks }) => {
+  console.log(Banks.data);
 
   const [accountNo, setAccountNo] = useState("");
   const [bankName, setBankName] = useState("");
   const [accountName, setAccountName] = useState("");
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
   const [showSubmitted, setShowSubmitted] = useState(false);
+
+  console.log(bankName?.value);
+console.log(accountNo)
+console.log(accountName)
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Create an object with the collected bank details
     const bankDetails = {
       accountNo,
-      bankName,
+      bankName: bankName?.value,
       accountName,
     };
 
@@ -72,7 +47,7 @@ const BankForm = ({ closeMenu, setBankDetails }) => {
     setShowConfirmSubmit(false);
   };
   return (
-    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
+    <div className="absolute top-0 z-20 h-auto w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       {showConfirmSubmit ? (
         <div>
           <AcAndRejModel
@@ -87,22 +62,20 @@ const BankForm = ({ closeMenu, setBankDetails }) => {
           />
         </div>
       ) : (
-        <div className="w-[550px] h-[457px] bg-white shadow-lg rounded-md p-8">
+        <div className="w-[550px] h-auto bg-white shadow-lg rounded-md p-8">
           <div className="flex justify-between items-center">
             <p className="text-BlueHomz text-[14px] font-[500]">
               Add Your Bank Account
             </p>
             <div
               onClick={closeMenu}
-              className="cursor-pointer bg-GrayHomz6 h-8 w-8 rounded-md flex items-center justify-center"
+              className="cursor-pointer h-8 w-8 rounded-md flex items-center justify-center"
             >
               <Image
-                src={
-                  "/static/dashboard/enterprisemanager/notification/Icon.png"
-                }
+                src={"/static/dashboard/tenant/finance/close-square.png"}
                 alt=""
-                height={12}
-                width={12}
+                height={24}
+                width={24}
               />
             </div>
           </div>
@@ -113,14 +86,19 @@ const BankForm = ({ closeMenu, setBankDetails }) => {
               onChange={(e) => setAccountNo(e.target.value)}
               value={accountNo}
             />
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <label className="text-[14px] font-[500]">Bank Name</label>
-              <Dropdown
-                options={options}
-                onSelect={(option) => setBankName(option.label)}
+              <DropDownWithdraw
+                options={Banks.data}
+                onSelect={(option) => setBankName(option.name)}
                 selectOption={bankName || "Select Bank"}
                 className={"w-full"}
               />
+            </div> */}
+
+            <div className="flex flex-col gap-2">
+              <h1 className="text-[14px] font-[500]">Bank Name</h1>
+              <BankSelect banks={Banks.data} setSelectedBank={setBankName} selectedBank={bankName} />
             </div>
             <Input
               label={"Account Name"}
@@ -128,6 +106,7 @@ const BankForm = ({ closeMenu, setBankDetails }) => {
               onChange={(e) => setAccountName(e.target.value)}
               value={accountName}
             />
+
             <button
               onClick={popHandleSubmit}
               className="text-[16px] font-[700] w-full h-[48px] bg-BlueHomz rounded-md text-white mt-4"

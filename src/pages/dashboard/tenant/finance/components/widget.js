@@ -22,10 +22,10 @@ const Widget = () => {
   return (
     <div>
       <div className="w-full h-auto py-2">
-        <div className=" flex mt-5 gap-4  w-[571px] cursor-pointer">
+        <div className=" flex mt-5 gap-4  w-[571px] ">
           <div className="flex flex-col items-center gap-2 justify-center pl-8">
             <div
-              className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
+              className={`cursor-pointer flex flex-col items-center py-2 px-4 justify-center rounded-md ${
                 !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
               }`}
               onClick={handlePageChange}
@@ -37,7 +37,7 @@ const Widget = () => {
 
           <div className="flex flex-col items-center gap-2 justify-center pr-8">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
+              className={`cursor-pointer flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                 activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
               }`}
               onClick={handlePageChangeTwo}

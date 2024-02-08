@@ -1,27 +1,19 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Input from "./input";
-import BankForm from "./bankForm";
+import Input from "../../components/input";
+import BankForm from "../../components/bankForm";
+import useBodyScroll from "@/utils/useBodyScroll";
+import { bankCodes } from "@/api/bankCodes";
 
-
-const Withdraw = () => {
+const Withdraw = ({ illuminateWallet }) => {
   const [bankDetails, setBankDetails] = useState([]);
   const [fillBankDetails, setFillBankDetails] = useState(false);
+  const [banks, setBanks] = useState([]);
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow =
-    fillBankDetails
-        ? "hidden"
-        : "auto";
-    if (fillBankDetails) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [fillBankDetails]);
+  useBodyScroll([fillBankDetails]);
 
-    // Ensure Data is defined before use
-    const bankdata = bankDetails || []; // Assign an empty array if Data is undefined
-
+  // Ensure Data is defined before use
+  const bankdata = bankDetails || []; // Assign an empty array if Data is undefined
 
   const handleAddBankDetails = () => {
     setFillBankDetails(!fillBankDetails);
@@ -30,23 +22,70 @@ const Withdraw = () => {
   const closeMenu = () => {
     setFillBankDetails(false);
   };
+
+  useEffect(() => {
+    console.log("Component mounted, fetching data...");
+    const fetchData = async () => {
+      try {
+        const data = await bankCodes();
+        console.log(data);
+        if (data.success === true) {
+          console.log("Form successfully updated", data);
+          setBanks(data);
+        } else {
+          console.error("Fetching data failed", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(banks)
+
   return (
     <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[503px]">
       <div className="flex gap-1 items-center">
-        <Image
-          src={"/static/dashboard/enterprisemanager/payment/received.png"}
-          width={20}
-          height={21}
-          alt=""
-        />
-        <p className="text-[14px] font-[500] text-BlueHomz">Withdraw</p>
+        {illuminateWallet ? (
+          <Image
+            src={"/static/dashboard/enterprisemanager/payment/received.png"}
+            width={20}
+            height={21}
+            alt=""
+          />
+        ) : (
+          <Image
+            src={"/static/dashboard/tenant/finance/received.png"}
+            width={20}
+            height={21}
+            alt=""
+          />
+        )}
+
+        <p
+          className={`text-[14px] font-[500] ${
+            illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
+          } `}
+        >
+          Withdraw
+        </p>
       </div>
-      <p className="text-[13px] font-[400] text-GrayHomz">
+      <p
+        className={`text-[13px] font-[400]  ${
+          illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+        }`}
+      >
         Withdraw from your wallet balance to your local bank account
       </p>
       {bankdata < 1 ? (
         <div
-          className="bg-BlueHomz rounded-md w-[212px] h-[37px] flex items-center justify-center"
+          className={` rounded-md w-[212px] h-[37px] flex items-center justify-center  ${
+            illuminateWallet
+              ? "bg-BlueHomz"
+              : "bg-GrayHomz6 pointer-events-none"
+          }`}
           onClick={handleAddBankDetails}
         >
           <p className="text-[14px] font-[700] text-white cursor-pointer">
@@ -92,7 +131,7 @@ const Withdraw = () => {
       )}
       {fillBankDetails && (
         <div>
-          <BankForm closeMenu={closeMenu} setBankDetails={setBankDetails}/>
+          <BankForm closeMenu={closeMenu} Banks={banks} setBankDetails={setBankDetails} />
         </div>
       )}
     </div>

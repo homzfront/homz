@@ -7,7 +7,7 @@ import { Fascinate } from "next/font/google";
 import ConfirmModal from "../../../components/confirmModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
   const [subject, setSubject] = useState("");

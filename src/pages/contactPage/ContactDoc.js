@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import api from "@/utils/api";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';   

@@ -4,10 +4,14 @@ import Link from "next/link";
 import React, { useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
+import Close from "@/components/icons/Close";
+import Menu from "@/components/icons/Menu";
+import SidebarMobile from "../../enterprise/sidebarMobile/sidebarHeader";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleToggleMenu = () => {
     setPopUpMenu(!popUpMenu);
@@ -17,9 +21,42 @@ const Header = () => {
     setPopUpMenuTwo(!popUpMenuTwo);
   };
 
+  const openSidebar = () => {
+    setOpen(!open);
+  };
+  const closeSidebar = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="header w-[1147px]">
-      <div className="flex justify-between items-center py-8 px-10">
+    <div className="header  w-[1147px]">
+      {open && (
+        <div>
+          <div className="absolute h-screen bg-white z-10 w-[100%]">
+            <div className="mt-8 flex justify-between px-8">
+              <p>Dashboard</p>
+              <div className="cursor-pointer" onClick={closeSidebar}>
+                <Close />
+              </div>
+            </div>
+            <SidebarMobile setOpen={setOpen}/>
+          </div>
+        </div>
+      )}
+      <div className="md:hidden w-[412px] flex justify-between p-8">
+        <div>
+          <Image
+            src={"/static/images/Homz_5.png"}
+            alt=""
+            height={18}
+            width={87}
+          />
+        </div>
+        <div className="cursor-pointer" onClick={openSidebar}>
+          <Menu />
+        </div>
+      </div>
+      <div className=" hidden md:flex justify-between items-center py-8 px-10">
         <div className="relative">
           <input
             type="text"

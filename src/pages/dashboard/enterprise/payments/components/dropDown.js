@@ -1,8 +1,14 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 
-const Dropdown = ({ options, onSelect, selectOption, className }) => {
+const Dropdown = ({
+  options,
+  onSelect,
+  selectOption,
+  className,
+  illuminateWallet,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -25,9 +31,20 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
         onClick={handleDropdownToggle}
       >
         <div className="flex items-center justify-between">
-          <span className="mr-2 text-GrayHomz6 text-[14px] font-[500]">{selectedOption?.label || selectOption }</span>
+          <span
+            className={`mr-2  text-[14px] font-[500] ${
+              illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+            }`}
+          >
+            {selectedOption?.label || selectOption}
+          </span>
           <div className={`w-5 h-5 ${isOpen ? "transform rotate-180" : ""}`}>
-            <Image src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png" height={16} width={16} alt="" />
+            <Image
+              src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
+              height={16}
+              width={16}
+              alt=""
+            />
           </div>
         </div>
       </div>
@@ -40,7 +57,7 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
               className=" p-2 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
               onClick={() => handleOptionClick(option)}
             >
-              {option.label} 
+              {option.label}
             </div>
           ))}
         </div>

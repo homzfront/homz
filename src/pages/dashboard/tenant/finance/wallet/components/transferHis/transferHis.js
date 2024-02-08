@@ -9,8 +9,8 @@ import Receipt from "../../../components/receipt";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import ShareAbleReceipt from "../../../components/shareAbleReceipt";
-import PopUpMenuTwo from "@/pages/dashboard/owner/tenants/components/popUpMenuTwo";
 import PopUpReceipt from "../../../components/popUpReceipt";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const Data = [
   {
@@ -43,7 +43,7 @@ const Data = [
   },
 ];
 
-const TransferHis = () => {
+const TransferHis = ({ illuminateWallet }) => {
   const [data, setData] = useState(Data || []);
   const [transferToggleModal, setTransferToggleModal] = useState(false);
   const [successfulTansferModal, setSuccessfulTansferModal] = useState(false);
@@ -59,17 +59,7 @@ const TransferHis = () => {
   };
 
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow =
-      receipt || successfulTansferModal || transferToggleModal
-        ? "hidden"
-        : "auto";
-    if (receipt || successfulTansferModal || transferToggleModal) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [receipt, successfulTansferModal, transferToggleModal]);
-
+  useBodyScroll([receipt, successfulTansferModal, transferToggleModal]);
 
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
@@ -95,20 +85,39 @@ const TransferHis = () => {
       <div className="py-8 border rounded-[12px] h-[700px] w-full">
         <div className="px-8 pb-4">
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/received.png"}
-              width={20}
-              height={21}
-              alt=""
-            />
-            <p className="text-[14px] font-[500] text-BlueHomz">Rent History</p>
+            {illuminateWallet ? (
+              <Image
+                src={"/static/dashboard/enterprisemanager/payment/received.png"}
+                width={20}
+                height={21}
+                alt=""
+              />
+            ) : (
+              <Image
+                src={"/static/dashboard/tenant/finance/received.png"}
+                width={20}
+                height={21}
+                alt=""
+              />
+            )}
+            <p
+              className={`text-[14px] font-[500]  ${
+                illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
+              } `}
+            >
+              Rent History
+            </p>
           </div>
-          <p className="mt-1 text-[13px] font-[400] text-GrayHomz">
+          <p
+            className={`mt-1 text-[13px] font-[400]  ${
+              illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+            }`}
+          >
             All rent payments are displayed here
           </p>
         </div>
 
-        <div>
+        <div className={`${illuminateWallet ? "block" : "hidden"}`}>
           <table className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">

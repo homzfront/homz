@@ -8,7 +8,7 @@ import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 

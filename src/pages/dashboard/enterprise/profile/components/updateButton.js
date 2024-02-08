@@ -2,7 +2,7 @@
 import AcAndRejModel from "../../components/acAndRejModel";
 import Loading from "@/components/mainmenu/loading";
 import ConfirmModal from "../../components/confirmUpdateModal";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading, showDialogue, setShowDialogue}) => {
   

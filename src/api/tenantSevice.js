@@ -1,12 +1,12 @@
 import api from "@/utils/api";
 
 export const fetchSpecificTenant = async (id) => {
-  console.log(id)
+  console.log(id);
   try {
     const response = await api.get(`/tenants/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching tenant details:", error);
     throw error;
   }
 };
@@ -17,7 +17,7 @@ export const tenantMe = async () => {
     console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching tenant details:", error);
     throw error;
   }
 };
@@ -28,7 +28,7 @@ export const tenantEnterprise = async () => {
     console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching details:", error);
     throw error;
   }
 };
@@ -102,7 +102,7 @@ export const tenantRentInfo = async () => {
     console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching rent Information:", error);
     throw error;
   }
 };
@@ -150,7 +150,7 @@ export const createSpecificTenantRentInfo = async (id, updatedData) => {
     property,
   } = updatedData;
   try {
-    const response = await api.post(`/rentInformation/${id}`, { 
+    const response = await api.post(`/rentInformation/${id}`, {
       propertyType,
       apartmentNumber,
       rent,
@@ -159,16 +159,14 @@ export const createSpecificTenantRentInfo = async (id, updatedData) => {
       dueDate,
       paymentStatus,
       property,
-     });
+    });
     console.log(response);
     return { success: true, upDateddata: response?.data.data };
-  }  catch (error) {
+  } catch (error) {
     console.error("Update error", error);
     return { success: false, error: error?.response?.data }; // Adjusted this line
   }
-}
-
-
+};
 
 export const updateSpecificTenantRentInfo = async (id, updatedData) => {
   const {
@@ -182,7 +180,7 @@ export const updateSpecificTenantRentInfo = async (id, updatedData) => {
     property,
   } = updatedData;
   try {
-    const response = await api.patch(`/rentInformation/${id}`, { 
+    const response = await api.patch(`/rentInformation/${id}`, {
       propertyType,
       apartmentNumber,
       rent,
@@ -191,14 +189,14 @@ export const updateSpecificTenantRentInfo = async (id, updatedData) => {
       dueDate,
       paymentStatus,
       property,
-     });
+    });
     console.log(response);
     return { success: true, upDateddata: response?.data.data };
-  }  catch (error) {
+  } catch (error) {
     console.error("Update error", error);
     return { success: false, error: error?.response?.data }; // Adjusted this line
   }
-}
+};
 
 export const updatePaymentStatusTenant = async ({ id, status }) => {
   console.log(id);
@@ -210,7 +208,57 @@ export const updatePaymentStatusTenant = async ({ id, status }) => {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error updating payment status:", error);
+    throw error;
+  }
+};
+
+export const createTenantWallet = async (BVNDetails) => {
+  const { bvn, bvnDateOfBirth } = BVNDetails;
+  try {
+    const response = await api.post(`/wallet/create/tenant`, {
+      bvn,
+      bvnDateOfBirth,
+    });
+    console.log(response);
+    return { success: true, upDateddata: response?.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response?.data }; // Adjusted this line
+  }
+};
+
+export const tenantWallet = async () => {
+  try {
+    const response = await api.get(`/wallet/getWallet/tenant`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error wallet:", error);
+    throw error;
+  }
+};
+
+export const payRent = async (amount) => {
+  console.log(amount);
+  try {
+    const response = await api.post(`/rentPayment/tenant`, amount);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+
+
+export const tenantWalletBalance = async () => {
+  try {
+    const response = await api.get(`/wallet/balance/tenant`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error wallet:", error);
     throw error;
   }
 };

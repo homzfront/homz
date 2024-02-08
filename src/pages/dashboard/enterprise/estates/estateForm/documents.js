@@ -4,7 +4,7 @@ import PopUpMenuDoc from "../components/popUpMenuDoc";
 import Loading from "@/components/mainmenu/loading";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmEstateListing from "../components/confirmEstateListing";
 

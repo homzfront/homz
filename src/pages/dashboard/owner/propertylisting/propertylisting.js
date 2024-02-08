@@ -35,7 +35,7 @@ const PropertyListing = () => {
         setData(properties);
         setLoading(false);
       } catch (error) {
-        // Handle error if needed
+       setLoading(false);
       }
     };
 

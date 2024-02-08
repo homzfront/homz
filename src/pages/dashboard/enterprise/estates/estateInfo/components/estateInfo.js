@@ -4,7 +4,7 @@ import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
 import Image from "next/image";
 import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

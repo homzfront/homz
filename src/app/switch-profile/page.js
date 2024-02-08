@@ -41,7 +41,7 @@ const SelectPlan = () => {
       title: "Manage Property/Estate",
       content: "Monitor your Estates & properties with an intuitive dashboard.",
       link: "/dashboard/property-owner/dashboard",
-      name: "LIST_PROPERTY",
+      name: "MANAGE_PROPERTY",
     },
     {
       id: 2,

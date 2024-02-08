@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
 import AcAndRejModel from "../../components/acAndRejModel";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import ConfirmPropertyListing from "../components/confirmPropertyListing";
 import Loading from "@/components/mainmenu/loading";
 

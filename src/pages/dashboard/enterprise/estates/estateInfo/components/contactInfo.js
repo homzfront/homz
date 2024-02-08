@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updateContactInfo } from "@/api/estateService";

@@ -45,9 +45,6 @@ const Widget = () => {
               </div>
             </div>
           </div>
-          <button className="text-[13px] font-[400] text-BlueHomz">
-            Request for rent advance
-          </button>
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>

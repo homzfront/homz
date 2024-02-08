@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import TenantsTwo from "./tenantsTwo";
 import Modal from "../components/modal";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import tenantsDataForLoggedInEnterprise from "@/store/tenantData";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Dropdown from "../../components/dropDownFilter";

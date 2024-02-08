@@ -1,6 +1,6 @@
 "use client";
 import { fetchEstates } from "@/api/estateService";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import Popup from "@/pages/tenantManagementPlan/popUp";
 import api from "@/utils/api";

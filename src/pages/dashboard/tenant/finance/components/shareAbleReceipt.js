@@ -1,10 +1,26 @@
+"use client";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import addYearsToValues from "@/utils/addYearsToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
+const ShareAbleReceipt = ({ closeShareAbleReceipt, rentData }) => {
+  const [receiptData, setReceiptData] = useState("");
+  console.log(rentData);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const Data = localStorage.getItem("RentResponse");
+      if (Data) {
+        const parsedData = JSON.parse(Data);
+        setReceiptData(parsedData);
+      }
+    }
+  }, []); 
+  console.log(receiptData);
   return (
     <div className="absolute top-0 z-30 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
-      <div className="h-[680px] w-[530px] bg-white rounded-lg p-8">
+      <div  id="receipt-content" className=" h-[680px] w-[530px] bg-white rounded-lg p-8">
         <div className="flex flex-col gap-4">
           <div className="">
             <div className="flex gap-4 items-center">
@@ -25,13 +41,13 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
               Transaction Receipt
             </p>
           </div>
-          <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-3">
+          <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-2">
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
                 Amount
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                N1,500,000
+                {addCommasToNumber(receiptData?.totalRent)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -39,7 +55,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Description
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                2 years rent
+                {addYearsToValues(receiptData?.duration)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -47,7 +63,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Payment Date
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                4th January, 2023
+                {changeBackendDateFormat(receiptData?.createdAt)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -55,7 +71,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Next Due Date
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                4th January, 2025
+                {changeBackendDateFormat(receiptData?.dueDate)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -63,7 +79,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Apartment Number
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                Apartment 1
+                {receiptData?.apartmentNumber}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -71,7 +87,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Property
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                New Suncity Property
+                {rentData?.data?.estateId?.name}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -79,7 +95,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Property Type
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                2-Bedroom Bungalow
+                {receiptData?.propertyType}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -87,18 +103,18 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
                 Property Manager
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                Property Manager’s Registered Name
+                {rentData?.data?.enterPrise?.fullName}
               </p>
             </div>
           </div>
-          <div className="rounded-lg bg-whiteblue p-4 flex flex-col gap-2">
+          <div className="relative rounded-lg bg-whiteblue p-4 flex flex-col gap-2">
             <div className="w-full flex gap-4">
               <p className="text-BlueHomz text-[13px] font-[400] w-[50%]">
                 Transaction Reference No
               </p>
-              <div className="flex items-center gap-4 w-[50%]">
+              <div className="flex items-center gap-3 w-[50%]">
                 <p className="text-BlueHomz text-[14px] font-[400]">
-                  000000000000
+                  {receiptData?.reference}
                 </p>
                 <Image
                   src={"/static/dashboard/enterprisemanager/payment/copy.png"}
@@ -154,7 +170,7 @@ const ShareAbleReceipt = ({closeShareAbleReceipt}) => {
             </div>
           </div>
           <p className="mt-2 text-[11px] font-[400] text-GrayHomz text-center">
-          &copy; Copyright  2022  Homz.ng. All Rights Reserved
+            &copy; Copyright 2022 Homz.ng. All Rights Reserved
           </p>
         </div>
       </div>

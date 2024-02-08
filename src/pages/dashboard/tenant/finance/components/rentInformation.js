@@ -6,35 +6,47 @@ import AcAndRejModalII from "../rentSavings/components/modals/acAndRejModalII";
 import ReceiptModal from "./receiptModal";
 import Receipt from "./receipt";
 import ShareAbleReceipt from "./shareAbleReceipt";
+import { payRent } from "@/api/tenantSevice";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import changePresentDateFormat from "@/utils/changePresentDateFormat";
+import Loading from "@/components/mainmenu/loading";
+import FailedModal from "../../components/failedModal";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
-const RentInformation = ({ closeRentPay }) => {
+const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
   const [proceed, setProceed] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [receipt, setReceipt] = useState(false);
   const [shareAble, setShareAble] = useState(false);
+  const [selecetedYear, setselectedYear] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  const option = [
-    {
-      id: 1,
-      label: "1 year",
-    },
-    {
-      id: 2,
-      label: "2 years",
-    },
-    {
-      id: 3,
-      label: "3 years",
-    },
-    {
-      id: 4,
-      label: "4 years",
-    },
-    {
-      id: 5,
-      label: "5 years",
-    },
-  ];
+  const handleOptionSelect = (option) => {
+    console.log("Selected option:", option);
+    setselectedYear(parseInt(option?.label));
+    // Perform any necessary actions with the selected option
+  };
+
+  console.log(selecetedYear);
+  const RentValue = selecetedYear * rentData?.data?.rent;
+  console.log(RentValue);
+
+  // Example usage
+  const today = new Date();
+  const duration = rentData?.data?.duration;
+
+  const generateOptions = (duration) => {
+    const options = [];
+    for (let i = 1; i <= duration; i++) {
+      options.push({ id: i, label: `${i} year${i > 1 ? "s" : ""}` });
+    }
+    return options;
+  };
+
+  // Use the generated options in your Dropdown component
+  const options = generateOptions(duration);
 
   const proceeding = () => {
     setProceed(!proceed);
@@ -44,8 +56,29 @@ const RentInformation = ({ closeRentPay }) => {
     setProceed(false);
   };
 
-  const openConfirm = () => {
-    setConfirm(!confirm);
+  const openConfirm = async () => {
+    setLoading(true);
+    try {
+      const data = { amount: parseInt(rentData?.data?.totalRent) };
+      const { success, upDateddata, error } = await payRent(data);
+
+      if (success) {
+        setLoading(false);
+        console.log("Form successfully updated", upDateddata);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("RentResponse", JSON.stringify(upDateddata));
+        }
+        setConfirm(!confirm);
+      } else {
+        setLoading(false);
+        setFailed(true);
+      }
+    } catch (error) {
+      // console.error("Update error", error);
+      setLoading(false);
+      setFailed(true);
+      // toast.error("Update failed");
+    }
   };
 
   const closeConfirm = () => {
@@ -60,29 +93,22 @@ const RentInformation = ({ closeRentPay }) => {
     setReceipt(false);
     setConfirm(false);
     setProceed(false);
+    // fetchDataAgain();
     closeRentPay();
+    setFailed(false);
   };
 
-  const shareAbleReceipt = () => {
-    setShareAble(!shareAble);
-  };
-
-  const closeShareAbleReceipt = () => {
-    setReceipt(false);
-    setConfirm(false);
-    setProceed(false);
-    closeRentPay();
-    setShareAble(false);
-  }
+  console.log(rentData);
 
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-      {shareAble ? (
-        <div>
-          <ShareAbleReceipt closeShareAbleReceipt={closeShareAbleReceipt}/>
-        </div>
-      ) : receipt ? (
-        <Receipt closeReceipt={closeReceipt} shareReceipt={shareAbleReceipt} />
+      {loading && <Loading />}
+      {receipt ? (
+        <Receipt
+          closeReceipt={closeReceipt}
+          rentData={rentData}
+          
+        />
       ) : confirm ? (
         <ReceiptModal
           header={"Transaction Complete"}
@@ -92,19 +118,28 @@ const RentInformation = ({ closeRentPay }) => {
           returnHomeTwo={closeConfirm}
           returnHome={showReceipt}
         />
+      ) : failed ? (
+        <FailedModal
+          header={"Unsuccessful"}
+          body={"Your wallet balance is not sufficient for this transaction"}
+          button={"Close"}
+          returnHome={closeReceipt}
+        />
       ) : proceed ? (
         <div>
           <AcAndRejModalII
             returnHomeTwo={closeProceeding}
             returnHome={openConfirm}
             header={"Proceed To Pay Rent?"}
-            body={"N1,500,000 will be deducted from your wallet balance"}
+            body={`${addCommasToNumber(
+              rentData?.data?.totalRent
+            )} will be deducted from your wallet balance`}
             button={"Yes"}
             buttonTwo={"Cancel"}
           />
         </div>
       ) : (
-        <div className="h-[660px] w-[530px] bg-white rounded-lg p-8">
+        <div className="h-[560px] w-[530px] bg-white rounded-lg p-8">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-1 w-[1600px]">
@@ -142,7 +177,7 @@ const RentInformation = ({ closeRentPay }) => {
                   Property Manager
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  Property Manager’s Registered Name
+                  {rentData?.data?.enterPrise?.fullName}
                 </p>
               </div>
               <div className="w-full flex gap-4">
@@ -150,7 +185,7 @@ const RentInformation = ({ closeRentPay }) => {
                   Property Type
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  2-Bedroom Bungalow
+                  {rentData?.data?.propertyType}
                 </p>
               </div>
               <div className="w-full flex gap-4">
@@ -158,7 +193,7 @@ const RentInformation = ({ closeRentPay }) => {
                   Property
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  New Suncity Property
+                  {rentData?.data?.estateId?.name}
                 </p>
               </div>
               <div className="w-full flex gap-4">
@@ -166,7 +201,7 @@ const RentInformation = ({ closeRentPay }) => {
                   Apartment Number
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  Apartment 1
+                  {rentData?.data?.apartmentNumber}
                 </p>
               </div>
               <div className="w-full flex gap-4">
@@ -174,22 +209,15 @@ const RentInformation = ({ closeRentPay }) => {
                   Rent
                 </p>
                 <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                  N750,000
+                  {addCommasToNumber(rentData?.data?.rent)}
                 </p>
               </div>
             </div>
           </div>
-          <div className="mt-3 w-full flex gap-1">
-            <p className="text-BlackHomz text-[11px] font-[400] w-[37%]">
-              Is your rent information incorrect?
-            </p>
-            <p className="text-BlueHomz text-[11px] font-[400]">
-              Message Property Manager
-            </p>
-          </div>
+    
 
-          <div className="flex flex-col gap-4 my-6">
-          <div className="w-full flex gap-4">
+          <div className="mt-4 flex flex-col gap-4 my-6">
+            <div className="w-full flex gap-4">
               <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
                 Rent Duration
               </p>
@@ -198,8 +226,11 @@ const RentInformation = ({ closeRentPay }) => {
                   Select the duration you’re paying for
                 </p>
                 <Dropdown
-                  options={option}
-                  selectOption={"1 year"}
+                  options={options}
+                  onSelect={handleOptionSelect}
+                  selectOption={`1 - ${duration} year${
+                    duration > 1 ? "s" : ""
+                  }`}
                   className={"w-full mt-2"}
                 />
               </div>
@@ -209,7 +240,7 @@ const RentInformation = ({ closeRentPay }) => {
                 Total Rent
               </p>
               <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
-                N 1,500,000
+                {addCommasToNumber(rentData?.data?.totalRent)}
               </p>
             </div>
 
@@ -218,15 +249,7 @@ const RentInformation = ({ closeRentPay }) => {
                 Payment Date
               </p>
               <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
-                4th January, 2023
-              </p>
-            </div>
-            <div className="w-full flex gap-4">
-              <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
-                Next Due Date
-              </p>
-              <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
-                4th January, 2025
+                {changePresentDateFormat(today)}
               </p>
             </div>
           </div>
@@ -235,7 +258,8 @@ const RentInformation = ({ closeRentPay }) => {
             onClick={proceeding}
             className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
           >
-            Pay Rent (N1,500,000)
+            {/* {addCommasToNumber(RentValue)} */}
+            {addCommasToNumber(rentData?.data?.totalRent)}
           </button>
         </div>
       )}

@@ -8,7 +8,7 @@ import useTenantRequestStore from "@/store/tenantRequest";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { fetchSpecificTenant } from "@/api/tenantSevice";
 import { ConfirmTenantRequest } from "@/api/requestService";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const RequestPage = () => {
   const { request, setRequest } = useTenantRequestStore();

@@ -247,3 +247,42 @@ try {
   return { success: false, error: error?.response.data.message };
 }
 };
+
+export const createPropertyOwnerWallet = async (BVNDetails) => {
+  const { bvn, bvnDateOfBirth } = BVNDetails;
+  try {
+    const response = await api.post(`/wallet/create/property-owner`, {
+      bvn,
+      bvnDateOfBirth,
+    });
+    console.log(response);
+    return { success: true, upDateddata: response?.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response?.data }; // Adjusted this line
+  }
+};
+
+export const propertyOwnerWallet = async () => {
+  try {
+    const response = await api.get(`/wallet/getWallet/property-owner`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error wallet:", error);
+    throw error;
+  }
+};
+
+export const propertyOwnerWalletBalance = async () => {
+  try {
+    const response = await api.get(`/wallet/balance/property-owner`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error wallet:", error);
+    throw error;
+  }
+};
+
+

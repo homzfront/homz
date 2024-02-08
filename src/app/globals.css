@@ -56,7 +56,19 @@ body {
   width: 100%; /* Allow it to take 100% width within the max-width */
 }
 
-
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide the sidebar on screens smaller than 768px */
+  }
+  
+  .dashboard {
+    grid-template-columns: 1fr; /* Change to a single column layout */
+    grid-template-rows: auto; /* Allow rows to adjust dynamically */
+    grid-template-areas:
+      "header"
+      "pagepart";
+  }
+}
 
 
 .custom-dropdown {
