@@ -7,27 +7,18 @@ import useEstateStore from "@/store/estates";
 import { fetchEstatesMe } from "@/api/estateService";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
+import estateStore from "@/store/estates";
 
 const Estate = () => {
-  const { estates, setEstates } = useEstateStore();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchEstatesMe();
-        const estate = data.data?.results?.[0].data;
-        setEstates(estate);
-        setData(estate);
-        setLoading(false);
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
+  const { data, loading, fetchData } = estateStore();
 
+  useEffect(() => {
+    // Fetch data when the component mounts
     fetchData();
   }, []);
 
+  
+const estates = data
   console.log(estates);
 
   const [selectedDataId, setSelectedDataId] = useState(null);

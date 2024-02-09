@@ -120,3 +120,22 @@ body {
 /* .radio-input:focus {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 } */
+
+
+.custom-three-dots {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-three-dots svg circle:nth-child(1) {
+  stroke: white; /* Change the color of the first circle to white */
+}
+
+.custom-three-dots svg circle:nth-child(2) {
+  stroke: #006AFF; /* Change the color of the second circle to the specified color */
+}
+
+.custom-three-dots svg circle:nth-child(3) {
+  stroke: white; /* Change the color of the third circle to white */
+}

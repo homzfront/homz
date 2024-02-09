@@ -8,9 +8,9 @@ const BankSelect = ({ banks, selectedBank, setSelectedBank }) => {
     setSelectedBank(selectedOption);
   };
 
-  const options = banks.map((bank) => ({
-    value: bank.name,
-    label: `${bank.name}`,
+  const options = banks?.map((bank) => ({
+    value: bank?.name,
+    label: `${bank?.name}`,
   }));
 
   return (

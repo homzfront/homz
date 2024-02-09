@@ -116,3 +116,41 @@ export const enterpriseUserWallet = async () => {
     throw error;
   }
 };
+
+
+export const enterpriseWalletBalance = async () => {
+  try {
+    const response = await api.get(`/wallet/balance/enterprise`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error wallet:", error);
+    throw error;
+  }
+};
+
+
+export const sendMoneyEnterpriseToOwner = async (details) => {
+console.log(details)
+  try {
+    const response = await api.post(`/wallet/debit/enterprise`, details);
+    console.log(response);
+    return { success: true, upDateddata: response?.data.responseBody };
+  } catch (error) {
+    console.error("error", error);
+    return { success: false, error: error?.response?.error }; // Adjusted this line
+  }
+};
+
+
+export const enterpriseplanRoleInvite = async (details) => {
+  console.log(details)
+    try {
+      const response = await api.post(`/enterpriseplan/role/invite-link`, details);
+      console.log(response);
+      return { success: true, upDateddata: response};
+    } catch (error) {
+      console.error(" error", error);
+      return { success: false, error: error?.response?.error }; // Adjusted this line
+    }
+  };

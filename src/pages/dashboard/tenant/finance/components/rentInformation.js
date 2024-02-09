@@ -14,7 +14,7 @@ import FailedModal from "../../components/failedModal";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
+const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminateWallet }) => {
   const [proceed, setProceed] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [receipt, setReceipt] = useState(false);
@@ -65,9 +65,11 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
       if (success) {
         setLoading(false);
         console.log("Form successfully updated", upDateddata);
+        setIlluminateWallet(false);
         if (typeof window !== "undefined") {
           localStorage.setItem("RentResponse", JSON.stringify(upDateddata));
         }
+        fetchDataAgain()
         setConfirm(!confirm);
       } else {
         setLoading(false);

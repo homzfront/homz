@@ -10,8 +10,16 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import ShareAbleReceipt from "../../components/shareAbleReceipt";
 import useBodyScroll from "@/utils/useBodyScroll";
+import { sendMoneyEnterpriseToOwner } from "@/api/enterpriseManagerService";
+import Loading from "@/components/mainmenu/loading";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import { toast } from "react-toastify";
 
-const TransferDetails = ({ illuminateWallet }) => {
+const TransferDetails = ({
+  illuminateWallet,
+  setIlluminateWallet,
+  fetchDataAgain,
+}) => {
   console.log(illuminateWallet);
   const [accountNumber, setAccountNumber] = useState("");
   const [recipientName, setRecipientName] = useState("");
@@ -23,6 +31,7 @@ const TransferDetails = ({ illuminateWallet }) => {
   const [successfulTansferModal, setSuccessfulTansferModal] = useState(false);
   const [receipt, setReceipt] = useState(false);
   const [shareAbleReceipt, setShareAbleReceipt] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // useEffect to handle scrolling
   useBodyScroll([receipt, successfulTansferModal, transferToggleModal]);
@@ -46,33 +55,55 @@ const TransferDetails = ({ illuminateWallet }) => {
   const closeReceipt = () => {
     setReceipt(false);
   };
-  const options = [
-    { id: 1, label: "First Bank" },
-    { id: 2, label: "GT Bank" },
-    { id: 3, label: "Access Bank" },
-  ];
-  const handleSend = (e) => {
+  const options = [{ id: 1, label: "Moniepoint Microfinance Bank" }];
+  const handleSend = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     // You can now access the form data here
     const formData = {
-      accountNumber,
+      destinationAccountNumber: accountNumber,
       recipientName,
       amount,
       description,
-      selectedBank,
+      // selectedBank,
     };
+    try {
+      console.log("Form Data:", formData);
+      const { success, upDateddata, error } = await sendMoneyEnterpriseToOwner(
+        formData
+      );
 
-    console.log("Form Data:", formData);
-    setTransfer(formData);
-    setDescription("");
-    setAccountNumber("");
-    setRecipientName("");
-    setAmount("");
-    setTransferToggleModal(false);
-    setSelectedBank(null);
-    setSuccessfulTansferModal(!successfulTansferModal);
-    // Add your logic to handle the form data as needed
+      if (success) {
+        setLoading(false);
+        console.log("Form successfully updated", upDateddata);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "MoneyTransfer Response",
+            JSON.stringify(upDateddata, formData)
+          );
+        }
+        setTransfer(formData);
+        setDescription("");
+        setAccountNumber("");
+        setRecipientName("");
+        setAmount("");
+        setTransferToggleModal(false);
+        setSelectedBank(null);
+        setSuccessfulTansferModal(!successfulTansferModal);
+        toast.success("transfer successful");
+      } else {
+        toast.error("Internal server error, transfer failed");
+        setLoading(false);
+        setTransferToggleModal(false)
+        // setFailed(true);
+      }
+    } catch (error) {
+      // console.error("Update error", error);
+      setLoading(false);
+      toast.error("Internal server error, transfer failed");
+      setTransferToggleModal(false)
+      // setFailed(true);
+    }
   };
 
   const receiptRef = useRef(null);
@@ -113,6 +144,9 @@ const TransferDetails = ({ illuminateWallet }) => {
             <Receipt
               closeReceipt={closeReceipt}
               openShareAbleReceipt={openShareAbleReceipt}
+              transfer={transfer}
+              setIlluminateWallet={setIlluminateWallet}
+              fetchDataAgain={fetchDataAgain}
             />
           </div>
         )}
@@ -121,7 +155,9 @@ const TransferDetails = ({ illuminateWallet }) => {
         {successfulTansferModal && (
           <div>
             <ReceiptModal
-              body={"You have successfully sent N200,000 to Victor Simon."}
+              body={`You have successfully sent ${addCommasToNumber(
+                transfer?.amount
+              )} to ${transfer?.recipientName}.`}
               header={"Transaction Complete"}
               button={"View Reciept"}
               buttonTwo={"Close"}
@@ -134,9 +170,12 @@ const TransferDetails = ({ illuminateWallet }) => {
       <div>
         {transferToggleModal && (
           <div>
+            {loading && <Loading />}
             <AcAndRejModel
               header={"Confirm Transaction"}
-              body={"You’re sending N200,000 to Victor Simon"}
+              body={`You’re sending ${addCommasToNumber(
+                amount
+              )} to ${recipientName}`}
               button={"Yes, Send"}
               buttonTwo={"Cancel Transaction"}
               returnHome={handleSend}

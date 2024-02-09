@@ -4,11 +4,27 @@ import Input from "../../components/input";
 import BankForm from "../../components/bankForm";
 import useBodyScroll from "@/utils/useBodyScroll";
 import { bankCodes } from "@/api/bankCodes";
+import {
+  bankInfoPropertyOwner,
+  withdrawPropertyOwner,
+} from "@/api/propertyService";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import LoadingMutating from "@/components/mainmenu/loadingMutating";
+import { toast } from "react-toastify";
 
-const Withdraw = ({ illuminateWallet }) => {
+const Withdraw = ({
+  illuminateWallet,
+  fetchDataAgain,
+  setIlluminateWallet,
+}) => {
   const [bankDetails, setBankDetails] = useState([]);
   const [fillBankDetails, setFillBankDetails] = useState(false);
   const [banks, setBanks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingII, setLoadingII] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [fetchData, setFetchData] = useState(false);
+
   // useEffect to handle scrolling
   useBodyScroll([fillBankDetails]);
 
@@ -25,26 +41,73 @@ const Withdraw = ({ illuminateWallet }) => {
 
   useEffect(() => {
     console.log("Component mounted, fetching data...");
+    setLoadingII(true);
     const fetchData = async () => {
       try {
         const data = await bankCodes();
+        setBanks(data);
+        const bankData = await bankInfoPropertyOwner();
+        setBankDetails(bankData);
         console.log(data);
         if (data.success === true) {
-          console.log("Form successfully updated", data);
-          setBanks(data);
+          console.log("banks", data);
+          setLoadingII(false);
         } else {
           console.error("Fetching data failed", data.message);
+          setLoadingII(false);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoadingII(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  console.log(banks)
+  const fetchDataAgainII = () => {
+    setFetchData(!fetchData);
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    // Create an object with the collected bank details
+    const bankDetails = {
+      amount: amount,
+    };
+
+    try {
+      console.log(bankDetails);
+      const { success, upDateddata, error } = await withdrawPropertyOwner(
+        bankDetails
+      );
+      if (success) {
+        console.log("Withdrawal successful", upDateddata);
+        setIlluminateWallet(false);
+        setLoading(false);
+        fetchDataAgain();
+        setAmount("");
+        toast.success("withdrawal successfull");
+        // // Add the bank details to the bankDetails state
+        // setBankDetails((prevBankDetails) => [...prevBankDetails, bankDetails]);
+
+        // setShowSubmitted(!showSubmitted);
+      } else {
+        console.error("Update failed", error);
+        // setError(error?.message);
+        setLoading(false);
+        toast.error(error);
+      }
+    } catch (error) {
+      console.error("Update error", error);
+      setLoading(false);
+      toast.error(error);
+    }
+  };
+
+  console.log(banks);
+  console.log(amount);
   return (
     <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[503px]">
       <div className="flex gap-1 items-center">
@@ -79,7 +142,12 @@ const Withdraw = ({ illuminateWallet }) => {
       >
         Withdraw from your wallet balance to your local bank account
       </p>
-      {bankdata < 1 ? (
+      {loadingII ? (
+        <div className="w-full flex items-center justify-center">
+          {" "}
+          <LoadingMutating />{" "}
+        </div>
+      ) : bankdata < 1 ? (
         <div
           className={` rounded-md w-[212px] h-[37px] flex items-center justify-center  ${
             illuminateWallet
@@ -94,44 +162,56 @@ const Withdraw = ({ illuminateWallet }) => {
         </div>
       ) : (
         <div className="w-full">
-          {bankdata.map((details, index) => (
-            <div key={index}>
-              <div className="flex gap-4 w-[240px] justify-between">
-                <p className="text-[11px] font-[400] text-GrayHomz">
-                  Account Number
-                </p>
-                <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
-                  {details.accountNo}
-                </p>
-              </div>
-              <div className="flex gap-4 w-[240px] justify-between">
-                <p className="text-[11px] font-[400] text-GrayHomz">
-                  Account Name
-                </p>
-                <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
-                  {details.accountName}
-                </p>
-              </div>
-              <div className="flex gap-4 w-[240px] justify-between">
-                <p className="text-[11px] font-[400] text-GrayHomz">Bank</p>
-                <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
-                  {details.bankName}
-                </p>
-              </div>
-            </div>
-          ))}
+          <div className="flex gap-4 w-[240px] justify-between">
+            <p className="text-[11px] font-[400] text-GrayHomz">
+              Account Number
+            </p>
+            <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
+              {bankdata?.data?.accountNumber}
+            </p>
+          </div>
+          <div className="flex gap-4 w-[240px] justify-between">
+            <p className="text-[11px] font-[400] text-GrayHomz">Account Name</p>
+            <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
+              {bankdata?.data?.accountName}
+            </p>
+          </div>
+          <div className="flex gap-4 w-[240px] justify-between">
+            <p className="text-[11px] font-[400] text-GrayHomz">Bank</p>
+            <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
+              {bankdata?.data?.bankName}
+            </p>
+          </div>
 
           <div className="flex flex-col gap-4 mt-4">
-            <Input label={"Amount (N)"} placeholder={"200,000"} />
-            <div className=" bg-GrayHomz6 w-[full] h-[45px] rounded-md flex justify-center items-center">
-              <span className=" text-GrayHomz2">Withdraw</span>
+            <Input
+              value={amount}
+              label={"Amount (N)"}
+              placeholder={"200,000"}
+              changeInput={(e) => setAmount(e.target.value)}
+            />
+            <div
+              onClick={handleSubmit}
+              className={`${
+                amount !== ""
+                  ? "bg-BlueHomz text-white"
+                  : "text-GrayHomz2 bg-GrayHomz6 pointer-events-none"
+              }  w-[full] h-[45px] rounded-md flex justify-center items-center cursor-pointer`}
+            >
+              <span className={loading ? "pointer-events-none" : ""}>
+                {loading ? <LoadingFormII /> : "Withdraw"}
+              </span>
             </div>
           </div>
         </div>
       )}
       {fillBankDetails && (
         <div>
-          <BankForm closeMenu={closeMenu} Banks={banks} setBankDetails={setBankDetails} />
+          <BankForm
+            closeMenu={closeMenu}
+            Banks={banks}
+            fetchDataAgain={fetchDataAgainII}
+          />
         </div>
       )}
     </div>

@@ -4,12 +4,14 @@ import PopUpWalletCreationForm from "../../components/popUpWalletCreationForm";
 import useBodyScroll from "@/utils/useBodyScroll";
 import AccountInfo from "../../components/accountInfo";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const WalletBalance = ({
   illuminateWallet,
   wallet,
   fetchDataAgain,
   walletBalance,
+  loading
 }) => {
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
@@ -32,13 +34,6 @@ const WalletBalance = ({
 
   useBodyScroll([openForm, accountInfo]);
 
-  const formatNumberWithCommas = (number) => {
-    if (number == undefined) {
-      return [];
-    } else {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-  };
 
   return (
     <div>
@@ -96,11 +91,13 @@ const WalletBalance = ({
           )}
         </div>
         <div
-          className={`text-[18px] font-[400] px-5 text-white ${
+          className={`text-[18px] font-[400] px-5 text-white flex items-centeritems-center w-[40%] justify-start ${
+            loading ? "ml-6 mb-2" : ""
+          } ${
             illuminateWallet ? "" : "hidden"
           }`}
         >
-           {addCommasToNumber(walletBalance?.data?.availableBalance)}
+          {loading ? <LoadingFormII/> : `${addCommasToNumber(walletBalance?.data?.availableBalance)}`} 
         </div>
       </div>
     </div>

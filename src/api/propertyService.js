@@ -35,6 +35,42 @@ export const propertyForMe = async () => {
 };
 
 
+export const addBankPropertyOwner = async (details) => {
+  console.log(details);
+  try {
+    const response = await api.post(`/bank/add/property-owner`, details);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+
+export const bankInfoPropertyOwner = async () => {
+  try {
+    const response = await api.get(`/bank/info/property-owner`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error wallet:", error);
+    throw error;
+  }
+};
+
+export const withdrawPropertyOwner = async (details) => {
+  console.log(details);
+  try {
+    const response = await api.post(`/bank/withdraw/property-owner`, details);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+
+
 
 export const updateContactInfo = async (propertyId, updatedData) => {
   console.log(propertyId);

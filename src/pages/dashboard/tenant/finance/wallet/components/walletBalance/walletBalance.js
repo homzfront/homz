@@ -7,6 +7,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import AccountInfo from "../../../components/accountInfo";
 import { tenantRentInfo } from "@/api/tenantSevice";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const WalletBalance = ({
   activeTwo,
@@ -14,12 +15,14 @@ const WalletBalance = ({
   wallet,
   fetchDataAgain,
   walletBalance,
+  setIlluminateWallet,
+  loading
 }) => {
   const [data, setData] = useState("");
   const [rent, setRent] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadingII, setLoadingII] = useState(false);
   const [rentData, setRentData] = useState("");
 
   const openWalletForm = () => {
@@ -58,19 +61,19 @@ const WalletBalance = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
+        setLoadingII(true);
         const data = await tenantRentInfo();
         if (data.statuscode === 200 && data.success === true) {
           console.log("Form successfully updated", data);
           setRentData(data);
-          setLoading(false);
+          setLoadingII(false);
         } else {
           console.error("Fetching data failed", data.message);
-          setLoading(false);
+          setLoadingII(false);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        setLoading(false);
+        setLoadingII(false);
       }
     };
 
@@ -93,6 +96,7 @@ const WalletBalance = ({
           fetchDataAgain={fetchDataAgain}
           closeRentPay={closeRentPay}
           rentData={rentData}
+          setIlluminateWallet={setIlluminateWallet}
         />
       )}
       {accountInfo && (
@@ -143,12 +147,18 @@ const WalletBalance = ({
         </div>
         <div className="flex items-center justify-between px-5">
           <div
-            className={`text-[18px] font-[400] text-white ${
-              illuminateWallet ? "" : "hidden"
-            }`}
-          >
-            {addCommasToNumber(walletBalance?.data?.availableBalance)}
-          </div>
+                 className={`text-[18px] font-[400] px-5 text-white flex items-center w-[40%] justify-start ${
+                  loading ? "ml-6 mb-2" : ""
+                } ${
+                  illuminateWallet ? "" : "hidden"
+                }`}
+              >
+                {loading ? (
+                  <LoadingFormII />
+                ) : (
+                  `${addCommasToNumber(walletBalance?.data?.availableBalance)}`
+                )}
+              </div>
           <div
             className={`cursor-pointer flex items-center gap-1 ${
               illuminateWallet ? "" : "hidden"

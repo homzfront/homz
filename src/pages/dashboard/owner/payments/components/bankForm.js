@@ -4,9 +4,14 @@ import Input from "../../components/input";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmModal from "../../components/confirmModal";
 import BankSelect from "./selectBank";
+import { addBankPropertyOwner } from "@/api/propertyService";
 
-const BankForm = ({ closeMenu, setBankDetails, Banks }) => {
-  console.log(Banks.data);
+const BankForm = ({
+  closeMenu,
+  fetchDataAgain,
+  Banks,
+}) => {
+  console.log(Banks?.data);
 
   const [accountNo, setAccountNo] = useState("");
   const [bankName, setBankName] = useState("");
@@ -15,23 +20,35 @@ const BankForm = ({ closeMenu, setBankDetails, Banks }) => {
   const [showSubmitted, setShowSubmitted] = useState(false);
 
   console.log(bankName?.value);
-console.log(accountNo)
-console.log(accountName)
+  console.log(accountNo);
+  console.log(accountName);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Create an object with the collected bank details
     const bankDetails = {
-      accountNo,
+      accountNumber: accountNo,
       bankName: bankName?.value,
       accountName,
     };
 
-    // Add the bank details to the bankDetails state
-    setBankDetails((prevBankDetails) => [...prevBankDetails, bankDetails]);
+    try {
+      console.log(bankDetails);
+      const { success, upDateddata, error } = await addBankPropertyOwner(
+        bankDetails
+      );
 
-    setShowSubmitted(!showSubmitted);
+      if (success) {
+        console.log("Form successfully updated", upDateddata);
+        setShowSubmitted(!showSubmitted);
+      } else {
+        console.error("Update failed", error);
+        // setError(error?.message);
+      }
+    } catch (error) {
+      console.error("Update error", error);
+    }
   };
 
   const popHandleSubmit = () => {
@@ -40,6 +57,9 @@ console.log(accountName)
 
   const submitted = () => {
     // Close the form
+    // setIlluminateWallet(false);
+    // setLoading(false);
+    fetchDataAgain();
     closeMenu();
   };
 
@@ -86,19 +106,13 @@ console.log(accountName)
               onChange={(e) => setAccountNo(e.target.value)}
               value={accountNo}
             />
-            {/* <div className="flex flex-col gap-2">
-              <label className="text-[14px] font-[500]">Bank Name</label>
-              <DropDownWithdraw
-                options={Banks.data}
-                onSelect={(option) => setBankName(option.name)}
-                selectOption={bankName || "Select Bank"}
-                className={"w-full"}
-              />
-            </div> */}
-
             <div className="flex flex-col gap-2">
               <h1 className="text-[14px] font-[500]">Bank Name</h1>
-              <BankSelect banks={Banks.data} setSelectedBank={setBankName} selectedBank={bankName} />
+              <BankSelect
+                banks={Banks?.data}
+                setSelectedBank={setBankName}
+                selectedBank={bankName}
+              />
             </div>
             <Input
               label={"Account Name"}

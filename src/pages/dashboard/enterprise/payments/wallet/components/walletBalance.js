@@ -3,8 +3,16 @@ import React, { useState } from "react";
 import PopUpWalletCreationForm from "../../components/popUpWalletCreationForm";
 import useBodyScroll from "@/utils/useBodyScroll";
 import AccountInfo from "../../components/accountInfo";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
-const WalletBalance = ({ illuminateWallet, wallet, fetchDataAgain }) => {
+const WalletBalance = ({
+  illuminateWallet,
+  wallet,
+  fetchDataAgain,
+  walletBalance,
+  loading,
+}) => {
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
 
@@ -26,14 +34,6 @@ const WalletBalance = ({ illuminateWallet, wallet, fetchDataAgain }) => {
 
   useBodyScroll([openForm, accountInfo]);
 
-  const formatNumberWithCommas = (number) => {
-    if (number == undefined) {
-      return [];
-    } else {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-  };
-
   return (
     <div>
       <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-[550px] h-[132px] rounded-[12px]">
@@ -42,6 +42,8 @@ const WalletBalance = ({ illuminateWallet, wallet, fetchDataAgain }) => {
             closeForm={closeForm}
             setOpenForm={setOpenForm}
             fetchDataAgain={fetchDataAgain}
+            
+            
           />
         )}
         {accountInfo && (
@@ -69,7 +71,7 @@ const WalletBalance = ({ illuminateWallet, wallet, fetchDataAgain }) => {
               className="relative bg-white bg-opacity-30 cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 rounded-md border border-white"
             >
               <p className="absolute text-white text-[14px] font-[500] w-full text-center">
-             Fund Wallet
+                Fund Wallet
               </p>
             </div>
           ) : (
@@ -89,10 +91,18 @@ const WalletBalance = ({ illuminateWallet, wallet, fetchDataAgain }) => {
             </div>
           )}
         </div>
-        <div className={`text-[18px] font-[400] px-5 text-white ${
-              illuminateWallet ? "" : "hidden"
-            }`}>
-          N{formatNumberWithCommas("36000000")}
+        <div
+          className={`text-[18px] font-[400] px-5 text-white flex items-center w-[40%] justify-start ${
+            loading ? "ml-6 mb-2" : ""
+          } ${
+            illuminateWallet ? "" : "hidden"
+          }`}
+        >
+          {loading ? (
+            <LoadingFormII />
+          ) : (
+            `${addCommasToNumber(walletBalance?.data?.availableBalance)}`
+          )}
         </div>
       </div>
     </div>

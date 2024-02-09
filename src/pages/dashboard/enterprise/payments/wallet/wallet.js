@@ -4,14 +4,19 @@ import WalletBalance from "./components/walletBalance";
 import TransferDetails from "./components/transferDetails";
 import Withdraw from "./components/withdraw";
 import TransferHis from "./components/transferHis";
-import { enterpriseUserWallet } from "@/api/enterpriseManagerService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import {
+  enterpriseUserWallet,
+  enterpriseWalletBalance,
+} from "@/api/enterpriseManagerService";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Wallet = () => {
   const [wallet, setWallet] = useState(false);
   const [illuminateWallet, setIlluminateWallet] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
+  const [walletBalance, setWalletBalance] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +26,8 @@ const Wallet = () => {
         if (data.statuscode === 200 && data.success === true) {
           console.log("Form successfully updated", data);
           setIlluminateWallet(!illuminateWallet);
+          const balance = await enterpriseWalletBalance();
+          setWalletBalance(balance);
           const wallet = data;
           setWallet(wallet);
           setLoading(false);
@@ -41,30 +48,44 @@ const Wallet = () => {
     setFetchData(!fetchData);
   };
 
-
   console.log(wallet);
   console.log(illuminateWallet);
-
+  console.log(walletBalance);
   return (
     <div className="">
-      {loading ? (
-        <LoadingII />
-      ) : (
-        <div className="w-full flex gap-8">
-          <div>
-            <WalletBalance
-              illuminateWallet={illuminateWallet}
-              wallet={wallet}
-              fetchDataAgain={fetchDataAgain}
-            />
-            <TransferDetails illuminateWallet={illuminateWallet} />
-          </div>
-          <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
-            <TransferHis illuminateWallet={illuminateWallet} />
-          </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="w-full flex gap-8">
+        <div>
+          <WalletBalance
+            illuminateWallet={illuminateWallet}
+            wallet={wallet}
+            fetchDataAgain={fetchDataAgain}
+            walletBalance={walletBalance}
+            loading={loading}
+          />
+          <TransferDetails
+            illuminateWallet={illuminateWallet}
+            setIlluminateWallet={setIlluminateWallet}
+            fetchDataAgain={fetchDataAgain}
+          />
         </div>
-      )}
+        <div>
+          {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
+          <TransferHis illuminateWallet={illuminateWallet} />
+        </div>
+      </div>
     </div>
   );
 };

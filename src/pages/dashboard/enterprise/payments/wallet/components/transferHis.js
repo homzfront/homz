@@ -63,7 +63,7 @@ const TransferHis = ({ illuminateWallet }) => {
     return str[0];
   };
   return (
-    <div className="p-5 border rounded-[12px] mt-8 overflow-auto h-[323px] scrollbar-container">
+    <div className="p-5 border rounded-[12px] w-[503px] overflow-auto h-[323px] scrollbar-container">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           {illuminateWallet 

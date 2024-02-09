@@ -59,7 +59,7 @@ const Activities = ({ illuminateWallet }) => {
     },
   ];
   return (
-    <div className="p-5 border rounded-[12px] overflow-auto h-[145px] scrollbar-container">
+    <div className="p-5 border rounded-[12px] overflow-auto h-[250px] scrollbar-container">
       <div className="h-[40px] flex justify-between items-center">
         <div className="flex gap-2 items-center">
         {illuminateWallet ? (

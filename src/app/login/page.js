@@ -35,6 +35,13 @@ const Login = () => {
   
     setLoading(true); // Set loading to true when submitting the form
   
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      // Invalid email format
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
@@ -152,7 +159,7 @@ const Login = () => {
                     </label>
                     <input
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
-                      type="email"
+                      type="text"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
