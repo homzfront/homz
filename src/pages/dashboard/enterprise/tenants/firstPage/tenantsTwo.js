@@ -181,7 +181,7 @@ const TenantsTwo = ({ Data }) => {
           {currentData &&
             currentData.map((data) => (
               <div
-                key={data.id}
+                key={data?.id}
                 className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
               >
                 {/* Apply the same styles as the header to each column in the body */}
@@ -208,7 +208,7 @@ const TenantsTwo = ({ Data }) => {
                   <span className="">{data?.fullName}</span>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                  {data?.estateId.name}
+                  {data?.estateId?.name}
                 </div>
                 <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
                   {`${
@@ -246,9 +246,9 @@ const TenantsTwo = ({ Data }) => {
                           data?.rentInfo?._id
                         )
                       }
-                      isOpen={openDropdowns[data._id] || false}
-                      toggleDropdown={() => toggleDropdown(data._id)}
-                      loading={loadingRows[data._id] || false}
+                      isOpen={openDropdowns[data?._id] || false}
+                      toggleDropdown={() => toggleDropdown(data?._id)}
+                      loading={loadingRows[data?._id] || false}
                     />
                   ) : (
                     "______"
@@ -262,7 +262,7 @@ const TenantsTwo = ({ Data }) => {
                   }`}
                 </div>
                 <div className="relative w-[3%]">
-                  <button onClick={() => handleToggleMenu(data._id)}>
+                  <button onClick={() => handleToggleMenu(data?._id)}>
                     <Image
                       src={
                         "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -273,8 +273,8 @@ const TenantsTwo = ({ Data }) => {
                       style={{ height: "auto", width: "auto" }}
                     />
                   </button>
-                  {popUpMenuTwo && selectedDataId === data._id && (
-                    <PopUpMenuTwo data={data._id} />
+                  {popUpMenuTwo && selectedDataId === data?._id && (
+                    <PopUpMenuTwo data={data?._id} />
                   )}
                 </div>
               </div>
