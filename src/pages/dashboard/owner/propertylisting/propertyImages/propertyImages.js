@@ -1,5 +1,4 @@
-"use client";
-import Image from "next/image";
+"use client";import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import BodyPropertyImage from "./components/bodyPropertyImage";
@@ -17,10 +16,14 @@ const PropertyImages = ({ id }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  const [remainder, setRemainder] = useState(null);
+  const [combinedData, setCombinedData] = useState([]); // Initialize combinedData state
+
   console.log(id);
   
   // useEffect to handle scrolling
   useBodyScroll([openSelectedImage]);
+
   useEffect(() => {
     const estateData = async () => {
       const response = await fetchSingleProperty(id);
@@ -33,8 +36,33 @@ const PropertyImages = ({ id }) => {
     estateData();
   }, [id]);
 
+  useEffect(() => {
+    if (data && data.data && data.data.coverPhoto && data.data.photos) {
+      const newData = {
+        coverPhoto: data.data.coverPhoto,
+        photos: data.data.photos,
+      };
+      const combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
+        url: item.url,
+      }));
+      setCombinedData(combinedData); // Update combinedData state
+    } else {
+      console.error("Invalid or missing data structure.");
+    }
+  }, [data]);
+
+  useEffect(() => {
+    // Update remainder state when combinedData length changes
+    if (combinedData.length === 8) {
+      setRemainder(combinedData.length - 7);
+    }
+  }, [combinedData]);
+
   console.log(user);
   console.log(data);
+  console.log(selectedImage);
+  console.log(openSelectedImage);
+  console.log(currentImageIndex);
 
   const showRatingPage = () => {
     setShowRating(!showRating);
@@ -43,35 +71,8 @@ const PropertyImages = ({ id }) => {
   const goBack = () => {
     setShowRating(false);
   };
-  console.log(data);
-
-  const newData = {
-    coverPhoto: data?.data?.coverPhoto,
-    photos: data?.data?.photos,
-  };
-
-  console.log(newData);
-
-  let combinedData = []; // Declare combinedData outside the if block
-
-  if (newData && newData?.coverPhoto && newData?.photos) {
-    combinedData = [newData?.coverPhoto, ...newData?.photos].map((item) => ({
-      url: item.url,
-    }));
-
-    console.log(combinedData);
-  } else {
-    console.error("Invalid or missing data structure.");
-  }
-
-  console.log(selectedImage);
-  if (combinedData.length === 8) {
-    return (remainder = combinedData.length - 7);
-  }
 
   const openImageModal = (imageIndex, item) => {
-    console.log(imageIndex);
-    console.log(item);
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
     setOpenSelectedImage(!openSelectedImage);
     setCurrentImageIndex(imageIndex);
@@ -81,9 +82,6 @@ const PropertyImages = ({ id }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
-
-  console.log(openSelectedImage);
-  console.log(currentImageIndex);
 
   return (
     <div className="p-8 w-[1147px]">

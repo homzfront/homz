@@ -8,32 +8,64 @@ import StarRatingPL from "../starRatingPL/starRatingPL";
 import { fetchSingleProperty } from "@/api/propertyService";
 import { enterpriseMe } from "@/api/enterpriseManagerService";
 import LoadingII from "@/components/mainmenu/loadingII";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 
 const PropertyImages = ({ id }) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showRating, setShowRating] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  const [remainder, setRemainder] = useState(null);
+  const [combinedData, setCombinedData] = useState([]); // Initialize combinedData state
+
   console.log(id);
+  
+  // useEffect to handle scrolling
+  useBodyScroll([openSelectedImage]);
 
   useEffect(() => {
     const estateData = async () => {
       const response = await fetchSingleProperty(id);
       const data2 = await enterpriseMe();
       const estate = await response;
-      setUser(data2.data)
+      setUser(data2.data);
       setData(estate);
       setLoading(false);
     };
     estateData();
-  }, []);
+  }, [id]);
 
-  
+  useEffect(() => {
+    if (data && data.data && data.data.coverPhoto && data.data.photos) {
+      const newData = {
+        coverPhoto: data.data.coverPhoto,
+        photos: data.data.photos,
+      };
+      const combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
+        url: item.url,
+      }));
+      setCombinedData(combinedData); // Update combinedData state
+    } else {
+      console.error("Invalid or missing data structure.");
+    }
+  }, [data]);
 
+  useEffect(() => {
+    // Update remainder state when combinedData length changes
+    if (combinedData.length === 8) {
+      setRemainder(combinedData.length - 7);
+    }
+  }, [combinedData]);
+
+  console.log(user);
   console.log(data);
-  console.log(user)
-  const [showRating, setShowRating] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(null);
+  console.log(selectedImage);
+  console.log(openSelectedImage);
+  console.log(currentImageIndex);
 
   const showRatingPage = () => {
     setShowRating(!showRating);
@@ -42,37 +74,8 @@ const PropertyImages = ({ id }) => {
   const goBack = () => {
     setShowRating(false);
   };
-  console.log(data);
-
-  const newData = {
-    coverPhoto: data?.data?.coverPhoto,
-    photos: data?.data?.photos,
-  };
-
-  console.log(newData);
-
-  let combinedData = []; // Declare combinedData outside the if block
-
-  if (newData && newData.coverPhoto && newData.photos) {
-    combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
-      url: item.url,
-    }));
-
-    console.log(combinedData);
-  } else {
-    console.error("Invalid or missing data structure.");
-  }
-
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [openSelectedImage, setOpenSelectedImage] = useState(false);
-  console.log(selectedImage);
-  if (combinedData.length === 8) {
-   return remainder = combinedData.length - 7;
-  }
 
   const openImageModal = (imageIndex, item) => {
-    console.log(imageIndex)
-    console.log(item)
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
     setOpenSelectedImage(!openSelectedImage);
     setCurrentImageIndex(imageIndex);
@@ -83,20 +86,11 @@ const PropertyImages = ({ id }) => {
     setOpenSelectedImage(false);
   };
 
-  console.log(openSelectedImage);
-  console.log(currentImageIndex);
-  // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
-    if (openSelectedImage) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [openSelectedImage]);
-
   return (
     <div className="p-8 w-[1147px]">
-      {loading ? <LoadingII/> : showRating ? (
+      {loading ? (
+        <LoadingII />
+      ) : showRating ? (
         <div>
           <StarRatingPL goBack={goBack} />
         </div>
@@ -104,7 +98,7 @@ const PropertyImages = ({ id }) => {
         <div>
           <div className="flex justify-between items-center">
             <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
+              href={"/dashboard/property-owner/propertylisting"}
               className="flex gap-2 items-center"
             >
               <Image
@@ -117,10 +111,13 @@ const PropertyImages = ({ id }) => {
               />
               <p className="text-[11px] font-[400]">Go Back</p>
             </Link>
-        
-            <Link href={`/dashboard/enterprise-property/propertylisting/property/${id}`} className="text-[14px] font-[400] text-BlueHomz">
-                Edit Property
-              </Link>
+
+            <Link
+              href={`/dashboard/property-owner/propertylisting/property/${id}`}
+              className="text-[14px] font-[400] text-BlueHomz"
+            >
+              Edit Property
+            </Link>
           </div>
           <div className="mt-4 ml-3">
             <div className="flex flex-wrap gap-4">
@@ -171,7 +168,11 @@ const PropertyImages = ({ id }) => {
             )}
           </div>
           <div>
-            <BodyPropertyImage data={data} showRatingPage={showRatingPage} user={user}/>
+            <BodyPropertyImage
+              data={data}
+              showRatingPage={showRatingPage}
+              user={user}
+            />
           </div>
         </div>
       )}

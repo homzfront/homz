@@ -22,6 +22,30 @@ const ImageModal = ({
   console.log(totalImages);
   console.log(currentImageIndex);
 
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.keyCode === 37) {
+        // Left arrow key
+        goToPreviousImage();
+      } else if (event.keyCode === 39) {
+        // Right arrow key
+        goToNextImage();
+      }
+    };
+
+    // Add event listener for keydown event when the modal is open
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup function to remove event listener when the modal is closed
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentImageIndex, totalImages]);
+
+
+  
+
   return (
     <div className="text-white absolute top-0 z-20 h-screen max-w-[1440px] m-auto  inset-0  bg-black flex justify-center items-center">
       <div className="h-screen flex justify-between py-4 flex-col">
