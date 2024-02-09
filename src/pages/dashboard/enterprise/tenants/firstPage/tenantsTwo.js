@@ -24,12 +24,12 @@ const TenantsTwo = ({ Data }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(Data?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = Data.slice(startIndex, endIndex);
+  const currentData = Data?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));

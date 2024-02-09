@@ -146,7 +146,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
           </p>
         </div>
         <div className="border-b pt-2 pb-4">
-          <div key={data.id} className="flex flex-col my-2 gap-3">
+          <div key={data?.id} className="flex flex-col my-2 gap-3">
             <div className="flex">
               <p className="text-[14px] font-[400] text-GrayHomz w-[20%]">
                 Property Type
