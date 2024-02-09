@@ -15,8 +15,12 @@ const PropertyImages = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [showRating, setShowRating] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [openSelectedImage, setOpenSelectedImage] = useState(false);
   console.log(id);
-
+  
+  // useEffect to handle scrolling
+  useBodyScroll([openSelectedImage]);
   useEffect(() => {
     const estateData = async () => {
       const response = await fetchSingleProperty(id);
@@ -60,8 +64,6 @@ const PropertyImages = ({ id }) => {
     console.error("Invalid or missing data structure.");
   }
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [openSelectedImage, setOpenSelectedImage] = useState(false);
   console.log(selectedImage);
   if (combinedData.length === 8) {
     return (remainder = combinedData.length - 7);
@@ -82,8 +84,6 @@ const PropertyImages = ({ id }) => {
 
   console.log(openSelectedImage);
   console.log(currentImageIndex);
-  // useEffect to handle scrolling
-  useBodyScroll([openSelectedImage]);
 
   return (
     <div className="p-8 w-[1147px]">
