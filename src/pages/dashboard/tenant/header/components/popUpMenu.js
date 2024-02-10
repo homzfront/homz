@@ -1,8 +1,10 @@
+import useProfileStore from "@/store/profile";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const PopUpMenu = ({ logout, user }) => {
+const PopUpMenu = ({  user }) => {
+  const { logout } = useProfileStore();
   return (
     <div className="drop-down absolute z-20 text-GrayHomz font-[500] top-12 right-0 border h-[200px] w-[244px] rounded-md bg-white flex flex-col items-center justify-around">
       <Link
@@ -10,7 +12,7 @@ const PopUpMenu = ({ logout, user }) => {
         className="flex gap-2 border-b w-full px-4 py-2"
       >
         <Image
-          src={user?.coverPhoto.url}
+          src={user?.coverPhoto?.url}
           alt=""
           height={41}
           width={40}

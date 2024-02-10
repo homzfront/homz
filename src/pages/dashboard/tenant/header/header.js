@@ -5,13 +5,13 @@ import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
 import { tenantMe } from "@/api/tenantSevice";
-import useProfileStore from "@/store/profile";
+
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [user, setUSer] = useState('')
-  const { logout } = useProfileStore();
+
 
   const handleToggleMenu = () => {
     setPopUpMenu(!popUpMenu);
@@ -85,7 +85,7 @@ console.log(user);
             width={40}
             className="rounded-full"
           />
-          {popUpMenu && <PopUpMenu logout={logout} user={user}/>}
+          {popUpMenu && <PopUpMenu  user={user}/>}
         </Link>
       </div>
     </div>

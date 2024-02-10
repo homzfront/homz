@@ -4,18 +4,13 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
-import Close from "@/components/icons/Close";
-import Menu from "@/components/icons/Menu";
-import SidebarMobile from "../../enterprise/sidebarMobile/sidebarHeader";
-import useProfileStore from "@/store/profile";
 import { propertyMe } from "@/api/propertyService";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [open, setOpen] = useState(false);
-  const [user, setUSer] = useState('')
-  const { logout } = useProfileStore();
+  const [user, setUSer] = useState('');
 
   const handleToggleMenu = () => {
     setPopUpMenu(!popUpMenu);
@@ -96,7 +91,7 @@ console.log(user);
             width={40}
             className="rounded-full"
           />
-          {popUpMenu && <PopUpMenu logout={logout} user={user}/>}
+          {popUpMenu && <PopUpMenu  user={user}/>}
         </Link>
       </div>
     </div>
