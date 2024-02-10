@@ -17,11 +17,13 @@ const Contact = () => {
         <Link href={"/contact-page"}>
           <button className="  w-[109px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  bg-BlueHomz  text-white  px-2 py-1 hover:text-[18px] ">
             Contact us
+          
           </button>
         </Link>
-        <Link href={"/register"}>
+        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
           <button className=" w-[109px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-GrayHomz border bg-transparent px-2 py-1 hover:text-[18px]">
-            Get started
+            {/* Get started */}
+            Join Waitlist
           </button>
         </Link>
       </div>

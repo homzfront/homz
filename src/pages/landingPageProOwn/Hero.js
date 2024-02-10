@@ -16,9 +16,13 @@ const Hero = () => {
               monitoring your properties with our comprehensive management
               services.
             </p>
-            <Link href={"./register"}>
+            <Link
+            //  href={"./register"} 
+             href={"https://forms.gle/aCwKh8aW7goPoRGWA"} 
+              >
               <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-[116px]">
-                Get Started
+                {/* Get Started */}
+                Join Waitlist
               </button>
             </Link>
           </div>
