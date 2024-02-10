@@ -7,6 +7,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import tenantsDataForLoggedInEnterprise from "@/store/tenantData";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Dropdown from "../../components/dropDownFilter";
+import formatDateII from "@/utils/formatDateII";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -20,14 +21,7 @@ const Tenants = () => {
     setSelectedDate(null)
   };
 
-  function formatDateII(inputDate) {
-    const date = new Date(inputDate);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-  
-    return `${year}-${month}-${day}`;
-  }
+
   
   console.log(selectedDate);
   const toggleInvite = () => {

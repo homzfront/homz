@@ -8,6 +8,7 @@ import { fetchEstatesMe } from "@/api/estateService";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import estateStore from "@/store/estates";
+import formatDateII from "@/utils/formatDateII";
 
 const Estate = () => {
   const { data, loading, fetchData } = estateStore();
@@ -17,8 +18,7 @@ const Estate = () => {
     fetchData();
   }, []);
 
-  
-const estates = data
+  const estates = data;
   console.log(estates);
 
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -26,11 +26,38 @@ const estates = data
   const [currentPage, setCurrentPage] = useState(1);
   const [registrationForm, setRegistrationForm] = useState(false);
   const [inviteTenant, setInviteTenant] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
 
   console.log(data);
+
+  const clear = () => {
+    setSelectedState(null);
+    setSelectedArea(null);
+    setSelectedDate(null);
+  };
+
+  const options = [...new Set(data?.map((item) => item?.location.state))];
+  console.log(options);
+
+  const options2 = [...new Set(data?.map((item) => item?.location.area))];
+  console.log(options2);
+
+  const filteredData = data?.filter((data) => {
+    const selectedDateTimestamp = Date.parse(selectedDate);
+    const createdDateTimestamp = Date.parse(formatDateII(data?.created));
+    console.log(createdDateTimestamp);
+    console.log(selectedDateTimestamp);
+    return (
+      (!selectedState || data?.location.state === selectedState) &&
+      (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
+    );
+  });
 
   const openRegistrationForm = () => {
     setRegistrationForm(true);
@@ -51,7 +78,7 @@ const estates = data
         <ListedEstates
           setInviteTenant={setInviteTenant}
           inviteTenant={inviteTenant}
-          Data={data}
+          Data={filteredData}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
           popUpMenu={popUpMenu}
@@ -61,8 +88,17 @@ const estates = data
           addNewEstate={addNewEstate}
           registrationForm={registrationForm}
           returnToStartRegistration={returnToStartRegistration}
+          selectedArea={selectedArea}
+          selectedState={selectedState}
+          selectedDate={selectedDate}
+          setSelectedArea={setSelectedArea}
+          setSelectedState={setSelectedState}
+          setSelectedDate ={setSelectedDate}
+          clear={clear}
+          options={options}
+          options2={options2}
+
         />
-      
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} />
       ) : (
@@ -75,7 +111,7 @@ const estates = data
               </span>
             </div>
             <p className="text-[18px] font-[400] text-GrayHomz">
-            Add your properties so you can seamlessly manage them
+              Add your properties so you can seamlessly manage them
             </p>
           </div>
           <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
@@ -95,7 +131,7 @@ const estates = data
             </h1>
             <button
               onClick={openRegistrationForm}
-              className="p-[12px] w-[185px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
+              className="p-[12px] w-[200px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
             >
               <Image
                 src={

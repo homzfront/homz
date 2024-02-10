@@ -81,23 +81,23 @@ const Sidebar = () => {
       link: "/dashboard/property-owner/profile",
       name: "Profile",
     },
-    {
-      id: 2,
-      image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/settingwhite.png",
-      link: "/dashboard/property-owner/setting",
-      name: "Setting",
-    },
+    // {
+    //   id: 2,
+    //   image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
+    //   image2: "/static/dashboard/enterprisemanager/sidebar/settingwhite.png",
+    //   link: "/dashboard/property-owner/setting",
+    //   name: "Setting",
+    // },
   ];
 
   const Data3 = [
-    {
-      id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      link: "/switch-profile",
-      name: "Switch",
-    },
+    // {
+    //   id: 1,
+    //   image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+    //   image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+    //   link: "/switch-profile",
+    //   name: "Switch",
+    // },
   ];
 
   const { logout } = useProfileStore();

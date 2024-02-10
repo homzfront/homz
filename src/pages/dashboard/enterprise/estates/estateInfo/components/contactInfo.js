@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import useBodyScroll from "@/utils/useBodyScroll";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 import { updateContactInfo } from "@/api/estateService";
 import LoadingII from "@/components/mainmenu/loadingII";
 
@@ -75,19 +75,7 @@ const ContactInfo = ({ handlePageChangeTwo, handlePageChangeFour, data }) => {
 
   return (
     <div className="">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+
       {loading ? (
         <LoadingII />
       ) : (

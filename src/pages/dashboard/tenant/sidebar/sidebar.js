@@ -64,13 +64,13 @@ const Sidebar = () => {
       link: "/dashboard/tenant/profile",
       name: "Profile",
     },
-    {
-      id: 2,
-      image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/settingwhite.png",
-      link: "/dashboard/tenant/setting",
-      name: "Setting",
-    },
+    // {
+    //   id: 2,
+    //   image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
+    //   image2: "/static/dashboard/enterprisemanager/sidebar/settingwhite.png",
+    //   link: "/dashboard/tenant/setting",
+    //   name: "Setting",
+    // },
   ];
 
   const Data3 = [

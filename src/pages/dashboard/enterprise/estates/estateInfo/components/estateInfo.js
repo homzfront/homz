@@ -6,8 +6,7 @@ import Image from "next/image";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import api from "@/utils/api";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { updateEstateInfo } from "@/api/estateService";
 
@@ -49,12 +48,11 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   };
 
   const trimSpaces = (input) => {
-    if (typeof input === 'string') {
+    if (typeof input === "string") {
       return input.trim();
     }
     return input;
   };
-
 
   const options = [
     { id: 1, label: "Ajah" },
@@ -108,21 +106,6 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
 
   return (
     <div className="">
-      {
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeButton={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      }
       {loading ? (
         <LoadingII />
       ) : (

@@ -31,11 +31,11 @@ const Widget = () => {
               onClick={handlePageChange}
               justify-center
             >
-              <p className="text-[14px] font-500">Rent Savings</p>
+              <p className="text-[14px] font-500">Wallet</p>
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-2 justify-center pr-8">
+          {/* <div className="flex flex-col items-center gap-2 justify-center pr-8">
             <div
               className={`cursor-pointer flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                 activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
@@ -44,15 +44,15 @@ const Widget = () => {
             >
               <p className="text-[14px] font-500">Wallet</p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <RentSavings />
+          <Wallet activeTwo={activeTwo}/>
           </div>
-          <div className={`${activeTwo ? "inline" : "hidden"}`}>
+          {/* <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet activeTwo={activeTwo}/>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Input from "./components/inputEstate";
 import EstateForm from "./estateForm/estateForm";
 import Modal from "../tenants/components/modal";
+import Dropdown from "../components/dropDownFilter";
 
 const ListedEstates = ({
   Data,
@@ -20,19 +21,25 @@ const ListedEstates = ({
   returnToStartRegistration,
   setInviteTenant,
   inviteTenant,
+  selectedArea,
+  selectedState,
+  setSelectedState,
+  setSelectedArea,
+  setSelectedDate,
+  options,
+  options2,
+  clear,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-  // Ensure Data is defined before use
-  const data = Data || []; // Assign an empty array if Data is undefined
-
+  
   const ITEMS_PER_PAGE = 8;
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(Data?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = Data?.slice(startIndex, endIndex);
 
   console.log(currentData);
   const handleNext = () => {
@@ -82,13 +89,34 @@ const ListedEstates = ({
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
-                <Input placeholder={"State"} type={"text"} />
-                <Input placeholder={"Area"} type={"text"} />
-                <input
+                <div className="w-[120px]">
+                  <Dropdown
+                    options={options}
+                    onSelect={(option) => setSelectedState(option)}
+                    selectOption={
+                      selectedState === null ? "State" : selectedState
+                    }
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                </div>
+                <div className="w-[120px]">
+                  <Dropdown
+                    options={options2}
+                    onSelect={(option) => setSelectedArea(option)}
+                    selectOption={selectedArea === null ? "Area" : selectedArea}
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                </div>
+                {/* <input
                   type="date"
-                  className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
-                />
-                <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="border px-4 h-[42px] w-[130px] text-GrayHomz2 p-2 rounded cursor-pointer"
+                /> */}
+                <button
+                  onClick={clear}
+                  type="text"
+                  className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] w-[92px]  p-1 rounded cursor-pointer"
+                >
                   <span>
                     <Image
                       src={

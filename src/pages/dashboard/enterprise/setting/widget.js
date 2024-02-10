@@ -7,9 +7,9 @@ import Notifications from "./notifications/notifications.js";
 
 const pages = [
   { id: 1, name: "Manage Users", component: <ManageUsers /> },
-  { id: 2, name: "Properties", component: <Estate /> },
-  { id: 3, name: "Tenants", component: <Tenants /> },
-  { id: 4, name: "Notifications", component: <Notifications /> },
+  // { id: 2, name: "Properties", component: <Estate /> },
+  // { id: 3, name: "Tenants", component: <Tenants /> },
+  // { id: 4, name: "Notifications", component: <Notifications /> },
 ];
 
 const Widget = () => {

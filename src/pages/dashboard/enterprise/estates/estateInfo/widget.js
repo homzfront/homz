@@ -5,15 +5,16 @@ import Photos from "./components/photos.js";
 import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 import Image from "next/image.js";
-
-const Widget = ({ data, isLoading }) => {
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+const Widget = ({ data, isLoading, id }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false); // State for the fourth page
 
   console.log(data);
-
+  console.log(id);
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);
@@ -44,6 +45,19 @@ const Widget = ({ data, isLoading }) => {
 
   return (
     <div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="w-full h-auto py-4">
         <div className="w-full mt-5 flex justify-between items-center">
           <div className=" flex  gap-4 justify-between w-[620px] cursor-pointer">
@@ -88,7 +102,7 @@ const Widget = ({ data, isLoading }) => {
               </div>
             </div>
           </div>
-          <button className="flex items-center gap-1">
+          {/* <button className="flex items-center gap-1">
             <Image
               src={"/static/dashboard/enterprisemanager/estate/setting-2.png"}
               height={20}
@@ -98,7 +112,7 @@ const Widget = ({ data, isLoading }) => {
             <p className="text-BlueHomz text-[14px] font-[400]">
               Manage all documents that will be available to tenants
             </p>
-          </button>
+          </button> */}
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
@@ -108,10 +122,10 @@ const Widget = ({ data, isLoading }) => {
             <Photos data={data} />
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`} data={data}>
-            <ContactInfo  data={data}/>
+            <ContactInfo data={data} />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
-            <Documents />
+            <Documents id={id} />
           </div>
         </div>
       </div>

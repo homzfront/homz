@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
+import { enterpriseMe } from "@/api/enterpriseManagerService";
+import useProfileStore from "@/store/profile";
 
 const Header = ({ toggleSidebar }) => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-
+  const [user, setUSer] = useState('')
+  const { logout } = useProfileStore();
   const handleToggleMenu = () => {
     setPopUpMenu(!popUpMenu);
   };
@@ -17,17 +20,30 @@ const Header = ({ toggleSidebar }) => {
     setPopUpMenuTwo(!popUpMenuTwo);
   };
 
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await enterpriseMe();
+        setUSer(response?.data);
+      } catch (error) {
+        // Handle errors if the fetch fails
+      }
+    };
+  
+    // Call the fetchData function when the component mounts
+    fetchData();
+  }, []);
+console.log(user);
   return (
     <div className="header w-[1147px]">
       <div className="flex justify-between items-center py-8 px-10">
         <div className="relative">
-          <input
+          {/* <input
             type="text"
             className="border h-[40px] pl-8 rounded-md w-[320px]"
             placeholder="search"
-          />
-         
+          /> */}
+{/*          
             <Image
               src={
                 "/static/dashboard/enterprisemanager/header/search-normal.png"
@@ -36,7 +52,7 @@ const Header = ({ toggleSidebar }) => {
               className="absolute top-3 left-3"
               height={17}
               width={16}
-            />
+            /> */}
    
         </div>
         <div className="flex gap-4 items-center relative">
@@ -51,23 +67,23 @@ const Header = ({ toggleSidebar }) => {
             />
             {popUpMenuTwo && <PopUpMenuAlert />}
           </div>
-          <Link href={"/dashboard/enterprise-property/letterHead"}>
+          {/* <Link href={"/dashboard/enterprise-property/letterHead"}>
             <Image
               src={"/static/dashboard/enterprisemanager/header/sms.png"}
               alt=""
               height={25}
               width={24}
             />
-          </Link>
+          </Link> */}
           <Link href={""} onClick={handleToggleMenu} className="relative">
             <Image
-              src={"/static/dashboard/enterprisemanager/header/Avatar.png"}
+              src={user?.businessLogo?.url}
               alt=""
               height={41}
               width={40}
               className="rounded-full"
             />
-            {popUpMenu && <PopUpMenu />}
+            {popUpMenu && <PopUpMenu logout={logout} user={user}/>}
           </Link>
         </div>
       </div>

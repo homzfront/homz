@@ -63,7 +63,6 @@ export const updateContactInfo = async (estateId, updatedData) => {
   }
 };
 
-
 export const updateEstateCoverPhoto = async (estateId, uploadedImage) => {
   console.log(estateId);
   console.log(uploadedImage);
@@ -104,7 +103,11 @@ export const updateEstateCoverPhoto = async (estateId, uploadedImage) => {
   }
 };
 
-export const updateSingleEstatePhoto = async (estateId, uploadedImage, publicId) => {
+export const updateSingleEstatePhoto = async (
+  estateId,
+  uploadedImage,
+  publicId
+) => {
   console.log(estateId);
   console.log(uploadedImage);
   console.log(publicId);
@@ -149,6 +152,65 @@ export const fetchTenantRequest = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching requests:", error);
+    throw error;
+  }
+};
+
+export const documentUpload = async (estateId, file, name) => {
+  console.log(file);
+  console.log(name);
+  console.log(estateId);
+
+  const formData = new FormData();
+  formData.append("fileDocument", file);
+  formData.append("fileName", name);
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      `/estates/document/${estateId}/add`,
+      formData,
+      { headers }
+    );
+    if (response.data.statuscode === 201 || 200) {
+      console.log(response.data.data);
+      console.log("form successfully updated ", response?.data);
+      return { success: true, uploadedData: response };
+    } else {
+      const error = response.data.message;
+      console.log("Unexpected status code:", error);
+    }
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const fetchEstateDocSpecificUSer = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/estates/document/${id}`);
+    console.log(response);
+    console.log(response.data.data);
+    return response;
+  } catch (error) {
+    console.error("Error fetching documnet(S):", error);
+    throw error;
+  }
+};
+
+export const deleteEstateDocSpecificUSer = async ({ id, data_id }) => {
+  console.log(id);
+  console.log(data_id)
+  try {
+    const response = await api.delete(`/estates/document/${id}/remove/${data_id}`);
+    console.log(response);
+    console.log(response.data.data);
+    return response;
+  } catch (error) {
+    console.error("Error fetching documnet(S):", error);
     throw error;
   }
 };

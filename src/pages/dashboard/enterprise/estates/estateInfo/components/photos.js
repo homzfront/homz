@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/imageUploadII";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { updateEstateCoverPhoto } from "@/api/estateService";
 import LoadingII from "@/components/mainmenu/loadingII";
 
@@ -86,21 +85,6 @@ const Photos = ({ data }) => {
 
   return (
     <div className=" block">
-      {
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeButton={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      }
       {loading ? (
         <LoadingII />
       ) : (

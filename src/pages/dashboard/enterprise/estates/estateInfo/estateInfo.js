@@ -53,7 +53,7 @@ const EstateInfo = ({id}) => {
           </div>
         </div>
         <div>
-          <Widget data={data} />
+          <Widget data={data} id={id}/>
         </div>
       </div>
     </div>
