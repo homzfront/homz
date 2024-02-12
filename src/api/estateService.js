@@ -25,7 +25,7 @@ export const fetchEstatesSpecificUSer = async (id) => {
 
 export const fetchEstatesMe = async () => {
   try {
-    const response = await api.get("/estates/me");
+    const response = await api.get("/estates/me/enterprise");
     return response.data;
   } catch (error) {
     console.error("Error fetching estates:", error);
