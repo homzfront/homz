@@ -49,7 +49,7 @@ const Widget = ({data}) => {
             <EstateInfoP data={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <Documents />
+            <Documents  data={data}/>
           </div>
         </div>
       </div>

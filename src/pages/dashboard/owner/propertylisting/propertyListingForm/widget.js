@@ -111,7 +111,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     formData.append("phoneNumber", parseInt(phoneNumber));
     formData.append("whatsapp", whatsapp);
     try {
-      const response = await api.post("/properties/create/property", formData, {
+      const response = await api.post("/properties/create/property-owner", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           // add other headers as needed
