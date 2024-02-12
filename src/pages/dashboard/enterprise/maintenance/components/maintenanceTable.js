@@ -11,12 +11,14 @@ import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const MaintenanceTable = ({ request, tenantData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loadingRows, setLoadingRows] = useState({});
 
   console.log(openDropdowns);
 
@@ -73,6 +75,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
 
   const handleStatusChange = async (status, dataId) => {
     setLoading(true);
+    setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
     try {
       // Handle status change logic here
       console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
@@ -90,60 +93,15 @@ const MaintenanceTable = ({ request, tenantData }) => {
       setLoading(false);
       toast.error(error);
     }
+    finally {
+      setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
+    }
   };
 
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
 
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-    const day = date.getDate();
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-
-    // Function to add ordinal suffix to day
-    function getOrdinalSuffix(day) {
-      if (day > 10 && day < 20) {
-        return "th";
-      } else {
-        const lastDigit = day % 10;
-        switch (lastDigit) {
-          case 1:
-            return "st";
-          case 2:
-            return "nd";
-          case 3:
-            return "rd";
-          default:
-            return "th";
-        }
-      }
-    }
-
-    const ordinalSuffix = getOrdinalSuffix(day);
-    const formattedDate = `${day}${ordinalSuffix} ${monthNames[monthIndex]}, ${year}`;
-
-    return formattedDate;
-  }
-
-  // const capitalizeFirstLetter = (str) => {
-  //   return str.charAt(0).toUpperCase() + str.slice(1);
-  // };
 
   useBodyScroll([loading]);
 
@@ -162,7 +120,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
         pauseOnHover
         theme="dark"
       />
-      {loading && <LoadingTable />}
+
       <div className="mt-8">
         <div className=" w-full rounded-t-xl border">
           <div className="flex rounded-t-xl bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz items-center px-8">
@@ -212,21 +170,22 @@ const MaintenanceTable = ({ request, tenantData }) => {
                     {request?.subject}
                   </div>
                   <div className="flex-1 flex items-center ">
-                    <div
-                      className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] `}
-                    >
-                      <StatusDropDownMain
-                        data={request}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, request._id)
-                        }
-                        isOpen={openDropdowns[request._id] || false}
-                        toggleDropdown={() => toggleDropdown(request._id)}
-                      />
-                    </div>
+                      <div
+                        className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] `}
+                      >
+                        <StatusDropDownMain
+                          data={request}
+                          handleStatusChange={(status) =>
+                            handleStatusChange(status, request._id)
+                          }
+                          isOpen={openDropdowns[request._id] || false}
+                          toggleDropdown={() => toggleDropdown(request._id)}
+                          loading={loadingRows[request._id] || false}
+                        />
+                      </div>
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                    {formatDate(request?.requestDate)}
+                    {changeBackendDateFormat(request?.requestDate)}
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
                     {request?.tenantData?.estateId?.name}

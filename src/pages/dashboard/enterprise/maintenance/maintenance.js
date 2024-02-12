@@ -4,37 +4,57 @@ import Filter from "./components/filter";
 import Box from "../components/box";
 import MaintenanceTable from "./components/maintenanceTable";
 import LoadingII from "@/components/mainmenu/loadingII";
-import { maintenanceRequestForAnEnterprise } from "@/api/maintenanceService";
-import { fetchSpecificTenant } from "@/api/tenantSevice";
+import formatDateII from "@/utils/formatDateII";
+import useMaintenanceRequestStore from "@/store/useMaintenanceStore";
+import Image from "next/image";
 
 const Maintenance = () => {
-  const [loading, setLoading] = useState(true);
-  const [request, setRequest] = useState([]);
-  const [tenantData, setTenantData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await maintenanceRequestForAnEnterprise();
-        const request = data?.data;
-        setRequest(request);
-        console.log(request);
-        const tenantPromises = await request?.results.map((tenant) =>
-       
-          fetchSpecificTenant(tenant.tenant._id)
-        );
-        const tenantData = await Promise.all(tenantPromises);
-        console.log(tenantData);
-        setTenantData(tenantData);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const { request, tenantData, loading, fetchData } =
+    useMaintenanceRequestStore();
 
+  useEffect(() => {
     fetchData();
   }, []);
 
+  const clear = () => {
+    setSelectedState(null);
+    setSelectedArea(null);
+    setSelectedDate(null);
+  };
+
+  const options = [
+    ...new Set(
+      request?.results?.map((item) => item?.tenant?.estateId?.location.state)
+    ),
+  ];
+  console.log(options);
+
+  const options2 = [
+    ...new Set(
+      request?.results?.map((item) => item?.tenant?.estateId?.name)
+    ),
+  ];
+  console.log(options2);
+
+  const filteredData = request?.results?.filter((data) => {
+    const selectedDateTimestamp = Date.parse(selectedDate);
+    const createdDateTimestamp = Date.parse(formatDateII(data?.createdAt));
+    console.log(createdDateTimestamp);
+    console.log(selectedDateTimestamp);
+    return (
+      (!selectedState ||
+        data?.tenant?.estateId?.location.state === selectedState) &&
+      (!selectedArea ||
+        data?.tenant?.estateId?.name === selectedArea) &&
+      (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
+    );
+  });
+
   console.log(request);
+  console.log(tenantData);
   const pendingRequest = request?.results?.filter((request) => {
     return request.status === "pending";
   });
@@ -53,11 +73,21 @@ const Maintenance = () => {
     <div className="relative block w-[1147px] p-8">
       {loading ? (
         <LoadingII />
-      ) : (
+      ) : request?.results && request?.results?.length >= 1 ? (
         <div className="">
           <div className="flex justify-between items-center">
             <p className="text-[20px] font-[500] text-BlackHomz">Maintenance</p>
-            <Filter />
+            <Filter
+              selectedArea={selectedArea}
+              selectedState={selectedState}
+              selectedDate={selectedDate}
+              setSelectedArea={setSelectedArea}
+              setSelectedState={setSelectedState}
+              setSelectedDate={setSelectedDate}
+              options={options}
+              options2={options2}
+              clear={clear}
+            />
           </div>
           <div className="absolute border-t w-full left-0 top-[105px]"></div>
           <div className="flex gap-4 mt-[70px]">
@@ -88,7 +118,35 @@ const Maintenance = () => {
           </div>
 
           <div>
-            <MaintenanceTable request={request?.results} tenantData={tenantData} />
+            <MaintenanceTable request={filteredData} tenantData={tenantData} />
+          </div>
+        </div>
+      ) : (
+        <div className="">
+          <div className="p-9 flex items-center justify-between w-full border-b">
+            <p className="text-[20px] font-[500] text-BlackHomz">
+              Maintenance Request
+            </p>
+          </div>
+          <div className=" p-8">
+            <div className="flex flex-col gap-4">
+              <p className="text-[18px] font-[400] text-GrayHomz">
+                No maintenance request from tenant(S).
+              </p>
+            </div>
+            <div className="h-[450px] w-full flex items-center justify-around">
+              <div className="flex flex-col justify-center items-center gap-1 h-[400px]">
+                <div className="w-[120px] h-[120px] bg-whiteblue rounded-[100%] flex justify-center items-center">
+                  <Image
+                    src={"/static/dashboard/tenant/maintenance/setting-2.png"}
+                    alt=""
+                    height={89}
+                    width={89}
+                    className="m-auto"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

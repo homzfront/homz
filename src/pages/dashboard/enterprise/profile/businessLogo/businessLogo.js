@@ -3,8 +3,7 @@ import React, { useCallback, useState, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import UpdateButton from "../components/updateButton";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { updateBusinessLogo } from "@/api/enterpriseManagerService";
 
 const BusinessLogo = ({ data }) => {
@@ -67,19 +66,6 @@ const BusinessLogo = ({ data }) => {
 
   return (
     <div className="mt-8">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className="">
         <div className="flex items-center gap-8">
           <div className="flex gap-2">

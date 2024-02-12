@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation.js";
 
-const Widget = ({ returnToStartRegistration }) => {
+const Widget = ({ returnToStartRegistration, fetchData }) => {
   // to push to dashboard/property-listing
   const router = useRouter();
 
@@ -111,7 +111,7 @@ const Widget = ({ returnToStartRegistration }) => {
     formData.append("phoneNumber", parseInt(phoneNumber));
     formData.append("whatsapp", whatsapp);
     try {
-      const response = await api.post("/properties/create", formData, {
+      const response = await api.post("/properties/create/enterprise", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           // add other headers as needed
@@ -219,6 +219,7 @@ const Widget = ({ returnToStartRegistration }) => {
     setOpenConfirmationModal(false);
     setYesOrNoModal(false);
     returnToStartRegistration();
+    fetchData();
   };
 
   return (

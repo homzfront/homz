@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import api from "@/utils/api.js";
 import { useRouter } from "next/navigation.js";
 
-const Widget = ({ returnToStartRegistration }) => {
+const Widget = ({ returnToStartRegistration, fetchData }) => {
   // to push to dashboard/property-listing
   const router = useRouter();
 
@@ -162,13 +162,8 @@ const Widget = ({ returnToStartRegistration }) => {
     setShowConfirm(false);
     setYesOrNoModal(false);
     setVisibleAddProperty(false);
-    // Add a unique query parameter
-    router.push("/dashboard/enterprise-property/estates?refresh=true");
-
-    // Remove the query parameter to prevent it from staying in the URL
-    const { pathname, query } = router;
-    delete query.refresh;
-    router.replace({ pathname, query }, undefined, { shallow: true });
+    fetchData();
+    returnToStartRegistration();
   };
 
 

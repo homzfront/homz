@@ -3,8 +3,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import EstateForm from "./estateForm/estateForm";
 import ListedEstates from "./listedEstates";
-import useEstateStore from "@/store/estates";
-import { fetchEstatesMe } from "@/api/estateService";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import estateStore from "@/store/estates";
@@ -97,10 +95,10 @@ const Estate = () => {
           clear={clear}
           options={options}
           options2={options2}
-
+          fetchData={fetchData}
         />
       ) : registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration} />
+        <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>
       ) : (
         <div className="w-[1147px] p-8">
           <div className="flex flex-col gap-2 justify-between">

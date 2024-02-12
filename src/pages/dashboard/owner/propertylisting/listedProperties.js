@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropertyCard from "./components/propertyCard";
 import Button from "../components/button";
 import Image from "next/image";
-import Dropdown from "@/components/mainmenu/dropDownTwo"
+import Dropdown from "@/components/mainmenu/dropDownTwo";
 import PropertyForm from "./propertyListingForm/propertyForm";
 
 const ListedProperties = ({
@@ -30,6 +30,7 @@ const ListedProperties = ({
   options2,
   options3,
   clear,
+  fetchData
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -70,7 +71,10 @@ const ListedProperties = ({
   return (
     <div className="w-[1147px]">
       {registrationForm ? (
-        <PropertyForm returnToStartRegistration={returnToStartRegistration} />
+        <PropertyForm
+          returnToStartRegistration={returnToStartRegistration}
+          fetchData={fetchData}
+        />
       ) : (
         <div>
           {" "}

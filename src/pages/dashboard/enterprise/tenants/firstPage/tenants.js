@@ -81,7 +81,7 @@ const Tenants = () => {
                 <p className="text-[20px] font-[500]">Tenants</p>
                 <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
                   <span className="text-BlueHomz text-[18px] font-[400]">
-                    {data?.length}
+                0
                   </span>
                 </span>
               </div>

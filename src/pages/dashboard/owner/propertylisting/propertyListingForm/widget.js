@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation.js";
 
-const Widget = ({ returnToStartRegistration }) => {
+const Widget = ({ returnToStartRegistration, fetchData }) => {
   // to push to dashboard/property-listing
   const router = useRouter();
 
@@ -111,7 +111,7 @@ const Widget = ({ returnToStartRegistration }) => {
     formData.append("phoneNumber", parseInt(phoneNumber));
     formData.append("whatsapp", whatsapp);
     try {
-      const response = await api.post("/properties/create", formData, {
+      const response = await api.post("/properties/create/property", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           // add other headers as needed
@@ -209,6 +209,7 @@ const Widget = ({ returnToStartRegistration }) => {
 
   const openYesOrNo = () => {
     setYesOrNoModal(!yesOrNoModal);
+ 
   };
 
   const closeYesOrNoModal = () => {
@@ -219,13 +220,7 @@ const Widget = ({ returnToStartRegistration }) => {
     setOpenConfirmationModal(false);
     setYesOrNoModal(false);
     returnToStartRegistration();
-    // Add a unique query parameter
-    router.push("/dashboard/property-owner/propertylisting?refresh=true");
-
-    // Remove the query parameter to prevent it from staying in the URL
-    const { pathname, query } = router;
-    delete query.refresh;
-    router.replace({ pathname, query }, undefined, { shallow: true });
+    fetchData()
   };
 
   return (

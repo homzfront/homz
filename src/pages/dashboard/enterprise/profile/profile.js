@@ -3,31 +3,17 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import { enterpriseMe } from "@/api/enterpriseManagerService";
 import LoadingII from "@/components/mainmenu/loadingII";
+import useProfileEnterpriseMe from "@/store/useProfileEnterpriseMe";
 
 const Profile = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  console.log(data);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await enterpriseMe();
-        const estate = response?.data;
-        setData(estate);
-      } catch (error) {
-        // Handle error if needed, or simply ignore it
-        console.error("Error fetching data:", error);
-      } finally {
-        // Set loading to false regardless of success or error
-        setLoading(false);
-      }
-    };
-
+  
+  const {data, loading, fetchData} = useProfileEnterpriseMe();
+  
+  useEffect(()=>{
     fetchData();
-  }, []);
-
+  },[])
+  
+  console.log(data);
   return (
     <div className="p-8 w-[1147px]">
       <p className="font-[500] text-[20px] text-GrayHomz">Profile</p>

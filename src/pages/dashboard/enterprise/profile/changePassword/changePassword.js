@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import InputVisible from "./components/inputVisible";
 import UpdateButton from "../components/updateButton";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { updatePassword } from "@/api/enterpriseManagerService";
 
 const ChangePassword = () => {
@@ -89,20 +88,6 @@ const ChangePassword = () => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-
       <div className="w-[498px] flex flex-col gap-4">
         <InputVisible
           password={password}

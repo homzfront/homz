@@ -5,12 +5,13 @@ import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
 import { tenantMe } from "@/api/tenantSevice";
+import tenantProfile from "@/store/tenantProfile";
 
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [user, setUSer] = useState('')
+
 
 
   const handleToggleMenu = () => {
@@ -21,20 +22,14 @@ const Header = () => {
     setPopUpMenuTwo(!popUpMenuTwo);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await tenantMe();
-        setUSer(response?.data);
-      } catch (error) {
-        // Handle errors if the fetch fails
-      }
-    };
+  const { data, loading, fetchData } = tenantProfile();
   
-    // Call the fetchData function when the component mounts
-    fetchData();
+  useEffect(() => {
+    fetchData(); // Fetch data on component mount
   }, []);
-console.log(user);
+  
+  const user = data;
+  console.log(user);
 
   return (
     <div className="header w-[1147px]">

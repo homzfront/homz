@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useBodyScroll from "@/utils/useBodyScroll";
 
-const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
+const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
   const [subject, setSubject] = useState("");
   const [requestDate, setRequestDate] = useState("");
   const [openAccept, setOpenAccept] = useState(false);
@@ -25,8 +25,13 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
   };
 
   const closeConfirm = () => {
+    try {
+      fetchData();
+    } catch (error) {}
+
     setConfirm(false);
     setOpenAccept(false);
+    closeMaintenanceForm()
   };
 
   console.log(subject);
@@ -42,7 +47,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
     try {
       const maintenanceData = {
         subject,
-        requestDate,
+        // requestDate,
       };
 
       const data = await maintenanceByTenant(maintenanceData);
@@ -134,7 +139,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
             className="px-4 h-[45px] w-[475px] border rounded-[4px]"
           />
         </div>
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <label className="text-[14px] font-[500] text-BlackHomz">
             Request Date
           </label>
@@ -144,7 +149,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
             className="px-4 h-[45px] w-[475px] border rounded-[4px] text-GrayHomz2"
             type="date"
           />
-        </div>
+        </div> */}
         <button
           onClick={accept}
           className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]"

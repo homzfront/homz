@@ -3,25 +3,14 @@ import React, { useEffect, useState } from "react";
 import GetStarted from "./components/getStarted/getStarted";
 import MaintenanceRequest from "./components/maintenanceRequest/maintenanceRequest";
 import Request from "./components/request/request";
-import { maintenanceByASpecificTenant } from "@/api/maintenanceService";
 import LoadingII from "@/components/mainmenu/loadingII";
+import useMaintenanceTenantStore from "@/store/useMaintenanceTenantStore";
 
 const Maintenance = () => {
   const [maintenanceReq, setMaintenanceReq] = useState(false);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await maintenanceByASpecificTenant();
-        const request = data
-        setData(request?.data?.results);
-        setLoading(false);
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
+  const { data, loading, fetchData } = useMaintenanceTenantStore();
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -30,8 +19,11 @@ const Maintenance = () => {
   };
   const closeMaintenanceForm = () => {
     setMaintenanceReq(false);
-  };
+    try {
+      fetchData();
+    } catch (error) {}
 
+  };
 
   console.log(data);
   return (
@@ -40,14 +32,20 @@ const Maintenance = () => {
         <LoadingII />
       ) : data && data.length >= 1 ? (
         <div>
-          <Request data={data}/>
+          <Request
+            data={data}
+            openMaintenanceForm={openMaintenanceForm}
+            maintenanceReq={maintenanceReq}
+            closeMaintenanceForm={closeMaintenanceForm}
+            fetchData={fetchData}
+          />
         </div>
       ) : maintenanceReq ? (
         <div>
           <MaintenanceRequest
             closeMaintenanceForm={closeMaintenanceForm}
-            setData={setData}
             data={data}
+            fetchData={fetchData}
           />
         </div>
       ) : (

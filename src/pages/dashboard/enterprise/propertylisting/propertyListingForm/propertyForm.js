@@ -2,7 +2,7 @@ import React from "react";
 import Widget from "./widget";
 import Image from "next/image";
 
-const PropertyForm = ({returnToStartRegistration}) => {
+const PropertyForm = ({returnToStartRegistration, fetchData}) => {
   return (
     <div>
         <div className="px-8 pt-8 flex items-center cursor-pointer" onClick={returnToStartRegistration}>
@@ -18,7 +18,7 @@ const PropertyForm = ({returnToStartRegistration}) => {
           </div>
           <div className="text-GrayHomz2 text-[14px] font-[400]">Go Back</div>
         </div>
-      <Widget  returnToStartRegistration={returnToStartRegistration}/>
+      <Widget  returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>
     </div>
   );
 };

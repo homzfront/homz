@@ -60,7 +60,7 @@ const InProgress = ({ data }) => {
       </div>
       <div className="">
         {data &&
-          data?.data?.map(
+          data?.map(
             (data) =>
               smallLetter(data?.status) === "in-progress" && (
                 <div

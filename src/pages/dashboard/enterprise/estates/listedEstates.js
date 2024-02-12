@@ -29,6 +29,7 @@ const ListedEstates = ({
   options,
   options2,
   clear,
+  fetchData
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -72,7 +73,7 @@ const ListedEstates = ({
   return (
     <div className="w-[1147px]">
       {registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration} />
+        <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>
       ) : (
         <div>
           <div className="p-8">

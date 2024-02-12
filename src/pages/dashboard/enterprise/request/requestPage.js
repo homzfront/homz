@@ -3,18 +3,12 @@ import React, { useEffect, useState } from "react";
 import PendingRequest from "./pendingRequest";
 import Image from "next/image";
 import Modal from "../tenants/components/modal";
-import { fetchTenantRequest } from "@/api/estateService";
-import useTenantRequestStore from "@/store/tenantRequest";
 import LoadingII from "@/components/mainmenu/loadingII";
-import { fetchSpecificTenant } from "@/api/tenantSevice";
 import { ConfirmTenantRequest } from "@/api/requestService";
 import useBodyScroll from "@/utils/useBodyScroll";
+import useRequestEnterprise from "@/store/useRequestEnterprise";
 
 const RequestPage = () => {
-  const { request, setRequest } = useTenantRequestStore();
-  const [data, setData] = useState([]);
-  const [tenantData, setTenantData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
@@ -25,32 +19,18 @@ const RequestPage = () => {
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, popUpMenu, popUpMenuTwo]);
 
-  console.log(data);
-  console.log(request);
 
-  const fetchData = async () => {
-    try {
-      const data = await fetchTenantRequest();
-      console.log(data);
-      const request = data.data?.tenantRequest;
-      console.log(request);
-      const tenantPromises = await request?.map((tenant) =>
-        fetchSpecificTenant(tenant.tenant)
-      );
-      const tenantData = await Promise.all(tenantPromises);
-      console.log(tenantData);
-      setRequest(request);
-      setTenantData(tenantData);
-      setData(request);
-      setLoading(false);
-    } catch (error) {
-      // Handle error if needed
-    }
-  };
+
+  const { request, tenantData, loading, fetchData } = useRequestEnterprise();
+
   useEffect(() => {
-
     fetchData();
   }, []);
+
+ const data = request
+
+  console.log(data);
+  console.log(request);
 
   const toggleInvite = () => {
     setInviteTenant(true);
@@ -61,13 +41,11 @@ const RequestPage = () => {
     setDoneTwo(false);
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
-    setLoading(true)
     try {
    
       fetchData();
      
     } catch (error) {
-      setLoading(false);
     }
   };
 
@@ -110,7 +88,7 @@ const RequestPage = () => {
   return (
     <div>
       {loading && <LoadingII />}
-      {data ? (
+      {data && data.length >= 1 ? (
         <PendingRequest
           selectedDataId={selectedDataId}
           popUpMenu={popUpMenu}
@@ -125,7 +103,6 @@ const RequestPage = () => {
           doneTwo={doneTwo}
           returnToPage={returnToPage}
           tenantData={tenantData}
-          setTenantData={setTenantData}
         />
       ) : inviteTenant ? (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">

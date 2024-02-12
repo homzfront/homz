@@ -61,7 +61,7 @@ const PendingRequests = ({ data }) => {
       </div>
       <div className="">
         {data &&
-          data?.data?.map(
+          data?.map(
             (data) =>
               smallLetter(data?.status) === "pending" && (
                 <div

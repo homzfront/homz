@@ -13,7 +13,7 @@ export const maintenanceByTenant = async (data) => {
 
 export const maintenanceByASpecificTenant = async () => {
   try {
-    const response = await api.get(`/maintenances/tenant/`);
+    const response = await api.get(`/maintenances/tenant`);
     console.log(response.data);
     return response.data;
   } catch (error) {

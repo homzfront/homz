@@ -6,12 +6,9 @@ import PropertyForm from "./propertyListingForm/propertyForm";
 import { propertyForMe } from "@/api/propertyService";
 import usePropertyListedAllStore from "@/store/property";
 import LoadingII from "@/components/mainmenu/loadingII";
+import usePropertyStore from "@/store/propertyForMeStore";
 
 const PropertyListing = () => {
-  const { propertyListedAll, setPropertyListedAll } =
-    usePropertyListedAllStore();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -24,21 +21,12 @@ const PropertyListing = () => {
     setSelectedRooms(null);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await propertyForMe();
-        console.log(data);
-        const properties = data.data?.results?.[0].data;
-        console.log(properties);
-        setPropertyListedAll(properties);
-        setData(properties);
-        setLoading(false);
-      } catch (error) {
-       setLoading(false);
-      }
-    };
+  const { propertyListedAll, loading, fetchData } = usePropertyStore();
 
+  console.log(propertyListedAll);
+  const data = propertyListedAll;
+  useEffect(() => {
+    // Fetch data when the component mounts
     fetchData();
   }, []);
 
@@ -97,7 +85,7 @@ const PropertyListing = () => {
         <LoadingII />
       ) : data.length >= 1 ? (
         <ListedProperties
-        Data={filteredData}
+          Data={filteredData}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
           popUpMenu={popUpMenu}
@@ -122,9 +110,13 @@ const PropertyListing = () => {
           setSelectedRooms={setSelectedRooms}
           setSelectedState={setSelectedState}
           clear={clear}
+          fetchData={fetchData}
         />
       ) : registrationForm ? (
-        <PropertyForm returnToStartRegistration={returnToStartRegistration} />
+        <PropertyForm
+          returnToStartRegistration={returnToStartRegistration}
+          fetchData={fetchData}
+        />
       ) : (
         <div className="w-[1147px] p-8">
           <div className="flex flex-col gap-2">

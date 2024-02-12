@@ -71,7 +71,7 @@ const All = ({ data = null || [] }) => {
         </div>
         <div>
           {data &&
-            data?.data?.map((data) => (
+            data?.map((data) => (
               <div
                 key={data?._id}
                 className={`text-[11px] font-[400] text-GrayHomz flex px-8 py-4 border-b`}

@@ -19,7 +19,6 @@ const PendingRequest = ({
   doneTwo,
   returnToPage,
   tenantData,
-  setTenantData,
 }) => {
   console.log(tenantData);
   console.log(friendRequests);

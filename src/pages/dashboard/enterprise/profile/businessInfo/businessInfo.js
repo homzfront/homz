@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { updateBussinessInformation } from "@/api/enterpriseManagerService";
 
 const BusinessInfo = ({ data }) => {
@@ -60,19 +60,6 @@ const BusinessInfo = ({ data }) => {
 
   return (
     <div className="mt-8">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className="w-[498px] flex gap-4 flex-col">
         <Input
           label={"Business Name"}

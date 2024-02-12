@@ -31,7 +31,7 @@ const ListedProperties = ({
   options2,
   options3,
   clear,
-  user
+  fetchData
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -72,7 +72,7 @@ const ListedProperties = ({
   return (
     <div className="w-[1147px]">
       {registrationForm ? (
-        <PropertyForm returnToStartRegistration={returnToStartRegistration} />
+        <PropertyForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
       ) : (
         <div>
           {" "}
