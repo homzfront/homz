@@ -1,3 +1,7 @@
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import addYearsToValues from "@/utils/addYearsToNumber";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
 import React from "react";
 
@@ -5,6 +9,8 @@ const RentInfo = ({ data = null }) => {
   if (!data) {
     return null;
   }
+
+  console.log(data);
   return (
     <div>
       <div
@@ -36,11 +42,11 @@ const RentInfo = ({ data = null }) => {
               Tenancy Start Date
             </p>
             <p className="text-[11px] font-[500] text-white">
-              4th January, 2023
+              {changeBackendDateFormat(data?.startDate)}
             </p>
           </div>
         </div>
-        {data.length < 1 ? (
+        {data?.length < 1 ? (
           <div className="flex gap-4 mt-8">
             <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg">
               <p className="text-[11px] font-[400] text-white">Amount</p>
@@ -63,34 +69,42 @@ const RentInfo = ({ data = null }) => {
           </div>
         ) : (
           <div className="flex gap-4 mt-8">
-            {data.map((data) => (
-              <div key={data.id} className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
-                <p className="text-[11px] font-[400] text-white mb-2">
-                  {data.name}
-                </p>
-                <p
-                  className={`${
-                    data.name === "Amount"
-                      ? "text-[16px] font-[500] text-white"
-                      : ""
-                  } ${
-                    data.name === "Payment Status"
-                      ? "text-white border border-white text-[11px] font-[400] bg-Success rounded-lg w-[70%] text-center p-1 mt-[-2px]"
-                      : ""
-                  } ${
-                    data.name === "Rent Duration"
-                      ? "text-[11px] font-[500] text-white"
-                      : ""
-                  } ${
-                    data.name === "Next Due Date"
-                      ? "text-[11px] font-[500] text-white"
-                      : ""
-                  }  `}
-                >
-                  {data.value}
-                </p>
-              </div>
-            ))}
+            <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
+              <p className="text-[11px] font-[400] text-white mb-2">Amount</p>
+              <p className={`text-[16px] font-[500] text-white`}>
+                {addCommasToNumber(data?.totalRent)}
+              </p>
+            </div>
+            <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
+              <p className="text-[11px] font-[400] text-white mb-2">
+                Rent Duration
+              </p>
+              <p className={`text-[11px] font-[500] text-white`}>
+                {addYearsToValues(data?.duration)}
+              </p>
+            </div>
+            <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
+              <p className="text-[11px] font-[400] text-white mb-2">
+                Payment Status
+              </p>
+              <p
+                className={`text-white border border-white text-[11px] font-[400] ${
+                  data?.paymentStatus === "paid" ? "bg-Success" : ""
+                } ${data?.paymentStatus === "over due" ? "bg-error" : ""} ${
+                  data?.paymentStatus === "pending" ? "bg-warning2" : ""
+                } rounded-lg w-[70%] text-center p-1 mt-[-2px]`}
+              >
+                {capitalizeFirstLetter(data?.paymentStatus)}
+              </p>
+            </div>
+            <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
+              <p className="text-[11px] font-[400] text-white mb-2">
+                Next Due Date
+              </p>
+              <p className={`text-[11px] font-[500] text-white`}>
+                {changeBackendDateFormat(data?.dueDate)}
+              </p>
+            </div>
           </div>
         )}
       </div>

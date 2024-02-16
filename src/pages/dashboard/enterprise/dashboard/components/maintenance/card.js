@@ -28,7 +28,7 @@ const Maintenance = () => {
   console.log(Data);
 
   return (
-    <div className="rounded-[12px] border w-[45%] max-h-[514px] overflow-auto scrollbar-container ">
+    <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container ">
       <div className="flex justify-between  p-6">
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Maintenance Request</p>

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import lowerCaseData from "@/utils/lowerCaseData";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import useClickOutside from "@/utils/clickOutside";
 
 const TenantsTwo = ({ Data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -17,6 +18,7 @@ const TenantsTwo = ({ Data }) => {
   const [data, setData] = useState(Data || []);
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [loadingRows, setLoadingRows] = useState({});
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
 
   console.log(openDropdowns);
 
@@ -97,6 +99,7 @@ const TenantsTwo = ({ Data }) => {
         pauseOnHover
         theme="dark"
       />
+      <div className="flex flex-col justify-between h-[700px]">
 
       <div className=" border w-full rounded-t-[12px]">
         <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
@@ -196,8 +199,8 @@ const TenantsTwo = ({ Data }) => {
                       : "______"
                   }`}
                 </div>
-                <div className="relative w-[3%]">
-                  <button onClick={() => handleToggleMenu(data?._id)}>
+                <div  className="relative w-[3%]">
+                  <button  onClick={() => handleToggleMenu(data?._id)}>
                     <Image
                       src={
                         "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -209,7 +212,7 @@ const TenantsTwo = ({ Data }) => {
                     />
                   </button>
                   {popUpMenuTwo && selectedDataId === data?._id && (
-                    <PopUpMenuTwo data={data?._id} />
+                    <PopUpMenuTwo dropdownRef={dropdownRef} data={data?._id} />
                   )}
                 </div>
               </div>
@@ -224,6 +227,7 @@ const TenantsTwo = ({ Data }) => {
         handlePageClick={handlePageClick}
         handlePrev={handlePrev}
       />
+      </div>
     </div>
   );
 };

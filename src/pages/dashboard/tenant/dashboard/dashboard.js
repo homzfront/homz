@@ -1,16 +1,29 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import Maintenance from "./components/maintenance/card";
 import RentFirst from "./components/rent-first/rentFirst";
 import RentSecond from "./components/rent-second/rentSecond";
 import BillPayment from "./components/billPayment/billPayment";
+import tenantProfile from "@/store/tenantStore/tenantProfile";
+import extractFirstName from "@/utils/extractFirstName";
 
 const dashboard = () => {
+  const { data, loading, fetchData } = tenantProfile();
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  console.log(data);
+
   return (
     <div className="dashboard h-[300px] w-[1147px] grid grid-flow-col">
       <div className="p-8 w-[1147px] pr-6 gap-5 flex flex-col">
         <div className="">
           <h1 className="text-[23px] font-[700] text-BlackHomz">
-            Hello, Daniella
+            {data?.fullName
+              ? `Hello, ${extractFirstName(data?.fullName)}`
+              : "Hello"}
           </h1>
           <p className="text-[16px] font-[400] text-GrayHomz2">
             What will you like to do today?

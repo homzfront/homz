@@ -9,7 +9,7 @@ import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import estateStore from "@/store/estates";
 
-const Modal = ({ setInviteTenant }) => {
+const Modal = ({ setInviteTenant, dropdownRef }) => {
   const [dropdowns, setDropdowns] = useState({
     estateOptions: false,
   });
@@ -29,8 +29,6 @@ const Modal = ({ setInviteTenant }) => {
   useEffect(() => {
     fetchData(); // Fetch data on component mount
   }, []);
-  
-  useBodyScroll([loading]);
 
   const estates = data;
   console.log(estates);
@@ -109,7 +107,7 @@ const Modal = ({ setInviteTenant }) => {
   }
 
   return (
-    <div className="max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
+    <div ref={dropdownRef} className="max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
       {loading || (loadingII && <Loading />)}
       {copied ? (
         <div className="max-w-[464px] m-auto">

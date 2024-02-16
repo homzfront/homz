@@ -16,7 +16,7 @@ const TenantsCard = ({ statsData }) => {
   const Data = data?.results?.[0]?.data;
 
   return (
-    <div className="rounded-[12px] border w-[55%] max-h-[514px] overflow-auto scrollbar-container">
+    <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Tenants</p>

@@ -1,10 +1,13 @@
 "use client"
 import React, { useState } from "react";
 import Image from "next/image";
+import useClickOutside from "@/utils/clickOutside";
 
 const Dropdown = ({ options, onSelect, selectOption, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const dropdownRef = useClickOutside(() => setIsOpen(false)); // Use the custom hook
+
 
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -17,7 +20,7 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   };
 
   return (
-    <div className={`relative inline-block ${className}`}>
+    <div className={`relative inline-block ${className}`} ref={dropdownRef}>
       <div
         className={`text-BlackHomz px-4 border h-[45px] p-3 rounded-md cursor-pointer ${
           isOpen ? "border z-[-3px]" : ""

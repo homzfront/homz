@@ -1,7 +1,8 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RentInfo from "./components/rentInfo";
 import RentInsentive from "./components/rentInsentive";
+import rentInfoTeant from "@/store/rentInfoTenant";
 
 const Data = [
   {
@@ -25,8 +26,18 @@ const Data = [
     value: "4th January, 2024",
   },
 ];
+
+
 const RentFirst = () => {
-    const [data, setData] = useState(Data || []);
+    // const [data, setData] = useState(Data || []);
+
+    const {loading, data, fetchData} = rentInfoTeant();
+
+    useEffect(()=> {
+      fetchData();
+    },[])
+
+    console.log(data);
   return ( 
     <div className="flex justify-between w-full">
       <RentInfo data={data} />

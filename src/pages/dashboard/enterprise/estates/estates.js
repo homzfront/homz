@@ -7,6 +7,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import estateStore from "@/store/estates";
 import formatDateII from "@/utils/formatDateII";
+import useClickOutside from "@/utils/clickOutside";
 
 const Estate = () => {
   const { data, loading, fetchData } = estateStore();
@@ -27,7 +28,7 @@ const Estate = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
-
+  const dropdownRef = useClickOutside(() => setInviteTenant(false)); 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
 
@@ -96,6 +97,7 @@ const Estate = () => {
           options={options}
           options2={options2}
           fetchData={fetchData}
+          dropdownRef={dropdownRef}
         />
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>

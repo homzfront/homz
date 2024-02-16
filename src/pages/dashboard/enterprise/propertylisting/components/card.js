@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenu from "./popUpMenu";
 import Link from "next/link";
+import useClickOutside from "@/utils/clickOutside";
 
 const Card = ({
   value1,
@@ -16,6 +17,7 @@ const Card = ({
   handleToggleMenu,
 }) => {
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
+  const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false)); // Use the custom hook
 
   const handleToggleMenuClick = () => {
     handleToggleMenu(data.id);
@@ -41,7 +43,7 @@ const Card = ({
           )}
         </Link>
         <div className="p-4 flex gap-3 h-full flex-col">
-          <div className="relative flex justify-between items-center">
+          <div ref={dropdownRef} className="relative flex justify-between items-center">
             <p className="font-[700] text-[16px] text-BlueHomz">{value2}</p>
             <Image
               src={
@@ -54,9 +56,9 @@ const Card = ({
               className="cursor-pointer"
               style={{ height: "auto", width: "auto" }}
             />
-
             {popUpMenuVisible && <PopUpMenu data={data} />}
           </div>
+
           <div className="flex gap-2">
             <Image
               src={Image1}

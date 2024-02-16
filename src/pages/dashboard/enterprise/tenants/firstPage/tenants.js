@@ -8,12 +8,14 @@ import tenantsDataForLoggedInEnterprise from "@/store/enterpriseStore/tenantData
 import LoadingII from "@/components/mainmenu/loadingII";
 import Dropdown from "../../components/dropDownFilter";
 import formatDateII from "@/utils/formatDateII";
+import useClickOutside from "@/utils/clickOutside";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const dropdownRef = useClickOutside(() => setInviteTenant(false)); // Use the custom hook
 
   const clear = () => {
     setSelectedProperty(null);
@@ -68,7 +70,7 @@ const Tenants = () => {
     <div className=" w-[1147px] p-8">
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal setInviteTenant={setInviteTenant} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
       {loading ? (

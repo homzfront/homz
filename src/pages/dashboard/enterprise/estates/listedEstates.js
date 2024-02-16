@@ -7,6 +7,8 @@ import Input from "./components/inputEstate";
 import EstateForm from "./estateForm/estateForm";
 import Modal from "../tenants/components/modal";
 import Dropdown from "../components/dropDownFilter";
+import useBodyScroll from "@/utils/useBodyScroll";
+
 
 const ListedEstates = ({
   Data,
@@ -29,13 +31,16 @@ const ListedEstates = ({
   options,
   options2,
   clear,
-  fetchData
+  fetchData,
+  dropdownRef
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-  
+// Use the custom hook
+
+
   const ITEMS_PER_PAGE = 8;
   const totalPages = Math.ceil(Data?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -69,6 +74,8 @@ const ListedEstates = ({
   const toggleInvite = () => {
     setInviteTenant(true);
   };
+
+  useBodyScroll([inviteTenant])
 
   return (
     <div className="w-[1147px]">
@@ -186,8 +193,8 @@ const ListedEstates = ({
       )}
 
       {inviteTenant && (
-        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal setInviteTenant={setInviteTenant} />
+        <div  className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
     </div>

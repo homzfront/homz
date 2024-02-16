@@ -4,7 +4,7 @@ import React from "react";
 const RentSecond = () => {
   return (
     <div className="flex w-full justify-between">
-      <div className="border rounded-[12px] border-warning3 bg-warning4 h-[120px] w-[342px] p-[20px] flex flex-col justify-between">
+      {/* <div className="border rounded-[12px] border-warning3 bg-warning4 h-[120px] w-[342px] p-[20px] flex flex-col justify-between">
         <p className="text-warning2">Rent Target</p>
         <div className="w-full flex justify-between items-center">
           <div>
@@ -22,8 +22,8 @@ const RentSecond = () => {
             />
           </div>
         </div>
-      </div>
-      <div className="border rounded-[12px] border-Success2 bg-Success3 h-[120px] w-[342px] p-[20px] flex flex-col justify-between">
+      </div> */}
+      {/* <div className="border rounded-[12px] border-Success2 bg-Success3 h-[120px] w-[342px] p-[20px] flex flex-col justify-between">
         <p className="text-Success text-[13px] font-[400]">Rent Savings 2024</p>
         <div className="w-full flex justify-between items-center">
           <p className="text-[16px] font-[500] text-BlackHomz">N800,000</p>
@@ -41,7 +41,7 @@ const RentSecond = () => {
             <></>
           </span>
         </div>
-      </div>
+      </div> */}
       <div className="border rounded-[12px] border-lightblue bg-BlueHomz3 h-[120px] w-[342px] p-[20px]">
         <p className="text-BlueHomz">Wallet Balance</p>
         <div className="w-full flex justify-end">
