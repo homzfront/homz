@@ -1,10 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
-const ConfirmModal = ({ header, body, button, returnHome }) => {
+ const ConfirmModal = ({ header, body, button, returnHome }) => {
   return (
     <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md">
+     <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md">
         <div className="mt-[-10px] w-[464px] flex flex-col justify-around p-8 items-center gap-3">
           <Image
             src={

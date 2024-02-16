@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import { enterpriseMe } from "@/api/enterpriseManagerService";
 import LoadingII from "@/components/mainmenu/loadingII";
-import useProfileEnterpriseMe from "@/store/useProfileEnterpriseMe";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 
 const Profile = () => {
   

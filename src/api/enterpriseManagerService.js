@@ -105,7 +105,6 @@ export const createWalletEnterprise = async (BVNDetails) => {
   }
 };
 
-
 export const enterpriseUserWallet = async () => {
   try {
     const response = await api.get(`/wallet/getWallet/enterprise`);
@@ -116,7 +115,6 @@ export const enterpriseUserWallet = async () => {
     throw error;
   }
 };
-
 
 export const enterpriseWalletBalance = async () => {
   try {
@@ -129,9 +127,8 @@ export const enterpriseWalletBalance = async () => {
   }
 };
 
-
 export const sendMoneyEnterpriseToOwner = async (details) => {
-console.log(details)
+  console.log(details);
   try {
     const response = await api.post(`/wallet/debit/enterprise`, details);
     console.log(response);
@@ -142,15 +139,42 @@ console.log(details)
   }
 };
 
+export const enterpriseplanRoleInvite = async ({ email, estate, role }) => {
+  console.log(email);
+  console.log(estate);
+  console.log(role);
+  try {
+    const response = await api.post(`/enterpriseplan/role/invite-link`, {
+      email,
+      estate,
+      role,
+    });
+    console.log(response);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    console.error(" error", error);
+    return { success: false, error: response?.error }; // Adjusted this line
+  }
+};
 
-export const enterpriseplanRoleInvite = async (details) => {
-  console.log(details)
-    try {
-      const response = await api.post(`/enterpriseplan/role/invite-link`, details);
-      console.log(response);
-      return { success: true, upDateddata: response};
-    } catch (error) {
-      console.error(" error", error);
-      return { success: false, error: error?.response?.error }; // Adjusted this line
-    }
-  };
+export const enterpriseStatistics = async () => {
+  try {
+    const response = await api.get(`/estates/me/enterprise/statistics`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting stats:", error);
+    throw error;
+  }
+};
+
+export const enterpriseRevenue = async () => {
+  try {
+    const response = await api.get(`/estates/me/enterprise/calculate-revenue`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting stats:", error);
+    throw error;
+  }
+};

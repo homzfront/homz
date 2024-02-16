@@ -8,8 +8,7 @@ import {
   getSpecificTenantRentInfo,
   updateSpecificTenantRentInfo,
 } from "@/api/tenantSevice";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import LoadingForm from "@/components/mainmenu/loadingForm";
 
 const RentInfo = ({ profile }) => {
@@ -219,21 +218,6 @@ useEffect(() => {
 
   return (
     <div>
-      {
-        <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeButton={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      }
       <div className="h-[430px]">
         <div className="grid grid-cols-2 gap-4">
           <Input

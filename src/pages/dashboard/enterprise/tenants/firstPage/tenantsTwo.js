@@ -7,7 +7,9 @@ import StatusDropdown from "../../components/statusDropDown";
 import { updatePaymentStatusTenant } from "@/api/tenantSevice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingTable from "../../../../../components/mainmenu/loadingTable";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import lowerCaseData from "@/utils/lowerCaseData";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const TenantsTwo = ({ Data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -56,23 +58,12 @@ const TenantsTwo = ({ Data }) => {
   const handleStatusChange = async (status, dataId, id) => {
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
 
-    function lowerCase(str) {
-      if (typeof str === "string" && str.trim() !== "") {
-        return str.toLowerCase();
-      } else {
-        return "";
-      }
-    }
-
-    const name = "AKin Idan";
-    console.log(lowerCase(name));
-
     try {
       // Handle status change logic here
       console.log(`Changing status to: ${status} for data with ID: ${id}`);
       const data = await updatePaymentStatusTenant({
         id,
-        status: lowerCase(status),
+        status: lowerCaseData(status),
       });
       console.log(data);
       toast.success("status updated successfully");
@@ -90,62 +81,6 @@ const TenantsTwo = ({ Data }) => {
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
-
-  function addCommasToNumber(number) {
-    // Convert the number to a string
-    const numberString = number?.toString();
-    // Use regular expression to add commas
-    const formattedNumber = numberString?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return `N ${formattedNumber}`;
-  }
-
-  function formatDate(inputDate) {
-    if (inputDate === "" || inputDate === null || inputDate === undefined) {
-      return "_______"; // Render the actual name if it exists
-    } else {
-      const date = new Date(inputDate);
-      const day = date.getDate();
-      const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      const monthIndex = date.getMonth();
-      const year = date.getFullYear();
-
-      // Function to add ordinal suffix to day
-      function getOrdinalSuffix(day) {
-        if (day > 10 && day < 20) {
-          return "th";
-        } else {
-          const lastDigit = day % 10;
-          switch (lastDigit) {
-            case 1:
-              return "st";
-            case 2:
-              return "nd";
-            case 3:
-              return "rd";
-            default:
-              return "th";
-          }
-        }
-      }
-      const ordinalSuffix = getOrdinalSuffix(day);
-      const formattedDate = `${day}${ordinalSuffix} ${monthNames[monthIndex]}, ${year}`;
-
-      return formattedDate;
-    }
-  }
 
   return (
     <div className="mt-6">
@@ -257,7 +192,7 @@ const TenantsTwo = ({ Data }) => {
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
                   {`${
                     data?.rentInfo?.dueDate
-                      ? formatDate(data?.rentInfo?.dueDate)
+                      ? changeBackendDateFormat(data?.rentInfo?.dueDate)
                       : "______"
                   }`}
                 </div>

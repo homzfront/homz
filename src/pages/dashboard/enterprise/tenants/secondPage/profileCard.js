@@ -6,12 +6,22 @@ const ProfileCard = ({ data }) => {
   return (
     <div className="h-auto py-4 px-6 shadow-md bg-white rounded-[12px]">
       <div className="w-full ">
-        <Image
-          src={"/static/dashboard/enterprisemanager/tenants/Ellipse 70.png"}
-          height={198}
-          width={198}
-          alt=""
-        />
+        {data?.data?.coverPhoto?.url? (
+          <Image
+            src={data?.data?.coverPhoto?.url}
+            height={198}
+            width={198}
+            alt=""
+            className="rounded-full"
+          />
+        ) : (
+          <Image
+            src={"/static/dashboard/enterprisemanager/tenants/Ellipse 70.png"}
+            height={198}
+            width={198}
+            alt=""
+          />
+        )}
       </div>
       <h1 className="font-[700] my-4 text-[20px] text-GrayHomz">
         {data?.data?.fullName}

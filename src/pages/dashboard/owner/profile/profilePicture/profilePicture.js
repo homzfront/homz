@@ -1,8 +1,7 @@
 "use client";
 import React, { useCallback, useRef, useState } from "react";
 import UpdateButton from "../components/updateButton";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { updateProfilePicture } from "@/api/propertyService";
@@ -66,19 +65,6 @@ const ProfilePicture = ({ data }) => {
 
   return (
     <div className="mt-8">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className="">
         <div className="flex items-center gap-8">
           <div className="flex gap-2">

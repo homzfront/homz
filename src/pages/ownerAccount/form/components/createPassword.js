@@ -15,7 +15,7 @@ const CreatePassword = () => {
     };
   return (
     <div>
-    <div className="h-[85%] px-6 W-[320px] sm:w-full py-4">
+    <div className="h-[634px] px-6 W-[320px] sm:w-full py-4">
       <div className="flex flex-col gap-6 m-auto  max-w-[450px]">
         <h1 className="text-center w-full  text-[23px] font-[700] text-BlackHomz">
         Create An Account As A Property Owner

@@ -5,7 +5,7 @@ import Box from "../components/box";
 import MaintenanceTable from "./components/maintenanceTable";
 import LoadingII from "@/components/mainmenu/loadingII";
 import formatDateII from "@/utils/formatDateII";
-import useMaintenanceRequestStore from "@/store/useMaintenanceStore";
+import useMaintenanceRequestStore from "@/store/enterpriseStore/useMaintenanceStore";
 import Image from "next/image";
 
 const Maintenance = () => {

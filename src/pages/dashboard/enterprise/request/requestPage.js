@@ -6,7 +6,9 @@ import Modal from "../tenants/components/modal";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { ConfirmTenantRequest } from "@/api/requestService";
 import useBodyScroll from "@/utils/useBodyScroll";
-import useRequestEnterprise from "@/store/useRequestEnterprise";
+import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
+import { Result } from "postcss";
+import Loading from "@/components/mainmenu/loading";
 
 const RequestPage = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -15,11 +17,14 @@ const RequestPage = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const [done, setDone] = useState(false);
   const [doneTwo, setDoneTwo] = useState(false);
+  const [loadingII, setLoadingII] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState(null);
 
+  const clear = () => {
+    setSelectedProperty(null);
+  };
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, popUpMenu, popUpMenuTwo]);
-
-
 
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
 
@@ -27,8 +32,15 @@ const RequestPage = () => {
     fetchData();
   }, []);
 
- const data = request
+  const data = request;
 
+  const options = [...new Set(data?.map((item) => item.estate))];
+  console.log(options);
+
+  // Filter estateData based on selectedState, selectedArea, and searchQuery
+  const filteredData = data?.filter(
+    (data) => !selectedProperty || data?.estate === selectedProperty
+  );
   console.log(data);
   console.log(request);
 
@@ -36,37 +48,38 @@ const RequestPage = () => {
     setInviteTenant(true);
   };
 
-  const returnToPage = async() => {
+  const returnToPage = async () => {
     setDone(false);
     setDoneTwo(false);
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
     try {
-   
       fetchData();
-     
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleAccept = async (id) => {
+    setLoadingII(true);
     try {
       // Call ConfirmTenantRequest with "accepted" status
       await ConfirmTenantRequest(id, "accepted");
       setDone(!done);
+      setLoadingII(false);
     } catch (error) {
       console.error("Error accepting tenant request:", error);
+      setLoadingII(false);
     }
   };
 
   const handleReject = async (id) => {
-  
+    setLoadingII(true);
     try {
       // Call ConfirmTenantRequest with "declined" status
       await ConfirmTenantRequest(id, "declined");
-
+      setLoadingII(false);
       setDoneTwo(!doneTwo);
     } catch (error) {
+      setLoadingII(false);
       console.error("Error declining tenant request:", error);
     }
   };
@@ -88,12 +101,13 @@ const RequestPage = () => {
   return (
     <div>
       {loading && <LoadingII />}
+      {loadingII && <Loading />}
       {data && data.length >= 1 ? (
         <PendingRequest
           selectedDataId={selectedDataId}
           popUpMenu={popUpMenu}
           popUpMenuTwo={popUpMenuTwo}
-          friendRequests={data}
+          friendRequests={filteredData}
           handleAccept={handleAccept}
           handleReject={handleReject}
           handleToggleMenu={handleToggleMenu}
@@ -103,6 +117,10 @@ const RequestPage = () => {
           doneTwo={doneTwo}
           returnToPage={returnToPage}
           tenantData={tenantData}
+          selectedProperty={selectedProperty}
+          setSelectedProperty={setSelectedProperty}
+          options={options}
+          clear={clear}
         />
       ) : inviteTenant ? (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">

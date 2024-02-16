@@ -8,11 +8,20 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSelect = (value) => {
+const handleSelect = (value) => {
+  
+  // Check if setEstate is defined before calling it
+  if (typeof setEstate === 'function') {
     setEstate(value);
-    onClose();
+  }
+  onClose();
+  if (typeof onSelect === 'function') {
     onSelect(value);
-  };
+  }
+};
+
+
+  console.log(estateData)
 
   const clear = () => {
     setSelectedState(null);

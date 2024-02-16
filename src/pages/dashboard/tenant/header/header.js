@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
 import { tenantMe } from "@/api/tenantSevice";
-import tenantProfile from "@/store/tenantProfile";
+import tenantProfile from "@/store/tenantStore/tenantProfile";
 
 
 const Header = () => {

@@ -3,6 +3,8 @@ import PersonalInfo from "./personalInfo/personalInfo.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
@@ -29,14 +31,26 @@ const Widget = ({ data }) => {
 
   return (
     <div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="w-full h-auto py-4">
         <div className="flex mt-5 gap-2 justify-between w-[471px] cursor-pointer">
           <div
             className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
               !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
             }`}
-            onClick={(e) => handlePageChange(e)}
-            justify-center
+            onClick={handlePageChange}
           >
             <p className="text-[14px] font-500">Personal Information</p>
           </div>
@@ -46,7 +60,7 @@ const Widget = ({ data }) => {
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                 activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
               }`}
-              onClick={(e) => handlePageChangeTwo(e)}
+              onClick={handlePageChangeTwo}
             >
               <p className="text-[14px] font-500">Profile Picture</p>
             </div>
@@ -56,7 +70,7 @@ const Widget = ({ data }) => {
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                 activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
               }`}
-              onClick={(e) => handlePageChangeThree(e)}
+              onClick={handlePageChangeThree}
             >
               <p className="text-[14px] font-500">Change Password</p>
             </div>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import AcceptAndRejectModel from "./components/acceptAndRejectModel";
 import ConfirmModal from "../components/confirmModal";
 import { ConfirmTenantRequest } from "@/api/requestService";
+import Dropdown from "../components/dropDownFilter";
 
 const PendingRequest = ({
   popUpMenu,
@@ -19,6 +20,10 @@ const PendingRequest = ({
   doneTwo,
   returnToPage,
   tenantData,
+  setSelectedProperty,
+  selectedProperty,
+  options,
+  clear,
 }) => {
   console.log(tenantData);
   console.log(friendRequests);
@@ -26,7 +31,9 @@ const PendingRequest = ({
     return null; // or display a loading state or any other fallback
   }
 
-  const pendingData = friendRequests.filter(item => item.status === 'pending');
+  const pendingData = friendRequests.filter(
+    (item) => item.status === "pending"
+  );
 
   // Get the length of the filtered data
   const pendingCount = pendingData.length;
@@ -68,9 +75,7 @@ const PendingRequest = ({
             <div className="flex gap-1">
               <p>Tenancy Request</p>
               <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-                <span className="text-BlueHomz ">
-                  {pendingCount}
-                </span>
+                <span className="text-BlueHomz ">{pendingCount}</span>
               </span>
             </div>
           </div>
@@ -79,11 +84,20 @@ const PendingRequest = ({
           <p className="text-[16px] font-[400] text-BlackHomz pr-2">
             Filter by:{" "}
           </p>
-          <input
-            type="date"
-            className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
-          />
-          <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+          <div className="w-[120px]">
+            <Dropdown
+              options={options}
+              onSelect={(option) => setSelectedProperty(option)}
+              selectOption={
+                selectedProperty === null ? "Property" : selectedProperty
+              }
+              className={"text-[14px] font-[500] text-GrayHomz2"}
+            />
+          </div>
+          <button
+            onClick={clear}
+            className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer"
+          >
             <span>
               <Image
                 src={"/static/dashboard/enterprisemanager/dashboard/repeat.png"}
@@ -98,7 +112,14 @@ const PendingRequest = ({
       </div>
       <div>
         {friendRequests.map((request) => (
-          <div key={request._id} className={`${request?.status === "accepted" || request?.status === "declined" ? "hidden" : ""}`}>
+          <div
+            key={request._id}
+            className={`${
+              request?.status === "accepted" || request?.status === "declined"
+                ? "hidden"
+                : ""
+            }`}
+          >
             {tenantData?.map((data) => (
               <div key={data?.data._id}>
                 {request.tenant === data?.data._id && (
@@ -178,21 +199,53 @@ const PendingRequest = ({
                       </div>
                     )}
                     {done && (
-                      <div>
-                        <ConfirmModal
-                          header={"Tenant Added Successfully"}
-                          returnHome={returnToPage}
-                          button={"View Tenants"}
-                        />
+                      <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                        <div className="max-w-[464px] h-[240px] py-8 rounded-[8px] bg-white m-auto">
+                          <div className="w-[464px] px-8 flex flex-col justify-center items-center gap-5">
+                            <Image
+                              src={
+                                "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+                              }
+                              alt=""
+                              height={48}
+                              width={48}
+                            />
+                            <h1 className="text-BlackHomz font-[700] text-[20px]">
+                              Tenant Added Successfully
+                            </h1>
+                            <button
+                              onClick={returnToPage}
+                              className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
                     {doneTwo && (
-                      <div>
-                        <ConfirmModal
-                          header={"Tenant Request Declined Successfully"}
-                          returnHome={returnToPage}
-                          button={"Close"}
-                        />
+                      <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                        <div className="max-w-[464px] py-8 rounded-[8px] bg-white m-auto">
+                          <div className="w-[464px] px-8 flex flex-col justify-center items-center gap-5">
+                            <Image
+                              src={
+                                "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+                              }
+                              alt=""
+                              height={48}
+                              width={48}
+                            />
+                            <h1 className="text-BlackHomz font-[700] text-[20px]">
+                              Tenant Request Declined Successfully
+                            </h1>
+                            <button
+                              onClick={returnToPage}
+                              className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>

@@ -8,7 +8,7 @@ import SentInvite from "./components/sentInvite";
 import EstateInfo from "./estateInfo/estateInfo";
 import { toast } from "react-toastify";
 import AcAndRejModelEs from "./components/acAndRejModalEs";
-import tenantProfile from "@/store/tenantProfile";
+import tenantProfile from "@/store/tenantStore/tenantProfile";
 import LoadingII from "@/components/mainmenu/loadingII";
 import useBodyScroll from "@/utils/useBodyScroll";
 import { sendInviteProperty } from "@/api/tenantSevice";

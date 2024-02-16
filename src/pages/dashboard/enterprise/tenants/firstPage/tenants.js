@@ -4,7 +4,7 @@ import Image from "next/image";
 import TenantsTwo from "./tenantsTwo";
 import Modal from "../components/modal";
 import useBodyScroll from "@/utils/useBodyScroll";
-import tenantsDataForLoggedInEnterprise from "@/store/tenantData";
+import tenantsDataForLoggedInEnterprise from "@/store/enterpriseStore/tenantData";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Dropdown from "../../components/dropDownFilter";
 import formatDateII from "@/utils/formatDateII";

@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
-import useProfileOwnerMe from "@/store/useProfileOwnerMe";
+import useProfileOwnerMe from "@/store/propertyOwnerStore/useProfileOwnerMe";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);

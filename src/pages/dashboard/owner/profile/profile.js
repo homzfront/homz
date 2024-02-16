@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import LoadingII from "@/components/mainmenu/loadingII";
-import useProfileOwnerMe from "@/store/useProfileOwnerMe";
+import useProfileOwnerMe from "@/store/propertyOwnerStore/useProfileOwnerMe";
 
 const Profile = () => {
   const {data, loading, fetchData} = useProfileOwnerMe();

@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { updatePersonalInformation } from "@/api/propertyService";
 
 const PersonalInfo = ({ data }) => {
@@ -61,19 +60,6 @@ const PersonalInfo = ({ data }) => {
 
   return (
     <div className="mt-8">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className="w-[498px] flex flex-col gap-4">
         <Input
           label={"Full Name"}

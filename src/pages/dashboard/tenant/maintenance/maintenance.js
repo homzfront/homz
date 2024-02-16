@@ -4,7 +4,7 @@ import GetStarted from "./components/getStarted/getStarted";
 import MaintenanceRequest from "./components/maintenanceRequest/maintenanceRequest";
 import Request from "./components/request/request";
 import LoadingII from "@/components/mainmenu/loadingII";
-import useMaintenanceTenantStore from "@/store/useMaintenanceTenantStore";
+import useMaintenanceTenantStore from "@/store/tenantStore/useMaintenanceTenantStore";
 
 const Maintenance = () => {
   const [maintenanceReq, setMaintenanceReq] = useState(false);
