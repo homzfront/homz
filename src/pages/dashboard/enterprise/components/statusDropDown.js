@@ -1,4 +1,5 @@
 import LoadingTable from "@/components/mainmenu/loadingTable";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
@@ -8,26 +9,16 @@ const StatusDropDownMain = ({
   isOpen,
   toggleDropdown,
   loading,
+  setSelectedStatus,
+  selectedStatus,
+  value,
+  dropdownRef
 }) => {
   console.log(data);
-
-  function capitalizeFirstLetter(str) {
-    if (str && typeof str === "string") {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    } else {
-      // Return an empty string or handle the error as needed
-      return "";
-    }
-  }
-
-  const [selectedStatus, setSelectedStatus] = useState(
-    capitalizeFirstLetter(data?.rentInfo?.paymentStatus)
-  );
-
-  console.log(selectedStatus);
-
+console.log(value)
+console.log(selectedStatus)
   return (
-    <div className="dropdown w-full">
+    <div ref={dropdownRef} className="dropdown w-full">
       {loading ? (
         <div className="w-[95px] flex justify-center">
           <LoadingTable />
@@ -35,15 +26,19 @@ const StatusDropDownMain = ({
       ) : (
         <div>
           <button
-            className={`rounded-md py-1 w-[95px] flex items-center justify-center ${
-              selectedStatus === "Pending" ? "bg-warningBg text-warning2" : ""
-            } ${selectedStatus === "Paid" ? "bg-successBg text-Success" : ""} ${
-              selectedStatus === "Over Due" ? "bg-error text-white" : ""
-            }`}
+         className={`rounded-md py-1 w-[95px] flex items-center justify-center ${
+          selectedStatus === "Pending" ? "bg-warningBg text-warning2" :
+          selectedStatus === "Paid" ? "bg-successBg text-Success" :
+          selectedStatus === "Over due" ? "bg-error text-white" :
+          value === "Pending" ? "bg-warningBg text-warning2" :
+          value === "Paid" ? "bg-successBg text-Success" :
+          value === "Over due" ? "bg-error text-white" :
+          ""
+        }`}
             onClick={toggleDropdown}
           >
             <div className="flex gap-1 items-center">
-              <p className={``}>{capitalizeFirstLetter(selectedStatus)}</p>
+              <p className={``}>{selectedStatus === null ? value : capitalizeFirstLetter(selectedStatus)}</p>
               <div className={`  ${isOpen ? "transform rotate-180" : ""}`}>
                 <Image
                   src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
@@ -85,11 +80,11 @@ const StatusDropDownMain = ({
               <button
                 className={`dropdown-item text-GrayHomz  text-start w-[80px] rounded-md px-2 h-[20px] ${"hover:bg-error hover:text-white"}`}
                 onClick={() => {
-                  setSelectedStatus("Over Due");
-                  handleStatusChange("Over Due");
+                  setSelectedStatus("Over due");
+                  handleStatusChange("Over due");
                 }}
               >
-                Over Due
+                Over ue
               </button>
             </li>
           </ul>{" "}

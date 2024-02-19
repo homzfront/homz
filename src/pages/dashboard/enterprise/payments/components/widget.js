@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
 
-const Widget = () => {
+const Widget = ({rentData, rentLoading}) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
 
@@ -46,7 +46,7 @@ const Widget = () => {
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <Tenants active={active} />
+            <Tenants active={active} rentData={rentData} rentLoading={rentLoading}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

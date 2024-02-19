@@ -1,17 +1,27 @@
-import React from 'react'
+"use client"
+import React, { useEffect } from 'react'
 import Box from '../../components/box'
 import TenantData from "../components/tenantData";
+import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
+import addCommasToNumber from '@/utils/addCommasToNumber';
 
-const Tenants = () => {
+
+const Tenants = ({rentData, rentLoading}) => {
+  const { data, loading, fetchData } = useEnterpriseRevenueStore();
+
+  useEffect(() => {
+    fetchData()
+  }, []);
+
   return (
     <div>
-        <div className="mt-2 flex gap-2">
+      <div className="mt-2 flex gap-2">
         <Box
           bgColor={"Success"}
           textColor={"text-successBg"}
           textColor2={"text-successBg"}
           type={"Total Renenue"}
-          money={"N19,000,000"}
+          money={addCommasToNumber(data?.totalRevenue)}
         />
         <Box
           bgColor={"successBg"}
@@ -19,7 +29,7 @@ const Tenants = () => {
           textColor={"text-Success"}
           textColor2={"text-BlackHomz"}
           type={"Total Rent Collected"}
-          money={"N7,000,000"}
+          money={addCommasToNumber(data?.rentCollected)}
         />
         <Box
           bgColor={"warningBg"}
@@ -27,21 +37,21 @@ const Tenants = () => {
           textColor={"text-warning2"}
           textColor2={"text-BlackHomz"}
           type={"Pending Rent"}
-          money={"N12,000,000"}
+          money={addCommasToNumber(data?.pendingRent)}
         />
         <Box
           bgColor={"white"}
           border={"border-BlueHomz"}
           textColor={"text-BlueHomz"}
           textColor2={"text-BlackHomz"}
-          payDate={"January,2024"}
+          // payDate={"January,2024"}
           textColor3={"text-BlueHomz"}
           type={"Expected Rent Next Month"}
-          money={"N4,000,000"}
+          money={addCommasToNumber(data?.rentExpectedNextMonth)}
         />
       </div>
       <div className="mt-6">
-        <TenantData />
+        <TenantData data={rentData} loading={rentLoading}/>
       </div>
     </div>
   )

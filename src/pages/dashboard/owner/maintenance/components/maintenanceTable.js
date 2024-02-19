@@ -3,102 +3,27 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenu from "./popUpMenu";
 import Button from "../../components/button";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
-const MaintenanceTable = () => {
-  const Data = [
-    {
-      id: 1,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "In-progress",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-    {
-      id: 2,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Pending",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-    {
-      id: 3,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Resolved",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-    {
-      id: 4,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Resolved",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-    {
-      id: 5,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "In-progress",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-    {
-      id: 6,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Pending",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-    {
-      id: 7,
-      Tenant: "Adeyemo Olayemi",
-      Subject: "Cracked Window",
-      Status: "Resolved",
-      RequestedDate: "4th January, 2024",
-      Estate: "Sunrise Estate",
-      ApartmentNo: "Apartment 1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      PhoneNo: "0801  000 0000"
-    },
-  ];
+const MaintenanceTable = ({
+  data,
+}) => {
+
 
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [data, setData] = useState(Data || []);
 
   const ITEMS_PER_PAGE = 6;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = data?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -149,63 +74,71 @@ const MaintenanceTable = () => {
                 {currentData &&
                   currentData.map((data) => (
                     <tr
-                      key={data.id}
+                      key={data._id}
                       className=" w-2 border-t-[1px] items-center"
                     >
                       <td className="flex items-center p-[10px] gap-1 pr-2  pl-4 text-GrayHomz4 font-[500] text-[11px]">
-                        <Image
-                          src={
-                            "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
-                          }
-                          alt=""
-                          width={30}
-                          height={30}
-                          className="py-[15px]"
-                        />
-                        <span className="py-[15px]">{data.Tenant}</span>
+                        {data?.tenant?.coverPhoto?.url === null ||
+                          data?.tenant?.coverPhoto?.url === undefined ? (
+                          <Image
+                            src={
+                              "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                            }
+                            alt=""
+                            width={40}
+                            height={40}
+                            className=" rounded-full"
+                          />
+                        ) : (
+                          <Image
+                            src={data?.tenant?.coverPhoto?.url}
+                            alt=""
+                            width={40}
+                            height={40}
+                            className=" rounded-[100%]"
+                          />
+                        )}
+                        <span className="py-[15px]">{data?.tenant?.fullName}</span>
                       </td>
                       <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                        {data.Subject}
+                        {data?.subject}
                       </td>
                       <td
-                  className={`text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
-                >
-                  <span
-                    className={`p-[6px] rounded-lg text-center ${
-                      data.Status === "Pending"
-                        ? "bg-warningBg text-warning2 px-[18px]"
-                        : ""
-                    } ${
-                      data.Status === "Resolved"
-                        ? "bg-successBg text-Success px-4"
-                        : ""
-                    } ${
-                      data.Status === "In-progress"
-                        ? "bg-warning2  text-warningBg px-[10px]"
-                        : ""
-                    }`}
-                  >
-                    {data.Status}
-                  </span>
-                </td>
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                        {data.RequestedDate}
+                        className={`text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
+                      >
+                        <span
+                          className={`p-[6px] rounded-lg text-center ${data.status === "pending"
+                            ? "bg-warningBg text-warning2 px-[18px]"
+                            : ""
+                            } ${data.status === "resolved"
+                              ? "bg-successBg text-Success px-4"
+                              : ""
+                            } ${data.status === "in-progress"
+                              ? "bg-warning2  text-warningBg px-[10px]"
+                              : ""
+                            }`}
+                        >
+                          {capitalizeFirstLetter(data?.status)}
+                        </span>
                       </td>
                       <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                        {data.Estate}
+                        {changeBackendDateFormat(data?.requestDate)}
                       </td>
                       <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                        {data.ApartmentNo}
-                      </td>
-                     
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                        {data.Address}
+                        {data?.tenant?.estateId?.name}
                       </td>
                       <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                        {data.PhoneNo}
+                        {data?.tenant?.rentInfo?.apartmentNumber}
+                      </td>
+
+                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                        {data?.tenant?.estateId?.address}
+                      </td>
+                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                        {data?.tenant?.phoneNumber}
                       </td>
                       <td className="relative py-[15px] pr-4">
-                        <button onClick={() => handleToggleMenu(data.id)}>
+                        <button onClick={() => handleToggleMenu(data._id)}>
                           <Image
                             src={
                               "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -216,7 +149,7 @@ const MaintenanceTable = () => {
                             style={{ height: "auto", width: "auto" }}
                           />
                         </button>
-                        {popUpMenuTwo && selectedDataId === data.id && (
+                        {popUpMenuTwo && selectedDataId === data._id && (
                           <PopUpMenu
                             data={data}
                           />

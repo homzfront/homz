@@ -66,10 +66,10 @@ const Maintenance = () => {
               <tr key={request?._id} className=" border-t-[1px] items-center">
                 <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                   {request.tenantData?.coverPhoto?.url === null ||
-                  request.tenantData?.coverPhoto?.url === undefined ? (
+                    request.tenantData?.coverPhoto?.url === undefined ? (
                     <Image
                       src={
-                        "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
+                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
                       }
                       alt=""
                       width={30}
@@ -88,25 +88,22 @@ const Maintenance = () => {
                   <span className="py-[15px]">     {request?.tenantData?.fullName}</span>
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                {request?.subject}
+                  {request?.subject}
                 </td>
                 <td
                   className={`text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
                 >
                   <span
-                    className={`p-[6px] rounded-lg text-center ${
-                    request?.status === "pending"
-                        ? "bg-warningBg text-warning2 px-[18px]"
-                        : ""
-                    } ${
-                    request?.status === "resolved"
+                    className={`p-[6px] rounded-lg text-center ${request?.status === "pending"
+                      ? "bg-warningBg text-warning2 px-[18px]"
+                      : ""
+                      } ${request?.status === "resolved"
                         ? "bg-successBg text-Success px-4"
                         : ""
-                    } ${
-                    request?.status === "in-progress"
+                      } ${request?.status === "in-progress"
                         ? "bg-warning2  text-warningBg px-[10px]"
                         : ""
-                    }`}
+                      }`}
                   >
                     {capitalizeFirstLetter(request?.status)}
                   </span>

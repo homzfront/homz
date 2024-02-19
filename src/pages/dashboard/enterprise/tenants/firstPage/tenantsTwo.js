@@ -11,12 +11,14 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import lowerCaseData from "@/utils/lowerCaseData";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useClickOutside from "@/utils/clickOutside";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const TenantsTwo = ({ Data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [data, setData] = useState(Data || []);
   const [openDropdowns, setOpenDropdowns] = useState({});
+  const [selectedStatus, setSelectedStatus] = useState({});
   const [loadingRows, setLoadingRows] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
 
@@ -176,18 +178,21 @@ const TenantsTwo = ({ Data }) => {
                 >
                   {data?.rentInfo?.paymentStatus ? (
                     <StatusDropdown
-                      data={data}
-                      handleStatusChange={(status) =>
-                        handleStatusChange(
-                          status,
-                          data._id,
-                          data?.rentInfo?._id
-                        )
-                      }
-                      isOpen={openDropdowns[data?._id] || false}
-                      toggleDropdown={() => toggleDropdown(data?._id)}
-                      loading={loadingRows[data?._id] || false}
-                    />
+                    setSelectedStatus={(status) =>
+                     setSelectedStatus((prev) => ({
+                       ...prev,
+                       [data._id]: status,
+                     }))
+                   }
+                     value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                     selectedStatus={selectedStatus[data._id] || null}
+                     handleStatusChange={(status) =>
+                       handleStatusChange(status, data._id, data?.rentInfo?._id)
+                     }
+                     isOpen={openDropdowns[data?._id] || false}
+                     toggleDropdown={() => toggleDropdown(data?._id)}
+                     loading={loadingRows[data?._id] || false}
+                   />
                   ) : (
                     "______"
                   )}

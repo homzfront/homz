@@ -69,7 +69,7 @@ const Widget = ({ data }) => {
             <RentInfo profile={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <PaymentHis />
+            <PaymentHis tenantData={data}/>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <Maintenance  data={data}/>

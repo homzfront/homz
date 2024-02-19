@@ -8,8 +8,7 @@ import {
   enterpriseUserWallet,
   enterpriseWalletBalance,
 } from "@/api/enterpriseManagerService";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const Wallet = () => {
   const [wallet, setWallet] = useState(false);
@@ -53,19 +52,6 @@ const Wallet = () => {
   console.log(walletBalance);
   return (
     <div className="">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className="w-full flex gap-8">
         <div>
           <WalletBalance

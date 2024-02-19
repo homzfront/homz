@@ -60,7 +60,7 @@ const TenantsCard = ({ statsData }) => {
                   {!data?.coverPhoto?.url ? (
                     <Image
                       src={
-                        "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
+                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
                       }
                       alt=""
                       width={30}
@@ -82,39 +82,34 @@ const TenantsCard = ({ statsData }) => {
                   {data?.estateId?.name}
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                  {`${
-                    data?.rentInfo?.totalRent
+                  {`${data?.rentInfo?.totalRent
                       ? addCommasToNumber(data?.rentInfo?.totalRent)
                       : "______"
-                  }`}
+                    }`}
                 </td>
                 <td
                   className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] `}
                 >
                   <span
-                    className={`p-[6px] rounded-lg text-center ${
-                      data?.rentInfo?.paymentStatus === "pending"
+                    className={`p-[6px] rounded-lg text-center ${data?.rentInfo?.paymentStatus === "pending"
                         ? "bg-warningBg text-warning2 px-[10px]"
                         : ""
-                    } ${
-                      data?.rentInfo?.paymentStatus === "paid"
+                      } ${data?.rentInfo?.paymentStatus === "paid"
                         ? "bg-successBg text-Success  px-[21px]"
                         : ""
-                    } ${
-                      data?.rentInfo?.paymentStatus === "over due"
+                      } ${data?.rentInfo?.paymentStatus === "over due"
                         ? "bg-error text-white px-2"
                         : ""
-                    }`}
+                      }`}
                   >
                     {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
                   </span>
                 </td>
                 <td className="text-GrayHomz py-[15px] font-[500] text-[11px] pr-6">
-                  {`${
-                    data?.rentInfo?.dueDate
+                  {`${data?.rentInfo?.dueDate
                       ? changeBackendDateFormat(data?.rentInfo?.dueDate)
                       : "______"
-                  }`}
+                    }`}
                 </td>
               </tr>
             ))}

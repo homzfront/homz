@@ -6,7 +6,7 @@ export const maintenanceByTenant = async (data) => {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching miantenance:", error);
     throw error;
   }
 };
@@ -17,7 +17,7 @@ export const maintenanceByASpecificTenant = async () => {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching maintenance:", error);
     throw error;
   }
 };
@@ -28,7 +28,7 @@ export const maintenanceAllByTenant = async (id) => {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching:", error);
     throw error;
   }
 };
@@ -39,7 +39,7 @@ export const maintenanceRequestForAnEnterprise = async () => {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error fetching maintenance:", error);
     throw error;
   }
 };
@@ -54,7 +54,21 @@ export const updateMaintenanceReqestByTenant = async ({ id, status }) => {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
+    console.error("Error updating:", error);
     throw error;
   }
 };
+
+
+export const maintenanceRequestForOwner = async () => {
+  try {
+    const response = await api.get(`/maintenances/propertyManager`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching maintenance:", error);
+    throw error;
+  }
+};
+
+

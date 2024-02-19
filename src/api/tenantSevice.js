@@ -262,3 +262,5 @@ export const tenantWalletBalance = async () => {
     throw error;
   }
 };
+
+

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenu from "./popUpMenu";
+import useClickOutside from "@/utils/clickOutside";
 
 const Card = ({
   value1,
@@ -16,6 +17,7 @@ const Card = ({
 }) => {
 
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
+  const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false)); // Use the custom hook
 
   const handleToggleMenuClick = () => {
     handleToggleMenu(data.id);
@@ -25,17 +27,24 @@ const Card = ({
   return (
     <div className="h-[285px] rounded-lg shadow-md">
       <div>
-        <Image
-          src={value1}
-          height={168}
-          width={264}
-          alt=""
-          className="rounded-lg"
-          style={{ height: "auto", width: "auto" }}
-          priority
-        />
+        <div
+          style={{ position: "relative" }}
+          className="h-[168px] w-full rounded-lg overflow-hidden relative"
+        >
+          {value1 && (
+            <Image
+              src={value1}
+              fill
+              priority={true}
+              alt=""
+              className="rounded-lg"
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 70vw, 100vw"
+            />
+          )}
+        </div>
         <div className="p-4 flex gap-3 h-full flex-col">
-          <div className="relative flex justify-between items-center">
+          <div ref={dropdownRef} className="relative flex justify-between items-center">
             <p className="font-[700] text-[16px] text-BlueHomz">{value2}</p>
             <Image
               src={
@@ -54,15 +63,15 @@ const Card = ({
             )}
           </div>
           <div className="flex gap-2">
-            <Image src={Image1} height={17} width={16} alt="" style={{ height: "auto", width: "auto" }}/>
+            <Image src={Image1} height={17} width={16} alt="" style={{ height: "auto", width: "auto" }} />
             <p className="font-[500] text-[11px] text-GrayHomz">{value3}</p>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
-              <Image src={Image2} height={17} width={16} alt="" style={{ height: "auto", width: "auto" }}/>
+              <Image src={Image2} height={17} width={16} alt="" style={{ height: "auto", width: "auto" }} />
               <p className="font-[400] text-[11px] text-GrayHomz">{value4}</p>
             </div>
-       
+
           </div>
         </div>
       </div>

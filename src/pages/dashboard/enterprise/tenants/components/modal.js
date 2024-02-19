@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
-import estateStore from "@/store/estates";
+import estateStore from "@/store/enterpriseStore/estates";
 
 const Modal = ({ setInviteTenant, dropdownRef }) => {
   const [dropdowns, setDropdowns] = useState({

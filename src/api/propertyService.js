@@ -322,3 +322,50 @@ export const propertyOwnerWalletBalance = async () => {
 };
 
 
+export const propertyOwnerStatistics = async () => {
+  try {
+    const response = await api.get(`/estates/me/manageProperty/statistics`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting stats:", error);
+    throw error;
+  }
+};
+
+export const propertyOwnerRevenue = async () => {
+  try {
+    const response = await api.get(`/estates/me/property-owner/calculate-revenue`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting stats:", error);
+    throw error;
+  }
+};
+
+
+export const fetchOwnerEstatesMe = async () => {
+  try {
+    const response = await api.get("/estates/me/property-owner");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching estates:", error);
+    throw error;
+  }
+};
+
+export const ownerRentPayemntInfo = async () => {
+  try {
+    const response = await api.get(`/rentPayment/property-owner`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting stats:", error);
+    throw error;
+  }
+};
+
+
+
+

@@ -3,6 +3,7 @@ import React from "react";
 import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
+import Dropdown from "../components/dropDownFilter";
 
 
 const ListedEstates = ({
@@ -13,6 +14,13 @@ const ListedEstates = ({
   setPopUpMenu,
   currentPage,
   setCurrentPage,
+  selectedArea,
+  selectedState,
+  setSelectedState,
+  setSelectedArea,
+  options,
+  options2,
+  clear,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -22,10 +30,10 @@ const ListedEstates = ({
   const data = Data || []; // Assign an empty array if Data is undefined
 
   const ITEMS_PER_PAGE = 8;
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = data?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -55,9 +63,9 @@ const ListedEstates = ({
       <div>
         <div className="p-8 flex justify-between items-center">
           <div className="flex gap-2 items-center">
-          <p className="text-[20px] font-[500]">Properties</p>
-              <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-                <span className="text-BlueHomz text-[18px] font-[400]">{Data.length}</span>
+            <p className="text-[20px] font-[500]">Properties</p>
+            <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+              <span className="text-BlueHomz text-[18px] font-[400]">{data?.length}</span>
             </span>
           </div>
 
@@ -65,11 +73,27 @@ const ListedEstates = ({
             <p className="text-[16px] font-[400] text-BlackHomz pr-2">
               Filter by:{" "}
             </p>
-            <input
-              type="date"
-              className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
-            />
-            <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+            <div className="w-[120px]">
+              <Dropdown
+                options={options}
+                onSelect={(option) => setSelectedState(option)}
+                selectOption={
+                  selectedState === null ? "State" : selectedState
+                }
+                className={"text-[14px] font-[500] text-GrayHomz2"}
+              />
+            </div>
+            <div className="w-[120px]">
+              <Dropdown
+                options={options2}
+                onSelect={(option) => setSelectedArea(option)}
+                selectOption={selectedArea === null ? "Area" : selectedArea}
+                className={"text-[14px] font-[500] text-GrayHomz2"}
+              />
+            </div>
+            <button
+              onClick={clear}
+              type="text" className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
               <span>
                 <Image
                   src={

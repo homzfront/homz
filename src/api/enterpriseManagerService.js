@@ -178,3 +178,14 @@ export const enterpriseRevenue = async () => {
     throw error;
   }
 };
+
+export const enterpriseRentPayemntInfo = async () => {
+  try {
+    const response = await api.get(`/rentPayment/enterprise`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting stats:", error);
+    throw error;
+  }
+};

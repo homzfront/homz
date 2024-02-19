@@ -5,7 +5,7 @@ import EstateForm from "./estateForm/estateForm";
 import ListedEstates from "./listedEstates";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
-import estateStore from "@/store/estates";
+import estateStore from "@/store/enterpriseStore/estates";
 import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
 

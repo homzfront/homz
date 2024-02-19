@@ -1,111 +1,62 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
 import ListedEstates from "./listedEstates";
+import ownerEstateStore from "@/store/propertyOwnerStore/ownerEstate";
 
 const Estate = () => {
-  const Data = [
-    {
-      id: 1,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 2,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 3,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 4,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 5,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 6,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 7,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 8,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 9,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-    {
-      id: 10,
-      estateImage:
-        "/static/dashboard/enterprisemanager/estate/Rectangle 10.png",
-      estateName: "Suncity New Property",
-      estateAddress: "Alagomeji Area, Yaba, Lagos",
-      noOfApartment: 22,
-    },
-  ];
+  const { data, loading, fetchData } =   ownerEstateStore()
+
+  useEffect(() => {
+    // Fetch data when the component mounts
+    fetchData();
+  }, []);
 
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState(Data || []);
-
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  
   console.log(data);
+
+  const clear = () => {
+    setSelectedState(null);
+    setSelectedArea(null);
+  };
+
+  const options = [...new Set(data?.map((item) => item?.location.state))];
+  console.log(options);
+
+  const options2 = [...new Set(data?.map((item) => item?.location.area))];
+  console.log(options2);
+
+
+  const filteredData = data?.filter((data) => {
+    return (
+      (!selectedState || data?.location.state === selectedState) &&
+      (!selectedArea || data?.location.area === selectedArea)
+    );
+  });
 
   return (
     <div>
       {data.length >= 1 ? (
         <ListedEstates
-          Data={data}
+        Data={filteredData}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
           popUpMenu={popUpMenu}
           setPopUpMenu={setPopUpMenu}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          selectedArea={selectedArea}
+          selectedState={selectedState}
+          setSelectedArea={setSelectedArea}
+          setSelectedState={setSelectedState}
+          clear={clear}
+          options={options}
+          options2={options2}
         />
       ) : (
         <div className="w-[1147px] p-8">
