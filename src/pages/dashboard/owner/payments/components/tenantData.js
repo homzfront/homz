@@ -147,13 +147,13 @@ const TenantData = ({ data }) => {
                     <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}  rents
                     </td>
-                    <td
-                      className={`${data?.rentInfo?.paymentStatus === "pending" ? "bg-warningBg text-warning2" :
+                    <td className="text-GrayHomz py-[15px] pr-4 font-[500]  text-[11px] w-24">
+                      <div className={`${data?.rentInfo?.paymentStatus === "pending" ? "bg-warningBg text-warning2" :
                         data?.rentInfo?.paymentStatus === "paid" ? "bg-successBg text-Success" :
                           data?.rentInfo?.paymentStatus === "over due" ? "bg-error text-white" : ""
-                        } text-GrayHomz py-[15px] pr-4 font-[500]  text-[11px] w-24`}
-                    >
-                      {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                        }  rounded-md py-1 w-[95px] flex items-center justify-center`}>
+                        {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                      </div>
                     </td>
                     <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {data?.estateId?.name}

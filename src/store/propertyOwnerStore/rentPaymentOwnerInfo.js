@@ -1,3 +1,4 @@
+import { create } from 'zustand';
 import { ownerRentPayemntInfo } from "@/api/propertyService";
 
 const useRentPaymentOwnerStore = create((set) => ({

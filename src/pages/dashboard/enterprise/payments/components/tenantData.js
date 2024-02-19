@@ -23,7 +23,7 @@ const TenantData = ({ data, loading }) => {
   const [loadingRows, setLoadingRows] = useState({});
   const [selectedStatus, setSelectedStatus] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
-
+  const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
   const ITEMS_PER_PAGE = 6;
 
   const [currentPage, setCurrentPage] = useState(1);

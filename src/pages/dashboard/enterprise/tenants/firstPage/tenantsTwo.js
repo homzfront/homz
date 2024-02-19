@@ -21,7 +21,7 @@ const TenantsTwo = ({ Data }) => {
   const [selectedStatus, setSelectedStatus] = useState({});
   const [loadingRows, setLoadingRows] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
-
+  const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
   console.log(openDropdowns);
 
   console.log(Data);
@@ -192,6 +192,7 @@ const TenantsTwo = ({ Data }) => {
                      isOpen={openDropdowns[data?._id] || false}
                      toggleDropdown={() => toggleDropdown(data?._id)}
                      loading={loadingRows[data?._id] || false}
+                     dropdownRef={dropdownRefII}
                    />
                   ) : (
                     "______"

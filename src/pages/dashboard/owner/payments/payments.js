@@ -4,7 +4,7 @@ import Header from "./components/header";
 import Widget from "./components/widget";
 import formatDateII from "@/utils/formatDateII";
 import lowerCaseData from "@/utils/lowerCaseData";
-import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
+import useRentPaymentOwnerStore from "@/store/propertyOwnerStore/rentPaymentOwnerInfo";
 
 
 const Payment = () => {
@@ -15,7 +15,7 @@ const Payment = () => {
     data: rentData,
     loading: rentLoading,
     fetchData: fetchRentData,
-  } = useRentPaymentStore();
+  } = useRentPaymentOwnerStore();
 
   useEffect(() => {
     fetchRentData()
