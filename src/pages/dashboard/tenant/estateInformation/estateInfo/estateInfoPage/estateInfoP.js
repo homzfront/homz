@@ -1,4 +1,5 @@
 "use client";
+import formatStringWithHyphens from "@/utils/formatStringWithHyphens";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -27,19 +28,6 @@ const EstateInfoP = ({ data }) => {
       console.error("Unable to copy to clipboard:", error);
     }
   };
-
-
-  function formatStringWithHyphens(value) {
-    if (value === null || value === undefined || value === 'NaN') {
-      return "_______";
-    }
-    // Convert the value to a string
-    const stringValue = value.toString();
-    // Insert hyphens after the first 4 digits
-    const formattedValue = stringValue.replace(/(\d{4})/g, '$1-');
-    // Remove the last hyphen
-    return formattedValue.slice(0, -1);
-  }
   
 
   console.log(data);

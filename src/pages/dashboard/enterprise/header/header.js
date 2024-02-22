@@ -66,13 +66,25 @@ const Header = () => {
             />
           </Link> */}
           <Link href={""} onClick={handleToggleMenu} className="relative">
-            <Image
-              src={user?.businessLogo?.url}
-              alt=""
-              height={41}
-              width={40}
-              className="rounded-full"
-            />
+            {!user?.businessLogo?.url ? (
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                }
+                alt=""
+                width={40}
+                height={40}
+                className=""
+              />
+            ) : (
+              <Image
+                src={user?.businessLogo?.url}
+                alt=""
+                height={40}
+                width={40}
+                className="rounded-full"
+              />
+            )}
             {popUpMenu && <PopUpMenu user={user} />}
           </Link>
         </div>

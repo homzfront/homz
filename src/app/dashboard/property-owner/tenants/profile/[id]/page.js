@@ -1,10 +1,11 @@
 import React from 'react'
 import TenantProfile from '@/pages/dashboard/owner/tenants/secondPage/tenantProfile'
 
-const App = () => {
+const App = ({ params }) => {
+  const { id } = params
   return (
     <div className=''>
-        <TenantProfile />
+      <TenantProfile id={id} />
     </div>
   )
 }

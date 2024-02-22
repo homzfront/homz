@@ -3,7 +3,19 @@ import api from "@/utils/api";
 export const fetchSpecificTenant = async (id) => {
   console.log(id);
   try {
-    const response = await api.get(`/tenants/${id}`);
+    const response = await api.get(`/tenants/${id}/enterprise`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching tenant details:", error);
+    throw error;
+  }
+};
+
+
+export const fetchSpecificTenantOwner = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/tenants/${id}/property-owner`);
     return response.data;
   } catch (error) {
     console.error("Error fetching tenant details:", error);
@@ -32,6 +44,20 @@ export const tenantEnterprise = async () => {
     throw error;
   }
 };
+
+
+
+export const tenantOwner = async () => {
+  try {
+    const response = await api.get("/tenants/property-owner");
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching details:", error);
+    throw error;
+  }
+};
+
 
 export const updatePersonalInformation = async (updatedData) => {
   console.log(updatedData);
@@ -129,7 +155,7 @@ export const sendInviteProperty = async (estate, invitation) => {
 export const getSpecificTenantRentInfo = async (id) => {
   console.log(id);
   try {
-    const response = await api.get(`/rentInformation/${id}`);
+    const response = await api.get(`/rentInformation/${id}/enterprise`);
     console.log(response);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
@@ -137,6 +163,20 @@ export const getSpecificTenantRentInfo = async (id) => {
     return { success: false, error: error?.response.data.message };
   }
 };
+
+export const getSpecificTenantRentInfoOwner = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/rentInformation/${id}/property-owner`);
+    console.log(response);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("Update error", error);
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+
 
 export const createSpecificTenantRentInfo = async (id, updatedData) => {
   const {
@@ -180,7 +220,7 @@ export const updateSpecificTenantRentInfo = async (id, updatedData) => {
     property,
   } = updatedData;
   try {
-    const response = await api.patch(`/rentInformation/${id}`, {
+    const response = await api.patch(`/rentInformation/${id}/enterprise`, {
       propertyType,
       apartmentNumber,
       rent,

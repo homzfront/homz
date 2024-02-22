@@ -86,7 +86,7 @@ const ListedEstates = ({
           <div className="p-8">
             <div className="flex gap-2 mb-6">
               <p>Properties</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+              <span className="bg-whiteblue w-6 h-6 flex justify-center items-center">
                 <span className="text-BlueHomz text-[18px] font-[400]">
                   {Data.length}
                 </span>

@@ -142,7 +142,7 @@ const TenantData = ({ data }) => {
                       {changeBackendDateFormat(data?.dueDate)}
                     </td>
                     <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {addCommasToNumber(data?.totalRent)}
+                      {addCommasToNumber(data?.rent)}
                     </td>
                     <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}  rents

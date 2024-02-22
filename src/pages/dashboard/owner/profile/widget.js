@@ -3,8 +3,7 @@ import PersonalInfo from "./personalInfo/personalInfo.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
@@ -31,19 +30,7 @@ const Widget = ({ data }) => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+
       <div className="w-full h-auto py-4">
         <div className="flex mt-5 gap-2 justify-between w-[471px] cursor-pointer">
           <div

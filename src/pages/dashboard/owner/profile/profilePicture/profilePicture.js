@@ -49,11 +49,13 @@ const ProfilePicture = ({ data }) => {
         console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
+        setShowDialogue(false);
       }
     } catch (error) {
       console.error("Update error", error);
       setLoading(false);
-      toast.error("Update failed");
+      // toast.error("Update failed");
+      setShowDialogue(false);
     }
   };
 

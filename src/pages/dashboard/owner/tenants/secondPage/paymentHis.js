@@ -2,7 +2,7 @@ import React from "react";
 import Box from "../../components/box";
 import Table from "../components/table";
 
-const PaymentHis = () => {
+const PaymentHis = (data) => {
   return (
     <div className="">
       <div className="flex gap-4">
@@ -29,11 +29,11 @@ const PaymentHis = () => {
           textColor2={"text-BlackHomz"}
           border={"border-white"}
           type={"Maintenance"}
-          money={"2 Active Requests"}
+          money={`${data?.data?.data?.maintenanceRequests ? data?.data?.data?.maintenanceRequests?.length : "0"} Active Requests`}
         />
       </div>
       <div>
-        <Table/>
+        <Table tenantData={data}/>
       </div>
     </div>
   );

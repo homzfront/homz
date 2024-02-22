@@ -3,24 +3,26 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenuTwo from "../components/popUpMenuTwo";
 import Button from "../../components/button";
-import StatusDropdown from "../../components/statusDropDown";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import useClickOutside from "@/utils/clickOutside";
 
-const TenantsTwo = ({ Data }) => {
+const TenantsTwo = ({ data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [data, setData] = useState(Data || []);
-  const [openDropdowns, setOpenDropdowns] = useState({});
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
 
   const ITEMS_PER_PAGE = 10;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = data?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -44,31 +46,7 @@ const TenantsTwo = ({ Data }) => {
     (_, index) => index + 1
   );
 
-  const handleStatusChange = (status, dataId) => {
-    // Handle status change logic here
-    console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
-    // Close the corresponding dropdown
-    setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
-    // Correctly update DueDate for the corresponding tenant:
-    // const data = Data.find((tenant) => tenant.id === dataId).Status = status;
-    // console.log(data)
-    // Find the index of the data item with the given dataId
-    const dataIndex = data.findIndex((item) => item.id === dataId);
 
-    if (dataIndex !== -1) {
-      // Update the DueDate property of the found item
-      const updatedData = [...data];
-      updatedData[dataIndex].Status = status;
-
-      // Update the state with the new data
-      setData(updatedData);
-      console.log;
-    }
-  };
-
-  const toggleDropdown = (dataId) => {
-    setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
-  };
   return (
     <div className="mt-6">
       <div className=" border w-full rounded-t-[12px]">
@@ -87,59 +65,66 @@ const TenantsTwo = ({ Data }) => {
 
         <div className="">
           {currentData &&
-            currentData.map((data) => (
+            currentData?.map((data) => (
               <div
                 key={data.id}
                 className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
               >
                 {/* Apply the same styles as the header to each column in the body */}
                 <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
-                    }
-                    alt=""
-                    width={30}
-                    height={30}
-                    className=""
-                  />
-                  <span className="">{data.Tenant}</span>
+                {!data?.coverPhoto?.url ? (
+                    <Image
+                      src={
+                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                      }
+                      alt=""
+                      width={30}
+                      height={30}
+                      className=""
+                    />
+                  ) : (
+                    <Image
+                      src={data?.coverPhoto?.url}
+                      alt=""
+                      width={30}
+                      height={30}
+                      className="rounded-[100%]"
+                    />
+                  )}
+                  <span className="">{data?.fullName}</span>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                  {data.Estate}
+                  {data?.estateId?.name}
                 </div>
                 <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                  {data.ApartmentNo}
+                  {data?.rentInfo?.apartmentNumber}
                 </div>
                 <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                  {data.Address}
+                  {data?.estateId?.address}
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
-                  <span className="break-words">{data.Email}</span>
+                  <span className="break-words">{data?.user?.email}</span>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
-                  {data.PhoneNo}
+                  {data?.phoneNumber}
                 </div>
                 <div className="text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
-                  {data.Rent}
+                  {addCommasToNumber(data?.rentInfo?.rent)}
                 </div>
                 <div
                   className={`text-GrayHomz w-[13%] font-[500] text-[11px] text-start`}
                 >
-                  <StatusDropdown
-                    data={data}
-                    handleStatusChange={(status) =>
-                      handleStatusChange(status, data.id)
-                    }
-                    isOpen={openDropdowns[data.id] || false}
-                    toggleDropdown={() => toggleDropdown(data.id)}
-                  />
+                  <div className={`rounded-md w-[80px] h-[25px] flex items-center justify-center ${data?.rentInfo?.paymentStatus === "paid" ? "bg-successBg text-Success" : ""
+                    } ${data?.rentInfo?.paymentStatus === "pending" ? "bg-warningBg text-warning2" : ""} ${data?.rentInfo?.paymentStatus === "over due" ? "bg-error text-white" : ""
+                    }`}>
+                    {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                  </div>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                  {data.DueDate}
+                  {changeBackendDateFormat(data?.rentInfo?.dueDate)}
                 </div>
                 <div className="relative w-[3%]">
-                  <button onClick={() => handleToggleMenu(data.id)}>
+                  <button onClick={() => handleToggleMenu(data._id)}>
                     <Image
                       src={
                         "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -150,8 +135,8 @@ const TenantsTwo = ({ Data }) => {
                       style={{ height: "auto", width: "auto" }}
                     />
                   </button>
-                  {popUpMenuTwo && selectedDataId === data.id && (
-                    <PopUpMenuTwo data={data} />
+                  {popUpMenuTwo && selectedDataId === data._id && (
+                    <PopUpMenuTwo dropdownRef={dropdownRef} data={data} />
                   )}
                 </div>
               </div>

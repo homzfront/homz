@@ -1,448 +1,47 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TenantsTwo from "../../tenants/firstPage/tenantsTwo";
 import Image from "next/image";
 import Link from "next/link";
 import Modal from "../../tenants/components/modal";
 import EstateForm from "../estateForm/estateForm";
+import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
+import useClickOutside from "@/utils/clickOutside";
+import formatDateII from "@/utils/formatDateII";
 
-const Tenants = () => {
-  const Data = [
-    {
-      id: 1,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 2,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 3,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 4,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 5,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 6,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 7,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 8,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 9,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 10,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 11,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 12,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 13,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 14,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 15,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 16,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 17,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 18,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 19,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 20,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 21,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 22,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 23,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 24,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 25,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 26,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 27,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 28,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 29,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 30,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 31,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 32,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 33,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 34,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Paid",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 35,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Over Due",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-    {
-      id: 36,
-      Tenant: "Adeyemo Olayemi",
-      Estate: "Sunrise Property",
-      Rent: "N750,000",
-      Status: "Pending",
-      DueDate: "4th January, 2024",
-      ApartmentNo: "Apartment1",
-      Address: "17, Alapere, Alagomeji Area, Yaba, Lagos",
-      Email: "AdeyemoOla@gmail.com",
-      PhoneNo: "0801  000 0000",
-    },
-  ];
+const Tenants = ({ id }) => {
+  console.log(id);
+  const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
+
+  useEffect(() => {
+    fetchData(id); // Fetch data on component mount
+  }, []);
+
+  const data = tenantData?.results?.[0]?.data;
+  console.log(data);
   const [inviteTenant, setInviteTenant] = useState(false);
   const [addNewProperty, setAddNewProperty] = useState(false);
+  const dropdownRef = useClickOutside(() => setInviteTenant(false));
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const clear = () => {
+    setSelectedDate(null)
+  };
+
+
+  const filteredData = data?.filter(
+    (data) => {
+      const selectedDateTimestamp = Date.parse(selectedDate);
+      const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
+      console.log(dueDateTimestamp);
+      console.log(selectedDateTimestamp)
+      return (
+        (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
+      );
+    });
+
+  console.log(filteredData);
+
 
   const openInvite = () => {
     setInviteTenant(!inviteTenant);
@@ -460,7 +59,7 @@ const Tenants = () => {
     <div className="w-[1147px]  p-8">
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal />
+          <Modal dropdownRef={dropdownRef} />
         </div>
       )}
       {addNewProperty ? (
@@ -498,7 +97,7 @@ const Tenants = () => {
             <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Tenants</p>
               <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-                <span className="text-BlueHomz text-[18px] font-[400]">{Data.length}</span>
+                <span className="text-BlueHomz text-[18px] font-[400]">{data?.length ? `${data?.length}` : "0"}</span>
               </span>
             </div>
             <div className="flex items-center justify-center gap-2">
@@ -507,9 +106,13 @@ const Tenants = () => {
               </p>
               <input
                 type="date"
-                className="border text-GrayHomz2 px-4 h-10 w-[120px] mb-1 py-2 rounded cursor-pointer"
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="border px-4 h-[42px] w-[130px] text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
               />
-              <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+              <button
+                onClick={clear}
+                type="text"
+                className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
                 <span>
                   <Image
                     src={
@@ -556,7 +159,7 @@ const Tenants = () => {
             </div>
           </div>
           <div className="h-[734px] mb-4">
-            <TenantsTwo Data={Data} />
+            <TenantsTwo Data={filteredData} />
           </div>
         </div>
       )}

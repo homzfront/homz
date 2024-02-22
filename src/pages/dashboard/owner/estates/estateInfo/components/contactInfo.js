@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Input from "../../../components/input";
+import formatStringWithHyphens from "@/utils/formatStringWithHyphens";
 
-const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {
+const ContactInfo = ({data}) => {
+  console.log(data)
   return (
     <div className="">
       {/* <div>
@@ -13,27 +15,31 @@ const ContactInfo = ({handlePageChangeTwo, handlePageChangeFour}) => {
           Kindly fill in your contact information
         </p>
       </div> */}
-      <div className="w-[50%] mt-4 flex flex-col gap-2">
+      <div className="w-[50%] mt-4 flex flex-col gap-2 ">
         <Input
           label={"Manager’s Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
+          value={data?.managerPhoneNumber ? (data?.managerPhoneNumber) : "-----"}
         />
         <Input
           label={"Emergency Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
+          value={data?.emergencyPhoneNumber ? (data?.emergencyPhoneNumber) : "-----"}
         />
         <Input
           label={"Utility Services Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
           span2={"(Dry cleaning, Waste disposal, etc)"}
+          value={data?.utilityServicePhoneNumber ? (data?.utilityServicePhoneNumber) : "-----"}
         />
         <Input
           label={"Security  Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
+          value={data?.securityPhoneNumber ? (data?.securityPhoneNumber) : "-----"}
         />
       </div>
       {/* <div className="mt-[10%] flex justify-end">

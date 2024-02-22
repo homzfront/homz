@@ -1,10 +1,11 @@
 import React from 'react'
 import Dashboard from '@/pages/dashboard/owner/estates/dashboard/dashboard';
 
-const App = () => {
+const App = ({ params }) => {
+  const { id } = params
   return (
     <div className=''>
-        <Dashboard />
+        <Dashboard id={id}/>
     </div>
   )
 }

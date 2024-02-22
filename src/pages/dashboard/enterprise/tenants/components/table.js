@@ -24,7 +24,7 @@ const Table = ({tenantData}) => {
 
 
 
-  console.log(data.length);
+  console.log(data?.length);
 
   const ITEMS_PER_PAGE = 4;
 
@@ -99,7 +99,7 @@ const Table = ({tenantData}) => {
                     {changeBackendDateFormat(data?.dueDate)}
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                    {addCommasToNumber(data?.totalRent)}
+                    {addCommasToNumber(data?.rent)}
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                     {data?.propertyType}

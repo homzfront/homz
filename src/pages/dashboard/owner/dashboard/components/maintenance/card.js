@@ -43,7 +43,7 @@ const Maintenance = () => {
           </thead>
           <tbody className="">
             {data?.map((data) => (
-              <tr key={data.id} className=" border-t-[1px] items-center">
+              <tr key={data._id} className=" border-t-[1px] items-center">
                 <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                 {data?.tenant?.coverPhoto?.url === null ||
                           data?.tenant?.coverPhoto?.url === undefined  ? (

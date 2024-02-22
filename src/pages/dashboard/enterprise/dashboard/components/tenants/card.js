@@ -13,7 +13,7 @@ const TenantsCard = ({ statsData }) => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  const Data = data?.results?.[0]?.data;
+  const Data = data
 
   return (
     <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">
@@ -21,9 +21,7 @@ const TenantsCard = ({ statsData }) => {
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Tenants</p>
           <p>
-            {statsData?.totalRentedHomes
-              ? `${statsData?.totalRentedHomes}`
-              : "0"}
+          {Data?.length ? `${Data?.length}` : "0"}
             /{Data?.length ? `${Data?.length}` : "0"}
           </p>
         </div>
@@ -55,7 +53,7 @@ const TenantsCard = ({ statsData }) => {
           </thead>
           <tbody className="">
             {Data?.map((data) => (
-              <tr key={data.id} className=" border-t-[1px] items-center">
+              <tr key={data._id} className=" border-t-[1px] items-center">
                 <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                   {!data?.coverPhoto?.url ? (
                     <Image
@@ -83,7 +81,7 @@ const TenantsCard = ({ statsData }) => {
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                   {`${data?.rentInfo?.totalRent
-                      ? addCommasToNumber(data?.rentInfo?.totalRent)
+                      ? addCommasToNumber(data?.rentInfo?.rent)
                       : "______"
                     }`}
                 </td>

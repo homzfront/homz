@@ -8,7 +8,7 @@ const tenantsDataForLoggedInEnterprise = create((set) => ({
   fetchData: async () => {
     try {
       const response = await tenantEnterprise(); // Assuming tenantMe is your API call function
-      const tenants = response?.data;
+      const tenants = response.data?.results?.[0].data;
       set({ data: tenants, loading: false });
     } catch (error) {
       // Handle error if needed, or simply ignore it

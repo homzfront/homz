@@ -369,3 +369,13 @@ export const ownerRentPayemntInfo = async () => {
 
 
 
+export const fetchSpecificTenantRentPaymentOwner = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/rentPayment/property-owner/tenant/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching tenant details:", error);
+    throw error;
+  }
+};

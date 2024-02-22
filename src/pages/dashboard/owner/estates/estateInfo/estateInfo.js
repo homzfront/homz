@@ -1,9 +1,18 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-const EstateInfo = () => {
+import useEstateForOneStore from "@/store/useEstateForOne";
+const EstateInfo = ({id}) => {
+  const { data, fetchData } = useEstateForOneStore();
+
+  useEffect(() => {
+    fetchData(id);
+  }, []);
+
+  console.log(data);
+
   return (
     <div className="w-[1075px] p-8">
       <div>
@@ -35,7 +44,7 @@ const EstateInfo = () => {
           </div>
         </div>
         <div>
-          <Widget />
+          <Widget data={data}/>
         </div>
       </div>
     </div>

@@ -158,7 +158,7 @@ const TenantsTwo = ({ Data }) => {
                   }`}
                 </div>
                 <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                  {data?.houseAddress}
+                  {data?.estateId?.address}
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
                   <span className="break-words">{data?.user?.email}</span>

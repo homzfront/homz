@@ -179,6 +179,25 @@ export const enterpriseRevenue = async () => {
   }
 };
 
+
+
+export const enterpriseRevenueForAnEstate = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/estates/${id}/calculate-revenue`);
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching tenants:", error.response?.data?.error);
+    if (error.response?.data?.error === "Estate does not have tenants") {
+      return {}
+    }
+    throw error;
+  }
+};
+
+
+
 export const enterpriseRentPayemntInfo = async () => {
   try {
     const response = await api.get(`/rentPayment/enterprise`);
@@ -186,6 +205,22 @@ export const enterpriseRentPayemntInfo = async () => {
     return response.data;
   } catch (error) {
     console.error("Error getting stats:", error);
+    throw error;
+  }
+};
+
+
+export const enterpriseTenantForAnEstate = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/estates/${id}/tenants/enterprise`);
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching tenants:", error.response?.data?.message);
+    if (error.response?.data?.message === "No items found") {
+      return {}
+    }
     throw error;
   }
 };

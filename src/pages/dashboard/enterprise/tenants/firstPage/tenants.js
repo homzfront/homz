@@ -9,6 +9,7 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import Dropdown from "../../components/dropDownFilter";
 import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
+import lowerCaseData from "@/utils/lowerCaseData";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -38,10 +39,7 @@ const Tenants = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  function lowerCase(str) {
-    return str.toLowerCase();
-  }
-  const tenantData = data?.results[0].data;
+  const tenantData = data
   console.log(tenantData);
 
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
@@ -56,7 +54,7 @@ const Tenants = () => {
     console.log(selectedDateTimestamp)
       return (
         (!selectedProperty || data?.estateId.name === selectedProperty) &&
-        (!selectedStatus || data?.rentInfo?.paymentStatus === lowerCase(selectedStatus)) &&
+        (!selectedStatus || data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
     } );

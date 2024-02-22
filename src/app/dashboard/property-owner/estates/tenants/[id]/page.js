@@ -1,10 +1,11 @@
 import React from 'react'
 import Tenants from '@/pages/dashboard/owner/estates/tenants/tenants';
 
-const App = () => {
+const App = ({ params }) => {
+  const { id } = params
   return (
     <div className=''>
-        <Tenants/>
+      <Tenants id={id} />
     </div>
   )
 }

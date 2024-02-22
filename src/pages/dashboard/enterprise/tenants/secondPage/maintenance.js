@@ -3,8 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Button from "../../components/button.js";
 import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable.js";
 import StatusDropDownMain from "../components/statusDropDownMain.js";
 const Maintenance = ({ data }) => {
@@ -88,19 +87,6 @@ const Maintenance = ({ data }) => {
 
   return (
     <div className="mt-6">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className=" border w-full">
         <div className="">
           <table border="1" className="w-full ">

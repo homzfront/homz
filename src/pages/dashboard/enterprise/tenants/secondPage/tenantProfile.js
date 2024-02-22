@@ -4,6 +4,8 @@ import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
 import { fetchSpecificTenant } from "@/api/tenantSevice.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TenantProfile = ({id}) => {
   const  [data, setData] = useState([])
@@ -22,6 +24,19 @@ const TenantProfile = ({id}) => {
 
   return (
     <div className="max-w-[1147px] ">
+            <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="w-[1147px]">
         <Image
           alt=""

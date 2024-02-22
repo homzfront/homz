@@ -1,12 +1,21 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import HomeCard from "../components/homeCard";
 import RevCard from "../components/revCard";
 import TenantsCard from "../components/tenantCard";
 import Maintenance from "../components/maintenanceCard";
 import Image from "next/image";
 import Link from "next/link";
+import useEstateForOneStore from "@/store/useEstateForOne";
 
-const Dashboard = () => {
+const Dashboard = ({id}) => {
+  const { data, fetchData } = useEstateForOneStore();
+
+  useEffect(() => {
+    fetchData(id);
+  }, []);
+
+  console.log(data);
   return (
     <div className="w-[1147px]">
       <div className="px-8 py-8">
@@ -38,12 +47,12 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="mt-8 w-[784px] justify-between flex gap-5">
-          <HomeCard />
-          <RevCard />
+          <HomeCard Data={data}/>
+          <RevCard id={id}/>
         </div>
         <div className="mt-8 flex gap-5">
-          <TenantsCard />
-          <Maintenance />
+          <TenantsCard data={data}/>
+          <Maintenance  id={id}/>
         </div>
       </div>
     </div>

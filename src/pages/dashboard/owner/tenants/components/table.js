@@ -1,5 +1,6 @@
 "use client";
-import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
+import useTenantRentPaymentOwner from "@/store/propertyOwnerStore/rentPaymentTenant";
+import addCommasToNumber from "@/utils/addCommasToNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
@@ -7,22 +8,25 @@ import React, { useEffect, useState } from "react";
 
 
 
-const Table = () => {
+const Table = ({ tenantData }) => {
 
+  console.log(tenantData?.data);
+  const tenantId = tenantData?.data?.data?._id
+  console.log(tenantId);
   const {
-    data,
+    data: paymentData,
     loading,
     fetchData
-  } = useRentPaymentStore();
+  } = useTenantRentPaymentOwner();
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData(tenantId)
+  }, [tenantData])
 
+  const data = paymentData?.data
+  console.log(data);
 
-
-
-  console.log(data.length);
+  console.log(data?.length);
 
   const ITEMS_PER_PAGE = 4;
 
@@ -68,11 +72,11 @@ const Table = () => {
               </tr>
             </thead>
             <tbody className="">
-              {currentData.map((data) => (
-                <tr key={data.id} className=" w-2 border-t-[1px] items-center">
+              {currentData?.map((data) => (
+                <tr key={data._id} className=" w-2 border-t-[1px] items-center">
                   <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                    {data?.tenantId?.coverPhoto?.url === null ||
-                      data?.tenantId?.coverPhoto?.url === undefined ? (
+                    {tenantData?.data?.data?.coverPhoto?.url === null ||
+                      tenantData?.data?.data?.coverPhoto?.url === undefined ? (
                       <Image
                         src={
                           "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
@@ -84,14 +88,14 @@ const Table = () => {
                       />
                     ) : (
                       <Image
-                        src={data?.tenantId?.coverPhoto?.url}
+                        src={tenantData?.data?.data?.coverPhoto?.url}
                         alt=""
                         width={30}
                         height={30}
                         className="rounded-[100%] py-[15px]"
                       />
                     )}
-                    <span className="py-[15px]">     {changeBackendDateFormat(data?.paymentDate)}</span>
+                    <span className="py-[15px]">  {tenantData?.data?.data?.fullName}</span>
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                     {changeBackendDateFormat(data?.dueDate)}
@@ -107,15 +111,15 @@ const Table = () => {
                   >
                     <span
                       className={`p-[6px] rounded-md text-center  ${data?.rentInfo?.paymentStatus === "pending"
-                          ? "bg-warningBg text-warning2 px-[13px]"
-                          : ""
+                        ? "bg-warningBg text-warning2 px-[13px]"
+                        : ""
                         } ${data?.rentInfo?.paymentStatus === "paid"
                           ? "bg-Success text-warningBg"
                           : ""
                         }  ${data?.rentInfo?.paymentStatus === "over due" ? "bg-error text-white" : ""
                         }`}
                     >
-                      {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                      {capitalizeFirstLetter(data?.status)}
                     </span>
                   </td>
                 </tr>

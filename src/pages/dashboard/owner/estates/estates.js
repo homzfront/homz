@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ListedEstates from "./listedEstates";
 import ownerEstateStore from "@/store/propertyOwnerStore/ownerEstate";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const Estate = () => {
   const { data, loading, fetchData } =   ownerEstateStore()
@@ -40,10 +41,11 @@ const Estate = () => {
   });
 
   return (
-    <div>
-      {data.length >= 1 ? (
+    <div className="w-[1147px]">
+       {loading ? (
+        <LoadingII /> ) : data && data.length >= 1 ? (
         <ListedEstates
-        Data={filteredData}
+          Data={filteredData}
           selectedDataId={selectedDataId}
           setSelectedDataId={setSelectedDataId}
           popUpMenu={popUpMenu}

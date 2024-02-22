@@ -2,79 +2,97 @@ import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import ConfirmModal from "../../components/confirmModal";
 import Dropdown from "../../components/dropDownTwo";
+import { getSpecificTenantRentInfoOwner } from "@/api/tenantSevice";
+import addYearsToValues from "@/utils/addYearsToNumber";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
-const RentInfo = ({ active }) => {
-  const [confirm, setConfirm] = useState(false);
-  const handleConfirm = () => {
-    setConfirm(!confirm);
-  };
+const RentInfo = ({ profile }) => {
+  console.log(profile);
+  const [data, setData] = useState([]);
 
-  const returnHome = () => {
-    setConfirm(false);
-  };
+  useEffect(() => {
+    if (!profile?.data?.rentInfo?._id) {
+      return;
+    }
 
-  const [selectedValue, setSelectedValue] = useState(null);
+    const rentInformation = async () => {
+      try {
+        const response = await getSpecificTenantRentInfoOwner(
+          `${profile.data.rentInfo._id}`
+        );
+        const rentInfo = response;
+        setData(rentInfo);
+      } catch (error) {
+        console.error("Error fetching rent information", error);
+        // Handle the error as needed
+      }
+    };
 
-  const handleSelect = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedValue(option);
-  };
+    rentInformation();
+  }, [profile]);
 
   const options = [
     { id: 1, label: "Pending" },
     { id: 2, label: "Paid" },
-    { id: 3, label: "Yet to pay" },
+    { id: 3, label: "Over Due" },
   ];
 
-  // useEffect to handle scrolling
-  useEffect(() => {
-    // Scroll to the top
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    // Disable scrolling when confirm is true
-    const handleScroll = () => {
-      if (confirm) {
-        window.scrollTo({ top: 0 });
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Clean up the event listener when the component unmounts or confirm changes
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [confirm]);
+  console.log(data);
 
   return (
     <div>
-      <div  className="grid grid-cols-2 gap-4 text-GrayHomz2">
+      <div className="grid grid-cols-2 gap-4 pointer-events-none">
         <Input
           label={"Property Type"}
           type={"type"}
           placeholder={"2-Bedroom Bungalow"}
+          value={data?.upDateddata?.propertyType}
         />
-        <Input label={"Duration"} type={"type"} placeholder={"1 Year"} />
-        <Input label={"Property"} type={"type"} placeholder={"Property Name"} />
+        <Input
+          label={"Duration"}
+          type={"type"}
+          placeholder={"1 Year"}
+          value={addYearsToValues(data?.upDateddata?.duration)}
+        />
+        <Input
+          label={"Property"}
+          type={"type"}
+          placeholder={"Property Name"}
+          value={(data?.upDateddata?.estateId?.name)}
+        />
         <Input
           label={"Start Date"}
           type={"type"}
           placeholder={"4th January, 2023"}
+          value={changeBackendDateFormat(data?.upDateddata?.startDate)}
         />
         <Input
           label={"Home Address"}
           type={"type"}
           placeholder={"Home Address"}
+          value={(data?.upDateddata?.tenantId?.houseAddress)}
         />
         <Input
           label={"Due Date"}
           type={"type"}
           placeholder={"4th January, 2024"}
+          value={changeBackendDateFormat(data?.upDateddata?.dueDate)}
         />
-        <Input label={"Total Rent"} type={"type"} placeholder={"N750,000"} />
-        <div className="flex flex-col gap-[10px]">
-          <label className="text-[14px] font-[500]">Payment Status</label>
-          <Dropdown options={options} selectOption={"Select an option"} onSelect={handleSelect} />
+        <Input 
+        label={"Total Rent"}
+         type={"type"} 
+        placeholder={"N750,000"} 
+        value={addCommasToNumber(data?.upDateddata?.totalRent)}
+        />
+        <div className="">
+        <Input 
+        label={"Payment Status"}
+         type={"type"} 
+        placeholder={"status"} 
+        value={capitalizeFirstLetter(data?.upDateddata?.paymentStatus)}
+        />
         </div>
       </div>
     </div>

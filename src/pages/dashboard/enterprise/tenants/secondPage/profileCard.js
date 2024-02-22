@@ -15,12 +15,14 @@ const ProfileCard = ({ data }) => {
             className="rounded-full"
           />
         ) : (
+          <div className="w-[198px] h-[198px] bg-GrayHomz5 rounded-full flex items-center justify-center">
           <Image
-            src={"/static/dashboard/enterprisemanager/tenants/Ellipse 70.png"}
-            height={198}
-            width={198}
-            alt=""
+            src="/static/dashboard/enterprisemanager/profile/user.png"
+            height={52}
+            width={52}
+            alt="img"
           />
+        </div>
         )}
       </div>
       <h1 className="font-[700] my-4 text-[20px] text-GrayHomz">

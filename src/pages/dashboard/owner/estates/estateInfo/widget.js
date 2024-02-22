@@ -5,7 +5,7 @@ import Photos from "./components/photos.js";
 import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 
-const Widget = () => {
+const Widget = ({data}) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -88,13 +88,13 @@ const Widget = () => {
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <EstateInfo active={active} />
+            <EstateInfo data={data} active={active} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <Photos />
+            <Photos data={data}/>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <ContactInfo />
+            <ContactInfo data={data}/>
           </div>
           {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
             <Documents />

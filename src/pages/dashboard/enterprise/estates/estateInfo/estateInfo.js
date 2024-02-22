@@ -5,20 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import api from "@/utils/api";
 import { fetchEstatesSpecificUSer } from "@/api/estateService";
+import useEstateForOneStore from "@/store/useEstateForOne";
 
 const EstateInfo = ({id}) => {
-  const  [data, setData] = useState([])
-  console.log(id);
+  
+  const { data, fetchData } = useEstateForOneStore();
 
-
-  useEffect(()=> {
-    const estateData = async () => {
-      const response = await fetchEstatesSpecificUSer(id)
-      const estate = await response;
-      setData(estate)
-    }
-    estateData();
-  }, [])
+  useEffect(() => {
+    fetchData(id);
+  }, []);
 
   console.log(data);
 

@@ -71,4 +71,19 @@ export const maintenanceRequestForOwner = async () => {
   }
 };
 
+export const maintenanceRequestForATenantEnterprise = async (id) => {
+  console.log(id)
+  try {
+    const response = await api.get(`/maintenances/enterprise/${id}`);
+    console.log(response.data);
+    return response.data.data.results;
+  } catch (error) {
+    console.error("Error fetching tenants:", error.response?.data?.message);
+    if (error.response?.data?.message === "No items found") {
+      return {}
+    }
+    throw error;
+  }
+};
+
 

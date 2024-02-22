@@ -2,10 +2,11 @@ import EstateInfo from '@/pages/dashboard/owner/estates/estateInfo/estateInfo';
 import React from 'react'
 
 
-const App = () => {
+const App = ({ params }) => {
+  const { id } = params
   return (
     <div className=''>
-        <EstateInfo/>
+        <EstateInfo id={id}/>
     </div>
   )
 }

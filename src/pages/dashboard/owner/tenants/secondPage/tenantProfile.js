@@ -1,10 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
+import { fetchSpecificTenantOwner } from "@/api/tenantSevice.js";
 
-const TenantProfile = () => {
+const TenantProfile = ({id}) => {
+  const  [data, setData] = useState([])
+  console.log(id)
+
+  useEffect(()=> {
+    const rentInformation = async () => {
+      const response = await fetchSpecificTenantOwner(`${id}`)
+      const rentInfo = response;
+      setData(rentInfo)
+    }
+    rentInformation();
+  }, [])
+
+  console.log(data);
   return (
     <div className="max-w-[1147px] ">
       <div className="w-[1147px]">
@@ -19,10 +33,10 @@ const TenantProfile = () => {
       </div>
       <div className="flex gap-6 mt-[-20px] px-8">
         <div className="w-[350px]">
-          <ProfileCard />
+          <ProfileCard data={data}/>
         </div>
         <div className="">
-          <Widget />
+          <Widget data={data}/>
         </div>
       </div>
     </div>
