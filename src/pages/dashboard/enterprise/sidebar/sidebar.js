@@ -4,8 +4,17 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
+import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
 
 const Sidebar = () => {
+  const { request, tenantData, loading, fetchData } = useRequestEnterprise();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(request)
+  console.log(request?.[0]?.status)
   const Data = [
     {
       id: 1,
@@ -59,7 +68,7 @@ const Sidebar = () => {
       link: "/dashboard/enterprise-property/request",
       name: "Request",
       coming: null,
-      active: false,
+      active: `${request?.[0]?.status === "pending" ? true : false}`,
     },
     {
       id: 7,
@@ -174,32 +183,29 @@ const Sidebar = () => {
               alt="img"
             />
           </Link>
-          <div className="grid gap-3 ">
+          <div className="grid gap-3">
             {Data.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  data.name === "Property Management" ? "h-[60px]" : ""
-                } ${
-                  pathname === data.link
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${data.name === "Property Management" ? "h-[60px]" : ""
+                  } ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : " hover:bg-blue-100"
-                } ${
-                  data.coming === null ? "" : "opacity-50 pointer-events-none"
-                } `}
+                  } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
+                  } `}
               >
                 {pathname === data.link ? (
                   <Image src={data.image2} height={16} width={16} alt="img" />
                 ) : (
                   <Image src={data.image} height={16} width={16} alt="img" />
                 )}
-                <span>
+                <div className="flex items-center w-full justify-between">
                   <span className="pr-1">{data.name}</span>
-                  <span className="text-Success mt-[1px] font-[300] text-[12px]">
-                    {data.coming}
-                  </span>
-                </span>
+                  <p className={`${data?.active === "true" ?  "bg-error" : "bg-transparent"
+                    } mt-1 h-2 w-2 rounded-full`}
+                ></p>
+                </div>
               </Link>
             ))}
           </div>{" "}
@@ -208,11 +214,10 @@ const Sidebar = () => {
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  pathname === data.link
+                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
-                } `}
+                  } `}
               >
                 {pathname === data.link ? (
                   <Image src={data.image2} height={16} width={16} alt="img" />
@@ -228,11 +233,10 @@ const Sidebar = () => {
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  pathname === data.link
+                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
-                } `}
+                  } `}
               >
                 {pathname === data.link ? (
                   <Image src={data.image2} height={16} width={16} alt="img" />
