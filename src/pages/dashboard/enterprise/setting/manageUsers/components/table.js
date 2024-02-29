@@ -8,7 +8,7 @@ import AcAndRejModel from "../../../components/acAndRejModel";
 import ConfirmModal from "../../../components/confirmModal";
 
 const Table = ({ estateData }) => {
-  const [selectedRoles, setSelectedRoles] = useState(Array(10).fill(null)); // Array to store selected values for each dropdown
+  const [selectedRoles, setSelectedRoles] = useState(Array(10)?.fill(null)); // Array to store selected values for each dropdown
 
   const handleRoleSelect = (index, option) => {
     const updatedSelectedRoles = [...selectedRoles];
@@ -279,7 +279,7 @@ const Table = ({ estateData }) => {
             {currentData &&
               currentData.map((data, index) => (
                 <div
-                  key={data.id}
+                  key={data?.id}
                   className="border-b-[1px] font-[400] text-[14px] text-GrayHomz  items-center flex justify-center w-full gap-2 px-4 h-[77px]"
                 >
                   <div className="flex items-center gap-2 w-[18%]">
@@ -304,15 +304,15 @@ const Table = ({ estateData }) => {
                     )}
                     <span className="">{data?.Tenant}</span>
                   </div>
-                  <div className="w-[20%] ">{data.Email}</div>
+                  <div className="w-[20%] ">{data?.Email}</div>
                   <div className="w-[16%] flex justify-start items-center">
                     <div className="border border-GrayHomz5 rounded-[2px] h-[45px] w-[70%] px-4 flex items-center justify-start">
-                      {data.Role}
+                      {data?.Role}
                     </div>
                   </div>
                   <div className="w-[16%] flex justify-start items-center">
                     <div className="border border-GrayHomz5 rounded-[2px] h-[45px] w-[70%] px-4 flex items-center justify-start">
-                      {data.Access}
+                      {data?.Access}
                     </div>
                   </div>
                   <div className="w-[16%] flex justify-start items-center cursor-pointer">
@@ -352,12 +352,12 @@ const Table = ({ estateData }) => {
                       returnHome={closeRevokeAccept}
                       header={"User removed Successfully"}
                       button={"Close"}
-                      body={`${data.Tenant} has successfully been removed from your dashboard`}
+                      body={`${data?.Tenant} has successfully been removed from your dashboard`}
                     />
                   ) : openRevoke ? (
                     <AcAndRejModel
                       header={"Remove User?"}
-                      body={`Clicking on ‘Yes’ will remove ${data.Tenant} from your dashboard, proceed?`}
+                      body={`Clicking on ‘Yes’ will remove ${data?.Tenant} from your dashboard, proceed?`}
                       button={"Yes"}
                       buttonTwo={"No, go back"}
                       returnHomeTwo={closeRevoke}
@@ -365,7 +365,7 @@ const Table = ({ estateData }) => {
                     />
                   ) : (
                     <div onClick={showRevoke} className="w-[14%] cursor-pointer text-warning2 ">
-                      {data.Action}
+                      {data?.Action}
                     </div>
                   )}
                 </div>

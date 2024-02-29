@@ -43,11 +43,11 @@ const Invites = () => {
       <p className='text-[14px] font-[400] text-GrayHomz'>
         Invitee
       </p>
-      {Data.map((data) => (
-        <div key={data.id} className=' flex gap-4 mt-4 items-start'>
+      {Data?.map((data) => (
+        <div key={data?.id} className=' flex gap-4 mt-4 items-start'>
 
-          <Image src={data.Image} height={40} width={40} alt='img'/>  
-          <Dropdown options={options} selectOption={data.label} className={"w-[190px]"}/>
+          <Image src={data?.Image} height={40} width={40} alt='img'/>  
+          <Dropdown options={options} selectOption={data?.label} className={"w-[190px]"}/>
         </div>
       ))}
     </div>

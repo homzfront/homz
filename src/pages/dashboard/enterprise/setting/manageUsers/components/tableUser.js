@@ -33,7 +33,7 @@ const TableUser = ({estateData}) => {
             <Dropdown
               options={options}
               onSelect={handleRoleSelect} 
-              selectOption={selectedRole === null ? "Role" : selectedRole.label}
+              selectOption={selectedRole === null ? "Role" : selectedRole?.label}
               className={"text-[14px] font-[500] text-GrayHomz2"}
             />
           </div>

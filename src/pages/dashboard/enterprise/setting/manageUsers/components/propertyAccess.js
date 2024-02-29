@@ -38,12 +38,12 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
           returnHome={closeRevokeAccept}
           header={"User removed Successfully"}
           button={"Close"}
-          body={`${data.Tenant} has successfully been removed from your dashboard`}
+          body={`${data?.Tenant} has successfully been removed from your dashboard`}
         />
       ) : openRevoke ? (
         <AcAndRejModel
           header={"Remove User?"}
-          body={`Clicking on ‘Yes’ will remove ${data.Tenant} from your dashboard, proceed?`}
+          body={`Clicking on ‘Yes’ will remove ${data?.Tenant} from your dashboard, proceed?`}
           button={"Yes"}
           buttonTwo={"No, go back"}
           returnHomeTwo={closeRevoke}
@@ -73,9 +73,9 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
               {data.Tenant} has access to all properties listed below
             </p>
           </div>
-          {data.Properties.map((data) => (
+          {data?.Properties?.map((data) => (
             <div
-              key={data.id}
+              key={data?.id}
               className="w-[100%] mt-1 border-b py-5 flex justify-between items-center"
             >
               <p className="text-[14px] font-[400] text-GrayHomz">
