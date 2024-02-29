@@ -6,6 +6,7 @@ import MaintenanceTable from "./components/maintenanceTable";
 import useMaintenanceOwnerStore from "@/store/propertyOwnerStore/useMaintenance";
 import formatDateII from "@/utils/formatDateII";
 import LoadingII from "@/components/mainmenu/loadingII";
+import Image from "next/image";
 
 const Maintenance = () => {
   const [selectedDate, setSelectedDate] = useState(null);

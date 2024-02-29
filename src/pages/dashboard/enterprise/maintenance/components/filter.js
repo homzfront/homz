@@ -5,10 +5,10 @@ import Dropdown from "../../components/dropDownFilter";
 
 const Filter = ({
   selectedArea,
-  selectedState,
+  selectedStatus,
   selectedDate,
   setSelectedArea,
-  setSelectedState,
+  setSelectedStatus,
   setSelectedDate,
   clear,
   options,
@@ -20,16 +20,16 @@ const Filter = ({
         <p className="text-[16px] font-[400] text-BlackHomz pr-2">
           Filter by:{" "}
         </p>
-        <div className="w-[120px]">
+        <div className="w-[140px]">
           <Dropdown
             options={options}
-            onSelect={(option) => setSelectedState(option)}
-            selectOption={selectedState === null ? "State" : selectedState}
+            onSelect={(option) => setSelectedStatus(option)}
+            selectOption={selectedStatus === null ? "Status" : selectedStatus}
             className={"text-[14px] font-[500] text-GrayHomz2"}
           />
         </div>
 
-        <div className="w-[160px]">
+        <div className="w-[170px]">
           <Dropdown
             options={options2}
             onSelect={(option) => setSelectedArea(option)}

@@ -21,7 +21,7 @@ const Filter = ({
         <p className="text-[16px] font-[400] text-BlackHomz pr-2">
           Filter by:{" "}
         </p>
-        <div className="w-[160px]">
+        <div className="w-[170px]">
           <Dropdown
             options={options2}
             onSelect={(option) => setSelectedProperty(option)}

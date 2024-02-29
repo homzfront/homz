@@ -11,7 +11,7 @@ import Image from "next/image";
 const Maintenance = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const { request, tenantData, loading, fetchData } =
     useMaintenanceRequestStore();
 
@@ -20,14 +20,14 @@ const Maintenance = () => {
   }, []);
 
   const clear = () => {
-    setSelectedState(null);
+    setSelectedStatus(null);
     setSelectedArea(null);
     setSelectedDate(null);
   };
 
   const options = [
     ...new Set(
-      request?.results?.map((item) => item?.tenant?.estateId?.location.state)
+      request?.results?.map((item) => item?.status)
     ),
   ];
   console.log(options);
@@ -45,8 +45,8 @@ const Maintenance = () => {
     console.log(createdDateTimestamp);
     console.log(selectedDateTimestamp);
     return (
-      (!selectedState ||
-        data?.tenant?.estateId?.location.state === selectedState) &&
+      (!selectedStatus ||
+        data?.status === selectedStatus) &&
       (!selectedArea ||
         data?.tenant?.estateId?.name === selectedArea) &&
       (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
@@ -79,10 +79,10 @@ const Maintenance = () => {
             <p className="text-[20px] font-[500] text-BlackHomz">Maintenance</p>
             <Filter
               selectedArea={selectedArea}
-              selectedState={selectedState}
+              selectedStatus={selectedStatus}
               selectedDate={selectedDate}
               setSelectedArea={setSelectedArea}
-              setSelectedState={setSelectedState}
+              setSelectedStatus={setSelectedStatus}
               setSelectedDate={setSelectedDate}
               options={options}
               options2={options2}
