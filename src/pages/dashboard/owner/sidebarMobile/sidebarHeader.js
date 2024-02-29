@@ -15,21 +15,14 @@ import Switch from '@/components/icons/dashboardMobile/switch'
 import Tenants from '@/components/icons/dashboardMobile/tenants'
 import useProfileStore from '@/store/profile'
 import useDisableBodyScroll from '@/utils/useDisableBodyScroll'
-import usePathname from '@/utils/usePathName'
+import usePathName from '@/utils/usePathName'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 const SidebarMobile = ({ setOpen, user }) => {
-  const pathname = usePathname();
+  const pathname = usePathName();
   const { logout } = useProfileStore();
-
-
-  useEffect(() => {
-    // Your useEffect logic that depends on 'pathname'
-    console.log(pathname);
-  }, [pathname]);
-
 
   console.log(pathname)
 
