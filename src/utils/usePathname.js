@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const usePathname = () => {
+const usePathName = () => {
   const [pathname, setPathname] = useState("");
 
   useEffect(() => {
@@ -34,4 +34,4 @@ const usePathname = () => {
   return pathname;
 };
 
-export default usePathname;
+export default usePathName;

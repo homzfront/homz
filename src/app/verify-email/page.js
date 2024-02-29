@@ -41,9 +41,9 @@ const VerifyEmail = () => {
         }
       );
 
-        if (typeof window !== 'undefined') {
-        localStorage.removeItem('email');
-        }
+        // if (typeof window !== 'undefined') {
+        // localStorage.removeItem('email');
+        // }
 
       console.log("OTP verification successful", response.data);
       setVerificationSuccess(true);

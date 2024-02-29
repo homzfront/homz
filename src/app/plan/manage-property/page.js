@@ -12,9 +12,20 @@ const ManageProperty = () => {
   const [estate, setEstate] = useState("");
   const [numberOfHouses, setNumberOfHouses] = useState("");
   const [estateAddress, setEstateAddress] = useState("");
+  const [email, setEmail] = useState ('')
 
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+
+    useEffect(() => {
+      // Retrieve email from localStorage
+      if (typeof window !== 'undefined') {
+        const storedEmail = localStorage.getItem('email');
+        setEmail(storedEmail || '');
+      }
+  
+    }, []);
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -36,7 +47,7 @@ const ManageProperty = () => {
       estate,
       estateAddress,
       numberOfHouses: parseInt(numberOfHouses), // Convert to integer if needed
-      email: Cookies.get("email"), // Using the email from the user context
+      email, // Using the email from the user context
     };
 
     // Send the data to your API endpoint
