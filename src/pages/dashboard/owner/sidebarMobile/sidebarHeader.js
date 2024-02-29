@@ -14,14 +14,40 @@ import Support from '@/components/icons/dashboardMobile/support'
 import Switch from '@/components/icons/dashboardMobile/switch'
 import Tenants from '@/components/icons/dashboardMobile/tenants'
 import useProfileStore from '@/store/profile'
-import useDisableBodyScroll from '@/utils/useDisableBodyScroll'
-import usePathName from '@/utils/usePathName'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 const SidebarMobile = ({ setOpen, user }) => {
-  const pathname = usePathName();
+  const [pathname, setPathname] = useState("");
+  useEffect(() => {
+    // Function to get the current URL
+    const url = () => {
+      if (typeof window !== "undefined") {
+        return window.location.href;
+      }
+      return "";
+    };
+
+    const extractPathname = (url) => {
+      const parsedUrl = new URL(url);
+      let pathname = parsedUrl.pathname;
+
+      // Split the pathname into segments
+      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
+
+      // Keep only the first three segments
+      const firstThreeSegments = segments.slice(0, 3);
+
+      // Join the segments back to form the updated pathname
+      pathname = `/${firstThreeSegments.join("/")}`;
+
+      return pathname;
+    };
+
+    setPathname(extractPathname(url()));
+  }, []);
+
   const { logout } = useProfileStore();
 
   console.log(pathname)

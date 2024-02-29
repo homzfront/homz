@@ -56,7 +56,7 @@ const Header = () => {
               </div>
             </div>
             <div>
-              <SidebarMobile user={user} open={open} setOpen={setOpen} />
+              <SidebarMobile user={user} setOpen={setOpen} />
             </div>
           </div>
         </div>
