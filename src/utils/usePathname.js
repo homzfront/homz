@@ -14,16 +14,16 @@ const usePathName = () => {
 
     const extractPathname = (url) => {
       const parsedUrl = new URL(url);
-      let pathname = parsedUrl.pathname;
+      let pathname = parsedUrl?.pathname;
 
       // Split the pathname into segments
-      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
+      const segments = pathname?.split("/").filter(Boolean); // Remove empty segments
 
       // Keep only the first three segments
-      const firstThreeSegments = segments.slice(0, 3);
+      const firstThreeSegments = segments?.slice(0, 3);
 
       // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join("/")}`;
+      pathname = `/${firstThreeSegments?.join("/")}`;
 
       return pathname;
     };

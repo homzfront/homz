@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import api from "@/utils/api";
 
 const ManageProperty = () => {
@@ -178,8 +177,7 @@ const ManageProperty = () => {
                 <input
                   type="text"
                   placeholder="Enter your email"
-                  // value={user.email || emailII || Cookies.get('email')}
-                  value={Cookies.get("email")}
+                  value={email}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   disabled
                 />
