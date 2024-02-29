@@ -10,7 +10,7 @@ import useEnterpriseStatsStore from "@/store/enterpriseStore/enterpriseStats";
 import useEnterpriseRevenueStore from "@/store/enterpriseStore/enterpriseRevenue";
 import extractFirstName from "@/utils/extractFirstName";
 
-const dashboard = () => {
+const Dashboard = () => {
   const {
     data: profileData,
     loading: profileLoading,
@@ -65,4 +65,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

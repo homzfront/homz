@@ -7,7 +7,7 @@ import BillPayment from "./components/billPayment/billPayment";
 import tenantProfile from "@/store/tenantStore/tenantProfile";
 import extractFirstName from "@/utils/extractFirstName";
 
-const dashboard = () => {
+const Dashboard = () => {
   const { data, loading, fetchData } = tenantProfile();
 
   useEffect(() => {
@@ -42,4 +42,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

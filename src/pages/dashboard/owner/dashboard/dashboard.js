@@ -10,7 +10,7 @@ import usePropertyOwnerStatsStore from "@/store/propertyOwnerStore/ownerStats";
 import usePropertyOwnerRevenueStore from "@/store/propertyOwnerStore/ownerRevenue";
 import extractFirstName from "@/utils/extractFirstName";
 
-const dashboard = () => {
+const Dashboard = () => {
 
   const {
     data: profileData,
@@ -64,4 +64,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

@@ -31,6 +31,7 @@ const Estate = () => {
   const dropdownRef = useClickOutside(() => setInviteTenant(false)); 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
+  
 
   console.log(data);
 

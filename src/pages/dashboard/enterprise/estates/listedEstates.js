@@ -7,7 +7,7 @@ import Input from "./components/inputEstate";
 import EstateForm from "./estateForm/estateForm";
 import Modal from "../tenants/components/modal";
 import Dropdown from "../components/dropDownFilter";
-import useBodyScroll from "@/utils/useBodyScroll";
+
 
 
 const ListedEstates = ({
@@ -75,7 +75,9 @@ const ListedEstates = ({
     setInviteTenant(true);
   };
 
-  useBodyScroll([inviteTenant])
+  
+
+
 
   return (
     <div className="w-full">
