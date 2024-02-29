@@ -70,7 +70,7 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
 
           <div>
             <p className="mt-2 text-[14px] font-[400] text-GrayHomz w-[291px]">
-              {data.Tenant} has access to all properties listed below
+              {data?.Tenant} has access to all properties listed below
             </p>
           </div>
           {data?.Properties?.map((data) => (
@@ -79,7 +79,7 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
               className="w-[100%] mt-1 border-b py-5 flex justify-between items-center"
             >
               <p className="text-[14px] font-[400] text-GrayHomz">
-                {data.label}
+                {data?.label}
               </p>
               <p
                 onClick={showRevoke}
