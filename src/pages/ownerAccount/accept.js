@@ -19,8 +19,16 @@ const Accept = () => {
   const [data, setData] = useState([]);
   const router = useRouter();
   // const { email, role, invitation, isHomzEnterprise } =
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
+  let urlParams;
+  if (typeof window !== 'undefined') {
+    const queryString = window.location.search;
+    urlParams = new URLSearchParams(queryString);
+  } else {
+    // Handle server-side rendering or non-browser environment
+    // For example, provide default values or set urlParams to an empty object
+    urlParams = new URLSearchParams();
+  }
+  
   console.log(urlParams);
   const email = urlParams.get("email");
   const role = urlParams.get("role");
