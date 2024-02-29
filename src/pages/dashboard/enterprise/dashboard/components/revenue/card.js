@@ -54,7 +54,7 @@ const RevCard = ({ revData }) => {
 
 
   return (
-    <div className="border w-[40%] rounded-[12px] ">
+    <div className="border sm:w-[40%] rounded-[12px] ">
       <div className="flex justify-between items-center px-6 pt-6 pb-3">
         <h1 className="text-BlueHomz font-[500] text-[14px]">Revenue</h1>
         <Link href={"/dashboard/enterprise-property/payments"}>
@@ -68,11 +68,11 @@ const RevCard = ({ revData }) => {
           />
         </Link>
       </div>
-      <div className="flex justify-between gap-1  px-3 pb-6">
-        <div className="h-[98px]">
+      <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:gap-1  px-3 pb-6">
+       <div className="h-[98px]">
           <Doughnut data={data} options={options} plugins={[]} />
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 px-2 sm:px-0">
           <div className="flex gap-2">
             <h3
               className={` h-[6px] w-[6px] rounded-full mt-1 bg-whiteblue `}
@@ -81,7 +81,7 @@ const RevCard = ({ revData }) => {
               <h3 className="text-[10px] font-[400] text-GrayHomz ">
                 Total Revenue
               </h3>
-              <h3 className="text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
                 {addCommasToNumber(revData?.totalRevenue)}
               </h3>
             </div>
@@ -94,12 +94,12 @@ const RevCard = ({ revData }) => {
               <h3 className="text-[10px] font-[400] text-GrayHomz ">
                 Rent Collected
               </h3>
-              <h3 className="text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
                 {addCommasToNumber(revData?.rentCollected)}
               </h3>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-2 sm:mt-0">
             <h3
               className={` h-[6px] w-[6px] rounded-full mt-1 bg-warning`}
             ></h3>
@@ -107,12 +107,12 @@ const RevCard = ({ revData }) => {
               <h3 className="text-[10px] font-[400] text-GrayHomz ">
                 Pending Rent
               </h3>
-              <h3 className="text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
                 {addCommasToNumber(revData?.pendingRent)}
               </h3>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-2 sm:mt-0">
             <h3
               className={` h-[6px] w-[6px] rounded-full mt-1 bg-lightgreen`}
             ></h3>
@@ -123,7 +123,7 @@ const RevCard = ({ revData }) => {
               {/* <span className="text-Success text-[10px] font-[400]">
                 {data?.date}
               </span> */}
-              <h3 className="text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
                 {addCommasToNumber(revData?.rentExpectedNextMonth)}
               </h3>
             </div>

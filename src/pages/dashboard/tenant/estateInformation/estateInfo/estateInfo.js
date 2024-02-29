@@ -6,7 +6,7 @@ const EstateInfo = ({ data }) => {
     <div className="p-8">
       <div>
         <div>
-          <p className="text-[20px] font-[500] text-GrayHomz">
+          <p className="text-[16px] sm:text-[20px] font-[400] sm:font-[500] text-GrayHomz">
             Property Information
           </p>
         </div>

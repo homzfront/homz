@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import Cookies from 'js-cookie';
+
 import api from '@/utils/api';
 
 const useProfileStore = create((set) => ({
@@ -30,10 +30,9 @@ const useProfileStore = create((set) => ({
     try {
       await api.post('/auth/logout');
       set({ user: null, isLoggedIn: false });
-      Cookies.remove('profile');
-      Cookies.remove('email');
       // Remove user data from localStorage upon logout (only in the browser environment)
       if (typeof window !== 'undefined') {
+        localStorage.removeItem('email');
         localStorage.removeItem('user');
         localStorage.removeItem('RentResponse'); 
         }

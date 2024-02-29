@@ -9,6 +9,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
 import { Result } from "postcss";
 import Loading from "@/components/mainmenu/loading";
+import useClickOutside from "@/utils/clickOutside";
 
 const RequestPage = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -19,12 +20,13 @@ const RequestPage = () => {
   const [doneTwo, setDoneTwo] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const dropdownRef = useClickOutside(() => setInviteTenant(false));
 
   const clear = () => {
     setSelectedProperty(null);
   };
   // useEffect to handle scrolling
-  useBodyScroll([inviteTenant, popUpMenu, popUpMenuTwo]);
+  useBodyScroll([inviteTenant, popUpMenu, popUpMenuTwo, inviteTenant]);
 
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
 
@@ -55,7 +57,7 @@ const RequestPage = () => {
     setPopUpMenuTwo(false);
     try {
       fetchData();
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleAccept = async (id) => {
@@ -122,12 +124,8 @@ const RequestPage = () => {
           options={options}
           clear={clear}
         />
-      ) : inviteTenant ? (
-        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal setInviteTenant={setInviteTenant} />
-        </div>
       ) : (
-        <div className="w-[1147px] p-8">
+        <div className="w-full p-8">
           <div className="flex flex-col gap-2 justify-between">
             <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Tenancy Request</p>
@@ -139,7 +137,7 @@ const RequestPage = () => {
               All requests from new tenants are displayed here
             </p>
           </div>
-          <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
+          <div className="flex flex-col gap-3 mt-5 h-[450px] justify-center items-center">
             <div className="h-[120px] w-[120px] bg-whiteblue flex items-center justify-center rounded-[100%]">
               <Image
                 src={
@@ -169,6 +167,11 @@ const RequestPage = () => {
               Invite Tenant
             </button>
           </div>
+        </div>
+      )}
+      {inviteTenant && (
+        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
     </div>

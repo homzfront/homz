@@ -13,8 +13,8 @@ const Profile = () => {
   
   console.log(data);
   return (
-    <div className="px-8 w-[1147px]">
-      <p className="font-[500] text-[20px] text-GrayHomz">Profile</p>
+    <div className="px-8 w-full">
+      <p className="font-[500] mt-8 text-[20px] text-GrayHomz">Profile</p>
       {loading ? <LoadingII /> : <Widget data={data} />}
     </div>
   );

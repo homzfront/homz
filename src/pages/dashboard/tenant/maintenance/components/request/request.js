@@ -1,25 +1,37 @@
-import React from "react";
-import Dropdown from "../../../components/dropDownTwo";
+"use client"
+import React, { useState } from "react";
+import Dropdown from "../../../components/dropDownFilter";
 import Image from "next/image";
 import Widget from "../widget/widget";
 import MaintenanceRequest from "../maintenanceRequest/maintenanceRequest";
+import lowerCaseData from "@/utils/lowerCaseData";
+import formatDateII from "@/utils/formatDateII";
 
-const Request = ({ data, openMaintenanceForm, maintenanceReq ,   closeMaintenanceForm,
+const Request = ({ data, openMaintenanceForm, maintenanceReq, closeMaintenanceForm,
   fetchData }) => {
-  const options = [
-    {
-      id: 1,
-      label: "Pending",
-    },
-    {
-      id: 2,
-      label: "In-progress",
-    },
-    {
-      id: 3,
-      label: "Resolved",
-    },
-  ];
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  console.log(data)
+  const clear = () => {
+    setSelectedStatus(null);
+    setSelectedDate(null)
+  };
+  const options = ["Pending", "In-progress", "Resolved"];
+  const filteredData = data?.filter(
+    (data) => {
+      const selectedDateTimestamp = Date.parse(selectedDate);
+      const dueDateTimestamp = Date.parse(formatDateII(data?.requestDate));
+      console.log(dueDateTimestamp);
+      console.log(selectedDateTimestamp)
+      return (
+
+        (!selectedStatus || data?.status === lowerCaseData(selectedStatus)) &&
+        (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
+      );
+    });
+
+  console.log(filteredData);
+
   return (
     <div>
       {maintenanceReq ? (
@@ -40,15 +52,24 @@ const Request = ({ data, openMaintenanceForm, maintenanceReq ,   closeMaintenanc
               <p className="text-[16px] font-[400] text-BlackHomz">
                 Filter by:
               </p>
-              <div className="mb-1">
-                {" "}
-                <Dropdown options={options} selectOption={"Status"} />
+              <div className="mb-1 w-[160px]">
+                <Dropdown
+                  options={options}
+                  onSelect={(option) => setSelectedStatus(option)}
+                  selectOption={
+                    selectedStatus === null ? "Status" : selectedStatus
+                  }
+                />
               </div>
               <input
                 type="date"
-                className="border text-GrayHomz2 px-4 h-[45px] w-[120px] mb-1 py-2 rounded cursor-pointer"
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="border px-4 h-[42px] w-[130px] text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
               />
-              <button className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[45px] w-[92px] mb-1 p-1 rounded cursor-pointer">
+              <button
+                onClick={clear}
+                type="text"
+                className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[45px] w-[92px] mb-1 p-1 rounded cursor-pointer">
                 <span>
                   <Image
                     src={
@@ -70,7 +91,7 @@ const Request = ({ data, openMaintenanceForm, maintenanceReq ,   closeMaintenanc
             </div>
           </div>
           <div>
-            <Widget data={data} />
+            <Widget data={filteredData} />
           </div>
         </div>
       )}

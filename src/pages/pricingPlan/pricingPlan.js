@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const PricingPlan = () => {
   return (
-    <div className="w-[1410px] px-8 py-4 m-auto">
+    <div className="w-full px-8 py-4 m-auto">
       <Link href={"/dashboard/enterprise-property/profile"}>
         <Image src={"/Link (1).png"} alt="img" height={25} width={85} />
       </Link>

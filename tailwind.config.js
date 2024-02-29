@@ -44,8 +44,8 @@ module.exports = {
         inputBg: "#F6F6F6",
         walletBg: "#EEF5FF",
         withdrawBg: "#FBFDFF",
-        bgGray: "#FCFCFC"
-   
+        bgGray: "#FCFCFC",
+        dashboardGray: "#292D32"
 
 
       },

@@ -135,7 +135,7 @@ const PropertyInfo = ({
         Kindly fill in the accurate property details
       </div>
       <div className="flex justify-between items-start">
-        <div className="flex flex-col justify-between gap-4">
+        <div className="flex flex-col justify-between gap-4 w-[47%]">
           <div className="">
             <Input
               label={"Name"}
@@ -156,7 +156,7 @@ const PropertyInfo = ({
                   options={options}
                   onSelect={handleSelectPropertyType}
                   selectOption={"Select Property Type"}
-                  className={"w-[460px]"}
+                  className={"w-full"}
                 />
               </div>
             </div>
@@ -203,12 +203,12 @@ const PropertyInfo = ({
                 options={optionsFour}
                 onSelect={handleSelectNumberOfRooms}
                 selectOption={"Total Numbers of Rooms"}
-                className={"w-[460px]"}
+                className={"w-full"}
               />
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-[47%]">
           <div>
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
               Total Number of Bathrooms <span className="text-error">*</span>
@@ -217,7 +217,7 @@ const PropertyInfo = ({
               options={optionsFive}
               onSelect={handleSelectNumberOfBathrooms}
               selectOption={"Total Numbers of Bathrooms"}
-              className={"w-[460px]"}
+              className={"w-full"}
             />
           </div>
           <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">

@@ -96,7 +96,7 @@ const EstateInformation = () => {
   };
 
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       {loading ? (
         <LoadingII />
       ) : data?.status === "accepted" ? (
@@ -115,7 +115,7 @@ const EstateInformation = () => {
       ) : (
         <div>
           <SearchEstate openAvailableEstate={openAvailableEstate} />
-          <div className="border-t mt-6 w-full">
+          <div className="sm:border-t mt-6 w-full">
             <InviteLink
               openLink={openLink}
               inviteLink={inviteLink}

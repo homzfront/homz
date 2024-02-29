@@ -56,7 +56,7 @@ const Tenants = ({ id }) => {
   };
 
   return (
-    <div className="w-[1147px]  p-8">
+    <div className="w-full  p-8">
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <Modal dropdownRef={dropdownRef} />

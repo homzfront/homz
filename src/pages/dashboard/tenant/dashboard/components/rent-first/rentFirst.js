@@ -4,32 +4,9 @@ import RentInfo from "./components/rentInfo";
 import RentInsentive from "./components/rentInsentive";
 import rentInfoTeant from "@/store/rentInfoTenant";
 
-const Data = [
-  {
-    id: 1,
-    name: "Amount",
-    value: "N1,400,000",
-  },
-  {
-    id: 2,
-    name: "Rent Duration",
-    value: "1 year",
-  },
-  {
-    id: 3,
-    name: "Payment Status",
-    value: "Confirmed",
-  },
-  {
-    id: 4,
-    name: "Next Due Date",
-    value: "4th January, 2024",
-  },
-];
-
 
 const RentFirst = () => {
-    // const [data, setData] = useState(Data || []);
+
 
     const {loading, data, fetchData} = rentInfoTeant();
 
@@ -39,7 +16,7 @@ const RentFirst = () => {
 
     console.log(data);
   return ( 
-    <div className="flex justify-between w-full">
+    <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row sm:justify-between">
       <RentInfo data={data} />
       <RentInsentive data={data}/>
     </div>

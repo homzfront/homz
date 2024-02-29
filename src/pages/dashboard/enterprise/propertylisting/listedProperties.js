@@ -70,7 +70,7 @@ const ListedProperties = ({
   console.log(currentData);
 
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       {registrationForm ? (
         <PropertyForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
       ) : (
@@ -79,7 +79,7 @@ const ListedProperties = ({
           <div className="p-8">
             <div className="flex gap-2 mb-6">
               <p>Properties</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+              <span className="bg-whiteblue w-6 h-6 flex justify-center rounded-[8px]">
                 <span className="text-BlueHomz ">{Data.length}</span>
               </span>
             </div>

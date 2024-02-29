@@ -59,7 +59,7 @@ const ListedEstates = ({
   };
 
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       <div>
         <div className="p-8 flex justify-between items-center">
           <div className="flex gap-2 items-center">

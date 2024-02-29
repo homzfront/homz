@@ -55,7 +55,7 @@ const Payment = () => {
 
 
   return (
-    <div className=" w-[1147px] p-8">
+    <div className=" w-full p-8">
       <Header
         options={options}
         options2={options2}

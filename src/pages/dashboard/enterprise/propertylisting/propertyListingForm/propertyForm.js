@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const PropertyForm = ({returnToStartRegistration, fetchData}) => {
   return (
-    <div>
+    <div className="inline-block w-full">
         <div className="px-8 pt-8 flex items-center cursor-pointer" onClick={returnToStartRegistration}>
           <div>
             <Image

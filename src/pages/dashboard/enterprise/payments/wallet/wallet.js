@@ -53,7 +53,7 @@ const Wallet = () => {
   return (
     <div className="">
       <div className="w-full flex gap-8">
-        <div>
+        <div className="">
           <WalletBalance
             illuminateWallet={illuminateWallet}
             wallet={wallet}
@@ -67,7 +67,7 @@ const Wallet = () => {
             fetchDataAgain={fetchDataAgain}
           />
         </div>
-        <div>
+        <div className="">
           {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
           <TransferHis illuminateWallet={illuminateWallet} />
         </div>

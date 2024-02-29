@@ -24,7 +24,7 @@ const Property = ({id}) => {
 
 
   return (
-    <div className="w-[1147px] p-8">
+    <div className="w-full p-8">
       <div>
         <div className="flex justify-between items-center">
           <div className="w-[475px] flex gap-2 items-center">

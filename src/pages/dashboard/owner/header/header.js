@@ -1,21 +1,24 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
 import PopUpMenuAlert from "./components/popUpMenuAlert";
 import useProfileOwnerMe from "@/store/propertyOwnerStore/useProfileOwnerMe";
+import useClickOutside from "@/utils/clickOutside";
+import Menu from "@/components/icons/Menu";
+import SidebarMobile from "../sidebarMobile/sidebarHeader";
+import useDisableBodyScroll from "@/utils/useDisableBodyScroll";
+
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleToggleMenu = () => {
-    setPopUpMenu(!popUpMenu);
-  };
+  const dropdownRef = useClickOutside(() => setPopUpMenu(false)); // Use the custom hook
+  const dropdownRefII = useClickOutside(() => setPopUpMenuTwo(false));
 
   const handleToggleMenuTwo = () => {
-    setPopUpMenuTwo(!popUpMenuTwo);
+    setPopUpMenuTwo(prevState => !prevState);
   };
 
   const openSidebar = () => {
@@ -33,26 +36,37 @@ const Header = () => {
 
   const user = data;
   console.log(user);
+  useDisableBodyScroll(open)
 
   return (
-    <div className="header w-[1147px]">
-      <div className="flex justify-between items-center py-8 px-10">
-        <div className="relative">
-          {/* <input
-          type="text"
-          className="border h-[40px] pl-8 rounded-md w-[320px]"
-          placeholder="search"
-        /> */}
-          {/*          
-          <Image
-            src={
-              "/static/dashboard/enterprisemanager/header/search-normal.png"
-            }
-            alt=""
-            className="absolute top-3 left-3"
-            height={17}
-            width={16}
-          /> */}
+    <div className="header">
+      {open && (
+        <div className="">
+          <div className="absolute bg-white h-auto z-50 w-[100%]">
+            <div className="flex justify-between items-center p-8">
+              <div>
+                <Image src="/homz.svg" width={86} height={18} alt="" />
+              </div>
+              <div className="cursor-pointer" onClick={closeSidebar}>
+                <Image src="/close.svg" width={16} height={16} alt="" />
+              </div>
+            </div>
+            <div>
+              <SidebarMobile user={user} setOpen={setOpen} />
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="md:hidden w-full flex justify-between items-center p-8">
+        <div>
+          <Image src="/homz.svg" width={86} height={18} alt="" />
+        </div>
+        <div className="cursor-pointer h-full " onClick={openSidebar}>
+          <Menu />
+        </div>
+      </div>
+      <div className=" hidden md:flex justify-between items-center py-8 px-10">
+        <div className="">
         </div>
         <div className="flex gap-4 items-center relative">
           <div onClick={handleToggleMenuTwo} className="cursor-pointer">
@@ -66,15 +80,7 @@ const Header = () => {
             />
             {popUpMenuTwo && <PopUpMenuAlert />}
           </div>
-          {/* <Link href={"/dashboard/enterprise-property/letterHead"}>
-          <Image
-            src={"/static/dashboard/enterprisemanager/header/sms.png"}
-            alt=""
-            height={25}
-            width={24}
-          />
-        </Link> */}
-          <Link href={""} onClick={handleToggleMenu} className="relative">
+          <div ref={dropdownRef} onClick={() => setPopUpMenu(prevState => !prevState)} className="relative cursor-pointer">
             {!user?.coverPhoto?.url ? (
               <Image
                 src={
@@ -95,7 +101,7 @@ const Header = () => {
               />
             )}
             {popUpMenu && <PopUpMenu user={user} />}
-          </Link>
+          </div>
         </div>
       </div>
     </div>

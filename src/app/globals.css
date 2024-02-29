@@ -26,47 +26,37 @@ body {
   grid-template-columns: 1fr 1fr 2fr;
   gap: 20px;
 }
-.dashboard {
-  @apply grid;
-  grid-template-columns: 268px 1fr 1fr 1fr;
-  grid-template-rows: 0.2fr 3fr;
-  grid-template-areas:
-    "sidebar header header header"
-    "sidebar pagepart pagepart pagepart";
-  max-width: 1440px; /* Set the maximum width to 1440px */
-  width: 100%; /* Allow it to take 100% width within the max-width */
+
+.dashboard_main {
+  min-width: 1200px;
+  max-width: 1440px;
   margin: auto;
+  display: flex;
+  flex-direction: row;
+  
 }
 
 .header {
-  @apply grid;
-  grid-area: header;
-  border-bottom: 1px rgb(225, 225, 225) solid;
+  border-bottom: 1px solid rgb(225, 225, 225);
 }
 
 .sidebar {
-  @apply grid;
-  grid-area: sidebar;
+  min-width: 260px;
+
 }
 
 .dashboard {
-  @apply grid;
-  grid-area: pagepart;
-  max-width: 1440px; /* Set the maximum width to 1440px */
-  width: 100%; /* Allow it to take 100% width within the max-width */
+  flex-grow: 1; /* This will make the dashboard fill the remaining space */
 }
 
 @media screen and (max-width: 768px) {
   .sidebar {
-    display: none; /* Hide the sidebar on screens smaller than 768px */
+    display: none;
   }
-  
-  .dashboard {
-    grid-template-columns: 1fr; /* Change to a single column layout */
-    grid-template-rows: auto; /* Allow rows to adjust dynamically */
-    grid-template-areas:
-      "header"
-      "pagepart";
+
+  .dashboard_main {
+    min-width: 0px;
+    flex-direction: column;
   }
 }
 
@@ -109,18 +99,17 @@ body {
   /* Custom ring */
   --ring-width: 1px;
   --ring-color: #adadad; /* Replace with your desired color */
-  box-shadow: inset 0 0 0 var(--ring-width) var(--ring-color);  /* transition: box-shadow 0.2s ease-in-out; */ 
+  box-shadow: inset 0 0 0 var(--ring-width) var(--ring-color); /* transition: box-shadow 0.2s ease-in-out; */
 }
 
 /* Checked state styles */
 .radio-input &:checked {
-    background-color: #4e4e4e;
-  }
+  background-color: #4e4e4e;
+}
 
 /* .radio-input:focus {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 } */
-
 
 .custom-three-dots {
   position: relative;
@@ -133,9 +122,19 @@ body {
 }
 
 .custom-three-dots svg circle:nth-child(2) {
-  stroke: #006AFF; /* Change the color of the second circle to the specified color */
+  stroke: #006aff; /* Change the color of the second circle to the specified color */
 }
 
 .custom-three-dots svg circle:nth-child(3) {
   stroke: white; /* Change the color of the third circle to white */
+}
+
+
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: calc(100vh - 20px); /* Adjust 20px as per your need for padding/margin */
+  overflow-y: auto;
 }

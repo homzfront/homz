@@ -87,7 +87,7 @@ const PropertyImages = ({ id }) => {
   };
 
   return (
-    <div className="p-8 w-[1147px]">
+    <div className="p-8 w-full">
       {loading ? (
         <LoadingII />
       ) : showRating ? (
@@ -98,7 +98,7 @@ const PropertyImages = ({ id }) => {
         <div>
           <div className="flex justify-between items-center">
             <Link
-              href={"/dashboard/property-owner/propertylisting"}
+              href={"/dashboard/enterprise-property/propertylisting"}
               className="flex gap-2 items-center"
             >
               <Image
@@ -113,7 +113,7 @@ const PropertyImages = ({ id }) => {
             </Link>
 
             <Link
-              href={`/dashboard/property-owner/propertylisting/property/${id}`}
+              href={`/dashboard/enterprise-property/propertylisting/property/${id}`}
               className="text-[14px] font-[400] text-BlueHomz"
             >
               Edit Property
@@ -126,7 +126,7 @@ const PropertyImages = ({ id }) => {
                   <div
                     key={item.id}
                     className={` ${
-                      index === 0 ? "flex-shrink-0" : "flex-grow"
+                      index === 0 ? "w-full flex-shrink-0" : "flex-grow"
                     }`}
                     onClick={() => openImageModal(index, item)}
                   >
@@ -137,7 +137,7 @@ const PropertyImages = ({ id }) => {
                         height={index === 0 ? 368 : 161}
                         width={index === 0 ? 1110 : 162}
                         className={`rounded-md cursor-pointer ${
-                          index === 0 ? "w-[1055px]" : ""
+                          index === 0 ? "w-full" : ""
                         }`}
                       />
                     ) : index === 6 ? (

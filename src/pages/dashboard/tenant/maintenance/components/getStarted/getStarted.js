@@ -19,8 +19,8 @@ const options = [
 
 const GetStarted = ({ openMaintenanceForm }) => {
   return (
-    <div className="">
-      <div className="p-9 flex items-center justify-between w-full border-b">
+    <div className="h-screen">
+      {/* <div className="p-9 flex items-center justify-between w-full border-b">
         <p className="text-[20px] font-[500] text-BlackHomz">
           Maintenance Request
         </p>
@@ -43,7 +43,7 @@ const GetStarted = ({ openMaintenanceForm }) => {
             Reset
           </button>
         </div>
-      </div>
+      </div> */}
       <div className=" p-8">
         <div className="flex flex-col gap-4">
           <p className="text-[20px] font-[500] text-BlackHomz">
@@ -53,7 +53,7 @@ const GetStarted = ({ openMaintenanceForm }) => {
             Send a request for utility maintenance
           </p>
         </div>
-        <div className="h-[850px] w-full flex items-center justify-around">
+        <div className="w-full flex items-center justify-around">
           <div className="flex flex-col justify-center items-center gap-1 h-[400px]">
             <div className="w-[120px] h-[120px] bg-whiteblue rounded-[100%] flex justify-center items-center">
               <Image

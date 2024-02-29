@@ -70,7 +70,7 @@ const Maintenance = () => {
   console.log(resolvedCount);
 
   return (
-    <div className="relative block w-[1147px] p-8">
+    <div className="relative block w-full p-8">
       {loading ? (
         <LoadingII />
       ) : request?.results && request?.results?.length >= 1 ? (

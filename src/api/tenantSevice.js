@@ -11,6 +11,17 @@ export const fetchSpecificTenant = async (id) => {
   }
 };
 
+export const fetchOneTenant = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/tenants/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching tenant details:", error);
+    throw error;
+  }
+};
+
 
 export const fetchSpecificTenantOwner = async (id) => {
   console.log(id);

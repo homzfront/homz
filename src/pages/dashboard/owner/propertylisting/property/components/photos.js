@@ -149,11 +149,11 @@ const Photos = ({ data }) => {
   };
   
   return (
-    <div className="px-8 block w-[1055px]">
+    <div className=" block w-full">
       {loading ? (
         <LoadingII />
       ) : (
-        <div>
+        <div className="w-full flex flex-col px-8">
           <div className="flex items-start w-full justify-between gap-4 mt-8">
             <div>
               <div>
@@ -239,7 +239,10 @@ const Photos = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="mt-[20%] flex justify-end">
+        </div>
+      )}
+          <div className="mt-[10%] flex justify-between w-full px-3">
+            <div></div>
             <button
               onClick={handleSubmit}
               className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
@@ -247,8 +250,6 @@ const Photos = ({ data }) => {
               Update
             </button>
           </div>
-        </div>
-      )}
     </div>
   );
 };

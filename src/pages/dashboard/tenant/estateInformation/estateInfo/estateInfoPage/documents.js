@@ -23,7 +23,7 @@ const Documents = () => {
 
   return (
     <div>
-      <p className="text-[16px] font-[400] text-GrayHomz">
+      <p className="hidden sm:block text-[16px] font-[400] text-GrayHomz">
         Access and download important documents uploaded by your property
         manager
       </p>

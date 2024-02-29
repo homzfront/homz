@@ -28,12 +28,12 @@ const EstateInfoP = ({ data }) => {
       console.error("Unable to copy to clipboard:", error);
     }
   };
-  
+
 
   console.log(data);
   return (
     <div>
-      <div className="">
+      <div className="hidden sm:block">
         <div className="w-full h-[172px] bg-inputBg rounded-[12px] px-6 py-8 flex flex-col justify-between">
           <div className="flex justify-between w-[540px]">
             <p className="text-[14px] font-[400] text-GrayHomz w-[180px]">
@@ -163,10 +163,144 @@ const EstateInfoP = ({ data }) => {
             </div>
             <div className="flex justify-between w-[580px]">
               <p className="text-[14px] font-[400] text-GrayHomz w-[210px]">
-              Security
+                Security
               </p>
               <p className="text-[16px] font-[500] text-BlackHomz w-[360px] flex gap-3 items-center">
                 {formatStringWithHyphens(data?.estateId?.securityPhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.securityPhoneNumber}`,
+                      "copiedIV"
+                    )
+                  }
+                />
+                {copiedState.copiedIV && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="sm:hidden">
+        <div className="w-full flex flex-col">
+          <div className="flex justify-between border-b py-2 w-full">
+            <p className="text-[13px] font-[400] text-GrayHomz2 w-[60%]">
+              Property Name
+            </p>
+            <p className="text-[13px] font-[500] text-GrayHomz w-[50%]">
+              {data?.estateId?.name}
+            </p>
+          </div>
+          <div className="flex justify-between border-b py-2 w-full">
+            <p className="text-[13px] font-[400] text-GrayHomz2 w-[60%]">
+              Property Location
+            </p>
+            <p className="text-[13px] font-[500] text-GrayHomz w-[50%]">
+              {data?.estateId?.area}, {data?.estateId?.state}
+            </p>
+          </div>
+        </div>
+        <div className="mt-8">
+          <p className="text-[13px] font-[400] text-BlueHomz">
+            Contact Information
+          </p>
+          <div className="w-full flex flex-col">
+            <div className="flex justify-between border-b py-2 w-full">
+              <p className="text-[13px] font-[400] text-GrayHomz2 w-[60%]">
+                Manager
+              </p>
+              <p className="text-[13px] flex items-center gap-1  font-[500] text-GrayHomz w-[50%]">
+                {formatStringWithHyphens(data?.estateId?.managerPhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.managerPhoneNumber}`,
+                      "copiedV"
+                    )
+                  }
+                />
+                {copiedState.copiedV && (
+                  <span className=" text-[8px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+            <div className="flex justify-between border-b py-2 w-full">
+              <p className="text-[13px] font-[400] text-GrayHomz2 w-[60%]">
+                Emergency
+              </p>
+              <p className="text-[13px] flex items-center gap-1  font-[500] text-GrayHomz w-[50%]">
+              {formatStringWithHyphens(data?.estateId?.emergencyPhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.emergencyPhoneNumber}`,
+                      "copiedII"
+                    )
+                  }
+                />
+                {copiedState.copiedII && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+            <div className="flex justify-between border-b py-2 w-full">
+              <p className="text-[13px] font-[400] text-GrayHomz2 w-[60%]">
+              Utility Service <br />
+                <span className="text-[8px] font-[400] text-GrayHomz w-[180px]">
+                  (Dry cleaning, waste disposal, etc)
+                </span>
+              </p>
+              <p className="text-[13px] flex items-center gap-1  font-[500] text-GrayHomz w-[50%]">
+              {formatStringWithHyphens(data?.estateId?.utilityServicePhoneNumber)}
+                <Image
+                  src={"/static/dashboard/tenant/estateInfo/copy.png"}
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleCopyClick(
+                      `${data?.estateId?.utilityServicePhoneNumber}`,
+                      "copiedIII"
+                    )
+                  }
+                />
+                {copiedState.copiedIII && (
+                  <span className=" text-[10px] font-[400] italic text-Success">
+                    copied
+                  </span>
+                )}
+              </p>
+            </div>
+            <div className="flex justify-between border-b py-2 w-full">
+              <p className="text-[13px] font-[400] text-GrayHomz2 w-[60%]">
+               Security
+              </p>
+              <p className="text-[13px] flex items-center gap-1  font-[500] text-GrayHomz w-[50%]">
+              {formatStringWithHyphens(data?.estateId?.securityPhoneNumber)}
                 <Image
                   src={"/static/dashboard/tenant/estateInfo/copy.png"}
                   alt=""

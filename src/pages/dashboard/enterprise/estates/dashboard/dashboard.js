@@ -20,7 +20,7 @@ const Dashboard = ({id}) => {
   console.log(data);
 
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       <div className="px-8 py-8">
         <div className="mt-4">
           <div className="w-[475px] flex gap-2 items-center">

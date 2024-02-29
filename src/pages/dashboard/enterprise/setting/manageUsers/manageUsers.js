@@ -15,6 +15,7 @@ import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
 import Popup from "@/pages/tenantManagementPlan/popUp";
 import TableUser from "./components/tableUser";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
@@ -35,6 +36,7 @@ const ManageUsers = () => {
 
   console.log(data);
 
+  useBodyScroll([showPopup])
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -92,8 +94,7 @@ const ManageUsers = () => {
     try {
       const { success, upDateddata, error } = await enterpriseplanRoleInvite({
         email,
-        estate: selectedEstate,
-        role: "Property_Owner",
+        estateName: selectedEstate
       });
 
       if (success) {

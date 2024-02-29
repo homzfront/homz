@@ -70,7 +70,7 @@ const Estate = () => {
     setRegistrationForm(true);
   };
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       {loading ? (
         <LoadingII />
       ) : data && data.length >= 1 ? (
@@ -102,7 +102,7 @@ const Estate = () => {
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>
       ) : (
-        <div className="w-[1147px] p-8">
+        <div className="w-full p-8">
           <div className="flex flex-col gap-2 justify-between">
             <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Properties</p>
@@ -114,7 +114,7 @@ const Estate = () => {
               Add your properties so you can seamlessly manage them
             </p>
           </div>
-          <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
+          <div className="flex flex-col gap-3 mt-5 h-[450px] justify-center items-center">
             <div className="bg-whiteblue rounded-[100%] flex justify-center items-center h-[120px] w-[120px]">
               <Image
                 src={

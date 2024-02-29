@@ -41,7 +41,7 @@ const Estate = () => {
   });
 
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
        {loading ? (
         <LoadingII /> ) : data && data.length >= 1 ? (
         <ListedEstates
@@ -61,7 +61,7 @@ const Estate = () => {
           options2={options2}
         />
       ) : (
-        <div className="w-[1147px] p-8">
+        <div className="w-full p-8">
           <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Properties</p>
@@ -70,7 +70,7 @@ const Estate = () => {
               </span>
             </div>
           </div>
-          <div className="h-[850px] w-full flex items-center justify-around">
+          <div className="h-[450px] w-full flex items-center justify-around">
             <div className="">
               <Image
                 src={

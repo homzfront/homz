@@ -6,18 +6,30 @@ import React from "react";
 const PopUpMenu = ({ user }) => {
   const { logout } = useProfileStore();
   return (
-    <div className="drop-down absolute z-20 text-GrayHomz font-[500] top-12 right-0 border h-[200px] w-[244px] rounded-md bg-white flex flex-col items-center justify-around">
+    <div className="drop-down absolute z-20 text-GrayHomz font-[500] top-12 right-[20px] border h-[170px] w-[244px] rounded-md bg-white flex flex-col items-center py-1 justify-around">
       <Link
         href={`/dashboard/property-owner/profile`}
         className="flex gap-2 border-b w-full px-4 py-2"
       >
-        <Image
-          src={user?.businessLogo?.url}
-          alt=""
-          height={41}
-          width={40}
-          className="rounded-full"
-        />
+        {!user?.coverPhoto?.url ? (
+          <Image
+            src={
+              "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+            }
+            alt=""
+            width={40}
+            height={40}
+            className=""
+          />
+        ) : (
+          <Image
+            src={user?.coverPhoto?.url}
+            alt=""
+            height={40}
+            width={40}
+            className="rounded-full"
+          />
+        )}
         <div className="flex flex-col">
           <span className="font-[600] text-[14px] text-BlackHomz">
             {user?.fullName}
@@ -27,46 +39,40 @@ const PopUpMenu = ({ user }) => {
           </span>
         </div>
       </Link>
-      <Link
-        href={"/dashboard/property-owner/notifications"}
-        className="cursor-pointer hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center  py-2 px-4 w-full  text-center"
-      >
-        <Image
-          src={"/static/dashboard/enterprisemanager/header/notification.png"}
-          alt=""
-          height={16}
-          width={16}
-        />
-        <p className="text-[14px] font-[500] text-GrayHomz hover:text-BlueHomz">
-          Notification
-        </p>
-      </Link>
-      {/* <Link href={"/dashboard/property-owner/setting"} className="cursor-pointer hover:bg-whiteblue h-[40px] rounded-md   flex gap-1 items-center  py-2 px-4 w-full  text-center">
-        <Image
-          src={"/static/dashboard/enterprisemanager/header/setting-2.png"}
-          alt=""
-          height={16}
-          width={16}
-        />
-        <p className="text-[14px] font-[500] text-GrayHomz hover:text-BlueHomz">Settings</p>
-      </Link> */}
-      <Link
-        href={""}
-        className=" cursor-pointer hover:bg-whiteblue h-[40px] rounded-md   flex gap-1  items-center py-2  px-4 w-full  text-center"
-      >
-        <Image
-          src={"/static/dashboard/enterprisemanager/header/logout.png"}
-          alt=""
-          height={16}
-          width={16}
-        />
-        <p
-          onClick={() => logout(logout)}
-          className="text-[14px] font-[500] text-GrayHomz hover:text-BlueHomz"
+      <div className="p-2 w-full">
+        <Link
+          href={"/dashboard/property-owner/notifications"}
+          className="hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center py-2 px-2 w-full text-GrayHomz hover:text-BlueHomz text-center"
         >
-          Logout
-        </p>
-      </Link>
+          <Image
+            src={"/static/dashboard/enterprisemanager/header/notification.png"}
+            alt=""
+            height={16}
+            width={16}
+          />
+          <p className="text-[14px] font-[500]">
+            Notification
+          </p>
+        </Link>
+        <div
+          onClick={() => logout(logout)}
+          className=" cursor-pointer hover:bg-whiteblue hover:text-BlueHomz text-GrayHomz h-[40px] rounded-md flex gap-1 items-center py-2 px-2 w-full text-center"
+        >
+          <Image
+            src={"/static/dashboard/enterprisemanager/header/logout.png"}
+            alt=""
+            height={16}
+            width={16}
+          />
+          <p
+
+            className="text-[14px] font-[500]"
+          >
+            Logout
+          </p>
+        </div >
+      </div>
+
     </div>
   );
 };

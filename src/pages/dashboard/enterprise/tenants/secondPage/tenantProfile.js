@@ -23,7 +23,7 @@ const TenantProfile = ({id}) => {
   console.log(data);
 
   return (
-    <div className="max-w-[1147px] ">
+    <div className="max-w-full ">
             <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -37,7 +37,7 @@ const TenantProfile = ({id}) => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-[1147px]">
+      <div className="w-full">
         <Image
           alt=""
           src={"/static/dashboard/enterprisemanager/tenants/Header.png"}
@@ -48,10 +48,10 @@ const TenantProfile = ({id}) => {
         />
       </div>
       <div className="flex gap-6 mt-[-20px] px-8">
-        <div className="w-[350px]">
+        <div className="w-[35%]">
           <ProfileCard data={data}/>
         </div>
-        <div className="">
+        <div className="w-[65%]">
           <Widget data={data}/>
         </div>
       </div>

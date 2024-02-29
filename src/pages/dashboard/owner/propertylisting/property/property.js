@@ -25,7 +25,7 @@ const Property = ({id}) => {
 
 
   return (
-    <div className="w-[1147px] p-8">
+    <div className="w-full p-8">
       <div>
         <div className="flex justify-between items-center">
           <div className="w-[475px] flex gap-2 items-center">
@@ -53,8 +53,7 @@ const Property = ({id}) => {
               Property Details
             </div>
           </div>
-          <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
-        </div>
+       </div>
         <div>
           <Widget data={data}/>
         </div>

@@ -20,22 +20,23 @@ const TenantProfile = ({id}) => {
 
   console.log(data);
   return (
-    <div className="max-w-[1147px] ">
-      <div className="w-[1147px]">
+    <div className="max-w-full ">
+      <div className="w-full">
         <Image
           alt=""
           src={"/static/dashboard/enterprisemanager/tenants/Header.png"}
           height={204}
           width={1172}
+          layout="responsive"
           style={{ height: 'auto', width: 'auto' }}
           
         />
       </div>
-      <div className="flex gap-6 mt-[-20px] px-8">
-        <div className="w-[350px]">
+      <div className="flex gap-6 justify between mt-[-20px] px-8">
+        <div className="w-[35%]">
           <ProfileCard data={data}/>
         </div>
-        <div className="">
+        <div className="w-[65%]">
           <Widget data={data}/>
         </div>
       </div>

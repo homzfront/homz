@@ -17,7 +17,7 @@ const ImageUpload = ({
   return (
     <div className="flex gap-2">
       <div
-        className={`h-[196px] rounded-[8px] w-[196px] justify-center items-center flex ${
+        className={`h-[140px] rounded-[8px] w-[140px] justify-center items-center flex ${
           uploadedImage || image ? "" : "bg-blue-100 "
         }`}
       >
@@ -52,8 +52,8 @@ const ImageUpload = ({
         ) : (
           <Image
             src={"/static/dashboard/enterprisemanager/estate/add.png"}
-            height={72}
-            width={72}
+            height={36}
+            width={36}
             className="mb-2 cursor-pointer"
             alt="img"
             onClick={() => inputRef.current.click()}

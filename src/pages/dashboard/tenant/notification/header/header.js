@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const NotificationHeader = () => {
+const NotificationHeader = ({
+  searchQuery,
+  setSearchQuery
+}) => {
   return (
     <div className="border-b">
       <div className="flex justify-between items-center py-8 px-10">
@@ -20,6 +23,8 @@ const NotificationHeader = () => {
             type="text"
             className="border h-[40px] pl-8 rounded-md w-[320px]"
             placeholder="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Image
             src={"/static/dashboard/enterprisemanager/header/search-normal.png"}

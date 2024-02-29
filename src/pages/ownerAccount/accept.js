@@ -16,6 +16,7 @@ const Accept = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [dashboard, setDashboard] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
+  const [data, setData] = useState([]);
   const router = useRouter();
   // const { email, role, invitation, isHomzEnterprise } =
   const queryString = window.location.search;
@@ -42,10 +43,22 @@ const Accept = () => {
   const { fetchProfile, user, loading } = useProfileStore();
 
   useEffect(() => {
-    if (!user) {
-      fetchProfile();
+    if (isHomzEnterprise === "true") {
+      if (!user) {
+        setShowLogin(true); // Show login page if user is not available
+      }
+    } else {
+      setOpenForm(true);
+      setData(
+        {
+          email,
+          role,
+          invitation,
+          isHomzEnterprise
+        }
+      ) // Show OwnerLoginForm if isHomzEnterprise is false
     }
-  }, [user, fetchProfile]);
+  }, [isHomzEnterprise, user]);
 
   useEffect(() => {
     // Check user authentication
@@ -73,7 +86,7 @@ const Accept = () => {
       } else {
         console.error("Update failed", error);
         setLoadingII(false);
-        toast.error( error);
+        toast.error(error);
       }
     } catch (error) {
       console.error("Update error", error);
@@ -81,9 +94,10 @@ const Accept = () => {
     }
   };
 
+  console.log(data);
   return (
     <div className="w-full">
-         <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -99,7 +113,7 @@ const Accept = () => {
       {loadingII && <Loading />}
       {openForm ? (
         <div>
-          <OwnerLoginForm closeForm={closeForm} />
+          <OwnerLoginForm data={data}  closeForm={closeForm} />
         </div>
       ) : dashboard ? (
         <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">

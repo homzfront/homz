@@ -102,7 +102,7 @@ const WalletBalance = ({
       {accountInfo && (
         <AccountInfo closeAccountInfo={closeAccountInfo} wallet={wallet} />
       )}
-      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-[550px] h-[132px] rounded-[12px]">
+      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-full h-[132px] rounded-[12px]">
         <div className="flex items-center justify-between p-5">
           <div className="flex items-center gap-3">
             <Image

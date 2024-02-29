@@ -69,7 +69,7 @@ const ListedProperties = ({
   console.log(currentData);
 
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       {registrationForm ? (
         <PropertyForm
           returnToStartRegistration={returnToStartRegistration}

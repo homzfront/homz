@@ -73,7 +73,7 @@ const Photos = ({
   };
 
   return (
-    <div className="px-8 block w-[1080px]">
+    <div className="px-8 block w-full">
       <div className="flex flex-col gap-2">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
         <p className="text-[18px] font-[400] text-GrayHomz">
@@ -85,10 +85,10 @@ const Photos = ({
         </p>
       </div>
       <div className="flex items-start w-full justify-between gap-4 mt-8">
-        <div>
+        <div className="w-25%">
           <div>
             <p className="text-[13px] font-[500] text-GrayHomz">Cover photo</p>
-            <div className="w-[120px] flex justify-start mt-4">
+            <div className="w-[140px] flex justify-start mt-4">
               <ImageUpload
                 onImageRemove={setUploadedImageCoverPhoto}
                 handleImageUpload={handleImageUploadCoverPhoto}
@@ -97,31 +97,31 @@ const Photos = ({
             </div>
           </div>
         </div>
-        <div className="grid w-[790px]">
+        <div className="grid w-[75%]">
           <p className="text-[13px] font-[500] text-GrayHomz">Other photos</p>
           <div className="flex mt-4 justify-between">
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage}
                 handleImageUpload={handleImageUpload}
                 uploadedImage={uploadedImage}
               />
             </div>
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage2}
                 handleImageUpload={handleImageUpload2}
                 uploadedImage={uploadedImage2}
               />
             </div>
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage3}
                 handleImageUpload={handleImageUpload3}
                 uploadedImage={uploadedImage3}
               />
             </div>
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage4}
                 handleImageUpload={handleImageUpload4}
@@ -130,28 +130,28 @@ const Photos = ({
             </div>
           </div>
           <div className="flex mt-8 justify-between">
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage5}
                 handleImageUpload={handleImageUpload5}
                 uploadedImage={uploadedImage5}
               />
             </div>
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage6}
                 handleImageUpload={handleImageUpload6}
                 uploadedImage={uploadedImage6}
               />
             </div>
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage7}
                 handleImageUpload={handleImageUpload7}
                 uploadedImage={uploadedImage7}
               />
             </div>
-            <div className="w-[120px] flex justify-start">
+            <div className="w-[140px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage8}
                 handleImageUpload={handleImageUpload8}
@@ -161,7 +161,7 @@ const Photos = ({
           </div>
         </div>
       </div>
-      <div className="mt-[5%] flex justify-between w-[1080px]">
+      <div className="mt-[5%] flex justify-between w-full">
         <div>
           <button
             onClick={handlePageChangeTwo}

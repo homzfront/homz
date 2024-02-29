@@ -139,15 +139,13 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
   }
 };
 
-export const enterpriseplanRoleInvite = async ({ email, estate, role }) => {
+export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
   console.log(email);
-  console.log(estate);
-  console.log(role);
+  console.log(estateName);
   try {
-    const response = await api.post(`/enterpriseplan/role/invite-link`, {
+    const response = await api.post(`/enterpriseplan/role/invite-link/property-owner`, {
       email,
-      estate,
-      role,
+      estateName,
     });
     console.log(response);
     return { success: true, upDateddata: response };

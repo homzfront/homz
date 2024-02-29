@@ -13,7 +13,7 @@ useEffect(() => {
 }, []);
 console.log(data);
 
-const filteredData = data?.filter((data) => id === data?.tenant?.estateId._id)
+const filteredData = data?.filter((data) => id !== data?.tenant?.estateId._id)
 
 return (
   <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container ">

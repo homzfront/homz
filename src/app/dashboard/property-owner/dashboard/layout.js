@@ -1,12 +1,14 @@
 import React from 'react'
 import Header from '@/pages/dashboard/owner/header/header'
 import Sidebar from '@/pages/dashboard/owner/sidebar/sidebar'
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
-    <div className='dashboard'>
-        <Header/>
+    <div className='dashboard_main'>
+      <Sidebar />
+      <div className='w-full' >
+        <Header />
         {children}
-        <Sidebar />
+      </div>
     </div>
   )
 }

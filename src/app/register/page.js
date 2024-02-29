@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
@@ -51,7 +50,9 @@ const Register = () => {
         // setPasswordError('');
         // localStorage.setItem("email", formData.email);
         router.push(`/verify-email`);
-        Cookies.set("email", formData.email);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem("email", formData.email);
+        }
         // Cookies.set("jwt", response.data)
         console.log(response.data);
 

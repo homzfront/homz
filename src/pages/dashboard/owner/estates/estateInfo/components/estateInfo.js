@@ -9,7 +9,7 @@ const PropertyInfo = ({data}) => {
   console.log(data);
   return (
     <div className="">
-      <div className="mt-8 rounded-[12px] text-[16px] font-[400] text-GrayHomz h-[351px] w-[1108px] bg-inputBg flex flex-col gap-2 p-8 justify-between">
+      <div className="mt-8 rounded-[12px] text-[16px] font-[400] text-GrayHomz h-auto w-full bg-inputBg flex flex-col gap-2 p-8 justify-between">
         <div className="flex gap-2 items-center w-full">
           <p className="w-[40%]">Property Name</p>
           <p className="font-[500] text-BlackHomz">{data?.name ? data?.name : "[Property Name]"}</p>

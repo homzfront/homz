@@ -39,7 +39,7 @@ const HomesCard = ({ statsData }) => {
   };
 
   return (
-    <div className="border w-[30%] rounded-[12px] ">
+    <div className="border sm:w-[30%] rounded-[12px] ">
       <h1 className="text-BlueHomz px-6 pt-6 pb-3 font-[500] text-[14px]">
         Homes
       </h1>

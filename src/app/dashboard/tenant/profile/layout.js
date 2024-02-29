@@ -3,10 +3,12 @@ import Header from '@/pages/dashboard/tenant/header/header'
 import Sidebar from '@/pages/dashboard/tenant/sidebar/sidebar'
 const Layout = ({children}) => {
   return (
-    <div className='dashboard'>
-        <Header/>
+    <div className='dashboard_main'>
+      <Sidebar />
+      <div className='w-full' >
+        <Header />
         {children}
-        <Sidebar />
+      </div>
     </div>
   )
 }

@@ -15,7 +15,7 @@ const Profile = () => {
   
   console.log(data);
   return (
-    <div className="p-8 w-[1147px]">
+    <div className="p-8 w-full">
       <p className="font-[500] text-[20px] text-GrayHomz">Profile</p>
       {loading ? <LoadingII /> : <Widget data={data} />}
     </div>

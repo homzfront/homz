@@ -16,9 +16,9 @@ const TenantsCard = ({ statsData }) => {
   const Data = data
 
   return (
-    <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">
+    <div className="rounded-[12px] border sm:w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
-        <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
+        <div className="text-BlueHomz font-[500] text-[15px] sm:text-[18px] flex gap-1">
           <p>Tenants</p>
           <p>
           {Data?.length ? `${Data?.length}` : "0"}
@@ -45,10 +45,10 @@ const TenantsCard = ({ statsData }) => {
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
-              <th className="text-left ">Property</th>
-              <th className="text-left">Rent</th>
+              <th className="text-left  hidden sm:table-cell">Property</th>
+              <th className="text-left hidden sm:table-cell">Rent</th>
               <th className="text-left">Status</th>
-              <th className="text-left pr-6">Due Date</th>
+              <th className="text-left pr-6 hidden sm:table-cell">Due Date</th>
             </tr>
           </thead>
           <tbody className="">
@@ -76,10 +76,10 @@ const TenantsCard = ({ statsData }) => {
                   )}
                   <span className="py-[15px]">{data?.fullName}</span>
                 </td>
-                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden sm:table-cell">
                   {data?.estateId?.name}
                 </td>
-                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden sm:table-cell">
                   {`${data?.rentInfo?.totalRent
                       ? addCommasToNumber(data?.rentInfo?.rent)
                       : "______"
@@ -103,7 +103,7 @@ const TenantsCard = ({ statsData }) => {
                     {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
                   </span>
                 </td>
-                <td className="text-GrayHomz py-[15px] font-[500] text-[11px] pr-6">
+                <td className="text-GrayHomz py-[15px] font-[500] text-[11px] pr-6 hidden sm:table-cell">
                   {`${data?.rentInfo?.dueDate
                       ? changeBackendDateFormat(data?.rentInfo?.dueDate)
                       : "______"

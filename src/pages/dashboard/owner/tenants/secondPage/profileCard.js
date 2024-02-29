@@ -4,7 +4,7 @@ import React from "react";
 const ProfileCard = ({ data }) => {
   console.log(data);
   return (
-    <div className="h-auto py-4 px-6 shadow-md bg-white rounded-[12px]">
+    <div className="w-[350px] h-auto py-4 px-6 shadow-md bg-white rounded-[12px]">
       <div className="w-full ">
         {data?.data?.coverPhoto?.url? (
           <Image

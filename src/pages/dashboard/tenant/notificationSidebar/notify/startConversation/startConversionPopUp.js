@@ -64,7 +64,7 @@ const StartConversionPopUp = ({dropStartConvo, onSelectData}) => {
     ];
   
   return (
-    <div className="relative h-[80%] p-10 w-[1139px] m-auto bg-white rounded-lg">
+    <div className="relative h-[80%] p-10 w-full m-auto bg-white rounded-lg">
       <div onClick={dropStartConvo} className="cursor-pointer">
         <Image
           src={

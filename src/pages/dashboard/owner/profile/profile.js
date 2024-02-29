@@ -15,7 +15,7 @@ const Profile = () => {
 
   console.log(data);
   return (
-    <div className="p-8 w-[1147px]">
+    <div className="p-8 w-full">
       <ToastContainer
         position="top-center"
         autoClose={2000}

@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,10 +17,15 @@ const VerifyEmail = () => {
   const [error2, setError2] = useState("");
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [otp, setOTP] = useState(["", "", "", ""]);
+  const inputRefs = useRef([]); // Array of refs for each input field
 
   useEffect(() => {
-    const storedEmail = Cookies.get("email");
-    setEmail(storedEmail);
+    // Retrieve email from localStorage
+    if (typeof window !== 'undefined') {
+      const storedEmail = localStorage.getItem('email');
+      setEmail(storedEmail || '');
+    }
+
   }, []);
 
   const handleSubmit = async (e) => {
@@ -36,6 +40,10 @@ const VerifyEmail = () => {
           pincode: otp.join(""),
         }
       );
+
+        if (typeof window !== 'undefined') {
+        localStorage.removeItem('email');
+        }
 
       console.log("OTP verification successful", response.data);
       setVerificationSuccess(true);
@@ -75,7 +83,7 @@ const VerifyEmail = () => {
         }
       );
       toast.success('OTP SENT')
-    } catch (error){
+    } catch (error) {
       toast.error(error.response?.data?.message)
     }
   };
@@ -84,20 +92,45 @@ const VerifyEmail = () => {
     router.push("/select-plan");
   };
 
+
   const handleInputChange = (index, value) => {
     if (/^\d$/.test(value)) {
       const newOTP = [...otp];
       newOTP[index] = value;
       setOTP(newOTP);
       setError(false); // Reset error when a valid digit is entered
+
+      // Focus the next input field if the value is non-empty and not the last one
+      if (value && index < otp.length - 1) {
+        inputRefs.current[index + 1].focus();
+      }
     } else if (value === "" && index >= 0) {
       // If backspace is pressed and the box is not the first one
       const newOTP = [...otp];
       newOTP[index] = "";
       setOTP(newOTP);
       setError(false); // Reset error when backspace is pressed
+
+      // If backspace is pressed and it's the first input, clear the error
+      if (index === 0) {
+        setError(false);
+      } else {
+        // Move focus to the previous input field if not the first one
+        inputRefs.current[index - 1].focus();
+      }
     } else {
       setError(true); // Set error when an invalid character is entered
+    }
+  };
+
+  const handlePaste = (event) => {
+    event.preventDefault();
+    const pastedValue = event.clipboardData.getData('text');
+
+    // Check if pasted value is a valid 4-digit number
+    if (pastedValue.length === 4 && /^\d+$/.test(pastedValue)) {
+      setOTP(pastedValue.split(''));
+      setError(false); // Reset error if valid pasted value
     }
   };
 
@@ -120,9 +153,9 @@ const VerifyEmail = () => {
         theme="dark"
       />
       <div className="flex m-auto  max-w-[1440px] h-[1024px]">
-      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
-        <SliderAuth/>
-      </div>
+        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
+          <SliderAuth />
+        </div>
         <div className="w-[794px]  flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 w-[320px] sm:w-full  py-4">
             {!verificationSuccess ? (
@@ -145,12 +178,10 @@ const VerifyEmail = () => {
                           type="text"
                           maxLength="1"
                           value={digit}
-                          onChange={(e) =>
-                            handleInputChange(index, e.target.value)
-                          }
-                          className={`border rounded-md text-[41px] font-[700] text-GrayHomz w-[60px] sm:w-[80px] p-2 text-center ${
-                            error ? "border-red-500" : ""
-                          }`}
+                          onChange={(e) => handleInputChange(index, e.target.value)}
+                          className={`border rounded-md text-[41px] font-[700] text-GrayHomz w-[60px] sm:w-[80px] p-2 text-center ${error ? "border-red-500" : ""}`}
+                          ref={(el) => (inputRefs.current[index] = el)}
+                          onPaste={handlePaste} // Add onPaste event handler
                         />
                       ))}
                     </div>

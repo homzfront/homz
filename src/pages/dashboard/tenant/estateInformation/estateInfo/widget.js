@@ -21,26 +21,26 @@ const Widget = ({data}) => {
   return (
     <div>
       <div className="w-full h-auto py-4">
-        <div className=" flex mt-5 gap-4 justify-between w-[300px] cursor-pointer">
+        <div className=" flex mt-5 gap-4 justify-between w-[90%] sm:w-[300px] cursor-pointer">
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-                !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                !active ? "bg-BlueHomz text-white" : "sm:text-BlackHomz text-BlueHomz bg-walletBg sm:bg-none"
               }`}
               onClick={handlePageChange}
               justify-center
             >
-              <p className="text-[14px] font-500">Property Information</p>
+              <p className="text-[11px] sm:text-[14px] font-500">Property Information</p>
             </div>
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                activeTwo ? "bg-BlueHomz text-white" : "sm:text-BlackHomz text-BlueHomz bg-walletBg sm:bg-none"
               }`}
               onClick={handlePageChangeTwo}
             >
-              <p className="text-[14px] font-500">Documents</p>
+              <p className="text-[11px] sm:text-[14px] font-500">Documents</p>
             </div>
           </div>
         </div>

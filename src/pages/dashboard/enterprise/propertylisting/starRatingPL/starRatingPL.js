@@ -6,7 +6,7 @@ import CommentAndRatings from "./components/commentAndRatings";
 const StarRatingPL = ({goBack}) => {
   return (
 
-    <div className="p-8 w-[1147px] ">
+    <div className="p-8 w-full ">
       <div onClick={goBack} className="flex gap-2 cursor-pointer">
        <Image
           src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}

@@ -75,7 +75,7 @@ const Maintenance = () => {
 
 
   return (
-    <div className="relative block w-[1147px] p-8">
+    <div className="relative block w-full p-8">
       {loading ? (
         <LoadingII />
       ) : data && data?.length >= 1 ? (

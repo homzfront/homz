@@ -27,7 +27,7 @@ const Maintenance = () => {
 
   console.log(data);
   return (
-    <div className="w-[1147px]">
+    <div className="w-full">
       {loading ? (
         <LoadingII />
       ) : data && data.length >= 1 ? (

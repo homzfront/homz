@@ -65,7 +65,7 @@ const Tenants = () => {
   console.log(selectedStatus);
 
   return (
-    <div className=" w-[1147px] p-8">
+    <div className=" w-full p-8">
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
@@ -76,7 +76,7 @@ const Tenants = () => {
       ) : (
         <div className="">
           {tenantData === null || tenantData === undefined || !tenantData ? (
-            <div>
+            <div className="h-screen ">
               <div className="flex gap-2 items-center">
                 <p className="text-[20px] font-[500]">Tenants</p>
                 <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
@@ -85,7 +85,7 @@ const Tenants = () => {
                   </span>
                 </span>
               </div>
-              <div className="flex flex-col gap-3 mt-5 h-[600px] justify-center items-center">
+              <div className="flex flex-col h-[70%] gap-3 mt-5 justify-center items-center">
                 <div className="bg-whiteblue rounded-[100%] flex justify-center items-center h-[120px] w-[120px]">
                   <Image
                     src={

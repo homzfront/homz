@@ -3,7 +3,7 @@ import React from "react";
 
 const BillPayment = () => {
   return (
-    <div className="w-[460px] h-[315px] border p-[24px] rounded-[12px]">
+    <div className="w-full sm:w-[42%] h-[315px] border p-[24px] rounded-[12px]">
       <div className="flex gap-2 items-center">
         <Image
           src={"/static/dashboard/tenant/dashboard/card-coin.png"}

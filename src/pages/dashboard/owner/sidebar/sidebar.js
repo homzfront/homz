@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const Sidebar = () => {
   const Data = [
@@ -143,13 +144,7 @@ const Sidebar = () => {
 
 
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = logoutModal ? "hidden" : "auto";
-    if (logoutModal) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [logoutModal]);
+useBodyScroll([logoutModal]);
 
   console.log(pathname);
 

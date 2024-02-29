@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import PropertyInfo from "./propertyInfo.js";
 import AddPhotos from "./addPhotos.js";
 import ContactInfo from "./contactInfo.js";
-import Documents from "./documents.js"; // Import your fourth component
+// import Documents from "./documents.js"; 
+// Import your fourth component
 import { toast } from "react-toastify";
 import api from "@/utils/api.js";
 import { useRouter } from "next/navigation.js";
@@ -122,7 +123,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     setActiveTwo(false);
     setActiveThree(false);
     // setActiveFour(false);
-     // Reset the state for the fourth page
+    // Reset the state for the fourth page
   };
 
   const handlePageChangeTwo = () => {
@@ -168,20 +169,18 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
 
 
   return (
-    <div>
-      <div className="inline-block w-[1147px] h-auto py-4">
-        <div className="z-0 absolute w-[1119px] pr-[67px] pl-[96px] py-[27px]">
+    <div className=" w-full h-auto py-4">
+      <div className="relative inline-block w-full">
+        <div className="z-0 absolute w-full pr-[96px] pl-[96px] py-[27px]">
           <div className="border-[1px]"></div>
         </div>
-        <div className="z-1 relative flex mt-5 gap-4 justify-between px-8 cursor-pointer w-[1147px]">
+        <div className="z-10 relative flex mt-5 gap-4 justify-between px-8  w-full">
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col items-center p-2 justify-center ${
-                !active
-                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                  : "h-1 w-1"
-              }`}
-              onClick={handlePageChange}
+              className={`flex flex-col items-center p-2 justify-center ${!active
+                ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                : "h-1 w-1"
+                }`}
             >
               <div
                 className={`rounded-full w-[1px] h-[1px]  bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -192,12 +191,11 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
 
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col p-2 items-center justify-center ${
-                activeTwo
-                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                  : "h-1 w-1"
-              }`}
-              onClick={handlePageChangeTwo}
+              className={`flex flex-col p-2 items-center justify-center ${activeTwo
+                ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                : "h-1 w-1"
+                }`}
+      
             >
               <div
                 className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -207,12 +205,11 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col p-2 items-center justify-center ${
-                activeThree
-                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                  : "h-1 w-1"
-              }`}
-              onClick={handlePageChangeThree}
+              className={`flex flex-col p-2 items-center justify-center ${activeThree
+                ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                : "h-1 w-1"
+                }`}
+   
             >
               <div
                 className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-cente`}
@@ -236,66 +233,66 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             <p className="text-[14px] font-400">Documents</p>
           </div> */}
         </div>
-        <div className=" my-5  rounded-[12px]">
-          <div className={`${!active ? "inline" : "hidden"}`}>
-            <PropertyInfo
-              active={active}
-              handlePageChangeTwo={handlePageChangeTwo}
-              returnToStartRegistration={returnToStartRegistration}
-              selectedArea={selectedArea}
-              selectedState={selectedState}
-              name={name}
-              numberOfHouses={numberOfHouses}
-              description={description}
-              size={size}
-              address={address}
-              setSelectedArea={setSelectedArea}
-              setSelectedState={setSelectedState}
-              setName={setName}
-              setAddress={setAddress}
-              setSize={setSize}
-              setNumberOfHouses={setNumberOfHouses}
-              setDescription={setDescription}
-            />
-          </div>
-          <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <AddPhotos
-              handlePageChangeThree={handlePageChangeThree}
-              handlePageChange={handlePageChange}
-              uploadedImage={uploadedImage}
-              uploadedImage2={uploadedImage2}
-              uploadedImage3={uploadedImage3}
-              setUploadedImage={setUploadedImage}
-              setUploadedImage2={setUploadedImage2}
-              setUploadedImage3={setUploadedImage3}
-            />
-          </div>
-          <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <ContactInfo
-              handlePageChangeTwo={handlePageChangeTwo}
-              managerPhoneNumber={managerPhoneNumber}
-              emergencyPhoneNumber={emergencyPhoneNumber}
-              utilityServicePhoneNumber={utilityServicePhoneNumber}
-              securityPhoneNumber={securityPhoneNumber}
-              setEmergencyPhoneNumber={setEmergencyPhoneNumber}
-              setManagerPhoneNumber={setManagerPhoneNumber}
-              setSecurityPhoneNumber={setSecurityPhoneNumber}
-              setUtilityServicePhoneNumber={setUtilityServicePhoneNumber}
-              handleSubmit={handleSubmit}
-              loading={loading}
-              yesOrNoModal={yesOrNoModal}
-              openYesOrNo={openYesOrNo}
-              closeYesOrNoModal={closeYesOrNoModal}
-              showConfirm={showConfirm}
-              closeAllModals={closeAllModals}
-              visibleAddProperty={visibleAddProperty}
-              setVisibleAddProperty={setVisibleAddProperty}
-            />
-          </div>
-          {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
+      </div>
+      <div className=" my-5  rounded-[12px]">
+        <div className={`${!active ? "inline" : "hidden"}`}>
+          <PropertyInfo
+            active={active}
+            handlePageChangeTwo={handlePageChangeTwo}
+            returnToStartRegistration={returnToStartRegistration}
+            selectedArea={selectedArea}
+            selectedState={selectedState}
+            name={name}
+            numberOfHouses={numberOfHouses}
+            description={description}
+            size={size}
+            address={address}
+            setSelectedArea={setSelectedArea}
+            setSelectedState={setSelectedState}
+            setName={setName}
+            setAddress={setAddress}
+            setSize={setSize}
+            setNumberOfHouses={setNumberOfHouses}
+            setDescription={setDescription}
+          />
+        </div>
+        <div className={`${activeTwo ? "inline" : "hidden"}`}>
+          <AddPhotos
+            handlePageChangeThree={handlePageChangeThree}
+            handlePageChange={handlePageChange}
+            uploadedImage={uploadedImage}
+            uploadedImage2={uploadedImage2}
+            uploadedImage3={uploadedImage3}
+            setUploadedImage={setUploadedImage}
+            setUploadedImage2={setUploadedImage2}
+            setUploadedImage3={setUploadedImage3}
+          />
+        </div>
+        <div className={`${activeThree ? "inline" : "hidden"}`}>
+          <ContactInfo
+            handlePageChangeTwo={handlePageChangeTwo}
+            managerPhoneNumber={managerPhoneNumber}
+            emergencyPhoneNumber={emergencyPhoneNumber}
+            utilityServicePhoneNumber={utilityServicePhoneNumber}
+            securityPhoneNumber={securityPhoneNumber}
+            setEmergencyPhoneNumber={setEmergencyPhoneNumber}
+            setManagerPhoneNumber={setManagerPhoneNumber}
+            setSecurityPhoneNumber={setSecurityPhoneNumber}
+            setUtilityServicePhoneNumber={setUtilityServicePhoneNumber}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            yesOrNoModal={yesOrNoModal}
+            openYesOrNo={openYesOrNo}
+            closeYesOrNoModal={closeYesOrNoModal}
+            showConfirm={showConfirm}
+            closeAllModals={closeAllModals}
+            visibleAddProperty={visibleAddProperty}
+            setVisibleAddProperty={setVisibleAddProperty}
+          />
+        </div>
+        {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
             <Documents handlePageChangeThree={handlePageChangeThree} />
           </div> */}
-        </div>
       </div>
     </div>
   );

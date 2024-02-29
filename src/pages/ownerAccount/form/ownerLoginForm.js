@@ -1,13 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import SliderAuth from "@/components/auth/slider";
-
 import Widget from "./widget";
 import Image from "next/image";
 
-const OwnerLoginForm = ({ closeForm }) => {
+const OwnerLoginForm = ({ closeForm, data }) => {
   return (
-    <div>
+    <div className="relative">
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
@@ -33,7 +32,7 @@ const OwnerLoginForm = ({ closeForm }) => {
               />
             </button>
           </div>
-          <Widget />
+          <Widget data={data}/>
         </div>
       </div>
     </div>

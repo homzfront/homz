@@ -19,7 +19,7 @@ const Setting = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-[1147px]">
+      <div className="w-full">
         <p className="font-[500] text-[20px] text-GrayHomz px-8 pt-8">
           Dashboard Settings
         </p>

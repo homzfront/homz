@@ -5,6 +5,7 @@ import AcceptAndRejectModel from "./components/acceptAndRejectModel";
 import ConfirmModal from "../components/confirmModal";
 import { ConfirmTenantRequest } from "@/api/requestService";
 import Dropdown from "../components/dropDownFilter";
+import timeAgo from "@/utils/timeAgo";
 
 const PendingRequest = ({
   popUpMenu,
@@ -40,26 +41,6 @@ const PendingRequest = ({
 
   console.log(pendingCount);
 
-  function timeAgo(timestamp) {
-    const currentDate = new Date();
-    const createdAtDate = new Date(timestamp);
-    const timeDifference = currentDate - createdAtDate;
-
-    const seconds = Math.floor(timeDifference / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    if (days > 1) {
-      return `${days} days ago`;
-    } else if (hours > 1) {
-      return `${hours} hours ago`;
-    } else if (minutes > 1) {
-      return `${minutes} minutes ago`;
-    } else {
-      return `${seconds} seconds ago`;
-    }
-  }
 
   // Example usage:
   const timestamp = "2024-01-19T05:14:45.672Z";
@@ -68,7 +49,7 @@ const PendingRequest = ({
   console.log(selectedDataId);
 
   return (
-    <div className="w-[1147px] p-8">
+    <div className="w-full p-8">
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="flex justify-between items-center">
