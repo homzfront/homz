@@ -285,11 +285,12 @@ try {
 };
 
 export const createPropertyOwnerWallet = async (BVNDetails) => {
-  const { bvn, bvnDateOfBirth } = BVNDetails;
+  const { bvn, bvnDateOfBirth, pinCode } = BVNDetails;
   try {
     const response = await api.post(`/wallet/create/property-owner`, {
       bvn,
       bvnDateOfBirth,
+      pincode: pinCode
     });
     console.log(response);
     return { success: true, upDateddata: response?.data.data };
@@ -379,3 +380,17 @@ export const fetchSpecificTenantRentPaymentOwner = async (id) => {
     throw error;
   }
 };
+
+export const ownerPinCreation = async (password, rePassword) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/property-owner`, {
+      pincode: password,
+      confirmPincode: rePassword,
+    });
+    console.log(response.data);
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    console.error("Error creating pin:", error);
+    return { success: false, error: error?.response?.data?.message };
+  }
+}

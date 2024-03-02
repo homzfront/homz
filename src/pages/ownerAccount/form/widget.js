@@ -64,6 +64,7 @@ const Widget = ({ data }) => {
       } catch (error) {
         console.error("Update error", error);
         toast.error("Update error", error);
+        setLoading(false);
       }
     }
   };

@@ -288,7 +288,7 @@ useEffect(() => {
             <button
               onClick={handleConfirm2}
               className={` ${
-                loading ? "pointer-events-none border-GrayHomz" : ""
+                loading ? "pointer-events-none" : ""
               } h-[48px] border border-BlueHomz rounded-md w-full flex justify-center items-center`}
             >
               {loading ? <LoadingForm /> : "Save Update"}

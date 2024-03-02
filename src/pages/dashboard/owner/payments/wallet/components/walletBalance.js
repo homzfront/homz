@@ -37,11 +37,10 @@ const WalletBalance = ({
 
   return (
     <div>
-      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-[550px] h-[132px] rounded-[12px]">
+      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-[100%] h-[132px] rounded-[12px]">
         {openForm && (
           <PopUpWalletCreationForm
             closeForm={closeForm}
-            setOpenForm={setOpenForm}
             fetchDataAgain={fetchDataAgain}
           />
         )}
@@ -91,7 +90,7 @@ const WalletBalance = ({
           )}
         </div>
         <div
-          className={`text-[18px] font-[400] px-5 text-white flex items-centeritems-center w-[40%] justify-start ${
+          className={`text-[17px] font-[400] px-5 text-white flex items-centeritems-center w-[40%] justify-start ${
             loading ? "ml-6 mb-2" : ""
           } ${
             illuminateWallet ? "" : "hidden"

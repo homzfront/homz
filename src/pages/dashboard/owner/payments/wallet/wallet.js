@@ -69,23 +69,28 @@ const Wallet = () => {
         theme="dark"
       />
       <div className="w-full flex gap-8">
-        <div>
-          <WalletBalance
-            illuminateWallet={illuminateWallet}
-            wallet={wallet}
-            fetchDataAgain={fetchDataAgain}
-            walletBalance={walletBalance}
-            loading={loading}
-          />
-          {/* <TransferDetails illuminateWallet={illuminateWallet} /> */}
+        <div className="w-[50%]">
+          <div>
+            <WalletBalance
+              illuminateWallet={illuminateWallet}
+              wallet={wallet}
+              fetchDataAgain={fetchDataAgain}
+              walletBalance={walletBalance}
+              loading={loading}
+            />
+          </div>
+          <div>
+            {/* <TransferDetails illuminateWallet={illuminateWallet} /> */}
+          </div>
         </div>
-        <div>
-          <Withdraw
-            setIlluminateWallet={setIlluminateWallet}
-            illuminateWallet={illuminateWallet}
-            fetchDataAgain={fetchDataAgain}
-          />
-          <TransferHis illuminateWallet={illuminateWallet} />
+        <div className="w-[50%]">
+          <div>
+            <Withdraw illuminateWallet={illuminateWallet} />
+          </div>
+          <div>
+            <TransferHis illuminateWallet={illuminateWallet} />
+          </div>
+
         </div>
       </div>
     </div>

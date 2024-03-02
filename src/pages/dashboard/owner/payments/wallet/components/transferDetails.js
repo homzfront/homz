@@ -146,7 +146,7 @@ const TransferDetails = ({ illuminateWallet }) => {
         )}
       </div>
 
-      <div className="p-5 border rounded-[12px] h-[533px] w-[542px] mt-6 flex flex-col justify-between">
+      <div className="p-5 border rounded-[12px] h-[533px] w-[100%] mt-6 flex flex-col justify-between">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {illuminateWallet ? (

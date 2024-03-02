@@ -11,6 +11,17 @@ export const enterpriseMe = async () => {
   }
 };
 
+export const enterpriseMePropertyOwner = async () => {
+  try {
+    const response = await api.get("/enterprisePlan/me/property-owners");
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching landlords:", error);
+    throw error;
+  }
+}
+
 export const updatePersonalInformation = async (updatedData) => {
   console.log(updatedData);
   try {
@@ -91,11 +102,12 @@ export const updatePassword = async (updatedData) => {
 };
 
 export const createWalletEnterprise = async (BVNDetails) => {
-  const { bvn, bvnDateOfBirth } = BVNDetails;
+  const { bvn, bvnDateOfBirth, pinCode } = BVNDetails;
   try {
     const response = await api.post(`/wallet/create/enterprise`, {
       bvn,
       bvnDateOfBirth,
+      pincode: pinCode
     });
     console.log(response);
     return { success: true, upDateddata: response?.data.data };
@@ -129,13 +141,25 @@ export const enterpriseWalletBalance = async () => {
 
 export const sendMoneyEnterpriseToOwner = async (details) => {
   console.log(details);
+  const {
+    pincode,
+    recipientName,
+    amount,
+    description,
+    id
+  } = details
   try {
-    const response = await api.post(`/wallet/debit/enterprise`, details);
+    const response = await api.post(`/wallet/enterprise/send/${id}/property-owner`,{
+      pincode,
+      recipientName,
+      amount,
+      description
+  });
     console.log(response);
     return { success: true, upDateddata: response?.data.responseBody };
   } catch (error) {
     console.error("error", error);
-    return { success: false, error: error?.response?.error }; // Adjusted this line
+    return { success: false, error: error?.response.data }; // Adjusted this line
   }
 };
 
@@ -222,3 +246,17 @@ export const enterpriseTenantForAnEstate = async (id) => {
     throw error;
   }
 };
+
+export const enterprisePinCreation = async (password, rePassword) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/enterprise`, {
+      pincode: password,
+      confirmPincode: rePassword,
+    });
+    console.log(response.data);
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    console.error("Error creating pin:", error);
+    return { success: false, error: error?.response?.data?.message };
+  }
+}

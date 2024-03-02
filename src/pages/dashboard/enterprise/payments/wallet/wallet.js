@@ -51,25 +51,34 @@ const Wallet = () => {
   console.log(illuminateWallet);
   console.log(walletBalance);
   return (
-    <div className="">
+    <div className="w-full">
       <div className="w-full flex gap-8">
-        <div className="">
-          <WalletBalance
-            illuminateWallet={illuminateWallet}
-            wallet={wallet}
-            fetchDataAgain={fetchDataAgain}
-            walletBalance={walletBalance}
-            loading={loading}
-          />
-          <TransferDetails
-            illuminateWallet={illuminateWallet}
-            setIlluminateWallet={setIlluminateWallet}
-            fetchDataAgain={fetchDataAgain}
-          />
+        <div className="w-[50%]">
+          <div>
+            <WalletBalance
+              illuminateWallet={illuminateWallet}
+              wallet={wallet}
+              fetchDataAgain={fetchDataAgain}
+              walletBalance={walletBalance}
+              loading={loading}
+            />
+          </div>
+          <div>
+            <TransferDetails
+              illuminateWallet={illuminateWallet}
+              setIlluminateWallet={setIlluminateWallet}
+              fetchDataAgain={fetchDataAgain}
+            />
+          </div>
         </div>
-        <div className="">
-          {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
-          <TransferHis illuminateWallet={illuminateWallet} />
+        <div className="w-[50%]">
+          <div>
+            <Withdraw illuminateWallet={illuminateWallet} />
+          </div>
+          <div>
+            <TransferHis illuminateWallet={illuminateWallet} />
+          </div>
+
         </div>
       </div>
     </div>

@@ -109,7 +109,7 @@ const Withdraw = ({
   console.log(banks);
   console.log(amount);
   return (
-    <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[503px]">
+    <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[100%]">
       <div className="flex gap-1 items-center">
         {illuminateWallet ? (
           <Image
