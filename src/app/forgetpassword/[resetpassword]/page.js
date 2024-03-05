@@ -68,7 +68,7 @@ const ResetPassword = () => {
 
     try {
       const response = await api.patch(
-        `/resetPassword/${token}`,
+        `auth/resetPassword/${token}`,
         {
           newPassword: formData.password,
         },

@@ -67,6 +67,8 @@ const TransferDetails = ({
     setSuccessfulTansferModal(false);
   };
 
+
+
   const handleSelect = (option) => {
     setSelectedLandlord(option);
   };
@@ -115,6 +117,7 @@ const TransferDetails = ({
         setSelectedLandlord(null);
         setSuccessfulTansferModal(!successfulTansferModal);
         toast.success("transfer successful");
+        fetchDataAgain()
       } else {
         toast.error("Internal server error, transfer failed", error);
         setLoading(false);
@@ -128,6 +131,12 @@ const TransferDetails = ({
       toast.error("Internal server error, transfer failed");
       setTransferToggleModal(false)
 
+    }
+    finally {
+      // This part will execute after try or catch block completes
+      setTimeout(() => {
+        setIlluminateWallet(true);
+      }, 2000); // 2000 milliseconds = 2 seconds delay
     }
   };
 

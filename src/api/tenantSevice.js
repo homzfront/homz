@@ -265,11 +265,12 @@ export const updatePaymentStatusTenant = async ({ id, status }) => {
 };
 
 export const createTenantWallet = async (BVNDetails) => {
-  const { bvn, bvnDateOfBirth } = BVNDetails;
+  const { bvn, bvnDateOfBirth, pinCode } = BVNDetails;
   try {
     const response = await api.post(`/wallet/create/tenant`, {
       bvn,
       bvnDateOfBirth,
+      pincode: pinCode
     });
     console.log(response);
     return { success: true, upDateddata: response?.data.data };
@@ -290,14 +291,16 @@ export const tenantWallet = async () => {
   }
 };
 
-export const payRent = async (amount) => {
-  console.log(amount);
+export const payRent = async (pincode) => {
+  console.log(pincode);
   try {
-    const response = await api.post(`/rentPayment/tenant`, amount);
+    const response = await api.post(`/rentPayment/tenant`, {
+      pincode
+    });
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
-    return { success: false, error: error?.response.data.message };
+    console.error("rent payment failed", error);
+    return { success: false, error: error?.response.data };
   }
 };
 
@@ -313,5 +316,20 @@ export const tenantWalletBalance = async () => {
     throw error;
   }
 };
+
+export const tenantPinCreation = async (password, rePassword) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/tenant`, {
+      pincode: password,
+      confirmPincode: rePassword,
+    });
+    console.log(response.data);
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    console.error("Error creating pin:", error);
+    return { success: false, error: error?.response?.data?.message };
+  }
+}
+
 
 

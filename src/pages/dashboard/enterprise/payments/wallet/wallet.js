@@ -72,9 +72,9 @@ const Wallet = () => {
           </div>
         </div>
         <div className="w-[50%]">
-          <div>
+          {/* <div>
             <Withdraw illuminateWallet={illuminateWallet} />
-          </div>
+          </div> */}
           <div>
             <TransferHis illuminateWallet={illuminateWallet} />
           </div>

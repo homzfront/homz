@@ -4,6 +4,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
 const PricingCard = ({ price, title, billing, features }) => (
   <div className=" max-w-[268px] m-auto flex flex-col gap-4 p-6 text-[16px] font-[400] h-[604px] border shadow-lg rounded-2xl">
@@ -154,12 +155,16 @@ const Pricing = () => {
             Start your 14-day free trial
           </h1>
           <div className="mt-4 sm:mt-0 flex w-full flex-col sm:flex-row sm:w-auto gap-4">
+<Link href={"/register"}>
             <button className="w-full sm:w-[116px] h-[48px] text-[16px]  hover:bg-transparent  hover:text-white hover:border rounded-md font-normal  text-BlueHomz  bg-white  px-2 py-1">
               Get started
             </button>
+</Link>
+            <Link href={"/contact-page"}>
             <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
               Contact us
             </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ const FailedModal = ({
 }) => {
   return (
     <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="max-w-[464px] m-auto bg-white h-[340px] rounded-md">
+      <div className="max-w-[464px] m-auto bg-white h-auto rounded-md">
         <div className=" w-[464px] flex flex-col justify-around p-8 items-center gap-3">
           <Image
             src={"/static/dashboard/enterprisemanager/payment/Failed_icon.png"}
@@ -33,7 +33,7 @@ const FailedModal = ({
           </button>
           <button
             onClick={returnHomeTwo}
-            className="mt-2 h-[48px] rounded-md w-full border border-BlueHomz text-BlueHomz text-[16px] font-[500]"
+            className={` ${buttonTwo? "block" : "hidden"} mt-2 h-[48px] rounded-md w-full border border-BlueHomz text-BlueHomz text-[16px] font-[500]`}
           >
             {buttonTwo}
           </button>

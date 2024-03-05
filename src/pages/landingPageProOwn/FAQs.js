@@ -65,9 +65,8 @@ const FAQs = () => {
         {FAQsData.map((data) => (
           <div
             key={data.id}
-            className={`flex flex-col  max-w-[380px] gap-2 h-auto pb-4 border-b-2 md:max-w-[768px] m-auto cursor-pointer ${
-              expandedFAQs[data.id] ? "expanded" : ""
-            }`}
+            className={`flex flex-col  max-w-[380px] gap-2 h-auto pb-4 border-b-2 md:max-w-[768px] m-auto cursor-pointer ${expandedFAQs[data.id] ? "expanded" : ""
+              }`}
             onClick={() => toggleFAQ(data.id)}
           >
             <div className="mt-[50px] flex justify-between flex-row">
@@ -93,10 +92,12 @@ const FAQs = () => {
         <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] ">
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
-        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+        <Link
+          // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+          href={"/contact-page"}>
           <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">
-            {/* Get in touch */}
-            Join Waitlist
+            Get in touch
+            {/* Join Waitlist */}
           </button>
         </Link>
       </div>

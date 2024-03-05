@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const SectionC = () => {
@@ -19,11 +20,11 @@ const SectionC = () => {
   ];
   return (
     <div className="mt-20 max-w-[1160px] m-auto px-6">
-        <div className=" md:hidden ">
-            <p className="text-center text-[23px] font-[700] text-BlackHomz">
-            Your All-in-One Solution For Comfort.
-            </p>
-        </div>
+      <div className=" md:hidden ">
+        <p className="text-center text-[23px] font-[700] text-BlackHomz">
+          Your All-in-One Solution For Comfort.
+        </p>
+      </div>
       <div className="flex flex-row-reverse justify-center md:gap-4 md:justify-between mt-10">
         <div className="hidden gap-8 md:flex flex-col max-w-sm">
           {cards.map((card, index) => (
@@ -61,18 +62,22 @@ const SectionC = () => {
       <div className="mt-20">
         <div className="flex flex-col gap-2 justify-around items-center p-8 bg-[url('/Background_image.png')] text-white rounded-lg shadow-2xl bg-cover bg-center bg-BlackHomz max-w-full xl:w-[1159px] h-[303px]">
           <h1 className="font-[700] sm:leading-none leading-tight text-center text-[20px] sm:text-[30px] md:text-[36px]">
-          Elevate Your Renting Experience Today
+            Elevate Your Renting Experience Today
           </h1>
           <p className="mt-[-10px] sm:leading-none leading-tight text-center font-normal  sm:font-[500] text-[16px] sm:text-[20px]">
-          Join over 2,000+ renters who are living a stress-free life.
-           </p>
+            Join over 2,000+ renters who are living a stress-free life.
+          </p>
           <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-4">
-            <button className="w-full sm:w-[171px] h-[48px] text-[16px] rounded-md font-[600px]  text-BlackHomz  bg-white  px-2 py-1 hover:bg-transparent hover:text-white border hover:border-white ">
-            Get started for free
-            </button>
-            <button className="w-full sm:w-[108px] h-[48px] text-[16px] rounded-md font-[500px]  text-white border bg-transparent px-2 py-1 hover:bg-white hover:text-BlackHomz">
-            Contact us
-            </button>
+            <Link href={"/register"}>
+              <button className="w-full sm:w-[171px] h-[48px] text-[16px] rounded-md font-[600px]  text-BlackHomz  bg-white  px-2 py-1 hover:bg-transparent hover:text-white border hover:border-white ">
+                Get started for free
+              </button>
+            </Link>
+            <Link href={"/contact-page"}>
+              <button className="w-full sm:w-[108px] h-[48px] text-[16px] rounded-md font-[500px]  text-white border bg-transparent px-2 py-1 hover:bg-white hover:text-BlackHomz">
+                Contact us
+              </button>
+            </Link>
           </div>
         </div>
       </div>

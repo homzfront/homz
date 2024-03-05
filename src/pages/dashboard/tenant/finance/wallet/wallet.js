@@ -64,9 +64,9 @@ const Wallet = ({ activeTwo }) => {
         pauseOnHover
         theme="dark"
       />
-        <div className="w-full flex gap-8 p-8">
-          {" "}
-          <div className="flex flex-col w-[50%] h-[400px] justify-between">
+      <div className="w-full flex gap-8 px-8">
+        <div className="flex flex-col w-[50%] h-[400px] justify-between">
+          <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
               fetchDataAgain={fetchDataAgain}
@@ -76,13 +76,18 @@ const Wallet = ({ activeTwo }) => {
               setIlluminateWallet={setIlluminateWallet}
               loading={loading}
             />
-            {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
+          </div>
+          {/* <div>
+            <Withdraw illuminateWallet={illuminateWallet} />
+              </div> */}
+          <div>
             <Activities illuminateWallet={illuminateWallet} />
           </div>
-          <div className="w-[48%]">
-            <TransferHis illuminateWallet={illuminateWallet} />
-          </div>
         </div>
+        <div className="w-[50%]">
+          <TransferHis illuminateWallet={illuminateWallet} />
+        </div>
+      </div>
     </div>
   );
 };

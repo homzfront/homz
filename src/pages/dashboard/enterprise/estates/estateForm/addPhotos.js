@@ -129,24 +129,7 @@ const AddPhotos = ({
             Previous
           </button>
         </div>
-        {uploadedImage === null ? (
-          <div className="">
-            <button
-              disabled
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-          </div>
-        ) : (
+        {uploadedImage !== null && uploadedImage2 !== null ?  (
           <div className="">
             <button
               onClick={handlePageChangeThree}
@@ -163,7 +146,24 @@ const AddPhotos = ({
               />
             </button>
           </div>
-        )}
+        ) : (
+          <div className="">
+            <button
+              disabled
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
+            </button>
+          </div>
+        ) }
       </div>
     </div>
   );

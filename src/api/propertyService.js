@@ -42,7 +42,7 @@ export const addBankPropertyOwner = async (details) => {
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
     console.error("Update error", error);
-    return { success: false, error: error?.response.data.message };
+    return { success: false, error: error?.response.data };
   }
 };
 

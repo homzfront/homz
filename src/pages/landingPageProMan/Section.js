@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Section = () => {
@@ -20,9 +21,9 @@ const Section = () => {
           </p>
         </div>
         <div className="flex justify-center items-center">
-          <button className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal  text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
+          <Link href={"/register"} className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal flex items-center justify-center text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
             Get Started
-          </button>
+          </Link>
         </div>
       </div>
       <div>

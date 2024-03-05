@@ -67,29 +67,29 @@ const Header = () => {
           <Link
             // href={"/landingPage-PropertyOwner"}
             className="hover:text-blue-400"
-            href={""}
+            href={"/"}
             onClick={() => setOpen(false)}
           >
             Management
           </Link>
           <Link
-            // href={"/landing-page-property"}
-            href={""}
+            href={"/landing-page-property"}
+            // href={""}
             className="hover:text-blue-400 "
             onClick={() => setOpen(false)}
           >
             Enterprise
           </Link>
           <Link
-            // href={"/landing-page-tenant"}
-            href={""}
+            href={"/landing-page-tenant"}
+            // href={""}
             className="hover:text-blue-400 "
             onClick={() => setOpen(false)}
           >
             Tenant
           </Link>
           <Link
-            href={""}
+            href={"/"}
             className="hover:text-blue-400 "
             onClick={() => setOpen(false)}
           >
@@ -118,20 +118,20 @@ const Header = () => {
         ) : (
           <>
             <Link 
-            // href="/login"
+            href="/login"
             // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-            href={""}
+            // href={""}
              className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
               Sign in
 
             </Link>
             <Link
-              // href="/register"
-           href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+              href="/register"
+          //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
               className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""}`}
             >
-              {/* Create Account */}
-              Join Waitlist
+              Create Account
+              {/* Join Waitlist */}
             </Link>
           </>
         )}
