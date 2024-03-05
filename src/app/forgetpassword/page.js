@@ -3,13 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "@/utils/api";
+import SliderAuth from "@/components/auth/slider";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -20,8 +18,8 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/forgotpassword",
+      const response = await api.post(
+        "/auth/forgotpassword",
         { email }
       );
 
@@ -41,8 +39,8 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/forgotpassword",
+      const response = await api.post(
+        "/auth/forgotpassword",
         { email }
       );
 
@@ -58,31 +56,6 @@ const ForgotPassword = () => {
     }
   };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-  };
-
-  const images = [
-    {
-      icon: "/Hand-drawn line_22.png",
-      alt: "people",
-    },
-    {
-      icon: "/Hand-drawn line (2).png",
-      alt: "people",
-    },
-    {
-      icon: "/Hand-drawn line (1).png",
-      alt: "people",
-    },
-  ];
 
   return (
     <div className="">
@@ -100,45 +73,9 @@ const ForgotPassword = () => {
         theme="dark"
       />
       <div className="flex m-auto max-w-[1440px] h-[1024px]">
-        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <div className="flex flex-col justify-around items-center">
-            <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
-              <Link href={"/"}>
-                <Image
-                  src={"/Homz_colorless.png"}
-                  className="ml-2"
-                  height={27}
-                  width={131}
-                  alt="img"
-                />
-              </Link>
-              <div className="">
-                <Slider {...settings}>
-                  {images.map((card, index) => (
-                    <div key={index} className="">
-                      <Image
-                        src={card.icon}
-                        height={399}
-                        width={333}
-                        alt={`${card.alt}-img`}
-                        className="w-full h-auto"
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-              <div>
-                <p className="text-[20px] mt-6 text-white text-start font-[500]">
-                  All-In-One Account Portal To Find, Manage And Monitor Your
-                  Property Effortlessly.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="font-[600] pt-[140px] text-GrayHomz3 text-center  text-[14px]">
-            &copy; 2022 Homz.ng. All rights reserved
-          </div>
-        </div>
+      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
+        <SliderAuth/>
+      </div>
         <div className="sm:w-[794px] w-full flex flex-col ">
           <div className="m-auto mt-32">
             <div className="h-[85%] px-6 w-320px sm:w-full">
@@ -215,7 +152,7 @@ const ForgotPassword = () => {
                     We have sent a reset password to <br /> {email}
                   </p>
                   <Link
-                    href={"/resetpassword"}
+                    href={"/"}
                     className="mt-5 bg-BlueHomz text-white font-[700] text-[16px] w-full rounded-[4px] h-[48px] text-center py-[10px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
                   >
                     Continue

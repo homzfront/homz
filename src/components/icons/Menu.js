@@ -8,7 +8,7 @@ const Menu = ({ className ="bi bi-list" }) => {
         width="16"
         height="16"
         fill="currentColor"
-        class={className}
+        className={className}
         viewBox="0 0 16 16"
       >
         <path

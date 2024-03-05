@@ -1,56 +1,90 @@
 "use client";
+import { fetchEstates } from "@/api/estateService";
+import useBodyScroll from "@/utils/useBodyScroll";
+import Loading from "@/components/mainmenu/loading";
+import Popup from "@/pages/tenantManagementPlan/popUp";
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const TenantManagement = () => {
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [estate, setEstate] = useState("");
+  const [loading, setLoading] = useState(false);
   const [houseAddress, setHouseAddress] = useState("");
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [estatesData, setEstatesData] = useState([])
 
-    async function handleSubmit(e) {
-      e.preventDefault();
-      if (fullName === '' || phoneNo === '' || estate === '' || houseAddress === '') {
-        return setFormError('Fill in all fields')
-      }
-  
-      // Prepare data to be sent
-      const requestData = {
-        fullName,
-        phoneNumber: phoneNo,
-        houseAddress,
-        estate
-      };
-  
-      // Send the data to your API endpoint
+  const handleSelect = (value) => {
+    setInputValue(value);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const response = await api.post(
-          "http://localhost:5000/api/tenants/createaccount",
-          requestData
-        );
-  
-        if (response.data.statuscode === 200 || 201) {
-          setSubmitConfirmationVisible(true);
-          console.log("form successfully filled ", response.data);
-        } else {
-          setFormError(response.data.message);
-        }
+        const data = await fetchEstates();
+        const estate = data.data?.results?.[0].data;
+        setEstatesData(estate);
+        setLoading(false);
       } catch (error) {
-        console.error("Error creating profile:", error);
-        setFormError(error.response?.data?.message)
+        // Handle error if needed
       }
+    };
+
+    fetchData();
+  }, []);
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (fullName === "" || phoneNo === "" || houseAddress === "") {
+      return setFormError("Fill in all required fields");
     }
 
+    if (loading) return; // Do nothing if already loading
+
+    setLoading(true);
+
+    // Prepare data to be sent
+    const requestData = {
+      fullName,
+      phoneNumber: parseInt(phoneNo),
+      houseAddress,
+      estate,
+    };
+
+    // Send the data to your API endpoint
+    try {
+      const response = await api.post("/tenants/createaccount", requestData);
+
+      if (response.data.statuscode === 200 || 201) {
+        setSubmitConfirmationVisible(true);
+        setLoading(false);
+        console.log("form successfully filled ", response.data);
+      } else {
+        setFormError(response.data.message);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      setFormError(error.response?.data?.message);
+      setLoading(false);
+    }
+  }
+
+  // useEffect to handle scrolling
+  useBodyScroll([isSubmitConfirmationVisible, loading]);
 
   return (
     <div className="pt-[64px] relative">
+      {loading && <Loading />}
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -65,7 +99,7 @@ const TenantManagement = () => {
             <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
               Your account has been successfully created.
             </p>
-            <Link href="/dashboard">
+            <Link href="/dashboard/tenant/dashboard">
               <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
                 Go to Dashboard
               </button>
@@ -111,17 +145,26 @@ const TenantManagement = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Estate
+                  Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the name of estate"
-                  value={estate}
+                  value={inputValue}
+                  placeholder="Enter the name of property"
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
-                  onChange={(e) => setEstate(e.target.value)}
+                  onClick={() => setShowPopup(true)}
+                  readOnly
                 />
+                {showPopup && (
+                  <Popup
+                    onClose={() => setShowPopup(false)}
+                    onSelect={handleSelect}
+                    setEstate={setEstate}
+                    estateData= {estatesData}
+                  />
+                )}
               </div>
-              
+
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
                   Phone Number
@@ -135,11 +178,16 @@ const TenantManagement = () => {
                 />
               </div>
               {formError && (
-                <span className="text-red-500 text-[14px] font-[400]">{formError}</span>
+                <span className="text-red-500 text-[14px] font-[400]">
+                  {formError}
+                </span>
               )}
             </form>
             <div className="w-[100%] mt-16 p-6">
-              <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">
+              <Link
+                href={"/dashboard/enterprise-property/dashboard"}
+                className="max-w-[1156px] mt-[40px] m-auto"
+              >
                 <button
                   onClick={handleSubmit}
                   className="w-full ml-1 rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz"

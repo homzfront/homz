@@ -3,17 +3,16 @@ import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 import useProfileStore from "@/store/profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
+import Loading from "@/components/mainmenu/loading";
+import useBodyScroll from "@/utils/useBodyScroll";
+import SliderAuth from "@/components/auth/slider";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -21,7 +20,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
+  useBodyScroll([loading])
 
   // const handleGoogleSignIn = () => {
   //   signIn('google');
@@ -29,88 +30,99 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!password || !email) {
-      setLoginError("Please fill in all fields.");
+    if (loading) return; // Do nothing if already loading
+  
+    setLoading(true); // Set loading to true when submitting the form
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      // Invalid email format
+      alert("Please enter a valid email address.");
       return;
     }
 
+    if (!password || !email) {
+      setLoginError("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
   
-
     // Check if the password meets the length requirement
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
+      setLoading(false);
       return;
     }
-
+  
     try {
-      const response = await api.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
-
+      const response = await api.post("/auth/login", {
+        email: email,
+        password: password,
+      });
+  
       if (response.data.statuscode === 201) {
-        toast.success("login successful");
-        console.log(response.data.data);
+        toast.success("Login successful");
         const { data } = response.data;
-        Cookies.set("profile", data.email);
-
-        
-        // This line sets isLoggedIn to true
- 
-        useProfileStore.setState({
-          user: data,
-          isLoggedIn: true,
-          loading: false,
-        });
-        router.push("/");
-        setEmail("");
-        setPassword("");
+  
+        // Fetch user profile immediately after login
+        const profileResponse = await api.get("/user/profile");
+  
+        if (profileResponse.data.statuscode === 200 || 201) {
+          const profileData = profileResponse.data;
+  
+          // Use the profileData to determine which page to navigate to
+          if (profileData?.user?.accounts?.[0].name === "TENANT") {
+            // If the user is an admin, navigate to the admin page
+            router.push("/dashboard/tenant/dashboard");
+          } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
+            // If the user is a property owner, navigate to the property owner page
+            router.push("/dashboard/enterprise-property/dashboard");
+          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY" || profileData?.user?.accounts?.[0].name === "MANAGE_PROPERTY") {
+            // If the user is a property owner, navigate to the property owner page
+            router.push("/dashboard/property-owner/dashboard");
+          } else {
+            // For other roles or if no specific role is defined, navigate to the default page
+            router.push("/");
+          }
+  
+          // Set user and profile in state
+          useProfileStore.setState({
+            user: data,
+            profile: profileData,
+            isLoggedIn: true,
+            loading: false,
+          });
+  
+          setLoading(false);
+          setEmail("");
+          setPassword("");
+        } else {
+          const profileError = profileResponse.data.message;
+          console.log("Unexpected status code for profile:", profileError);
+          setLoginError(profileError);
+          setLoading(false);
+        }
       } else {
         const error = response.data.message;
         console.log("Unexpected status code:", error);
         setLoginError(error);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Login error", error);
       setLoginError(error.response?.data?.message);
+      setLoading(false);
     }
   };
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-  };
-
+  
   const Visible = () => {
     setVisible(!visible);
   };
 
-  const images = [
-    {
-      icon: "/Hand-drawn line_22.png",
-      alt: "people",
-    },
-    {
-      icon: "/Hand-drawn line (2).png",
-      alt: "people",
-    },
-    {
-      icon: "/Hand-drawn line (1).png",
-      alt: "people",
-    },
-  ];
 
   return (
     <div className="">
+    
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -125,45 +137,10 @@ const Login = () => {
         theme="dark"
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
-        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <div className="flex flex-col  justify-around items-center">
-            <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
-              <Link href={"/"}>
-                <Image
-                  src={"/Homz_colorless.png"}
-                  className="ml-2"
-                  height={27}
-                  width={131}
-                  alt="img"
-                />
-              </Link>
-              <div className="">
-                <Slider {...settings}>
-                  {images.map((card, index) => (
-                    <div key={index} className="">
-                      <Image
-                        src={card.icon}
-                        height={399}
-                        width={333}
-                        alt={`${card.alt}-img`}
-                        className="w-full h-auto"
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-              <div>
-                <p className="text-[20px] mt-6 text-white text-start font-[500]">
-                  All-In-One Account Portal To Find, Manage And Monitor Your
-                  Property Effortlessly.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="font-[600] pt-[140px] text-GrayHomz3 text-center  text-[14px]">
-            &copy; 2022 Homz.ng. All rights reserved
-          </div>
-        </div>
+      {loading && <Loading />}
+      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
+        <SliderAuth/>
+      </div>
         <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 W-[320px] sm:w-full py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
@@ -181,7 +158,7 @@ const Login = () => {
                     </label>
                     <input
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
-                      type="email"
+                      type="text"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"

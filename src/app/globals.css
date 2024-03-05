@@ -1,49 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
 
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* Add this to your existing styles or create a separate stylesheet */
+.scrollbar-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: #d1e4ff;
+  border-top-right-radius: 30px;
+  /* Set the width of the scrollbar track */
+}
+
+.scrollbar-container::-webkit-scrollbar-thumb {
+  background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
+  padding-top: 10px;
+  border-top-right-radius: 30px;
+}
 
 .ListProperty {
   @apply grid justify-center;
   grid-template-columns: 1fr 1fr 2fr;
   gap: 20px;
+}
+
+.dashboard_main {
+  min-width: 1200px;
+  max-width: 1440px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.header {
+  border-bottom: 1px solid rgb(225, 225, 225);
+}
+
+.sidebar {
+  min-width: 260px;
 
 }
- 
-/* div.Hero {
-  @apply grid justify-center;
-  grid-template-columns: 0.8fr; Default setting for screens above md
 
-  @screen md {
-    grid-template-columns: 0.4fr 0.6fr; Adjust for screens md and below
+.dashboard {
+  flex-grow: 1; /* This will make the dashboard fill the remaining space */
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .dashboard_main {
+    min-width: 0px;
+    flex-direction: column;
   }
 }
 
-
-
-.inputs {
-  @apply border h-8 rounded-lg w-[240px] outline-none px-1 py-3;
-} */
-/* .react-tel-input .form-control {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-	height: 2.8125rem !important;
-  /* padding-left: 0 !important;
-  padding-right: 0 !important; */
-	/* width: 104% !important; */
-  /* padding-left: -20px !important/; */
-
-
-
-/* .hide-number-arrows {
-  -webkit-appearance: none;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-} */
 
 .custom-dropdown {
   appearance: none;
@@ -66,6 +82,59 @@
   background-color: #fff;
   padding: 10px;
   transition: box-shadow 0.3s ease-in-out;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2)
-  
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.radio-input {
+  /* Basic styles */
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+
+  /* Custom ring */
+  --ring-width: 1px;
+  --ring-color: #adadad; /* Replace with your desired color */
+  box-shadow: inset 0 0 0 var(--ring-width) var(--ring-color); /* transition: box-shadow 0.2s ease-in-out; */
+}
+
+/* Checked state styles */
+.radio-input &:checked {
+  background-color: #4e4e4e;
+}
+
+/* .radio-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+} */
+
+.custom-three-dots {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-three-dots svg circle:nth-child(1) {
+  stroke: white; /* Change the color of the first circle to white */
+}
+
+.custom-three-dots svg circle:nth-child(2) {
+  stroke: #006aff; /* Change the color of the second circle to the specified color */
+}
+
+.custom-three-dots svg circle:nth-child(3) {
+  stroke: white; /* Change the color of the third circle to white */
+}
+
+
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: calc(100vh - 20px); /* Adjust 20px as per your need for padding/margin */
+  overflow-y: auto;
 }

@@ -1,6 +1,7 @@
 "use client";
+import useBodyScroll from "@/utils/useBodyScroll";
+import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
-import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef } from "react";
@@ -15,14 +16,13 @@ const ListProperty = () => {
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      setUploadedImage(formData);
+      setUploadedImage(file);
     }
   };
 
@@ -32,6 +32,7 @@ const ListProperty = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (
       fullName === "" ||
@@ -48,20 +49,7 @@ const ListProperty = () => {
     formData.append("phoneNumber", phoneNumber);
     formData.append("businessName", businessName);
     formData.append("whatsappLink", whatsappLink);
-    // formData.append("email", Cookies.get("profile")); // Using the email from the user context
-    if (uploadedImage) {
-      formData.append("coverImage", uploadedImage.get("file"));
-    }
-    console.log(uploadedImage)
-    
-   // Log the contents of formData
-// Log the contents of formData
-console.log("FormData contents:");
-
-formData.forEach((value, key) => {
-  console.log(`${key}: ${value}`);
-});
-
+    formData.append("coverImage", uploadedImage);
 
     // Send the data to your API endpoint
     try {
@@ -74,28 +62,34 @@ formData.forEach((value, key) => {
           },
         }
       );
- 
+
       if (
         response.data.statuscode === 200 ||
         response.data.statuscode === 201
       ) {
         setSubmitConfirmationVisible(true);
         console.log("form successfully filled ", response.data);
+        setLoading(false);
       } else {
         setFormError(response.data.message);
-
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error creating profile:", error);
       setFormError(error.response?.data?.message);
       setFormError(error.response?.data?.error);
+      setLoading(false);
     }
   };
 
+  // useEffect to handle scrolling
+  useBodyScroll([loading, isSubmitConfirmationVisible]);
+
   return (
     <div className="pt-[64px] relative">
+      {loading && <Loading />}
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -110,7 +104,7 @@ formData.forEach((value, key) => {
             <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
               Your account has been successfully created.
             </p>
-            <Link href="/dashboard">
+            <Link href="/dashboard/property-owner/dashboard">
               <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
                 Go to Dashboard
               </button>
@@ -159,7 +153,7 @@ formData.forEach((value, key) => {
                       >
                         {uploadedImage ? (
                           <Image
-                            src={URL.createObjectURL(uploadedImage.get("file"))}
+                            src={URL.createObjectURL(uploadedImage)}
                             height={100}
                             width={100}
                             className="object-cover"

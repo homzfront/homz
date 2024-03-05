@@ -1,0 +1,62 @@
+"use client"
+import React, { useEffect } from "react";
+import HomeCard from "../components/homeCard";
+import RevCard from "../components/revCard";
+import TenantsCard from "../components/tenantCard";
+import Maintenance from "../components/maintenanceCard";
+import Image from "next/image";
+import Link from "next/link";
+import useEstateForOneStore from "@/store/useEstateForOne";
+
+const Dashboard = ({id}) => {
+  const { data, fetchData } = useEstateForOneStore();
+
+  useEffect(() => {
+    fetchData(id);
+  }, []);
+
+  console.log(data);
+  return (
+    <div className="w-full">
+      <div className="px-8 py-8">
+        <div className="mt-4">
+          <div className="w-[475px] flex gap-2 items-center">
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+              }
+              alt=""
+              height={16}
+              width={16}
+            />
+            <Link
+              href={"/dashboard/property-owner/estates"}
+              className="text-[14px] font-[400] text-GrayHomz2"
+            >
+              Go Back
+            </Link>
+            <Link
+              href={"/dashboard/property-owner/estates"}
+              className="text-[16px] font-[400] text-GrayHomz"
+            >
+              Property Name<> </>/
+            </Link>
+            <div className="text-[20px] font-[500] text-GrayHomz">
+              Dashboard
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 w-[784px] justify-between flex gap-5">
+          <HomeCard Data={data}/>
+          <RevCard id={id}/>
+        </div>
+        <div className="mt-8 flex gap-5">
+          <TenantsCard data={data}/>
+          <Maintenance  id={id}/>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

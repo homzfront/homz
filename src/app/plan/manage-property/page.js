@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import api from "@/utils/api";
 
 const ManageProperty = () => {
@@ -12,15 +11,32 @@ const ManageProperty = () => {
   const [estate, setEstate] = useState("");
   const [numberOfHouses, setNumberOfHouses] = useState("");
   const [estateAddress, setEstateAddress] = useState("");
+  const [email, setEmail] = useState ('')
 
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
 
+    useEffect(() => {
+      // Retrieve email from localStorage
+      if (typeof window !== 'undefined') {
+        const storedEmail = localStorage.getItem('email');
+        setEmail(storedEmail || '');
+      }
+  
+    }, []);
+
+
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (fullName === '' || phoneNo === '' || estate === '' || estateAddress === '' || numberOfHouses === '') {
-      return setFormError('Fill in all fields')
+    if (
+      fullName === "" ||
+      phoneNo === "" ||
+      estate === "" ||
+      estateAddress === "" ||
+      numberOfHouses === ""
+    ) {
+      return setFormError("Fill in all fields");
     }
 
     // Prepare data to be sent
@@ -30,13 +46,13 @@ const ManageProperty = () => {
       estate,
       estateAddress,
       numberOfHouses: parseInt(numberOfHouses), // Convert to integer if needed
-      email: Cookies.get("email"), // Using the email from the user context
+      email, // Using the email from the user context
     };
 
     // Send the data to your API endpoint
     try {
       const response = await api.post(
-        "http://localhost:5000/api/manageProperty/createProfile",
+        "/manageProperty/createProfile",
         requestData
       );
 
@@ -48,14 +64,25 @@ const ManageProperty = () => {
       }
     } catch (error) {
       console.error("Error creating profile:", error);
-      setFormError(error.response?.data?.message)
+      setFormError(error.response?.data?.message);
     }
   }
+
+  // useEffect to handle scrolling
+  useEffect(() => {
+    document.body.style.overflow = isSubmitConfirmationVisible
+      ? "hidden"
+      : "auto";
+    if (isSubmitConfirmationVisible) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [isSubmitConfirmationVisible]);
 
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
+        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <div className="bg-white p-8 rounded-md">
             <Image
               className="m-auto my-2"
@@ -70,7 +97,7 @@ const ManageProperty = () => {
             <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
               Your account has been successfully created.
             </p>
-            <Link href="/dashboard">
+            <Link href="/dashboard/property-owner/dashboard">
               <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
                 Go to Dashboard
               </button>
@@ -81,7 +108,7 @@ const ManageProperty = () => {
       <div className="max-w-[1156px] m-auto flex flex-col gap-[80px]">
         <div className="h-[29px]  mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse  sm:items-center p-7 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">
-            Manage Propeerty/Estate With Homz
+            Manage Property/Estate With Homz
           </p>
           <Link href={"/select-plan"}>
             <Image src={"/Link.png"} height={24} alt="img" width={132} />
@@ -105,11 +132,11 @@ const ManageProperty = () => {
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Estate
+             Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the name of estate"
+                  placeholder="Enter the name of property"
                   value={estate}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstate(e.target.value)}
@@ -133,11 +160,11 @@ const ManageProperty = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  No. of Houses in the Estate
+                  No. of Houses in the Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the no. of houses in the estate"
+                  placeholder="Enter the no. of houses in the property"
                   value={numberOfHouses}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setNumberOfHouses(e.target.value)}
@@ -150,8 +177,7 @@ const ManageProperty = () => {
                 <input
                   type="text"
                   placeholder="Enter your email"
-                  // value={user.email || emailII || Cookies.get('email')}
-                  value={Cookies.get("email")}
+                  value={email}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   disabled
                 />
@@ -162,11 +188,11 @@ const ManageProperty = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
-                  Address of Estate
+                  Address of Property
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter the estate's address"
+                  placeholder="Enter the property's address"
                   value={estateAddress}
                   className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                   onChange={(e) => setEstateAddress(e.target.value)}
