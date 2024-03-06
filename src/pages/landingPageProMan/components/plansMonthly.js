@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Plans = () => {
@@ -43,7 +44,7 @@ const Plans = () => {
         "Early rent incentives for renters",
         "Training & data migration"
       ],
-      status: true,
+      status: false,
     },
     {
       price: "N50,000",
@@ -104,14 +105,16 @@ const Plans = () => {
             <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
               {plan.billing}
             </p>
-            <button
-              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
-                ? "border border-BlueHomz text-BlueHomz bg-inputBg "
-                : "bg-BlueHomz hover:bg-blue-400 text-white"
-                }`}
-            >
-              {plan.status === true ? "Active" : "Start Now"}
-            </button>
+            <Link href={"/register"}>
+              <button
+                className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
+                  ? "border border-BlueHomz text-BlueHomz bg-inputBg "
+                  : "bg-BlueHomz hover:bg-blue-400 text-white"
+                  }`}
+              >
+                Get Started
+              </button>
+            </Link>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
                 <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||

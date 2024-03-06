@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import useFormDataStore from "@/store/useFornStore/useFormStore";
 
 const EnterprisePlan = () => {
   const [formError, setFormError] = useState("");
@@ -20,6 +21,23 @@ const EnterprisePlan = () => {
   const [loading, setLoading] = useState(false); // Loading state;
   useBodyScroll([loading, isSubmitConfirmationVisible]);
 
+
+  const data = {
+    fullName,
+    phoneNumber: parseInt(phoneNo),
+    estate,
+    estateAddress,
+    numberOfHouses: parseInt(numberOfHouses), // Convert to integer if needed
+    businessName,
+  } 
+
+
+  const handleClick = () => {
+    // Save collected data to Zustand store
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('enterData', JSON.stringify(data));
+    }
+  };
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -69,6 +87,8 @@ const EnterprisePlan = () => {
       setLoading(false);
     }
   }
+
+
 
   return (
     <div className="pt-[64px] relative">
@@ -191,9 +211,13 @@ const EnterprisePlan = () => {
             <div className="w-[100%] mt-12 p-6">
               <Link
                 href={"/plan/pricing"}
-                className="max-w-[1156px] mt-[40px] m-auto"
-              >
-                <button className="w-full ml-1  rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz">
+                className={`max-w-[1156px] mt-[40px] m-auto ${fullName === "" ||
+                  phoneNo === "" ||
+                  estate === "" ||
+                  estateAddress === "" ||
+                  businessName === "" ||
+                  numberOfHouses === "" ? "pointer-events-none" : ""}`}              >
+                <button onClick={handleClick} className="w-full ml-1  rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz">
                   Choose a paid plan to enjoy more features
                 </button>
               </Link>

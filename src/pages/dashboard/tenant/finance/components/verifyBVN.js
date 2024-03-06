@@ -63,6 +63,7 @@ const VerifyBVN = ({ closeForm, fetchDataAgain, handlePageChangeTwo }) => {
                 console.log("Form successfully updated", upDateddata);
                 setOpenSuccess(!openSuccess);
                 setLoading(false);
+                fetchDataAgain();
                 if (typeof window !== 'undefined') {
                     localStorage.removeItem('date');
                 }

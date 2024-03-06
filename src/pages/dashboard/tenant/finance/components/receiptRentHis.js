@@ -8,23 +8,13 @@ import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas"; // For converting HTML to canvas
 
-const Receipt = ({ closeReceipt, rentData }) => {
-  const [receiptData, setReceiptData] = useState("");
+const ReceiptRentHis = ({ closeReceipt, rentData }) => {
   const [copiedState, setCopiedState] = useState({
     copied: false,
   });
 
-  const [hide, setHide] = useState(false);
   console.log(rentData);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const Data = localStorage.getItem("RentResponse");
-      if (Data) {
-        const parsedData = JSON.parse(Data);
-        setReceiptData(parsedData);
-      }
-    }
-  }, []);
+
 
   const downloadPDF = () => {
     const input = document.getElementById("receipt-content");
@@ -44,7 +34,6 @@ const Receipt = ({ closeReceipt, rentData }) => {
     });
   };
 
-  console.log(receiptData);
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       <div
@@ -54,10 +43,10 @@ const Receipt = ({ closeReceipt, rentData }) => {
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-start">
             <div className="flex gap-4 items-center justify-center pl-4">
-            {rentData?.data?.enterPrise?.businessLogo?.url ?
+              {rentData?.enterPrise?.businessLogo?.url ?
                 <Image
                   src={
-                    rentData?.data?.enterPrise?.businessLogo?.url
+                    rentData?.enterPrise?.businessLogo?.url
                   }
                   alt=""
                   height={64}
@@ -73,7 +62,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 />
               }
               <p className="text-GrayHomz text-[18px] font-[500]">
-              {rentData?.data?.enterPrise?.businessName}
+                {rentData?.enterPrise?.businessName}
               </p>
             </div>
 
@@ -81,6 +70,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
               onClick={closeReceipt}
               className="cursor-pointer flex w-full justify-end"
             >
+
               <Image
                 src={
                   "/static/dashboard/enterprisemanager/payment/close-square.png"
@@ -102,7 +92,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Amount
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {addCommasToNumber(receiptData?.totalRent)}
+                {addCommasToNumber(rentData?.totalRent)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -110,7 +100,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Description
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {addYearsToValues(receiptData?.duration)}
+                {addYearsToValues(rentData?.duration)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -118,7 +108,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Payment Date
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {changeBackendDateFormat(receiptData?.createdAt)}
+                {changeBackendDateFormat(rentData?.createdAt)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -126,7 +116,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Next Due Date
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {changeBackendDateFormat(receiptData?.dueDate)}
+                {changeBackendDateFormat(rentData?.dueDate)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -134,7 +124,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Apartment Number
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {receiptData?.apartmentNumber}
+                {rentData?.apartmentNumber}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -142,7 +132,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Property
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {rentData?.data?.estateId?.name}
+                {rentData?.estateId?.name}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -150,7 +140,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Property Type
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {receiptData?.propertyType}
+                {rentData?.propertyType}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -158,7 +148,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Property Manager
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {rentData?.data?.enterPrise?.fullName}
+                {rentData?.enterPrise?.fullName}
               </p>
             </div>
           </div>
@@ -169,7 +159,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
               </p>
               <div className="flex items-center gap-2 w-[50%]">
                 <p className="text-BlueHomz text-[14px] font-[400]">
-                  {receiptData?.reference}
+                  {rentData?.reference}
                 </p>
                 <Image
                   src={"/static/dashboard/enterprisemanager/payment/copy.png"}
@@ -179,7 +169,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                   className="cursor-pointer"
                   onClick={() =>
                     handleCopyClick(
-                      `${receiptData?.reference}`,
+                      `${rentData?.reference}`,
                       "copied",
                       setCopiedState
                     )
@@ -218,7 +208,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                 {rentData?.data?.enterPrise?.user?.email}
+                {rentData?.enterPrise?.user?.email}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -229,7 +219,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                  {rentData?.data?.enterPrise?.phoneNumber}
+                {rentData?.enterPrise?.phoneNumber}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -240,7 +230,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.data?.enterPrise?.estateAddress}
+                {rentData?.enterPrise?.estateAddress}
               </p>
             </div>
           </div>
@@ -253,4 +243,4 @@ const Receipt = ({ closeReceipt, rentData }) => {
   );
 };
 
-export default Receipt;
+export default ReceiptRentHis;

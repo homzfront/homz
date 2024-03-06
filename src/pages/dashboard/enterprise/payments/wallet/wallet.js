@@ -64,19 +64,19 @@ const Wallet = () => {
             />
           </div>
           <div>
-            <TransferDetails
-              illuminateWallet={illuminateWallet}
-              setIlluminateWallet={setIlluminateWallet}
-              fetchDataAgain={fetchDataAgain}
-            />
           </div>
         </div>
         <div className="w-[50%]">
+          <TransferDetails
+            illuminateWallet={illuminateWallet}
+            setIlluminateWallet={setIlluminateWallet}
+            fetchDataAgain={fetchDataAgain}
+          />
           {/* <div>
             <Withdraw illuminateWallet={illuminateWallet} />
           </div> */}
           <div>
-            <TransferHis illuminateWallet={illuminateWallet} />
+            {/* <TransferHis illuminateWallet={illuminateWallet} /> */}
           </div>
 
         </div>

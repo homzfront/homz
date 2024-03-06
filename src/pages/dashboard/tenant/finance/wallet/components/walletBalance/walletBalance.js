@@ -15,7 +15,6 @@ const WalletBalance = ({
   wallet,
   fetchDataAgain,
   walletBalance,
-  setIlluminateWallet,
   loading
 }) => {
   const [data, setData] = useState("");
@@ -96,7 +95,6 @@ const WalletBalance = ({
           fetchDataAgain={fetchDataAgain}
           closeRentPay={closeRentPay}
           rentData={rentData}
-          setIlluminateWallet={setIlluminateWallet}
         />
       )}
       {accountInfo && (

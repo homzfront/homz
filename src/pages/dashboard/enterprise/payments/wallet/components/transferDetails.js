@@ -16,6 +16,7 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import { toast } from "react-toastify";
 import Eye from "@/components/icons/Eye";
 import BashedEye from "@/components/icons/BashedEye";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 
 const TransferDetails = ({
   illuminateWallet,
@@ -36,7 +37,13 @@ const TransferDetails = ({
   const [landlords, setLandlords] = useState([]);
   const [selectedLandlord, setSelectedLandlord] = useState(null)
   const [error, setError] = useState('')
+  const {data, fetchData} = useProfileEnterpriseMe();
+  
+  useEffect(()=>{
+    fetchData();
+  },[])
 
+  console.log(data);
 
   const Visible = () => {
     setVisible(!visible);
@@ -145,16 +152,16 @@ const TransferDetails = ({
   console.log(transfer);
 
   const openShareAbleReceipt = () => {
-    setShareAbleReceipt((prevShareAbleReceipt) => {
-      // Toggle shareAbleReceipt
-      const newShareAbleReceipt = !prevShareAbleReceipt;
+    // setShareAbleReceipt((prevShareAbleReceipt) => {
+    //   // Toggle shareAbleReceipt
+    //   const newShareAbleReceipt = !prevShareAbleReceipt;
 
-      // Set Receipt to false
-      setReceipt(false);
+    //   // Set Receipt to false
+    //   setReceipt(false);
 
-      // Return the new value for shareAbleReceipt
-      return newShareAbleReceipt;
-    });
+    //   // Return the new value for shareAbleReceipt
+    //   return newShareAbleReceipt;
+    // });
   };
 
   const closeShareAbleReceipt = () => {
@@ -180,6 +187,7 @@ const TransferDetails = ({
               transfer={transfer}
               setIlluminateWallet={setIlluminateWallet}
               fetchDataAgain={fetchDataAgain}
+              data={data}
             />
           </div>
         )}
@@ -218,7 +226,7 @@ const TransferDetails = ({
         )}
       </div>
 
-      <div className="p-5 border rounded-[12px] h-auto w-[100%] mt-6 flex flex-col gap-6">
+      <div className="p-5 border rounded-[12px] h-auto w-[100%]  flex flex-col gap-6">
         <div className="flex items-center">
           <div className="flex items-center gap-2">
             {illuminateWallet ? (

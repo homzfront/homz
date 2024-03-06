@@ -10,6 +10,7 @@ import {
 } from "@/api/tenantSevice";
 import { toast } from "react-toastify";
 import LoadingForm from "@/components/mainmenu/loadingForm";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const RentInfo = ({ profile }) => {
   console.log(profile);
@@ -24,6 +25,7 @@ const RentInfo = ({ profile }) => {
   const [property, setProperty] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState([]);
+
 
   const [confirm, setConfirm] = useState(false);
 
@@ -55,10 +57,7 @@ const RentInfo = ({ profile }) => {
 
   console.log(data);
 
-useEffect(() => {
-  if (!profile?.data?.rentInfo?._id) {
-    return;
-  }
+
 
   const rentInformation = async () => {
     try {
@@ -73,8 +72,13 @@ useEffect(() => {
     }
   };
 
-  rentInformation();
-}, [profile]);
+
+  useEffect(() => {
+    if (!profile?.data?.rentInfo?._id) {
+      return;
+    }
+    rentInformation();
+  }, [profile]);
 
   useEffect(() => {
     // Check if data and required properties are available
@@ -126,6 +130,15 @@ useEffect(() => {
     if (dueDate <= startDate) {
       setLoading(false);
       toast.error("Invalid start date and due date");
+      setError("Invalid start date and due date")
+      return;
+
+    }
+
+    if (!propertyType || !apartmentNumber || !rent || !duration || !startDate || !dueDate || !selectedValue || !property) {
+      setLoading(false);
+      setError("All fields are required");
+      toast.error("All fields are required");
       return;
     }
     try {
@@ -149,15 +162,30 @@ useEffect(() => {
         setLoading(false);
         toast.success("Update successful");
         setConfirm(!confirm);
+        const rentInformation = async () => {
+          try {
+            const response = await getSpecificTenantRentInfo(`${profile.data.rentInfo._id}`);
+            const rentInfo = response;
+            setData(rentInfo);
+          } catch (error) {
+            console.error("Error fetching rent information", error);
+            // Handle the error as needed
+          }
+        };
+        rentInformation();
       } else {
         console.error("Update failed", error);
-        toast.error(error);
+        toast.error(error?.msg);
         setLoading(false);
+        setError(error?.msg)
+        setError(error?.error?.message)
+        toast.error(error?.error?.message)
       }
     } catch (error) {
       console.error("Update error", error);
       setLoading(false);
       toast.error("Update failed");
+      setError(error)
     }
   }
   const handleConfirm = async (e) => {
@@ -191,15 +219,20 @@ useEffect(() => {
         setLoading(false);
         toast.success("Update successful");
         setConfirm(!confirm);
+        setError(error)
       } else {
         console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
+        setError(error?.msg)
+        setError(error?.error?.message)
+        toast.error(error?.error?.message)
       }
     } catch (error) {
       console.error("Update error", error);
       setLoading(false);
       toast.error("Update failed");
+      setError(error)
     }
   };
 
@@ -225,18 +258,27 @@ useEffect(() => {
             type={"type"}
             value={propertyType}
             placeholder={"2-Bedroom Bungalow"}
-            onChange={(e) => setPropertyType(e.target.value)}
+            onChange={(e) => {
+              setPropertyType(e.target.value)
+              setError("")
+            }}
           />
           <Input
             label={"Duration"}
-            onChange={(e) => setDuration(e.target.value)}
+            onChange={(e) => {
+              setDuration(e.target.value)
+              setError("")
+            }}
             value={duration}
             type={"type"}
             placeholder={"1 Year"}
           />
           <Input
             label={"Property"}
-            onChange={(e) => setProperty(e.target.value)}
+            onChange={(e) => {
+              setProperty(e.target.value)
+              setError("")
+            }}
             value={property}
             type={"type"}
             placeholder={"Property Name"}
@@ -245,27 +287,39 @@ useEffect(() => {
             label={"Start Date"}
             type={"date"}
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={(e) => {
+              setStartDate(e.target.value)
+              setError("")
+            }}
             placeholder={"4th January, 2023"}
           />
           <Input
             label={"Apartment Number"}
             value={apartmentNumber}
-            onChange={(e) => setApartmentNumber(e.target.value)}
+            onChange={(e) => {
+              setApartmentNumber(e.target.value)
+              setError("")
+            }}
             type={"type"}
             placeholder={"Apartment Number"}
           />
           <Input
             label={"Due Date"}
             value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+            onChange={(e) => {
+              setDueDate(e.target.value)
+              setError("")
+            }}
             type={"date"}
             placeholder={"4th January, 2024"}
           />
           <Input
             label={"Rent"}
             value={rent}
-            onChange={(e) => setRent(e.target.value)}
+            onChange={(e) => {
+              setRent(e.target.value)
+              setError("")
+            }}
             type={"number"}
             placeholder={"N750,000"}
           />
@@ -273,34 +327,34 @@ useEffect(() => {
             <label className="text-[14px] font-[500]">Payment Status</label>
             <Dropdown
               options={options}
-              selectOption={`${
-                data?.upDateddata?.paymentStatus === undefined
-                  ? "Select an option"
-                  : ` ${capitalizeFirstLetter(selectedValue)}`
-              }`}
+              selectOption={`${data?.upDateddata?.paymentStatus === undefined
+                ? "Select an option"
+                : ` ${capitalizeFirstLetter(selectedValue)}`
+                }`}
               onSelect={handleSelect}
             />
           </div>
+          {error && <span className="text-[10px] text-red-500 italic">
+            {error}
+          </span>}
         </div>
 
         <div className="mt-6">
           {data == !{} ? (
             <button
               onClick={handleConfirm2}
-              className={` ${
-                loading ? "pointer-events-none" : ""
-              } h-[48px] border border-BlueHomz rounded-md w-full flex justify-center items-center`}
+              className={` ${loading ? "pointer-events-none" : ""
+                } h-[48px] border border-BlueHomz rounded-md w-full flex justify-center items-center`}
             >
               {loading ? <LoadingForm /> : "Save Update"}
             </button>
           ) : (
             <button
               onClick={handleConfirm}
-              className={` ${
-                loading ? "pointer-events-none border-GrayHomz" : ""
-              } h-[48px] border border-BlueHomz rounded-md w-full flex justify-center items-center`}
+              className={` ${loading ? "pointer-events-none" : ""
+                } h-[48px] border bg-BlueHomz text-white rounded-md w-full flex justify-center items-center`}
             >
-              {loading ? <LoadingForm /> : "Save Update"}
+              {loading ? <LoadingFormII /> : "Update"}
             </button>
           )}
         </div>

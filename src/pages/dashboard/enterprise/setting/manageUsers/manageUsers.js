@@ -257,9 +257,9 @@ const ManageUsers = () => {
           </div>
         )} */}
 
-        <div className="mt-8">
+        {/* <div className="mt-8">
           <TableUser  estateData={data}/>
-        </div>
+        </div> */}
       </div>
       {/* {openModal && (
         <ConfirmModal

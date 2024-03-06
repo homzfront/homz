@@ -18,7 +18,9 @@ const StatusDropDownMain = ({
 console.log(value)
 console.log(selectedStatus)
   return (
-    <div ref={dropdownRef} className="dropdown w-full">
+    <div 
+    // ref={dropdownRef} 
+    className="dropdown w-full">
       {loading ? (
         <div className="w-[95px] flex justify-center">
           <LoadingTable />

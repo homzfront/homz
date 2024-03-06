@@ -60,7 +60,9 @@ const Tenants = () => {
     } );
 
   console.log(filteredData);
-
+  const fetchDataAgain = () => {
+    fetchData();
+  }
   console.log(selectedProperty);
   console.log(selectedStatus);
 
@@ -201,7 +203,7 @@ const Tenants = () => {
                   </button>
                 </div>
               </div>
-              <TenantsTwo Data={filteredData} />
+              <TenantsTwo Data={filteredData}  fetchDataAgain={fetchDataAgain}/>
             </div>
           )}
         </div>

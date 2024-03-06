@@ -156,7 +156,7 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
       description
   });
     console.log(response);
-    return { success: true, upDateddata: response?.data.responseBody };
+    return { success: true, upDateddata: response?.data?.data };
   } catch (error) {
     console.error("error", error);
     return { success: false, error: error?.response.data }; // Adjusted this line

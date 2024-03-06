@@ -7,42 +7,26 @@ import { tenantWallet, tenantWalletBalance } from "@/api/tenantSevice";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import tenantRentHis from "@/store/tenantStore/tenantRentHis";
+import { tenantWalletStore } from "@/store/tenantStore/useTenantWallet";
 
 const Wallet = ({ activeTwo }) => {
-  const [wallet, setWallet] = useState(false);
-  const [illuminateWallet, setIlluminateWallet] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [fetchData, setFetchData] = useState(false);
-  const [walletBalance, setWalletBalance] = useState("");
+  // const [illuminateWallet, setIlluminateWallet] = useState(true);
+  const { data, fetchData: fetchRentInfo } = tenantRentHis();
+  const { wallet, walletBalance, loading, fetchData: walletData, illuminateWallet } = tenantWalletStore();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await tenantWallet();
-        if (data.statuscode === 200 && data.success === true) {
-          const balance = await tenantWalletBalance();
-          setWalletBalance(balance);
-          console.log("Form successfully updated", data);
-          setIlluminateWallet(!illuminateWallet);
-          const wallet = data;
-          setWallet(wallet);
-          setLoading(false);
-        } else {
-          console.error("Fetching data failed", data.message);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
+    walletData()
+    if (wallet !== null) {
+      fetchRentInfo() 
+    }
+  }, [])
 
-    fetchData();
-  }, [fetchData]);
+  console.log(data)
 
   const fetchDataAgain = () => {
-    setFetchData(!fetchData);
+    walletData();
+    fetchRentInfo()
   };
 
   console.log(wallet);
@@ -73,7 +57,6 @@ const Wallet = ({ activeTwo }) => {
               wallet={wallet}
               activeTwo={activeTwo}
               walletBalance={walletBalance}
-              setIlluminateWallet={setIlluminateWallet}
               loading={loading}
             />
           </div>
@@ -81,11 +64,11 @@ const Wallet = ({ activeTwo }) => {
             <Withdraw illuminateWallet={illuminateWallet} />
               </div> */}
           <div>
-            <Activities illuminateWallet={illuminateWallet} />
+            {/* <Activities illuminateWallet={illuminateWallet} /> */}
           </div>
         </div>
         <div className="w-[50%]">
-          <TransferHis illuminateWallet={illuminateWallet} />
+          <TransferHis illuminateWallet={illuminateWallet} data={data} />
         </div>
       </div>
     </div>

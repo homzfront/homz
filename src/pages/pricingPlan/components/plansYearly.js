@@ -6,9 +6,9 @@ const PlansYearly = () => {
     {
       price: "N95,000",
       title: "Enterprise starter",
-      billing: "Billed yearly",
+      billing: "Billed Annually",
       features: [
-        "Up to 5 properties",
+        "Up to 10 Properties",
         "Up to 2 users",
         "Free Trial",
         "Accounts & reporting",
@@ -16,29 +16,39 @@ const PlansYearly = () => {
         "Maintenance management",
         "Property information",
         "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
     },
     {
       price: "N190,000",
       title: "Enterprise plus",
-      billing: "Billed yearly",
+      billing: "Billed Annually",
       features: [
-        "Up to 20 properties",
+        "Up to 30 Properties",
         "Up to 5 users",
         "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
         "Property information",
-        "Tenant",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
     },
     {
-      price: "N300,000",
+      price: "N500,000",
       title: "Enterprise premium",
-      billing: "Billed yearly",
+      billing: "Billed Annually",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -47,14 +57,19 @@ const PlansYearly = () => {
         "Whitelabels",
         "Maintenance management",
         "Property information",
-        "Tenant",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
     },
     {
       price: "Contact Sales", // You might want to provide an actual price for the premium plan
       title: "Premium plan",
-      billing: "Billed yearly",
+      billing: "Billed Annually",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -63,7 +78,12 @@ const PlansYearly = () => {
         "Whitelabels",
         "Maintenance management",
         "Property information",
-        "Tenant",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
     },
@@ -74,7 +94,7 @@ const PlansYearly = () => {
         {pricingPlans.map((plan, index) => (
           <div
             key={index}
-            className="flex flex-col justify-around p-6 text-[16px] font-[400] w-[265px] h-[604px] border shadow-lg rounded-2xl"
+            className="flex flex-col justify-around p-6 text-[16px] font-[400] w-[265px] h-[860px] border shadow-lg rounded-2xl"
           >
             <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
               {plan.price}
@@ -84,23 +104,23 @@ const PlansYearly = () => {
               {plan.billing}
             </p>
             <button
-              className={`h-[48px] rounded-lg text-[16px] w-full ${
-                plan.status === true
+              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                   ? "border border-BlueHomz text-BlueHomz bg-inputBg "
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
-              }`}
+                }`}
             >
               {plan.status === true ? "Active" : "Start Now"}
             </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
                 <div
-                  className={`h-[14px] w-[16px] ${
-                    plan.title === "Enterprise starter" &&
-                    feature === "Whitelabels"
-                      ? "opacity-[20%]" // Apply a different color class here
-                      : "bg-green-200"
-                  } flex justify-center border rounded-full`}
+                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                    ? "opacity-[20%]" // Apply a different color class here
+                    : "bg-green-200"
+                    } flex justify-center border rounded-full`}
                 >
                   <Image
                     height={10.5}
@@ -110,12 +130,13 @@ const PlansYearly = () => {
                   />
                 </div>
                 <p
-                  className={` ${
-                    plan.title === "Enterprise starter" &&
-                    feature === "Whitelabels"
-                      ? "text-GrayHomz5"
-                      : ""
-                  }`}
+                  className={` ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                    ? "text-GrayHomz5"
+                    : ""
+                    }`}
                 >
                   {feature}
                 </p>

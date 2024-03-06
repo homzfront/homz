@@ -16,7 +16,7 @@ import jsPDF from 'jspdf';
 import Eye from "@/components/icons/Eye";
 import BashedEye from "@/components/icons/BashedEye";
 
-const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminateWallet }) => {
+const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   const [proceed, setProceed] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [receipt, setReceipt] = useState(false);
@@ -34,7 +34,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
   };
 
 
-console.log(pincode)
+  console.log(pincode)
 
   const handleOptionSelect = (option) => {
     console.log("Selected option:", option);
@@ -64,10 +64,10 @@ console.log(pincode)
   const proceeding = () => {
     if (pincode.length === 4) {
       setProceed(!proceed);
-    }   else {
+    } else {
       setError("Pincode should be 4 digits")
     }
-   
+
   };
 
   const closeProceeding = () => {
@@ -82,8 +82,7 @@ console.log(pincode)
 
       if (success) {
         setLoading(false);
-        console.log("Form successfully updated", upDateddata);
-        setIlluminateWallet(false);
+        console.log("Rent successfully paid", upDateddata);
         if (typeof window !== "undefined") {
           localStorage.setItem("RentResponse", JSON.stringify(upDateddata));
         }
@@ -147,7 +146,7 @@ console.log(pincode)
       ) : failed ? (
         <FailedModal
           header={"Unsuccessful"}
-          body={"Your wallet balance is not sufficient for this transaction"}
+          body={error === "Invalid pin" ? error : "Your wallet balance is not sufficient for this transaction"}
           button={"Close"}
           returnHome={close}
         />
@@ -311,14 +310,21 @@ console.log(pincode)
               </span>
             }
           </div>
+          {
+            rentData ? <button
+              onClick={proceeding}
+              className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
+            >
+              {/* {addCommasToNumber(RentValue)} */}
+              {addCommasToNumber(rentData?.data?.totalRent)}
+            </button> : <button
+              className="pointer-events-none w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
+            >
+              {/* {addCommasToNumber(RentValue)} */}
+              {addCommasToNumber(rentData?.data?.totalRent)}
+            </button>
+          }
 
-          <button
-            onClick={proceeding}
-            className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
-          >
-            {/* {addCommasToNumber(RentValue)} */}
-            {addCommasToNumber(rentData?.data?.totalRent)}
-          </button>
         </div>
       )}
     </div>

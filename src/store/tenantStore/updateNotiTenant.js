@@ -20,3 +20,4 @@ const updateNotiTenant = create((set) => ({
 }));
 
 export default updateNotiTenant;
+

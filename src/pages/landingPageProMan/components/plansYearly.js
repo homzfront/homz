@@ -1,12 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-const Plans = () => {
+const PlansYearly = () => {
   const pricingPlans = [
     {
-      price: "N9,500",
+      price: "N95,000",
       title: "Enterprise starter",
-      billing: "Billed monthly",
+      billing: "Billed Annually",
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
@@ -25,9 +26,9 @@ const Plans = () => {
       status: false,
     },
     {
-      price: "N19,000",
+      price: "N190,000",
       title: "Enterprise plus",
-      billing: "Billed monthly",
+      billing: "Billed Annually",
       features: [
         "Up to 30 properties",
         "Up to 5 users",
@@ -43,12 +44,12 @@ const Plans = () => {
         "Early rent incentives for renters",
         "Training & data migration"
       ],
-      status: true,
+      status: false,
     },
     {
-      price: "N50,000",
+      price: "N500,000",
       title: "Enterprise premium",
-      billing: "Billed monthly",
+      billing: "Billed Annually",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -69,7 +70,7 @@ const Plans = () => {
     {
       price: "Contact Sales", // You might want to provide an actual price for the premium plan
       title: "Premium plan",
-      billing: "Billed monthly",
+      billing: "Billed Annually",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -88,9 +89,8 @@ const Plans = () => {
       status: false,
     },
   ];
-
   return (
-    <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
+    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
@@ -104,23 +104,26 @@ const Plans = () => {
             <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
               {plan.billing}
             </p>
-            <button
-              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
-                ? "border border-BlueHomz text-BlueHomz bg-inputBg "
-                : "bg-BlueHomz hover:bg-blue-400 text-white"
-                }`}
-            >
-              {plan.status === true ? "Active" : "Start Now"}
-            </button>
+            <Link href={"/register"}>
+              <button
+                className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
+                  ? "border border-BlueHomz text-BlueHomz bg-inputBg "
+                  : "bg-BlueHomz hover:bg-blue-400 text-white"
+                  }`}
+              >
+                Get Started
+              </button>
+            </Link>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
-                <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
-                  (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
-                  (plan.title === "Enterprise plus" && feature === "Training & data migration")
-                  || (plan.title === "Enterprise starter" && feature === "Training & data migration")
-                  ? "opacity-[20%]" // Apply a different color class here
-                  : "bg-green-200"
-                  } flex justify-center border rounded-full`}
+                <div
+                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                    ? "opacity-[20%]" // Apply a different color class here
+                    : "bg-green-200"
+                    } flex justify-center border rounded-full`}
                 >
                   <Image
                     height={10.5}
@@ -130,7 +133,7 @@ const Plans = () => {
                   />
                 </div>
                 <p
-                  className={`  ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
+                  className={` ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
                     (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
                     (plan.title === "Enterprise plus" && feature === "Training & data migration")
                     || (plan.title === "Enterprise starter" && feature === "Training & data migration")
@@ -149,4 +152,4 @@ const Plans = () => {
   );
 };
 
-export default Plans;
+export default PlansYearly;

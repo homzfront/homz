@@ -394,3 +394,14 @@ export const ownerPinCreation = async (password, rePassword) => {
     return { success: false, error: error?.response?.data?.message };
   }
 }
+
+export const getRentHisOwner = async () => {
+  try {
+    const response = await api.get(`/rentPayment/property-owner`);
+    console.log(response.data.data)
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("failed to get rent history", error);
+    return { success: false, error: error?.response.data };
+  }
+};

@@ -304,6 +304,18 @@ export const payRent = async (pincode) => {
   }
 };
 
+export const getRentHis = async () => {
+  try {
+    const response = await api.get(`/rentPayment/tenant`);
+    console.log(response.data.data)
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    console.error("failed to get rent history", error);
+    return { success: false, error: error?.response.data };
+  }
+};
+
+
 
 
 export const tenantWalletBalance = async () => {

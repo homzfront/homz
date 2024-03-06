@@ -159,7 +159,7 @@ const Tenants = ({ id }) => {
             </div>
           </div>
           <div className="h-[734px] mb-4">
-            <TenantsTwo Data={filteredData} />
+            <TenantsTwo Data={filteredData}/>
           </div>
         </div>
       )}

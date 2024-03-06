@@ -79,7 +79,7 @@ const Payment = () => {
         selectedProperty={selectedProperty} 
         clear={clear}
       />
-      <Widget rentData={filteredData} rentLoading={rentLoading} />
+      <Widget rentData={filteredData} fetchRentData={fetchRentData} rentLoading={rentLoading} />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue
 import addCommasToNumber from '@/utils/addCommasToNumber';
 
 
-const Tenants = ({rentData, rentLoading}) => {
+const Tenants = ({rentData, rentLoading, fetchRentData}) => {
   const { data, loading, fetchData } = useEnterpriseRevenueStore();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Tenants = ({rentData, rentLoading}) => {
         />
       </div>
       <div className="mt-6">
-        <TenantData data={rentData} loading={rentLoading}/>
+        <TenantData data={rentData} fetchRentData={fetchRentData} loading={rentLoading}/>
       </div>
     </div>
   )
