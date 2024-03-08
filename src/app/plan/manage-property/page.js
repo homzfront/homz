@@ -27,7 +27,6 @@ const ManageProperty = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
     if (
       fullName === "" ||
       phoneNo === "" ||
@@ -36,9 +35,12 @@ const ManageProperty = () => {
       estateAddress === "" ||
       numberOfHouses === ""
     ) {
+      setLoading(false);
       return setFormError("Fill in all fields");
+      
     }
-
+    
+    setLoading(true);
     // Prepare data to be sent
     const requestData = {
       fullName,
