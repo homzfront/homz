@@ -7,19 +7,19 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const PaymentHis = ({tenantData}) => {
-  const tenantId = tenantData?.data?._id
-  console.log(tenantId);
-  const {
-    data,
-    loading,
-    fetchData
-  } = useRentPaymentStore();
+//   const tenantId = tenantData?.data?._id
+//   console.log(tenantId);
+//   const {
+//     data,
+//     loading,
+//     fetchData
+//   } = useRentPaymentStore();
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+//   useEffect(() => {
+//     fetchData()
+//   }, [])
 
-console.log(data)
+// console.log(data)
 console.log(tenantData);
   const boxes = [
     {
@@ -29,7 +29,7 @@ console.log(tenantData);
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      money: `${addCommasToNumber(data?.totalRent)}`,
+      // money: `${addCommasToNumber(data?.totalRent)}`,
     },
     {
       id: 2,
@@ -38,8 +38,8 @@ console.log(tenantData);
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: `${data?.rentInfo?.paymentStatus === "paid" ? "------" : addCommasToNumber(data?.totalRent) }`,
-      dueDate: `${changeBackendDateFormat(data?.dueDate)}`
+      // money: `${data?.rentInfo?.paymentStatus === "paid" ? "------" : addCommasToNumber(data?.totalRent) }`,
+      // dueDate: `${changeBackendDateFormat(data?.dueDate)}`
     },
     {
       id: 3,
@@ -67,7 +67,7 @@ console.log(tenantData);
       }
       </div>
       <div>
-        <Table tenantData={tenantData} data={data}/>
+        <Table tenantData={tenantData}/>
       </div>
     </div>
   );

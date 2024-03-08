@@ -8,10 +8,18 @@ import React, { useEffect, useState } from "react";
 
 
 
-const Table = ({tenantData, data}) => {
+const Table = ({tenantData}) => {
   console.log(tenantData?.data);
   const tenantId = tenantData?.data?._id
-console.log(data)
+  const {
+    data,
+    loading,
+    fetchData
+  } = useRentPaymentStore();
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
 
   console.log(data?.length);
