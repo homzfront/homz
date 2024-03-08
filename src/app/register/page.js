@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
 import SliderAuth from "@/components/auth/slider";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const Register = () => {
   const router = useRouter();
@@ -84,6 +85,7 @@ const Register = () => {
     setVisible(!visible);
   };
 
+  useBodyScroll([loading])
 
 
   return (
