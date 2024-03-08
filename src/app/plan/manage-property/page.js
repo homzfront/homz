@@ -10,7 +10,7 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const ManageProperty = () => {
   const [formError, setFormError] = useState("");
-  const [loading, setLaoding] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [fullName, setFullName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [estateDesc, setEstateDesc] = useState("");
@@ -27,7 +27,7 @@ const ManageProperty = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLaoding(true);
+    setLoading(true);
     if (
       fullName === "" ||
       phoneNo === "" ||
@@ -37,14 +37,6 @@ const ManageProperty = () => {
       numberOfHouses === ""
     ) {
       return setFormError("Fill in all fields");
-    }
-
-    if (
-
-      phoneNo.length !== 11
-
-    ) {
-      return setFormError("Phone number should be 11 digits");
     }
 
     // Prepare data to be sent
@@ -67,15 +59,16 @@ const ManageProperty = () => {
 
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
+        setLoading(false)
         console.log("form successfully filled ", response.data);
       } else {
         setFormError(response.data.message);
-        setLaoding(false)
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error creating profile:", error);
       setFormError(error.response?.data?.message);
-      setLaoding(false)
+      setLoading(false)
     }
   }
 
