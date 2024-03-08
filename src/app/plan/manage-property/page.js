@@ -36,7 +36,7 @@ const ManageProperty = () => {
       numberOfHouses === ""
     ) {
       setLoading(false);
-      return setFormError("Fill in all fields");
+      return setFormError("Fill in all required fields");
       
     }
     
