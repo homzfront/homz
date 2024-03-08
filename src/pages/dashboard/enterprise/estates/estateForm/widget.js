@@ -31,6 +31,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [size, setSize] = useState("");
   const [numberOfHouses, setNumberOfHouses] = useState("");
   const [description, setDescription] = useState("");
+  
 
   // addphotos
   const [uploadedImage, setUploadedImage] = useState(null);

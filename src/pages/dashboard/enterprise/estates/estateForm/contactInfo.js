@@ -87,6 +87,7 @@ const ContactInfo = ({
           label={"Manager’s Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"number"}
+          span={"*"}
           value={managerPhoneNumber}
           onChange={(e) => {
             setManagerPhoneNumber(e.target.value);
@@ -143,13 +144,13 @@ const ContactInfo = ({
           </button>
         </div>
         <div className="flex gap-4">
-          <button
+          {/* <button
             onClick={ableAddProperty}
             className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
           >
             Skip
-          </button>
-          {visibleAddProperty ? (
+          </button> */}
+          {managerPhoneNumber !== "" ? (
             <button
               onClick={openYesOrNo}
               className={`text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[150px] justify-center items-center ${

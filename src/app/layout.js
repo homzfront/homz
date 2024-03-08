@@ -11,7 +11,7 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 
 export const metadata = {
   title: "Homz",
-  description: "Effortless Property Ownership Starts Here.",
+  description: "Homzng is a integrated estate management platform for property managers, Landlords & Tenants",
   icons: {
     icon: "/icon.png",
   },

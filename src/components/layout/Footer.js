@@ -26,7 +26,7 @@ const Footer = () => {
             <div className="mt-8 md:mt-3 lg:mt-8  ">
               <p className="mb-1">Follow Us</p>
               <div className="flex gap-2">
-                <Link href={""}>
+                <Link href={"https://www.instagram.com/homzng"}>
                   <Image
                     src={"/ph_instagram-logo-fill.png"}
                     alt="Instagram"
@@ -43,7 +43,7 @@ const Footer = () => {
                     width={"25"}
                   />
                 </Link>
-                <Link href={""}>
+                <Link href={"https://twitter.com/homzng"}>
                   <Image
                     src={"/ant-design_twitter-circle-filled.png"}
                     alt="Twitter"
@@ -133,7 +133,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-10 m-auto lg:max-w-full max-w-[338px] md:text-sm lg:text-center">
-          &copy; 2022 Homz.ng. All rights reserved
+          &copy; 2024 Homz.ng. All rights reserved
         </div>
       </div>
     </div>

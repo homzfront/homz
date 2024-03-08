@@ -7,31 +7,31 @@ const SelectPlan = () => {
     {
       id: 1,
       image: "/Image13.png",
-      title: "Manage Property/Estate",
-      content: "Monitor your Estates & properties with an intuitive dashboard.",
+      title: "Landlord",
+      content: "As a landlord, monitor your properties, tenants & rent payments in one place.",
       link: "plan/manage-property",
     },
     {
       id: 2,
       image: "/Image11.png",
-      title: "Tenant Management",
+      title: "Tenant",
       content:
-        "Streamline your rent payment & savings, home maintenance in one place.",
+        "As a tenant, pay rent, request maintenance services in one place.",
       link: "plan/tenant-management",
     },
     {
       id: 3,
       image: "/Image12.png",
-      title: "Enterprise Plan ",
+      title: "Property Manager",
       content:
-        "Seamless & efficient solution to manage your Tenants & Properties.",
+        "As a property manager, manage properties & tenants with our dashboard.",
       link: "plan/enterprise-plan",
     },
     {
       id: 4,
       image: "/Image14.png",
       title: "List Property",
-      content: "List your property & find verified renters & buyers with ease.",
+      content: "List your property & find verified Tenants & buyers with ease.",
       link: "plan/list-property",
     },
   ];
@@ -71,7 +71,7 @@ const SelectPlan = () => {
                   <div className="font-[500] w-full h-[10vh]  px-6 text-[20px] text-BlackHomz">
                     <h1 className="text-start">{data.title}</h1>
                   </div>
-                  <p className="font-[400] mt-[-10px] text-[16px] text-GrayHomz px-6">
+                  <p className="font-[400] mt-[-40px] text-[16px] text-GrayHomz px-6">
                     {data.content}
                   </p>
 

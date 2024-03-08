@@ -1,10 +1,26 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import Box from "../../components/box";
 import Table from "../components/table";
+import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const PaymentHis = ({tenantData}) => {
+  const tenantId = tenantData?.data?._id
+  console.log(tenantId);
+  const {
+    data,
+    loading,
+    fetchData
+  } = useRentPaymentStore();
 
+  useEffect(() => {
+    fetchData()
+  }, [])
 
+console.log(data)
+console.log(tenantData);
   const boxes = [
     {
       id: 1,
@@ -13,7 +29,7 @@ const PaymentHis = ({tenantData}) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      money: "N2,500,000",
+      money: `${addCommasToNumber(data?.totalRent)}`,
     },
     {
       id: 2,
@@ -22,8 +38,8 @@ const PaymentHis = ({tenantData}) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: "N2,500,000",
-      dueDate: "Due date: 4th January, 2024"
+      money: `${data?.rentInfo?.paymentStatus === "paid" ? "------" : addCommasToNumber(data?.totalRent) }`,
+      dueDate: `${changeBackendDateFormat(data?.dueDate)}`
     },
     {
       id: 3,
@@ -51,7 +67,7 @@ const PaymentHis = ({tenantData}) => {
       }
       </div>
       <div>
-        <Table tenantData={tenantData} />
+        <Table tenantData={tenantData} data={data}/>
       </div>
     </div>
   );

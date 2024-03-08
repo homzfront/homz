@@ -5,7 +5,7 @@ const Plans = () => {
   const pricingPlans = [
     {
       price: "N9,500",
-      title: "Enterprise starter",
+      title: "Enterprise Starter",
       billing: "Billed monthly",
       features: [
         "Up to 10 Properties",
@@ -23,10 +23,11 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: false,
+      interval: "monthly"
     },
     {
       price: "N19,000",
-      title: "Enterprise plus",
+      title: "Enterprise Plus",
       billing: "Billed monthly",
       features: [
         "Up to 30 properties",
@@ -44,10 +45,11 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: true,
+      interval: "monthly"
     },
     {
       price: "N50,000",
-      title: "Enterprise premium",
+      title: "Enterprise Premium",
       billing: "Billed monthly",
       features: [
         "Up to 100 properties",
@@ -65,6 +67,7 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: false,
+      interval: "monthly"
     },
     {
       price: "Contact Sales", // You might want to provide an actual price for the premium plan
@@ -86,6 +89,7 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: false,
+      interval: "monthly"
     },
   ];
 

@@ -1,14 +1,21 @@
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
-const PlansYearly = () => {
+const PlansYearly = ({ data }) => {
+
+  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState();
+  const router = useRouter()
+
+
   const pricingPlans = [
     {
       price: "N95,000",
-      title: "Enterprise starter",
-      billing: "Billed yearly",
+      title: "Enterprise Starter",
+      billing: "Billed Annually",
       features: [
-        "Up to 5 properties",
+        "Up to 10 Properties",
         "Up to 2 users",
         "Free Trial",
         "Accounts & reporting",
@@ -16,29 +23,41 @@ const PlansYearly = () => {
         "Maintenance management",
         "Property information",
         "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
+      interval: "annually"
     },
     {
       price: "N190,000",
-      title: "Enterprise plus",
-      billing: "Billed yearly",
+      title: "Enterprise Plus",
+      billing: "Billed Annually",
       features: [
-        "Up to 20 properties",
+        "Up to 30 Properties",
         "Up to 5 users",
         "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
         "Property information",
-        "Tenant",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
+      interval: "annually"
     },
     {
-      price: "N300,000",
-      title: "Enterprise premium",
-      billing: "Billed yearly",
+      price: "N500,000",
+      title: "Enterprise Premium",
+      billing: "Billed Annually",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -47,14 +66,20 @@ const PlansYearly = () => {
         "Whitelabels",
         "Maintenance management",
         "Property information",
-        "Tenant",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
+      interval: "annually"
     },
     {
       price: "Contact Sales", // You might want to provide an actual price for the premium plan
-      title: "Premium plan",
-      billing: "Billed yearly",
+      title: "Premium Plan",
+      billing: "Billed Annually",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -63,18 +88,63 @@ const PlansYearly = () => {
         "Whitelabels",
         "Maintenance management",
         "Property information",
-        "Tenant",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
       ],
       status: false,
+      interval: "annually"
     },
   ];
+
+  async function handleSubmit(interval, plans) {
+    console.log(interval)
+    console.log(plans)
+
+    setLoading(true);
+
+    if (data) {
+      const { fullName, phoneNumber, estate, estateAddress, numberOfHouses, businessName, } = data
+      const planDetails = { fullName, estate, numberOfHouses, businessName, businessPhoneNumber: phoneNumber, estateAddress, phoneNumber, planName: plans, interval }
+      // Send the data to your API endpoint
+      try {
+        const response = await planEnterPriseSub(
+          planDetails
+        );
+
+        if (response.data.statuscode === 200 || 201) {
+          setSubmitConfirmationVisible(true);
+          console.log("form successfully filled ", response.data);
+          setLoading(false);
+          router.push(`${response.data?.paystackResponse?.data?.authorization_url}`)
+        } else {
+          setFormError(response.data.message);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error creating profile:", error);
+        setFormError(error.response?.data?.message);
+        setLoading(false);
+      }
+
+    }
+
+
+  }
+
+
+
+
   return (
     <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
             key={index}
-            className="flex flex-col justify-around p-6 text-[16px] font-[400] w-[265px] h-[604px] border shadow-lg rounded-2xl"
+            className="flex flex-col justify-around p-6 text-[16px] font-[400] w-[265px] h-[860px] border shadow-lg rounded-2xl"
           >
             <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
               {plan.price}
@@ -84,23 +154,27 @@ const PlansYearly = () => {
               {plan.billing}
             </p>
             <button
-              className={`h-[48px] rounded-lg text-[16px] w-full ${
-                plan.status === true
-                  ? "border border-BlueHomz text-BlueHomz bg-inputBg "
-                  : "bg-BlueHomz hover:bg-blue-400 text-white"
-              }`}
+              onClick={() => {
+                setPlans(plan.title)
+                setInterval(plan.interval)
+              }}
+              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
+                ? "border border-BlueHomz text-BlueHomz bg-inputBg "
+                : "bg-BlueHomz hover:bg-blue-400 text-white"
+                }`}
             >
-              {plan.status === true ? "Active" : "Start Now"}
+              {plan.status === true ? "Active" : "Get Started"}
             </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
                 <div
-                  className={`h-[14px] w-[16px] ${
-                    plan.title === "Enterprise starter" &&
-                    feature === "Whitelabels"
-                      ? "opacity-[20%]" // Apply a different color class here
-                      : "bg-green-200"
-                  } flex justify-center border rounded-full`}
+                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                    ? "opacity-[20%]" // Apply a different color class here
+                    : "bg-green-200"
+                    } flex justify-center border rounded-full`}
                 >
                   <Image
                     height={10.5}
@@ -110,12 +184,13 @@ const PlansYearly = () => {
                   />
                 </div>
                 <p
-                  className={` ${
-                    plan.title === "Enterprise starter" &&
-                    feature === "Whitelabels"
-                      ? "text-GrayHomz5"
-                      : ""
-                  }`}
+                  className={` ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                    ? "text-GrayHomz5"
+                    : ""
+                    }`}
                 >
                   {feature}
                 </p>

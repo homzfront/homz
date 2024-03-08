@@ -88,13 +88,13 @@ const Header = () => {
           >
             Tenant
           </Link>
-          <Link
+          {/* <Link
             href={"/"}
             className="hover:text-blue-400 "
             onClick={() => setOpen(false)}
           >
             List Property
-          </Link>
+          </Link> */}
         </div>
       </nav>
       <div
