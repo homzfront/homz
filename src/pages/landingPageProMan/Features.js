@@ -58,7 +58,7 @@ const Features = () => {
   ];
 
   return (
-    <div className="mt-[120px] max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[80px]">
+    <div className="sm:mt-[120px] mt-0 max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[80px]">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
         <h2 className=" text-BlueHomz text-[18px]  text-center font-[500]">
           Features

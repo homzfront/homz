@@ -3,7 +3,7 @@ import React from "react";
 
 const Contact = () => {
   return (
-    <div className='flex mt-[140px] py-8 max-w-[1160px] m-auto px-6 justify-between'>
+    <div className='flex mt-[40px] py-8 max-w-[1160px] m-auto px-6 justify-between'>
       <div>
         <h1 className="lg:text-[36px] text-[32px] text-center md:text-left font-[700] text-BlackHomz">Don’t just take our word for it</h1>
         <p className="lg:text-[20px] text-[16px] text-center md:text-left max-w-[768px] font-[500] text-GrayHomz">

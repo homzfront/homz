@@ -37,7 +37,7 @@ const PropertyInfo = ({
 
   useEffect(() => {
     if (formData?.state?.value) {
-      chooseArea(formData.state.value);
+      chooseArea(formData?.state.value);
     }
   }, [formData?.state?.value]);
 
@@ -118,7 +118,7 @@ const PropertyInfo = ({
               placeholder={"Property Title"}
               type={"text"}
               span={"*"}
-              value={formData.name}
+              value={formData?.name}
               onChange={(e) => handleChange("name", e.target.value)}
             />
           </div>
@@ -144,7 +144,7 @@ const PropertyInfo = ({
             <div className="flex gap-4 w-full">
               <div className="w-full">
                 <Select
-                  value={formData.state}
+                  value={formData?.state}
                   onChange={(option) => handleChange("state", option)}
                   options={optionsState}
                   placeholder="Select State..."
@@ -169,13 +169,13 @@ const PropertyInfo = ({
                       color: 'grey', // Customize the color of the dropdown indicator arrow
                     }),
                   }}
-                  formatOptionLabel={(option) => <span>{option.label}</span>}
+                  formatOptionLabel={(option) => <span>{option?.label}</span>}
                 />
 
               </div>
-              <div className={`w-full ${formData.state === null ? "pointer-events-none" : ""}`}>
+              <div className={`w-full ${formData?.state === null ? "pointer-events-none" : ""}`}>
                 <Select
-                  value={formData.area}
+                  value={formData?.area}
                   onChange={(option) => handleChange("area", option)}
                   options={optionsArea}
                   placeholder="Select Area..."
@@ -200,7 +200,7 @@ const PropertyInfo = ({
                       color: 'grey', // Customize the color of the dropdown indicator arrow
                     }),
                   }}
-                  formatOptionLabel={(option) => <span>{option.label}</span>}
+                  formatOptionLabel={(option) => <span>{option?.label}</span>}
                 />
 
               </div>
@@ -212,7 +212,7 @@ const PropertyInfo = ({
               placeholder={"Enter street name"}
               type={"text"}
               span={"*"}
-              value={formData.address}
+              value={formData?.address}
               onChange={(e) => handleChange("address", e.target.value)}
             />
           </div>
@@ -266,7 +266,7 @@ const PropertyInfo = ({
             <textarea
               className="mt-1 h-[203px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
               placeholder="Property Description"
-              value={formData.description}
+              value={formData?.description}
               onChange={(e) => handleChange("description", e.target.value)}
             ></textarea>
           </div>
@@ -281,15 +281,15 @@ const PropertyInfo = ({
             Cancel
           </button>
         </div>
-        {!formData.name ||
-          !formData.area ||
-          !formData.state ||
-          !formData.address ||
-          !formData.numberOfRooms ||
-          !formData.description ||
-          !formData.numberOfBathrooms ||
-          !formData.numberOfToilets ||
-          !formData.propertyType ? (
+        {!formData?.name ||
+          !formData?.area ||
+          !formData?.state ||
+          !formData?.address ||
+          !formData?.numberOfRooms ||
+          !formData?.description ||
+          !formData?.numberOfBathrooms ||
+          !formData?.numberOfToilets ||
+          !formData?.propertyType ? (
           <div className="">
             <button
               disabled

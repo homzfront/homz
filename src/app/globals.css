@@ -138,3 +138,8 @@ body {
   max-height: calc(100vh - 20px); /* Adjust 20px as per your need for padding/margin */
   overflow-y: auto;
 }
+
+
+.image-clip {
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 70%); /* Adjust percentages as needed */
+}

@@ -32,14 +32,14 @@ const RentDetails = ({
           label={"How much is the monthly rent?"}
           placeholder={"N  00.00"}
           type={"number"}
-          value={formData.monthlyRent}
+          value={formData?.monthlyRent}
           onChange={(e) => handleChange("monthlyRent", e.target.value)}
         />
         <Input
           label={"How much is the yearly rent?"}
           placeholder={"N  00.00"}
           type={"number"}
-          value={formData.yearlyRent}
+          value={formData?.yearlyRent}
           onChange={(e) => handleChange("yearlyRent", e.target.value)}
         />
 
@@ -47,21 +47,21 @@ const RentDetails = ({
           label={"How much is the maintenance fee?"}
           placeholder={"N  00.00"}
           type={"number"}
-          value={formData.maintenanceFee}
+          value={formData?.maintenanceFee}
           onChange={(e) => handleChange("maintenanceFee", e.target.value)}
         />
         <Input
           label={"How much is the Agency fee?"}
           placeholder={"N  00.00"}
           type={"number"}
-          value={formData.agencyFee}
+          value={formData?.agencyFee}
           onChange={(e) => handleChange("agencyFee", e.target.value)}
         />
         <Input
           label={"How much is the total fee?"}
           placeholder={"N  00.00"}
           type={"number"}
-          value={formData.totalFee}
+          value={formData?.totalFee}
           onChange={(e) => handleChange("totalFee", e.target.value)}
         />
       </div>
@@ -90,11 +90,11 @@ const RentDetails = ({
           >
             Skip
           </button>
-          {!formData.maintenanceFee &&
-            !formData.yearlyRent &&
-            !formData.monthlyRent &&
-            !formData.totalFee &&
-            !formData.agencyFee && !visibleAddProperty ? (
+          {!formData?.maintenanceFee &&
+            !formData?.yearlyRent &&
+            !formData?.monthlyRent &&
+            !formData?.totalFee &&
+            !formData?.agencyFee && !visibleAddProperty ? (
             <div className="">
               <button
                 disabled

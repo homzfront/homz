@@ -17,6 +17,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    agreedToTerms: false,
   });
   const [passwordError, setPasswordError] = useState("");
   const [visible, setVisible] = useState(false);
@@ -24,8 +25,8 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.password || !formData.email) {
-      setPasswordError("Please fill in all fields.");
+    if (!formData.password || !formData.email || !formData.agreedToTerms) {
+      setPasswordError("Please fill in all fields and agree to terms.");
       return;
     }
 
@@ -58,7 +59,7 @@ const Register = () => {
         console.log(response.data);
 
         // Reset the form data after submitting
-        setFormData({ email: "", password: "" });
+        setFormData({ email: "", password: "", agreedToTerms: false });
         setLoading(false);
       } else {
         // Handle unexpected status codes
@@ -106,9 +107,9 @@ const Register = () => {
 
       <div className="flex m-auto max-w-[100%] sm:max-w-[1440px] h-[1024px]">
         {loading && <Loading />}
-        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
-        <SliderAuth/>
-      </div>
+        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
+          <SliderAuth />
+        </div>
         <div className="sm:w-[794px] w-full flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
@@ -125,12 +126,14 @@ const Register = () => {
                       Email*
                     </label>
                     <input
-                      className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError ? "border-red-500" : ""
+                        }`}
                       type="email"
                       value={formData.email}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        setPasswordError("")
                         handleInputChange("email", e.target.value)
-                      }
+                      }}
                       placeholder="Enter your email"
                     />
                   </div>
@@ -139,14 +142,14 @@ const Register = () => {
                       Password*
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${
-                        passwordError ? "border-red-500" : ""
-                      }`}
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError ? "border-red-500" : ""
+                        }`}
                       type={visible ? "text" : "password"}
                       value={formData.password}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        setPasswordError("")
                         handleInputChange("password", e.target.value)
-                      }
+                      }}
                       placeholder="Create a password"
                     />
                     <div className="absolute top-11 right-4" onClick={Visible}>
@@ -156,6 +159,23 @@ const Register = () => {
                         <BashedEye className="w-4 h-4" />
                       )}
                     </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      className={`mr-2 cursor-pointer ${passwordError ? "border-red-500" : ""
+                        }`}
+                      checked={formData.agreedToTerms}
+                      onChange={ () => { 
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
+                        setPasswordError("")
+                      }}
+                    />
+                    <p className="text-center font-[400] text-[11px]">
+                      By registering you accept our terms of use and privacy and
+                      agree that we and our selected partners may contact you with
+                      relevant offers and services.
+                    </p>
                   </div>
                   {passwordError && (
                     <span className="mt-[-10px] font[400] text-[13px] text-red-500">
@@ -181,11 +201,6 @@ const Register = () => {
                     Sign Up with google
                   </button>
                 </div>
-                <h3 className="text-center font-[400] text-[11px]">
-                  By registering you accept our terms of use and privacy and
-                  agree that we and our selected partners may contact you with
-                  relevant offers and services.
-                </h3>
                 <p className="text-center font-[400] text-[14px]">
                   Already have an account?
                   <Link

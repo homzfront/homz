@@ -52,12 +52,15 @@ const SliderComponent = ({ users }) => {
                 <div className="w-full max-w-[480px] h-auto">
                   <div className="sm:bg-cover sm:bg-center">
                     <Image
-                      className="rounded-[30px]"
                       src={user.image}
-                      width={480}
-                      height={464}
                       alt="img"
-                      style={{ width: "100%", height: "100%" }}
+                      width={4096}  // Specify the desired width
+                      height={2731}
+                      layout="full" // Specify the desired height
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="object-cover bg-center w-[480px] h-[286px] sm:h-[464px] rounded-[40px]"
+                      priority
                     />
                   </div>
                 </div>

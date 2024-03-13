@@ -23,7 +23,6 @@ const PlansYearly = ({ data, profile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -45,7 +44,6 @@ const PlansYearly = ({ data, profile }) => {
       features: [
         "Up to 30 Properties",
         "Up to 5 users",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -67,7 +65,6 @@ const PlansYearly = ({ data, profile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -89,7 +86,6 @@ const PlansYearly = ({ data, profile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",

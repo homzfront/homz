@@ -4,8 +4,8 @@ import React from "react";
 
 const SectionA = () => {
   return (
-    <div className="max-w-[1160px] m-auto px-6 mt-20 justify-center sm:flex-row  flex flex-col">
-      <div className="w-[100%] flex flex-col gap-4 justify-center mt-0">
+    <div className="max-w-[1160px] m-auto px-6 mt-20 justify-center gap-8 sm:flex-row h-auto sm:h-[540px] flex flex-col">
+      <div className="sm:w-[50%] flex flex-col gap-4 justify-center mt-0">
         <h1 className="text-[29px] sm:text-[41px] leading-snug sm:text-start text-center font-[700] text-BlackHomz">
           Enjoy The Convenience <br /> You Deserve As A Tenant.
         </h1>
@@ -26,8 +26,33 @@ const SectionA = () => {
           </Link>
         </div>
       </div>
-      <div className="w-full">
-        <Image src={"/Image_2.png"} height={567} width={573} alt="Hero-Icon" />
+      <div className="relative sm:w-[50%] flex justify-end">
+        <div className="w-[498px] h-full">
+          <Image
+            src={"/HappyCouple.jpg"}
+            alt="img"
+            // width={4096}
+            // height={2732}
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover w-[498px] bg-center border rounded-tl-[135px]" // Add the '.image-clip' class
+            priority
+          />          
+        </div>
+        <div className="absolute w-[280px] bottom-[-80px] right-[350px]">
+          <Image
+            src={"/PhilipDashboard.png"}
+            alt="img"
+            width={2880}
+            height={2048}
+            layout="responsive"
+            objectFit="cover"
+            objectPosition="center"
+            className="object-top bg-top h-[504px] image-clip border-t-2 border-l-2 border-r-2 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
+            priority
+          />
+        </div>
       </div>
     </div>
   );

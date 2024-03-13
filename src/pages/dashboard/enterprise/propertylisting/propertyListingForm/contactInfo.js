@@ -19,9 +19,7 @@ const ContactInfo = ({
   closeAllModals,
   loading,
 }) => {
-  console.log(formData.email);
-  console.log(formData.phoneNumber);
-  console.log(formData.whatsapp);
+
   useBodyScroll([openConfirmationModal, yesOrNoModal, loading]);
 
   const [visibleAddProperty, setVisibleAddProperty] = useState(false);
@@ -61,7 +59,7 @@ const ContactInfo = ({
           label={"Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"number"}
-          value={formData.phoneNumber}
+          value={formData?.phoneNumber}
           onChange={(e) => {
             handleChange("phoneNumber", e.target.value)
             setVisibleAddProperty(true)
@@ -69,7 +67,7 @@ const ContactInfo = ({
         />
         <Input
           label={"Email"}
-          value={formData.email}
+          value={formData?.email}
           onChange={(e) => {
             handleChange("email", e.target.value)
             setVisibleAddProperty(true)
@@ -81,7 +79,7 @@ const ContactInfo = ({
           label={"WhatsApp Link"}
           placeholder={"WA.com/your-link"}
           type={"text"}
-          value={formData.whatsapp}
+          value={formData?.whatsapp}
           onChange={(e) => {
             handleChange("whatsapp", e.target.value)
             setVisibleAddProperty(true)

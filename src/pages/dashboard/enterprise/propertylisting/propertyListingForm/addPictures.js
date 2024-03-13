@@ -26,21 +26,6 @@ const Photos = ({
     });
   };
 
-  console.log(formData)
-  console.log(formData.uploadedImageCoverPhoto)
-  const {
-    uploadedImageCoverPhoto,
-    uploadedImage,
-    uploadedImage2,
-    uploadedImage3,
-    uploadedImage4,
-  } = formData
-
-  console.log(uploadedImageCoverPhoto)
-  console.log(uploadedImage)
-  console.log(uploadedImage2)
-  console.log(uploadedImage3)
-  console.log(uploadedImage4)
 
   return (
     <div className="px-8 block w-full">
@@ -62,7 +47,7 @@ const Photos = ({
               <ImageUpload
                 handleImageUpload={(file) => handleImageUpload("uploadedImageCoverPhoto", file)}
                 onImageRemove={() => removeImage("uploadedImageCoverPhoto")}
-                uploadedImage={formData.uploadedImageCoverPhoto}
+                uploadedImage={formData?.uploadedImageCoverPhoto}
               />
             </div>
           </div>
@@ -74,28 +59,28 @@ const Photos = ({
               <ImageUpload
                 handleImageUpload={(file) => handleImageUpload("uploadedImage", file)}
                 onImageRemove={() => removeImage("uploadedImage")}
-                uploadedImage={formData.uploadedImage}
+                uploadedImage={formData?.uploadedImage}
               />
             </div>
             <div className="w-[140px] flex justify-start">
               <ImageUpload
                 handleImageUpload={(file) => handleImageUpload("uploadedImage2", file)}
                 onImageRemove={() => removeImage("uploadedImage2")}
-                uploadedImage={formData.uploadedImage2}
+                uploadedImage={formData?.uploadedImage2}
               />
             </div>
             <div className="w-[140px] flex justify-start">
               <ImageUpload
                 handleImageUpload={(file) => handleImageUpload("uploadedImage3", file)}
                 onImageRemove={() => removeImage("uploadedImage3")}
-                uploadedImage={formData.uploadedImage3}
+                uploadedImage={formData?.uploadedImage3}
               />
             </div>
             <div className="w-[140px] flex justify-start">
               <ImageUpload
                 handleImageUpload={(file) => handleImageUpload("uploadedImage4", file)}
                 onImageRemove={() => removeImage("uploadedImage4")}
-                uploadedImage={formData.uploadedImage4}
+                uploadedImage={formData?.uploadedImage4}
               />
             </div>
           </div>
@@ -104,7 +89,7 @@ const Photos = ({
               <ImageUpload
                 handleImageUpload={(file) => handleImageUpload("uploadedImage5", file)}
                 onImageRemove={() => removeImage("uploadedImage5")}
-                uploadedImage={formData.uploadedImage5}
+                uploadedImage={formData?.uploadedImage5}
               />
             </div>
           </div>
@@ -126,11 +111,11 @@ const Photos = ({
           </button>
         </div>
         {
-          formData.uploadedImageCoverPhoto === null || (formData.uploadedImage === null &&
-            formData.uploadedImage2 === null &&
-            formData.uploadedImage3 === null &&
-            formData.uploadedImage4 === null &&
-            formData.uploadedImage5 === null) ? (
+          formData?.uploadedImageCoverPhoto === null || (formData?.uploadedImage === null &&
+            formData?.uploadedImage2 === null &&
+            formData?.uploadedImage3 === null &&
+            formData?.uploadedImage4 === null &&
+            formData?.uploadedImage5 === null) ? (
             <div className="">
               <button
                 disabled

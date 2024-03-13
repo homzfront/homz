@@ -26,7 +26,7 @@ const SectionTwo = () => {
 
   return (
 <div className="max-w-[1160px] m-auto px-6">
-<div className=" hidden md:grid gap-2 mt-16 grid-cols-1 max-w-[768px] px-[64px] md:grid-cols-2 sm:p-0 sm:max-w-full xl:grid-cols-3">
+<div className=" hidden md:grid gap-2  sm:mt-[-120px] grid-cols-1 max-w-[768px] px-[64px] md:grid-cols-2 sm:p-0 sm:max-w-full xl:grid-cols-3">
       {cards.map((card, index) => (
         <div
           key={index}
@@ -42,7 +42,7 @@ const SectionTwo = () => {
           </div>
           <div className="flex flex-col justify-center mt-5 gap-1 items-center h-max">
             <p className="font-[700] text-[20px] text-center">{card.title}</p>
-            <p className="font-[400] text-[18px] text-center">
+            <p className="font-[400] text-[18px] text-center text-textGray">
               {card.description}
             </p>
           </div>
