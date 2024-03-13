@@ -19,12 +19,6 @@ const Photos = ({
   setUploadedImage4,
   uploadedImage5,
   setUploadedImage5,
-  uploadedImage6,
-  setUploadedImage6,
-  uploadedImage7,
-  setUploadedImage7,
-  uploadedImage8,
-  setUploadedImage8,
 }) => {
   const handleImageUploadCoverPhoto = (e) => {
     const file = e.target.files[0];
@@ -56,21 +50,7 @@ const Photos = ({
     console.log(file);
     setUploadedImage5(file);
   };
-  const handleImageUpload6 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage6(file);
-  };
-  const handleImageUpload7 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage7(file);
-  };
-  const handleImageUpload8 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage8(file);
-  };
+
 
   return (
     <div className="px-8 block w-full">
@@ -87,7 +67,7 @@ const Photos = ({
       <div className="flex items-start w-full justify-between gap-4 mt-8">
         <div className="w-25%">
           <div>
-            <p className="text-[13px] font-[500] text-GrayHomz">Cover photo</p>
+            <p className="text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-error">*</span></p>
             <div className="w-[140px] flex justify-start mt-4">
               <ImageUpload
                 onImageRemove={setUploadedImageCoverPhoto}
@@ -98,7 +78,7 @@ const Photos = ({
           </div>
         </div>
         <div className="grid w-[75%]">
-          <p className="text-[13px] font-[500] text-GrayHomz">Other photos</p>
+          <p className="text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-error">*</span></p>
           <div className="flex mt-4 justify-between">
             <div className="w-[140px] flex justify-start">
               <ImageUpload
@@ -137,30 +117,9 @@ const Photos = ({
                 uploadedImage={uploadedImage5}
               />
             </div>
-            <div className="w-[140px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage6}
-                handleImageUpload={handleImageUpload6}
-                uploadedImage={uploadedImage6}
-              />
-            </div>
-            <div className="w-[140px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage7}
-                handleImageUpload={handleImageUpload7}
-                uploadedImage={uploadedImage7}
-              />
-            </div>
-            <div className="w-[140px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage8}
-                handleImageUpload={handleImageUpload8}
-                uploadedImage={uploadedImage8}
-              />
-            </div>
           </div>
         </div>
-      </div>
+      </div >
       <div className="mt-[5%] flex justify-between w-full">
         <div>
           <button
@@ -176,7 +135,11 @@ const Photos = ({
             Previous
           </button>
         </div>
-        {uploadedImageCoverPhoto === null ? (
+        {uploadedImageCoverPhoto === null || (uploadedImage === null &&
+          uploadedImage2 === null &&
+          uploadedImage3 === null &&
+          uploadedImage4 === null &&
+          uploadedImage5 === null) ? (
           <div className="">
             <button
               disabled
@@ -212,7 +175,7 @@ const Photos = ({
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 

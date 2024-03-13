@@ -1,14 +1,20 @@
+import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
+import Loading from "@/components/mainmenu/loading";
+import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const PlansYearly = ({ data }) => {
+const PlansYearly = ({ data, profile }) => {
 
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
   const router = useRouter()
-
-
+  useBodyScroll([loading])
+  console.log(data)
+  console.log(profile)
   const pricingPlans = [
     {
       price: "N95,000",
@@ -95,10 +101,16 @@ const PlansYearly = ({ data }) => {
         "Early rent incentives for renters",
         "Training & data migration"
       ],
-      status: false,
+      status: true,
       interval: "annually"
     },
   ];
+
+  // Optional URL validation function (consider using a more robust library)
+  function isValidUrl(url) {
+    const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
+    return regex.test(url);
+  }
 
   async function handleSubmit(interval, plans) {
     console.log(interval)
@@ -106,32 +118,59 @@ const PlansYearly = ({ data }) => {
 
     setLoading(true);
 
-    if (data) {
-      const { fullName, phoneNumber, estate, estateAddress, numberOfHouses, businessName, } = data
-      const planDetails = { fullName, estate, numberOfHouses, businessName, businessPhoneNumber: phoneNumber, estateAddress, phoneNumber, planName: plans, interval }
-      // Send the data to your API endpoint
-      try {
-        const response = await planEnterPriseSub(
-          planDetails
-        );
-
-        if (response.data.statuscode === 200 || 201) {
-          setSubmitConfirmationVisible(true);
-          console.log("form successfully filled ", response.data);
-          setLoading(false);
-          router.push(`${response.data?.paystackResponse?.data?.authorization_url}`)
-        } else {
-          setFormError(response.data.message);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error creating profile:", error);
-        setFormError(error.response?.data?.message);
-        setLoading(false);
-      }
-
+    if (!interval || !plans) {
+      setFormError('Please select an interval and plan.');
+      setLoading(false);
+      return; // Early exit if required fields are missing
     }
 
+    const planDetails = {
+      fullName: data.fullName,
+      businessName: data.businessName,
+      phoneNumber: String(data.phoneNumber), // Ensure phone number is a string
+      planName: plans,
+      interval,
+    };
+
+    try {
+      let response;
+      if (profile.PlanStatus === "free_trial") {
+        response = await updateEnterPriseSub({
+          planName: plans,
+          interval
+        })
+      } else {
+        response = await planEnterPriseSub(planDetails);
+      }
+      if (response.success) {
+        console.log("Form successfully filled:", response);
+        setLoading(false);
+        const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
+        toast.success(successMessage);
+        const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
+        const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
+        
+        if (isValidUrl(authorizationUrl)) {
+          router.push(authorizationUrl);
+        } else if (isValidUrl(paystackAuthorizationUrl)) {
+          router.push(paystackAuthorizationUrl);
+        } else {
+          console.warn('Invalid or missing authorization URL in response.');
+        }
+      } else {
+        if (response.error) {
+          setFormError(response.error || 'An error occurred.'); // Default error message
+          console.error("Error creating profile:", response.error);
+          setLoading(false);
+          toast.error(response.error);
+        } // Use the specific error message from response.error
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
+      console.log(error.response?.data?.error)
+      setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
+      setLoading(false);
+    }
 
   }
 
@@ -140,6 +179,8 @@ const PlansYearly = ({ data }) => {
 
   return (
     <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
+           {
+        loading && <Loading />}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
@@ -153,25 +194,32 @@ const PlansYearly = ({ data }) => {
             <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
               {plan.billing}
             </p>
-            <button
-              onClick={() => {
-                setPlans(plan.title)
-                setInterval(plan.interval)
-              }}
-              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
-                ? "border border-BlueHomz text-BlueHomz bg-inputBg "
-                : "bg-BlueHomz hover:bg-blue-400 text-white"
+            <Link href={"/contact-page"}
+              className={`h-[48px] rounded-lg text-[16px] w-full flex justify-center items-center ${plan.status === true
+                ? "bg-BlueHomz hover:bg-blue-400 text-white"
+                : " hidden"
                 }`}
             >
-              {plan.status === true ? "Active" : "Get Started"}
+              Get Started
+            </Link>
+            <button
+              onClick={() => {
+                handleSubmit(plan.interval, plan.title)
+              }}
+              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
+                ? " hidden"
+                : "bg-BlueHomz hover:bg-blue-400 text-white "
+                }`}
+            >
+              Get Started
             </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
                 <div
-                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
-                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
-                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
-                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                     ? "opacity-[20%]" // Apply a different color class here
                     : "bg-green-200"
                     } flex justify-center border rounded-full`}
@@ -184,10 +232,10 @@ const PlansYearly = ({ data }) => {
                   />
                 </div>
                 <p
-                  className={` ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
-                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
-                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
-                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                  className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                     ? "text-GrayHomz5"
                     : ""
                     }`}

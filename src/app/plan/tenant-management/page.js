@@ -74,7 +74,8 @@ const TenantManagement = () => {
       }
     } catch (error) {
       console.error("Error creating profile:", error);
-      setFormError(error.response?.data?.message);
+      console.log(error?.response?.data?.error?.errors)
+      setFormError(error?.response?.data?.message || error?.response?.data?.error?.errors || error?.response?.data?.error);
       setLoading(false);
     }
   }

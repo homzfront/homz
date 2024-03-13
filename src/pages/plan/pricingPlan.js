@@ -5,8 +5,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';  
+import { useRouter } from "next/navigation";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 
 const PricingPlan = () => {
+  const router = useRouter();
+
+  const goBack = () => {
+    router.back();
+  };
   const [data, setData] = useState(null)
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -16,6 +23,13 @@ const PricingPlan = () => {
     }
   }, []);
 
+  const { data:profile, loading, fetchData } = useProfileEnterpriseMe();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  console.log(profile);
   console.log(data);
 
   return (
@@ -33,9 +47,9 @@ const PricingPlan = () => {
         pauseOnHover
         theme="dark"
       />
-      <Link href={"/plan/enterprise-plan"}>
-        <Image src={"/Link (1).png"} alt="img" height={25} width={85} />
-      </Link>
+     <button onClick={goBack}>
+      <Image src={"/Link (1).png"} alt="Back" height={25} width={85} />
+    </button>
       <div className="flex flex-col justify-center items-center">
         <div className="max-w-[897px] m-auto mb-10 flex flex-col items-center gap-3">
           <h2 className="  text-BlueHomz text-[18px]  text-center font-[500]">
@@ -51,7 +65,7 @@ const PricingPlan = () => {
         </div>
       </div>
       <div>
-        <Widget data={data} />
+        <Widget data={data} profile={profile}/>
       </div>
     </div>
   );

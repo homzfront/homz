@@ -38,6 +38,8 @@ const EnterprisePlan = () => {
     }
     router.push("/plan/pricing")
   };
+
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -55,7 +57,7 @@ const EnterprisePlan = () => {
     // Prepare data to be sent
     const requestData = {
       fullName,
-      phoneNumber: parseInt(phoneNo),
+      phoneNumber: phoneNo,
       businessName, // Using the email from the user context
     };
 
@@ -76,7 +78,8 @@ const EnterprisePlan = () => {
       }
     } catch (error) {
       console.error("Error creating profile:", error);
-      setFormError(error.response?.data?.message);
+      console.log(error.response?.data?.error)
+      setFormError(error?.response?.data?.message || error?.response?.data?.error?.errors || error?.response?.data?.error);
       setLoading(false);
     }
   }

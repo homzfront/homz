@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./card";
+import addCommasToNumber from "@/utils/addCommasToNumber";
 
 const PropertyCard = ({
   Data,
@@ -12,9 +13,6 @@ const PropertyCard = ({
     return null; // or handle accordingly, e.g., return a loading state
   }
 
-  const formatNumberWithCommas = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
 //   id: 10,
 //   estateImage:
 //     "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
@@ -43,7 +41,7 @@ console.log(data);
         data.map((data) => (
           <Card
             key={data._id}
-            value4={`${formatNumberWithCommas(data?.yearlyRent)} per year`}
+            value4={`${addCommasToNumber(data?.yearlyRent)} per year`}
             value5={"5"}
             Image3={"/static/dashboard/enterprisemanager/propertyList/full.png"}
             value3={`${data?.location.area}, ${data?.location.state}`}

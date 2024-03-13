@@ -69,7 +69,7 @@ const ManageProperty = () => {
       }
     } catch (error) {
       console.error("Error creating profile:", error);
-      setFormError(error.response?.data?.message);
+      setFormError(error?.response?.data?.message || error?.response?.data?.error?.errors || error?.response?.data?.error);
       setLoading(false)
     }
   }

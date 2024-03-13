@@ -78,7 +78,8 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4">
+          {/* <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4"> */}
+          <div className="flex w-full justify-center">
             <div className="leading-loose pl-0 ">
               <h2 className="font-[700] text-[16px]  mb-2 md:mb-5">
                 Useful Links
@@ -94,7 +95,7 @@ const Footer = () => {
               </Link>
               <p>FAQs</p>
             </div>
-            <div className="leading-loose  ">
+            {/* <div className="leading-loose  ">
               <h2 className="font-[700] text-[16px] mb-2 md:mb-4">
                 Popular States
               </h2>
@@ -129,7 +130,7 @@ const Footer = () => {
               <p>Lands in Imo</p>
               <p>Lands in Ogun</p>
               <p>Lands in Oyo</p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-10 m-auto lg:max-w-full max-w-[338px] md:text-sm lg:text-center">

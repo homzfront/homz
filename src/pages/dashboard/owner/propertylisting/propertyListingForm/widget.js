@@ -8,6 +8,7 @@ import api from "@/utils/api.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation.js";
+import lowerCaseData from "@/utils/lowerCaseData.js";
 
 const Widget = ({ returnToStartRegistration, fetchData }) => {
   // to push to dashboard/property-listing
@@ -33,6 +34,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [numberOfRooms, setNumberOfRooms] = useState(null);
   const [numberOfBathrooms, setNumberOfBathrooms] = useState(null);
   const [description, setDescription] = useState("");
+  const [toilet, setToilets] = useState(null)
 
   // addphotos
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -40,9 +42,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [uploadedImage3, setUploadedImage3] = useState(null);
   const [uploadedImage4, setUploadedImage4] = useState(null);
   const [uploadedImage5, setUploadedImage5] = useState(null);
-  const [uploadedImage6, setUploadedImage6] = useState(null);
-  const [uploadedImage7, setUploadedImage7] = useState(null);
-  const [uploadedImage8, setUploadedImage8] = useState(null);
   const [uploadedImageCoverPhoto, setUploadedImageCoverPhoto] = useState(null);
 
   // rentDetails
@@ -71,9 +70,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   console.log(uploadedImage3);
   console.log(uploadedImage4);
   console.log(uploadedImage5);
-  console.log(uploadedImage6);
-  console.log(uploadedImage7);
-  console.log(uploadedImage8);
   console.log(monthlyRent);
   console.log(yearlyRent);
   console.log(totalFee);
@@ -82,6 +78,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   console.log(email);
   console.log(whatsapp);
   console.log(phoneNumber);
+  console.log(toilet);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,7 +89,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     const formData = new FormData();
     formData.append("area", selectedArea?.label);
     formData.append("state", selectedState?.label);
-    formData.append("propertyType", propertyType?.label);
+    formData.append("propertyType", lowerCaseData(propertyType?.label));
     formData.append("numberOfRooms", parseInt(numberOfRooms?.label));
     formData.append("numberOfBathrooms", parseInt(numberOfBathrooms?.label));
     formData.append("address", address);
@@ -102,14 +99,17 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     formData.append("photos", uploadedImage);
     formData.append("photos", uploadedImage2);
     formData.append("photos", uploadedImage3);
-    formData.append("monthlyRent", parseInt(monthlyRent));
-    formData.append("yearlyRent", parseInt(yearlyRent));
-    formData.append("totalFee", parseInt(totalFee));
-    formData.append("maintenanceFee", parseInt(maintenanceFee));
-    formData.append("agencyFee", parseInt(agencyFee));
+    formData.append("photos", uploadedImage4);
+    formData.append("photos", uploadedImage5);
+    formData.append("monthlyRent", Number(monthlyRent));
+    formData.append("yearlyRent", Number(yearlyRent));
+    formData.append("totalFee", Number(totalFee));
+    formData.append("maintenanceFee", Number(maintenanceFee));
+    formData.append("agencyFee", Number(agencyFee));
     formData.append("email", email);
     formData.append("phoneNumber", parseInt(phoneNumber));
     formData.append("whatsapp", whatsapp);
+    formData.append("numberOfToilets", parseInt(toilet?.label));
     try {
       const response = await api.post("/properties/create/property-owner", formData, {
         headers: {
@@ -137,9 +137,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         setUploadedImage3(null);
         setUploadedImage4(null);
         setUploadedImage5(null);
-        setUploadedImage6(null);
-        setUploadedImage7(null);
-        setUploadedImage8(null);
         setMonthlyRent("");
         setYearlyRent("");
         setTotalFee("");
@@ -149,6 +146,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         setWhatsapp("");
         setPhoneNumber("");
         setOpenConfirmationModal(!openConfirmationModal);
+        setToilets(null)
       } else {
         const error = response.data.message;
         console.log("Unexpected status code:", error);
@@ -173,6 +171,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");
+        console.log(error);
       }
 
       setYesOrNoModal(false);
@@ -325,6 +324,8 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
               setPropertyType={setPropertyType}
               setNumberOfRooms={setNumberOfRooms}
               setNumberOfBathrooms={setNumberOfBathrooms}
+              setToilets={setToilets}
+              toilet={toilet}
             />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
@@ -352,18 +353,12 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
               uploadedImage3={uploadedImage3}
               uploadedImage4={uploadedImage4}
               uploadedImage5={uploadedImage5}
-              uploadedImage6={uploadedImage6}
-              uploadedImage7={uploadedImage7}
-              uploadedImage8={uploadedImage8}
               uploadedImageCoverPhoto={uploadedImageCoverPhoto}
               setUploadedImage={setUploadedImage}
               setUploadedImage2={setUploadedImage2}
               setUploadedImage3={setUploadedImage3}
               setUploadedImage4={setUploadedImage4}
               setUploadedImage5={setUploadedImage5}
-              setUploadedImage6={setUploadedImage6}
-              setUploadedImage7={setUploadedImage7}
-              setUploadedImage8={setUploadedImage8}
               setUploadedImageCoverPhoto={setUploadedImageCoverPhoto}
             />
           </div>

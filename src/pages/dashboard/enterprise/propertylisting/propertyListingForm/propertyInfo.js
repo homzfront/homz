@@ -3,68 +3,23 @@ import Input from "../../components/input";
 import Image from "next/image";
 import DropDown from "../../components/dropDownTwo";
 import AcAndRejModel from "../../components/acAndRejModel";
+import SelectState from "@/pages/selectStateAndArea/selectState";
+import SelectArea from "@/pages/selectStateAndArea/selectArea";
+import Select from 'react-select';
+import useStateStore from "@/store/useStateAndAreaStore/useStateStore";
+import useAreaStore from "@/store/useStateAndAreaStore/useAreaStore";
 
 const PropertyInfo = ({
-  handlePageChangeTwo,
   returnToStartRegistration,
-  name,
-  address,
-  description,
-  selectedArea,
-  selectedState,
-  setSelectedArea,
-  setSelectedState,
-  setName,
-  setAddress,
-  setDescription,
-  propertyType,
-  numberOfRooms,
-  numberOfBathrooms,
-  setPropertyType,
-  setNumberOfRooms,
-  setNumberOfBathrooms,
+  handlePageChangeTwo,
+  formData,
+  handleChange,
 }) => {
   const [showCancelDialogue, setShowCancelDialogue] = useState(false);
 
-  console.log(name);
-  console.log(address);
-  console.log(description);
-
-  const handleSelectArea = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedArea(option);
-  };
-
-  const handleSelectState = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedState(option);
-  };
-
-  const handleSelectPropertyType = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setPropertyType(option);
-  };
-
-  const handleSelectNumberOfRooms = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setNumberOfRooms(option);
-  };
-
-  const handleSelectNumberOfBathrooms = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setNumberOfBathrooms(option);
-  };
-
-  // useEffect to handle scrolling
   useEffect(() => {
     document.body.style.overflow = showCancelDialogue ? "hidden" : "auto";
     if (showCancelDialogue) {
-      // Scroll to the top of the page
       window.scrollTo(0, 0);
     }
   }, [showCancelDialogue]);
@@ -77,38 +32,49 @@ const PropertyInfo = ({
     setShowCancelDialogue(false);
   };
 
+  const { data: stateData, chooseState } = useStateStore();
+  const { loading, success, error, data, chooseArea } = useAreaStore();
+
+  useEffect(() => {
+    if (formData?.state?.value) {
+      chooseArea(formData.state.value);
+    }
+  }, [formData?.state?.value]);
+
+
+  const optionsArea = data?.data?.data?.map((state) => ({
+    value: state,
+    label: `${state}`,
+  }));
+
+  useEffect(() => {
+    chooseState();
+  }, []);
+
+  console.log(data);
+
+  const optionsState = stateData?.map((state) => ({
+    value: state,
+    label: `${state}`,
+  }));
+
   const options = [
-    { id: 1, label: "apartment" },
-    { id: 2, label: "duplex" },
-    { id: 3, label: "self contain" },
-    { id: 4, label: "studio room" },
+    { id: 1, label: "Boys Quarters" },
+    { id: 2, label: "Mini-flat" },
+    { id: 3, label: "Penthouse" },
+    { id: 4, label: "Self contain" },
+    { id: 5, label: "Studio Apartment" },
+    { id: 6, label: "Block of flats" },
+    { id: 7, label: "Detached Bungalow" },
+    { id: 8, label: "Semi-Detached Bungalow" },
+    { id: 9, label: "Terraced Bungalow" },
+    { id: 10, label: "Detached Duplex" },
+    { id: 11, label: "Semi-Detached Duplex" },
+    { id: 12, label: "Terraced Duplex" },
   ];
 
 
   const optionsTwo = [
-    { id: 1, label: "Ajah" },
-    { id: 2, label: "Lekki" },
-    { id: 3, label: "Ikotun" },
-    { id: 4, label: "Adolor" },
-    { id: 5, label: "Challenge" },
-    { id: 6, label: "Ekaite" },
-    { id: 7, label: "Musa" },
-    { id: 8, label: "Jalingo" },
-
-  ];
-
-  const optionsThree = [
-    { id: 1, label: "Lagos" },
-    { id: 2, label: "Oyo" },
-    { id: 3, label: "Calabar" },
-    { id: 4, label: "Edo" },
-    { id: 5, label: "Kwara" },
-    { id: 6, label: "Kano" },
-    { id: 7, label: "Abuja" },
-    { id: 8, label: "Ondo" },
-  ];
-
-  const optionsFour = [
     { id: 1, label: 1 },
     { id: 2, label: 2 },
     { id: 3, label: 3 },
@@ -117,7 +83,17 @@ const PropertyInfo = ({
     { id: 6, label: 6 },
   ];
 
-  const optionsFive = [
+
+  const optionsThree = [
+    { id: 1, label: 1 },
+    { id: 2, label: 2 },
+    { id: 3, label: 3 },
+    { id: 4, label: 4 },
+    { id: 5, label: 5 },
+    { id: 6, label: 6 },
+  ];
+
+  const optionsFour = [
     { id: 1, label: 1 },
     { id: 2, label: 2 },
     { id: 3, label: 3 },
@@ -134,16 +110,16 @@ const PropertyInfo = ({
       <div className="text-[14px] font-[400]">
         Kindly fill in the accurate property details
       </div>
-      <div className="w-full flex justify-between items-start">
+      <div className="mt-4 w-full flex justify-between items-start">
         <div className="flex flex-col justify-between gap-4 w-[47%]">
           <div className="">
             <Input
-              label={"Name"}
-              placeholder={"Property Name"}
+              label={"Title"}
+              placeholder={"Property Title"}
               type={"text"}
               span={"*"}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              onChange={(e) => handleChange("name", e.target.value)}
             />
           </div>
           <div>
@@ -153,8 +129,8 @@ const PropertyInfo = ({
             <div className="flex flex-col justify-between ">
               <div>
                 <DropDown
-                  options={options}
-                  onSelect={handleSelectPropertyType}
+                  options={options} // Replace with appropriate options
+                  onSelect={(option) => handleChange("propertyType", option)}
                   selectOption={"Select Property Type"}
                   className={"w-full"}
                 />
@@ -165,58 +141,116 @@ const PropertyInfo = ({
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
               Property Location <span className="text-error">*</span>
             </div>
-            <div className="flex justify-between ">
-              <div>
-                <DropDown
-                  options={optionsTwo}
-                  onSelect={handleSelectArea}
-                  selectOption={"Select Area"}
-                  className={"w-[230px]"}
+            <div className="flex gap-4 w-full">
+              <div className="w-full">
+                <Select
+                  value={formData.state}
+                  onChange={(option) => handleChange("state", option)}
+                  options={optionsState}
+                  placeholder="Select State..."
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      height: '45px', // Set desired height here
+                      borderRadius: '6px', // Add border radius
+                      backgroundColor: 'transparent', // Set background color to transparent
+                      cursor: 'pointer',
+                      borderColor: state.isFocused ? 'grey' : '',
+                      '&:hover': {
+                        borderColor: '', // Change border color on hover
+                      },
+                    }),
+                    indicatorSeparator: (base) => ({
+                      ...base,
+                      backgroundColor: '', // Customize the color of the separator line
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: 'grey', // Customize the color of the dropdown indicator arrow
+                    }),
+                  }}
+                  formatOptionLabel={(option) => <span>{option.label}</span>}
                 />
+
               </div>
-              <div>
-                <DropDown
-                  options={optionsThree}
-                  onSelect={handleSelectState}
-                  selectOption={"Select State"}
-                  className={"w-[230px]"}
+              <div className={`w-full ${formData.state === null ? "pointer-events-none" : ""}`}>
+                <Select
+                  value={formData.area}
+                  onChange={(option) => handleChange("area", option)}
+                  options={optionsArea}
+                  placeholder="Select Area..."
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      height: '45px', // Set desired height here
+                      borderRadius: '6px', // Add border radius
+                      backgroundColor: 'transparent', // Set background color to transparent
+                      cursor: 'pointer',
+                      borderColor: state.isFocused ? 'grey' : '',
+                      '&:hover': {
+                        borderColor: '', // Change border color on hover
+                      },
+                    }),
+                    indicatorSeparator: (base) => ({
+                      ...base,
+                      backgroundColor: '', // Customize the color of the separator line
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: 'grey', // Customize the color of the dropdown indicator arrow
+                    }),
+                  }}
+                  formatOptionLabel={(option) => <span>{option.label}</span>}
                 />
+
               </div>
             </div>
           </div>
           <div className="">
             <Input
-              label={"Property Address"}
-              placeholder={"Property Address"}
+              label={"Street"}
+              placeholder={"Enter street name"}
               type={"text"}
               span={"*"}
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              value={formData.address}
+              onChange={(e) => handleChange("address", e.target.value)}
             />
           </div>
           <div>
             <div className="">
               <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                Total Number of Rooms <span className="text-error">*</span>
+                Rooms <span className="text-error">*</span>
               </div>
               <DropDown
-                options={optionsFour}
-                onSelect={handleSelectNumberOfRooms}
+                options={optionsTwo} // Replace with appropriate options
+                onSelect={(option) => handleChange("numberOfRooms", option)}
                 selectOption={"Total Numbers of Rooms"}
                 className={"w-full"}
               />
             </div>
           </div>
         </div>
+
         <div className="flex flex-col gap-4 w-[47%]">
           <div>
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-              Total Number of Bathrooms <span className="text-error">*</span>
+              Bathrooms <span className="text-error">*</span>
             </div>
             <DropDown
-              options={optionsFive}
-              onSelect={handleSelectNumberOfBathrooms}
+              options={optionsThree}
+              onSelect={(option) => handleChange("numberOfBathrooms", option)}
               selectOption={"Total Numbers of Bathrooms"}
+              className={"w-full"}
+            />
+          </div>
+          <div>
+            <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+              Toilets <span className="text-error">*</span>
+            </div>
+            <DropDown
+              options={optionsFour}
+              onSelect={(option) => handleChange("numberOfToilets", option)}
+              selectOption={"Total Numbers of Toilets"}
               className={"w-full"}
             />
           </div>
@@ -230,10 +264,10 @@ const PropertyInfo = ({
               </p>
             </div>
             <textarea
-              className="mt-1 h-[295px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+              className="mt-1 h-[203px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
               placeholder="Property Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
             ></textarea>
           </div>
         </div>
@@ -247,14 +281,15 @@ const PropertyInfo = ({
             Cancel
           </button>
         </div>
-        {!name ||
-        !selectedArea ||
-        !selectedState ||
-        !address ||
-        !numberOfBathrooms ||
-        !numberOfRooms ||
-        !description ||
-        !propertyType ? (
+        {!formData.name ||
+          !formData.area ||
+          !formData.state ||
+          !formData.address ||
+          !formData.numberOfRooms ||
+          !formData.description ||
+          !formData.numberOfBathrooms ||
+          !formData.numberOfToilets ||
+          !formData.propertyType ? (
           <div className="">
             <button
               disabled
@@ -301,7 +336,9 @@ const PropertyInfo = ({
           />
         </div>
       )}
+
     </div>
+
   );
 };
 

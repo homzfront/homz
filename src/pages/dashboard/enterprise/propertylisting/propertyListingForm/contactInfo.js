@@ -9,12 +9,8 @@ import Loading from "@/components/mainmenu/loading";
 
 const ContactInfo = ({
   handlePageChangeThree,
-  phoneNumber,
-  setPhoneNumber,
-  email,
-  setEmail,
-  whatsapp,
-  setWhatsapp,
+  formData,
+  handleChange,
   handleSubmit,
   yesOrNoModal,
   openYesOrNo,
@@ -23,10 +19,17 @@ const ContactInfo = ({
   closeAllModals,
   loading,
 }) => {
-  console.log(email);
-  console.log(phoneNumber);
-  console.log(whatsapp);
+  console.log(formData.email);
+  console.log(formData.phoneNumber);
+  console.log(formData.whatsapp);
   useBodyScroll([openConfirmationModal, yesOrNoModal, loading]);
+
+  const [visibleAddProperty, setVisibleAddProperty] = useState(false);
+
+  const ableAddProperty = () => {
+    setVisibleAddProperty(true);
+  };
+
   return (
     <div className="px-8">
       {loading && <Loading />}
@@ -58,13 +61,19 @@ const ContactInfo = ({
           label={"Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"number"}
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          value={formData.phoneNumber}
+          onChange={(e) => {
+            handleChange("phoneNumber", e.target.value)
+            setVisibleAddProperty(true)
+          }}
         />
         <Input
           label={"Email"}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={(e) => {
+            handleChange("email", e.target.value)
+            setVisibleAddProperty(true)
+          }}
           placeholder={"Email@email.com"}
           type={"text"}
         />
@@ -72,8 +81,11 @@ const ContactInfo = ({
           label={"WhatsApp Link"}
           placeholder={"WA.com/your-link"}
           type={"text"}
-          value={whatsapp}
-          onChange={(e) => setWhatsapp(e.target.value)}
+          value={formData.whatsapp}
+          onChange={(e) => {
+            handleChange("whatsapp", e.target.value)
+            setVisibleAddProperty(true)
+          }}
         />
       </div>
       <div className="mt-[20%] flex justify-between">
@@ -91,11 +103,22 @@ const ContactInfo = ({
             Previous
           </button>
         </div>
-        {!phoneNumber || !email || !whatsapp ? (
+
+        <div className="flex items-center gap-2">
+          <div>
+            <button
+              onClick={ableAddProperty}
+              className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
+            >
+              Skip
+            </button>
+          </div>
+
           <div className="">
             <button
               disabled
-              className="flex w-[150px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+              className={`flex w-[150px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5
+              ${visibleAddProperty ? "hidden" : "block"} `}
             >
               List Property
               <Image
@@ -108,11 +131,12 @@ const ContactInfo = ({
               />
             </button>
           </div>
-        ) : (
+
           <div className="">
             <button
               onClick={openYesOrNo}
-              className="flex w-[150px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+              className={`flex w-[150px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz 
+              ${visibleAddProperty ? "block" : "hidden"} `}
             >
               List Property
               <Image
@@ -125,7 +149,8 @@ const ContactInfo = ({
               />
             </button>
           </div>
-        )}
+        </div>
+
       </div>
     </div>
   );

@@ -30,24 +30,28 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return; // Do nothing if already loading
   
-    setLoading(true); // Set loading to true when submitting the form
+    // Early return if already loading
+    if (loading) return;
   
+    setLoading(true); // Set loading state
+  
+    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      // Invalid email format
-      alert("Please enter a valid email address.");
+      setLoginError("Please enter a valid email address.");
+      setLoading(false);
       return;
     }
-
+  
+    // Validate required fields
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
     }
   
-    // Check if the password meets the length requirement
+    // Check password length
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
       setLoading(false);
@@ -55,37 +59,32 @@ const Login = () => {
     }
   
     try {
+      // Login request
       const response = await api.post("/auth/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
   
-      if (response.data.statuscode === 201) {
+      if (response.status === 201) { // Handle expected successful login status code
         toast.success("Login successful");
         const { data } = response.data;
   
-        // Fetch user profile immediately after login
+        // Fetch user profile
         const profileResponse = await api.get("/user/profile");
   
-        if (profileResponse.data.statuscode === 200 || 201) {
+        if (profileResponse.status === 200 || 201) { // Handle expected success status codes
           const profileData = profileResponse.data;
   
-          // Use the profileData to determine which page to navigate to
-          if (profileData?.user?.accounts?.[0].name === "TENANT") {
-            // If the user is an admin, navigate to the admin page
-            router.push("/dashboard/tenant/dashboard");
-          } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
-            // If the user is a property owner, navigate to the property owner page
-            router.push("/dashboard/enterprise-property/dashboard");
-          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY" || profileData?.user?.accounts?.[0].name === "MANAGE_PROPERTY") {
-            // If the user is a property owner, navigate to the property owner page
-            router.push("/dashboard/property-owner/dashboard");
+          // Navigation logic based on user roles and account status
+          const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
+          if (navigateTo) {
+            router.push(navigateTo);
           } else {
-            // For other roles or if no specific role is defined, navigate to the default page
+            // Default navigation for unhandled roles or empty accounts
             router.push("/");
           }
   
-          // Set user and profile in state
+          // Update user and profile state
           useProfileStore.setState({
             user: data,
             profile: profileData,
@@ -93,27 +92,39 @@ const Login = () => {
             loading: false,
           });
   
-          setLoading(false);
           setEmail("");
           setPassword("");
         } else {
-          const profileError = profileResponse.data.message;
-          console.log("Unexpected status code for profile:", profileError);
-          setLoginError(profileError);
-          setLoading(false);
+          console.error("Unexpected status code for profile:", profileResponse.data.message);
+          setLoginError(profileResponse.data.message); // Set specific error message
         }
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        setLoginError(error);
-        setLoading(false);
+        console.error("Unexpected status code:", response.data.message);
+        setLoginError(response.data.message); // Set specific error message
       }
     } catch (error) {
       console.error("Login error", error);
-      setLoginError(error.response?.data?.message);
-      setLoading(false);
+      setLoginError(error.response?.data?.message); // Set specific error message (if available)
+    } finally {
+      setLoading(false); // Ensure loading state is reset even in case of errors
     }
   };
+  
+  // Helper function to determine user dashboard based on roles and accounts
+  function determineUserDashboard(profileData) {
+    if (profileData?.user?.isVerified && profileData?.user?.accounts.length === 0) {
+      return "/select-plan"; // Redirect to select plan for verified users with no accounts
+    } else if (profileData?.user?.accounts?.[0].name === "TENANT") {
+      return "/dashboard/tenant/dashboard";
+    } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
+      return "/dashboard/enterprise-property/dashboard";
+    } else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY" || profileData?.user?.accounts?.[0].name === "MANAGE_PROPERTY") {
+      return "/dashboard/property-owner/dashboard";
+    } else {
+      return null; // No specific dashboard identified
+    }
+  }
+  
   
   const Visible = () => {
     setVisible(!visible);

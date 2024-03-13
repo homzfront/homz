@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../components/input";
 
 const RentDetails = ({
@@ -21,6 +21,15 @@ const RentDetails = ({
   console.log(monthlyRent)
   console.log(maintenanceFee)
   console.log(agencyFee)
+
+
+  const [visibleAddProperty, setVisibleAddProperty] = useState(false);
+
+  const ableAddProperty = () => {
+    setVisibleAddProperty(true);
+  };
+
+
   return (
     <div className="px-8">
       <div className="text-[23px] font-[700] text-BlueHomz mt-2">
@@ -88,45 +97,53 @@ const RentDetails = ({
             Previous
           </button>
         </div>
-        {!maintenanceFee ||
-        !yearlyRent ||
-        !monthlyRent ||
-        !totalFee ||
-        !agencyFee ? (
-          <div className="">
-            <button
-              disabled
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-          </div>
-        ) : (
-          <div className="">
-            <button
-              onClick={handlePageChangeThree}
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-              />
-            </button>
-          </div>
-        )}
+        <div className="flex gap-2">
+          <button
+            onClick={ableAddProperty}
+            className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex w-[100px] justify-center items-center"
+          >
+            Skip
+          </button>
+          {!maintenanceFee &&
+            !yearlyRent &&
+            !monthlyRent &&
+            !totalFee &&
+            !agencyFee && !visibleAddProperty ? (
+            <div className="">
+              <button
+                disabled
+                className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+              >
+                Next
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                  }
+                  alt=""
+                  height={17}
+                  width={16}
+                />
+              </button>
+            </div>
+          ) : (
+            <div className="">
+              <button
+                onClick={handlePageChangeThree}
+                className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+              >
+                Next
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                  }
+                  alt=""
+                  height={16}
+                  width={16}
+                />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

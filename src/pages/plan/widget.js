@@ -6,7 +6,7 @@ import PlansYearly from "./components/plansYearly.js";
 
 
 
-const Widget = ({ data }) => {
+const Widget = ({ data, profile }) => {
 
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly /> },
@@ -43,7 +43,7 @@ const Widget = ({ data }) => {
         <div className="my-5 rounded-[12px] ">
           {pages.map((page) => (
             <div key={page.id} className={active === page.id ? "inline" : "hidden"}>
-              {React.cloneElement(page.component, { data })}
+              {React.cloneElement(page.component, { data, profile })}
             </div>
           ))}
         </div>

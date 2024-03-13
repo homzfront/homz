@@ -10,9 +10,9 @@ const ContactDetails = ({ data }) => {
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
-      setPhoneNumber(parseInt(data.contacts.phoneNumber) || "");
-      setEmail(data.contacts.email || "");
-      setWhatsapp(data.contacts.whatsapp || "");
+      setPhoneNumber(parseInt(data?.contacts?.phoneNumber) || "");
+      setEmail(data?.contacts?.email || "");
+      setWhatsapp(data?.contacts?.whatsapp || "");
     }
   }, [data]);
 
