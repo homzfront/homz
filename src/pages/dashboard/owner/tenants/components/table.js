@@ -9,22 +9,11 @@ import Button from "../../components/button";
 
 
 
-const Table = ({ tenantData }) => {
+const Table = ({ tenantData, datas }) => {
 
   console.log(tenantData?.data);
-  const tenantId = tenantData?.data?.data?._id
-  console.log(tenantId);
-  const {
-    data: paymentData,
-    loading,
-    fetchData
-  } = useTenantRentPaymentOwner();
 
-  useEffect(() => {
-    fetchData(tenantId)
-  }, [tenantData])
-
-  const data = paymentData?.data
+  const data = datas?.data
   console.log(data);
 
   console.log(data?.length);

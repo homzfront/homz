@@ -16,10 +16,13 @@ const ListedEstates = ({
   setCurrentPage,
   selectedArea,
   selectedState,
+  selectedProperty,
+  setSelectedProperty,
   setSelectedState,
   setSelectedArea,
   options,
   options2,
+  options3,
   clear,
 }) => {
   // Ensure that Data is defined and not null
@@ -73,7 +76,15 @@ const ListedEstates = ({
             <p className="text-[16px] font-[400] text-BlackHomz pr-2">
               Filter by:{" "}
             </p>
-            <div className="w-[120px]">
+            <div className="w-[200px]">
+                  <Dropdown
+                    options={options3}
+                    onSelect={(option) => setSelectedProperty(option)}
+                    selectOption={selectedProperty === null ? "Property" : selectedProperty}
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                </div>
+            {/* <div className="w-[120px]">
               <Dropdown
                 options={options}
                 onSelect={(option) => setSelectedState(option)}
@@ -90,7 +101,7 @@ const ListedEstates = ({
                 selectOption={selectedArea === null ? "Area" : selectedArea}
                 className={"text-[14px] font-[500] text-GrayHomz2"}
               />
-            </div>
+            </div> */}
             <button
               onClick={clear}
               type="text" className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">

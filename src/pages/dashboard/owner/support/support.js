@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "../components/input";
 import SectionOne from "./components/sectionOne";
-
+import useBodyScroll from "@/utils/useBodyScroll";
 import ConfirmModal from "../components/confirmModal";
 import AcAndRejModel from "../components/acAndRejModel";
 
@@ -27,13 +27,7 @@ const Support = () => {
 
     // useEffect to handle scrolling
 // useEffect to handle scrolling
-useEffect(() => {
-  document.body.style.overflow = proceed || doneDialogue ? "hidden" : "auto";
-  if (proceed || doneDialogue) {
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-  }
-}, [proceed, doneDialogue]);
+useBodyScroll([proceed, doneDialogue]);
 
   return (
     <div className=" w-full p-8">

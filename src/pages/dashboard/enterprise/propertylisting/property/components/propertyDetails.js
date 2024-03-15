@@ -5,6 +5,8 @@ import DropDown from "../../../components/dropDownTwo";
 import { toast } from "react-toastify";
 import { updatePropertyDetails } from "@/api/propertyService";
 import LoadingII from "@/components/mainmenu/loadingII";
+import SelectState from "@/pages/selectStateAndArea/selectState";
+import SelectArea from "@/pages/selectStateAndArea/selectArea";
 
 const PropertyDetails = ({ data }) => {
   console.log(data);
@@ -23,6 +25,7 @@ const PropertyDetails = ({ data }) => {
       setNumberOfRooms(data?.numberOfRooms || "");
       setNumberOfBathrooms(data?.numberOfBathrooms || "");
       setPropertyType(data?.propertyType || "");
+      setNumberOfToilets(data?.numberOfToilets || "")
     }
   }, [data]);
   const [selectedArea, setSelectedArea] = useState(data?.area);
@@ -33,6 +36,7 @@ const PropertyDetails = ({ data }) => {
   const [numberOfRooms, setNumberOfRooms] = useState(data?.numberOfRooms);
   const [numberOfBathrooms, setNumberOfBathrooms] = useState(data?.numberOfBathrooms);
   const [description, setDescription] = useState(data?.description);
+  const [numberOfToilets, setNumberOfToilets] = useState(data?.numberOfToilets);
 
   console.log(name);
   console.log(address);
@@ -42,35 +46,44 @@ const PropertyDetails = ({ data }) => {
   console.log(parseInt(numberOfRooms?.label));
   console.log(parseInt(numberOfBathrooms?.label));
   console.log(propertyType?.label);
+  console.log(numberOfToilets?.label)
 
   const options = [
-    { id: 1, label: "apartment" },
-    { id: 2, label: "duplex" },
-    { id: 3, label: "self contain" },
-    { id: 4, label: "studio room" },
+    { id: 1, label: "Boys Quarters" },
+    { id: 2, label: "Mini-flat" },
+    { id: 3, label: "Penthouse" },
+    { id: 4, label: "Self contain" },
+    { id: 5, label: "Studio Apartment" },
+    { id: 6, label: "Block of flats" },
+    { id: 7, label: "Detached Bungalow" },
+    { id: 8, label: "Semi-Detached Bungalow" },
+    { id: 9, label: "Terraced Bungalow" },
+    { id: 10, label: "Detached Duplex" },
+    { id: 11, label: "Semi-Detached Duplex" },
+    { id: 12, label: "Terraced Duplex" },
   ];
 
-  const optionsTwo = [
-    { id: 1, label: "Ajah" },
-    { id: 2, label: "Lekki" },
-    { id: 3, label: "Ikotun" },
-    { id: 4, label: "Adolor" },
-    { id: 5, label: "Challenge" },
-    { id: 6, label: "Ekaite" },
-    { id: 7, label: "Musa" },
-    { id: 8, label: "Jalingo" },
-  ];
+  // const optionsTwo = [
+  //   { id: 1, label: "Ajah" },
+  //   { id: 2, label: "Lekki" },
+  //   { id: 3, label: "Ikotun" },
+  //   { id: 4, label: "Adolor" },
+  //   { id: 5, label: "Challenge" },
+  //   { id: 6, label: "Ekaite" },
+  //   { id: 7, label: "Musa" },
+  //   { id: 8, label: "Jalingo" },
+  // ];
 
-  const optionsThree = [
-    { id: 1, label: "Lagos" },
-    { id: 2, label: "Oyo" },
-    { id: 3, label: "Calabar" },
-    { id: 4, label: "Edo" },
-    { id: 5, label: "Kwara" },
-    { id: 6, label: "Kano" },
-    { id: 7, label: "Abuja" },
-    { id: 8, label: "Ondo" },
-  ];
+  // const optionsThree = [
+  //   { id: 1, label: "Lagos" },
+  //   { id: 2, label: "Oyo" },
+  //   { id: 3, label: "Calabar" },
+  //   { id: 4, label: "Edo" },
+  //   { id: 5, label: "Kwara" },
+  //   { id: 6, label: "Kano" },
+  //   { id: 7, label: "Abuja" },
+  //   { id: 8, label: "Ondo" },
+  // ];
 
   const optionsFour = [
     { id: 1, label: 1 },
@@ -90,17 +103,26 @@ const PropertyDetails = ({ data }) => {
     { id: 6, label: 6 },
   ];
 
-  const handleSelectArea = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedArea(option);
-  };
+  const optionsSix = [
+    { id: 1, label: 1 },
+    { id: 2, label: 2 },
+    { id: 3, label: 3 },
+    { id: 4, label: 4 },
+    { id: 5, label: 5 },
+    { id: 6, label: 6 },
+  ];
 
-  const handleSelectState = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedState(option);
-  };
+  // const handleSelectArea = (option) => {
+  //   // Handle the selected value as needed
+  //   console.log("Selected Option:", option);
+  //   setSelectedArea(option);
+  // };
+
+  // const handleSelectState = (option) => {
+  //   // Handle the selected value as needed
+  //   console.log("Selected Option:", option);
+  //   setSelectedState(option);
+  // };
 
   const handleSelectPropertyType = (option) => {
     // Handle the selected value as needed
@@ -120,6 +142,12 @@ const PropertyDetails = ({ data }) => {
     setNumberOfBathrooms(option);
   };
 
+  const  handleSelectNumberOfToilets = (option) => {
+        // Handle the selected value as needed
+        console.log("Selected Option:", option);
+        setNumberOfToilets(option);
+  }
+
   const updateDone = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
@@ -136,6 +164,7 @@ const PropertyDetails = ({ data }) => {
         numberOfRooms: parseInt(numberOfRooms?.label),
         numberOfBathrooms: parseInt(numberOfBathrooms?.label),
         propertyType: propertyType?.label,
+        numberOfToilets: parseInt(numberOfToilets?.label),
       };
       const { success, upDateddata, error } = await updatePropertyDetails(
         data._id,
@@ -165,7 +194,7 @@ const PropertyDetails = ({ data }) => {
       ) : (
         <div>
           <div className="flex justify-between items-start">
-            <div className="flex flex-col justify-between gap-4">
+            <div className="flex flex-col justify-between gap-4 w-[47%]">
               <div className="">
                 <Input
                   label={"Name"}
@@ -185,13 +214,12 @@ const PropertyDetails = ({ data }) => {
                     <DropDown
                       options={options}
                       onSelect={handleSelectPropertyType}
-            
-                      selectOption={`${
-                        data?.propertyType === undefined
+
+                      selectOption={`${data?.propertyType === undefined
                           ? "select property type"
                           : ` ${data?.propertyType}`
-                      }`}
-                      className={"w-[460px]"}
+                        }`}
+                      className={"w-full"}
                     />
                   </div>
                 </div>
@@ -200,37 +228,19 @@ const PropertyDetails = ({ data }) => {
                 <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
                   Property Location <span className="text-error">*</span>
                 </div>
-                <div className="flex justify-between ">
-                  <div>
-                    <DropDown
-                      options={optionsTwo}
-                      onSelect={handleSelectArea}
-                      selectOption={`${
-                        data?.area === undefined
-                          ? "select area"
-                          : ` ${data?.area}`
-                      }`}
-                      className={"w-[230px]"}
-                    />
+                <div className="flex gap-4 w-full">
+                  <div className="w-full">
+                    <SelectState selectedState={selectedState} setSelectedState={setSelectedState} placeholder={data?.state} />
                   </div>
-                  <div>
-                    <DropDown
-                      options={optionsThree}
-                      onSelect={handleSelectState}
-                      selectOption={`${
-                        data?.state === undefined
-                          ? "select area"
-                          : ` ${data?.state}`
-                      }`}
-                      className={"w-[230px]"}
-                    />
+                  <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
+                    <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} placeholder={data?.area} />
                   </div>
                 </div>
               </div>
               <div className="">
                 <Input
-                  label={"Property Address"}
-                  placeholder={"Property Address"}
+                  label={"Street"}
+                  placeholder={"Enter street name"}
                   type={"text"}
                   span={"*"}
                   value={address}
@@ -240,36 +250,49 @@ const PropertyDetails = ({ data }) => {
               <div>
                 <div className="">
                   <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                    Total Number of Rooms <span className="text-error">*</span>
+                    Rooms <span className="text-error">*</span>
                   </div>
                   <DropDown
                     options={optionsFour}
                     onSelect={handleSelectNumberOfRooms}
-                    selectOption={`${
-                      data?.numberOfRooms === undefined
+                    selectOption={`${data?.numberOfRooms === undefined
                         ? "Select No of Rooms"
                         : ` ${data?.numberOfRooms}`
-                    }`}
-                    className={"w-[460px]"}
+                      }`}
+                    className={"w-full"}
                   />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4  w-[47%]">
               <div>
                 <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                  Total Number of Bathrooms{" "}
+                  Bathrooms{" "}
                   <span className="text-error">*</span>
                 </div>
                 <DropDown
                   options={optionsFive}
                   onSelect={handleSelectNumberOfBathrooms}
-                  selectOption={`${
-                    data?.numberOfBathrooms === undefined
+                  selectOption={`${data?.numberOfBathrooms === undefined
                       ? "Select No of Bathrooms"
                       : ` ${data?.numberOfBathrooms}`
-                  }`}
-                  className={"w-[460px]"}
+                    }`}
+                  className={"w-full"}
+                />
+              </div>
+              <div>
+                <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+                  Toilets <span className="text-error">*</span>
+                </div>
+                <DropDown
+                  options={optionsSix}
+                  onSelect={handleSelectNumberOfToilets}
+                  // selectOption={"Total Numbers of Toilets"}
+                  selectOption={`${data?.numberOfToilets === undefined
+                      ? "Total Numbers of Toilets"
+                      : ` ${data?.numberOfToilets}`
+                    }`}
+                  className={"w-full"}
                 />
               </div>
               <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
@@ -282,7 +305,7 @@ const PropertyDetails = ({ data }) => {
                   </p>
                 </div>
                 <textarea
-                  className="mt-1 h-[295px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+                  className="mt-1 h-[203px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
                   placeholder="Property Description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}

@@ -54,7 +54,7 @@ const Tenants = ({ id }) => {
   const closeProperty = () => {
     setAddNewProperty(false);
   };
-
+console.log(tenantData?.results?.[0]?.data?.[0]?.estateId?.name)
   return (
     <div className="w-full  p-8">
       {inviteTenant && (
@@ -86,7 +86,7 @@ const Tenants = ({ id }) => {
                 href={"/dashboard/enterprise-property/estates"}
                 className="text-[16px] font-[400] text-GrayHomz"
               >
-                Property Name<> </>/
+                {tenantData?.results?.[0]?.data?.[0]?.estateId?.name ? tenantData?.results?.[0]?.data?.[0]?.estateId?.name : "Property Name"}<> </>/
               </Link>
               <div className="text-[20px] font-[500] text-GrayHomz">
                 Tenants

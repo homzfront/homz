@@ -1,13 +1,13 @@
-import { fetchSpecificTenantRentPaymentOwner } from '@/api/propertyService';
-import { create } from 'zustand'
 
+import { create } from 'zustand';
+import { fetchSpecificTenantRentEnterprise } from '@/api/enterpriseManagerService';
 
-const useTenantRentPaymentOwner = create((set) => ({
+const useTenantRentEnterprise = create((set) => ({
     data: [],
     loading: true,
     fetchData: async (id) => {
         try {
-            const response = await fetchSpecificTenantRentPaymentOwner(id);
+            const response = await fetchSpecificTenantRentEnterprise(id);
             console.log(response)
             const rentPayemnt = await response;
             set({ data: rentPayemnt, loading: false });
@@ -18,4 +18,4 @@ const useTenantRentPaymentOwner = create((set) => ({
     },
 }));
 
-export default useTenantRentPaymentOwner;
+export default useTenantRentEnterprise;

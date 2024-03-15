@@ -231,6 +231,17 @@ export const enterpriseRentPayemntInfo = async () => {
   }
 };
 
+export const fetchSpecificTenantRentEnterprise = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/rentPayment/enterprise/tenant/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching tenant details:", error);
+    throw error;
+  }
+};
+
 
 export const enterpriseTenantForAnEstate = async (id) => {
   console.log(id);

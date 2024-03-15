@@ -13,6 +13,7 @@ import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import SliderAuth from "@/components/auth/slider";
+import determineUserDashboard from "@/utils/determineUserDashboard";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -110,20 +111,7 @@ const Login = () => {
     }
   };
   
-  // Helper function to determine user dashboard based on roles and accounts
-  function determineUserDashboard(profileData) {
-    if (profileData?.user?.isVerified && profileData?.user?.accounts.length === 0) {
-      return "/select-plan"; // Redirect to select plan for verified users with no accounts
-    } else if (profileData?.user?.accounts?.[0].name === "TENANT") {
-      return "/dashboard/tenant/dashboard";
-    } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
-      return "/dashboard/enterprise-property/dashboard";
-    } else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY" || profileData?.user?.accounts?.[0].name === "MANAGE_PROPERTY") {
-      return "/dashboard/property-owner/dashboard";
-    } else {
-      return null; // No specific dashboard identified
-    }
-  }
+
   
   
   const Visible = () => {
@@ -165,25 +153,27 @@ const Login = () => {
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                      Email*
+                      Email <span className="text-error">*</span>
                     </label>
                     <input
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                       type="text"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {setEmail(e.target.value)
+                      setLoginError("")}}
                       placeholder="Enter your email"
                     />
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                      Password*
+                      Password <span className="text-error">*</span>
                     </label>
                     <input
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                       type={visible ? "text" : "password"}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {setPassword(e.target.value)
+                      setLoginError("")}}
                       placeholder="Create a password"
                     />
                     <div className="absolute top-11 right-4" onClick={Visible}>
@@ -212,7 +202,7 @@ const Login = () => {
                 >
                   Log In
                 </button>
-                <div className="">
+                {/* <div className="">
                   <button   className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
                     <Image
                       className=""
@@ -223,7 +213,7 @@ const Login = () => {
                     />
                     Login In with google
                   </button>
-                </div>
+                </div> */}
                 <p className="text-center font-[400] text-[14px]">
                   Don’t have an account?
                   <Link

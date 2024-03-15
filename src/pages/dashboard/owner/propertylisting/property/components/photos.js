@@ -60,21 +60,7 @@ const Photos = ({ data }) => {
     console.log(file);
     setUploadedImage5(file);
   };
-  const handleImageUpload6 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage6(file);
-  };
-  const handleImageUpload7 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage7(file);
-  };
-  const handleImageUpload8 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage8(file);
-  };
+
 
   console.log(data);
   console.log(data?.photos?.[0].publicId);
@@ -122,6 +108,26 @@ const Photos = ({ data }) => {
           data._id,
           uploadedImage3,
           data?.photos?.[2].publicId
+        )
+      );
+    }
+
+    if (uploadedImage4) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[3].publicId
+        )
+      );
+    }
+
+    if (uploadedImage5) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[4].publicId
         )
       );
     }
@@ -204,6 +210,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage4}
                     handleImageUpload={handleImageUpload4}
                     uploadedImage={uploadedImage4}
+                    image={data?.photos?.[3]?.url}
                   />
                 </div>
               </div>
@@ -213,27 +220,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage5}
                     handleImageUpload={handleImageUpload5}
                     uploadedImage={uploadedImage5}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage6}
-                    handleImageUpload={handleImageUpload6}
-                    uploadedImage={uploadedImage6}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage7}
-                    handleImageUpload={handleImageUpload7}
-                    uploadedImage={uploadedImage7}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage8}
-                    handleImageUpload={handleImageUpload8}
-                    uploadedImage={uploadedImage8}
+                    image={data?.photos?.[4]?.url}
                   />
                 </div>
               </div>

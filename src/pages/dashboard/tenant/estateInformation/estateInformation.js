@@ -115,7 +115,7 @@ const EstateInformation = () => {
       ) : (
         <div>
           <SearchEstate openAvailableEstate={openAvailableEstate} />
-          <div className="sm:border-t mt-6 w-full">
+          <div className="w-full">
             <InviteLink
               openLink={openLink}
               inviteLink={inviteLink}

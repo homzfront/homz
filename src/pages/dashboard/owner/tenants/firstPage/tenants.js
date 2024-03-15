@@ -36,7 +36,7 @@ const Tenants = () => {
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
   console.log(options);
 
-  const options2 = ["Pending", "Paid", "OverDue"];
+  const options2 = ["Pending", "Paid", "Over due"];
   const filteredData = tenantData?.filter(
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);

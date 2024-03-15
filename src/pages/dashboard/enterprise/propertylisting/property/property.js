@@ -5,13 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchSingleProperty } from "@/api/propertyService";
 
-const Property = ({id}) => {
+const Property = ({ id }) => {
 
-  const  [data, setData] = useState([])
+  const [data, setData] = useState([])
   console.log(id);
 
 
-  useEffect(()=> {
+  useEffect(() => {
     const estateData = async () => {
       const response = await fetchSingleProperty(id);
       const estate = await response;
@@ -46,16 +46,16 @@ const Property = ({id}) => {
               href={"/dashboard/enterprise-property/propertylisting"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Property Name<> </>/
+              {data?.name ? data?.data?.name : "Property Name"}<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Details
             </div>
           </div>
-          <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
+          {/* <p className="text-[14px] font-[400] text-BlueHomz">See public view</p> */}
         </div>
         <div>
-          <Widget data={data}/>
+          <Widget data={data} />
         </div>
       </div>
     </div>

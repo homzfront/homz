@@ -47,7 +47,7 @@ const Property = ({id}) => {
               href={"/dashboard/property-owner/propertylisting"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Property Name<> </>/
+          {data?.name ? data?.data?.name : "Property Name"}<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Details

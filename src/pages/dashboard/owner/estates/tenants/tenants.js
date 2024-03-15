@@ -127,7 +127,9 @@ const Tenants = ({ id }) => {
             href={"/dashboard/property-owner/estates"}
             className="text-[16px] font-[400] text-GrayHomz"
           >
-            Property Name<> </>/
+                            {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
+       
+     
           </Link>
           <div className="text-[20px] font-[500] text-GrayHomz">Tenants</div>
         </div>

@@ -28,6 +28,7 @@ const Estate = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const [selectedProperty, setSelectedProperty] = useState(null);
   const dropdownRef = useClickOutside(() => setInviteTenant(false)); 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
@@ -39,6 +40,7 @@ const Estate = () => {
     setSelectedState(null);
     setSelectedArea(null);
     setSelectedDate(null);
+    setSelectedProperty(null)
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
@@ -47,14 +49,18 @@ const Estate = () => {
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
   console.log(options2);
 
+  const option3 =  [...new Set(data?.map((item) => item?.name))];
+  console.log(option3)
+
   const filteredData = data?.filter((data) => {
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.created));
     console.log(createdDateTimestamp);
     console.log(selectedDateTimestamp);
     return (
-      (!selectedState || data?.location.state === selectedState) &&
-      (!selectedArea || data?.location.area === selectedArea) &&
+      // (!selectedState || data?.location.state === selectedState) &&
+      // (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedProperty || data?.name === selectedProperty) &&
       (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
     );
   });
@@ -91,12 +97,15 @@ const Estate = () => {
           selectedArea={selectedArea}
           selectedState={selectedState}
           selectedDate={selectedDate}
+          selectedProperty= {selectedProperty}
+          setSelectedProperty={setSelectedProperty}
           setSelectedArea={setSelectedArea}
           setSelectedState={setSelectedState}
           setSelectedDate ={setSelectedDate}
           clear={clear}
           options={options}
           options2={options2}
+          options3={option3}
           fetchData={fetchData}
           dropdownRef={dropdownRef}
         />

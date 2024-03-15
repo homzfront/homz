@@ -5,6 +5,7 @@ import ConfirmModal from "../../components/confirmModal";
 import AcAndRejModel from "../../components/acAndRejModel";
 import CollectCardDetails from "./components/collectCardDetails";
 import YesNOModal from "../../tenants/components/yesNOModal";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const Payment = () => {
   const [fillCard, setFillCard] = useState(false);
@@ -19,13 +20,7 @@ const Payment = () => {
   const [verifyII, setVerifyII] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
 
-  useEffect(() => {
-    document.body.style.overflow = verified || verifyDelete || removeCard ? "hidden" : "auto";
-    if (verified || verifyDelete || removeCard) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [verified, verifyDelete, removeCard]);
+useBodyScroll([verified, verifyDelete, removeCard]);
 
   const handleCardNumberChange = (e) => {
     // Remove non-numeric characters from the input
@@ -113,7 +108,7 @@ const Payment = () => {
           Upgrade Plan
         </Link>
       </div>
-      <p className="font-[700] text-[14px] text-GrayHomz mt-4">
+      {/* <p className="font-[700] text-[14px] text-GrayHomz mt-4">
         Payment Method
       </p>
       <p className="font-[400] text-[13px] text-GrayHomz mt-1">
@@ -263,7 +258,7 @@ const Payment = () => {
           button={"Close"}
           returnHome={CloseTwo}
         />
-      )}
+      )} */}
     </div>
   );
 };

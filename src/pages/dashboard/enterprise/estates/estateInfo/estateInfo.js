@@ -7,8 +7,8 @@ import api from "@/utils/api";
 import { fetchEstatesSpecificUSer } from "@/api/estateService";
 import useEstateForOneStore from "@/store/useEstateForOne";
 
-const EstateInfo = ({id}) => {
-  
+const EstateInfo = ({ id }) => {
+
   const { data, fetchData } = useEstateForOneStore();
 
   useEffect(() => {
@@ -40,7 +40,8 @@ const EstateInfo = ({id}) => {
               href={"/dashboard/enterprise-property/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Property Name<> </>/
+              {data?.name ? data?.name : "Property Name"}<> </>/
+
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Information
@@ -48,14 +49,14 @@ const EstateInfo = ({id}) => {
           </div>
         </div>
         <div>
-          <Widget data={data} id={id}/>
+          <Widget data={data} id={id} />
         </div>
       </div>
     </div>
   );
 
 
-  
+
 };
 
 export default EstateInfo;

@@ -30,7 +30,10 @@ const ListedProperties = ({
   options2,
   options3,
   clear,
-  fetchData
+  fetchData,
+  selectedPropertyName,
+  options5,
+  setSelectedPropertyName,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -86,12 +89,12 @@ const ListedProperties = ({
               </span>
             </div>
             <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-start gap-2">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
 
-                <Dropdown
+                {/* <Dropdown
                   options={options}
                   onSelect={(option) => setSelectedState(option)}
                   selectOption={
@@ -105,17 +108,29 @@ const ListedProperties = ({
                   onSelect={(option) => setSelectedArea(option)}
                   selectOption={selectedArea === null ? "Area" : selectedArea}
                   className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
-                />
-                <Dropdown
-                  options={options3}
-                  onSelect={(option) => setSelectedProperty(option)}
-                  selectOption={
-                    selectedProperty === null
-                      ? "Property Type"
-                      : selectedProperty
-                  }
-                  className={"text-[14px] font-[500] text-GrayHomz2"}
-                />
+                /> */}
+                <div className="w-[200px]">
+                  <Dropdown
+                    options={options5}
+                    onSelect={(option) => setSelectedPropertyName(option)}
+                    selectOption={selectedPropertyName === null ? "PropertyName" : selectedPropertyName}
+                    className={
+                      "text-[14px] font-[500] text-GrayHomz2"
+                    }
+                  />
+                </div>
+                <div className="w-[180px]">
+                  <Dropdown
+                    options={options3}
+                    onSelect={(option) => setSelectedProperty(option)}
+                    selectOption={
+                      selectedProperty === null
+                        ? "Property Type"
+                        : selectedProperty
+                    }
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                {/* </div>
                 <Dropdown
                   options={optionsRoom}
                   onSelect={(option) => setSelectedRooms(option)}
@@ -123,7 +138,7 @@ const ListedProperties = ({
                     selectedRooms === null ? "Bedroom" : selectedRooms
                   }
                   className={"w-[120px] text-[14px] font-[500] text-GrayHomz2"}
-                />
+                /> */}
                 <button
                   type="text"
                   onClick={clear}

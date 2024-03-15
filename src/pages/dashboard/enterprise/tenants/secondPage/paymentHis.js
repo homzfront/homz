@@ -5,22 +5,47 @@ import Table from "../components/table";
 import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
 
-const PaymentHis = ({tenantData}) => {
-//   const tenantId = tenantData?.data?._id
-//   console.log(tenantId);
-//   const {
-//     data,
-//     loading,
-//     fetchData
-//   } = useRentPaymentStore();
+const PaymentHis = ({ tenantData }) => {
+  const tenantId = tenantData?.data?._id
+  console.log(tenantId);
+  const {
+    data: paymentData,
+    loading,
+    fetchData
+  } = useTenantRentEnterprise();
 
-//   useEffect(() => {
-//     fetchData()
-//   }, [])
+  useEffect(() => {
+    fetchData(tenantId)
+  }, [tenantData])
 
-// console.log(data)
-console.log(tenantData);
+  console.log(paymentData)
+  console.log(paymentData?.data)
+
+  const allData = paymentData?.data ? paymentData?.data : []
+
+  console.log(allData)
+
+  // Total rent for all entries
+  let totalRent = 0;
+  for (const entry of allData) {
+    totalRent += entry.totalRent;
+  }
+
+  console.log("Total rent for all entries:", totalRent); // Output: Total rent for all entries: 3200000
+
+  // Total rent for entries with "SUCCESS" status
+  let successTotalRent = 0;
+  for (const entry of allData) {
+    if (entry.status === "SUCCESS") {
+      successTotalRent += entry.totalRent;
+    }
+  }
+
+  console.log("Total rent for entries with 'SUCCESS' status:", successTotalRent);
+
+  console.log(tenantData);
   const boxes = [
     {
       id: 1,
@@ -29,7 +54,7 @@ console.log(tenantData);
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      // money: `${addCommasToNumber(data?.totalRent)}`,
+      money: `${addCommasToNumber(totalRent)}`,
     },
     {
       id: 2,
@@ -38,8 +63,8 @@ console.log(tenantData);
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      // money: `${data?.rentInfo?.paymentStatus === "paid" ? "------" : addCommasToNumber(data?.totalRent) }`,
-      // dueDate: `${changeBackendDateFormat(data?.dueDate)}`
+      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent) }`,
+      dueDate: `${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
     },
     {
       id: 3,
@@ -67,7 +92,7 @@ console.log(tenantData);
       }
       </div>
       <div>
-        <Table tenantData={tenantData}/>
+        <Table tenantData={tenantData} />
       </div>
     </div>
   );

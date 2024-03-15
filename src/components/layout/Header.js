@@ -44,6 +44,20 @@ const Header = () => {
     return username;
   };
 
+  function determineUserDashboard(user) {
+    if (user?.isVerified && user?.accounts.length === 0) {
+      return "/select-plan"; // Redirect to select plan for verified users with no accounts
+    } else if (user?.accounts?.[0].name === "TENANT") {
+      return "/dashboard/tenant/dashboard";
+    } else if (user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
+      return "/dashboard/enterprise-property/dashboard";
+    } else if (user?.accounts?.[0].name === "LIST_PROPERTY" || user?.accounts?.[0].name === "MANAGE_PROPERTY") {
+      return "/dashboard/property-owner/dashboard";
+    } else {
+      return null; // No specific dashboard identified
+    }
+  }
+  
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
       <Link href={"/"}>
@@ -56,9 +70,8 @@ const Header = () => {
         />
       </Link>
       <nav
-        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${
-          open ? "block" : "hidden md:flex"
-        }`}
+        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${open ? "block" : "hidden md:flex"
+          }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
           <Link href={"/"} className="hover:text-blue-400">
@@ -98,15 +111,16 @@ const Header = () => {
         </div>
       </nav>
       <div
-        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${
-          open ? "block" : "hidden md:flex"
-        } `}
+        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${open ? "block" : "hidden md:flex"
+          } `}
       >
         {loading ? (
           <p>Loading...</p>
         ) : isUserPresent ? (
-          <div className={`flex items-center ${open ? "flex  flex-col gap-4 items-start": ""}`}>
-            <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(user)}!</p>
+          <div className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"}`}>
+            <Link href={user ? determineUserDashboard(user) : "/"}>
+              <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(user)}!</p>
+            </Link>
             <button
               onClick={() => logout(logout)}
               className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px]" : ""}`}
@@ -117,17 +131,17 @@ const Header = () => {
           </div>
         ) : (
           <>
-            <Link 
-            href="/login"
-            // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-            // href={""}
-             className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
+            <Link
+              href="/login"
+              // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+              // href={""}
+              className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
               Sign in
 
             </Link>
             <Link
               href="/register"
-          //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+              //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
               className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""}`}
             >
               Create Account

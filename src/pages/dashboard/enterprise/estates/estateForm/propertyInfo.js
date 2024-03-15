@@ -95,8 +95,9 @@ const PropertyInfo = ({
           <div>
             <Input
               label={"Property Size"}
-              placeholder={"0.00"}
-              type={"number"}
+              span2={"650 square meters is equivalent to 1 plot."}
+              placeholder={"0 sq m"}
+              type={"text"}
               value={size}
               onChange={(e) => setSize(e.target.value)}
             />

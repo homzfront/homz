@@ -3,7 +3,7 @@ import useAreaStore from '@/store/useStateAndAreaStore/useAreaStore';
 import React, { useEffect } from 'react'
 import Select from 'react-select';
 
-const SelectArea = ({ selectedArea, setSelectedArea, state }) => {
+const SelectArea = ({ selectedArea, setSelectedArea, state, placeholder }) => {
     console.log(state)
 
     const { loading, success, error, data, chooseArea } = useAreaStore();
@@ -30,7 +30,7 @@ const SelectArea = ({ selectedArea, setSelectedArea, state }) => {
                 value={selectedArea}
                 onChange={handleChange}
                 options={options}
-                placeholder="Select Area..."
+                placeholder={ placeholder ? placeholder : "Select Area..."}
                 styles={{
                     control: (base, state) => ({
                         ...base,

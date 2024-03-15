@@ -1,9 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "../../components/box";
 import Table from "../components/table";
+import useTenantRentPaymentOwner from "@/store/propertyOwnerStore/rentPaymentTenant";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const PaymentHis = (data) => {
 
+
+
+  const tenantId = data?.data?.data?._id
+  console.log(tenantId);
+  const {
+    data: paymentData,
+    loading,
+    fetchData
+  } = useTenantRentPaymentOwner();
+
+  useEffect(() => {
+    fetchData(tenantId)
+  }, [data])
+
+  console.log(paymentData)
+
+  const allData = paymentData?.data ? paymentData?.data : []
+
+  console.log(allData)
+
+  // Total rent for all entries
+  let totalRent = 0;
+  for (const entry of allData) {
+    totalRent += entry.totalRent;
+  }
+
+  console.log("Total rent for all entries:", totalRent); // Output: Total rent for all entries: 3200000
+
+  // Total rent for entries with "SUCCESS" status
+  let successTotalRent = 0;
+  for (const entry of allData) {
+    if (entry.status === "SUCCESS") {
+      successTotalRent += entry.totalRent;
+    }
+  }
+
+  console.log("Total rent for entries with 'SUCCESS' status:", successTotalRent);
+
+
+// console.log(paymentData?.data?.[0]?.totalRent)
   const boxes = [
     {
       id: 1,
@@ -12,7 +55,7 @@ const PaymentHis = (data) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      money: "N2,500,000",
+      money: `${addCommasToNumber(totalRent)}`,
     },
     {
       id: 2,
@@ -21,8 +64,8 @@ const PaymentHis = (data) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: "N2,500,000",
-      dueDate: "Due date: 4th January, 2024"
+      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent) }`,
+      dueDate: `${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
     },
     {
       id: 3,
@@ -50,7 +93,7 @@ const PaymentHis = (data) => {
       }
       </div>
       <div>
-        <Table tenantData={data} />
+        <Table tenantData={data} datas={paymentData}/>
       </div>
     </div>
   );

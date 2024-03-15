@@ -21,19 +21,25 @@ const Table = ({tenantData}) => {
     fetchData()
   }, [])
 
-
+console.log(data)
   console.log(data?.length);
+
+  const filteredData = data?.filter ((data)=> {
+   return tenantId === data?.tenantId?._id 
+  })
+
+  console.log(filteredData);
 
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredData?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = data?.slice(startIndex, endIndex);
+  const currentData = filteredData?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
