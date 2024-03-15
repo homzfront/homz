@@ -89,7 +89,7 @@ const ListedProperties = ({
               </span>
             </div>
             <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-start gap-2">
+              <div className="flex items-center justify-start gap-2 w-full">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
@@ -113,7 +113,7 @@ const ListedProperties = ({
                   <Dropdown
                     options={options5}
                     onSelect={(option) => setSelectedPropertyName(option)}
-                    selectOption={selectedPropertyName === null ? "PropertyName" : selectedPropertyName}
+                    selectOption={selectedPropertyName === null ? "Property Name" : selectedPropertyName}
                     className={
                       "text-[14px] font-[500] text-GrayHomz2"
                     }
@@ -130,8 +130,8 @@ const ListedProperties = ({
                     }
                     className={"text-[14px] font-[500] text-GrayHomz2"}
                   />
-                {/* </div>
-                <Dropdown
+                </div>
+                {/* <Dropdown
                   options={optionsRoom}
                   onSelect={(option) => setSelectedRooms(option)}
                   selectOption={
