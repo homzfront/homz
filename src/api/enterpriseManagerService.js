@@ -174,8 +174,8 @@ export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
     console.log(response);
     return { success: true, upDateddata: response };
   } catch (error) {
-    console.error(" error", error);
-    return { success: false, error: response?.error }; // Adjusted this line
+   const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
   }
 };
 
