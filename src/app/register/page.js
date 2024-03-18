@@ -25,8 +25,13 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.password || !formData.email || !formData.agreedToTerms) {
+    if (!formData.password || !formData.email) {
       setPasswordError("Please fill in all fields and agree to terms.");
+      return;
+    }
+
+    if (!formData.agreedToTerms) {
+      setPasswordError("Agree to terms.")
       return;
     }
 
@@ -45,12 +50,14 @@ const Register = () => {
       });
 
       if (response.data.statuscode === 201) {
+
         toast.success("user created, verify your email.");
         // alert("Done!");
         // Handle the response as needed
+        const data = response?.data?.data?.token
         console.log("Registration successful", response.data);
-        // setPasswordError('');
-        // localStorage.setItem("email", formData.email);
+        console.log("Token: ", response?.data?.data?.token)
+        localStorage.setItem('jwt', data)
         router.push(`/verify-email`);
         if (typeof window !== 'undefined') {
           localStorage.setItem("email", formData.email);
@@ -126,7 +133,7 @@ const Register = () => {
                       Email <span className="text-error">*</span>
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError ? "border-red-500" : ""
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." ? "border-red-500" : ""
                         }`}
                       type="email"
                       value={formData.email}
@@ -142,7 +149,7 @@ const Register = () => {
                       Password <span className="text-error">*</span>
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError ? "border-red-500" : ""
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." ? "border-red-500" : ""
                         }`}
                       type={visible ? "text" : "password"}
                       value={formData.password}
@@ -166,15 +173,13 @@ const Register = () => {
                       className={`mr-2 cursor-pointer ${passwordError ? "border-red-500" : ""
                         }`}
                       checked={formData.agreedToTerms}
-                      onChange={ () => { 
+                      onChange={() => {
                         setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
                         setPasswordError("")
                       }}
                     />
                     <p className="text-center font-[400] text-[11px]">
-                      By registering you accept our terms of use and privacy and
-                      agree that we and our selected partners may contact you with
-                      relevant offers and services.
+                      I Accept the Terms and conditions
                     </p>
                   </div>
                   {passwordError && (

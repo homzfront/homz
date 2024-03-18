@@ -34,12 +34,14 @@ const Card = ({
           {value1 && (
             <Image
               src={value1}
-              fill
-              priority={true}
+              height={168}
+              width={264}
               alt=""
-              className="rounded-lg"
-              style={{ objectFit: "cover" }}
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 70vw, 100vw"
+              layout="full" // Specify the desired height
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover bg-center h-[168px] rounded-[8px]"
+              priority
             />
           )}
         </div>

@@ -4,9 +4,14 @@ import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchSingleProperty } from "@/api/propertyService";
+import { useRouter } from "next/navigation";
 
 const Property = ({ id }) => {
+  const router = useRouter();
 
+  const goBack = () => {
+    router.back();
+  };
   const [data, setData] = useState([])
   console.log(id);
 
@@ -36,18 +41,18 @@ const Property = ({ id }) => {
               height={16}
               width={16}
             />
-            <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
-              className="text-[14px] font-[400] text-GrayHomz2"
+            <div
+              onClick={goBack}
+              className="text-[14px] font-[400] text-GrayHomz2 cursor-pointer"
             >
               Go Back
-            </Link>
-            <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
-              className="text-[16px] font-[400] text-GrayHomz"
+            </div>
+            <div
+              onClick={goBack}
+              className="text-[16px] font-[400] text-GrayHomz cursor-pointer"
             >
-              {data?.name ? data?.data?.name : "Property Name"}<> </>/
-            </Link>
+              {data?.data?.name ? data?.data?.name : "Property Name"}<> </>/
+            </div>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Details
             </div>

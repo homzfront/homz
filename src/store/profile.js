@@ -35,6 +35,7 @@ const useProfileStore = create((set) => ({
         localStorage.removeItem('email');
         localStorage.removeItem('user');
         localStorage.removeItem('RentResponse'); 
+        localStorage.removeItem('jwt'); 
         }
       // Redirect to login or another appropriate page
       window.location.href = '/';

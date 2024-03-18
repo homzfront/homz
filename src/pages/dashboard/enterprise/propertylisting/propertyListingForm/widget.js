@@ -78,10 +78,10 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     formDataToSend.append("description", formData.description);
     formDataToSend.append("coverPhoto", formData.uploadedImageCoverPhoto);
     formDataToSend.append("photos", formData.uploadedImage);
-    // formDataToSend.append("photos", formData.uploadedImage2);
-    // formDataToSend.append("photos", formData.uploadedImage3);
-    // formDataToSend.append("photos", formData.uploadedImage4);
-    // formDataToSend.append("photos", formData.uploadedImage5);
+    formDataToSend.append("photos", formData.uploadedImage2);
+    formDataToSend.append("photos", formData.uploadedImage3);
+    formDataToSend.append("photos", formData.uploadedImage4);
+    formDataToSend.append("photos", formData.uploadedImage5);
     formDataToSend.append("monthlyRent", Number(formData.monthlyRent));
     formDataToSend.append("yearlyRent", Number(formData.yearlyRent));
     formDataToSend.append("totalFee", Number(formData.totalFee));

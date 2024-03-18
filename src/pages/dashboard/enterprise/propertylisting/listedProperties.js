@@ -117,7 +117,7 @@ const ListedProperties = ({
                   <Dropdown
                     options={options5}
                     onSelect={(option) => setSelectedPropertyName(option)}
-                    selectOption={selectedPropertyName === null ? "PropertyName" : selectedPropertyName}
+                    selectOption={selectedPropertyName === null ? "Property Name" : selectedPropertyName}
                     className={
                       "text-[14px] font-[500] text-GrayHomz2"
                     }

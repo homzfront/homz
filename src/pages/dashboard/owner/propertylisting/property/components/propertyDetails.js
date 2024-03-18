@@ -7,6 +7,7 @@ import { updatePropertyDetails } from "@/api/propertyService";
 import LoadingII from "@/components/mainmenu/loadingII";
 import SelectState from "@/pages/selectStateAndArea/selectState";
 import SelectArea from "@/pages/selectStateAndArea/selectArea";
+import lowerCaseData from "@/utils/lowerCaseData";
 
 const PropertyDetails = ({ data }) => {
   console.log(data);
@@ -159,12 +160,12 @@ const PropertyDetails = ({ data }) => {
         name,
         address,
         description,
-        state: selectedState?.label,
-        area: selectedArea?.label,
-        numberOfRooms: parseInt(numberOfRooms?.label),
-        numberOfBathrooms: parseInt(numberOfBathrooms?.label),
-        propertyType: propertyType?.label,
-        numberOfToilets: parseInt(numberOfToilets?.label),
+        state: selectedState?.label ?? selectedState,
+        area: selectedArea?.label ?? selectedArea,
+        numberOfRooms: parseInt(numberOfRooms?.label ?? numberOfRooms),
+        numberOfBathrooms: parseInt(numberOfBathrooms?.label ?? numberOfBathrooms),
+        propertyType: lowerCaseData(propertyType?.label ?? propertyType),
+        numberOfToilets: parseInt(numberOfToilets?.label ?? numberOfToilets),
       };
       const { success, upDateddata, error } = await updatePropertyDetails(
         data._id,
@@ -182,7 +183,21 @@ const PropertyDetails = ({ data }) => {
     } catch (error) {
       console.error("Update error", error);
       setLoading(false);
-      toast.error("Update failed");
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        console.error("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        console.error("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
+
     }
   };
 

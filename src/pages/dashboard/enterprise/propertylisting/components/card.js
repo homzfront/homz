@@ -36,8 +36,10 @@ const Card = ({
               height={168}
               width={264}
               alt=""
-              className="rounded-lg"
-              style={{ height: "auto", width: "auto" }}
+              layout="full" // Specify the desired height
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover bg-center h-[168px] rounded-[8px]"
               priority
             />
           )}

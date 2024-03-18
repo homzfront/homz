@@ -14,6 +14,7 @@ import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import SliderAuth from "@/components/auth/slider";
 import determineUserDashboard from "@/utils/determineUserDashboard";
+import Cookies from "js-cookie";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -67,9 +68,11 @@ const Login = () => {
       });
   
       if (response.status === 201) { // Handle expected successful login status code
-        toast.success("Login successful");
-        const { data } = response.data;
-  
+        const  data = response.data.data.token;
+        toast.success("Login Successful")
+        console.log(response)
+        console.log("login successful, ", data)
+        localStorage.setItem('jwt', data)
         // Fetch user profile
         const profileResponse = await api.get("/user/profile");
   

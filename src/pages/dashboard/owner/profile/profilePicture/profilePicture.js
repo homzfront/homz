@@ -54,8 +54,21 @@ const ProfilePicture = ({ data }) => {
     } catch (error) {
       console.error("Update error", error);
       setLoading(false);
-      // toast.error("Update failed");
       setShowDialogue(false);
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        console.error("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        console.error("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
     }
   };
 

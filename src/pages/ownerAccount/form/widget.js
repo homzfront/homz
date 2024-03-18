@@ -53,6 +53,8 @@ const Widget = ({ data }) => {
 
         if (success) {
           console.log("Form successfully updated", upDateddata);
+          const  data = upDateddata?.data?.token;
+          localStorage.setItem('jwt', data)
           setLoading(false);
           setDashboard(true);
           toast.success(upDateddata?.message);

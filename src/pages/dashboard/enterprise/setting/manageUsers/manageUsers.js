@@ -16,6 +16,7 @@ import Image from "next/image";
 import Popup from "@/pages/tenantManagementPlan/popUp";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
@@ -36,7 +37,7 @@ const ManageUsers = () => {
 
   console.log(data);
 
-  useBodyScroll([showPopup])
+  useBodyScroll([openModal, loadingII])
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -110,7 +111,21 @@ const ManageUsers = () => {
     } catch (error) {
       setLoadingII(false);
       console.error("Update error", error);
-      toast.error("Update error", error);
+
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        console.error("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        console.error("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
     }
   };
 
@@ -145,12 +160,11 @@ const ManageUsers = () => {
             </div>
           </div>
           <div
-            className={`mt-4  ${
-              isOpen ? "block" : "hidden"
-            }`}
+            className={`mt-4  ${isOpen ? "block" : "hidden"
+              }`}
           >
             <div className="flex gap-6 items-center  px-5 pb-2 h-[95px]  w-full">
-              <div className="w-[360px]">
+              <div className="w-[360px] mb-6">
                 <Input
                   type={"email"}
                   placeholder={"Email"}
@@ -168,9 +182,8 @@ const ManageUsers = () => {
                     : "Select property you want Landlord to view"}
                 </div>
                 <div
-                  className={`w-5 h-5 p-1 ${
-                    showPopup ? "transform rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 p-1 ${showPopup ? "transform rotate-180" : ""
+                    }`}
                 >
                   <Image
                     src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
@@ -189,12 +202,11 @@ const ManageUsers = () => {
               )}
               <button
                 onClick={handleSubmit}
-                className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${
-                  isButtonDisabled
+                className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
                     ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
                     : "bg-BlueHomz text-white"
-                }`}
-                // disabled={isButtonDisabled}
+                  }`}
+              // disabled={isButtonDisabled}
               >
                 Invite
               </button>

@@ -7,6 +7,8 @@ import { updatePropertyDetails } from "@/api/propertyService";
 import LoadingII from "@/components/mainmenu/loadingII";
 import SelectState from "@/pages/selectStateAndArea/selectState";
 import SelectArea from "@/pages/selectStateAndArea/selectArea";
+import lowerCaseData from "@/utils/lowerCaseData";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const PropertyDetails = ({ data }) => {
   console.log(data);
@@ -24,7 +26,7 @@ const PropertyDetails = ({ data }) => {
       setSelectedState(data?.state || "");
       setNumberOfRooms(data?.numberOfRooms || "");
       setNumberOfBathrooms(data?.numberOfBathrooms || "");
-      setPropertyType(data?.propertyType || "");
+      setPropertyType(capitalizeFirstLetter(data?.propertyType || ""));
       setNumberOfToilets(data?.numberOfToilets || "")
     }
   }, [data]);
@@ -32,7 +34,7 @@ const PropertyDetails = ({ data }) => {
   const [selectedState, setSelectedState] = useState(data?.state);
   const [name, setName] = useState(data?.name);
   const [address, setAddress] = useState(data?.address);
-  const [propertyType, setPropertyType] = useState(data?.propertyType);
+  const [propertyType, setPropertyType] = useState(capitalizeFirstLetter(data?.propertyType || ""));
   const [numberOfRooms, setNumberOfRooms] = useState(data?.numberOfRooms);
   const [numberOfBathrooms, setNumberOfBathrooms] = useState(data?.numberOfBathrooms);
   const [description, setDescription] = useState(data?.description);
@@ -62,6 +64,7 @@ const PropertyDetails = ({ data }) => {
     { id: 11, label: "Semi-Detached Duplex" },
     { id: 12, label: "Terraced Duplex" },
   ];
+
 
   // const optionsTwo = [
   //   { id: 1, label: "Ajah" },
@@ -159,12 +162,12 @@ const PropertyDetails = ({ data }) => {
         name,
         address,
         description,
-        state: selectedState?.label,
-        area: selectedArea?.label,
-        numberOfRooms: parseInt(numberOfRooms?.label),
-        numberOfBathrooms: parseInt(numberOfBathrooms?.label),
-        propertyType: propertyType?.label,
-        numberOfToilets: parseInt(numberOfToilets?.label),
+        state: selectedState?.label ?? selectedState,
+        area: selectedArea?.label ?? selectedArea,
+        numberOfRooms: parseInt(numberOfRooms?.label ?? numberOfRooms),
+        numberOfBathrooms: parseInt(numberOfBathrooms?.label ?? numberOfBathrooms),
+        propertyType: lowerCaseData(propertyType?.label ?? propertyType),
+        numberOfToilets: parseInt(numberOfToilets?.label ?? numberOfToilets),
       };
       const { success, upDateddata, error } = await updatePropertyDetails(
         data._id,
@@ -182,7 +185,21 @@ const PropertyDetails = ({ data }) => {
     } catch (error) {
       console.error("Update error", error);
       setLoading(false);
-      toast.error("Update failed");
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        console.error("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        console.error("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
+
     }
   };
 

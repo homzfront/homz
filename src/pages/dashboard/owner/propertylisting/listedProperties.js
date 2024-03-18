@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropertyCard from "./components/propertyCard";
 import Button from "../components/button";
 import Image from "next/image";
-import Dropdown from "@/components/mainmenu/dropDownTwo";
 import PropertyForm from "./propertyListingForm/propertyForm";
+import Dropdown from "../components/dropDownFilter";
 
 const ListedProperties = ({
   Data,
@@ -84,12 +84,12 @@ const ListedProperties = ({
           <div className="p-8">
             <div className="flex gap-2 mb-6">
               <p>Properties</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+              <span className="bg-whiteblue w-6 h-6 flex justify-center rounded-[8px]">
                 <span className="text-BlueHomz ">{Data.length}</span>
               </span>
             </div>
             <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-start gap-2 w-full">
+              <div className="flex items-center justify-start gap-2 w-[70%]">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
