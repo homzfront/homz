@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-const BankSelect = ({ banks, selectedBank, setSelectedBank }) => {
+const BankSelect = ({ banks, selectedBank, setSelectedBank , setErrorName
+}) => {
   
 
   const handleChange = (selectedOption) => {
     setSelectedBank(selectedOption);
+    setErrorName('')
   };
 
   const options = banks?.map((bank) => ({

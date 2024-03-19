@@ -7,7 +7,7 @@ const SearchEstate = ({ openAvailableEstate }) => {
     <div className="p-8">
       <div className="hidden sm:flex flex-col gap-4">
         <p className="text-[41px] font-[700] text-BlueHomz">Get Started</p>
-        <p className="text-[18px] font-[400] text-GrayHomz">
+        {/* <p className="text-[18px] font-[400] text-GrayHomz">
           Search and join the property where your rented apartment is located
         </p>
         <button
@@ -21,7 +21,7 @@ const SearchEstate = ({ openAvailableEstate }) => {
             alt=""
           />
           Search for property
-        </button>
+        </button> */}
       </div>
       <div className="sm:hidden  flex flex-col gap-3">
         <Image
@@ -37,7 +37,7 @@ const SearchEstate = ({ openAvailableEstate }) => {
         <p className="text-[14px] font-[400] text-GrayHomz w-full text-center">
           Search and join the property where your rented apartment is located
         </p>
-        <button
+        {/* <button
           onClick={openAvailableEstate}
           className="bg-BlueHomz hover:bg-walletBg w-full sm:w-[198px] h-[42px] text-white text-[14px] flex items-center justify-center gap-2 rounded-[4px]"
         >
@@ -48,7 +48,7 @@ const SearchEstate = ({ openAvailableEstate }) => {
             alt=""
           />
           Search for property
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import { updatePaymentStatusTenant } from "@/api/tenantSevice";
 import { toast } from "react-toastify";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
-const TenantData = ({ data, loading }) => {
+const TenantData = ({ data, loading, fetchRentData }) => {
 
   console.log(data)
 
@@ -71,6 +71,7 @@ const TenantData = ({ data, loading }) => {
       console.log(data);
       toast.success("status updated successfully");
       // Close the corresponding dropdown
+      fetchRentData()
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
       console.log(error);

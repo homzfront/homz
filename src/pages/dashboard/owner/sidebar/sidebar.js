@@ -5,8 +5,11 @@ import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
 import useBodyScroll from "@/utils/useBodyScroll";
+import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
 
 const Sidebar = () => {
+  const { showKindlyWait} = LandLordInactiveStore();
+
   const Data = [
     {
       id: 1,
@@ -163,7 +166,7 @@ useBodyScroll([logoutModal]);
             />
           </Link>
           </div>
-          <div className="grid gap-3 ">
+          <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
             {Data.map((data) => (
               <Link
                 key={data.id}
@@ -192,7 +195,7 @@ useBodyScroll([logoutModal]);
               </Link>
             ))}
           </div>{" "}
-          <div className="grid gap-3 ">
+          <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
             {Data2.map((data) => (
               <Link
                 key={data.id}
@@ -212,7 +215,7 @@ useBodyScroll([logoutModal]);
               </Link>
             ))}
           </div>
-          <div className="grid gap-3 ">
+          <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
             {Data3.map((data) => (
               <Link
                 key={data.id}

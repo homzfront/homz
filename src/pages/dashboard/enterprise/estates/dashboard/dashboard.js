@@ -42,7 +42,8 @@ const Dashboard = ({id}) => {
               href={"/dashboard/enterprise-property/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Property Name<> </>/
+                     {data?.[0]?.estateId?.name ? data?.[0]?.estateId?.name : "Property Name"}<> </>/
+       
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Dashboard

@@ -18,12 +18,14 @@ const Estate = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const [selectedProperty, setSelectedProperty] = useState(null);
   
   console.log(data);
 
   const clear = () => {
     setSelectedState(null);
     setSelectedArea(null);
+    setSelectedProperty(null)
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
@@ -32,13 +34,18 @@ const Estate = () => {
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
   console.log(options2);
 
+  const option3 =  [...new Set(data?.map((item) => item?.name))];
+  console.log(option3)
 
   const filteredData = data?.filter((data) => {
     return (
-      (!selectedState || data?.location.state === selectedState) &&
-      (!selectedArea || data?.location.area === selectedArea)
+      // (!selectedState || data?.location.state === selectedState) &&
+      // (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedProperty || data?.name === selectedProperty) 
     );
   });
+
+  console.log((filteredData));
 
   return (
     <div className="w-full">
@@ -54,11 +61,14 @@ const Estate = () => {
           setCurrentPage={setCurrentPage}
           selectedArea={selectedArea}
           selectedState={selectedState}
+          selectedProperty= {selectedProperty}
+          setSelectedProperty={setSelectedProperty}
           setSelectedArea={setSelectedArea}
           setSelectedState={setSelectedState}
           clear={clear}
           options={options}
           options2={options2}
+          options3={option3}
         />
       ) : (
         <div className="w-full p-8">

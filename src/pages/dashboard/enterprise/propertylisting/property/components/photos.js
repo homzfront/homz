@@ -14,9 +14,6 @@ const Photos = ({ data }) => {
   const [uploadedImage3, setUploadedImage3] = useState(null);
   const [uploadedImage4, setUploadedImage4] = useState(null);
   const [uploadedImage5, setUploadedImage5] = useState(null);
-  const [uploadedImage6, setUploadedImage6] = useState(null);
-  const [uploadedImage7, setUploadedImage7] = useState(null);
-  const [uploadedImage8, setUploadedImage8] = useState(null);
   const [uploadedImageCoverPhoto, setUploadedImageCoverPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -30,50 +27,55 @@ const Photos = ({ data }) => {
   }, [data]);
 
   console.log(uploadedImageCoverPhoto);
-  const handleImageUploadCoverPhoto = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImageCoverPhoto(file);
+
+  const handleImageUpload = (imageKey, file) => {
+    switch (imageKey) {
+      case "uploadedImage":
+        setUploadedImage(file);
+        break;
+      case "uploadedImage2":
+        setUploadedImage2(file);
+        break;
+      case "uploadedImage3":
+        setUploadedImage3(file);
+        break;
+      case "uploadedImage4":
+        setUploadedImage4(file);
+        break;
+      case "uploadedImage5":
+        setUploadedImage5(file);
+        break;
+      case "uploadedImageCoverPhoto":
+        setUploadedImageCoverPhoto(file);
+        break;
+      default:
+        break;
+    }
   };
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage(file);
-  };
-  const handleImageUpload2 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage2(file);
-  };
-  const handleImageUpload3 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage3(file);
-  };
-  const handleImageUpload4 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage4(file);
-  };
-  const handleImageUpload5 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage5(file);
-  };
-  const handleImageUpload6 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage6(file);
-  };
-  const handleImageUpload7 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage7(file);
-  };
-  const handleImageUpload8 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage8(file);
+
+  const removeImage = (imageKey) => {
+    switch (imageKey) {
+      case "uploadedImage":
+        setUploadedImage(null);
+        break;
+      case "uploadedImage2":
+        setUploadedImage2(null);
+        break;
+      case "uploadedImage3":
+        setUploadedImage3(null);
+        break;
+      case "uploadedImage4":
+        setUploadedImage4(null);
+        break;
+      case "uploadedImage5":
+        setUploadedImage5(null);
+        break;
+      case "uploadedImageCoverPhoto":
+        setUploadedImageCoverPhoto(null);
+        break;
+      default:
+        break;
+    }
   };
 
   console.log(data);
@@ -111,7 +113,7 @@ const Photos = ({ data }) => {
         updatePropertyOtherPhoto(
           data._id,
           uploadedImage2,
-          data?.photos?.[1].publicId
+          data?.photos?.[1]?.publicId
         )
       );
     }
@@ -121,7 +123,27 @@ const Photos = ({ data }) => {
         updatePropertyOtherPhoto(
           data._id,
           uploadedImage3,
-          data?.photos?.[2].publicId
+          data?.photos?.[2]?.publicId
+        )
+      );
+    }
+
+    if (uploadedImage4) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[3]?.publicId
+        )
+      );
+    }
+
+    if (uploadedImage5) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[4]?.publicId
         )
       );
     }
@@ -162,8 +184,8 @@ const Photos = ({ data }) => {
                 </p>
                 <div className="w-[120px] flex justify-start mt-4">
                   <ImageUpload
-                    onImageRemove={setUploadedImageCoverPhoto}
-                    handleImageUpload={handleImageUploadCoverPhoto}
+                    handleImageUpload={(file) => handleImageUpload("uploadedImageCoverPhoto", file)}
+                    onImageRemove={() => removeImage("uploadedImageCoverPhoto")}
                     uploadedImage={uploadedImageCoverPhoto}
                     image={data?.coverPhoto?.url}
                   />
@@ -177,63 +199,44 @@ const Photos = ({ data }) => {
               <div className="flex mt-4 justify-between">
                 <div className="w-[120px] flex justify-start">
                   <ImageUpload
-                    onImageRemove={setUploadedImage}
-                    handleImageUpload={handleImageUpload}
+                    handleImageUpload={(file) => handleImageUpload("uploadedImage", file)}
+                    onImageRemove={() => removeImage("uploadedImage")}
                     uploadedImage={uploadedImage}
                     image={data?.photos?.[0].url}
                   />
                 </div>
-                <div className="w-[120px] flex justify-start">
+                <div className={`w-[120px] flex justify-start ${data?.photos?.[1]?.url ? "" : "hidden"}`}>
                   <ImageUpload
-                    onImageRemove={setUploadedImage2}
-                    handleImageUpload={handleImageUpload2}
+                    handleImageUpload={(file) => handleImageUpload("uploadedImage2", file)}
+                    onImageRemove={() => removeImage("uploadedImage2")}
                     uploadedImage={uploadedImage2}
                     image={data?.photos?.[1]?.url}
                   />
                 </div>
-                <div className="w-[120px] flex justify-start">
+                <div className={`w-[120px] flex justify-start ${data?.photos?.[2]?.url ? "" : "hidden"}`}>
                   <ImageUpload
-                    onImageRemove={setUploadedImage3}
-                    handleImageUpload={handleImageUpload3}
+                    handleImageUpload={(file) => handleImageUpload("uploadedImage3", file)}
+                    onImageRemove={() => removeImage("uploadedImage3")}
                     uploadedImage={uploadedImage3}
                     image={data?.photos?.[2]?.url}
                   />
                 </div>
-                <div className="w-[120px] flex justify-start">
+                <div className={`w-[120px] flex justify-start ${data?.photos?.[3]?.url ? "" : "hidden"}`}>
                   <ImageUpload
-                    onImageRemove={setUploadedImage4}
-                    handleImageUpload={handleImageUpload4}
+                    handleImageUpload={(file) => handleImageUpload("uploadedImage4", file)}
+                    onImageRemove={() => removeImage("uploadedImage4")}
                     uploadedImage={uploadedImage4}
+                    image={data?.photos?.[3]?.url}
                   />
                 </div>
               </div>
-              <div className="flex mt-4 justify-between">
+              <div className={`flex mt-4 justify-between ${data?.photos?.[4]?.url ? "" : "hidden"}`}>
                 <div className="w-[120px] flex justify-start">
                   <ImageUpload
-                    onImageRemove={setUploadedImage5}
-                    handleImageUpload={handleImageUpload5}
+                    handleImageUpload={(file) => handleImageUpload("uploadedImage5", file)}
+                    onImageRemove={() => removeImage("uploadedImage5")}
                     uploadedImage={uploadedImage5}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage6}
-                    handleImageUpload={handleImageUpload6}
-                    uploadedImage={uploadedImage6}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage7}
-                    handleImageUpload={handleImageUpload7}
-                    uploadedImage={uploadedImage7}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage8}
-                    handleImageUpload={handleImageUpload8}
-                    uploadedImage={uploadedImage8}
+                    image={data?.photos?.[4]?.url}
                   />
                 </div>
               </div>

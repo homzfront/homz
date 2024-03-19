@@ -13,6 +13,8 @@ import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import SliderAuth from "@/components/auth/slider";
+import determineUserDashboard from "@/utils/determineUserDashboard";
+import Cookies from "js-cookie";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -30,24 +32,28 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return; // Do nothing if already loading
   
-    setLoading(true); // Set loading to true when submitting the form
+    // Early return if already loading
+    if (loading) return;
   
+    setLoading(true); // Set loading state
+  
+    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      // Invalid email format
-      alert("Please enter a valid email address.");
+      setLoginError("Please enter a valid email address.");
+      setLoading(false);
       return;
     }
-
+  
+    // Validate required fields
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
     }
   
-    // Check if the password meets the length requirement
+    // Check password length
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
       setLoading(false);
@@ -55,37 +61,34 @@ const Login = () => {
     }
   
     try {
+      // Login request
       const response = await api.post("/auth/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
   
-      if (response.data.statuscode === 201) {
-        toast.success("Login successful");
-        const { data } = response.data;
-  
-        // Fetch user profile immediately after login
+      if (response.status === 201) { // Handle expected successful login status code
+        const  data = response.data.data.token;
+        toast.success("Login Successful")
+        console.log(response)
+        console.log("login successful, ", data)
+        localStorage.setItem('jwt', data)
+        // Fetch user profile
         const profileResponse = await api.get("/user/profile");
   
-        if (profileResponse.data.statuscode === 200 || 201) {
+        if (profileResponse.status === 200 || 201) { // Handle expected success status codes
           const profileData = profileResponse.data;
   
-          // Use the profileData to determine which page to navigate to
-          if (profileData?.user?.accounts?.[0].name === "TENANT") {
-            // If the user is an admin, navigate to the admin page
-            router.push("/dashboard/tenant/dashboard");
-          } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
-            // If the user is a property owner, navigate to the property owner page
-            router.push("/dashboard/enterprise-property/dashboard");
-          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY" || profileData?.user?.accounts?.[0].name === "MANAGE_PROPERTY") {
-            // If the user is a property owner, navigate to the property owner page
-            router.push("/dashboard/property-owner/dashboard");
+          // Navigation logic based on user roles and account status
+          const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
+          if (navigateTo) {
+            router.push(navigateTo);
           } else {
-            // For other roles or if no specific role is defined, navigate to the default page
+            // Default navigation for unhandled roles or empty accounts
             router.push("/");
           }
   
-          // Set user and profile in state
+          // Update user and profile state
           useProfileStore.setState({
             user: data,
             profile: profileData,
@@ -93,27 +96,26 @@ const Login = () => {
             loading: false,
           });
   
-          setLoading(false);
           setEmail("");
           setPassword("");
         } else {
-          const profileError = profileResponse.data.message;
-          console.log("Unexpected status code for profile:", profileError);
-          setLoginError(profileError);
-          setLoading(false);
+          console.error("Unexpected status code for profile:", profileResponse.data.message);
+          setLoginError(profileResponse.data.message); // Set specific error message
         }
       } else {
-        const error = response.data.message;
-        console.log("Unexpected status code:", error);
-        setLoginError(error);
-        setLoading(false);
+        console.error("Unexpected status code:", response.data.message);
+        setLoginError(response.data.message); // Set specific error message
       }
     } catch (error) {
       console.error("Login error", error);
-      setLoginError(error.response?.data?.message);
-      setLoading(false);
+      setLoginError(error.response?.data?.message); // Set specific error message (if available)
+    } finally {
+      setLoading(false); // Ensure loading state is reset even in case of errors
     }
   };
+  
+
+  
   
   const Visible = () => {
     setVisible(!visible);
@@ -154,25 +156,27 @@ const Login = () => {
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                      Email*
+                      Email <span className="text-error">*</span>
                     </label>
                     <input
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                       type="text"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {setEmail(e.target.value)
+                      setLoginError("")}}
                       placeholder="Enter your email"
                     />
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                      Password*
+                      Password <span className="text-error">*</span>
                     </label>
                     <input
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                       type={visible ? "text" : "password"}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => {setPassword(e.target.value)
+                      setLoginError("")}}
                       placeholder="Create a password"
                     />
                     <div className="absolute top-11 right-4" onClick={Visible}>
@@ -201,7 +205,7 @@ const Login = () => {
                 >
                   Log In
                 </button>
-                <div className="">
+                {/* <div className="">
                   <button   className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
                     <Image
                       className=""
@@ -212,7 +216,7 @@ const Login = () => {
                     />
                     Login In with google
                   </button>
-                </div>
+                </div> */}
                 <p className="text-center font-[400] text-[14px]">
                   Don’t have an account?
                   <Link

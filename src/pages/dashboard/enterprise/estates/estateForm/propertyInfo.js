@@ -4,6 +4,9 @@ import Input from "../../components/input";
 import DropDown from "../../components/dropDownTwo";
 import Image from "next/image";
 import AcAndRejModel from "../../components/acAndRejModel";
+import SelectArea from "@/pages/selectStateAndArea/selectArea";
+import SelectState from "@/pages/selectStateAndArea/selectState";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const PropertyInfo = ({
   handlePageChangeTwo,
@@ -32,22 +35,8 @@ const PropertyInfo = ({
   console.log(size);
   console.log(address);
 
-  const handleSelectArea = (option) => {
-    setSelectedArea(option);
-  };
-
-  const handleSelectState = (option) => {
-    setSelectedState(option);
-  };
-
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = showCancelDialogue ? "hidden" : "auto";
-    if (showCancelDialogue) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [showCancelDialogue]);
+  useBodyScroll([showCancelDialogue]);
 
   const handleShowCancelDialogue = () => {
     setShowCancelDialogue(!showCancelDialogue);
@@ -57,17 +46,6 @@ const PropertyInfo = ({
     setShowCancelDialogue(false);
   };
 
-  const options = [
-    { id: 1, label: "Ajah" },
-    { id: 2, label: "Lekki" },
-    { id: 3, label: "Ikeja" },
-  ];
-
-  const optionsTwo = [
-    { id: 1, label: "Lagos" },
-    { id: 2, label: "Oyo" },
-    { id: 3, label: "Calabar" },
-  ];
 
   return (
     <div className="px-8">
@@ -95,28 +73,18 @@ const PropertyInfo = ({
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
               Property Location <span className="text-error">*</span>
             </div>
-            <div className="flex justify-between ">
-              <div>
-                <DropDown
-                  options={options}
-                  onSelect={handleSelectArea}
-                  selectOption={"Select Area"}
-                  className={"w-[230px]"}
-                />
+            <div className="flex gap-4 w-full">
+              <div className="w-full">
+                <SelectState selectedState={selectedState} setSelectedState={setSelectedState} />
               </div>
-              <div>
-                <DropDown
-                  options={optionsTwo}
-                  onSelect={handleSelectState}
-                  selectOption={"Select State"}
-                  className={"w-[230px]"}
-                />
+              <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
+                <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} />
               </div>
             </div>
           </div>
           <div>
             <Input
-              label={"Property Address"}
+              label={"Street"}
               placeholder={"Enter Property Address"}
               type={"text"}
               span={"*"}
@@ -127,8 +95,9 @@ const PropertyInfo = ({
           <div>
             <Input
               label={"Property Size"}
-              placeholder={"0.00"}
-              type={"number"}
+              span2={"650 square meters is equivalent to 1 plot."}
+              placeholder={"0 sq m"}
+              type={"text"}
               value={size}
               onChange={(e) => setSize(e.target.value)}
             />
@@ -138,6 +107,7 @@ const PropertyInfo = ({
               label={"Total No of Houses In Property"}
               placeholder={"0"}
               type={"Number"}
+              span={"*"}
               value={numberOfHouses}
               onChange={(e) => setNumberOfHouses(e.target.value)}
             />
@@ -146,7 +116,7 @@ const PropertyInfo = ({
         <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
           <div>
             <label className="text-[14px] font-[500] text-BlackHomz ">
-              Property Description <span className="text-error">*</span>
+              Property Description
             </label>
             <p className="text-[13px] font-[400] text-GrayHomz ">
               Give short description of your property.
@@ -170,12 +140,10 @@ const PropertyInfo = ({
           </button>
         </div>
         {!name ||
-        !selectedArea ||
-        !selectedState ||
-        !address ||
-        !size ||
-        !numberOfHouses ||
-        !description ? (
+          !selectedArea ||
+          !selectedState ||
+          !address ||
+          !numberOfHouses ? (
           <div className="">
             <button
               disabled

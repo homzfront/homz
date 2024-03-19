@@ -1,10 +1,51 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import Box from "../../components/box";
 import Table from "../components/table";
+import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
 
-const PaymentHis = ({tenantData}) => {
+const PaymentHis = ({ tenantData }) => {
+  const tenantId = tenantData?.data?._id
+  console.log(tenantId);
+  const {
+    data: paymentData,
+    loading,
+    fetchData
+  } = useTenantRentEnterprise();
 
+  useEffect(() => {
+    fetchData(tenantId)
+  }, [tenantData])
 
+  console.log(paymentData)
+  console.log(paymentData?.data)
+
+  const allData = paymentData?.data ? paymentData?.data : []
+
+  console.log(allData)
+
+  // Total rent for all entries
+  let totalRent = 0;
+  for (const entry of allData) {
+    totalRent += entry.totalRent;
+  }
+
+  console.log("Total rent for all entries:", totalRent); // Output: Total rent for all entries: 3200000
+
+  // Total rent for entries with "SUCCESS" status
+  let successTotalRent = 0;
+  for (const entry of allData) {
+    if (entry.status === "SUCCESS") {
+      successTotalRent += entry.totalRent;
+    }
+  }
+
+  console.log("Total rent for entries with 'SUCCESS' status:", successTotalRent);
+
+  console.log(tenantData);
   const boxes = [
     {
       id: 1,
@@ -13,7 +54,7 @@ const PaymentHis = ({tenantData}) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      money: "N2,500,000",
+      money: `${addCommasToNumber(totalRent)}`,
     },
     {
       id: 2,
@@ -22,8 +63,8 @@ const PaymentHis = ({tenantData}) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: "N2,500,000",
-      dueDate: "Due date: 4th January, 2024"
+      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent) }`,
+      dueDate: `${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
     },
     {
       id: 3,

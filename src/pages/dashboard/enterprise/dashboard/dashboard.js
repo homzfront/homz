@@ -9,6 +9,7 @@ import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterprise
 import useEnterpriseStatsStore from "@/store/enterpriseStore/enterpriseStats";
 import useEnterpriseRevenueStore from "@/store/enterpriseStore/enterpriseRevenue";
 import extractFirstName from "@/utils/extractFirstName";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const Dashboard = () => {
   const {
@@ -44,7 +45,7 @@ const Dashboard = () => {
         <div className="">
           <h1 className="text-[14px] sm:text-[23px] font-[700] text-BlackHomz">
             {profileData?.fullName
-              ? ` Welcome back, ${extractFirstName(profileData?.fullName)}`
+              ? ` Welcome back, ${extractFirstName(capitalizeFirstLetter(profileData?.fullName))}`
               : "Welcome back"}
           </h1>
           <p className="text-[13px] sm:text-[16px] font-[400] text-GrayHomz2">

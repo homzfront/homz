@@ -6,6 +6,7 @@ import RentSecond from "./components/rent-second/rentSecond";
 import BillPayment from "./components/billPayment/billPayment";
 import tenantProfile from "@/store/tenantStore/tenantProfile";
 import extractFirstName from "@/utils/extractFirstName";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const Dashboard = () => {
   const { data, loading, fetchData } = tenantProfile();
@@ -22,7 +23,7 @@ const Dashboard = () => {
         <div className="">
           <h1 className="text-[14px] sm:text-[23px] font-[700] text-BlackHomz">
             {data?.fullName
-              ? `Hello, ${extractFirstName(data?.fullName)}`
+              ? `Hello, ${extractFirstName(capitalizeFirstLetter(data?.fullName))}`
               : "Hello"}
           </h1>
           <p className="text-[13px] sm:text-[16px] font-[400] text-GrayHomz2">

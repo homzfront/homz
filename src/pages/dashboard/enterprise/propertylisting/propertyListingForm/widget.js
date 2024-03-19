@@ -8,6 +8,7 @@ import api from "@/utils/api.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation.js";
+import lowerCaseData from "@/utils/lowerCaseData.js";
 
 const Widget = ({ returnToStartRegistration, fetchData }) => {
   // to push to dashboard/property-listing
@@ -24,64 +25,41 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [yesOrNoModal, setYesOrNoModal] = useState(false);
 
   // Form states
-  // propertyInfo
-  const [selectedArea, setSelectedArea] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [propertyType, setPropertyType] = useState(null);
-  const [numberOfRooms, setNumberOfRooms] = useState(null);
-  const [numberOfBathrooms, setNumberOfBathrooms] = useState(null);
-  const [description, setDescription] = useState("");
+  const [formData, setFormData] = useState({
+    area: null,
+    state: null,
+    name: "",
+    address: "",
+    propertyType: null,
+    numberOfRooms: null,
+    numberOfBathrooms: null,
+    description: "",
+    numberOfToilets: null,
+    uploadedImage: null,
+    uploadedImage2: null,
+    uploadedImage3: null,
+    uploadedImage4: null,
+    uploadedImage5: null,
+    uploadedImageCoverPhoto: null,
+    monthlyRent: "",
+    maintenanceFee: "",
+    totalFee: "",
+    agencyFee: "",
+    yearlyRent: "",
+    phoneNumber: "",
+    email: "",
+    whatsapp: "",
+  });
 
-  // addphotos
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [uploadedImage2, setUploadedImage2] = useState(null);
-  const [uploadedImage3, setUploadedImage3] = useState(null);
-  const [uploadedImage4, setUploadedImage4] = useState(null);
-  const [uploadedImage5, setUploadedImage5] = useState(null);
-  const [uploadedImage6, setUploadedImage6] = useState(null);
-  const [uploadedImage7, setUploadedImage7] = useState(null);
-  const [uploadedImage8, setUploadedImage8] = useState(null);
-  const [uploadedImageCoverPhoto, setUploadedImageCoverPhoto] = useState(null);
+  console.log(formData)
 
-  // rentDetails
-  const [monthlyRent, setMonthlyRent] = useState("");
-  const [maintenanceFee, setMaintenanceFee] = useState("");
-  const [totalFee, setTotalFee] = useState("");
-  const [agencyFee, setAgencyFee] = useState("");
-  const [yearlyRent, setYearlyRent] = useState(``);
-
-  // contactInfo
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [whatsapp, setWhatsapp] = useState("");
-
-  console.log(selectedArea?.label);
-  console.log(selectedState?.label);
-  console.log(name);
-  console.log(address);
-  console.log(description);
-  console.log(propertyType?.label);
-  console.log(numberOfRooms?.label);
-  console.log(numberOfBathrooms?.label);
-  console.log(uploadedImageCoverPhoto);
-  console.log(uploadedImage);
-  console.log(uploadedImage2);
-  console.log(uploadedImage3);
-  console.log(uploadedImage4);
-  console.log(uploadedImage5);
-  console.log(uploadedImage6);
-  console.log(uploadedImage7);
-  console.log(uploadedImage8);
-  console.log(monthlyRent);
-  console.log(yearlyRent);
-  console.log(totalFee);
-  console.log(maintenanceFee);
-  console.log(agencyFee);
-  console.log(email);
-  console.log(whatsapp);
-  console.log(phoneNumber);
+  const handleChange = (name, value) => {
+    if (name === "uploadedImage" || name === "uploadedImage2" || name === "uploadedImage3" || name === "uploadedImage4" || name === "uploadedImage5" || name === "uploadedImageCoverPhoto") {
+      setFormData({ ...formData, [name]: value });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,29 +67,33 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
 
     setLoading(true); // Set loading to true when submitting the form
 
-    const formData = new FormData();
-    formData.append("area", selectedArea?.label);
-    formData.append("state", selectedState?.label);
-    formData.append("propertyType", propertyType?.label);
-    formData.append("numberOfRooms", parseInt(numberOfRooms?.label));
-    formData.append("numberOfBathrooms", parseInt(numberOfBathrooms?.label));
-    formData.append("address", address);
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("coverPhoto", uploadedImageCoverPhoto);
-    formData.append("photos", uploadedImage);
-    formData.append("photos", uploadedImage2);
-    formData.append("photos", uploadedImage3);
-    formData.append("monthlyRent", parseInt(monthlyRent));
-    formData.append("yearlyRent", parseInt(yearlyRent));
-    formData.append("totalFee", parseInt(totalFee));
-    formData.append("maintenanceFee", parseInt(maintenanceFee));
-    formData.append("agencyFee", parseInt(agencyFee));
-    formData.append("email", email);
-    formData.append("phoneNumber", parseInt(phoneNumber));
-    formData.append("whatsapp", whatsapp);
+    const formDataToSend = new FormData();
+    formDataToSend.append("area", formData?.area?.label);
+    formDataToSend.append("state", formData?.state?.label);
+    formDataToSend.append("propertyType", lowerCaseData(formData.propertyType?.label));
+    formDataToSend.append("numberOfRooms", parseInt(formData.numberOfRooms?.label));
+    formDataToSend.append("numberOfBathrooms", parseInt(formData.numberOfBathrooms?.label));
+    formDataToSend.append("address", formData.address);
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("coverPhoto", formData.uploadedImageCoverPhoto);
+    formDataToSend.append("photos", formData.uploadedImage);
+    formDataToSend.append("photos", formData.uploadedImage2);
+    formDataToSend.append("photos", formData.uploadedImage3);
+    formDataToSend.append("photos", formData.uploadedImage4);
+    formDataToSend.append("photos", formData.uploadedImage5);
+    formDataToSend.append("monthlyRent", Number(formData.monthlyRent));
+    formDataToSend.append("yearlyRent", Number(formData.yearlyRent));
+    formDataToSend.append("totalFee", Number(formData.totalFee));
+    formDataToSend.append("maintenanceFee", Number(formData.maintenanceFee));
+    formDataToSend.append("agencyFee", Number(formData.agencyFee));
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("phoneNumber", parseInt(formData.phoneNumber));
+    formDataToSend.append("whatsapp", formData.whatsapp);
+    formDataToSend.append("numberOfToilets", parseInt(formData.numberOfToilets?.label));
+
     try {
-      const response = await api.post("/properties/create/enterprise", formData, {
+      const response = await api.post("/properties/create/enterprise", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           // add other headers as needed
@@ -123,32 +105,32 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         console.log("form successfully updated ", response.data);
         toast.success("form successfully uploaded");
         setLoading(false);
-        setSelectedArea(null);
-        setSelectedState(null);
-        setName("");
-        setAddress("");
-        setDescription("");
-        setPropertyType(null);
-        setNumberOfRooms(null);
-        setNumberOfBathrooms(null);
-        setUploadedImageCoverPhoto(null);
-        setUploadedImage(null);
-        setUploadedImage2(null);
-        setUploadedImage3(null);
-        setUploadedImage4(null);
-        setUploadedImage5(null);
-        setUploadedImage6(null);
-        setUploadedImage7(null);
-        setUploadedImage8(null);
-        setMonthlyRent("");
-        setYearlyRent("");
-        setTotalFee("");
-        setMaintenanceFee("");
-        setAgencyFee("");
-        setEmail("");
-        setWhatsapp("");
-        setPhoneNumber("");
         setOpenConfirmationModal(!openConfirmationModal);
+        setFormData({
+          area: null,
+          state: null,
+          name: "",
+          address: "",
+          propertyType: null,
+          numberOfRooms: null,
+          numberOfBathrooms: null,
+          description: "",
+          numberOfToilets: null,
+          uploadedImage: null,
+          uploadedImage2: null,
+          uploadedImage3: null,
+          uploadedImage4: null,
+          uploadedImage5: null,
+          uploadedImageCoverPhoto: null,
+          monthlyRent: "",
+          maintenanceFee: "",
+          totalFee: "",
+          agencyFee: "",
+          yearlyRent: "",
+          phoneNumber: "",
+          email: "",
+          whatsapp: "",
+        });
       } else {
         const error = response.data.message;
         console.log("Unexpected status code:", error);
@@ -246,8 +228,8 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col items-center p-2 justify-center ${!active
-                    ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                    : "h-1 w-1"
+                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                  : "h-1 w-1"
                   }`}
                 onClick={handlePageChange}
                 justify-center
@@ -262,8 +244,8 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col p-2 items-center justify-center ${activeTwo
-                    ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                    : "h-1 w-1"
+                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                  : "h-1 w-1"
                   }`}
                 onClick={handlePageChangeTwo}
               >
@@ -276,8 +258,8 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col p-2 items-center justify-center ${activeThree
-                    ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                    : "h-1 w-1"
+                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                  : "h-1 w-1"
                   }`}
                 onClick={handlePageChangeThree}
               >
@@ -290,8 +272,8 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col p-2 items-center justify-center ${activeFour
-                    ? " bg-white rounded-full  w-1 h-1 shadow-md "
-                    : "h-1 w-1"
+                  ? " bg-white rounded-full  w-1 h-1 shadow-md "
+                  : "h-1 w-1"
                   }`}
                 onClick={handlePageChangeFour}
               >
@@ -308,73 +290,32 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             <PropertyInfo
               returnToStartRegistration={returnToStartRegistration}
               handlePageChangeTwo={handlePageChangeTwo}
-              name={name}
-              address={address}
-              description={description}
-              selectedArea={selectedArea}
-              selectedState={selectedState}
-              setSelectedArea={setSelectedArea}
-              setSelectedState={setSelectedState}
-              setName={setName}
-              setAddress={setAddress}
-              setDescription={setDescription}
-              propertyType={propertyType}
-              numberOfRooms={numberOfRooms}
-              numberOfBathrooms={numberOfBathrooms}
-              setPropertyType={setPropertyType}
-              setNumberOfRooms={setNumberOfRooms}
-              setNumberOfBathrooms={setNumberOfBathrooms}
+              formData={formData}
+              handleChange={handleChange}
             />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <RentDetails
               handlePageChangeThree={handlePageChangeThree}
               handlePageChange={handlePageChange}
-              monthlyRent={monthlyRent}
-              maintenanceFee={maintenanceFee}
-              totalFee={totalFee}
-              agencyFee={agencyFee}
-              yearlyRent={yearlyRent}
-              setMonthlyRent={setMonthlyRent}
-              setMaintenanceFee={setMaintenanceFee}
-              setTotalFee={setTotalFee}
-              setAgencyFee={setAgencyFee}
-              setYearlyRent={setYearlyRent}
+              formData={formData}
+              handleChange={handleChange}
             />
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <AddPictures
               handlePageChangeTwo={handlePageChangeTwo}
               handlePageChangeFour={handlePageChangeFour}
-              uploadedImage={uploadedImage}
-              uploadedImage2={uploadedImage2}
-              uploadedImage3={uploadedImage3}
-              uploadedImage4={uploadedImage4}
-              uploadedImage5={uploadedImage5}
-              uploadedImage6={uploadedImage6}
-              uploadedImage7={uploadedImage7}
-              uploadedImage8={uploadedImage8}
-              uploadedImageCoverPhoto={uploadedImageCoverPhoto}
-              setUploadedImage={setUploadedImage}
-              setUploadedImage2={setUploadedImage2}
-              setUploadedImage3={setUploadedImage3}
-              setUploadedImage4={setUploadedImage4}
-              setUploadedImage5={setUploadedImage5}
-              setUploadedImage6={setUploadedImage6}
-              setUploadedImage7={setUploadedImage7}
-              setUploadedImage8={setUploadedImage8}
-              setUploadedImageCoverPhoto={setUploadedImageCoverPhoto}
+              formData={formData}
+              handleChange={handleChange}
+              setFormData={setFormData}
             />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
             <ContactInfo
               handlePageChangeThree={handlePageChangeThree}
-              phoneNumber={phoneNumber}
-              email={email}
-              whatsapp={whatsapp}
-              setEmail={setEmail}
-              setWhatsapp={setWhatsapp}
-              setPhoneNumber={setPhoneNumber}
+              formData={formData}
+              handleChange={handleChange}
               handleSubmit={handleSubmit}
               yesOrNoModal={yesOrNoModal}
               openYesOrNo={openYesOrNo}

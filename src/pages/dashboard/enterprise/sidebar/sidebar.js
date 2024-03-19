@@ -5,15 +5,32 @@ import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
 import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
+import useMaintenanceRequestStore from "@/store/enterpriseStore/useMaintenanceStore";
 
 const Sidebar = () => {
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
+  const { request:maintenanceRequest, fetchData: fetchMaintenance } =
+    useMaintenanceRequestStore();
 
   useEffect(() => {
     fetchData();
+    fetchMaintenance();
   }, []);
 
+  // Assuming data is the object containing the provided data
+const results = maintenanceRequest?.results;
+
+// Check if any request status is "pending"
+const isAnyPending = results?.some(item => item.status === "pending");
+
+// Perform action if any request status is "pending"
+if (isAnyPending) {
+  // Perform your action here
+  console.log("At least one request is pending", isAnyPending);
+}
+
   console.log(request)
+  console.log(maintenanceRequest)
   console.log(request?.[0]?.status)
   const Data = [
     {
@@ -78,7 +95,7 @@ const Sidebar = () => {
       link: "/dashboard/enterprise-property/maintenance",
       name: "Maintenance",
       coming: null,
-      active: false,
+      active: `${isAnyPending === true ? true : false}`,
     },
     {
       id: 8,

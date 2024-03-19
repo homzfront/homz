@@ -4,6 +4,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
 const Features = () => {
   const settings = {
@@ -57,7 +58,7 @@ const Features = () => {
   ];
 
   return (
-    <div className="mt-[120px] max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[80px]">
+    <div className="sm:mt-[120px] mt-0 max-w-[1160px] m-auto px-6 flex flex-col items-center gap-[80px]">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
         <h2 className=" text-BlueHomz text-[18px]  text-center font-[500]">
           Features
@@ -137,12 +138,12 @@ const Features = () => {
             Join over 2,000+ property managers who are scaling up.
           </p>
           <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-4">
-            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border   hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
+            <Link  href={"/register"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border  flex items-center justify-center hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
               Get started
-            </button>
-            <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white   hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
+            </Link>
+            <Link href={"/contact-page"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  flex items-center justify-center hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
               Contact us
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -113,10 +113,12 @@ const HowItWorks = () => {
           Join over 2,000+ property owners who are scaling up.
         </h1>
         <div className="flex flex-col sm:flex-row w-full sm:w-auto mt-3  gap-4">
-          <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+          <Link
+          //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+          href={"/register"}>
             <button className="w-full sm:w-[116px] font-[700] h-[48px] text-[16px] hover:bg-transparent hover:border  hover:text-white rounded-md  text-BlackHomz  bg-white  px-2 py-1">
-              {/* Get started */}
-              Join Waitlist
+              Get started
+              {/* Join Waitlist */}
             </button>
           </Link>
           <Link href={"/contact-page"}>

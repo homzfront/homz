@@ -46,8 +46,10 @@ const Maintenance = ({ data }) => {
   // Now you have maintenanceData updated with additional data for each ID
   console.log(maintenanceData);
 
-  const Data = Object.values(maintenanceData).flat();
-  console.log(Data);
+  const Data = Object.values(maintenanceData)
+  .filter(array => array.length > 0) // Filter out empty arrays
+  .flat();
+console.log(Data);
   return (
     <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">

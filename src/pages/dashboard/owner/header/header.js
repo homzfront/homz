@@ -69,7 +69,7 @@ const Header = () => {
         <div className="">
         </div>
         <div className="flex gap-4 items-center relative">
-          <div onClick={handleToggleMenuTwo} className="cursor-pointer">
+          <div onClick={handleToggleMenuTwo} className="cursor-pointer hidden" >
             <Image
               src={
                 "/static/dashboard/enterprisemanager/header/notification.png"

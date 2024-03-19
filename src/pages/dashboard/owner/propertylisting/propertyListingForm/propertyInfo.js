@@ -3,6 +3,8 @@ import Input from "../../components/input";
 import Image from "next/image";
 import DropDown from "../../components/dropDownTwo";
 import AcAndRejModel from "../../components/acAndRejModel";
+import SelectArea from "@/pages/selectStateAndArea/selectArea";
+import SelectState from "@/pages/selectStateAndArea/selectState";
 
 const PropertyInfo = ({
   handlePageChangeTwo,
@@ -23,6 +25,8 @@ const PropertyInfo = ({
   setPropertyType,
   setNumberOfRooms,
   setNumberOfBathrooms,
+  setToilets,
+  toilet
 }) => {
   const [showCancelDialogue, setShowCancelDialogue] = useState(false);
 
@@ -30,17 +34,11 @@ const PropertyInfo = ({
   console.log(address);
   console.log(description);
 
-  const handleSelectArea = (option) => {
+  const handleSelectToilets = (option) => {
     // Handle the selected value as needed
     console.log("Selected Option:", option);
-    setSelectedArea(option);
-  };
-
-  const handleSelectState = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedState(option);
-  };
+    setToilets(option)
+}
 
   const handleSelectPropertyType = (option) => {
     // Handle the selected value as needed
@@ -77,36 +75,32 @@ const PropertyInfo = ({
     setShowCancelDialogue(false);
   };
 
+
   const options = [
-    { id: 1, label: "apartment" },
-    { id: 2, label: "duplex" },
-    { id: 3, label: "self contain" },
-    { id: 4, label: "studio room" },
+    { id: 1, label: "Boys Quarters" },
+    { id: 2, label: "Mini-flat" },
+    { id: 3, label: "Penthouse" },
+    { id: 4, label: "Self contain" },
+    { id: 5, label: "Studio Apartment" },
+    { id: 6, label: "Block of flats" },
+    { id: 7, label: "Detached Bungalow" },
+    { id: 8, label: "Semi-Detached Bungalow" },
+    { id: 9, label: "Terraced Bungalow" },
+    { id: 10, label: "Detached Duplex" },
+    { id: 11, label: "Semi-Detached Duplex" },
+    { id: 12, label: "Terraced Duplex" },
   ];
 
-
-  const optionsTwo = [
-    { id: 1, label: "Ajah" },
-    { id: 2, label: "Lekki" },
-    { id: 3, label: "Ikotun" },
-    { id: 4, label: "Adolor" },
-    { id: 5, label: "Challenge" },
-    { id: 6, label: "Ekaite" },
-    { id: 7, label: "Musa" },
-    { id: 8, label: "Jalingo" },
-
-  ];
 
   const optionsThree = [
-    { id: 1, label: "Lagos" },
-    { id: 2, label: "Oyo" },
-    { id: 3, label: "Calabar" },
-    { id: 4, label: "Edo" },
-    { id: 5, label: "Kwara" },
-    { id: 6, label: "Kano" },
-    { id: 7, label: "Abuja" },
-    { id: 8, label: "Ondo" },
+    { id: 1, label: 1 },
+    { id: 2, label: 2 },
+    { id: 3, label: 3 },
+    { id: 4, label: 4 },
+    { id: 5, label: 5 },
+    { id: 6, label: 6 },
   ];
+
 
   const optionsFour = [
     { id: 1, label: 1 },
@@ -165,29 +159,19 @@ const PropertyInfo = ({
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
               Property Location <span className="text-error">*</span>
             </div>
-            <div className="flex justify-between ">
-              <div>
-                <DropDown
-                  options={optionsTwo}
-                  onSelect={handleSelectArea}
-                  selectOption={"Select Area"}
-                  className={"w-[230px]"}
-                />
+            <div className="flex gap-4 w-full">
+              <div className="w-full">
+                <SelectState selectedState={selectedState} setSelectedState={setSelectedState} />
               </div>
-              <div>
-                <DropDown
-                  options={optionsThree}
-                  onSelect={handleSelectState}
-                  selectOption={"Select State"}
-                  className={"w-[230px]"}
-                />
+              <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
+                <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} />
               </div>
             </div>
           </div>
           <div className="">
             <Input
-              label={"Property Address"}
-              placeholder={"Property Address"}
+              label={"Street"}
+              placeholder={"Enter street name"}
               type={"text"}
               span={"*"}
               value={address}
@@ -197,7 +181,7 @@ const PropertyInfo = ({
           <div>
             <div className="">
               <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                Total Number of Rooms <span className="text-error">*</span>
+                Rooms <span className="text-error">*</span>
               </div>
               <DropDown
                 options={optionsFour}
@@ -211,12 +195,23 @@ const PropertyInfo = ({
         <div className="flex flex-col gap-4 w-[47%]">
           <div>
             <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-              Total Number of Bathrooms <span className="text-error">*</span>
+              Bathrooms <span className="text-error">*</span>
             </div>
             <DropDown
               options={optionsFive}
               onSelect={handleSelectNumberOfBathrooms}
               selectOption={"Total Numbers of Bathrooms"}
+              className={"w-full"}
+            />
+          </div>
+          <div>
+            <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+            Toilets <span className="text-error">*</span>
+            </div>
+            <DropDown
+              options={optionsThree}
+              onSelect={handleSelectToilets}
+              selectOption={"Total Numbers of Toilets"}
               className={"w-full"}
             />
           </div>
@@ -230,7 +225,7 @@ const PropertyInfo = ({
               </p>
             </div>
             <textarea
-              className="mt-1 h-[295px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+              className="mt-1 h-[203px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
               placeholder="Property Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -248,13 +243,14 @@ const PropertyInfo = ({
           </button>
         </div>
         {!name ||
-        !selectedArea ||
-        !selectedState ||
-        !address ||
-        !numberOfBathrooms ||
-        !numberOfRooms ||
-        !description ||
-        !propertyType ? (
+          !selectedArea ||
+          !selectedState ||
+          !address ||
+          !numberOfRooms ||
+          !description ||
+          !numberOfBathrooms ||
+          !toilet ||
+          !propertyType ? (
           <div className="">
             <button
               disabled

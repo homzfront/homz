@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Section = () => {
@@ -11,7 +12,7 @@ const Section = () => {
             schedule maintenance.
           </p>
           <p className="text-[29px] sm:hidden font-[700] text-center">
-          All-In-One Portal For Property Management
+            All-In-One Portal For Property Management
           </p>
           <p className="text-[18px] sm:text-[20px] max-w-[1024px] font-[500] mt-2 text-center text-GrayHomz">
             Elevate your property management game with our intuitive and
@@ -20,19 +21,24 @@ const Section = () => {
           </p>
         </div>
         <div className="flex justify-center items-center">
-          <button className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal  text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
+          <Link href={"/register"} className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal flex items-center justify-center text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
             Get Started
-          </button>
+          </Link>
         </div>
       </div>
       <div>
         <Image
-          src={"/image 1.png"}
+          src={"/Dashboard.png"}
           alt="img"
-          // objectFit={"contain"}
-          width={1133}
-          height={515}
+          width={2880}
+          height={2048}
+          layout="responsive"
+          objectFit="cover"
+          objectPosition="center"
+          className="object-top bg-top h-[504px] image-clip border-t-4 border-l-4 border-r-4 sm:border-t-8 sm:border-l-8 sm:border-r-8 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
+          priority
         />
+
       </div>
     </div>
   );

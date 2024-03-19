@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropertyCard from "./components/propertyCard";
 import Button from "../components/button";
 import Image from "next/image";
-import Dropdown from "@/components/mainmenu/dropDownTwo";
 import PropertyForm from "./propertyListingForm/propertyForm";
+import Dropdown from "../components/dropDownFilter";
 
 const ListedProperties = ({
   Data,
@@ -30,7 +30,10 @@ const ListedProperties = ({
   options2,
   options3,
   clear,
-  fetchData
+  fetchData,
+  selectedPropertyName,
+  options5,
+  setSelectedPropertyName,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -81,17 +84,17 @@ const ListedProperties = ({
           <div className="p-8">
             <div className="flex gap-2 mb-6">
               <p>Properties</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+              <span className="bg-whiteblue w-6 h-6 flex justify-center rounded-[8px]">
                 <span className="text-BlueHomz ">{Data.length}</span>
               </span>
             </div>
             <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-start gap-2 w-[70%]">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
 
-                <Dropdown
+                {/* <Dropdown
                   options={options}
                   onSelect={(option) => setSelectedState(option)}
                   selectOption={
@@ -105,25 +108,37 @@ const ListedProperties = ({
                   onSelect={(option) => setSelectedArea(option)}
                   selectOption={selectedArea === null ? "Area" : selectedArea}
                   className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
-                />
-                <Dropdown
-                  options={options3}
-                  onSelect={(option) => setSelectedProperty(option)}
-                  selectOption={
-                    selectedProperty === null
-                      ? "Property Type"
-                      : selectedProperty
-                  }
-                  className={"text-[14px] font-[500] text-GrayHomz2"}
-                />
-                <Dropdown
+                /> */}
+                <div className="w-[200px]">
+                  <Dropdown
+                    options={options5}
+                    onSelect={(option) => setSelectedPropertyName(option)}
+                    selectOption={selectedPropertyName === null ? "Property Name" : selectedPropertyName}
+                    className={
+                      "text-[14px] font-[500] text-GrayHomz2"
+                    }
+                  />
+                </div>
+                <div className="w-[180px]">
+                  <Dropdown
+                    options={options3}
+                    onSelect={(option) => setSelectedProperty(option)}
+                    selectOption={
+                      selectedProperty === null
+                        ? "Property Type"
+                        : selectedProperty
+                    }
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                </div>
+                {/* <Dropdown
                   options={optionsRoom}
                   onSelect={(option) => setSelectedRooms(option)}
                   selectOption={
                     selectedRooms === null ? "Bedroom" : selectedRooms
                   }
                   className={"w-[120px] text-[14px] font-[500] text-GrayHomz2"}
-                />
+                /> */}
                 <button
                   type="text"
                   onClick={clear}

@@ -85,7 +85,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
         <p className="text-[23px] font-[700] text-GrayHomz">
           {capitalizeFirstLetter(data?.data?.name)}
         </p>
-        <div className="flex gap-2 items-center">
+        {/* <div className="flex gap-2 items-center">
           <Image
             src={"/static/dashboard/enterprisemanager/propertyList/love.png"}
             alt=""
@@ -93,14 +93,14 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
             width={24}
           />
           <p>save</p>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col gap-2 mt-2">
         <p className="text-[23px] font-[700] text-GrayHomz">
           {addCommasToNumber(data?.data?.yearlyRent)}{" "}
           <span className="text-[18px] font-[500]">per year</span>
         </p>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 border-b pb-6">
           <div className="flex gap-2 items-center">
             <Image
               src={
@@ -128,7 +128,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
             </p>
           </div>
         </div>
-        <div
+        {/* <div
           onClick={showRatingPage}
           className="flex gap-4 items-center border-b pb-6 cursor-pointer"
         >
@@ -144,7 +144,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
           <p className="text-[14px] font-[500] text-BlackHomz mt-1">
             12 <span className="text-BlueHomz">(Ratings/Reviews)</span>
           </p>
-        </div>
+        </div> */}
         <div className="border-b pt-2 pb-4">
           <div key={data?.id} className="flex flex-col my-2 gap-3">
             <div className="flex">
@@ -189,8 +189,19 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
             Property Owner
           </p>
           <div className="flex gap-2 items-center">
-            <Image src={user?.coverPhoto?.url} alt="" height={40} width={40} className="rounded-full" />
-            <p className="text-[18px] font-[500] text-GrayHomz">
+          {
+              user?.coverPhoto?.url ?
+                <Image src={user?.coverPhoto?.url} alt="" height={40} width={40} className="rounded-full" />
+                : <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
+                  }
+                  alt=""
+                  width={40}
+                  height={40}
+                  className=""
+                />
+            }          <p className="text-[18px] font-[500] text-GrayHomz">
               {user?.fullName}
             </p>
           </div>
@@ -253,7 +264,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
               </p>
               <div className="mt-2 bg-whiteblue w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
                 <p className="text-[14px] font-[500] text-BlueHomz">
-                  {data?.data?.contacts?.whatsapp}
+                {data?.data?.contacts?.whatsapp ? data?.data?.contacts?.whatsapp : "NaN"}
                 </p>
                 <Image
                   src={

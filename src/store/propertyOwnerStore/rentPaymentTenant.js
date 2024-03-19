@@ -9,11 +9,11 @@ const useTenantRentPaymentOwner = create((set) => ({
         try {
             const response = await fetchSpecificTenantRentPaymentOwner(id);
             console.log(response)
-            const estate = await response;
-            set({ data: estate, loading: false });
+            const rentPayemnt = await response;
+            set({ data: rentPayemnt, loading: false });
         } catch (error) {
             set({ loading: false });
-            console.error('Error fetching estate data:', error);
+            console.error('Error fetching rent data:', error);
         }
     },
 }));

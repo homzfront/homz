@@ -4,14 +4,19 @@ import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchSingleProperty } from "@/api/propertyService";
+import { useRouter } from "next/navigation";
 
-const Property = ({id}) => {
+const Property = ({ id }) => {
+  const router = useRouter();
 
-  const  [data, setData] = useState([])
+  const goBack = () => {
+    router.back();
+  };
+  const [data, setData] = useState([])
   console.log(id);
 
 
-  useEffect(()=> {
+  useEffect(() => {
     const estateData = async () => {
       const response = await fetchSingleProperty(id);
       const estate = await response;
@@ -36,26 +41,26 @@ const Property = ({id}) => {
               height={16}
               width={16}
             />
-            <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
-              className="text-[14px] font-[400] text-GrayHomz2"
+            <div
+              onClick={goBack}
+              className="text-[14px] font-[400] text-GrayHomz2 cursor-pointer"
             >
               Go Back
-            </Link>
-            <Link
-              href={"/dashboard/enterprise-property/propertylisting"}
-              className="text-[16px] font-[400] text-GrayHomz"
+            </div>
+            <div
+              onClick={goBack}
+              className="text-[16px] font-[400] text-GrayHomz cursor-pointer"
             >
-              Property Name<> </>/
-            </Link>
+              {data?.data?.name ? data?.data?.name : "Property Name"}<> </>/
+            </div>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Details
             </div>
           </div>
-          <p className="text-[14px] font-[400] text-BlueHomz">See public view</p>
+          {/* <p className="text-[14px] font-[400] text-BlueHomz">See public view</p> */}
         </div>
         <div>
-          <Widget data={data}/>
+          <Widget data={data} />
         </div>
       </div>
     </div>

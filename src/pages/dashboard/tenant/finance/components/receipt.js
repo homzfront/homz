@@ -53,15 +53,27 @@ const Receipt = ({ closeReceipt, rentData }) => {
       >
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-start">
-            <div className="flex gap-4 items-center justify-center w-[450px]">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/BWFrame.png"}
-                alt=""
-                height={64}
-                width={64}
-              />
+            <div className="flex gap-4 items-center justify-center pl-4">
+            {rentData?.data?.enterPrise?.businessLogo?.url ?
+                <Image
+                  src={
+                    rentData?.data?.enterPrise?.businessLogo?.url
+                  }
+                  alt=""
+                  height={64}
+                  width={64}
+                  className="rounded-full"
+                />
+                :
+                <Image
+                  src={"/static/dashboard/enterprisemanager/payment/BWFrame.png"}
+                  alt=""
+                  height={64}
+                  width={64}
+                />
+              }
               <p className="text-GrayHomz text-[18px] font-[500]">
-                Company Name
+              {rentData?.data?.enterPrise?.businessName}
               </p>
             </div>
 
@@ -206,7 +218,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                Property manager’s email@gmail.com
+                 {rentData?.data?.enterPrise?.user?.email}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -217,7 +229,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                0000 000 0000
+                  {rentData?.data?.enterPrise?.phoneNumber}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -228,13 +240,13 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                17, Alapere, Alagomeji Area, Yaba, Lagos
+                {rentData?.data?.enterPrise?.estateAddress}
               </p>
             </div>
           </div>
         </div>
         <p className="m-4 text-[11px] font-[400] text-GrayHomz text-center">
-          Copyright 2022 Homz.ng. All Rights Reserved
+          Copyright 2024 Homz.ng. All Rights Reserved
         </p>
       </div>
     </div>

@@ -10,6 +10,7 @@ import usePropertyStore from "@/store/propertyForMeStore";
 
 const PropertyListing = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [selectedPropertyName, setSelectedPropertyName] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
@@ -19,6 +20,7 @@ const PropertyListing = () => {
     setSelectedState(null);
     setSelectedArea(null);
     setSelectedRooms(null);
+    setSelectedPropertyName(null);
   };
 
   const { propertyListedAll, loading, fetchData } = usePropertyStore();
@@ -43,10 +45,15 @@ const PropertyListing = () => {
   const optionsRoom = options4.sort((a, b) => a - b);
   console.log(optionsRoom);
 
+  const options5 =  [...new Set(data?.map((item) => item?.name))];
+  console.log(options5)
+
+
   const filteredData = data?.filter(
     (data) =>
-      (!selectedState || data?.location.state === selectedState) &&
-      (!selectedArea || data?.location.area === selectedArea) &&
+      // (!selectedState || data?.location.state === selectedState) &&
+      // (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedPropertyName || data?.name === selectedPropertyName) &&
       (!selectedProperty || data?.propertyType === selectedProperty) &&
       (!selectedRooms || data?.numberOfBathrooms === selectedRooms)
   );
@@ -97,6 +104,7 @@ const PropertyListing = () => {
           addNewProperty={addNewProperty}
           registrationForm={registrationForm}
           returnToStartRegistration={returnToStartRegistration}
+          selectedPropertyName={selectedPropertyName}
           selectedArea={selectedArea}
           selectedProperty={selectedProperty}
           selectedRooms={selectedRooms}
@@ -105,7 +113,9 @@ const PropertyListing = () => {
           options={options}
           options2={options2}
           options3={options3}
+          options5={options5}
           setSelectedArea={setSelectedArea}
+          setSelectedPropertyName={setSelectedPropertyName}
           setSelectedProperty={setSelectedProperty}
           setSelectedRooms={setSelectedRooms}
           setSelectedState={setSelectedState}

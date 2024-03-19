@@ -13,8 +13,10 @@ import Loading from "@/components/mainmenu/loading";
 import FailedModal from "../../components/failedModal";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import Eye from "@/components/icons/Eye";
+import BashedEye from "@/components/icons/BashedEye";
 
-const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminateWallet }) => {
+const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   const [proceed, setProceed] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [receipt, setReceipt] = useState(false);
@@ -22,6 +24,17 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
   const [selecetedYear, setselectedYear] = useState(null);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [pincode, setPincode] = useState("");
+  const [error, setError] = useState('')
+  const [visible, setVisible] = useState(false);
+
+
+  const Visible = () => {
+    setVisible(!visible);
+  };
+
+
+  console.log(pincode)
 
   const handleOptionSelect = (option) => {
     console.log("Selected option:", option);
@@ -49,7 +62,12 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
   const options = generateOptions(duration);
 
   const proceeding = () => {
-    setProceed(!proceed);
+    if (pincode.length === 4) {
+      setProceed(!proceed);
+    } else {
+      setError("Pincode should be 4 digits")
+    }
+
   };
 
   const closeProceeding = () => {
@@ -60,12 +78,11 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
     setLoading(true);
     try {
       const data = { amount: parseInt(rentData?.data?.totalRent) };
-      const { success, upDateddata, error } = await payRent(data);
+      const { success, upDateddata, error } = await payRent(pincode);
 
       if (success) {
         setLoading(false);
-        console.log("Form successfully updated", upDateddata);
-        setIlluminateWallet(false);
+        console.log("Rent successfully paid", upDateddata);
         if (typeof window !== "undefined") {
           localStorage.setItem("RentResponse", JSON.stringify(upDateddata));
         }
@@ -74,6 +91,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
       } else {
         setLoading(false);
         setFailed(true);
+        setError(error?.message);
       }
     } catch (error) {
       // console.error("Update error", error);
@@ -100,8 +118,13 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
     setFailed(false);
   };
 
-  console.log(rentData);
+  const close = () => {
+    setFailed(false);
+    setProceed(false);
+  }
 
+  console.log(rentData);
+  console.log(error)
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
       {loading && <Loading />}
@@ -109,7 +132,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
         <Receipt
           closeReceipt={closeReceipt}
           rentData={rentData}
-          
+
         />
       ) : confirm ? (
         <ReceiptModal
@@ -123,9 +146,9 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
       ) : failed ? (
         <FailedModal
           header={"Unsuccessful"}
-          body={"Your wallet balance is not sufficient for this transaction"}
+          body={error === "Invalid pin" ? error : "Your wallet balance is not sufficient for this transaction"}
           button={"Close"}
-          returnHome={closeReceipt}
+          returnHome={close}
         />
       ) : proceed ? (
         <div>
@@ -141,7 +164,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
           />
         </div>
       ) : (
-        <div className="h-[560px] w-[530px] bg-white rounded-lg p-8">
+        <div className="h-auto w-[530px] bg-white rounded-lg p-8">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-1 w-[1600px]">
@@ -216,9 +239,9 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
               </div>
             </div>
           </div>
-    
 
-          <div className="mt-4 flex flex-col gap-4 my-6">
+
+          <div className="mt-4 flex flex-col gap-3 my-6">
             <div className="w-full flex gap-4">
               <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">
                 Rent Duration
@@ -230,9 +253,8 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
                 <Dropdown
                   options={options}
                   onSelect={handleOptionSelect}
-                  selectOption={`1 - ${duration} year${
-                    duration > 1 ? "s" : ""
-                  }`}
+                  selectOption={`1 - ${duration} year${duration > 1 ? "s" : ""
+                    }`}
                   className={"w-full mt-2"}
                 />
               </div>
@@ -254,15 +276,55 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, setIlluminate
                 {changePresentDateFormat(today)}
               </p>
             </div>
-          </div>
 
-          <button
-            onClick={proceeding}
-            className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
-          >
-            {/* {addCommasToNumber(RentValue)} */}
-            {addCommasToNumber(rentData?.data?.totalRent)}
-          </button>
+            <div className="relative flex flex-col gap-2 items-start">
+              <div className='flex flex-col items-start'>
+                <label
+                  className={`text-[13px] font-[500] text-GrayHomz
+                    }`}
+                >
+                  Transaction Pin
+                </label>
+              </div>
+              <input
+                className={`w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]`}
+                type={visible ? "text" : "password"}
+                placeholder="Enter transaction pin"
+                value={pincode}
+                onChange={(e) => {
+                  setError('')
+                  setPincode(e.target.value)
+                }}
+              />
+              <div className="absolute top-[40px] right-4" onClick={Visible}>
+                {visible ? (
+                  <Eye className="w-4 h-4" />
+                ) : (
+                  <BashedEye className="w-4 h-4" />
+                )}
+              </div>
+            </div>
+            {
+              error && <span className="text-[10px] italic text-red-500">
+                {error}
+              </span>
+            }
+          </div>
+          {
+            rentData ? <button
+              onClick={proceeding}
+              className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
+            >
+              {/* {addCommasToNumber(RentValue)} */}
+              {addCommasToNumber(rentData?.data?.totalRent)}
+            </button> : <button
+              className="pointer-events-none w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
+            >
+              {/* {addCommasToNumber(RentValue)} */}
+              {addCommasToNumber(rentData?.data?.totalRent)}
+            </button>
+          }
+
         </div>
       )}
     </div>

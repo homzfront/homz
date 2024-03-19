@@ -31,7 +31,10 @@ const ListedProperties = ({
   options2,
   options3,
   clear,
-  fetchData
+  fetchData,
+  selectedPropertyName,
+  options5,
+  setSelectedPropertyName,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -84,11 +87,11 @@ const ListedProperties = ({
               </span>
             </div>
             <div className=" flex justify-between items-center">
-              <div className="flex items-center justify-center gap-2  w-[70%]">
+              <div className="flex items-center justify-start gap-2  w-[70%]">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
-                <div className="w-[120px]">
+                {/* <div className="w-[120px]">
                   <Dropdown
                     options={options}
                     onSelect={(option) => setSelectedState(option)}
@@ -109,6 +112,16 @@ const ListedProperties = ({
                       "text-[14px] font-[500] text-GrayHomz2"
                     }
                   />
+                </div> */}
+                <div className="w-[200px]">
+                  <Dropdown
+                    options={options5}
+                    onSelect={(option) => setSelectedPropertyName(option)}
+                    selectOption={selectedPropertyName === null ? "Property Name" : selectedPropertyName}
+                    className={
+                      "text-[14px] font-[500] text-GrayHomz2"
+                    }
+                  />
                 </div>
                 <div className="w-[180px]">
                   <Dropdown
@@ -122,7 +135,7 @@ const ListedProperties = ({
                     className={"text-[14px] font-[500] text-GrayHomz2"}
                   />
                 </div>
-                <div className="w-[120px]">
+                {/* <div className="w-[120px]">
                   <Dropdown
                     options={optionsRoom}
                     onSelect={(option) => setSelectedRooms(option)}
@@ -133,7 +146,7 @@ const ListedProperties = ({
                       "w-[120px] text-[14px] font-[500] text-GrayHomz2"
                     }
                   />
-                </div>
+                </div> */}
                 <button
                   type="text"
                   onClick={clear}

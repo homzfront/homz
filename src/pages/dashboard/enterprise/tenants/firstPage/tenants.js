@@ -45,7 +45,7 @@ const Tenants = () => {
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
   console.log(options);
 
-  const options2 = ["Pending", "Paid", "OverDue"];
+  const options2 = ["Pending", "Paid", "Over due"];
   const filteredData = tenantData?.filter(
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
@@ -60,7 +60,6 @@ const Tenants = () => {
     } );
 
   console.log(filteredData);
-
   console.log(selectedProperty);
   console.log(selectedStatus);
 
@@ -127,7 +126,7 @@ const Tenants = () => {
                   <p className="text-[20px] font-[500]">Tenants</p>
                   <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
                     <span className="text-BlueHomz text-[18px] font-[400]">
-                      {tenantData?.length}
+                      {filteredData?.length}
                     </span>
                   </span>
                 </div>
@@ -148,7 +147,7 @@ const Tenants = () => {
                         className="mr-2"
                       />
                     </div>
-                    <div className="w-[120px]">
+                    <div className="w-[140px]">
                       <Dropdown
                         options={options2}
                         onSelect={(option) => setSelectedStatus(option)}
@@ -201,7 +200,7 @@ const Tenants = () => {
                   </button>
                 </div>
               </div>
-              <TenantsTwo Data={filteredData} />
+              <TenantsTwo Data={filteredData}  fetchDataAgain={fetchData}/>
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const TransferHis = ({ illuminateWallet }) => {
+const TransferHis = ({ illuminateWallet, data }) => {
   const Data = [
     {
       Id: 1,
@@ -62,6 +62,8 @@ const TransferHis = ({ illuminateWallet }) => {
   const getFirstLetter = (str) => {
     return str[0];
   };
+
+  console.log(data)
   return (
     <div className="p-5 border rounded-[12px] mt-8 overflow-auto h-[323px] scrollbar-container">
       <div className="flex justify-between items-center">

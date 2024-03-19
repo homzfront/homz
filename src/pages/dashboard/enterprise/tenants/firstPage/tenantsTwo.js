@@ -13,7 +13,7 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
-const TenantsTwo = ({ Data }) => {
+const TenantsTwo = ({ Data, fetchDataAgain }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [data, setData] = useState(Data || []);
@@ -71,8 +71,9 @@ const TenantsTwo = ({ Data }) => {
       });
       console.log(data);
       toast.success("status updated successfully");
-      // Close the corresponding dropdown
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
+      // Close the corresponding dropdown
+      fetchDataAgain();
     } catch (error) {
       console.log(error);
       toast.error(error);

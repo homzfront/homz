@@ -28,8 +28,11 @@ const ListedEstates = ({
   setSelectedState,
   setSelectedArea,
   setSelectedDate,
+  selectedProperty,
+  setSelectedProperty,
   options,
   options2,
+  options3,
   clear,
   fetchData,
   dropdownRef
@@ -99,7 +102,15 @@ const ListedEstates = ({
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
                 </p>
-                <div className="w-[120px]">
+                <div className="w-[200px]">
+                  <Dropdown
+                    options={options3}
+                    onSelect={(option) => setSelectedProperty(option)}
+                    selectOption={selectedProperty === null ? "Property" : selectedProperty}
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                  />
+                </div>
+                {/* <div className="w-[120px]">
                   <Dropdown
                     options={options}
                     onSelect={(option) => setSelectedState(option)}
@@ -108,15 +119,15 @@ const ListedEstates = ({
                     }
                     className={"text-[14px] font-[500] text-GrayHomz2"}
                   />
-                </div>
-                <div className="w-[120px]">
+                </div> */}
+                {/* <div className="w-[120px]">
                   <Dropdown
                     options={options2}
                     onSelect={(option) => setSelectedArea(option)}
                     selectOption={selectedArea === null ? "Area" : selectedArea}
                     className={"text-[14px] font-[500] text-GrayHomz2"}
                   />
-                </div>
+                </div> */}
                 {/* <input
                   type="date"
                   onChange={(e) => setSelectedDate(e.target.value)}

@@ -1,3 +1,4 @@
+import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
 import useProfileStore from "@/store/profile";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,11 +6,12 @@ import React from "react";
 
 const PopUpMenu = ({ user }) => {
   const { logout } = useProfileStore();
+  const { showKindlyWait} = LandLordInactiveStore();
   return (
-    <div className="drop-down absolute z-20 text-GrayHomz font-[500] top-12 right-[20px] border h-[170px] w-[244px] rounded-md bg-white flex flex-col items-center py-1 justify-around">
+    <div className="drop-down absolute z-20 text-GrayHomz font-[500] top-12 right-[20px] border h-auto w-[244px] rounded-md bg-white flex flex-col items-center py-1 justify-around">
       <Link
         href={`/dashboard/property-owner/profile`}
-        className="flex gap-2 border-b w-full px-4 py-2"
+        className={`flex gap-2 border-b w-full px-4 py-2 ${showKindlyWait ? "pointer-events-none" : ""}`}
       >
         {!user?.coverPhoto?.url ? (
           <Image
@@ -40,7 +42,7 @@ const PopUpMenu = ({ user }) => {
         </div>
       </Link>
       <div className="p-2 w-full">
-        <Link
+        {/* <Link
           href={"/dashboard/property-owner/notifications"}
           className="hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center py-2 px-2 w-full text-GrayHomz hover:text-BlueHomz text-center"
         >
@@ -53,7 +55,7 @@ const PopUpMenu = ({ user }) => {
           <p className="text-[14px] font-[500]">
             Notification
           </p>
-        </Link>
+        </Link> */}
         <div
           onClick={() => logout(logout)}
           className=" cursor-pointer hover:bg-whiteblue hover:text-BlueHomz text-GrayHomz h-[40px] rounded-md flex gap-1 items-center py-2 px-2 w-full text-center"

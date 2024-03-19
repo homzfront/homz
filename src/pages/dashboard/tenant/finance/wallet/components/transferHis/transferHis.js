@@ -5,52 +5,28 @@ import Input from "../../../components/input";
 import Dropdown from "../../../components/dropDown";
 import AcAndRejModel from "../../../../components/acAndRejModel";
 import ReceiptModal from "../../../components/receiptModal";
-import Receipt from "../../../components/receipt";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import ShareAbleReceipt from "../../../components/shareAbleReceipt";
 import PopUpReceipt from "../../../components/popUpReceipt";
 import useBodyScroll from "@/utils/useBodyScroll";
+import tenantRentHis from "@/store/tenantStore/tenantRentHis";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import addYearsToValues from "@/utils/addYearsToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import lowerCaseData from "@/utils/lowerCaseData";
+import ReceiptRentHis from "../../../components/receiptRentHis";
+import useClickOutside from "@/utils/clickOutside";
 
-const Data = [
-  {
-    id: 1,
-    Rent: "N750,000",
-    Status: "Confirmed",
-    DueDate: "4th January, 2025",
-    Duration: 1,
-  },
-  {
-    id: 2,
-    Rent: "N750,000",
-    Status: "Confirmed",
-    DueDate: "4th January, 2025",
-    Duration: 2,
-  },
-  {
-    id: 3,
-    Rent: "N750,000",
-    Status: "Pending",
-    DueDate: "4th January, 2025",
-    Duration: 1,
-  },
-  {
-    id: 4,
-    Rent: "N750,000",
-    Status: "Pending",
-    DueDate: "4th January, 2025",
-    Duration: 2,
-  },
-];
 
-const TransferHis = ({ illuminateWallet }) => {
-  const [data, setData] = useState(Data || []);
+const TransferHis = ({ illuminateWallet, data }) => {
   const [transferToggleModal, setTransferToggleModal] = useState(false);
   const [successfulTansferModal, setSuccessfulTansferModal] = useState(false);
   const [receipt, setReceipt] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
+  const [receiptData, setReceiptdata] = useState({})
   const openReceipt = () => {
     setShowReceipt(!showReceipt);
   };
@@ -58,8 +34,11 @@ const TransferHis = ({ illuminateWallet }) => {
     setShowReceipt(false);
   };
 
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
+
+
   // useEffect to handle scrolling
-  useBodyScroll([receipt, successfulTansferModal, transferToggleModal]);
+  useBodyScroll([receipt, successfulTansferModal, transferToggleModal, showReceipt]);
 
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
@@ -73,12 +52,17 @@ const TransferHis = ({ illuminateWallet }) => {
   const closeSharedReceipt = () => {
     setReceipt(false);
   };
+
+
+  console.log(data);
+  console.log(receiptData)
+
   return (
     <div>
       {receipt && <ShareAbleReceipt />}
       {showReceipt && (
         <div>
-          <Receipt closeReceipt={closeReceipt} shareReceipt={shareReceipt} />
+          <ReceiptRentHis closeReceipt={closeReceipt} shareReceipt={shareReceipt} rentData={receiptData}/>
         </div>
       )}
 
@@ -132,37 +116,38 @@ const TransferHis = ({ illuminateWallet }) => {
               {data &&
                 data.map((data) => (
                   <tr
-                    key={data.id}
+                    key={data._id}
                     className=" w-2 border-b-[1px] items-center"
                   >
                     <td className="pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                      {data.Rent}
+                      {addCommasToNumber(data?.totalRent)}
                     </td>
                     <td className="text-GrayHomz pl-4 py-[15px] font-[500] text-[11px]">
-                      {data.Duration} year(s)
+                      {addYearsToValues(data?.duration)}
                     </td>
                     <td className="text-GrayHomz pl-4 py-[15px] font-[500] text-[11px]">
-                      {data.DueDate}
+                      {changeBackendDateFormat(data?.paymentDate)}
                     </td>
                     <td
                       className={`text-GrayHomz py-[15px] font-[500] text-[11px] `}
                     >
                       <p
                         className={`w-[73px] h-[25px] flex justify-center items-center rounded-[8px] ${
-                          data.Status === "Confirmed"
+                          data?.rentInfo?.paymentStatus ===  lowerCaseData("Paid")
                             ? "bg-successBg text-Success "
                             : ""
                         } ${
-                          data.Status === "Pending"
+                          data?.rentInfo?.paymentStatus === lowerCaseData("Pending")
                             ? "bg-warningBg text-warning "
                             : ""
                         } `}
                       >
-                        {data.Status}
+                        {data?.rentInfo?.paymentStatus}
                       </p>
                     </td>
                     <td className="relative py-[15px] pr-2">
-                      <button onClick={() => handleToggleMenu(data.id)}>
+                      <button onClick={() => {handleToggleMenu(data._id)
+                      setReceiptdata(data)}}>
                         <Image
                           src={
                             "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -171,10 +156,11 @@ const TransferHis = ({ illuminateWallet }) => {
                           height={21}
                           width={20}
                           style={{ height: "auto", width: "auto" }}
+                          className={` ${data?.rentInfo?.paymentStatus === "pending" ? "hidden" : "table-cell"}`}
                         />
                       </button>
-                      {popUpMenuTwo && selectedDataId === data.id && (
-                        <PopUpReceipt openReceipt={openReceipt} data={data} />
+                      {popUpMenuTwo && selectedDataId === data._id && (
+                        <PopUpReceipt openReceipt={openReceipt} dropdownRef={dropdownRef} data={data} />
                       )}
                     </td>
                   </tr>

@@ -156,7 +156,7 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
       description
   });
     console.log(response);
-    return { success: true, upDateddata: response?.data.responseBody };
+    return { success: true, upDateddata: response?.data?.data };
   } catch (error) {
     console.error("error", error);
     return { success: false, error: error?.response.data }; // Adjusted this line
@@ -174,8 +174,8 @@ export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
     console.log(response);
     return { success: true, upDateddata: response };
   } catch (error) {
-    console.error(" error", error);
-    return { success: false, error: response?.error }; // Adjusted this line
+   const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
   }
 };
 
@@ -227,6 +227,17 @@ export const enterpriseRentPayemntInfo = async () => {
     return response.data;
   } catch (error) {
     console.error("Error getting stats:", error);
+    throw error;
+  }
+};
+
+export const fetchSpecificTenantRentEnterprise = async (id) => {
+  console.log(id);
+  try {
+    const response = await api.get(`/rentPayment/enterprise/tenant/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching tenant details:", error);
     throw error;
   }
 };

@@ -60,21 +60,7 @@ const Photos = ({ data }) => {
     console.log(file);
     setUploadedImage5(file);
   };
-  const handleImageUpload6 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage6(file);
-  };
-  const handleImageUpload7 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage7(file);
-  };
-  const handleImageUpload8 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage8(file);
-  };
+
 
   console.log(data);
   console.log(data?.photos?.[0].publicId);
@@ -125,6 +111,26 @@ const Photos = ({ data }) => {
         )
       );
     }
+
+    if (uploadedImage4) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[3].publicId
+        )
+      );
+    }
+
+    if (uploadedImage5) {
+      updatePromises.push(
+        updatePropertyOtherPhoto(
+          data._id,
+          uploadedImage3,
+          data?.photos?.[4].publicId
+        )
+      );
+    }
   
     try {
       // Execute all promises simultaneously
@@ -142,7 +148,20 @@ const Photos = ({ data }) => {
       });
     } catch (error) {
       console.error("Update error", error);
-      toast.error("Update failed");
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        console.error("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        console.error("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
     } finally {
       setLoading(false); // Set loading to false after all updates are attempted
     }
@@ -204,6 +223,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage4}
                     handleImageUpload={handleImageUpload4}
                     uploadedImage={uploadedImage4}
+                    image={data?.photos?.[3]?.url}
                   />
                 </div>
               </div>
@@ -213,27 +233,7 @@ const Photos = ({ data }) => {
                     onImageRemove={setUploadedImage5}
                     handleImageUpload={handleImageUpload5}
                     uploadedImage={uploadedImage5}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage6}
-                    handleImageUpload={handleImageUpload6}
-                    uploadedImage={uploadedImage6}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage7}
-                    handleImageUpload={handleImageUpload7}
-                    uploadedImage={uploadedImage7}
-                  />
-                </div>
-                <div className="w-[120px] flex justify-start">
-                  <ImageUpload
-                    onImageRemove={setUploadedImage8}
-                    handleImageUpload={handleImageUpload8}
-                    uploadedImage={uploadedImage8}
+                    image={data?.photos?.[4]?.url}
                   />
                 </div>
               </div>

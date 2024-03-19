@@ -13,8 +13,9 @@ useEffect(() => {
 }, []);
 console.log(data);
 
-const filteredData = data?.filter((data) => id !== data?.tenant?.estateId._id)
+const filteredData = data?.filter((data) => id === data?.tenant?.estateId._id)
 
+console.log(filteredData)
 return (
   <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container ">
     <div className="flex justify-between  p-6">
@@ -45,7 +46,7 @@ return (
           </tr>
         </thead>
         <tbody className="">
-          {data?.map((data) => (
+          {filteredData?.map((data) => (
             <tr key={data._id} className=" border-t-[1px] items-center">
               <td className={`${id === data?.tenant?.estateId._id ? "" : "hidden"} flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]`}>
               {data?.tenant?.coverPhoto?.url === null ||

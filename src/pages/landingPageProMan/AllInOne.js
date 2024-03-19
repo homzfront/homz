@@ -9,20 +9,30 @@ const AllInOne = () => {
         Empowering.
       </p>
       <div className="relative mt-12">
-        <div>
+        <div className="sm:w-[680px]">
           <Image
-            src={"/image 10.png"}
-            height={314}
-            width={670}
-            alt="chart-img"
+            src={"/DashboardTenant.png"}
+            alt="img"
+            width={2880}
+            height={2048}
+            layout="responsive"
+            objectFit="cover"
+            objectPosition="center"
+            className="object-top bg-top h-[504px] image-clip border-t-4 border-l-4 border-r-4 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
+            priority
           />
         </div>
-        <div className="absolute hidden md:inline right-[-5px] top-9">
+        <div className="absolute hidden md:inline right-[-5px] w-[550px] top-[67px]">
           <Image
-            src={"/image 11.png"}
-            height={297}
-            width={562}
-            alt="chart-img"
+            src={"/DashboardPayment.png"}
+            alt="img"
+            width={2880}
+            height={2048}
+            layout="responsive"
+            objectFit="cover"
+            objectPosition="center"
+            className="object-top bg-top h-[504px] image-clip border-t-4 border-l-4 border-r-4 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
+            priority
           />
         </div>
       </div>

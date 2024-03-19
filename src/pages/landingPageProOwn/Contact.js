@@ -20,10 +20,13 @@ const Contact = () => {
           
           </button>
         </Link>
-        <Link href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+        <Link 
+        // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+        href={"/register"}
+        >
           <button className=" w-[109px] h-[48px] text-[16px] hover:w-[146px]  hover:h-[54px] rounded-md font-normal  text-GrayHomz border bg-transparent px-2 py-1 hover:text-[18px]">
-            {/* Get started */}
-            Join Waitlist
+            Get started
+            {/* Join Waitlist */}
           </button>
         </Link>
       </div>

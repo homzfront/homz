@@ -10,18 +10,18 @@ const ImageUpload = ({
 }) => {
   const inputRef = useRef(null);
 
-  const handleImageRemove = () => {
-    onImageRemove(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    handleImageUpload(file);
   };
 
   return (
     <div className="flex gap-2">
       <div
-        className={`h-[140px] rounded-[8px] w-[140px] justify-center items-center flex ${
-          uploadedImage || image ? "" : "bg-blue-100 "
-        }`}
+        className={`h-[140px] rounded-[8px] w-[140px] justify-center items-center flex ${uploadedImage || image ? "" : "bg-blue-100 "
+          }`}
       >
-        {uploadedImage ? (
+        {uploadedImage && typeof uploadedImage === 'object' ? (
           <Image
             src={URL?.createObjectURL(uploadedImage)}
             height={100}
@@ -61,11 +61,12 @@ const ImageUpload = ({
         )}
       </div>
       <div>
+
         <input
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={handleImageUpload}
+          onChange={handleFileChange}
           ref={inputRef}
         />
 
@@ -76,7 +77,7 @@ const ImageUpload = ({
             width={24}
             className="cursor-pointer mt-2"
             alt="img"
-            onClick={handleImageRemove}
+            onClick={onImageRemove}
           />
         )}
       </div>

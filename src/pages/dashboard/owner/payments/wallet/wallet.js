@@ -10,6 +10,7 @@ import {
 } from "@/api/propertyService";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import tenantRentHisOwner from "@/store/propertyOwnerStore/tenantRentHisOwner";
 
 const Wallet = () => {
   const [wallet, setWallet] = useState(false);
@@ -17,6 +18,13 @@ const Wallet = () => {
   const [loading, setLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
   const [walletBalance, setWalletBalance] = useState("");
+  const { data, fetchData: fetchRentInfo } = tenantRentHisOwner();
+
+
+  useEffect(() => {
+      fetchRentInfo() 
+  }, [])
+
 
   useEffect(() => {
     console.log("Component mounted, fetching data...");
@@ -27,6 +35,7 @@ const Wallet = () => {
         if (data.statuscode === 200 && data.success === true) {
           console.log("Form successfully updated", data);
           setIlluminateWallet(!illuminateWallet);
+          fetchRentInfo() 
           const balance = await propertyOwnerWalletBalance();
           setWalletBalance(balance);
           const wallet = data;
@@ -88,7 +97,7 @@ const Wallet = () => {
             <Withdraw illuminateWallet={illuminateWallet} />
           </div>
           <div>
-            <TransferHis illuminateWallet={illuminateWallet} />
+            {/* <TransferHis illuminateWallet={illuminateWallet} data={data}/> */}
           </div>
 
         </div>

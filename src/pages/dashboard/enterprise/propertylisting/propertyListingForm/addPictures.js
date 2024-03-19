@@ -7,70 +7,25 @@ import Image from "next/image";
 const Photos = ({
   handlePageChangeTwo,
   handlePageChangeFour,
-  uploadedImageCoverPhoto,
-  setUploadedImageCoverPhoto,
-  uploadedImage,
-  setUploadedImage,
-  uploadedImage2,
-  setUploadedImage2,
-  uploadedImage3,
-  setUploadedImage3,
-  uploadedImage4,
-  setUploadedImage4,
-  uploadedImage5,
-  setUploadedImage5,
-  uploadedImage6,
-  setUploadedImage6,
-  uploadedImage7,
-  setUploadedImage7,
-  uploadedImage8,
-  setUploadedImage8,
+  formData,
+  handleChange,
+  setFormData,
 }) => {
-  const handleImageUploadCoverPhoto = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImageCoverPhoto(file);
+
+  const handleImageUpload = (imageKey, file) => {
+    setFormData({
+      ...formData,
+      [imageKey]: file,
+    });
   };
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage(file);
+
+  const removeImage = (imageKey) => {
+    setFormData({
+      ...formData,
+      [imageKey]: null,
+    });
   };
-  const handleImageUpload2 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage2(file);
-  };
-  const handleImageUpload3 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage3(file);
-  };
-  const handleImageUpload4 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage4(file);
-  };
-  const handleImageUpload5 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage5(file);
-  };
-  const handleImageUpload6 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage6(file);
-  };
-  const handleImageUpload7 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage7(file);
-  };
-  const handleImageUpload8 = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setUploadedImage8(file);
-  };
+
 
   return (
     <div className="px-8 block w-full">
@@ -87,75 +42,54 @@ const Photos = ({
       <div className="flex items-start w-full justify-between gap-4 mt-8">
         <div className="w-25%">
           <div>
-            <p className="text-[13px] font-[500] text-GrayHomz">Cover photo</p>
+            <p className="text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-error">*</span></p>
             <div className="w-[140px] flex justify-start mt-4">
               <ImageUpload
-                onImageRemove={setUploadedImageCoverPhoto}
-                handleImageUpload={handleImageUploadCoverPhoto}
-                uploadedImage={uploadedImageCoverPhoto}
+                handleImageUpload={(file) => handleImageUpload("uploadedImageCoverPhoto", file)}
+                onImageRemove={() => removeImage("uploadedImageCoverPhoto")}
+                uploadedImage={formData?.uploadedImageCoverPhoto}
               />
             </div>
           </div>
         </div>
         <div className="grid w-[75%]">
-          <p className="text-[13px] font-[500] text-GrayHomz">Other photos</p>
+          <p className="text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-error">*</span></p>
           <div className="flex mt-4 justify-between">
             <div className="w-[140px] flex justify-start">
               <ImageUpload
-                onImageRemove={setUploadedImage}
-                handleImageUpload={handleImageUpload}
-                uploadedImage={uploadedImage}
+                handleImageUpload={(file) => handleImageUpload("uploadedImage", file)}
+                onImageRemove={() => removeImage("uploadedImage")}
+                uploadedImage={formData?.uploadedImage}
               />
             </div>
             <div className="w-[140px] flex justify-start">
               <ImageUpload
-                onImageRemove={setUploadedImage2}
-                handleImageUpload={handleImageUpload2}
-                uploadedImage={uploadedImage2}
+                handleImageUpload={(file) => handleImageUpload("uploadedImage2", file)}
+                onImageRemove={() => removeImage("uploadedImage2")}
+                uploadedImage={formData?.uploadedImage2}
               />
             </div>
             <div className="w-[140px] flex justify-start">
               <ImageUpload
-                onImageRemove={setUploadedImage3}
-                handleImageUpload={handleImageUpload3}
-                uploadedImage={uploadedImage3}
+                handleImageUpload={(file) => handleImageUpload("uploadedImage3", file)}
+                onImageRemove={() => removeImage("uploadedImage3")}
+                uploadedImage={formData?.uploadedImage3}
               />
             </div>
             <div className="w-[140px] flex justify-start">
               <ImageUpload
-                onImageRemove={setUploadedImage4}
-                handleImageUpload={handleImageUpload4}
-                uploadedImage={uploadedImage4}
+                handleImageUpload={(file) => handleImageUpload("uploadedImage4", file)}
+                onImageRemove={() => removeImage("uploadedImage4")}
+                uploadedImage={formData?.uploadedImage4}
               />
             </div>
           </div>
           <div className="flex mt-8 justify-between">
             <div className="w-[140px] flex justify-start">
               <ImageUpload
-                onImageRemove={setUploadedImage5}
-                handleImageUpload={handleImageUpload5}
-                uploadedImage={uploadedImage5}
-              />
-            </div>
-            <div className="w-[140px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage6}
-                handleImageUpload={handleImageUpload6}
-                uploadedImage={uploadedImage6}
-              />
-            </div>
-            <div className="w-[140px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage7}
-                handleImageUpload={handleImageUpload7}
-                uploadedImage={uploadedImage7}
-              />
-            </div>
-            <div className="w-[140px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage8}
-                handleImageUpload={handleImageUpload8}
-                uploadedImage={uploadedImage8}
+                handleImageUpload={(file) => handleImageUpload("uploadedImage5", file)}
+                onImageRemove={() => removeImage("uploadedImage5")}
+                uploadedImage={formData?.uploadedImage5}
               />
             </div>
           </div>
@@ -176,41 +110,46 @@ const Photos = ({
             Previous
           </button>
         </div>
-        {uploadedImageCoverPhoto === null ? (
-          <div className="">
-            <button
-              disabled
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-          </div>
-        ) : (
-          <div className="">
-            <button
-              onClick={handlePageChangeFour}
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-              />
-            </button>
-          </div>
-        )}
+        {
+          formData?.uploadedImageCoverPhoto === null || (formData?.uploadedImage === null &&
+            formData?.uploadedImage2 === null &&
+            formData?.uploadedImage3 === null &&
+            formData?.uploadedImage4 === null &&
+            formData?.uploadedImage5 === null) ? (
+            <div className="">
+              <button
+                disabled
+                className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+              >
+                Next
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                  }
+                  alt=""
+                  height={17}
+                  width={16}
+                />
+              </button>
+            </div>
+          ) : (
+            <div className="">
+              <button
+                onClick={handlePageChangeFour}
+                className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+              >
+                Next
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                  }
+                  alt=""
+                  height={16}
+                  width={16}
+                />
+              </button>
+            </div>
+          )}
       </div>
     </div>
   );

@@ -17,32 +17,41 @@ const Hero = () => {
               services.
             </p>
             <Link
-            //  href={"./register"} 
-             href={"https://forms.gle/aCwKh8aW7goPoRGWA"} 
-              >
+              href={"./register"}
+            //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"} 
+            >
               <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-[116px]">
-                {/* Get Started */}
-                Join Waitlist
+                Get Started
+                {/* Join Waitlist */}
               </button>
             </Link>
           </div>
           <div className="hidden sm:flex w-full max-w-[1160px] mt-[120px] mb-8 h-[360px] justify-center items-center mx-auto">
             <Image
-              src={"/Hand-drawn line.png"}
-              height={350}
-              width={794}
+              src={"/ownerLanding.jpg"}
               alt="OwnerImg"
-              className="object-fill w-full"
+              width={4096}  // Specify the desired width
+              height={2731} 
+              layout="full" // Specify the desired height
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover bg-center h-[487px] border-white border-[2px] rounded-[12px]"
+              priority
             />
           </div>
 
+
           <div className="sm:hidden flex bg-center h-[360px] justify-center items-center mt-[40px]">
             <Image
-              src={"/Hand-drawn line_2.png"}
-              height={360}
-              width={295}
+              src={"/manWithPhone.jpg"}
               alt="OwnerImg"
-              className="object-cover bg-center  h-[360px]"
+              width={4096}  // Specify the desired width
+              height={2731} 
+              layout="full" // Specify the desired height
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover bg-center h-[360px] border-white border-[2px] rounded-[12px]"
+              priority
             />
           </div>
         </div>

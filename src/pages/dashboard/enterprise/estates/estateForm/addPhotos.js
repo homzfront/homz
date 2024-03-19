@@ -70,7 +70,7 @@ const AddPhotos = ({
       <div className="flex flex-col gap-2">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
         <p className="text-[18px] font-[400] text-GrayHomz ">
-          Add at least one photo of your property
+        Add cover photo and at least one photo of your property
         </p>
         <p className="text-[13px] font-[400] text-GrayHomz2">
           Supported formats are .jpg and .png and file size must not exceed 5 mb
@@ -78,7 +78,7 @@ const AddPhotos = ({
       </div>
       <div className="flex gap-4 mt-4">
         <div className="">
-          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo</p>
+          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-red-500 font-[10px]">*</span></p> 
           <div className="mt-4 w-[235px] flex justify-start">
             <ImageUpload
               onImageRemove={setUploadedImage}
@@ -88,8 +88,8 @@ const AddPhotos = ({
             />
           </div>
         </div>
-        <div className="">
-          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos</p>
+        <div className=""> 
+          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-red-500 font-[10px]">*</span></p> 
           <div className="mt-4 flex">
             <div className="w-[235px] flex justify-start">
               <ImageUpload
@@ -129,24 +129,7 @@ const AddPhotos = ({
             Previous
           </button>
         </div>
-        {uploadedImage === null ? (
-          <div className="">
-            <button
-              disabled
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-          </div>
-        ) : (
+        {uploadedImage !== null && uploadedImage2 !== null ?  (
           <div className="">
             <button
               onClick={handlePageChangeThree}
@@ -163,7 +146,24 @@ const AddPhotos = ({
               />
             </button>
           </div>
-        )}
+        ) : (
+          <div className="">
+            <button
+              disabled
+              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
+            >
+              Next
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
+            </button>
+          </div>
+        ) }
       </div>
     </div>
   );

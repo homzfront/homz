@@ -9,17 +9,20 @@ import api from "@/utils/api";
 import { toast } from "react-toastify";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { updateEstateInfo } from "@/api/estateService";
+import SelectState from "@/pages/selectStateAndArea/selectState";
+import SelectArea from "@/pages/selectStateAndArea/selectArea";
 
 const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   console.log(data);
   const [loading, setLoading] = useState(true);
   useBodyScroll([loading]);
+  console.log(`${data?.size} "sq m"`)
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
       setName(data.name || "");
       setAddress(data.address || "");
-      setSize(parseInt(data.size) || 0);
+      setSize((`${data?.size} sq m`) || 0);
       setNumberOfHouses(data.numberOfHouses || "");
       setDescription(data.description || "");
       setLoading(false); // Set loading to false once data is available
@@ -31,21 +34,9 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   const [selectedState, setSelectedState] = useState(data?.state);
   const [name, setName] = useState(data?.name);
   const [address, setAddress] = useState(data?.address);
-  const [size, setSize] = useState(parseInt(data?.size));
+  const [size, setSize] = useState((`${data?.size} sq m`));
   const [numberOfHouses, setNumberOfHouses] = useState(data?.numberOfHouses);
   const [description, setDescription] = useState(data?.description);
-
-  const handleSelectArea = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedArea(option);
-  };
-
-  const handleSelectState = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
-    setSelectedState(option);
-  };
 
   const trimSpaces = (input) => {
     if (typeof input === "string") {
@@ -54,17 +45,6 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
     return input;
   };
 
-  const options = [
-    { id: 1, label: "Ajah" },
-    { id: 2, label: "Lekki" },
-    { id: 3, label: "Ikeja" },
-  ];
-
-  const optionsTwo = [
-    { id: 1, label: "Lagos" },
-    { id: 2, label: "Oyo" },
-    { id: 3, label: "Calabar" },
-  ];
 
   const updateDone = async (e) => {
     e.preventDefault();
@@ -134,30 +114,12 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
                 <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
                   Property Location <span className="text-error">*</span>
                 </div>
-                <div className="flex justify-between ">
-                  <div>
-                    <DropDown
-                      options={options}
-                      onSelect={handleSelectArea}
-                      selectOption={`${
-                        data?.area === undefined
-                          ? "select area"
-                          : ` ${data?.area}`
-                      }`}
-                      className={"w-[230px]"}
-                    />
+                <div className="flex gap-4 w-full">
+                  <div className="w-full">
+                    <SelectState selectedState={selectedState} setSelectedState={setSelectedState} placeholder={data?.state} />
                   </div>
-                  <div>
-                    <DropDown
-                      options={optionsTwo}
-                      onSelect={handleSelectState}
-                      selectOption={`${
-                        data?.state === undefined
-                          ? "select area"
-                          : ` ${data?.state}`
-                      }`}
-                      className={"w-[230px]"}
-                    />
+                  <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
+                    <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} placeholder={data?.area} />
                   </div>
                 </div>
               </div>
@@ -174,9 +136,10 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
               <div>
                 <Input
                   label={"Property Size"}
+                  span2={"650 square meters is equivalent to 1 plot."}
                   value={size}
-                  placeholder={"0.00"}
-                  type={"number"}
+                  placeholder={"0 sq m"}
+                  type={"text"}
                   onChange={(e) => setSize(e.target.value)}
                 />
               </div>
@@ -185,6 +148,7 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
                   label={"Total No of Houses In Property"}
                   placeholder={"0"}
                   type={"number"}
+                  span={"*"}
                   value={numberOfHouses}
                   onChange={(e) => setNumberOfHouses(e.target.value)}
                 />
@@ -193,7 +157,7 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
             <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
               <div>
                 <label className="text-[14px] font-[500] text-BlackHomz ">
-                  Property Description <span className="text-error">*</span>
+                  Property Description
                 </label>
                 <p className="text-[13px] font-[400] text-GrayHomz ">
                   Give short description of your property.

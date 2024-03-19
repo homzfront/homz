@@ -94,6 +94,7 @@ const ContactInfo = ({ handlePageChangeTwo, handlePageChangeFour, data }) => {
               placeholder={"0000 - 000 - 0000"}
               type={"number"}
               value={managerPhoneNumber}
+              span={"*"}
               onChange={(e) => setManagerPhoneNumber(e.target.value)}
             />
             <Input

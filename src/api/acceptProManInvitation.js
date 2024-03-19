@@ -26,7 +26,7 @@ export const acceptEnterpriseInvitation = async (email, role, invitation, isHomz
   console.log(password);
   console.log(confirmPasswword);
     try {
-      const response = await api.post(`/enterpriseplan/role/accept-invitation/property-owner?email=${email}&role=${role}&invitation=${invitation}&isHomzEnterprise=${isHomzEnterprise}`, {
+      const response = await api.post(`/accept-invitation/property-owner?email=${email}&role=${role}&invitation=${invitation}&isHomzEnterprise=${isHomzEnterprise}`, {
         fullName,
         phoneNumber,
         password,

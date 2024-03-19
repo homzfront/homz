@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import useEstateForOneStore from "@/store/useEstateForOne";
 
-const Dashboard = ({id}) => {
+const Dashboard = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Dashboard = ({id}) => {
               href={"/dashboard/property-owner/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-              Property Name<> </>/
+              {data?.name ? data?.name : "Property Name"}<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Dashboard
@@ -47,12 +47,12 @@ const Dashboard = ({id}) => {
           </div>
         </div>
         <div className="mt-8 w-[784px] justify-between flex gap-5">
-          <HomeCard Data={data}/>
-          <RevCard id={id}/>
+          <HomeCard Data={data} />
+          <RevCard id={id} />
         </div>
         <div className="mt-8 flex gap-5">
-          <TenantsCard data={data}/>
-          <Maintenance  id={id}/>
+          <TenantsCard data={data} />
+          <Maintenance id={id} />
         </div>
       </div>
     </div>

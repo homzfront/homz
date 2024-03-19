@@ -12,6 +12,7 @@ const Receipt = ({
   transfer,
   setIlluminateWallet,
   fetchDataAgain,
+  data
 }) => {
   const [transferData, setTransferData] = useState("");
   const [copiedState, setCopiedState] = useState({
@@ -47,11 +48,9 @@ const Receipt = ({
       pdf.save("Homz-Rent-Receipt.pdf"); // Download PDF with filename 'receipt.pdf'
     });
 
-    setIlluminateWallet(false);
-    fetchDataAgain();
-    closeReceipt();
   };
   console.log(transfer);
+  console.log(data);
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       <div
@@ -71,13 +70,27 @@ const Receipt = ({
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex gap-4 items-center">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/BWFrame.png"}
-              alt=""
-              height={64}
-              width={64}
-            />
-            <p className="text-GrayHomz text-[18px] font-[500]">Company Name</p>
+            {data?.businessLogo?.url ?
+              <Image
+                src={
+                  data?.businessLogo?.url
+                }
+                alt=""
+                height={64}
+                width={64}
+                className="rounded-full"
+              />
+              :
+              <Image
+                src={"/static/dashboard/enterprisemanager/payment/BWFrame.png"}
+                alt=""
+                height={64}
+                width={64}
+              />
+            }
+            <p className="text-GrayHomz text-[18px] font-[500]">
+              {data?.businessName}
+            </p>
           </div>
           <div>
             <p className="text-BlueHomz text-[14px] font-[500]">
@@ -174,7 +187,7 @@ const Receipt = ({
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                Property manager’s email@gmail.com
+                {data?.user?.email}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -185,7 +198,7 @@ const Receipt = ({
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                0000 000 0000
+                {data?.phoneNumber}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -196,7 +209,7 @@ const Receipt = ({
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                17, Alapere, Alagomeji Area, Yaba, Lagos
+                {data?.estateAddress}
               </p>
             </div>
           </div>

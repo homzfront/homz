@@ -6,24 +6,24 @@ const ContactCard = () => {
   const users = [
     {
       id: 1,
-      name: "John Daniels",
-      image: "/static/images/papaDrinking.png",
+      name: "Sylvester Chukwuka",
+      image: "/ManWithCup.jpg",
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
     },
     {
       id: 2,
-      name: "John Daniels",
-      image: "/static/images/papaDrinking.png",
+      name: "Sylvester Chukwuka",
+      image: "/ManOnCall.jpg",
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
     },
     {
       id: 3,
-      name: "John Daniels",
-      image: "/static/images/papaDrinking.png",
+      name: "Sylvester Chukwuka",
+      image: "/ManLeanOnCar.jpg",
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",

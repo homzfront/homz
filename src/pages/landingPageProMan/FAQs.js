@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Minus from "../../components/icons/Minus";
 import Plus from "../../components/icons/Plus";
+import Link from "next/link";
 
 const FAQs = () => {
   const [expandedFAQs, setExpandedFAQs] = useState({});
@@ -92,9 +93,12 @@ const FAQs = () => {
         <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] ">
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
-        <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">
+        <Link href={"/contact-page"}>
+         <button className="text-BlueHomz mt-4 w-[134px] h-[48px] rounded-md bg-white p-1 hover:bg-transparent hover:border hover:border-white  hover:text-white">
           Get in touch
         </button>
+        </Link>
+       
       </div>
     </div>
   );
