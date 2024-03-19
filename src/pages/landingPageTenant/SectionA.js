@@ -26,8 +26,8 @@ const SectionA = () => {
           </Link>
         </div>
       </div>
-      <div className="relative sm:w-[50%] flex justify-end">
-        <div className="w-[498px] h-full">
+      <div className="relative sm:w-[50%] h-[360px] sm:h-full flex flex-col justify-center items-center">
+        <div className="w-full sm:w-[498px] h-[360px] sm:h-full">
           <Image
             src={"/HappyCouple.jpg"}
             alt="img"
@@ -36,11 +36,11 @@ const SectionA = () => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            className="object-cover w-[498px] bg-center border rounded-tl-[135px]" // Add the '.image-clip' class
+            className="object-cover w-[498px] bg-center border rounded-tl-[80px] sm:rounded-tl-[135px]" // Add the '.image-clip' class
             priority
           />          
         </div>
-        <div className="absolute w-[280px] bottom-[-80px] right-[350px]">
+        <div className="hidden sm:inline sm:absolute w-[280px] bottom-[-80px] right-[350px]">
           <Image
             src={"/PhilipDashboard.png"}
             alt="img"
@@ -50,6 +50,19 @@ const SectionA = () => {
             objectFit="cover"
             objectPosition="center"
             className="object-top bg-top h-[504px] image-clip border-t-2 border-l-2 border-r-2 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
+            priority
+          />
+        </div>
+        <div className="sm:hidden w-[262px] mb-[-55px]">
+        <Image
+            src={"/PhilipDashboard.png"}
+            alt="img"
+            width={2880}
+            height={2048}
+            layout="responsive"
+            objectFit="cover"
+            objectPosition="center"
+            className=" w-[262px] h-[190px] image-clip border-t-2 border-l-2 border-r-2 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
             priority
           />
         </div>

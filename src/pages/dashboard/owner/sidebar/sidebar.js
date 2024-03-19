@@ -8,7 +8,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
 
 const Sidebar = () => {
-  const { showKindlyWait} = LandLordInactiveStore();
+  const { showKindlyWait } = LandLordInactiveStore();
 
   const Data = [
     {
@@ -147,7 +147,7 @@ const Sidebar = () => {
 
 
   // useEffect to handle scrolling
-useBodyScroll([logoutModal]);
+  useBodyScroll([logoutModal]);
 
   console.log(pathname);
 
@@ -156,30 +156,27 @@ useBodyScroll([logoutModal]);
       <div className="shadow-lg">
         <div className="w-full h-[1024px] px-6 flex flex-col justify-around">
           <div>
-          <Link href={"/"}>
-            <Image
-              src={"/Homz_Logo_Blue.png"}
-              height={28}
-              width={131}
-              priority
-              alt="img"
-            />
-          </Link>
+            <Link href={"/"}>
+              <Image
+                src={"/Homz_Logo_Blue.png"}
+                height={28}
+                width={131}
+                priority
+                alt="img"
+              />
+            </Link>
           </div>
           <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
             {Data.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  data.name === "Property Management" ? "h-[60px]" : ""
-                } ${
-                  pathname === data.link
+                className={`${showKindlyWait && data?.name !== "Dashboard" ? "opacity-[70%]" : ""}  h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${data.name === "Property Management" ? "h-[60px]" : ""
+                  } ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : " hover:bg-blue-100"
-                } ${
-                  data.coming === null ? "" : "opacity-50 pointer-events-none"
-                } `}
+                  } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
+                  } `}
               >
                 {pathname === data.link ? (
                   <Image src={data.image2} height={16} width={16} alt="img" />
@@ -200,11 +197,10 @@ useBodyScroll([logoutModal]);
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  pathname === data.link
+                className={`${showKindlyWait ? "opacity-[70%]" : ""}  h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
-                } `}
+                  } `}
               >
                 {pathname === data.link ? (
                   <Image src={data.image2} height={16} width={16} alt="img" />
@@ -220,11 +216,10 @@ useBodyScroll([logoutModal]);
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  pathname === data.link
+                className={`${showKindlyWait ? "opacity-[70%]" : ""}  h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
-                } `}
+                  } `}
               >
                 {pathname === data.link ? (
                   <Image src={data.image2} height={16} width={16} alt="img" />
@@ -234,7 +229,7 @@ useBodyScroll([logoutModal]);
                 <span className="">{data.name}</span>
               </Link>
             ))}
-             <div
+            <div
               onClick={logoutII}
               className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
                  `}

@@ -52,10 +52,15 @@ const SectionC = () => {
         </div>
         <div className="">
           <Image
-            src={"/Frame_635_2.png"}
-            height={598}
-            width={573}
-            alt="features-img"
+            src={"/HappyLady.jpg"}
+            alt="img"
+            width={4096}
+            height={2731}
+            // layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover w-[573px] h-[310px] sm:h-[598px] bg-center border rounded-tr-[62px] rounded-bl-[62px] sm:rounded-tr-[135px] sm:rounded-bl-[135px]" // Add the '.image-clip' class
+            priority
           />
         </div>
       </div>
