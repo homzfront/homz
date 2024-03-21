@@ -1,13 +1,16 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PopUpMenu from "../../components/popUpMenu";
 import useClickOutside from "@/utils/clickOutside";
 
 const Documents = ({ data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
+  const dropdownRef = useRef(null);
+
+  useClickOutside(dropdownRef, () => setPopUpMenuTwo(false));
+
 
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);

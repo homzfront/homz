@@ -154,7 +154,7 @@ const Login = () => {
                 Welcome back, please enter your details.
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-4">
+                <div className={`flex flex-col gap-4 ${loading ? "pointer-events-none" : ""}`}>
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
                       Email <span className="text-error">*</span>
