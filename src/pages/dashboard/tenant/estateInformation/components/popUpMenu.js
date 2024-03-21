@@ -8,7 +8,7 @@ function PopUpMenu ({data, dropdownRef}) {
 
   const handleDownload = (url, fileName) => {
     fetch(url)
-      .then(response => response.blob())
+      .then(response => response?.blob())
       .then(blob => {
         fileDownload(blob, `${fileName}.pdf`);
       })
