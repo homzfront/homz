@@ -7,6 +7,9 @@ import fileDownload from 'js-file-download';
 function PopUpMenu ({data, dropdownRef}) {
 
   const handleDownload = (url, fileName) => {
+    if (url === undefined && fileName === undefined) {
+      return
+    }
     fetch(url)
       .then(response => response?.blob())
       .then(blob => {
