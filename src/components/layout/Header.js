@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const { fetchProfile, user, loading, logout } = useProfileStore();
+  const { fetchProfile, profile, loading, logout } = useProfileStore();
   const [pathname, setPathname] = useState("");
 
   useEffect(() => {
@@ -43,13 +43,13 @@ const Header = () => {
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    if (!user) {
+    if (!profile) {
       fetchProfile();
     }
-  }, [user, fetchProfile]);
+  }, [profile, fetchProfile]);
   2;
-  console.log(user);
-  const isUserPresent = user && Object.keys(user).length > 0;
+  console.log(profile);
+  const isUserPresent = profile && Object.keys(profile).length > 0;
 
   console.log(isUserPresent);
 
@@ -57,12 +57,15 @@ const Header = () => {
   const extractUsername = (userOrEmail) => {
     let email;
 
+
     if (typeof userOrEmail === "string") {
       // If the input is a string, assume it's an email
       email = userOrEmail;
     } else if (userOrEmail && userOrEmail.email) {
       // If the input is an object with an 'email' property, use that email
       email = userOrEmail.email;
+    } else if (userOrEmail?.user?.email) {
+      email = userOrEmail?.user?.email
     }
 
     // Split the email address by "@" to get an array
@@ -74,7 +77,19 @@ const Header = () => {
     return username;
   };
 
-  function determineUserDashboard(user) {
+  function determineUserDashboard(profile) {
+    let user;
+
+
+    if (typeof user === "string") {
+      // If the input is a string, assume it's an email
+      user = profile;
+    } else if (profile && profile?.isVerified) {
+      user = profile
+    }
+    else if (profile?.user && profile?.user?.isVerified) {
+      user = profile?.user
+    }
     if (user?.isVerified && user?.accounts.length === 0) {
       return "/select-plan"; // Redirect to select plan for verified users with no accounts
     } else if (user?.accounts?.[0].name === "TENANT") {
@@ -84,10 +99,11 @@ const Header = () => {
     } else if (user?.accounts?.[0].name === "LIST_PROPERTY" || user?.accounts?.[0].name === "MANAGE_PROPERTY") {
       return "/dashboard/property-owner/dashboard";
     } else {
-      return null; // No specific dashboard identified
+      return '/'; // No specific dashboard identified
     }
+
   }
-  
+
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
       <Link href={"/"}>
@@ -148,8 +164,8 @@ const Header = () => {
           <p>Loading...</p>
         ) : isUserPresent ? (
           <div className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"}`}>
-            <Link href={user ? determineUserDashboard(user) : "/"}>
-              <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(user)}!</p>
+            <Link href={profile ? determineUserDashboard(profile) : "/"}>
+              <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(profile)}!</p>
             </Link>
             <button
               onClick={() => logout(logout)}

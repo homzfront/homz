@@ -163,13 +163,14 @@ const ManageUsers = () => {
             className={`mt-4  ${isOpen ? "block" : "hidden"
               }`}
           >
-            <div className="flex gap-6 items-center  px-5 pb-2 h-[95px]  w-full">
-              <div className="w-[360px] mb-6">
-                <Input
+            <div className="flex gap-6 items-center px-5 pb-2 h-[95px] w-full">
+              <div className="w-[360px]">
+                <input
+                  className="border mt-2 rounded-md p-3 h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]"
                   type={"email"}
                   placeholder={"Email"}
-                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                 />
               </div>
               <div
@@ -203,8 +204,8 @@ const ManageUsers = () => {
               <button
                 onClick={handleSubmit}
                 className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
-                    ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
-                    : "bg-BlueHomz text-white"
+                  ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
+                  : "bg-BlueHomz text-white"
                   }`}
               // disabled={isButtonDisabled}
               >

@@ -46,7 +46,7 @@ const ProfilePicture = ({ data }) => {
         setLoading(false);
         setDoneUpdate(true);
         setShowDialogue(false);
-        toast.success("Update successful");
+        // toast.success("Update successful");
       } else {
         console.error("Update failed", error);
         toast.error(error);
