@@ -45,7 +45,7 @@ const BusinessInfo = ({ data }) => {
         setLoading(false);
         setShowDialogue(false);
         setDoneUpdate(true);
-        toast.success("Update successful");
+        // toast.success("Update successful");
       } else {
         console.error("Update failed", error);
         toast.error(error);

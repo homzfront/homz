@@ -15,6 +15,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import SliderAuth from "@/components/auth/slider";
 import determineUserDashboard from "@/utils/determineUserDashboard";
 import Cookies from "js-cookie";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -139,7 +140,7 @@ const Login = () => {
         theme="dark"
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
-      {loading && <Loading />}
+
       <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
         <SliderAuth/>
       </div>
@@ -200,10 +201,10 @@ const Login = () => {
                   </Link>
                 </div>
                 <button
-                  className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}
                   type="Submit"
                 >
-                  Log In
+                  {loading ? <LoadingFormII /> :  "Log In"}
                 </button>
                 {/* <div className="">
                   <button   className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">

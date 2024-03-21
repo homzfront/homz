@@ -71,7 +71,15 @@ const Header = () => {
   const { data: noti, loading: laodingNoti, fetchData: fetchNoti } = tenantNotiReceive();
 
   useEffect(() => {
-    fetchNoti(); // Fetch data on component mount
+    const fetchDataInterval = setInterval(() => {
+      fetchNoti();
+    }, 3 * 60 * 1000); // 3 minutes in milliseconds
+    
+    // Fetch data immediately when the component mounts
+    fetchNoti();
+  
+    // Clean up the interval to avoid memory leaks
+    return () => clearInterval(fetchDataInterval);
   }, []);
 
   const sortedData = sortDataByStatusAndDate(noti);

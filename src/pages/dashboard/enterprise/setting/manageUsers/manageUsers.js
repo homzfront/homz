@@ -37,7 +37,7 @@ const ManageUsers = () => {
 
   console.log(data);
 
-  useBodyScroll([openModal, loadingII])
+  useBodyScroll([openModal, loadingII, showPopup])
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };

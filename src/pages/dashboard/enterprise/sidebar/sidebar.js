@@ -9,25 +9,34 @@ import useMaintenanceRequestStore from "@/store/enterpriseStore/useMaintenanceSt
 
 const Sidebar = () => {
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
-  const { request:maintenanceRequest, fetchData: fetchMaintenance } =
+  const { request: maintenanceRequest, fetchData: fetchMaintenance } =
     useMaintenanceRequestStore();
 
   useEffect(() => {
+    const fetchDataInterval = setInterval(() => {
+      fetchData();
+      fetchMaintenance();
+    }, 3 * 60 * 1000); // 3 minutes in milliseconds
+
+    // Fetch data immediately when the component mounts
     fetchData();
     fetchMaintenance();
+
+    // Clean up the interval to avoid memory leaks
+    return () => clearInterval(fetchDataInterval);
   }, []);
 
   // Assuming data is the object containing the provided data
-const results = maintenanceRequest?.results;
+  const results = maintenanceRequest?.results;
 
-// Check if any request status is "pending"
-const isAnyPending = results?.some(item => item.status === "pending");
+  // Check if any request status is "pending"
+  const isAnyPending = results?.some(item => item.status === "pending");
 
-// Perform action if any request status is "pending"
-if (isAnyPending) {
-  // Perform your action here
-  console.log("At least one request is pending", isAnyPending);
-}
+  // Perform action if any request status is "pending"
+  if (isAnyPending) {
+    // Perform your action here
+    console.log("At least one request is pending", isAnyPending);
+  }
 
   console.log(request)
   console.log(maintenanceRequest)
@@ -219,9 +228,9 @@ if (isAnyPending) {
                 )}
                 <div className="flex items-center w-full justify-between">
                   <span className="pr-1">{data.name}</span>
-                  <p className={`${data?.active === "true" ?  "bg-error" : "bg-transparent"
+                  <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
                     } mt-1 h-2 w-2 rounded-full`}
-                ></p>
+                  ></p>
                 </div>
               </Link>
             ))}
@@ -232,8 +241,8 @@ if (isAnyPending) {
                 key={data.id}
                 href={data.link}
                 className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
-                    ? "bg-BlueHomz text-white"
-                    : "hover:text-white hover:bg-blue-300"
+                  ? "bg-BlueHomz text-white"
+                  : "hover:text-white hover:bg-blue-300"
                   } `}
               >
                 {pathname === data.link ? (
@@ -251,8 +260,8 @@ if (isAnyPending) {
                 key={data.id}
                 href={data.link}
                 className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
-                    ? "bg-BlueHomz text-white"
-                    : "hover:text-white hover:bg-blue-300"
+                  ? "bg-BlueHomz text-white"
+                  : "hover:text-white hover:bg-blue-300"
                   } `}
               >
                 {pathname === data.link ? (

@@ -14,16 +14,16 @@ const ContactCard = () => {
     },
     {
       id: 2,
-      name: "Andi Lane",
-      image: "/ManAkimbo.jpg",
+      name: "Stephanie Collins",
+      image: "/FineBlackLady.jpg",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
     },
     {
       id: 3,
-      name: "Costa David",
-      image: "/static/images/tenantManTesti.png",
+      name: "Blessing George",
+      image: "/orangeLady.jpg",
       position: "Tenant",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",

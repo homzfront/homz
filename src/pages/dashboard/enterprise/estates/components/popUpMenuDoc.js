@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { deleteEstateDocSpecificUSer } from "@/api/estateService";
 
-function PopUpMenuDoc({ data, id, fetchDataAgain }) {
+function PopUpMenuDoc({ data, id, fetchDataAgain, dropdownRef }) {
   if (!data || !data?.fileDocument?.url || !id) {
     return null; // or handle accordingly, e.g., return a loading state
   }
@@ -26,7 +26,7 @@ function PopUpMenuDoc({ data, id, fetchDataAgain }) {
   console.log(data._id);
   console.log(data);
   return (
-    <div className="drop-down absolute top-6 text-GrayHomz font-[500] text-[13px] right-[15px] border rounded-md bg-white flex flex-col items-center justify-around">
+    <div ref={dropdownRef} className="drop-down absolute top-6 text-GrayHomz font-[500] text-[13px] right-[15px] border rounded-md bg-white flex flex-col items-center justify-around">
       <Link
         href={data?.fileDocument?.url}
         target="_blank"

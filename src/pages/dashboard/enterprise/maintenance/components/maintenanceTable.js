@@ -13,7 +13,7 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
-const MaintenanceTable = ({ request, tenantData }) => {
+const MaintenanceTable = ({ request, tenantData, fetchData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -86,6 +86,7 @@ const MaintenanceTable = ({ request, tenantData }) => {
       console.log(data);
       setLoading(false);
       toast.success("status updated successfully");
+      fetchData();
       // Close the corresponding dropdown
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {

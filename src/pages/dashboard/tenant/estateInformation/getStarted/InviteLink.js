@@ -57,10 +57,10 @@ const InviteLink = ({ openLink, loading, inviteLink, setInviteLink }) => {
           />
           <button
             onClick={(e) => handleOpenLink(e)}
-            className="bg-BlueHomz text-white h-[48px] w-[128px] rounded-[4px]"
+            className={`bg-BlueHomz text-white h-[48px] w-[128px] rounded-[4px] ${!inviteLink ? "bg-GrayHomz6 text-GrayHomz5 pointer-events-none" : "" }`}
           >
             Join Property
-          </button>
+          </button> 
         </div>
       </div>
 
@@ -100,7 +100,7 @@ const InviteLink = ({ openLink, loading, inviteLink, setInviteLink }) => {
                 />
                 <button
                   onClick={(e) => handleOpenLink(e)}
-                  className="bg-BlueHomz text-[14px] text-white h-[45px] w-full rounded-[4px]"
+                  className={`bg-BlueHomz text-[14px] text-white h-[45px] w-full rounded-[4px] ${!inviteLink ? "bg-GrayHomz6 text-GrayHomz5 pointer-events-none" : "" }`}
                 >
                   Join Property
                 </button>

@@ -193,7 +193,7 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
               </Link>
             </div>
             {dropdowns["estateOptions"] && (
-              <div className="absolute top-14 w-full text-GrayHomz2 text-[14px]   bg-white rounded-md shadow-md">
+              <div className="absolute top-14 w-full text-GrayHomz2 text-[14px]   bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
                 {estates &&
                   estates.map((estate) => (
                     <div

@@ -266,7 +266,7 @@ const ListProperty = () => {
                 </span>
               )}
             </div>
-            <div className="w-[100%] mt-16 p-6">
+            <div className="w-[100%] my-16 p-6">
               <Link href={""} className="max-w-[1156px] mt-[40px] m-auto">
                 <button
                   onClick={handleSubmit}

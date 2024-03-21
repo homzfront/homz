@@ -51,8 +51,9 @@ const Login = ({ setShowLogin }) => {
 
       if (response.data.statuscode === 201) {
         toast.success("Login successful");
-        const { data } = response.data;
-        console.log(data);
+        const  data = response.data.data.token;
+        console.log("login successful, ", data)
+        localStorage.setItem('jwt', data)
         setLoading(false);
         setShowLogin(false);
       } else {
@@ -96,7 +97,10 @@ const Login = ({ setShowLogin }) => {
               className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
               type="text"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                setLoginError("")
+              }}
               placeholder="Enter your email"
             />
           </div>
@@ -108,7 +112,10 @@ const Login = ({ setShowLogin }) => {
               className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
               type={visible ? "text" : "password"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setLoginError("")
+              }}
               placeholder="Create a password"
             />
             <div className="absolute top-11 right-4" onClick={Visible}>

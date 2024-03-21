@@ -10,6 +10,36 @@ import { useEffect } from "react";
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { fetchProfile, user, loading, logout } = useProfileStore();
+  const [pathname, setPathname] = useState("");
+
+  useEffect(() => {
+    // Function to get the current URL
+    const url = () => {
+      if (typeof window !== "undefined") {
+        return window.location.href;
+      }
+      return "";
+    };
+
+    const extractPathname = (url) => {
+      const parsedUrl = new URL(url);
+      let pathname = parsedUrl.pathname;
+
+      // Split the pathname into segments
+      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
+
+      // Keep only the first three segments
+      const firstThreeSegments = segments.slice(0, 3);
+
+      // Join the segments back to form the updated pathname
+      pathname = `/${firstThreeSegments.join("/")}`;
+
+      return pathname;
+    };
+
+    setPathname(extractPathname(url()));
+  }, []);
+
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -79,7 +109,7 @@ const Header = () => {
           </Link>
           <Link
             // href={"/landingPage-PropertyOwner"}
-            className="hover:text-blue-400"
+            className={`hover:text-blue-400   ${pathname === "/" ? "text-BlueHomz" : ""}`}
             href={"/"}
             onClick={() => setOpen(false)}
           >
@@ -88,7 +118,7 @@ const Header = () => {
           <Link
             href={"/landing-page-property"}
             // href={""}
-            className="hover:text-blue-400 "
+            className={`hover:text-blue-400 ${pathname === "/landing-page-property" ? "text-BlueHomz" : ""}`}
             onClick={() => setOpen(false)}
           >
             Enterprise
@@ -96,7 +126,7 @@ const Header = () => {
           <Link
             href={"/landing-page-tenant"}
             // href={""}
-            className="hover:text-blue-400 "
+            className={`hover:text-blue-400 ${pathname === "/landing-page-tenant" ? "text-BlueHomz" : ""}`}
             onClick={() => setOpen(false)}
           >
             Tenant

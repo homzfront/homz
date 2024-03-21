@@ -45,7 +45,7 @@ const Features = () => {
           Features
         </h2>
         <h1 className="text-[36px] text-center font-[700] text-BlackHomz">
-          Empowering Property Owners
+        Empowering Landlords
         </h1>
         <p className="text-[20px] max-w-[735px] text-center font-[400] text-GrayHomz">
           Stay in control with our easy to use owner property management

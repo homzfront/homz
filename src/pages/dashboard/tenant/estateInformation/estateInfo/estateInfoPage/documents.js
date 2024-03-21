@@ -2,24 +2,18 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenu from "../../components/popUpMenu";
+import useClickOutside from "@/utils/clickOutside";
 
-const Data = [
-  {
-    id: 1,
-    name: "Tenant Agreement",
-    size: "156kb",
-  },
-];
-
-const Documents = () => {
-  const data = Data || [];
+const Documents = ({ data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
 
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
     setSelectedDataId(id);
   };
+  const Agreement = data?.estateId?.documents
 
   return (
     <div>
@@ -30,8 +24,8 @@ const Documents = () => {
 
       <div className="flex mt-8 gap-4">
         {data &&
-          data.map((data) => (
-            <div key={data.id} className="">
+          Agreement?.map((data) => (
+            <div key={data._id} className="">
               <div className="h-[200px] w-[160px] border rounded-lg py-5 px-2 flex flex-col justify-between">
                 <div>
                   <Image
@@ -47,7 +41,7 @@ const Documents = () => {
                 <div className="flex flex-col gap-1 relative">
                   <div className="flex justify-between items-center ">
                     <p className="text-[13px] font-[500] text-BlackHomz">
-                      {data.name}
+                      {data.fileName}
                     </p>
                     <Image
                       src={
@@ -56,16 +50,16 @@ const Documents = () => {
                       height={21}
                       width={20}
                       alt=""
-                      onClick={() => handleToggleMenu(data.id)}
+                      onClick={() => handleToggleMenu(data._id)}
                       className="cursor-pointer"
                     />
                   </div>
 
                   <p className="text-[11px] font-[400] text-BlueHomz">PDF</p>
                   <p className="text-[11px] font-[400] text-GrayHomz">
-                    {data.size}
+                    {`${(data?.fileDocument?.size / 1024).toFixed(2)}kb`}
                   </p>
-                  {popUpMenuTwo && selectedDataId === data.id && <PopUpMenu />}
+                  {popUpMenuTwo && selectedDataId === data._id && <PopUpMenu data={data} dropdownRef={dropdownRef}/>}
                 </div>
               </div>
             </div>
