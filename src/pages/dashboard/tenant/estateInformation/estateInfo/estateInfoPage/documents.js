@@ -14,7 +14,7 @@ const Documents = ({ data }) => {
     setSelectedDataId(id);
   };
   
-  const Agreement = data?.estateId?.documents
+  const Agreement = data?.estateId?.documents || [];
 
   return (
     <div>

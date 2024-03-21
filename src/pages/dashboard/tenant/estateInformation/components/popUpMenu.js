@@ -40,7 +40,7 @@ function PopUpMenu({ data, dropdownRef }) {
         </div>
       </Link>
       <button
-        // onClick={() => handleDownload(data?.fileDocument?.url, data?.fileName)}
+        onClick={() => handleDownload(data?.fileDocument?.url, data?.fileName)}
       >
         <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1 rounded-sm w-[160px] text-center">
           <Image
