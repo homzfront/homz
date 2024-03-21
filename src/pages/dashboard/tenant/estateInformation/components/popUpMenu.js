@@ -24,7 +24,7 @@ function PopUpMenu({ data, dropdownRef }) {
   return (
     <div ref={dropdownRef} className="drop-down absolute top-6   text-GrayHomz font-[500] text-[13px] right-[15px] border   rounded-md bg-white flex flex-col items-center justify-around">
       <Link
-        href={data?.fileDocument?.url}
+        href={data?.fileDocument?.url || "/"}
         target="_blank"
         rel="noopener noreferrer"
       >

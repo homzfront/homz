@@ -5,17 +5,17 @@ import EstateInfoP from "./estateInfoPage/estateInfoP.js";
 
 const Widget = ({data}) => {
   const [active, setActive] = useState(false);
-  // const [activeTwo, setActiveTwo] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
 
   const handlePageChange = () => {
     setActive(false);
-    // setActiveTwo(false);
+    setActiveTwo(false);
   };
 
-  // const handlePageChangeTwo = () => {
-  //   setActiveTwo(true);
-  //   setActive(true);
-  // };
+  const handlePageChangeTwo = () => {
+    setActiveTwo(true);
+    setActive(true);
+  };
 
 
   return (
@@ -33,7 +33,7 @@ const Widget = ({data}) => {
               <p className="text-[11px] sm:text-[14px] font-500">Property Information</p>
             </div>
           </div>
-          {/* <div className="flex flex-col items-center gap-2 justify-center">
+          <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
                 activeTwo ? "bg-BlueHomz text-white" : "sm:text-BlackHomz text-BlueHomz bg-walletBg sm:bg-none"
@@ -42,15 +42,15 @@ const Widget = ({data}) => {
             >
               <p className="text-[11px] sm:text-[14px] font-500">Documents</p>
             </div>
-          </div> */}
+          </div>
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
             <EstateInfoP data={data} />
           </div>
-          {/* <div className={`${activeTwo ? "inline" : "hidden"}`}>
+          <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Documents  data={data}/>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
