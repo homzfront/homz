@@ -4,7 +4,7 @@ import Link from "next/link";
 import fileDownload from 'js-file-download';
 
 
-function PopUpMenu ({data, dropdownRef}) {
+function PopUpMenu({ data, dropdownRef }) {
 
   const handleDownload = (url, fileName) => {
     if (url === undefined && fileName === undefined) {
@@ -20,7 +20,7 @@ function PopUpMenu ({data, dropdownRef}) {
         // Handle error
       });
   };
-  
+
   return (
     <div ref={dropdownRef} className="drop-down absolute top-6   text-GrayHomz font-[500] text-[13px] right-[15px] border   rounded-md bg-white flex flex-col items-center justify-around">
       <Link
@@ -39,7 +39,9 @@ function PopUpMenu ({data, dropdownRef}) {
           View
         </div>
       </Link>
-      <button onClick={() => handleDownload(data?.fileDocument?.url, data?.fileName)}>
+      <button
+        // onClick={() => handleDownload(data?.fileDocument?.url, data?.fileName)}
+      >
         <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1 rounded-sm w-[160px] text-center">
           <Image
             src={
