@@ -130,7 +130,7 @@ const RentInfo = ({ profile }) => {
   console.log(property);
   console.log(parseInt(rent))
 
-const dupe = "Trade"
+
 
   const handleConfirm2 = async (e) => {
     e.preventDefault();
@@ -160,7 +160,7 @@ const dupe = "Trade"
         startDate,
         dueDate,
         paymentStatus: lowerCaseData(selectedValue),
-        property: dupe,
+        property,
       };
       const id = profile?.data?._id;
       console.log(id);
