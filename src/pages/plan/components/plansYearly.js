@@ -196,7 +196,7 @@ const PlansYearly = ({ data, profile }) => {
                 : " hidden"
                 }`}
             >
-              Get Started
+                Contact Sales
             </Link>
             <button
               onClick={() => {

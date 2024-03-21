@@ -196,7 +196,7 @@ const PlansYearly = ({ data, profile }) => {
                 : " hidden"
                 }`}
             >
-              Get Started
+                     Contact Sales
             </Link>
             <button
               onClick={() => {
@@ -204,10 +204,13 @@ const PlansYearly = ({ data, profile }) => {
               }}
               className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                 ? " hidden"
-                : "bg-BlueHomz hover:bg-blue-400 text-white "
-                }`}
+                : ""
+                }  ${profile?.planName === plan.title ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
             >
-              Get Started
+              {profile?.planName === plan.title
+                ? "Active"
+                : "Get Started"}
             </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">

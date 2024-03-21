@@ -145,7 +145,7 @@ const WalletBalance = ({
         </div>
         <div className="flex items-center justify-between px-5">
           <div
-                 className={`text-[17px] font-[400] text-white flex items-center w-[40%] justify-start ${
+                 className={`text-[18px] font-[400] text-white flex items-center w-[45%] justify-start ${
                   loading ? "ml-6 mb-2" : ""
                 } ${
                   illuminateWallet ? "" : "hidden"

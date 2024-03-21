@@ -131,7 +131,8 @@ const Plans = ({ data, profile }) => {
 
     try {
       let response;
-      if (profile.PlanStatus === "free_trial") {
+      if (profile.PlanStatus === "free_trial" || profile?.planName === "Enterprise Starter" ||
+        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium") {
         response = await updateEnterPriseSub({
           planName: plans,
           interval
@@ -146,7 +147,7 @@ const Plans = ({ data, profile }) => {
         toast.success(successMessage);
         const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
         const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
-        
+
         if (isValidUrl(authorizationUrl)) {
           router.push(authorizationUrl);
         } else if (isValidUrl(paystackAuthorizationUrl)) {
@@ -155,7 +156,7 @@ const Plans = ({ data, profile }) => {
           console.warn('Invalid or missing authorization URL in response.');
         }
       }
-       else {
+      else {
         if (response.error) {
           setFormError(response.error || 'An error occurred.'); // Default error message
           console.error("Error creating profile:", response.error);
@@ -196,7 +197,7 @@ const Plans = ({ data, profile }) => {
                 : " hidden"
                 }`}
             >
-              Get Started
+              Contact Sales
             </Link>
             <button
               onClick={() => {
