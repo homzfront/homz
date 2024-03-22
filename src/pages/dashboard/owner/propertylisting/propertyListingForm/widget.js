@@ -121,7 +121,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
       if (response.data.statuscode === 201 || 200) {
         console.log(response.data.data);
         console.log("form successfully updated ", response.data);
-        toast.success("form successfully uploaded");
+        // toast.success("form successfully uploaded");
         setLoading(false);
         setSelectedArea(null);
         setSelectedState(null);

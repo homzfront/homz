@@ -27,6 +27,7 @@ const ContactInfo = ({
   closeAllModals,
   visibleAddProperty,
   setVisibleAddProperty,
+  name
 }) => {
   useBodyScroll([loading, showConfirm, yesOrNoModal]);
 
@@ -57,9 +58,9 @@ const ContactInfo = ({
       {loading && <Loading />}
       {showConfirm && (
         <ConfirmEstateListing
-          header={"Property(estate) Added Successfully"}
+          header={"Property Added Successfully"}
           body={"Click on the button below to view property"}
-          button={"View Property(estate)"}
+          button={`View ${name ? name : "property"}`}
           returnHome={closeAllModals}
         />
       )}
@@ -153,9 +154,8 @@ const ContactInfo = ({
           {managerPhoneNumber !== "" ? (
             <button
               onClick={openYesOrNo}
-              className={`text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[150px] justify-center items-center ${
-                visibleAddProperty ? "block" : "hidden"
-              }`}
+              className={`text-[14px] font-[500] p-4 rounded-md bg-BlueHomz border text-white flex w-[150px] justify-center items-center ${visibleAddProperty ? "block" : "hidden"
+                }`}
             >
               Add Property
               <Image
@@ -170,9 +170,8 @@ const ContactInfo = ({
           ) : (
             <button
               disabled
-              className={`text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5 flex w-[150px] justify-center items-center ${
-                visibleAddProperty ? "hidden" : "block"
-              }`}
+              className={`text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5 flex w-[150px] justify-center items-center ${visibleAddProperty ? "hidden" : "block"
+                }`}
             >
               Add Property
               <Image

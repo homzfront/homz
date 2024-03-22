@@ -11,12 +11,15 @@ const TenantProfile = ({id}) => {
   const  [data, setData] = useState([])
   console.log(id);
 
+
+  const rentInformation = async () => {
+    const response = await fetchSpecificTenant(`${id}`)
+    const rentInfo = response;
+    setData(rentInfo)
+  }
+
+
   useEffect(()=> {
-    const rentInformation = async () => {
-      const response = await fetchSpecificTenant(`${id}`)
-      const rentInfo = response;
-      setData(rentInfo)
-    }
     rentInformation();
   }, [])
 
@@ -52,7 +55,7 @@ const TenantProfile = ({id}) => {
           <ProfileCard data={data}/>
         </div>
         <div className="w-[65%]">
-          <Widget data={data}/>
+          <Widget data={data} rentInformation={rentInformation}/>
         </div>
       </div>
     </div>

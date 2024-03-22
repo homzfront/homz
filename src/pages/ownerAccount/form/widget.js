@@ -58,7 +58,7 @@ const Widget = ({ data }) => {
           localStorage.setItem('jwt', data)
           setLoading(false);
           setDashboard(true);
-          toast.success(upDateddata?.message);
+          // toast.success(upDateddata?.message);
         } else {
           console.error("Update failed", error);
           setLoading(false);
@@ -76,8 +76,8 @@ const Widget = ({ data }) => {
     <div>
       {
         dashboard &&
-          <div className="absolute  inset-0 z-50 w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">
-            <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md">
+          <div className="absolute  inset-0 z-50 w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center bg-black bg-opacity-30">
+            <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md shadow-lg">
               <div className="mt-[-10px] w-[464px] flex flex-col justify-around p-8 items-center gap-3">
                 <Image
                   src={
