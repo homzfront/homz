@@ -42,7 +42,7 @@ const SectionB = () => {
       <div>
         <div className=" w-[100%] md:w-[50%]">
           <h1 className="text-BlueHomz text-[18px] md:text-start text-center font-[500]">Features</h1>
-          <h1 className="text-[23px] mt-2 leading-tight sm:leading-none sm:text-[36px] md:text-start text-center font-[700] text-BlackHomz">
+          <h1 className="text-[23px] mt-3 leading-tight sm:leading-none sm:text-[36px] md:text-start text-center font-[700] text-BlackHomz">
             Elevate Your Renting Experience
           </h1>
           <p className="text-[18px] mt-2 sm:text-[20px] md:text-start text-center font-[500] text-GrayHomz">
@@ -105,12 +105,17 @@ const SectionB = () => {
           ))}
         </Slider>
       </div>
-        <div className="hidden md:inline">
+        <div className="hidden md:inline w-[573px] h-[598px]">
           <Image
-            src={"/Frame 635.png"}
-            height={632}
-            width={607}
-            alt="features-img"
+            src={"/kidsAndMan.jpg"}
+            alt="img"
+            width={4096}
+            height={2732}
+            // layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover w-[573px] h-[598px] bg-center rounded-tr-[135px] rounded-bl-[135px]" // Add the '.image-clip' class
+            priority
           />
         </div>
         </div>

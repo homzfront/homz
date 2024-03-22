@@ -118,7 +118,7 @@ const Maintenance = () => {
           </div>
 
           <div>
-            <MaintenanceTable request={filteredData} tenantData={tenantData} />
+            <MaintenanceTable fetchData={fetchData} request={filteredData} tenantData={tenantData} />
           </div>
         </div>
       ) : (

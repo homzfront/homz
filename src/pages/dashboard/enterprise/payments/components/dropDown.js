@@ -45,7 +45,7 @@ const Dropdown = ({
     </div>
 
     {isOpen && (
-      <div className=" w-full absolute z-20 top-14 text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md">
+      <div className=" w-full absolute z-20 top-14 text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
         {options.map((option, index) => (
           <div
             key={index}

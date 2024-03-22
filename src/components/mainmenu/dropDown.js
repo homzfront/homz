@@ -6,12 +6,16 @@ import useClickOutside from "@/utils/clickOutside";
 const Dropdown = ({ options, onSelect, selectOption, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(selectedOption?.label || ""); // State to hold search term
+  const [searchTerm, setSearchTerm] = useState(selectedOption || ""); // State to hold search term
   const dropdownRef = useClickOutside(() => setIsOpen(false)); // Use the custom hook
 
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
+
+  console.log(options)
+  console.log(onSelect)
+  console.log(selectOption)
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);

@@ -3,7 +3,7 @@ import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import React, { useState } from "react";
 
-const InputVisible = ({ password, setPassword, label, placeholder }) => {
+const InputVisible = ({ password, setPassword, label, placeholder, setError }) => {
   const [visible, setVisible] = useState(false);
 
   const Visible = () => {
@@ -19,7 +19,10 @@ const InputVisible = ({ password, setPassword, label, placeholder }) => {
           className="border w-full rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
           type={visible ? "text" : "password"}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setError(null)
+          }}
           placeholder={placeholder}
         />
         <div className="absolute top-11 left-[465px]" onClick={Visible}>

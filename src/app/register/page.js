@@ -11,6 +11,7 @@ import api from "@/utils/api";
 import Loading from "@/components/mainmenu/loading";
 import SliderAuth from "@/components/auth/slider";
 import useBodyScroll from "@/utils/useBodyScroll";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const Register = () => {
   const router = useRouter();
@@ -113,13 +114,12 @@ const Register = () => {
       />
 
       <div className="flex m-auto max-w-[100%] sm:max-w-[1440px] h-[1024px]">
-        {loading && <Loading />}
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
         </div>
         <div className="sm:w-[794px] w-full flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
-            <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
+            <div className="flex flex-col gap-6 m-auto  max-w-[380px]">
               <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
                 Create Account
               </h1>
@@ -127,7 +127,7 @@ const Register = () => {
                 Your All-In-One property portal in just one click!
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-4">
+                <div className={`flex flex-col gap-4 ${loading ? "pointer-events-none" : ""}`}>
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
                       Email <span className="text-error">*</span>
@@ -159,7 +159,7 @@ const Register = () => {
                       }}
                       placeholder="Create a password"
                     />
-                    <div className="absolute top-11 right-4" onClick={Visible}>
+                    <div className="absolute top-11 right-8" onClick={Visible}>
                       {visible ? (
                         <Eye className="w-4 h-4" />
                       ) : (
@@ -178,8 +178,12 @@ const Register = () => {
                         setPasswordError("")
                       }}
                     />
-                    <p className="text-center font-[400] text-[11px]">
-                      I Accept the Terms and conditions
+                    <p
+                      onClick={() => {
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
+                        setPasswordError("")
+                      }} className="cursor-pointer text-center text-GrayHomz font-[400] text-[11px]">
+                      I agree to the <span className={` text-BlackHomz font-[700]`}>Terms and Conditions</span> and <span className={` text-BlackHomz font-[700]`}>Privacy Policy</span> of HOMZ.
                     </p>
                   </div>
                   {passwordError && (
@@ -189,10 +193,10 @@ const Register = () => {
                   )}
                 </div>
                 <button
-                  className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
                   type="Submit"
                 >
-                  Get Started
+                  {loading ? <LoadingFormII /> : "Get Started"}
                 </button>
                 {/* <div className="">
                   <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">

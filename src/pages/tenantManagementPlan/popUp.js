@@ -1,12 +1,11 @@
 import { fetchEstates } from "@/api/estateService";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
-import Dropdown from "@/components/mainmenu/dropDownTwo";
+import Dropdown from "@/components/mainmenu/dropDown";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
-  const [selectedState, setSelectedState] = useState(null);
-  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedProperty, setSelectedProperty] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSelect = (value) => {
@@ -25,22 +24,17 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
   console.log(estateData)
 
   const clear = () => {
-    setSelectedState(null);
-    setSelectedArea(null);
+    setSelectedProperty(null)
   };
 
-
-  // Extract unique areas & states
-  const options = [...new Set(estateData?.map((item) => item.area))];
-  const options2 = [...new Set(estateData?.map((item) => item.state))];
-  // Create options object with id for each area
+  const options3 = [...new Set(estateData?.map((item) => item?.name))];
+  console.log(options3)
 
 
   // Filter estateData based on selectedState, selectedArea, and searchQuery
   const filteredData = estateData?.filter(
     (data) =>
-      (!selectedState || data?.location.state === selectedState) &&
-      (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedProperty || data?.name === selectedProperty) &&
       (!searchQuery ||
         data?.name?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
@@ -116,24 +110,20 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
               />
             </div>
             <p className="mt-2 sm:mt-0 sm:hidden  text-[13px] text-BlackHomz font-[400] pr-1">
-                Filter by:
-              </p>
+              Filter by:
+            </p>
             <div className="flex items-center mt-2 sm:mt-0  justify-between sm:justify-normal sm:gap-[6px]">
               <p className="hidden sm:block  text-[13px] text-BlackHomz font-[400] pr-1">
                 Filter by:
               </p>
-              <Dropdown
-                options={options2}
-                onSelect={(option2) => setSelectedState(option2)}
-                selectOption={selectedState === null ? "State" : selectedState}
-                className="mr-2"
-              />
-              <Dropdown
-                options={options}
-                onSelect={(option) => setSelectedArea(option)}
-                selectOption={selectedArea === null ? "Area" : selectedArea}
-                className="mr-2"
-              />
+              <div className="w-[200px]">
+                <Dropdown
+                  options={options3}
+                  onSelect={(option) => setSelectedProperty(option)}
+                  selectOption={selectedProperty === null ? "Property" : selectedProperty}
+                  className={"text-[14px] font-[500] text-GrayHomz2"}
+                />
+              </div>
               <button
                 onClick={clear}
                 type="button"
@@ -156,7 +146,7 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
         </div>
         <div className="px-8 mt-4">
           <div className=" text-[11px] px-4 font-[500] bg-whiteblue w-full h-[44px] flex items-center justify-between">
-          <div className=" sm:hidden w-[30%]"></div>
+            <div className=" sm:hidden w-[30%]"></div>
             <div className="w-[33%]"> Property</div>
             <div className="w-[37%]">Address</div>
             <div className="hidden sm:block w-[30%]">Action</div>
@@ -171,10 +161,10 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
               className={`flex items-center justify-between h-[64px] px-4 ${index % 2 === 1 ? "bg-whiteblue" : ""
                 }`}
             >
-              
+
               <div className="sm:hidden w-[30%] pl-3">
                 <input
-                type="radio"
+                  type="radio"
                   onClick={() => handleSelect(data?.name)}
                   className="text-[11px] text-white bg-BlueHomz "
                 />

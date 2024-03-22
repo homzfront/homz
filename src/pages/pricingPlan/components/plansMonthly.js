@@ -122,16 +122,17 @@ const Plans = ({ data, profile }) => {
     }
 
     const planDetails = {
-      fullName: data.fullName,
-      businessName: data.businessName,
-      phoneNumber: String(data.phoneNumber), // Ensure phone number is a string
+      fullName: data?.fullName,
+      businessName: data?.businessName,
+      phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
       planName: plans,
       interval,
     };
 
     try {
       let response;
-      if (profile.PlanStatus === "free_trial") {
+      if (profile.PlanStatus === "free_trial" || profile?.planName === "Enterprise Starter" ||
+        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium") {
         response = await updateEnterPriseSub({
           planName: plans,
           interval
@@ -146,7 +147,7 @@ const Plans = ({ data, profile }) => {
         toast.success(successMessage);
         const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
         const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
-        
+
         if (isValidUrl(authorizationUrl)) {
           router.push(authorizationUrl);
         } else if (isValidUrl(paystackAuthorizationUrl)) {
@@ -155,7 +156,7 @@ const Plans = ({ data, profile }) => {
           console.warn('Invalid or missing authorization URL in response.');
         }
       }
-       else {
+      else {
         if (response.error) {
           setFormError(response.error || 'An error occurred.'); // Default error message
           console.error("Error creating profile:", response.error);
@@ -196,7 +197,7 @@ const Plans = ({ data, profile }) => {
                 : " hidden"
                 }`}
             >
-              Get Started
+              Contact Sales
             </Link>
             <button
               onClick={() => {
@@ -204,10 +205,13 @@ const Plans = ({ data, profile }) => {
               }}
               className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                 ? " hidden"
-                : "bg-BlueHomz hover:bg-blue-400 text-white "
-                }`}
+                : ""
+                }  ${profile?.planName === plan.title ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
             >
-              Get Started
+              {profile?.planName === plan.title
+                ? "Active"
+                : "Get Started"}
             </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">

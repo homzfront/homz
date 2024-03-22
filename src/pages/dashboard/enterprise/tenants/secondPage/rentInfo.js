@@ -26,7 +26,7 @@ const RentInfo = ({ profile }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [property, setProperty] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
 
   const [confirm, setConfirm] = useState(false);
@@ -169,6 +169,14 @@ const RentInfo = ({ profile }) => {
         await createSpecificTenantRentInfo(id, updatedData);
 
       if (success) {
+        setProperty("")
+        setApartmentNumber("")
+        setRent("")
+        setDuration("")
+        setStartDate("")
+        setDueDate("")
+        setSelectedValue(null)
+        setProperty("")
         console.log("Form successfully updated", upDateddata);
         setLoading(false);
         setShowUpdate(!showUpdate)
@@ -184,6 +192,7 @@ const RentInfo = ({ profile }) => {
         };
         refetchData();
         setConfirm(!confirm);
+        setError(null)
       } else {
         console.error("Update failed", error);
         toast.error(error?.msg);
@@ -238,8 +247,7 @@ const RentInfo = ({ profile }) => {
         console.log("Form successfully updated", upDateddata);
         setLoading(false);
         toast.success("Update successful");
-        // setConfirm(!confirm);
-        setError(error)
+        setError(null);
       } else {
         console.error("Update failed", error);
         toast.error(error);
@@ -363,9 +371,11 @@ const RentInfo = ({ profile }) => {
               onSelect={handleSelect}
             />
           </div>
-          {error && <span className="text-[10px] mt-[-16px] text-red-500 italic">
-            {error}
-          </span>}
+          {error && typeof error === 'string' && (
+            <span className="text-[10px] mt-[-16px] text-red-500 italic">
+              {error}
+            </span>
+          )}
         </div>
 
         <div className="mt-6">

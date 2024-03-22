@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import InputVisible from "./components/inputVisible";
 import UpdateButton from "../components/updateButton";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { updatePassword } from "@/api/tenantSevice";
 
 const ChangePassword = () => {
@@ -67,54 +66,56 @@ const ChangePassword = () => {
         setDoneUpdate(true);
         setShowDialogue(false);
         setPasswordError("");
-        toast.success("Update successful");
+        // toast.success("Update successful");
       } else {
         console.error("Update failed", error);
-        setPasswordError(response.data.message);
+        setPasswordError(error);
         toast.error(error);
         setLoading(false);
         setShowDialogue(false);
       }
     } catch (error) {
-      console.error("Update error", error);
-      setPasswordError(
-        "Error changing password",
-        error.response?.data?.message
-      );
+         // console.error("Update error", error);
+      //
       setLoading(false);
-      toast.error("Update failed");
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        setPasswordError("Error message:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        setPasswordError("Unexpected status code:", errorMessage);
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+        setPasswordError(
+            "Error changing password",
+            error.response?.data?.message
+          );
+      }
       setShowDialogue(false);
     }
   };
 
   return (
     <div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-
       <div className="w-[498px] flex flex-col gap-4">
         <InputVisible
           password={password}
           setPassword={setPassword}
           label={"Current Password"}
           placeholder={"Enter your current password"}
+          setError={setPasswordError}
         />
         <InputVisible
           password={newPassword}
           setPassword={setNewPassword}
           label={"New Password"}
           placeholder={"Enter New password"}
+          setError={setPasswordError}
         />
         <div>
           <p className="mt-[-5px] text-GrayHomz2 text-[13px] font-[400]">
@@ -127,6 +128,7 @@ const ChangePassword = () => {
           setPassword={setReEnterPassword}
           label={"Re-enter Password"}
           placeholder={"Re-enter  password"}
+          setError={setPasswordError}
         />
         {passwordError && (
           <div className="text-error italic text-[11px]">{passwordError}</div>

@@ -12,9 +12,7 @@ const Hero = () => {
               Effortless Property Ownership Starts Here
             </h1>
             <p className="max-w-[894px] text-center mt-6 text-[16px] lg:text-xl font-medium">
-              Enjoy timely rent, verified renters, and a dedicated dashboard for
-              monitoring your properties with our comprehensive management
-              services.
+              Enjoy timely rent, verified Tenants, and a dedicated dashboard for monitoring your properties with our comprehensive management services.
             </p>
             <Link
               href={"./register"}
@@ -31,7 +29,7 @@ const Hero = () => {
               src={"/ownerLanding.jpg"}
               alt="OwnerImg"
               width={4096}  // Specify the desired width
-              height={2731} 
+              height={2731}
               layout="full" // Specify the desired height
               objectFit="cover"
               objectPosition="center"
@@ -46,7 +44,7 @@ const Hero = () => {
               src={"/manWithPhone.jpg"}
               alt="OwnerImg"
               width={4096}  // Specify the desired width
-              height={2731} 
+              height={2731}
               layout="full" // Specify the desired height
               objectFit="cover"
               objectPosition="center"

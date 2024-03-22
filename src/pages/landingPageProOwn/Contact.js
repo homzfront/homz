@@ -9,8 +9,7 @@ const Contact = () => {
           Don’t just take our word for it
         </h1>
         <p className="lg:text-[20px] text-[16px] text-center md:text-left max-w-[768px] font-[500] text-GrayHomz">
-          Hear from some amazing property managers who are scaling up their
-          management game.
+        Hear from some amazing Landlords who are revolutionizing their Landlordship.
         </p>
       </div>
       <div className="hidden md:flex p-4 gap-4">

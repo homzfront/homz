@@ -33,7 +33,7 @@ const PricingPlan = () => {
   console.log(data);
 
   return (
-    <div className="w-full px-8 py-4 m-auto">
+    <div className="max-w-[1440px] w-full px-8 py-4 m-auto">
       <ToastContainer
         position="top-center"
         autoClose={2000}

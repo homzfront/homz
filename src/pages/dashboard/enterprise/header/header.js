@@ -79,7 +79,7 @@ const Header = () => {
 
   return (
     <div className="header relative">
-      {user?.trialEndDate && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
+      {user?.trialEndDate && user?.PlanStatus !== "paid" && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
       {open && (
         <div className="">
           <div className="absolute bg-white h-auto z-50 w-[100%]">
@@ -109,7 +109,7 @@ const Header = () => {
         <div className="">
         </div>
         <div className="flex gap-4 items-center relative">
-          <div onClick={handleToggleMenuTwo} className={`cursor-pointer relative ${user?.trialEndDate ? "" : "hidden"}` }>
+          <div onClick={handleToggleMenuTwo} className={`cursor-pointer relative ${user?.trialEndDate && user?.PlanStatus !== "paid" ? "" : "hidden"}`}>
             <Image
               src={
                 "/static/dashboard/enterprisemanager/header/notification.png"
@@ -118,10 +118,10 @@ const Header = () => {
               height={25}
               width={24}
             />
-             <p
-                  className={`absolute top-0 right-[2px] ${user?.trialEndDate ? "bg-error" : "bg-transparent"
-                    } h-2 w-2 rounded-full`}
-                ></p>
+            <p
+              className={`absolute top-0 right-[2px] ${user?.trialEndDate ? "bg-error" : "bg-transparent"
+                } h-2 w-2 rounded-full`}
+            ></p>
           </div>
           <div ref={dropdownRef} onClick={handleToggleMenu} className="relative cursor-pointer">
             {!user?.businessLogo?.url ? (

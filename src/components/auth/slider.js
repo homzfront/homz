@@ -20,15 +20,15 @@ const settings = {
 
 const images = [
     {
-      icon: "/Hand-drawn line_22.png",
+      icon: "/manWithPhone.jpg",
       alt: "people",
     },
     {
-      icon: "/Hand-drawn line (2).png",
+      icon: "/happyFamily.jpg",
       alt: "people",
     },
     {
-      icon: "/Hand-drawn line (1).png",
+      icon: "/smilingLady.jpg",
       alt: "people",
     },
   ];
@@ -39,7 +39,7 @@ const SliderAuth = () => {
     <div>
         <div className="flex flex-col  justify-around items-center">
           <div className="max-w-[472px] pt-8 flex flex-col gap-[50px]">
-            <Link href={"/"}>
+            <Link href={"/"} className="h-[27px] w-[131px]">
               <Image
                 src={"/Homz_colorless.png"}
                 className="ml-2"
@@ -51,13 +51,17 @@ const SliderAuth = () => {
             <div className="">
               <Slider {...settings}>
                 {images.map((card, index) => (
-                  <div key={index} className="">
+                  <div key={index} className="rounded-[40px] border border-white">
                     <Image
                       src={card.icon}
-                      height={399}
-                      width={333}
-                      alt={`${card.alt}-img`}
-                      className="w-full h-auto"
+                      alt="img"
+                      width={4096}  // Specify the desired width
+                      height={2731}
+                      layout="full" // Specify the desired height
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="object-cover bg-center w-[480px] h-[286px] sm:h-[464px] rounded-[40px]"
+                      priority
                     />
                   </div>
                 ))}
