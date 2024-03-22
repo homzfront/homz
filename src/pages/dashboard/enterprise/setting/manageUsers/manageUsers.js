@@ -102,7 +102,7 @@ const ManageUsers = () => {
         console.log("Form successfully updated", upDateddata);
         setLoadingII(false);
         setOpenModal(!openModal);
-        toast.success(upDateddata);
+        // toast.success(upDateddata);
       } else {
         console.error("Update failed", error);
         setLoadingII(false);

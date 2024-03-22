@@ -93,7 +93,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         setUploadedImage(null);
         setSelectedArea(null);
         setSelectedState(null);
-        setName("");
+        // setName("");
         setAddress("");
         setSize("");
         setNumberOfHouses("");
@@ -302,6 +302,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
             closeAllModals={closeAllModals}
             visibleAddProperty={visibleAddProperty}
             setVisibleAddProperty={setVisibleAddProperty}
+            name={name}
           />
         </div>
         {/* <div className={`${activeFour ? "inline" : "hidden"}`}>

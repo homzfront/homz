@@ -14,7 +14,7 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import lowerCaseData from "@/utils/lowerCaseData";
 
-const RentInfo = ({ profile }) => {
+const RentInfo = ({ profile, rentInformation }) => {
   console.log(profile);
   const [data, setData] = useState([]);
   const [propertyType, setPropertyType] = useState("");
@@ -44,14 +44,13 @@ const RentInfo = ({ profile }) => {
 
   console.log(data);
 
-  const rentInformation = async () => {
+  const rentInformationII = async () => {
     try {
       const response = await getSpecificTenantRentInfo(
         `${profile.data.rentInfo._id}`
       );
       const rentInfo = response;
       setData(rentInfo);
-      setShowUpdate(!showUpdate)
     } catch (error) {
       console.error("Error fetching rent information", error);
       // Handle the error as needed
@@ -59,32 +58,16 @@ const RentInfo = ({ profile }) => {
   };
 
   useEffect(() => {
-    const rentInformation = async () => {
-      try {
-        const response = await getSpecificTenantRentInfo(
-          `${profile.data.rentInfo._id}`
-        );
-        const rentInfo = response;
-        setData(rentInfo);
-      } catch (error) {
-        console.error("Error fetching rent information", error);
-        // Handle the error as needed
-      }
-    };
-    rentInformation()
-  }, [showUpdate])
-
-
-  useEffect(() => {
     if (!profile?.data?.rentInfo?._id) {
-      return;
+      rentInformation();
     }
-    rentInformation();
-  }, [profile]);
+
+  }, [showUpdate]);
 
   useEffect(() => {
     if (profile) {
       setProperty(profile?.data?.estateId?.name || "");
+      rentInformationII();
     }
   }, [profile])
 
@@ -169,28 +152,9 @@ const RentInfo = ({ profile }) => {
         await createSpecificTenantRentInfo(id, updatedData);
 
       if (success) {
-        setProperty("")
-        setApartmentNumber("")
-        setRent("")
-        setDuration("")
-        setStartDate("")
-        setDueDate("")
-        setSelectedValue(null)
-        setProperty("")
         console.log("Form successfully updated", upDateddata);
         setLoading(false);
         setShowUpdate(!showUpdate)
-        const refetchData = async () => {
-          try {
-            const response = await getSpecificTenantRentInfo(`${profile.data.rentInfo._id}`);
-            const rentInfo = response;
-            setData(rentInfo); // Update state again if required
-          } catch (error) {
-            console.error("Error fetching rent information", error);
-            // Handle the error as needed
-          }
-        };
-        refetchData();
         setConfirm(!confirm);
         setError(null)
       } else {
@@ -379,7 +343,7 @@ const RentInfo = ({ profile }) => {
         </div>
 
         <div className="mt-6">
-          {showUpdate ? (
+          {showUpdate || data.length >=1 ? (
             <button
               onClick={handleConfirm}
               className={` ${loading ? "pointer-events-none" : ""

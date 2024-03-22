@@ -56,7 +56,10 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
                   className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value)
+                    setLoginError(null)
+                  }}
                   placeholder="Enter your full name"
                 />
               </div>
@@ -69,7 +72,10 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
                   className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                   type="number"
                   value={phonenumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => {
+                    setPhoneNumber(e.target.value)
+                    setLoginError(null)
+                  }}
                   placeholder="Enter your phone number"
                 />
               </div>
