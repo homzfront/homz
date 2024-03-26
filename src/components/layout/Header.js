@@ -48,10 +48,9 @@ const Header = () => {
     }
   }, [profile, fetchProfile]);
   2;
-  console.log(profile);
+
   const isUserPresent = profile && Object.keys(profile).length > 0;
 
-  console.log(isUserPresent);
 
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
