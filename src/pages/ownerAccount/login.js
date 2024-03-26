@@ -52,18 +52,15 @@ const Login = ({ setShowLogin }) => {
       if (response.data.statuscode === 201) {
         toast.success("Login successful");
         const  data = response.data.data.token;
-        console.log("login successful, ", data)
         localStorage.setItem('jwt', data)
         setLoading(false);
         setShowLogin(false);
       } else {
         const error = response.data.message;
-        console.log("Unexpected status code:", error);
         setLoginError(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
       setLoginError(error.response?.data?.message);
       setLoading(false);
     }

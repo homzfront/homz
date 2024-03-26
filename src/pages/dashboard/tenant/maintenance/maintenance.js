@@ -25,7 +25,6 @@ const Maintenance = () => {
 
   };
 
-  console.log(data);
   return (
     <div className="w-full">
       {loading ? (

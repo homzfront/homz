@@ -38,9 +38,6 @@ const Sidebar = () => {
     console.log("At least one request is pending", isAnyPending);
   }
 
-  console.log(request)
-  console.log(maintenanceRequest)
-  console.log(request?.[0]?.status)
   const Data = [
     {
       id: 1,
@@ -135,13 +132,13 @@ const Sidebar = () => {
   ];
 
   const Data3 = [
-    // {
-    //   id: 1,
-    //   image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-    //   image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-    //   link: "/switch-profile",
-    //   name: "Switch",
-    // },
+    {
+      id: 1,
+      image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      link: "/switch-profile",
+      name: "Switch",
+    },
   ];
 
   const { logout } = useProfileStore();
@@ -194,7 +191,6 @@ const Sidebar = () => {
     }
   }, [logoutModal]);
 
-  console.log(pathname);
 
   return (
     <div className="sidebar">

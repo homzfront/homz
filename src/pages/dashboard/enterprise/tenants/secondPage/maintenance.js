@@ -10,8 +10,6 @@ const Maintenance = ({ data }) => {
   const [loadingRows, setLoadingRows] = useState({});
 
   const MaintenanceRequests = data?.data?.maintenanceRequests;
-  console.log(MaintenanceRequests);
-  console.log(data);
 
   // Create a new array with each element containing maintenance request and user information
   const newDataArray = data?.data?.maintenanceRequests.map(
@@ -26,8 +24,6 @@ const Maintenance = ({ data }) => {
       };
     }
   );
-
-  console.log(newDataArray);
 
   const [openDropdowns, setOpenDropdowns] = useState({});
 
@@ -64,17 +60,14 @@ const Maintenance = ({ data }) => {
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
     try {
       // Handle status change logic here
-      console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
       const data = await updateMaintenanceReqestByTenant({
         id: dataId,
         status,
       });
-      console.log(data);
       toast.success("status updated successfully");
       // Close the corresponding dropdown
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
-      console.log(error);
       toast.error(error);
     } finally {
       setLoadingRows((prev) => ({ ...prev, [dataId]: false }));

@@ -35,7 +35,6 @@ const ManageUsers = () => {
     fetchData();
   }, []);
 
-  console.log(data);
 
   useBodyScroll([openModal, loadingII, showPopup])
   const handleDropdownToggle = () => {
@@ -55,8 +54,7 @@ const ManageUsers = () => {
   // const handleToggle = () => {
   //   setIsOpen(!isOpen);
   // };
-  console.log(email);
-  console.log(selectedEstate);
+
 
   // const [selectedRoleTwo, setSelectedRoleTwo] = useState(null);
   // const [pickedEstate, setPickedEstate] = useState([]);
@@ -88,8 +86,7 @@ const ManageUsers = () => {
     // setDataEmail(email);
     // setOpenModal(!openModal);
     // Do something with the collected data, e.g., send it to the server
-    console.log("Selected Estate:", selectedEstate);
-    console.log("Email:", email);
+
 
     setLoadingII(true);
     try {
@@ -99,29 +96,24 @@ const ManageUsers = () => {
       });
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoadingII(false);
         setOpenModal(!openModal);
         // toast.success(upDateddata);
       } else {
-        console.error("Update failed", error);
         setLoadingII(false);
         toast.error(error);
       }
     } catch (error) {
       setLoadingII(false);
-      console.error("Update error", error);
 
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");

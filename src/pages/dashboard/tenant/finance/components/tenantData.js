@@ -481,7 +481,7 @@ const TenantData = () => {
 
   const handleStatusChange = (status, dataId) => {
     // Handle status change logic here
-    console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
+    // console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
     // Close the corresponding dropdown
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     // Correctly update DueDate for the corresponding tenant:
@@ -497,7 +497,7 @@ const TenantData = () => {
 
       // Update the state with the new data
       setData(updatedData);
-      console.log(data);
+      // console.log(data);
     }
   };
 
@@ -507,7 +507,7 @@ const TenantData = () => {
 
   const handleDelete = (profileId) => {
     // Logic to delete the profile with the given ID
-    console.log(`Deleting profile with ID: ${profileId}`);
+    // console.log(`Deleting profile with ID: ${profileId}`);
     // Perform your delete logic here...
     // For example, you can update the state to remove the profile
     const updatedData = data.filter((profile) => profile.id !== profileId);

@@ -14,7 +14,6 @@ const TenantsCard = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  console.log(data)
   const Data = data
 
   return (

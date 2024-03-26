@@ -12,9 +12,6 @@ const Maintenance = () => {
     fetchData();
   }, []);
 
-  console.log(request);
-  console.log(tenantData);
-
   const tenantLookup = {};
   tenantData?.forEach((tenant) => {
     tenantLookup[tenant?.data._id] = tenant?.data;
@@ -25,7 +22,6 @@ const Maintenance = () => {
     ...request,
     tenantData: tenantLookup[request?.tenant._id],
   }));
-  console.log(Data);
 
   return (
     <div className="rounded-[12px] border sm:w-[45%] h-[514px] overflow-auto scrollbar-container ">

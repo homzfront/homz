@@ -24,9 +24,6 @@ const Tenants = () => {
     setSelectedDate(null)
   };
 
-
-  
-  console.log(selectedDate);
   const toggleInvite = () => {
     setInviteTenant(true);
   };
@@ -40,28 +37,21 @@ const Tenants = () => {
   }, []);
 
   const tenantData = data
-  console.log(tenantData);
 
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
-  console.log(options);
+
 
   const options2 = ["Pending", "Paid", "Over due"];
   const filteredData = tenantData?.filter(
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
-    console.log(dueDateTimestamp);
-    console.log(selectedDateTimestamp)
       return (
         (!selectedProperty || data?.estateId.name === selectedProperty) &&
         (!selectedStatus || data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
     } );
-
-  console.log(filteredData);
-  console.log(selectedProperty);
-  console.log(selectedStatus);
 
   return (
     <div className=" w-full p-8">

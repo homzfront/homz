@@ -6,11 +6,7 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const PaymentHis = (data) => {
-
-
-
   const tenantId = data?.data?.data?._id
-  console.log(tenantId);
   const {
     data: paymentData,
     loading,
@@ -21,19 +17,13 @@ const PaymentHis = (data) => {
     fetchData(tenantId)
   }, [data])
 
-  console.log(paymentData)
-
   const allData = paymentData?.data ? paymentData?.data : []
-
-  console.log(allData)
 
   // Total rent for all entries
   let totalRent = 0;
   for (const entry of allData) {
     totalRent += entry.totalRent;
   }
-
-  console.log("Total rent for all entries:", totalRent); // Output: Total rent for all entries: 3200000
 
   // Total rent for entries with "SUCCESS" status
   let successTotalRent = 0;
@@ -43,10 +33,7 @@ const PaymentHis = (data) => {
     }
   }
 
-  console.log("Total rent for entries with 'SUCCESS' status:", successTotalRent);
 
-
-// console.log(paymentData?.data?.[0]?.totalRent)
   const boxes = [
     {
       id: 1,
@@ -77,7 +64,7 @@ const PaymentHis = (data) => {
       money: `${data?.data?.data?.maintenanceRequests ? data?.data?.data?.maintenanceRequests?.length : "0"} Active Requests`,
     }
   ]
-  console.log(data)
+
   return (
     <div>
       <div className="flex gap-4">{

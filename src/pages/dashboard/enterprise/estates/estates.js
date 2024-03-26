@@ -18,8 +18,6 @@ const Estate = () => {
   }, []);
 
   const estates = data;
-  console.log(estates);
-
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,12 +27,10 @@ const Estate = () => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const dropdownRef = useClickOutside(() => setInviteTenant(false)); 
+  const dropdownRef = useClickOutside(() => setInviteTenant(false));
+
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
-  
-
-  console.log(data);
 
   const clear = () => {
     setSelectedState(null);
@@ -44,19 +40,18 @@ const Estate = () => {
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
-  console.log(options);
+
 
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
-  console.log(options2);
 
-  const option3 =  [...new Set(data?.map((item) => item?.name))];
-  console.log(option3)
+
+  const option3 = [...new Set(data?.map((item) => item?.name))];
+
 
   const filteredData = data?.filter((data) => {
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.created));
-    console.log(createdDateTimestamp);
-    console.log(selectedDateTimestamp);
+
     return (
       // (!selectedState || data?.location.state === selectedState) &&
       // (!selectedArea || data?.location.area === selectedArea) &&
@@ -97,11 +92,11 @@ const Estate = () => {
           selectedArea={selectedArea}
           selectedState={selectedState}
           selectedDate={selectedDate}
-          selectedProperty= {selectedProperty}
+          selectedProperty={selectedProperty}
           setSelectedProperty={setSelectedProperty}
           setSelectedArea={setSelectedArea}
           setSelectedState={setSelectedState}
-          setSelectedDate ={setSelectedDate}
+          setSelectedDate={setSelectedDate}
           clear={clear}
           options={options}
           options2={options2}
@@ -110,7 +105,7 @@ const Estate = () => {
           dropdownRef={dropdownRef}
         />
       ) : registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>
+        <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
       ) : (
         <div className="w-full p-8">
           <div className="flex flex-col gap-2 justify-between">

@@ -15,7 +15,6 @@ const Receipt = ({ closeReceipt, rentData }) => {
   });
 
   const [hide, setHide] = useState(false);
-  console.log(rentData);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const Data = localStorage.getItem("RentResponse");
@@ -44,7 +43,6 @@ const Receipt = ({ closeReceipt, rentData }) => {
     });
   };
 
-  console.log(receiptData);
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       <div

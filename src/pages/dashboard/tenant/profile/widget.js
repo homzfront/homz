@@ -13,8 +13,6 @@ const Widget = ({ data }) => {
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false); // State for the fourth page
 
-  console.log(data);
-
   const handlePageChange = (e) => {
     e.preventDefault()
     setActive(false);

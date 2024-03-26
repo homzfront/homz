@@ -11,8 +11,6 @@ import timeAgo from "@/utils/timeAgo";
 
 const PopUpMenuAlert = ({ selectedData, Data, dropdownRef }) => {
 
-  console.log(Data)
-
   return (
     <div ref={dropdownRef}>
       <div className="absolute right-[120px] top-[60px] w-[400px] max-h-[400px] h-auto rounded-lg bg-white shadow-md p-4 z-20">

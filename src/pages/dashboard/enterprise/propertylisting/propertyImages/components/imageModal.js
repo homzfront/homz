@@ -19,10 +19,6 @@ const ImageModal = ({
       (prevIndex) => (prevIndex - 1 + totalImages) % totalImages
     );
   };
-  console.log(imageData);
-  console.log(totalImages);
-  console.log(currentImageIndex);
-
 
   useEffect(() => {
     const handleKeyDown = (event) => {

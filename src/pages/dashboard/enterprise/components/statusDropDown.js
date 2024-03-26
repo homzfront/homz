@@ -14,9 +14,7 @@ const StatusDropDownMain = ({
   value,
   dropdownRef
 }) => {
-  console.log(data);
-console.log(value)
-console.log(selectedStatus)
+  
   return (
     <div 
     // ref={dropdownRef} 

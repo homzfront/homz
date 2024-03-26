@@ -17,8 +17,6 @@ const EditRentTarget = ({
   );
   const [isInvalid, setIsInvalid] = useState(false);
 
-  console.log(selectedSavings.amountToSave);
-  console.log(newRentTarget);
   const handleUpdate = () => {
     // Perform any validation if needed
     // ...
@@ -27,7 +25,6 @@ const EditRentTarget = ({
         updateRentTarget(newRentTarget);
         setConfirmModalII(!confirmModalII);
     } else {
-   
       setIsInvalid(!isInvalid);
     }
   };

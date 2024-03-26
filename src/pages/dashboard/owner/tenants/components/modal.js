@@ -54,7 +54,7 @@ const Modal = ({setInviteTenant}) => {
       await navigator.clipboard.writeText(selectedOptions.estate?.link);
       setCopied(true);
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
+      // console.error("Unable to copy to clipboard:", error);
     }
   };
   const returnHome = () => {

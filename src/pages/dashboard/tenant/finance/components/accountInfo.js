@@ -17,7 +17,7 @@ const AccountInfo = ({ closeAccountInfo, wallet }) => {
         2000
       ); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
+      // console.error("Unable to copy to clipboard:", error);
     }
   };
   const [copiedState, setCopiedState] = useState({

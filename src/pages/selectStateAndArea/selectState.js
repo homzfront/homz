@@ -11,8 +11,6 @@ const SelectState = ({ selectedState, setSelectedState, placeholder }) => {
         chooseState();
     }, []);
 
-    console.log(data);
-
 
     const handleChange = (selectedOption) => {
         setSelectedState(selectedOption);

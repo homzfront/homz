@@ -30,31 +30,19 @@ const PropertyInfo = ({
 }) => {
   const [showCancelDialogue, setShowCancelDialogue] = useState(false);
 
-  console.log(name);
-  console.log(address);
-  console.log(description);
-
   const handleSelectToilets = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setToilets(option)
 }
 
   const handleSelectPropertyType = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setPropertyType(option);
   };
 
   const handleSelectNumberOfRooms = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setNumberOfRooms(option);
   };
 
   const handleSelectNumberOfBathrooms = (option) => {
-    // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setNumberOfBathrooms(option);
   };
 

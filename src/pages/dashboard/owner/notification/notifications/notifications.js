@@ -17,7 +17,6 @@ const Notifications = ({ Data, openAndClose, setOpenAndClose }) => {
     setSelectedId(data);
     setOpenAndClose(!openAndClose);
   };
-  console.log(selectedId);
 
   const closeMenu = () => {
     setOpenAndClose(false);

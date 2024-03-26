@@ -11,8 +11,6 @@ const EstateInfo = ({id}) => {
     fetchData(id);
   }, []);
 
-  console.log(data);
-
   return (
     <div className="w-full p-8">
       <div>

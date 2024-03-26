@@ -16,7 +16,6 @@ const ResetPassword = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const token = urlParams.get("token");
-  console.log(token);
 
   const [formData, setFormData] = useState({
     password: "",
@@ -83,7 +82,6 @@ const ResetPassword = () => {
       setLoading(false);
     } catch (error) {
       setPasswordError("error", error.response?.data?.message);
-      console.error("Error resetting password:", error);
       setLoading(false)
     }
   };

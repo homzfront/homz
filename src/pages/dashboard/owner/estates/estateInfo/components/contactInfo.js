@@ -4,7 +4,7 @@ import Input from "../../../components/input";
 import formatStringWithHyphens from "@/utils/formatStringWithHyphens";
 
 const ContactInfo = ({data}) => {
-  console.log(data)
+
   return (
     <div className="">
       {/* <div>

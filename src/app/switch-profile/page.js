@@ -24,16 +24,13 @@ const SelectPlan = () => {
         setUser(data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching profile:", error);
         setLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
-  console.log(user);
-
+  
   const Data = [
     {
       id: 1,
@@ -42,6 +39,8 @@ const SelectPlan = () => {
       content: "Monitor your Estates & properties with an intuitive dashboard.",
       link: "/dashboard/property-owner/dashboard",
       name: "MANAGE_PROPERTY",
+      url: "/plan/manage-property",
+      active: true
     },
     {
       id: 2,
@@ -51,15 +50,19 @@ const SelectPlan = () => {
         "Streamline your rent payment & savings, home maintenance in one place.",
       link: "/dashboard/tenant/dashboard",
       name: "TENANT",
+      url: "/plan/tenant-management",
+      active: true
     },
     {
       id: 3,
       image: "/Image12.png",
-      title: "Enterprise Plan ",
+      title: "Enterprise Plan",
       content:
         "Seamless & efficient solution to manage your Tenants & Properties.",
       link: "/dashboard/enterprise-property/dashboard",
       name: "ENTERPRISE_PLAN",
+      url: "/plan/enterprise-plan",
+      active: true
     },
     {
       id: 4,
@@ -68,6 +71,8 @@ const SelectPlan = () => {
       content: "List your property & find verified renters & buyers with ease.",
       link: "",
       name: "",
+      active: false
+      // url: "/plan/enterprise-plan"
     },
   ];
 
@@ -123,24 +128,14 @@ const SelectPlan = () => {
                         {data.content}
                       </p>
 
-                      {user ? (
-                        <div>
-                          <div>
-                            {user.map((user) => (
-                              <div key={user.id}>
-                                {user.name === data.name && (
-                                  <Link href={data.link}>
-                                    <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
-                                      logged in
-                                    </button>
-                                  </Link>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ) : data.id === 3 || data.id === 2 || data.id === 1 ? (
+                      {user && user.some(userPlan => userPlan.name === data.name) ? (
                         <Link href={data.link}>
+                          <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
+                            logged in
+                          </button>
+                        </Link>
+                      ) : data.active ? (
+                        <Link href={data.url}>
                           <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
                             Get Started
                           </button>

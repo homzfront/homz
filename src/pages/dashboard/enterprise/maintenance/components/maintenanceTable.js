@@ -20,12 +20,6 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
   const [loading, setLoading] = useState(false);
   const [loadingRows, setLoadingRows] = useState({});
 
-  console.log(openDropdowns);
-
-  console.log(request);
-  console.log(tenantData);
-  // Assuming maintenanceRequests and tenantData are your arrays
-
   // Create a lookup object for faster access
   const tenantLookup = {};
   tenantData?.forEach((tenant) => {
@@ -37,7 +31,6 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
     ...request,
     tenantData: tenantLookup[request?.tenant._id],
   }));
-  console.log(MaintenanceRequests);
 
   const ITEMS_PER_PAGE = 6;
 
@@ -77,20 +70,16 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
     setLoading(true);
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
     try {
-      // Handle status change logic here
-      console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
       const data = await updateMaintenanceReqestByTenant({
         id: dataId,
         status,
       });
-      console.log(data);
       setLoading(false);
       toast.success("status updated successfully");
       fetchData();
       // Close the corresponding dropdown
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error(error);
     }

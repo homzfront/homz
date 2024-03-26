@@ -48,31 +48,26 @@ const ContactDetails = ({ data }) => {
         updatedData
       );
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");
-        console.log(error);
+        // console.log(error);
       }
     }
   };

@@ -11,7 +11,7 @@ const Maintenance = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(data);
+
   return (
     <div className="rounded-[12px] border sm:w-[45%] h-[514px] overflow-auto scrollbar-container ">
       <div className="flex justify-between items-center p-6">

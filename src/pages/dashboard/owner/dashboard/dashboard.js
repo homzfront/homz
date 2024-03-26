@@ -59,12 +59,6 @@ const Dashboard = () => {
 
   useBodyScroll([middle])
 
-  console.log(profileData);
-  console.log(statsData);
-  console.log(revData);
-  console.log(middle)
-  console.log(showKindlyWait);
-
   return (
     <div>
       {showKindlyWait && <ShowKindlyWait dropdownRef={dropdownRef} />}

@@ -20,9 +20,6 @@ const CreateNewRentSavings = ({
   const [selectedData, setSelectedData] = useState(false);
   const [openUnsuccessfulModal, setOpenUnsuccessfulModal] = useState(false);
 
-  console.log("rent Target: ", rentTarget);
-  console.log("Amount To Save: ", amountToSave);
-
   // useEffect to handle scrolling
   useEffect(() => {
     document.body.style.overflow =
@@ -42,12 +39,12 @@ const CreateNewRentSavings = ({
   
     // Check if the wallet balance is sufficient
     const currentWalletBalance = parseInt(data[0].wallet);
-    console.log(currentWalletBalance);
+    
     const amountToSaveValue = parseInt(amountToSave);
 
     const rentTargetValue = parseInt(rentTarget)
-    console.log(rentTargetValue);
-    console.log(amountToSaveValue);
+
+  
     const newData = {
       id: randomNumber(),
       rentTarget,
@@ -70,7 +67,7 @@ const CreateNewRentSavings = ({
       setConfirmModal(!confirmModal);
     } else {
       // Show an error message or handle insufficient funds here
-      console.error("Insufficient funds in the wallet");
+      // console.error("Insufficient funds in the wallet");
       // You can also display an error modal or take other actions
       setOpenUnsuccessfulModal(!openUnsuccessfulModal);
     }

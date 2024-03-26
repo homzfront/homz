@@ -19,6 +19,7 @@ const VerifyEmail = () => {
   const [otp, setOTP] = useState(["", "", "", ""]);
   const inputRefs = useRef([]); // Array of refs for each input field
 
+
   useEffect(() => {
     // Retrieve email from localStorage
     if (typeof window !== 'undefined') {
@@ -40,39 +41,25 @@ const VerifyEmail = () => {
           pincode: otp.join(""),
         }
       );
-
-        // if (typeof window !== 'undefined') {
-        // localStorage.removeItem('email');
-        // }
-
-      console.log("OTP verification successful", response.data);
       setVerificationSuccess(true);
       setError(false);
       setError2("");
     } catch (error) {
       // Handle errors
-      console.error("OTP verification error", error);
       setError2(error.response.data.error);
       setError(true);
 
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error("Server responded with error:", error.response.data);
       } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received from the server");
         setError2("No response received from the server");
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error setting up the request:", error.message);
       }
     }
   };
 
+
   const ResendOtp = async (e) => {
     e.preventDefault();
-
     try {
       // Make a POST request to verify the OTP
       const response = await api.post(
@@ -87,6 +74,8 @@ const VerifyEmail = () => {
       toast.error(error.response?.data?.message)
     }
   };
+
+
   const handleEmailVerification = (e) => {
     e.preventDefault();
     router.push("/select-plan");
@@ -99,7 +88,6 @@ const VerifyEmail = () => {
       newOTP[index] = value;
       setOTP(newOTP);
       setError(false); // Reset error when a valid digit is entered
-
       // Focus the next input field if the value is non-empty and not the last one
       if (value && index < otp.length - 1) {
         inputRefs.current[index + 1].focus();
@@ -110,7 +98,6 @@ const VerifyEmail = () => {
       newOTP[index] = "";
       setOTP(newOTP);
       setError(false); // Reset error when backspace is pressed
-
       // If backspace is pressed and it's the first input, clear the error
       if (index === 0) {
         setError(false);
@@ -126,7 +113,6 @@ const VerifyEmail = () => {
   const handlePaste = (event) => {
     event.preventDefault();
     const pastedValue = event.clipboardData.getData('text');
-
     // Check if pasted value is a valid 4-digit number
     if (pastedValue.length === 4 && /^\d+$/.test(pastedValue)) {
       setOTP(pastedValue.split(''));

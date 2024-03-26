@@ -35,10 +35,6 @@ const Dashboard = () => {
     fetchRevData();
   }, []);
 
-  console.log(profileData);
-  console.log(statsData);
-  console.log(revData)
-
   return (
     <div className="dashboard h-[300px] [100%] flex flex-col">
       <div className="p-8 w-full pr-6 gap-5 flex flex-col">

@@ -9,7 +9,6 @@ import useClickOutside from "@/utils/clickOutside";
 import Modal from "../../tenants/components/modal";
 
 const HomeCard = ({ id }) => {
-  console.log(id)
   const [inviteTenant, setInviteTenant] = useState(false);
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
 
@@ -24,8 +23,6 @@ const HomeCard = ({ id }) => {
   useEffect(() => {
     fetchData(id);
   }, []);
-
-  console.log(revData);
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 

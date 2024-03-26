@@ -13,28 +13,9 @@ const PropertyCard = ({
     return null; // or handle accordingly, e.g., return a loading state
   }
 
-//   id: 10,
-//   estateImage:
-//     "/static/dashboard/enterprisemanager/propertyList/Rectangle 10.png",
-//   estateName: "5-Bedroom Bungalow",
-//   estateAddress: "Yaba, Lagos",
-//   noOfApartment: "4,000,000 per year",
-//   rating: 1,
-// },
-// name: 'Pinnacle ',
-// propertyType: 'self contain',
-// description: 'this is a beutifull home',
-// address: 'no 12, ken street',
-// state: 'abuja',
-// area: 'jalingo',
-// numberOfRooms: 5,
-// numberOfBathrooms: 5,
-// yearlyRent: 100000
-
-
     // Ensure Data is defined before use
     const data = Data || []; // Assign an empty array if Data is undefined
-console.log(data);
+
   return (
     <div className="grid grid-cols-4 gap-4 ">
       {data &&

@@ -14,9 +14,6 @@ const Photos = ({ data }) => {
   const [uploadedImage3, setUploadedImage3] = useState(null);
   const [uploadedImage4, setUploadedImage4] = useState(null);
   const [uploadedImage5, setUploadedImage5] = useState(null);
-  const [uploadedImage6, setUploadedImage6] = useState(null);
-  const [uploadedImage7, setUploadedImage7] = useState(null);
-  const [uploadedImage8, setUploadedImage8] = useState(null);
   const [uploadedImageCoverPhoto, setUploadedImageCoverPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,38 +29,33 @@ const Photos = ({ data }) => {
   console.log(uploadedImageCoverPhoto);
   const handleImageUploadCoverPhoto = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImageCoverPhoto(file);
   };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage(file);
   };
+
   const handleImageUpload2 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage2(file);
   };
+
   const handleImageUpload3 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage3(file);
   };
+
   const handleImageUpload4 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage4(file);
   };
+
   const handleImageUpload5 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage5(file);
   };
-
-
-  console.log(data);
-  console.log(data?.photos?.[0].publicId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,25 +131,25 @@ const Photos = ({ data }) => {
       // Handle responses
       responses.forEach(({ success, updatedImage, error }, index) => {
         if (success) {
-          console.log(`Image ${index + 1} successfully updated`, updatedImage);
+          // console.log(`Image ${index + 1} successfully updated`, updatedImage);
           toast.success(`Update ${index + 1} successful`);
         } else {
-          console.error(`Update ${index + 1} failed`, error);
+          // console.error(`Update ${index + 1} failed`, error);
           toast.error(`Update ${index + 1} failed: ${error}`);
         }
       });
     } catch (error) {
-      console.error("Update error", error);
+      // console.error("Update error", error);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
+        // console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
+        // console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");

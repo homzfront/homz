@@ -30,20 +30,16 @@ const Maintenance = () => {
       request?.results?.map((item) => item?.status)
     ),
   ];
-  console.log(options);
 
   const options2 = [
     ...new Set(
       request?.results?.map((item) => item?.tenant?.estateId?.name)
     ),
   ];
-  console.log(options2);
 
   const filteredData = request?.results?.filter((data) => {
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.createdAt));
-    console.log(createdDateTimestamp);
-    console.log(selectedDateTimestamp);
     return (
       (!selectedStatus ||
         data?.status === selectedStatus) &&
@@ -52,22 +48,18 @@ const Maintenance = () => {
       (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
     );
   });
-
-  console.log(request);
-  console.log(tenantData);
+  
   const pendingRequest = request?.results?.filter((request) => {
     return request.status === "pending";
   });
   // Get the length of the filtered data
   const pendingCount = pendingRequest?.length;
-  console.log(pendingCount);
 
   const resolvedRequest = request?.results?.filter((request) => {
     return request.status === "resolved";
   });
   // Get the length of the filtered data
   const resolvedCount = resolvedRequest?.length;
-  console.log(resolvedCount);
 
   return (
     <div className="relative block w-full p-8">

@@ -35,7 +35,6 @@ const Header = () => {
   }, []);
 
   const user = data;
-  console.log(user);
   useDisableBodyScroll(open)
 
   return (

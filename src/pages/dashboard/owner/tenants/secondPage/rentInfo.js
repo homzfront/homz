@@ -9,7 +9,7 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const RentInfo = ({ profile }) => {
-  console.log(profile);
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const RentInfo = ({ profile }) => {
         const rentInfo = response;
         setData(rentInfo);
       } catch (error) {
-        console.error("Error fetching rent information", error);
         // Handle the error as needed
       }
     };
@@ -38,8 +37,6 @@ const RentInfo = ({ profile }) => {
     { id: 2, label: "Paid" },
     { id: 3, label: "Over Due" },
   ];
-
-  console.log(data);
 
   return (
     <div>

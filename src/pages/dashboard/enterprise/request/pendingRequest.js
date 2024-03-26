@@ -26,8 +26,6 @@ const PendingRequest = ({
   options,
   clear,
 }) => {
-  console.log(tenantData);
-  console.log(friendRequests);
   if (!friendRequests) {
     return null; // or display a loading state or any other fallback
   }
@@ -38,15 +36,8 @@ const PendingRequest = ({
 
   // Get the length of the filtered data
   const pendingCount = pendingData.length;
-
-  console.log(pendingCount);
-
-
   // Example usage:
   const timestamp = "2024-01-19T05:14:45.672Z";
-  console.log(timeAgo(timestamp));
-
-  console.log(selectedDataId);
 
   return (
     <div className="w-full p-8">

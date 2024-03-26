@@ -13,9 +13,6 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
     copied: false,
   });
 
-  console.log(rentData);
-
-
   const downloadPDF = () => {
     const input = document.getElementById("receipt-content");
 

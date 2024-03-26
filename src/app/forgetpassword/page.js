@@ -25,12 +25,10 @@ const ForgotPassword = () => {
 
       if (response.data.statuscode === 200 || 201) {
         setSentMail(true);
-        console.log(response.data);
       } else {
         setEmailError(response.data.message);
       }
     } catch (error) {
-      console.error("Forgot password error", error);
       setEmailError(error.response?.data?.message);
     }
   };
@@ -51,7 +49,6 @@ const ForgotPassword = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.error("Forgot password error", error);
       setEmailError(error.response?.data?.message);
     }
   };

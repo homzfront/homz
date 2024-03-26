@@ -11,14 +11,9 @@ const StatusDropdownII = ({
   toggleDropdown,
   loading
 }) => {
-  console.log(data);
-
-
   const [selectedStatus, setSelectedStatus] = useState(
     capitalizeFirstLetter(data?.rentInfo?.paymentStatus)
   );
-
-  console.log(selectedStatus);
   return (
     <div className="dropdown w-full">
       {loading ? (

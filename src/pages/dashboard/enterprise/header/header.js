@@ -67,15 +67,11 @@ const Header = () => {
 
 
   const user = data;
-  console.log(user);
 
   useDisableBodyScroll(open)
 
   const trialEndDate = user?.trialEndDate;
   const daysLeft = calculateDaysLeft(trialEndDate);
-  console.log(changeBackendDateFormat(trialEndDate))
-  console.log(`${daysLeft} days left.`);
-
 
   return (
     <div className="header relative">

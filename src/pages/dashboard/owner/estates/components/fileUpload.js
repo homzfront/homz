@@ -28,10 +28,8 @@ const FileUpload = () => {
       );
 
       setUploadStatus('success');
-      console.log('File uploaded successfully:', response.data);
     } catch (error) {
       setUploadStatus('error');
-      console.error('Error uploading file:', error);
     }
   }, []);
 

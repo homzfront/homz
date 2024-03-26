@@ -111,7 +111,6 @@ const Documents = ({ id }) => {
     setLoading(true); // Set loading to true when submitting the form
 
     if (!document) {
-      console.error("No image uploaded");
       setLoading(false);
       return;
     }
@@ -126,7 +125,6 @@ const Documents = ({ id }) => {
         fileName
       );
       if (success) {
-        console.log("Form successfully updated", uploadedData);
         setLoading(false);
         setUploadStatus("success");
         toast.success("Upload successful");
@@ -138,7 +136,6 @@ const Documents = ({ id }) => {
         }, 5000);
         // Reset upload status after 5 seconds
       } else {
-        console.error("Upload failed", error);
         toast.error(error);
         setLoading(false);
         setUploadStatus("failed");
@@ -148,7 +145,6 @@ const Documents = ({ id }) => {
         }, 5000);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       setUploadStatus("failed");
       setTimeout(() => {
@@ -159,12 +155,6 @@ const Documents = ({ id }) => {
     }
   };
 
-
-
-  console.log(document);
-  console.log(fileName);
-  console.log(data);
-  console.log(dataTwo);
   return (
     <div className="">
       <div className="">

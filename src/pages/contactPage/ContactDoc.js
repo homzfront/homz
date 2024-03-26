@@ -39,7 +39,6 @@ const ContactDoc = () => {
         2000
       ); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
     }
   };
 
@@ -71,8 +70,6 @@ const ContactDoc = () => {
       });
 
       if (response.data.statuscode === 201) {
-        console.log("Form submitted successfully:", response.data);
-      
         // Clear form fields or reset form state
         setName("");
         setEmail("");
@@ -87,13 +84,11 @@ const ContactDoc = () => {
       } else {
         // Handle unexpected status codes
         const errorw = response.data.message;
-        console.log("Unexpected status code:", errorw);
         setFormError(errorw);
         setLoading(false);
         toast.error("Failed to send message.")
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       setLoading(false);
       toast.error("failed to send message")
     }

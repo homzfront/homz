@@ -16,13 +16,6 @@ const RentDetails = ({
   setAgencyFee,
   setYearlyRent,
 }) => {
-  console.log(totalFee)
-  console.log(yearlyRent)
-  console.log(monthlyRent)
-  console.log(maintenanceFee)
-  console.log(agencyFee)
-
-
   const [visibleAddProperty, setVisibleAddProperty] = useState(false);
 
   const ableAddProperty = () => {

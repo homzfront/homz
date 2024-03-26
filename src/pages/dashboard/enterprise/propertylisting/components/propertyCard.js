@@ -34,7 +34,7 @@ const PropertyCard = ({
 
     // Ensure Data is defined before use
     const data = Data || []; // Assign an empty array if Data is undefined
-console.log(data);
+
   return (
     <div className="grid grid-cols-4 gap-4 ">
       {data &&

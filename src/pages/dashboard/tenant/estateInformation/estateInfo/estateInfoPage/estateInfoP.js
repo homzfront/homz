@@ -25,12 +25,10 @@ const EstateInfoP = ({ data }) => {
         2000
       ); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
+      // console.error("Unable to copy to clipboard:", error);
     }
   };
 
-
-  console.log(data);
   return (
     <div>
       <div className="hidden sm:block">

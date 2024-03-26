@@ -53,15 +53,11 @@ const TransferDetails = ({
     const fetchData = async () => {
       try {
         const data = await enterpriseMePropertyOwner();
-        console.log(data);
         setLandlords(data?.data);
       } catch { }
     };
     fetchData();
   }, []);
-
-  console.log(landlords);
-  console.log(selectedLandlord);
 
   // useEffect to handle scrolling
   useBodyScroll([receipt, successfulTansferModal, transferToggleModal]);
@@ -102,14 +98,12 @@ const TransferDetails = ({
       id: selectedLandlord?._id
     };
     try {
-      console.log("Form Data:", formData);
       const { success, upDateddata, error } = await sendMoneyEnterpriseToOwner(
         formData
       );
 
       if (success) {
         setLoading(false);
-        console.log("Form successfully updated", upDateddata);
         if (typeof window !== "undefined") {
           localStorage.setItem(
             "MoneyTransfer Response",
@@ -129,11 +123,9 @@ const TransferDetails = ({
         toast.error("Internal server error, transfer failed", error);
         setLoading(false);
         setTransferToggleModal(false)
-        console.log(error)
         setError(error?.message || error?.error)
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       toast.error("Internal server error, transfer failed");
       setTransferToggleModal(false)
@@ -167,11 +159,6 @@ const TransferDetails = ({
   const closeShareAbleReceipt = () => {
     setShareAbleReceipt(false);
   };
-
-
-  console.log(amount);
-  console.log(description);
-  console.log(selectedLandlord);
 
   return (
     <div>

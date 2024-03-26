@@ -21,15 +21,12 @@ const Notifications = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
     setSelectedId(data);
     setOpenAndClose(!openAndClose);
   };
-  console.log(selectedId);
 
   const closeMenu = () => {
     setOpenAndClose(false);
   };
 
   const sortedData = sortDataByStatusAndDate(data);
-console.log(sortedData);
-
 
   return (
     <div className="h-full overflow-auto scrollbar-container">

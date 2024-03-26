@@ -15,7 +15,7 @@ const SectionOne = () => {
       setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
       setTimeout(() => setCopiedState((prevState) => ({ ...prevState, [identifier]: false })), 2000); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error('Unable to copy to clipboard:', error);
+      // console.error('Unable to copy to clipboard:', error);
     }
   };
 

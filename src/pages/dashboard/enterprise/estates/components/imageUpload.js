@@ -3,9 +3,8 @@ import React, { useRef } from "react";
 import Image from "next/image";
 
 const ImageUpload = ({ uploadedImage, handleImageUpload, onImageRemove, file }) => {
+  
   const inputRef = useRef(null);
-
-
 
   const handleImageRemove = () => {
     onImageRemove(null);

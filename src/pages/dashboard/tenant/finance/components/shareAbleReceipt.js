@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 const ShareAbleReceipt = ({ closeShareAbleReceipt, rentData }) => {
   const [receiptData, setReceiptData] = useState("");
-  console.log(rentData);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const Data = localStorage.getItem("RentResponse");
@@ -17,7 +17,7 @@ const ShareAbleReceipt = ({ closeShareAbleReceipt, rentData }) => {
       }
     }
   }, []); 
-  console.log(receiptData);
+
   return (
     <div className="absolute top-0 z-30 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       <div  id="receipt-content" className=" h-[680px] w-[530px] bg-white rounded-lg p-8">

@@ -13,7 +13,6 @@ const Profile = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  console.log(data);
   return (
     <div className="px-8 w-full">
       <ToastContainer

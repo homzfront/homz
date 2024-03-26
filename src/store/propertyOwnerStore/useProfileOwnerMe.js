@@ -9,7 +9,7 @@ const useProfileOwnerMe = create((set) => ({
       try {
         const response = await propertyMe();
         const data = response?.data;
-        console.log(data);
+        // console.log(data);
         set({ data: data, loading: false });
       } catch (error) {
         set({ loading: false });

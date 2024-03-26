@@ -31,15 +31,6 @@ const ContactInfo = ({
 }) => {
   useBodyScroll([loading, showConfirm, yesOrNoModal]);
 
-  const ableAddProperty = () => {
-    setVisibleAddProperty(true);
-  };
-
-  console.log(managerPhoneNumber);
-  console.log(emergencyPhoneNumber);
-  console.log(utilityServicePhoneNumber);
-  console.log(securityPhoneNumber);
-
   return (
     <div className="p-8">
       <ToastContainer

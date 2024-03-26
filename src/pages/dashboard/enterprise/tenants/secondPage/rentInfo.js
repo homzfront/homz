@@ -15,7 +15,6 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import lowerCaseData from "@/utils/lowerCaseData";
 
 const RentInfo = ({ profile, rentInformation }) => {
-  console.log(profile);
   const [data, setData] = useState([]);
   const [propertyType, setPropertyType] = useState("");
   const [apartmentNumber, setApartmentNumber] = useState("");
@@ -41,9 +40,6 @@ const RentInfo = ({ profile, rentInformation }) => {
     }
   }
 
-
-  console.log(data);
-
   const rentInformationII = async () => {
     try {
       const response = await getSpecificTenantRentInfo(
@@ -52,7 +48,7 @@ const RentInfo = ({ profile, rentInformation }) => {
       const rentInfo = response;
       setData(rentInfo);
     } catch (error) {
-      console.error("Error fetching rent information", error);
+      // console.error("Error fetching rent information", error);
       // Handle the error as needed
     }
   };
@@ -90,7 +86,7 @@ const RentInfo = ({ profile, rentInformation }) => {
 
   const handleSelect = (option) => {
     // Handle the selected value as needed
-    console.log("Selected Option:", option);
+    // console.log("Selected Option:", option);
     setSelectedValue(option.label);
   };
 
@@ -102,18 +98,6 @@ const RentInfo = ({ profile, rentInformation }) => {
 
   // useEffect to handle scrolling
   useBodyScroll([confirm]);
-
-  console.log(propertyType);
-  console.log(parseInt(apartmentNumber)),
-    console.log(parseInt(rent)),
-    console.log(parseInt(duration)),
-    console.log(startDate);
-  console.log(dueDate);
-  console.log(lowerCaseData(selectedValue));
-  console.log(property);
-  console.log(parseInt(rent))
-
-
 
   const handleConfirm2 = async (e) => {
     e.preventDefault();
@@ -146,19 +130,15 @@ const RentInfo = ({ profile, rentInformation }) => {
         property,
       };
       const id = profile?.data?._id;
-      console.log(id);
-      console.log(updatedData)
       const { success, upDateddata, error } =
         await createSpecificTenantRentInfo(id, updatedData);
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         setShowUpdate(!showUpdate)
         setConfirm(!confirm);
         setError(null)
       } else {
-        console.error("Update failed", error);
         toast.error(error?.msg);
         setLoading(false);
         setError(error?.error?.message)
@@ -166,17 +146,11 @@ const RentInfo = ({ profile, rentInformation }) => {
         toast.error(error?.error?.message)
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       toast.error("Update failed");
       setError(error)
     }
   }
-
-
-
-
-
 
 
 
@@ -203,17 +177,14 @@ const RentInfo = ({ profile, rentInformation }) => {
         property,
       };
       const id = profile?.data?.rentInfo._id;
-      console.log(id);
       const { success, upDateddata, error } =
         await updateSpecificTenantRentInfo(id, updatedData);
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         toast.success("Update successful");
         setError(null);
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
         setError(error?.error?.message)
@@ -221,7 +192,6 @@ const RentInfo = ({ profile, rentInformation }) => {
         toast.error(error?.error?.message)
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       toast.error("Update failed");
       setError(error)

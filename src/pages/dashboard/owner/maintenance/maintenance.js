@@ -25,27 +25,21 @@ const Maintenance = () => {
     setSelectedDate(null);
   };
 
-  console.log(data);
-
   const options = [
     ...new Set(
       data?.map((item) => item?.status)
     ),
   ];
-  console.log(options);
 
   const options2 = [
     ...new Set(
       data?.map((item) => item?.tenant?.estateId?.name)
     ),
   ];
-  console.log(options2);
 
   const filteredData = data?.filter((data) => {
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.createdAt));
-    console.log(createdDateTimestamp);
-    console.log(selectedDateTimestamp);
     return (
       (!selectedStatus ||
         data?.status === selectedStatus) &&
@@ -55,25 +49,17 @@ const Maintenance = () => {
     );
   });
 
-  console.log(filteredData);
-
   const pendingRequest = data?.filter((data) => {
     return data?.status === "pending";
   });
   // Get the length of the filtered data
   const pendingCount = pendingRequest?.length;
-  console.log(pendingCount);
 
   const resolvedRequest = data?.filter((data) => {
     return data?.status === "resolved";
   });
   // Get the length of the filtered data
   const resolvedCount = resolvedRequest?.length;
-  console.log(resolvedCount);
-
-
-
-
 
   return (
     <div className="relative block w-full p-8">

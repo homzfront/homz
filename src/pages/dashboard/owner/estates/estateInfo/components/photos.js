@@ -7,8 +7,6 @@ const Photos = ({ data }) => {
   const uploadedImage = (data?.coverPhoto?.url ? data?.coverPhoto?.url : null);
   const uploadedImage2 = (data?.photos?.[0]?.url ? data?.photos?.[0]?.url : null);
   const uploadedImage3 = (data?.photos?.[1]?.url ? data?.photos?.[1]?.url : null);
-  console.log(data?.coverPhoto?.url)
-  console.log(uploadedImage3);
   return (
     <div>
       <div className="flex gap-4 mt-10">

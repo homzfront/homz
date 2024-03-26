@@ -74,13 +74,13 @@ const Sidebar = () => {
   ];
 
   const Data3 = [
-    // {
-    //   id: 1,
-    //   image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-    //   image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-    //   link: "/switch-profile",
-    //   name: "Switch",
-    // },
+    {
+      id: 1,
+      image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      link: "/switch-profile",
+      name: "Switch",
+    },
   ];
 
   const [pathname, setPathname] = useState("");
@@ -134,7 +134,6 @@ useEffect(() => {
 
 const { logout } = useProfileStore();
 
-  console.log(pathname);
 
   return (
     <div className="sidebar">

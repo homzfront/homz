@@ -17,10 +17,6 @@ const Support = () => {
   const [fullname, setFullname] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log(phoneNumber);
-  console.log(message);
-  console.log(fullname);
-
   const OpenProceedDialogue = () => {
     setProceed(true);
   };
@@ -38,8 +34,6 @@ const Support = () => {
       });
 
       if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully submitted", response.data);
         setFullname("");
         setMessage("");
         setPhoneNumber("");
@@ -47,12 +41,10 @@ const Support = () => {
         setLoading(false);
       } else {
         const error = response.data.message;
-        console.log("Unexpected status code:", error);
         toast.error("update falied");
         setLoading(false);
       }
     } catch (error) {
-      console.error("Login error", error);
       setLoading(false);
       // setLoginError(error.response?.data?.message);
     }

@@ -59,8 +59,7 @@ const PopUpMenuAlert = () => {
     setSelectedId(data);
     setOpenAndClose(!openAndClose);
   };
-  console.log(selectedId);
-
+  
   const closeMenu = () => {
     setOpenAndClose(false);
   };

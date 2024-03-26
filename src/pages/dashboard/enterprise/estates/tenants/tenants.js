@@ -10,7 +10,6 @@ import useClickOutside from "@/utils/clickOutside";
 import formatDateII from "@/utils/formatDateII";
 
 const Tenants = ({ id }) => {
-  console.log(id);
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
 
   useEffect(() => {
@@ -18,7 +17,6 @@ const Tenants = ({ id }) => {
   }, []);
 
   const data = tenantData?.results?.[0]?.data;
-  console.log(data);
   const [inviteTenant, setInviteTenant] = useState(false);
   const [addNewProperty, setAddNewProperty] = useState(false);
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
@@ -33,15 +31,10 @@ const Tenants = ({ id }) => {
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
-      console.log(dueDateTimestamp);
-      console.log(selectedDateTimestamp)
       return (
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
     });
-
-  console.log(filteredData);
-
 
   const openInvite = () => {
     setInviteTenant(!inviteTenant);
@@ -54,7 +47,7 @@ const Tenants = ({ id }) => {
   const closeProperty = () => {
     setAddNewProperty(false);
   };
-console.log(tenantData?.results?.[0]?.data?.[0]?.estateId?.name)
+
   return (
     <div className="w-full  p-8">
       {inviteTenant && (

@@ -8,9 +8,9 @@ const usePropertyStore = create((set) => ({
     fetchData: async () => {
       try {
         const data = await propertyForMe();
-        console.log(data);
+        // console.log(data);
         const properties = data.data?.results?.[0].data;
-        console.log(properties);
+        // console.log(properties);
         set({ propertyListedAll: properties, loading: false });
       } catch (error) {
         set({ loading: false });

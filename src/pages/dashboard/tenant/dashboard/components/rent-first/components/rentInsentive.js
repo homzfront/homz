@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 const RentInsentive = ({ data = null }) => {
-  console.log(data);
+
   return (
     <div className="w-full sm:w-[40%] h-auto sm:h-[203px] border p-4  sm:p-[24px] rounded-[12px]">
       <div className="h-full w-full flex flex-col justify-between">

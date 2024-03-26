@@ -3,8 +3,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const BodyPropertyImage = ({ showRatingPage, data, user }) => {
-  console.log(data);
-
   function capitalizeFirstLetter(str) {
     if (str && typeof str === "string") {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -51,7 +49,6 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
   // Example usage:
   const postedTime = "2024-02-04T20:33:56.156Z";
   const timeAgo = getTimeAgo(postedTime);
-  console.log(`Time ago: ${timeAgo}`);
 
   const [copiedState, setCopiedState] = useState({
     copied: false,
@@ -72,10 +69,10 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
         2000
       ); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
+      // console.error("Unable to copy to clipboard:", error);
     }
   };
-  console.log(user);
+
   return (
     <div className="pl-2 pt-4">
       <div className="flex justify-between">

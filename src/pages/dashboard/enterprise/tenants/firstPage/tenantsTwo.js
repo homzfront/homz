@@ -22,9 +22,7 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
   const [loadingRows, setLoadingRows] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
   const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
-  console.log(openDropdowns);
 
-  console.log(Data);
 
   const ITEMS_PER_PAGE = 10;
 
@@ -64,18 +62,15 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
 
     try {
       // Handle status change logic here
-      console.log(`Changing status to: ${status} for data with ID: ${id}`);
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
       });
-      console.log(data);
       toast.success("status updated successfully");
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
       // Close the corresponding dropdown
       fetchDataAgain();
     } catch (error) {
-      console.log(error);
       toast.error(error);
     }
     finally {

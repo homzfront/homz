@@ -43,7 +43,6 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                     rePassword
                 );
                 if (success) {
-                    console.log("Pin successfully created", upDateddata);
                     setLoading(false);
                     setSuccessModal(true);
                     toast.success(upDateddata?.message);
@@ -52,13 +51,11 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                         localStorage.setItem('date', JSON.stringify(userData));
                     }
                 } else {
-                    console.error("Failed creating pin", error);
                     setLoading(false);
                     toast.error(error);
                     setError(error);
                 }
             } catch (error) {
-                console.error("Update error", error);
                 toast.error("Update error", error);
                 setLoading(false);
                 setError(error);

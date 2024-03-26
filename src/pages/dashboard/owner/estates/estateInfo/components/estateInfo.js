@@ -6,7 +6,7 @@ const PropertyInfo = ({data}) => {
   if (data === undefined) {
     return;
   }
-  console.log(data);
+
   return (
     <div className="">
       <div className="mt-8 rounded-[12px] text-[16px] font-[400] text-GrayHomz h-auto w-full bg-inputBg flex flex-col gap-2 p-8 justify-between">

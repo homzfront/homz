@@ -33,8 +33,6 @@ const Notification = () => {
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.createdAt));
-      console.log(dueDateTimestamp);
-      console.log(selectedDateTimestamp)
       return (
         (!selectedStatus || data?.status === lowerCaseData(selectedStatus)) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) &&
@@ -42,8 +40,6 @@ const Notification = () => {
           data?.message.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     });
-
-  console.log(filteredData);
 
   return (
     <div className="h-screen">

@@ -19,8 +19,6 @@ const PropertyImages = ({ id }) => {
   const [remainder, setRemainder] = useState(null);
   const [combinedData, setCombinedData] = useState([]); // Initialize combinedData state
 
-  console.log(id);
-  
   // useEffect to handle scrolling
   useBodyScroll([openSelectedImage]);
 
@@ -47,7 +45,7 @@ const PropertyImages = ({ id }) => {
       }));
       setCombinedData(combinedData); // Update combinedData state
     } else {
-      console.error("Invalid or missing data structure.");
+      // console.error("Invalid or missing data structure.");
     }
   }, [data]);
 
@@ -57,12 +55,6 @@ const PropertyImages = ({ id }) => {
       setRemainder(combinedData.length - 7);
     }
   }, [combinedData]);
-
-  console.log(user);
-  console.log(data);
-  console.log(selectedImage);
-  console.log(openSelectedImage);
-  console.log(currentImageIndex);
 
   const showRatingPage = () => {
     setShowRating(!showRating);

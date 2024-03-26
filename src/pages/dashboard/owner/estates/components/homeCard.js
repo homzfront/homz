@@ -38,12 +38,11 @@ const HomeCard = ({Data}) => {
       },
     ],
   };
-  
 
   const options = {
     cutout: "70%", // Adjust the cutout to control the size of the inner circle
   };
-  console.log(Data);
+
   return (
     <div className="border w-[100%] rounded-[12px] ">
       <div className="">

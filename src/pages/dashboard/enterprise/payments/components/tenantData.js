@@ -14,9 +14,6 @@ import { toast } from "react-toastify";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const TenantData = ({ data, loading, fetchRentData }) => {
-
-  console.log(data)
-
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -63,18 +60,15 @@ const TenantData = ({ data, loading, fetchRentData }) => {
 
     try {
       // Handle status change logic here
-      console.log(`Changing status to: ${status} for data with ID: ${id}`);
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
       });
-      console.log(data);
       toast.success("status updated successfully");
       // Close the corresponding dropdown
       fetchRentData()
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
-      console.log(error);
       toast.error(error);
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     }
@@ -86,8 +80,6 @@ const TenantData = ({ data, loading, fetchRentData }) => {
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
-
-
 
   return (
     <div className="mt-6">

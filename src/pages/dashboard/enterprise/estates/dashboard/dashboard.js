@@ -9,7 +9,6 @@ import Link from "next/link";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 
 const Dashboard = ({id}) => {
-  console.log(id);
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
 
   useEffect(() => {
@@ -17,7 +16,6 @@ const Dashboard = ({id}) => {
   }, []);
 
   const data = tenantData?.results?.[0]?.data;
-  console.log(data);
 
   return (
     <div className="w-full">

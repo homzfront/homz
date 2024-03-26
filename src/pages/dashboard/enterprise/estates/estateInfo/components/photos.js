@@ -6,7 +6,6 @@ import { updateEstateCoverPhoto } from "@/api/estateService";
 import LoadingII from "@/components/mainmenu/loadingII";
 
 const Photos = ({ data }) => {
-  console.log(data);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
   const [uploadedImage3, setUploadedImage3] = useState(null);
@@ -14,12 +13,6 @@ const Photos = ({ data }) => {
   const [publicId, setPublicID] = useState([]);
   const [publicId2, setPublicID2] = useState([]);
 
-
-  console.log(uploadedImage);
-  console.log(publicId2);
-  console.log(publicId);
-  console.log(data?.coverPhoto?.url);
-  console.log(data?._id);
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
@@ -28,23 +21,20 @@ const Photos = ({ data }) => {
       setLoading(false); // Set loading to false once data is available
     }
   }, [data]);
-  console.log(uploadedImage);
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage(file);
   };
 
   const handleImageUpload2 = (e, publicId) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage2(file);
     setPublicID(publicId);
   };
 
   const handleImageUpload3 = (e, publicId) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage3(file);
     setPublicID2(publicId);
   };
@@ -56,7 +46,6 @@ const Photos = ({ data }) => {
     setLoading(true); // Set loading to true when submitting the form
 
     if (!uploadedImage) {
-      console.error("No image uploaded");
       setLoading(false);
       return;
     }
@@ -68,27 +57,22 @@ const Photos = ({ data }) => {
       );
 
       if (success) {
-        console.log("Form successfully updated", updatedImage);
         setLoading(false);
         toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");

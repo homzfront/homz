@@ -42,9 +42,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
     // Perform any necessary actions with the selected option
   };
 
-  console.log(selecetedYear);
   const RentValue = selecetedYear * rentData?.data?.rent;
-  console.log(RentValue);
 
   // Example usage
   const today = new Date();
@@ -82,7 +80,6 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
 
       if (success) {
         setLoading(false);
-        console.log("Rent successfully paid", upDateddata);
         if (typeof window !== "undefined") {
           localStorage.setItem("RentResponse", JSON.stringify(upDateddata));
         }
@@ -123,8 +120,6 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
     setProceed(false);
   }
 
-  console.log(rentData);
-  console.log(error)
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
       {loading && <Loading />}

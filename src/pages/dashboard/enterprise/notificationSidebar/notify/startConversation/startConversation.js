@@ -35,10 +35,7 @@ const StartConversation = () => {
     setSelectedTenantId(!selectedTenantId)
     setStartConvo(false)
   }
-  console.log(Data);
 
-  console.log(selectedTenantId);
-  console.log(selectedData);
   return (
     <div>
       {selectedTenantId ? (

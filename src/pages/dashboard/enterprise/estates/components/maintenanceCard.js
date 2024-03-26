@@ -7,31 +7,24 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Maintenance = ({ data }) => {
-  console.log(data)
   const ids = data?.map((data) => data._id)
-  console.log(ids)
-
   const [maintenanceData, setMaintenanceData] = useState({});
 
 
     useEffect(() => {
-      console.log(ids)
       if (ids === undefined) {
           setMaintenanceData({})
       } else {
         const fetchDataForId = async (id) => {
-          console.log(id);
           try {
             if (id !== undefined) {
               const response = await maintenanceRequestForATenantEnterprise(id);
-              console.log(response);
               setMaintenanceData(prevData => ({
                 ...prevData,
                 [id]: response // Store the response with the id as the key
               }));
             }
           } catch (error) {
-            console.error('Error fetching data:', error);
           }
         };
       
@@ -43,13 +36,10 @@ const Maintenance = ({ data }) => {
  
   },  []); // Empty dependency array ensures this effect runs only once on component mount
 
-  // Now you have maintenanceData updated with additional data for each ID
-  console.log(maintenanceData);
-
   const Data = Object.values(maintenanceData)
   .filter(array => array.length > 0) // Filter out empty arrays
   .flat();
-console.log(Data);
+
   return (
     <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">

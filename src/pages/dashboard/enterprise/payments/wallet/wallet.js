@@ -23,7 +23,6 @@ const Wallet = () => {
         setLoading(true);
         const data = await enterpriseUserWallet();
         if (data.statuscode === 200 && data.success === true) {
-          console.log("Form successfully updated", data);
           setIlluminateWallet(!illuminateWallet);
           const balance = await enterpriseWalletBalance();
           setWalletBalance(balance);
@@ -31,11 +30,9 @@ const Wallet = () => {
           setWallet(wallet);
           setLoading(false);
         } else {
-          console.error("Fetching data failed", data.message);
           setLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
@@ -46,10 +43,7 @@ const Wallet = () => {
   const fetchDataAgain = () => {
     setFetchData(!fetchData);
   };
-
-  console.log(wallet);
-  console.log(illuminateWallet);
-  console.log(walletBalance);
+  
   return (
     <div className="w-full">
       <div className="w-full flex gap-8">

@@ -22,8 +22,6 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
   const [link, setLink] = useState("");
   const [loadingII, setLoadingII] = useState(false);
 
-  console.log(selectedOptions?.estate);
-  console.log(link);
   const { data, loading, fetchData } = estateStore();
 
   useEffect(() => {
@@ -31,7 +29,6 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
   }, []);
 
   const estates = data;
-  console.log(estates);
 
   const handleDropdownClick = (dropdown) => {
     setDropdowns((prev) => ({
@@ -55,24 +52,19 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
       );
 
       if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
         setLoadingII(false);
         toast.success("update successful");
         setLink(response.data.data);
         setShowLinkBox(true);
       } else {
         const error = response.data.message;
-        console.log("Unexpected status code:", error);
         toast.error("update falied");
         setLoadingII(false);
       }
     } catch (error) {
-      console.error("Login error", error);
       setLoadingII(false);
       toast.error("update falied");
       // setLoginError(error.response?.data?.message);
-      console.log(error.response?.data?.message);
     }
   };
 
@@ -92,7 +84,7 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
       await navigator.clipboard.writeText(link);
       setCopied(true);
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
+      // console.error("Unable to copy to clipboard:", error);
     }
   };
   const returnHome = () => {

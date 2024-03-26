@@ -12,7 +12,7 @@ const tenantsDataForLoggedInEnterprise = create((set) => ({
       set({ data: tenants, loading: false });
     } catch (error) {
       // Handle error if needed, or simply ignore it
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
       set({ loading: false });
     }
   },

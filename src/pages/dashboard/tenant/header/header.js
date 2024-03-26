@@ -30,7 +30,6 @@ const Header = () => {
     if (data) {
       fetchNoti();
       setSelectedId(data); // Update selectedId with the entire data object
-      console.log("Selected Id:", data);
       updateTenantNoti(data?._id);
       // Delay toggling the openAndClose state
       setTimeout(() => {
@@ -38,8 +37,6 @@ const Header = () => {
       }, 0);
     }
   };
-
-  console.log("Selected Id:", selectedId);
 
   const closeMenu = () => {
     fetchNoti();
@@ -83,13 +80,11 @@ const Header = () => {
   }, []);
 
   const sortedData = sortDataByStatusAndDate(noti);
-  console.log(sortedData);
 
 
   const unseen = sortedData?.filter((data) => data?.status === "unseen")
 
   const user = data;
-  console.log(user);
   useDisableBodyScroll(open)
   useBodyScroll([openAndClose])
 

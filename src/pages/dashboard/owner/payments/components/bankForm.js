@@ -15,7 +15,6 @@ const BankForm = ({
   fetchDataAgain,
   Banks,
 }) => {
-  console.log(Banks?.data);
 
   const [accountNo, setAccountNo] = useState("");
   const [bankName, setBankName] = useState("");
@@ -26,8 +25,6 @@ const BankForm = ({
   const [loading, setLoading] = useState(false)
   const [loadingBank, setLoadingBank] = useState(false)
 
-  console.log(accountNo);
-  console.log(accountName);
 
 
   useEffect(() => {
@@ -37,12 +34,9 @@ const BankForm = ({
           setLoadingBank(true)
           const { success, data, error } = await VerifyBank(accountNo, bankName);
           if (success) {
-            console.log(data);
             setAccountName(data?.accountName);
             setLoadingBank(false)
           } else {
-            console.log("error:", error);
-            console.log(error?.errors);
             setErrorName(error?.errors);
             setErrorName(error?.message)
             setLoadingBank(false)
@@ -58,8 +52,6 @@ const BankForm = ({
   }, [accountNo, bankName]);
 
 
-  console.log(accountName);
-
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -72,23 +64,19 @@ const BankForm = ({
     };
 
     try {
-      console.log(bankDetails);
       const { success, upDateddata, error } = await addBankPropertyOwner(
         bankDetails
       );
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setShowSubmitted(!showSubmitted);
         setLoading(false)
       } else {
-        console.error("Update failed", error?.error?.errors);
         setLoading(false)
         setShowConfirmSubmit(false);
         setErrorName(error?.error?.errors)
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false)
       setShowConfirmSubmit(false);
     }

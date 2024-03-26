@@ -13,8 +13,6 @@ const Plans = ({ data, profile }) => {
   const [formError, setFormError] = useState();
   const router = useRouter()
   useBodyScroll([loading])
-  console.log(data)
-  console.log(profile)
 
   const pricingPlans = [
     {
@@ -110,9 +108,6 @@ const Plans = ({ data, profile }) => {
   }
 
   async function handleSubmit(interval, plans) {
-    console.log(interval);
-    console.log(plans);
-
     setLoading(true);
 
     if (!interval || !plans) {
@@ -141,7 +136,6 @@ const Plans = ({ data, profile }) => {
         response = await planEnterPriseSub(planDetails);
       }
       if (response.success) {
-        console.log("Form successfully filled:", response);
         setLoading(false);
         const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
         toast.success(successMessage);
@@ -153,26 +147,24 @@ const Plans = ({ data, profile }) => {
         } else if (isValidUrl(paystackAuthorizationUrl)) {
           router.push(paystackAuthorizationUrl);
         } else {
-          console.warn('Invalid or missing authorization URL in response.');
+          // console.warn('Invalid or missing authorization URL in response.');
         }
       }
       else {
         if (response.error) {
           setFormError(response.error || 'An error occurred.'); // Default error message
-          console.error("Error creating profile:", response.error);
+          // console.error("Error creating profile:", response.error);
           setLoading(false);
           toast.error(response.error);
         } // Use the specific error message from response.error
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-      console.log(error.response?.data?.error)
+      // console.log(error.response?.data?.error)
       setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
       setLoading(false);
     }
   }
-
-
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
@@ -206,10 +198,10 @@ const Plans = ({ data, profile }) => {
               className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                 ? " hidden"
                 : ""
-                }  ${profile?.planName === plan.title ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                }  ${profile?.planName === plan.title && profile?.interval === "monthly"  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
             >
-              {profile?.planName === plan.title
+              {profile?.planName === plan.title && profile?.interval === "monthly" 
                 ? "Active"
                 : "Get Started"}
             </button>

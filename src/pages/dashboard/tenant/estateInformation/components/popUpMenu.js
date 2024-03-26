@@ -16,7 +16,7 @@ function PopUpMenu({ data, dropdownRef }) {
         fileDownload(blob, `${fileName}.pdf`);
       })
       .catch(error => {
-        console.error('Error downloading file:', error);
+        // console.error('Error downloading file:', error);
         // Handle error
       });
   };

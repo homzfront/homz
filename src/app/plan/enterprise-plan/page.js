@@ -18,6 +18,10 @@ const EnterprisePlan = () => {
   useBodyScroll([loading, isSubmitConfirmationVisible]);
   const router = useRouter()
 
+  const goBack = () => {
+    router.back();
+  };
+
   const data = {
     fullName,
     phoneNumber: parseInt(phoneNo),
@@ -70,15 +74,12 @@ const EnterprisePlan = () => {
 
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
-        console.log("form successfully filled ", response.data);
         setLoading(false);
       } else {
         setFormError(response.data.message);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error creating profile:", error);
-      console.log(error.response?.data?.error)
       setFormError(error?.response?.data?.message || error?.response?.data?.error?.errors || error?.response?.data?.error);
       setLoading(false);
     }
@@ -122,9 +123,9 @@ const EnterprisePlan = () => {
               Register as a property manager to manage properties & tenants with our intuitive dashboard.
             </p>
           </div>
-          <Link href={"/select-plan"}>
+          <div onClick={goBack} className="cursor-pointer">
             <Image src={"/Link.png"} alt="img" height={24} width={132} />
-          </Link>
+          </div>
         </div>
         <div className="w-full h-[320px] m-auto">
           <div className="max-w-[1156px] sm:px-8 m-auto">

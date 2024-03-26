@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 
 
 const Table = ({tenantData}) => {
-  console.log(tenantData?.data);
   const tenantId = tenantData?.data?._id
   const {
     data,
@@ -21,14 +20,9 @@ const Table = ({tenantData}) => {
     fetchData()
   }, [])
 
-console.log(data)
-  console.log(data?.length);
-
   const filteredData = data?.filter ((data)=> {
    return tenantId === data?.tenantId?._id 
   })
-
-  console.log(filteredData);
 
   const ITEMS_PER_PAGE = 4;
 

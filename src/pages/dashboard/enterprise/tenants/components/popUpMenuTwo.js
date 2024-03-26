@@ -6,7 +6,7 @@ function PopUpMenuTwo({ data, handleDelete,dropdownRef }) {
   if (!data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-  console.log(data);
+  
     return (
       <div ref={dropdownRef} className="drop-down absolute top-7 z-40  text-GrayHomz font-[500] text-[13px] right-[26px] border   rounded-md bg-white flex flex-col items-center justify-around">
         <Link href={`/dashboard/enterprise-property/tenants/profile/${data}`}>

@@ -70,9 +70,7 @@ const Login = () => {
   
       if (response.status === 201) { // Handle expected successful login status code
         const  data = response.data.data.token;
-        toast.success("Login Successful")
-        console.log(response)
-        console.log("login successful, ", data)
+        // toast.success("Login Successful")
         localStorage.setItem('jwt', data)
         // Fetch user profile
         const profileResponse = await api.get("/user/profile");
@@ -100,23 +98,17 @@ const Login = () => {
           setEmail("");
           setPassword("");
         } else {
-          console.error("Unexpected status code for profile:", profileResponse.data.message);
           setLoginError(profileResponse.data.message); // Set specific error message
         }
       } else {
-        console.error("Unexpected status code:", response.data.message);
         setLoginError(response.data.message); // Set specific error message
       }
     } catch (error) {
-      console.error("Login error", error);
       setLoginError(error.response?.data?.message); // Set specific error message (if available)
     } finally {
       setLoading(false); // Ensure loading state is reset even in case of errors
     }
-  };
-  
-
-  
+  }; 
   
   const Visible = () => {
     setVisible(!visible);

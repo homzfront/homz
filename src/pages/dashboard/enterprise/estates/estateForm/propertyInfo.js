@@ -27,14 +27,6 @@ const PropertyInfo = ({
   setDescription,
 }) => {
   const [showCancelDialogue, setShowCancelDialogue] = useState(false);
-  console.log(selectedArea);
-  console.log(selectedState);
-  console.log(name);
-  console.log(numberOfHouses);
-  console.log(description);
-  console.log(size);
-  console.log(address);
-
   // useEffect to handle scrolling
   useBodyScroll([showCancelDialogue]);
 
@@ -45,7 +37,6 @@ const PropertyInfo = ({
   const returnHomeTwo = () => {
     setShowCancelDialogue(false);
   };
-
 
   return (
     <div className="px-8">

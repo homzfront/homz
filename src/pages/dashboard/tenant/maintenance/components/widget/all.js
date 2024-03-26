@@ -12,7 +12,6 @@ const All = ({ data = null || [] }) => {
     return []; // or handle accordingly, e.g., return a loading state
   }
 
-  console.log(data);
   return (
     <div>
       <div className="">

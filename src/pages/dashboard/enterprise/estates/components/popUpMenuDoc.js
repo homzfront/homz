@@ -9,22 +9,16 @@ function PopUpMenuDoc({ data, id, fetchDataAgain, dropdownRef }) {
   }
 
   const removeData = async () => {
-    console.log(data._id);
-    console.log(data);
     try {
       const response = await deleteEstateDocSpecificUSer({
         id,
         data_id: data._id,
       });
-      console.log(response);
-      // Handle the response if needed
       fetchDataAgain(); // Assuming fetchDataAgain is defined and passed as a prop
     } catch (error) {
-      // Handle errors if the fetch fails
     }
   };
-  console.log(data._id);
-  console.log(data);
+
   return (
     <div ref={dropdownRef} className="drop-down absolute top-6 text-GrayHomz font-[500] text-[13px] right-[15px] border rounded-md bg-white flex flex-col items-center justify-around">
       <Link

@@ -10,13 +10,7 @@ import Button from "../../components/button";
 
 
 const Table = ({ tenantData, datas }) => {
-
-  console.log(tenantData?.data);
-
   const data = datas?.data
-  console.log(data);
-
-  console.log(data?.length);
 
   const ITEMS_PER_PAGE = 4;
 

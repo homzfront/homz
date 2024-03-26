@@ -8,8 +8,6 @@ const RentDetails = ({
   formData,
   handleChange
 }) => {
-  console.log(formData)
-
   const [visibleAddProperty, setVisibleAddProperty] = useState(false);
 
   const ableAddProperty = () => {

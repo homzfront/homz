@@ -11,7 +11,6 @@ const Request = ({ data, openMaintenanceForm, maintenanceReq, closeMaintenanceFo
   fetchData }) => {
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log(data)
   const clear = () => {
     setSelectedStatus(null);
     setSelectedDate(null)
@@ -21,16 +20,11 @@ const Request = ({ data, openMaintenanceForm, maintenanceReq, closeMaintenanceFo
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.requestDate));
-      console.log(dueDateTimestamp);
-      console.log(selectedDateTimestamp)
       return (
-
         (!selectedStatus || data?.status === lowerCaseData(selectedStatus)) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
     });
-
-  console.log(filteredData);
 
   return (
     <div>

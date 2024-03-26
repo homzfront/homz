@@ -37,14 +37,11 @@ const RequestPage = () => {
   const data = request;
 
   const options = [...new Set(data?.map((item) => item.estate))];
-  console.log(options);
 
   // Filter estateData based on selectedState, selectedArea, and searchQuery
   const filteredData = data?.filter(
     (data) => !selectedProperty || data?.estate === selectedProperty
   );
-  console.log(data);
-  console.log(request);
 
   const toggleInvite = () => {
     setInviteTenant(true);
@@ -68,7 +65,6 @@ const RequestPage = () => {
       setDone(!done);
       setLoadingII(false);
     } catch (error) {
-      console.error("Error accepting tenant request:", error);
       setLoadingII(false);
     }
   };
@@ -82,7 +78,6 @@ const RequestPage = () => {
       setDoneTwo(!doneTwo);
     } catch (error) {
       setLoadingII(false);
-      console.error("Error declining tenant request:", error);
     }
   };
 

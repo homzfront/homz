@@ -2,7 +2,6 @@ import React from "react";
 import Card from "./card";
 
 const EstateCard = ({ Data, handleToggleMenu, popUpMenu, selectedDataId }) => {
-console.log(Data);
   return (
     <div className="grid grid-cols-4 gap-4 ">
       {Data && Data.map((data) => (

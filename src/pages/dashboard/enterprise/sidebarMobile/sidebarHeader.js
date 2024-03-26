@@ -51,7 +51,6 @@ const SidebarMobile = ({ setOpen, user }) => {
 
   const { logout } = useProfileStore();
 
-  console.log(pathname)
 
   return (
     <div className="h-[2000px] px-8 flex flex-col w-[100%] m-auto text-white">

@@ -32,7 +32,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [numberOfHouses, setNumberOfHouses] = useState("");
   const [description, setDescription] = useState("");
   
-
   // addphotos
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
@@ -44,7 +43,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [utilityServicePhoneNumber, setUtilityServicePhoneNumber] =
     useState("");
   const [securityPhoneNumber, setSecurityPhoneNumber] = useState("");
-  console.log(uploadedImage);
 
   const trimSpaces = (input) => {
     if (typeof input === 'string') {
@@ -87,8 +85,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
       });
 
       if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
         setLoading(false);
         setUploadedImage(null);
         setSelectedArea(null);
@@ -105,13 +101,11 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         setShowConfirm(!showConfirm);
       } else {
         const error = response.data.message;
-        console.log("Unexpected status code:", error);
         toast.error("update falied");
         setLoading(false);
         setYesOrNoModal(false);
       }
     } catch (error) {
-      console.error("Login error", error);
       setLoading(false);
       setYesOrNoModal(false);
       if (
@@ -119,11 +113,9 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");

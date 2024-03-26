@@ -5,13 +5,8 @@ import YesNOModal from "../components/yesNOModal";
 import Button from "../../components/button.js";
 
 const Maintenance = ({tenantData}) => {
-
-  console.log(tenantData);
-
   const data = tenantData?.data
   const maintenanceRequests = data?.maintenanceRequests
-  console.log(maintenanceRequests)
-  console.log(data);
 
   const ITEMS_PER_PAGE = 4;
 

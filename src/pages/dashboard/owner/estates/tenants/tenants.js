@@ -15,10 +15,7 @@ const Tenants = ({ id }) => {
     fetchEstateData(id);
   }, []);
 
-  console.log(data);
-
   const ids = data?.tenants
-  console.log(ids)
   const [tenantData, setTenantData] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -28,23 +25,19 @@ const Tenants = ({ id }) => {
 
 
   useEffect(() => {
-    console.log(ids)
     if (ids === undefined) {
       setTenantData({})
     } else {
       const fetchDataForId = async (id) => {
-        console.log(id);
         try {
           if (id !== undefined) {
             const response = await fetchSpecificTenantOwner(id);
-            console.log(response);
             setTenantData(prevData => ({
               ...prevData,
               [id]: response?.data // Store the response with the id as the key
             }));
           }
         } catch (error) {
-          console.error('Error fetching data:', error);
         }
       };
 
@@ -56,21 +49,13 @@ const Tenants = ({ id }) => {
 
   }, [ids]); // Empty dependency array ensures this effect runs only once on component mount
 
-  // Now you have maintenanceData updated with additional data for each ID
-  console.log(tenantData);
-
   const Data = Object.values(tenantData).flat();
-  console.log(Data);
-
-
 
   const { data: tenantData2, loading, fetchData } = tenantsDataForLoggedInOwner();
 
   useEffect(() => {
     fetchData(); // Fetch data on component mount
   }, []);
-
-  console.log(tenantData2);
 
   // Create a new object with _id as keys
   const mergedData = {};
@@ -92,20 +77,14 @@ const Tenants = ({ id }) => {
   // Convert mergedData to an array of objects
   const mergedArray = Object.values(mergedData);
 
-  console.log(mergedArray);
-
   const filteredData = mergedArray?.filter(
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
-      console.log(dueDateTimestamp);
-      console.log(selectedDateTimestamp)
       return (
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
     });
-
-  console.log(filteredData);
 
   return (
     <div className="w-full  p-8">

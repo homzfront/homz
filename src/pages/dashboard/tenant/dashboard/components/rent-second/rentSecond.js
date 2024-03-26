@@ -11,9 +11,6 @@ const RentSecond = () => {
   fetchData()
  },[]);
 
- console.log(walletBalance?.data?.availableBalance);
- console.log (loading)
-
   return (
     <div className="flex w-full justify-between">
       {/* <div className="border rounded-[12px] border-warning3 bg-warning4 h-[120px] w-[342px] p-[20px] flex flex-col justify-between">

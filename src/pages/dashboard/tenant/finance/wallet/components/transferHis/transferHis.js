@@ -54,9 +54,6 @@ const TransferHis = ({ illuminateWallet, data }) => {
   };
 
 
-  console.log(data);
-  console.log(receiptData)
-
   return (
     <div>
       {receipt && <ShareAbleReceipt />}

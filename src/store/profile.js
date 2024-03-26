@@ -21,7 +21,7 @@ const useProfileStore = create((set) => ({
         localStorage.setItem('profile', JSON.stringify(userData));
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      // console.error('Error fetching profile:', error);
       set({ loading: false });
     }
   },
@@ -41,7 +41,7 @@ const useProfileStore = create((set) => ({
       // Redirect to login or another appropriate page
       window.location.href = '/';
     } catch (error) {
-      console.error('Error logging out:', error);
+      // console.error('Error logging out:', error);
     }
   },
 
