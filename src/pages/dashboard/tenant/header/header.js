@@ -15,6 +15,8 @@ import tenantNotiReceive from "@/store/tenantStore/tenantNotiReceive";
 import useBodyScroll from "@/utils/useBodyScroll";
 import sortDataByStatusAndDate from "@/utils/sortByStatusAndDate";
 import { updateTenantNoti } from "@/api/notification";
+import Notification from "@/components/icons/notification";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 
 const Header = () => {
@@ -64,17 +66,17 @@ const Header = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  
+
   const { data: noti, loading: laodingNoti, fetchData: fetchNoti } = tenantNotiReceive();
 
   useEffect(() => {
     const fetchDataInterval = setInterval(() => {
       fetchNoti();
     }, 3 * 60 * 1000); // 3 minutes in milliseconds
-    
+
     // Fetch data immediately when the component mounts
     fetchNoti();
-  
+
     // Clean up the interval to avoid memory leaks
     return () => clearInterval(fetchDataInterval);
   }, []);
@@ -122,43 +124,35 @@ const Header = () => {
         {popUpMenuTwo && <PopUpMenuAlert
           selectedData={selectedData}
           Data={sortedData}
-          // dropdownRef={dropdownRefII}
+        // dropdownRef={dropdownRefII}
         />}
         <div className="">
         </div>
         <div className="flex gap-4 items-center ">
           <div onClick={handleToggleMenuTwo} className="cursor-pointer relative">
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/header/notification.png"
-              }
-              alt=""
-              height={25}
-              width={24}
-            />
-                    <p
-                  className={`absolute top-0 right-[2px] ${unseen?.length >= 1 ? "bg-error" : "bg-transparent"
-                    } h-2 w-2 rounded-full`}
-                ></p>
+            <Notification />
+            <p
+              className={`absolute top-0 right-[2px] ${unseen?.length >= 1 ? "bg-error" : "bg-transparent"
+                } h-2 w-2 rounded-full`}
+            ></p>
           </div>
           <div ref={dropdownRef} onClick={handleToggleMenu} className="relative cursor-pointer">
             {!user?.coverPhoto?.url ? (
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                }
-                alt=""
-                width={40}
-                height={40}
-                className=""
-              />
+              <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                <EmptyAvatar />
+              </div>
             ) : (
               <Image
                 src={user?.coverPhoto?.url}
                 alt=""
                 height={40}
                 width={40}
-                className="rounded-full"
+                layout="full" // Specify the desired height
+                objectFit="cover"
+                objectPosition="center"
+                className="object-cover bg-center h-[40px] rounded-full"
+                quality={100}
+                priority
               />
             )}
             {popUpMenu && <PopUpMenu user={user} />}

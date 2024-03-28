@@ -1,4 +1,5 @@
 "use client"
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
@@ -14,7 +15,7 @@ const TenantsCard = ({ data }) => {
         <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
           <p>Tenants</p>
           <p>
-          {data?.length ? `${data?.length}` : "0"}
+            {data?.length ? `${data?.length}` : "0"}
             /{data?.length ? `${data?.length}` : "0"}
           </p>
         </div>
@@ -49,22 +50,20 @@ const TenantsCard = ({ data }) => {
               <tr key={data._id} className=" border-t-[1px] items-center">
                 <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                   {!data?.coverPhoto?.url ? (
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                      }
-                      alt=""
-                      width={30}
-                      height={30}
-                      className="py-[15px]"
-                    />
+                    <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                      <EmptyAvatar />
+                    </div>
                   ) : (
                     <Image
                       src={data?.coverPhoto?.url}
                       alt=""
-                      width={30}
-                      height={30}
-                      className="rounded-[100%] py-[15px]"
+                      width={40}
+                      height={40}
+                      layout="full" // Specify the desired height
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="object-cover bg-center h-[40px] rounded-full"
+                      priority
                     />
                   )}
                   <span className="py-[15px]">{data?.fullName}</span>
@@ -74,8 +73,8 @@ const TenantsCard = ({ data }) => {
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                   {`${data?.rentInfo?.totalRent
-                      ? addCommasToNumber(data?.rentInfo?.rent)
-                      : "______"
+                    ? addCommasToNumber(data?.rentInfo?.rent)
+                    : "______"
                     }`}
                 </td>
                 <td
@@ -83,8 +82,8 @@ const TenantsCard = ({ data }) => {
                 >
                   <span
                     className={`p-[6px] rounded-lg text-center ${data?.rentInfo?.paymentStatus === "pending"
-                        ? "bg-warningBg text-warning2 px-[10px]"
-                        : ""
+                      ? "bg-warningBg text-warning2 px-[10px]"
+                      : ""
                       } ${data?.rentInfo?.paymentStatus === "paid"
                         ? "bg-successBg text-Success  px-[21px]"
                         : ""
@@ -98,8 +97,8 @@ const TenantsCard = ({ data }) => {
                 </td>
                 <td className="text-GrayHomz py-[15px] font-[500] text-[11px] pr-6">
                   {`${data?.rentInfo?.dueDate
-                      ? changeBackendDateFormat(data?.rentInfo?.dueDate)
-                      : "______"
+                    ? changeBackendDateFormat(data?.rentInfo?.dueDate)
+                    : "______"
                     }`}
                 </td>
               </tr>

@@ -46,8 +46,8 @@ module.exports = {
         withdrawBg: "#FBFDFF",
         bgGray: "#FCFCFC",
         dashboardGray: "#292D32",
-        textGray: "#475467"
-
+        textGray: "#475467",
+        avatarBg: "#F2F4F7"
       },
     },
   },

@@ -11,7 +11,12 @@ const ProfileCard = ({ data }) => {
             height={198}
             width={198}
             alt=""
-            className="rounded-full"
+            layout="full" // Specify the desired height
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover bg-center h-[198px] rounded-full"
+            quality={100}
+            priority
           />
         ) : (
           <div className="w-[198px] h-[198px] bg-GrayHomz5 rounded-full flex items-center justify-center">

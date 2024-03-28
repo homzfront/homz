@@ -52,7 +52,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
       setSubject("");
       setRequestDate("");
       setConfirm(!confirm);
-      toast.success("maintenance request sent!");
+      // toast.success("maintenance request sent!");
     } catch (error) {
       setLoading(false);
       toast.error(error?.response?.data.error);

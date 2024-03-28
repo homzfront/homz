@@ -13,6 +13,7 @@ import Settings from '@/components/icons/dashboardMobile/settings'
 import Support from '@/components/icons/dashboardMobile/support'
 import Switch from '@/components/icons/dashboardMobile/switch'
 import Tenants from '@/components/icons/dashboardMobile/tenants'
+import EmptyAvatar from '@/components/icons/emptyAvatar'
 import useProfileStore from '@/store/profile'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -57,23 +58,22 @@ const SidebarMobile = ({ setOpen, user }) => {
           className="w-full flex justify-between items-center px-4 py-2"
         >
           <div className="flex gap-4 items-center">
-          {!user?.coverPhoto?.url ? (
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                }
-                alt=""
-                width={40}
-                height={40}
-                className=""
-              />
+            {!user?.coverPhoto?.url ? (
+              <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                <EmptyAvatar />
+              </div>
             ) : (
               <Image
                 src={user?.coverPhoto?.url}
                 alt=""
-                height={40}
                 width={40}
-                className="rounded-full"
+                height={40}
+                layout="full" // Specify the desired height
+                objectFit="cover"
+                objectPosition="center"
+                className=" object-cover bg-center h-[40px] rounded-full"
+                quality={100}
+                priority
               />
             )}
             <span className="font-[500] text-[16px] text-GrayHomz">
@@ -199,7 +199,7 @@ const SidebarMobile = ({ setOpen, user }) => {
         </Link>
 
       </div>
- 
+
       <div className='p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px]'>
         <div onClick={() => logout(logout)} className='hover:bg-white cursor-pointer w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4'>
           <Logout />

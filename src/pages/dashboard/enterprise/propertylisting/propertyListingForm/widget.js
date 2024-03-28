@@ -221,7 +221,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChange}
+                // onClick={handlePageChange}
                 justify-center
               >
                 <div
@@ -237,7 +237,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChangeTwo}
+                // onClick={handlePageChangeTwo}
               >
                 <div
                   className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -251,7 +251,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChangeThree}
+                // onClick={handlePageChangeThree}
               >
                 <div
                   className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -265,7 +265,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChangeFour}
+                // onClick={handlePageChangeFour}
               >
                 <div
                   className={`rounded-full w-[1px] h-[1px]  bg-BlueHomz p-1 text-[14px] font-[500] text-center`}

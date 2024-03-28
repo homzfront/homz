@@ -20,8 +20,7 @@ const Footer = () => {
               />
             </Link>
             <p className="mt-7 lg:max-w-[280px]">
-              Below are the list of the trusted agents that we currently have on
-              the platform.
+            Homz is your ultimate companion in real estate! We are all for creating seamless experiences for both landlords and tenants alike.
             </p>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
               <p className="mb-1">Follow Us</p>

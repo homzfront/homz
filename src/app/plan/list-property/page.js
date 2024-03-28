@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const ListProperty = () => {
   const [fullName, setFullName] = useState("");
@@ -119,8 +120,8 @@ const ListProperty = () => {
       <div className="max-w-[1156px] m-auto flex flex-col gap-[80px]">
         <div className="h-[29px] mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse sm:items-center p-7 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>
-          <div onClick={goBack} className="cursor-pointer">
-            <Image src={"/Link.png"} alt="img" height={24} width={132} />
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
           </div>
         </div>
         <div className="w-full h-[320px] m-auto">

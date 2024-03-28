@@ -9,7 +9,6 @@ import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterpri
 
 const PaymentHis = ({ tenantData }) => {
   const tenantId = tenantData?.data?._id
-  console.log(tenantId);
   const {
     data: paymentData,
     loading,

@@ -96,6 +96,7 @@ const ManageUsers = () => {
       });
 
       if (success) {
+        // console.log(upDateddata);
         setLoadingII(false);
         setOpenModal(!openModal);
         // toast.success(upDateddata);

@@ -8,6 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const TenantManagement = () => {
   const [formError, setFormError] = useState("");
@@ -123,8 +124,8 @@ const TenantManagement = () => {
             </p>
           </div>
 
-          <div onClick={goBack} className="cursor-pointer">
-            <Image src={"/Link.png"} alt="img" height={24} width={132} />
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
           </div>
         </div>
         <div className="w-full h-[320px] m-auto">

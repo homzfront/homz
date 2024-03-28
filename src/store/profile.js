@@ -29,8 +29,7 @@ const useProfileStore = create((set) => ({
   logout: async () => {
     try {
       await api.post('/auth/logout');
-      set({ user: null, isLoggedIn: false });
-      // Remove user data from localStorage upon logout (only in the browser environment)
+      set({ profile: null, isLoggedIn: false, loading: false });
       if (typeof window !== 'undefined') {
         localStorage.removeItem('email');
         localStorage.removeItem('user');

@@ -35,7 +35,7 @@ const Sidebar = () => {
   // Perform action if any request status is "pending"
   if (isAnyPending) {
     // Perform your action here
-    console.log("At least one request is pending", isAnyPending);
+    // console.log("At least one request is pending", isAnyPending);
   }
 
   const Data = [

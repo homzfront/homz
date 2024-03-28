@@ -9,6 +9,7 @@ import addYearsToValues from "@/utils/addYearsToNumber";
 import useClickOutside from "@/utils/clickOutside";
 import PopUpMenuTwo from "./popMenuToTenantProfile";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const TenantData = ({ data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -111,22 +112,20 @@ const TenantData = ({ data }) => {
                     <td className="flex items-center gap-1 pr-2  pl-4 text-GrayHomz4 font-[500] text-[11px]">
                       {data?.tenantId?.coverPhoto?.url === null ||
                         data?.tenantId?.coverPhoto?.url === undefined ? (
-                        <Image
-                          src={
-                            "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                          }
-                          alt=""
-                          width={30}
-                          height={30}
-                          className="py-[15px]"
-                        />
+                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                          <EmptyAvatar />
+                        </div>
                       ) : (
                         <Image
                           src={data?.tenantId?.coverPhoto?.url}
                           alt=""
-                          width={30}
-                          height={30}
-                          className="rounded-[100%] py-[15px]"
+                          width={40}
+                          height={40}
+                          layout="full" // Specify the desired height
+                          objectFit="cover"
+                          objectPosition="center"
+                          className="object-cover bg-center h-[40px] rounded-full"
+                          priority
                         />
                       )}
                       <span className="py-[15px]">{data?.tenantId?.fullName}</span>

@@ -18,6 +18,6 @@ export const VerifyBank = async (accountNo, BankName) => {
     });
     return { success: true, data: response?.data?.data };
   } catch (error) {
-    return { success: false, error: error?.response.data };
+    return { success: false, error: error?.response?.data };
   }
 }

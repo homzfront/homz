@@ -6,6 +6,7 @@ import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
 import { toast } from "react-toastify";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable.js";
 import StatusDropDownMain from "../components/statusDropDownMain.js";
+import EmptyAvatar from "@/components/icons/emptyAvatar.js";
 const Maintenance = ({ data }) => {
   const [loadingRows, setLoadingRows] = useState({});
 
@@ -73,7 +74,7 @@ const Maintenance = ({ data }) => {
       setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
     }
   };
-  
+
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
@@ -95,23 +96,22 @@ const Maintenance = ({ data }) => {
                 <tr key={data._id} className=" border-t-[1px] items-center">
                   <td className="pt-2 flex items-center gap-1  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                     {data?.user?.coverPhoto?.url === null ||
-                    data?.user?.coverPhoto?.url === undefined ? (
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                        }
-                        alt=""
-                        width={40}
-                        height={40}
-                        className=" rounded-full"
-                      />
+                      data?.user?.coverPhoto?.url === undefined ? (
+                      <div className="py-[15px] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                        <EmptyAvatar />
+                      </div>
                     ) : (
                       <Image
-                        src={data?.user?.coverPhoto?.url}
+                      src={data?.user?.coverPhoto?.url}
                         alt=""
                         width={40}
                         height={40}
-                        className=" rounded-[100%]"
+                        layout="full" // Specify the desired height
+                        objectFit="cover"
+                        objectPosition="center"
+                        className=" object-cover bg-center h-[40px] rounded-full"
+                        quality={100}
+                        priority
                       />
                     )}
                     <span className="">{data?.user?.fullName}</span>
@@ -123,16 +123,16 @@ const Maintenance = ({ data }) => {
                   <td
                     className={`text-GrayHomz py-[15px] pl-1  w-[25%] font-[500]  text-[11px]`}
                   >
-                      <StatusDropDownMain
-                        data={data}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id)
-                        }
-                        isOpen={openDropdowns[data._id] || false}
-                        toggleDropdown={() => toggleDropdown(data._id)}
-                        loading={loadingRows[data._id] || false}
-                      />
-                
+                    <StatusDropDownMain
+                      data={data}
+                      handleStatusChange={(status) =>
+                        handleStatusChange(status, data._id)
+                      }
+                      isOpen={openDropdowns[data._id] || false}
+                      toggleDropdown={() => toggleDropdown(data._id)}
+                      loading={loadingRows[data._id] || false}
+                    />
+
                   </td>
                 </tr>
               ))}

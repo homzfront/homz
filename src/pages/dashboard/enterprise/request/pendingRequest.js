@@ -6,6 +6,7 @@ import ConfirmModal from "../components/confirmModal";
 import { ConfirmTenantRequest } from "@/api/requestService";
 import Dropdown from "../components/dropDownFilter";
 import timeAgo from "@/utils/timeAgo";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const PendingRequest = ({
   popUpMenu,
@@ -99,23 +100,22 @@ const PendingRequest = ({
                     <div className="flex gap-4">
                       <div>
                         {data?.data.coverPhoto ? (
-                          <Image
-                            src={data?.data.coverPhoto.url}
-                            alt=""
-                            height={40}
-                            width={40}
-                            className="rounded-full"
-                          />
-                        ) : (
-                          <Image
-                            src={
-                              "/static/dashboard/enterprisemanager/request/AvatarEmpty.png"
-                            }
-                            alt=""
-                            height={40}
-                            width={40}
-                          />
-                        )}
+                         <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                         <EmptyAvatar />
+                       </div>
+                     ) : (
+                       <Image
+                         src={data?.data.coverPhoto.url}
+                         alt=""
+                         width={40}
+                         height={40}
+                         layout="full" // Specify the desired height
+                         objectFit="cover"
+                         objectPosition="center"
+                         className="object-cover bg-center h-[40px] rounded-full"
+                         priority
+                       />
+                     )}
                       </div>
                       <div>
                         <p className="text-[16px] font-[600] text-BlackHomz">

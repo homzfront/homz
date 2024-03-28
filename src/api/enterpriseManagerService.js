@@ -123,12 +123,12 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
     id
   } = details
   try {
-    const response = await api.post(`/wallet/enterprise/send/${id}/property-owner`,{
+    const response = await api.post(`/enterprisePlan/payment/send/${id}/property-owner`, {
       pincode,
       recipientName,
       amount,
       description
-  });
+    });
     return { success: true, upDateddata: response?.data?.data };
   } catch (error) {
     return { success: false, error: error?.response.data }; // Adjusted this line
@@ -143,7 +143,7 @@ export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
     });
     return { success: true, upDateddata: response };
   } catch (error) {
-   const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
     return { success: false, error: errorMessage };
   }
 };
@@ -223,3 +223,31 @@ export const enterprisePinCreation = async (password, rePassword) => {
     return { success: false, error: error?.response?.data?.message };
   }
 }
+
+
+export const enterpriseGetOtpPincode = async (password) => {
+  try {
+    const response = await api.post(`/wallet/pincode/otp/enterprise`, {
+      password,
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+
+export const enterpriseUpdatePincode = async (password, otp, pincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/update/enterprise`, {
+      password,
+      otp, 
+      pincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+

@@ -250,7 +250,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
                   onSelect={handleOptionSelect}
                   selectOption={`1 - ${duration} year${duration > 1 ? "s" : ""
                     }`}
-                  className={"w-full mt-2"}
+                  className={"w-full mt-2 pointer-events-none"}
                 />
               </div>
             </div>

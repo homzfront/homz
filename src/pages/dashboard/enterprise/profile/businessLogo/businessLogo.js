@@ -80,11 +80,14 @@ const BusinessLogo = ({ data }) => {
                 <div className="h-full w-full rounded-full">
                   <Image
                     src={URL.createObjectURL(uploadedImage)}
-                    height={100}
-                    width={100}
-                    className="object-cover h-full w-full rounded-full"
-                    alt="img"
-                    style={{ width: "auto", height: "auto" }}
+                    height={200}
+                    width={200}
+                    alt=""
+                    layout="full" // Specify the desired height
+                    objectFit="cover"
+                    objectPosition="center"
+                    className="object-cover bg-center h-[200px] rounded-full"
+                    priority
                   />
                 </div>
               ) : !data?.businessLogo?.url ? (
@@ -96,7 +99,7 @@ const BusinessLogo = ({ data }) => {
                       height={52}
                       width={52}
                       className="cursor-pointer"
-                      alt="img"
+                      alt=""
                       onClick={() => inputRef.current.click()}
                     />
                   </div>
@@ -107,16 +110,19 @@ const BusinessLogo = ({ data }) => {
                     src={data?.businessLogo?.url}
                     height={100}
                     width={100}
-                    className="object-cover h-full w-full rounded-full"
-                    alt="img"
-                    style={{ width: "auto", height: "auto" }}
+                    alt=""
+                    layout="full" // Specify the desired height
+                    objectFit="cover"
+                    objectPosition="center"
+                    className="object-cover bg-center h-[100px] rounded-full"
+                    priority
                   />
                   <Image
                     src={"/static/dashboard/enterprisemanager/estate/add.png"}
                     height={36}
                     width={36}
                     className="cursor-pointer"
-                    alt="img"
+                    alt=""
                     onClick={() => inputRef.current.click()}
                   />
                 </div>

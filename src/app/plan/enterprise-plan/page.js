@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import LoadingForm from "@/components/mainmenu/loadingForm";
 import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const EnterprisePlan = () => {
   const [formError, setFormError] = useState("");
@@ -123,8 +124,8 @@ const EnterprisePlan = () => {
               Register as a property manager to manage properties & tenants with our intuitive dashboard.
             </p>
           </div>
-          <div onClick={goBack} className="cursor-pointer">
-            <Image src={"/Link.png"} alt="img" height={24} width={132} />
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
           </div>
         </div>
         <div className="w-full h-[320px] m-auto">

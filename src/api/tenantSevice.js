@@ -243,6 +243,30 @@ export const tenantWallet = async () => {
   }
 };
 
+export const tenantGetOtpPincode = async (password) => {
+  try {
+    const response = await api.post(`/wallet/pincode/otp/tenant`, {
+      password,
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+export const tenantUpdatePincode = async (password, otp, pincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/update/tenant`, {
+      password,
+      otp, 
+      pincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
 export const payRent = async (pincode) => {
   try {
     const response = await api.post(`/rentPayment/tenant`, {

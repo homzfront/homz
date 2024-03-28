@@ -8,6 +8,7 @@ import SelectArea from "@/pages/selectStateAndArea/selectArea";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const ManageProperty = () => {
   const [formError, setFormError] = useState("");
@@ -115,8 +116,8 @@ const ManageProperty = () => {
               Register as a landlord to monitor your properties, tenants & rent payments in one place.
             </p>
           </div>
-          <div onClick={goBack} className="cursor-pointer">
-            <Image src={"/Link.png"} alt="img" height={24} width={132} />
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
           </div>
         </div>
         <div className="w-full h-[320px] m-auto">

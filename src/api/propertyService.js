@@ -251,6 +251,7 @@ export const propertyOwnerWallet = async () => {
   }
 };
 
+
 export const propertyOwnerWalletBalance = async () => {
   try {
     const response = await api.get(`/wallet/balance/property-owner`);
@@ -262,6 +263,29 @@ export const propertyOwnerWalletBalance = async () => {
   }
 };
 
+export const ownerGetOtpPincode = async (password) => {
+  try {
+    const response = await api.post(`/wallet/pincode/otp/property-owner`, {
+      password,
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+export const ownerUpdatePincode = async (password, otp, pincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/update/property-owner`, {
+      password,
+      otp, 
+      pincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
 
 export const propertyOwnerStatistics = async () => {
   try {

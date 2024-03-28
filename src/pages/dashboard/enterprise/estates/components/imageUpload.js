@@ -21,13 +21,16 @@ const ImageUpload = ({ uploadedImage, handleImageUpload, onImageRemove, file }) 
       >
         {uploadedImage ? (
           <Image
-            src={URL?.createObjectURL(uploadedImage
-        )} 
-            height={100}
-            width={100}
-            className="object-cover"
-            alt="img"
-            style={{ width: "auto", height: "auto" }}
+          src={URL?.createObjectURL(uploadedImage)}
+          height={196}
+          width={196}
+          alt=""
+          layout="fixed" // Specify the desired height
+          objectFit="cover"
+          objectPosition="center"
+          className="object-cover bg-center h-[196px] rounded-[8px]"
+          quality={100}
+          priority
           />
         ) : (
             <Image
@@ -35,7 +38,7 @@ const ImageUpload = ({ uploadedImage, handleImageUpload, onImageRemove, file }) 
             height={72}
             width={72}
             className="mb-2 cursor-pointer"
-            alt="img"
+            alt=""
             onClick={() => inputRef.current.click()}
           />
         )}

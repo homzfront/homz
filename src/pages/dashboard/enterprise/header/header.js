@@ -13,6 +13,8 @@ import TrialWarning from "./components/trialWarning";
 import calculateDaysLeft from "@/utils/trailEndDays";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useHeaderStore from "@/store/useHeaderStore";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
+import Notification from "@/components/icons/notification";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -106,14 +108,7 @@ const Header = () => {
         </div>
         <div className="flex gap-4 items-center relative">
           <div onClick={handleToggleMenuTwo} className={`cursor-pointer relative ${user?.trialEndDate && user?.PlanStatus !== "paid" ? "" : "hidden"}`}>
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/header/notification.png"
-              }
-              alt=""
-              height={25}
-              width={24}
-            />
+            <Notification />
             <p
               className={`absolute top-0 right-[2px] ${user?.trialEndDate ? "bg-error" : "bg-transparent"
                 } h-2 w-2 rounded-full`}
@@ -121,22 +116,21 @@ const Header = () => {
           </div>
           <div ref={dropdownRef} onClick={handleToggleMenu} className="relative cursor-pointer">
             {!user?.businessLogo?.url ? (
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                }
-                alt=""
-                width={40}
-                height={40}
-                className=""
-              />
+              <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                <EmptyAvatar />
+              </div>
             ) : (
               <Image
                 src={user?.businessLogo?.url}
                 alt=""
                 height={40}
                 width={40}
-                className="rounded-full"
+                layout="full" // Specify the desired height
+                objectFit="cover"
+                objectPosition="center"
+                className="object-cover bg-center h-[40px] rounded-full"
+                quality={100}
+                priority
               />
             )}
             {popUpMenu && <PopUpMenu user={user} />}

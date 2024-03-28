@@ -212,6 +212,8 @@ const RentInfo = ({ profile, rentInformation }) => {
     return `${year}-${month}-${day}`;
   }
 
+  // console.log(data?.upDateddata);
+
   return (
     <div>
       <div className="h-[430px]">
@@ -313,7 +315,7 @@ const RentInfo = ({ profile, rentInformation }) => {
         </div>
 
         <div className="mt-6">
-          {showUpdate || data.length >=1 ? (
+          {showUpdate || data?.upDateddata?.rent ? (
             <button
               onClick={handleConfirm}
               className={` ${loading ? "pointer-events-none" : ""

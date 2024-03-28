@@ -1,4 +1,5 @@
 "use client";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
@@ -8,7 +9,7 @@ import React, { useEffect, useState } from "react";
 
 
 
-const Table = ({tenantData}) => {
+const Table = ({ tenantData }) => {
   const tenantId = tenantData?.data?._id
   const {
     data,
@@ -20,8 +21,8 @@ const Table = ({tenantData}) => {
     fetchData()
   }, [])
 
-  const filteredData = data?.filter ((data)=> {
-   return tenantId === data?.tenantId?._id 
+  const filteredData = data?.filter((data) => {
+    return tenantId === data?.tenantId?._id
   })
 
   const ITEMS_PER_PAGE = 4;
@@ -73,22 +74,21 @@ const Table = ({tenantData}) => {
                   <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                     {data?.tenantId?.coverPhoto?.url === null ||
                       data?.tenantId?.coverPhoto?.url === undefined ? (
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                        }
-                        alt=""
-                        width={30}
-                        height={30}
-                        className="py-[15px]"
-                      />
+                      <div className="py-[15px] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                        <EmptyAvatar />
+                      </div>
                     ) : (
                       <Image
                         src={data?.tenantId?.coverPhoto?.url}
                         alt=""
-                        width={30}
-                        height={30}
-                        className="rounded-[100%] py-[15px]"
+                        width={40}
+                        height={40}
+                        layout="full" // Specify the desired height
+                        objectFit="cover"
+                        objectPosition="center"
+                        className=" object-cover bg-center h-[40px] rounded-full"
+                        quality={100}
+                        priority
                       />
                     )}
                     <span className="py-[15px]">     {changeBackendDateFormat(data?.paymentDate)}</span>
@@ -107,8 +107,8 @@ const Table = ({tenantData}) => {
                   >
                     <span
                       className={`p-[6px] rounded-md text-center  ${data?.rentInfo?.paymentStatus === "pending"
-                          ? "bg-warningBg text-warning2 px-[13px]"
-                          : ""
+                        ? "bg-warningBg text-warning2 px-[13px]"
+                        : ""
                         } ${data?.rentInfo?.paymentStatus === "paid"
                           ? "bg-Success text-warningBg"
                           : ""

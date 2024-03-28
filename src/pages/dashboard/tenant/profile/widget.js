@@ -4,6 +4,7 @@ import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
 import RentInformation from "./rentInformation/rentInformation.js";
+import AccountInfo from "./accountInfo/accountInfo.js";
 
 
 const Widget = ({ data }) => {
@@ -11,14 +12,17 @@ const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(false); // State for the fourth page
+  const [activeFour, setActiveFour] = useState(false); 
+  const [activeFive, setActiveFive] = useState(false); 
+
 
   const handlePageChange = (e) => {
     e.preventDefault()
     setActive(false);
     setActiveTwo(false);
     setActiveThree(false);
-    setActiveFour(false); // Reset the state for the fourth page
+    setActiveFour(false);
+    setActiveFive(false); 
   };
 
   const handlePageChangeTwo = (e) => {
@@ -26,7 +30,8 @@ const Widget = ({ data }) => {
     setActiveTwo(true);
     setActive(true);
     setActiveThree(false);
-    setActiveFour(false); // Reset the state for the fourth page
+    setActiveFour(false);
+    setActiveFive(false);
   };
 
   const handlePageChangeThree = (e) => {
@@ -34,7 +39,8 @@ const Widget = ({ data }) => {
     setActiveThree(true);
     setActiveTwo(false);
     setActive(true);
-    setActiveFour(false); // Reset the state for the fourth page
+    setActiveFour(false);
+    setActiveFive(false); 
   };
 
   const handlePageChangeFour = (e) => {
@@ -43,12 +49,23 @@ const Widget = ({ data }) => {
     setActiveThree(false);
     setActiveTwo(false);
     setActive(true);
+    setActiveFive(false);
   };
+
+  const handlePageChangeFive = (e) => {
+    e.preventDefault()
+    setActiveFour(false);
+    setActiveThree(false);
+    setActiveTwo(false);
+    setActive(true);
+    setActiveFive(true);
+  };
+
 
   return (
     <div>
       <div className="w-full h-auto py-4">
-        <div className=" flex mt-5 gap-4 justify-between w-[650px] cursor-pointer">
+        <div className=" flex mt-5 gap-4 justify-between w-[900px] cursor-pointer">
           <div
             className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
               !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
@@ -86,6 +103,16 @@ const Widget = ({ data }) => {
               }`}
               onClick={(e) => handlePageChangeFour(e)}
             >
+              <p className="text-[14px] font-500">Account Information</p>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-2 justify-center">
+            <div
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
+                activeFive ? "bg-BlueHomz text-white" : "text-BlackHomz "
+              }`}
+              onClick={(e) => handlePageChangeFive(e)}
+            >
               <p className="text-[14px] font-500">Change Password</p>
             </div>
           </div>
@@ -102,6 +129,9 @@ const Widget = ({ data }) => {
             <ProfilePicture data={data} />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
+            <AccountInfo />
+          </div>
+          <div className={`${activeFive ? "inline" : "hidden"}`}>
             <ChangePassword />
           </div>
         </div>
