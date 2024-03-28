@@ -51,7 +51,7 @@ const Tenants = ({rentData, rentLoading, fetchRentData}) => {
         />
       </div>
       <div className="mt-6">
-        <TenantData data={rentData} fetchRentData={fetchRentData} loading={rentLoading}/>
+        <TenantData data={rentData} RevData={fetchData} fetchRentData={fetchRentData} loading={rentLoading}/>
       </div>
     </div>
   )
