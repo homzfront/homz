@@ -27,7 +27,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
   const closeConfirm = () => {
     try {
       fetchData();
-    } catch (error) {}
+    } catch (error) { }
 
     setConfirm(false);
     setOpenAccept(false);
@@ -143,12 +143,22 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
             type="date"
           />
         </div> */}
-        <button
-          onClick={accept}
-          className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]"
-        >
-          Send Request
-        </button>
+        {
+          subject ?
+            <button
+              onClick={accept}
+              className="mt-2 w-[130px] bg-BlueHomz text-white h-[45px] rounded-[4px]"
+            >
+              Send Request
+            </button>
+            :
+            <button
+              onClick={accept}
+              className="mt-2 w-[130px] bg-GrayHomz6 text-GrayHomz5 h-[45px] rounded-[4px] pointer-events-none"
+            >
+              Send Request
+            </button>
+        }
       </div>
     </div>
   );

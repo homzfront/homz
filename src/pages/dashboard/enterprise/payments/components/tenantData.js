@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 
-const TenantData = ({ data, loading, fetchRentData }) => {
+const TenantData = ({ data, RevData, fetchRentData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -68,6 +68,7 @@ const TenantData = ({ data, loading, fetchRentData }) => {
       toast.success("status updated successfully");
       // Close the corresponding dropdown
       fetchRentData()
+      RevData()
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
       toast.error(error);
