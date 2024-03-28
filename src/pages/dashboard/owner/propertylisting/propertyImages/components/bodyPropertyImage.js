@@ -1,4 +1,5 @@
 "use client";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Image from "next/image";
 import React, { useState } from "react";
 
