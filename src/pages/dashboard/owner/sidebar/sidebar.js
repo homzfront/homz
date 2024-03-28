@@ -95,13 +95,13 @@ const Sidebar = () => {
   ];
 
   const Data3 = [
-    // {
-    //   id: 1,
-    //   image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-    //   image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-    //   link: "/switch-profile",
-    //   name: "Switch",
-    // },
+    {
+      id: 1,
+      image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      link: "/switch-profile",
+      name: "Switch",
+    },
   ];
 
   const { logout } = useProfileStore();
@@ -148,8 +148,6 @@ const Sidebar = () => {
 
   // useEffect to handle scrolling
   useBodyScroll([logoutModal]);
-
-  console.log(pathname);
 
   return (
     <div className="sidebar">

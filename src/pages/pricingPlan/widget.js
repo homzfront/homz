@@ -4,8 +4,6 @@ import PlansMonthly from "./components/plansMonthly.js";
 import PlansYearly from "./components/plansYearly.js";
 
 
-
-
 const Widget = ({ data, profile }) => {
 
   const pages = [
@@ -13,17 +11,11 @@ const Widget = ({ data, profile }) => {
     { id: 2, name: "Pay Yearly", component: <PlansYearly /> },
   ];
 
-
   const [active, setActive] = useState(pages[0].id);
-
-
-  console.log(data)
-
 
   const handlePageChange = (id) => {
     setActive(id);
   };
-
 
   return (
     <div>

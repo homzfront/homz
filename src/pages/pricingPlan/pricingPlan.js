@@ -18,7 +18,6 @@ const PricingPlan = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedData = localStorage.getItem('enterData');
-      console.log(storedData);
       setData(JSON.parse(storedData));
     }
   }, []);
@@ -28,9 +27,6 @@ const PricingPlan = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  
-  console.log(profile);
-  console.log(data);
 
   return (
     <div className="max-w-[1440px] w-full px-8 py-4 m-auto">

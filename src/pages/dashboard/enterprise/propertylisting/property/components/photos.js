@@ -26,8 +26,6 @@ const Photos = ({ data }) => {
     }
   }, [data]);
 
-  console.log(uploadedImageCoverPhoto);
-
   const handleImageUpload = (imageKey, file) => {
     switch (imageKey) {
       case "uploadedImage":
@@ -77,9 +75,6 @@ const Photos = ({ data }) => {
         break;
     }
   };
-
-  console.log(data);
-  console.log(data?.photos?.[0].publicId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -155,15 +150,14 @@ const Photos = ({ data }) => {
       // Handle responses
       responses.forEach(({ success, updatedImage, error }, index) => {
         if (success) {
-          console.log(`Image ${index + 1} successfully updated`, updatedImage);
+          // console.log(`Image ${index + 1} successfully updated`, updatedImage);
           toast.success(`Update ${index + 1} successful`);
         } else {
-          console.error(`Update ${index + 1} failed`, error);
+          // console.error(`Update ${index + 1} failed`, error);
           toast.error(`Update ${index + 1} failed: ${error}`);
         }
       });
     } catch (error) {
-      console.error("Update error", error);
       toast.error("Update failed");
     } finally {
       setLoading(false); // Set loading to false after all updates are attempted

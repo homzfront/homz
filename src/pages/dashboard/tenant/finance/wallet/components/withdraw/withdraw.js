@@ -4,7 +4,6 @@ import Input from "../../../components/input";
 import BankForm from "../../../components/bankForm";
 
 const Withdraw = ({ illuminateWallet }) => {
-  console.log(illuminateWallet);
   const [bankDetails, setBankDetails] = useState([]);
   const [fillBankDetails, setFillBankDetails] = useState(false);
   // useEffect to handle scrolling
@@ -22,10 +21,11 @@ const Withdraw = ({ illuminateWallet }) => {
   const handleAddBankDetails = () => {
     setFillBankDetails(!fillBankDetails);
   };
-  console.log(bankDetails);
+
   const closeMenu = () => {
     setFillBankDetails(false);
   };
+  
   return (
     <div className={`p-5 border rounded-[12px] flex flex-col gap-4 w-[full] h-[370px] ${illuminateWallet ? "bg-withdrawBg" : "bg-white"}  `}>
       <div className="flex gap-1 items-center">

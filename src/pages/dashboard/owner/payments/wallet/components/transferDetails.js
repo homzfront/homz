@@ -12,7 +12,6 @@ import ShareAbleReceipt from "../../components/shareAbleReceipt";
 import useBodyScroll from "@/utils/useBodyScroll";
 
 const TransferDetails = ({ illuminateWallet }) => {
-  console.log(illuminateWallet);
   const [accountNumber, setAccountNumber] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [amount, setAmount] = useState("");
@@ -63,7 +62,6 @@ const TransferDetails = ({ illuminateWallet }) => {
       selectedBank,
     };
 
-    console.log("Form Data:", formData);
     setTransfer(formData);
     setDescription("");
     setAccountNumber("");
@@ -76,8 +74,6 @@ const TransferDetails = ({ illuminateWallet }) => {
   };
 
   const receiptRef = useRef(null);
-
-  console.log(transfer);
 
   const openShareAbleReceipt = () => {
     setShareAbleReceipt((prevShareAbleReceipt) => {
@@ -95,12 +91,6 @@ const TransferDetails = ({ illuminateWallet }) => {
   const closeShareAbleReceipt = () => {
     setShareAbleReceipt(false);
   };
-
-  console.log(accountNumber);
-  console.log(amount);
-  console.log(description);
-  console.log(recipientName);
-  console.log(selectedBank);
 
   return (
     <div>

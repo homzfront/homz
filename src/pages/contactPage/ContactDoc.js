@@ -7,7 +7,13 @@ import api from "@/utils/api";
 import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';   
+import 'react-toastify/dist/ReactToastify.css';
+import LinkedIn from "@/components/icons/linkedIn";
+import Twitter from "@/components/icons/twitter";
+import Facebook from "@/components/icons/facebook";
+import Insta from "@/components/icons/insta";
+import Message from "@/components/icons/message";
+import Phone from "@/components/icons/phone";
 
 const ContactDoc = () => {
   const options = [
@@ -39,7 +45,6 @@ const ContactDoc = () => {
         2000
       ); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
     }
   };
 
@@ -71,8 +76,6 @@ const ContactDoc = () => {
       });
 
       if (response.data.statuscode === 201) {
-        console.log("Form submitted successfully:", response.data);
-      
         // Clear form fields or reset form state
         setName("");
         setEmail("");
@@ -87,13 +90,11 @@ const ContactDoc = () => {
       } else {
         // Handle unexpected status codes
         const errorw = response.data.message;
-        console.log("Unexpected status code:", errorw);
         setFormError(errorw);
         setLoading(false);
         toast.error("Failed to send message.")
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       setLoading(false);
       toast.error("failed to send message")
     }
@@ -106,8 +107,8 @@ const ContactDoc = () => {
 
   return (
     <div className="flex w-full mt-20 justify-center">
-      
-     <ToastContainer
+
+      <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -120,7 +121,7 @@ const ContactDoc = () => {
         pauseOnHover
         theme="dark"
       />
- 
+
       {loading && <Loading />}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
         <div className="max-w-[420px] gap-6 pt-4 flex flex-col">
@@ -132,13 +133,10 @@ const ContactDoc = () => {
             and our team will get back to you.
           </p>
           <div className="hidden mt-8 sm:flex gap-8">
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/call.png"}
-                height={24}
-                width={24}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Phone />
+              </div>
             </div>
             <div className="flex gap-5 flex-col">
               <div className="hidden  sm:flex gap-2">
@@ -188,8 +186,10 @@ const ContactDoc = () => {
             </div>
           </div>
           <div className="hidden mt-1 sm:flex gap-8">
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image src={"/sms.png"} height={24} width={24} alt={`call-img`} />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Message />
+              </div>
             </div>
             <div className="hidden sm:flex gap-2">
               <p className="text-[20px] font-[500] underline text-GrayHomz ">
@@ -215,37 +215,25 @@ const ContactDoc = () => {
             </div>
           </div>
           <div className="hidden sm:flex mt-3 gap-5">
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_insta.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Insta />
+              </div>
             </div>
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_facebook.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Facebook />
+              </div>
             </div>
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_twitter.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Twitter />
+              </div>
             </div>
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_Linkedin.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <LinkedIn />
+              </div>
             </div>
             <div className="flex gap-1">
               <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
@@ -276,19 +264,17 @@ const ContactDoc = () => {
             </label>
             <div className="relative inline-block">
               <div
-                className={`text-BlackHomz px-4 h-[45px]  border text-[16px] max-w-[780px] font-[500] mb-1 p-2 rounded cursor-pointer  ${
-                  isDropdownOpen ? "border" : ""
-                }`}
+                className={`text-BlackHomz px-4 h-[45px]  border text-[16px] max-w-[780px] font-[500] mb-1 p-2 rounded cursor-pointer  ${isDropdownOpen ? "border" : ""
+                  }`}
                 onClick={() => setDropdownOpen(!isDropdownOpen)}
               >
                 <div className="flex justify-between  items-center">
                   <span className="mr-2">{formData.document_options}</span>
                   <svg
-                    className={`w-5 h-5 ${
-                      isDropdownOpen
-                        ? "transform rotate-180 transition duration-300 ease-in-out"
-                        : ""
-                    }`}
+                    className={`w-5 h-5 ${isDropdownOpen
+                      ? "transform rotate-180 transition duration-300 ease-in-out"
+                      : ""
+                      }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

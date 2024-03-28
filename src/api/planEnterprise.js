@@ -25,10 +25,8 @@ export const planEnterPriseSub = async (planDetails) => {
       planName,
       interval,
     });
-    console.log(response);
     return { success: true, updatedData: response }; // Corrected typo 'upDateddata' to 'updatedData'
   } catch (error) {
-    console.error("Update error", error.response?.data?.error);
     const errors = error.response?.data?.error
     // Handle "you have already created a enterprise Plan account" error
     if (errors === 'you  have already created a enterprise Plan  account') {
@@ -43,7 +41,6 @@ export const planEnterPriseSub = async (planDetails) => {
 
 
 export const updateEnterPriseSub = async (planNames) => {
-  console.log(planNames);
   const {
     planName,
     interval
@@ -53,10 +50,8 @@ export const updateEnterPriseSub = async (planNames) => {
       planName,
       interval,
     });
-    console.log(response);
     return { success: true, updatedData: response }; // Corrected typo 'upDateddata' to 'updatedData'
   } catch (error) {
-    console.error("Update error", error.response?.data?.error);
     const errors = error.response?.data?.error
     // Handle "you have already created a enterprise Plan account" error
     if (errors === 'you  have already created a enterprise Plan  account') {

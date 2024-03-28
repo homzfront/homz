@@ -13,7 +13,7 @@ const useRentPaymentOwnerStore = create((set) => ({
           set({ loading: false }); // Stop loading even if there's an error
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
         set({ loading: false }); // Stop loading if there's an error
       }
     },

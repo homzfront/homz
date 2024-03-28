@@ -33,7 +33,6 @@ const RentSavings = () => {
     openEditModalToSave
   );
 
-  console.log(data);
   const datas = data[0].Data;
 
   // useEffect to store data from localStorage when the component mounts
@@ -132,7 +131,7 @@ const RentSavings = () => {
                   parseInt(dataItem.amountToSave) -
                   parseInt(newAmountToSave);
 
-                console.log(newWalletBalance);
+                // console.log(newWalletBalance);
 
                 // Deduct amountToSave from the wallet balance
                 setData((prevData) => [
@@ -158,8 +157,6 @@ const RentSavings = () => {
       return updatedData;
     });
   };
-
-  console.log(selectedSavings);
 
   const openSavings = (data) => {
     setViewSavings(!viewSavings);

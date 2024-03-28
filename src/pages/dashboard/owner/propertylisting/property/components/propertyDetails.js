@@ -39,16 +39,6 @@ const PropertyDetails = ({ data }) => {
   const [description, setDescription] = useState(data?.description);
   const [numberOfToilets, setNumberOfToilets] = useState(data?.numberOfToilets);
 
-  console.log(name);
-  console.log(address);
-  console.log(description);
-  console.log(selectedState?.label);
-  console.log(selectedArea?.label);
-  console.log(parseInt(numberOfRooms?.label));
-  console.log(parseInt(numberOfBathrooms?.label));
-  console.log(propertyType?.label);
-  console.log(numberOfToilets?.label)
-
   const options = [
     { id: 1, label: "Boys Quarters" },
     { id: 2, label: "Mini-flat" },
@@ -63,28 +53,6 @@ const PropertyDetails = ({ data }) => {
     { id: 11, label: "Semi-Detached Duplex" },
     { id: 12, label: "Terraced Duplex" },
   ];
-
-  // const optionsTwo = [
-  //   { id: 1, label: "Ajah" },
-  //   { id: 2, label: "Lekki" },
-  //   { id: 3, label: "Ikotun" },
-  //   { id: 4, label: "Adolor" },
-  //   { id: 5, label: "Challenge" },
-  //   { id: 6, label: "Ekaite" },
-  //   { id: 7, label: "Musa" },
-  //   { id: 8, label: "Jalingo" },
-  // ];
-
-  // const optionsThree = [
-  //   { id: 1, label: "Lagos" },
-  //   { id: 2, label: "Oyo" },
-  //   { id: 3, label: "Calabar" },
-  //   { id: 4, label: "Edo" },
-  //   { id: 5, label: "Kwara" },
-  //   { id: 6, label: "Kano" },
-  //   { id: 7, label: "Abuja" },
-  //   { id: 8, label: "Ondo" },
-  // ];
 
   const optionsFour = [
     { id: 1, label: 1 },
@@ -113,46 +81,29 @@ const PropertyDetails = ({ data }) => {
     { id: 6, label: 6 },
   ];
 
-  // const handleSelectArea = (option) => {
-  //   // Handle the selected value as needed
-  //   console.log("Selected Option:", option);
-  //   setSelectedArea(option);
-  // };
-
-  // const handleSelectState = (option) => {
-  //   // Handle the selected value as needed
-  //   console.log("Selected Option:", option);
-  //   setSelectedState(option);
-  // };
-
   const handleSelectPropertyType = (option) => {
     // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setPropertyType(option);
   };
 
   const handleSelectNumberOfRooms = (option) => {
     // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setNumberOfRooms(option);
   };
 
   const handleSelectNumberOfBathrooms = (option) => {
     // Handle the selected value as needed
-    console.log("Selected Option:", option);
     setNumberOfBathrooms(option);
   };
 
-  const  handleSelectNumberOfToilets = (option) => {
-        // Handle the selected value as needed
-        console.log("Selected Option:", option);
-        setNumberOfToilets(option);
+  const handleSelectNumberOfToilets = (option) => {
+    // Handle the selected value as needed
+    setNumberOfToilets(option);
   }
 
   const updateDone = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
-
     setLoading(true); // Set loading to true when submitting the form
 
     try {
@@ -172,27 +123,22 @@ const PropertyDetails = ({ data }) => {
         updatedData
       );
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");
@@ -208,126 +154,126 @@ const PropertyDetails = ({ data }) => {
         <LoadingII />
       ) : (
         <div>
-        <div className="flex justify-between items-start">
-          <div className="flex flex-col justify-between gap-4 w-[47%]">
-            <div className="">
-              <Input
-                label={"Name"}
-                placeholder={"Property Name"}
-                type={"text"}
-                span={"*"}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                Property Type <span className="text-error">*</span>
+          <div className="flex justify-between items-start">
+            <div className="flex flex-col justify-between gap-4 w-[47%]">
+              <div className="">
+                <Input
+                  label={"Name"}
+                  placeholder={"Property Name"}
+                  type={"text"}
+                  span={"*"}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
-              <div className="flex flex-col justify-between ">
-                <div>
-                  <DropDown
-                    options={options}
-                    onSelect={handleSelectPropertyType}
+              <div>
+                <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+                  Property Type <span className="text-error">*</span>
+                </div>
+                <div className="flex flex-col justify-between ">
+                  <div>
+                    <DropDown
+                      options={options}
+                      onSelect={handleSelectPropertyType}
 
-                    selectOption={`${data?.propertyType === undefined
+                      selectOption={`${data?.propertyType === undefined
                         ? "select property type"
                         : ` ${data?.propertyType}`
+                        }`}
+                      className={"w-full"}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+                  Property Location <span className="text-error">*</span>
+                </div>
+                <div className="flex gap-4 w-full">
+                  <div className="w-full">
+                    <SelectState selectedState={selectedState} setSelectedState={setSelectedState} placeholder={data?.state} />
+                  </div>
+                  <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
+                    <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} placeholder={data?.area} />
+                  </div>
+                </div>
+              </div>
+              <div className="">
+                <Input
+                  label={"Street"}
+                  placeholder={"Enter street name"}
+                  type={"text"}
+                  span={"*"}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+              <div>
+                <div className="">
+                  <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+                    Rooms <span className="text-error">*</span>
+                  </div>
+                  <DropDown
+                    options={optionsFour}
+                    onSelect={handleSelectNumberOfRooms}
+                    selectOption={`${data?.numberOfRooms === undefined
+                      ? "Select No of Rooms"
+                      : ` ${data?.numberOfRooms}`
                       }`}
                     className={"w-full"}
                   />
                 </div>
               </div>
             </div>
-            <div>
-              <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                Property Location <span className="text-error">*</span>
-              </div>
-              <div className="flex gap-4 w-full">
-                <div className="w-full">
-                  <SelectState selectedState={selectedState} setSelectedState={setSelectedState} placeholder={data?.state} />
-                </div>
-                <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
-                  <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} placeholder={data?.area} />
-                </div>
-              </div>
-            </div>
-            <div className="">
-              <Input
-                label={"Street"}
-                placeholder={"Enter street name"}
-                type={"text"}
-                span={"*"}
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </div>
-            <div>
-              <div className="">
+            <div className="flex flex-col gap-4  w-[47%]">
+              <div>
                 <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                  Rooms <span className="text-error">*</span>
+                  Bathrooms{" "}
+                  <span className="text-error">*</span>
                 </div>
                 <DropDown
-                  options={optionsFour}
-                  onSelect={handleSelectNumberOfRooms}
-                  selectOption={`${data?.numberOfRooms === undefined
-                      ? "Select No of Rooms"
-                      : ` ${data?.numberOfRooms}`
+                  options={optionsFive}
+                  onSelect={handleSelectNumberOfBathrooms}
+                  selectOption={`${data?.numberOfBathrooms === undefined
+                    ? "Select No of Bathrooms"
+                    : ` ${data?.numberOfBathrooms}`
                     }`}
                   className={"w-full"}
                 />
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4  w-[47%]">
-            <div>
-              <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                Bathrooms{" "}
-                <span className="text-error">*</span>
-              </div>
-              <DropDown
-                options={optionsFive}
-                onSelect={handleSelectNumberOfBathrooms}
-                selectOption={`${data?.numberOfBathrooms === undefined
-                    ? "Select No of Bathrooms"
-                    : ` ${data?.numberOfBathrooms}`
-                  }`}
-                className={"w-full"}
-              />
-            </div>
-            <div>
-              <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
-                Toilets <span className="text-error">*</span>
-              </div>
-              <DropDown
-                options={optionsSix}
-                onSelect={handleSelectNumberOfToilets}
-                // selectOption={"Total Numbers of Toilets"}
-                selectOption={`${data?.numberOfToilets === undefined
+              <div>
+                <div className="pb-2 text-[14px] font-[500] text-BlackHomz">
+                  Toilets <span className="text-error">*</span>
+                </div>
+                <DropDown
+                  options={optionsSix}
+                  onSelect={handleSelectNumberOfToilets}
+                  // selectOption={"Total Numbers of Toilets"}
+                  selectOption={`${data?.numberOfToilets === undefined
                     ? "Total Numbers of Toilets"
                     : ` ${data?.numberOfToilets}`
-                  }`}
-                className={"w-full"}
-              />
-            </div>
-            <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
-              <div>
-                <label className="text-[14px] font-[500] text-BlackHomz ">
-                  Property Description <span className="text-error">*</span>
-                </label>
-                <p className="text-[13px] font-[400] text-GrayHomz ">
-                  Give short description of your property.
-                </p>
+                    }`}
+                  className={"w-full"}
+                />
               </div>
-              <textarea
-                className="mt-1 h-[203px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
-                placeholder="Property Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
+              <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
+                <div>
+                  <label className="text-[14px] font-[500] text-BlackHomz ">
+                    Property Description <span className="text-error">*</span>
+                  </label>
+                  <p className="text-[13px] font-[400] text-GrayHomz ">
+                    Give short description of your property.
+                  </p>
+                </div>
+                <textarea
+                  className="mt-1 h-[203px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+                  placeholder="Property Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+              </div>
             </div>
           </div>
-        </div>
 
           <div className="mt-[20%] flex justify-end">
             <button

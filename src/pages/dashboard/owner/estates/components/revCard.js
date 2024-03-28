@@ -60,10 +60,6 @@ const RevCard = ({ id }) => {
     cutout: "55%", // Adjust the cutout to control the size of the inner circle
   };
 
-
-  console.log(revData)
-
-
   return (
     <div className="border w-[120%] rounded-[12px] ">
       <div className="flex justify-between items-center px-6 pt-6 pb-3">

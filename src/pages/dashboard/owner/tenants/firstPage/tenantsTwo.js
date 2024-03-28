@@ -7,6 +7,7 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import useClickOutside from "@/utils/clickOutside";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const TenantsTwo = ({ data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -73,24 +74,22 @@ const TenantsTwo = ({ data }) => {
                 {/* Apply the same styles as the header to each column in the body */}
                 <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
                 {!data?.coverPhoto?.url ? (
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                      }
-                      alt=""
-                      width={30}
-                      height={30}
-                      className=""
-                    />
-                  ) : (
-                    <Image
-                      src={data?.coverPhoto?.url}
-                      alt=""
-                      width={30}
-                      height={30}
-                      className="rounded-[100%]"
-                    />
-                  )}
+                    <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                    <EmptyAvatar />
+                  </div>
+                ) : (
+                  <Image
+                    src={data?.coverPhoto?.url}
+                    alt=""
+                    width={40}
+                    height={40}
+                    layout="full" // Specify the desired height
+                    objectFit="cover"
+                    objectPosition="center"
+                    className="object-cover bg-center h-[40px] rounded-full"
+                    priority
+                  />
+                )}
                   <span className="">{data?.fullName}</span>
                 </div>
                 <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">

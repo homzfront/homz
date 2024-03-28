@@ -12,11 +12,9 @@ import lowerCaseData from "@/utils/lowerCaseData";
 import { updatePaymentStatusTenant } from "@/api/tenantSevice";
 import { toast } from "react-toastify";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const TenantData = ({ data, loading, fetchRentData }) => {
-
-  console.log(data)
-
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -63,18 +61,15 @@ const TenantData = ({ data, loading, fetchRentData }) => {
 
     try {
       // Handle status change logic here
-      console.log(`Changing status to: ${status} for data with ID: ${id}`);
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
       });
-      console.log(data);
       toast.success("status updated successfully");
       // Close the corresponding dropdown
       fetchRentData()
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
-      console.log(error);
       toast.error(error);
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     }
@@ -86,8 +81,6 @@ const TenantData = ({ data, loading, fetchRentData }) => {
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
-
-
 
   return (
     <div className="mt-6">
@@ -117,22 +110,20 @@ const TenantData = ({ data, loading, fetchRentData }) => {
                     <td className="flex items-center gap-1 pr-2  pl-4 text-GrayHomz4 font-[500] text-[11px]">
                       {data?.tenantId?.coverPhoto?.url === null ||
                         data?.tenantId?.coverPhoto?.url === undefined ? (
-                        <Image
-                          src={
-                            "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                          }
-                          alt=""
-                          width={30}
-                          height={30}
-                          className="py-[15px]"
-                        />
+                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                          <EmptyAvatar />
+                        </div>
                       ) : (
                         <Image
                           src={data?.tenantId?.coverPhoto?.url}
                           alt=""
-                          width={30}
-                          height={30}
-                          className="rounded-[100%] py-[15px]"
+                          width={40}
+                          height={40}
+                          layout="full" // Specify the desired height
+                          objectFit="cover"
+                          objectPosition="center"
+                          className="object-cover bg-center h-[40px] rounded-full"
+                          priority
                         />
                       )}
                       <span className="py-[15px]">{data?.tenantId?.fullName}</span>

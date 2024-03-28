@@ -6,18 +6,18 @@ const useMaintenanceTenantOfAnEstate = create((set) => ({
     data: [],
     loading: true,
     fetchData: async (id) => {
-        console.log(id)
+        // console.log(id)
         if (id === undefined) {
             return
         } else {
             try {
                 const response = await maintenanceRequestForATenantEnterprise(id);
-                console.log(response)
+                // console.log(response)
                 const estate = await response.data.results;
                 set({ data: estate, loading: false });
             } catch (error) {
                 set({ loading: false });
-                console.error('Error fetching estate data:', error);
+                // console.error('Error fetching estate data:', error);
             }
         }
 

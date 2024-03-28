@@ -14,8 +14,6 @@ const Maintenance = () => {
     fetchData();
   }, []);
 
-  console.log(data);
-
   return (
     <div className="rounded-[12px] border w-full sm:w-[56%] h-[315px] overflow-auto scrollbar-container ">
       <div className="flex justify-between items-center px-6 p-5">

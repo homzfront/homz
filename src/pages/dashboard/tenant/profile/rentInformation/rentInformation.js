@@ -1,8 +1,6 @@
 import React from "react";
 
 const RentInformation = ({ data }) => {
-  console.log(data);
-
   function addYearsToValues(integers) {
     if (integers === "" || integers === null || integers === undefined) {
       return "_______"; // Render the actual name if it exists

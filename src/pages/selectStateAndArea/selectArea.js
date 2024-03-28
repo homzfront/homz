@@ -4,15 +4,12 @@ import React, { useEffect } from 'react'
 import Select from 'react-select';
 
 const SelectArea = ({ selectedArea, setSelectedArea, state, placeholder }) => {
-    console.log(state)
 
     const { loading, success, error, data, chooseArea } = useAreaStore();
 
     useEffect(() => {
         chooseArea(state);
     }, [state]);
-
-    console.log(data);
 
 
     const handleChange = (selectedOption) => {

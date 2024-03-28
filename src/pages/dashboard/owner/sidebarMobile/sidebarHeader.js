@@ -13,6 +13,7 @@ import Settings from '@/components/icons/dashboardMobile/settings'
 import Support from '@/components/icons/dashboardMobile/support'
 import Switch from '@/components/icons/dashboardMobile/switch'
 import Tenants from '@/components/icons/dashboardMobile/tenants'
+import EmptyAvatar from '@/components/icons/emptyAvatar'
 import useProfileStore from '@/store/profile'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -50,8 +51,6 @@ const SidebarMobile = ({ setOpen, user }) => {
 
   const { logout } = useProfileStore();
 
-  console.log(pathname)
-
   return (
     <div className="h-[2000px] px-8 flex flex-col w-[100%] m-auto text-white">
       <div className='bg-inputBg rounded-[8px]'>
@@ -60,22 +59,21 @@ const SidebarMobile = ({ setOpen, user }) => {
         >
           <div className="flex gap-4 items-center">
             {!user?.coverPhoto?.url ? (
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                }
-                alt=""
-                width={40}
-                height={40}
-                className=""
-              />
+              <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                <EmptyAvatar />
+              </div>
             ) : (
               <Image
                 src={user?.coverPhoto?.url}
                 alt=""
-                height={40}
                 width={40}
-                className="rounded-full"
+                height={40}
+                layout="full" // Specify the desired height
+                objectFit="cover"
+                objectPosition="center"
+                className=" object-cover bg-center h-[40px] rounded-full"
+                quality={100}
+                priority
               />
             )}
             <span className="font-[500] text-[16px] text-GrayHomz">

@@ -7,10 +7,8 @@ import { fetchSpecificTenant } from "@/api/tenantSevice.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TenantProfile = ({id}) => {
-  const  [data, setData] = useState([])
-  console.log(id);
-
+const TenantProfile = ({ id }) => {
+  const [data, setData] = useState([])
 
   const rentInformation = async () => {
     const response = await fetchSpecificTenant(`${id}`)
@@ -19,15 +17,14 @@ const TenantProfile = ({id}) => {
   }
 
 
-  useEffect(()=> {
+  useEffect(() => {
     rentInformation();
   }, [])
 
-  console.log(data);
 
   return (
     <div className="max-w-full ">
-            <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -47,15 +44,15 @@ const TenantProfile = ({id}) => {
           height={204}
           width={1172}
           style={{ height: 'auto', width: 'auto' }}
-          
+
         />
       </div>
       <div className="flex gap-6 mt-[-20px] px-8">
         <div className="w-[35%]">
-          <ProfileCard data={data}/>
+          <ProfileCard data={data} />
         </div>
         <div className="w-[65%]">
-          <Widget data={data} rentInformation={rentInformation}/>
+          <Widget data={data} rentInformation={rentInformation} />
         </div>
       </div>
     </div>

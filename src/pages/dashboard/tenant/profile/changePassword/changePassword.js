@@ -58,7 +58,6 @@ const ChangePassword = () => {
       const { success, upDateddata, error } = await updatePassword(updatedData);
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setPassword("");
         setNewPassword("");
         setReEnterPassword("");
@@ -68,7 +67,6 @@ const ChangePassword = () => {
         setPasswordError("");
         // toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         setPasswordError(error);
         toast.error(error);
         setLoading(false);

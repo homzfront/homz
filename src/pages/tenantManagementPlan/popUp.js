@@ -21,14 +21,12 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
   };
 
 
-  console.log(estateData)
-
   const clear = () => {
     setSelectedProperty(null)
   };
 
   const options3 = [...new Set(estateData?.map((item) => item?.name))];
-  console.log(options3)
+
 
 
   // Filter estateData based on selectedState, selectedArea, and searchQuery

@@ -9,6 +9,7 @@ const Widget = ({ data, rentInformation }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
+  
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);

@@ -15,10 +15,9 @@ const Tenants = ({ id }) => {
     fetchEstateData(id);
   }, []);
 
-  console.log(data);
+  // console.log(data)
 
   const ids = data?.tenants
-  console.log(ids)
   const [tenantData, setTenantData] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -28,41 +27,47 @@ const Tenants = ({ id }) => {
 
 
   useEffect(() => {
-    console.log(ids)
-    if (ids === undefined) {
-      setTenantData({})
-    } else {
-      const fetchDataForId = async (id) => {
-        console.log(id);
-        try {
-          if (id !== undefined) {
-            const response = await fetchSpecificTenantOwner(id);
-            console.log(response);
-            setTenantData(prevData => ({
-              ...prevData,
-              [id]: response?.data // Store the response with the id as the key
-            }));
-          }
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-
-      // Fetch additional data for each ID
-      ids?.forEach(id => {
-        fetchDataForId(id);
-      });
+    if (!ids || ids.length === 0) {
+      setTenantData({});
+      return;
     }
-
-  }, [ids]); // Empty dependency array ensures this effect runs only once on component mount
-
-  // Now you have maintenanceData updated with additional data for each ID
-  console.log(tenantData);
+  
+    const fetchDataForId = async (id) => {
+      // console.log(id)
+      try {
+        const response = await fetchSpecificTenantOwner(id);
+        return { id, data: response?.data };
+      } catch (error) {
+        // console.error(`Error fetching data for ID ${id}:`, error);
+        return { id, error };
+      }
+    };
+  
+    // Fetch data for all IDs concurrently
+    Promise.all(ids.map(id => fetchDataForId(id)))
+      .then(results => {
+        // Convert the array of results into an object with IDs as keys
+        const updatedTenantData = results.reduce((acc, { id, data, error }) => {
+          if (data) {
+            acc[id] = data;
+          } else {
+            // Handle errors if needed
+            console.error(`Error fetching data for ID ${id}:`, error);
+          }
+          return acc;
+        }, {});
+        setTenantData(updatedTenantData);
+      })
+      .catch(error => {
+        console.error('Error fetching data for multiple IDs:', error);
+      });
+  
+  }, [ids]);
+  
 
   const Data = Object.values(tenantData).flat();
-  console.log(Data);
-
-
+  // console.log(tenantData)
+  // console.log(Data);
 
   const { data: tenantData2, loading, fetchData } = tenantsDataForLoggedInOwner();
 
@@ -70,42 +75,47 @@ const Tenants = ({ id }) => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  console.log(tenantData2);
-
+  // console.log(tenantData2);
   // Create a new object with _id as keys
   const mergedData = {};
 
-  // Iterate over data1 and add each object to mergedData
-  Data?.forEach(obj => {
-    mergedData[obj._id] = obj;
-  });
-
-  // Iterate over data2 and merge each object with the corresponding object in mergedData
-  tenantData2?.forEach(obj => {
-    // Check if the _id exists in mergedData
-    if (mergedData[obj._id]) {
-      // Merge the objects
-      mergedData[obj._id] = { ...mergedData[obj._id], ...obj };
-    }
-  });
-
+  // Check if Data and tenantData2 are populated
+  if (Data && tenantData2) {
+    // Iterate over Data and add each object to mergedData
+    Data.forEach(obj => {
+      mergedData[obj._id] = obj;
+    });
+  
+    // Iterate over tenantData2 and merge each object with the corresponding object in mergedData
+    tenantData2.forEach(obj => {
+      // Check if the _id exists in mergedData
+      if (mergedData[obj._id]) {
+        // Merge the objects
+        mergedData[obj._id] = { ...mergedData[obj._id], ...obj };
+      }
+    });
+  } else {
+    // console.error("Data or tenantData2 is not populated.");
+  }
+  
   // Convert mergedData to an array of objects
   const mergedArray = Object.values(mergedData);
+  // console.log(mergedArray);
+  
 
-  console.log(mergedArray);
+  // console.log(mergedArray)
 
   const filteredData = mergedArray?.filter(
     (data) => {
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
-      console.log(dueDateTimestamp);
-      console.log(selectedDateTimestamp)
       return (
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
     });
 
-  console.log(filteredData);
+
+    // console.log(filteredData);
 
   return (
     <div className="w-full  p-8">

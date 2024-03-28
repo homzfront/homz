@@ -16,7 +16,7 @@ const Withdraw = ({ illuminateWallet }) => {
   const handleAddBankDetails = () => {
     setFillBankDetails(!fillBankDetails);
   };
-  console.log(bankDetails);
+  
   const closeMenu = () => {
     setFillBankDetails(false);
   };

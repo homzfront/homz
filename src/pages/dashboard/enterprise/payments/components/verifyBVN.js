@@ -45,7 +45,6 @@ const VerifyBVN = ({ closeForm, fetchDataAgain, handlePageChangeTwo }) => {
         setOpenProceed(false);
     };
 
-    console.log(pinCode);
 
     const handleSubmit = async () => {
         setLoading(true);
@@ -55,13 +54,11 @@ const VerifyBVN = ({ closeForm, fetchDataAgain, handlePageChangeTwo }) => {
                 bvnDateOfBirth: BVNDate,
                 pinCode: pinCode?.date
             };
-            console.log(BVNDetails);
             const { success, upDateddata, error } = await createWalletEnterprise(
                 BVNDetails
             );
 
             if (success) {
-                console.log("Form successfully updated", upDateddata);
                 setOpenSuccess(!openSuccess);
                 setLoading(false);
                 if (typeof window !== 'undefined') {
@@ -70,13 +67,11 @@ const VerifyBVN = ({ closeForm, fetchDataAgain, handlePageChangeTwo }) => {
 
 
             } else {
-                console.error("Update failed", error);
                 setOpenFailed(!openFailed);
                 setError(error?.message);
                 setLoading(false);
             }
         } catch (error) {
-            console.error("Update error", error);
             setOpenFailed(!openFailed);
             setError(error?.message);
             setLoading(false);
@@ -107,15 +102,11 @@ const VerifyBVN = ({ closeForm, fetchDataAgain, handlePageChangeTwo }) => {
         const fetchData = async () => {
             try {
                 const data = await enterpriseMe();
-                console.log(data);
                 setData(data);
             } catch { }
         };
         fetchData();
     }, []);
-
-    console.log(data);
-
 
     return (
         <div className="">

@@ -8,9 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const TenantsCard = ({data}) => {
-  console.log(data)
 const ids = data?.tenants
-console.log(ids)
 const [tenantData, setTenantData] = useState({});
 
 
@@ -20,18 +18,15 @@ useEffect(() => {
       setTenantData({})
   } else {
     const fetchDataForId = async (id) => {
-      console.log(id);
       try {
         if (id !== undefined) {
           const response = await fetchSpecificTenantOwner(id);
-          console.log(response);
           setTenantData(prevData => ({
             ...prevData,
             [id]: response?.data // Store the response with the id as the key
           }));
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
       }
     };
   
@@ -43,21 +38,13 @@ useEffect(() => {
 
 },  [ids]); // Empty dependency array ensures this effect runs only once on component mount
 
-// Now you have maintenanceData updated with additional data for each ID
-console.log(tenantData);
-
 const Data = Object.values(tenantData).flat();
-console.log(Data);
-
-
 
 const { data: tenantData2, loading, fetchData } = tenantsDataForLoggedInOwner();
 
 useEffect(() => {
   fetchData(); // Fetch data on component mount
 }, []);
-
-console.log(tenantData2);
 
 // Create a new object with _id as keys
 const mergedData = {};
@@ -78,8 +65,6 @@ tenantData2?.forEach(obj => {
 
 // Convert mergedData to an array of objects
 const mergedArray = Object.values(mergedData);
-
-console.log(mergedArray);
 
   return (
     <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">

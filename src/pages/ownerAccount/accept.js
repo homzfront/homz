@@ -29,16 +29,10 @@ const Accept = () => {
     urlParams = new URLSearchParams();
   }
   
-  console.log(urlParams);
   const email = urlParams.get("email");
   const role = urlParams.get("role");
   const invitation = urlParams.get("invitation");
   const isHomzEnterprise = urlParams.get("isHomzEnterprise");
-
-  console.log(email);
-  console.log(role);
-  console.log(invitation);
-  console.log(isHomzEnterprise);
 
   const form = () => {
     setOpenForm(!openForm);
@@ -87,22 +81,18 @@ const Accept = () => {
       );
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoadingII(false);
         setDashboard(!dashboard);
         // toast.success(upDateddata);
       } else {
-        console.error("Update failed", error);
         setLoadingII(false);
         toast.error(error);
       }
     } catch (error) {
-      console.error("Update error", error);
       toast.error("Update error", error);
     }
   };
 
-  console.log(data);
   return (
     <div className="w-full">
       <ToastContainer

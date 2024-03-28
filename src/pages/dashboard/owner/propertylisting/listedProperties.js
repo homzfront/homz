@@ -69,8 +69,6 @@ const ListedProperties = ({
     setSelectedDataId(id);
   };
 
-  console.log(currentData);
-
   return (
     <div className="w-full">
       {registrationForm ? (

@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const TenantManagement = () => {
   const [formError, setFormError] = useState("");
@@ -20,6 +22,10 @@ const TenantManagement = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [estatesData, setEstatesData] = useState([])
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
+  };
 
   const handleSelect = (value) => {
     setInputValue(value);
@@ -67,14 +73,11 @@ const TenantManagement = () => {
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
         setLoading(false);
-        console.log("form successfully filled ", response.data);
       } else {
         setFormError(response.data.message);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error creating profile:", error);
-      console.log(error?.response?.data?.error?.errors)
       setFormError(error?.response?.data?.message || error?.response?.data?.error?.errors || error?.response?.data?.error);
       setLoading(false);
     }
@@ -121,9 +124,9 @@ const TenantManagement = () => {
             </p>
           </div>
 
-          <Link href={"/select-plan"}>
-            <Image src={"/Link.png"} alt="img" height={24} width={132} />
-          </Link>
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
+          </div>
         </div>
         <div className="w-full h-[320px] m-auto">
           <div className="max-w-[1156px] sm:px-8 m-auto">

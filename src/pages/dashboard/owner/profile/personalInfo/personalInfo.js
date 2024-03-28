@@ -41,18 +41,15 @@ const PersonalInfo = ({ data }) => {
       );
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         setDoneUpdate(true);
         setShowDialogue(false);
         // toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       toast.error("Update failed");
     }

@@ -9,7 +9,6 @@ import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterpri
 
 const PaymentHis = ({ tenantData }) => {
   const tenantId = tenantData?.data?._id
-  console.log(tenantId);
   const {
     data: paymentData,
     loading,
@@ -20,21 +19,13 @@ const PaymentHis = ({ tenantData }) => {
     fetchData(tenantId)
   }, [tenantData])
 
-  console.log(paymentData)
-  console.log(paymentData?.data)
-
   const allData = paymentData?.data ? paymentData?.data : []
-
-  console.log(allData)
 
   // Total rent for all entries
   let totalRent = 0;
   for (const entry of allData) {
     totalRent += entry.totalRent;
   }
-
-  console.log("Total rent for all entries:", totalRent); // Output: Total rent for all entries: 3200000
-
   // Total rent for entries with "SUCCESS" status
   let successTotalRent = 0;
   for (const entry of allData) {
@@ -43,9 +34,6 @@ const PaymentHis = ({ tenantData }) => {
     }
   }
 
-  console.log("Total rent for entries with 'SUCCESS' status:", successTotalRent);
-
-  console.log(tenantData);
   const boxes = [
     {
       id: 1,

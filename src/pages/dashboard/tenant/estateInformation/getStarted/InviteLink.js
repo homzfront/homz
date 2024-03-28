@@ -17,8 +17,6 @@ const InviteLink = ({ openLink, loading, inviteLink, setInviteLink }) => {
     setInviteLink(event.target.value);
   };
 
-  console.log(inviteLink);
-
   const handleOpenLink = (e) => {
     e.preventDefault();
     openLink({ e, inviteLink });

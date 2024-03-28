@@ -13,8 +13,7 @@ const Plans = ({ data, profile }) => {
   const [formError, setFormError] = useState();
   const router = useRouter()
   useBodyScroll([loading])
-  console.log(data)
-  console.log(profile)
+
 
   const pricingPlans = [
     {
@@ -110,9 +109,6 @@ const Plans = ({ data, profile }) => {
   }
 
   async function handleSubmit(interval, plans) {
-    console.log(interval);
-    console.log(plans);
-
     setLoading(true);
 
     if (!interval || !plans) {
@@ -122,9 +118,9 @@ const Plans = ({ data, profile }) => {
     }
 
     const planDetails = {
-      fullName: data.fullName,
-      businessName: data.businessName,
-      phoneNumber: String(data.phoneNumber), // Ensure phone number is a string
+      fullName: data?.fullName,
+      businessName: data?.businessName,
+      phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
       planName: plans,
       interval,
     };
@@ -141,7 +137,6 @@ const Plans = ({ data, profile }) => {
         response = await planEnterPriseSub(planDetails);
       }
       if (response.success) {
-        console.log("Form successfully filled:", response);
         setLoading(false);
         const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
         toast.success(successMessage);
@@ -153,20 +148,19 @@ const Plans = ({ data, profile }) => {
         } else if (isValidUrl(paystackAuthorizationUrl)) {
           router.push(paystackAuthorizationUrl);
         } else {
-          console.warn('Invalid or missing authorization URL in response.');
+          // console.warn('Invalid or missing authorization URL in response.');
         }
       }
       else {
         if (response.error) {
           setFormError(response.error || 'An error occurred.'); // Default error message
-          console.error("Error creating profile:", response.error);
           setLoading(false);
           toast.error(response.error);
         } // Use the specific error message from response.error
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-      console.log(error.response?.data?.error)
+      // console.log(error.response?.data?.error)
       setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
       setLoading(false);
     }

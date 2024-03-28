@@ -34,9 +34,6 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
     closeMaintenanceForm()
   };
 
-  console.log(subject);
-  console.log(requestDate);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,20 +48,16 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
       };
 
       const data = await maintenanceByTenant(maintenanceData);
-      console.log(data);
       setLoading(false);
       setSubject("");
       setRequestDate("");
       setConfirm(!confirm);
-      toast.success("maintenance request sent!");
+      // toast.success("maintenance request sent!");
     } catch (error) {
-      console.log(error?.response.data);
       setLoading(false);
       toast.error(error?.response?.data.error);
     }
   };
-
-  console.log(data);
   useBodyScroll([loading, confirm, openAccept]);
 
   return (

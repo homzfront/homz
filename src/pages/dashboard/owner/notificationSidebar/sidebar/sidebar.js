@@ -17,11 +17,6 @@ const Sidebar = () => {
   // Example usage:
   const currentDate = getCurrentDate();
   const data = new Date();
-  console.log(data);
-  console.log(currentDate); // Output: "04 Dec. 2023"
-  console.log(selectedTenantId);
-
-  console.log(Data);
 
   return (
     <div className="sidebar">

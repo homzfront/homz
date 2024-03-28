@@ -26,16 +26,15 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!formData.password || !formData.email) {
       setPasswordError("Please fill in all fields and agree to terms.");
       return;
     }
-
     if (!formData.agreedToTerms) {
       setPasswordError("Agree to terms.")
       return;
     }
-
     // Check if the password meets the length requirement
     if (formData.password.length < 8) {
       // Handle password error
@@ -51,34 +50,24 @@ const Register = () => {
       });
 
       if (response.data.statuscode === 201) {
-
-        toast.success("user created, verify your email.");
-        // alert("Done!");
+        // toast.success("user created, verify your email.");
         // Handle the response as needed
         const data = response?.data?.data?.token
-        console.log("Registration successful", response.data);
-        console.log("Token: ", response?.data?.data?.token)
         localStorage.setItem('jwt', data)
         router.push(`/verify-email`);
         if (typeof window !== 'undefined') {
           localStorage.setItem("email", formData.email);
         }
-        // Cookies.set("jwt", response.data)
-        console.log(response.data);
-
         // Reset the form data after submitting
         setFormData({ email: "", password: "", agreedToTerms: false });
         setLoading(false);
       } else {
         // Handle unexpected status codes
         const errorw = response.data.message;
-        console.log("Unexpected status code:", errorw);
         setPasswordError(errorw);
         setLoading(false);
       }
-    } catch (error) {
-      // Handle errors
-      console.error("Registration error", error.response.data);
+    } catch (error) {;
       setPasswordError(error.response?.data?.message);
       setLoading(false);
     }

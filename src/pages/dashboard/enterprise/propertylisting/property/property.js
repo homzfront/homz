@@ -12,9 +12,7 @@ const Property = ({ id }) => {
   const goBack = () => {
     router.back();
   };
-  const [data, setData] = useState([])
-  console.log(id);
-
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const estateData = async () => {
@@ -24,9 +22,6 @@ const Property = ({ id }) => {
     }
     estateData();
   }, [])
-
-  console.log(data);
-
 
   return (
     <div className="w-full p-8">

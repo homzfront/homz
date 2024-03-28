@@ -15,7 +15,7 @@ const Dashboard = ({ id }) => {
     fetchData(id);
   }, []);
 
-  console.log(data);
+
   return (
     <div className="w-full">
       <div className="px-8 py-8">

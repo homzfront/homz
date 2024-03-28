@@ -8,8 +8,6 @@ function PopUpReceipt({ data, openReceipt, dropdownRef }) {
       return null; // or handle accordingly, e.g., return a loading state
     }
 
-
-  console.log(data);
   return (
     <div ref={dropdownRef}>
       <div className="drop-down absolute top-10 z-30  text-GrayHomz font-[400] text-[11px] right-[35px] border p-2  rounded-[12px] bg-white flex flex-col items-center justify-around">

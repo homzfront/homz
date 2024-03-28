@@ -22,32 +22,31 @@ const Photos = ({
 }) => {
   const handleImageUploadCoverPhoto = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImageCoverPhoto(file);
   };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage(file);
   };
+
   const handleImageUpload2 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage2(file);
   };
+
   const handleImageUpload3 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage3(file);
   };
+
   const handleImageUpload4 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage4(file);
   };
+
   const handleImageUpload5 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setUploadedImage5(file);
   };
 

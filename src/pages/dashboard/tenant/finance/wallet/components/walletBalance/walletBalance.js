@@ -63,15 +63,12 @@ const WalletBalance = ({
         setLoadingII(true);
         const data = await tenantRentInfo();
         if (data.statuscode === 200 && data.success === true) {
-          console.log("Form successfully updated", data);
           setRentData(data);
           setLoadingII(false);
         } else {
-          console.error("Fetching data failed", data.message);
           setLoadingII(false);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
         setLoadingII(false);
       }
     };
@@ -79,8 +76,6 @@ const WalletBalance = ({
     fetchData();
   }, []);
 
-  console.log(data);
-  console.log(rentData);
   return (
     <div className="">
       {openForm && (

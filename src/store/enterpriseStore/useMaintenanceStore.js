@@ -12,17 +12,17 @@ const useMaintenanceRequestStore = create((set) => ({
       const data = await maintenanceRequestForAnEnterprise();
       const request = data?.data;
       set({ request });
-      console.log(request);
+      // console.log(request);
 
       const tenantPromises = await request?.results.map((tenant) =>
         fetchSpecificTenant(tenant.tenant._id)
       );
 
       const tenantData = await Promise.all(tenantPromises);
-      console.log(tenantData);
+      // console.log(tenantData);
       set({ tenantData, loading: false });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       set({ loading: false });
     }
   },

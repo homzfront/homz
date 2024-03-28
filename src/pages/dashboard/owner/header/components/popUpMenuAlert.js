@@ -61,10 +61,6 @@ const PopUpMenuAlert = () => {
     setPopNoti(true); // Show pop notification when a notification is clicked
   };
 
-
-console.log(selectedData); 
-console.log(popNoti)
-
   const handlePopupClose = () => {
     setSelectedData(null);
   };

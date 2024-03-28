@@ -13,64 +13,30 @@ const AddPhotos = ({
   setUploadedImage2,
   setUploadedImage3,
 }) => {
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append("coverPhoto", file);
-
-    //   // Log properties indirectly by iterating over entries
-    //   for (const pair of formData.entries()) {
-    //     console.log(pair[0], pair[1]);
-    //   }
-
-    // }
     setUploadedImage(file);
   };
 
   const handleImageUpload2 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append("photos", file);
+    setUploadedImage2(file);
 
-    //   // Log properties indirectly by iterating over entries
-    //   for (const pair of formData.entries()) {
-    //     console.log(pair[0], pair[1]);
-    //   }
-
-      setUploadedImage2(file);
-    
   };
 
   const handleImageUpload3 = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append("photos", file);
+    setUploadedImage3(file);
 
-    //   // Log properties indirectly by iterating over entries
-    //   for (const pair of formData.entries()) {
-    //     console.log(pair[0], pair[1]);
-    //   }
-
-      setUploadedImage3(file);
-    
   };
-
-  console.log(uploadedImage);
-  console.log(uploadedImage2);
-  console.log(uploadedImage3);
 
   return (
     <div className="px-8 block">
       <div className="flex flex-col gap-2">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
         <p className="text-[18px] font-[400] text-GrayHomz ">
-        Add cover photo and at least one photo of your property
+          Add cover photo and at least one photo of your property
         </p>
         <p className="text-[13px] font-[400] text-GrayHomz2">
           Supported formats are .jpg and .png and file size must not exceed 5 mb
@@ -78,7 +44,7 @@ const AddPhotos = ({
       </div>
       <div className="flex gap-4 mt-4">
         <div className="">
-          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-red-500 font-[10px]">*</span></p> 
+          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-red-500 font-[10px]">*</span></p>
           <div className="mt-4 w-[235px] flex justify-start">
             <ImageUpload
               onImageRemove={setUploadedImage}
@@ -88,8 +54,8 @@ const AddPhotos = ({
             />
           </div>
         </div>
-        <div className=""> 
-          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-red-500 font-[10px]">*</span></p> 
+        <div className="">
+          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-red-500 font-[10px]">*</span></p>
           <div className="mt-4 flex">
             <div className="w-[235px] flex justify-start">
               <ImageUpload
@@ -129,7 +95,7 @@ const AddPhotos = ({
             Previous
           </button>
         </div>
-        {uploadedImage !== null && uploadedImage2 !== null ?  (
+        {uploadedImage !== null && uploadedImage2 !== null ? (
           <div className="">
             <button
               onClick={handlePageChangeThree}
@@ -163,7 +129,7 @@ const AddPhotos = ({
               />
             </button>
           </div>
-        ) }
+        )}
       </div>
     </div>
   );

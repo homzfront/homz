@@ -15,11 +15,11 @@ const tenantWalletStore = create((set) => ({
         const balance = await tenantWalletBalance();
         set({ wallet: data, walletBalance: balance, loading: false, illuminateWallet: true });
       } else {
-        console.error("Fetching wallet data failed", data.message);
+        // console.error("Fetching wallet data failed", data.message);
         set({ loading: false });
       }
     } catch (error) {
-      console.error("Error fetching wallet data:", error);
+      // console.error("Error fetching wallet data:", error);
       set({ loading: false });
     }
   },
@@ -33,7 +33,7 @@ const tenantWalletBalanceStore = create((set) => ({
       const balance = await tenantWalletBalance();
       set({ walletBalance: balance, loading: false });
     } catch (error) {
-      console.error("Error fetching wallet balance:", error);
+      // console.error("Error fetching wallet balance:", error);
       set({ loading: false });
     }
   },

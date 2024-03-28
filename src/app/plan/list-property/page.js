@@ -5,6 +5,8 @@ import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const ListProperty = () => {
   const [fullName, setFullName] = useState("");
@@ -18,6 +20,11 @@ const ListProperty = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
+  const router = useRouter();
+  
+  const goBack = () => {
+    router.back();
+  };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -68,14 +75,12 @@ const ListProperty = () => {
         response.data.statuscode === 201
       ) {
         setSubmitConfirmationVisible(true);
-        console.log("form successfully filled ", response.data);
         setLoading(false);
       } else {
         setFormError(response.data.message);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error creating profile:", error);
       setFormError(error.response?.data?.message);
       setFormError(error.response?.data?.error);
       setLoading(false);
@@ -115,9 +120,9 @@ const ListProperty = () => {
       <div className="max-w-[1156px] m-auto flex flex-col gap-[80px]">
         <div className="h-[29px] mt-10 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse sm:items-center p-7 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>
-          <Link href={"/select-plan"}>
-            <Image src={"/Link.png"} height={24} alt="img" width={132} />
-          </Link>
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
+          </div>
         </div>
         <div className="w-full h-[320px] m-auto">
           <div className="max-w-[1156px] m-auto">

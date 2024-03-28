@@ -9,6 +9,7 @@ const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
+
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);
@@ -27,7 +28,6 @@ const Widget = ({ data }) => {
     setActive(true);
   };
 
-  console.log(data?.data?.maintenanceRequests?.length);
   return (
     <div>
       <div className=" inline-block min-w-[650px] w-[100%] h-auto p-4  shadow-md bg-white rounded-[12px]">

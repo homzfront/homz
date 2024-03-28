@@ -2,18 +2,23 @@ import Image from "next/image";
 import React from "react";
 
 const ProfileCard = ({ data }) => {
-  console.log(data);
+
   return (
     <div className="w-[350px] h-auto py-4 px-6 shadow-md bg-white rounded-[12px]">
       <div className="w-full ">
         {data?.data?.coverPhoto?.url? (
           <Image
-            src={data?.data?.coverPhoto?.url}
-            height={198}
-            width={198}
-            alt=""
-            className="rounded-full"
-          />
+          src={data?.data?.coverPhoto?.url}
+          height={198}
+          width={198}
+          alt=""
+          layout="full" // Specify the desired height
+          objectFit="cover"
+          objectPosition="center"
+          className="object-cover bg-center h-[198px] rounded-full"
+          quality={100}
+          priority
+        />
         ) : (
           <div className="w-[198px] h-[198px] bg-GrayHomz5 rounded-full flex items-center justify-center">
           <Image

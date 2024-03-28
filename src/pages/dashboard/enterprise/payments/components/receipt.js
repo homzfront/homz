@@ -29,8 +29,6 @@ const Receipt = ({
     }
   }, []);
 
-  console.log(transferData);
-
   const downloadPDF = () => {
     const input = document.getElementById("receipt-content-transfer");
 
@@ -49,8 +47,7 @@ const Receipt = ({
     });
 
   };
-  console.log(transfer);
-  console.log(data);
+
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       <div

@@ -48,16 +48,12 @@ const Withdraw = ({
         setBanks(data);
         const bankData = await bankInfoPropertyOwner();
         setBankDetails(bankData);
-        console.log(data);
         if (data.success === true) {
-          console.log("banks", data);
           setLoadingII(false);
         } else {
-          console.error("Fetching data failed", data.message);
           setLoadingII(false);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
         setLoadingII(false);
       }
     };
@@ -78,12 +74,10 @@ const Withdraw = ({
     };
 
     try {
-      console.log(bankDetails);
       const { success, upDateddata, error } = await withdrawPropertyOwner(
         bankDetails
       );
       if (success) {
-        console.log("Withdrawal successful", upDateddata);
         setIlluminateWallet(false);
         setLoading(false);
         fetchDataAgain();
@@ -94,20 +88,16 @@ const Withdraw = ({
 
         // setShowSubmitted(!showSubmitted);
       } else {
-        console.error("Update failed", error);
         // setError(error?.message);
         setLoading(false);
         toast.error(error);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       toast.error(error);
     }
   };
 
-  console.log(banks);
-  console.log(amount);
   return (
     <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[100%]">
       <div className="flex gap-1 items-center">

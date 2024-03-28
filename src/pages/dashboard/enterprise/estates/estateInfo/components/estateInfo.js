@@ -13,10 +13,8 @@ import SelectState from "@/pages/selectStateAndArea/selectState";
 import SelectArea from "@/pages/selectStateAndArea/selectArea";
 
 const PropertyInfo = ({ handlePageChangeTwo, data }) => {
-  console.log(data);
   const [loading, setLoading] = useState(true);
   useBodyScroll([loading]);
-  console.log(`${data?.size} "sq m"`)
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
@@ -69,16 +67,13 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
       );
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       toast.error("Update failed");
     }

@@ -7,18 +7,16 @@ import api from "@/utils/api";
 import { fetchSingleProperty } from "@/api/propertyService";
 import { useRouter } from "next/navigation";
 
-const Property = ({id}) => {
+const Property = ({ id }) => {
   const router = useRouter();
 
   const goBack = () => {
     router.back();
   };
 
-  const  [data, setData] = useState([])
-  console.log(id);
+  const [data, setData] = useState([])
 
-
-  useEffect(()=> {
+  useEffect(() => {
     const estateData = async () => {
       const response = await fetchSingleProperty(id);
       const estate = await response;
@@ -26,9 +24,6 @@ const Property = ({id}) => {
     }
     estateData();
   }, [])
-
-  console.log(data);
-
 
   return (
     <div className="w-full p-8">
@@ -43,7 +38,7 @@ const Property = ({id}) => {
               height={16}
               width={16}
             />
-              <div
+            <div
               onClick={goBack}
               className="text-[14px] font-[400] text-GrayHomz2 cursor-pointer"
             >
@@ -59,9 +54,9 @@ const Property = ({id}) => {
               Property Details
             </div>
           </div>
-       </div>
+        </div>
         <div>
-          <Widget data={data}/>
+          <Widget data={data} />
         </div>
       </div>
     </div>

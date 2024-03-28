@@ -22,16 +22,11 @@ const Wallet = ({ activeTwo }) => {
     }
   }, [])
 
-  console.log(data)
-
   const fetchDataAgain = () => {
     walletData();
     fetchRentInfo()
   };
 
-  console.log(wallet);
-  console.log(illuminateWallet);
-  console.log(walletBalance);
 
   return (
     <div className="">

@@ -20,8 +20,6 @@ const Estate = () => {
   const [selectedState, setSelectedState] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
   
-  console.log(data);
-
   const clear = () => {
     setSelectedState(null);
     setSelectedArea(null);
@@ -29,13 +27,13 @@ const Estate = () => {
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
-  console.log(options);
+ 
 
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
-  console.log(options2);
+  
 
   const option3 =  [...new Set(data?.map((item) => item?.name))];
-  console.log(option3)
+
 
   const filteredData = data?.filter((data) => {
     return (
@@ -45,7 +43,6 @@ const Estate = () => {
     );
   });
 
-  console.log((filteredData));
 
   return (
     <div className="w-full">

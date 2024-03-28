@@ -51,8 +51,6 @@ const PropertyInfo = ({
     chooseState();
   }, []);
 
-  console.log(data);
-
   const optionsState = stateData?.map((state) => ({
     value: state,
     label: `${state}`,

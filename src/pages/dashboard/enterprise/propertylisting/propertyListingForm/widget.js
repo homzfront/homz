@@ -51,8 +51,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     whatsapp: "",
   });
 
-  console.log(formData)
-
   const handleChange = (name, value) => {
     if (name === "uploadedImage" || name === "uploadedImage2" || name === "uploadedImage3" || name === "uploadedImage4" || name === "uploadedImage5" || name === "uploadedImageCoverPhoto") {
       setFormData({ ...formData, [name]: value });
@@ -101,8 +99,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
       });
 
       if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
         // toast.success("form successfully uploaded");
         setLoading(false);
         setOpenConfirmationModal(!openConfirmationModal);
@@ -133,30 +129,24 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         });
       } else {
         const error = response.data.message;
-        console.log("Unexpected status code:", error);
         toast.error("update falied");
         setLoading(false);
         setYesOrNoModal(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
-
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");
       }
-
       setYesOrNoModal(false);
     }
   };
@@ -231,7 +221,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChange}
+                // onClick={handlePageChange}
                 justify-center
               >
                 <div
@@ -247,7 +237,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChangeTwo}
+                // onClick={handlePageChangeTwo}
               >
                 <div
                   className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -261,7 +251,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChangeThree}
+                // onClick={handlePageChangeThree}
               >
                 <div
                   className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -275,7 +265,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                   ? " bg-white rounded-full  w-1 h-1 shadow-md "
                   : "h-1 w-1"
                   }`}
-                onClick={handlePageChangeFour}
+                // onClick={handlePageChangeFour}
               >
                 <div
                   className={`rounded-full w-[1px] h-[1px]  bg-BlueHomz p-1 text-[14px] font-[500] text-center`}

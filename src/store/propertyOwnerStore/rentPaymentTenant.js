@@ -8,12 +8,12 @@ const useTenantRentPaymentOwner = create((set) => ({
     fetchData: async (id) => {
         try {
             const response = await fetchSpecificTenantRentPaymentOwner(id);
-            console.log(response)
+            // console.log(response)
             const rentPayemnt = await response;
             set({ data: rentPayemnt, loading: false });
         } catch (error) {
             set({ loading: false });
-            console.error('Error fetching rent data:', error);
+            // console.error('Error fetching rent data:', error);
         }
     },
 }));

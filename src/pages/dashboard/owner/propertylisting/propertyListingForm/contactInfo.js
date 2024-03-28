@@ -23,9 +23,7 @@ const ContactInfo = ({
   closeAllModals,
   loading,
 }) => {
-  console.log(email);
-  console.log(phoneNumber);
-  console.log(whatsapp);
+  
   useBodyScroll([openConfirmationModal, yesOrNoModal, loading]);
 
   const [visibleAddProperty, setVisibleAddProperty] = useState(false);

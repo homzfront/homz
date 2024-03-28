@@ -8,12 +8,12 @@ const useEnterpriseRevenueForAnEstate = create((set) => ({
     fetchData: async (id) => {
         try {
             const response = await enterpriseRevenueForAnEstate(id);
-            console.log(response)
+            // console.log(response)
             const estate = await response;
             set({ data: estate, loading: false });
         } catch (error) {
             set({ loading: false });
-            console.error('Error fetching estate data:', error);
+            // console.error('Error fetching estate data:', error);
         }
     },
 }));

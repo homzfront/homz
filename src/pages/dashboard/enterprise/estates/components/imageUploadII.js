@@ -18,29 +18,35 @@ const ImageUpload = ({
   return (
     <div className="flex gap-2">
       <div
-        className={`h-[196px] rounded-[8px] w-[196px] justify-center items-center flex ${
-          uploadedImage || image ? "" : "bg-blue-100 "
-        }`}
+        className={`h-[196px] rounded-[8px] w-[196px] justify-center items-center flex ${uploadedImage || image ? "" : "bg-blue-100 "
+          }`}
       >
         {uploadedImage ? (
           <Image
             src={URL?.createObjectURL(uploadedImage)}
-            height={100}
-            width={100}
-            className="object-cover"
-            alt="img"
-            style={{ width: "auto", height: "auto" }}
+            height={140}
+            width={140}
+            alt=""
+            layout="fixed" // Specify the desired height
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover bg-center h-[140px] rounded-[8px]"
+            quality={100}
+            priority
           />
         ) : image ? (
           <div className="flex items-end gap-1">
             <Image
               src={image}
-              height={100}
-              width={100}
-              className="object-cover"
+              height={140}
+              width={140}
               alt="img"
-              style={{ width: "auto", height: "auto" }}
-        
+              layout="fixed"
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover bg-center h-[140px] rounded-[8px]"
+              quality={100} // Ensure maximum quality
+              priority
             />
             <Image
               src={"/static/dashboard/enterprisemanager/estate/add.png"}

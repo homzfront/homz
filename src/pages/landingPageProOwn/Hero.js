@@ -27,7 +27,7 @@ const Hero = () => {
           <div className="hidden sm:flex w-full max-w-[1160px] mt-[120px] mb-8 h-[360px] justify-center items-center mx-auto">
             <Image
               src={"/ownerLanding.jpg"}
-              alt="OwnerImg"
+              alt=""
               width={4096}  // Specify the desired width
               height={2731}
               layout="full" // Specify the desired height
@@ -37,8 +37,6 @@ const Hero = () => {
               priority
             />
           </div>
-
-
           <div className="sm:hidden flex bg-center h-[360px] justify-center items-center mt-[40px]">
             <Image
               src={"/manWithPhone.jpg"}

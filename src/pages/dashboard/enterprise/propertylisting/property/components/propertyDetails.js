@@ -40,16 +40,6 @@ const PropertyDetails = ({ data }) => {
   const [description, setDescription] = useState(data?.description);
   const [numberOfToilets, setNumberOfToilets] = useState(data?.numberOfToilets);
 
-  console.log(name);
-  console.log(address);
-  console.log(description);
-  console.log(selectedState?.label);
-  console.log(selectedArea?.label);
-  console.log(parseInt(numberOfRooms?.label));
-  console.log(parseInt(numberOfBathrooms?.label));
-  console.log(propertyType?.label);
-  console.log(numberOfToilets?.label)
-
   const options = [
     { id: 1, label: "Boys Quarters" },
     { id: 2, label: "Mini-flat" },
@@ -64,29 +54,6 @@ const PropertyDetails = ({ data }) => {
     { id: 11, label: "Semi-Detached Duplex" },
     { id: 12, label: "Terraced Duplex" },
   ];
-
-
-  // const optionsTwo = [
-  //   { id: 1, label: "Ajah" },
-  //   { id: 2, label: "Lekki" },
-  //   { id: 3, label: "Ikotun" },
-  //   { id: 4, label: "Adolor" },
-  //   { id: 5, label: "Challenge" },
-  //   { id: 6, label: "Ekaite" },
-  //   { id: 7, label: "Musa" },
-  //   { id: 8, label: "Jalingo" },
-  // ];
-
-  // const optionsThree = [
-  //   { id: 1, label: "Lagos" },
-  //   { id: 2, label: "Oyo" },
-  //   { id: 3, label: "Calabar" },
-  //   { id: 4, label: "Edo" },
-  //   { id: 5, label: "Kwara" },
-  //   { id: 6, label: "Kano" },
-  //   { id: 7, label: "Abuja" },
-  //   { id: 8, label: "Ondo" },
-  // ];
 
   const optionsFour = [
     { id: 1, label: 1 },
@@ -114,18 +81,6 @@ const PropertyDetails = ({ data }) => {
     { id: 5, label: 5 },
     { id: 6, label: 6 },
   ];
-
-  // const handleSelectArea = (option) => {
-  //   // Handle the selected value as needed
-  //   console.log("Selected Option:", option);
-  //   setSelectedArea(option);
-  // };
-
-  // const handleSelectState = (option) => {
-  //   // Handle the selected value as needed
-  //   console.log("Selected Option:", option);
-  //   setSelectedState(option);
-  // };
 
   const handleSelectPropertyType = (option) => {
     // Handle the selected value as needed
@@ -174,27 +129,22 @@ const PropertyDetails = ({ data }) => {
         updatedData
       );
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoading(false);
         toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");

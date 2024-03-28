@@ -1,3 +1,4 @@
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
 import useProfileStore from "@/store/profile";
 import Image from "next/image";
@@ -14,24 +15,22 @@ const PopUpMenu = ({ user }) => {
         className={`flex gap-2 border-b w-full px-4 py-2 ${showKindlyWait ? "pointer-events-none" : ""}`}
       >
         {!user?.coverPhoto?.url ? (
-          <Image
-            src={
-              "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-            }
-            alt=""
-            width={40}
-            height={40}
-            className=""
-          />
-        ) : (
-          <Image
-            src={user?.coverPhoto?.url}
-            alt=""
-            height={40}
-            width={40}
-            className="rounded-full"
-          />
-        )}
+              <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+              <EmptyAvatar />
+            </div>
+          ) : (
+            <Image
+              src={user?.coverPhoto?.url}
+              alt=""
+              width={40}
+              height={40}
+              layout="full" // Specify the desired height
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover bg-center h-[40px] rounded-full"
+              priority
+            />
+          )}
         <div className="flex flex-col">
           <span className="font-[600] text-[14px] text-BlackHomz">
             {user?.fullName}

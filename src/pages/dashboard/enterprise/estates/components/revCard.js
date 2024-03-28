@@ -61,9 +61,6 @@ const RevCard = ({ id }) => {
   };
 
 
-  console.log(revData)
-
-
   return (
     <div className="border w-[120%] rounded-[12px] ">
       <div className="flex justify-between items-center px-6 pt-6 pb-3">

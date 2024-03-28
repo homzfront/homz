@@ -12,6 +12,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const MaintenanceTable = ({ request, tenantData, fetchData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -19,12 +20,6 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadingRows, setLoadingRows] = useState({});
-
-  console.log(openDropdowns);
-
-  console.log(request);
-  console.log(tenantData);
-  // Assuming maintenanceRequests and tenantData are your arrays
 
   // Create a lookup object for faster access
   const tenantLookup = {};
@@ -37,7 +32,6 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
     ...request,
     tenantData: tenantLookup[request?.tenant._id],
   }));
-  console.log(MaintenanceRequests);
 
   const ITEMS_PER_PAGE = 6;
 
@@ -77,20 +71,16 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
     setLoading(true);
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
     try {
-      // Handle status change logic here
-      console.log(`Changing status to: ${status} for data with ID: ${dataId}`);
       const data = await updateMaintenanceReqestByTenant({
         id: dataId,
         status,
       });
-      console.log(data);
       setLoading(false);
       toast.success("status updated successfully");
       fetchData();
       // Close the corresponding dropdown
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error(error);
     }
@@ -144,23 +134,21 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
                 >
                   <div className="flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
                     {request.tenantData?.coverPhoto?.url === null ||
-                    request.tenantData?.coverPhoto?.url === undefined ? (
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                        }
-                        alt=""
-                        width={40}
-                        height={40}
-                        className=" rounded-full"
-                      />
+                      request.tenantData?.coverPhoto?.url === undefined ? (
+                      <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                        <EmptyAvatar />
+                      </div>
                     ) : (
                       <Image
                         src={request.tenantData?.coverPhoto?.url}
                         alt=""
                         width={40}
                         height={40}
-                        className=" rounded-[100%]"
+                        layout="full" // Specify the desired height
+                        objectFit="cover"
+                        objectPosition="center"
+                        className="object-cover bg-center h-[40px] rounded-full"
+                        priority
                       />
                     )}
                     <span className="py-[15px] ">
@@ -171,19 +159,19 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
                     {request?.subject}
                   </div>
                   <div className="flex-1 flex items-center ">
-                      <div
-                        className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] `}
-                      >
-                        <StatusDropDownMain
-                          data={request}
-                          handleStatusChange={(status) =>
-                            handleStatusChange(status, request._id)
-                          }
-                          isOpen={openDropdowns[request._id] || false}
-                          toggleDropdown={() => toggleDropdown(request._id)}
-                          loading={loadingRows[request._id] || false}
-                        />
-                      </div>
+                    <div
+                      className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] `}
+                    >
+                      <StatusDropDownMain
+                        data={request}
+                        handleStatusChange={(status) =>
+                          handleStatusChange(status, request._id)
+                        }
+                        isOpen={openDropdowns[request._id] || false}
+                        toggleDropdown={() => toggleDropdown(request._id)}
+                        loading={loadingRows[request._id] || false}
+                      />
+                    </div>
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
                     {changeBackendDateFormat(request?.requestDate)}

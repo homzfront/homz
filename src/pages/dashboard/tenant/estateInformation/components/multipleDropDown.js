@@ -65,9 +65,6 @@ const MultipleDropDown = () => {
     setSelectedOptionIII(selectedOption);
   };
 
-  console.log(selectedOptionI);
-  console.log(selectedOptionII);
-  console.log(selectedOptionIII);
   return (
     <div className="flex gap-2 items-center justify-center p-0">
       <Dropdown

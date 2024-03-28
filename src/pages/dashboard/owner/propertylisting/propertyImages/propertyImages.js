@@ -1,4 +1,4 @@
-"use client";import Image from "next/image";
+"use client"; import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import BodyPropertyImage from "./components/bodyPropertyImage";
@@ -19,8 +19,6 @@ const PropertyImages = ({ id }) => {
   const [remainder, setRemainder] = useState(null);
   const [combinedData, setCombinedData] = useState([]); // Initialize combinedData state
 
-  console.log(id);
-  
   // useEffect to handle scrolling
   useBodyScroll([openSelectedImage]);
 
@@ -47,7 +45,7 @@ const PropertyImages = ({ id }) => {
       }));
       setCombinedData(combinedData); // Update combinedData state
     } else {
-      console.error("Invalid or missing data structure.");
+      // console.error("Invalid or missing data structure.");
     }
   }, [data]);
 
@@ -57,12 +55,6 @@ const PropertyImages = ({ id }) => {
       setRemainder(combinedData.length - 7);
     }
   }, [combinedData]);
-
-  console.log(user);
-  console.log(data);
-  console.log(selectedImage);
-  console.log(openSelectedImage);
-  console.log(currentImageIndex);
 
   const showRatingPage = () => {
     setShowRating(!showRating);
@@ -122,9 +114,8 @@ const PropertyImages = ({ id }) => {
                 combinedData?.map((item, index) => (
                   <div
                     key={item.id}
-                    className={` ${
-                      index === 0 ? "w-full flex-shrink-0": "flex-grow"
-                    }`}
+                    className={` ${index === 0 ? "w-full flex-shrink-0" : "flex-grow"
+                      }`}
                     onClick={() => openImageModal(index, item)}
                   >
                     {index === 0 || index <= 5 ? (
@@ -133,9 +124,13 @@ const PropertyImages = ({ id }) => {
                         alt=""
                         height={index === 0 ? 368 : 161}
                         width={index === 0 ? 1110 : 162}
-                        className={`rounded-md cursor-pointer ${
-                          index === 0 ? "w-full" : ""
-                        }`}
+                        className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px] ${index === 0 ? "w-full h-[368px]" : ""
+                          }`}
+                        layout="full" // Specify the desired height
+                        objectFit="cover"
+                        objectPosition="center"
+                        quality={100}
+                        priority
                       />
                     ) : index === 6 ? (
                       <div className="cursor-pointer relative inline-block rounded-md flex-grow">

@@ -15,10 +15,6 @@ const Tenants = ({ rentData }) => {
 
   }, [])
 
-  console.log(data);
-  console.log(rentData);
-
-
   return (
     <div>
       <div className="mt-2 flex gap-2">

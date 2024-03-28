@@ -13,8 +13,6 @@ const Widget = ({ data, isLoading, id }) => {
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false); // State for the fourth page
 
-  console.log(data);
-  console.log(id);
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);

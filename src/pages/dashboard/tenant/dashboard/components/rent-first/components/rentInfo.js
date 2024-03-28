@@ -1,3 +1,4 @@
+import HomeTenant from "@/components/icons/homeTenant";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
@@ -18,12 +19,7 @@ const RentInfo = ({ data = null }) => {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Image
-              src={"/static/dashboard/tenant/dashboard/FrameHome.png"}
-              alt=""
-              height={52}
-              width={52}
-            />
+            <HomeTenant />
             <div>
               <p className="text-[16px] font-[500] text-white">
                 Rent Information

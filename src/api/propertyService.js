@@ -3,10 +3,8 @@ import api from "@/utils/api";
 export const fetchPropertyListedAll = async () => {
   try {
     const response = await api.get("/properties");
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
     throw error;
   }
 };
@@ -14,10 +12,8 @@ export const fetchPropertyListedAll = async () => {
 export const fetchSingleProperty = async (id) => {
   try {
     const response = await api.get(`/properties/${id}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
     throw error;
   }
 };
@@ -26,22 +22,18 @@ export const fetchSingleProperty = async (id) => {
 export const propertyForMe = async () => {
   try {
     const response = await api.get("/properties/user/me");
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
     throw error;
   }
 };
 
 
 export const addBankPropertyOwner = async (details) => {
-  console.log(details);
   try {
     const response = await api.post(`/bank/add/property-owner`, details);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data };
   }
 };
@@ -50,21 +42,17 @@ export const addBankPropertyOwner = async (details) => {
 export const bankInfoPropertyOwner = async () => {
   try {
     const response = await api.get(`/bank/info/property-owner`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error wallet:", error);
     throw error;
   }
 };
 
 export const withdrawPropertyOwner = async (details) => {
-  console.log(details);
   try {
     const response = await api.post(`/bank/withdraw/property-owner`, details);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -73,8 +61,6 @@ export const withdrawPropertyOwner = async (details) => {
 
 
 export const updateContactInfo = async (propertyId, updatedData) => {
-  console.log(propertyId);
-  console.log(updatedData);
   try {
     const response = await api.patch(
       `/properties/${propertyId}/contact-detail`,
@@ -82,32 +68,24 @@ export const updateContactInfo = async (propertyId, updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 export const updatePropertyDetails = async (id, updatedData) => {
-  console.log(updatedData);
-  console.log(id);
   try {
     const response = await api.patch(
       `/properties/${id}/property-detail`,
       updatedData
     );
-    console.log(response.data);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 
 export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
-  console.log(estateId);
-  console.log(uploadedImage);
-
   const formData = new FormData();
   formData.append("coverPhoto", uploadedImage);
 
@@ -116,8 +94,6 @@ export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
   formData.forEach((value, key) => {
     formDataObject[key] = value;
   });
-
-  console.log(formDataObject);
 
   try {
     const headers = {
@@ -131,24 +107,17 @@ export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
     );
 
     if (response.data.statuscode === 201 || 200) {
-      console.log(response.data.data);
-      console.log("form successfully updated ", response?.data);
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
-      console.log("Unexpected status code:", error);
     }
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 
 export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
-  console.log(id);
-  console.log(uploadedImage);
-  console.log(publicId)
   const formData = new FormData();
   formData.append("photos", uploadedImage);
 
@@ -157,8 +126,6 @@ export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
   formData.forEach((value, key) => {
     formDataObject[key] = value;
   });
-
-  console.log(formDataObject);
 
   try {
     const headers = {
@@ -172,15 +139,11 @@ export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
     );
 
     if (response.data.statuscode === 201 || 200) {
-      console.log(response.data.data);
-      console.log("form successfully updated ", response?.data);
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
-      console.log("Unexpected status code:", error);
     }
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -188,17 +151,13 @@ export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
 
 
 export const rentDetails = async (id, updatedData) => {
-  console.log(updatedData);
-  console.log(id);
   try {
     const response = await api.patch(
       `/properties/${id}/rent-detail`,
       updatedData
     );
-    console.log(response.data);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -208,16 +167,13 @@ export const rentDetails = async (id, updatedData) => {
 export const propertyMe = async () => {
   try {
     const response = await api.get("/manageProperty/me");
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
     throw error;
   }
 };
 
 export const updatePersonalInformation = async ( updatedData) => {
-  console.log(updatedData);
   try {
     const response = await api.patch(
       `/manageProperty/personalInformation`,
@@ -225,14 +181,11 @@ export const updatePersonalInformation = async ( updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 export const updateProfilePicture = async (uploadedImage) => {
-  console.log(uploadedImage);
-
   const formData = new FormData();
   formData.append("coverPhoto", uploadedImage);
 
@@ -241,8 +194,6 @@ export const updateProfilePicture = async (uploadedImage) => {
   formData.forEach((value, key) => {
     formDataObject[key] = value;
   });
-
-  console.log(formDataObject);
 
   try {
     const headers = {
@@ -256,30 +207,23 @@ export const updateProfilePicture = async (uploadedImage) => {
     );
 
     if (response.data.statuscode === 201 || 200) {
-      console.log(response.data.data);
-      console.log("form successfully updated ", response?.data);
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
-      console.log("Unexpected status code:", error);
     }
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 export const updatePassword = async ( updatedData ) => {
-console.log(updatedData);
 try {
   const response = await api.patch(
     `/auth/change/password`,
     updatedData
   );
-  console.log(response)
   return { success: true, upDateddata: response.data.data };
 } catch (error) {
-  console.error("Update error", error);
   return { success: false, error: error?.response.data.message };
 }
 };
@@ -292,10 +236,8 @@ export const createPropertyOwnerWallet = async (BVNDetails) => {
       bvnDateOfBirth,
       pincode: pinCode
     });
-    console.log(response);
     return { success: true, upDateddata: response?.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response?.data }; // Adjusted this line
   }
 };
@@ -303,13 +245,12 @@ export const createPropertyOwnerWallet = async (BVNDetails) => {
 export const propertyOwnerWallet = async () => {
   try {
     const response = await api.get(`/wallet/getWallet/property-owner`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error wallet:", error);
     throw error;
   }
 };
+
 
 export const propertyOwnerWalletBalance = async () => {
   try {
@@ -322,14 +263,35 @@ export const propertyOwnerWalletBalance = async () => {
   }
 };
 
+export const ownerGetOtpPincode = async (password) => {
+  try {
+    const response = await api.post(`/wallet/pincode/otp/property-owner`, {
+      password,
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+export const ownerUpdatePincode = async (password, otp, pincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/update/property-owner`, {
+      password,
+      otp, 
+      pincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
 
 export const propertyOwnerStatistics = async () => {
   try {
     const response = await api.get(`/estates/me/manageProperty/statistics`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error getting stats:", error);
     throw error;
   }
 };
@@ -337,10 +299,8 @@ export const propertyOwnerStatistics = async () => {
 export const propertyOwnerRevenue = async () => {
   try {
     const response = await api.get(`/estates/me/property-owner/calculate-revenue`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error getting stats:", error);
     throw error;
   }
 };
@@ -351,7 +311,6 @@ export const fetchOwnerEstatesMe = async () => {
     const response = await api.get("/estates/me/property-owner");
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
     throw error;
   }
 };
@@ -359,24 +318,17 @@ export const fetchOwnerEstatesMe = async () => {
 export const ownerRentPayemntInfo = async () => {
   try {
     const response = await api.get(`/rentPayment/property-owner`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error getting stats:", error);
     throw error;
   }
 };
 
-
-
-
 export const fetchSpecificTenantRentPaymentOwner = async (id) => {
-  console.log(id);
   try {
     const response = await api.get(`/rentPayment/property-owner/tenant/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching tenant details:", error);
     throw error;
   }
 };
@@ -387,10 +339,8 @@ export const ownerPinCreation = async (password, rePassword) => {
       pincode: password,
       confirmPincode: rePassword,
     });
-    console.log(response.data);
     return { success: true, upDateddata: response.data };
   } catch (error) {
-    console.error("Error creating pin:", error);
     return { success: false, error: error?.response?.data?.message };
   }
 }
@@ -398,10 +348,8 @@ export const ownerPinCreation = async (password, rePassword) => {
 export const getRentHisOwner = async () => {
   try {
     const response = await api.get(`/rentPayment/property-owner`);
-    console.log(response.data.data)
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("failed to get rent history", error);
     return { success: false, error: error?.response.data };
   }
 };

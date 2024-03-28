@@ -24,8 +24,6 @@ const PropertyListing = () => {
   };
 
   const { propertyListedAll, loading, fetchData } = usePropertyStore();
-
-  console.log(propertyListedAll);
   const data = propertyListedAll;
   useEffect(() => {
     // Fetch data when the component mounts
@@ -33,20 +31,16 @@ const PropertyListing = () => {
   }, []);
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
-  console.log(options);
 
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
-  console.log(options2);
 
   const options3 = [...new Set(data?.map((item) => item?.propertyType))];
-  console.log(options3);
 
   const options4 = [...new Set(data?.map((item) => item?.numberOfBathrooms))];
-  const optionsRoom = options4.sort((a, b) => a - b);
-  console.log(optionsRoom);
 
+  const optionsRoom = options4.sort((a, b) => a - b);
+  
   const options5 =  [...new Set(data?.map((item) => item?.name))];
-  console.log(options5)
 
 
   const filteredData = data?.filter(
@@ -57,9 +51,6 @@ const PropertyListing = () => {
       (!selectedProperty || data?.propertyType === selectedProperty) &&
       (!selectedRooms || data?.numberOfBathrooms === selectedRooms)
   );
-
-  console.log(data);
-  console.log(propertyListedAll);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,11 +59,9 @@ const PropertyListing = () => {
 
   const handleSelect = (option) => {
     // Handle the selected value as needed
-    console.log("Selected Option:", option);
+    // console.log("Selected Option:", option);
     setSelectedValue(option);
   };
-
-  console.log(data);
 
   const openRegistrationForm = () => {
     setRegistrationForm(true);

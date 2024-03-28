@@ -40,21 +40,17 @@ const PopUpWalletCreationForm = ({
         bvn: BVN,
         bvnDateOfBirth: BVNDate,
       };
-      console.log(BVNDetails);
       const { success, upDateddata, error } = await createPropertyOwnerWallet(
         BVNDetails
       );
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setOpenSuccess(!openSuccess);
       } else {
-        console.error("Update failed", error);
         setOpenFailed(!openFailed);
         setError(error?.message);
       }
     } catch (error) {
-      console.error("Update error", error);
       setOpenFailed(!openFailed);
       setError(error?.message);
     }
@@ -77,14 +73,11 @@ const PopUpWalletCreationForm = ({
     const fetchData = async () => {
       try {
         const data = await propertyMe();
-        console.log(data);
         setData(data);
       } catch {}
     };
     fetchData();
   }, []);
-
-  console.log(data);
 
   return (
     <div className="">

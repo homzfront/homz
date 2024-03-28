@@ -13,8 +13,7 @@ const PlansYearly = ({ data, profile }) => {
   const [formError, setFormError] = useState();
   const router = useRouter()
   useBodyScroll([loading])
-  console.log(data)
-  console.log(profile)
+
   const pricingPlans = [
     {
       price: "N95,000",
@@ -109,9 +108,6 @@ const PlansYearly = ({ data, profile }) => {
   }
 
   async function handleSubmit(interval, plans) {
-    console.log(interval)
-    console.log(plans)
-
     setLoading(true);
 
     if (!interval || !plans) {
@@ -121,16 +117,17 @@ const PlansYearly = ({ data, profile }) => {
     }
 
     const planDetails = {
-      fullName: data.fullName,
-      businessName: data.businessName,
-      phoneNumber: String(data.phoneNumber), // Ensure phone number is a string
+      fullName: data?.fullName,
+      businessName: data?.businessName,
+      phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
       planName: plans,
       interval,
     };
 
     try {
       let response;
-      if (profile.PlanStatus === "free_trial") {
+      if (profile.PlanStatus === "free_trial" || profile?.planName === "Enterprise Starter" ||
+        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium") {
         response = await updateEnterPriseSub({
           planName: plans,
           interval
@@ -139,31 +136,30 @@ const PlansYearly = ({ data, profile }) => {
         response = await planEnterPriseSub(planDetails);
       }
       if (response.success) {
-        console.log("Form successfully filled:", response);
         setLoading(false);
         const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
         toast.success(successMessage);
         const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
         const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
-        
+
         if (isValidUrl(authorizationUrl)) {
           router.push(authorizationUrl);
         } else if (isValidUrl(paystackAuthorizationUrl)) {
           router.push(paystackAuthorizationUrl);
         } else {
-          console.warn('Invalid or missing authorization URL in response.');
+          // console.warn('Invalid or missing authorization URL in response.');
         }
       } else {
         if (response.error) {
           setFormError(response.error || 'An error occurred.'); // Default error message
-          console.error("Error creating profile:", response.error);
+          // console.error("Error creating profile:", response.error);
           setLoading(false);
           toast.error(response.error);
         } // Use the specific error message from response.error
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-      console.log(error.response?.data?.error)
+      // console.log(error.response?.data?.error)
       setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
       setLoading(false);
     }
@@ -175,7 +171,7 @@ const PlansYearly = ({ data, profile }) => {
 
   return (
     <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
-           {
+      {
         loading && <Loading />}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
@@ -196,7 +192,7 @@ const PlansYearly = ({ data, profile }) => {
                 : " hidden"
                 }`}
             >
-                     Contact Sales
+              Contact Sales
             </Link>
             <button
               onClick={() => {
@@ -205,10 +201,10 @@ const PlansYearly = ({ data, profile }) => {
               className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                 ? " hidden"
                 : ""
-                }  ${profile?.planName === plan.title ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                }  ${profile?.planName === plan.title && profile?.interval === "annually" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
             >
-              {profile?.planName === plan.title
+              {profile?.planName === plan.title && profile?.interval === "annually"
                 ? "Active"
                 : "Get Started"}
             </button>

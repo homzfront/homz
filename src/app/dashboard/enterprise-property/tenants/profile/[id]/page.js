@@ -3,7 +3,6 @@ import TenantProfile from '@/pages/dashboard/enterprise/tenants/secondPage/tenan
 
 const App = ({params}) => {
   const { id } = params;
-  console.log(id);
   return (
     <div className=''>
         <TenantProfile  id={id}/>

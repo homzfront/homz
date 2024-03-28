@@ -56,29 +56,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
 
-  console.log(selectedArea?.label);
-  console.log(selectedState?.label);
-  console.log(name);
-  console.log(address);
-  console.log(description);
-  console.log(propertyType?.label);
-  console.log(numberOfRooms?.label);
-  console.log(numberOfBathrooms?.label);
-  console.log(uploadedImageCoverPhoto);
-  console.log(uploadedImage);
-  console.log(uploadedImage2);
-  console.log(uploadedImage3);
-  console.log(uploadedImage4);
-  console.log(uploadedImage5);
-  console.log(monthlyRent);
-  console.log(yearlyRent);
-  console.log(totalFee);
-  console.log(maintenanceFee);
-  console.log(agencyFee);
-  console.log(email);
-  console.log(whatsapp);
-  console.log(phoneNumber);
-  console.log(toilet);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,8 +96,6 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
       });
 
       if (response.data.statuscode === 201 || 200) {
-        console.log(response.data.data);
-        console.log("form successfully updated ", response.data);
         // toast.success("form successfully uploaded");
         setLoading(false);
         setSelectedArea(null);
@@ -149,13 +124,12 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         setToilets(null)
       } else {
         const error = response.data.message;
-        console.log("Unexpected status code:", error);
+        // console.log("Unexpected status code:", error);
         toast.error("update falied");
         setLoading(false);
         setYesOrNoModal(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoading(false);
 
       if (
@@ -163,17 +137,13 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.error("Error message:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        console.error("Unexpected status code:", errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
         toast.error("Update failed");
-        console.log(error);
       }
-
       setYesOrNoModal(false);
     }
   };

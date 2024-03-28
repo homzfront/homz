@@ -7,6 +7,8 @@ import SelectState from "@/pages/selectStateAndArea/selectState";
 import SelectArea from "@/pages/selectStateAndArea/selectArea";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import { useRouter } from "next/navigation";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 const ManageProperty = () => {
   const [formError, setFormError] = useState("");
@@ -18,9 +20,12 @@ const ManageProperty = () => {
   const [estateAddress, setEstateAddress] = useState("");
   const [selectedState, setSelectedState] = useState('')
   const [selectedArea, setSelectedArea] = useState('')
+  const router = useRouter();
 
-  console.log(selectedArea)
-  console.log(selectedState)
+  const goBack = () => {
+    router.back();
+  };
+
 
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
@@ -62,13 +67,11 @@ const ManageProperty = () => {
       if (response.data.statuscode === 200 || 201) {
         setSubmitConfirmationVisible(true);
         setLoading(false)
-        console.log("form successfully filled ", response.data);
       } else {
         setFormError(response.data.message);
         setLoading(false)
       }
     } catch (error) {
-      console.error("Error creating profile:", error);
       setFormError(error?.response?.data?.message || error?.response?.data?.error?.errors || error?.response?.data?.error);
       setLoading(false)
     }
@@ -113,9 +116,9 @@ const ManageProperty = () => {
               Register as a landlord to monitor your properties, tenants & rent payments in one place.
             </p>
           </div>
-          <Link href={"/select-plan"}>
-            <Image src={"/Link.png"} height={24} alt="img" width={132} />
-          </Link>
+          <div onClick={goBack} className="cursor-pointer flex gap-1 items-center">
+            <ArrowLeftBlue /> <p className="text-BlueHomz4 text-[16px] font-[400]">Change Profile</p>
+          </div>
         </div>
         <div className="w-full h-[320px] m-auto">
           <div className="max-w-[1156px] sm:px-8 m-auto">

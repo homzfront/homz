@@ -88,12 +88,12 @@ useBodyScroll([verified, verifyDelete, removeCard]);
     setVerifyDelete(false);
     setRemoveCard(false);
   };
-  console.log(data);
+  
   const reversedData = data.slice().reverse();
   const lastData = () => {
     return data[data.length - 1];
   };
-  console.log(lastData);
+
   return (
     <div>
       <p className="font-[700] text-[14px] text-GrayHomz">Enterprise Plan</p>

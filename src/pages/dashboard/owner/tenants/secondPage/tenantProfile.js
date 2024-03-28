@@ -7,7 +7,6 @@ import { fetchSpecificTenantOwner } from "@/api/tenantSevice.js";
 
 const TenantProfile = ({id}) => {
   const  [data, setData] = useState([])
-  console.log(id)
 
   useEffect(()=> {
     const rentInformation = async () => {
@@ -18,7 +17,6 @@ const TenantProfile = ({id}) => {
     rentInformation();
   }, [])
 
-  console.log(data);
   return (
     <div className="max-w-full ">
       <div className="w-full">

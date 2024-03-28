@@ -20,7 +20,6 @@ const PricingPlan = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedData = localStorage.getItem('enterData');
-      console.log(storedData);
       setData(JSON.parse(storedData));
     }
   }, []);
@@ -32,10 +31,8 @@ const PricingPlan = () => {
 
     const handleProfileResponse = async () => {
       const profileResponse = await api.get("/user/profile"); // Fetch profile data (client-side)
-
       if ([200, 201].includes(profileResponse.status)) { // Handle expected success status codes
         const profileData = profileResponse.data;
-        console.log(profile); // Log fetched profile data
         const determineUserDashboard = (profileData) => {
           // Check if profileData is null or undefined
           if (profileData === null || profileData === undefined) {
@@ -55,7 +52,8 @@ const PricingPlan = () => {
           router.push(navigateTo);
         }
       } else {
-        console.error("Error fetching profile data:", profileResponse.statusText); // Handle errors
+        // console.error("Error fetching profile data:", profileResponse.statusText); 
+        // Handle errors
       }
     };
 
@@ -69,10 +67,6 @@ const PricingPlan = () => {
       // ...cleanup tasks here
     };
   }, []);
-
-
-  console.log(profile);
-  console.log(data);
 
   return (
     <div className="max-w-[1440px] w-full px-8 py-4 m-auto">

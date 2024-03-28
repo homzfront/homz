@@ -1,10 +1,9 @@
 "use client";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Image from "next/image";
 import React, { useState } from "react";
 
 const BodyPropertyImage = ({ showRatingPage, data, user }) => {
-  console.log(data);
-
   function capitalizeFirstLetter(str) {
     if (str && typeof str === "string") {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -13,6 +12,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
       return "";
     }
   }
+
   function addCommasToNumber(number) {
     // Convert the number to a string
     const numberString = number?.toString();
@@ -35,26 +35,22 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
 
     if (timeDifferenceInDays >= 1) {
       // If the time difference is 1 day or more, return days ago
-      return `${timeDifferenceInDays} ${
-        timeDifferenceInDays === 1 ? "day" : "days"
-      } ago`;
+      return `${timeDifferenceInDays} ${timeDifferenceInDays === 1 ? "day" : "days"
+        } ago`;
     } else if (timeDifferenceInHours >= 1) {
       // If the time difference is 1 hour or more, return hours ago
-      return `${timeDifferenceInHours} ${
-        timeDifferenceInHours === 1 ? "hour" : "hours"
-      } ago`;
+      return `${timeDifferenceInHours} ${timeDifferenceInHours === 1 ? "hour" : "hours"
+        } ago`;
     } else {
       // Otherwise, return minutes ago
-      return `${timeDifferenceInMinutes} ${
-        timeDifferenceInMinutes === 1 ? "minute" : "minutes"
-      } ago`;
+      return `${timeDifferenceInMinutes} ${timeDifferenceInMinutes === 1 ? "minute" : "minutes"
+        } ago`;
     }
   }
 
   // Example usage:
   const postedTime = "2024-02-04T20:33:56.156Z";
   const timeAgo = getTimeAgo(postedTime);
-  console.log(`Time ago: ${timeAgo}`);
 
   const [copiedState, setCopiedState] = useState({
     copied: false,
@@ -75,10 +71,9 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
         2000
       ); // Clear the copied state after 2 seconds
     } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
+      // console.error("Unable to copy to clipboard:", error);
     }
   };
-  console.log(user);
   return (
     <div className="pl-2 pt-4">
       <div className="flex justify-between">
@@ -189,19 +184,26 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
             Property Owner
           </p>
           <div className="flex gap-2 items-center">
-          {
-              user?.coverPhoto?.url ?
-                <Image src={user?.coverPhoto?.url} alt="" height={40} width={40} className="rounded-full" />
-                : <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                  }
+            {
+              !user?.coverPhoto?.url ? (
+                <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                  <EmptyAvatar />
+                </div>
+              ) : (
+                <Image
+                  src={user?.coverPhoto?.url}
                   alt=""
-                  width={40}
                   height={40}
-                  className=""
+                  width={40}
+                  layout="full" // Specify the desired height
+                  objectFit="cover"
+                  objectPosition="center"
+                  className="object-cover bg-center h-[40px] rounded-full"
+                  quality={100}
+                  priority
                 />
-            }          <p className="text-[18px] font-[500] text-GrayHomz">
+              )}
+            <p className="text-[18px] font-[500] text-GrayHomz">
               {user?.fullName}
             </p>
           </div>
@@ -264,7 +266,7 @@ const BodyPropertyImage = ({ showRatingPage, data, user }) => {
               </p>
               <div className="mt-2 bg-whiteblue w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
                 <p className="text-[14px] font-[500] text-BlueHomz">
-                {data?.data?.contacts?.whatsapp ? data?.data?.contacts?.whatsapp : "NaN"}
+                  {data?.data?.contacts?.whatsapp ? data?.data?.contacts?.whatsapp : "NaN"}
                 </p>
                 <Image
                   src={

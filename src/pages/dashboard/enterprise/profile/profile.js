@@ -12,8 +12,7 @@ const Profile = () => {
   useEffect(()=>{
     fetchData();
   },[])
-  
-  console.log(data);
+
   return (
     <div className="p-8 w-full">
       <p className="font-[500] text-[20px] text-GrayHomz">Profile</p>

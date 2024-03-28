@@ -52,20 +52,16 @@ const Widget = ({ data }) => {
         );
 
         if (success) {
-          console.log("Form successfully updated", upDateddata);
           const  data = upDateddata?.data?.token;
-          console.log(data);
           localStorage.setItem('jwt', data)
           setLoading(false);
           setDashboard(true);
           // toast.success(upDateddata?.message);
         } else {
-          console.error("Update failed", error);
           setLoading(false);
           toast.error(error);
         }
       } catch (error) {
-        console.error("Update error", error);
         toast.error("Update error", error);
         setLoading(false);
       }

@@ -15,8 +15,6 @@ const Dashboard = () => {
     fetchData();
   }, [])
 
-  console.log(data);
-
   return (
     <div className="dashboard h-[300px] w-full flex flex-col">
       <div className="p-8 w-full pr-6 gap-5 flex flex-col">

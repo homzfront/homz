@@ -11,11 +11,9 @@ const Maintenance = ({id}) => {
 useEffect(() => {
   fetchData();
 }, []);
-console.log(data);
 
 const filteredData = data?.filter((data) => id === data?.tenant?.estateId._id)
 
-console.log(filteredData)
 return (
   <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container ">
     <div className="flex justify-between  p-6">

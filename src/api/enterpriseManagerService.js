@@ -3,10 +3,8 @@ import api from "@/utils/api";
 export const enterpriseMe = async () => {
   try {
     const response = await api.get("/enterprisePlan/me");
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching estates:", error);
     throw error;
   }
 };
@@ -14,16 +12,13 @@ export const enterpriseMe = async () => {
 export const enterpriseMePropertyOwner = async () => {
   try {
     const response = await api.get("/enterprisePlan/me/property-owners");
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching landlords:", error);
     throw error;
   }
 }
 
 export const updatePersonalInformation = async (updatedData) => {
-  console.log(updatedData);
   try {
     const response = await api.patch(
       `/enterprisePlan/personalInformation`,
@@ -31,13 +26,11 @@ export const updatePersonalInformation = async (updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 export const updateBussinessInformation = async (updatedData) => {
-  console.log(updatedData);
   try {
     const response = await api.patch(
       `/enterprisePlan/bussinessInformation`,
@@ -45,14 +38,11 @@ export const updateBussinessInformation = async (updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 export const updateBusinessLogo = async (uploadedImage) => {
-  console.log(uploadedImage);
-
   const formData = new FormData();
   formData.append("businessLogo", uploadedImage);
 
@@ -61,8 +51,6 @@ export const updateBusinessLogo = async (uploadedImage) => {
   formData.forEach((value, key) => {
     formDataObject[key] = value;
   });
-
-  console.log(formDataObject);
 
   try {
     const headers = {
@@ -76,27 +64,20 @@ export const updateBusinessLogo = async (uploadedImage) => {
     );
 
     if (response.data.statuscode === 201 || 200) {
-      console.log(response.data.data);
-      console.log("form successfully updated ", response?.data);
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
-      console.log("Unexpected status code:", error);
     }
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
 export const updatePassword = async (updatedData) => {
-  console.log(updatedData);
   try {
     const response = await api.patch(`/auth/change/password`, updatedData);
-    console.log(response);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -109,10 +90,8 @@ export const createWalletEnterprise = async (BVNDetails) => {
       bvnDateOfBirth,
       pincode: pinCode
     });
-    console.log(response);
     return { success: true, upDateddata: response?.data.data };
   } catch (error) {
-    console.error("Update error", error);
     return { success: false, error: error?.response?.data }; // Adjusted this line
   }
 };
@@ -120,10 +99,8 @@ export const createWalletEnterprise = async (BVNDetails) => {
 export const enterpriseUserWallet = async () => {
   try {
     const response = await api.get(`/wallet/getWallet/enterprise`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error wallet:", error);
     throw error;
   }
 };
@@ -131,16 +108,13 @@ export const enterpriseUserWallet = async () => {
 export const enterpriseWalletBalance = async () => {
   try {
     const response = await api.get(`/wallet/balance/enterprise`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error wallet:", error);
     throw error;
   }
 };
 
 export const sendMoneyEnterpriseToOwner = async (details) => {
-  console.log(details);
   const {
     pincode,
     recipientName,
@@ -149,32 +123,27 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
     id
   } = details
   try {
-    const response = await api.post(`/wallet/enterprise/send/${id}/property-owner`,{
+    const response = await api.post(`/enterprisePlan/payment/send/${id}/property-owner`, {
       pincode,
       recipientName,
       amount,
       description
-  });
-    console.log(response);
+    });
     return { success: true, upDateddata: response?.data?.data };
   } catch (error) {
-    console.error("error", error);
     return { success: false, error: error?.response.data }; // Adjusted this line
   }
 };
 
 export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
-  console.log(email);
-  console.log(estateName);
   try {
     const response = await api.post(`/enterpriseplan/role/invite-link/property-owner`, {
       email,
       estateName,
     });
-    console.log(response);
     return { success: true, upDateddata: response };
   } catch (error) {
-   const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
     return { success: false, error: errorMessage };
   }
 };
@@ -182,10 +151,8 @@ export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
 export const enterpriseStatistics = async () => {
   try {
     const response = await api.get(`/estates/me/enterprise/statistics`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error getting stats:", error);
     throw error;
   }
 };
@@ -193,24 +160,18 @@ export const enterpriseStatistics = async () => {
 export const enterpriseRevenue = async () => {
   try {
     const response = await api.get(`/estates/me/enterprise/calculate-revenue`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error getting stats:", error);
     throw error;
   }
 };
 
 
-
 export const enterpriseRevenueForAnEstate = async (id) => {
-  console.log(id);
   try {
     const response = await api.get(`/estates/${id}/calculate-revenue`);
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
-    console.error("Error fetching tenants:", error.response?.data?.error);
     if (error.response?.data?.error === "Estate does not have tenants") {
       return {}
     }
@@ -223,34 +184,27 @@ export const enterpriseRevenueForAnEstate = async (id) => {
 export const enterpriseRentPayemntInfo = async () => {
   try {
     const response = await api.get(`/rentPayment/enterprise`);
-    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error getting stats:", error);
     throw error;
   }
 };
 
 export const fetchSpecificTenantRentEnterprise = async (id) => {
-  console.log(id);
   try {
     const response = await api.get(`/rentPayment/enterprise/tenant/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching tenant details:", error);
     throw error;
   }
 };
 
 
 export const enterpriseTenantForAnEstate = async (id) => {
-  console.log(id);
   try {
     const response = await api.get(`/estates/${id}/tenants/enterprise`);
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
-    console.error("Error fetching tenants:", error.response?.data?.message);
     if (error.response?.data?.message === "No items found") {
       return {}
     }
@@ -264,10 +218,36 @@ export const enterprisePinCreation = async (password, rePassword) => {
       pincode: password,
       confirmPincode: rePassword,
     });
-    console.log(response.data);
     return { success: true, upDateddata: response.data };
   } catch (error) {
-    console.error("Error creating pin:", error);
     return { success: false, error: error?.response?.data?.message };
   }
 }
+
+
+export const enterpriseGetOtpPincode = async (password) => {
+  try {
+    const response = await api.post(`/wallet/pincode/otp/enterprise`, {
+      password,
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+
+export const enterpriseUpdatePincode = async (password, otp, pincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/update/enterprise`, {
+      password,
+      otp, 
+      pincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data?.message };
+  }
+};
+
+

@@ -13,7 +13,6 @@ const Profile = () => {
     fetchData();
   }, [])
 
-  console.log(data);
   return (
     <div className="p-8 w-full">
       <ToastContainer

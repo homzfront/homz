@@ -7,6 +7,7 @@ import Payment from "./payment/payment.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AccountInfo from "./accountInfo/accountInfo.js";
 const pages = [
   {
     id: 1,
@@ -23,8 +24,9 @@ const pages = [
     name: "Personal Information",
     component: (data) => <PersonalInfo data={data} />, // Use a function to pass data dynamically
   },
-  { id: 4, name: "Payment", component: (data) => <Payment data={data} /> },
-  { id: 5, name: "Change Password", component: <ChangePassword /> },
+  { id: 4, name: "Account Information", component: (data) => <AccountInfo /> },
+  { id: 5, name: "Payment", component: (data) => <Payment data={data} /> },
+  { id: 6, name: "Change Password", component: <ChangePassword /> },
 ];
 
 const Widget = ({ data }) => {
@@ -51,7 +53,7 @@ const Widget = ({ data }) => {
         theme="dark"
       />
       <div className="w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-[771px] cursor-pointer">
+        <div className="flex mt-5 gap-2 justify-between w-[900px] cursor-pointer">
           {pages.map((page) => (
             <div
               key={page.id}

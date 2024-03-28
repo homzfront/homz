@@ -1,7 +1,6 @@
 import React from "react";
 
 const ViewSavings = ({ closeSavings, selectedSavings = null || [] }) => {
-  console.log(selectedSavings);
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
       <div className="flex flex-col gap-[10px] w-[540px] h-[426px] p-8 bg-white rounded-[12px] justify-between">

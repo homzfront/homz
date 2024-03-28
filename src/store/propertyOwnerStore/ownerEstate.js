@@ -11,7 +11,7 @@ const ownerEstateStore = create((set) => ({
       set({ data: estate, loading: false });
     } catch (error) {
       // Handle error if needed
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
       set({ loading: false });
     }
   },

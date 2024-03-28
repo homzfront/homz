@@ -28,7 +28,6 @@ const EstateInformation = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  console.log(data);
 
   // useEffect to handle scrolling
   useBodyScroll([openLinkModal, linkConfirmationModal]);
@@ -63,8 +62,6 @@ const EstateInformation = () => {
 
     const url = inviteLink;
     const { estate, invitation } = extractQueryParams(url);
-    console.log(estate);
-    console.log(invitation)
     try {
       const { success, upDateddata, error } = await sendInviteProperty(
         estate,
@@ -72,17 +69,14 @@ const EstateInformation = () => {
       );
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
         setLoadingII(false);
         setLinkConfirmationModal(!linkConfirmationModal);
         toast.success("Update successful");
       } else {
-        console.error("Update failed", error);
         toast.error(error);
         setLoadingII(false);
       }
     } catch (error) {
-      console.error("Update error", error);
       setLoadingII(false);
       toast.error("Update failed");
     }

@@ -26,17 +26,16 @@ const EditAmountToSave = ({
 
       // Check if the updated value is more than the wallet balance
       const walletBalance = parseInt(data[0].wallet);
-      console.log(walletBalance);
+      
   
       const updatedValue = parseInt(newSavingTarget);
-      console.log(updatedValue);
+     
   
       const amountToSave = parseInt(selectedSavings?.amountToSave);
-      console.log(amountToSave);
+     
   
       const amountToSaveII =
       walletBalance +  amountToSave;
-      console.log(amountToSaveII)
 
   const handleUpdate = () => {
     // Perform any validation if needed
@@ -54,7 +53,6 @@ const EditAmountToSave = ({
     return;
   };
 
-  console.log(selectedSavings);
 
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

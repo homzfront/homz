@@ -8,6 +8,8 @@ import useClickOutside from "@/utils/clickOutside";
 import Menu from "@/components/icons/Menu";
 import SidebarMobile from "../sidebarMobile/sidebarHeader";
 import useDisableBodyScroll from "@/utils/useDisableBodyScroll";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
+import Notification from "@/components/icons/notification";
 
 
 const Header = () => {
@@ -35,7 +37,6 @@ const Header = () => {
   }, []);
 
   const user = data;
-  console.log(user);
   useDisableBodyScroll(open)
 
   return (
@@ -70,34 +71,26 @@ const Header = () => {
         </div>
         <div className="flex gap-4 items-center relative">
           <div onClick={handleToggleMenuTwo} className="cursor-pointer hidden" >
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/header/notification.png"
-              }
-              alt=""
-              height={25}
-              width={24}
-            />
+            <Notification />
             {popUpMenuTwo && <PopUpMenuAlert />}
           </div>
           <div ref={dropdownRef} onClick={() => setPopUpMenu(prevState => !prevState)} className="relative cursor-pointer">
             {!user?.coverPhoto?.url ? (
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                }
-                alt=""
-                width={40}
-                height={40}
-                className=""
-              />
+              <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                <EmptyAvatar />
+              </div>
             ) : (
               <Image
                 src={user?.coverPhoto?.url}
                 alt=""
                 height={40}
                 width={40}
-                className="rounded-full"
+                layout="full" // Specify the desired height
+                objectFit="cover"
+                objectPosition="center"
+                className="object-cover bg-center h-[40px] rounded-full"
+                quality={100}
+                priority
               />
             )}
             {popUpMenu && <PopUpMenu user={user} />}

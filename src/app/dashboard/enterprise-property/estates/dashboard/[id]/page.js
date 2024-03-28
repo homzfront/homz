@@ -3,9 +3,6 @@ import Dashboard from '@/pages/dashboard/enterprise/estates/dashboard/dashboard'
 
 const App = ({ params }) => {
   const { id } = params;
-
-  console.log(id);
-
   return (
     <div className=''>
         <Dashboard id={id}/>

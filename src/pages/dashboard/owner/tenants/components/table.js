@@ -6,17 +6,12 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Button from "../../components/button";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 
 
 const Table = ({ tenantData, datas }) => {
-
-  console.log(tenantData?.data);
-
   const data = datas?.data
-  console.log(data);
-
-  console.log(data?.length);
 
   const ITEMS_PER_PAGE = 4;
 
@@ -67,22 +62,20 @@ const Table = ({ tenantData, datas }) => {
                   <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                     {tenantData?.data?.data?.coverPhoto?.url === null ||
                       tenantData?.data?.data?.coverPhoto?.url === undefined ? (
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/AvatarEmpty.png"
-                        }
-                        alt=""
-                        width={30}
-                        height={30}
-                        className="py-[15px]"
-                      />
+                        <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                        <EmptyAvatar />
+                      </div>
                     ) : (
                       <Image
                         src={tenantData?.data?.data?.coverPhoto?.url}
                         alt=""
-                        width={30}
-                        height={30}
-                        className="rounded-[100%] py-[15px]"
+                        width={40}
+                        height={40}
+                        layout="full" // Specify the desired height
+                        objectFit="cover"
+                        objectPosition="center"
+                        className="object-cover bg-center h-[40px] rounded-full"
+                        priority
                       />
                     )}
                     <span className="py-[15px]">  {tenantData?.data?.data?.fullName}</span>
