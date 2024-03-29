@@ -31,11 +31,7 @@ const useProfileStore = create((set) => ({
       await api.post('/auth/logout');
       set({ profile: null, isLoggedIn: false, loading: false });
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('email');
-        localStorage.removeItem('user');
-        localStorage.removeItem('RentResponse');
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('profile');
+        localStorage.clear();
       }
       // Redirect to login or another appropriate page
       window.location.href = '/';

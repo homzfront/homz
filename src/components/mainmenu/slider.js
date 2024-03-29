@@ -28,13 +28,14 @@ const SliderComponent = ({ users }) => {
                 <div className="sm:h-auto xl:h-[30vh]">
                   <div className="flex flex-col gap-3 xl:gap-4 w-full justify-start px-8 sm:px-12 my-6 sm:my-0">
                     <div className="star-rating sm:mt-14">
-                      {[...Array(5)].map((index) => {
+                      {[...Array(5)].map((_, index) => {
                         return (
                           <span key={index} className="text-BlueHomz text-2xl">
                             &#9733;
                           </span>
                         );
                       })}
+
                     </div>
                     <h1 className="font-[500] h-auto text:[24px] sm:text-[13px] lg:text-[22px] xl:text-[36px] mb-1 md:mb-0 xl:mb-4 text-BlackHomz">
                       {user.content}
