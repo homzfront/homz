@@ -41,19 +41,19 @@ const ManageUsers = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  // const options = [
-  //   { id: 1, label: "Can View" },
-  //   { id: 2, label: "Can Edit" },
-  // ];
+  const options = [
+    { id: 1, label: "Can View" },
+    { id: 2, label: "Can Edit" },
+  ];
 
   // State to store the selected option
-  // const [selectOp, setSelectedOp] = useState([]);
-  // const [dataEmail, setDataEmail] = useState([]);
+  const [selectOp, setSelectedOp] = useState([]);
+  const [dataEmail, setDataEmail] = useState([]);
   // const [isOpen, setIsOpen] = useState(false);
 
-  // const handleToggle = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
 
   // const [selectedRoleTwo, setSelectedRoleTwo] = useState(null);
@@ -141,7 +141,7 @@ const ManageUsers = () => {
             className="flex w-full justify-between items-center cursor-pointer"
           >
             <div className="text-[14px] font-[400] text-GrayHomz">
-              Add landlord to view and monitor properties
+            Invite landlord to view and monitor properties
             </div>
             <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
               <Image
@@ -227,14 +227,13 @@ const ManageUsers = () => {
             returnHome={returnHome}
           />
         )}
-        {/* {selectOp.label === "Can View" && (
+        {selectOp.label === "Can View" && (
           <div className="mt-4">
             <div className="flex gap-3 items-center">
               <ToggleButton onToggle={handleToggle} isOpen={isOpen} />{" "}
               <p
-                className={`text-[16px] font-[400] ${
-                  !isOpen ? "text-GrayHomz2" : "text-BlackHomz"
-                } `}
+                className={`text-[16px] font-[400] ${!isOpen ? "text-GrayHomz2" : "text-BlackHomz"
+                  } `}
               >
                 View as property owner
               </p>
@@ -250,24 +249,23 @@ const ManageUsers = () => {
                   onSelect={handleSelectEstate}
                   selectOption={"Select Property"}
                 />
-               <div className="flex gap-1"> 
-               <p className="text-[14px] font-[400] text-GrayHomz">
-                  Yet to add a property?
-                </p>
-                <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
-                  Add New Property
-                </Link>
+                <div className="flex gap-1">
+                  <p className="text-[14px] font-[400] text-GrayHomz">
+                    Yet to add a property?
+                  </p>
+                  <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
+                    Add New Property
+                  </Link>
                 </div>
               </div>
             )}
           </div>
-        )} */}
-
-        {/* <div className="mt-8">
-          <TableUser  estateData={data}/>
-        </div> */}
+        )}
+        <div className="mt-8">
+          <TableUser estateData={data} />
+        </div>
       </div>
-      {/* {openModal && (
+      {openModal && (
         <ConfirmModal
           header={"Invite Sent Successfully"}
           body={`Your invite link has successfully been sent to ${dataEmail}`}
@@ -275,7 +273,7 @@ const ManageUsers = () => {
           returnHome={returnHome}
         />
       )}
-      <Invites /> */}
+      {/* <Invites /> */}
     </div>
   );
 };

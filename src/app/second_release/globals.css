@@ -1,0 +1,597 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  font-family: "Bricolage Grotesque", sans-serif;
+  outline: none;
+  scroll-behavior: smooth;
+}
+
+html {
+  /* font-size: 62.5%; */
+  /* overflow-x: hidden; */
+  scroll-behavior: smooth;
+  width: 100%;
+}
+
+body {
+  /* overflow-x: hidden; */
+  width: auto;
+  /* margin: 0 !important; */
+}
+
+/* Add this to your existing styles or create a separate stylesheet */
+.scrollbar-container::-webkit-scrollbar {
+  width: 6px;
+  background-color: #d1e4ff;
+  border-top-right-radius: 30px;
+  /* Set the width of the scrollbar track */
+}
+
+.scrollbar-container::-webkit-scrollbar-thumb {
+  background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
+  padding-top: 10px;
+  border-top-right-radius: 30px;
+}
+.sidebar,
+.mobileNav {
+  height: auto;
+}
+.mobileNav {
+  width: 100vw;
+}
+.ListProperty {
+  @apply grid justify-center;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 20px;
+}
+.tenantdashboard {
+  @apply grid;
+  grid-template-columns: 268px 1fr 1fr 1fr;
+  grid-template-rows: 0.2fr 3fr;
+  grid-template-areas:
+    "sidebar header header header"
+    "sidebar pagepart pagepart pagepart";
+  /* max-width: 1440px; */
+  /* Set the maximum width to 1440px */
+  /* width: 100vw;  */
+  /* Allow it to take 100% width within the max-width */
+  margin: auto;
+  height: 100vh;
+}
+
+.header {
+  @apply grid;
+  grid-area: header;
+  border-bottom: 1px rgb(225, 225, 225) solid;
+}
+
+.sidebar {
+  @apply grid;
+  grid-area: sidebar;
+}
+.mobileNav {
+  @apply grid;
+  grid-area: mobileNav;
+}
+
+.tenantdashboard {
+  @apply grid;
+  grid-area: pagepart;
+  /* width: 1440px; Set the maximum width to 1440px */
+  width: 100%; /* Allow it to take 100% width within the max-width */
+}
+.dashboard {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: flex-start;
+
+  overflow-x: hidden;
+}
+.tenantsDH {
+  overflow-x: hidden;
+}
+.searchPane {
+  border: 1px solid rgb(201, 198, 198) !important;
+}
+.headerAdmin {
+  border-bottom: 1px solid rgb(213, 210, 210);
+}
+.adminSideNav {
+  border-right: 1px solid rgb(201, 198, 198) !important;
+}
+.proBorders {
+  border: 1px solid #a9a9a9;
+}
+.SideNav {
+  border-right: 1px solid #a9a9a9;
+}
+
+.adminBorders {
+  border: 1px solid;
+}
+.filterBorder {
+  border: 1px solid #006aff;
+}
+.userFilterBorder {
+  border: 2px solid #006aff;
+}
+.updateBorder {
+  border: 1px solid #006aff;
+}
+.testimonial {
+  border: 1px solid #559CFF;
+}
+
+.visitor {
+  width: 473px;
+  height: 45px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #A9A9A9;
+}
+.errorMsg {
+  color: red;
+  font-size: 12px;
+}
+.propertyDoc {
+  border: 1px solid #e6e6e6;
+}
+.adminCellBorders {
+  border: 1px solid #a9a9a9;
+}
+.editBtn {
+  border: 1px solid rgba(0, 106, 255, 1);
+}
+.tenantDrop {
+  border: 1px solid #e6e6e6;
+}
+.preview {
+  border-bottom: 1px solid #e6e6e6;
+}
+.reminderBorder {
+  border-top: 1px solid #e6e6e6;
+}
+.profileIcons {
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.08);
+  background-color: white;
+}
+.profiles {
+  font-family: Plus Jakarta Sans;
+}
+.field {
+  /* background:inherit; */
+  width: 313px;
+  height: 45px;
+  padding: 12px;
+  border-radius: 4px;
+  gap: 4px;
+  /* border: none; */
+  /* margin-top: 10px; */
+}
+/* Style the select element's drop-down arrow */
+select.field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23828a90' viewBox='0 0 20 20'%3E%3Cpath d='M10 12l-8-8h16z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em 1em;
+}
+
+.rotate-arrow {
+  transition: transform 0.3s ease;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.Taskbar {
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.businessField {
+  width: 313px;
+  height: 45px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px;
+  /* background: rgba(169, 169, 169, 1); */
+  gap: 4px;
+  border: 1px solid rgba(169, 169, 169, 1);
+}
+
+.ContactInfoField {
+  width: 473px;
+  height: 45px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px;
+  gap: 4px;
+  border: 1px solid #a9a9a9;
+}
+.businessImage {
+  width: 237px;
+  height: 237px;
+  border: 4.99px;
+  background: linear-gradient(0deg, #d5d5d5, #d5d5d5),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  background: linear-gradient(0deg, #d5d5d5, #d5d5d5),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  border: 4.99px solid rgba(255, 255, 255, 1);
+  border-radius: 100%;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 10px; /* Adjust as needed */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.paymentField {
+  width: 677px;
+  height: 56px;
+  padding: 16px, 20px, 16px, 20px;
+  border-radius: 12px;
+  gap: 32px;
+  background: rgba(252, 252, 252, 1);
+}
+.currentCard {
+}
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    width: max-content;
+  }
+  .headerAdmin {
+    /* border-bottom: 1px solid rgb(231, 229, 229); */
+    /* padding-top:1.5rem; */
+    /* padding-bottom: 2rem; 
+  }
+
+  .sidebar {
+    display: none;
+    /* Hide the sidebar on screens smaller than 768px */
+  }
+  .header {
+    display: none;
+  }
+  .dashboard,
+  .tenantsDH {
+    width: 100%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #559cff;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+.custom-dropdown {
+  appearance: none;
+  background-color: transparent;
+  border: 1px solid rgb(230, 230, 230);
+  padding: 0 14px;
+  padding-right: 12px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  border-radius: 6px;
+  height: 45px;
+}
+
+.custom-dropdown option {
+  /* transition: background-color 0.5s ease-in-out; */
+  font-size: 16px;
+  margin-top: 5px;
+  color: #333;
+  background-color: #fff;
+  padding: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.radio-input {
+  /* Basic styles */
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+
+  /* Custom ring */
+  --ring-width: 1px;
+  --ring-color: #adadad; /* Replace with your desired color */
+  box-shadow: inset 0 0 0 var(--ring-width) var(--ring-color); /* transition: box-shadow 0.2s ease-in-out; */
+}
+
+/* Checked state styles */
+.radio-input &:checked {
+  background-color: #4e4e4e;
+}
+
+/* .radio-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+} */
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid #3182ce; /* Blue border color */
+}
+.TenantCheckmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: 1px solid #3182ce; /* Blue border color */
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #e6f7ff;
+}
+.checkbox-container:hover input ~ .TenantCheckmark {
+  background-color: #e6f7ff;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: white; /* Blue background color when checked */
+}
+.checkbox-container input:checked ~ .TenantCheckmark {
+  background-color: white; /* Blue background color when checked */
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.TenantCheckmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+.checkbox-container input:checked ~ .TenantCheckmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  top: 50%;
+  left: 49%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #559cff;
+  transform: translate(-50%, -50%);
+}
+.checkbox-container .TenantCheckmark:after {
+  top: 50%;
+  left: 49%;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #559cff;
+  transform: translate(-50%, -50%);
+}
+.accessBorder {
+  border-bottom: 1px solid #e6e6e6;
+}
+input[type="radio"] {
+  /* Hide the default radio button */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  border: 2px solid #3182ce; /* Blue border color */
+  border-radius: 50%; /* Make it circular */
+  width: 16px;
+  height: 16px;
+}
+
+/* When radio button is checked */
+input[type="radio"]:checked {
+  background-color: #559cff; /* Blue background color */
+}
+
+.custom-classname.react-toggle--checked .react-toggle-track {
+  background-color: #006aff;
+}
+
+.custom-classname.react-toggle-track {
+  width: 44px;
+  height: 22px;
+  padding: 0;
+  border-radius: 30px;
+  background-color: #4d4d4d;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.custom-classname.react-toggle:hover:not(.react-toggle--disabled)
+  .react-toggle-track {
+  background-color: #4d4d4d;
+}
+
+.custom-classname.react-toggle--checked:hover:not(.react-toggle--disabled)
+  .react-toggle-track {
+  background-color: #006aff;
+}
+.react-toggle-track-check {
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0;
+  left: 8px;
+  opacity: 0;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-track-check {
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle-track-x {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0;
+  right: 10px;
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-track-x {
+  opacity: 0;
+}
+
+.custom-classname.react-toggle-thumb {
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #4d4d4d;
+  border-radius: 50%;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+.custom-classname.react-toggle--checked .react-toggle-thumb {
+  left: 27px;
+  /* border-color: #19AB27; */
+}
+
+.custom-classname.react-toggle--focus .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 0px 0px;
+  -moz-box-shadow: 0px 0px 0px 0px;
+  box-shadow: 0px 0px 0px 0px;
+}
+
+.custom-classname.react-toggle:active:not(.react-toggle--disabled)
+  .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 0px 0px;
+  -moz-box-shadow: 0px 0px 0px 0px;
+  box-shadow: 0px 0px 0px 0px;
+}
+.custom-classname.react-toggle-track {
+  width: 44px;
+  height: 22px;
+  padding: 2px;
+  border-radius: 12px;
+  background-color: #4d4d4d;
+  transition: all 0.2s ease;
+}
+
+progress[value] {
+  --color: #006aff; /* the progress color */
+  --background: #eef5ff; /* the background color */
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  /* width: 200px; */
+  background: var(--background);
+  /* width: 493px; */
+  height: 12px;
+  border-radius: 4px;
+}
+progress[value]::-webkit-progress-bar {
+  border-radius: 10em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-value {
+  border-radius: 10em;
+  background: var(--color);
+}
+progress[value]::-moz-progress-bar {
+  border-radius: 10em;
+  background: var(--color);
+}
+
+label {
+  font-family: Plus Jakarta Sans;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.response {
+  border-top: 1px solid rgb(213, 210, 210);;
+}
+.resImages{
+  
+  border: 3px solid white;
+}
