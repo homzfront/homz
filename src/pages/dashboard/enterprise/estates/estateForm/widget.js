@@ -5,7 +5,8 @@ import AddPhotos from "./addPhotos.js";
 import ContactInfo from "./contactInfo.js";
 // import Documents from "./documents.js"; 
 // Import your fourth component
-import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api.js";
 import { useRouter } from "next/navigation.js";
 
@@ -176,6 +177,19 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
 
   return (
     <div className=" w-full h-auto py-4">
+            <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="relative inline-block w-full">
         <div className="z-0 absolute w-full pr-[96px] pl-[96px] py-[27px]">
           <div className="border-[1px]"></div>

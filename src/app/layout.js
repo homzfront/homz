@@ -23,8 +23,8 @@ export default function RootLayout({ children }) {
       {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
         <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
       ) : null}
-      <body className={plus_Jakarta_Sans.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+      <body className={plus_Jakarta_Sans.className}>{children}
+        {/* <ReactQueryProvider>{children}</ReactQueryProvider> */}
       </body>
     </html>
   );

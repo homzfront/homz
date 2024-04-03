@@ -24,17 +24,29 @@ const Photos = ({ data }) => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage(file);
   };
 
   const handleImageUpload2 = (e, publicId) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage2(file);
     setPublicID(publicId);
   };
 
   const handleImageUpload3 = (e, publicId) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage3(file);
     setPublicID2(publicId);
   };
