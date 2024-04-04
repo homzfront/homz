@@ -131,6 +131,7 @@ const Register = () => {
                         handleInputChange("email", e.target.value)
                       }}
                       placeholder="Enter your email"
+                      autoComplete="email" // Add autocomplete attribute
                     />
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
@@ -147,6 +148,7 @@ const Register = () => {
                         handleInputChange("password", e.target.value)
                       }}
                       placeholder="Create a password"
+                      autoComplete="new-password" // Add autocomplete attribute
                     />
                     <div className="absolute top-11 right-8" onClick={Visible}>
                       {visible ? (

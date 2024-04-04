@@ -39,8 +39,19 @@ const PopUpMenuAlert = ({ selectedData, Data, dropdownRef }) => {
               <div className="flex items-start justify-between border-t pt-3 cursor-pointer" onClick={() => selectedData(data)}>
                 <div className="rounded-full shadow-md">
                   {
-
-                    data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ? <Image src={data?.sender?.coverPhoto?.url || data?.sender?.businessLogo?.url} alt="" height={40} width={40} className="rounded-full"/>
+                    data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ?
+                      <Image
+                        src={data?.sender?.coverPhoto?.url || data?.sender?.businessLogo?.url}
+                        alt=""
+                        height={40}
+                        width={40}
+                        layout="full" // Specify the desired height
+                        objectFit="cover"
+                        objectPosition="center"
+                        className="object-cover bg-center h-[40px] rounded-full"
+                        quality={100}
+                        priority
+                      />
                       :
                       <Image src="/static/dashboard/enterprisemanager/notification/AvatarEmpty.png" alt="" height={40} width={40} />
                   }

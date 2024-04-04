@@ -203,6 +203,7 @@ export const fetchSpecificTenantRentEnterprise = async (id) => {
 export const enterpriseTenantForAnEstate = async (id) => {
   try {
     const response = await api.get(`/estates/${id}/tenants/enterprise`);
+    // console.log(response);
     return response.data.data;
   } catch (error) {
     if (error.response?.data?.message === "No items found") {

@@ -7,16 +7,18 @@ import Maintenance from "../components/maintenanceCard";
 import Image from "next/image";
 import Link from "next/link";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
+import useEstateForOneStore from "@/store/useEstateForOne";
 
 const Dashboard = ({id}) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
+  const { data: datas, fetchData: Fetch } = useEstateForOneStore();
 
   useEffect(() => {
-    fetchData(id); // Fetch data on component mount
-  }, []);
+    fetchData(id);
+    Fetch(id)
+  }, [id]);
 
   const data = tenantData?.results?.[0]?.data;
-
   return (
     <div className="w-full">
       <div className="px-8 py-8">
@@ -40,7 +42,7 @@ const Dashboard = ({id}) => {
               href={"/dashboard/enterprise-property/estates"}
               className="text-[16px] font-[400] text-GrayHomz"
             >
-                     {data?.[0]?.estateId?.name ? data?.[0]?.estateId?.name : "Property Name"}<> </>/
+                     {datas?.name ? datas?.name : "Property Name"}<> </>/
        
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
@@ -49,12 +51,12 @@ const Dashboard = ({id}) => {
           </div>
         </div>
         <div className="mt-8 w-[784px] justify-between flex gap-5">
-          <HomeCard id={id}/>
+          <HomeCard revData={datas}/>
           <RevCard id={id}/>
         </div>
         <div className="mt-8 flex gap-5">
           <TenantsCard data={data}/>
-          <Maintenance data={data}/>
+          <Maintenance data={data} maintData={datas}/>
         </div>
       </div>
     </div>

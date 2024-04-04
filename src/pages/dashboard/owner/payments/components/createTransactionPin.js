@@ -7,6 +7,7 @@ import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import { ownerPinCreation } from '@/api/propertyService';
 
 const CreateTransactionPin = ({ handlePageChangeTwo }) => {
+    const [username, setUsername] = useState('')
     const [inputError, setInputError] = useState(false);
     const [password, setPassword] = useState('')
     const [rePassword, setRePassword] = useState('')
@@ -85,10 +86,7 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                         </p>
                     </div>
                 </div>
-                <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-4 mt-4"
-                >
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
                     <div className="flex flex-col gap-4">
                         <div className="relative flex flex-col gap-2 items-start">
                             <div className='flex flex-col items-start'>
@@ -100,10 +98,19 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                                 </span>
                             </div>
                             <input
-                                className={`w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500] ${inputError ? "border-red-500" : ""
-                                    }`}
+                                type="text"
+                                name="username" // Ensure a name attribute for password managers
+                                autocomplete="username"
+                                value={username}
+                                className='hidden'
+                                hidden // Hide visually but still accessible to screen readers
+                            />
+                            <input
                                 type={visible ? "text" : "password"}
+                                name="password" // Ensure a name attribute for password managers
+                                autoComplete="new-password" // Use new-password for password fields
                                 value={password}
+                                className='w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]'
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                     setError("");
@@ -122,12 +129,12 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                             <label className="text-center text-[13px] font-[500] text-GrayHomz">
                                 Re-enter transaction pin
                             </label>
-
                             <input
-                                className={`w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500] ${inputError ? "border-red-500" : ""
-                                    }`}
                                 type={visibleII ? "text" : "password"}
+                                name="rePassword" // Ensure a name attribute for password managers
+                                autoComplete="new-password" // Use new-password for password fields
                                 value={rePassword}
+                                className='w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]'
                                 onChange={(e) => {
                                     setRePassword(e.target.value);
                                     setError("");
@@ -146,19 +153,21 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                             <p className="text-red-500 text-[12px] mt-1">{error}</p>
                         )}
                     </div>
-                    {
-                        password !== '' && rePassword !== '' ? <button
-                            className={`bg-BlueHomz mt-4  text-white font-[700] text-[16px] w-full  rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center items-center" : ""
-                                }`}
-                            type="Submit"
+                    {password !== '' && rePassword !== '' ? (
+                        <button
+                            className={`bg-BlueHomz mt-4 text-white font-[700] text-[16px] w-full rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center items-center" : ""}`}
+                            type="submit"
                         >
                             {loading ? <LoadingFormII /> : "Create Transaction  Pin"}
-                        </button> : <button
+                        </button>
+                    ) : (
+                        <button
                             className="pointer-events-none bg-GrayHomz6 mt-4 text-GrayHomz5 font-[700] text-[16px] w-full rounded-[4px] h-[47px]"
+                            disabled
                         >
                             Create Transaction  Pin
                         </button>
-                    }
+                    )}
                 </form>
             </div>
         </div>

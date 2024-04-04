@@ -106,7 +106,8 @@ const ChangePassword = () => {
           setPassword={setPassword}
           label={"Current Password"}
           placeholder={"Enter your current password"}
-          setError={setPasswordError}
+          setError={setPasswordError}  
+          autoComplete={"current-password"}
         />
         <InputVisible
           password={newPassword}
@@ -114,6 +115,7 @@ const ChangePassword = () => {
           label={"New Password"}
           placeholder={"Enter New password"}
           setError={setPasswordError}
+          autoComplete={"new-password"}
         />
         <div>
           <p className="mt-[-5px] text-GrayHomz2 text-[13px] font-[400]">
@@ -126,7 +128,8 @@ const ChangePassword = () => {
           setPassword={setReEnterPassword}
           label={"Re-enter Password"}
           placeholder={"Re-enter  password"}
-          setError={setPasswordError}
+          setError={setPasswordError}         
+           autoComplete={"new-password"}
         />
         {passwordError && (
           <div className="text-error italic text-[11px]">{passwordError}</div>

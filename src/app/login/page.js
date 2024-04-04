@@ -33,12 +33,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Early return if already loading
     if (loading) return;
-  
+
     setLoading(true); // Set loading state
-  
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -46,38 +46,38 @@ const Login = () => {
       setLoading(false);
       return;
     }
-  
+
     // Validate required fields
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
     }
-  
+
     // Check password length
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
       setLoading(false);
       return;
     }
-  
+
     try {
       // Login request
       const response = await api.post("/auth/login", {
         email,
         password,
       });
-  
+
       if (response.status === 201) { // Handle expected successful login status code
-        const  data = response.data.data.token;
+        const data = response.data.data.token;
         // toast.success("Login Successful")
         localStorage.setItem('jwt', data)
         // Fetch user profile
         const profileResponse = await api.get("/user/profile");
-  
+
         if (profileResponse.status === 200 || 201) { // Handle expected success status codes
           const profileData = profileResponse.data;
-  
+
           // Navigation logic based on user roles and account status
           const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
           if (navigateTo) {
@@ -86,7 +86,7 @@ const Login = () => {
             // Default navigation for unhandled roles or empty accounts
             router.push("/");
           }
-  
+
           // Update user and profile state
           useProfileStore.setState({
             user: data,
@@ -94,7 +94,7 @@ const Login = () => {
             isLoggedIn: true,
             loading: false,
           });
-  
+
           setEmail("");
           setPassword("");
         } else {
@@ -108,8 +108,8 @@ const Login = () => {
     } finally {
       setLoading(false); // Ensure loading state is reset even in case of errors
     }
-  }; 
-  
+  };
+
   const Visible = () => {
     setVisible(!visible);
   };
@@ -117,13 +117,13 @@ const Login = () => {
 
   return (
     <div className="">
-    
+
       <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
-        closeButton={false} 
+        closeButton={false}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
@@ -133,9 +133,9 @@ const Login = () => {
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
 
-      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
-        <SliderAuth/>
-      </div>
+        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
+          <SliderAuth />
+        </div>
         <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 W-[320px] sm:w-full py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
@@ -155,10 +155,14 @@ const Login = () => {
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                       type="text"
                       value={email}
-                      onChange={(e) => {setEmail(e.target.value)
-                      setLoginError("")}}
+                      onChange={(e) => {
+                        setEmail(e.target.value)
+                        setLoginError("")
+                      }}
                       placeholder="Enter your email"
+                      autoComplete="email" 
                     />
+
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
@@ -168,9 +172,12 @@ const Login = () => {
                       className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                       type={visible ? "text" : "password"}
                       value={password}
-                      onChange={(e) => {setPassword(e.target.value)
-                      setLoginError("")}}
-                      placeholder="Create a password"
+                      onChange={(e) => {
+                        setPassword(e.target.value)
+                        setLoginError("")
+                      }}
+                      placeholder="Enter your password"
+                      autoComplete="current-password" 
                     />
                     <div className="absolute top-11 right-4" onClick={Visible}>
                       {visible ? (
@@ -196,7 +203,7 @@ const Login = () => {
                   className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}
                   type="Submit"
                 >
-                  {loading ? <LoadingFormII /> :  "Log In"}
+                  {loading ? <LoadingFormII /> : "Log In"}
                 </button>
                 {/* <div className="">
                   <button   className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">

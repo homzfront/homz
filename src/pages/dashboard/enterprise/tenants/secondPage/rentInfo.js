@@ -67,13 +67,12 @@ const RentInfo = ({ profile, rentInformation }) => {
     }
   }, [profile])
 
-
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
       setPropertyType(data?.upDateddata?.propertyType || "");
-      setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || 0);
-      setRent(data?.upDateddata?.totalRent || 0);
+      setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || "");
+      setRent(data?.upDateddata?.totalRent || "");
       setDuration(addYearsToValues(data?.upDateddata?.duration) || "");
       setStartDate(formatDateII(data?.upDateddata?.startDate) || "");
       setDueDate(formatDateII(data?.upDateddata?.dueDate) || "")
@@ -151,8 +150,6 @@ const RentInfo = ({ profile, rentInformation }) => {
       setError(error)
     }
   }
-
-
 
 
   const handleConfirm = async (e) => {
