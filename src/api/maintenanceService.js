@@ -60,6 +60,7 @@ export const maintenanceRequestForOwner = async () => {
 export const maintenanceRequestForATenantEnterprise = async (id) => {
   try {
     const response = await api.get(`/maintenances/enterprise/${id}`);
+    // console.log(response);
     return response.data.data.results;
   } catch (error) {
     if (error.response?.data?.message === "No items found") {
