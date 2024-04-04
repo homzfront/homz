@@ -5,7 +5,7 @@ import AddPhotos from "./addPhotos.js";
 import ContactInfo from "./contactInfo.js";
 // import Documents from "./documents.js"; 
 // Import your fourth component
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api.js";
 import { useRouter } from "next/navigation.js";

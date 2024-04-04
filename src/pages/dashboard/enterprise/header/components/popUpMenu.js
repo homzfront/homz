@@ -13,22 +13,23 @@ const PopUpMenu = ({ user }) => {
         className="flex gap-2 border-b w-full px-4 py-2"
       >
         {!user?.businessLogo?.url ? (
-           <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
-           <EmptyAvatar />
-         </div>
-       ) : (
-         <Image
-           src={user?.businessLogo?.url}
-           alt=""
-           width={40}
-           height={40}
-           layout="full" // Specify the desired height
-           objectFit="cover"
-           objectPosition="center"
-           className="object-cover bg-center h-[40px] rounded-full"
-           priority
-         />
-       )}
+          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+            <EmptyAvatar />
+          </div>
+        ) : (
+          <Image
+            src={user?.businessLogo?.url}
+            alt=""
+            width={40}
+            height={40}
+            layout="full" // Specify the desired height
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover bg-center h-[40px] rounded-full"
+            quality={100}
+            priority
+          />
+        )}
         <div className="flex flex-col">
           <span className="font-[600] text-[14px] text-BlackHomz">
             {user?.fullName}

@@ -11,11 +11,12 @@ import useClickOutside from "@/utils/clickOutside";
 
 const Estate = () => {
   const { data, loading, fetchData } = estateStore();
+  
 
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
-  }, []);
+  }, [data]);
 
   const estates = data;
   const [selectedDataId, setSelectedDataId] = useState(null);

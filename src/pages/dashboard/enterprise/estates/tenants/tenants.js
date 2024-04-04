@@ -8,13 +8,16 @@ import EstateForm from "../estateForm/estateForm";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 import useClickOutside from "@/utils/clickOutside";
 import formatDateII from "@/utils/formatDateII";
+import useEstateForOneStore from "@/store/useEstateForOne";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
+  const { data: datas, fetchData: Fetch } = useEstateForOneStore();
 
   useEffect(() => {
-    fetchData(id); // Fetch data on component mount
-  }, []);
+    fetchData(id); 
+    Fetch(id);
+  }, [id]);
 
   const data = tenantData?.results?.[0]?.data;
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -79,7 +82,7 @@ const Tenants = ({ id }) => {
                 href={"/dashboard/enterprise-property/estates"}
                 className="text-[16px] font-[400] text-GrayHomz"
               >
-                {tenantData?.results?.[0]?.data?.[0]?.estateId?.name ? tenantData?.results?.[0]?.data?.[0]?.estateId?.name : "Property Name"}<> </>/
+               {datas?.name ? datas?.name : "Property Name"}<> </>/
               </Link>
               <div className="text-[20px] font-[500] text-GrayHomz">
                 Tenants

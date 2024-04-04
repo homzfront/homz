@@ -31,15 +31,27 @@ const Notifications = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
   return (
     <div className="h-full overflow-auto scrollbar-container">
       {sortedData?.map((data) => (
-        <div key={data?._id} className={`${data?.status === "unseen"? "bg-inputBg" : ""}`}>
+        <div key={data?._id} className={`${data?.status === "unseen" ? "bg-inputBg" : ""}`}>
           <div className="flex justify-between items-center border-b pt-3 pb-3">
             <div className="rounded-full shadow-md p-2 ml-5">
-            {
+              {
 
-data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ? <Image src={data?.sender?.coverPhoto?.url || data?.sender?.businessLogo?.url} alt="" height={40} width={40} className="rounded-full"/>
-  :
-  <Image src="/static/dashboard/enterprisemanager/notification/AvatarEmpty.png" alt="" height={40} width={40} />
-}
+                data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ?
+                  <Image
+                    src={data?.sender?.coverPhoto?.url || data?.sender?.businessLogo?.url}
+                    alt=""
+                    height={40}
+                    width={40}
+                    layout="full" // Specify the desired height
+                    objectFit="cover"
+                    objectPosition="center"
+                    className="object-cover bg-center h-[40px] rounded-full"
+                    quality={100}
+                    priority 
+                    />
+                  :
+                  <Image src="/static/dashboard/enterprisemanager/notification/AvatarEmpty.png" alt="" height={40} width={40} />
+              }
             </div>
             <div className="w-[85%]">
               <p className="text-[16px] font-[600] text-BlackHomz">

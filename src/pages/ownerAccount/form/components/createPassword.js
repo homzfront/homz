@@ -48,6 +48,7 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
                     setLoginError(null); // Reset login error when password field is active again
                   }}
                   placeholder="Re-enter your password"
+                  autoComplete="new-password"
                 />
                 <div className="absolute top-11 right-4" onClick={Visible}>
                   {visible ? (
@@ -70,6 +71,7 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
                     setLoginError(null); // Reset login error when password field is active again
                   }}
                   placeholder="Re-enter your password"
+                  autoComplete="new-password"
                 />
                 <div className="absolute top-11 right-4" onClick={VisibleII}>
                   {visibleII ? (
