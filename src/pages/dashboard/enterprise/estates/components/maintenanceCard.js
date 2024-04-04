@@ -1,26 +1,25 @@
 "use client"
 import { maintenanceRequestForATenantEnterprise } from "@/api/maintenanceService";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import useMaintenanceTenantOfAnEstate from "@/store/enterpriseStore/useMaintenanceTenantOfAnEstate";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Maintenance = ({ data, maintData }) => {
-
-  const [ids, setIds] = useState({})
+  // console.log(data);
+  // console.log(maintData);
+  const ids = maintData?.tenants?.map((data) => data)
   const [maintenanceData, setMaintenanceData] = useState({});
-
-  useEffect(() => {
-    const ids = data?.map((data) => data._id);
-    setIds(ids);
-  }, [data]);
+// console.log(ids);
 
   useEffect(() => {
     if (ids === undefined) {
       setMaintenanceData({})
     } else {
       const fetchDataForId = async (id) => {
+        // console.log(id);
         try {
           if (id !== undefined) {
             const response = await maintenanceRequestForATenantEnterprise(id);
@@ -32,15 +31,20 @@ const Maintenance = ({ data, maintData }) => {
         } catch (error) {
         }
       };
-      fetchDataForId(ids)
-    };
-  }, [ids]); // Empty dependency array ensures this effect runs only once on component mount
 
+      // Fetch additional data for each ID
+      ids?.forEach(id => {
+        fetchDataForId(id);
+      });
+    }
 
+  }, []); // Empty dependency array ensures this effect runs only once on component mount
+// console.log(maintenanceData);
   const Data = Object.values(maintenanceData)
     .filter(array => array.length > 0) // Filter out empty arrays
     .flat();
-    
+
+    // console.log(Data);
   return (
     <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
@@ -67,7 +71,7 @@ const Maintenance = ({ data, maintData }) => {
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
               <th className="text-left ">Subject</th>
-              <th className="text-left">Status</th>
+              <th className="text-left w-[27%]">Status</th>
             </tr>
           </thead>
           <tbody className="">
@@ -98,7 +102,7 @@ const Maintenance = ({ data, maintData }) => {
                   {data?.subject}
                 </td>
                 <td
-                  className={`text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
+                  className={`text-GrayHomz w-[27%] py-[15px] pr-6 font-[500]  text-[11px] `}
                 >
                   <span
                     className={`p-[6px] rounded-lg text-center ${data?.status === "pending"

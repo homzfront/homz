@@ -62,7 +62,7 @@ const Maintenance = () => {
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
               <th className="text-left  hidden sm:table-cell">Subject</th>
-              <th className="text-left">Status</th>
+              <th className="text-left sm:w-[27%]">Status</th>
             </tr>
           </thead>
           <tbody className="">
@@ -93,7 +93,7 @@ const Maintenance = () => {
                   {request?.subject}
                 </td>
                 <td
-                  className={`text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
+                  className={`text-GrayHomz py-[15px] pr-6 font-[500] sm:w-[27%] text-[11px] `}
                 >
                   <span
                     className={`p-[6px] rounded-lg text-center ${request?.status === "pending"
