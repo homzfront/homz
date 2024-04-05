@@ -89,7 +89,7 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                     </div>
                 </div>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-                    <div className="flex flex-col gap-4">
+                    <div className={`flex flex-col gap-4 ${loading ? "pointer-events-none" : "" }`}>
                         <div className="relative flex flex-col gap-2 items-start">
                             <div className='flex flex-col items-start'>
                                 <label className="text-center text-[13px] font-[500] text-GrayHomz">
