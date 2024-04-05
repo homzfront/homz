@@ -23,7 +23,7 @@ const TransferDetails = ({
   setIlluminateWallet,
   fetchDataAgain,
 }) => {
-  console.log(illuminateWallet);
+  // console.log(illuminateWallet);
   const [username, setUsername] = useState('')
   const [pincode, setPincode] = useState("");
   const [amount, setAmount] = useState("");
@@ -44,7 +44,7 @@ const TransferDetails = ({
     fetchData();
   }, [])
 
-  console.log(data);
+  // console.log(data);
 
   const Visible = () => {
     setVisible(!visible);

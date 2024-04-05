@@ -34,7 +34,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   };
 
 
-  console.log(pincode)
+  // console.log(pincode)
 
   const handleOptionSelect = (option) => {
     console.log("Selected option:", option);
@@ -100,6 +100,10 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
 
   const closeConfirm = () => {
     setConfirm(false);
+    setReceipt(false);
+    setConfirm(false);
+    setProceed(false);
+    closeRentPay();
   };
 
   const showReceipt = () => {
