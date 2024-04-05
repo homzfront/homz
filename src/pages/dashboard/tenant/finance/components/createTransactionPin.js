@@ -79,12 +79,9 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
             }
             <div>
                 <div className="flex items-start w-full justify-between">
-                    <div className="flex flex-col gap-1">
+                    <div className="">
                         <p className="text-[14px] font-[500] text-BlueHomz">
                             Create Wallet
-                        </p>
-                        <p className="text-[13px] font-[400] text-GrayHomz">
-                            Update your profile to create wallet
                         </p>
                     </div>
                 </div>
