@@ -76,7 +76,7 @@ const SliderAuth = () => {
           </div>
         </div>
         <div className="font-[600] pt-[140px] text-GrayHomz3 text-center  text-[14px]">
-          &copy; 2022 Homz.ng. All rights reserved
+          &copy; 2024 Homz.ng. All rights reserved
         </div>
       </div>
  
