@@ -82,9 +82,9 @@ const Header = () => {
         <div className="">
           <div className="absolute bg-white h-auto z-50 w-[100%]">
             <div className="flex justify-between items-center p-8">
-              <div>
+              <Link href={"/"}>
                 <Image src="/homz.svg" width={86} height={18} alt="" />
-              </div>
+              </Link >
               <div className="cursor-pointer" onClick={closeSidebar}>
                 <Image src="/close.svg" width={16} height={16} alt="" />
               </div>
