@@ -1,0 +1,57 @@
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+const PopUpMenu = () => {
+  return (
+    <div className="drop-down absolute text-GrayHomz font-[500] top-12 right-0 border h-[250px] w-[244px] rounded-md bg-white flex flex-col items-center justify-around">
+      <Link href={``} className="flex gap-1 border-b w-full px-4 py-2">
+        <Image
+          src={"/static/dashboard/enterprisemanager/header/Avatar.png"}
+          alt=""
+          height={41}
+          width={40}
+          className="rounded-full"
+        />
+        <div className="flex flex-col">
+          <span className="font-[600] text-[14px] text-BlackHomz">
+            Victor Akpan
+          </span>
+          <span className="font-[400] text-[11px] text-GrayHomz">
+            Victor@gmail.com
+          </span>
+        </div>
+      </Link>
+      <Link href={"/dashboard/property-owner/notifications"} className="hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center  py-2 px-4 w-full  text-center">
+        <Image
+          src={"/static/dashboard/enterprisemanager/header/notification.png"}
+          alt=""
+          height={16}
+          width={16}
+        />
+        <p className="text-[14px] font-[500] text-GrayHomz hover:text-BlueHomz">Notification</p>
+      </Link>
+      <Link href={""} className="hover:bg-whiteblue h-[40px] rounded-md   flex gap-1 items-center  py-2 px-4 w-full  text-center">
+        <Image
+          src={"/static/dashboard/enterprisemanager/header/setting-2.png"}
+          alt=""
+          height={16}
+          width={16}
+        />
+        <p className="text-[14px] font-[500] text-GrayHomz hover:text-BlueHomz">Settings</p>
+      </Link>
+      <Link href={""} className="hover:bg-whiteblue h-[40px] rounded-md   flex gap-1  items-center py-2  px-4 w-full  text-center">
+        <Image
+          src={"/static/dashboard/enterprisemanager/header/logout.png"}
+          alt=""
+          height={16}
+          width={16}
+        />
+        <p className="text-[14px] font-[500] text-GrayHomz hover:text-BlueHomz">Logout</p>
+      </Link>
+    </div>
+  );
+};
+
+
+export default PopUpMenu;

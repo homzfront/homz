@@ -1,0 +1,11 @@
+const React = require('react');
+
+function PageWrapper({ children }) {
+  return (
+    React.createElement("div", { className: "flex flex-col pt-2 md:px-4 space-y-2 bg-white flex-grow pb-4" },
+      children 
+    )
+  );
+}
+
+module.exports = PageWrapper;

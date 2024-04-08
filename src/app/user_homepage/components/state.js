@@ -1,0 +1,91 @@
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
+
+const State = ({ getState, width }) => {
+  const [dropdowns, setDropdowns] = useState({
+    State: false,
+  });
+
+  const [selectedOptions, setSelectedOptions] = useState({
+    State: null,
+  });
+
+  const options = {
+    State: [
+      { id: 1, label: "For Sale" },
+      { id: 2, label: "For Rent" },
+    ],
+  };
+
+  const toggleDropdown = (dropdown) => {
+    setDropdowns((prevDropdowns) => ({
+      ...prevDropdowns,
+      [dropdown]: !prevDropdowns[dropdown],
+    }));
+  };
+
+  const handleOptionClick = (option, dropdown) => {
+    setSelectedOptions((prevOptions) => ({
+      ...prevOptions,
+      [dropdown]: option,
+    }));
+    toggleDropdown(dropdown);
+    getState(option.label, "Status");
+    // Do something with the selected option, e.g., trigger an action or update state
+  };
+
+  return (
+    <div className="flex gap-2 w-full">
+      {Object.keys(dropdowns).map((dropdown) => (
+        <div key={dropdown} className="relative">
+          <div
+            className={`${width ? `${width} md:w-[102px]` : 'w-[101px]'} h-[37px] md:h-[44px] text-[#A9A9A9] bg-white  adminCellBorders md:mb-1 md:pt-3 px-2 pt-2   rounded cursor-pointer  ${
+              dropdowns[dropdown] ? "border" : ""
+            }`}
+            onClick={() => toggleDropdown(dropdown)}
+          >
+            <div className="flex text-[11px] md:text-[14px] font-[500] text-GrayHomz2 justify-between items-center">
+              <span className="mr-2">
+                {selectedOptions[dropdown]
+                  ? selectedOptions[dropdown].label
+                  : dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}
+              </span>
+              <div
+                className={`w-5 h-5 ${
+                  dropdowns[dropdown]
+                    ? "transform rotate-90 transition duration-300 ease-in-out"
+                    : ""
+                }`}
+              >
+                <Image
+                  src={"/static/images/arrow-right.svg"}
+                  height={16}
+                  width={16}
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+
+          {dropdowns[dropdown] && (
+            <div className="absolute text-[14px] max-h-[200px] overflow-y-auto font-[500] text-BlackHomz mt-0 w-full bg-white rounded-md shadow-md mb-3 z-30">
+              {options[dropdown].map((option) => (
+                <label
+                  key={option.id}
+                  className="flex text-[11px] md:text-[14px]  items-center justify-between pt-[2px] pl-2 cursor-pointer  rounded-md mb-3"
+                  onClick={() => handleOptionClick(option, dropdown)}
+                >
+                  <span>{option.label}</span>
+                
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default State;

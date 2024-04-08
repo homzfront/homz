@@ -1,0 +1,228 @@
+"use client";
+import BashedEye from "/src/components/icons/BashedEye";
+import Eye from "/src/components/icons/Eye";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+import useProfileStore from "/src/store/profile";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import api from "/src/utils/api";
+import Loading from "/src/components/mainmenu/loading";
+import useBodyScroll from "/src/components/general/useBodyScroll";
+import SliderAuth from "/src/components/auth/slider";
+// import { signIn } from 'next-auth/react';
+
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
+  const router = useRouter();
+  useBodyScroll([loading])
+
+  // const handleGoogleSignIn = () => {
+  //   signIn('google');
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (loading) return; // Do nothing if already loading
+  
+    setLoading(true); // Set loading to true when submitting the form
+  
+    if (!password || !email) {
+      setLoginError("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
+  
+    // Check if the password meets the length requirement
+    if (password.length < 8) {
+      setLoginError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
+    }
+  
+    try {
+      const response = await api.post("/auth/login", {
+        email: email,
+        password: password,
+      });
+  
+      if (response.data.statuscode === 201) {
+        toast.success("Login successful");
+        const { data } = response.data;
+  
+        // Fetch user profile immediately after login
+        const profileResponse = await api.get("/user/profile");
+  
+        if (profileResponse.data.statuscode === 200 || 201) {
+          const profileData = profileResponse.data;
+  
+          // Use the profileData to determine which page to navigate to
+          if (profileData?.user?.accounts?.[0].name === "TENANT") {
+            // If the user is an admin, navigate to the admin page
+            router.push("/dashboard/tenant/dashboard");
+          } else if (profileData?.user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
+            // If the user is a property owner, navigate to the property owner page
+            router.push("/dashboard/enterprise-property/dashboard");
+          }  else if (profileData?.user?.accounts?.[0].name === "LIST_PROPERTY") {
+            // If the user is a property owner, navigate to the property owner page
+            router.push("/dashboard/property-owner/dashboard");
+          } else {
+            // For other roles or if no specific role is defined, navigate to the default page
+            router.push("/");
+          }
+  
+          // Set user and profile in state
+          useProfileStore.setState({
+            user: data,
+            profile: profileData,
+            isLoggedIn: true,
+            loading: false,
+          });
+  
+          setLoading(false);
+          setEmail("");
+          setPassword("");
+        } else {
+          const profileError = profileResponse.data.message;
+          console.log("Unexpected status code for profile:", profileError);
+          setLoginError(profileError);
+          setLoading(false);
+        }
+      } else {
+        const error = response.data.message;
+        console.log("Unexpected status code:", error);
+        setLoginError(error);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Login error", error);
+      setLoginError(error.response?.data?.message);
+      setLoading(false);
+    }
+  };
+  
+  const Visible = () => {
+    setVisible(!visible);
+  };
+
+
+  return (
+    <div className="">
+    
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false} 
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
+      {loading && <Loading />}
+      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
+        <SliderAuth/>
+      </div>
+        <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
+          <div className="h-[85%] px-6 W-[320px] sm:w-full py-4">
+            <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
+              <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
+                Welcome Back
+              </h1>
+              <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
+                Welcome back, please enter your details.
+              </p>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2 items-start">
+                    <label className="text-center text-[14px] font-[500] text-BlackHomz">
+                      Email*
+                    </label>
+                    <input
+                      className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                    />
+                  </div>
+                  <div className="relative flex flex-col gap-2 items-start">
+                    <label className="text-center text-[14px] font-[500] text-BlackHomz">
+                      Password*
+                    </label>
+                    <input
+                      className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
+                      type={visible ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Create a password"
+                    />
+                    <div className="absolute top-11 right-4" onClick={Visible}>
+                      {visible ? (
+                        <Eye className="w-4 h-4" />
+                      ) : (
+                        <BashedEye className="w-4 h-4" />
+                      )}
+                    </div>
+                  </div>
+                  {loginError && (
+                    <span className="mt-[-10px] font[400] text-[13px] text-red-500">
+                      {loginError}
+                    </span>
+                  )}
+                  <Link
+                    href={"/forgetpassword"}
+                    className="font-[700] text-BlueHomz text-[13px]"
+                  >
+                    Forgot Password
+                  </Link>
+                </div>
+                <button
+                  className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+                  type="Submit"
+                >
+                  Log In
+                </button>
+                <div className="">
+                  <button   className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
+                    <Image
+                      className=""
+                      src={"/Social icon.png"}
+                      alt="google"
+                      height={"20"}
+                      width={"20"}
+                    />
+                    Login In with google
+                  </button>
+                </div>
+                <p className="text-center font-[400] text-[14px]">
+                  Don’t have an account?
+                  <Link
+                    className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
+                    href={"/register"}
+                  >
+                    Create Account
+                  </Link>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
