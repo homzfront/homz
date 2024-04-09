@@ -25,21 +25,23 @@ const BusinessInfo = ({
 }) => {
   const [update, setUpdate] = useState(false);
   const [ImageSrc, setImageSrc] = useState("");
-  const BusinessPhoto = useRef(null);
+  const [businessLogo, setBusinessLogo] = useState(null);
+  const BusinessPhotoRef = useRef(null);
   const [fileUploaded, setFileUploaded] = useState(false);
   // const { BusinessPhoto, } = BusinessPhoto?.Photo ?? {};
 
   const displayBusinessPhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setBusinessLogo(file);
       setFileUploaded(true);
       setImageSrc(URL.createObjectURL(file));
     }
   };
   const uploadProfilePhoto = () => {
     // console.log(BusinessPhoto.current);
-    if (BusinessPhoto.current) {
-      BusinessPhoto.current.click();
+    if (BusinessPhotoRef.current) {
+      BusinessPhotoRef.current.click();
     }
   };
   const {
@@ -56,11 +58,10 @@ const BusinessInfo = ({
   // useEffect(() => {
   //   reset(Business_Info.contactInfo);
   // }, [Business_Info.contactInfo, reset]);
-  const { ref: registerRef, ...rest } = register("BusinessPhoto");
 
   const onSubmit = (data) => {
     // reset();
-    console.log(data);
+    console.log("Data", data, "Logo", businessLogo);
     handleUpdate(data);
   };
   return (
@@ -77,15 +78,11 @@ const BusinessInfo = ({
               <input
                 type="file"
                 name="BusinessPhoto"
-                // ref={BusinessPhoto}
+                ref={BusinessPhotoRef}
                 id="BusinessPhoto"
-                {...rest}
-                ref={(e) => {
-                  registerRef(e);
-                  BusinessPhoto.current = e;
-                }}
                 onChange={displayBusinessPhoto}
                 style={{ display: "none" }}
+                accept="image/png, image/jpg"
               />
 
               <p
@@ -152,7 +149,7 @@ const BusinessInfo = ({
               <br />
               <input
                 {...register("BusinessName", {
-                    required: "Business Name is required",
+                  required: "Business Name is required",
                 })}
                 placeholder="Business Name"
                 className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px] ${

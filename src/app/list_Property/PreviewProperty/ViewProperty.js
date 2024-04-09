@@ -104,7 +104,7 @@ const ViewProperty = ({ PropertyID }) => {
         </div>
         <Lightbox
           open={open}
-          plugins={[Thumbnails, Zoom, Counter, Download, Fullscreen]}
+          plugins={[Thumbnails, Zoom, Counter, Fullscreen]}
           close={() => setOpen(false)}
           slides={[
             {
@@ -206,31 +206,12 @@ const ViewProperty = ({ PropertyID }) => {
             </span>
           </p>
         </div>
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-[20px] md:gap-0">
-          <div className="flex gap-[4px] w-[29px] h-[20px] items-center rounded-[8px] py-[2px] px-[4px] bg-white">
-            {[...Array(propertyData?.PropertyInfo?.Rating)].map((_, i) => (
-              <Image
-                key={i}
-                src="/static/images/blackstar.svg"
-                alt=""
-                width={16}
-                height={14}
-              />
-            ))}
-            <p
-             
-              className="text-[14px] font-[500] leading-[16.38px]  flex items-center md:text-[18px] gap-1"
-            >
-              <span>{propertyData?.PropertyInfo?.Rating}</span>
-              <span className="text-[#006AFF] font-[400] md:font-[500] text-[14px] ">
-                (Ratings/Reviews)
-              </span>
-            </p>
-          </div>
-          <button className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#E6E6E6] text-[#D5D5D5]">
+       
+          
+          <button className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-blue-600 text-[#a98a8a]">
             Contact Owner
           </button>
-        </div>
+       
       </div>
       <div className="border-b pt-2 pb-3 headerAdmin">
         <div className="flex flex-col my-2 gap-3">

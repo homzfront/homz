@@ -29,8 +29,13 @@ const UserHomePage = () => {
     switch (searchType) {
       case "Status":
         newData = dataProperties.filter((item) => item.Status === search);
-        setDataProperties(newData);
-        setState(search);
+        if (newData.length > 0) {
+          setDataProperties(newData);
+        } else {
+          newData = Properties.filter((item) => item.Status === search);
+          setDataProperties(newData);
+        }
+
         break;
       case "PropertyType":
         newData = dataProperties.filter(
@@ -178,7 +183,11 @@ const UserHomePage = () => {
         </div>
       </div>
       <div className="w-[337px] md:mt-3 md:w-full ">
-        <PropertyCard Property={dataProperties} state={state} setDataProperties={setDataProperties}/>
+        <PropertyCard
+          Property={dataProperties}
+          state={state}
+          setDataProperties={setDataProperties}
+        />
       </div>
       <CustomizedModal
         isOpen={mobileModalIsOpen}

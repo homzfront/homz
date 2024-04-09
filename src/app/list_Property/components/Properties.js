@@ -275,7 +275,7 @@ export const Properties = [
     _id: 8,
     PropertyInfo: {
       Title: "Kratos",
-      State: "Lagos Island",
+      State: "Oyo",
       Status: "For Rent",
       Property_type: "Terraced Duplex",
       Price: 106000,
@@ -353,7 +353,7 @@ export const Properties = [
     _id: 10,
     PropertyInfo: {
       Title: "Adex Aosz",
-      State: "Lagos Island",
+      State: "Oyo",
       Status: "For Rent",
       Property_type: "Terraced Duplex",
       Price: 106000,
@@ -392,7 +392,7 @@ export const Properties = [
     _id: 11,
     PropertyInfo: {
       Title: "Adex Aosz",
-      State: "Lagos Island",
+      State: "Calabar",
       Status: "For Rent",
       Property_type: "Penthouse",
       Price: 106000,
@@ -431,7 +431,7 @@ export const Properties = [
     _id: 12,
     PropertyInfo: {
       Title: "Adex Aosz",
-      State: "Lagos Island",
+      State: "Calabar",
       Status: "For Rent",
       Property_type: "Studio Apartment",
       Price: 106000,

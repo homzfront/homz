@@ -27,8 +27,15 @@ const EditProperty = ({ property }) => {
     switch (searchType) {
       case "State":
         newData = dataProperty.filter((item) => item.PropertyInfo.State === search);
+      if(newData.length > 0) {
         setDataProperty(newData);
-        setState(search);
+      }  
+      else{
+        newData = property.filter((item) => item.PropertyInfo.State === search);
+        setDataProperty(newData);
+
+      }
+        
         break;
       case "Area":
         newData = dataProperty.filter((item) => item.PropertyInfo.Area === search);

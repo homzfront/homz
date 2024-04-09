@@ -39,12 +39,12 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
     <div className="w-[335px] md:w-full flex flex-col  gap-[17px]">
       <div className="md:pl-14">
         <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] mb-1">
-          {Property.length > 1
+          {Property.length > 0
             ? ` Property ${state && state}`
             : "Property not found"}
         </h1>
         <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px] text-left font-['Plus Jakarta Sans'] mb-2">
-          {Property.length > 1
+          {Property.length > 0
             ? `${Property.length}
           ${Property.length > 1 ? " results found" : " result found"}
           `
@@ -76,7 +76,11 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
             </div>
           </div>
 
-          <MiniPropertyListing Properties={Properties} setDataProperties={setDataProperties} width={"md:w-[345px]"} />
+          <MiniPropertyListing
+            Properties={Properties}
+            setDataProperties={setDataProperties}
+            width={"md:w-[345px]"}
+          />
         </>
       ) : (
         <>
@@ -116,7 +120,6 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                               className="w-[335px] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
                             />
                           </Link>
-                        
                         </div>
                       ))}
                   </Carousel>
@@ -205,7 +208,13 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                         </span>
                       </p>
                     </div>
-                    <button className="cursor-pointer">
+                    <Link
+                      className="cursor-pointer "
+                      href={{
+                        pathname: "/user_homepage/PreviewProperty",
+                        query: { PropertyId: property._id },
+                      }}
+                    >
                       <Image
                         src="/static/images/arrow-in-circle.svg"
                         alt=""
@@ -213,7 +222,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                         height={40}
                         className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
                       />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

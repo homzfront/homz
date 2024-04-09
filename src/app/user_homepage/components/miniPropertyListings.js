@@ -1,21 +1,31 @@
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-const MiniPropertyListings = ({ Properties, setDataProperties, width }) => {
+const MiniPropertyListings = ({
+  Properties,
+  setDataProperties,
+  width,
+  padding,
+}) => {
   return (
-    <div className="md:px-10">
+    <div className={` ${padding ? padding : "md:px-10"}`}>
       <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] my-3 ">
         Other properties
       </p>
       <div className="flex  w-[340px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-cent">
         {Properties.slice(0, 3).map((property, index) => (
           <div
-            className={`flex flex-col w-[335px]  ${width? width: " md:w-[323px]"}  md:h-[458px] rounded-[12px] shadow-md`}
+            className={`flex flex-col w-[335px]  ${
+              width ? width : " md:w-[333px]"
+            }  md:h-[458px] rounded-[12px] shadow-md`}
             key={index}
           >
             <div
-              className={`cursor-pointer ${width? width: " md:w-[323px]"} md:h-[252px] rounded-[10px] `}
+              className={`cursor-pointer ${
+                width ? width : "md:w-[333px]"
+              } md:h-[252px] rounded-[10px] `}
               // onClick={() => handleClearInputField("option4Qestion")}
             >
               <Carousel
@@ -124,7 +134,13 @@ const MiniPropertyListings = ({ Properties, setDataProperties, width }) => {
                     </span>
                   </p>
                 </div>
-                <button className="cursor-pointer">
+                <Link
+                  className="cursor-pointer "
+                  href={{
+                    pathname: "/user_homepage/PreviewProperty",
+                    query: { PropertyId: property._id },
+                  }}
+                >
                   <Image
                     src="/static/images/arrow-in-circle.svg"
                     alt=""
@@ -132,7 +148,7 @@ const MiniPropertyListings = ({ Properties, setDataProperties, width }) => {
                     height={40}
                     className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
                   />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -26,6 +26,7 @@ const PersonalInfo = ({
 }) => {
   const [update, setUpdate] = useState(false);
   const [ImageSrc, setImageSrc] = useState("");
+  const [profileFoto, setProfileFoto] = useState(null);
   const ProfilePhoto = useRef(null);
   const [fileUploaded, setFileUploaded] = useState(false);
   // const { ProfilePhoto, } = ProfilePhoto?.Photo ?? {};
@@ -34,6 +35,7 @@ const PersonalInfo = ({
   const displayProfilePhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setProfileFoto(file);
       setFileUploaded(true);
       setImageSrc(URL.createObjectURL(file));
     }
@@ -58,7 +60,7 @@ const PersonalInfo = ({
   // useEffect(() => {
   //   reset(Personal_Info.contactInfo);
   // }, [Personal_Info.contactInfo, reset]);
-  const { ref: registerRef, ...rest } = register("ProfilePhoto");
+  
 
   const onSubmit = (data) => {
     // reset();
@@ -79,17 +81,11 @@ const PersonalInfo = ({
               <input
                 type="file"
                 name="ProfilePhoto"
-                // ref={ProfilePhoto}
                 id="ProfilePhoto"
-             
-                {...rest}
-                ref={(e) => {
-                  registerRef(e,
-                  );
-                  ProfilePhoto.current = e;
-                }}
+              ref={ProfilePhoto}
                 onChange={displayProfilePhoto}
                 style={{ display: "none" }}
+                accept="image/png, image/jpg"
               />
 
               <p

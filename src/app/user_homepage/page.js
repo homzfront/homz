@@ -352,7 +352,7 @@ const HomePage = () => {
             />
 
             <Image
-              src={gifUrl}
+              src="/static/images/homz.gif"
               alt=""
               width={520}
               height={426.13}
@@ -578,25 +578,24 @@ const HomePage = () => {
             </div>
           </div>
           {/* <div className="md:hidden px-2 h-[339px]"> */}
-          
-            <div className="relative md:hidden h-[339px] ">
-              <Image
-                src="/static/images/proyotype2.png"
-                alt=""
-                width={314}
-                height={102.83}
-                className="relative rounded-[15.6px] z-0 top-7 h-[250px] mx-auto"
-              />
 
-              <Image
-                src={gifUrl}
-                alt=""
-                width={356}
-                height={252.83}
-                className="relative rounded-[9.92px] z-10 bottom-[167px] h-[252.83px] w-[370px]"
-              />
-           
-            </div>
+          <div className="relative md:hidden h-[339px] ">
+            <Image
+              src="/static/images/proyotype2.png"
+              alt=""
+              width={314}
+              height={102.83}
+              className="relative rounded-[15.6px] z-0 top-7 h-[250px] mx-auto"
+            />
+
+            <Image
+              src="/static/images/homz.gif"
+              alt=""
+              width={356}
+              height={252.83}
+              className="relative rounded-[9.92px] z-10 bottom-[167px] h-[252.83px] w-[370px]"
+            />
+          </div>
           {/* </div> */}
         </div>
       </div>
@@ -605,7 +604,10 @@ const HomePage = () => {
         <h1 className="text-[23px] px-3 leading-[36.54px] md:text-[36px] font-[700] md:leading-[51.66px]  flex justify-between md:px-[6rem]">
           <span className="">Featured Listed Properties</span>
 
-          <Link href="user_homepage/PropertyListing" className="hidden adminBorders border-white w-[103px] h-[48px] p-[5px] pl-2 rounded-[4px] text-[16px] md:flex gap-1 items-center">
+          <Link
+            href="user_homepage/PropertyListing"
+            className="hidden adminBorders border-white w-[103px] h-[48px] p-[5px] pl-2 rounded-[4px] text-[16px] md:flex gap-1 items-center"
+          >
             <span className="">View All</span>
 
             <Image
@@ -792,7 +794,10 @@ const HomePage = () => {
           </p>
 
           <div className="flex gap-2 mt-2">
-            <Link href="user_homepage/PropertyListing" className=" md:h-[48px] adminBorders border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]">
+            <Link
+              href="user_homepage/PropertyListing"
+              className=" md:h-[48px] adminBorders border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]"
+            >
               Explore properties
             </Link>
           </div>

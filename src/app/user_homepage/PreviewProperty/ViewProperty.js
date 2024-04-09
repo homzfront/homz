@@ -31,7 +31,9 @@ const ViewProperty = ({ PropertyID }) => {
   const [propertyData, setPropertyData] = useState([]);
 
   useEffect(() => {
-    const property = Properties2.find(({ _id }) => _id === parseInt(PropertyID));
+    const property = Properties2.find(
+      ({ _id }) => _id === parseInt(PropertyID)
+    );
     setPropertyData(property);
   }, [PropertyID]);
 
@@ -57,7 +59,10 @@ const ViewProperty = ({ PropertyID }) => {
   return (
     <div className="pt-10 md:pt-8 pb-10 md:px-16 px-5">
       <div className="flex md:justify-between items-center gap-[4rem] md:gap-0">
-        <Link href="/user_homepage/PropertyListing" className="flex gap-2 items-center">
+        <Link
+          href="/user_homepage/PropertyListing"
+          className="flex gap-2 items-center"
+        >
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             height={16}
@@ -75,7 +80,6 @@ const ViewProperty = ({ PropertyID }) => {
             />
           </span>
         </Link>
-      
       </div>
       <div className="flex flex-col gap-[12px] pt-7">
         <div className="md:w-full md:h-[368px] w-[335px] h-[174px]">
@@ -94,24 +98,20 @@ const ViewProperty = ({ PropertyID }) => {
           close={() => setOpen(false)}
           slides={[
             {
-            
               srcSet: otherPhotos.map((photo) => ({
                 src: photo,
-                width: 1110, 
-                height: 752, 
+                width: 1110,
+                height: 752,
               })),
             },
             ...otherPhotos.map((photo) => ({
               src: photo,
               alt: "",
-              width: 1110, 
-              height: 752, 
-              srcSet: [
-                { src: photo, width: 1110, height: 752 }, 
-              ],
+              width: 1110,
+              height: 752,
+              srcSet: [{ src: photo, width: 1110, height: 752 }],
             })),
           ]}
-          
         />
 
         <div className="md:flex justify-evenly items-center hidden min-w-min">
@@ -149,7 +149,6 @@ const ViewProperty = ({ PropertyID }) => {
           <p className="font-[700] md:text-[23px] md:leading-[28.98px] text-[18px] leading-[22.68px] text-[#4E4E4E]">
             {propertyData?.PropertyInfo?.Property_type}
           </p>
-        
         </div>
         <p className=" text-[16px] md:font-[700] leading-[19.16px] font-[500] md:leading-[28.98px]  font-['Plus Jakarta Sans'] md:text-[23px] flex items-center ">
           <Image
@@ -192,12 +191,10 @@ const ViewProperty = ({ PropertyID }) => {
             </span>
           </p>
         </div>
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-[20px] md:gap-0">
-      
-          <button className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF]">
-            Contact Owner
-          </button>
-        </div>
+
+        <button className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF]">
+          Contact Owner
+        </button>
       </div>
       <div className="border-b pt-2 pb-3 headerAdmin">
         <div className="flex flex-col my-2 gap-3">
@@ -250,7 +247,7 @@ const ViewProperty = ({ PropertyID }) => {
         </p>
       </div>
 
-      <div className="mt-3 flex flex-col gap-4 md:h-[180px] headerAdmin mb-10">
+      <div className="mt-3 flex flex-col gap-4 md:h-[180px] headerAdmin mb-10 ">
         <p className="text-[13px] font-[400] text-GrayHomz2">Landlord</p>
         <div className="flex gap-2 items-center">
           <Image
@@ -270,7 +267,7 @@ const ViewProperty = ({ PropertyID }) => {
             {propertyData?.PropertyInfo?.Title}
           </p>
         </div>
-        <div className="flex gap-6 flex-col md:flex-row">
+        <div className="flex gap-6 md:gap-16 flex-col md:flex-row">
           <div>
             <p className="text-[13px] font-[400] text-BlackHomz">
               Phone Number
@@ -360,21 +357,14 @@ const ViewProperty = ({ PropertyID }) => {
           </div>
         </div>
       </div>
-      
-      <MiniPropertyListings Properties={Properties} />
-      
+
+      <MiniPropertyListings Properties={Properties} padding={"md:px-0"}/>
     </div>
   );
 };
 
 export default ViewProperty;
-const otherPhotos = [
-  "/static/images/Photo.png",
-  "/static/images/imageHouseHP.png",
-  "/static/images/house2.png",
-  "/static/images/imageHouseHP.png",
-  "/static/images/house2.png",
-];
+
 
 const customTheme = {
   root: {
