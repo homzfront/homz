@@ -1,6 +1,7 @@
 // ImageUpload.js
 import React, { useRef } from "react";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const ImageUpload = ({
   uploadedImage,
@@ -12,6 +13,10 @@ const ImageUpload = ({
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     handleImageUpload(file);
   };
 

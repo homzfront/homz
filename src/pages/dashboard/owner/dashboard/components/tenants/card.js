@@ -28,7 +28,7 @@ const TenantsCard = () => {
           </p>
         </div>
         <Link
-          href={"/dashboard/enterprise-property/tenants"}
+          href={"/dashboard/property-owner/tenants"}
           className="flex gap-1 items-center"
         >
           <p className="text-[13px] font-[400]">View All</p>

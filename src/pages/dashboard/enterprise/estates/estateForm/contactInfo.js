@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
 import Loading from "@/components/mainmenu/loading";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import useBodyScroll from "@/utils/useBodyScroll";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmEstateListing from "../components/confirmEstateListing";
@@ -33,19 +31,6 @@ const ContactInfo = ({
 
   return (
     <div className="p-8">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       {loading && <Loading />}
       {showConfirm && (
         <ConfirmEstateListing

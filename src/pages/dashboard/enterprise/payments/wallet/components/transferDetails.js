@@ -23,7 +23,8 @@ const TransferDetails = ({
   setIlluminateWallet,
   fetchDataAgain,
 }) => {
-  console.log(illuminateWallet);
+  // console.log(illuminateWallet);
+  const [username, setUsername] = useState('')
   const [pincode, setPincode] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -37,13 +38,13 @@ const TransferDetails = ({
   const [landlords, setLandlords] = useState([]);
   const [selectedLandlord, setSelectedLandlord] = useState(null)
   const [error, setError] = useState('')
-  const {data, fetchData} = useProfileEnterpriseMe();
-  
-  useEffect(()=>{
-    fetchData();
-  },[])
+  const { data, fetchData } = useProfileEnterpriseMe();
 
-  console.log(data);
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  // console.log(data);
 
   const Visible = () => {
     setVisible(!visible);
@@ -302,32 +303,43 @@ const TransferDetails = ({
             />
           </div>
 
-          <div className="relative flex flex-col gap-2 items-start">
-            <div className='flex flex-col items-start'>
-              <label
-                className={`text-[13px] font-[500] ${illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
-                  }`}
-              >
-                Transaction Pin
-              </label>
-            </div>
-            <input
-              className={`w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]`}
-              type={visible ? "text" : "password"}
-              placeholder="Enter transaction pin"
-              value={pincode}
-              onChange={(e) => {
-                setError('')
-                setPincode(e.target.value)
-              }}
-            />
-            <div className="absolute top-[40px] right-4" onClick={Visible}>
-              {visible ? (
-                <Eye className="w-4 h-4" />
-              ) : (
-                <BashedEye className="w-4 h-4" />
-              )}
-            </div>
+          <div className="relative ">
+            <form className="w-full flex flex-col gap-2 items-start">
+              <div className='flex flex-col items-start'>
+                <label
+                  className={`text-[13px] font-[500] ${illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+                    }`}
+                >
+                  Transaction Pin
+                </label>
+              </div>
+              <input
+                type="text"
+                name="username" // Ensure a name attribute for password managers
+                autocomplete="username"
+                value={username}
+                className="hidden"
+                hidden // Hide visually but still accessible to screen readers
+              />
+              <input
+                className={`w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]`}
+                type={visible ? "text" : "password"}
+                placeholder="Enter transaction pin"
+                autoComplete="new-password"
+                value={pincode}
+                onChange={(e) => {
+                  setError('')
+                  setPincode(e.target.value)
+                }}
+              />
+              <div className="absolute top-[40px] right-4" onClick={Visible}>
+                {visible ? (
+                  <Eye className="w-4 h-4" />
+                ) : (
+                  <BashedEye className="w-4 h-4" />
+                )}
+              </div>
+            </form>
           </div>
           {
             error && <span className="text-[10px] italic text-red-500">

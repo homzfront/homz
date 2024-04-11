@@ -26,7 +26,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.password || !formData.email) {
       setPasswordError("Please fill in all fields and agree to terms.");
       return;
@@ -67,7 +67,7 @@ const Register = () => {
         setPasswordError(errorw);
         setLoading(false);
       }
-    } catch (error) {;
+    } catch (error) {
       setPasswordError(error.response?.data?.message);
       setLoading(false);
     }
@@ -131,6 +131,7 @@ const Register = () => {
                         handleInputChange("email", e.target.value)
                       }}
                       placeholder="Enter your email"
+                      autoComplete="email" // Add autocomplete attribute
                     />
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
@@ -147,6 +148,7 @@ const Register = () => {
                         handleInputChange("password", e.target.value)
                       }}
                       placeholder="Create a password"
+                      autoComplete="new-password" // Add autocomplete attribute
                     />
                     <div className="absolute top-11 right-8" onClick={Visible}>
                       {visible ? (
@@ -168,11 +170,21 @@ const Register = () => {
                       }}
                     />
                     <p
-                      onClick={() => {
+                      className="cursor-pointer text-center text-GrayHomz font-[400] text-[11px]">
+                      <span onClick={() => {
                         setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
                         setPasswordError("")
-                      }} className="cursor-pointer text-center text-GrayHomz font-[400] text-[11px]">
-                      I agree to the <span className={` text-BlackHomz font-[700]`}>Terms and Conditions</span> and <span className={` text-BlackHomz font-[700]`}>Privacy Policy</span> of HOMZ.
+                      }}>
+
+                        I agree to the
+                      </span>
+                      <Link href={"/terms-and-conditions"} className={` text-BlackHomz font-[700]`}>Terms and Conditions</Link> <span onClick={() => {
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
+                        setPasswordError("")
+                      }}>and</span> <Link href={"/privacy-policy"} className={` text-BlackHomz font-[700]`}>Privacy Policy</Link> <span onClick={() => {
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
+                        setPasswordError("")
+                      }}>of HOMZ.</span>
                     </p>
                   </div>
                   {passwordError && (

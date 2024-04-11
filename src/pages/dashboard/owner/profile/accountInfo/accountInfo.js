@@ -66,8 +66,8 @@ const AccountInfo = () => {
                             placeholder={"****"}
                             value={data ? "****" : "----------"}
                         />
-                        <p onClick={openPinCodeChangeForm} className='absolute cursor-pointer text-warning2 text-[11px] font-[500] top-[22px] right-4'>
-                            Change
+                          <p onClick={openPinCodeChangeForm} className={`absolute cursor-pointer text-warning2 text-[11px] font-[500] top-[22px] right-4 ${data === null ? "hidden" : ""}`}>
+                           Change
                         </p>
                     </div>
                 </div>

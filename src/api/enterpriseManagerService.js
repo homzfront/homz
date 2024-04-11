@@ -146,7 +146,7 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
 
 export const enterpriseplanRoleInvite = async ({ email, estateName }) => {
   try {
-    const response = await api.post(`/enterpriseplan/role/invite-link/property-owner`, {
+    const response = await api.post(`/enterpriseplan/role/property-owner/invite-link`, {
       email,
       estateName,
     });
@@ -212,6 +212,7 @@ export const fetchSpecificTenantRentEnterprise = async (id) => {
 export const enterpriseTenantForAnEstate = async (id) => {
   try {
     const response = await api.get(`/estates/${id}/tenants/enterprise`);
+    // console.log(response);
     return response.data.data;
   } catch (error) {
     if (error.response?.data?.message === "No items found") {
