@@ -6,6 +6,8 @@ import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
 import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
 import useMaintenanceRequestStore from "@/store/enterpriseStore/useMaintenanceStore";
+import { Icon } from "@iconify/react";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
@@ -52,10 +54,31 @@ const Sidebar = () => {
       id: 2,
       image: "/static/dashboard/enterprisemanager/sidebar/tenants.png",
       image2: "/static/dashboard/enterprisemanager/sidebar/tenantswhite.png",
-      link: "/dashboard/enterprise-property/tenants",
+      link: "/dashboard/enterprise-property/Tenants/ManageTenants",
       name: "Tenants",
       coming: null,
       active: false,
+      submenu: true,
+      subMenuItems: [
+        {
+          name: "Manage Tenants",
+          link: "/dashboard/enterprise-property/Tenants/ManageTenants",
+          image: "/static/dashboard/enterprisemanager/sidebar/tenants.png",
+          image2: "/static/dashboard/enterprisemanager/sidebar/tenantswhite.png",
+        },
+        {
+          name: "Access Control",
+          link: "/dashboard/enterprise-property/Tenants/AccessRecords",
+          image: "/static/images/people.svg",
+          image2: "/static/images/people.svg",
+        },
+        {
+          name: "Tenant Poll",
+          link: "/dashboard/enterprise-property/Tenants/TenantPoll",
+          image: "/static/images/black_chart.svg",
+          image2: "/static/images/white_chart.svg",
+        },
+      ],
     },
     {
       id: 3,
@@ -143,8 +166,15 @@ const Sidebar = () => {
 
   const { logout } = useProfileStore();
 
-  const [pathname, setPathname] = useState("");
+  // const [pathname, setPathname] = useState("");
   const [logoutModal, setLogoutModal] = useState(false);
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
+
+  const pathname = usePathname();
+
+  const toggleSubMenu = () => {
+    setSubMenuOpen(!subMenuOpen);
+  };
 
   const logoutII = () => {
     setLogoutModal(!logoutModal);
@@ -154,33 +184,33 @@ const Sidebar = () => {
     setLogoutModal(false);
   };
 
-  useEffect(() => {
-    // Function to get the current URL
-    const url = () => {
-      if (typeof window !== "undefined") {
-        return window.location.href;
-      }
-      return "";
-    };
+  // useEffect(() => {
+  //   // Function to get the current URL
+  //   const url = () => {
+  //     if (typeof window !== "undefined") {
+  //       return window.location.href;
+  //     }
+  //     return "";
+  //   };
 
-    const extractPathname = (url) => {
-      const parsedUrl = new URL(url);
-      let pathname = parsedUrl.pathname;
+  //   const extractPathname = (url) => {
+  //     const parsedUrl = new URL(url);
+  //     let pathname = parsedUrl.pathname;
 
-      // Split the pathname into segments
-      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
+  //     // Split the pathname into segments
+  //     const segments = pathname.split("/").filter(Boolean); // Remove empty segments
 
-      // Keep only the first three segments
-      const firstThreeSegments = segments.slice(0, 3);
+  //     // Keep only the first three segments
+  //     const firstThreeSegments = segments.slice(0, 3);
 
-      // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join("/")}`;
+  //     // Join the segments back to form the updated pathname
+  //     pathname = `/${firstThreeSegments.join("/")}`;
 
-      return pathname;
-    };
+  //     return pathname;
+  //   };
 
-    setPathname(extractPathname(url()));
-  }, []);
+  //   setPathname(extractPathname(url()));
+  // }, []);
 
   // useEffect to handle scrolling
   useEffect(() => {
@@ -190,6 +220,8 @@ const Sidebar = () => {
       window.scrollTo(0, 0);
     }
   }, [logoutModal]);
+
+  console.log(pathname);
 
 
   return (
@@ -207,28 +239,112 @@ const Sidebar = () => {
           </Link>
           <div className="grid gap-3">
             {Data.map((data) => (
-              <Link
-                key={data.id}
-                href={data.link}
-                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${data.name === "Property Management" ? "h-[60px]" : ""
-                  } ${pathname === data.link
-                    ? "bg-BlueHomz text-white"
-                    : " hover:bg-blue-100"
-                  } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
-                  } `}
-              >
-                {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+              <>
+                {data.submenu ? (
+                  <>
+                    <Link
+                      key={data.id}
+                      href={'/dashboard/enterprise-property/Tenants/ManageTenants'}
+                      onClick={toggleSubMenu}
+                      className={`flex flex-row space-x-4 items-center p-2 rounded-lg justify-between ${"/dashboard/enterprise-property/Tenants/ManageTenants" === pathname
+                        || "/dashboard/enterprise-property/Tenants/AccessRecords" === pathname ||
+                        "/dashboard/enterprise-property/Tenants/TenantPoll" === pathname
+                        ? "bg-BlueHomz text-white"
+                        : "hover:bg-blue-100 text-GrayHomz "
+                        }`}
+                    >
+                      <div className="flex flex-row space-x-3 items-center">
+                        {
+                          "/dashboard/enterprise-property/Tenants/ManageTenants" === pathname
+                            || "/dashboard/enterprise-property/Tenants/AccessRecords" === pathname ||
+                            "/dashboard/enterprise-property/Tenants/TenantPoll" === pathname
+                            ? (
+                              <Image src={data.image2} height={16} width={16} alt="img" />
+                            ) : (
+                              <Image src={data.image} height={16} width={16} alt="img" />
+                            )}
+                        <span className="text-[16px] font-[500]">{data.name}</span>
+                      </div>
+
+                      <div className={`${subMenuOpen ? "rotate-180" : ""} flex`}>
+                        <Icon icon="lucide:chevron-down" width="24" height="24" />
+                      </div>
+                    </Link>
+                    {subMenuOpen && (
+                      <div className="flex items-center space-x-7 ml-[20px]">
+                        <hr
+                          style={{
+                            width: "1.5px",
+                            height: "106px",
+                            borderWidth: "0",
+                            background: "#4E4E4E",
+                            // transform: "rotate(90deg)", // Rotate the <hr> element 90 degrees
+                          }}
+                        />
+                        <div className="my-2 flex flex-col space-y-4">
+                          {data.subMenuItems?.map((subItem, idx) => {
+                            return (
+                              <Link
+                                key={idx}
+                                href={subItem.link}
+                                className={`flex flex-row space-x-2 items-center p-1 rounded-md ${subItem.link === pathname
+                                  ? "text-BlueHomz"
+                                  : "hover:bg-blue-100"
+                                  }`}
+                              >
+                                <div className="flex flex-row  items-center gap-[12px]">
+                                  {/* {subItem.link === pathname ? (
+                                    <Image
+                                      src={subItem.image2}
+                                      height={16}
+                                      width={16}
+                                      alt="img"
+                                    />
+                                  ) :
+
+                                } */}
+                                  <Image
+                                    src={subItem.image}
+                                    height={16}
+                                    width={16}
+                                    alt="img"
+                                  />
+                                  <span className=" text-[13px] font-[500] leading-[20px] text-left">
+                                    {subItem.name}
+                                  </span>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <Link
+                    key={data.id}
+                    href={data.link}
+                    className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${data.name === "Property Management" ? "h-[60px]" : ""
+                      } ${data.link === pathname
+                        ? "bg-BlueHomz text-white"
+                        : "hover:bg-blue-100"
+                      } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
+                      } `}
+                  >
+                    {data.link === pathname ? (
+                      <Image src={data.image2} height={16} width={16} alt="img" />
+                    ) : (
+                      <Image src={data.image} height={16} width={16} alt="img" />
+                    )}
+                    <div className="flex items-center w-full justify-between">
+                      <span className="pr-1">{data.name}</span>
+                      <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
+                        } mt-1 h-2 w-2 rounded-full`}
+                      ></p>
+                    </div>
+                  </Link>
                 )}
-                <div className="flex items-center w-full justify-between">
-                  <span className="pr-1">{data.name}</span>
-                  <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
-                    } mt-1 h-2 w-2 rounded-full`}
-                  ></p>
-                </div>
-              </Link>
+              </>
             ))}
           </div>{" "}
           <div className="grid gap-3 ">
@@ -271,7 +387,7 @@ const Sidebar = () => {
             <div
               onClick={logoutII}
               className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
-                 `}
+                   `}
             >
               <Image
                 src="/static/dashboard/enterprisemanager/sidebar/logout.png"
@@ -296,6 +412,7 @@ const Sidebar = () => {
       </div>
     </div>
   );
+
 };
 
 export default Sidebar;

@@ -1,4 +1,3 @@
-"use client"
 import { useEffect, useRef } from "react";
 
 // Custom hook to handle clicks outside an element
@@ -12,9 +11,9 @@ const useClickOutside = (handler) => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside, { passive: true }); // Mark the event listener as passive
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, { passive: true });
     };
   }, []);
 

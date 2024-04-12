@@ -94,18 +94,18 @@ const PendingRequest = ({
             }`}
           >
             {tenantData?.map((data) => (
-              <div key={data?.data._id}>
-                {request.tenant === data?.data._id && (
+              <div key={data?.data?._id}>
+                {request?.tenant === data?.data?._id && (
                   <div className="flex items-center justify-between w-full border-t border-b py-2">
                     <div className="flex gap-4">
                       <div>
-                        {data?.data.coverPhoto ? (
+                        {!data?.data?.coverPhoto ? (
                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                          <EmptyAvatar />
                        </div>
                      ) : (
                        <Image
-                         src={data?.data.coverPhoto.url}
+                         src={data?.data?.coverPhoto?.url}
                          alt=""
                          width={40}
                          height={40}
@@ -119,38 +119,38 @@ const PendingRequest = ({
                       </div>
                       <div>
                         <p className="text-[16px] font-[600] text-BlackHomz">
-                          {data?.data.fullName}
+                          {data?.data?.fullName}
                         </p>
                         <p className="text-[14px] font-[400] text-GrayHomz">
-                          {data?.data.fullName} has sent a request to join{" "}
+                          {data?.data?.fullName} has sent a request to join{" "}
                           <span className="text-[14px] font-[600] text-GrayHomz">
-                            {request.estate} Property
+                            {request?.estate} Property
                           </span>
                         </p>
                         <p className="text-[13px] font-[400] text-GrayHomz">
-                          {timeAgo(request.createdAt)}
+                          {timeAgo(request?.createdAt)}
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-4 w-full justify-end">
                       <button
-                        onClick={() => handleToggleMenu(request._id)}
+                        onClick={() => handleToggleMenu(request?._id)}
                         className="text-[14px] font-[700] text-white bg-BlueHomz px-3 py-1 rounded-md"
                       >
                         Accept
                       </button>
                       <button
-                        onClick={() => handleToggleMenuTwo(request._id)}
+                        onClick={() => handleToggleMenuTwo(request?._id)}
                         className="text-[14px] font-[700] text-BlueHomz border border-BlueHomz px-3 py-1 rounded-md"
                       >
                         Decline
                       </button>
                     </div>
-                    {popUpMenu && selectedDataId === request._id && (
+                    {popUpMenu && selectedDataId === request?._id && (
                       <div>
                         <AcceptAndRejectModel
                           header={"Proceed To Add  tenant to Property?"}
-                          body={`${data?.data.fullName} will be added as a tenant to ${request.estate} Property.`}
+                          body={`${data?.data.fullName} will be added as a tenant to ${request?.estate} Property.`}
                           button={"Yes, Proceed"}
                           buttonTwo={"Cancel"}
                           returnHome={() => handleAccept(selectedDataId)}
@@ -158,11 +158,11 @@ const PendingRequest = ({
                         />
                       </div>
                     )}
-                    {popUpMenuTwo && selectedDataId === request._id && (
-                      <div key={request._id}>
+                    {popUpMenuTwo && selectedDataId === request?._id && (
+                      <div key={request?._id}>
                         <AcceptAndRejectModel
                           header={"Decline Tenant Request?"}
-                          body={`You’re about to decline ${data?.data.fullName}’s request to join ${request.estate} Property.`}
+                          body={`You’re about to decline ${data?.data?.fullName}’s request to join ${request?.estate} Property.`}
                           button={"Yes, Proceed"}
                           buttonTwo={"Cancel"}
                           returnHome={() => handleReject(selectedDataId)}

@@ -113,10 +113,10 @@ const WalletBalance = ({
             </p>
           </div>
           {illuminateWallet ? (
-            <div className="w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md opacity-90">
+            <div className="w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md">
               <p
                 onClick={payRent}
-                className="text-white text-[14px] font-[400] w-full text-center"
+                className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"
               >
                 Pay Rent
               </p>

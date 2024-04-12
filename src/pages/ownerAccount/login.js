@@ -99,6 +99,7 @@ const Login = ({ setShowLogin }) => {
                 setLoginError("")
               }}
               placeholder="Enter your email"
+              autoComplete="email"
             />
           </div>
           <div className="relative flex flex-col gap-2 items-start">
@@ -113,7 +114,8 @@ const Login = ({ setShowLogin }) => {
                 setPassword(e.target.value)
                 setLoginError("")
               }}
-              placeholder="Create a password"
+              placeholder="Enter your password"
+              autoComplete="current-password" 
             />
             <div className="absolute top-11 right-4" onClick={Visible}>
               {visible ? (

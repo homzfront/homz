@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/imageUpload";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import LoadingII from "@/components/mainmenu/loadingII";
 import {
   updatePropertyCoverPhoto,
@@ -29,50 +29,74 @@ const Photos = ({ data }) => {
   console.log(uploadedImageCoverPhoto);
   const handleImageUploadCoverPhoto = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImageCoverPhoto(file);
   };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage(file);
   };
 
   const handleImageUpload2 = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage2(file);
   };
 
   const handleImageUpload3 = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage3(file);
   };
 
   const handleImageUpload4 = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage4(file);
   };
 
   const handleImageUpload5 = (e) => {
     const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.warn("Please select an image smaller than 5MB.");
+      return;
+    }
     setUploadedImage5(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
-  
+
     setLoading(true); // Set loading to true when submitting the form
-  
+
     // Create an array to hold all promises
     const updatePromises = [];
-  
+
     // Cover photo
     if (uploadedImageCoverPhoto) {
       updatePromises.push(
         updatePropertyCoverPhoto(data._id, uploadedImageCoverPhoto)
       );
     }
-  
+
     // Other photos
     if (uploadedImage) {
       updatePromises.push(
@@ -83,7 +107,7 @@ const Photos = ({ data }) => {
         )
       );
     }
-  
+
     if (uploadedImage2) {
       updatePromises.push(
         updatePropertyOtherPhoto(
@@ -93,7 +117,7 @@ const Photos = ({ data }) => {
         )
       );
     }
-  
+
     if (uploadedImage3) {
       updatePromises.push(
         updatePropertyOtherPhoto(
@@ -123,11 +147,11 @@ const Photos = ({ data }) => {
         )
       );
     }
-  
+
     try {
       // Execute all promises simultaneously
       const responses = await Promise.all(updatePromises);
-  
+
       // Handle responses
       responses.forEach(({ success, updatedImage, error }, index) => {
         if (success) {
@@ -158,7 +182,7 @@ const Photos = ({ data }) => {
       setLoading(false); // Set loading to false after all updates are attempted
     }
   };
-  
+
   return (
     <div className=" block w-full">
       {loading ? (
@@ -233,15 +257,15 @@ const Photos = ({ data }) => {
           </div>
         </div>
       )}
-          <div className="mt-[10%] flex justify-between w-full px-3">
-            <div></div>
-            <button
-              onClick={handleSubmit}
-              className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
-            >
-              Update
-            </button>
-          </div>
+      <div className="mt-[10%] flex justify-between w-full px-3">
+        <div></div>
+        <button
+          onClick={handleSubmit}
+          className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center"
+        >
+          Update
+        </button>
+      </div>
     </div>
   );
 };

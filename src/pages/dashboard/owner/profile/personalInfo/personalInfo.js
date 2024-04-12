@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { updatePersonalInformation } from "@/api/propertyService";
 
 const PersonalInfo = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const [fullName, setFullName] = useState("");
   const [houseAddress, setHouseAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");

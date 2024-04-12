@@ -8,7 +8,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import useClickOutside from "@/utils/clickOutside";
 import Modal from "../../tenants/components/modal";
 
-const HomeCard = ({ id }) => {
+const HomeCard = ({ revData }) => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
 
@@ -17,12 +17,6 @@ const HomeCard = ({ id }) => {
   };
 
   useBodyScroll([inviteTenant]);
-
-  const { data: revData, fetchData } = useEstateForOneStore();
-
-  useEffect(() => {
-    fetchData(id);
-  }, []);
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 

@@ -67,13 +67,12 @@ const RentInfo = ({ profile, rentInformation }) => {
     }
   }, [profile])
 
-
   useEffect(() => {
     // Check if data and required properties are available
     if (data) {
       setPropertyType(data?.upDateddata?.propertyType || "");
-      setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || 0);
-      setRent(data?.upDateddata?.totalRent || 0);
+      setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || "");
+      setRent(data?.upDateddata?.rent || "");
       setDuration(addYearsToValues(data?.upDateddata?.duration) || "");
       setStartDate(formatDateII(data?.upDateddata?.startDate) || "");
       setDueDate(formatDateII(data?.upDateddata?.dueDate) || "")
@@ -153,8 +152,6 @@ const RentInfo = ({ profile, rentInformation }) => {
   }
 
 
-
-
   const handleConfirm = async (e) => {
     e.preventDefault();
     if (loading) return; // Do nothing if already loading
@@ -216,7 +213,7 @@ const RentInfo = ({ profile, rentInformation }) => {
 
   return (
     <div>
-      <div className="h-[430px]">
+      <div className={`h-[430px] ${loading ? "pointer-events-none" : ""}`}>
         <div className="grid grid-cols-2 gap-4">
           <Input
             label={"Property Type"}
@@ -250,6 +247,7 @@ const RentInfo = ({ profile, rentInformation }) => {
             type={"type"}
             placeholder={"Property Name"}
             span={"*"}
+            readOnly
           />
           <Input
             label={"Start Date"}

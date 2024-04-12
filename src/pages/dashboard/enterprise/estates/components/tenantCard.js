@@ -8,7 +8,7 @@ import Link from "next/link";
 import React from "react";
 
 const TenantsCard = ({ data }) => {
-
+  // console.log(data);
   return (
     <div className="rounded-[12px] border w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">

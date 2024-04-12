@@ -118,7 +118,7 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
             {currentData &&
               currentData.map((data) => (
                 <div
-                  key={data?.id}
+                  key={data?._id}
                   className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
                 >
                   {/* Apply the same styles as the header to each column in the body */}

@@ -13,7 +13,7 @@ const [tenantData, setTenantData] = useState({});
 
 
 useEffect(() => {
-  console.log(ids)
+  // console.log(ids)
   if (ids === undefined) {
       setTenantData({})
   } else {
