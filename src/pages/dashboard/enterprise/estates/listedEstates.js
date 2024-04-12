@@ -35,7 +35,8 @@ const ListedEstates = ({
   options3,
   clear,
   fetchData,
-  dropdownRef
+  dropdownRef,
+  openRegistrationForm
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -205,7 +206,7 @@ const ListedEstates = ({
 
       {inviteTenant && (
         <div  className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={""} openRegistrationForm={openRegistrationForm}/>
         </div>
       )}
     </div>

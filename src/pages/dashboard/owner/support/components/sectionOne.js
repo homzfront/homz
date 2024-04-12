@@ -64,10 +64,10 @@ const SectionOne = () => {
             </div>
             <div className="flex gap-2 pl-4">
               <p className="text-[16px] font-[400] text-GrayHomz ">
-                +2349012345678
+                +17603133620
               </p>
               <div
-                onClick={() => handleCopyClick('+2349012345678', 'copiedII')}
+                onClick={() => handleCopyClick('+17603133620', 'copiedII')}
                 className="relative"
               >
                 <Image

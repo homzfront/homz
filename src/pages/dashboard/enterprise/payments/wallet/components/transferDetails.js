@@ -142,7 +142,7 @@ const TransferDetails = ({
 
   const receiptRef = useRef(null);
 
-  console.log(transfer);
+  // console.log(transfer);
 
   const openShareAbleReceipt = () => {
     // setShareAbleReceipt((prevShareAbleReceipt) => {

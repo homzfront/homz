@@ -20,7 +20,7 @@ import LoadingII from "@/components/mainmenu/loadingII";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
-
+  const [slog, setSlog] = useState("")
   const [email, setEmail] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
@@ -92,7 +92,8 @@ const ManageUsers = () => {
     try {
       const { success, upDateddata, error } = await enterpriseplanRoleInvite({
         email,
-        estateName: selectedEstate
+        estateName: selectedEstate,
+        slug: slog?.slug
       });
 
       if (success) {
@@ -192,6 +193,7 @@ const ManageUsers = () => {
                   onClose={() => setShowPopup(false)}
                   onSelect={handleSelect}
                   estateData={data}
+                  setEstate={setSlog}
                 />
               )}
               <button

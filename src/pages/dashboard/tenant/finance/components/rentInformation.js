@@ -37,7 +37,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   // console.log(pincode)
 
   const handleOptionSelect = (option) => {
-    console.log("Selected option:", option);
+    // console.log("Selected option:", option);
     setselectedYear(parseInt(option?.label));
     // Perform any necessary actions with the selected option
   };

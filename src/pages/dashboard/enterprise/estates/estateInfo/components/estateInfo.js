@@ -14,6 +14,7 @@ import SelectArea from "@/pages/selectStateAndArea/selectArea";
 
 const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   const [loading, setLoading] = useState(true);
+  const [propertySize, setPropertySize] = useState('')
   useBodyScroll([loading]);
   useEffect(() => {
     // Check if data and required properties are available
@@ -27,12 +28,20 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
       setSelectedArea(data?.area || "");
       setSelectedState(data?.state || "");
     }
+    if (!isNaN(data?.size) && data.size !== undefined) {
+      setSize(`${data.size} sq m`);
+    } else {
+      setSize("0 sq m");
+    }    
   }, [data]);
+
+
+
   const [selectedArea, setSelectedArea] = useState(data?.area);
   const [selectedState, setSelectedState] = useState(data?.state);
   const [name, setName] = useState(data?.name);
   const [address, setAddress] = useState(data?.address);
-  const [size, setSize] = useState((`${data?.size} sq m`));
+  const [size, setSize] = useState();
   const [numberOfHouses, setNumberOfHouses] = useState(data?.numberOfHouses);
   const [description, setDescription] = useState(data?.description);
 
