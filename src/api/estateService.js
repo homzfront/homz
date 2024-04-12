@@ -21,6 +21,7 @@ export const fetchEstatesSpecificUSer = async (id) => {
 export const fetchEstatesMe = async () => {
   try {
     const response = await api.get("/estates/me/enterprise");
+    // console.log(response)
     return response.data;
   } catch (error) {
     throw error;

@@ -9,12 +9,14 @@ import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import estateStore from "@/store/enterpriseStore/estates";
 
-const Modal = ({ setInviteTenant, dropdownRef }) => {
+const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url }) => {
+
   const [dropdowns, setDropdowns] = useState({
     estateOptions: false,
   });
   const [selectedOptions, setSelectedOptions] = useState({
     estate: null,
+    slug: null,
   });
   const [showLinkBox, setShowLinkBox] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -48,6 +50,7 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
         `/enterprisePlan/generate-invitation-link`,
         {
           estate: selectedOptions?.estate,
+          slug: selectedOptions?.slug
         }
       );
 
@@ -69,13 +72,15 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
   };
 
   const handleDropdown = (option) => {
+    // console.log(option.slug);
     setDropdowns((prev) => ({
       ...prev,
       estateOptions: false,
     }));
     setSelectedOptions((prev) => ({
       ...prev,
-      estate: option,
+      estate: option.name,
+      slug: option.slug
     }));
   };
 
@@ -97,6 +102,15 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
         <div key={estate._id}>{estate.name || "Select Estate"}</div>
       ));
   }
+
+
+  const registrationForm = () => {
+    if (openRegistrationForm) {
+      openRegistrationForm()
+    } else {
+      return;
+    }
+  };
 
   return (
     <div ref={dropdownRef} className="max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
@@ -134,18 +148,16 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
               properties.
             </p>
             <p
-              className={`font-[400] pt-6 text-[13px] text-BlackHomz  ${
-                showLinkBox ? "hidden" : ""
-              }`}
+              className={`font-[400] pt-6 text-[13px] text-BlackHomz  ${showLinkBox ? "hidden" : ""
+                }`}
             >
               Select the property you’re inviting your Tenant(s) to
             </p>
           </div>
           <div className="relative inline-block w-full">
             <div
-              className={`text-BlackHomz px-4 border h-[48px] mt-2 mb-1 p-3 rounded-md cursor-pointer ${
-                dropdowns["estateOptions"] ? "border" : ""
-              }  ${showLinkBox ? "hidden" : ""}`}
+              className={`text-BlackHomz px-4 border h-[48px] mt-2 mb-1 p-3 rounded-md cursor-pointer ${dropdowns["estateOptions"] ? "border" : ""
+                }  ${showLinkBox ? "hidden" : ""}`}
               onClick={() => handleDropdownClick("estateOptions")}
             >
               <div
@@ -155,11 +167,10 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
                   {selectedOptions?.estate || "Select Property"}
                 </span>
                 <div
-                  className={`w-5 h-5 ${
-                    dropdowns["estateOptions"]
+                  className={`w-5 h-5 ${dropdowns["estateOptions"]
                       ? "transform rotate-180 transition duration-300 ease-in-out"
                       : ""
-                  }`}
+                    }`}
                 >
                   <Image
                     src={
@@ -173,14 +184,16 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
               </div>
             </div>
             <div
-              className={`flex items-center gap-1 mt-4  ${
-                showLinkBox ? "hidden" : ""
-              }`}
+              className={`flex items-center gap-1 mt-4  ${showLinkBox ? "hidden" : ""
+                }`}
             >
               <p className="text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?{" "}
               </p>
-              <Link href={""} className="text-BlueHomz text-[14px]  font-[700]">
+              <Link href={link_Url ? link_Url : ""} onClick={() => {
+                registrationForm()
+                setInviteTenant(false);
+              }} className="text-BlueHomz text-[14px]  font-[700]">
                 Add New Property
               </Link>
             </div>
@@ -191,7 +204,7 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
                     <div
                       key={estate._id}
                       className="p-2  cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
-                      onClick={() => handleDropdown(estate.name)}
+                      onClick={() => handleDropdown(estate)}
                     >
                       {estate.name}
                     </div>
@@ -202,9 +215,8 @@ const Modal = ({ setInviteTenant, dropdownRef }) => {
           <div>
             <button
               onClick={handleGetLink}
-              className={`mt-4 border rounded-md w-full h-[48px] py-[8px] px-4 text-white bg-BlueHomz text-[16px] font-[700] ${
-                showLinkBox ? "hidden" : ""
-              }`}
+              className={`mt-4 border rounded-md w-full h-[48px] py-[8px] px-4 text-white bg-BlueHomz text-[16px] font-[700] ${showLinkBox ? "hidden" : ""
+                }`}
             >
               Get Link
             </button>

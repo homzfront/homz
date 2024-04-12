@@ -16,7 +16,7 @@ const Estate = () => {
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
-  }, [data]);
+  }, []);
 
   const estates = data;
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -104,6 +104,7 @@ const Estate = () => {
           options3={option3}
           fetchData={fetchData}
           dropdownRef={dropdownRef}
+          openRegistrationForm={openRegistrationForm}
         />
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />

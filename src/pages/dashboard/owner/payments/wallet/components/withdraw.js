@@ -34,13 +34,13 @@ const Withdraw = ({
   const handleAddBankDetails = () => {
     setFillBankDetails(!fillBankDetails);
   };
-  console.log(bankDetails);
+  // console.log(bankDetails);
   const closeMenu = () => {
     setFillBankDetails(false);
   };
 
   useEffect(() => {
-    console.log("Component mounted, fetching data...");
+    // console.log("Component mounted, fetching data...");
     setLoadingII(true);
     const fetchData = async () => {
       try {

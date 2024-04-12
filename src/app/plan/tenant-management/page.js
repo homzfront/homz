@@ -63,7 +63,8 @@ const TenantManagement = () => {
       fullName,
       phoneNumber: parseInt(phoneNo),
       houseAddress,
-      estate,
+      estate: estate?.name,
+      slug: estate?.slug
     };
 
     // Send the data to your API endpoint
