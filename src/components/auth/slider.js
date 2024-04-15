@@ -20,15 +20,15 @@ const settings = {
 
 const images = [
     {
-      icon: "/manWithPhone.jpg",
+      icon: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181064/public/images/manWithPhone_gvgvta.jpg",
       alt: "people",
     },
     {
-      icon: "/happyFamily.jpg",
+      icon: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181043/public/images/happyFamily_udw4c5.jpg",
       alt: "people",
     },
     {
-      icon: "/smilingLady.jpg",
+      icon: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713184726/public/images/smilingLady_shwnxw.jpg",
       alt: "people",
     },
   ];

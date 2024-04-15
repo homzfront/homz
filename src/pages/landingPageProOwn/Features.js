@@ -4,6 +4,9 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MoneyReceived from "@/components/icons/moneyReceived";
+import Verify from "@/components/icons/verify";
+import Building from "@/components/icons/building";
 
 const Features = () => {
   const settings = {
@@ -19,19 +22,19 @@ const Features = () => {
   // Array of card objects
   const cards = [
     {
-      icon: "/money-recive.png",
+      icon: <MoneyReceived />,
       title: "Receive Rent On Time",
       description:
         "Seamlessly manage your finance, save and pay your rent with a click, making life as a tenant hassle-free.",
     },
     {
-      icon: "/verify.png",
+      icon: <Verify />,
       title: "Get Verified Renters on Your Property",
       description:
-      "Secure your home effortlessly with our convenient rental loan options tailored for you.",
+        "Secure your home effortlessly with our convenient rental loan options tailored for you.",
     },
     {
-      icon: "/buildings-2_2.png",
+      icon: <Building />,
       title: "Monitor All Properties In One Place",
       description:
         "Secure your home effortlessly with our convenient rental loan options tailored for you.",
@@ -45,7 +48,7 @@ const Features = () => {
           Features
         </h2>
         <h1 className="text-[36px] text-center font-[700] text-BlackHomz">
-        Empowering Landlords
+          Empowering Landlords
         </h1>
         <p className="text-[20px] max-w-[735px] text-center font-[400] text-GrayHomz">
           Stay in control with our easy to use owner property management
@@ -55,7 +58,7 @@ const Features = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative">
           <div className="hidden lg:inline absolute left-[-160px]">
-            <Image src={"/image1_2.png"} width={610} height={506} alt="img" />
+            <Image src={"/static/images/DashboardManager"} width={610} height={506} alt="img" />
           </div>
         </div>
         <div className="">
@@ -68,12 +71,9 @@ const Features = () => {
                 <div
                   className={`rounded-full h-[48px] w-[48px] flex justify-center items-center bg-blue-100`}
                 >
-                  <Image
-                    src={card.icon}
-                    height={32}
-                    width={32}
-                    alt={`${card.title}-img`}
-                  />
+                  <>
+                    {card.icon}
+                  </>
                 </div>
                 <div className="flex flex-col gap-1 justify-between h-max">
                   <p className="font-[700] text-[20px] text-BlackHomz">

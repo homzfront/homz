@@ -219,7 +219,7 @@ const Plans = ({ data, profile }) => {
                     height={10.5}
                     width={12}
                     alt="img"
-                    src={"/IconMark.png"}
+                    src={"/static/images/IconMark.png"}
                   />
                 </div>
                 <p

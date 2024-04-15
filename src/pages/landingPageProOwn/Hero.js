@@ -26,7 +26,7 @@ const Hero = () => {
           </div>
           <div className="hidden sm:flex w-full max-w-[1160px] mt-[120px] mb-8 h-[360px] justify-center items-center mx-auto">
             <Image
-              src={"/ownerLanding.jpg"}
+              src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181085/public/images/ownerLanding_jwq2p4.jpg"}
               alt=""
               width={4096}  // Specify the desired width
               height={2731}
@@ -39,7 +39,7 @@ const Hero = () => {
           </div>
           <div className="sm:hidden flex bg-center h-[360px] justify-center items-center mt-[40px]">
             <Image
-              src={"/manWithPhone.jpg"}
+              src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181064/public/images/manWithPhone_gvgvta.jpg"}
               alt="OwnerImg"
               width={4096}  // Specify the desired width
               height={2731}

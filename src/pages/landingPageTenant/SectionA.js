@@ -29,7 +29,7 @@ const SectionA = () => {
       <div className="relative sm:w-[50%] h-[360px] sm:h-full flex flex-col justify-center items-center">
         <div className="w-full sm:w-[498px] h-[360px] sm:h-full">
           <Image
-            src={"/HappyCouple.jpg"}
+            src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713180777/public/images/HappyCouple_fiby0d.jpg"}
             alt="img"
             // width={4096}
             // height={2732}
@@ -42,7 +42,7 @@ const SectionA = () => {
         </div>
         <div className="hidden sm:inline sm:absolute w-[280px] bottom-[-80px] right-[350px]">
           <Image
-            src={"/PhilipDashboard.png"}
+            src={"/static/images/PhilipDashboard.png"}
             alt="img"
             width={2880}
             height={2048}

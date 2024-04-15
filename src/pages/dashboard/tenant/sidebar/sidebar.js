@@ -54,16 +54,19 @@ const Sidebar = () => {
       coming: null,
       active: false,
     },
-  ];
-
-  const Data2 = [
     {
-      id: 1,
+      id: 6,
       image: "/static/dashboard/enterprisemanager/sidebar/profile.png",
       image2: "/static/dashboard/enterprisemanager/sidebar/profilewhite.png",
       link: "/dashboard/tenant/profile",
       name: "Profile",
+      coming: null,
+      active: false,
     },
+  ];
+
+  const Data2 = [
+
     // {
     //   id: 2,
     //   image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
@@ -149,15 +152,13 @@ const { logout } = useProfileStore();
             />
           </Link>
         </div>
-        <div className="w-full h-[1024px] px-6 flex flex-col justify-around">
+        <div className="w-full h-[1024px] px-6 flex flex-col gap-8 mt-14">
           <div className="grid gap-3 ">
             {Data.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                  data.name === "Property Information" ? "h-[60px]" : ""
-                } ${
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
                   pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : " hover:bg-blue-100"
@@ -184,7 +185,7 @@ const { logout } = useProfileStore();
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
                   pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
@@ -204,7 +205,7 @@ const { logout } = useProfileStore();
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
+                className={`h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
                   pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"

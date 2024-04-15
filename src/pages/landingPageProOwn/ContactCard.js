@@ -8,7 +8,7 @@ const ContactCard = () => {
     {
       id: 1,
       name: "Engr. Simon Peter",
-      image: "/ManWithHeadphone.jpg",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181068/public/images/ManWithHeadphone_zlc3lb.jpg",
       position: "Landlord",
       content:
         "Entrusting our property to Homz.ng was the best decision we made.",
@@ -16,7 +16,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Sunday Ojo",
-      image: "/ManJeanJacket.jpg",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181036/public/images/ManJeanJacket_yrzxko.jpg",
       position: "Landlord",
       content:
         "It's a relief to have such a dependable partner managing our property—efficiency at its finest!",
@@ -24,7 +24,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Victor Akpan",
-      image: "/ManLegCrossed.jpg",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181057/public/images/ManLegCrossed_ym0tqo.jpg",
       position: "Landlord",
       content:
         "Selling our property became a stress-free journey with their seller-centric approach.",
