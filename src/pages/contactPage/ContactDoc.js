@@ -139,7 +139,7 @@ const ContactDoc = () => {
               </div>
             </div>
             <div className="flex gap-5 flex-col">
-              <div className="hidden  sm:flex gap-2">
+              {/* <div className="hidden  sm:flex gap-2">
                 <p className="text-[20px] font-[500] text-GrayHomz ">
                   +23481012345678
                 </p>
@@ -160,7 +160,7 @@ const ContactDoc = () => {
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
               <div className="flex gap-2 pl-4">
                 <p className="text-[20px] font-[500] text-GrayHomz ">
                   +17603133620
@@ -361,7 +361,7 @@ const ContactDoc = () => {
             <Image src={"/call.png"} height={24} width={24} alt={`call-img`} />
           </div>
           <div>
-            <div className="flex sm:hidden gap-2">
+            {/* <div className="flex sm:hidden gap-2">
               <p className="text-[20px] font-[500] text-GrayHomz ">
                 +23481012345678
               </p>
@@ -382,7 +382,7 @@ const ContactDoc = () => {
                   </span>
                 )}
               </div>
-            </div>
+            </div> */}
             <div className="flex sm:hidden gap-2">
               <p className="text-[20px] font-[500] text-GrayHomz ">
                 +17603133620
@@ -434,37 +434,25 @@ const ContactDoc = () => {
             </div>
           </div>
           <div className="flex mt-3 sm:hidden gap-4">
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_insta.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Insta />
+              </div>
             </div>
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_facebook.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Facebook />
+              </div>
             </div>
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_twitter.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Twitter />
+              </div>
             </div>
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image
-                src={"/Vector_Linkedin.png"}
-                height={18.75}
-                width={18.75}
-                alt={`call-img`}
-              />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <LinkedIn />
+              </div>
             </div>
           </div>
           <div className="flex">

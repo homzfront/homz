@@ -40,7 +40,7 @@ const SectionOne = () => {
             </div>
           </div>
           <div className="flex gap-5 flex-col">
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <p className="text-[16px] font-[400] text-GrayHomz ">
                 +23481012345678
               </p>
@@ -61,7 +61,7 @@ const SectionOne = () => {
                   </span>
                 )}
               </div>
-            </div>
+            </div> */}
             <div className="flex gap-2 pl-4">
               <p className="text-[16px] font-[400] text-GrayHomz ">
                 +17603133620
