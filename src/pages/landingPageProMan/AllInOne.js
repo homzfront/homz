@@ -11,7 +11,7 @@ const AllInOne = () => {
       <div className="relative mt-12">
         <div className="sm:w-[680px]">
           <Image
-            src={"/DashboardTenant.png"}
+            src={"/static/images/DashboardTenant.png"}
             alt="img"
             width={2880}
             height={2048}
@@ -24,7 +24,7 @@ const AllInOne = () => {
         </div>
         <div className="absolute hidden md:inline right-[-5px] w-[550px] top-[67px]">
           <Image
-            src={"/DashboardPayment.png"}
+            src={"/static/images/DashboardPayment.png"}
             alt="img"
             width={2880}
             height={2048}

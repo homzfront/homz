@@ -4,33 +4,36 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Card from "@/components/icons/card";
+import MoneyReceived from "@/components/icons/moneyReceived";
+import MessageTwo from "@/components/icons/messageTwo";
 
 const SectionB = () => {
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-      };
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
   // Array of card objects
   const cards = [
     {
-      icon: "/card.png",
+      icon: <Card />,
       title: "Pay & Save rent",
       description:
         "Seamlessly manage your finance, save and pay your rent with a click, making life as a tenant hassle-free.",
     },
     {
-      icon: "/money-recive.png",
+      icon: <MoneyReceived />,
       title: "Get a rental loan",
       description:
-      "Secure your home effortlessly with our convenient rental loan options tailored for you."
+        "Secure your home effortlessly with our convenient rental loan options tailored for you."
     },
     {
-      icon: "/messages_2.png",
+      icon: <MessageTwo />,
       title: "Interact with property management",
       description:
         "Connect with property management effortlessly, ensuring your concerns and inquiries are addressed promptly."
@@ -57,12 +60,7 @@ const SectionB = () => {
                 <div
                   className={`rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100`}
                 >
-                  <Image
-                    src={card.icon}
-                    height={32}
-                    width={32}
-                    alt={`${card.title}-img`}
-                  />
+                  <>{card.icon}</>
                 </div>
                 <div className="flex mt-5 gap-1 flex-col">
                   <p className="font-[700] text-[20px] text-BlackHomz">
@@ -75,49 +73,49 @@ const SectionB = () => {
               </div>
             ))}
           </div>
-          
-      <div className="md:hidden px-6  max-w-sm gap-6 mt-2">
-        <Slider {...settings}>
-          {cards.map((card, index) => (
-            <div
-              key={index}
-              className="flex flex-col h-[260px] border rounded-[20px] p-8  max-w-sm "
-            >
-              <div
-                className={`m-auto rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100`}
-              >
-                <Image
-                  src={card.icon}
-                  height={32}
-                  width={32}
-                  alt={`${card.title}-img`}
-                />
-              </div>
-              <div className="flex flex-col justify-between items-center h-max">
-                <p className="font-[700] text-[20px] text-center text-BlackHomz">
-                  {card.title}
-                </p>
-                <p className="font-[400] text-[16px] text-center text-GrayHomz">
-                  {card.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </Slider>
-      </div>
-        <div className="hidden md:inline w-[573px] h-[598px]">
-          <Image
-            src={"/kidsAndMan.jpg"}
-            alt="img"
-            width={4096}
-            height={2732}
-            // layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-            className="object-cover w-[573px] h-[598px] bg-center rounded-tr-[135px] rounded-bl-[135px]" // Add the '.image-clip' class
-            priority
-          />
-        </div>
+
+          <div className="md:hidden px-6  max-w-sm gap-6 mt-2">
+            <Slider {...settings}>
+              {cards.map((card, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col h-[260px] border rounded-[20px] p-8  max-w-sm "
+                >
+                  <div
+                    className={`m-auto rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100`}
+                  >
+                    <Image
+                      src={card.icon}
+                      height={32}
+                      width={32}
+                      alt={`${card.title}-img`}
+                    />
+                  </div>
+                  <div className="flex flex-col justify-between items-center h-max">
+                    <p className="font-[700] text-[20px] text-center text-BlackHomz">
+                      {card.title}
+                    </p>
+                    <p className="font-[400] text-[16px] text-center text-GrayHomz">
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
+          <div className="hidden md:inline w-[573px] h-[598px]">
+            <Image
+              src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713184095/public/images/kidsAndMan_bedyvv.jpg"}
+              alt="img"
+              width={2048}
+              height={1367}
+              // layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              className="object-cover w-[573px] h-[598px] bg-center rounded-tr-[135px] rounded-bl-[135px]" // Add the '.image-clip' class
+              priority
+            />
+          </div>
         </div>
       </div>
     </div>

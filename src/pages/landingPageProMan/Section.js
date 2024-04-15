@@ -28,7 +28,7 @@ const Section = () => {
       </div>
       <div>
         <Image
-          src={"/Dashboard.png"}
+          src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713182738/public/images/Dashboard_z0cmqx.png"}
           alt="img"
           width={2880}
           height={2048}

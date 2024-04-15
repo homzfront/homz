@@ -1,3 +1,5 @@
+import CardCoin from "@/components/icons/cardCoin";
+import Settings from "@/components/icons/settings";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,13 +8,13 @@ const SectionC = () => {
   // Array of card objects
   const cards = [
     {
-      icon: "/card-coin.png",
+      icon: <CardCoin />,
       title: "Pay bills",
       description:
         "Easily pay your light and estate bills with just a few clicks.",
     },
     {
-      icon: "/setting-2.png",
+      icon: <Settings />,
       title: "Get access to maintenance services on the go",
       description:
         "Access maintenance services on the go with our software, ensuring your living space is cared for effortlessly."
@@ -32,12 +34,9 @@ const SectionC = () => {
               <div
                 className={`rounded-full h-[52px] w-[52px] flex justify-center items-center bg-blue-100`}
               >
-                <Image
-                  src={card.icon}
-                  height={32}
-                  width={32}
-                  alt={`${card.title}-img`}
-                />
+                <>
+                  {card.icon}
+                </>
               </div>
               <div className="flex mt-5 gap-1 flex-col">
                 <p className="font-[700] text-[20px] text-BlackHomz">
@@ -52,7 +51,7 @@ const SectionC = () => {
         </div>
         <div className="">
           <Image
-            src={"/HappyLady.jpg"}
+            src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181020/public/images/HappyLady_so6gfe.jpg"}
             alt="img"
             width={4096}
             height={2731}

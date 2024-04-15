@@ -44,7 +44,7 @@ const Hero = () => {
         </div>
         <div className="w-[100%]">
           <Image
-            src={"/Duplex.jpeg"}
+            src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713180995/public/images/Duplex_hqrjun.jpg"}
             alt=""
             width={524}
             height={615}
@@ -95,7 +95,7 @@ const Hero = () => {
           </button>
         </div>
         <div className="w-[100%]">
-          <Image src={"/Houses.jpeg"}
+          <Image src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713184903/public/images/Houses_n5exgy.jpg"}
             width={524}
             alt="img"
             height={460}

@@ -35,8 +35,8 @@ const SelectPlan = () => {
     {
       id: 1,
       image: "/Image13.png",
-      title: "Manage Property/Estate",
-      content: "Monitor your Estates & properties with an intuitive dashboard.",
+      title: "Landlord",
+      content: "As a landlord, monitor your properties, tenants & rent payments in one place.",
       link: "/dashboard/property-owner/dashboard",
       name: "MANAGE_PROPERTY",
       url: "/plan/manage-property",
@@ -45,9 +45,9 @@ const SelectPlan = () => {
     {
       id: 2,
       image: "/Image11.png",
-      title: "Tenant Management",
+      title: "Tenant",
       content:
-        "Streamline your rent payment & savings, home maintenance in one place.",
+        "As a tenant, pay rent, request maintenance services in one place.",
       link: "/dashboard/tenant/dashboard",
       name: "TENANT",
       url: "/plan/tenant-management",
@@ -56,9 +56,9 @@ const SelectPlan = () => {
     {
       id: 3,
       image: "/Image12.png",
-      title: "Enterprise Plan",
+      title: "Property Manager",
       content:
-        "Seamless & efficient solution to manage your Tenants & Properties.",
+        "As a property manager, manage properties & tenants with our dashboard.",
       link: "/dashboard/enterprise-property/dashboard",
       name: "ENTERPRISE_PLAN",
       url: "/plan/enterprise-plan",

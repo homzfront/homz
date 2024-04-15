@@ -42,7 +42,7 @@ const Meet = () => {
   ];
   return (
     <div className="max-w-[1160px] mt-20 m-auto px-6">
-      <div className="items-center flex justify-center">
+      {/* <div className="items-center flex justify-center">
         <div className="mt-14 max-w-[914px]">
           <h1 className="text-[24px] sm:text-[60px] text-center font-[700] text-BlackHomz">
             Meet the Team
@@ -71,7 +71,7 @@ const Meet = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
       <div className="mt-20">
       <div className="flex flex-col gap-2 justify-around items-center bg-[url('/Rectangle_5.png')] text-white rounded-lg shadow-2xl bg-center max-w-full xl:w-[1159px] h-[435px] ">
           <h1 className="font-[700] mt-4 max-w-2xl text-center text-[36px] sm:text-[60px]">

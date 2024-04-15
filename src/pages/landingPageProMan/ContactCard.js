@@ -7,7 +7,7 @@ const ContactCard = () => {
     {
       id: 1,
       name: "Sylvester Chukwuka",
-      image: "/ManWithCup.jpg",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181070/public/images/ManWithCup_tg0v5m.jpg",
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -15,7 +15,7 @@ const ContactCard = () => {
     {
       id: 2,
       name: "Sylvester Chukwuka",
-      image: "/ManOnCall.jpg",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181064/public/images/ManOnCall_fatkxv.jpg",
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",
@@ -23,7 +23,7 @@ const ContactCard = () => {
     {
       id: 3,
       name: "Sylvester Chukwuka",
-      image: "/ManLeanOnCar.jpg",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713181061/public/images/ManLeanOnCar_vosqdg.jpg",
       position: "Property Manager",
       content:
         "“I love the simplicity of the services offered by the Homz.ng management software.”",

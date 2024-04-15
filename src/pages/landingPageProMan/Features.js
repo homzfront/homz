@@ -5,6 +5,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
+import PeopleWhite from "@/components/icons/peopleWhite";
+import MoneySend from "@/components/icons/moneySend";
+import WalletCheckWhite from "@/components/icons/walletCheckWhite";
+import MessagesWhite from "@/components/icons/messagesWhite";
+import NotificationWhite from "@/components/icons/notificationWhite";
+import BuildingWhite from "@/components/icons/buildingWhite";
 
 const Features = () => {
   const settings = {
@@ -20,37 +26,37 @@ const Features = () => {
   // Array of card objects
   const cards = [
     {
-      icon: "/people_2.png",
+      icon: <PeopleWhite />,
       title: "Manage all renters in one place",
       description:
         "Effortlessly streamline your operations by managing all renters in one centralized platform.",
     },
     {
-      icon: "/money-send.png",
+      icon: <MoneySend />,
       title: "Offer incentive for timely payment",
       description:
         "Boost cash flow seamlessly by offering enticing incentives for on-time rent payments.",
     },
     {
-      icon: "/wallet-check_2.png",
+      icon: <WalletCheckWhite />,
       title: "Manage your finance",
       description:
         "Gain financial clarity with our intuitive platform, managing your property's finances has never been easier.",
     },
     {
-      icon: "/messages.png",
+      icon: <MessagesWhite />,
       title: "Manage complaints from renters",
       description:
         "Efficiently address and resolve renter concerns with our streamlined complaint management system.",
     },
     {
-      icon: "/notification-bing.png",
+      icon: <NotificationWhite />,
       title: "Generate announcements to renters",
       description:
         "Keep renters informed by effortlessly creating and delivering announcements with our user-friendly platform.",
     },
     {
-      icon: "/buildings-2.png",
+      icon: <BuildingWhite />,
       title: "Publish vacant properties for rent",
       description:
         "Minimize vacancy periods and maximize exposure by automating the publication of vacant properties for rent.",
@@ -80,14 +86,9 @@ const Features = () => {
             <div
               className={`rounded-full h-[52px] w-[52px] flex justify-center items-center bg-BlueHomz`}
             >
-              <Image
-                src={card.icon}
-                height={32}
-                width={33}
-                alt={`${card.title}-img`}
-                style={{ width: "auto", height: "auto" }} 
-                
-              />
+              <>
+                {card.icon}
+              </>
             </div>
             <div className="flex flex-col gap-1 justify-between items-center h-max">
               <p className="font-[700] text-[20px] text-center text-BlackHomz">
@@ -138,7 +139,7 @@ const Features = () => {
             Join over 2,000+ property managers who are scaling up.
           </p>
           <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-4">
-            <Link  href={"/register"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border  flex items-center justify-center hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
+            <Link href={"/register"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border  flex items-center justify-center hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
               Get started
             </Link>
             <Link href={"/contact-page"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  flex items-center justify-center hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">

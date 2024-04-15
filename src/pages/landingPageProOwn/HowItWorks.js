@@ -5,6 +5,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
+import TickCircle from "@/components/icons/tickCircle";
+import ChartSquare from "@/components/icons/chartSquare";
+import DashArrow from "@/components/icons/dashArrow";
 
 const HowItWorks = () => {
   const settings = {
@@ -20,19 +23,19 @@ const HowItWorks = () => {
   // Array of card objects
   const cards = [
     {
-      icon: "/tick-circle.png",
+      icon: <TickCircle />,
       title: " Simple Onboarding",
       description:
         "Begin by signing up for free. Our intuitive interface guides you through the process ensuring a quick and easy setup.",
     },
     {
-      icon: "/chart-square.png",
+      icon: <ChartSquare />,
       title: "Centralized Dashboard",
       description:
         "Access a centralized dashboard that provides a comprehensive overview of all your properties in one place.",
     },
     {
-      icon: "/arrow-right.png",
+      icon: <DashArrow />,
       title: "Effortless Navigation",
       description:
         "Effortlessly manage everything from finances and tenants to property maintenance with our intuitive interface.",
@@ -60,12 +63,9 @@ const HowItWorks = () => {
               <div
                 className={`rounded-full h-[48px] w-[48px] flex justify-center items-center bg-BlueHomz`}
               >
-                <Image
-                  src={card.icon}
-                  height={32}
-                  width={32}
-                  alt={`${card.title}-img`}
-                />
+                <>
+                  {card.icon}
+                </>
               </div>
               <div className="flex flex-col gap-1 justify-between h-max">
                 <p className="font-[700] text-[20px] text-center text-BlackHomz">
@@ -110,12 +110,12 @@ const HowItWorks = () => {
       </div>
       <div className="mt-16 flex flex-col justify-around items-center py-[60px] px-8 bg-[url('/Background_image.png')] text-white rounded-lg shadow-2xl bg-cover bg-center bg-black max-w-full sm:w-[670px]  md:w-[786px] lg:w-[824px] xl:w-[1159px] h-[303px]">
         <h1 className=" mt-[-20px] sm:mt-0 font-[700] text-center text-[20px] sm:text-[36px]">
-        Join over 2,000+ Landlords who are scaling up.
+          Join over 2,000+ Landlords who are scaling up.
         </h1>
         <div className="flex flex-col sm:flex-row w-full sm:w-auto mt-3  gap-4">
           <Link
-          //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
-          href={"/register"}>
+            //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}>
+            href={"/register"}>
             <button className="w-full sm:w-[116px] font-[700] h-[48px] text-[16px] hover:bg-transparent hover:border  hover:text-white rounded-md  text-BlackHomz  bg-white  px-2 py-1">
               Get started
               {/* Join Waitlist */}
@@ -124,7 +124,7 @@ const HowItWorks = () => {
           <Link href={"/contact-page"}>
             <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:text-BlackHomz  hover:bg-white rounded-md font-normal  text-white border bg-transparent px-2 py-1">
               Contact us
-        
+
             </button>
           </Link>
         </div>
