@@ -2,6 +2,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import InstaWhite from "../icons/instaWhite";
+import FacebookWhite from "../icons/facebookWhite";
+import LinkedInWhite from "../icons/linkedInWhite";
+import TwitterWhite from "../icons/twitterWhite";
 
 const Footer = () => {
   return (
@@ -14,49 +18,28 @@ const Footer = () => {
                 src={"/Homz_colorless.png"}
                 alt="HOMZ"
                 height={27}
-                width={131}  
-                style={{ width: "auto", height: "auto" }} 
-                
+                width={131}
+                style={{ width: "131px", height: "27px" }}
+
               />
             </Link>
             <p className="mt-7 lg:max-w-[280px]">
-            Homz is your ultimate companion in real estate! We are all for creating seamless experiences for both landlords and tenants alike.
+              Homz is your ultimate companion in real estate! We are all for creating seamless experiences for both landlords and tenants alike.
             </p>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
               <p className="mb-1">Follow Us</p>
               <div className="flex gap-2">
                 <Link href={"https://www.instagram.com/homzng"}>
-                  <Image
-                    src={"/ph_instagram-logo-fill.png"}
-                    alt="Instagram"
-                    height={"25"}
-                    width={"25"}
-                    
-                  />
+                  <InstaWhite />
                 </Link>
                 <Link href={""}>
-                  <Image
-                    src={"/ic_baseline-facebook.png"}
-                    alt="Facebook"
-                    height={"25"}
-                    width={"25"}
-                  />
+                  <FacebookWhite />
                 </Link>
                 <Link href={"https://twitter.com/homzng"}>
-                  <Image
-                    src={"/ant-design_twitter-circle-filled.png"}
-                    alt="Twitter"
-                    height={"25"}
-                    width={"25"}
-                  />
+                  <TwitterWhite />
                 </Link>
                 <Link href={""}>
-                  <Image
-                    src={"/entypo-social_linkedin-with-circle.png"}
-                    alt="Linked In"
-                    height={"25"}
-                    width={"25"}
-                  />
+                  <LinkedInWhite />
                 </Link>
               </div>
             </div>
@@ -89,7 +72,7 @@ const Footer = () => {
               <p>Properties</p>
               <p>Privacy Policy</p>
               <p>Terms of Use</p>
-              <Link href={"/contact-page"}> 
+              <Link href={"/contact-page"}>
                 <p>Contact</p>
               </Link>
               <p>FAQs</p>

@@ -88,12 +88,9 @@ const HowItWorks = () => {
                 <div
                   className={`m-auto rounded-full h-[52px] w-[52px] flex justify-center items-center bg-BlueHomz `}
                 >
-                  <Image
-                    src={card.icon}
-                    height={32}
-                    width={32}
-                    alt={`${card.title}-img`}
-                  />
+                  <>
+                    {card.icon}
+                  </>
                 </div>
                 <div className="flex flex-col justify-between items-center h-max">
                   <p className="font-[700] text-[20px] text-center text-BlackHomz">

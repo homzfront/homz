@@ -38,7 +38,7 @@ const SectionA = () => {
             objectPosition="center"
             className="object-cover w-[498px] bg-center border rounded-tl-[80px] sm:rounded-tl-[135px]" // Add the '.image-clip' class
             priority
-          />          
+          />
         </div>
         <div className="hidden sm:inline sm:absolute w-[280px] bottom-[-80px] right-[350px]">
           <Image
@@ -54,8 +54,8 @@ const SectionA = () => {
           />
         </div>
         <div className="sm:hidden w-[262px] mb-[-55px]">
-        <Image
-            src={"/PhilipDashboard.png"}
+          <Image
+            src={"/static/images/PhilipDashboard.png"}
             alt="img"
             width={2880}
             height={2048}
