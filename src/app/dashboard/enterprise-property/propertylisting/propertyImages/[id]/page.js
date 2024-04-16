@@ -1,4 +1,4 @@
-import PropertyImages from '@/pages/dashboard/enterprise/propertylisting/propertyImages/propertyImages';
+import PropertyImages from '/src/pages/dashboard/enterprise/propertylisting/propertyImages/propertyImages';
 import React from 'react'
 
 const App = ({ params }) => {

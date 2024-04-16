@@ -1,5 +1,5 @@
 import React from 'react'
-import Setting from '@/pages/dashboard/enterprise/setting/setting'
+import Setting from '/src/pages/dashboard/enterprise/setting/setting'
 const App = () => {
   return (
     <div className='dashboard h-[900px]'>

@@ -1,4 +1,4 @@
-import StarRatingPL from '@/pages/dashboard/enterprise/propertylisting/starRatingPL/starRatingPL';
+import StarRatingPL from '/src/pages/dashboard/enterprise/propertylisting/starRatingPL/starRatingPL';
 import React from 'react'
 
 const App = () => {

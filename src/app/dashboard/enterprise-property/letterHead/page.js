@@ -1,4 +1,4 @@
-import LetterHead from '/src/dashboard/enterprise/letterHead/letterHead';
+import LetterHead from '/src/pages/dashboard/enterprise/letterHead/letterHead';
 
 import React from 'react'
 

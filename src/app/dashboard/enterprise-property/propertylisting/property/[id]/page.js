@@ -1,4 +1,4 @@
-import Property from '@/pages/dashboard/enterprise/propertylisting/property/property';
+import Property from '/src/pages/dashboard/enterprise/propertylisting/property/property';
 import React from 'react'
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import RequestPage from '@/pages/dashboard/enterprise/request/requestPage';
+import RequestPage from '/src/pages/dashboard/enterprise/request/requestPage';
 const Request = () => {
   return (
     <div>

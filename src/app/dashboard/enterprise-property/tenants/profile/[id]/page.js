@@ -1,5 +1,5 @@
 import React from 'react'
-import TenantProfile from '@/pages/dashboard/enterprise/tenants/secondPage/tenantProfile'
+import TenantProfile from '/src/pages/dashboard/enterprise/tenants/secondPage/tenantProfile'
 
 const App = ({params}) => {
   const { id } = params;
