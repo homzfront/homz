@@ -1,6 +1,6 @@
 "use client";
-import BashedEye from "@/components/icons/BashedEye";
-import Eye from "@/components/icons/Eye";
+import BashedEye from "/src/components/icons/BashedEye";
+import Eye from "/src/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -8,9 +8,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
-import Loading from "@/components/mainmenu/loading";
-import api from "@/utils/api";
-import SliderAuth from "@/components/auth/slider";
+import Loading from "/src/components/mainmenu/loading";
+import api from "/src/utils/api";
+import SliderAuth from "/src/components/auth/slider";
 
 const ResetPassword = () => {
   const queryString = window.location.search;

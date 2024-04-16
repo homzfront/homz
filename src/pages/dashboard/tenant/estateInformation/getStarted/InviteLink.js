@@ -1,5 +1,5 @@
 "use client";
-import Loading from "@/components/mainmenu/loading";
+import Loading from "/src/components/mainmenu/loading";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

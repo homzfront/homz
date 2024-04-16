@@ -8,8 +8,8 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "@/utils/api";
-import SliderAuth from "@/components/auth/slider";
+import api from "/src/utils/api";
+import SliderAuth from "/src/components/auth/slider";
 
 const VerifyEmail = () => {
   const router = useRouter();

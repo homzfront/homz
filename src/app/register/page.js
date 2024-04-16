@@ -1,6 +1,6 @@
 "use client";
-import BashedEye from "@/components/icons/BashedEye";
-import Eye from "@/components/icons/Eye";
+import BashedEye from "/src/components/icons/BashedEye";
+import Eye from "/src/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "@/utils/api";
-import Loading from "@/components/mainmenu/loading";
-import SliderAuth from "@/components/auth/slider";
+import api from "/src/utils/api";
+import Loading from "/src/components/mainmenu/loading";
+import SliderAuth from "/src/components/auth/slider";
 
 const Register = () => {
   const router = useRouter();

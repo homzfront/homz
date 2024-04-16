@@ -1,6 +1,6 @@
 "use client";
-import LoadingII from "@/components/mainmenu/loadingII";
-import api from "@/utils/api";
+import LoadingII from "/src/components/mainmenu/loadingII";
+import api from "/src/utils/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
