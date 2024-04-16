@@ -97,45 +97,44 @@ const VisitorRecords = ({ Data, setRows }) => {
                 className="hidden md:block"
               />
             </th>
-            <th className="w-[131.5px] md:w-[172px] py-[12px] px-[24px] h-[48px] md:py-[14px] pr-[24px] md:pl-[16px] text-left">
+            <th className="w-[131.8px] md:w-[182px] py-[12px] px-[24px] h-[48px] md:py-[14px] md:pr-[24px] md:pl-[16px] ">
               Tenant
             </th>
-            <th className="hidden md:table-cell w-[109px] h-[48px] py-[14px] px-[16px] text-left">
+            <th className="hidden md:table-cell w-[109px] h-[48px] py-[14px] px-[16px]">
               Property
             </th>
-            <th className="hidden md:table-cell w-[120.71px] h-[48px] py-[14px] text-left">
+            <th className="hidden md:table-cell w-[109.17px] h-[48px] py-[14px] px-[16px]">
               Apartment No
             </th>
             <th className="hidden md:table-cell w-[109.71px] h-[48px] py-[14px] px-[16px] text-left">
               Address
             </th>
-            <th className="hidden md:table-cell  h-[48px] py-[14px] px-[8px] text-left w-[40px]">
+            <th className="hidden md:table-cell w-[40px] md:w-[109.17px] md:py-[14px] md:px-[16px]">
               Email
             </th>
-            <th className="hidden md:table-cell w-[152.17px] h-[48px] py-[14px] px-[16px] text-left">
+            <th className="hidden md:table-cell w-[109.17px] h-[48px] py-[14px] pr-[26px]">
               Phone No
             </th>
-            <th className="hidden md:table-cell w-[109.71px] h-[48px] py-[14px] px-[16px] text-left">
+            <th className="hidden md:table-cell w-[109.71px] h-[48px] py-[14px] px-[16px]">
               Rent
             </th>
-            <th className="hidden md:table-cell w-[107px] h-[48px] py-[14px] px-[16px] text-left">
+            <th className="hidden md:table-cell w-[124px] h-[48px] py-[14px] px-[16px] text-left">
               Status
             </th>
-            <th className="md:hidden w-[131.5px] h-[44px] py-[12px] px-[16px] text-left">
+            <th className="md:hidden w-[131.8px] h-[44px] py-[12px] px-[16px] text-left">
               Rent Status
             </th>
-            <th className="hidden md:table-cell w-[109.71px] h-[48px] py-[14px] px-[16px] text-left">
+            <th className="hidden md:table-cell w-[109.71px] h-[48px] py-[14px] px-[16px]">
               Due Date
             </th>
             <th className="md:hidden w-[36px] h-[44px] py-[12px] px-[24px]"></th>
           </tr>
         </thead>
-
         <tbody>
           {currentData &&
             currentData.map((data, index) => (
-              <tr key={index} className="border-b py-0 px-[8px] h-[64px]">
-                <td className="w-[44px] border-r pl-[12px] md:pb-5 pt-3 md:pt-0">
+              <tr key={index} className="border-b py-0 px-[8px] text-[11px]">
+                <td className="w-[30px] border-r md:px-[12px] md:py-[8px]">
                   <label className="checkbox-container">
                     <input
                       type="checkbox"
@@ -150,41 +149,35 @@ const VisitorRecords = ({ Data, setRows }) => {
                     <span className="TenantCheckmark"></span>
                   </label>
                 </td>
-
-                <td className="w-[141.5px] px-[16px] flex items-center gap-[8px] md:w-[182px] h-[64px] text-xs text-gray-700 py-[12px]  md:px-[16px] text-left">
+                <td className="w-[141.8px] flex items-center justify-start gap-[16px] md:mr-[16px] h-[64px] text-[11px] text-gray-700 md:pt-[24px]">
                   <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/Avatar.png"
-                    }
+                    src="/static/dashboard/enterprisemanager/dashboard/Avatar.png"
                     alt=""
                     width={30}
                     height={30}
                     className="hidden md:block"
                   />
-                  <span className="pb-1">{data.Tenant}</span>
+                  <span className="pb-1 md:pb-0">{data.Tenant}</span>
                 </td>
-
-                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-xs text-gray-700 py-0 px-[12px] text-left">
+                <td className="hidden md:table-cell w-[109px] h-[64px] text-[11px] text-gray-700 py-[8px]">
                   {data.Property}
                 </td>
-                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-[13px] text-gray-700 py-[12px] px-[8px] text-left">
+                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-[11px] text-gray-700 py-[8px] px-[8px]">
                   {data.ApartmentNo}
                 </td>
-                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-xs text-gray-700 p-[12px] text-left">
+                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-[11px] text-gray-700 px-[12px] py-[8px]">
                   {data.Address}
                 </td>
-                <td className="hidden md:table-cell h-[64px] w-[40px] text-xs text-gray-700 py-[12px] pl-[8px] pr-[16px] text-left whitespace-normal break-words">
+                <td className="hidden md:table-cell h-[64px] text-[11px] text-gray-700 px-[12px] md:w-[101.83px]">
                   {data.Email}
                 </td>
-
-                <td className="hidden md:table-cell w-[152.17px] h-[64px] text-xs text-gray-700 p-[12px] text-left">
+                <td className="hidden md:table-cell h-[64px] text-[11px] text-gray-700 py-[8px] w-[124.83px] leading-[16.8px]">
                   {data.PhoneNo}
                 </td>
-
-                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-xs text-gray-700 px-[16px] py-[12px] text-left">
+                <td className="hidden md:table-cell w-[101.83px] h-[64px] text-[11px] text-gray-700 px-[16px] py-[8px]">
                   {data.Rent}
                 </td>
-                <td className="w-[124px] h-[64px] text-xs text-gray-700  p-[12px] text-left">
+                <td className="md:w-[124px] h-[64px] text-[11px] text-gray-700 md:py-[8px] text-left">
                   <StatusDropdown
                     data={data}
                     handleStatusChange={(status) =>
@@ -194,14 +187,11 @@ const VisitorRecords = ({ Data, setRows }) => {
                     toggleDropdown={() => toggleDropdown(data._id)}
                   />
                 </td>
-                <td className="md:w-[140px] h-[64px] relative text-xs text-gray-700 px-[8px] py-[12px] flex items-center justify-between">
+                <td className="md:w-[135px] text-[11px] text-gray-700 px-[8px] flex justify-center items-center gap-2 relative md:bottom-4">
                   <span className="hidden md:block">{data.DueDate}</span>
-
                   <button onClick={() => handleToggleMenu(data._id)}>
                     <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                      }
+                      src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                       alt=""
                       height={20}
                       width={20}

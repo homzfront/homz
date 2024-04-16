@@ -14,7 +14,7 @@ const Button = ({
   const isDisabledNext = currentPage === totalPages;
 
   return (
-    <div className="flex md:w-full gap-2 justify-between items-center mt-4">
+    <div className="flex md:w-full gap-2 justify-between items-center mt-4 px-3 md:px-0">
       <div>
         <button
           onClick={handlePrev}

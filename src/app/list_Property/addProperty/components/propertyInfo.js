@@ -43,19 +43,19 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px]">
+      <div className="sm:text-[23px] font-[700] text-BlueHomz leading-[20.16px] sm:leading-[28.98px]">
         Property Details
       </div>
-      <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
+      <div className="leading-[16.38px] text-[13px] sm:text-[14px] font-[400]">
         Kindly fill in the accurate property details
       </div>
-      <div className="flex justify-between flex-col md:flex-row">
+      <div className="flex justify-between flex-col sm:flex-row">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" flex flex-col md:w-full"
+          className=" flex flex-col sm:w-full"
         >
-          <div className="flex md:gap-[50px] gap-[24px] flex-col md:flex-row">
-            <div className="flex flex-col md:gap-[28px] gap-[24px]">
+          <div className="flex sm:gap-[50px] gap-[24px] flex-col sm:flex-row  sideBarHidden lg:gap-[24px]">
+            <div className="flex flex-col sm:gap-[28px] gap-[24px]">
               <div>
                 <label htmlFor="Title">
                   {" "}
@@ -67,7 +67,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     required: true,
                   })}
                   placeholder="Property Title"
-                  className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
                 />
                 {errors.Title && (
                   <p className="errorMsg">Property's title is required</p>
@@ -81,7 +81,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 <select
                   name="Property_Type"
                   id="Property_Type"
-                  className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
                   {...register("Property_Type", {
                     required: true,
                   })}
@@ -120,7 +120,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                   <select
                     name="State"
                     id="State"
-                    className="w-[158px] h-[43px] md:w-[228px] md:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
+                    className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
                     {...register("State", {
                       required: true,
                     })}
@@ -140,7 +140,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                   <select
                     name="Area"
                     id="Area"
-                    className="w-[158px] h-[43px] md:w-[228px] md:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
+                    className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField  sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
                     {...register("Area", {
                       required: "Area is required.",
                     })}
@@ -168,7 +168,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                   {...register("Street", {
                     required: "Street name is required",
                   })}
-                  className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] adminCellBorders w-[335px] pl-2"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px] pl-2"
                   placeholder="Enter street name"
                 />
                 {errors.Street && (
@@ -184,7 +184,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 <br />
                 <select
                   name="Rooms"
-                  className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
                   id="Rooms"
                   {...register("Rooms", {
                     required: "Number of rooms is required",
@@ -208,7 +208,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-[24px] md:gap-[28px]">
+            <div className="flex  flex-col gap-[24px] sm:gap-[28px]">
               <div className="">
                 <label htmlFor="Bathrooms">
                   Bathrooms <span className="text-red-500 text-xs">*</span>
@@ -217,7 +217,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 <select
                   name="Bathrooms"
                   id="Bathrooms"
-                  className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
                   {...register("Bathrooms", {
                     required: "Number of athrooms is required",
                   })}
@@ -244,7 +244,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 <select
                   name="Toilets"
                   id="Toilets"
-                  className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
                   {...register("Toilets", {
                     required: "Number of toilets is required",
                   })}
@@ -280,7 +280,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       message: "Minimum length should be 10.",
                     },
                   })}
-                  className="mt-1 md:h-[280px] rounded-md adminCellBorders w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+                  className="mt-1 sm:h-[280px] rounded-md adminCellBorders w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
                   placeholder="Property Description"
                   // value={Description}
                   id="Description"
@@ -295,7 +295,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
           <div className="flex justify-between mt-8 ">
             <div>
               <button
-                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz adminBorders border-BlueHomz md:w-full w-[158px]"
+                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz adminBorders border-BlueHomz sm:w-full w-[158px]"
                 // onClick={handleShowCancelDialogue}
               >
                 Cancel
@@ -305,7 +305,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
             <div className="">
               <button
                 disabled={!isValid ? true : false}
-                className={`flex md:mr-14 adminBorders justify-center  md:w-[77px] w-[158px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
+                className={`flex sm:mr-14 adminBorders justify-center  sm:w-[77px] w-[158px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
                   !isValid
                     ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
                     : "text-white border-white bg-BlueHomz"

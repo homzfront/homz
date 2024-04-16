@@ -19,7 +19,7 @@ const StatusDropdown = ({
           data.Status === "Paid" ? "bg-successBg text-Success" : ""
         } ${data.Status === "Pending" ? "bg-warningBg text-warning2" : ""} ${
           data.Status === "Over Due" ? "bg-error text-white" : ""
-        }  w-[100px] h-10 rounded-md text-start `}
+        }  w-[100px] h-[33px] rounded-md text-start `}
         onClick={toggleDropdown}
       >
         <div className="px-[10px] py-[4px] flex items-center justify-between gap-1 w-full h-full">

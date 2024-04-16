@@ -27,8 +27,8 @@ const ManageTenants = () => {
   };
 
   return (
-    <div className="space-y-7 pt-5 md:pt-0 pr-1">
-      <div className="flex justify-between items-center mt-4 pl-1">
+    <div className="space-y-7 pt-5 md:pt-0 px-2 md:pr-0">
+      <div className="flex justify-between items-center mt-4 ">
         <div className="flex gap-2 items-center ">
           <p className="text-[20px] font-[500]">Tenants</p>
           <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">

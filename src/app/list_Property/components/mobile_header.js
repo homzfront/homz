@@ -55,13 +55,13 @@ const MobileAdminHeader = () => {
   />
   <motion.ul
     variants={variants}
-    className="absolute grid w-full gap-3 px-10 py-32"
+    className="absolute grid w-[339px] gap-3 px-10 py-32"
   >
     {mobileSideBarData.map((item, idx) => {
       const isLastItem = idx === mobileSideBarData.length - 1; // Check if it's the last item
 
       return (
-        <div key={idx}>
+        <div key={idx} className="w-[300px]">
           {item.submenu ? (
             <MenuItemWithSubMenu item={item} toggleOpen={toggleOpen} />
           ) : (

@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const SideNav = () => {
   return (
-    <div className="md:w-60 shadow-md bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex md:pt-4">
+    <div className="md:w-60 shadow-md bg-white h-full flex-1 fixed border-r border-zinc-200 hidden md:flex md:pt-4 ">
       <div className="flex flex-col space-y-7 w-full">
         <Link
           href="/"
@@ -56,6 +56,11 @@ const MenuItem = ({ item }) => {
   const toggleSubMenu = () => {
     setSubMenuOpen(!subMenuOpen);
   };
+  const highlightClass = (itemPath) => {
+    return (itemPath === pathname || itemPath === `${pathname}/new`) ? "bg-BlueHomz text-white" : "hover:bg-blue-100";
+  };
+
+  const linkClass = highlightClass("/listProperty");
 
   return (
     <div className="">
@@ -99,6 +104,7 @@ const MenuItem = ({ item }) => {
         <Link
           href={item.path}
           className={`flex flex-row space-x-4 items-center p-2 rounded-lg ${
+            
             item.path === pathname ? "bg-BlueHomz text-white" : "hover:bg-blue-100"
           }`}
         >

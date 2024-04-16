@@ -25,7 +25,7 @@ const ContactInfo = ({
     <div className="">
       {/* {loading && <Loading />} */}
 
-      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px]">
+      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] duoViewPoint">
         Contact Information
       </div>
       <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
@@ -33,7 +33,7 @@ const ContactInfo = ({
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" flex flex-col md:w-full"
+        className=" flex flex-col md:w-full duoViewPoint"
       >
         <div className="flex  gap-[2rem] mt-5">
           <div className="profiles flex  flex-col space-y-4">
@@ -52,7 +52,7 @@ const ContactInfo = ({
                   },
                 })}
                 placeholder="Enter Phone Number"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
               />
               {errors.PhoneNumber && (
                 <p className="errorMsg">{errors.PhoneNumber?.message}</p>
@@ -68,7 +68,7 @@ const ContactInfo = ({
               <input
                 {...register("Email")}
                 placeholder="Enter Email"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
               />
               {errors.Email && <p className="errorMsg">Email is required</p>}
             </div>
@@ -78,7 +78,7 @@ const ContactInfo = ({
               <input
                 {...register("WhatsAppLink")}
                 placeholder="Enter WhatsApp Link"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
               />
               {errors.WhatsAppLink && (
                 <p className="errorMsg">WhatsApp Link is required</p>

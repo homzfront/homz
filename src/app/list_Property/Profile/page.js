@@ -78,9 +78,7 @@ const Profile = ({ PropertyID }) => {
     setActiveFour(false);
   };
 
-  const handlePropertyPhotos = () => {
-    setSaveModalIsOpen(true);
-  };
+ 
   const handleContactInfo = () => {
     setActiveThree(false);
     setActiveTwo(false);

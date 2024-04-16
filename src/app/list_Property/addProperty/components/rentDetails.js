@@ -41,7 +41,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
         onSubmit={handleSubmit(onSubmit)}
         className=" flex flex-col md:w-full mt-6"
       >
-        <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row">
+        <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
             <div>
               <label htmlFor="monthlyRent">
@@ -51,7 +51,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <input
                 {...register("monthlyRent")}
                 placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
                 type="number"
                 id="monthlyRent"
                 name="monthlyRent"
@@ -69,7 +69,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <input
                 {...register("maintenanceFee")}
                 placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
                 type="number"
                 id="maintenanceFee"
                 name="maintenanceFee"
@@ -85,7 +85,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <input
                 {...register("totalFee")}
                 placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
                 type="number"
                 id="totalFee"
                 name="totalFee"
@@ -105,7 +105,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <input
                 {...register("yearlyRent")}
                 placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
                 type="number"
                 id="yearlyRent"
                 name="yearlyRent"
@@ -124,7 +124,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <input
                 {...register("agencyFee")}
                 placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
                 type="number"
                 id="agencyFee"
                 name="agencyFee"

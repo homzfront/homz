@@ -54,7 +54,7 @@ export const OtherSideNav=[
   },
   {
     title: "Logout",
-    path: "",
+    path: "/logout",
     icon: "/static/dashboard/enterprisemanager/sidebar/logout.png",
     
   },

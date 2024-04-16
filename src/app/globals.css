@@ -127,7 +127,7 @@ body {
   border: 1px solid #006aff;
 }
 .testimonial {
-  border: 1px solid #559CFF;
+  border: 1px solid #559cff;
 }
 
 .visitor {
@@ -135,7 +135,7 @@ body {
   height: 45px;
   padding: 12px;
   border-radius: 4px;
-  border: 1px solid #A9A9A9;
+  border: 1px solid #a9a9a9;
 }
 .errorMsg {
   color: red;
@@ -249,23 +249,80 @@ select.field {
   gap: 32px;
   background: rgba(252, 252, 252, 1);
 }
-.currentCard {
+
+@media (min-width: 412px) and (max-width: 450px) {
+  .otherVP {
+    padding-left: 20px;
+  }
+}
+
+@media (min-width: 750px) and (max-width: 1040px) {
+  .sideBarHidden {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+  .indicatorText {
+    display: none !important;
+  }
+  .indicatorText2 {
+    display: flex !important;
+  }
+  .indicatorsLine {
+    width: 100% !important;
+  }
+  .fields {
+    width: 100% !important;
+  }
+  .miniViewCol{
+    width:550px !important;
+    gap:12px !important
+  }
+  .miniPadding{
+    padding-left: 2rem  !important;
+    padding-right: 5rem  !important;
+    padding-top: 5rem !important;
+  }
+  .miniMargin{
+    margin: 0 !important;
+  }
+  .miniPaddingLeft{
+    padding: 0 !important;
+  }
+ .miniPaddingTop{
+  padding-top: 0 !important;
+ }
+ .specialWidth{
+  width: 500px !important;
+ }
+}
+@media (width: 540px) {
+  .duoViewPoint {
+    width: 500px !important;
+  }
+  .dropdwField {
+    width: 240px !important;
+  }
+  .photos{
+    width: 150px !important;
+    height: 150px !important;
+  }
+  .paginate{
+    margin-top: 2rem !important;
+  }
+  .cols{
+    flex-direction: column !important;
+  }
+  .rows{
+    flex-direction: row !important;
+
+  }
 }
 @media (max-width: 768px) {
   body {
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     width: max-content;
   }
-  .headerAdmin {
-    /* border-bottom: 1px solid rgb(231, 229, 229); */
-    /* padding-top:1.5rem; */
-    /* padding-bottom: 2rem; 
-  }
 
-  .sidebar {
-    display: none;
-    /* Hide the sidebar on screens smaller than 768px */
-  }
   .header {
     display: none;
   }
@@ -344,8 +401,8 @@ select.field {
 .checkbox-container {
   display: block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 24px;
+  padding-left: 15px;
+  margin-bottom: 10px;
   cursor: pointer;
   font-size: 22px;
 }
@@ -589,9 +646,8 @@ label {
   text-align: left;
 }
 .response {
-  border-top: 1px solid rgb(213, 210, 210);;
+  border-top: 1px solid rgb(213, 210, 210);
 }
-.resImages{
-  
+.resImages {
   border: 3px solid white;
 }

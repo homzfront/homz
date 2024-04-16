@@ -17,8 +17,10 @@ const PropertyPhoto = ({
   const [otherPhotos, setOtherPhotos] = useState([]);
   const [fileUploaded, setFileUpload] = useState(false);
   const [fileUploaded2, setFileUpload2] = useState(false);
-
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [houses, setHouses] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg2, setErrorMsg2] = useState("");
 
   const deleteFile = (index) => {
     const updatedData = [...houses];
@@ -39,16 +41,31 @@ const PropertyPhoto = ({
     const file = e.target.files[0];
     // console.log(file);
     if (file) {
-      setFileUpload(true);
-      setUploadedCoverPhoto(file);
-      setImageScr(URL.createObjectURL(file));
-      setCoverPicture(file);
+      if (file.size > MAX_FILE_SIZE) {
+        // File size exceeds the limit
+        setErrorMsg2("Photo size exceeds 5MB.");
+        return;
+      } 
+      else{
+        setErrorMsg2("")
+        setFileUpload(true);
+        setUploadedCoverPhoto(file);
+        setImageScr(URL.createObjectURL(file));
+        setCoverPicture(file);
+      }
     }
   };
   const displayHousePic = (e) => {
     const file = e.target.files[0];
     // console.log(file);
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        // File size exceeds the limit
+        setErrorMsg("Photo size exceeds 5MB.");
+        return;
+      } 
+      else{
+        setErrorMsg("");
       setFileUpload2(true);
       setOtherPhotos((prevPhotos) => {
         if (!Array.isArray(prevPhotos)) {
@@ -64,11 +81,12 @@ const PropertyPhoto = ({
         file,
       ]);
     }
+  }
   };
 
   return (
     <div className="flex flex-col gap-8 w-full mt-6">
-      <div className="flex flex-col gap-2 md:w-full w-[334px]">
+      <div className="flex flex-col gap-2 md:w-full w-[334px] fields">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
 
         <p className="text-[13px] font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
@@ -79,8 +97,8 @@ const PropertyPhoto = ({
           MB
         </p>
       </div>
-      <main className="User_body profiles flex flex-col  md:flex-row  gap-[7rem] w-full">
-        <div className="profiles flex gap-[2rem] md:gap-[4rem] flex-col md:flex-row">
+      <main className="User_body profiles flex flex-col  md:flex-row  gap-[7rem] w-full duoViewPoint">
+        <div className={`profiles flex gap-[2rem] md:gap-[4rem] flex-col md:flex-row ${houses.length >1? 'cols sideBarHidden' : 'rows'}`}>
           <div className="md:space-y-4">
             <label for="CoverPhoto " className="text-[14px]">
               Cover photo
@@ -88,7 +106,7 @@ const PropertyPhoto = ({
             <br />
 
             <div
-              className={` md:w-[170px] md:h-[170px] w-[157px] h-[158px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-3 md:mt-0`}
+              className={` md:w-[170px] md:h-[170px] w-[157px] h-[158px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-3 md:mt-0 `}
             >
               <form
                 enctype="multipart/form-data"
@@ -103,6 +121,7 @@ const PropertyPhoto = ({
                   id="coverPhoto"
                   onChange={displayCoverPhoto}
                   style={{ display: "none" }}
+                  accept="image/jpg, image/png"
                 />
                 {fileUploaded ? (
                   <Image
@@ -125,20 +144,23 @@ const PropertyPhoto = ({
                 )}
               </form>
             </div>
+              <p className="text-[11px] text-red-600">
+                {errorMsg2 ? errorMsg2 : ""}
+              </p>
           </div>
 
-          <div className=" md:space-y-4">
+          <div className=" md:space-y-4 ">
             <label for="others" className="text-[14px]">
               Other Photos
             </label>
             <br />
-            <div className="flex gap-7 flex-wrap md:w-full w-[357px]">
-              <div className=" flex gap-4 md:gap-7 flex-wrap mt-2 md:mt-0">
+            <div className="flex gap-7 flex-wrap md:w-full w-[357px] duoViewPoint ">
+              <div className={` flex gap-4 md:gap-7 flex-wrap mt-2 md:mt-0 ${houses.length >1? "miniViewCol": "w-[400px]"}`}>
                 {houses.map((house, index) => (
                   // Render each house dynamically
                   <div
                     key={index}
-                    className="md:w-[170px] md:h-[170px]  w-[157px] h-[158px] rounded-[14.13px] mb-8"
+                    className={`md:w-[170px] md:h-[170px]  w-[157px] h-[158px] rounded-[14.13px] mb-8 photos`}
                   >
                     <Image
                       src={house}
@@ -156,12 +178,13 @@ const PropertyPhoto = ({
                         alt="img"
                         onClick={() => deleteFile(index)}
                       />
+                      
                     )}
                   </div>
                 ))}
                 {houses.length === 5 ? null : (
                   <div
-                    className={` md:w-[170px] md:h-[170px]  w-[157px] h-[158px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer`}
+                    className={` md:w-[170px] md:h-[170px]  w-[157px] h-[158px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
                   >
                     <form
                       enctype="multipart/form-data"
@@ -175,6 +198,7 @@ const PropertyPhoto = ({
                         id="uploadImage"
                         onChange={displayHousePic}
                         style={{ display: "none" }}
+                        accept="image/jpg, image/png"
                       />
 
                       <Image
@@ -186,15 +210,19 @@ const PropertyPhoto = ({
                         height={70.63}
                       />
                     </form>
+                    <p className="text-[11px] text-red-600">
+                {errorMsg ? errorMsg : ""}
+              </p>
                   </div>
                 )}
               </div>
             </div>
+             
           </div>
         </div>
       </main>
 
-      <div className="flex justify-between mt-20 px-3 md:px-0">
+      <div className="flex justify-between mt-20 px-3 md:px-0 paginate">
         <div>
           <button
             onClick={BackToRentalsInfo}

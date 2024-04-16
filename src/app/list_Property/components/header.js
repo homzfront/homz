@@ -36,17 +36,17 @@ const AdminHeader = ({ setSearchValue, searchValue }) => {
   return (
     <div
       className={cn(
-        `hidden md:block inset-x-0  headerAdmin py-[.5rem] mb-3  z-30 w-full transition-all md:h-[85px]`,
+        `hidden sm:block inset-x-0  headerAdmin py-[.5rem] mb-3  z-30 w-full transition-all sm:h-[85px]`,
         {
           "border-b border-gray-500 bg-white/75 backdrop-blur-lg": scrolled,
           "border-b border-gray-500 bg-white": selectedLayout,
         }
       )}
     >
-      <div className="md:flex h-full  md:items-center md:justify-between px-4 md:pt-0 pt-10">
+      <div className="sm:flex h-full  sm:items-center sm:justify-between px-4 sm:pt-0 pt-10">
         
 
-        <div className="searchPane relative hidden md:block">
+        <div className="searchPane relative hidden sm:block">
           <input
             type="text"
             className="border h-[40px] pl-8 rounded-md w-[320px]"
@@ -69,7 +69,7 @@ const AdminHeader = ({ setSearchValue, searchValue }) => {
           />
         </div>
 
-        <div className="hidden md:block ml-auto">
+        <div className="hidden sm:block ml-auto">
           <div className="flex gap-[20px] items-center">
             <div onClick={handleToggleMenuTwo} className="cursor-pointer">
               <Image

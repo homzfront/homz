@@ -101,24 +101,25 @@ const UserHomePage = () => {
   return (
     <div className="md:w-full mx-auto px-5 mt-10 md:mt-20 flex flex-col items-center  gap-[2.8rem] mb-10">
       <div className="hidden filterLane md:flex gap-1">
-        <div className="  flex items-center w-[262px] h-[44px] proBorders rounded-[4px] py-[12px] pr-[7px] mr-1">
+        <div className="  flex items-center w-[262px] h-[44px] proBorders rounded-[4px] py-[12px]  mr-1">
           <input
             type="text"
             id="searchState_Area"
             name="searchState_Area"
-            className=" w-full md:w-[97%] h-[42px] border-0 pl-2 rounded-[4px]"
+            className=" w-full relative  h-[42px] border-0 pl-2 rounded-[4px]"
             // value={searchStateArea}
             placeholder="Search by state or area "
             // onChange={(e) => setSearchState_Area(e.target.value)}
           />
-          <button className="cursor-pointer">
+          
             <Image
               src="/static/images/search-normal.svg"
               alt=""
               width={16}
               height={16}
+              className="cursor-pointer left-[19.5rem] absolute"
             />
-          </button>
+        
         </div>
         <div>
           <State getState={handleSearch} />
