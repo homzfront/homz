@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import DropDown from "./component/DropDown";
+import DropDown from "./component/Dropdown";
 import { TenantData } from "./component/tenantData";
 import VisitorRecords from "./component/visitorsRecords";
 import Link from "next/link";
