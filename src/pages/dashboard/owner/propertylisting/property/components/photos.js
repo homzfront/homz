@@ -190,7 +190,7 @@ const Photos = ({ data }) => {
       ) : (
         <div className="w-full flex flex-col px-8">
           <div className="flex items-start w-full justify-between gap-4 mt-8">
-            <div>
+            <div className="w-[25%]">
               <div>
                 <p className="text-[13px] font-[500] text-GrayHomz">
                   Cover photo
@@ -205,11 +205,11 @@ const Photos = ({ data }) => {
                 </div>
               </div>
             </div>
-            <div className="grid w-[760px]">
+            <div className="grid w-[75%]">
               <p className="text-[13px] font-[500] text-GrayHomz">
                 Other photos
               </p>
-              <div className="flex mt-4 justify-between">
+              <div className="mt-4 grid gap-8 grid-cols-4">
                 <div className="w-[120px] flex justify-start">
                   <ImageUpload
                     onImageRemove={setUploadedImage}
@@ -242,8 +242,6 @@ const Photos = ({ data }) => {
                     image={data?.photos?.[3]?.url}
                   />
                 </div>
-              </div>
-              <div className="flex mt-4 justify-between">
                 <div className="w-[120px] flex justify-start">
                   <ImageUpload
                     onImageRemove={setUploadedImage5}

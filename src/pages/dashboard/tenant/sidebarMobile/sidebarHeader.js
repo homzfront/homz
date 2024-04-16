@@ -1,54 +1,22 @@
 "use client"
+import React from 'react'
 import Dashboard from '@/components/icons/dashboardMobile/dashboard'
 import Logout from '@/components/icons/dashboardMobile/logout'
 import Maintenance from '@/components/icons/dashboardMobile/maintenance '
-import Message from '@/components/icons/dashboardMobile/message'
-import Notifications from '@/components/icons/dashboardMobile/notifications'
 import Payment from '@/components/icons/dashboardMobile/payment'
-import PropertyListing from '@/components/icons/dashboardMobile/propertyListing'
 import PropertyManagement from '@/components/icons/dashboardMobile/propertyManagement'
-import Requests from '@/components/icons/dashboardMobile/requests'
 import RightArrow from '@/components/icons/dashboardMobile/rightArrow'
-import Settings from '@/components/icons/dashboardMobile/settings'
 import Support from '@/components/icons/dashboardMobile/support'
-import Switch from '@/components/icons/dashboardMobile/switch'
-import Tenants from '@/components/icons/dashboardMobile/tenants'
 import EmptyAvatar from '@/components/icons/emptyAvatar'
 import useProfileStore from '@/store/profile'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import { usePathname } from "next/navigation";
+import keepThree from "@/utils/keepThree";
 
 const SidebarMobile = ({ setOpen, user }) => {
-  const [pathname, setPathname] = useState("");
-  useEffect(() => {
-    // Function to get the current URL
-    const url = () => {
-      if (typeof window !== "undefined") {
-        return window.location.href;
-      }
-      return "";
-    };
-
-    const extractPathname = (url) => {
-      const parsedUrl = new URL(url);
-      let pathname = parsedUrl.pathname;
-
-      // Split the pathname into segments
-      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
-
-      // Keep only the first three segments
-      const firstThreeSegments = segments.slice(0, 3);
-
-      // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join("/")}`;
-
-      return pathname;
-    };
-
-    setPathname(extractPathname(url()));
-  }, []);
-
+  const path = usePathname();
+  const pathname = keepThree(path);
   const { logout } = useProfileStore();
 
   return (

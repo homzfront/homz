@@ -8,7 +8,6 @@ import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterprise
 import useClickOutside from "@/utils/clickOutside";
 import SidebarMobile from "../sidebarMobile/sidebarHeader";
 import Menu from "@/components/icons/Menu";
-import useDisableBodyScroll from "@/utils/useDisableBodyScroll";
 import TrialWarning from "./components/trialWarning";
 import calculateDaysLeft from "@/utils/trailEndDays";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
@@ -69,8 +68,6 @@ const Header = () => {
 
 
   const user = data;
-
-  useDisableBodyScroll(open)
 
   const trialEndDate = user?.trialEndDate;
   const daysLeft = calculateDaysLeft(trialEndDate);

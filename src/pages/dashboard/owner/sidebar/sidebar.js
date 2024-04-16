@@ -1,112 +1,121 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
-import useBodyScroll from "@/utils/useBodyScroll";
 import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
+import { usePathname } from "next/navigation";
+import keepThree from "@/utils/keepThree";
+import Logout from '@/components/icons/dashboardMobile/logoutMain'
+import Dashboard from '@/components/icons/dashboardMobile/dashboard'
+import Maintenance from '@/components/icons/dashboardMobile/maintenance '
+import Payment from '@/components/icons/dashboardMobile/payment'
+import PropertyListing from '@/components/icons/dashboardMobile/propertyListing'
+import PropertyManagement from '@/components/icons/dashboardMobile/propertyManagement'
+import Settings from '@/components/icons/dashboardMobile/settings'
+import Support from '@/components/icons/dashboardMobile/support'
+import Switch from '@/components/icons/dashboardMobile/switch'
+import Tenants from '@/components/icons/dashboardMobile/tenants'
+import Profile from "@/components/icons/dashboardMobile/profile";
+
+const Data = [
+  {
+    id: 1,
+    image: <Dashboard />,
+    image2: <Dashboard className='text-white fill-white' />,
+    link: "/dashboard/property-owner/dashboard",
+    name: "Dashboard",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 2,
+    image: <Tenants />,
+    image2: <Tenants className='text-white fill-white' />,
+    link: "/dashboard/property-owner/tenants",
+    name: "Tenants",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 3,
+    image: <PropertyManagement />,
+    image2: <PropertyManagement className='text-BlueHomz fill-white' />,
+    link: "/dashboard/property-owner/estates",
+    name: "Property Management",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 4,
+    image: <PropertyListing />,
+    image2: <PropertyListing className='text-BlueHomz fill-white' />,
+    link: "/dashboard/property-owner/propertylisting",
+    name: "Property Listing",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 5,
+    image: <Payment />,
+    image2: <Payment className='text-BlueHomz fill-white' />,
+    link: "/dashboard/property-owner/payments",
+    name: "Payments",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 6,
+    image: <Maintenance />,
+    image2: <Maintenance className='text-white fill-white' />,
+    link: "/dashboard/property-owner/maintenance",
+    name: "Maintenance",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 7,
+    image: <Support />,
+    image2: <Support className='text-white fill-white' />,
+    link: "/dashboard/property-owner/support",
+    name: "Support",
+    coming: null,
+    active: false,
+  },
+];
+
+const Data2 = [
+  {
+    id: 1,
+    image: <Profile />,
+    image2: <Profile className='text-white fill-white' />,
+    link: "/dashboard/property-owner/profile",
+    name: "Profile",
+  },
+  // {
+  //   id: 2,
+  //   image: <Settings />,
+  // image2: <Settings className='text-white' />,
+  //   link: "/dashboard/property-owner/setting",
+  //   name: "Setting",
+  // },
+];
+
+const Data3 = [
+  {
+    id: 1,
+    image: <Switch />,
+    link: "/switch-profile",
+    name: "Switch",
+  },
+];
 
 const Sidebar = () => {
   const { showKindlyWait } = LandLordInactiveStore();
-
-  const Data = [
-    {
-      id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/dashboard.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/dashboardwhite.png",
-      link: "/dashboard/property-owner/dashboard",
-      name: "Dashboard",
-      coming: null,
-      active: false,
-    },
-    {
-      id: 2,
-      image: "/static/dashboard/enterprisemanager/sidebar/tenants.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/tenantswhite.png",
-      link: "/dashboard/property-owner/tenants",
-      name: "Tenants",
-      coming: null,
-      active: false,
-    },
-    {
-      id: 3,
-      image: "/static/dashboard/enterprisemanager/sidebar/estatedark.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/estates.png",
-      link: "/dashboard/property-owner/estates",
-      name: "Property Management",
-      coming: null,
-      active: false,
-    },
-    {
-      id: 4,
-      image: "/static/dashboard/enterprisemanager/sidebar/buliding.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/bulidingwhite.png",
-      link: "/dashboard/property-owner/propertylisting",
-      name: "Property Listing",
-      coming: null,
-      active: false,
-    },
-    {
-      id: 5,
-      image: "/static/dashboard/enterprisemanager/sidebar/card.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/cardwhite.png",
-      link: "/dashboard/property-owner/payments",
-      name: "Payments",
-      coming: null,
-      active: false,
-    },
-    {
-      id: 6,
-      image: "/static/dashboard/enterprisemanager/sidebar/maintenance.png",
-      image2:
-        "/static/dashboard/enterprisemanager/sidebar/maintenanceWhite.png",
-      link: "/dashboard/property-owner/maintenance",
-      name: "Maintenance",
-      coming: null,
-      active: false,
-    },
-    {
-      id: 7,
-      image: "/static/dashboard/enterprisemanager/sidebar/call.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/callwhite.png",
-      link: "/dashboard/property-owner/support",
-      name: "Support",
-      coming: null,
-      active: false,
-    },
-  ];
-
-  const Data2 = [
-    {
-      id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/profile.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/profilewhite.png",
-      link: "/dashboard/property-owner/profile",
-      name: "Profile",
-    },
-    // {
-    //   id: 2,
-    //   image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
-    //   image2: "/static/dashboard/enterprisemanager/sidebar/settingwhite.png",
-    //   link: "/dashboard/property-owner/setting",
-    //   name: "Setting",
-    // },
-  ];
-
-  const Data3 = [
-    {
-      id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      link: "/switch-profile",
-      name: "Switch",
-    },
-  ];
-
+  const path = usePathname();
+  const pathname = keepThree(path);
   const { logout } = useProfileStore();
-
-  const [pathname, setPathname] = useState("");
   const [logoutModal, setLogoutModal] = useState(false);
 
   const logoutII = () => {
@@ -116,38 +125,6 @@ const Sidebar = () => {
   const closeLogout = () => {
     setLogoutModal(false);
   };
-
-  useEffect(() => {
-    // Function to get the current URL
-    const url = () => {
-      if (typeof window !== "undefined") {
-        return window.location.href;
-      }
-      return "";
-    };
-
-    const extractPathname = (url) => {
-      const parsedUrl = new URL(url);
-      let pathname = parsedUrl.pathname;
-
-      // Split the pathname into segments
-      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
-
-      // Keep only the first three segments
-      const firstThreeSegments = segments.slice(0, 3);
-
-      // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join("/")}`;
-
-      return pathname;
-    };
-
-    setPathname(extractPathname(url()));
-  }, []);
-
-
-  // useEffect to handle scrolling
-  useBodyScroll([logoutModal]);
 
   return (
     <div className="sidebar">
@@ -165,79 +142,90 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
-            {Data.map((data) => (
+          {Data.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`${showKindlyWait && data?.name !== "Dashboard" ? "opacity-[70%]" : ""}  h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${data.name === "Property Management" ? "h-[60px]" : ""
-                  } ${pathname === data.link
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : " hover:bg-blue-100"
                   } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
                   } `}
               >
                 {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image2}
+                  </div>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image}
+                  </div>
                 )}
-                <span>
-                  <span className="pr-1">{data.name}</span>
-                  <span className="text-Success mt-[1px] font-[300] text-[12px]">
-                    {data.coming}
-                  </span>
-                </span>
+                <div className="flex items-center w-full justify-between">
+                  <span className="">{data.name}</span>
+                  <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
+                    } mt-1 h-2 w-2 rounded-full`}
+                  ></p>
+                </div>
               </Link>
             ))}
           </div>{" "}
           <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
-            {Data2.map((data) => (
+          {Data2.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`${showKindlyWait ? "opacity-[70%]" : ""}  h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
-                    ? "bg-BlueHomz text-white"
-                    : "hover:text-white hover:bg-blue-300"
+                className={`h-[40px] px-2 flex items-center rounded-md text-GrayHomz text-[16px] font-[500] 
+                ${
+                  data.name === "Setting" ? "gap-[4px]" : "gap-[12px]"
+                }
+                ${pathname === data.link
+                  ? "bg-BlueHomz text-white"
+                  : "hover:text-white hover:bg-blue-300"
                   } `}
               >
                 {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image2}
+                  </div>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image}
+                  </div>
                 )}
                 <span className="">{data.name}</span>
               </Link>
             ))}
           </div>
           <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
-            {Data3.map((data) => (
+          {Data3.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`${showKindlyWait ? "opacity-[70%]" : ""}  h-[40px] px-2  flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
-                    ? "bg-BlueHomz text-white"
-                    : "hover:text-white hover:bg-blue-300"
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[7px] text-GrayHomz text-[16px] font-[500]
+                ${pathname === data.link
+                  ? "bg-BlueHomz text-white"
+                  : "hover:text-white hover:bg-blue-300"
                   } `}
               >
                 {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+                  <div>
+                    {/* {data.image2} */}
+                  </div>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image}
+                  </div>
                 )}
                 <span className="">{data.name}</span>
               </Link>
             ))}
-            <div
+               <div
               onClick={logoutII}
               className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
                  `}
             >
-              <Image
-                src="/static/dashboard/enterprisemanager/sidebar/logout.png"
-                height={16}
-                width={16}
-                alt="img"
-              />
+              <Logout />
               <span className="">Logout</span>
             </div>
           </div>

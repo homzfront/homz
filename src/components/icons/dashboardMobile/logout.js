@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Logout = () => {
+const Logout = (z) => {
     return (
         <svg
           width="20"
