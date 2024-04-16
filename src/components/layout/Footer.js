@@ -70,8 +70,12 @@ const Footer = () => {
                 <p>About Us</p>
               </Link>
               <p>Properties</p>
-              <p>Privacy Policy</p>
-              <p>Terms of Use</p>
+              <Link href={"/privacy-policy"}>
+                <p>Privacy Policy</p>
+              </Link>
+              <Link href={"/terms-and-conditions"}>
+                <p>Terms of Use</p>
+              </Link>
               <Link href={"/contact-page"}>
                 <p>Contact</p>
               </Link>
