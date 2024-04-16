@@ -6,19 +6,44 @@ import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
 import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
 import useMaintenanceRequestStore from "@/store/enterpriseStore/useMaintenanceStore";
+import { usePathname } from "next/navigation";
+import keepThree from "@/utils/keepThree";
+import Dashboard from '@/components/icons/dashboardMobile/dashboard'
+import Logout from '@/components/icons/dashboardMobile/logoutMain'
+import Maintenance from '@/components/icons/dashboardMobile/maintenance '
+import Payment from '@/components/icons/dashboardMobile/payment'
+import PropertyListing from '@/components/icons/dashboardMobile/propertyListing'
+import PropertyManagement from '@/components/icons/dashboardMobile/propertyManagement'
+import Requests from '@/components/icons/dashboardMobile/requests'
+import Settings from '@/components/icons/dashboardMobile/settings'
+import Support from '@/components/icons/dashboardMobile/support'
+import Switch from '@/components/icons/dashboardMobile/switch'
+import Tenants from '@/components/icons/dashboardMobile/tenants'
+import Profile from "@/components/icons/dashboardMobile/profile";
+
 
 const Sidebar = () => {
+  const path = usePathname();
+  const pathname = keepThree(path);
+  const { logout } = useProfileStore();
+  const [logoutModal, setLogoutModal] = useState(false);
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
-  const { request: maintenanceRequest, fetchData: fetchMaintenance } =
-    useMaintenanceRequestStore();
+  const { request: maintenanceRequest, fetchData: fetchMaintenance } = useMaintenanceRequestStore();
+
+  const logoutII = () => {
+    setLogoutModal(!logoutModal);
+  };
+
+  const closeLogout = () => {
+    setLogoutModal(false);
+  };
+
 
   useEffect(() => {
     const fetchDataInterval = setInterval(() => {
       fetchData();
       fetchMaintenance();
     }, 3 * 60 * 1000); // 3 minutes in milliseconds
-
-    // Fetch data immediately when the component mounts
     fetchData();
     fetchMaintenance();
 
@@ -32,17 +57,12 @@ const Sidebar = () => {
   // Check if any request status is "pending"
   const isAnyPending = results?.some(item => item.status === "pending");
 
-  // Perform action if any request status is "pending"
-  if (isAnyPending) {
-    // Perform your action here
-    // console.log("At least one request is pending", isAnyPending);
-  }
 
   const Data = [
     {
       id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/dashboard.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/dashboardwhite.png",
+      image: <Dashboard />,
+      image2: <Dashboard className='text-white fill-white' />,
       link: "/dashboard/enterprise-property/dashboard",
       name: "Dashboard",
       coming: null,
@@ -50,8 +70,8 @@ const Sidebar = () => {
     },
     {
       id: 2,
-      image: "/static/dashboard/enterprisemanager/sidebar/tenants.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/tenantswhite.png",
+      image: <Tenants />,
+      image2: <Tenants className='text-white fill-white' />,
       link: "/dashboard/enterprise-property/tenants",
       name: "Tenants",
       coming: null,
@@ -59,8 +79,8 @@ const Sidebar = () => {
     },
     {
       id: 3,
-      image: "/static/dashboard/enterprisemanager/sidebar/estatedark.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/estates.png",
+      image: <PropertyManagement />,
+      image2: <PropertyManagement className='text-BlueHomz fill-white' />,
       link: "/dashboard/enterprise-property/estates",
       name: "Property Management",
       coming: null,
@@ -68,8 +88,8 @@ const Sidebar = () => {
     },
     {
       id: 4,
-      image: "/static/dashboard/enterprisemanager/sidebar/buliding.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/bulidingwhite.png",
+      image: <PropertyListing />,
+      image2: <PropertyListing className='text-BlueHomz fill-white' />,
       link: "/dashboard/enterprise-property/propertylisting",
       name: "Property Listing",
       coming: null,
@@ -77,8 +97,8 @@ const Sidebar = () => {
     },
     {
       id: 5,
-      image: "/static/dashboard/enterprisemanager/sidebar/card.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/cardwhite.png",
+      image: <Payment />,
+      image2: <Payment className='text-BlueHomz fill-white' />,
       link: "/dashboard/enterprise-property/payments",
       name: "Payments",
       coming: null,
@@ -86,8 +106,8 @@ const Sidebar = () => {
     },
     {
       id: 6,
-      image: "/static/dashboard/enterprisemanager/sidebar/RequestBlack.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/Request.png",
+      image: <Requests />,
+      image2: <Requests className='text-white fill-white' />,
       link: "/dashboard/enterprise-property/request",
       name: "Request",
       coming: null,
@@ -95,9 +115,8 @@ const Sidebar = () => {
     },
     {
       id: 7,
-      image: "/static/dashboard/enterprisemanager/sidebar/maintenance.png",
-      image2:
-        "/static/dashboard/enterprisemanager/sidebar/maintenanceWhite.png",
+      image: <Maintenance />,
+      image2: <Maintenance className='text-white fill-white' />,
       link: "/dashboard/enterprise-property/maintenance",
       name: "Maintenance",
       coming: null,
@@ -105,8 +124,8 @@ const Sidebar = () => {
     },
     {
       id: 8,
-      image: "/static/dashboard/enterprisemanager/sidebar/call.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/callwhite.png",
+      image: <Support />,
+      image2: <Support className='text-white fill-white' />,
       link: "/dashboard/enterprise-property/support",
       name: "Support",
       coming: null,
@@ -117,15 +136,15 @@ const Sidebar = () => {
   const Data2 = [
     {
       id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/profile.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/profilewhite.png",
+      image: <Profile />,
+      image2: <Profile className='text-white fill-white' />,
       link: "/dashboard/enterprise-property/profile",
       name: "Profile",
     },
     {
       id: 2,
-      image: "/static/dashboard/enterprisemanager/sidebar/setting.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/settingwhite.png",
+      image: <Settings />,
+      image2: <Settings className='text-white' />,
       link: "/dashboard/enterprise-property/setting",
       name: "Setting",
     },
@@ -134,63 +153,11 @@ const Sidebar = () => {
   const Data3 = [
     {
       id: 1,
-      image: "/static/dashboard/enterprisemanager/sidebar/switch.png",
-      image2: "/static/dashboard/enterprisemanager/sidebar/switch.png",
+      image: <Switch />,
       link: "/switch-profile",
       name: "Switch",
     },
   ];
-
-  const { logout } = useProfileStore();
-
-  const [pathname, setPathname] = useState("");
-  const [logoutModal, setLogoutModal] = useState(false);
-
-  const logoutII = () => {
-    setLogoutModal(!logoutModal);
-  };
-
-  const closeLogout = () => {
-    setLogoutModal(false);
-  };
-
-  useEffect(() => {
-    // Function to get the current URL
-    const url = () => {
-      if (typeof window !== "undefined") {
-        return window.location.href;
-      }
-      return "";
-    };
-
-    const extractPathname = (url) => {
-      const parsedUrl = new URL(url);
-      let pathname = parsedUrl.pathname;
-
-      // Split the pathname into segments
-      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
-
-      // Keep only the first three segments
-      const firstThreeSegments = segments.slice(0, 3);
-
-      // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join("/")}`;
-
-      return pathname;
-    };
-
-    setPathname(extractPathname(url()));
-  }, []);
-
-  // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = logoutModal ? "hidden" : "auto";
-    if (logoutModal) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [logoutModal]);
-
 
   return (
     <div className="sidebar">
@@ -210,20 +177,23 @@ const Sidebar = () => {
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${data.name === "Property Management" ? "h-[60px]" : ""
-                  } ${pathname === data.link
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : " hover:bg-blue-100"
                   } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
                   } `}
               >
                 {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image2}
+                  </div>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image}
+                  </div>
                 )}
                 <div className="flex items-center w-full justify-between">
-                  <span className="pr-1">{data.name}</span>
+                  <span className="">{data.name}</span>
                   <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
                     } mt-1 h-2 w-2 rounded-full`}
                   ></p>
@@ -236,15 +206,23 @@ const Sidebar = () => {
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
+                className={`h-[40px] px-2 flex items-center rounded-md text-GrayHomz text-[16px] font-[500] 
+                ${
+                  data.name === "Setting" ? "gap-[4px]" : "gap-[12px]"
+                }
+                ${pathname === data.link
                   ? "bg-BlueHomz text-white"
                   : "hover:text-white hover:bg-blue-300"
                   } `}
               >
                 {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image2}
+                  </div>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image}
+                  </div>
                 )}
                 <span className="">{data.name}</span>
               </Link>
@@ -255,15 +233,20 @@ const Sidebar = () => {
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2   flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[7px] text-GrayHomz text-[16px] font-[500]
+                ${pathname === data.link
                   ? "bg-BlueHomz text-white"
                   : "hover:text-white hover:bg-blue-300"
                   } `}
               >
                 {pathname === data.link ? (
-                  <Image src={data.image2} height={16} width={16} alt="img" />
+                  <div>
+                    {/* {data.image2} */}
+                  </div>
                 ) : (
-                  <Image src={data.image} height={16} width={16} alt="img" />
+                  <div>
+                    {data.image}
+                  </div>
                 )}
                 <span className="">{data.name}</span>
               </Link>
@@ -273,12 +256,7 @@ const Sidebar = () => {
               className={`h-[40px] px-2 cursor-pointer flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]hover:text-white hover:bg-blue-300
                  `}
             >
-              <Image
-                src="/static/dashboard/enterprisemanager/sidebar/logout.png"
-                height={16}
-                width={16}
-                alt="img"
-              />
+              <Logout />
               <span className="">Logout</span>
             </div>
           </div>

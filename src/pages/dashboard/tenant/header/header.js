@@ -7,7 +7,6 @@ import PopUpMenuAlert from "./components/popUpMenuAlert";
 import { tenantMe } from "@/api/tenantSevice";
 import tenantProfile from "@/store/tenantStore/tenantProfile";
 import useClickOutside from "@/utils/clickOutside";
-import useDisableBodyScroll from "@/utils/useDisableBodyScroll";
 import SidebarMobile from "../sidebarMobile/sidebarHeader";
 import Menu from "@/components/icons/Menu";
 import PopNotification from "../notification/components/popNotification";
@@ -87,7 +86,6 @@ const Header = () => {
   const unseen = sortedData?.filter((data) => data?.status === "unseen")
 
   const user = data;
-  useDisableBodyScroll(open)
   useBodyScroll([openAndClose])
 
   return (

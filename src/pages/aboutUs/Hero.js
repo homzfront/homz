@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const Hero = () => {
   const box = [
@@ -90,9 +91,11 @@ const Hero = () => {
             customers with an end-to-end home journey experience that can
             include your brand.
           </p>
-          <button className="mb-10 hidden sm:inline w-[133px] h-[49px] bg-BlueHomz font-[700]   hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz rounded-md text-white ">
-            Contact Us
-          </button>
+          <Link href={"/contact-page"}>
+            <button className="mb-10 hidden sm:inline w-[133px] h-[49px] bg-BlueHomz font-[700]   hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz rounded-md text-white ">
+              Contact Us
+            </button>
+          </Link>
         </div>
         <div className="w-[100%]">
           <Image src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713184903/public/images/Houses_n5exgy.jpg"}

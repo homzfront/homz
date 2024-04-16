@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Meet = () => {
   const Data = [
@@ -73,7 +74,7 @@ const Meet = () => {
         ))}
       </div> */}
       <div className="mt-20">
-      <div className="flex flex-col gap-2 justify-around items-center bg-[url('/Rectangle_5.png')] text-white rounded-lg shadow-2xl bg-center max-w-full xl:w-[1159px] h-[435px] ">
+        <div className="flex flex-col gap-2 justify-around items-center bg-[url('/Rectangle_5.png')] text-white rounded-lg shadow-2xl bg-center max-w-full xl:w-[1159px] h-[435px] ">
           <h1 className="font-[700] mt-4 max-w-2xl text-center text-[36px] sm:text-[60px]">
             Search For Your Next Home In Minutes
           </h1>
@@ -84,9 +85,11 @@ const Meet = () => {
             experience that can include your brand.
           </p>
           <div className="mb-8">
-            <button className="w-[137px] sm:w-[273px] h-[57px] text-[16px] sm:text-[20px] hover:border-white hover:bg-BlueHomz  rounded-md font-[700] border border-BlueHomz  text-white  bg-transparent  px-2">
-              Get Started 
-            </button>
+            <Link href={"/register"}>
+              <button className="w-[137px] sm:w-[273px] h-[57px] text-[16px] sm:text-[20px] hover:border-white hover:bg-BlueHomz  rounded-md font-[700] border border-BlueHomz  text-white  bg-transparent  px-2">
+                Get Started
+              </button>
+            </Link>
           </div>
         </div>
       </div>

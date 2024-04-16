@@ -34,7 +34,7 @@ const SelectPlan = () => {
   const Data = [
     {
       id: 1,
-      image: "/Image13.png",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271947/public/images/Image13_sisfqz.png",
       title: "Landlord",
       content: "As a landlord, monitor your properties, tenants & rent payments in one place.",
       link: "/dashboard/property-owner/dashboard",
@@ -44,7 +44,7 @@ const SelectPlan = () => {
     },
     {
       id: 2,
-      image: "/Image11.png",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271951/public/images/Image11_xoqxov.png",
       title: "Tenant",
       content:
         "As a tenant, pay rent, request maintenance services in one place.",
@@ -55,7 +55,7 @@ const SelectPlan = () => {
     },
     {
       id: 3,
-      image: "/Image12.png",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271952/public/images/Image12_oajsqe.png",
       title: "Property Manager",
       content:
         "As a property manager, manage properties & tenants with our dashboard.",
@@ -66,7 +66,7 @@ const SelectPlan = () => {
     },
     {
       id: 4,
-      image: "/Image14.png",
+      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271950/public/images/Image14_jbqp5o.png",
       title: "List Property",
       content: "List your property & find verified renters & buyers with ease.",
       link: "",

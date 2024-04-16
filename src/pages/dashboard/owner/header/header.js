@@ -7,7 +7,6 @@ import useProfileOwnerMe from "@/store/propertyOwnerStore/useProfileOwnerMe";
 import useClickOutside from "@/utils/clickOutside";
 import Menu from "@/components/icons/Menu";
 import SidebarMobile from "../sidebarMobile/sidebarHeader";
-import useDisableBodyScroll from "@/utils/useDisableBodyScroll";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import Link from "next/link";
@@ -38,7 +37,6 @@ const Header = () => {
   }, []);
 
   const user = data;
-  useDisableBodyScroll(open)
 
   return (
     <div className="header">

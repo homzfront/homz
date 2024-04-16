@@ -125,7 +125,7 @@ const Tenants = () => {
                     Filter by:
                   </p>
                   <div className="flex items-center gap-2 mb-1">
-                    <div className="w-[180px]">
+                    <div className="w-[160px]">
                       <Dropdown
                         options={options}
                         onSelect={(option) => setSelectedProperty(option)}
@@ -174,7 +174,7 @@ const Tenants = () => {
                   </button>
                   <button
                     onClick={toggleInvite}
-                    className={`p-[12px] h-10 mt-[-5px] ml-8 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${
+                    className={`p-[12px] h-10 mt-[-5px] ml-4 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${
                       tenantData?.length < 1 ? "hidden" : "inline"
                     }`}
                   >
