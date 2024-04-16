@@ -1,5 +1,5 @@
 import React from 'react'
-import Support from '@/pages/dashboard/tenant/support/support'
+import Support from '/src/pages/dashboard/tenant/support/support'
 const App = () => {
   return (
     <div className='dashboard h-[900px]'>

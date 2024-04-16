@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '@/pages/dashboard/tenant/header/header'
-import Sidebar from '@/pages/dashboard/tenant/sidebar/sidebar'
+import Header from '/src/pages/dashboard/tenant/header/header'
+import Sidebar from '/src/pages/dashboard/tenant/sidebar/sidebar'
 const Layout = ({children}) => {
   return (
     <div className='dashboard'>

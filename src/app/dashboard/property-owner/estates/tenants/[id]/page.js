@@ -1,5 +1,5 @@
 import React from 'react'
-import Tenants from '@/pages/dashboard/owner/estates/tenants/tenants';
+import Tenants from '/src/pages/dashboard/owner/estates/tenants/tenants';
 
 const App = () => {
   return (

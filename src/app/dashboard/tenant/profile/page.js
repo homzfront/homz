@@ -1,5 +1,5 @@
 import React from "react";
-import Profile from "@/pages/dashboard/tenant/profile/profile";
+import Profile from "/src/pages/dashboard/tenant/profile/profile";
 const App = () => {
   return (
     <div className="dashboard h-[900px]">

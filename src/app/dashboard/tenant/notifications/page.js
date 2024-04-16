@@ -1,4 +1,4 @@
-import Notify from '@/pages/dashboard/tenant/notificationSidebar/notify/notify'
+import Notify from '/src/pages/dashboard/tenant/notificationSidebar/notify/notify'
 import React from 'react'
 
 const App = () => {

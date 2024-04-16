@@ -1,5 +1,5 @@
 import React from "react";
-import Finance from "@/pages/dashboard/tenant/finance/finance";
+import Finance from "/src/pages/dashboard/tenant/finance/finance";
 const App = () => {
   return (
     <div className="">

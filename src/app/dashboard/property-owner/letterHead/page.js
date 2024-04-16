@@ -1,6 +1,6 @@
-import LetterHead from '@/pages/dashboard/owner/letterHead/letterHead';
-import LetterHeadII from '@/pages/dashboard/owner/letterHead/letterHeadII';
-import LetterHeadIII from '@/pages/dashboard/owner/letterHead/letterHeadIII';
+import LetterHead from '/src/pages/dashboard/owner/letterHead/letterHead';
+import LetterHeadII from '/src/pages/dashboard/owner/letterHead/letterHeadII';
+import LetterHeadIII from '/src/pages/dashboard/owner/letterHead/letterHeadIII';
 import React from 'react'
 
 const App = () => {

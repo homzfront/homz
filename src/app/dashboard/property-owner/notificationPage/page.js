@@ -1,4 +1,4 @@
-import Notification from '@/pages/dashboard/owner/notification/notification';
+import Notification from '/src/pages/dashboard/owner/notification/notification';
 import React from 'react'
 
 const App = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '@/pages/dashboard/owner/header/header'
-import Sidebar from '@/pages/dashboard/owner/notificationSidebar/sidebar/sidebar'
+import Header from '/src/pages/dashboard/owner/header/header'
+import Sidebar from '/src/pages/dashboard/owner/notificationSidebar/sidebar/sidebar'
 const Layout = ({children}) => {
   return (
     <div className='dashboard'>
