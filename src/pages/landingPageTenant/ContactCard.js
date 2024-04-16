@@ -1,5 +1,5 @@
 "use client"
-import SliderComponent from "@/components/mainmenu/slider";
+import SliderComponent from "/src/components/mainmenu/slider";
 import { useState } from "react";
 
 const ContactCard = () => {

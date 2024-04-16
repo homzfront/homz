@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import Widget from "./widget";
-import LoadingII from "@/components/mainmenu/loadingII";
-import tenantProfile from "@/store/tenantProfile";
+import LoadingII from "/src/components/mainmenu/loadingII";
+import tenantProfile from "/src/store/tenantProfile";
 
 const Profile = () => {
   const { data, loading, fetchData } = tenantProfile();

@@ -9,7 +9,7 @@ import Receipt from "../../../components/receipt";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import ShareAbleReceipt from "../../../components/shareAbleReceipt";
-import PopUpMenuTwo from "@/pages/dashboard/owner/tenants/components/popUpMenuTwo";
+import PopUpMenuTwo from "/src/pages/dashboard/owner/tenants/components/popUpMenuTwo";
 import PopUpReceipt from "../../../components/popUpReceipt";
 
 const Data = [

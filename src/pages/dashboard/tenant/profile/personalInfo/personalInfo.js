@@ -4,7 +4,7 @@ import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updatePersonalInformation } from "@/api/tenantSevice";
+import { updatePersonalInformation } from "/src/api/tenantSevice";
 
 const PersonalInfo = ({ data }) => {
   const [fullName, setFullName] = useState("");

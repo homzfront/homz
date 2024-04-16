@@ -1,8 +1,8 @@
 "use client"
 import AcAndRejModel from "../../components/acAndRejModel";
-import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/components/general/useBodyScroll";
-import ConfirmModal from "@/pages/dashboard/enterprise/components/confirmUpdateModal";
+import Loading from "/src/components/mainmenu/loading";
+import useBodyScroll from "/src/components/general/useBodyScroll";
+import ConfirmModal from "/src/pages/dashboard/enterprise/components/confirmUpdateModal";
 
 const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading, showDialogue, setShowDialogue}) => {
   

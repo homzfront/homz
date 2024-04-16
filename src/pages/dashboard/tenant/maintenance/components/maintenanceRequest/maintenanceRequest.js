@@ -1,13 +1,13 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ConfirmModalI from "../../../components/confirmModalI";
-import { maintenanceByTenant } from "@/api/maintenanceService";
-import Loading from "@/components/mainmenu/loading";
+import { maintenanceByTenant } from "/src/api/maintenanceService";
+import Loading from "/src/components/mainmenu/loading";
 import { Fascinate } from "next/font/google";
 import ConfirmModal from "../../../components/confirmModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "/src/components/general/useBodyScroll";
 
 const MaintenanceRequest = ({ closeMaintenanceForm, setData, data }) => {
   const [subject, setSubject] = useState("");

@@ -1,5 +1,5 @@
 "use client";
-import ConfirmModal from "@/pages/dashboard/tenant/components/confirmModal";
+import ConfirmModal from "/src/pages/dashboard/tenant/components/confirmModal";
 import Image from "next/image";
 import React, { useState } from "react";
 import AcAndRejModalII from "../modals/acAndRejModalII";

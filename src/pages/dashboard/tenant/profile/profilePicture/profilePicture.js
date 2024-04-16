@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
-import { updateProfilePicture } from "@/api/tenantSevice";
+import { updateProfilePicture } from "/src/api/tenantSevice";
 
 const ProfilePicture = ({ data }) => {
   console.log(data);

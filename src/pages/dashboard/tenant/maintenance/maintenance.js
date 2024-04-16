@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import GetStarted from "./components/getStarted/getStarted";
 import MaintenanceRequest from "./components/maintenanceRequest/maintenanceRequest";
 import Request from "./components/request/request";
-import { maintenanceByASpecificTenant } from "@/api/maintenanceService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import { maintenanceByASpecificTenant } from "/src/api/maintenanceService";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 const Maintenance = () => {
   const [maintenanceReq, setMaintenanceReq] = useState(false);

@@ -8,10 +8,10 @@ import SentInvite from "./components/sentInvite";
 import EstateInfo from "./estateInfo/estateInfo";
 import { toast } from "react-toastify";
 import AcAndRejModelEs from "./components/acAndRejModalEs";
-import tenantProfile from "@/store/tenantProfile";
-import LoadingII from "@/components/mainmenu/loadingII";
-import useBodyScroll from "@/components/general/useBodyScroll";
-import { sendInviteProperty } from "@/api/tenantSevice";
+import tenantProfile from "/src/store/tenantProfile";
+import LoadingII from "/src/components/mainmenu/loadingII";
+import useBodyScroll from "/src/components/general/useBodyScroll";
+import { sendInviteProperty } from "/src/api/tenantSevice";
 
 const EstateInformation = () => {
   const [openEstate, setOpenEstate] = useState(false);
