@@ -6,39 +6,14 @@ import Close from "../icons/Close";
 import Image from "next/image";
 import useProfileStore from "@/store/profile";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import keepThree from "@/utils/keepThree";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { fetchProfile, profile, loading, logout } = useProfileStore();
-  const [pathname, setPathname] = useState("");
-
-  useEffect(() => {
-    // Function to get the current URL
-    const url = () => {
-      if (typeof window !== "undefined") {
-        return window.location.href;
-      }
-      return "";
-    };
-
-    const extractPathname = (url) => {
-      const parsedUrl = new URL(url);
-      let pathname = parsedUrl.pathname;
-
-      // Split the pathname into segments
-      const segments = pathname.split("/").filter(Boolean); // Remove empty segments
-
-      // Keep only the first three segments
-      const firstThreeSegments = segments.slice(0, 3);
-
-      // Join the segments back to form the updated pathname
-      pathname = `/${firstThreeSegments.join("/")}`;
-
-      return pathname;
-    };
-
-    setPathname(extractPathname(url()));
-  }, []);
+  const path = usePathname();
+  const pathname = keepThree(path);
 
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -55,8 +30,6 @@ const Header = () => {
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
     let email;
-
-
     if (typeof userOrEmail === "string") {
       // If the input is a string, assume it's an email
       email = userOrEmail;
