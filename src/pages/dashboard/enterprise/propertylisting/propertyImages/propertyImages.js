@@ -9,7 +9,6 @@ import { fetchSingleProperty } from "/src/api/propertyService";
 import { enterpriseMe } from "/src/api/enterpriseManagerService";
 import LoadingII from "/src/components/mainmenu/loadingII";
 
-
 const PropertyImages = ({ id }) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
@@ -21,17 +20,21 @@ const PropertyImages = ({ id }) => {
       const response = await fetchSingleProperty(id);
       const data2 = await enterpriseMe();
       const estate = await response;
-      setUser(data2.data)
+      setUser(data2.data);
       setData(estate);
       setLoading(false);
     };
     estateData();
   }, []);
 
-  
+  useEffect(() => {
+    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
+    if (openSelectedImage) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [openSelectedImage]);
 
-  console.log(data);
-  console.log(user)
   const [showRating, setShowRating] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
 
@@ -42,14 +45,11 @@ const PropertyImages = ({ id }) => {
   const goBack = () => {
     setShowRating(false);
   };
-  console.log(data);
 
   const newData = {
     coverPhoto: data?.data?.coverPhoto,
     photos: data?.data?.photos,
   };
-
-  console.log(newData);
 
   let combinedData = []; // Declare combinedData outside the if block
 
@@ -57,22 +57,18 @@ const PropertyImages = ({ id }) => {
     combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
       url: item.url,
     }));
-
-    console.log(combinedData);
   } else {
     console.error("Invalid or missing data structure.");
   }
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
-  console.log(selectedImage);
+
   if (combinedData.length === 8) {
-   return remainder = combinedData.length - 7;
+    return (remainder = combinedData.length - 7);
   }
 
   const openImageModal = (imageIndex, item) => {
-    console.log(imageIndex)
-    console.log(item)
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
     setOpenSelectedImage(!openSelectedImage);
     setCurrentImageIndex(imageIndex);
@@ -83,20 +79,13 @@ const PropertyImages = ({ id }) => {
     setOpenSelectedImage(false);
   };
 
-  console.log(openSelectedImage);
-  console.log(currentImageIndex);
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
-    if (openSelectedImage) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [openSelectedImage]);
 
   return (
     <div className="p-8 w-[1147px]">
-      {loading ? <LoadingII/> : showRating ? (
+      {loading ? (
+        <LoadingII />
+      ) : showRating ? (
         <div>
           <StarRatingPL goBack={goBack} />
         </div>
@@ -117,10 +106,13 @@ const PropertyImages = ({ id }) => {
               />
               <p className="text-[11px] font-[400]">Go Back</p>
             </Link>
-        
-            <Link href={`/dashboard/enterprise-property/propertylisting/property/${id}`} className="text-[14px] font-[400] text-BlueHomz">
-                Edit Property
-              </Link>
+
+            <Link
+              href={`/dashboard/enterprise-property/propertylisting/property/${id}`}
+              className="text-[14px] font-[400] text-BlueHomz"
+            >
+              Edit Property
+            </Link>
           </div>
           <div className="mt-4 ml-3">
             <div className="flex flex-wrap gap-4">
@@ -171,7 +163,11 @@ const PropertyImages = ({ id }) => {
             )}
           </div>
           <div>
-            <BodyPropertyImage data={data} showRatingPage={showRatingPage} user={user}/>
+            <BodyPropertyImage
+              data={data}
+              showRatingPage={showRatingPage}
+              user={user}
+            />
           </div>
         </div>
       )}
