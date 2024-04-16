@@ -145,33 +145,24 @@ const HomePage = () => {
 
         <div className="md:absolute w-[330px] h-full px-[16px] flex flex-col gap-[10px]   bottom-12 left-20 md:w-[882px] userFilterBorder md:h-[144px]  md:px-[20px] py-[24px] rounded-[12px] bg-[#EEF5FF] md:bg-opacity-75">
           <div className="flex gap-3">
-            <div className="w-[300px]  flex items-center md:w-[366px] h-[44px] proBorders rounded-[4px] py-[12px] pr-[7px] mr-1 bg-white">
+          <div className="  flex items-center w-[262px] h-[44px] proBorders rounded-[4px] py-[12px]  mr-1">
               <input
                 type="text"
                 id="searchState_Area"
                 name="searchState_Area"
-                className="hidden md:block md:w-[100%] h-[42px] border-0 pl-2 rounded-[4px]"
+                className=" w-full relative  h-[42px] border-0 pl-2 rounded-[4px]"
                 // value={searchStateArea}
-                placeholder="Search by state/area , property type, etc "
+                placeholder="Search by state or area "
                 // onChange={(e) => setSearchState_Area(e.target.value)}
               />
-              <input
-                type="text"
-                id="searchState_Area"
-                name="searchState_Area"
-                className=" md:hidden w-[97%] h-[42px] border-0 pl-2 rounded-[4px]"
-                // value={searchStateArea}
-                placeholder="Where will you like to stay? "
-                // onChange={(e) => setSearchState_Area(e.target.value)}
+
+              <Image
+                src="/static/images/search-normal.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="cursor-pointer left-[16.2rem] absolute"
               />
-              <button className="md:hidden cursor-pointer">
-                <Image
-                  src="/static/images/search-normal.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                />
-              </button>
             </div>
             <button className="hidden md:flex cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white items-center rounded-[4px]">
               <Image
