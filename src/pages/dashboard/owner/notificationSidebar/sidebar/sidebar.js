@@ -1,5 +1,5 @@
 "use client";
-import useConversationStore from "@/store/useConversationStore";
+import useConversationStore from "/src/store/useConversationStore";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import { toast } from "react-toastify";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "/src/components/general/useBodyScroll";
 import { updateContactInfo } from "@/api/propertyService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 const ContactDetails = ({ data }) => {
   useEffect(() => {

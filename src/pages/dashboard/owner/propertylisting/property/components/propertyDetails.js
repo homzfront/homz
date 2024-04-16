@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
 import { toast } from "react-toastify";
-import { updatePropertyDetails } from "@/api/propertyService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import { updatePropertyDetails } from "/src/api/propertyService";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 const PropertyDetails = ({ data }) => {
   console.log(data);
