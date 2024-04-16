@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import Input from "../../../components/input";
 import DropDown from "../../../components/dropDownTwo";
 import Image from "next/image";
-import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import Loading from "/src/components/mainmenu/loading";
+import useBodyScroll from "/src/components/general/useBodyScroll";
 import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingII from "@/components/mainmenu/loadingII";
-import { updateEstateInfo } from "@/api/estateService";
+import LoadingII from "/src/components/mainmenu/loadingII";
+import { updateEstateInfo } from "/src/api/estateService";
 
 const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   console.log(data);

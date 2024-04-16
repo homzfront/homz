@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/imageUploadII";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updateEstateCoverPhoto } from "@/api/estateService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import { updateEstateCoverPhoto } from "/src/api/estateService";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 const Photos = ({ data }) => {
   console.log(data);
