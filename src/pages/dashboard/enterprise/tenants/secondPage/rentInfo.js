@@ -7,10 +7,10 @@ import {
   createSpecificTenantRentInfo,
   getSpecificTenantRentInfo,
   updateSpecificTenantRentInfo,
-} from "@/api/tenantSevice";
+} from "/src/api/tenantSevice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingForm from "@/components/mainmenu/loadingForm";
+import LoadingForm from "/src/components/mainmenu/loadingForm";
 
 const RentInfo = ({ profile }) => {
   console.log(profile);

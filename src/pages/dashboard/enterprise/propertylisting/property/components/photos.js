@@ -6,7 +6,7 @@ import LoadingII from "/src/components/mainmenu/loadingII";
 import {
   updatePropertyCoverPhoto,
   updatePropertyOtherPhoto,
-} from "@/api/propertyService";
+} from "/src/api/propertyService";
 
 const Photos = ({ data }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
