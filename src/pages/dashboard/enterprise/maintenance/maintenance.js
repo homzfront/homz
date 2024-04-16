@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Filter from "./components/filter";
 import Box from "../components/box";
 import MaintenanceTable from "./components/maintenanceTable";
-import LoadingII from "@/components/mainmenu/loadingII";
-import { maintenanceRequestForAnEnterprise } from "@/api/maintenanceService";
-import { fetchSpecificTenant } from "@/api/tenantSevice";
+import LoadingII from "/src/components/mainmenu/loadingII";
+import { maintenanceRequestForAnEnterprise } from "/src/api/maintenanceService";
+import { fetchSpecificTenant } from "/src/api/tenantSevice";
 
 const Maintenance = () => {
   const [loading, setLoading] = useState(true);

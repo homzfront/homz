@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import PopUpMenu from "./popUpMenu";
 import Button from "../../components/button";
 import StatusDropDownMain from "./statusDropDownMain";
-import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
+import { updateMaintenanceReqestByTenant } from "/src/api/maintenanceService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/components/general/useBodyScroll";
-import LoadingII from "@/components/mainmenu/loadingII";
+import Loading from "/src/components/mainmenu/loading";
+import useBodyScroll from "/src/components/general/useBodyScroll";
+import LoadingII from "/src/components/mainmenu/loadingII";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 
 const MaintenanceTable = ({ request, tenantData }) => {
