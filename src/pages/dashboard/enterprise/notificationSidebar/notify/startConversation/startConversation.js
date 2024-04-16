@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import StartConversionPopUp from "./startConversionPopUp";
-import useConversationStore from "@/store/useConversationStore";
+import useConversationStore from "/src/store/useConversationStore";
 import Message from "./message";
 
 const StartConversation = () => {

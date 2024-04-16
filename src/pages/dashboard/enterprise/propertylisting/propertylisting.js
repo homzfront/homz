@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ListedProperties from "./listedProperties";
 import PropertyForm from "./propertyListingForm/propertyForm";
-import { propertyForMe } from "@/api/propertyService";
-import usePropertyListedAllStore from "@/store/property";
-import LoadingII from "@/components/mainmenu/loadingII";
+import { propertyForMe } from "/src/api/propertyService";
+import usePropertyListedAllStore from "/src/store/property";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 const PropertyListing = () => {
   const { propertyListedAll, setPropertyListedAll } =

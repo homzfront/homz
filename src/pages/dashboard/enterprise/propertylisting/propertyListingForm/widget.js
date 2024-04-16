@@ -4,7 +4,7 @@ import PropertyInfo from "./propertyInfo.js";
 import RentDetails from "./rentDetails.js";
 import ContactInfo from "./contactInfo.js";
 import AddPictures from "./addPictures.js";
-import api from "@/utils/api.js";
+import api from "/src/utils/api.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation.js";

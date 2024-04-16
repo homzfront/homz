@@ -4,7 +4,7 @@ import InputVisible from "./components/inputVisible";
 import UpdateButton from "../components/updateButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updatePassword } from "@/api/enterpriseManagerService";
+import { updatePassword } from "/src/api/enterpriseManagerService";
 
 const ChangePassword = () => {
   const [password, setPassword] = useState("");

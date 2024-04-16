@@ -5,7 +5,7 @@ import Invites from "./components/invites";
 import Input from "../../components/input";
 import ConfirmModal from "../../components/confirmModal";
 import ToggleButton from "../../components/toggle";
-import DropDown from "@/pages/dashboard/enterprise/components/dropDownTwo";
+import DropDown from "/src/pages/dashboard/enterprise/components/dropDownTwo";
 import Link from "next/link";
 
 const ManageUsers = () => {

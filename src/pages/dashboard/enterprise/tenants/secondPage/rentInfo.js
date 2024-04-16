@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import ConfirmModal from "../../components/confirmModal";
 import Dropdown from "../../components/dropDownTwo";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "/src/components/general/useBodyScroll";
 import {
   createSpecificTenantRentInfo,
   getSpecificTenantRentInfo,

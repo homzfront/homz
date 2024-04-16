@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-import { fetchSingleProperty } from "@/api/propertyService";
+import { fetchSingleProperty } from "/src/api/propertyService";
 
 const Property = ({id}) => {
 

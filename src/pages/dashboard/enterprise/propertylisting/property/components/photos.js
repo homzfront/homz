@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/imageUpload";
 import {  toast } from "react-toastify";
-import LoadingII from "@/components/mainmenu/loadingII";
+import LoadingII from "/src/components/mainmenu/loadingII";
 import {
   updatePropertyCoverPhoto,
   updatePropertyOtherPhoto,

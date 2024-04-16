@@ -4,7 +4,7 @@ import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updatePersonalInformation } from "@/api/enterpriseManagerService";
+import { updatePersonalInformation } from "/src/api/enterpriseManagerService";
 
 const PersonalInfo = ({ data }) => {
   console.log(data);

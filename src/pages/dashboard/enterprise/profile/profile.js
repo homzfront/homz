@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Widget from "./widget";
-import { enterpriseMe } from "@/api/enterpriseManagerService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import { enterpriseMe } from "/src/api/enterpriseManagerService";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 const Profile = () => {
   const [data, setData] = useState([]);

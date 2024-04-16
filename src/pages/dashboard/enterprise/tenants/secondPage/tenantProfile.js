@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
-import { fetchSpecificTenant } from "@/api/tenantSevice.js";
+import { fetchSpecificTenant } from "/src/api/tenantSevice.js";
 
 const TenantProfile = ({id}) => {
   const  [data, setData] = useState([])

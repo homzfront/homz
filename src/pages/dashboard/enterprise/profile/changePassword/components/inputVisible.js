@@ -1,6 +1,6 @@
 "use client"
-import BashedEye from "@/components/icons/BashedEye";
-import Eye from "@/components/icons/Eye";
+import BashedEye from "/src/components/icons/BashedEye";
+import Eye from "/src/components/icons/Eye";
 import React, { useState } from "react";
 
 const InputVisible = ({ password, setPassword, label, placeholder }) => {

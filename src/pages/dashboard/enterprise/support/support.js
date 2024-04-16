@@ -5,9 +5,9 @@ import SectionOne from "./components/sectionOne";
 
 import ConfirmModal from "../components/confirmModal";
 import AcAndRejModel from "../components/acAndRejModel";
-import api from "@/utils/api";
+import api from "/src/utils/api";
 import { ToastContainer, toast } from "react-toastify";
-import Loading from "@/components/mainmenu/loading";
+import Loading from "/src/components/mainmenu/loading";
 
 const Support = () => {
   const [proceed, setProceed] = useState(false);

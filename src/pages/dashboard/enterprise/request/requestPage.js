@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import PendingRequest from "./pendingRequest";
 import Image from "next/image";
 import Modal from "../tenants/components/modal";
-import { fetchTenantRequest } from "@/api/estateService";
-import useTenantRequestStore from "@/store/tenantRequest";
-import LoadingII from "@/components/mainmenu/loadingII";
-import { fetchSpecificTenant } from "@/api/tenantSevice";
-import { ConfirmTenantRequest } from "@/api/requestService";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import { fetchTenantRequest } from "/src/api/estateService";
+import useTenantRequestStore from "/src/store/tenantRequest";
+import LoadingII from "/src/components/mainmenu/loadingII";
+import { fetchSpecificTenant } from "/src/api/tenantSevice";
+import { ConfirmTenantRequest } from "/src/api/requestService";
+import useBodyScroll from "/src/components/general/useBodyScroll";
 
 const RequestPage = () => {
   const { request, setRequest } = useTenantRequestStore();

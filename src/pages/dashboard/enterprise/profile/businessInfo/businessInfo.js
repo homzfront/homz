@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
 import { ToastContainer, toast } from "react-toastify";
-import { updateBussinessInformation } from "@/api/enterpriseManagerService";
+import { updateBussinessInformation } from "/src/api/enterpriseManagerService";
 
 const BusinessInfo = ({ data }) => {
   console.log(data);

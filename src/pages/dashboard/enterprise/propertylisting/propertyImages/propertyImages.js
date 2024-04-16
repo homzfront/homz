@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import BodyPropertyImage from "./components/bodyPropertyImage";
 import ImageModal from "./components/imageModal";
 import StarRatingPL from "../starRatingPL/starRatingPL";
-import { fetchSingleProperty } from "@/api/propertyService";
-import { enterpriseMe } from "@/api/enterpriseManagerService";
-import LoadingII from "@/components/mainmenu/loadingII";
+import { fetchSingleProperty } from "/src/api/propertyService";
+import { enterpriseMe } from "/src/api/enterpriseManagerService";
+import LoadingII from "/src/components/mainmenu/loadingII";
 
 
 const PropertyImages = ({ id }) => {

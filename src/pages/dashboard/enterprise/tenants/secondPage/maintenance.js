@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Button from "../../components/button.js";
-import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
+import { updateMaintenanceReqestByTenant } from "/src/api/maintenanceService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable.js";

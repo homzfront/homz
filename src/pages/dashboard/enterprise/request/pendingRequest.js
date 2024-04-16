@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import AcceptAndRejectModel from "./components/acceptAndRejectModel";
 import ConfirmModal from "../components/confirmModal";
-import { ConfirmTenantRequest } from "@/api/requestService";
+import { ConfirmTenantRequest } from "/src/api/requestService";
 
 const PendingRequest = ({
   popUpMenu,

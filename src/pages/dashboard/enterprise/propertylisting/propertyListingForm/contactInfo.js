@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
 import AcAndRejModel from "../../components/acAndRejModel";
-import useBodyScroll from "@/components/general/useBodyScroll";
+import useBodyScroll from "/src/components/general/useBodyScroll";
 import ConfirmPropertyListing from "../components/confirmPropertyListing";
-import Loading from "@/components/mainmenu/loading";
+import Loading from "/src/components/mainmenu/loading";
 
 
 const ContactInfo = ({

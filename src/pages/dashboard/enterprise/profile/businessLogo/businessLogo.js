@@ -5,7 +5,7 @@ import Image from "next/image";
 import UpdateButton from "../components/updateButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updateBusinessLogo } from "@/api/enterpriseManagerService";
+import { updateBusinessLogo } from "/src/api/enterpriseManagerService";
 
 const BusinessLogo = ({ data }) => {
   console.log(data);
