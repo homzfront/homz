@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Button from "../components/button";
 import StatusDropdown from "../components/statusDropDown";
 import { useRouter } from "next/navigation";
-import Data  from "../components/Data";
+import Data  from "../../components/Data";
 import DropDown from "./component/DropDown";
 
 const Tenants = () => {
