@@ -15,9 +15,9 @@ const Prices = ({ getPrice, width }) => {
     "Max Price": [
     //   { id: 1, label: "100,000 - 200,000" },
     //   { id: 2, label: "200,000 - 400,000" },
-      { id: 3, label: "400,000 - 600,000" },
-      { id: 4, label: "600,000 - 1 Million" },
-      { id: 5, label: "1 Million - 5 Millions" },
+      { id: 3, label: "600,000" },
+      { id: 4, label: "1 Million" },
+      { id: 5, label: "5 Millions" },
       { id: 6, label: "5+ Millions" },
     ],
   };
@@ -45,13 +45,13 @@ const Prices = ({ getPrice, width }) => {
         <div key={dropdown} className="relative">
           <div
             className={`${
-              width ? `${width} md:w-[170px]` : "w-[176px] md:w-[173px]"
-            }  h-[37px] md:h-[44px] bg-white text-[#A9A9A9]  adminCellBorders md:mb-1 md:pt-3 px-2 pt-2 rounded cursor-pointer  ${
+              width ? `${width} md:w-[120px]` : "w-[176px] md:w-[173px]"
+            }  h-[42px] md:h-[44px] bg-white text-[#A9A9A9]  adminCellBorders md:mb-1 md:pt-3 px-2 pt-2 rounded cursor-pointer  ${
               dropdowns[dropdown] ? "border" : ""
             }`}
             onClick={() => toggleDropdown(dropdown)}
           >
-            <div className="flex text-[11px] md:text-[14px] font-[500] text-GrayHomz2 justify-between items-center">
+            <div className="flex text-[13px] md:text-[14px] font-[500] text-GrayHomz2 justify-between items-center">
               <span className="mr-2">
                 {selectedOptions[dropdown]
                   ? selectedOptions[dropdown].label
@@ -79,7 +79,7 @@ const Prices = ({ getPrice, width }) => {
               {options[dropdown].map((option) => (
                 <label
                   key={option.id}
-                  className="flex text-[11px] md:text-[14px] items-center justify-between pt-[2px] pl-2 cursor-pointer  rounded-md mb-3"
+                  className="flex text-[13px] md:text-[14px] items-center justify-between pt-[2px] pl-2 cursor-pointer  rounded-md mb-3"
                   onClick={() => handleOptionClick(option, dropdown)}
                 >
                   <span>{option.label}</span>

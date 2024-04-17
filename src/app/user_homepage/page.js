@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Bedroom from "./components/bedrooms";
-import Price from "./components/prices";
+import MaxPrice from "./components/maxPrice";
+import MinPrice from "./components/minPrice";
 import PropertyType from "./components/propertyType";
 import SqrFeet from "./components/squareFeet";
 import Image from "next/image";
@@ -80,6 +81,10 @@ const HomePage = () => {
   const [landlord, setLandlords] = useState(true);
   const [manager, setManagers] = useState(false);
   const [tenant, setTenants] = useState(false);
+  const [rent, setRent] = useState(true);
+  const [sale, setSale] = useState(false);
+  const [shortlist, setShortlist] = useState(false);
+  const [land, setLand] = useState(false);
 
   let gifUrl =
     "https://s3-alpha-sig.figma.com/img/22a7/efc7/1bef4a0bdd239a11d9747d0a163c0bd6?Expires=1713139200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ajRo9BKJwtNk3lsLiIgrKjdcIM39-SK~FYMRJADaAcFv4OWUgeNOIBiBVVwbbtwHC53O9aN-bcgJqOP~eLoqQFc5smxP5lrFPjDRVmHUgIPSoQQFBApHJaGcJf8wBt2-mJy41pjvPDr5y88xhrHARDML4tT8TybjDE8hP5KG79OFR7pVNdgEo5aWky0OchSrnkHVpvWpw~ZRmlBl6cieTL0Z6nSfqs46p5WZ1ofGOmkHe7PM1--UtjEiZBdm7cEW6b3zsTzqPJEl6~xi2eeIu5s0sExQN7I0v5VqLYALoH8fGW6iaLY5woCdBDGFCzP7gA-r89RRmCYYq0OPOXSkUw__";
@@ -106,6 +111,34 @@ const HomePage = () => {
     setLandlords(false);
     setManagers(false);
     setTenants(true);
+  };
+  const handleRent = (e) => {
+    e.preventDefault();
+    setRent(true);
+    setSale(false);
+    setShortlist(false);
+    setLand(false);
+  };
+  const handleSale = (e) => {
+    e.preventDefault();
+    setRent(false);
+    setSale(true);
+    setShortlist(false);
+    setLand(false);
+  };
+  const handleShortlist = (e) => {
+    e.preventDefault();
+    setRent(false);
+    setSale(false);
+    setShortlist(true);
+    setLand(false);
+  };
+  const handleLand = (e) => {
+    e.preventDefault();
+    setRent(false);
+    setSale(false);
+    setShortlist(false);
+    setLand(true);
   };
 
   return (
@@ -144,34 +177,58 @@ const HomePage = () => {
         </div>
 
         <div className="md:absolute w-[330px] h-full px-[16px] flex flex-col gap-[10px]   bottom-12 left-20 md:w-[882px] userFilterBorder md:h-[144px]  md:px-[20px] py-[24px] rounded-[12px] bg-[#EEF5FF] md:bg-opacity-75">
-          <div className="flex gap-3">
-          <div className="  flex items-center w-[262px] h-[44px] proBorders rounded-[4px] py-[12px]  mr-1">
-              <input
-                type="text"
-                id="searchState_Area"
-                name="searchState_Area"
-                className=" w-full relative  h-[42px] border-0 pl-2 rounded-[4px]"
-                // value={searchStateArea}
-                placeholder="Search by state or area "
-                // onChange={(e) => setSearchState_Area(e.target.value)}
-              />
-
-              <Image
-                src="/static/images/search-normal.svg"
-                alt=""
-                width={16}
-                height={16}
-                className="cursor-pointer left-[16.2rem] absolute"
-              />
-            </div>
-            <button className="hidden md:flex cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white items-center rounded-[4px]">
+          <div className="flex md:gap-[8px] flex-wrap gap-[14px] ">
+            <button 
+              className={` text-center  cursor-pointer h-[44px] p-[12px] ${
+                rent
+                  ? "bg-[#559CFF] hover:bg-[#559CFF] md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[130.5px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] md:text-[14px] text-[13px]`}
+              onClick={handleRent}
+            >
+              <span className="hidden md:block">For Rent</span>
+              <span className="md:hidden">Rent</span>
+            </button>
+            <button
+              className={` cursor-pointer h-[44px] p-[12px] ${
+                sale
+                  ? "bg-[#559CFF] hover:bg-[#559CFF] md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[130.5px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] text-center md:text-[14px] text-[13px]`}
+              onClick={handleSale}
+            >
+              <span className="hidden md:block">For Sale</span>
+              <span className="md:hidden">Buy</span>
+              
+            </button>
+            <button
+              className={`  cursor-pointer h-[44px] p-[12px] ${
+                shortlist
+                  ? "bg-[#559CFF] hover:bg-[#559CFF] md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[130.5px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] text-center md:text-[14px] text-[13px]`}
+              onClick={handleShortlist}
+            >
+              Shortlet
+            </button>
+            <button
+              className={` text-[13px] cursor-pointer h-[44px] p-[12px] ${
+                land
+                  ? "bg-[#559CFF] hover:bg-[#559CFF] md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[130.5px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] text-center md:text-[14px]`}
+              onClick={handleLand}
+            >
+              Land
+            </button>
+            <button className=" md:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white items-center rounded-[4px] text-[14px]">
               <Image
                 src="/static/images/white-search.svg"
                 alt=""
                 width={16}
                 height={16}
               />
-              <span className="">Find Home</span>
+              <span className="">Search</span>
             </button>
           </div>
           {!openFilter ? (
@@ -189,10 +246,15 @@ const HomePage = () => {
             </button>
           ) : (
             <div className="md:hidden flex gap-2 flex-col md:flex-row">
-              <div>
-                <State
-                  //  getState={handleSearch}
-                  width="w-[292px]"
+              <div className="  flex items-center w-[292px] h-[44px] proBorders rounded-[4px] py-[12px]  mr-1">
+                <input
+                  type="text"
+                  id="searchState_Area"
+                  name="searchState_Area"
+                  className=" w-full  h-[42px] border-0 pl-2 rounded-[4px] placeholder:bold placeholder:text-slate-400 block bg-white  border border-slate-300  py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-[13px]"
+                  // value={searchStateArea}
+                  placeholder="Search by state or area "
+                  // onChange={(e) => setSearchState_Area(e.target.value)}
                 />
               </div>
               <div>
@@ -208,14 +270,14 @@ const HomePage = () => {
                 />
               </div>
               <div>
-                <Price
+                <MinPrice
                   // getPrice={handleSearch}
                   width="w-[292px]"
                 />
               </div>
               <div>
-                <SqrFeet
-                  // getSquareFeet={handleSearch}
+                <MaxPrice
+                  // getPrice={handleSearch}
                   width="w-[292px]"
                 />
               </div>
@@ -226,52 +288,45 @@ const HomePage = () => {
               >
                 <span className="">Hide filters</span>
                 <Image
-                  src="/static/images/black-arrow-down.svg"
+                  src="/static/images/arrow-right.svg"
                   alt=""
                   width={16}
                   height={16}
                 />
               </button>
-              <div className="flex justify-between w-full">
-                <button
-                  className="adminBorders border-BlueHomz items-center justify-center w-[122.5px] md:w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded cursor-pointer h-[44px]"
-                  // onClick={() => {
-                  //   // setDataProperties(Properties);
-                  //   // setState("");
-                  // }}
-                >
-                  <span>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                      }
-                      alt=""
-                      height={17}
-                      width={16}
-                    />
-                  </span>
 
-                  <span className="ml-1"> Reset</span>
-                </button>
-                <button className="md:hidden flex cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white items-center rounded-[4px]">
-                  <Image
-                    src="/static/images/white-search.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                  <span className="">Find Home</span>
-                </button>
-              </div>
+              <button className="md:hidden flex items-center justify-center cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white items-center rounded-[4px]">
+                <Image
+                  src="/static/images/white-search.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                <span className="">Search</span>
+              </button>
             </div>
           )}
           <div className="hidden md:flex gap-2 ">
-            <div>
-              <State
-                //  getState={handleSearch}
-                width="w-[292px]"
+            <div className="  flex items-center w-[259px] h-[44px] proBorders rounded-[4px] py-[12px]  mr-1">
+              <input
+                type="text"
+                id="searchState_Area"
+                name="searchState_Area"
+                className=" w-full relative  h-[42px] border-0 pl-2 rounded-[4px] placeholder:bold placeholder:text-slate-400 block bg-white  border border-slate-300  py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                // value={searchStateArea}
+                placeholder="Search by state or area "
+                // onChange={(e) => setSearchState_Area(e.target.value)}
+              />
+
+              <Image
+                src="/static/images/search-normal.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="cursor-pointer left-[13.5rem] absolute"
               />
             </div>
+
             <div>
               <PropertyType
                 // getPropertyType={handleSearch}
@@ -285,38 +340,17 @@ const HomePage = () => {
               />
             </div>
             <div>
-              <Price
+              <MinPrice
                 // getPrice={handleSearch}
                 width="w-[292px]"
               />
             </div>
             <div>
-              <SqrFeet
-                // getSquareFeet={handleSearch}
+              <MaxPrice
+                // getPrice={handleSearch}
                 width="w-[292px]"
               />
             </div>
-
-            <button
-              className="adminBorders border-BlueHomz items-center justify-center w-[122.5px] md:w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded cursor-pointer h-[44px]"
-              // onClick={() => {
-              //   // setDataProperties(Properties);
-              //   // setState("");
-              // }}
-            >
-              <span>
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                  }
-                  alt=""
-                  height={17}
-                  width={16}
-                />
-              </span>
-
-              <span className="ml-1"> Reset</span>
-            </button>
           </div>
         </div>
       </div>

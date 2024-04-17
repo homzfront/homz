@@ -15,7 +15,8 @@ import ChangePassword from "./components/changePassword";
 //   const Prop = Properties.find(prop => prop._id === parseInt(window.location.href.split("/").pop()));
 //   return { props: { Prop } }
 // }
-const Profile = ({ PropertyID }) => {
+const Profile = () => {
+  const PropertyID = null;
   const [personalActive, setPersonalActive] = useState(true);
   const [businessActive, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);

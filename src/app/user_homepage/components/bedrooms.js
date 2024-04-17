@@ -45,12 +45,12 @@ const Bedrooms = ({getBedrooms, width}) => {
       {Object.keys(dropdowns).map((dropdown) => (
         <div key={dropdown} className="relative">
           <div
-            className={`${width ? `${width} md:w-[131px]` : 'w-[117px] md:w-[135px] '}  h-[37px] md:h-[44px] bg-white text-[#A9A9A9]  adminCellBorders md:mb-1 md:pt-3 px-2 pt-2  rounded cursor-pointer  ${
+            className={`${width ? `${width} md:w-[131px]` : 'w-[117px] md:w-[135px] '}  h-[42px] md:h-[44px] bg-white text-[#A9A9A9]  adminCellBorders md:mb-1 md:pt-3 px-2 pt-2  rounded cursor-pointer  ${
               dropdowns[dropdown] ? "border" : ""
             }`}
             onClick={() => toggleDropdown(dropdown)}
           >
-            <div className="flex text-[11px] md:text-[14px] font-[500] text-GrayHomz2 justify-between items-center">
+            <div className="flex text-[13px] md:text-[14px] font-[500] text-GrayHomz2 justify-between items-center">
               <span className="mr-2">
                 {selectedOptions[dropdown]
                   ? selectedOptions[dropdown].label
@@ -78,7 +78,7 @@ const Bedrooms = ({getBedrooms, width}) => {
               {options[dropdown].map((option) => (
                 <label
                   key={option.id}
-                  className="flex text-[11px] md:text-[14px] items-center justify-between pt-[2px] pl-2 cursor-pointer  rounded-md mb-3"
+                  className="flex text-[13px] md:text-[14px] items-center justify-between pt-[2px] pl-2 cursor-pointer  rounded-md mb-3"
                   onClick={() => handleOptionClick(option, dropdown)}
                 >
                   <span>{option.label}</span>
