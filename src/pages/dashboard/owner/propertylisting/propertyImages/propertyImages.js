@@ -12,7 +12,14 @@ const PropertyImages = ({ id }) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(id);
+  
+  useEffect(() => {
+    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
+    if (openSelectedImage) {
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+  }, [openSelectedImage]);
   
   useEffect(() => {
     const estateData = async () => {
@@ -24,10 +31,8 @@ const PropertyImages = ({ id }) => {
       setLoading(false);
     };
     estateData();
-  }, []);
+  }, [id]);
 
-  console.log(user)
-  console.log(data);
   const [showRating, setShowRating] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
 
@@ -45,7 +50,7 @@ const PropertyImages = ({ id }) => {
     photos: data?.data?.photos,
   };
 
-  console.log(newData);
+  
 
   let combinedData = []; // Declare combinedData outside the if block
 
@@ -54,7 +59,7 @@ const PropertyImages = ({ id }) => {
       url: item.url,
     }));
 
-    console.log(combinedData);
+   
   } else {
     console.error("Invalid or missing data structure.");
   }
@@ -82,13 +87,7 @@ const PropertyImages = ({ id }) => {
   console.log(openSelectedImage);
   console.log(currentImageIndex);
   // useEffect to handle scrolling
-  useEffect(() => {
-    document.body.style.overflow = openSelectedImage ? "hidden" : "auto";
-    if (openSelectedImage) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }, [openSelectedImage]);
+
 
   return (
     <div className="p-8 w-[1147px]">

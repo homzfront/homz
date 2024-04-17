@@ -56,6 +56,31 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
         >
           <div className="flex sm:gap-[50px] gap-[24px] flex-col sm:flex-row  sideBarHidden lg:gap-[24px]">
             <div className="flex flex-col sm:gap-[28px] gap-[24px]">
+            <div className="">
+                <label htmlFor="ListingType">
+                  Listing Type <span className="text-red-500 text-xs">*</span>
+                </label>
+                <br />
+                <select
+                  name="ListingType"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
+                  id="ListingType"
+                  {...register("ListingType", {
+                    required: "Listing type is required",
+                  })}
+                >
+                  <option value="" disabled selected>
+                   Select option
+                  </option>
+                  <option value="Rent">For Rent</option>
+                  <option value="Sale">Ror Sale</option>
+                  <option value="Shortlet">Shortlet</option>
+                  <option value="Land">Land</option>
+                </select>
+                {errors.ListingType && (
+                  <p className="errorMsg">{errors.ListingType.message}</p>
+                )}
+              </div>
               <div>
                 <label htmlFor="Title">
                   {" "}
