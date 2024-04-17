@@ -63,4 +63,4 @@ const sideBarMobile = (setopen) => {
   );
 };
 
-export default Header;
+export default sideBarMobile;
