@@ -6,7 +6,7 @@ import Toggle from "react-toggle";
 import "react-toggle/style.css";
 import CustomizeModal from "../../components/CustomizedModal";
 
-const Preview = ({backBtn}) => {
+const Preview = (backBtn) => {
   const [option, setOption] = useState("");
 
   const [pollTitle, setPollTitle] = useState("");
