@@ -20,4 +20,4 @@ const SideBarData = [
   },
 ];
 
-export { SideBarData };
+export default  SideBarData ;
