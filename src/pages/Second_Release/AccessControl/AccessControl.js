@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import VisitorData from "../../../components/secondRelease/VisitorData";
+import {VisitorData} from "../../../components/secondRelease/VisitorData";
 import VistorTable from "./visitorsTable";
 import Image from "next/image";
 import CustomizedModal from "./component/CustomizedModal";

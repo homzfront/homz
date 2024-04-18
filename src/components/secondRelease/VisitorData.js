@@ -1,4 +1,4 @@
- const VisitorData = [
+ export const VisitorData = [
     {
       id: 1,
       Name: "Adeyemo Olayemi",
@@ -433,4 +433,3 @@
     },
   ];
 
-  export default VisitorData;

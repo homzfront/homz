@@ -2,7 +2,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SideBarData  from "../../../components/secondRelease/sideBarData";
+import {SideBarData}  from "../../../components/secondRelease/sideBarData";
 import { motion, useCycle } from "framer-motion";
 import Image from "next/image";
 import { Icon } from '@iconify/react';

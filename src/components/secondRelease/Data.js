@@ -1,4 +1,4 @@
-const Data = [
+export const Data = [
     {
       id: 1,
       Tenant: "Adeyemo Olayemi",
@@ -433,4 +433,3 @@ const Data = [
     },
   ];
 
-  export default Data;

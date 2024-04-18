@@ -1,4 +1,4 @@
-const SideBarData = [
+export const SideBarData = [
   // {
   //   title: "User",
   //   path: "/second_release/user",
@@ -75,4 +75,4 @@ const SideBarData = [
   },
 ];
 
-export default SideBarData ;
+
