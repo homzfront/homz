@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const RentDetails = ({ handleRentalInfo, previousBtn }) => {
-  const [yearlyRent, setYearly] = useState("");
+  const [paymentType, setPaymentType] = useState("");
   const {
     register,
     handleSubmit,
@@ -17,12 +17,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
     handleRentalInfo(data);
   };
 
-  // const handleBlur = (e) => {
-
-  //   setYearly("₦1234");
-  //   console.log(yearlyRent)
-
-  // };
+ 
   return (
     <div className="px-0">
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
@@ -43,38 +38,49 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
       >
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
-            <div>
-              <label htmlFor="monthlyRent">
-                How much is the <b>monthly</b> rent?
-              </label>
+            <div className="">
+              <label htmlFor="Payment_Type">Payment Type</label>
               <br />
-              <input
-                {...register("monthlyRent")}
-                placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
-                type="number"
-                id="monthlyRent"
-                name="monthlyRent"
-                min="0"
-              />
-              {/* {errors.monthlyRent && (
-                <p className="errorMsg">Property's titl is required</p>
-              )} */}
+              <select
+                name="Payment_Type"
+                id="Payment_Type"
+                className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
+                {...register("Payment_Type", {
+                  required: true,
+                })}
+                onChange={(e)=>setPaymentType(e.target.value)}
+              >
+                <option value="" disabled selected>
+                  Select Property Type
+                </option>
+                <option value="Outright-Payment">Outright Payment</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Every_6_Months">Every 6 Months</option>
+                <option value="Yearly">Yearly</option>
+              </select>
+              {/* {errors.Payment_Type && (
+                  <p className="errorMsg">Property Type is required.</p>
+                )} */}
             </div>
             <div>
-              <label htmlFor="maintenanceFee">
-                How much is the maintenance fee?
-              </label>
+              <label htmlFor="Price">{paymentType} Price</label>
               <br />
+              <div  className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+                {/* <span className={`${paymentType=="" &&"opacity-60"} absolute left-1`}>N</span> */}
               <input
-                {...register("maintenanceFee")}
+                {...register("price")}
                 placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
+                className="h-[43px] md:h-[45px] w-[100%] md:p-[12px] rounded-[4px] pl-2 adminCellBorders "
                 type="number"
-                id="maintenanceFee"
-                name="maintenanceFee"
+                id="price"
+                name="price"
                 min="0"
+                disabled={paymentType=="" && true}
               />
+              </div>
               {/* {errors.maintenanceFee && (
                 <p className="errorMsg"></p>
               )} */}
@@ -98,27 +104,6 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           </div>
           <div className="flex md:gap-[28px] gap-[24px] flex-col">
             <div>
-              <label htmlFor="yearlyRent">
-                How much is the <b>yearly</b> rent?
-              </label>
-              <br />
-              <input
-                {...register("yearlyRent")}
-                placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
-                type="number"
-                id="yearlyRent"
-                name="yearlyRent"
-                min="0"
-                // value={yearlyRent}
-                // onChange={(e)=>setYearly(e.target.value)}
-                // onBlur={handleBlur}
-              />
-              {/* {errors.yearlyRent && (
-                <p className="errorMsg">total Fee is required</p>
-              )} */}
-            </div>
-            <div>
               <label htmlFor="agencyFee">How much is the Agency fee?</label>
               <br />
               <input
@@ -132,6 +117,24 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               />
               {/* {errors.agencyFee && (
                 <p className="errorMsg">total Fee is required</p>
+              )} */}
+            </div>
+            <div>
+              <label htmlFor="maintenanceFee">
+                How much is the maintenance fee?
+              </label>
+              <br />
+              <input
+                {...register("maintenanceFee")}
+                placeholder="N 00.00"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
+                type="number"
+                id="maintenanceFee"
+                name="maintenanceFee"
+                min="0"
+              />
+              {/* {errors.maintenanceFee && (
+                <p className="errorMsg"></p>
               )} */}
             </div>
           </div>
