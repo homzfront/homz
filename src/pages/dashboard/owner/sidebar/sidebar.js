@@ -7,23 +7,23 @@ import useProfileStore from "@/store/profile";
 import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
-import Logout from '@/components/icons/dashboardMobile/logoutMain'
-import Dashboard from '@/components/icons/dashboardMobile/dashboard'
-import Maintenance from '@/components/icons/dashboardMobile/maintenance '
-import Payment from '@/components/icons/dashboardMobile/payment'
-import PropertyListing from '@/components/icons/dashboardMobile/propertyListing'
-import PropertyManagement from '@/components/icons/dashboardMobile/propertyManagement'
-import Settings from '@/components/icons/dashboardMobile/settings'
-import Support from '@/components/icons/dashboardMobile/support'
-import Switch from '@/components/icons/dashboardMobile/switch'
-import Tenants from '@/components/icons/dashboardMobile/tenants'
-import Profile from "@/components/icons/dashboardMobile/profile";
+import Logout from '@/components/icons/dashboard/logoutMain'
+import Dashboard from '@/components/icons/dashboard/dashboard'
+import Maintenance from '@/components/icons/dashboard/maintenance '
+import Payment from '@/components/icons/dashboard/payment'
+import PropertyListing from '@/components/icons/dashboard/propertyListing'
+import PropertyManagement from '@/components/icons/dashboard/propertyManagement'
+import Settings from '@/components/icons/dashboard/settings'
+import Support from '@/components/icons/dashboard/support'
+import Switch from '@/components/icons/dashboard/switch'
+import Tenants from '@/components/icons/dashboard/tenants'
+import Profile from "@/components/icons/dashboard/profile";
 
 const Data = [
   {
     id: 1,
-    image: <Dashboard />,
-    image2: <Dashboard className='text-white fill-white' />,
+    image: <Dashboard height="16" width="16"/>,
+    image2: <Dashboard className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/dashboard",
     name: "Dashboard",
     coming: null,
@@ -31,8 +31,8 @@ const Data = [
   },
   {
     id: 2,
-    image: <Tenants />,
-    image2: <Tenants className='text-white fill-white' />,
+    image: <Tenants height="16" width="16"/>,
+    image2: <Tenants className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/tenants",
     name: "Tenants",
     coming: null,
@@ -40,8 +40,8 @@ const Data = [
   },
   {
     id: 3,
-    image: <PropertyManagement />,
-    image2: <PropertyManagement className='text-BlueHomz fill-white' />,
+    image: <PropertyManagement height="16" width="16"/>,
+    image2: <PropertyManagement className='text-BlueHomz fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/estates",
     name: "Property Management",
     coming: null,
@@ -49,8 +49,8 @@ const Data = [
   },
   {
     id: 4,
-    image: <PropertyListing />,
-    image2: <PropertyListing className='text-BlueHomz fill-white' />,
+    image: <PropertyListing height="16" width="16"/>,
+    image2: <PropertyListing className='text-BlueHomz fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/propertylisting",
     name: "Property Listing",
     coming: null,
@@ -58,8 +58,8 @@ const Data = [
   },
   {
     id: 5,
-    image: <Payment />,
-    image2: <Payment className='text-BlueHomz fill-white' />,
+    image: <Payment height="16" width="16"/>,
+    image2: <Payment className='text-BlueHomz fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/payments",
     name: "Payments",
     coming: null,
@@ -67,8 +67,8 @@ const Data = [
   },
   {
     id: 6,
-    image: <Maintenance />,
-    image2: <Maintenance className='text-white fill-white' />,
+    image: <Maintenance height="16" width="16"/>,
+    image2: <Maintenance className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/maintenance",
     name: "Maintenance",
     coming: null,
@@ -76,8 +76,8 @@ const Data = [
   },
   {
     id: 7,
-    image: <Support />,
-    image2: <Support className='text-white fill-white' />,
+    image: <Support height="16" width="16"/>,
+    image2: <Support className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/support",
     name: "Support",
     coming: null,
@@ -88,8 +88,8 @@ const Data = [
 const Data2 = [
   {
     id: 1,
-    image: <Profile />,
-    image2: <Profile className='text-white fill-white' />,
+    image: <Profile height="16" width="16"/>,
+    image2: <Profile className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/property-owner/profile",
     name: "Profile",
   },
@@ -105,7 +105,7 @@ const Data2 = [
 const Data3 = [
   {
     id: 1,
-    image: <Switch />,
+    image: <Switch height="16" width="16"/>,
     link: "/switch-profile",
     name: "Switch",
   },
@@ -129,9 +129,9 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="shadow-lg">
-        <div className="w-full h-[1024px] px-6 flex flex-col justify-around">
-          <div>
-            <Link href={"/"}>
+        <div className="w-full h-[1024px] px-6 flex flex-col my-10">
+          <div className="mb-[50px]">
+            <Link href={"/"} >
               <Image
                 src={"/Homz_Logo_Blue.png"}
                 height={28}
@@ -141,7 +141,7 @@ const Sidebar = () => {
               />
             </Link>
           </div>
-          <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
+          <div className={`flex flex-col gap-3 mb-[50px] ${showKindlyWait ? "pointer-events-none" : ""}`}>
           {Data.map((data) => (
               <Link
                 key={data.id}
@@ -170,15 +170,12 @@ const Sidebar = () => {
               </Link>
             ))}
           </div>{" "}
-          <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
+          <div className={`flex flex-col gap-3 mb-[50px] ${showKindlyWait ? "pointer-events-none" : ""}`}>
           {Data2.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2 flex items-center rounded-md text-GrayHomz text-[16px] font-[500] 
-                ${
-                  data.name === "Setting" ? "gap-[4px]" : "gap-[12px]"
-                }
+                className={`h-[40px] px-2 flex items-center rounded-md text-GrayHomz text-[16px] font-[500] gap-[12px]
                 ${pathname === data.link
                   ? "bg-BlueHomz text-white"
                   : "hover:text-white hover:bg-blue-300"
@@ -197,12 +194,12 @@ const Sidebar = () => {
               </Link>
             ))}
           </div>
-          <div className={`grid gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
+          <div className={`flex flex-col gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
           {Data3.map((data) => (
               <Link
                 key={data.id}
                 href={data.link}
-                className={`h-[40px] px-2 flex items-center rounded-md gap-[7px] text-GrayHomz text-[16px] font-[500]
+                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]
                 ${pathname === data.link
                   ? "bg-BlueHomz text-white"
                   : "hover:text-white hover:bg-blue-300"

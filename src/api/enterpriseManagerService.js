@@ -18,6 +18,15 @@ export const enterpriseMePropertyOwner = async () => {
   }
 }
 
+export const enterpriseMePropertyOwnerUnderEstate = async () => {
+  try {
+    const response = await api.get("/enterpriseplan/role/property-owner/role-permission");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updatePersonalInformation = async (updatedData) => {
   try {
     const response = await api.patch(

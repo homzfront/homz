@@ -4,12 +4,18 @@ import React, { useState } from "react";
 // import ConfirmModal from "../../../components/confirmUpdateModal";
 import AcAndRejModel from "../../../components/acAndRejModel";
 import ConfirmModal from "../../../components/confirmModal";
+import { enterpriseplanRoleInvite } from "@/api/enterpriseManagerService";
+import { toast } from "react-toastify";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const PropertyAccess = ({ closeMenu, data, estateData }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedEstate, setSelectedEstate] = useState(null);
   const [openRevoke, setOpenRevoke] = useState(false);
   const [openRevokeAccept, setOpenRevokeAccept] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
   const handleSelect = (value) => {
     setSelectedEstate(value);
   };
@@ -30,7 +36,46 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
     setOpenRevokeAccept(false);
     setOpenRevoke(false);
   };
-  
+
+  const sendRequest = async () => {
+    setLoading(true);
+    try {
+      const { success, upDateddata, error } = await enterpriseplanRoleInvite({
+        email: data?.user?.email,
+        estateName: selectedEstate
+      });
+      if (success) {
+        setLoading(false);
+        setOpenModal(!openModal);
+      } else {
+        setLoading(false);
+        toast.error(error);
+      }
+    } catch (error) {
+      setLoading(false);
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        toast.error(`Update failed: ${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        toast.error(`Update failed: ${errorMessage}`);
+      } else {
+        toast.error("Update failed");
+      }
+    }
+  };
+
+
+  // console.log(data);
+  // console.log(estateData);
+  // console.log(data?.estatesDetails);
+  // console.log(selectedEstate);
+  // console.log(data?.user?.email);
+  const estatesData = data?.estatesDetails
+
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       {openRevokeAccept ? (
@@ -38,12 +83,12 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
           returnHome={closeRevokeAccept}
           header={"User removed Successfully"}
           button={"Close"}
-          body={`${data?.Tenant} has successfully been removed from your dashboard`}
+          body={`${data?.propertyOwner?.fullName} has successfully been removed from your dashboard`}
         />
       ) : openRevoke ? (
         <AcAndRejModel
           header={"Remove User?"}
-          body={`Clicking on ‘Yes’ will remove ${data?.Tenant} from your dashboard, proceed?`}
+          body={`Clicking on ‘Yes’ will remove ${data?.propertyOwner?.fullName} from your dashboard, proceed?`}
           button={"Yes"}
           buttonTwo={"No, go back"}
           returnHomeTwo={closeRevoke}
@@ -70,16 +115,16 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
 
           <div>
             <p className="mt-2 text-[14px] font-[400] text-GrayHomz w-[291px]">
-              {data?.Tenant} has access to all properties listed below
+              {data?.propertyOwner?.fullName} has access to all properties listed below
             </p>
           </div>
-          {data?.Properties?.map((data) => (
+          {data && estatesData?.map((data) => (
             <div
-              key={data?.id}
+              key={data?._id}
               className="w-[100%] mt-1 border-b py-5 flex justify-between items-center"
             >
               <p className="text-[14px] font-[400] text-GrayHomz">
-                {data?.label}
+                {data?.estate?.name}
               </p>
               <p
                 onClick={showRevoke}
@@ -121,13 +166,25 @@ const PropertyAccess = ({ closeMenu, data, estateData }) => {
           <div>
             <button
               type="text"
-              className="mt-6 h-[48px] text-white bg-BlueHomz text-[16px] font-[700] w-full rounded-[4px]"
+              onClick={sendRequest}
+              className={`mt-6 h-[48px] text-white bg-BlueHomz text-[16px] font-[700] w-full rounded-[4px] ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
             >
-              Save Changes
+              {loading ? <LoadingFormII /> :   "Save Changes"}
             </button>
           </div>
         </div>
-      )}{" "}
+      )}
+      {openModal && (
+        <ConfirmModal
+          header={"Invite Sent Successfully"}
+          body={`Your invite link has successfully been sent to ${email}`}
+          button={"Close"}
+          returnHome={() => {
+            setOpenModal(false)
+            closeMenu()
+          }}
+        />
+      )}
     </div>
   );
 };

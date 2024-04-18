@@ -27,6 +27,10 @@ const ManageUsers = () => {
   const [selectedEstate, setSelectedEstate] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectOp, setSelectedOp] = useState([]);
+  const [dataEmail, setDataEmail] = useState([]);
+
+  
   const handleSelect = (value) => {
     setSelectedEstate(value);
   };
@@ -229,14 +233,13 @@ const ManageUsers = () => {
             returnHome={returnHome}
           />
         )}
-        {/* {selectOp.label === "Can View" && (
+        {selectOp.label === "Can View" && (
           <div className="mt-4">
             <div className="flex gap-3 items-center">
               <ToggleButton onToggle={handleToggle} isOpen={isOpen} />{" "}
               <p
-                className={`text-[16px] font-[400] ${
-                  !isOpen ? "text-GrayHomz2" : "text-BlackHomz"
-                } `}
+                className={`text-[16px] font-[400] ${!isOpen ? "text-GrayHomz2" : "text-BlackHomz"
+                  } `}
               >
                 View as property owner
               </p>
@@ -252,24 +255,23 @@ const ManageUsers = () => {
                   onSelect={handleSelectEstate}
                   selectOption={"Select Property"}
                 />
-               <div className="flex gap-1"> 
-               <p className="text-[14px] font-[400] text-GrayHomz">
-                  Yet to add a property?
-                </p>
-                <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
-                  Add New Property
-                </Link>
+                <div className="flex gap-1">
+                  <p className="text-[14px] font-[400] text-GrayHomz">
+                    Yet to add a property?
+                  </p>
+                  <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
+                    Add New Property
+                  </Link>
                 </div>
               </div>
             )}
           </div>
-        )} */}
-
-        {/* <div className="mt-8">
-          <TableUser  estateData={data}/>
-        </div> */}
+        )}
+        <div className="mt-8">
+          <TableUser estateData={data} />
+        </div>
       </div>
-      {/* {openModal && (
+      {openModal && (
         <ConfirmModal
           header={"Invite Sent Successfully"}
           body={`Your invite link has successfully been sent to ${dataEmail}`}
@@ -277,7 +279,7 @@ const ManageUsers = () => {
           returnHome={returnHome}
         />
       )}
-      <Invites /> */}
+      {/* <Invites /> */}
     </div>
   );
 };

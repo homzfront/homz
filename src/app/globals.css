@@ -143,3 +143,4 @@ body {
 .image-clip {
   clip-path: polygon(0 0, 100% 0, 100% 70%, 0 70%); /* Adjust percentages as needed */
 }
+
