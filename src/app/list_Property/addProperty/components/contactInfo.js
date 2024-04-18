@@ -18,7 +18,7 @@ const ContactInfo = ({
   });
 
   const onSubmit = (data) => {
-    reset();
+    // reset();
     handleSubmitData(data);
   };
   return (

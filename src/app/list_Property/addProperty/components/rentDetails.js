@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form";
 
 const RentDetails = ({ handleRentalInfo, previousBtn }) => {
   const [paymentType, setPaymentType] = useState("");
+  const [price, setPrice] = useState("");
+  const [maintenance, setMaintenance] = useState("");
+  const [total, setTotal] = useState("");
+  const [agency, setAgency] = useState("");
   const {
     register,
     handleSubmit,
@@ -13,11 +17,10 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
     criteriaMode: "all",
   });
   const onSubmit = (data) => {
-    reset();
+    // reset();
     handleRentalInfo(data);
   };
 
- 
   return (
     <div className="px-0">
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
@@ -48,7 +51,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 {...register("Payment_Type", {
                   required: true,
                 })}
-                onChange={(e)=>setPaymentType(e.target.value)}
+                onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>
                   Select Property Type
@@ -68,19 +71,27 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             <div>
               <label htmlFor="Price">{paymentType} Price</label>
               <br />
-              <div  className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
-                {/* <span className={`${paymentType=="" &&"opacity-60"} absolute left-1`}>N</span> */}
-              <input
-                {...register("price")}
-                placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] w-[100%] md:p-[12px] rounded-[4px] pl-2 adminCellBorders "
-                type="number"
-                id="price"
-                name="price"
-                min="0"
-                disabled={paymentType=="" && true}
-              />
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+                <span
+                  className={`absolute left-3 top-0 bottom-0 flex items-center ${
+                    !price && "opacity-50"
+                  }`}
+                >
+                  N
+                </span>
+                <input
+                  {...register("price")}
+                  placeholder="00.00"
+                  className="h-[43px] md:h-[45px] w-full py-[12px] pl-8 rounded-[4px] adminCellBorders"
+                  type="number"
+                  id="price"
+                  name="price"
+                  min="0"
+                  disabled={paymentType === "" && true}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
               </div>
+
               {/* {errors.maintenanceFee && (
                 <p className="errorMsg"></p>
               )} */}
@@ -88,15 +99,26 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             <div>
               <label htmlFor="totalFee">How much is the total fee?</label>
               <br />
-              <input
-                {...register("totalFee")}
-                placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
-                type="number"
-                id="totalFee"
-                name="totalFee"
-                min="0"
-              />
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+                <span
+                  className={`absolute left-3 top-0 bottom-0 flex items-center ${
+                    !total && "opacity-60"
+                  }`}
+                >
+                  N
+                </span>
+                <input
+                  {...register("totalFee")}
+                  placeholder="00.00"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 adminCellBorders duoViewPoint w-[335px]"
+                  type="number"
+                  id="totalFee"
+                  name="totalFee"
+                  min="0"
+                  disabled={paymentType === "" && true}
+                  onChange={(e) => setTotal(e.target.value)}
+                />
+              </div>
               {/* {errors.totalFee && (
                 <p className="errorMsg">total Fee is required</p>
               )} */}
@@ -106,15 +128,26 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             <div>
               <label htmlFor="agencyFee">How much is the Agency fee?</label>
               <br />
-              <input
-                {...register("agencyFee")}
-                placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
-                type="number"
-                id="agencyFee"
-                name="agencyFee"
-                min="0"
-              />
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+                <span
+                  className={`absolute left-3 top-0 bottom-0 flex items-center ${
+                    !agency && "opacity-60"
+                  }`}
+                >
+                  N
+                </span>
+                <input
+                  {...register("agencyFee")}
+                  placeholder="00.00"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 adminCellBorders duoViewPoint w-[335px]"
+                  type="number"
+                  id="agencyFee"
+                  name="agencyFee"
+                  min="0"
+                  disabled={paymentType === "" && true}
+                  onChange={(e) => setAgency(e.target.value)}
+                />
+              </div>
               {/* {errors.agencyFee && (
                 <p className="errorMsg">total Fee is required</p>
               )} */}
@@ -124,15 +157,26 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 How much is the maintenance fee?
               </label>
               <br />
-              <input
-                {...register("maintenanceFee")}
-                placeholder="N 00.00"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
-                type="number"
-                id="maintenanceFee"
-                name="maintenanceFee"
-                min="0"
-              />
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+                <span
+                  className={`absolute left-3 top-0 bottom-0 flex items-center ${
+                    !maintenance && "opacity-60"
+                  }`}
+                >
+                  N
+                </span>
+                <input
+                  {...register("maintenanceFee")}
+                  placeholder="00.00"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 adminCellBorders duoViewPoint w-[335px]"
+                  type="number"
+                  id="maintenanceFee"
+                  name="maintenanceFee"
+                  min="0"
+                  disabled={paymentType === "" && true}
+                  onChange={(e) => setMaintenance(e.target.value)}
+                />
+              </div>
               {/* {errors.maintenanceFee && (
                 <p className="errorMsg"></p>
               )} */}

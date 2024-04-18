@@ -15,7 +15,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
   });
 
   const onSubmit = (data) => {
-    reset();
+    // reset();
     handlePropertyInfo(data);
   };
 

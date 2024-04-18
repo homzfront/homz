@@ -84,11 +84,6 @@ const PropertyImages = ({ id }) => {
     setOpenSelectedImage(false);
   };
 
-  console.log(openSelectedImage);
-  console.log(currentImageIndex);
-  // useEffect to handle scrolling
-
-
   return (
     <div className="p-8 w-[1147px]">
      
