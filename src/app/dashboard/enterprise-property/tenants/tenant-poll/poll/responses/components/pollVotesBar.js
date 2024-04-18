@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import CustomizeModal from "@/mainmenu/CustomizedModal";
+import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 
 const PollVotesBar = ({ PollVotes }) => {
   const [poll, setPollVotes] = useState([]);
