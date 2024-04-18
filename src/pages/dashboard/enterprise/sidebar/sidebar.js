@@ -32,8 +32,8 @@ const Sidebar = () => {
   const pathname = keepThree(path);
   const pathname2 = keepFour(path);
 
-  console.log(pathname);
-  console.log(pathname2);
+  // console.log(pathname);
+  // console.log(pathname2);
   const { logout } = useProfileStore();
   const [logoutModal, setLogoutModal] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
@@ -198,7 +198,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="shadow-lg">
-        <div className="w-full h-[1024px] px-6 flex flex-col my-10">
+        <div className="w-full h-[1024px] px-6 flex flex-col py-10">
           <Link href={"/"} className="mb-[50px]">
             <Image
               src={"/Homz_Logo_Blue.png"}

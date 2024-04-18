@@ -18,7 +18,7 @@ import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 
-const ManageUsers = () => {
+const ManageUserRoles = () => {
   const { data, loading, fetchData } = estateStore();
   const [slog, setSlog] = useState(null)
   const [email, setEmail] = useState("");
@@ -29,6 +29,7 @@ const ManageUsers = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectOp, setSelectedOp] = useState([]);
   const [dataEmail, setDataEmail] = useState([]);
+  const [userRole, setUserRole] = useState(null);
 
   // console.log(slog); 
 
@@ -37,11 +38,17 @@ const ManageUsers = () => {
     fetchData();
   }, []);
 
-  useBodyScroll([openModal, loadingII, showPopup])
+  useBodyScroll([openModal, loadingII])
+
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+
+  const handleOptionClick = (user) => {
+    setUserRole(user);
+    setShowPopup(false);
+  }
   // const options = [
   //   { id: 1, label: "Can View" },
   //   { id: 2, label: "Can Edit" },
@@ -130,8 +137,19 @@ const ManageUsers = () => {
     setEmail("");
   };
 
+  const Options = [
+    {
+      id: 1,
+      label: "Customer Support",
+    },
+    {
+      id: 2,
+      label: "Security",
+    },
+  ]
+
   // Determine if the button should be disabled based on the email input value
-  const isButtonDisabled = !email || slog === null;
+  const isButtonDisabled = !email || userRole === null;
 
   return (
     <div>
@@ -143,7 +161,7 @@ const ManageUsers = () => {
             className="flex w-full justify-between items-center cursor-pointer"
           >
             <div className="text-[14px] font-[400] text-GrayHomz">
-              Add landlord to view and monitor properties
+              Invite other users to your dashboard
             </div>
             <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
               <Image
@@ -169,13 +187,13 @@ const ManageUsers = () => {
                 />
               </div>
               <div
-                onClick={() => setShowPopup(true)}
-                className="w-[360px] flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
+                onClick={() => setShowPopup(!showPopup)}
+                className="relative w-[360px] flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
               >
                 <div className="text-GrayHomz2 text-[13px] font-[400]">
-                  {slog?.name
-                    ? slog?.name
-                    : "Select property you want Landlord to view"}
+                  {userRole
+                    ? userRole
+                    : "Select User Role"}
                 </div>
                 <div
                   className={`w-5 h-5 p-1 ${showPopup ? "transform rotate-180" : ""
@@ -188,14 +206,21 @@ const ManageUsers = () => {
                     alt=""
                   />
                 </div>
+                {showPopup && (
+                  <div className="w-full absolute z-20 left-0 top-14 text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
+                    {/* Display filtered options */}
+                    {Options.map((option, index) => (
+                      <div
+                        key={index}
+                        className="p-2 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
+                        onClick={() => handleOptionClick(option.label)}
+                      >
+                        {option.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              {showPopup && (
-              <Popup
-              onClose={() => setShowPopup(false)}
-              estateData={data}
-              setEstate={setSlog}
-            />
-              )}
               <button
                 onClick={handleSubmit}
                 className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
@@ -280,4 +305,4 @@ const ManageUsers = () => {
   );
 };
 
-export default ManageUsers;
+export default ManageUserRoles;

@@ -158,6 +158,18 @@ export const enterpriseplanRoleInvite = async ({ email, estateName, slug }) => {
   }
 };
 
+export const enterprisePlanRevokeAccess = async ({ landlordId, estateId }) => {
+  try {
+    const response = await api.delete(`/enterpriseplan/role/property-owner/revoke/${landlordId}/estate/${estateId}`);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
+  }
+};
+
+
+
 export const enterpriseStatistics = async () => {
   try {
     const response = await api.get(`/estates/me/enterprise/statistics`);

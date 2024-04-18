@@ -7,9 +7,10 @@ import landlordsUnderEnterprise from "@/store/enterpriseStore/landlordsUnderEnte
 
 const TableUser = ({ estateData }) => {
 
-  console.log(estateData);
+  // console.log(estateData);
   const [selectedRole, setSelectedRole] = useState(null); // Change initial state to null
   const [openRevoke, setOpenRevoke] = useState(false);
+  const [filtered, setFiltered] = useState(false);
   const options = [
     {
       id: 1,
@@ -34,13 +35,20 @@ const TableUser = ({ estateData }) => {
     }
   };
 
+  const falseData = data.filter(
+    (item) => !item?.estatesDetails?.[0]?.is_deleted
+  );
+
+  // console.log(falseData);
+  
+
   return (
     <div className="">
       <div className="text-[14px] font-[500] flex justify-between items-center w-full">
         <div className="flex gap-3 items-center">
           <p className="text-BlackHomz">Landlords</p>
           <div className="h-[29px] w-[32px] bg-whiteblue flex justify-center items-center rounded-[8px]">
-            <p className="text-BlueHomz">{data ? data?.length : "0"}</p>
+            <p className="text-BlueHomz">{data ? falseData?.length : "0"}</p>
           </div>
         </div>
         {
@@ -59,7 +67,7 @@ const TableUser = ({ estateData }) => {
         }
       </div>
       <div>
-        <Table estateData={estateData} roleData={data} openRevoke={openRevoke} setOpenRevoke={setOpenRevoke} />
+        <Table estateData={estateData} fetchData={fetchData} roleData={falseData} openRevoke={openRevoke} setOpenRevoke={setOpenRevoke} />
       </div>
     </div>
   );
