@@ -31,7 +31,7 @@ const Wallet = () => {
       try {
         setLoading(true);
         const data = await propertyOwnerWallet();
-        if (data.statuscode === 200 && data.success === true) {
+        if (data.statuscode === 200 && data.success === true  && data.data !== null) {
           setIlluminateWallet(!illuminateWallet);
           fetchRentInfo() 
           const balance = await propertyOwnerWalletBalance();

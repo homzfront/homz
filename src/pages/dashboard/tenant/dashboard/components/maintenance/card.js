@@ -20,7 +20,7 @@ const Maintenance = () => {
         <div className=" flex gap-4 items-center">
           <p className="text-[13px] sm:text-[14px] font-[400] sm:font-[500] text-BlueHomz sm:text-GrayHomz">Maintenance Request</p>
           <div className="sm:bg-inputBg bg-walletBg py-1 rounded-[8px] px-3 flex items-center justify-center">
-            <p className="text-[13px] sm:text-[14px] font-[400] sm:font-[500] sm:text-GrayHomz text-BlueHomz">{data.length ? data.length : "0"}</p>
+            <p className="text-[13px] sm:text-[14px] font-[400] sm:font-[500] sm:text-GrayHomz text-BlueHomz">{data?.length ? data?.length : "0"}</p>
           </div>
         </div>
 
@@ -41,10 +41,10 @@ const Maintenance = () => {
             </tr>
           </thead>
           <tbody className="">
-            {data?.map((data) => (
+            {data && data?.map((data) => (
               <tr key={data?._id} className="h-[60px] border-t-[1px] items-center">
                 <td className="pr-2  pl-6 text-GrayHomz font-[500] text-[11px]">
-                  <span className="py-[15px]">{data.subject}</span>
+                  <span className="py-[15px]">{data?.subject}</span>
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden sm:table-cell">
                   {changeBackendDateFormat(data?.requestDate)}
