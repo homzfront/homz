@@ -7,7 +7,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import AcAndRejModel from "../../../components/acAndRejModel";
 import ConfirmModal from "../../../components/confirmModal";
 
-const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) => {
+const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, profileData }) => {
   const [selectedRoles, setSelectedRoles] = useState(Array(10)?.fill(null)); // Array to store selected values for each dropdown
 
   const handleRoleSelect = (index, option) => {
@@ -80,7 +80,16 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
   useBodyScroll([openRevoke])
   // console.log(roleData);
   // console.log(estateData);
-  // console.log(data?.estatesDetails?.length);
+  // console.log(currentData);
+
+  function calculateIncrement(length) {
+    if (length >= 2) {
+      return `+${(length - 1)}`; // Calculate the increment based on the formula
+    } else {
+      return 0; // No increment if length is less than 2
+    }
+  }
+
 
   return (
     <div className="mt-6">
@@ -98,7 +107,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
               currentData.map((data) => (
                 <div
                   key={data?._id}
-                  className={ `border-b-[1px] font-[400] text-[14px] text-GrayHomz  items-center flex justify-center w-full gap-2 px-4 h-[77px]`}
+                  className={`border-b-[1px] font-[400] text-[14px] text-GrayHomz  items-center flex justify-center w-full gap-2 px-4 h-[77px]`}
                 >
                   <div className="pl-4 w-[5%]">
                     <input
@@ -138,9 +147,12 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
                       className={` rounded-[2px] h-[45px] w-[90%]  flex gap-3 justify-start items-center`}
                     >
                       <p className="text-[14px] font-[500] text-GrayHomz2">
-                        {data?.estatesDetails?.[0]?.estate?.name}
                         {
-                          data?.estatesDetails?.length >= 2 && <span className="text-[14px] font-[500] text-warning2"> +1</span>
+                          data?.estatesDetails?.[0]?.estate?.name
+                        }
+                        {
+                          data?.estatesDetails.filter(detail => !detail.is_deleted).length >= 2 &&
+                          <span className="text-[14px] font-[500] text-warning2">{calculateIncrement(data?.estatesDetails.filter(detail => !detail.is_deleted).length)}</span>
                         }
                       </p>
                       <div
@@ -164,6 +176,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
                       estateData={estateData}
                       closeMenu={closeMenu}
                       fetchData={fetchData}
+                      profileData={profileData}
                     />
                   )}
                   {openRevokeAccept ? (

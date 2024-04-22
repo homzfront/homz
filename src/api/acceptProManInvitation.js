@@ -1,11 +1,15 @@
 import api from "@/utils/api";
 
 export const acceptInvitation = async (email, role, invitation, isHomzEnterprise) => {
+  console.log(email)
+  console.log(role)
+  console.log(invitation)
+  console.log(isHomzEnterprise)
     try {
-      const response = await api.post(`/enterpriseplan/role/accept-invitation-homz?email=${email}&role=${role}&invitation=${invitation}&isHomzEnterprise=${isHomzEnterprise}`);
-      return { success: true, upDateddata: response.data };
+      const response = await api.post(`/enterpriseplan/role/property-owner/accept-invitation-homz?email=${email}&role=${role}&invitation=${invitation}&isHomzEnterprise=${isHomzEnterprise}`);
+      return { success: true, upDateddata: response.data};
     } catch (error) {
-      return { success: false, error: error?.response?.data?.message };
+      return { success: false, error: error?.response?.data?.message};
     }
 };
 

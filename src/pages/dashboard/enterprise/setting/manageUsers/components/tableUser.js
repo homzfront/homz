@@ -5,7 +5,7 @@ import Table from "./table";
 import DeleteRed from "@/components/icons/deleteRed";
 import landlordsUnderEnterprise from "@/store/enterpriseStore/landlordsUnderEnterprise";
 
-const TableUser = ({ estateData }) => {
+const TableUser = ({ estateData, profileData }) => {
 
   // console.log(estateData);
   const [selectedRole, setSelectedRole] = useState(null); // Change initial state to null
@@ -39,8 +39,8 @@ const TableUser = ({ estateData }) => {
     item.estatesDetails.some(detail => !detail.is_deleted)
   );
 
-  console.log(falseData);
-  console.log(data)
+  // console.log(falseData);
+  // console.log(data)
   
 
   return (
@@ -68,7 +68,7 @@ const TableUser = ({ estateData }) => {
         }
       </div>
       <div>
-        <Table estateData={estateData} fetchData={fetchData} roleData={falseData} openRevoke={openRevoke} setOpenRevoke={setOpenRevoke} />
+        <Table profileData={profileData} estateData={estateData} fetchData={fetchData} roleData={falseData} openRevoke={openRevoke} setOpenRevoke={setOpenRevoke} />
       </div>
     </div>
   );

@@ -158,6 +158,20 @@ export const enterpriseplanRoleInvite = async ({ email, estateName, slug }) => {
   }
 };
 
+export const enterpriseplanRoleInviteHomz = async ({ email, estateName, slug }) => {
+  try {
+    const response = await api.post(`/enterpriseplan/role/property-owner/invite-link/homz`, {
+      email,
+      estateName,
+      slug
+    });
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
+  }
+};
+
 export const enterprisePlanRevokeAccess = async ({ landlordId, estateId }) => {
   try {
     const response = await api.delete(`/enterpriseplan/role/property-owner/revoke/${landlordId}/estate/${estateId}`);

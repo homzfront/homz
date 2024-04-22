@@ -4,12 +4,12 @@ import React, { useState } from "react";
 // import ConfirmModal from "../../../components/confirmUpdateModal";
 import AcAndRejModel from "../../../components/acAndRejModel";
 import ConfirmModal from "../../../components/confirmModal";
-import { enterprisePlanRevokeAccess, enterpriseplanRoleInvite } from "@/api/enterpriseManagerService";
+import { enterprisePlanRevokeAccess, enterpriseplanRoleInvite, enterpriseplanRoleInviteHomz } from "@/api/enterpriseManagerService";
 import { toast } from "react-toastify";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Loading from "@/components/mainmenu/loading";
 
-const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
+const PropertyAccess = ({ closeMenu, data, estateData, fetchData, profileData }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedEstate, setSelectedEstate] = useState(null);
   const [openRevoke, setOpenRevoke] = useState(false);
@@ -70,38 +70,73 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
 
   const sendRequest = async () => {
     setLoading(true);
-    try {
-      const { success, upDateddata, error } = await enterpriseplanRoleInvite({
-        email: data?.user?.email,
-        estateName: selectedEstate?.name,
-        slug: selectedEstate?.slug
-      });
-      if (success) {
-        setLoading(false);
-        setOpenModal(!openModal);
-      } else {
-        setLoading(false);
-        toast.error(error);
+    if (profileData && profileData?.planName === "Enterprise Unlimited Homz") {
+      try {
+        const { success, upDateddata, error } = await enterpriseplanRoleInviteHomz({
+          email: data?.user?.email,
+          estateName: selectedEstate?.name,
+          slug: selectedEstate?.slug
+        });
+
+        if (success) {
+          // console.log(upDateddata);
+          setLoadingII(false);
+          setOpenModal(!openModal);
+          // toast.success(upDateddata);
+        } else {
+          setLoadingII(false);
+          toast.error(error);
+        }
+      } catch (error) {
+        setLoadingII(false);
+
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          toast.error(`Update failed: ${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          toast.error(`Update failed: ${errorMessage}`);
+        } else {
+          toast.error("Update failed");
+        }
       }
-    } catch (error) {
-      setLoading(false);
-      if (
-        error?.response?.data?.error?.errors &&
-        error.response.data.error.errors.length > 0
-      ) {
-        const errorMessage = error.response.data.error.errors[0];
-        toast.error(`Update failed: ${errorMessage}`);
-      } else if (error?.response?.data?.message) {
-        const errorMessage = error.response.data.message;
-        toast.error(`Update failed: ${errorMessage}`);
-      } else {
-        toast.error("Update failed");
+    } else {
+      try {
+        const { success, upDateddata, error } = await enterpriseplanRoleInvite({
+          email: data?.user?.email,
+          estateName: selectedEstate?.name,
+          slug: selectedEstate?.slug
+        });
+        if (success) {
+          setLoading(false);
+          setOpenModal(!openModal);
+        } else {
+          setLoading(false);
+          toast.error(error);
+        }
+      } catch (error) {
+        setLoading(false);
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          toast.error(`Update failed: ${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          toast.error(`Update failed: ${errorMessage}`);
+        } else {
+          toast.error("Update failed");
+        }
       }
     }
   };
-// console.log(data?.estatesDetails?.[0]?.estate?.name)
+  // console.log(data?.estatesDetails?.[0]?.estate?.name)
   const estatesData = data?.estatesDetails
-  console.log(estatesData);
+  // console.log(estatesData);
 
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">

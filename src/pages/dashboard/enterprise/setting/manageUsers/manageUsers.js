@@ -10,13 +10,14 @@ import Link from "next/link";
 import useEstateStore from "@/store/enterpriseStore/estates";
 import estateStore from "@/store/enterpriseStore/estates";
 import { toast } from "react-toastify";
-import { enterpriseplanRoleInvite } from "@/api/enterpriseManagerService";
+import { enterpriseplanRoleInvite, enterpriseplanRoleInviteHomz } from "@/api/enterpriseManagerService";
 import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
 import Popup from "./components/popUp";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
@@ -42,6 +43,14 @@ const ManageUsers = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+
+  // console.log(profileData);
   // const options = [
   //   { id: 1, label: "Can View" },
   //   { id: 2, label: "Can Edit" },
@@ -90,38 +99,74 @@ const ManageUsers = () => {
 
 
     setLoadingII(true);
-    try {
-      const { success, upDateddata, error } = await enterpriseplanRoleInvite({
-        email,
-        estateName: slog?.name,
-        slug: slog?.slug
-      });
-
-      if (success) {
-        // console.log(upDateddata);
+    if (profileData && profileData?.planName === "Enterprise Unlimited Homz") {
+      try {
+        const { success, upDateddata, error } = await enterpriseplanRoleInviteHomz({
+          email,
+          estateName: slog?.name,
+          slug: slog?.slug
+        });
+  
+        if (success) {
+          // console.log(upDateddata);
+          setLoadingII(false);
+          setOpenModal(!openModal);
+          // toast.success(upDateddata);
+        } else {
+          setLoadingII(false);
+          toast.error(error);
+        }
+      } catch (error) {
         setLoadingII(false);
-        setOpenModal(!openModal);
-        // toast.success(upDateddata);
-      } else {
-        setLoadingII(false);
-        toast.error(error);
+  
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          toast.error(`Update failed: ${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          toast.error(`Update failed: ${errorMessage}`);
+        } else {
+          toast.error("Update failed");
+        }
       }
-    } catch (error) {
-      setLoadingII(false);
-
-      if (
-        error?.response?.data?.error?.errors &&
-        error.response.data.error.errors.length > 0
-      ) {
-        const errorMessage = error.response.data.error.errors[0];
-        toast.error(`Update failed: ${errorMessage}`);
-      } else if (error?.response?.data?.message) {
-        const errorMessage = error.response.data.message;
-        toast.error(`Update failed: ${errorMessage}`);
-      } else {
-        toast.error("Update failed");
+    } else {
+      try {
+        const { success, upDateddata, error } = await enterpriseplanRoleInvite({
+          email,
+          estateName: slog?.name,
+          slug: slog?.slug
+        });
+  
+        if (success) {
+          // console.log(upDateddata);
+          setLoadingII(false);
+          setOpenModal(!openModal);
+          // toast.success(upDateddata);
+        } else {
+          setLoadingII(false);
+          toast.error(error);
+        }
+      } catch (error) {
+        setLoadingII(false);
+  
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          toast.error(`Update failed: ${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          toast.error(`Update failed: ${errorMessage}`);
+        } else {
+          toast.error("Update failed");
+        }
       }
     }
+    
   };
 
   const returnHome = () => {
@@ -264,7 +309,7 @@ const ManageUsers = () => {
           </div>
         )} */}
         <div className="mt-8">
-          <TableUser estateData={data} />
+          <TableUser estateData={data} profileData={profileData} />
         </div>
       </div>
       {openModal && (

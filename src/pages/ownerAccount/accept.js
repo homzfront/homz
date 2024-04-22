@@ -42,6 +42,11 @@ const Accept = () => {
     setOpenForm(false);
   };
 
+  // console.log(email)
+  // console.log(role)
+  // console.log(invitation)
+  // console.log(isHomzEnterprise)
+
   const { fetchProfile, user, loading } = useProfileStore();
 
   useEffect(() => {
