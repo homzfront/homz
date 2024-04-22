@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Notification from "/src/pages/dashboard/enterprise/notification/notification";
 import Link from "next/link";
-import PopNotification from "/src/pages/dashboard/enterprise/notification/components/popNotification";
+import PopNotification from "./popNotification";
 
 const Data = [
   {

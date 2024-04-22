@@ -2,13 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 
 const PopNotification = ({selectedId, closeMenu}) => {
-     // Ensure that Data is defined and not null
-     if (!selectedId) {
-      return null; // or handle accordingly, e.g., return a loading state
-    }
-    // Ensure Data is defined before use
-    const data = selectedId || []; // Assign an empty array if Data is undefined
-  
+   // Ensure that Data is defined and not null
+   if (!selectedId) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
+  // Ensure Data is defined before use
+  const data = selectedId || []; // Assign an empty array if Data is undefined
+
   return (
     <div>
          <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">

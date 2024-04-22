@@ -49,7 +49,7 @@ const Button = ({
       </div>
       <div className="hidden md:flex items-center justify-around">
         {/* Display first three pages */}
-        {firstThreePages.map((page) => (
+        {firstThreePages && firstThreePages.map((page) => (
           <button
             key={page}
             onClick={() => handlePageClick(page)}
@@ -70,7 +70,7 @@ const Button = ({
         {/* Display three dots */}
         <span className="text-[14px] font-[500] ">. . .</span>
         {/* Display last three pages */}
-        {lastThreePages.map((page) => (
+        {lastThreePages && lastThreePages.map((page) => (
           <button
             key={page}
             onClick={() => handlePageClick(page)}
