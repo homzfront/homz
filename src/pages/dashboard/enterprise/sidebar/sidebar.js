@@ -232,9 +232,9 @@ const Sidebar = () => {
                     )}
                     <div className="flex items-center w-full justify-between">
                       <span className="">{data.name}</span>
-                      <div onClick={toggleSubMenu} className={`${subMenuOpen ? "rotate-180" : ""} flex`}>
+                      {/* <div onClick={toggleSubMenu} className={`${subMenuOpen ? "rotate-180" : ""} flex`}>
                         <Down />
-                      </div>
+                      </div> */}
                     </div>
                   </Link>
                   {subMenuOpen && (

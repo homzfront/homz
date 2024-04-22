@@ -13,29 +13,28 @@ import { toast } from "react-toastify";
 import { enterpriseplanRoleInvite } from "@/api/enterpriseManagerService";
 import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
-import Popup from "./components/popUp";
+import Popup from "@/pages/tenantManagementPlan/popUp";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
-  const [slog, setSlog] = useState(null)
+  const [slog, setSlog] = useState("")
   const [email, setEmail] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
-  // const [selectedEstate, setSelectedEstate] = useState(null);
+  const [selectedEstate, setSelectedEstate] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectOp, setSelectedOp] = useState([]);
-  const [dataEmail, setDataEmail] = useState([]);
-
-  // console.log(slog); 
-
+  const handleSelect = (value) => {
+    setSelectedEstate(value);
+  };
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
   }, []);
+
 
   useBodyScroll([openModal, loadingII, showPopup])
   const handleDropdownToggle = () => {
@@ -60,11 +59,11 @@ const ManageUsers = () => {
   // const [selectedRoleTwo, setSelectedRoleTwo] = useState(null);
   // const [pickedEstate, setPickedEstate] = useState([]);
 
-  // const handleSelectEstate = (estate) => {
-  //   // setSelectedRoleTwo(estate);
-  //   // setPickedEstate(estate);\
-  //   setSelectedEstate(estate);
-  // };
+  const handleSelectEstate = (estate) => {
+    // setSelectedRoleTwo(estate);
+    // setPickedEstate(estate);\
+    setSelectedEstate(estate);
+  };
 
   // Handle the selection of an option
   // const handleRoleSelect = (role) => {
@@ -93,7 +92,7 @@ const ManageUsers = () => {
     try {
       const { success, upDateddata, error } = await enterpriseplanRoleInvite({
         email,
-        estateName: slog?.name,
+        estateName: selectedEstate,
         slug: slog?.slug
       });
 
@@ -126,12 +125,12 @@ const ManageUsers = () => {
 
   const returnHome = () => {
     setOpenModal(false);
-    setSlog(null);
+    setSelectedEstate(null);
     setEmail("");
   };
 
   // Determine if the button should be disabled based on the email input value
-  const isButtonDisabled = !email || slog === null;
+  const isButtonDisabled = !email || selectedEstate === null;
 
   return (
     <div>
@@ -173,8 +172,8 @@ const ManageUsers = () => {
                 className="w-[360px] flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
               >
                 <div className="text-GrayHomz2 text-[13px] font-[400]">
-                  {slog?.name
-                    ? slog?.name
+                  {selectedEstate
+                    ? selectedEstate
                     : "Select property you want Landlord to view"}
                 </div>
                 <div
@@ -190,11 +189,12 @@ const ManageUsers = () => {
                 </div>
               </div>
               {showPopup && (
-              <Popup
-              onClose={() => setShowPopup(false)}
-              estateData={data}
-              setEstate={setSlog}
-            />
+                <Popup
+                  onClose={() => setShowPopup(false)}
+                  onSelect={handleSelect}
+                  estateData={data}
+                  setEstate={setSlog}
+                />
               )}
               <button
                 onClick={handleSubmit}
@@ -234,8 +234,9 @@ const ManageUsers = () => {
             <div className="flex gap-3 items-center">
               <ToggleButton onToggle={handleToggle} isOpen={isOpen} />{" "}
               <p
-                className={`text-[16px] font-[400] ${!isOpen ? "text-GrayHomz2" : "text-BlackHomz"
-                  } `}
+                className={`text-[16px] font-[400] ${
+                  !isOpen ? "text-GrayHomz2" : "text-BlackHomz"
+                } `}
               >
                 View as property owner
               </p>
@@ -251,23 +252,24 @@ const ManageUsers = () => {
                   onSelect={handleSelectEstate}
                   selectOption={"Select Property"}
                 />
-                <div className="flex gap-1">
-                  <p className="text-[14px] font-[400] text-GrayHomz">
-                    Yet to add a property?
-                  </p>
-                  <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
-                    Add New Property
-                  </Link>
+               <div className="flex gap-1"> 
+               <p className="text-[14px] font-[400] text-GrayHomz">
+                  Yet to add a property?
+                </p>
+                <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
+                  Add New Property
+                </Link>
                 </div>
               </div>
             )}
           </div>
         )} */}
-        <div className="mt-8">
-          <TableUser estateData={data} />
-        </div>
+
+        {/* <div className="mt-8">
+          <TableUser  estateData={data}/>
+        </div> */}
       </div>
-      {openModal && (
+      {/* {openModal && (
         <ConfirmModal
           header={"Invite Sent Successfully"}
           body={`Your invite link has successfully been sent to ${dataEmail}`}
@@ -275,7 +277,7 @@ const ManageUsers = () => {
           returnHome={returnHome}
         />
       )}
-      {/* <Invites /> */}
+      <Invites /> */}
     </div>
   );
 };

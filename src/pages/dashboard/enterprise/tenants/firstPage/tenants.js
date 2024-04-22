@@ -10,8 +10,6 @@ import Dropdown from "../../components/dropDownFilter";
 import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
 import lowerCaseData from "@/utils/lowerCaseData";
-import Clock from "@/components/icons/clock";
-import Link from "next/link";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -40,8 +38,6 @@ const Tenants = () => {
 
   const tenantData = data
 
-  console.log(data);
-
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
 
 
@@ -55,13 +51,13 @@ const Tenants = () => {
         (!selectedStatus || data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
       );
-    });
+    } );
 
   return (
     <div className=" w-full p-8">
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"/dashboard/enterprise-property/estates"} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"/dashboard/enterprise-property/estates"}/>
         </div>
       )}
       {loading ? (
@@ -74,7 +70,7 @@ const Tenants = () => {
                 <p className="text-[20px] font-[500]">Tenants</p>
                 <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
                   <span className="text-BlueHomz text-[18px] font-[400]">
-                    0
+                0
                   </span>
                 </span>
               </div>
@@ -118,21 +114,11 @@ const Tenants = () => {
               <div className=" flex justify-between  items-center">
                 <div className="flex gap-2 items-center">
                   <p className="text-[20px] font-[500]">Tenants</p>
-                  <span className="bg-whiteblue w-[45px] h-[35px] flex justify-center items-center rounded-[8px]">
+                  <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
                     <span className="text-BlueHomz text-[18px] font-[400]">
                       {filteredData?.length}
                     </span>
                   </span>
-                  <Image
-                    src={
-                      "/static/images/add.svg"
-                    }
-                    alt=""
-                    height={35}
-                    width={35}
-                    onClick={toggleInvite}
-                    className="cursor-pointer"
-                  />
                 </div>
                 <div className="flex items-center gap-2">
                   <p className="text-[16px] font-[400] text-BlackHomz">
@@ -151,7 +137,7 @@ const Tenants = () => {
                         className="mr-2"
                       />
                     </div>
-                    <div className="w-[120px]">
+                    <div className="w-[140px]">
                       <Dropdown
                         options={options2}
                         onSelect={(option) => setSelectedStatus(option)}
@@ -172,7 +158,7 @@ const Tenants = () => {
                   <button
                     onClick={clear}
                     type="text"
-                    className="border border-BlueHomz text-[14px] font-[500] flex justify-center items-center text-BlueHomz w-[45px] h-[42px] mb-1  rounded cursor-pointer"
+                    className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] w-[92px] mb-1 p-1 rounded cursor-pointer"
                   >
                     <span>
                       <Image
@@ -184,18 +170,27 @@ const Tenants = () => {
                         width={16}
                       />
                     </span>
+                    Reset
                   </button>
-                  <Link
-                    href={"/dashboard/enterprise-property/tenants/reminder"}
-                    className={`p-[12px] h-[44px] mt-[-5px] ml-4 w-[210px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[14px] font-[700] ${tenantData?.length < 1 ? "hidden" : "inline"
-                      }`}
+                  <button
+                    onClick={toggleInvite}
+                    className={`p-[12px] h-10 mt-[-5px] ml-4 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${
+                      tenantData?.length < 1 ? "hidden" : "inline"
+                    }`}
                   >
-                    <Clock />
-                    Set due date reminder
-                  </Link>
+                    <Image
+                      src={
+                        "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
+                      }
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
+                    Invite Tenant
+                  </button>
                 </div>
               </div>
-              <TenantsTwo Data={filteredData} fetchDataAgain={fetchData} />
+              <TenantsTwo Data={filteredData}  fetchDataAgain={fetchData}/>
             </div>
           )}
         </div>
