@@ -4,8 +4,10 @@ import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
+import { ThreeDots } from "react-loader-spinner";
 import CustomizedModal from "./CustomizedModal";
 import { useState, useRef } from "react";
+import { Progress } from "@material-tailwind/react";
 
 const ListProperty = () => {
   const [fullName, setFullName] = useState("");
@@ -26,6 +28,7 @@ const ListProperty = () => {
   const [busCertSuccess, setBusCertSuccess] = useState(false);
   const [uploadIntervalID, setUploadIntervalID] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg2, setErrorMsg2] = useState("");
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [certificateRemoved, setCertificateRemoved] = useState(false);
   const [removeCertificate, setRemoveCertificate] = useState(false);
@@ -39,7 +42,7 @@ const ListProperty = () => {
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
         // File size exceeds the limit
-        setErrorMsg("File size exceeds the maximum limit of 5MB.");
+        setErrorMsg("File size exceeds 5MB.");
         return;
       } else {
         setErrorMsg("");
@@ -107,8 +110,16 @@ const ListProperty = () => {
   };
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      setUploadedImage(file);
+      if (file.size > MAX_FILE_SIZE) {
+        // File size exceeds the limit
+        setErrorMsg2("File size exceeds 5MB.");
+        return;
+      } else {
+        setErrorMsg2("");
+        setUploadedImage(file);
+      }
     }
   };
 
@@ -198,7 +209,7 @@ const ListProperty = () => {
           </div>
         </div>
       )}
-      <div className="flex flex-col md:gap-[35px] px-14 pt-8 md:pt-0 miniPadding">
+      <div className="flex flex-col md:gap-[35px] px-6 pt-8 md:pt-0 miniPadding">
         <div className="h-[29px] mt-0 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse sm:items-center p-5 justify-between">
           <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>
           <Link href={"/select-plan"} className="flex gap-1">
@@ -216,7 +227,7 @@ const ListProperty = () => {
         <div className="w-full ">
           <div className="flex flex-col md:flex-row justify-between md:gap-0 gap-6 sideBarHidden">
             <div className="md:w-[564px] fields miniMargin md:mx-5 md:bg-[#F6F6F6] md:rounded-[12px] p-[20px] headerAdmin md:border-0">
-              <div className="flex justify-between flex-col gap-8 headerAdmin pb-8">
+              <div className="flex justify-between flex-col gap-6 border-b border-GrayHomz2 pb-6">
                 <div className="flex flex-col gap-2 ">
                   <label className="text-[14px] font-[500] text-BlackHomz">
                     Business Name
@@ -237,39 +248,44 @@ const ListProperty = () => {
                     Upload your business logo
                   </p>
                   <div className="flex gap-2 ">
-                    <div
-                      className={
-                        !uploadedImage
-                          ? `h-[111px] bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]`
-                          : `h-[111px] justify-center flex rounded-[12px] w-[111px] bg-none`
-                      }
-                    >
-                      {uploadedImage ? (
-                        <Image
-                          src={URL.createObjectURL(uploadedImage)}
-                          height={100}
-                          width={100}
-                          className="object-cover"
-                          alt="img"
-                          style={{ width: "auto", height: "auto" }}
-                        />
-                      ) : (
-                        <Image
-                          src={"/uploadimage.png"}
-                          height={40}
-                          width={40}
-                          className=""
-                          alt="img"
-                        />
-                      )}
+                    <div className="">
+                      <div
+                        className={
+                          !uploadedImage
+                            ? `h-[111px] bg-blue-100 justify-center items-center flex rounded-[8px] w-[111px]`
+                            : `h-[111px] justify-center flex rounded-[12px] w-[111px] bg-none`
+                        }
+                      >
+                        {uploadedImage ? (
+                          <Image
+                            src={URL.createObjectURL(uploadedImage)}
+                            height={110}
+                            width={110}
+                            className="object-cover w-full h-full rounded-[8px]"
+                            alt="img"
+                          />
+                        ) : (
+                          <Image
+                            src={"/uploadimage.png"}
+                            height={40}
+                            width={40}
+                            className=""
+                            alt="img"
+                          />
+                        )}
+                      </div>
+                      <p className="text-[11px] text-red-600 ">
+                        {errorMsg2 ? errorMsg2 : ""}
+                      </p>
                     </div>
+
                     <div>
                       <input
                         type="file"
-                        accept="image/*"
                         className="hidden "
                         onChange={handleImageUpload}
                         ref={inputRef}
+                        accept="image/png, image/jpg"
                       />
                       <Image
                         src={"/add-square.png"}
@@ -311,7 +327,7 @@ const ListProperty = () => {
                   accredited Real Estate body. (E.g AEAN or NIESV)
                 </p>
 
-                <div className="gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] h-[93px]">
+                <div className="gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[10px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] h-[93px]">
                   <Image
                     src="/static/images/document-upload.svg"
                     alt="upload-cloud"
@@ -421,11 +437,12 @@ const ListProperty = () => {
                                   onClick={cancelUpload}
                                 />
                               </div>
-                              <progress
-                                id="businessCert"
+                            
+                              <Progress
                                 value={progress}
-                                max="100"
-                                className="w-full h-[4px]"
+                                color="blue"
+                                className="w-full h-[4px] text-BlueHomz2"
+                               
                               />
                             </div>
                           )}
@@ -449,7 +466,7 @@ const ListProperty = () => {
                               MB)
                             </span>
                           </p>
-                          <div className="flex flex-row gap-[20px] items-center">
+                          <div className="flex flex-row gap-[10px] items-center">
                             <p
                               className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
                               onClick={() => viewFile(businessCertificate)}
@@ -475,13 +492,13 @@ const ListProperty = () => {
                           <div>
                             {!isLoading ? ( // Render loader if isLoading is true
                               <p
-                                className="editBtn py-[8px] px-[12px] rounded-[4px] cursor-pointer h-[37px] text-[#006AFF] md:leading-[21px] md:text-[14px] font-[500]"
+                                className="border border-BlueHomz2 py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer h-[37px] text-[#006AFF] md:leading-[21px] md:text-[14px] font-[500]"
                                 onClick={UploadBusCertificate}
                               >
-                                Upload Document
+                                Upload
                               </p>
                             ) : (
-                              <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center w-[147px]">
+                              <div className="border border-BlueHomz2 px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center ">
                                 <ThreeDots
                                   visible={true}
                                   height="30"

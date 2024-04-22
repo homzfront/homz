@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material-tailwind/react": "^2.1.9",
     "ag-grid-community": "^31.0.1",
     "ag-grid-react": "^31.0.1",
     "alpinejs": "^3.13.3",
