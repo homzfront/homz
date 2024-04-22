@@ -11,7 +11,8 @@ const tenantWalletStore = create((set) => ({
     try {
       set({ loading: true });
       const data = await tenantWallet();
-      if (data.statuscode === 200 && data.success === true) {
+      // console.log(data)
+      if (data.statuscode === 200 && data.success === true && data.data !== null) {
         const balance = await tenantWalletBalance();
         set({ wallet: data, walletBalance: balance, loading: false, illuminateWallet: true });
       } else {
