@@ -5,6 +5,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import CustomizedModal from "../../components/CustomizedModal";
+import { Progress } from "@material-tailwind/react";
 
 const BusinessInfo = ({ Business_Info, handleUpdate }) => {
   const [update, setUpdate] = useState(false);
@@ -145,7 +146,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" flex flex-col md:w-full md:px-4"
+        className=" flex flex-col md:w-full md:px-4 "
       >
         <div className="flex  md:gap-[28px] gap-8 mt-5 flex-col">
           <div className="flex items-center flex-row gap-[28px] ">
@@ -173,7 +174,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                   className={`${
                     fileUploaded
                       ? "md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] "
-                      : "md:w-[39.71px] md:h-[39.71px] h-[14.26px] w-[14.26px]"
+                      : "md:w-[39.71px] md:h-[39.71px] h-[14.26px] w-[14.26px] photos"
                   }`}
                   width={181}
                   height={181}
@@ -217,7 +218,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
               </p>
             </div>
           </div>
-          <div className="profiles flex  flex-col md:flex-row gap-[16px] md:gap-[28px] headerAdmin pb-8">
+          <div className="profiles flex  flex-col md:flex-row gap-[16px] md:gap-[28px] headerAdmin pb-8 sideBarHidden">
             <div>
               <label htmlFor="Business Name">
                 {" "}
@@ -230,7 +231,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                   required: "Business Name is required",
                 })}
                 placeholder="Business Name"
-                className={`h-[43px] md:h-[45px] md:w-[463px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px] ${
+                className={`h-[43px] md:h-[45px] md:w-[463px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px] duoViewPoint ${
                   !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                 }`}
@@ -258,7 +259,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                   },
                 })}
                 placeholder="Enter Business Email"
-                className={` h-[43px] md:h-[45px] md:w-[463px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px] ${
+                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[463px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px] ${
                   !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                 }`}
@@ -269,7 +270,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
             </div>
           </div>
         </div>
-        <div className="md:w-full w-[336px] flex flex-col gap-[14px] pt-5">
+        <div className="md:max-w-md w-[336px] flex flex-col gap-[14px] pt-5 duoViewPoint docUpload">
           <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
             Help us verify your business
           </p>
@@ -278,7 +279,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
             accredited Real Estate body. (E.g AEAN or NIESV)
           </p>
 
-          <div className="gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] h-[93px]">
+          <div className="gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">
             <Image
               src="/static/images/document-upload.svg"
               alt="upload-cloud"
@@ -303,8 +304,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                   <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-red-600 flex items-center">
                     <span className=" inline-block">
                       [{"businessCertificate.name"}] has been rejected, kindly{" "}
-                      <span className="text-[#006AFF] cursor-pointer"  onClick={uploadBusinessCertificate}>re-upload</span> a valid
-                      certificate
+                      <span
+                        className="text-[#006AFF] cursor-pointer"
+                        onClick={uploadBusinessCertificate}
+                      >
+                        re-upload
+                      </span>{" "}
+                      a valid certificate
                     </span>{" "}
                   </p>
                 )}
@@ -380,17 +386,16 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                             onClick={cancelUpload}
                           />
                         </div>
-                        <progress
-                          id="businessCert"
+                        <Progress
                           value={progress}
-                          max="100"
-                          className="w-full h-[4px]"
+                          color="blue"
+                          className="w-full h-[4px] text-BlueHomz2"
                         />
                       </div>
                     )}
                   </>
                 ) : (
-                  <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
+                  <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[px] md:gap-0">
                     <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left  flex flex-col gap-[4px]">
                       <span className="text-[#006AFF] inline-block">
                         [{businessCertificate?.name && businessCertificate.name}
@@ -425,27 +430,31 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                         />
                         <span className="text-[13px]">Remove</span>
                       </p>
-                    </div>
-                    <div>
-                      {!isLoading ? ( // Render loader if isLoading is true
-                        <p
-                          className="editBtn py-[8px] px-[12px] rounded-[4px] cursor-pointer h-[37px] text-[#006AFF] md:leading-[21px] md:text-[14px] font-[500]"
-                          onClick={UploadBusCertificate}
-                        >
-                          Upload Document
-                        </p>
-                      ) : (
-                        <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center w-[147px]">
-                          <ThreeDots
-                            visible={true}
-                            height="30"
-                            width="30"
-                            color="#006AFF"
-                            radius="9"
-                            ariaLabel="three-dots-loading"
-                          />
-                        </div>
-                      )}
+
+                      <div>
+                        {!isLoading ? ( // Render loader if isLoading is true
+                          <p
+                            className="editBtn py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-[#006AFF] leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
+                            onClick={UploadBusCertificate}
+                          >
+                            <span className="hidden md:block">
+                              Upload Document
+                            </span>
+                            <span className="md:hidden">Upload</span>
+                          </p>
+                        ) : (
+                          <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
+                            <ThreeDots
+                              visible={true}
+                              height="30"
+                              width="30"
+                              color="#006AFF"
+                              radius="9"
+                              ariaLabel="three-dots-loading"
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -467,7 +476,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
           <div className="md:hidden flex flex-col ">
             {update ? (
               <button
-                className="flex  adminBorders justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex  adminBorders justify-center duoViewPoint  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 type="submit"
               >
@@ -475,7 +484,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
               </button>
             ) : (
               <p
-                className="flex  adminBorders justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex  adminBorders justify-center duoViewPoint items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >

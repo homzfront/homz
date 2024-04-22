@@ -7,7 +7,7 @@ import DropDown from './components/DropDown';
 const PropertyInfo = ({data}) => {
   // console.log(data)
     const [openUserRoleDropdowns, setOpenUserRoleDropdowns] = useState({});
-    const [incomingData, setData]= useState(data || {});
+    const [incomingData, setData]= useState(data && data || []);
     const [edit, setEdit] = useState(false);
 
     const handleEditBtn = (event) => {
@@ -76,8 +76,8 @@ const PropertyInfo = ({data}) => {
                   setOpenUserRoleDropdowns
                 )
               }
-              isOpen={openUserRoleDropdowns[data._id] || false}
-              toggleDropdown={() => toggleUserRoleDropdown(data._id)}
+              isOpen={openUserRoleDropdowns[data && data._id] || false}
+              toggleDropdown={() => toggleUserRoleDropdown(data && data._id)}
               Editable={edit}
               width={'w-[228px]'}
             />

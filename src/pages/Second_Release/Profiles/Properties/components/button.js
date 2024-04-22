@@ -51,7 +51,7 @@ const Button = ({
       </div>
       <div className="hidden md:flex items-center justify-around">
         {/* Display first three pages */}
-        {firstThreePages.map((page) => (
+        {firstThreePages && firstThreePages.map((page) => (
           <button
             key={page}
             onClick={() => handlePageClick(page)}

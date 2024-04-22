@@ -44,7 +44,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
   );
   return (
     <div className="w-[335px] md:w-full flex flex-col  gap-[64px] pt-6">
-      <div className="flex  w-[340px] flex-wrap gap-[16px] md:w-full ">
+      <div className="flex  w-[340px] flex-wrap gap-[16px] md:w-full propertyListing">
         {currentProperties.map((property, index) => (
           <div
             className="flex flex-col w-[158px]  md:w-[234px]  md:h-[281px] rounded-[12px] shadow-md"
@@ -99,9 +99,10 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                     onClick={() => handleMenuToggle(index)}
                   />
                   {isMenuOpen[index] && (
-                    <div className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[140px] md:right-[6px] mt-2 h-[37px] py-2 px-4 md:w-[212px] bg-white shadow-md rounded-md">
+                   
                       <Link
-                        className="cursor-pointer text-[14px]"
+                    className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[140px] md:right-[6px] mt-2 h-[37px] py-2 px-4 md:w-[212px] bg-white shadow-md rounded-md"
+                        // className="cursor-pointer text-[14px]"
                         href={{
                           pathname: "/list_Property/edit_property",
                           query: { PropertyId: property._id },
@@ -109,7 +110,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                       >
                         Edit details
                       </Link>
-                    </div>
+                    
                   )}
                 </div>
               </div>

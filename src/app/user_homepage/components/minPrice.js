@@ -17,8 +17,8 @@ const Prices = ({ getPrice, width }) => {
       { id: 2, label: "200,000" },
       { id: 3, label: "400,000" },
       { id: 4, label: "600,000" },
-    //   { id: 5, label: "1 Million - 5 Millions" },
-    //   { id: 6, label: "5+ Millions" },
+      { id: 5, label: "1 Million" },
+      { id: 6, label: "5 Millions +" },
     ],
   };
 

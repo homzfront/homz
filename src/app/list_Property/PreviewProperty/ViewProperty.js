@@ -108,24 +108,20 @@ const ViewProperty = ({ PropertyID }) => {
           close={() => setOpen(false)}
           slides={[
             {
-            
               srcSet: otherPhotos.map((photo) => ({
                 src: photo,
-                width: 1110, 
-                height: 752, 
+                width: 1110,
+                height: 752,
               })),
             },
             ...otherPhotos.map((photo) => ({
               src: photo,
               alt: "",
-              width: 1110, 
-              height: 752, 
-              srcSet: [
-                { src: photo, width: 1110, height: 752 }, 
-              ],
+              width: 1110,
+              height: 752,
+              srcSet: [{ src: photo, width: 1110, height: 752 }],
             })),
           ]}
-          
         />
 
         <div className="md:flex justify-evenly items-center hidden min-w-min">
@@ -160,10 +156,22 @@ const ViewProperty = ({ PropertyID }) => {
       </div>
       <div className="flex flex-col md:gap-[19px] pt-5 pb-3 gap-[20px] headerAdmin">
         <div className="flex justify-between items-center">
-          <p className="font-[700] md:text-[23px] md:leading-[28.98px] text-[18px] leading-[22.68px] text-[#4E4E4E]">
-            {propertyData?.PropertyInfo?.Property_type}
-          </p>
-         
+          <div className="flex gap-3 items-center">
+            <p className="font-[700] md:text-[23px] md:leading-[28.98px] text-[18px] leading-[22.68px] text-[#4E4E4E]">
+              {propertyData?.PropertyInfo?.Property_type}
+            </p>
+
+            <p className="text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] flex md:text-[16px] px-[8px] bg-[#EEF5FF] items-center h-[28px] md:h-[35px]  rounded-[8px]">
+              {propertyData?.PropertyInfo?.ListingType && (propertyData.PropertyInfo.ListingType ==="Sale" || propertyData?.PropertyInfo?.ListingType ==="Rent")? `For ${propertyData?.PropertyInfo?.ListingType }` : propertyData?.PropertyInfo?.ListingType  }
+              {/* {"For Rent"} */}
+            </p>
+          </div>
+          <Link
+            href="#contactOwner"
+            className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
+          >
+            Contact Owner
+          </Link>
         </div>
         <p className=" text-[16px] md:font-[700] leading-[19.16px] font-[500] md:leading-[28.98px]  font-['Plus Jakarta Sans'] md:text-[23px] flex items-center ">
           <Image
@@ -206,12 +214,12 @@ const ViewProperty = ({ PropertyID }) => {
             </span>
           </p>
         </div>
-       
-          
-          <button className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-blue-600 text-[#a98a8a]">
-            Contact Owner
-          </button>
-       
+        <Link
+          href="#contactOwner"
+          className="leading-[24px] px-[12px]  py-[8px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] md:hidden"
+        >
+          Contact Owner
+        </Link>
       </div>
       <div className="border-b pt-2 pb-3 headerAdmin">
         <div className="flex flex-col my-2 gap-3">
@@ -264,7 +272,7 @@ const ViewProperty = ({ PropertyID }) => {
         </p>
       </div>
 
-      <div className="mt-3 flex flex-col gap-4 md:h-[180px] ">
+      <div className="mt-3 flex flex-col gap-4 md:h-[180px]" id="contactOwner">
         <p className="text-[13px] font-[400] text-GrayHomz2">Landlord</p>
         <div className="flex gap-2 items-center">
           <Image

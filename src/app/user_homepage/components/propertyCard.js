@@ -127,7 +127,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                 <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
                   <div className="flex justify-between">
                     <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                      {property.Location}
+                      {property.State}
                     </p>
                     <p className=" w-[68px] h-[25px] py-[4px] text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]">
                       {property.Status}
@@ -161,7 +161,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                       className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
                     />
                     <span className="text-[12.57px] md:text-[16px] font-[500]">
-                      {property.Street}
+                      {property.Area}
                     </span>
                   </p>
                   <div className="h-full flex justify-between mb-2">
@@ -273,7 +273,7 @@ const customTheme = {
     icon: "h-3 w-3 text-white/60 dark:text-gray-800 group-hover:text-white sm:h-6 sm:w-6",
   },
   scrollContainer: {
-    base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-lg",
+    base: "flex h-full snap-mandatory overflow-y-hidden  scroll-smooth rounded-lg",
     snap: "snap-x",
   },
 };

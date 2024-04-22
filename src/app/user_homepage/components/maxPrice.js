@@ -13,14 +13,15 @@ const Prices = ({ getPrice, width }) => {
 
   const options = {
     "Max Price": [
-    //   { id: 1, label: "100,000 - 200,000" },
-    //   { id: 2, label: "200,000 - 400,000" },
-      { id: 3, label: "600,000" },
-      { id: 4, label: "1 Million" },
-      { id: 5, label: "5 Millions" },
-      { id: 6, label: "5+ Millions" },
-    ],
+      { id: 1, label: "100,000" },
+      { id: 2, label: "200,000" },
+      { id: 3, label: "400,000" },
+      { id: 4, label: "600,000" },
+      { id: 5, label: "1 Million" },
+      { id: 6, label: "5 Millions +" },
+    ]
   };
+
 
   const toggleDropdown = (dropdown) => {
     setDropdowns((prevDropdowns) => ({

@@ -32,7 +32,7 @@ const AccessControl = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     setAccessCode(() => generateAccessCode(20));
     reset();
     setModalIsOpen(false);

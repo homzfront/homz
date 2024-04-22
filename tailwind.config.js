@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    'node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
     extend: {
@@ -19,6 +20,7 @@ module.exports = {
         BlueHomz2: '#0058D4',
         BlueHomz3: '#F9FBFF',
         BlueHomz4:'#559CFF',
+        BlueHomz5: "#0058D4",
         GrayHomz: '#4E4E4E',
         GrayHomz2: '#A9A9A9',
         GrayHomz3: '#9BB9E4',
@@ -44,15 +46,16 @@ module.exports = {
         inputBg: "#F6F6F6",
         walletBg: "#EEF5FF",
         withdrawBg: "#FBFDFF",
-   
-
-
+        bgGray: "#FCFCFC",
+        dashboardGray: "#292D32",
+        textGray: "#475467",
+        avatarBg: "#F2F4F7",
+        logoutRed: "#D92D20",
+        GrayHomzDash: "#006AFF"
       },
     },
   },
-  plugins: [
-    require('flowbite/plugin'),
-  ],
-}
+  plugins: [],
+})
 
 

@@ -103,23 +103,11 @@ const Profile = () => {
     setPersonalActive(false);
   };
   return (
-    <div className="pt-10 md:pt-0">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+    <div className="pt-10 md:pt-0 md:px-2 ">
+   
       <h1>Profile</h1>
       <div className="flex flex-col gap-2 mt-8 ">
-        <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full">
+        <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full profileVP duoViewPoint ">
           <button
             onClick={handlePersonalActive}
             className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
@@ -167,17 +155,17 @@ const Profile = () => {
         className="mt-5 md:hidden"
       />
       <div className=" md:mt-7 mb-7  rounded-[12px] ">
-        <div className={`${personalActive ? "inline" : "hidden"}`}>
+        <div className={`${personalActive ? "inline-block" : "hidden"}`}>
           <PersonalInfo handleUpdate={handleUpdateDetails} />
         </div>
-        <div className={`${businessActive ? "inline" : "hidden"}`}>
+        <div className={`${businessActive ? "inline-block" : "hidden"}`}>
           <BusinessInfo
             Business_Info={propertyData}
             handleUpdate={handleUpdateDetails}
           />
         </div>
 
-        <div className={`${changePwdActive ? "inline" : "hidden"}`}>
+        <div className={`${changePwdActive ? "inline-block" : "hidden"}`}>
           <ChangePassword
             passwordInfo={propertyData}
             handleUpdate={handleUpdateDetails}

@@ -10,8 +10,8 @@ import ContactInfo from "./contactInfo";
 import CustomizedModal from "../../components/CustomizedModal";
 
 const PropertyForms = () => {
-  const [propertyInfoActive, setPropertyInfoActive] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(true);
+  const [propertyInfoActive, setPropertyInfoActive] = useState(true);
+  const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
   const [loading, setLoading] = useState(false);

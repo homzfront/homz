@@ -4,7 +4,7 @@ import Button from "./component/button";
 import Image from "next/image";
 
 const VisitorsTable = ({ Data, openModal }) => {
-  const [data, setData] = useState(Data || {});
+  const [data, setData] = useState(Data || []);
   const [addNewVisitor, setAddNewVisitor] = useState(false);
   const [property, setProperty] = useState(false);
 
@@ -15,7 +15,7 @@ const VisitorsTable = ({ Data, openModal }) => {
   const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData =  data.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -140,7 +140,7 @@ const VisitorsTable = ({ Data, openModal }) => {
           </tr>
         </thead>
         <tbody className="">
-          {currentData.map((data, index) => (
+          {currentData && currentData.map((data, index) => (
             <tr key={index} className="pl-3 cursor-pointer">
               <td
                 className=" text-GrayHomz4 font-[500] text-[11px]  md:w-[122.89px] py-[12px] px-[16px] h-[64px]"

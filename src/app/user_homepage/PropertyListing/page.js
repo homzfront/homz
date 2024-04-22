@@ -4,6 +4,8 @@ import Bedroom from "../components/bedrooms";
 import Price from "../components/prices";
 import PropertyType from "../components/propertyType";
 import SqrFeet from "../components/squareFeet";
+import MaxPrice from "../components/maxPrice";
+import MinPrice from "../components/minPrice";
 import Image from "next/image";
 import State from "../components/state";
 import { Properties } from "../components/Properties";
@@ -14,6 +16,8 @@ const UserHomePage = () => {
   const [dataProperties, setDataProperties] = useState(Properties || []);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [state, setState] = useState("");
+  const [location, setLocation] = useState("");
+
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
@@ -25,7 +29,6 @@ const UserHomePage = () => {
 
   const handleSearch = (search, searchType) => {
     let newData = Properties;
-
     switch (searchType) {
       case "Status":
         newData = dataProperties.filter((item) => item.Status === search);
@@ -33,6 +36,16 @@ const UserHomePage = () => {
           setDataProperties(newData);
         } else {
           newData = Properties.filter((item) => item.Status === search);
+          setDataProperties(newData);
+        }
+
+        break;
+      case "location":
+        newData = dataProperties.filter((item) => item.State == search || item.Area.includes(search));
+        if (newData.length > 0) {
+          setDataProperties(newData);
+        } else {
+          newData = Properties.filter((item) => item.State == search || item.Area.includes(search));
           setDataProperties(newData);
         }
 
@@ -109,7 +122,7 @@ const UserHomePage = () => {
             className=" w-full relative  h-[42px] border-0 pl-2 rounded-[4px]"
             // value={searchStateArea}
             placeholder="Search by state or area "
-            // onChange={(e) => setSearchState_Area(e.target.value)}
+            onChange={(e) => setLocation(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))}
           />
           
             <Image
@@ -117,7 +130,8 @@ const UserHomePage = () => {
               alt=""
               width={16}
               height={16}
-              className="cursor-pointer left-[19.5rem] absolute"
+              className="cursor-pointer left-[18.5rem] absolute"
+              onClick={()=> handleSearch(location, "location")}
             />
         
         </div>
@@ -131,10 +145,10 @@ const UserHomePage = () => {
           <Bedroom getBedrooms={handleSearch} />
         </div>
         <div>
-          <Price getPrice={handleSearch} />
+          <MinPrice getPrice={handleSearch} />
         </div>
         <div>
-          <SqrFeet getSquareFeet={handleSearch} />
+          <MaxPrice getSquareFeet={handleSearch} />
         </div>
         <button
           className="adminBorders border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded cursor-pointer h-[44px]"

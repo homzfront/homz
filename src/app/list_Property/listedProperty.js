@@ -63,9 +63,9 @@ const EditProperty = ({ property }) => {
 
   return (
     <div>
-      <div className="hidden filterLane md:flex justify-between">
-        <div className="flex gap-1">
-          <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
+      <div className="hidden filterLane md:flex justify-between filter">
+        <div className="flex gap-1 filter">
+          <p className="text-[#4E4E4E] filterHide text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
             Filter by:
           </p>
           <div>
@@ -99,10 +99,9 @@ const EditProperty = ({ property }) => {
 
             <span className="ml-1"> Reset</span>
           </button>
-        </div>
         <Link
           href="/list_Property/addProperty"
-          className="w-[338px] flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
+          className="w-[338px] flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
         >
           <Image
             src="/static/images/white-add.svg"
@@ -113,6 +112,7 @@ const EditProperty = ({ property }) => {
           />
           <span>List New property</span>
         </Link>
+        </div>
       </div>
       <div className="flex justify-between  md:hidden w-[335px]">
         <div className="searchPane relative w-[86%] rounded-[4px]">

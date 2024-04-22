@@ -1,22 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Loading from "/src/components/mainmenu/loading";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 
-// const schema = yup.object().shape({
-//   ProfilePhoto: yup
-//     .mixed()
-//     .test('is-valid-extension', 'Only JPG and PNG extensions are allowed', (value) =>
-//     value && /\.(jpg|png)$/i.test(value[0]?.name)
-//   )
-//     .test('is-valid-size', 'Max allowed size is 5MB', (value) =>
-//       value && value[0]?.size <= 5242880
-//     ),
-// });
+
 
 
 const PersonalInfo = ({
@@ -73,10 +60,10 @@ const PersonalInfo = ({
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" flex flex-col md:w-full md:px-14"
+        className=" flex flex-col md:w-full md:px-6"
       >
-        <div className="flex  md:gap-[78px] gap-8 mt-5 flex-col md:flex-row">
-          <div className="flex md:flex-col flex-row gap-[28px] items-center">
+        <div className="flex  md:gap-[78px] gap-8 mt-5 flex-col md:flex-row sideBarHidden">
+          <div className="flex md:flex-col flex-row gap-[28px] items-center profileMini">
             <div>
               <input
                 type="file"
