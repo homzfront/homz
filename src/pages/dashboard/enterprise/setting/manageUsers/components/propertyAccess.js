@@ -15,6 +15,7 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
   const [openRevoke, setOpenRevoke] = useState(false);
   const [openRevokeAccept, setOpenRevokeAccept] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingII, setLoadingII] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [revokeData, setRevokeData] = useState(null);
 
@@ -28,7 +29,7 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
   };
 
   const RevokeAccept = async () => {
-    setLoading(true)
+    setLoadingII(true)
     try {
       const { success, upDateddata, error } = await enterprisePlanRevokeAccess({
         landlordId: data?.propertyOwner?._id,
@@ -38,14 +39,14 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
       if (success) {
         // console.log(upDateddata);
         // fetchData();
-        setLoading(false);
+        setLoadingII(false);
         setOpenRevokeAccept(true);
       } else {
-        setLoading(false);
+        setLoadingII(false);
         toast.error(error);
       }
     } catch (error) {
-      setLoading(false);
+      setLoadingII(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
@@ -100,10 +101,11 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
   };
 // console.log(data?.estatesDetails?.[0]?.estate?.name)
   const estatesData = data?.estatesDetails
+  console.log(estatesData);
 
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
-      {loading && <Loading />}
+      {loadingII && <Loading />}
       {openRevokeAccept ? (
         <ConfirmModal
           returnHome={closeRevokeAccept}
@@ -131,7 +133,7 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
           }}
         />
       ) : (
-        <div className="w-[464px] h-[471px] bg-white shadow-lg rounded-md py-8 px-8 flex justify-between flex-col">
+        <div className="w-[464px] h-auto bg-white shadow-lg rounded-md py-8 px-8 flex justify-between flex-col">
           <div className="flex justify-between items-center">
             <p className="text-BlackHomz text-[20px] font-[700]">
               Property Access
@@ -157,7 +159,7 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData }) => {
           {data && estatesData?.map((data) => (
             <div
               key={data?._id}
-              className="w-[100%] mt-1 border-b py-5 flex justify-between items-center"
+              className={`w-[100%] mt-1 border-b py-5 flex justify-between items-center ${data?.is_deleted === true ? "hidden" : ""}`}
             >
               <p className="text-[14px] font-[400] text-GrayHomz">
                 {data?.estate?.name}

@@ -35,11 +35,12 @@ const TableUser = ({ estateData }) => {
     }
   };
 
-  const falseData = data.filter(
-    (item) => !item?.estatesDetails?.[0]?.is_deleted
+  const falseData = data.filter(item =>
+    item.estatesDetails.some(detail => !detail.is_deleted)
   );
 
-  // console.log(falseData);
+  console.log(falseData);
+  console.log(data)
   
 
   return (

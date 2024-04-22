@@ -42,10 +42,10 @@ const EstateInformation = () => {
 
   function extractQueryParams(url) {
     const searchParams = new URL(url).searchParams;
-    const estate = searchParams.get("estate");
-    const invitation = searchParams.get("invitation");
+    const estateInvitation = searchParams.get("estateInvitation");
 
-    return { estate, invitation };
+
+    return { estateInvitation };
   }
 
   const openLink = () => {
@@ -61,11 +61,11 @@ const EstateInformation = () => {
     setLoadingII(true); // Set loadingii to true when submitting the form
 
     const url = inviteLink;
-    const { estate, invitation } = extractQueryParams(url);
+    // console.log(inviteLink)
+    const { estateInvitation } = extractQueryParams(url);
     try {
       const { success, upDateddata, error } = await sendInviteProperty(
-        estate,
-        invitation
+        estateInvitation
       );
 
       if (success) {

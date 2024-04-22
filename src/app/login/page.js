@@ -33,12 +33,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Early return if already loading
     if (loading) return;
-
+  
     setLoading(true); // Set loading state
-
+  
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -46,38 +46,38 @@ const Login = () => {
       setLoading(false);
       return;
     }
-
+  
     // Validate required fields
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
     }
-
+  
     // Check password length
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
       setLoading(false);
       return;
     }
-
+  
     try {
       // Login request
       const response = await api.post("/auth/login", {
         email,
         password,
       });
-
+  
       if (response.status === 201) { // Handle expected successful login status code
         const data = response.data.data.token;
         // toast.success("Login Successful")
         localStorage.setItem('jwt', data)
         // Fetch user profile
         const profileResponse = await api.get("/user/profile");
-
-        if (profileResponse.status === 200 || 201) { // Handle expected success status codes
+  
+        if (profileResponse.status === 200 || profileResponse.status === 201) { // Handle expected success status codes
           const profileData = profileResponse.data;
-
+  
           // Navigation logic based on user roles and account status
           const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
           if (navigateTo) {
@@ -86,7 +86,7 @@ const Login = () => {
             // Default navigation for unhandled roles or empty accounts
             router.push("/");
           }
-
+  
           // Update user and profile state
           useProfileStore.setState({
             user: data,
@@ -94,9 +94,14 @@ const Login = () => {
             isLoggedIn: true,
             loading: false,
           });
-
-          setEmail("");
-          setPassword("");
+  
+          
+          // Set loading to false after 5 seconds
+          setTimeout(() => {
+            setEmail("");
+            setPassword("");
+            setLoading(false);
+          }, 5000); // 5000 milliseconds = 5 seconds
         } else {
           setLoginError(profileResponse.data.message); // Set specific error message
         }
@@ -106,9 +111,13 @@ const Login = () => {
     } catch (error) {
       setLoginError(error.response?.data?.message); // Set specific error message (if available)
     } finally {
-      setLoading(false); // Ensure loading state is reset even in case of errors
+      // Ensure loading state is reset even in case of errors
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000); // 5000 milliseconds = 5 seconds
     }
   };
+  
 
   const Visible = () => {
     setVisible(!visible);

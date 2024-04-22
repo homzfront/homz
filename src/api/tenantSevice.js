@@ -118,13 +118,13 @@ export const tenantRentInfo = async () => {
   }
 };
 
-export const sendInviteProperty = async (estate, invitation) => {
+export const sendInviteProperty = async (estateInvitation) => {
+  // console.log(estateInvitation);
   try {
     const response = await api.patch(
-      `/tenantLink/add-tenant-estate-link?estate=${estate}&invitation=${invitation}`,
+      `/tenantLink/add-tenant-estate-link?estateInvitation=${estateInvitation}`,
       {
-        estate,
-        invitation,
+        estateInvitation
       }
     );
     return { success: true, upDateddata: response.data.data };

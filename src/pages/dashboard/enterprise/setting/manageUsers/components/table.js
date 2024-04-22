@@ -80,6 +80,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
   useBodyScroll([openRevoke])
   // console.log(roleData);
   // console.log(estateData);
+  // console.log(data?.estatesDetails?.length);
 
   return (
     <div className="mt-6">
@@ -97,7 +98,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
               currentData.map((data) => (
                 <div
                   key={data?._id}
-                  className={ `border-b-[1px] font-[400] text-[14px] text-GrayHomz  items-center flex justify-center w-full gap-2 px-4 h-[77px] ${data?.estatesDetails?.[0]?.is_deleted === true ? "hidden" : ""}`}
+                  className={ `border-b-[1px] font-[400] text-[14px] text-GrayHomz  items-center flex justify-center w-full gap-2 px-4 h-[77px]`}
                 >
                   <div className="pl-4 w-[5%]">
                     <input
@@ -133,13 +134,13 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData }) =
                   <div className="w-[25%] text-[14px] text-GrayHomz font-[400]">{data?.user?.email}</div>
                   <div className="w-[25%] flex justify-start items-center cursor-pointer">
                     <div
-                      // onClick={() => handleToggleMenu(data?._id)}
+                      onClick={() => handleToggleMenu(data?._id)}
                       className={` rounded-[2px] h-[45px] w-[90%]  flex gap-3 justify-start items-center`}
                     >
                       <p className="text-[14px] font-[500] text-GrayHomz2">
                         {data?.estatesDetails?.[0]?.estate?.name}
                         {
-                          data?.estatesDetails?.[0]?.length >= 2 && <span className="text-[14px] font-[500] text-warning2"> +1</span>
+                          data?.estatesDetails?.length >= 2 && <span className="text-[14px] font-[500] text-warning2"> +1</span>
                         }
                       </p>
                       <div
