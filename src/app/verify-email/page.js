@@ -33,7 +33,7 @@ const VerifyEmail = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     try {
       // Make a POST request to verify the OTP
       const response = await api.post(
