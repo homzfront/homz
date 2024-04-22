@@ -110,12 +110,8 @@ const Login = () => {
       }
     } catch (error) {
       setLoginError(error.response?.data?.message); // Set specific error message (if available)
-    } finally {
-      // Ensure loading state is reset even in case of errors
-      setTimeout(() => {
-        setLoading(false);
-      }, 5000); // 5000 milliseconds = 5 seconds
-    }
+      setLoading(false);
+    } 
   };
   
 

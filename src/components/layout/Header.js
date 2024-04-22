@@ -8,12 +8,14 @@ import useProfileStore from "@/store/profile";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
+import LoadingTable from "../mainmenu/loadingTable";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { fetchProfile, profile, loading, logout } = useProfileStore();
   const path = usePathname();
   const pathname = keepThree(path);
+  const [isLoading, setIsLoading] = useState(false); // Internal loading state
 
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -22,31 +24,40 @@ const Header = () => {
       fetchProfile();
     }
   }, [profile, fetchProfile]);
-  2;
+
+  useEffect(() => {
+    if (profile) {
+      setIsLoading(true);
+    }
+  }, [profile]);
 
   const isUserPresent = profile && Object.keys(profile).length > 0;
 
 
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
-    let email;
-    if (typeof userOrEmail === "string") {
-      // If the input is a string, assume it's an email
-      email = userOrEmail;
-    } else if (userOrEmail && userOrEmail.email) {
-      // If the input is an object with an 'email' property, use that email
-      email = userOrEmail.email;
-    } else if (userOrEmail?.user?.email) {
-      email = userOrEmail?.user?.email
+    if (userOrEmail) {
+      let email;
+      if (typeof userOrEmail === "string") {
+        // If the input is a string, assume it's an email
+        email = userOrEmail;
+      } else if (userOrEmail && userOrEmail.email) {
+        // If the input is an object with an 'email' property, use that email
+        email = userOrEmail.email;
+      } else if (userOrEmail?.user?.email) {
+        email = userOrEmail?.user?.email
+      }
+
+      // Split the email address by "@" to get an array
+      const parts = email?.split("@");
+
+      // The username is the first part of the array (index 0)
+      const username = parts[0];
+
+      return username;
+    } else {
+      return;
     }
-
-    // Split the email address by "@" to get an array
-    const parts = email.split("@");
-
-    // The username is the first part of the array (index 0)
-    const username = parts[0];
-
-    return username;
   };
 
   function determineUserDashboard(profile) {
@@ -132,20 +143,27 @@ const Header = () => {
         className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${open ? "block" : "hidden md:flex"
           } `}
       >
-        {loading ? (
-          <p>Loading...</p>
-        ) : isUserPresent ? (
-          <div className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"}`}>
-            <Link href={profile ? determineUserDashboard(profile) : "/"}>
-              <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(profile)}!</p>
-            </Link>
-            <button
-              onClick={() => logout(logout)}
-              className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px]" : ""}`}
-            >
-              Logout
-            </button>
-            {/* Add more user information or actions as needed */}
+        {isLoading ? (
+          <div className="w-full justify-center items-center">
+            {
+              profile ?
+                <div className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"}`}>
+                  <Link href={profile ? determineUserDashboard(profile) : "/"}>
+                    <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(profile)}!</p>
+                  </Link>
+                  <button
+                    onClick={() => logout(logout)}
+                    className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px]" : ""}`}
+                  >
+                    Logout
+                  </button>
+                  {/* Add more user information or actions as needed */}
+                </div>
+                :
+                <div className="w-full justify-center items-center">
+                  {/* <LoadingTable />  */}
+                </div>
+            }
           </div>
         ) : (
           <>
