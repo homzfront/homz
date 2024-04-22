@@ -310,17 +310,16 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
             }
           </div>
           {
-            rentData ? <button
+            rentData?.data !== null && pincode !== ""? <button
               onClick={proceeding}
               className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
             >
               {/* {addCommasToNumber(RentValue)} */}
               {addCommasToNumber(rentData?.data?.totalRent)}
             </button> : <button
-              className="pointer-events-none w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
+              className="pointer-events-none w-full h-[48px] bg-GrayHomz5 rounded-md text-GrayHomz6 text-[16px] font-[700]"
             >
-              {/* {addCommasToNumber(RentValue)} */}
-              {addCommasToNumber(rentData?.data?.totalRent)}
+             Pay Rent
             </button>
           }
 
