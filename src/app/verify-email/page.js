@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const VerifyEmail = () => {
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [otp, setOTP] = useState(["", "", "", ""]);
   const inputRefs = useRef([]); // Array of refs for each input field
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const VerifyEmail = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     try {
       // Make a POST request to verify the OTP
       const response = await api.post(
@@ -44,15 +46,19 @@ const VerifyEmail = () => {
       setVerificationSuccess(true);
       setError(false);
       setError2("");
+      setLoading(false);
     } catch (error) {
       // Handle errors
       setError2(error.response.data.error);
       setError(true);
+      setLoading(false);
 
       if (error.response) {
       } else if (error.request) {
         setError2("No response received from the server");
+        setLoading(false);
       } else {
+        setLoading(false);
       }
     }
   };
@@ -179,9 +185,9 @@ const VerifyEmail = () => {
                       <button
                         type="submit"
                         onClick={handleSubmit}
-                        className="mt-4 bg-BlueHomz text-white font-[700] text-[16px] w-full rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+                        className={`mt-4 bg-BlueHomz text-white font-[700] text-[16px] w-full rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
                       >
-                        Verify Email
+                        {loading ? <LoadingFormII /> : "Verify Email"}
                       </button>
                     ) : (
                       <button

@@ -48,7 +48,8 @@ module.exports = {
         dashboardGray: "#292D32",
         textGray: "#475467",
         avatarBg: "#F2F4F7",
-        logoutRed: "#D92D20"
+        logoutRed: "#D92D20",
+        GrayHomzDash: "#006AFF"
       },
     },
   },

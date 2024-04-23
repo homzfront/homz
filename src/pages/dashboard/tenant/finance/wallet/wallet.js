@@ -18,7 +18,7 @@ const Wallet = ({ activeTwo }) => {
   useEffect(() => {
     walletData()
     if (wallet !== null) {
-      fetchRentInfo() 
+      fetchRentInfo()
     }
   }, [])
 

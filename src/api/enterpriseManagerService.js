@@ -18,6 +18,15 @@ export const enterpriseMePropertyOwner = async () => {
   }
 }
 
+export const enterpriseMePropertyOwnerUnderEstate = async () => {
+  try {
+    const response = await api.get("/enterpriseplan/role/property-owner/role-permission");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updatePersonalInformation = async (updatedData) => {
   try {
     const response = await api.patch(
@@ -135,6 +144,20 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
   }
 };
 
+export const enterpriseplanRoleInviteHomz = async ({ email, estateName, slug }) => {
+  try {
+    const response = await api.post(`/enterpriseplan/role/property-owner/invite-link/homz`, {
+      email,
+      estateName,
+      slug
+    });
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
+  }
+};
+
 export const enterpriseplanRoleInvite = async ({ email, estateName, slug }) => {
   try {
     const response = await api.post(`/enterpriseplan/role/property-owner/invite-link`, {
@@ -148,6 +171,18 @@ export const enterpriseplanRoleInvite = async ({ email, estateName, slug }) => {
     return { success: false, error: errorMessage };
   }
 };
+
+export const enterprisePlanRevokeAccess = async ({ landlordId, estateId }) => {
+  try {
+    const response = await api.delete(`/enterpriseplan/role/property-owner/revoke/${landlordId}/estate/${estateId}`);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
+  }
+};
+
+
 
 export const enterpriseStatistics = async () => {
   try {

@@ -58,9 +58,12 @@ const Register = () => {
         if (typeof window !== 'undefined') {
           localStorage.setItem("email", formData.email);
         }
-        // Reset the form data after submitting
-        setFormData({ email: "", password: "", agreedToTerms: false });
-        setLoading(false);
+        setTimeout(() => {
+           // Reset the form data after submitting
+           setFormData({ email: "", password: "", agreedToTerms: false });
+            // Set loading to false after 5 seconds
+          setLoading(false);
+        }, 5000); // 5000 milliseconds = 5 seconds
       } else {
         // Handle unexpected status codes
         const errorw = response.data.message;

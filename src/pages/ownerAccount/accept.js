@@ -38,7 +38,12 @@ const Accept = () => {
     setOpenForm(!openForm);
   };
 
-  const closeForm = () => {
+  const closeForm   // console.log(email)
+  // console.log(role)
+  // console.log(invitation)
+  // console.log(isHomzEnterprise)
+
+= () => {
     setOpenForm(false);
   };
 

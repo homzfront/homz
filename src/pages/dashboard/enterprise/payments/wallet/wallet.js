@@ -22,7 +22,7 @@ const Wallet = () => {
       try {
         setLoading(true);
         const data = await enterpriseUserWallet();
-        if (data.statuscode === 200 && data.success === true) {
+        if (data.statuscode === 200 && data.success === true  && data.data !== null) {
           setIlluminateWallet(!illuminateWallet);
           const balance = await enterpriseWalletBalance();
           setWalletBalance(balance);

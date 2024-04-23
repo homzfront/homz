@@ -16,7 +16,7 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
     }
     onClose();
     if (typeof onSelect === 'function') {
-      onSelect(value?.name);
+      onSelect(value);
     }
   };
 
@@ -176,7 +176,7 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
 
               <div className="hidden sm:block w-[30%] pl-3">
                 <button
-                  onClick={() => handleSelect(data)}
+                  onClick={() => handleSelect(data?.name)}
                   className="text-[11px] text-white bg-BlueHomz font-[500] w-[107px] h-[33px] rounded-[4px]"
                 >
                   Select Property
