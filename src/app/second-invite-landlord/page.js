@@ -1,7 +1,6 @@
 "use client";
 import { acceptSecondInvitation, acceptSecondInvitationHomz } from '@/api/acceptProManInvitation';
 import Loading from '@/components/mainmenu/loading';
-import Accept from '@/pages/ownerAccount/accept'
 import Login from '@/pages/ownerAccount/login'
 import useProfileStore from '@/store/profile';
 import Image from 'next/image';

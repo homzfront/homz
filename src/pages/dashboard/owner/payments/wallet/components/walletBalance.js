@@ -91,12 +91,14 @@ const WalletBalance = ({
         </div>
         <div
           className={`text-[18px] font-[400] px-5 text-white flex items-centeritems-center w-[45%] justify-start ${
-            loading ? "ml-6 mb-2" : ""
+            loading ? "" : ""
           } ${
             illuminateWallet ? "" : "hidden"
           }`}
         >
-          {loading ? <LoadingFormII/> : `${addCommasToNumber(walletBalance?.data?.availableBalance)}`} 
+          {
+          `${addCommasToNumber(walletBalance?.data?.availableBalance)}`
+          } 
         </div>
       </div>
     </div>

@@ -144,6 +144,20 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
   }
 };
 
+export const enterpriseplanRoleInviteHomz = async ({ email, estateName, slug }) => {
+  try {
+    const response = await api.post(`/enterpriseplan/role/property-owner/invite-link/homz`, {
+      email,
+      estateName,
+      slug
+    });
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    const errorMessage = error?.response?.data?.error || error?.response?.data?.message;
+    return { success: false, error: errorMessage };
+  }
+};
+
 export const enterpriseplanRoleInvite = async ({ email, estateName, slug }) => {
   try {
     const response = await api.post(`/enterpriseplan/role/property-owner/invite-link`, {
