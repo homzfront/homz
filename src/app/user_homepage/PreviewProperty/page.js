@@ -2,7 +2,6 @@
 import React from "react";
 import ViewProperty from "./ViewProperty";
 import { useSearchParams } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import Loading from "../components/loading";
 
 const PreviewProperty = () => {
