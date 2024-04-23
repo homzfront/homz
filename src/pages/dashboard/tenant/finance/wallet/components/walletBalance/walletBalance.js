@@ -141,16 +141,14 @@ const WalletBalance = ({
         <div className="flex items-center justify-between px-5">
           <div
                  className={`text-[18px] font-[400] text-white flex items-center w-[45%] justify-start ${
-                  loading ? "ml-6 mb-2" : ""
+                  loading ? "" : ""
                 } ${
                   illuminateWallet ? "" : "hidden"
                 }`}
               >
-                {loading ? (
-                  <LoadingFormII />
-                ) : (
+                {
                   `${addCommasToNumber(walletBalance?.data?.availableBalance)}`
-                )}
+                }
               </div>
           <div
             className={`cursor-pointer flex items-center gap-1 ${
