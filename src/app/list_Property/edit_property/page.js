@@ -1,3 +1,4 @@
+'use client';
 import React, { Suspense } from "react";
 import PropertyForms from "./components/propertyForms";
 import { useSearchParams } from "next/navigation";
