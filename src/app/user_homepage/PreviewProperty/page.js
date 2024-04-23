@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {Suspense} from "react";
 import ViewProperty from "./ViewProperty";
 import { useSearchParams } from "next/navigation";
 import Loading from "../components/loading";
