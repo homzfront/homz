@@ -36,41 +36,41 @@ const TermsAndConditions = () => {
                             Restrictions On Use
                         </label>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(1.) </span>    You agree not to transmit any material designed to interrupt, damage, destroy or limit the functionality of our website or the Services.
+                            <span className='mr-2'>1. </span>    You agree not to transmit any material designed to interrupt, damage, destroy or limit the functionality of our website or the Services.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(2.) </span>    You agree not to use any automated software to view the Services without consent and to only access our Services manually.
+                            <span className='mr-2'>2. </span>    You agree not to use any automated software to view the Services without consent and to only access our Services manually.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(3.) </span>    You agree not to use the Services other than for your own personal use or as an agent listing properties for sale and to rent.
+                            <span className='mr-2'>3. </span>    You agree not to use the Services other than for your own personal use or as an agent listing properties for sale and to rent.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(4.) </span>    You agree not to attempt to copy our data or reverse engineer our processes without our consent.
+                            <span className='mr-2'>4. </span>    You agree not to attempt to copy our data or reverse engineer our processes without our consent.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(5.) </span>    You agree not to
+                            <span className='mr-2'>5. </span>    You agree not to
                             use our Services in any manner that is illegal, immoral or harmful to us.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(6.) </span>    You agree not to use our Services in breach of any policy or other notice on our website.
+                            <span className='mr-2'>6. </span>    You agree not to use our Services in breach of any policy or other notice on our website.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(7.) </span>    You agree not to remove or alter any copyright notices that appear on our website.
+                            <span className='mr-2'>7. </span>    You agree not to remove or alter any copyright notices that appear on our website.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(8.) </span>    You agree not to publish any material that may encourage a breach of any relevant laws or regulations.
+                            <span className='mr-2'>8. </span>    You agree not to publish any material that may encourage a breach of any relevant laws or regulations.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(.9) </span>    You agree not to interfere with any other user's enjoyment of our website or the Services.
+                            <span className='mr-2'>9. </span>    You agree not to interfere with any other user's enjoyment of our website or the Services.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(10.) </span>    You agree not to transmit materials protected by copyright without the permission of the owner.
+                            <span className='mr-2'>10. </span>    You agree not to transmit materials protected by copyright without the permission of the owner.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(11.) </span>    You agree not to conduct yourself in an offensive or abusive manner whilst using our website or the Services.
+                            <span className='mr-2'>11. </span>    You agree not to conduct yourself in an offensive or abusive manner whilst using our website or the Services.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(12.) </span>    You agree not to attempt to bypass restrictions on user accounts.
+                            <span className='mr-2'>12. </span>    You agree not to attempt to bypass restrictions on user accounts.
                         </p>
                     </div>
                     <div>
@@ -122,13 +122,13 @@ const TermsAndConditions = () => {
                             Details are hosted by us in good faith but are produced directly by agents and have not been verified by us. You are responsible for making your own enquiries and we provide no guarantee and accept no responsibility for the accuracy or completeness of any information contained within the Details.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(1.) </span>    You are responsible for checking, confirming and satisfying yourself as to the accuracy of any Details.
+                            <span className='mr-2'>1. </span>    You are responsible for checking, confirming and satisfying yourself as to the accuracy of any Details.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(2.) </span>    You are responsible for instructing a surveyor and obtaining legal advice before committing to any purchase.
+                            <span className='mr-2'>2. </span>    You are responsible for instructing a surveyor and obtaining legal advice before committing to any purchase.
                         </p>
                         <p className='text-[18px] font-[400] leading-loose'>
-                            <span className='mr-2'>(3.) </span>    You are responsible for ensuring that you act in good faith towards any other parties.
+                            <span className='mr-2'>3. </span>    You are responsible for ensuring that you act in good faith towards any other parties.
                         </p>
                     </div>
                     <div>
