@@ -128,7 +128,7 @@ const SidebarMobile = ({ setOpen, user }) => {
           </div>
           <p className=''> Property Management</p>
         </Link>
-        <Link
+        {/* <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/propertylisting"}
           className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
@@ -149,7 +149,7 @@ const SidebarMobile = ({ setOpen, user }) => {
             }
           </div>
           <p className=''> Property Listing</p>
-        </Link>
+        </Link> */}
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/payments"}
