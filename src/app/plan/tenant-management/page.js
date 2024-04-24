@@ -87,6 +87,8 @@ const TenantManagement = () => {
   // useEffect to handle scrolling
   useBodyScroll([isSubmitConfirmationVisible, loading]);
 
+  
+
   return (
     <div className="pt-[64px] relative">
       {isSubmitConfirmationVisible && (
@@ -172,8 +174,8 @@ const TenantManagement = () => {
                   className="w-full flex justify-between items-center cursor-pointer border px-4 h-[45px] rounded-md"
                 >
                   <div className="text-GrayHomz text-[13px] font-[400]">
-                    {inputValue
-                      ? inputValue
+                    {estate
+                      ? estate?.name
                       : "Select property"}
                   </div>
                   <div
@@ -191,7 +193,6 @@ const TenantManagement = () => {
                 {showPopup && (
                   <Popup
                     onClose={() => setShowPopup(false)}
-                    onSelect={handleSelect}
                     setEstate={setEstate}
                     estateData={estatesData}
                   />

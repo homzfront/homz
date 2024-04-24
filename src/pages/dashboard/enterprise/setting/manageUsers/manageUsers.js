@@ -13,33 +13,29 @@ import { toast } from "react-toastify";
 import { enterpriseplanRoleInvite, enterpriseplanRoleInviteHomz } from "@/api/enterpriseManagerService";
 import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
-import Popup from "./components/popUp";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import Popup from "@/pages/tenantManagementPlan/popUp";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
-  const [slog, setSlog] = useState("")
+  const [slog, setSlog] = useState(null)
   const [email, setEmail] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
-  const [selectedEstate, setSelectedEstate] = useState(null);
+  // const [selectedEstate, setSelectedEstate] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const handleSelect = (value) => {
-    setSelectedEstate(value);
-  };
+  const [selectOp, setSelectedOp] = useState([]);
+  const [dataEmail, setDataEmail] = useState([]);
+
+  // console.log(slog); 
+
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
-  }, []);
-
-  const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
-
-  useEffect(() => {
-    fetchProfile();
   }, []);
 
   useBodyScroll([openModal, loadingII, showPopup])
@@ -47,6 +43,14 @@ const ManageUsers = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+
+  // console.log(profileData);
   // const options = [
   //   { id: 1, label: "Can View" },
   //   { id: 2, label: "Can Edit" },
@@ -65,11 +69,11 @@ const ManageUsers = () => {
   // const [selectedRoleTwo, setSelectedRoleTwo] = useState(null);
   // const [pickedEstate, setPickedEstate] = useState([]);
 
-  const handleSelectEstate = (estate) => {
-    // setSelectedRoleTwo(estate);
-    // setPickedEstate(estate);\
-    setSelectedEstate(estate);
-  };
+  // const handleSelectEstate = (estate) => {
+  //   // setSelectedRoleTwo(estate);
+  //   // setPickedEstate(estate);\
+  //   setSelectedEstate(estate);
+  // };
 
   // Handle the selection of an option
   // const handleRoleSelect = (role) => {
@@ -167,12 +171,12 @@ const ManageUsers = () => {
 
   const returnHome = () => {
     setOpenModal(false);
-    setSelectedEstate(null);
+    setSlog(null);
     setEmail("");
   };
 
   // Determine if the button should be disabled based on the email input value
-  const isButtonDisabled = !email || selectedEstate === null;
+  const isButtonDisabled = !email || slog === null;
 
   return (
     <div>
@@ -214,8 +218,8 @@ const ManageUsers = () => {
                 className="w-[360px] flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
               >
                 <div className="text-GrayHomz2 text-[13px] font-[400]">
-                  {selectedEstate
-                    ? selectedEstate
+                  {slog?.name
+                    ? slog?.name
                     : "Select property you want Landlord to view"}
                 </div>
                 <div
@@ -231,12 +235,11 @@ const ManageUsers = () => {
                 </div>
               </div>
               {showPopup && (
-                <Popup
-                  onClose={() => setShowPopup(false)}
-                  onSelect={handleSelect}
-                  estateData={data}
-                  setEstate={setSlog}
-                />
+              <Popup
+              onClose={() => setShowPopup(false)}
+              estateData={data}
+              setEstate={setSlog}
+            />
               )}
               <button
                 onClick={handleSubmit}
@@ -276,9 +279,8 @@ const ManageUsers = () => {
             <div className="flex gap-3 items-center">
               <ToggleButton onToggle={handleToggle} isOpen={isOpen} />{" "}
               <p
-                className={`text-[16px] font-[400] ${
-                  !isOpen ? "text-GrayHomz2" : "text-BlackHomz"
-                } `}
+                className={`text-[16px] font-[400] ${!isOpen ? "text-GrayHomz2" : "text-BlackHomz"
+                  } `}
               >
                 View as property owner
               </p>
@@ -294,21 +296,20 @@ const ManageUsers = () => {
                   onSelect={handleSelectEstate}
                   selectOption={"Select Property"}
                 />
-               <div className="flex gap-1"> 
-               <p className="text-[14px] font-[400] text-GrayHomz">
-                  Yet to add a property?
-                </p>
-                <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
-                  Add New Property
-                </Link>
+                <div className="flex gap-1">
+                  <p className="text-[14px] font-[400] text-GrayHomz">
+                    Yet to add a property?
+                  </p>
+                  <Link href={""} className="text-[14px] font-[700] text-BlueHomz">
+                    Add New Property
+                  </Link>
                 </div>
               </div>
             )}
           </div>
         )} */}
-
         {/* <div className="mt-8">
-          <TableUser  estateData={data}/>
+          <TableUser estateData={data} profileData={profileData} />
         </div> */}
       </div>
       {/* {openModal && (
@@ -318,8 +319,8 @@ const ManageUsers = () => {
           button={"Close"}
           returnHome={returnHome}
         />
-      )}
-      <Invites /> */}
+      )} */}
+      {/* <Invites /> */}
     </div>
   );
 };
