@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PopUpWalletCreationForm from "../../components/popUpWalletCreationForm";
 import useBodyScroll from "@/utils/useBodyScroll";
 import AccountInfo from "../../components/accountInfo";
@@ -15,6 +15,7 @@ const WalletBalance = ({
 }) => {
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
+
 
   const openWalletForm = () => {
     setOpenForm(!openForm);
@@ -55,9 +56,8 @@ const WalletBalance = ({
               alt=""
             />
             <p
-              className={`text-[14px] font-[400] text-white  ${
-                illuminateWallet ? "" : "hidden"
-              }`}
+              className={`text-[14px] font-[400] text-white  ${illuminateWallet ? "" : "hidden"
+                }`}
             >
               Wallet Balance
             </p>{" "}
@@ -71,8 +71,13 @@ const WalletBalance = ({
                 Fund Wallet
               </p>
             </div>
-          ) : (
-            <div
+          ) : loading ?
+            (
+              <div>
+              </div>
+            )
+            :
+            (<div
               onClick={openWalletForm}
               className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
             >
@@ -86,17 +91,16 @@ const WalletBalance = ({
                 Create Wallet
               </p>
             </div>
-          )}
+            )
+          }
         </div>
         <div
-          className={`text-[18px] font-[400] px-5 text-white flex items-center w-[45%] justify-start ${
-            loading ? "" : ""
-          } ${
-            illuminateWallet ? "" : "hidden"
-          }`}
+          className={`text-[18px] font-[400] px-5 text-white flex items-center w-[45%] justify-start ${loading ? "" : ""
+            } ${illuminateWallet ? "" : "hidden"
+            }`}
         >
-          {
-            `${addCommasToNumber(walletBalance?.data?.availableBalance)}`
+          {walletBalance?.data?.availableBalance ?
+            `${addCommasToNumber(walletBalance?.data?.availableBalance)}` : "N 0"
           }
         </div>
       </div>

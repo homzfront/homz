@@ -1,4 +1,3 @@
-import Popup from "./popUp"
 import Image from "next/image";
 import React, { useState } from "react";
 // import ConfirmModal from "../../../components/confirmUpdateModal";
@@ -8,6 +7,7 @@ import { enterprisePlanRevokeAccess, enterpriseplanRoleInvite, enterpriseplanRol
 import { toast } from "react-toastify";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Loading from "@/components/mainmenu/loading";
+import Popup from "@/pages/tenantManagementPlan/popUp";
 
 const PropertyAccess = ({ closeMenu, data, estateData, fetchData, profileData }) => {
   const [showPopup, setShowPopup] = useState(false);

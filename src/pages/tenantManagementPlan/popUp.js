@@ -2,9 +2,9 @@ import { fetchEstates } from "@/api/estateService";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 import Dropdown from "@/components/mainmenu/dropDown";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
+const Popup = ({ onClose, setEstate, estateData }) => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -15,9 +15,6 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
       setEstate(value);
     }
     onClose();
-    if (typeof onSelect === 'function') {
-      onSelect(value);
-    }
   };
 
 
@@ -163,7 +160,7 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
               <div className="sm:hidden w-[30%] pl-3">
                 <input
                   type="radio"
-                  onClick={() => handleSelect(data?.name)}
+                  onClick={() => handleSelect(data)}
                   className="text-[11px] text-white bg-BlueHomz "
                 />
               </div>
@@ -176,7 +173,7 @@ const Popup = ({ onClose, onSelect, setEstate, estateData }) => {
 
               <div className="hidden sm:block w-[30%] pl-3">
                 <button
-                  onClick={() => handleSelect(data?.name)}
+                  onClick={() => handleSelect(data)}
                   className="text-[11px] text-white bg-BlueHomz font-[500] w-[107px] h-[33px] rounded-[4px]"
                 >
                   Select Property

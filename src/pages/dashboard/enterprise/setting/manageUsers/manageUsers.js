@@ -13,11 +13,11 @@ import { toast } from "react-toastify";
 import { enterpriseplanRoleInvite, enterpriseplanRoleInviteHomz } from "@/api/enterpriseManagerService";
 import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
-import Popup from "./components/popUp";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import Popup from "@/pages/tenantManagementPlan/popUp";
 
 const ManageUsers = () => {
   const { data, loading, fetchData } = estateStore();
