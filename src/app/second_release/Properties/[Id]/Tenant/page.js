@@ -1,7 +1,7 @@
 import React from "react";
 import TenantsPane from "/src/pages/Second_Release/Profiles/Properties/Tenant/TenantsPane";
 
-const TenantPane = () => {
+const TenantsPane = () => {
   return (
     <div>
       <TenantsPane />

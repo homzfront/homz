@@ -92,7 +92,7 @@ const PropertiesPane = ({ data }) => {
   };
 
   const fetchProfileId = async () => {
-    // Simulated asynchronous operation, replace with your actual logic
+   
     return new Promise((resolve) => {
       setTimeout(() => {
         const currentUrl = window.location.href;

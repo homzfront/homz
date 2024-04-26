@@ -42,13 +42,13 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
             <div className="">
-              <label htmlFor="Payment_Type">Payment Type</label>
+              <label htmlFor="paymentType">Payment Type</label>
               <br />
               <select
-                name="Payment_Type"
-                id="Payment_Type"
+                name="paymentType"
+                id="paymentType"
                 className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
-                {...register("Payment_Type", {
+                {...register("paymentType", {
                   required: true,
                 })}
                 onChange={(e) => setPaymentType(e.target.value)}
@@ -56,20 +56,18 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 <option value="" disabled selected>
                   Select Property Type
                 </option>
-                <option value="Outright-Payment">Outright Payment</option>
-                <option value="Daily">Daily</option>
-                <option value="Weekly">Weekly</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Quarterly">Quarterly</option>
-                <option value="Every_6_Months">Every 6 Months</option>
-                <option value="Yearly">Yearly</option>
+                {paymentTypeValues.map((type, index) => (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+                ))}
               </select>
-              {/* {errors.Payment_Type && (
+              {/* {errors.paymentType && (
                   <p className="errorMsg">Property Type is required.</p>
                 )} */}
             </div>
             <div>
-              <label htmlFor="Price">{paymentType} Price</label>
+              <label htmlFor="price">Price</label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
                 <span
@@ -256,3 +254,12 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
 };
 
 export default RentDetails;
+const paymentTypeValues = [
+  "outright payment",
+  "daily",
+  "weekly",
+  "monthly",
+  "quarterly",
+  "6 months",
+  "yearly",
+];

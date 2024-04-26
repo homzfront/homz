@@ -3,9 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ThreeDots } from "react-loader-spinner";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import CustomizedModal from "../../components/CustomizedModal";
-import { Progress } from "@material-tailwind/react";
+
 
 const BusinessInfo = ({ Business_Info, handleUpdate }) => {
   const [update, setUpdate] = useState(false);
@@ -52,9 +51,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
   const displayBusinessPhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        setErrorMsg2("Only, JPG, JPEG or PNG files are allowed.");
+        return;
+      }
       if (file.size > MAX_FILE_SIZE) {
         // File size exceeds the limit
-        setErrorMsg2("File size exceeds the maximum limit of 5MB.");
+        setErrorMsg2("File size exceeds 5MB.");
         return;
       } else {
         setErrorMsg2("");
@@ -69,9 +72,10 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
     const file = e.target.files[0];
 
     if (file) {
+    
       if (file.size > MAX_FILE_SIZE) {
         // File size exceeds the limit
-        setErrorMsg("File size exceeds the maximum limit of 5MB.");
+        setErrorMsg("File size exceeds 5MB.");
         return;
       } else {
         setErrorMsg("");
@@ -158,7 +162,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                 id="BusinessPhoto"
                 onChange={displayBusinessPhoto}
                 style={{ display: "none" }}
-                accept="image/png, image/jpg"
+                accept="image/png, image/jpg, image/jpeg"
               />
 
               <p
@@ -270,7 +274,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
             </div>
           </div>
         </div>
-        <div className="md:max-w-md w-[336px] flex flex-col gap-[14px] pt-5 duoViewPoint docUpload">
+        <div className="md:w-full w-[336px] flex flex-col gap-[14px] pt-5 duoViewPoint docUpload">
           <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
             Help us verify your business
           </p>
@@ -286,180 +290,150 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
               width={40}
               height={40}
             />
-            {isVerified ? (
-              <>
-                {status != "accepted" ? (
-                  <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
-                    <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#006AFF]">
-                      [{"Document name "}]
-                    </p>
-                    <p
-                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
-                      onClick={() => viewFile(businessCertificate)}
+
+            <>
+              {!businessCertificateUpload ? (
+                <div className="flex flex-col gap-[4px]">
+                  <input
+                    type="file"
+                    name="BusinessCertificate"
+                    ref={BusinessCertificateRef}
+                    id="BusinessCertificate"
+                    onChange={handleBusinessCertificate}
+                    style={{ display: "none" }}
+                    accept="application/pdf"
+                  />
+                  <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
+                    <span
+                      className="text-[#006AFF] inline-block cursor-pointer"
+                      onClick={uploadBusinessCertificate}
                     >
-                      View
-                    </p>
-                  </div>
-                ) : (
-                  <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-red-600 flex items-center">
-                    <span className=" inline-block">
-                      [{"businessCertificate.name"}] has been rejected, kindly{" "}
-                      <span
-                        className="text-[#006AFF] cursor-pointer"
-                        onClick={uploadBusinessCertificate}
-                      >
-                        re-upload
-                      </span>{" "}
-                      a valid certificate
+                      Select CAC or membership certificate
                     </span>{" "}
+                    <span className="text-[#4E4E4E] hidden md:inline-block">
+                      or drag and drop
+                    </span>
                   </p>
-                )}
-              </>
-            ) : (
-              <>
-                {!businessCertificateUpload ? (
-                  <div className="flex flex-col gap-[4px]">
-                    <input
-                      type="file"
-                      name="BusinessCertificate"
-                      ref={BusinessCertificateRef}
-                      id="BusinessCertificate"
-                      onChange={handleBusinessCertificate}
-                      style={{ display: "none" }}
-                      accept="application/pdf"
-                    />
-                    <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
-                      <span
-                        className="text-[#006AFF] inline-block cursor-pointer"
-                        onClick={uploadBusinessCertificate}
-                      >
-                        Select CAC or membership certificate
-                      </span>{" "}
-                      <span className="text-[#4E4E4E] hidden md:inline-block">
-                        or drag and drop
-                      </span>
-                    </p>
-                    <p className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                      PDF (max. 5mb)
-                    </p>
-                  </div>
-                ) : busCertSuccess ? (
-                  <>
-                    {progress >= 100 ? (
-                      <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
-                        <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
-                          <span className=" inline-block">
-                            [
-                            {businessCertificate?.name &&
-                              businessCertificate.name}
-                            ]
-                          </span>{" "}
-                          <span className="">is currently under review</span>
-                        </p>
-                        <p
-                          className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
-                          onClick={() => viewFile(businessCertificate)}
-                        >
-                          View
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col gap-[8px] w-full">
-                        <div className="flex items-center justify-between">
-                          <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
-                            <span className="text-[#4E4E4E] inline-block">
-                              Uploading
-                            </span>{" "}
-                            <span className="text-[#006AFF] inline-block ">
-                              [
-                              {businessCertificate?.name &&
-                                businessCertificate.name}
-                              ]
-                            </span>
-                          </p>
-                          <Image
-                            src="/static/images/close-square.svg"
-                            alt="upload-cloud"
-                            width={24}
-                            height={24}
-                            className="cursor-pointer"
-                            onClick={cancelUpload}
-                          />
-                        </div>
-                        <Progress
-                          value={progress}
-                          color="blue"
-                          className="w-full h-[4px] text-BlueHomz2"
-                        />
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[px] md:gap-0">
-                    <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left  flex flex-col gap-[4px]">
-                      <span className="text-[#006AFF] inline-block">
-                        [{businessCertificate?.name && businessCertificate.name}
-                        ]
-                      </span>
-                      <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                        PDF (
-                        {businessCertificate?.size &&
-                          (businessCertificate.size / (1024 * 1024)).toFixed(2)}
-                        MB)
-                      </span>
-                    </p>
-                    <div className="flex flex-row gap-[20px] items-center">
+                  <p className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
+                    PDF (max. 5mb)
+                  </p>
+                </div>
+              ) : busCertSuccess ? (
+                <>
+                  {progress >= 100 ? (
+                    <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
+                      <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
+                        <span className=" inline-block">
+                          [
+                          {businessCertificate?.name &&
+                            businessCertificate.name}
+                          ]
+                        </span>{" "}
+                        <span className="">is currently under review</span>
+                      </p>
                       <p
                         className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
                         onClick={() => viewFile(businessCertificate)}
                       >
                         View
                       </p>
-                      <p
-                        className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
-                        onClick={() => {
-                          setRemoveCertificate(true);
-                        }}
-                      >
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-[8px] w-full">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
+                          <span className="text-[#4E4E4E] inline-block">
+                            Uploading
+                          </span>{" "}
+                          <span className="text-[#006AFF] inline-block ">
+                            [
+                            {businessCertificate?.name &&
+                              businessCertificate.name}
+                            ]
+                          </span>
+                        </p>
                         <Image
-                          src="/static/images/trash.svg"
+                          src="/static/images/close-square.svg"
                           alt="upload-cloud"
-                          width={16}
-                          height={16}
-                          //   onClick=
+                          width={24}
+                          height={24}
+                          className="cursor-pointer"
+                          onClick={cancelUpload}
                         />
-                        <span className="text-[13px]">Remove</span>
-                      </p>
-
-                      <div>
-                        {!isLoading ? ( // Render loader if isLoading is true
-                          <p
-                            className="editBtn py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-[#006AFF] leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
-                            onClick={UploadBusCertificate}
-                          >
-                            <span className="hidden md:block">
-                              Upload Document
-                            </span>
-                            <span className="md:hidden">Upload</span>
-                          </p>
-                        ) : (
-                          <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
-                            <ThreeDots
-                              visible={true}
-                              height="30"
-                              width="30"
-                              color="#006AFF"
-                              radius="9"
-                              ariaLabel="three-dots-loading"
-                            />
-                          </div>
-                        )}
                       </div>
+                      <progress
+                        id="businessCert"
+                        value={progress}
+                        max="100"
+                        className="w-full h-[4px]"
+                      />
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[px] md:gap-0">
+                  <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left  flex flex-col gap-[4px]">
+                    <span className="text-[#006AFF] inline-block">
+                      [{businessCertificate?.name && businessCertificate.name}]
+                    </span>
+                    <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
+                      PDF (
+                      {businessCertificate?.size &&
+                        (businessCertificate.size / (1024 * 1024)).toFixed(2)}
+                      MB)
+                    </span>
+                  </p>
+                  <div className="flex flex-row gap-[20px] items-center">
+                    <p
+                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                      onClick={() => viewFile(businessCertificate)}
+                    >
+                      View
+                    </p>
+                    <p
+                      className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
+                      onClick={() => {
+                        setRemoveCertificate(true);
+                      }}
+                    >
+                      <Image
+                        src="/static/images/trash.svg"
+                        alt="upload-cloud"
+                        width={16}
+                        height={16}
+                        //   onClick=
+                      />
+                      <span className="text-[13px]">Remove</span>
+                    </p>
+
+                    <div>
+                      {!isLoading ? ( // Render loader if isLoading is true
+                        <p
+                          className="editBtn py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-[#006AFF] leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
+                          onClick={UploadBusCertificate}
+                        >
+                          <span className="hidden md:block">
+                            Upload Document
+                          </span>
+                          <span className="md:hidden">Upload</span>
+                        </p>
+                      ) : (
+                        <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
+                          <ThreeDots
+                            visible={true}
+                            height="30"
+                            width="30"
+                            color="#006AFF"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
-              </>
-            )}
+                </div>
+              )}
+            </>
           </div>
 
           <p className="text-[11px] text-red-600">{errorMsg ? errorMsg : ""}</p>

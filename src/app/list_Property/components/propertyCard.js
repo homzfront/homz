@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Button from "./button";
 import { Properties } from "./Properties";
-import { Carousel } from "flowbite-react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const PropertyCard = ({ Property, state, setDataProperties }) => {
@@ -16,7 +16,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(
     Array(currentProperties.length).fill(false)
   );
-
+  const router = useRouter();
   const handleMenuToggle = (index) => {
     const newMenuState = [...isMenuOpen];
     newMenuState[index] = !newMenuState[index];
@@ -99,18 +99,16 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                     onClick={() => handleMenuToggle(index)}
                   />
                   {isMenuOpen[index] && (
-                   
-                      <Link
-                    className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[140px] md:right-[6px] mt-2 h-[37px] py-2 px-4 md:w-[212px] bg-white shadow-md rounded-md"
-                        // className="cursor-pointer text-[14px]"
-                        href={{
-                          pathname: "/list_Property/edit_property",
-                          query: { PropertyId: property._id },
-                        }}
-                      >
-                        Edit details
-                      </Link>
-                    
+                    <button
+                      className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[140px] md:right-[6px] mt-2 h-[37px] py-2  md:w-[212px] bg-white shadow-md rounded-md"
+                      onClick={() =>
+                        router.push(
+                          `/list_Property/edit_property/${property._id}`
+                        )
+                      }
+                    >
+                      Edit details
+                    </button>
                   )}
                 </div>
               </div>

@@ -16,15 +16,30 @@ const PersonalInfo = ({
   const [profileFoto, setProfileFoto] = useState(null);
   const ProfilePhoto = useRef(null);
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+
+
   // const { ProfilePhoto, } = ProfilePhoto?.Photo ?? {};
 
 
   const displayProfilePhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfileFoto(file);
-      setFileUploaded(true);
-      setImageSrc(URL.createObjectURL(file));
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        setErrorMsg("Only JPG, JPEG or PNG files are allowed.");
+        return;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        // File size exceeds the limit
+        setErrorMsg("File size exceeds 5MB.");
+        return;
+      } else {
+        setErrorMsg("");
+        setProfileFoto(file);
+        setFileUploaded(true);
+        setImageSrc(URL.createObjectURL(file));
+      }
     }
   };
   const uploadProfilePhoto = () => {
@@ -72,7 +87,7 @@ const PersonalInfo = ({
               ref={ProfilePhoto}
                 onChange={displayProfilePhoto}
                 style={{ display: "none" }}
-                accept="image/png, image/jpg"
+                accept="image/png, image/jpg, image/jpeg"
               />
 
               <p
@@ -123,6 +138,9 @@ const PersonalInfo = ({
               <p className="text-[#4E4E4E] font-[400] text-[11px] leading-[16.5px]">
                 JPG or PNG (max. 5mb)
               </p>
+              <p className="text-[11px] text-red-600">
+                {errorMsg ? errorMsg : ""}
+              </p>
             </div>
           </div>
           <div className="profiles flex  flex-col space-y-4">
@@ -137,9 +155,9 @@ const PersonalInfo = ({
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                 }`}
               />
-              {errors.FullName && (
+              {/* {errors.FullName && (
                 <p className="errorMsg">Full Name is required</p>
-              )}
+              )} */}
             </div>
 
             <div>

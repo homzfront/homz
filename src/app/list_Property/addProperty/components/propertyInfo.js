@@ -1,12 +1,36 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import DropDown from "./dropDownTwo";
+import api from "/src/utils/api";
 import { useForm } from "react-hook-form";
+import { ThreeCircles } from "react-loader-spinner";
 
 const PropertyInfo = ({ handlePropertyInfo }) => {
   const [propertyType, setPropertyType] = useState("");
-  const [landType, setLandType] = useState("");
+  const [areas, setAreas] = useState(null);
+  const [allStates, setAllStates] = useState(null);
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  const fetchStates = async () => {
+    try {
+      const res = await api.get("/state");
+      setAllStates(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchAreas = async (stateSelected) => {
+    try {
+      const Areas = await api.post("/state/area", { state: stateSelected });
+      setAreas(Areas);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const {
     register,
     handleSubmit,
@@ -20,28 +44,6 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
     // reset();
     handlePropertyInfo(data);
   };
-
-  const Area = [
-    "Ajah",
-    "Lekki",
-    "Ikotun",
-    "Adolor",
-    "Challenge",
-    "Ekaite",
-    "Musa",
-    "Jalingo",
-  ];
-
-  const State = [
-    "Lagos",
-    "Oyo",
-    "Calabar",
-    "Edo",
-    "Kwara",
-    "Kano",
-    "Abuja",
-    "Ondo",
-  ];
 
   return (
     <div className="flex flex-col gap-4">
@@ -59,15 +61,15 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
           <div className="flex sm:gap-[50px] gap-[24px] flex-col sm:flex-row  sideBarHidden lg:gap-[24px]">
             <div className="flex flex-col gap-[24px]">
               <div className="">
-                <label htmlFor="ListingType">
+                <label htmlFor="listingType">
                   Listing Type <span className="text-red-500 text-xs">*</span>
                 </label>
                 <br />
                 <select
-                  name="ListingType"
+                  name="listingType"
                   className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
-                  id="ListingType"
-                  {...register("ListingType", {
+                  id="listingType"
+                  {...register("listingType", {
                     required: "Listing type is required",
                   })}
                   onChange={(e) => setPropertyType(e.target.value)}
@@ -75,17 +77,18 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                   <option value="" disabled selected>
                     Select option
                   </option>
-                  <option value="Rent">For Rent</option>
-                  <option value="Sale">Ror Sale</option>
-                  <option value="Shortlet">Shortlet</option>
-                  <option value="Land">Land</option>
+                  {listingTypeValues.map((type, index) => (
+                    <option key={index} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
-                {errors.ListingType && (
-                  <p className="errorMsg">{errors.ListingType.message}</p>
+                {errors.listingType && (
+                  <p className="errorMsg">{errors.listingType.message}</p>
                 )}
               </div>
               <>
-                {propertyType === "Land" ? (
+                {propertyType === "land" ? (
                   <>
                     <div>
                       <label htmlFor="Title">
@@ -105,47 +108,51 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="LandType">
+                      <label htmlFor="landType">
                         Land Type{" "}
                         <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <select
-                        name="LandType"
-                        className={`h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px] ${!propertyType && 'opacity-50'} `}
-                        id="LandType"
-                        {...register("LandType", {
+                        name="landType"
+                        className={`h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px] ${
+                          !propertyType && "opacity-50"
+                        } `}
+                        id="landType"
+                        {...register("landType", {
                           required: "Land type is required",
                         })}
                       >
                         <option value="" disabled selected>
                           Select option
                         </option>
-                        <option value="Commercial">Commercial Land</option>
-                        <option value="Residential">Residential Land</option>
-                        <option value="Mixed-Use">Mixed-Use Land</option>
-                        <option value="Industrial">Industrial Land</option>
-                        <option value="Farmland">Farmland</option>
+
+                        {landTypeValues.map((type, index) => (
+                          <option key={index} value={type}>
+                            {type}
+                          </option>
+                        ))}
                       </select>
-                      {errors.LandType && (
-                        <p className="errorMsg">{errors.LandType.message}</p>
+                      {errors.landType && (
+                        <p className="errorMsg">{errors.landType.message}</p>
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="Square_Metres">
-                        Square Metres <span className="text-red-500 text-xs">*</span>
+                      <label htmlFor="squareMetres">
+                        Square Metres{" "}
+                        <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <input
-                        {...register("Square_Metres", {
+                        {...register("squareMetres", {
                           required: "Square Metres is required",
                         })}
                         className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px] pl-2"
                         placeholder="Enter Square Metres"
                       />
-                      {errors.Square_Metres && (
+                      {errors.squareMetres && (
                         <span className="text-red-500 text-xs">
-                          {errors.Square_Metres.message}
+                          {errors.squareMetres.message}
                         </span>
                       )}
                     </div>
@@ -153,63 +160,46 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 ) : (
                   <>
                     <div>
-                      <label htmlFor="Name">
+                      <label htmlFor="name">
                         {" "}
                         Name <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <input
-                        {...register("Name", {
+                        {...register("name", {
                           required: true,
                         })}
                         placeholder="Property Name"
                         className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] pl-2 adminCellBorders w-[335px]"
                       />
-                      {errors.Name && (
+                      {errors.name && (
                         <p className="errorMsg">Property's name is required</p>
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="Property_Type">
+                      <label htmlFor="propertyType">
                         Property Type{" "}
                         <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <select
-                        name="Property_Type"
-                        id="Property_Type"
+                        name="propertyType"
+                        id="propertyType"
                         className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
-                        {...register("Property_Type", {
+                        {...register("propertyType", {
                           required: true,
                         })}
                       >
                         <option value="" disabled selected>
                           Select Property Type
                         </option>
-                        <option value="Boys_Quarters">Boys Quarters</option>
-                        <option value="Mini-flat">Mini-flat</option>
-                        <option value="Penthouse">Penthouse</option>
-                        <option value="Self_contain">Self contain</option>
-                        <option value="Studio_Apartment">
-                          Studio Apartment
-                        </option>
-                        <option value="Block_of_flats">Block of flats</option>
-                        <option value="Detached_Bungalow">
-                          Detached Bungalow
-                        </option>
-                        <option value="Semi-Detached-Bungalow">
-                          Semi-Detached Bungalow
-                        </option>
-                        <option value="Terraced-Bungalow">
-                          Terraced Bungalow
-                        </option>
-                        <option value="Detached-Duplex">Detached Duplex</option>
-                        <option value="Semi-Detached-Duplex">
-                          Semi-Detached Duplex
-                        </option>
-                        <option value="Terraced-Duplex">Terraced Duplex</option>
+                        {propertyTypeValues.map((type, index) => (
+                          <option key={index} value={type}>
+                            {type}
+                          </option>
+                        ))}
                       </select>
-                      {errors.Property_Type && (
+                      {errors.propertyType && (
                         <p className="errorMsg">Property Type is required.</p>
                       )}
                     </div>
@@ -221,75 +211,79 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <br />
                       <div className="flex gap-4">
                         <select
-                          name="State"
-                          id="State"
+                          name="state"
+                          id="state"
                           className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
-                          {...register("State", {
+                          {...register("state", {
                             required: true,
                           })}
+                          onChange={(e) => fetchAreas(e.target.value)}
                         >
                           <option value="" disabled selected>
                             Select State
                           </option>
-                          {State.map((state, index) => (
-                            <option key={index} value={state}>
-                              {state}
-                            </option>
-                          ))}
+                          {allStates &&
+                            allStates.map((state, index) => (
+                              <option key={index} value={state}>
+                                {state}
+                              </option>
+                            ))}
                         </select>
-                        {errors.State && (
+                        {errors.state && (
                           <p className="errorMsg">State is required.</p>
                         )}
                         <select
-                          name="Area"
-                          id="Area"
-                          className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField  sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
-                          {...register("Area", {
+                          name="area"
+                          id="area"
+                          className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
+                          {...register("area", {
                             required: "Area is required.",
                           })}
                         >
                           <option value="" disabled selected>
                             Select Area
                           </option>
-                          {Area.map((area, index) => (
-                            <option key={index} value={area}>
-                              {area}
-                            </option>
-                          ))}
+                          {areas?.data?.data &&
+                            areas.data.data.map((area, index) => (
+                              <option key={index} value={area}>
+                                {area}
+                              </option>
+                            ))}
                         </select>
-                        {errors.Area && (
-                          <p className="errorMsg">{errors.Area.message}</p>
+
+                        {errors.area && (
+                          <p className="errorMsg">{errors.area.message}</p>
                         )}
                       </div>
                     </div>
                     <div className="">
-                      <label htmlFor="Street">
+                      <label htmlFor="address">
                         Street <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <input
-                        {...register("Street", {
+                        {...register("address", {
                           required: "Street name is required",
                         })}
                         className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px] pl-2"
                         placeholder="Enter street name"
                       />
-                      {errors.Street && (
+                      {errors.address && (
                         <span className="text-red-500 text-xs">
-                          {errors.Street.message}
+                          {errors.address.message}
                         </span>
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="Rooms">
+                      <label htmlFor="numberOfRooms">
                         Rooms <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <select
-                        name="Rooms"
+                        name="numberOfRooms"
                         className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
-                        id="Rooms"
-                        {...register("Rooms", {
+                        id="numberOfRooms"
+                        {...register("numberOfRooms", {
                           required: "Number of rooms is required",
                         })}
                       >
@@ -306,8 +300,10 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <option value="8">8</option>
                         <option value="9">9</option>
                       </select>
-                      {errors.Rooms && (
-                        <p className="errorMsg">{errors.Rooms.message}</p>
+                      {errors.numberOfRooms && (
+                        <p className="errorMsg">
+                          {errors.numberOfRooms.message}
+                        </p>
                       )}
                     </div>
                   </>
@@ -315,7 +311,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
               </>
             </div>
             <div className="flex  flex-col gap-[24px] ">
-              {propertyType === "Land" ? (
+              {propertyType === "land" ? (
                 <>
                   <div className="">
                     <label htmlFor="Property_Location">
@@ -325,62 +321,65 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <br />
                     <div className="flex gap-4">
                       <select
-                        name="State"
-                        id="State"
+                        name="state"
+                        id="state"
                         className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
-                        {...register("State", {
+                        {...register("state", {
                           required: true,
                         })}
+                        onChange={(e) => fetchAreas(e.target.value)}
                       >
                         <option value="" disabled selected>
                           Select State
                         </option>
-                        {State.map((state, index) => (
-                          <option key={index} value={state}>
-                            {state}
-                          </option>
-                        ))}
+                        {allStates &&
+                          allStates.map((state, index) => (
+                            <option key={index} value={state}>
+                              {state}
+                            </option>
+                          ))}
                       </select>
-                      {errors.State && (
+                      {errors.state && (
                         <p className="errorMsg">State is required.</p>
                       )}
                       <select
-                        name="Area"
-                        id="Area"
+                        name="area"
+                        id="area"
                         className="w-[158px] h-[43px] sm:w-[228px] fields duoViewPoint dropdwField  sm:h-[45px] adminCellBorders rounded-[4px] p-[12px]"
-                        {...register("Area", {
+                        {...register("area", {
                           required: "Area is required.",
                         })}
                       >
                         <option value="" disabled selected>
                           Select Area
                         </option>
-                        {Area.map((area, index) => (
-                          <option key={index} value={area}>
-                            {area}
-                          </option>
-                        ))}
+                        {areas?.data?.data &&
+                          areas.data.data.map((area, index) => (
+                            <option key={index} value={area}>
+                              {area}
+                            </option>
+                          ))}
                       </select>
-                      {errors.Area && (
-                        <p className="errorMsg">{errors.Area.message}</p>
+                      {errors.area && (
+                        <p className="errorMsg">{errors.area.message}</p>
                       )}
                     </div>
                   </div>
                   <div className="">
-                    <label htmlFor="Street">
+                    <label htmlFor="address">
                       Street <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
                     <input
-                      {...register("Street", {
+                      {...register("address", {
                         required: "Street name is required",
                       })}
                       className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px] pl-2"
                       placeholder="Enter street name"
                     />
-                    {errors.Street && (
+                    {errors.address && (
                       <span className="text-red-500 text-xs">
-                        {errors.Street.message}
+                        {errors.address.message}
                       </span>
                     )}
                   </div>
@@ -388,16 +387,16 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
               ) : (
                 <>
                   <div className="">
-                    <label htmlFor="Bathrooms">
+                    <label htmlFor="numberOfBathrooms">
                       Bathrooms <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
                     <select
-                      name="Bathrooms"
-                      id="Bathrooms"
+                      name="numberOfBathrooms"
+                      id="numberOfBathrooms"
                       className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
-                      {...register("Bathrooms", {
-                        required: "Number of athrooms is required",
+                      {...register("numberOfBathrooms", {
+                        required: "Number of bathrooms is required",
                       })}
                     >
                       <option value="" disabled selected>
@@ -410,20 +409,22 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <option value="5">5</option>
                       <option value="6">6</option>
                     </select>
-                    {errors.Bathrooms && (
-                      <p className="errorMsg">{errors.Bathrooms.message}</p>
+                    {errors.numberOfBathrooms && (
+                      <p className="errorMsg">
+                        {errors.numberOfBathrooms.message}
+                      </p>
                     )}
                   </div>
                   <div className="">
-                    <label htmlFor="Toilets">
+                    <label htmlFor="numberOfToilets">
                       Toilets <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
                     <select
-                      name="Toilets"
-                      id="Toilets"
+                      name="numberOfToilets"
+                      id="numberOfToilets"
                       className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] adminCellBorders w-[335px]"
-                      {...register("Toilets", {
+                      {...register("numberOfToilets", {
                         required: "Number of toilets is required",
                       })}
                     >
@@ -437,8 +438,10 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <option value="5">5</option>
                       <option value="6">6</option>
                     </select>
-                    {errors.Toilets && (
-                      <p className="errorMsg">{errors.Toilets.message}</p>
+                    {errors.numberOfToilets && (
+                      <p className="errorMsg">
+                        {errors.numberOfToilets.message}
+                      </p>
                     )}
                   </div>
                 </>
@@ -453,7 +456,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                   </p>
                 </div>
                 <textarea
-                  {...register("Description", {
+                  {...register("description", {
                     required: "Property description is required.",
                     minLength: {
                       value: 10,
@@ -461,13 +464,13 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     },
                   })}
                   className="mt-1 sm:h-[280px] rounded-md adminCellBorders w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
-                  placeholder="Property Description"
-                  // value={Description}
-                  id="Description"
-                  name="Description"
+                  placeholder="Property description"
+                  // value={description}
+                  id="description"
+                  name="description"
                 ></textarea>
-                {errors.Description && (
-                  <p className="errorMsg">{errors.Description.message}</p>
+                {errors.description && (
+                  <p className="errorMsg">{errors.description.message}</p>
                 )}
               </div>
             </div>
@@ -522,3 +525,26 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
 };
 
 export default PropertyInfo;
+
+const propertyTypeValues = [
+  "boys quarters",
+  "mini-flat",
+  "penthouse",
+  "self contain",
+  "studio apartment",
+  "block of flats",
+  "detached bungalow",
+  "semi-detached bungalow",
+  "terraced bungalow",
+  "detached duplex",
+  "semi-detached duplex",
+  "terraced duplex",
+];
+const listingTypeValues = ["for rent", "for sale", "shortlet", "land"];
+const landTypeValues = [
+  "commercial land",
+  "residential land",
+  "mixed-used land",
+  "industrial land",
+  "farmland",
+];

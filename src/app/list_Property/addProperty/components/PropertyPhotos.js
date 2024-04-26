@@ -14,7 +14,7 @@ const PropertyPhoto = ({
   const fileUpload = useRef(null);
   const fileUpload2 = useRef(null);
   const [coverPhoto, setCoverPicture] = useState(null);
-  const [otherPhotos, setOtherPhotos] = useState([]);
+  const [photos, setOtherPhotos] = useState([]);
   const [fileUploaded, setFileUpload] = useState(false);
   const [fileUploaded2, setFileUpload2] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
@@ -24,7 +24,7 @@ const PropertyPhoto = ({
 
   const deleteFile = (index) => {
     const updatedData = [...houses];
-    const updatedFile = [...otherPhotos];
+    const updatedFile = [...photos];
     updatedData.splice(index, 1);
     updatedFile.splice(index, 1);
     setHouses(updatedData);
@@ -41,6 +41,10 @@ const PropertyPhoto = ({
     const file = e.target.files[0];
     // console.log(file);
     if (file) {
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        setErrorMsg2("Only, JPG, JPEG or PNG files are allowed.");
+        return;
+      }
       if (file.size > MAX_FILE_SIZE) {
         // File size exceeds the limit
         setErrorMsg2("Photo size exceeds 5MB.");
@@ -57,8 +61,11 @@ const PropertyPhoto = ({
   };
   const displayHousePic = (e) => {
     const file = e.target.files[0];
-    // console.log(file);
     if (file) {
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        setErrorMsg("Only, JPG, JPEG or PNG files are allowed.");
+        return;
+      }
       if (file.size > MAX_FILE_SIZE) {
         // File size exceeds the limit
         setErrorMsg("Photo size exceeds 5MB.");
@@ -121,7 +128,7 @@ const PropertyPhoto = ({
                   id="coverPhoto"
                   onChange={displayCoverPhoto}
                   style={{ display: "none" }}
-                  accept="image/jpg, image/png"
+                  accept="image/jpg, image/png, image/jpeg"
                 />
                 {fileUploaded ? (
                   <Image
@@ -198,7 +205,7 @@ const PropertyPhoto = ({
                         id="uploadImage"
                         onChange={displayHousePic}
                         style={{ display: "none" }}
-                        accept="image/jpg, image/png"
+                        accept="image/jpg, image/png, image/jpeg"
                       />
 
                       <Image

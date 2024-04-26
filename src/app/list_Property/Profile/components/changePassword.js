@@ -71,7 +71,7 @@ const ChangePassword = ({PasswordInfo, handleUpdate}) => {
                 type={showPassword ? "text" : "password"}
                 id="currentPwd"
                 {...register("currentPwd")}
-                className="w-[100%] h-[100%] rounded-[4px] "
+                className="w-[100%] h-[100%] rounded-[4px]  px-2"
                 name="currentPwd"
                 placeholder="********"
               />
@@ -112,7 +112,7 @@ const ChangePassword = ({PasswordInfo, handleUpdate}) => {
                     message: "Minimum length should be 8.",
                   },
                 })}
-                className="w-[100%] h-[100%] rounded-[4px] "
+                className="w-[100%] h-[100%] rounded-[4px] px-2"
                 name="newPwd"
                 placeholder="********"
               />
@@ -152,7 +152,7 @@ const ChangePassword = ({PasswordInfo, handleUpdate}) => {
                 type={showRePassword ? "text" : "password"}
                 id="confirmNewPwd"
                 {...register("confirmNewPwd")}
-                className="w-[100%] h-[100%] rounded-[4px] "
+                className="w-[100%] h-[100%] rounded-[4px] px-2"
                 name="confirmNewPwd"
                 placeholder="********"
               />

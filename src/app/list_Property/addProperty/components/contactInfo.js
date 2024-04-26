@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Loading from "/src/components/mainmenu/loading";
 import { useForm } from "react-hook-form";
+import Cookies from "js-cookie";
 
 const ContactInfo = ({
   BackToPropertyPhotos,
   handleSubmitData,
   // loading,
 }) => {
+  const [email, setEmail] = useState("");
+  const [whatsappLink, setWhatsAppLink] = useState("");
+
+  useEffect(() => {
+    const storedemail = Cookies.get("email");
+    setEmail(storedemail);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -38,13 +47,13 @@ const ContactInfo = ({
         <div className="flex  gap-[2rem] mt-5">
           <div className="profiles flex  flex-col space-y-4">
             <div>
-              <label htmlFor="PhoneNumber">
+              <label htmlFor="phoneNumber">
                 {" "}
                 Phone Number <span className="text-red-500 text-[15px]">*</span>
               </label>
               <br />
               <input
-                {...register("PhoneNumber", {
+                {...register("phoneNumber", {
                   required: "Phone Number is required",
                   pattern: {
                     value: /^((\+234)+|0)[7-9]{1}[0-9]{9}$/,
@@ -54,42 +63,56 @@ const ContactInfo = ({
                 placeholder="Enter Phone Number"
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
               />
-              {errors.PhoneNumber && (
-                <p className="errorMsg">{errors.PhoneNumber?.message}</p>
+              {errors.phoneNumber && (
+                <p className="errorMsg">{errors.phoneNumber?.message}</p>
               )}
             </div>
             <div>
-              <label htmlFor="Email">
-                {" "}
+              <label htmlFor="email">
                 Email
                 {/* <span className="text-red-500 text-xs">*</span> */}
               </label>
               <br />
               <input
-                {...register("Email")}
-                placeholder="Enter Email"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
+                // {...register("email")}
+                value={email}
+                placeholder="Enter email"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px] opacity-60"
+                disabled
               />
-              {errors.Email && <p className="errorMsg">Email is required</p>}
+              {errors.email && <p className="errorMsg">email is required</p>}
             </div>
             <div>
-              <label htmlFor="WhatsAppLink"> WhatsApp Link</label>
+              <label htmlFor="whatsapp"> WhatsApp Link</label>
               <br />
               <input
-                {...register("WhatsAppLink")}
+              type="text"
+                {...register("whatsapp", {
+                })}
                 placeholder="Enter WhatsApp Link"
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 adminCellBorders duoViewPoint w-[335px]"
+                value={whatsappLink}
+                onChange={(e) => setWhatsAppLink(e.target.value)}
+                onBlur={() => {
+                  if (whatsappLink.trim() !== "") {
+                    // Remove all non-numeric characters from the phone number
+                    const phoneNumber = whatsappLink
+                      .replace(/[^0-9]/g, "")
+                      .replace(/^0+/, "");
+                    setWhatsAppLink(`https://wa.me/${phoneNumber}`);
+                  }
+                }}
               />
-              {errors.WhatsAppLink && (
-                <p className="errorMsg">WhatsApp Link is required</p>
+              {errors.whatsapp && (
+                <p className="errorMsg">{errors?.whatsapp?.message}</p>
               )}
             </div>
           </div>
         </div>
         <div className="mt-[8rem] px-3 flex justify-between">
           <div>
-            <button
-              className="text-[14px] font-[500] md:py-[8px] md:px-[12px]  rounded-[4px] md:text-BlueHomz adminBorders text-[#D5D5D5]  h-[36px] w-[36px] md:h-full md:w-full flex items-center justify-center gap-1 "
+            <p
+              className="text-[14px] font-[500] md:py-[8px] md:px-[12px]  rounded-[4px] md:text-BlueHomz adminBorders text-[#D5D5D5]  h-[36px] w-[36px] md:h-full md:w-full flex items-center justify-center gap-1 cursor-pointer"
               onClick={BackToPropertyPhotos}
             >
               <Image
@@ -108,7 +131,7 @@ const ContactInfo = ({
               />
 
               <span className="hidden md:block">Previous</span>
-            </button>
+            </p>
           </div>
           <button
             disabled={!isValid ? true : false}
@@ -140,41 +163,6 @@ const ContactInfo = ({
               />
             )}
           </button>
-          {/* {
-          <div className="">
-            <button
-              disabled
-              className="flex w-[150px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
-            >
-              Add Property
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-          </div>
-        ) : (
-          <div className="">
-            <button
-              onClick={openYesOrNo}
-              className="flex w-[150px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
-            >
-              Add Property
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-              />
-            </button>
-          </div>
-        )} */}
         </div>
       </form>
     </div>

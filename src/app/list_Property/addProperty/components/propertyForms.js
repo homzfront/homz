@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
+import api from "/src/utils/api";
 import PropertyInfo from "./propertyInfo";
 import RentalInfo from "./rentDetails";
 import PropertyPhoto from "./PropertyPhotos";
@@ -18,7 +19,7 @@ const PropertyForms = () => {
   const [propertyInfo, setPropertyInfo] = useState([]);
   const [rentalInfo, setRentalInfo] = useState([]);
   const [coverPhoto, setUploadedCoverPhoto] = useState(null);
-  const [otherPhotos, setUploadedOtherPhotos] = useState([]);
+  const [photos, setUploadedOtherPhotos] = useState([]);
   const [contactInfo, setContactInfo] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
@@ -34,17 +35,50 @@ const PropertyForms = () => {
   const closeSuccessModal = () => {
     setSuccessModalIsOpen(false);
   };
-  const handleSaved = () => {
+  const handleSaved = async () => {
     setSuccessModalIsOpen(true);
     setSaveModalIsOpen(false);
-    // console.log(propertyDetails);
+
+    const formData = new FormData();
+
+    // Append body data (propertyDetails) to the FormData object
+    // propertyDetails.forEach((detail, index) => {
+    //   // console.log(detail)
+    //   formData.append(`body`, JSON.stringify(detail));
+    // });
+    // formData.append("coverPhoto", coverPhoto);
+    // photos.forEach((photo, index) => {
+    //   formData.append(`photos`, photo);
+    // });
+    
+  // formData.append("description",propertyDetails.description);
+
+    console.log(propertyDetails);
+
+    try {
+      const response = await api.post(
+        "/properties/create/listing-property",
+        propertyDetails,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmit = (data) => {
     setContactInfo(data);
-    setPropertyDetails((preDetails)=> [...preDetails, propertyInfo, rentalInfo,coverPhoto, otherPhotos, data, ]);
+    setPropertyDetails((preDetails) => [
+      { ...propertyInfo, ...rentalInfo, ...data, ...coverPhoto, ...photos },
+    ]);
     setSaveModalIsOpen(true);
   };
+
   const handlePropertyInfo = (data) => {
     setActiveTwo(true);
     setPropertyInfo(data);
@@ -55,6 +89,7 @@ const PropertyForms = () => {
   const handlePropertyInfoActive = () => {
     setActiveTwo(false);
     setPropertyInfoActive(true);
+    setActiveThree(false);
   };
   const handlePageChange = () => {
     setActiveTwo(true);
@@ -85,6 +120,7 @@ const PropertyForms = () => {
   };
   const BackToPropertyPhotos = () => {
     setActiveThree(true);
+    setSaveModalIsOpen(false);
     setActiveFour(false);
   };
   const handlePageChangeLast = () => {
