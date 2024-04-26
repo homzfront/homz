@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 import api from '@/utils/api';
 
 const useProfileStore = create((set) => ({
@@ -7,15 +6,14 @@ const useProfileStore = create((set) => ({
   isLoggedIn: false,
   loading: false,
 
+
   fetchProfile: async () => {
     try {
       set({ loading: true });
       // Fetch user profile using the token
       const response = await api.get('/user/profile');
-
       const userData = response.data.user || null;
       set({ profile: userData, isLoggedIn: true, loading: false });
-
       // Store user data in localStorage (only in the browser environment)
       if (typeof window !== 'undefined') {
         localStorage.setItem('profile', JSON.stringify(userData));
