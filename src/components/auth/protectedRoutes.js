@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
-import withAuth from '@/utils/withAuth'
 import { Plus_Jakarta_Sans } from "next/font/google";
+import WithAuth from '@/utils/withAuth';
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
     subsets: ["latin"],
@@ -15,5 +15,5 @@ const protectedRoutes =  ({children}) => {
     )
 }
 
-export default withAuth(protectedRoutes, ["/", "/about"]);
+export default WithAuth(protectedRoutes, ["/", "/about"]);
 
