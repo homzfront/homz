@@ -3,8 +3,8 @@ import useProfileStore from "@/store/profile";
 import { useRouter, usePathname } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 
-export default function withAuth(Component) {
-    return function withAuth(props) {
+export default function WithAuth(Component) {
+    return function WithAuth(props) {
         const { isLoggedIn } = useProfileStore();
         const [loading, setLoading] = useState(true);
         const route = useRouter();

@@ -1,6 +1,6 @@
 "use client"
+import WithAuth from '@/utils/withAuth';
 import React from 'react'
-import withAuth from '@/utils/withAuth'
 const Layout = ({children}) => {
   return (
     <div className=''>
@@ -9,4 +9,4 @@ const Layout = ({children}) => {
   )
 }
 
-export default withAuth(Layout);
+export default WithAuth(Layout);
