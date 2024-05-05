@@ -36,8 +36,6 @@ const PropertyForms = () => {
     setSuccessModalIsOpen(false);
   };
   const handleSaved = async () => {
-    setSuccessModalIsOpen(true);
-    setSaveModalIsOpen(false);
 
     // const formData = new FormData();
 
@@ -88,7 +86,11 @@ const PropertyForms = () => {
           },
         }
       );
-      // console.log(response)
+      if (response.success) {
+        setSuccessModalIsOpen(true);
+        setSaveModalIsOpen(false);
+        // console.log(response)
+      }
     } catch (error) {
       // console.log(error);
     }

@@ -21,7 +21,7 @@ export const fetchSingleProperty = async (id) => {
 
 export const propertyForMe = async () => {
   try {
-    const response = await api.get("/properties/user/me");
+    const response = await api.get("/properties/listing-property");
     return response.data;
   } catch (error) {
     throw error;

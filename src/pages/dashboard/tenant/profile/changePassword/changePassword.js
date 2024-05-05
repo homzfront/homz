@@ -104,7 +104,7 @@ const ChangePassword = () => {
         <InputVisible
           password={password}
           setPassword={setPassword}
-          label={"Current Password"}
+          label={"P"}
           placeholder={"Enter your current password"}
           setError={setPasswordError}  
           autoComplete={"current-password"}

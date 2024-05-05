@@ -9,7 +9,7 @@ const usePropertyStore = create((set) => ({
       try {
         const data = await propertyForMe();
         // console.log(data);
-        const properties = data.data?.results?.[0].data;
+        const properties = data.data?.results?.[0].data || data?.data;
         // console.log(properties);
         set({ propertyListedAll: properties, loading: false });
       } catch (error) {

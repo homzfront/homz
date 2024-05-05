@@ -79,8 +79,10 @@ const Header = () => {
       return "/dashboard/tenant/dashboard";
     } else if (user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
       return "/dashboard/enterprise-property/dashboard";
-    } else if (user?.accounts?.[0].name === "LIST_PROPERTY" || user?.accounts?.[0].name === "MANAGE_PROPERTY") {
+    } else if (user?.accounts?.[0].name === "MANAGE_PROPERTY") {
       return "/dashboard/property-owner/dashboard";
+    } else if (user?.accounts?.[0].name === "LIST_PROPERTY") {
+      return "/dashboard/list_Property";
     } else {
       return '/'; // No specific dashboard identified
     }

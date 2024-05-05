@@ -127,14 +127,8 @@ const PlansYearly = ({ data, profile }) => {
 
     try {
       let response;
-      if (profile.PlanStatus === "free_trial") {
-        response = await updateEnterPriseSub({
-          planName: plans,
-          interval
-        })
-      } else {
         response = await planEnterPriseSub(planDetails);
-      }
+
       if (response.success) {
         setLoading(false);
         const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
