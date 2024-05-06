@@ -12,7 +12,7 @@ import MessagesWhite from "@/components/icons/messagesWhite";
 import NotificationWhite from "@/components/icons/notificationWhite";
 import BuildingWhite from "@/components/icons/buildingWhite";
 
-const Features = () => {
+const Features = ({routeTo, profile}) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -136,7 +136,7 @@ const Features = () => {
             Join over 2,000+ property managers who are scaling up.
           </p>
           <div className="flex w-full sm:w-auto flex-col sm:flex-row gap-4">
-            <Link href={"/register"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border  flex items-center justify-center hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
+            <Link href={profile ? routeTo : "/register"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border  flex items-center justify-center hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
               Get started
             </Link>
             <Link href={"/contact-page"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  flex items-center justify-center hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">

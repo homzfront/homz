@@ -4,7 +4,7 @@ import Minus from "../../components/icons/Minus";
 import Plus from "../../components/icons/Plus";
 import Link from "next/link";
 
-const FAQs = () => {
+const FAQs = ({isLoggedIn}) => {
   const [expandedFAQs, setExpandedFAQs] = useState({});
 
   const toggleFAQ = (id) => {

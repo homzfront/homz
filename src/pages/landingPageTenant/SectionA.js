@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const SectionA = () => {
+const SectionA = ({ routeTo, profile }) => {
   return (
     <div className="max-w-[1160px] m-auto px-6 mt-20 justify-center gap-8 sm:flex-row h-auto sm:h-[540px] flex flex-col">
       <div className="sm:w-[50%] flex flex-col gap-4 justify-center mt-0">
@@ -14,7 +14,7 @@ const SectionA = () => {
           communication in just one click!
         </p>
         <div className="flex sm:mb-0 mb-10 pt-4 sm:flex-row flex-col gap-4">
-          <Link href={"/register"}>
+          <Link href={profile ? routeTo : "/register"}>
             <button className="w-full  sm:w-[120px] h-[48px] text-[16px]  rounded-md  bg-BlueHomz  text-white hover:bg-white hover:text-BlueHomz hover:border-BlueHomz hover:border font-[700] px-2 py-1 ">
               Get started
             </button>

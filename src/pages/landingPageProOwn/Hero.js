@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Hero = () => {
+const Hero = ({ routeTo, profile }) => {
   return (
     <div className="mx-auto m-8 max-w-[1440px] ">
       <div className="bg-[url('/Background-image.png')] mx-auto w-full bg-BlueHomz">
@@ -15,7 +15,7 @@ const Hero = () => {
               Enjoy timely rent, verified Tenants, and a dedicated dashboard for monitoring your properties with our comprehensive management services.
             </p>
             <Link
-              href={"./register"}
+              href={profile ? routeTo : "/register"}
             //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"} 
             >
               <button className="text-BlueHomz text-[16px] font-bold  hover:bg-BlackHomz hover:text-white bg-white border mt-6 rounded-md h-[42px] lg:h-[48px] w-[116px]">

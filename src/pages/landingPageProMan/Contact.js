@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Contact = () => {
+const Contact = ({ routeTo, profile }) => {
   return (
     <div className='flex mt-[40px] py-8 max-w-[1160px] m-auto px-6 justify-between'>
       <div>
@@ -15,7 +15,7 @@ const Contact = () => {
         <Link href={"/contact-page"} className="  w-[109px] h-[48px] text-[16px] hover:w-[146px] flex items-center justify-center hover:h-[54px] rounded-md font-normal  bg-BlueHomz  text-white  px-2 py-1 hover:text-[18px] ">
           Contact us
         </Link>
-        <Link href={"/register"} className=" w-[109px] h-[48px] text-[16px] hover:w-[146px] flex items-center justify-center hover:h-[54px] rounded-md font-normal  text-GrayHomz border bg-transparent px-2 py-1 hover:text-[18px]">
+        <Link href={profile ? routeTo : "/register"} className=" w-[109px] h-[48px] text-[16px] hover:w-[146px] flex items-center justify-center hover:h-[54px] rounded-md font-normal  text-GrayHomz border bg-transparent px-2 py-1 hover:text-[18px]">
           Get started
         </Link>
       </div>

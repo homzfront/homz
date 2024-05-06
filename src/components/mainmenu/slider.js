@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 
-const SliderComponent = ({ users }) => {
+const SliderComponent = ({ users, routeTo, profile }) => {
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -71,7 +71,7 @@ const SliderComponent = ({ users }) => {
         </Slider>
       </div>
       <div className="sm:hidden mt-[80px] flex flex-col gap-4">
-        <Link href={"/register"}>
+        <Link href={profile ? routeTo : "/register"}>
           <button className=" w-[100%] h-[48px] text-[16px]  rounded-md font-normal hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz  text-white  bg-BlueHomz  px-2 py-1">
             Get started
           </button>

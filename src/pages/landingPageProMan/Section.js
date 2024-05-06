@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Section = () => {
+const Section = (routeTo, profile) => {
   return (
     <div className=" flex flex-col mt-16 max-w-[1160px] m-auto px-6 gap-14 py-4">
       <div>
@@ -21,7 +21,9 @@ const Section = () => {
           </p>
         </div>
         <div className="flex justify-center items-center">
-          <Link href={"/register"} className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal flex items-center justify-center text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
+          <Link
+            href={profile ? routeTo : "/register"}
+            className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10  rounded-md font-normal flex items-center justify-center text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
             Get Started
           </Link>
         </div>
