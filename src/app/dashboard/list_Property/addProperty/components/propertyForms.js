@@ -25,7 +25,7 @@ const PropertyForms = () => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
   const [propertyDetails, setPropertyDetails] = useState([]);
-
+  const [loadingForm, setLoadingForm] = useState(false);
   // console.log(contactInfo);
 
   const closeModal = () => {
@@ -36,7 +36,7 @@ const PropertyForms = () => {
     setSuccessModalIsOpen(false);
   };
   const handleSaved = async () => {
-
+    setLoadingForm(!loadingForm)
     // const formData = new FormData();
 
     // Append body data (propertyDetails) to the FormData object
@@ -77,7 +77,8 @@ const PropertyForms = () => {
 
 
     try {
-      const response = await api.post(
+      let response 
+      response = await api.post(
         "/properties/create/listing-property",
         formData,
         {
@@ -86,13 +87,16 @@ const PropertyForms = () => {
           },
         }
       );
-      if (response.success) {
+
+      if (response) {
         setSuccessModalIsOpen(true);
         setSaveModalIsOpen(false);
         // console.log(response)
+        setLoadingForm(false)
       }
     } catch (error) {
       // console.log(error);
+      setLoadingForm(false)
     }
   };
 

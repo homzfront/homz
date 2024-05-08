@@ -105,13 +105,13 @@ const Header = () => {
           }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
-          <Link href={"/"} className="hover:text-blue-400">
+          <Link href={"/"} className={`hover:text-blue-400 ${pathname === "/" || pathname === "/user_homepage/PropertyListing"  || pathname === "/user_homepage/PreviewProperty" || pathname === "/user_homepage" ? "text-BlueHomz" : ""}`}>
             Home
           </Link>
           <Link
-            // href={"/landingPage-PropertyOwner"}
-            className={`hover:text-blue-400   ${pathname === "/" ? "text-BlueHomz" : ""}`}
-            href={"/"}
+            href={"/landingPage-PropertyOwner"}
+            className={`hover:text-blue-400   ${pathname === "/landingPage-PropertyOwner" ? "text-BlueHomz" : ""}`}
+            // href={"/"}
             onClick={() => setOpen(false)}
           >
             Management

@@ -29,6 +29,16 @@ export const propertyForMe = async () => {
 };
 
 
+export const publicProp = async () => {
+  try {
+    const response = await api.get("/public/properties", );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const addBankPropertyOwner = async (details) => {
   try {
     const response = await api.post(`/bank/add/property-owner`, details);
