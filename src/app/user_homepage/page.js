@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Bedroom from "./components/bedrooms";
 import MaxPrice from "./components/maxPrice";
 import MinPrice from "./components/minPrice";
@@ -9,7 +9,9 @@ import { Properties } from "./components/Properties";
 import Link from "next/link";
 import { Carousel } from "flowbite-react";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
-import { useRouter } from "next/navigation";
+import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
+import api from "@/utils/api";
+import lowerCaseData from "@/utils/lowerCaseData";
 // import CustomizedModal from "./components/CustomizedModal";
 const customTheme = {
   root: {
@@ -85,17 +87,15 @@ const HomePage = () => {
   const [sale, setSale] = useState(false);
   const [shortlist, setShortlist] = useState(false);
   const [land, setLand] = useState(false);
-  const router = useRouter();
+  const [featuredData, setFeaturedData] = useState(null)
   const [filters, setFilters] = useState({
     search: null,
     propertyType: null,
     minPrice: null,
     maxPrice: null,
     numberOfBathrooms: null,
+    listingType: rent ? "for rent" : null,
   });
-
-
-
   const handleOpen = (e) => {
     e.preventDefault();
     // setInitialOpen(false);
@@ -125,6 +125,7 @@ const HomePage = () => {
     setSale(false);
     setShortlist(false);
     setLand(false);
+    handleFilterChange("listingType", lowerCaseData(e.target.innerText));
   };
   const handleSale = (e) => {
     e.preventDefault();
@@ -132,6 +133,7 @@ const HomePage = () => {
     setSale(true);
     setShortlist(false);
     setLand(false);
+    handleFilterChange("listingType", lowerCaseData(e.target.innerText));
   };
   const handleShortlist = (e) => {
     e.preventDefault();
@@ -139,6 +141,7 @@ const HomePage = () => {
     setSale(false);
     setShortlist(true);
     setLand(false);
+    handleFilterChange("listingType", lowerCaseData(e.target.innerText));
   };
   const handleLand = (e) => {
     e.preventDefault();
@@ -146,6 +149,7 @@ const HomePage = () => {
     setSale(false);
     setShortlist(false);
     setLand(true);
+    handleFilterChange("listingType", lowerCaseData(e.target.innerText));
   };
 
   const handleFilterChange = (key, value) => {
@@ -164,30 +168,42 @@ const HomePage = () => {
   };
 
   const link = () => {
+    let link
     const query = {};
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
         query[key] = filters[key];
       }
     });
-
-    // Construct the URL string manually
-    const queryString = new URLSearchParams(query).toString();
-    const url = `/user_homepage/PropertyListing/?page=1&${queryString}`;
-    console.log(url)
-    router.push(url);
+    if (filters) {
+      link = `/user_homepage/PropertyListing/?page=1&${new URLSearchParams(query).toString()}`
+      return link;
+    }
   };
-  console.log(filters)
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get(
+        `/public/properties`)
+      const propertyData = response?.data?.data?.results[0]?.data || null
+      setFeaturedData(propertyData);
+      console.log(response)
+    }
+    fetchData()
+  }, []);
+  console.log(filters)
+  console.log(featuredData);
+  console.log(link());
 
   return (
     <div className="md:w-full mx-auto  mt-10 md:mt-20 ">
       <div className="flex flex-col relative px-6 md:px-0">
         <div className="flex md:items-center md:justify-between relative w-[330px] md:w-full">
           <div className="flex flex-col items-start w-[330px] md:w-[561px] gap-3 md:gap-6 md:pb-32 md:pl-20">
-            <p className="md:w-[272px] md:h-[43px] p-[8px]  text-center text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[500] md:leading-[27px]">
+            <p className=" md:h-[43px] p-[8px]  text-center text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[500] md:leading-[27px]">
               One-Stop Real Estate Solution
             </p>
+
             <h1 className="text-[29px]  leading-[36.54px] md:text-[41px] font-[700] md:leading-[51.66px] text-[#202020] ">
               <span className="hidden md:block">
                 Find, Manage, Appraise Your Property With Homz
@@ -255,8 +271,7 @@ const HomePage = () => {
             >
               Land
             </button>
-            <button
-              onClick={link}
+            <Link href={link() !== null ? link() : ""}
               className=" md:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white items-center rounded-[4px] text-[14px]">
               <Image
                 src="/static/images/white-search.svg"
@@ -265,15 +280,14 @@ const HomePage = () => {
                 height={16}
               />
               <span className="">Search</span>
-            </button>
+
+            </Link>
           </div>
           {!openFilter ? (
             <button
               className="md:hidden flex items-center mt-1 gap-2"
-              onClick={() => {
-                handleOpen();
-                reset();
-              }} >
+              onClick={handleOpen}
+            >
               <span className="">Show all filters</span>
               <Image
                 src="/static/images/black-arrow-down.svg"
@@ -290,37 +304,52 @@ const HomePage = () => {
                   id="searchState_Area"
                   name="searchState_Area"
                   className=" w-full  h-[42px]  rounded-[4px] placeholder:bold placeholder:text-slate-400 block bg-white  border   py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-[13px]"
-                  // value={searchStateArea}
-                  placeholder="Search by state or area "
-                // onChange={(e) => setSearchState_Area(e.target.value)}
+                  value={filters.search}
+                  onChange={handleSearchChange}
                 />
               </div>
               <div>
                 <PropertyType
                   getPropertyType={handleSearch}
-                  className={"w-[200px]"}
+                  className={"w-[292px]"}
                   selectOption={`${filters?.propertyType === null
                     ? "Property Type"
                     : capitalizeFirstLetter(filters?.propertyType)
                     }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
               <div>
                 <Bedroom
-                  // getBedrooms={handleSearch}
-                  width="w-[292px]"
+                  getBedrooms={handleSearch}
+                  className={"w-[292px]"}
+                  selectOption={`${filters?.numberOfBathrooms === null
+                    ? "Number of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                    }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
               <div>
                 <MinPrice
-                  // getPrice={handleSearch}
-                  width="w-[292px]"
+                  getPrice={handleSearch}
+                  className={"w-[292px]"}
+                  selectOption={`${filters?.minPrice === null
+                    ? "Min Price"
+                    : addCommasToNumberWithoutN(filters?.minPrice)
+                    }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
               <div>
                 <MaxPrice
-                  // getPrice={handleSearch}
-                  width="w-[292px]"
+                     getPrice={handleSearch}
+                     className={"w-[292px]"}
+                     selectOption={`${filters?.maxPrice === null
+                       ? "Max Price"
+                       : addCommasToNumberWithoutN(filters?.maxPrice)
+                       }`}
+                     classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
 
@@ -336,18 +365,17 @@ const HomePage = () => {
                   height={16}
                 />
               </button>
-              <button
-                onClick={link}
-                className="md:hidden flex items-center justify-center cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white rounded-[4px]"
-              >
-                <Image
-                  src="/static/images/white-search.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                />
-                <span className="">Search</span>
-              </button>
+              <Link href={link() !== null ? link() : ""}>
+                <button className="md:hidden flex items-center justify-center cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white rounded-[4px]">
+                  <Image
+                    src="/static/images/white-search.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                  />
+                  <span className="">Search</span>
+                </button>
+              </Link>
             </div>
           )}
           <div className="hidden md:flex gap-2 items-center w-full">
@@ -356,19 +384,20 @@ const HomePage = () => {
                 type="text"
                 id="searchState_Area"
                 name="searchState_Area"
-                className=" w-full   h-[42px]  rounded-[4px] placeholder:bold placeholder:text-slate-400 block bg-white  border border-slate-300  py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                className=" w-full placeholder:bold placeholder:text-slate-400 block bg-white  border border-BlueHomz4 h-[45px] p-3 rounded-md  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                 placeholder="Search by state or area"
                 value={filters.search}
                 onChange={handleSearchChange}
               />
-
-              <Image
-                src="/static/images/search-normal.svg"
-                alt=""
-                width={16}
-                height={16}
-                className="cursor-pointer right-[10px] absolute"
-              />
+              <Link href={link() !== null ? link() : ""}>
+                <Image
+                  src="/static/images/search-normal.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="cursor-pointer top-[26px] right-[15px] absolute"
+                />
+              </Link>
             </div>
             <div className="flex items-center justify-between gap-2 flex-row w-[72%]">
               <div>
@@ -379,6 +408,7 @@ const HomePage = () => {
                     ? "Property Type"
                     : capitalizeFirstLetter(filters?.propertyType)
                     }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
               <div>
@@ -389,6 +419,7 @@ const HomePage = () => {
                     ? "Number of bedrooms"
                     : `${filters?.numberOfBathrooms} Bedrooms`
                     }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
               <div>
@@ -397,8 +428,9 @@ const HomePage = () => {
                   className={"w-[142px]"}
                   selectOption={`${filters?.minPrice === null
                     ? "Min Price"
-                    : capitalizeFirstLetter(filters?.minPrice)
+                    : addCommasToNumberWithoutN(filters?.minPrice)
                     }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
               <div>
@@ -407,8 +439,9 @@ const HomePage = () => {
                   className={"w-[142px]"}
                   selectOption={`${filters?.maxPrice === null
                     ? "Max Price"
-                    : capitalizeFirstLetter(filters?.maxPrice)
+                    : addCommasToNumberWithoutN(filters?.maxPrice)
                     }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
             </div>
@@ -417,7 +450,7 @@ const HomePage = () => {
       </div>
 
       <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-6 pt-8 mt-6 pb-12">
-        <p className="w-[202px] text-[13px] md:w-[272px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
+        <p className="w-[202px] text-[13px] md:w-[300px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
           Designed for stress-free living
         </p>
 
@@ -526,7 +559,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <Link
-                    href=""
+                    href="/landingPage-PropertyOwner"
                     className="text-[14px] md:text-[16px] text-[#006AFF] flex gap-1"
                   >
                     <span>learn more</span>
@@ -586,7 +619,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <Link
-                    href=""
+                    href="/landing-page-property"
                     className="text-[14px] md:text-[16px] text-[#006AFF] flex gap-1"
                   >
                     <span>learn more</span>
@@ -645,7 +678,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <Link
-                    href=""
+                    href="/landing-page-tenant"
                     className="text-[14px] md:text-[16px] text-[#006AFF] flex gap-1"
                   >
                     <span>learn more</span>
@@ -720,7 +753,7 @@ const HomePage = () => {
           theme={parentCarousel}
         // onSlideChange={handleNext}
         >
-          {Properties.slice(0, 8).map((property, index) => (
+          {featuredData?.slice(0, 8)?.map((property, index) => (
             <div
               className="flex flex-col w-[241px]  md:w-[360px] bg-white md:h-[458px] rounded-[12px] shadow-md"
               key={index}
@@ -734,14 +767,14 @@ const HomePage = () => {
                   theme={customTheme}
                   className="w-[241px] h-[156.06px] md:h-full md:w-full"
                 >
-                  {property.image &&
-                    property.image.map((img, index) => (
+                  {property?.photos &&
+                    property?.photos.map((img, index) => (
                       <div
                         key={index}
                         className="w-[241px] h-[156.06px] md:h-full md:w-full"
                       >
                         <Image
-                          src={img}
+                          src={img?.url}
                           alt=""
                           width={373}
                           height={252}
@@ -754,17 +787,22 @@ const HomePage = () => {
               <div className="flex flex-col px-2 md:px-3 pt-2 md:pt-5 gap-[2px] md:gap-[10px] ">
                 <div className="flex justify-between items-center">
                   <p className="text-[#006AFF] text-[14px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                    {property.Location}
+                    {capitalizeFirstLetter(property?.name || property?.title)}
                   </p>
-                  <p className=" w-[45.86px] h-[20px] md:w-auto md:h-[25px] flex items-center justify-center text-[6.81px] md:text-[11px] font-[400] px-2 md:px-[12px] rounded-[4px] text-white bg-[#006AFF]">
-                    {property.Status}
+                  <p className={` w-[45.86px] h-[20px] md:w-auto md:h-[25px] flex items-center justify-center text-[6.81px] md:text-[11px] font-[400] px-2 md:px-[12px] rounded-[4px] text-white bg-[#006AFF]
+                     ${property?.listingType ? "" : "hidden"}
+                     `}
+                  >
+                    {capitalizeFirstLetter(property?.listingType)}
                   </p>
                 </div>
 
                 <p className="text-[8px] md:text-[14px] font-[400] text-[#006AFF]">
-                  {property.Property_type}
+                  {capitalizeFirstLetter(property?.propertyType)}
                 </p>
-                <p className="font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[9.91px] md:text-[16px] flex items-center ">
+                <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[9.91px] md:text-[16px] flex items-center 
+                  ${property?.totalFee ? "" : "hidden"}
+                  `}>
                   <Image
                     src="/static/images/nairaIcon.svg"
                     alt=""
@@ -773,7 +811,7 @@ const HomePage = () => {
                     className="h-[9.82px] w-[7.43px] md:w-[15px] md:h-[25px]"
                   />
                   <span className="pl-1 text-[#202020]">
-                    {Number(property.Price).toLocaleString()}{" "}
+                    {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
                   </span>
                   {/* <span className="md:hidden text-[8px] ml-1 pt-1 text-gray-500">
                       per year
@@ -788,7 +826,7 @@ const HomePage = () => {
                     className="h-[9.82px] w-[7.43px] md:w-[12px] md:h-[15.85px]"
                   />
                   <span className="text-[8px] md:text-[16px] font-[500] text-[#020202]">
-                    {property.Street}
+                    {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
                   </span>
                 </p>
                 <div className=" flex gap-2 md:justify-between mb-2">
@@ -802,7 +840,7 @@ const HomePage = () => {
                         className="h-[7.37px] w-[10.53px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className=" text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans'] text-[#202020]">
-                        {property.Bedrooms}
+                        {property?.numberOfRooms}
                       </span>
                       {/* <span className="md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
                           {property.Bedrooms.split("")[0]}
@@ -817,13 +855,13 @@ const HomePage = () => {
                         className="h-[7.8px] w-[8.67px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className="text-[#202020] text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property.Bathroom}
+                        {property?.numberOfBathrooms}
                       </span>
                       {/* <span className=" md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
                           {property.Bathroom.split("")[0]}
                         </span> */}
                     </p>
-                    <p className="flex gap-1 items-center md:pt-4">
+                    <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
                       <Image
                         src="/static/images/sqrtFeet-vector.svg"
                         alt=""
@@ -832,19 +870,27 @@ const HomePage = () => {
                         className="h-[7.34px] w-[13px] md:w-[21px] md:h-[11.86px]"
                       />
                       <span className=" text-[#202020] text-[7px] md:text-[10px] font-[500] leading-[4px] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property.SqrTF} Sqft
+                        {property?.squareMeter} Sqft
                       </span>
                     </p>
                   </div>
-                  <button className="cursor-pointer">
-                    <Image
-                      src="/static/images/arrow-in-circle.svg"
-                      alt=""
-                      width={40}
-                      height={40}
-                      className="h-[24.77px] w-[24.77px] md:w-[40px] md:h-[40px]"
-                    />
-                  </button>
+                  <Link
+                    className="cursor-pointer "
+                    href={{
+                      pathname: "/user_homepage/PreviewProperty",
+                      query: { property: property.slug },
+                    }}
+                  >
+                    <button className="cursor-pointer">
+                      <Image
+                        src="/static/images/arrow-in-circle.svg"
+                        alt=""
+                        width={40}
+                        height={40}
+                        className="h-[24.77px] w-[24.77px] md:w-[40px] md:h-[40px]"
+                      />
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -891,7 +937,7 @@ const HomePage = () => {
           <span className="">Don’t Just Take Our Word For It</span>
 
           <Link
-            href=""
+            href="/contact-page"
             className="hidden  border text-[#006AFF] border-[#006AFF] w-[110px] h-[48px]  rounded-[4px] text-[16px] md:flex items-center justify-center"
           >
             Contact Us

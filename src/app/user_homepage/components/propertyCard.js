@@ -12,8 +12,6 @@ import Skeleton from 'react-loading-skeleton';
 
 const PropertyCard = ({
   Property,
-  state,
-  setDataProperties,
   currentPage,
   totalPages,
   handleNext,
@@ -23,7 +21,10 @@ const PropertyCard = ({
   loading,
   firstThreePages,
   lastThreePages,
-  loadingII
+  loadingII,
+  reset,
+  setLoadingII,
+  properties
 }) => {
   const currentProperties = Property
   console.log(currentProperties)
@@ -61,7 +62,8 @@ const PropertyCard = ({
           <div className="flex flex-col gap-1 items-start">
             <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] mb-1">
               {Property && Property.length > 0
-                ? ` Property ${state && state}`
+                // ? ` Property ${state && state}`
+                ? ` Property`
                 : "Property not found"}
             </h1>
             <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px] text-left font-['Plus Jakarta Sans'] mb-2">
@@ -88,20 +90,29 @@ const PropertyCard = ({
                       Explore similar properties
                     </p>
                     <div className="flex gap-2 mt-2">
-                      <button className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]">
+                      <button
+                        onClick={() => {
+                          setLoadingII(true);
+                          reset()
+                        }
+                        }
+                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]">
                         Explore properties
                       </button>
-                      <button className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]">
-                        Contact Us
-                      </button>
+                      <Link href={"/contact-page"}>
+                        <button className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]">
+                          Contact Us
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
               <MiniPropertyListing
-                Properties={Properties}
-                setDataProperties={setDataProperties}
+                Properties={properties}
                 width={"md:w-[345px]"}
+                reset={reset}
+                setLoadingII={setLoadingII}
               />
             </>
           ) : (
@@ -110,31 +121,31 @@ const PropertyCard = ({
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-[30px] mb-3 md:w-full ">
                   {Property && currentProperties?.map((property, index) => (
                     <div
-                      className="flex flex-col w-[33%]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                      className="flex flex-col w-[100%]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
                       key={index}
                     >
                       <div
                         className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] "
                       // onClick={() => handleClearInputField("option4Qestion")}
                       >
-                        {loading ? <Skeleton height={252} count={5}/>
+                        {loading ? <Skeleton height={252} count={5} />
                           :
                           <Carousel
                             slide={false}
                             theme={customTheme}
-                            className="w-[33%] h-[226.33px] md:h-full md:w-full"
+                            className="w-[100%] h-[226.33px] md:h-full md:w-full"
                           >
                             {property?.photos &&
                               property?.photos.map((img, index) => (
                                 <div
                                   key={index}
-                                  className="w-[33%] h-[22.33px] md:h-full md:w-full"
+                                  className="w-[100%] h-[226.33px border border-BlueHomz md:h-full md:w-full"
                                 >
                                   <Link
                                     className="cursor-pointer "
                                     href={{
                                       pathname: "/user_homepage/PreviewProperty",
-                                      query: { PropertyId: property._id },
+                                      query: { property: property?.slug },
                                     }}
                                   >
                                     <Image
@@ -142,7 +153,7 @@ const PropertyCard = ({
                                       alt=""
                                       width={363}
                                       height={252}
-                                      className="w-[33%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                      className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
                                     />
                                   </Link>
                                 </div>
@@ -153,7 +164,7 @@ const PropertyCard = ({
                       <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
                         <div className="flex justify-between">
                           <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                            {capitalizeFirstLetter(property?.name)}
+                            {capitalizeFirstLetter(property?.name || property?.title)}
                           </p>
                           <p className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
                       ${property?.listingType ? "" : "hidden"}

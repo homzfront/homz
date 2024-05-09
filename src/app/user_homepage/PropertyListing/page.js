@@ -8,77 +8,108 @@ import MaxPrice from "../components/maxPrice";
 import MinPrice from "../components/minPrice";
 import Image from "next/image";
 import Listing from "../components/listing";
-import { Properties } from "../components/Properties";
 import CustomizedModal from "../components/CustomizedModal";
 import PropertyCard from "../components/propertyCard";
-import { useRouter } from "next/navigation";
 import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const UserHomePage = () => {
+  const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
+  const [property, setProperty] = useState(null);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalData, setTotalData] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingII, setLoadingII] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paramss, setParams] = useState(false);
+  const [filters, setFilters] = useState({
+    search: null,
+    propertyType: null,
+    listingType: null,
+    minPrice: null,
+    maxPrice: null,
+    numberOfBathrooms: null,
+    state: null,
+  });
+  const [properties, setProperties] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get(
+        `/public/properties`)
+      const propertyData = response?.data?.data?.results[0]?.data || null
+      setProperties(propertyData);
+      console.log(response)
+    }
+    fetchData()
+  }, []);
+
   let urlParams;
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const queryString = window.location.search;
       urlParams = new URLSearchParams(queryString);
-    } else {
-      urlParams = new URLSearchParams();
+      const page = urlParams.get("page") || 1;
+      const search = urlParams.get("search") || null;
+      const propertyType = urlParams.get("propertyType") || null;
+      const listingType = urlParams.get("listingType") || null;
+      const minPrice = parseInt(urlParams.get("minPrice")) || null;
+      const maxPrice = parseInt(urlParams.get("maxPrice")) || null;
+      const numberOfBathrooms = parseInt(urlParams.get("numberOfBathrooms")) || null;
+      const state = urlParams.get("state") || null;
+      setCurrentPage(page);
+      setFilters({
+        search,
+        propertyType,
+        listingType,
+        minPrice,
+        maxPrice,
+        numberOfBathrooms,
+        state,
+      });
     }
-  }, [])
-  const [dataProperties, setDataProperties] = useState(Properties || []);
-  const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  const [state, setState] = useState("");
-  const [location, setLocation] = useState("");
-  const [property, setProperty] = useState(null)
-  // const urlParams = useRouter();
-  const [properties, setProperties] = useState([]);
-  // const [currentPage, setCurrentPage] = useState(urlParams?.page || 1);
-  const [currentPage, setCurrentPage] = useState(urlParams?.get("page") || 1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalData, setTotalData] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [loadingII, setLoadingII] = useState(true);
-  const perPage = 8;
-  const [filters, setFilters] = useState({
-    search: urlParams?.get("search") || null,
-    propertyType: urlParams?.get("propertyType") || null,
-    listingType: urlParams?.get("listingType") || null,
-    minPrice: urlParams?.get("minPrice") || null,
-    maxPrice: urlParams?.get("maxPrice") || null,
-    numberOfBathrooms: urlParams?.get("numberOfBathrooms") || null,
-    state: urlParams?.get("state") || null,
-  });
+  }, []);
+
+  console.log(paramss)
+  console.log(filters);
 
   const fetchProperties = async () => {
     setLoading(true);
+    console.log(filters)
     const query = {};
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
         query[key] = filters[key];
       }
     });
-    const response = await api.get(
-      `/public/properties?page=${currentPage}&${new URLSearchParams(query).toString()}`
-    );
-    const data = await response;
-    console.log(data);
-    if (data?.data?.data && data?.data?.message !== "No items found") {
-      const propertyData = data?.data?.data?.results[0]?.data || null;
-      if (propertyData) {
-        setProperty(propertyData);
-        setLoading(false);
-        const total = data.data.data.results[0]?.metadata[0]?.total || 0;
-        setTotalPages(Math.ceil(total / 8));
-        setTotalData(data.data.data.results[0]?.metadata[0]?.total)
+    console.log(query)
+    if (query) {
+      const response = await api.get(
+        // console.log(query)
+        `/public/properties?page=${currentPage}&${new URLSearchParams(query).toString()}`
+      );
+      const data = response;
+      console.log(data);
+      if (data?.data?.data && data?.data?.message !== "No items found") {
+        const propertyData = data?.data?.data?.results[0]?.data || null;
+        if (propertyData) {
+          setProperty(propertyData);
+          setLoading(false);
+          setParams(false);
+          const total = data.data.data.results[0]?.metadata[0]?.total || 0;
+          setTotalPages(Math.ceil(total / 8));
+          setTotalData(data.data.data.results[0]?.metadata[0]?.total)
+        } else {
+          setProperty(null);
+          setTotalPages(0);
+          setLoading(false);
+          setParams(false);
+        }
       } else {
         setProperty(null);
         setTotalPages(0);
         setLoading(false);
+        setParams(false);
       }
-    } else {
-      setProperty(null);
-      setTotalPages(0);
-      setLoading(false);
     }
   };
 
@@ -86,12 +117,63 @@ const UserHomePage = () => {
   console.log(totalPages);
   console.log(property)
   console.log(currentPage);
+  console.log(paramss);
+
+  useEffect(() => {
+    if (paramss && (filters || currentPage)) {
+      const query = {};
+      Object.keys(filters).forEach((key) => {
+        if (filters[key]) {
+          query[key] = filters[key];
+        }
+      });
+      console.log(query)
+      window.history.pushState(
+        null,
+        "",
+        `?page=${currentPage}&${new URLSearchParams(query).toString()}`
+      );
+      fetchProperties()
+    } else {
+      fetchProperties()
+    }
+  }, [filters], [currentPage]); // Listen to changes in currentPage and filters
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
+
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    handleFilterChange("search", value);
+    setParams(true)
+  };
+
+  const handleSearch = (query, label) => {
+    console.log(query)
+    console.log(label)
+    handleFilterChange(label, query);
+    setParams(true)
+  };
+
+  const reset = () => {
+    setFilters({
+      search: "",
+      propertyType: null,
+      listingType: null,
+      minPrice: null,
+      maxPrice: null,
+      numberOfBathrooms: null,
+      state: null,
+    })
+    setCurrentPage(1);
+    setParams(true);
+  };
 
   const firstThreePages = Array.from({ length: 3 }, (_, i) => i + 1);
   const lastThreePages = Array.from({ length: totalPages - 1 }, (_, i) => totalPages - i)
     .filter((page) => page > 1 && page < totalPages)
     .reverse();
-
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -105,75 +187,25 @@ const UserHomePage = () => {
     }
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
-    // urlParams?.push({
-    //   pathname: '/user_homepage/PropertyListing',
-    //   query: { ...filters, [key]: value },
-    // });
-  };
-
-  const handleSearchChange = (e) => {
-    const { value } = e.target;
-    handleFilterChange("search", value);
-  };
-
   const handlePageClick = (page) => {
     setCurrentPage(page);
+    setParams(true);
   };
-
-  useEffect(() => {
-    const query = {};
-    Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
-        query[key] = filters[key];
-      }
-    });
-    window.history.pushState(
-      null,
-      "",
-      `?page=${currentPage}&${new URLSearchParams(query).toString()}`
-    );
-    fetchProperties()
-  }, [currentPage, filters]); // Listen to changes in currentPage and filters
 
   useEffect(() => {
     if (property) {
       setLoadingII(false);
     }
-  }, [property])
+  }, [property]);
+
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-    // setDataProperties(data);
   };
+
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
 
-  const handleSearch = (query, label) => {
-    console.log(query)
-    console.log(label)
-    handleFilterChange(label, query);
-  };
-
-
-  const reset = () => {
-    setFilters({
-      search: "",
-      propertyType: null,
-      listingType: null,
-      minPrice: null,
-      maxPrice: null,
-      numberOfBathrooms: null,
-      state: null,
-    })
-    setCurrentPage(1);
-  }
-
-  console.log(filters);
-  console.log(filters?.listingType);
-  console.log(filters?.propertyType);
-  console.log(filters?.numberOfBathrooms);
   return (
     <div className="max-w-[1440px] md:w-full mx-auto px-6 mt-10 md:mt-20 flex flex-col items-center  gap-[2.8rem] mb-10">
       <div className="hidden  md:flex justify-between">
@@ -293,8 +325,6 @@ const UserHomePage = () => {
       <div className="w-[337px] md:mt-3 md:w-full ">
         <PropertyCard
           Property={property}
-          state={state}
-          setDataProperties={setDataProperties}
           currentPage={currentPage}
           totalPages={totalPages}
           handleNext={handleNextPage}
@@ -305,6 +335,9 @@ const UserHomePage = () => {
           firstThreePages={firstThreePages}
           lastThreePages={lastThreePages}
           loadingII={loadingII}
+          reset={reset}
+          setLoadingII={setLoadingII}
+          properties={properties}
         />
       </div>
       <CustomizedModal
@@ -331,18 +364,46 @@ const UserHomePage = () => {
 
           <div className="flex justify-between">
             <div>
-              <PropertyType getPropertyType={handleSearch} />
+              <PropertyType
+                getPropertyType={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${filters?.propertyType === null
+                  ? "Property Type"
+                  : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
+              />
             </div>
             <div>
-              <Bedroom getBedrooms={handleSearch} />
+              <Bedroom
+                getBedrooms={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${filters?.numberOfBathrooms === null
+                  ? "Number of bedrooms"
+                  : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
+              />
             </div>
           </div>
           <div className="flex justify-between">
             <div className="">
-              <Price getPrice={handleSearch} />
+              <MinPrice
+                getPrice={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${filters?.minPrice === null
+                  ? "Min Price"
+                  : capitalizeFirstLetter(filters?.minPrice)
+                  }`}
+              />
             </div>
             <div>
-              <SqrFeet getSquareFeet={handleSearch} />
+            <Listing
+            getState={handleSearch}
+            className={"w-[150px]"}
+            selectOption={`${filters?.listingType === null
+              ? "Listing Type"
+              : capitalizeFirstLetter(filters?.listingType)
+              }`}
+          />
             </div>
           </div>
 

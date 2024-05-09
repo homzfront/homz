@@ -1,3 +1,4 @@
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,42 +6,43 @@ import React from "react";
 
 const MiniPropertyListings = ({
   Properties,
-  setDataProperties,
   width,
   padding,
+  reset,
+  setLoadingII
 }) => {
+
+  
   return (
-    <div className={` ${padding ? padding : "md:px-10"}`}>
+    <div className={``}>
       <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] my-3 ">
         Other properties
       </p>
       <div className="flex  w-[340px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-cent">
-        {Properties.slice(0, 3).map((property, index) => (
+        {Properties?.slice(0, 3)?.map((property, index) => (
           <div
-            className={`flex flex-col w-[335px]  ${
-              width ? width : " md:w-[333px]"
-            }  md:h-[458px] rounded-[12px] shadow-md`}
+            className={`flex flex-col w-[335px]  ${width ? width : " md:w-[333px]"
+              }  md:h-[458px] rounded-[12px] shadow-md`}
             key={index}
           >
             <div
-              className={`cursor-pointer ${
-                width ? width : "md:w-[333px]"
-              } md:h-[252px] rounded-[10px] `}
-              // onClick={() => handleClearInputField("option4Qestion")}
+              className={`cursor-pointer ${width ? width : "md:w-[333px]"
+                } md:h-[252px] rounded-[10px] `}
+            // onClick={() => handleClearInputField("option4Qestion")}
             >
               <Carousel
                 slide={false}
                 theme={customTheme}
                 className="w-[335px] h-[226.33px] md:h-full md:w-full"
               >
-                {property.image &&
-                  property.image.map((img, index) => (
+                {property?.photos &&
+                  property?.photos.map((img, index) => (
                     <div
                       key={index}
                       className="w-[335px] h-full md:h-full md:w-full"
                     >
                       <Image
-                        src={img}
+                        src={img?.url}
                         alt=""
                         width={393}
                         height={252}
@@ -53,17 +55,22 @@ const MiniPropertyListings = ({
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
               <div className="flex justify-between">
                 <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                  {property.State}
+                  {capitalizeFirstLetter(property?.name || property?.title)}
                 </p>
-                <p className="hidden md:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]">
-                  {property.Status}
+                <p className={`hidden md:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
+            ${property?.listingType ? "" : "hidden"}
+            `}
+                >
+                  {capitalizeFirstLetter(property?.listingType)}
                 </p>
               </div>
 
               <p className="text-[9px] md:text-[14px] font-[400] text-[#006AFF]">
-                {property.Property_type}
+                {capitalizeFirstLetter(property?.propertyType)}
               </p>
-              <p className="font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center ">
+              <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
+                 ${property?.totalFee ? "" : "hidden"}
+              `}>
                 <Image
                   src="/static/images/nairaIcon.svg"
                   alt=""
@@ -72,7 +79,7 @@ const MiniPropertyListings = ({
                   className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                 />
                 <span className="pl-1">
-                  {Number(property.Price).toLocaleString()}{" "}
+                  {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
                 </span>
                 {/* <span className="md:hidden text-[8px] ml-1 pt-1 text-gray-500">
                       per year
@@ -87,7 +94,7 @@ const MiniPropertyListings = ({
                   className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
                 />
                 <span className="text-[12.57px] md:text-[16px] font-[500]">
-                  {property.Area}
+                {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
                 </span>
               </p>
               <div className=" flex justify-between mb-2">
@@ -101,7 +108,7 @@ const MiniPropertyListings = ({
                       className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                     />
                     <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                      {property.Bedrooms}
+                    {property?.numberOfRooms}
                     </span>
                     {/* <span className="md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
                           {property.Bedrooms.split("")[0]}
@@ -116,13 +123,13 @@ const MiniPropertyListings = ({
                       className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                     />
                     <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                      {property.Bathroom}
+                    {property?.numberOfBathrooms}
                     </span>
                     {/* <span className=" md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
                           {property.Bathroom.split("")[0]}
                         </span> */}
                   </p>
-                  <p className="flex gap-1 items-center md:pt-4">
+                  <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
                     <Image
                       src="/static/images/sqrtFeet-vector.svg"
                       alt=""
@@ -130,15 +137,15 @@ const MiniPropertyListings = ({
                       height={11.86}
                     />
                     <span className="text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                      {property.SqrTF} Sqft
+                    {property?.squareMeter} Sqft
                     </span>
                   </p>
                 </div>
                 <Link
-                  className="cursor-pointer "
+                  className="cursor-pointer"
                   href={{
                     pathname: "/user_homepage/PreviewProperty",
-                    query: { PropertyId: property._id },
+                    query: { property: property.slug },
                   }}
                 >
                   <Image
@@ -157,7 +164,11 @@ const MiniPropertyListings = ({
 
       <button
         className="h-[48px] w-[189px] p-[12px] rounded-[4px] filterBorder text-[#006AFF] mx-auto block mt-10"
-        // onClick={() => setDataProperties(Properties)}
+        onClick={() => {
+          setLoadingII(true);
+          reset()
+        }
+        }
       >
         View more properties
       </button>

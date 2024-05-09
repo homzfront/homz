@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import useClickOutside from "@/utils/clickOutside";
 import lowerCaseData from "@/utils/lowerCaseData";
+import extractNumber from "@/utils/removeCommasFromString";
 
-const Prices = ({ getPrice, className, selectOption }) => {
+const Prices = ({ getPrice, className, selectOption, classNameII }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useClickOutside(() => setIsOpen(false));
 
@@ -25,18 +26,18 @@ const Prices = ({ getPrice, className, selectOption }) => {
   };
 
   const handleOptionClick = (option) => {
-    getPrice(lowerCaseData(option.label), "minPrice");
+    getPrice(extractNumber(option.label), "minPrice");
     setIsOpen(false);
   };
   return (
     <div className={`relative inline-block ${className}`} ref={dropdownRef}>
       <div
-        className={`text-BlackHomz px-4 border h-[45px] p-3 rounded-md cursor-pointer ${isOpen ? "border" : ""
+        className={`text-BlackHomz px-4 border ${classNameII} h-[45px] p-3 rounded-md cursor-pointer ${isOpen ? "border" : ""
           }`}
         onClick={handleDropdownToggle}
       >
         <div className="flex items-center justify-between">
-          <span className={`mr-2 truncate text-GrayHomz2`}>{selectOption}</span>
+          <span className={`mr-2 truncate text-[14px] text-GrayHomz2`}>{selectOption}</span>
           <div className={`w-5 h-5 ${isOpen ? "transform rotate-180" : ""}`}>
             <Image src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png" height={16} width={16} alt="" />
           </div>

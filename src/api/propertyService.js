@@ -18,6 +18,15 @@ export const fetchSingleProperty = async (id) => {
   }
 };
 
+export const fetchSinglePropertyPublic = async (id) => {
+  try {
+    const response = await api.get(`/public/properties/single/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const propertyForMe = async () => {
   try {

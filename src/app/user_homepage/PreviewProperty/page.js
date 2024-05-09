@@ -6,7 +6,7 @@ import Loading from "../components/loading";
 
 const PreviewProperty = () => {
   const searchParams = useSearchParams();
-  const propertyId = searchParams.get("PropertyId");
+  const propertyId = searchParams.get("property");
 
   return (
     <div className="w-full m-auto">
