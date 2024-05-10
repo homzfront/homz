@@ -5,7 +5,6 @@ import MaxPrice from "./components/maxPrice";
 import MinPrice from "./components/minPrice";
 import PropertyType from "./components/propertyType";
 import Image from "next/image";
-import { Properties } from "./components/Properties";
 import Link from "next/link";
 import { Carousel } from "flowbite-react";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
@@ -98,7 +97,6 @@ const HomePage = () => {
   });
   const handleOpen = (e) => {
     e.preventDefault();
-    // setInitialOpen(false);
     setOpenFilter(!openFilter);
   };
   const handleLandlords = (e) => {
@@ -162,8 +160,6 @@ const HomePage = () => {
   };
 
   const handleSearch = (query, label) => {
-    console.log(query)
-    console.log(label)
     handleFilterChange(label, query);
   };
 
@@ -187,13 +183,9 @@ const HomePage = () => {
         `/public/properties`)
       const propertyData = response?.data?.data?.results[0]?.data || null
       setFeaturedData(propertyData);
-      console.log(response)
     }
     fetchData()
   }, []);
-  console.log(filters)
-  console.log(featuredData);
-  console.log(link());
 
   return (
     <div className="md:w-full mx-auto  mt-10 md:mt-20 ">
@@ -324,7 +316,7 @@ const HomePage = () => {
                   getBedrooms={handleSearch}
                   className={"w-[292px]"}
                   selectOption={`${filters?.numberOfBathrooms === null
-                    ? "Number of bedrooms"
+                    ? "No of bedrooms"
                     : `${filters?.numberOfBathrooms} Bedrooms`
                     }`}
                   classNameII={"border-BlueHomz4 bg-white"}
@@ -343,13 +335,13 @@ const HomePage = () => {
               </div>
               <div>
                 <MaxPrice
-                     getPrice={handleSearch}
-                     className={"w-[292px]"}
-                     selectOption={`${filters?.maxPrice === null
-                       ? "Max Price"
-                       : addCommasToNumberWithoutN(filters?.maxPrice)
-                       }`}
-                     classNameII={"border-BlueHomz4 bg-white"}
+                  getPrice={handleSearch}
+                  className={"w-[292px]"}
+                  selectOption={`${filters?.maxPrice === null
+                    ? "Max Price"
+                    : addCommasToNumberWithoutN(filters?.maxPrice)
+                    }`}
+                  classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
 
@@ -416,7 +408,7 @@ const HomePage = () => {
                   getBedrooms={handleSearch}
                   className={"w-[142px]"}
                   selectOption={`${filters?.numberOfBathrooms === null
-                    ? "Number of bedrooms"
+                    ? "No of bedrooms"
                     : `${filters?.numberOfBathrooms} Bedrooms`
                     }`}
                   classNameII={"border-BlueHomz4 bg-white"}
@@ -448,7 +440,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
       <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-6 pt-8 mt-6 pb-12">
         <p className="w-[202px] text-[13px] md:w-[300px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
           Designed for stress-free living
@@ -572,7 +563,6 @@ const HomePage = () => {
                   </Link>
                 </div>
               )}
-
               {/* Managers section */}
               {manager && (
                 <div className="flex flex-col gap-5">
@@ -693,8 +683,6 @@ const HomePage = () => {
               )}
             </div>
           </div>
-          {/* <div className="md:hidden px-2 h-[339px]"> */}
-
           <div className="relative md:hidden h-[339px] ">
             <Image
               src="/static/images/proyotype2.png"
@@ -703,7 +691,6 @@ const HomePage = () => {
               height={102.83}
               className="relative rounded-[15.6px] z-0 top-7 h-[250px] mx-auto"
             />
-
             <Image
               src="/static/images/homz.gif"
               alt=""
@@ -712,20 +699,16 @@ const HomePage = () => {
               className="relative rounded-[9.92px] z-10 bottom-[167px] h-[252.83px] w-[370px]"
             />
           </div>
-          {/* </div> */}
         </div>
       </div>
       <div className="md:w-full md:h-[750px] h-[640px] gap-4 bg-[#006AFF] text-white flex flex-col px-6 md:px-[3rem] md:py-9 pt-6">
-        {/* <p className=""></p> */}
         <h1 className="text-[23px] px-3 leading-[36.54px] md:text-[36px] font-[700] md:leading-[51.66px]  flex justify-between md:px-[6rem]">
           <span className="">Featured Listed Properties</span>
-
           <Link
             href="user_homepage/PropertyListing"
             className="hidden border border-white w-[103px] h-[48px] p-[5px] pl-2 rounded-[4px] text-[16px] md:flex gap-1 items-center"
           >
             <span className="">View All</span>
-
             <Image
               src="/static/images/white-right-arrow.svg"
               alt=""
@@ -746,21 +729,18 @@ const HomePage = () => {
             features.
           </span>
         </p>
-
         <Carousel
           slide={false}
-          className="md:px-[6rem] px-2  pb-9"
+          className= "pb-9 w-full px-14"
           theme={parentCarousel}
-        // onSlideChange={handleNext}
         >
           {featuredData?.slice(0, 8)?.map((property, index) => (
             <div
-              className="flex flex-col w-[241px]  md:w-[360px] bg-white md:h-[458px] rounded-[12px] shadow-md"
+              className="flex flex-col w-[241px]  md:w-[330px] bg-white md:h-[458px] rounded-[12px] shadow-md"
               key={index}
             >
               <div
-                className="cursor-pointer md:w-[360px] md:h-[252px] "
-              // onClick={() => handleClearInputField("option4Qestion")}
+                className="cursor-pointer md:w-[330px] md:h-[252px] "
               >
                 <Carousel
                   slide={false}
@@ -796,7 +776,6 @@ const HomePage = () => {
                     {capitalizeFirstLetter(property?.listingType)}
                   </p>
                 </div>
-
                 <p className="text-[8px] md:text-[14px] font-[400] text-[#006AFF]">
                   {capitalizeFirstLetter(property?.propertyType)}
                 </p>
@@ -813,9 +792,6 @@ const HomePage = () => {
                   <span className="pl-1 text-[#202020]">
                     {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
                   </span>
-                  {/* <span className="md:hidden text-[8px] ml-1 pt-1 text-gray-500">
-                      per year
-                    </span> */}
                 </p>
                 <p className="flex gap-1 items-center">
                   <Image
@@ -842,9 +818,6 @@ const HomePage = () => {
                       <span className=" text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans'] text-[#202020]">
                         {property?.numberOfRooms}
                       </span>
-                      {/* <span className="md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                          {property.Bedrooms.split("")[0]}
-                        </span> */}
                     </p>
                     <p className="flex gap-1 items-center md:pt-4">
                       <Image
@@ -857,9 +830,6 @@ const HomePage = () => {
                       <span className="text-[#202020] text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
                         {property?.numberOfBathrooms}
                       </span>
-                      {/* <span className=" md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                          {property.Bathroom.split("")[0]}
-                        </span> */}
                     </p>
                     <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
                       <Image
@@ -898,7 +868,6 @@ const HomePage = () => {
         </Carousel>
         <button className="md:hidden mb-3 border mx-auto border-white w-[103px] h-[48px] p-[5px]  rounded-[4px] text-[16px] flex gap-1 items-center justify-center">
           <span className="">View All</span>
-
           <Image
             src="/static/images/white-right-arrow.svg"
             alt=""
@@ -916,12 +885,10 @@ const HomePage = () => {
           <p className="md:hidden text-[23px] leading-[28.98px] w-[297px] text-center font-[700] text-white">
             Explore apartments suited to your lifestyle.
           </p>
-
           <p className="md:text-[20px] font-[500] leading-[20.16px] text-center text-white md:w-full w-[297px]">
             Join over 2,000+ happy clients who have found their ideal apartments
             on Homz
           </p>
-
           <div className="flex gap-2 mt-2">
             <Link
               href="user_homepage/PropertyListing"
@@ -935,7 +902,6 @@ const HomePage = () => {
       <div className="w-full md:h-[491px] min-h-[500px] md:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-5 md:gap-0">
         <h1 className="text-left  mx-auto md:mx-0 w-[296px] md:w-full text-[23px] font-[700] leading-[28.98px]  flex justify-between items-center text-[#0058D4]">
           <span className="">Don’t Just Take Our Word For It</span>
-
           <Link
             href="/contact-page"
             className="hidden  border text-[#006AFF] border-[#006AFF] w-[110px] h-[48px]  rounded-[4px] text-[16px] md:flex items-center justify-center"
@@ -959,7 +925,6 @@ const HomePage = () => {
                 <p className=" md:text-[20px] leading-[20.16px] mx-6 md:pr-5 md:pl-1 text-center text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] ">
                   {testimonial.Testimony}
                 </p>
-
                 <p className="flex flex-col gap-1 items-center justify-center">
                   <span className="md:text-[14px] md:font-[400] md:leading-[24px] text-[#202020]">
                     {testimonial.Name}
@@ -972,7 +937,6 @@ const HomePage = () => {
             ))}
           </Carousel>
         </div>
-
         <Link
           href=""
           className="md:hidden mx-auto flex items-center justify-center border border-[#006AFF]  text-[#006AFF] w-[110px] h-[48px]  rounded-[4px] text-[16px] "

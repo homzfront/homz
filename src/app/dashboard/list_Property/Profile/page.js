@@ -8,13 +8,8 @@ import CustomizedModal from "../components/CustomizedModal";
 import PersonalInfo from "./components/personalInfo";
 import BusinessInfo from "./components/businessInfo";
 import ChangePassword from "./components/changePassword";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 
-// export async function getStaticProps() {
-//   // const res = await fetch('https://api.github.com/repos/vercel/next.js')
-//   // const repo = await res.json()
-//   const Prop = Properties.find(prop => prop._id === parseInt(window.location.href.split("/").pop()));
-//   return { props: { Prop } }
-// }
 const Profile = () => {
   const PropertyID = null;
   const [personalActive, setPersonalActive] = useState(true);
@@ -30,10 +25,11 @@ const Profile = () => {
   const [ProfileDetails, setProfileDetails] = useState([]);
   const [propertyData, setPropertyData] = useState([]);
 
+  const { data, fetchData } = useProfileListingMe();
+  console.log(data);
   useEffect(() => {
-    const property = Properties.find(({ _id }) => _id === parseInt(PropertyID));
-    setPropertyData(property);
-  }, [PropertyID]);
+    fetchData();
+  }, []);
 
   const closeModal = () => {
     setSaveModalIsOpen(false);
@@ -79,7 +75,7 @@ const Profile = () => {
     setActiveFour(false);
   };
 
- 
+
   const handleContactInfo = () => {
     setActiveThree(false);
     setActiveTwo(false);
@@ -104,39 +100,36 @@ const Profile = () => {
   };
   return (
     <div className="pt-10 md:pt-0 md:px-2 w-full">
-   
+
       <h1>Profile</h1>
       <div className="flex flex-col gap-2 mt-8 ">
         <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full profileVP duoViewPoint ">
           <button
             onClick={handlePersonalActive}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
-              personalActive
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${personalActive
                 ? "inline-block shadow-md bg-[#006AFF] text-white "
                 : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-            }`}
+              }`}
           >
             Personal Information
           </button>
 
           <button
             onClick={handleBusinessActive}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
-              businessActive
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${businessActive
                 ? "inline-block shadow-md bg-[#006AFF] text-white "
                 : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-            }`}
+              }`}
           >
             Business Information
           </button>
 
           <button
             onClick={handleContactInfo}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
-              changePwdActive
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${changePwdActive
                 ? "inline-block shadow-md bg-[#006AFF] text-white "
                 : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-            }`}
+              }`}
           >
             Change Password
           </button>
@@ -156,7 +149,7 @@ const Profile = () => {
       />
       <div className=" md:mt-7 mb-7  rounded-[12px] ">
         <div className={`${personalActive ? "inline-block" : "hidden"}`}>
-          <PersonalInfo handleUpdate={handleUpdateDetails} />
+          <PersonalInfo handleUpdate={handleUpdateDetails} data={data}/>
         </div>
         <div className={`${businessActive ? "inline-block" : "hidden"}`}>
           <BusinessInfo

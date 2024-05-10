@@ -12,7 +12,7 @@ const MiniPropertyListings = ({
   setLoadingII
 }) => {
 
-  
+
   return (
     <div className={``}>
       <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] my-3 ">
@@ -28,7 +28,6 @@ const MiniPropertyListings = ({
             <div
               className={`cursor-pointer ${width ? width : "md:w-[333px]"
                 } md:h-[252px] rounded-[10px] `}
-            // onClick={() => handleClearInputField("option4Qestion")}
             >
               <Carousel
                 slide={false}
@@ -54,7 +53,7 @@ const MiniPropertyListings = ({
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
               <div className="flex justify-between">
-                <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
+                <p className="text-[#006AFF] text-[20.66px] md:text-[21px] font-[700] leading-[28.98px] text-center">
                   {capitalizeFirstLetter(property?.name || property?.title)}
                 </p>
                 <p className={`hidden md:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
@@ -81,9 +80,6 @@ const MiniPropertyListings = ({
                 <span className="pl-1">
                   {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
                 </span>
-                {/* <span className="md:hidden text-[8px] ml-1 pt-1 text-gray-500">
-                      per year
-                    </span> */}
               </p>
               <p className="flex gap-1 items-center">
                 <Image
@@ -94,7 +90,7 @@ const MiniPropertyListings = ({
                   className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
                 />
                 <span className="text-[12.57px] md:text-[16px] font-[500]">
-                {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
+                  {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
                 </span>
               </p>
               <div className=" flex justify-between mb-2">
@@ -108,11 +104,8 @@ const MiniPropertyListings = ({
                       className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                     />
                     <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                    {property?.numberOfRooms}
+                      {property?.numberOfRooms}
                     </span>
-                    {/* <span className="md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                          {property.Bedrooms.split("")[0]}
-                        </span> */}
                   </p>
                   <p className="flex gap-1 items-center md:pt-4">
                     <Image
@@ -123,11 +116,8 @@ const MiniPropertyListings = ({
                       className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                     />
                     <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                    {property?.numberOfBathrooms}
+                      {property?.numberOfBathrooms}
                     </span>
-                    {/* <span className=" md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                          {property.Bathroom.split("")[0]}
-                        </span> */}
                   </p>
                   <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
                     <Image
@@ -137,7 +127,7 @@ const MiniPropertyListings = ({
                       height={11.86}
                     />
                     <span className="text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                    {property?.squareMeter} Sqft
+                      {property?.squareMeter} Sqft
                     </span>
                   </p>
                 </div>
@@ -161,7 +151,6 @@ const MiniPropertyListings = ({
           </div>
         ))}
       </div>
-
       <button
         className="h-[48px] w-[189px] p-[12px] rounded-[4px] filterBorder text-[#006AFF] mx-auto block mt-10"
         onClick={() => {

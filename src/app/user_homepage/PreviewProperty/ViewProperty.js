@@ -1,32 +1,21 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { Carousel } from "flowbite-react";
-import { Properties2 } from "../components/previewProperties";
-import { Properties } from "../components/Properties";
-import Lightbox from "yet-another-react-lightbox";
-import {
-  Captions,
-  Thumbnails,
-  Download,
-  Zoom,
-  Counter,
-  Fullscreen,
-} from "yet-another-react-lightbox/plugins";
-import "yet-another-react-lightbox/styles.css";
-import "yet-another-react-lightbox/plugins/captions.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import "yet-another-react-lightbox/plugins/counter.css";
 import MiniPropertyListings from "../components/miniPropertyListings";
 import timeAgo from "@/utils/timeAgo";
 import { useRouter } from "next/navigation";
 import { fetchSinglePropertyPublic } from "@/api/propertyService";
 import api from "@/utils/api";
-import LoadingII from "../components/loading";
+import LoadingII from "@/components/mainmenu/loadingII";
+import ImageModal from "../components/imageModal";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const ViewProperty = ({ PropertyID }) => {
-  const [open, setOpen] = useState(false);
+  const [combinedData, setCombinedData] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  useBodyScroll([openSelectedImage])
   const router = useRouter();
   const goBack = () => {
     router.back()
@@ -37,18 +26,43 @@ const ViewProperty = ({ PropertyID }) => {
     email: false,
     whatsAppNumber: false,
   });
+
   const [propertyData, setPropertyData] = useState([]);
+
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSinglePropertyPublic(PropertyID);
-      // const data2 = await enterpriseMe();
       const property = await response;
-      // setUser(data2.data);
       setPropertyData(property?.data);
       setLoading(false);
     };
     propertyData();
   }, [PropertyID]);
+
+
+  useEffect(() => {
+    if (propertyData && propertyData.coverPhoto && propertyData.photos) {
+      const newData = {
+        coverPhoto: propertyData.coverPhoto,
+        photos: propertyData.photos,
+      };
+      const combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
+        url: item.url,
+      }));
+      setCombinedData(combinedData); 
+    } else {
+      // console.error("Invalid or missing data structure.");
+    }
+  }, [propertyData]);
+
+  useEffect(() => {
+    // Update remainder state when combinedData length changes
+    if (combinedData.length === 8) {
+      setRemainder(combinedData.length - 7);
+    }
+  }, [combinedData]);
+
+  console.log(propertyData);
 
   const [properties, setProperties] = useState(null);
   useEffect(() => {
@@ -63,6 +77,17 @@ const ViewProperty = ({ PropertyID }) => {
     }
     fetchData()
   }, []);
+
+  const openImageModal = (imageIndex, item) => {
+    setSelectedImage({ index: imageIndex, data: combinedData, item: item });
+    setOpenSelectedImage(!openSelectedImage);
+    setCurrentImageIndex(imageIndex);
+  };
+
+  const closeImageModal = () => {
+    setSelectedImage(null);
+    setOpenSelectedImage(false);
+  };
 
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -80,9 +105,6 @@ const ViewProperty = ({ PropertyID }) => {
       // console.error("Unable to copy to clipboard:", error);
     }
   };
-  const otherPhotos = Array.isArray(propertyData?.photos)
-    ? propertyData?.photos
-    : [];
 
   const linkToSearch = () => {
     router.push("/user_homepage/PropertyListing")
@@ -90,8 +112,6 @@ const ViewProperty = ({ PropertyID }) => {
 
   return (
     <div>
-
-
       {loading ? <LoadingII /> : <div className="w-full pt-10 md:pt-8 pb-10 md:px-[120px] px-5">
         <div className="w-full flex md:justify-between items-center gap-[4rem] md:gap-0">
           <div
@@ -116,76 +136,74 @@ const ViewProperty = ({ PropertyID }) => {
             </span>
           </div>
         </div>
-
-
-        <div className="flex flex-col gap-[12px] pt-7">
-          <div className="md:w-full md:h-[368px] w-[33%] h-[174px]">
-            <Image
-              src={propertyData?.coverPhoto?.url}
-              alt=""
-              height={368}
-              width={1110}
-              className="w-full h-full  rounded-[12px] cursor-pointer"
-              onClick={() => setOpen(true)}
+        <div className="mt-4 ml-3">
+          <div className="flex flex-wrap gap-4">
+            {combinedData &&
+              combinedData?.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={` ${index === 0 ? "w-full flex-shrink-0" : "flex-grow"
+                    }`}
+                  onClick={() => openImageModal(index, item)}
+                >
+                  {index === 0 || index <= 5 ? (
+                    <Image
+                      src={item.url}
+                      alt=""
+                      height={index === 0 ? 368 : 161}
+                      width={index === 0 ? 1110 : 162}
+                      className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px] ${index === 0 ? "w-full h-[368px]" : ""
+                        }`}
+                      layout="full" // Specify the desired height
+                      objectFit="cover"
+                      objectPosition="center"
+                      quality={100}
+                      priority
+                    />
+                  ) : index === 6 ? (
+                    <div className="cursor-pointer relative inline-block rounded-md flex-grow">
+                      <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
+                        <p>+{remainder} more</p>
+                      </div>
+                      <Image
+                        src={item.url}
+                        alt=""
+                        height={161}
+                        width={162}
+                        className="rounded-md"
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+          </div>
+          {openSelectedImage && combinedData.length >= 1 && (
+            <ImageModal
+              imageData={selectedImage.data}
+              onClose={closeImageModal}
+              totalImages={combinedData?.length}
+              currentImageIndex={currentImageIndex}
+              setCurrentImageIndex={setCurrentImageIndex}
             />
-          </div>
-          <Lightbox
-            open={open}
-            plugins={[Thumbnails, Zoom, Counter, Fullscreen]}
-            close={() => setOpen(false)}
-            slides={[
-              {
-                srcSet: otherPhotos.map((photo) => ({
-                  src: photo,
-                  width: 1110,
-                  height: 752,
-                })),
-              },
-              ...otherPhotos.map((photo) => ({
-                src: photo,
-                alt: "",
-                width: 1110,
-                height: 752,
-                srcSet: [{ src: photo, width: 1110, height: 752 }],
-              })),
-            ]}
-          />
-
-          <div className="md:flex justify-evenly items-center hidden min-w-min">
-            {propertyData?.photos?.map((photo, index) => (
-              <Image
-                src={photo?.url}
-                alt=""
-                height={160.2}
-                width={160.2}
-                className="h-[157.41px] w-[156px] md:w-[150.2px] md:h-[150.2px] md:rounded-[9.81px] rounded-[11.24px] "
-                key={index}
-              />
-            ))}
-          </div>
-          <Carousel
-            slide={true}
-            theme={customTheme}
-            className="w-[33%] h-[156.06px] md:hidden"
-          >
-            {propertyData?.photos?.map((img, index) => (
-              <div key={index} className="w-[156px] h-[157.41px]">
-                <Image
-                  src={img?.url}
-                  alt=""
-                  height={157.41}
-                  width={156}
-                  className="h-[157.41px] w-[156px] rounded-[11.24px] "
-                />
-              </div>
-            ))}
-          </Carousel>
+          )}
         </div>
-        <div className="flex flex-col md:gap-[19px] pt-5 pb-3 gap-[20px] ">
+        <div className="flex flex-col md:gap-[19px] pt-5 pb-3 gap-[20px]">
           <div className="flex justify-between items-center">
-            <p className="font-[700] md:text-[23px] md:leading-[28.98px] text-[18px] leading-[22.68px] text-[#4E4E4E]">
-              {propertyData?.name || propertyData?.title}
-            </p>
+            <div className="flex gap-3 items-center">
+              <p className={`font-[700] md:text-[23px] md:leading-[28.98px] text-[18px] leading-[22.68px] text-[#4E4E4E]`}>
+                {propertyData?.name || propertyData?.title}
+              </p>
+
+              <p className="text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] flex md:text-[16px] px-[8px] bg-[#EEF5FF] items-center h-[28px] md:h-[35px]  rounded-[8px]">
+                {propertyData?.listingType && (propertyData?.listingType === "Sale" || propertyData?.listingType === "Rent") ? `For ${propertyData?.listingType}` : propertyData?.listingType}
+                {/* {"For Rent"} */}
+              </p>
+            </div>
+            <button
+              className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
+            >
+              Contact Owner
+            </button>
           </div>
           <p className=" text-[16px] md:font-[700] leading-[19.16px] font-[500] md:leading-[28.98px]  font-['Plus Jakarta Sans'] md:text-[23px] flex items-center ">
             <Image
@@ -228,7 +246,7 @@ const ViewProperty = ({ PropertyID }) => {
             </p>
           </div>
 
-          <button className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[33%] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF]">
+          <button className="md:hidden md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[33%] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF]">
             Contact Owner
           </button>
         </div>
@@ -282,16 +300,15 @@ const ViewProperty = ({ PropertyID }) => {
             {propertyData?.description}
           </p>
         </div>
-
         <div className="mt-3 flex flex-col gap-4 md:h-[180px]  mb-10 ">
-          <p className="text-[13px] font-[400] text-GrayHomz2">Landlord</p>
+          <p className="text-[13px] font-[400] text-GrayHomz2">Property Owner</p>
           <div className="flex gap-2 items-center">
             <Image
               src={"/static/images/OwnerImagesTwo.png"}
               alt=""
               height={40}
               width={40}
-              layout="full" // Specify the desired height
+              layout="full"
               objectFit="cover"
               objectPosition="center"
               className="object-cover bg-center h-[40px] rounded-full"
@@ -300,7 +317,7 @@ const ViewProperty = ({ PropertyID }) => {
             />
 
             <p className="text-[18px] font-[500] text-GrayHomz">
-              {propertyData?.folder}
+              {propertyData?.lisitingPropertyId?.fullName}
             </p>
           </div>
           <div className="flex gap-6 md:gap-16 flex-col md:flex-row">
@@ -393,7 +410,6 @@ const ViewProperty = ({ PropertyID }) => {
             </div>
           </div>
         </div>
-
         <MiniPropertyListings reset={linkToSearch} setLoadingII={setLoading} Properties={properties} padding={"md:px-0"} />
       </div>
       }

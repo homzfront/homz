@@ -2,14 +2,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import useClickOutside from "@/utils/clickOutside";
-import lowerCaseData from "@/utils/lowerCaseData";
 import extractNumber from "@/utils/removeCommasFromString";
 
 const Prices = ({ getPrice, className, selectOption, classNameII }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useClickOutside(() => setIsOpen(false));
-
-  console.log(selectOption)
   const options = [
     { id: 1, label: "100,000" },
     { id: 2, label: "200,000" },
@@ -18,8 +15,6 @@ const Prices = ({ getPrice, className, selectOption, classNameII }) => {
     { id: 5, label: "1000000" },
     { id: 6, label: "5000000 +" },
   ];
-
-
 
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);

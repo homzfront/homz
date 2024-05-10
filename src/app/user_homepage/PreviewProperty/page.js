@@ -2,15 +2,15 @@
 import React, {Suspense} from "react";
 import ViewProperty from "./ViewProperty";
 import { useSearchParams } from "next/navigation";
-import Loading from "../components/loading";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const PreviewProperty = () => {
   const searchParams = useSearchParams();
   const propertyId = searchParams.get("property");
 
   return (
-    <div className="w-full m-auto">
-      <Suspense fallback={<Loading />}>
+    <div className="w-full max-w-[1440px] m-auto">
+      <Suspense fallback={<LoadingII />}>
         <PreviewPropertyContent propertyId={propertyId} />
       </Suspense>
     </div>

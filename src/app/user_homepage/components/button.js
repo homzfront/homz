@@ -10,7 +10,7 @@ const Button = ({
   handlePrev,
   firstThreePages,
 }) => {
-  console.log(currentPage)
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     if (totalPages <= 6) {
@@ -28,12 +28,11 @@ const Button = ({
         }
       }
     }
-
     return pageNumbers.map((page, index) => (
       <button
         key={index}
         onClick={() => handlePageClick(page)}
-        className={`text-[14px] font-[500] w-10 h-10 rounded-md text-center ${currentPage === page ? "bg-GrayHomz5 text-GrayHomz" : ""
+        className={`text-[14px] font-[500] w-10 h-10 rounded-md text-center ${page === parseInt(currentPage) ? "bg-GrayHomz5 text-GrayHomz" : ""
           }`}
       >
         {page}
@@ -41,9 +40,7 @@ const Button = ({
     ));
   };
 
-
   return (
-
     <div className="flex md:w-full gap-2 justify-between md:px-14 mt-4">
       <div>
         <button

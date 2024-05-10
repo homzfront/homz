@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import Button from "./button";
-import { Properties } from "./Properties";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
 import MiniPropertyListing from "./miniPropertyListings";
@@ -27,34 +26,6 @@ const PropertyCard = ({
   properties
 }) => {
   const currentProperties = Property
-  console.log(currentProperties)
-  // const ITEMS_PER_PAGE = 12;
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const totalPages = Math.ceil(Property.length / ITEMS_PER_PAGE);
-  // const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  // const endIndex = startIndex + ITEMS_PER_PAGE;
-  // const currentProperties = Property.slice(startIndex, endIndex);
-
-  // const handleNext = () => {
-  //   setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  // };
-
-  // const handlePrev = () => {
-  //   setCurrentPage((prev) => Math.max(prev - 1, 1));
-  // };
-
-  // const handlePageClick = (page) => {
-  //   setCurrentPage(page);
-  // };
-  // // const firstThreePages = Array.from(
-  //   { length: Math.min(totalPages, 3) },
-  //   (_, index) => index + 1
-  // );
-  // const lastThreePagesStart = Math.max(totalPages - 2, 1); // Calculate the starting page number for the last three pages
-  // const lastThreePages = Array.from(
-  //   { length: Math.min(totalPages, 3) },
-  //   (_, index) => lastThreePagesStart + index
-  // );
   return (
     <div className="w-full">
       {loadingII ? <LoadingII /> :
@@ -62,15 +33,12 @@ const PropertyCard = ({
           <div className="flex flex-col gap-1 items-start">
             <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] mb-1">
               {Property && Property.length > 0
-                // ? ` Property ${state && state}`
                 ? ` Property`
                 : "Property not found"}
             </h1>
             <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px] text-left font-['Plus Jakarta Sans'] mb-2">
               {Property && Property.length > 0
-                ? `${totalData}
-        ${Property.length > 1 ? " results found" : " result found"}
-        `
+                ? `${totalData} ${Property.length > 1 ? " results found" : " result found"}`
                 : "We’re sorry, the property you searched for are unavailable"}
             </p>
           </div>
@@ -82,7 +50,6 @@ const PropertyCard = ({
                     <p className="text-[18px] leading-[22.68px] px-4 text-center md:text-[36px] font-[700] md:leading-[45.36px] text-white">
                       Can’t find the property you’re looking for?
                     </p>
-
                     <p className="hidden md:block  text-[20px] font-[500] leading-[30px] text-white ">
                       Explore similar properties that suit your taste
                     </p>
@@ -126,7 +93,6 @@ const PropertyCard = ({
                     >
                       <div
                         className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] "
-                      // onClick={() => handleClearInputField("option4Qestion")}
                       >
                         {loading ? <Skeleton height={252} count={5} />
                           :
@@ -166,9 +132,7 @@ const PropertyCard = ({
                           <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
                             {capitalizeFirstLetter(property?.name || property?.title)}
                           </p>
-                          <p className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
-                      ${property?.listingType ? "" : "hidden"}
-                    `}
+                          <p className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
                           >
                             {capitalizeFirstLetter(property?.listingType)}
                           </p>
@@ -177,8 +141,7 @@ const PropertyCard = ({
                         <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
                           {capitalizeFirstLetter(property?.propertyType)}
                         </p>
-                        <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[14.37px] md:text-[16px] flex items-center
-                  ${property?.totalFee ? "" : "hidden"}`}
+                        <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[14.37px] md:text-[16px] flex items-center  ${property?.totalFee ? "" : "hidden"}`}
                         >
                           <Image
                             src="/static/images/nairaIcon.svg"
@@ -190,9 +153,6 @@ const PropertyCard = ({
                           <span className="pl-1">
                             {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
                           </span>
-                          {/* <span className="md:hidden text-[8px] ml-1 pt-1 text-gray-500">
-                    per year
-                  </span> */}
                         </p>
                         <p className="flex gap-1 items-center">
                           <Image
@@ -219,9 +179,6 @@ const PropertyCard = ({
                               <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
                                 {property?.numberOfRooms}
                               </span>
-                              {/* <span className="md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property.Bedrooms.split("")[0]}
-                      </span> */}
                             </p>
                             <p className="flex gap-1 items-center md:pt-4">
                               <Image
@@ -234,9 +191,6 @@ const PropertyCard = ({
                               <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
                                 {property?.numberOfBathrooms}
                               </span>
-                              {/* <span className=" md:hidden text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property.Bathroom.split("")[0]}
-                      </span> */}
                             </p>
                             <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
                               <Image
@@ -270,7 +224,7 @@ const PropertyCard = ({
                     </div>
                   ))}
                 </div>
-                {currentProperties && <Button
+                {<Button
                   currentPage={currentPage}
                   totalPages={totalPages}
                   handleNext={handleNext}

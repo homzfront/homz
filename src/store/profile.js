@@ -12,7 +12,7 @@ const useProfileStore = create((set) => ({
       set({ loading: true });
       // Fetch user profile using the token
       const response = await api.get('/user/profile');
-
+      console.log(response);
       const userData = response.data.user || null;
       set({ profile: userData, isLoggedIn: true, loading: false });
 

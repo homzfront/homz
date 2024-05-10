@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 const PersonalInfo = ({
   Personal_Info,
   handleUpdate,
-  // loading,
+  data,
 }) => {
   const [update, setUpdate] = useState(false);
   const [ImageSrc, setImageSrc] = useState("");

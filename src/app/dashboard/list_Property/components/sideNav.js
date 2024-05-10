@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SideBarData, OtherSideNav } from "./sideBarData";
 import Image from "next/image";
 import keepThree from "@/utils/keepThree";
+import ConfirmModalI from "./confirmModalI";
+import useProfileStore from "@/store/profile";
 
 const SideNav = () => {
   return (
@@ -47,24 +49,62 @@ export default SideNav;
 const MenuItem = ({ item }) => {
   const pathname = usePathname();
   const path = keepThree(pathname);
+
+  const { logout } = useProfileStore();
+  const [logoutModal, setLogoutModal] = useState(false);
+
+  const logoutII = () => {
+    setLogoutModal(!logoutModal);
+  };
+
+  const closeLogout = () => {
+    setLogoutModal(false);
+  };
   return (
     <div className="">
       {
-        <Link
-          href={item.path}
-          className={`flex flex-row space-x-4 items-center p-2 rounded-lg fontSize ${item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path ? "bg-BlueHomz text-white" : "hover:bg-blue-100"
-            }`}
-        >
-          {item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path
-            ?
-            <Image src={item.icon2} height={16} width={16} alt="img" className="icons" />
-            :
-            <Image src={item.icon} height={16} width={16} alt="img" className="icons" />
+        item.title === "Logout" ? (
+          <div
+            onClick={logoutII}
+            className={`flex flex-row space-x-4 items-center p-2 rounded-lg fontSize ${item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path ? "bg-BlueHomz text-white" : "hover:bg-blue-100"
+              }`}
+          >
+            {item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path
+              ?
+              <Image src={item.icon2} height={16} width={16} alt="img" className="icons" />
+              :
+              <Image src={item.icon} height={16} width={16} alt="img" className="icons" />
 
-          }
-          <span className=" text-xl flex fontSize">{item.title}</span>
-        </Link>
+            }
+            <span className=" text-xl flex fontSize">{item.title}</span>
+          </div>
+        ) : (
+          <Link
+            href={item.path}
+            className={`flex flex-row space-x-4 items-center p-2 rounded-lg fontSize ${item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path ? "bg-BlueHomz text-white" : "hover:bg-blue-100"
+              }`}
+          >
+            {item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path
+              ?
+              <Image src={item.icon2} height={16} width={16} alt="img" className="icons" />
+              :
+              <Image src={item.icon} height={16} width={16} alt="img" className="icons" />
+
+            }
+            <span className=" text-xl flex fontSize">{item.title}</span>
+          </Link>
+        )
       }
+      {logoutModal && (
+        <ConfirmModalI
+          header={"Are you leaving?"}
+          body={"You’re about to exit your dashboard"}
+          button={"Yes, log me out"}
+          buttonTwo={"No, take me back"}
+          returnHome={() => logout(logout)}
+          returnHomeTwo={closeLogout}
+        />
+      )}
     </div>
   );
 };
