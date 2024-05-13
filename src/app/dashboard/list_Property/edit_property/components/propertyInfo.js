@@ -13,17 +13,28 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    if (name === 'listingType') {
+      setData((prevData) => ({
+        listingType: value,
+        // Remove every other data collected when listingType changes
+        ...(value !== prevData?.listingType && {
+          [name]: value,
+        }),
+      }));
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: value,
+        listingType: formData?.listingType,
+        [formData?.listingType === 'land' ? 'title' : 'name']: formData?.[formData?.listingType === 'land' ? 'title' : 'name'] || '',
+      }));
+    }
   };
 
-  // console.log(data);
+  console.log(data);
+  console.log(formData);
 
 
   const onSubmit = () => {

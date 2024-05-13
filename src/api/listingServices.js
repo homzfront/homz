@@ -35,3 +35,29 @@ export const updatePersonalInfoLister = async (data) => {
     return { success: false, error: error?.response.data.message };
   }
 };
+
+
+export const updateBusinessInfoLister = async (data) => {
+  const formData = new FormData();
+  formData.append("businessLogo", data?.businessLogo);
+  formData.append("businessName", data?.businessName);
+  formData.append("businessEmail", data?.businessEmail);
+  formData.append("certificateCAC", data?.certificateCAC);
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.patch(
+      "listingProperty/me/update/business-information",
+      formData,
+      { headers }
+    );
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedImage: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
+};

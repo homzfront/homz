@@ -8,7 +8,7 @@ import PersonalInfo from "./components/personalInfo";
 import BusinessInfo from "./components/businessInfo";
 import ChangePassword from "./components/changePassword";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
-import { updatePersonalInfoLister } from "@/api/listingServices";
+import { updateBusinessInfoLister, updatePersonalInfoLister } from "@/api/listingServices";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const Profile = () => {
@@ -36,34 +36,52 @@ const Profile = () => {
   };
   const handleSaved = async (e) => {
     e.preventDefault();
-
     if (loading) return;
     setLoading(true);
-
-    try {
-      const { success, updatedImage, error } = await updatePersonalInfoLister(
-        personalInfo
-      );
-      console.log(updatedImage);
-      if (success) {
+    if(personalInfo?.businessName) {
+      try {
+        const { success, updatedImage, error } = await updateBusinessInfoLister(
+          personalInfo
+        );
+        console.log(updatedImage);
+        if (success) {
+          setLoading(false);
+          setSuccessModalIsOpen(true);
+          setSaveModalIsOpen(false);
+        } else {
+          toast.error(error);
+          setLoading(false);
+        }
+      } catch (error) {
         setLoading(false);
-        setSuccessModalIsOpen(true);
-        setSaveModalIsOpen(false);
-      } else {
-        toast.error(error);
-        setLoading(false);
+        toast.error("Update failed");
       }
-    } catch (error) {
-      setLoading(false);
-      toast.error("Update failed");
+    } else {
+      try {
+        const { success, updatedImage, error } = await updatePersonalInfoLister(
+          personalInfo
+        );
+        console.log(updatedImage);
+        if (success) {
+          setLoading(false);
+          setSuccessModalIsOpen(true);
+          setSaveModalIsOpen(false);
+        } else {
+          toast.error(error);
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        toast.error("Update failed");
+      }
     }
+
   };
 
   const handleUpdateDetails = (data) => {
     setPersonalInfo(data);
     setSaveModalIsOpen(true);
   };
-  console.log(personalInfo);
 
   const handlePersonalActive = () => {
     setActiveTwo(false);
@@ -147,15 +165,13 @@ const Profile = () => {
             </div>
             <div className={`${businessActive ? "inline-block" : "hidden"}`}>
               <BusinessInfo
-                Business_Info={propertyData}
+                Business_Info={data}
                 handleUpdate={handleUpdateDetails}
               />
             </div>
 
             <div className={`${changePwdActive ? "inline-block" : "hidden"}`}>
               <ChangePassword
-                passwordInfo={propertyData}
-                handleUpdate={handleUpdateDetails}
               />
             </div>
           </div>

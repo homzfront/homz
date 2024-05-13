@@ -188,12 +188,12 @@ const ViewProperty = ({ PropertyID }) => {
                     {/* {"For Rent"} */}
                   </p>
                 </div>
-                <Link
+                {/* <Link
                   href="#contactOwner"
                   className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
                 >
                   Contact Owner
-                </Link>
+                </Link> */}
               </div>
               <p className=" text-[16px] md:font-[700] leading-[19.16px] font-[500] md:leading-[28.98px]  font-['Plus Jakarta Sans'] md:text-[23px] flex items-center ">
                 <Image
@@ -235,12 +235,12 @@ const ViewProperty = ({ PropertyID }) => {
                   </span>
                 </p>
               </div>
-              <Link
+              {/* <Link
                 href="#contactOwner"
                 className="leading-[24px] px-[12px]  py-[8px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] md:hidden"
               >
                 Contact Owner
-              </Link>
+              </Link> */}
             </div>
             <div className="border-b pt-2 pb-3 headerAdmin">
               <div className={`flex flex-col my-2 gap-3`}>

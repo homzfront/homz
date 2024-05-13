@@ -4,6 +4,10 @@ import Image from "next/image";
 import { ThreeDots } from "react-loader-spinner";
 import { useForm } from "react-hook-form";
 import CustomizedModal from "../../components/CustomizedModal";
+import { updateBusinessInfoLister } from "@/api/listingServices";
+import api from "@/utils/api";
+import TickSuccess from "@/components/icons/tickSuccess";
+import Link from "next/link";
 
 
 const BusinessInfo = ({ Business_Info, handleUpdate }) => {
@@ -22,32 +26,58 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
   const [uploadIntervalID, setUploadIntervalID] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [errorMsg2, setErrorMsg2] = useState("");
-  // const { BusinessPhoto, } = BusinessPhoto?.Photo ?? {};
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [certificateRemoved, setCertificateRemoved] = useState(false);
   const [removeCertificate, setRemoveCertificate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [businessName, setBusinessName] = useState("");
+  const [businessEmail, setBusinessEmail] = useState("");
+
+  console.log(Business_Info)
+  console.log(Business_Info?.businessInfo?.certificateName)
+  useEffect(() => {
+    // Check if data and required properties are available
+    if (Business_Info?.businessInfo) {
+      setBusinessName(Business_Info?.businessInfo?.businessName || "");
+      setBusinessEmail(Business_Info?.businessInfo?.businessEmail || "");
+      if (Business_Info?.businessInfo?.businessLogo?.url) {
+        setFileUploaded(true)
+        setImageSrc(Business_Info?.businessInfo?.businessLogo?.url || "")
+      }
+      // setLoading(false); // Set loading to false once data is available
+    }
+  }, [Business_Info]);
 
   const closeModal = () => {
     setRemoveCertificate(false);
     setRemoveCertificate(true);
   };
+
   const closeSuccessModal = () => {
     setCertificateRemoved(false);
   };
+
   const handleRemoved = (e) => {
     e.preventDefault();
     setBusinessCertificate(null);
     setCertificateRemoved(true);
     setRemoveCertificate(false);
   };
+
   const viewFile = (file) => {
     if (file) {
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
-      // console.log('viewing')
     }
   };
+  
+  const viewFileII = (file) => {
+    console.log(file);
+    if (file) {
+      window.open(file);
+    }
+  };
+
   const displayBusinessPhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -56,7 +86,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
         return;
       }
       if (file.size > MAX_FILE_SIZE) {
-        // File size exceeds the limit
         setErrorMsg2("File size exceeds 5MB.");
         return;
       } else {
@@ -72,7 +101,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
     const file = e.target.files[0];
 
     if (file) {
-    
+
       if (file.size > MAX_FILE_SIZE) {
         // File size exceeds the limit
         setErrorMsg("File size exceeds 5MB.");
@@ -84,27 +113,52 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
       }
     }
   };
-  const UploadBusCertificate = (e) => {
+  console.log(businessCertificate)
+  const UploadBusCertificate = async (e) => {
     e.preventDefault();
     setIsLoading(true); // Set loading to true when starting upload
-    setTimeout(() => {
-      const totalSize = businessCertificate.size;
-      let uploadedSize = 0;
-      const uploadInterval = setInterval(() => {
-        uploadedSize += 10000;
-        const currentProgress = (uploadedSize / totalSize) * 100;
-        setProgress(currentProgress);
-        if (currentProgress >= 100) {
-          clearInterval(uploadInterval);
-        }
-      }, 40); // Update progress every 30 milliseconds
+    const formData = new FormData();
+    formData.append("certificateCAC", businessCertificate);
+    try {
+      const headers = {
+        "Content-Type": "multipart/form-data",
+      };
+      const response = await api.patch(
+        "/listingProperty/me/update/business-information",
+        formData,
+        { headers }
+      );
+      console.log(response)
+      if (response?.data?.success) {
+        setTimeout(() => {
+          const totalSize = businessCertificate.size;
+          let uploadedSize = 0;
+          const uploadInterval = setInterval(() => {
+            uploadedSize += 10000;
+            const currentProgress = (uploadedSize / totalSize) * 100;
+            setProgress(currentProgress);
+            if (currentProgress >= 100) {
+              clearInterval(uploadInterval);
+            }
+          }, 40); // Update progress every 30 milliseconds
 
-      // Set loading to false after delay
-      setTimeout(() => {
+          // Set loading to false after delay
+          setTimeout(() => {
+            setIsLoading(false);
+            setBusCertSuccess(true);
+          }, 1000);
+        }, 800); // Simulate 2 seconds delay before starting upload
+      } else {
+        setBusCertUploaded(false);
         setIsLoading(false);
-        setBusCertSuccess(true);
-      }, 1000);
-    }, 800); // Simulate 2 seconds delay before starting upload
+      }
+    } catch (error) {
+      console.log(error);
+      console.log("update failed");
+      setBusCertUploaded(false);
+      setIsLoading(false);
+    }
+
   };
 
   const cancelUpload = () => {
@@ -114,42 +168,34 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
     setBusinessCertificate(null);
     clearInterval(uploadIntervalID);
   };
+
   const uploadProfilePhoto = () => {
     if (BusinessPhotoRef.current) {
       BusinessPhotoRef.current.click();
     }
   };
+
   const uploadBusinessCertificate = () => {
     setIsVerified(false);
     if (BusinessCertificateRef.current) {
       BusinessCertificateRef.current.click();
     }
   };
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isValid },
-  } = useForm({
-    criteriaMode: "all",
-    // defaultValues: Business_Info.RentalInfo,
-  });
 
-  // useEffect(() => {
-  //   reset(Business_Info.contactInfo);
-  // }, [Business_Info.contactInfo, reset]);
-
-  const onSubmit = (data) => {
-    // reset();
-    // console.log("Data", data, "Logo", businessLogo);
+  const onSubmit = () => {
+    const data = {
+      businessName,
+      businessEmail,
+      businessLogo: businessLogo
+    }
+    console.log(data);
     handleUpdate(data);
   };
+
+
   return (
     <div className="">
-      {/* {loading && <Loading />} */}
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
+      <div
         className=" flex flex-col md:w-full md:px-4 "
       >
         <div className="flex  md:gap-[28px] gap-8 mt-5 flex-col">
@@ -166,31 +212,31 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
               />
 
               <p
-                className={`md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] flex justify-center items-center mx-auto ${
-                  !fileUploaded && "bg-[#D5D5D5]"
-                }`}
+                className={`md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] flex justify-center items-center mx-auto ${!fileUploaded && "bg-[#D5D5D5]"
+                  }`}
               >
                 <Image
                   src={
                     fileUploaded ? ImageSrc : "/static/images/upload_image.svg"
                   }
                   alt="Business Photo"
-                  className={`${
-                    fileUploaded
-                      ? "md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] "
-                      : "md:w-[39.71px] md:h-[39.71px] h-[14.26px] w-[14.26px] photos"
-                  }`}
+                  className={`${fileUploaded
+                    ? "md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] "
+                    : "md:w-[39.71px] md:h-[39.71px] h-[14.26px] w-[14.26px] photos"
+                    }`}
                   width={181}
                   height={181}
                 />
               </p>
-              {errors.BusinessPhoto && (
+              {/* {errors.BusinessPhoto && (
                 <p className="errorMsg text-center">
                   {errors.BusinessPhoto?.message}
                 </p>
-              )}
+              )} */}
             </div>
-            <div className="flex flex-col md:gap-[12px] gap-2 md:items-center md:justify-center justify-start md:shadow-sm md:p-2">
+            <div className={`flex flex-col md:gap-[12px] gap-2 md:items-center md:justify-center justify-start md:shadow-sm md:p-2
+              ${!update ? "pointer-events-none" : ""} 
+            `}>
               <p className="hidden w-[40px] h-[40px] rounded-[28px] bg-[#F2F4F7] md:flex items-center justify-center cursor-pointer">
                 <Image
                   onClick={uploadProfilePhoto}
@@ -225,52 +271,43 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
           <div className="profiles flex  flex-col md:flex-row gap-[16px] md:gap-[28px] headerAdmin pb-8 sideBarHidden">
             <div>
               <label htmlFor="Business Name">
-                {" "}
-                Business Name{" "}
+                Business Name
                 <span className="text-red-500 text-[16px]">*</span>
               </label>
               <br />
               <input
-                {...register("BusinessName", {
-                  required: "Business Name is required",
-                })}
                 placeholder="Business Name"
-                className={`h-[43px] md:h-[45px] md:w-[463px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] duoViewPoint ${
-                  !update &&
+                disabled={!update}
+                value={businessName}
+                onChange={(e) => setBusinessName(e.target.value)}
+                className={`h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] duoViewPoint ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                  }`}
               />
-              {errors.BusinessName && (
+              {/* {errors.BusinessName && (
                 <p className="errorMsg">{errors.BusinessName?.message}</p>
-              )}
+              )} */}
             </div>
 
             <div>
               <label htmlFor="businessEmail">
-                {" "}
                 Business Email
-                {/* <span className="text-red-500 text-xs">*</span> */}
               </label>
               <br />
               <input
                 type="email"
-                id="businessEmail"
                 name="businessEmail"
-                {...register("businessEmail", {
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Invalid email address",
-                  },
-                })}
+                disabled={!update}
+                value={businessEmail}
+                onChange={(e) => setBusinessEmail(e.target.value)}
                 placeholder="Enter Business Email"
-                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[463px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${
-                  !update &&
+                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                  }`}
               />
-              {errors.businessEmail && (
+              {/* {errors.businessEmail && (
                 <p className="errorMsg">{errors.businessEmail.message}</p>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -283,156 +320,176 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
             accredited Real Estate body. (E.g AEAN or NIESV)
           </p>
 
-          <div className="gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">
+          <div className="relative gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">
             <Image
               src="/static/images/document-upload.svg"
               alt="upload-cloud"
               width={40}
               height={40}
             />
-
             <>
-              {!businessCertificateUpload ? (
-                <div className="flex flex-col gap-[4px]">
-                  <input
-                    type="file"
-                    name="BusinessCertificate"
-                    ref={BusinessCertificateRef}
-                    id="BusinessCertificate"
-                    onChange={handleBusinessCertificate}
-                    style={{ display: "none" }}
-                    accept="application/pdf"
-                  />
-                  <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
-                    <span
-                      className="text-[#006AFF] inline-block cursor-pointer"
-                      onClick={uploadBusinessCertificate}
+              {Business_Info?.businessInfo?.isVerified === false ?
+                <div className="flex flex-col gap-[4px] w-full">
+                  <div className="w-full flex justify-between items-center mt-[10px]">
+                    <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
+                      [{Business_Info?.businessInfo?.certificateName}]
+                    </p>
+                    <p
+                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                      onClick={() => viewFileII(Business_Info?.businessInfo?.certificateCAC?.url)}
                     >
-                      Select CAC or membership certificate
-                    </span>{" "}
-                    <span className="text-[#4E4E4E] hidden md:inline-block">
-                      or drag and drop
-                    </span>
-                  </p>
-                  <p className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                    PDF (max. 5mb)
-                  </p>
+                      View
+                    </p>
+                  </div>
+                  <div className=" absolute bottom-[-30px] left-0 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                    <TickSuccess /> <div>
+                      Your business certificate has successfully been verified. You can now <> </>
+                      <Link href={"/dashboard/list_Property/addProperty"}
+                        className="text-BlueHomz">list more properties</Link> on your dashboard
+                    </div>
+                  </div>
                 </div>
-              ) : busCertSuccess ? (
-                <>
-                  {progress >= 100 ? (
-                    <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
-                      <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
-                        <span className=" inline-block">
-                          [
-                          {businessCertificate?.name &&
-                            businessCertificate.name}
-                          ]
-                        </span>{" "}
-                        <span className="">is currently under review</span>
-                      </p>
+                :
+                !businessCertificateUpload ? (
+                  <div className="flex flex-col gap-[4px]">
+                    <input
+                      type="file"
+                      name="BusinessCertificate"
+                      ref={BusinessCertificateRef}
+                      id="BusinessCertificate"
+                      onChange={handleBusinessCertificate}
+                      style={{ display: "none" }}
+                      accept="application/pdf"
+                    />
+                    <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
+                      <span
+                        className="text-[#006AFF] inline-block cursor-pointer"
+                        onClick={uploadBusinessCertificate}
+                      >
+                        Select CAC or membership certificate
+                      </span>{" "}
+                      <span className="text-[#4E4E4E] hidden md:inline-block">
+                        or drag and drop
+                      </span>
+                    </p>
+                    <p className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
+                      PDF (max. 5mb)
+                    </p>
+                  </div>
+                ) : busCertSuccess ? (
+                  <>
+                    {progress >= 100 ? (
+                      <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
+                        <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
+                          <span className=" inline-block">
+                            [
+                            {businessCertificate?.name &&
+                              businessCertificate.name}
+                            ]
+                          </span>{" "}
+                          <span className="">is currently under review</span>
+                        </p>
+                        <p
+                          className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                          onClick={() => viewFile(businessCertificate)}
+                        >
+                          View
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-[8px] w-full">
+                        <div className="flex items-center justify-between">
+                          <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
+                            <span className="text-[#4E4E4E] inline-block">
+                              Uploading
+                            </span>{" "}
+                            <span className="text-[#006AFF] inline-block ">
+                              [
+                              {businessCertificate?.name &&
+                                businessCertificate.name}
+                              ]
+                            </span>
+                          </p>
+                          <Image
+                            src="/static/images/close-square.svg"
+                            alt="upload-cloud"
+                            width={24}
+                            height={24}
+                            className="cursor-pointer"
+                            onClick={cancelUpload}
+                          />
+                        </div>
+                        <progress
+                          id="businessCert"
+                          value={progress}
+                          max="100"
+                          className="w-full h-[4px]"
+                        />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[px] md:gap-0">
+                    <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left  flex flex-col gap-[4px]">
+                      <span className="text-[#006AFF] inline-block">
+                        [{businessCertificate?.name && businessCertificate.name}]
+                      </span>
+                      <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
+                        PDF (
+                        {businessCertificate?.size &&
+                          (businessCertificate.size / (1024 * 1024)).toFixed(2)}
+                        MB)
+                      </span>
+                    </p>
+                    <div className="flex flex-row gap-[20px] items-center">
                       <p
                         className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
                         onClick={() => viewFile(businessCertificate)}
                       >
                         View
                       </p>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-[8px] w-full">
-                      <div className="flex items-center justify-between">
-                        <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
-                          <span className="text-[#4E4E4E] inline-block">
-                            Uploading
-                          </span>{" "}
-                          <span className="text-[#006AFF] inline-block ">
-                            [
-                            {businessCertificate?.name &&
-                              businessCertificate.name}
-                            ]
-                          </span>
-                        </p>
+                      <p
+                        className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
+                        onClick={() => {
+                          setRemoveCertificate(true);
+                        }}
+                      >
                         <Image
-                          src="/static/images/close-square.svg"
+                          src="/static/images/trash.svg"
                           alt="upload-cloud"
-                          width={24}
-                          height={24}
-                          className="cursor-pointer"
-                          onClick={cancelUpload}
+                          width={16}
+                          height={16}
                         />
-                      </div>
-                      <progress
-                        id="businessCert"
-                        value={progress}
-                        max="100"
-                        className="w-full h-[4px]"
-                      />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[px] md:gap-0">
-                  <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left  flex flex-col gap-[4px]">
-                    <span className="text-[#006AFF] inline-block">
-                      [{businessCertificate?.name && businessCertificate.name}]
-                    </span>
-                    <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                      PDF (
-                      {businessCertificate?.size &&
-                        (businessCertificate.size / (1024 * 1024)).toFixed(2)}
-                      MB)
-                    </span>
-                  </p>
-                  <div className="flex flex-row gap-[20px] items-center">
-                    <p
-                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
-                      onClick={() => viewFile(businessCertificate)}
-                    >
-                      View
-                    </p>
-                    <p
-                      className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
-                      onClick={() => {
-                        setRemoveCertificate(true);
-                      }}
-                    >
-                      <Image
-                        src="/static/images/trash.svg"
-                        alt="upload-cloud"
-                        width={16}
-                        height={16}
-                        //   onClick=
-                      />
-                      <span className="text-[13px]">Remove</span>
-                    </p>
+                        <span className="text-[13px]">Remove</span>
+                      </p>
 
-                    <div>
-                      {!isLoading ? ( // Render loader if isLoading is true
-                        <p
-                          className="editBtn py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-[#006AFF] leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
-                          onClick={UploadBusCertificate}
-                        >
-                          <span className="hidden md:block">
-                            Upload Document
-                          </span>
-                          <span className="md:hidden">Upload</span>
-                        </p>
-                      ) : (
-                        <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
-                          <ThreeDots
-                            visible={true}
-                            height="30"
-                            width="30"
-                            color="#006AFF"
-                            radius="9"
-                            ariaLabel="three-dots-loading"
-                          />
-                        </div>
-                      )}
+                      <div>
+                        {!isLoading ? (
+                          <p
+                            className="editBtn py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-[#006AFF] leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
+                            onClick={UploadBusCertificate}
+                          >
+                            <span className="hidden md:block">
+                              Upload Document
+                            </span>
+                            <span className="md:hidden">Upload</span>
+                          </p>
+                        ) : (
+                          <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
+                            <ThreeDots
+                              visible={true}
+                              height="30"
+                              width="30"
+                              color="#006AFF"
+                              radius="9"
+                              ariaLabel="three-dots-loading"
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </>
           </div>
 
@@ -440,25 +497,25 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
         </div>
 
         <div className="flex  md:justify-end justify-center mt-16 md:mt-12 ">
-          <button
+          {/* <button
             className="hidden md:flex  border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
             type="submit"
           >
             Update
-          </button>
-          <div className="md:hidden flex flex-col ">
+          </button> */}
+          <div className="flex flex-col ">
             {update ? (
               <button
                 className="flex  border justify-center duoViewPoint  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                type="submit"
+                onClick={onSubmit}
               >
                 Save Update
               </button>
             ) : (
               <p
-                className="flex  border justify-center duoViewPoint items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center duoViewPoint items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >
@@ -467,7 +524,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
             )}
           </div>
         </div>
-      </form>
+      </div>
       <CustomizedModal isOpen={removeCertificate} onRequestClose={closeModal}>
         <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
           <p className=" text-[16px] leading-[19.5px] md:text-[20px] font-[700] md:leading-[24px] text-center">

@@ -199,11 +199,11 @@ const ViewProperty = ({ PropertyID }) => {
                 {/* {"For Rent"} */}
               </p>
             </div>
-            <button
+            {/* <button
               className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
             >
               Contact Owner
-            </button>
+            </button> */}
           </div>
           <p className=" text-[16px] md:font-[700] leading-[19.16px] font-[500] md:leading-[28.98px]  font-['Plus Jakarta Sans'] md:text-[23px] flex items-center ">
             <Image
@@ -246,9 +246,9 @@ const ViewProperty = ({ PropertyID }) => {
             </p>
           </div>
 
-          <button className="md:hidden md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[33%] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF]">
+          {/* <button className="md:hidden md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[33%] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF]">
             Contact Owner
-          </button>
+          </button> */}
         </div>
         <div className="border-b pt-2 pb-3 ">
           <div className="flex flex-col my-2 gap-3">
