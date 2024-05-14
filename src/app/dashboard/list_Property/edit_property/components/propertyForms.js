@@ -11,6 +11,7 @@ import ContactInfo from "./contactInfo";
 import CustomizedModal from "../../components/CustomizedModal";
 import { rentDetails, updateContactInfo, updatePropertyDetails } from "@/api/propertyService";
 import Loading from "@/components/mainmenu/loading";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 
 const PropertyForms = ({ propertyData }) => {
@@ -118,6 +119,7 @@ const PropertyForms = ({ propertyData }) => {
   };
 
 
+  useBodyScroll([loading]);
 
   const updatePropertyDetail = (data) => {
     setSaveModalIsOpen(true);

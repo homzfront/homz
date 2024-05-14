@@ -10,7 +10,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
   const [allStates, setAllStates] = useState(null);
   const [formData, setFormData] = useState(property || {});
   const [data, setData] = useState(null)
-
+  const [empty, setEmpty] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -23,6 +23,11 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
           [name]: value,
         }),
       }));
+      // setFormData({
+      //   ...formData,
+      //   name: null,
+      //   title: null
+      // });
     } else {
       setData((prevData) => ({
         ...prevData,
@@ -114,7 +119,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         placeholder="title"
                         onChange={handleChange}
                         disabled={!editMode}
-                        value={formData?.title}
+                        value={formData?.title || ""}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                           } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] pl-2 rounded-[4px] border w-[335px]`}
@@ -175,7 +180,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         onChange={handleChange}
                         disabled={!editMode}
                         placeholder="Property Name"
-                        value={formData?.name}
+                        value={formData?.name || ""}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                           } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] pl-2 rounded-[4px] border w-[335px]`}

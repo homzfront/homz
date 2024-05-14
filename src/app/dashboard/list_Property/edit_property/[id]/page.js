@@ -20,6 +20,7 @@ const EditProperty = ({ params }) => {
   useEffect(() => {
     propertyData();
   }, [PropertyID]);
+  
   return (
     <div className="md:pl-1 w-full">
       {
