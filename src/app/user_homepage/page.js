@@ -180,8 +180,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(
-        `/public/properties`)
-      const propertyData = response?.data?.data?.results?.[0]?.data || null
+        `/public/properties/featured`)
+      const propertyData = response?.data?.data || null
       setFeaturedData(propertyData);
     }
     fetchData()
@@ -747,8 +747,8 @@ const HomePage = () => {
                   theme={customTheme}
                   className="w-[241px] h-[156.06px] md:h-full md:w-full"
                 >
-                  {property?.photos &&
-                    property?.photos.map((img, index) => (
+                  {property?.property?.photos &&
+                    property?.property?.photos?.map((img, index) => (
                       <div
                         key={index}
                         className="w-[241px] h-[156.06px] md:h-full md:w-full"
@@ -767,17 +767,17 @@ const HomePage = () => {
               <div className="flex flex-col px-2 md:px-3 pt-2 md:pt-5 gap-[2px] md:gap-[10px] ">
                 <div className="flex justify-between items-center">
                   <p className="text-[#006AFF] text-[14px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                    {capitalizeFirstLetter(property?.name || property?.title)}
+                    {capitalizeFirstLetter(property?.property?.name || property?.property?.title)}
                   </p>
                   <p className={` w-[45.86px] h-[20px] md:w-auto md:h-[25px] flex items-center justify-center text-[6.81px] md:text-[11px] font-[400] px-2 md:px-[12px] rounded-[4px] text-white bg-[#006AFF]
-                     ${property?.listingType ? "" : "hidden"}
+                     ${property?.property?.listingType ? "" : "hidden"}
                      `}
                   >
-                    {capitalizeFirstLetter(property?.listingType)}
+                    {capitalizeFirstLetter(property?.property?.listingType)}
                   </p>
                 </div>
                 <p className="text-[8px] md:text-[14px] font-[400] text-[#006AFF]">
-                  {capitalizeFirstLetter(property?.propertyType)}
+                  {capitalizeFirstLetter(property?.property?.propertyType)}
                 </p>
                 <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[9.91px] md:text-[16px] flex items-center 
                   ${property?.totalFee ? "" : "hidden"}
@@ -790,7 +790,7 @@ const HomePage = () => {
                     className="h-[9.82px] w-[7.43px] md:w-[15px] md:h-[25px]"
                   />
                   <span className="pl-1 text-[#202020]">
-                    {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
+                    {property?.totalFee ? Number(property?.property?.totalFee).toLocaleString() : ""}
                   </span>
                 </p>
                 <p className="flex gap-1 items-center">
@@ -802,7 +802,7 @@ const HomePage = () => {
                     className="h-[9.82px] w-[7.43px] md:w-[12px] md:h-[15.85px]"
                   />
                   <span className="text-[8px] md:text-[16px] font-[500] text-[#020202]">
-                    {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
+                    {`${capitalizeFirstLetter(property?.property?.area)}, ${capitalizeFirstLetter(property?.property?.state)}`}
                   </span>
                 </p>
                 <div className=" flex gap-2 md:justify-between mb-2">
@@ -816,7 +816,7 @@ const HomePage = () => {
                         className="h-[7.37px] w-[10.53px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className=" text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans'] text-[#202020]">
-                        {property?.numberOfRooms}
+                        {property?.property?.numberOfRooms}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center md:pt-4">
@@ -828,10 +828,10 @@ const HomePage = () => {
                         className="h-[7.8px] w-[8.67px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className="text-[#202020] text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property?.numberOfBathrooms}
+                        {property?.property?.numberOfBathrooms}
                       </span>
                     </p>
-                    <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
+                    <p className={`flex gap-1 items-center md:pt-4 ${property?.property?.squareMeter ? "" : "hidden"}`}>
                       <Image
                         src="/static/images/sqrtFeet-vector.svg"
                         alt=""
@@ -840,7 +840,7 @@ const HomePage = () => {
                         className="h-[7.34px] w-[13px] md:w-[21px] md:h-[11.86px]"
                       />
                       <span className=" text-[#202020] text-[7px] md:text-[10px] font-[500] leading-[4px] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property?.squareMeter} Sqft
+                        {property?.property?.squareMeter} Sqft
                       </span>
                     </p>
                   </div>
@@ -848,7 +848,7 @@ const HomePage = () => {
                     className="cursor-pointer "
                     href={{
                       pathname: "/user_homepage/PreviewProperty",
-                      query: { property: property.slug },
+                      query: { property: property?.property?.slug },
                     }}
                   >
                     <button className="cursor-pointer">

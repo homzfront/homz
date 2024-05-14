@@ -49,7 +49,7 @@ const ViewProperty = ({ PropertyID }) => {
       const combinedData = [newData.coverPhoto, ...newData.photos].map((item) => ({
         url: item.url,
       }));
-      setCombinedData(combinedData); 
+      setCombinedData(combinedData);
     } else {
       // console.error("Invalid or missing data structure.");
     }
@@ -67,8 +67,8 @@ const ViewProperty = ({ PropertyID }) => {
     const fetchData = async () => {
       setLoading(true);
       const response = await api.get(
-        `/public/properties`)
-      const propertyData = response?.data?.data?.results[0]?.data || null
+        `/public/properties/others`)
+      const propertyData = response?.data?.data || null
       setProperties(propertyData);
       setLoading(false);
     }
@@ -133,7 +133,26 @@ const ViewProperty = ({ PropertyID }) => {
             </span>
           </div>
         </div>
-        <div className="mt-4 ml-3">
+        <div className="md:hidden mt-4 grid grid-cols-2">
+          {combinedData &&
+            combinedData?.map((item, index) => (
+              <div key={index} className="my-2">
+                <Image
+                  src={item.url}
+                  alt=""
+                  height={161}
+                  width={162}
+                  className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px]`}
+                  layout="full" 
+                  objectFit="cover"
+                  objectPosition="center"
+                  quality={100}
+                  priority
+                />
+              </div>
+            ))}
+        </div>
+        <div className="hidden xl:block mt-4 ml-3">
           <div className="flex flex-wrap gap-4">
             {combinedData &&
               combinedData?.map((item, index) => (
@@ -253,7 +272,7 @@ const ViewProperty = ({ PropertyID }) => {
               <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                 Property Type
               </p>
-              <p className={`text-[14px] font-[500] w-[40%] text-BlackHomz`}>
+              <p className={`text-[14px] pl-2 font-[500] w-[40%] text-BlackHomz`}>
                 {propertyData?.propertyType}
               </p>
             </div>
@@ -261,7 +280,7 @@ const ViewProperty = ({ PropertyID }) => {
               <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                 Address
               </p>
-              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+              <p className={`text-[14px] pl-2 font-[500] w-[40%] text-GrayHomz`}>
                 {`${propertyData?.area}, ${propertyData?.state}`}
                 ,&nbsp;
               </p>
@@ -270,7 +289,7 @@ const ViewProperty = ({ PropertyID }) => {
               <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                 Rooms
               </p>
-              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+              <p className={`text-[14px] pl-2 font-[500] w-[40%] text-GrayHomz`}>
                 {propertyData?.numberOfRooms}
               </p>
             </div>
@@ -278,7 +297,7 @@ const ViewProperty = ({ PropertyID }) => {
               <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                 Bathrooms
               </p>
-              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+              <p className={`text-[14px] pl-2 font-[500] w-[40%] text-GrayHomz`}>
                 {propertyData?.numberOfBathrooms}
               </p>
             </div>
@@ -286,7 +305,7 @@ const ViewProperty = ({ PropertyID }) => {
               <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                 Toilets
               </p>
-              <p className={`text-[14px] font-[500] w-[40%] text-GrayHomz`}>
+              <p className={`text-[14px] pl-2 font-[500] w-[40%] text-GrayHomz`}>
                 {propertyData?.numberOfToilets}
               </p>
             </div>

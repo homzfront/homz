@@ -11,8 +11,6 @@ const MiniPropertyListings = ({
   reset,
   setLoadingII
 }) => {
-
-
   return (
     <div className={``}>
       <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] my-3 ">

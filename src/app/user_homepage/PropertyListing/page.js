@@ -37,8 +37,8 @@ const UserHomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(
-        `/public/properties`)
-      const propertyData = response?.data?.data?.results?.[0]?.data || null
+        `/public/properties/others`)
+      const propertyData = response?.data?.data || null
       setProperties(propertyData);
     }
     fetchData()
