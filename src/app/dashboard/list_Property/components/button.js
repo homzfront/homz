@@ -100,7 +100,7 @@ const Button = ({
       <div>
         <button
           onClick={handleNext}
-          className={`border py-2 px-6 rounded-md text-[14px] font-[500] border hover:bg-whiteblue border-BlueHomz text-BlueHomz flex items-center justify-center ${
+          className={`border py-2 px-6 rounded-md text-[14px] font-[500] hover:bg-whiteblue border-BlueHomz text-BlueHomz flex items-center justify-center ${
             totalPages <= 6 ? "ml-[0]" : "ml-0"
           } ${
             currentPage === totalPages ? "pointer-events-none opacity-20" : ""
