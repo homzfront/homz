@@ -308,18 +308,18 @@ const ManageUsers = () => {
             )}
           </div>
         )} */}
-        {/* <div className="mt-8">
+        <div className="mt-8">
           <TableUser estateData={data} profileData={profileData} />
-        </div> */}
+        </div>
       </div>
-      {/* {openModal && (
+      {openModal && (
         <ConfirmModal
           header={"Invite Sent Successfully"}
           body={`Your invite link has successfully been sent to ${dataEmail}`}
           button={"Close"}
           returnHome={returnHome}
         />
-      )} */}
+      )}
       {/* <Invites /> */}
     </div>
   );
