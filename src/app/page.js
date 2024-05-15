@@ -1,6 +1,6 @@
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
-import LandingPagePO from "./landingPage-PropertyOwner/page";
+import HomePage from "./user_homepage/page";
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
       <div>
         <Header />
         <div className="m-auto max-w-[1440px]">
-          <LandingPagePO />
+        <HomePage />
         </div>
         <Footer />
       </div>

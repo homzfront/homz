@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const SectionC = () => {
+const SectionC = ({routeTo, profile}) => {
   // Array of card objects
   const cards = [
     {
@@ -72,7 +72,7 @@ const SectionC = () => {
             Join over 2,000+ renters who are living a stress-free life.
           </p>
           <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-4">
-            <Link href={"/register"}>
+            <Link href={profile ? routeTo : "/register"}>
               <button className="w-full sm:w-[171px] h-[48px] text-[16px] rounded-md font-[600px]  text-BlackHomz  bg-white  px-2 py-1 hover:bg-transparent hover:text-white border hover:border-white ">
                 Get started for free
               </button>

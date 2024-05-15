@@ -69,10 +69,10 @@ const SelectPlan = () => {
       image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271950/public/images/Image14_jbqp5o.png",
       title: "List Property",
       content: "List your property & find verified renters & buyers with ease.",
-      link: "",
-      name: "",
-      active: false
-      // url: "/plan/enterprise-plan"
+      link: "dashboard/list_Property",
+      name: "LIST_PROPERTY",
+      url: "plan/list-property",
+      active: true
     },
   ];
 
@@ -103,15 +103,6 @@ const SelectPlan = () => {
                     key={data.id}
                     className="h-auto flex items-center flex-col"
                   >
-                    {data.id === 4 && (
-                      <div className="w-full flex justify-center">
-                        <div className="w-[88px] h-[25px] bg-Success2 flex justify-center items-center rounded-md">
-                          <span className="text-[11px] font-[400] text-Success">
-                            Coming Soon
-                          </span>
-                        </div>
-                      </div>
-                    )}
                     <div className="h-[488px] mt-2 w-[262px] py-2 items-center hover:border-[2px] hover:border-BlueHomz rounded-[20px] shadow-lg flex justify-around flex-col">
                       <div>
                         <Image

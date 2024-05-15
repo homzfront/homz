@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 import api from '@/utils/api';
 
 const useProfileStore = create((set) => ({
@@ -7,19 +6,20 @@ const useProfileStore = create((set) => ({
   isLoggedIn: false,
   loading: false,
 
+
   fetchProfile: async () => {
     try {
       set({ loading: true });
-      // Fetch user profile using the token
       const response = await api.get('/user/profile');
-
       const userData = response.data.user || null;
       set({ profile: userData, isLoggedIn: true, loading: false });
-
-      // Store user data in localStorage (only in the browser environment)
       if (typeof window !== 'undefined') {
         localStorage.setItem('profile', JSON.stringify(userData));
       }
+      clearTimeout(logoutTimer);
+      logoutTimer = setTimeout(() => {
+        useProfileStore.getState().logout();
+      }, 3600000);
     } catch (error) {
       // console.error('Error fetching profile:', error);
       set({ loading: false });
@@ -33,7 +33,6 @@ const useProfileStore = create((set) => ({
       if (typeof window !== 'undefined') {
         localStorage.clear();
       }
-      // Redirect to login or another appropriate page
       window.location.href = '/';
     } catch (error) {
       // console.error('Error logging out:', error);

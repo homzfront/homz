@@ -12,7 +12,7 @@ const TermsAndConditions = () => {
     };
     return (
         <div>
-            <div className='px-[60px] pt-8'>
+            <div className='px-8 md:px-[60px] pt-8'>
                 <Image
                     src={"/Homz_Logo_Blue.png"}
                     alt="HOMZ"
@@ -21,8 +21,8 @@ const TermsAndConditions = () => {
                     width={131}
                     onClick={handleBackButtonClick}
                 />
-                <div className='mt-6 rounded-[12px] bg-black h-[96px] w-full flex justify-center items-center'>
-                    <h1 className='text-[23px] font-[700] text-white'>
+                <div className='px-2 md:pt-0 mt-6 rounded-[12px] bg-black h-[96px] w-full flex justify-center items-center'>
+                    <h1 className='text-[20px] md:text-[23px] font-[700] text-white'>
                         Terms and Conditions
                     </h1>
                 </div>

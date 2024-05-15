@@ -2,7 +2,7 @@
 import SliderComponent from "@/components/mainmenu/slider";
 import { useState } from "react";
 
-const ContactCard = () => {
+const ContactCard = ({routeTo, profile}) => {
   const users = [
     {
       id: 1,
@@ -34,7 +34,7 @@ const ContactCard = () => {
 
   return (
       <div>
-        <SliderComponent users={user}/>
+        <SliderComponent users={user} routeTo={routeTo} profile={profile}/>
       </div>
   );
 };

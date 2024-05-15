@@ -116,24 +116,14 @@ const PlansYearly = ({ data, profile }) => {
       return; // Early exit if required fields are missing
     }
 
-    const planDetails = {
-      fullName: data?.fullName,
-      businessName: data?.businessName,
-      phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
-      planName: plans,
-      interval,
-    };
-
     try {
       let response;
       if (profile.PlanStatus === "free_trial" || profile?.planName === "Enterprise Starter" ||
-        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium") {
+        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
         response = await updateEnterPriseSub({
           planName: plans,
           interval
         })
-      } else {
-        response = await planEnterPriseSub(planDetails);
       }
       if (response.success) {
         setLoading(false);

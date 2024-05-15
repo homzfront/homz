@@ -106,7 +106,7 @@ const CreateTransactionPin = ({ handlePageChangeTwo }) => {
                             <input
                                 type={visible ? "text" : "password"}
                                 name="password" // Ensure a name attribute for password managers
-                                autoComplete="new-password" // Use new-password for password fields
+                                // autoComplete="new-password" // Use new-password for password fields
                                 value={password}
                                 className='w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]'
                                 onChange={(e) => {
