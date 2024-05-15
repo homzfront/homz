@@ -790,7 +790,7 @@ const HomePage = () => {
                     className="h-[9.82px] w-[7.43px] md:w-[15px] md:h-[25px]"
                   />
                   <span className="pl-1 text-[#202020]">
-                    {property?.totalFee ? Number(property?.property?.totalFee).toLocaleString() : ""}
+                    {property?.totalFee ? Number(property?.property?.price).toLocaleString() : ""}
                   </span>
                 </p>
                 <p className="flex gap-1 items-center">
@@ -816,7 +816,7 @@ const HomePage = () => {
                         className="h-[7.37px] w-[10.53px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className=" text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans'] text-[#202020]">
-                        {property?.property?.numberOfRooms}
+                        {property?.property?.numberOfBathrooms}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center md:pt-4">
@@ -828,7 +828,7 @@ const HomePage = () => {
                         className="h-[7.8px] w-[8.67px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className="text-[#202020] text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property?.property?.numberOfBathrooms}
+                        {property?.property?.numberOfToilets}
                       </span>
                     </p>
                     <p className={`flex gap-1 items-center md:pt-4 ${property?.property?.squareMeter ? "" : "hidden"}`}>

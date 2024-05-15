@@ -76,7 +76,7 @@ const MiniPropertyListings = ({
                   className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                 />
                 <span className="pl-1">
-                  {property?.totalFee ? Number(property?.totalFee).toLocaleString() : ""}
+                  {property?.totalFee ? Number(property?.price).toLocaleString() : ""}
                 </span>
               </p>
               <p className="flex gap-1 items-center">
@@ -102,7 +102,7 @@ const MiniPropertyListings = ({
                       className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                     />
                     <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                      {property?.numberOfRooms}
+                      {property?.numberOfBathrooms}
                     </span>
                   </p>
                   <p className="flex gap-1 items-center md:pt-4">
@@ -114,7 +114,7 @@ const MiniPropertyListings = ({
                       className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                     />
                     <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                      {property?.numberOfBathrooms}
+                      {property?.numberOfToilets}
                     </span>
                   </p>
                   <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
@@ -133,7 +133,7 @@ const MiniPropertyListings = ({
                   className="cursor-pointer"
                   href={{
                     pathname: "/user_homepage/PreviewProperty",
-                    query: { property: property.slug },
+                    query: { property: property?.slug },
                   }}
                 >
                   <Image

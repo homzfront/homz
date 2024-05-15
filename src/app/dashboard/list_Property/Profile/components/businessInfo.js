@@ -306,11 +306,11 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
         </div>
         <div className="md:w-full w-[336px] flex flex-col gap-[14px] pt-5 duoViewPoint docUpload">
           <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
-            Help us verify your business or identity
+            Kindly upload any of the following documents for verification (format must be PDF)
           </p>
           <p className="text-[11px] text-[#4E4E4E] md:text-[14px] font-[400] text-left leading-[16.5px] md:leading-[21px]">
-            Upload your CAC certificate or membership certificate from any
-            accredited Real Estate body. (E.g AEAN or NIESV)
+            1. Clear copy of your CAC <br />  2. Clear copy of your membership certificate from any valid real estate body. (AEAEN or NIESV)
+            <br />  3. Clear copy of a valid means of identification.(Voters card, National Identity card, international Passport)
           </p>
 
           <div className="relative gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">

@@ -26,6 +26,7 @@ const Profile = () => {
     fetchData();
   }, []);
 
+  console.log(data);
   const closeModal = () => {
     setSaveModalIsOpen(false);
     setSuccessModalIsOpen(true);
@@ -63,7 +64,7 @@ const Profile = () => {
           const errorMessage = error.response.data.message;
           toast.error("Update failed", `${errorMessage}`);
         } else {
-          toast.error("Update failed");
+          toast.error("Update failed, Internal Server Error");
         }
       }
     } else {
@@ -87,14 +88,12 @@ const Profile = () => {
           error.response.data.error.errors.length > 0
         ) {
           const errorMessage = error.response.data.error.errors[0];
-          // console.log(errorMessage)
           toast.error("Update failed", `${errorMessage}`);
         } else if (error?.response?.data?.message) {
           const errorMessage = error.response.data.message;
-          // console.log(errorMessage)
           toast.error("Update failed", `${errorMessage}`);
         } else {
-          toast.error("Update failed , `Internal Server Error`");
+          toast.error("Update failed, Internal Server Error");
         }
       }
     }

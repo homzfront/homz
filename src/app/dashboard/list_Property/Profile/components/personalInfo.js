@@ -16,25 +16,27 @@ const PersonalInfo = ({
   const [fileUploaded, setFileUploaded] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
-  const [errors, setErrors] = useState(null);
+  const [error, setError] = useState(null);
   const [fullName, setFullName] = useState("");
   const [houseAddress, setHouseAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [whatsappLink, setWhatsappLink] = useState("");
 
+  function addLeadingZero(number) {
+    return number?.toString()?.startsWith('0') ? number : '0' + number;
+  }
+
   useEffect(() => {
-    // Check if data and required properties are available
     if (data) {
       setFullName(data?.fullName || "");
       setHouseAddress(data?.houseAddress || "");
-      setPhoneNumber(parseInt(data?.phoneNumber) || "");
+      setPhoneNumber(addLeadingZero(data?.phoneNumber) || "");
       setWhatsappLink(data?.whatsappLink || "")
 
       if (data?.coverPhoto?.url) {
         setFileUploaded(true)
         setImageSrc(data?.coverPhoto?.url || "")
       }
-      // setLoading(false); // Set loading to false once data is available
     }
   }, [data]);
 
@@ -66,15 +68,26 @@ const PersonalInfo = ({
   };
 
   const onSubmit = () => {
+    const phoneNumberRegex = /^\d{11}$/;
+    const whatsappLinkRegex = /^https:\/\/wa\.me\//;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setError("Phone number must be 11 digits");
+      return;
+    }
+    if (!whatsappLinkRegex.test(whatsappLink)) {
+      setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
+      return;
+    }
     const data = {
       fullName,
-      phoneNumber: parseInt(phoneNumber),
+      phoneNumber,
       whatsappLink,
       houseAddress,
       coverPhoto: profileFoto
     }
     handleUpdate(data);
   };
+
 
   return (
     <div className="">
@@ -164,8 +177,12 @@ const PersonalInfo = ({
               <input
                 disabled={!update}
                 placeholder="Enter Phone Number"
+                type="number"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value)
+                  setError("")
+                }}
                 className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
@@ -209,7 +226,10 @@ const PersonalInfo = ({
                 placeholder="Enter WhatsApp Link"
                 disabled={!update}
                 value={whatsappLink}
-                onChange={(e) => setWhatsappLink(e.target.value)}
+                onChange={(e) => {
+                  setWhatsappLink(e.target.value)
+                  setError("")
+                }}
                 className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
@@ -218,10 +238,14 @@ const PersonalInfo = ({
                 <p className="errorMsg">WhatsApp Link is required</p>
               )} */}
             </div>
+            {
+              error && <div className="italic text-error text-[11px] font-[400]">
+                {error}
+              </div>
+            }
           </div>
         </div>
         <div className="flex  md:justify-end justify-center mt-16 md:mt-12 ">
-
           <div className="flex flex-col ">
             {update ? (
               <button

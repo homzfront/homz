@@ -203,7 +203,7 @@ const ViewProperty = ({ PropertyID }) => {
                   height={16}
                 />
                 <span className="pl-1">
-                  {Number(propertyData?.totalFee).toLocaleString()}{" "}
+                  {Number(propertyData?.price).toLocaleString()}{" "}
                 </span>
                 <span className="text-[16px] font-[400] md:text-[18px] md:font-[500] ml-1 pt-1 text-[#4E4E4E]">
                   per year

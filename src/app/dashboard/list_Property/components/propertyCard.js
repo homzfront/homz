@@ -43,6 +43,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
     (_, index) => lastThreePagesStart + index
   );
   
+  console.log(currentProperties);
   return (
     <div className="w-[335px] md:w-full flex flex-col  gap-[64px] pt-6">
       <div className="flex  w-[340px] flex-wrap gap-[16px] md:w-full propertyListing">
@@ -136,7 +137,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                     className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                   />
                   <span className="pl-1">
-                    {Number(property?.totalFee).toLocaleString()}{" "}
+                    {Number(property?.price).toLocaleString()}{" "}
                   </span>
                   <span className=" text-[8px] ml-1 pt-1 text-gray-500">
                     per year

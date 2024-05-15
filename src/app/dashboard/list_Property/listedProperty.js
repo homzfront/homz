@@ -1,22 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import State from "./components/state";
-import PropertyType from "./components/propertyType";
-import Bedroom from "./components/bedrooms";
-import Area from "./components/Area";
 import Link from "next/link";
 import PropertyCard from './components/propertyCard';
 import CustomizedModal from "./components/CustomizedModal";
 import Dropdown from "./components/dropDownFilter";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+import BusinessAlert from "@/components/icons/businessAlert";
+import useClickOutside from "@/utils/clickOutside";
 
 const EditProperty = ({ property }) => {
+  const { data, fetchData } = useProfileListingMe();
+  useEffect(() => {
+    fetchData();
+  }, []);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  const [state, setState] = useState("");
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
+  const [openModalForBusi, setOpenModalForBusi] = useState(false);
+  const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
+
 
   const clear = () => {
     setSelectedProperty(null);
@@ -24,6 +29,9 @@ const EditProperty = ({ property }) => {
     setSelectedArea(null);
     setSelectedRooms(null);
   };
+
+  console.log(property);
+  console.log(data)
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
@@ -39,7 +47,7 @@ const EditProperty = ({ property }) => {
   const options3 = [...new Set(property?.map((item) => item?.propertyType))];
 
   const options4 = [...new Set(property?.map((item) => item?.numberOfBathrooms))];
-  
+
   const filteredData = property?.filter(
     (data) =>
       (!selectedState || data?.state === selectedState) &&
@@ -48,8 +56,34 @@ const EditProperty = ({ property }) => {
       (!selectedRooms || data?.numberOfBathrooms === selectedRooms)
   );
 
+
+
   return (
     <div>
+      {
+        openModalForBusi &&
+        <div
+          ref={dropdownRef}
+          className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+          <div className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+            <BusinessAlert />
+            <p className="text-[20px] font-[700] text-BlackHomz">
+              Update Business Information
+            </p>
+            <p className="text-[16px] font-[400] text-GrayHomz text-center">
+              Kindly upload your business certification in order to list more properties
+            </p>
+            <Link
+              href={"/dashboard/list_Property/Profile"}
+              className="w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
+            >
+              <span className="text-white text-[16px] font-[700]">
+                Upload Certificate
+              </span>
+            </Link>
+          </div>
+        </div>
+      }
       <div className="dashboard hidden md:flex justify-between">
         <div className="flex gap-1 filter">
           <p className="text-[#4E4E4E]  text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
@@ -102,7 +136,7 @@ const EditProperty = ({ property }) => {
             />
           </div>
           <button
-            className="border cursor-pointer border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded h-[37px]"
+            className="border cursor-pointer border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded h-[41px]"
             onClick={clear}
           >
             <span>
@@ -113,22 +147,38 @@ const EditProperty = ({ property }) => {
                 width={16}
               />
             </span>
-
             <span className="ml-1"> Reset</span>
           </button>
-          <Link
-            href="/dashboard/list_Property/addProperty"
-            className="w-[338px] flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
-          >
-            <Image
-              src="/static/images/white-add.svg"
-              alt=""
-              height={16}
-              width={16}
-              className=""
-            />
-            <span>List New property</span>
-          </Link>
+          {
+            property?.length === 1 && data?.businessInfo?.isVerified === false ?
+              <div
+                onClick={() => setOpenModalForBusi(true)}
+                className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
+              >
+                <Image
+                  src="/static/images/white-add.svg"
+                  alt=""
+                  height={16}
+                  width={16}
+                  className=""
+                />
+                <span>List New property</span>
+              </div> :
+              <Link
+                href="/dashboard/list_Property/addProperty"
+                className="w-[338px] flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
+              >
+                <Image
+                  src="/static/images/white-add.svg"
+                  alt=""
+                  height={16}
+                  width={16}
+                  className=""
+                />
+                <span>List New property</span>
+              </Link>
+          }
+
         </div>
       </div>
       <div className="flex justify-between  md:hidden w-[335px]">

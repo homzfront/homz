@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import Loading from "/src/components/mainmenu/loading";
-import { useForm } from "react-hook-form";
-import Cookies from "js-cookie";
 import useProfileStore from "@/store/profile";
 
 const ContactInfo = ({
@@ -10,35 +7,41 @@ const ContactInfo = ({
   handleSubmitData,
   // loading,
 }) => {
-  const {profile} = useProfileStore();
+  const { profile } = useProfileStore();
   const [email, setEmail] = useState(profile?.email || "");
   const [whatsappLink, setWhatsAppLink] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [error, setError] = useState(null);
+  const [isValid, setIsValid] = useState(false);
 
 
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({
-    criteriaMode: "all",
-  });
-
-  const onSubmit = (data) => {
+  const onSubmit = () => {
+    const phoneNumberRegex = /^\d{11}$/;
+    const whatsappLinkRegex = /^https:\/\/wa\.me\//;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setError("Phone number must be 11 digits");
+      return;
+    } if (whatsappLink) {
+      if (!whatsappLinkRegex.test(whatsappLink)) {
+        setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
+        return;
+      }
+    }
+    const data = {
+      ...(phoneNumber && { phoneNumber }),
+      ...(whatsappLink && { whatsappLink }),
+    };
     handleSubmitData(data);
   };
   return (
     <div className="">
-      {/* {loading && <Loading />} */}
-
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] duoViewPoint">
         Contact Information
       </div>
       <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
         Kindly fill in your correct contact information
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
+      <div
         className=" flex flex-col md:w-full duoViewPoint"
       >
         <div className="flex  gap-[2rem] mt-5">
@@ -50,19 +53,16 @@ const ContactInfo = ({
               </label>
               <br />
               <input
-                {...register("phoneNumber", {
-                  required: "Phone Number is required",
-                  pattern: {
-                    value: /^((\+234)+|0)[7-9]{1}[0-9]{9}$/,
-                    message: "Invalid Phone number",
-                  },
-                })}
+                type="number"
                 placeholder="Enter Phone Number"
+                value={phoneNumber}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value)
+                  setIsValid(true);
+                  setError("");
+                }}
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px]"
               />
-              {errors.phoneNumber && (
-                <p className="errorMsg">{errors.phoneNumber?.message}</p>
-              )}
             </div>
             <div>
               <label htmlFor="email">
@@ -77,34 +77,34 @@ const ContactInfo = ({
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px] opacity-60"
                 disabled
               />
-              {errors.email && <p className="errorMsg">email is required</p>}
             </div>
             <div>
               <label htmlFor="whatsappLink"> WhatsApp Link</label>
               <br />
               <input
-              type="text"
-              name="whatsappLink"
-                {...register("whatsappLink", {
-                })}
                 placeholder="Enter WhatsApp Link"
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px]"
                 value={whatsappLink}
-                onChange={(e) => setWhatsAppLink(e.target.value)}
-                onBlur={() => {
-                  if (whatsappLink.trim() !== "") {
-                    // Remove all non-numeric characters from the phone number
-                    const phoneNumber = whatsappLink
-                      .replace(/[^0-9]/g, "")
-                      .replace(/^0+/, "");
-                    setWhatsAppLink(`https://wa.me/${phoneNumber}`);
-                  }
+                onChange={(e) => {
+                  setWhatsAppLink(e.target.value)
+                  setError("")
                 }}
+              // onBlur={() => {
+              //   if (whatsappLink.trim() !== "") {
+              //     // Remove all non-numeric characters from the phone number
+              //     const phoneNumber = whatsappLink
+              //       .replace(/[^0-9]/g, "")
+              //       .replace(/^0+/, "");
+              //     setWhatsAppLink(`https://wa.me/${phoneNumber}`);
+              //   }
+              // }}
               />
-              {errors.whatsapp && (
-                <p className="errorMsg">{errors?.whatsapp?.message}</p>
-              )}
             </div>
+            {
+              error && <div className="italic text-error text-[11px] font-[400]">
+                {error}
+              </div>
+            }
           </div>
         </div>
         <div className="mt-[8rem] px-3 flex justify-between">
@@ -133,12 +133,11 @@ const ContactInfo = ({
           </div>
           <button
             disabled={!isValid ? true : false}
-            className={`flex md:mr-14 border justify-center  w-[122px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
-              !isValid
-                ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
-                : "text-white border-white bg-BlueHomz"
-            } rounded-[4px]`}
-            type="submit"
+            className={`flex md:mr-14 border justify-center  w-[122px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
+              ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
+              : "text-white border-white bg-BlueHomz"
+              } rounded-[4px]`}
+            onClick={onSubmit}
           >
             List Property
             {!isValid ? (
@@ -162,7 +161,7 @@ const ContactInfo = ({
             )}
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

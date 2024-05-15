@@ -13,6 +13,7 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from 'react';
 import LoadingII from "@/components/mainmenu/loadingII";
+import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 
 const UserHomePage = () => {
   return (
@@ -77,7 +78,7 @@ const PreviewPropertyContent = () => {
         setParams(false);
         // setCurrentPage(urlParams.get("page"))
         const total = data.data.data.results[0]?.metadata[0]?.total || 0;
-        setTotalPages(Math.ceil(total / 8));
+        setTotalPages(Math.ceil(total / 9));
         setTotalData(data.data.data.results[0]?.metadata[0]?.total)
       } else {
         setProperty(null);
@@ -166,12 +167,14 @@ const PreviewPropertyContent = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
+    setParams(true);
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
     }
+    setParams(true);
   };
 
   const handlePageClick = (page) => {
@@ -192,7 +195,7 @@ const PreviewPropertyContent = () => {
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-
+console.log(currentPage)
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
       <div className="hidden md:flex justify-between items-center w-full px-[76px]">
@@ -254,7 +257,7 @@ const PreviewPropertyContent = () => {
               className={"w-[160px]"}
               selectOption={`${filters?.minPrice === null
                 ? "Min Price"
-                : capitalizeFirstLetter(filters?.minPrice)
+                : addCommasToNumberWithoutN(filters?.minPrice)
                 }`}
             />
           </div>
@@ -264,7 +267,7 @@ const PreviewPropertyContent = () => {
               className={"w-[160px]"}
               selectOption={`${filters?.maxPrice === null
                 ? "Max Price"
-                : capitalizeFirstLetter(filters?.maxPrice)
+                : addCommasToNumberWithoutN(filters?.maxPrice)
                 }`}
             />
           </div>

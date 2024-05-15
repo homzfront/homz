@@ -163,7 +163,6 @@ const PropertyForms = ({ propertyData }) => {
     setActiveFour(false);
   };
 
-
   return (
     <div className="pt-10 md:pt-0">
       {/* {
@@ -224,7 +223,7 @@ const PropertyForms = ({ propertyData }) => {
           </span>
         </Link>
         <Link
-          href=""
+          href={`/dashboard/list_Property/PreviewProperty?Property=${propertyData?.slug}`}
           className="text-[#006AFF] text-[14px] leading-[21px] hidden md:block mr-3"
         >
           See public view
