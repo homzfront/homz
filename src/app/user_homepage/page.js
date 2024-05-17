@@ -168,21 +168,24 @@ const HomePage = () => {
     fetchData()
   }, []);
 
-  // Function to detect screen width
   function getWindowDimensions() {
-    const { innerWidth: width } = window;
-    return width;
-  }
-
-  const [windowWidth, setWindowWidth] = useState(getWindowDimensions());
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowWidth(getWindowDimensions());
+    if (typeof window !== 'undefined') {
+      const { innerWidth: width } = window;
+      return width;
     }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return null;
+  }
+  
+  const [windowWidth, setWindowWidth] = useState(getWindowDimensions());
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      function handleResize() {
+        setWindowWidth(getWindowDimensions());
+      }
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   const slidesToShow = windowWidth < 768 ? 1 : 3; // Show 1 slide on mobile, 3 on other screens
