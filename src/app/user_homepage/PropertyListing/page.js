@@ -108,6 +108,8 @@ const PreviewPropertyContent = () => {
         setParams(false);
       }
     }
+    // Scroll to top after fetching properties
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -195,7 +197,7 @@ const PreviewPropertyContent = () => {
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-console.log(currentPage)
+  console.log(currentPage)
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
       <div className="hidden md:flex justify-between items-center w-full px-[76px]">
@@ -287,11 +289,11 @@ console.log(currentPage)
           </button>
         </div>
       </div>
-      <div className="flex justify-between md:hidden w-full">
+      <div className="flex justify-between md:hidden w-full px-8">
         <div className="searchPane relative w-[86%] rounded-[4px]">
           <input
             type="text"
-            className="border h-[40px] pl-8 rounded-[4px] w-full "
+            className="border h-[46px] pl-8 rounded-[4px] w-full"
             id="search"
             placeholder="Search by state or area"
             value={filters.search}
@@ -308,7 +310,7 @@ console.log(currentPage)
             }}
           />
         </div>
-        <div className=" rounded-[4px] p-[11px] border hover:border-blue-600">
+        <div className=" rounded-[4px] p-[10px] border hover:border-blue-600">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"

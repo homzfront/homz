@@ -9,7 +9,7 @@ const ContactInfo = ({
 }) => {
   const { profile } = useProfileStore();
   const [email, setEmail] = useState(profile?.email || "");
-  const [whatsappLink, setWhatsAppLink] = useState("");
+  const [whatsapp, setWhatsAppLink] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("")
   const [error, setError] = useState(null);
   const [isValid, setIsValid] = useState(false);
@@ -21,7 +21,7 @@ const ContactInfo = ({
     if (!phoneNumberRegex.test(phoneNumber)) {
       setError("Phone number must be 11 digits");
       return;
-    } if (whatsappLink) {
+    } if (whatsapp) {
       if (!whatsappLinkRegex.test(whatsappLink)) {
         setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
         return;
@@ -29,7 +29,8 @@ const ContactInfo = ({
     }
     const data = {
       ...(phoneNumber && { phoneNumber }),
-      ...(whatsappLink && { whatsappLink }),
+      ...(whatsapp && { whatsapp }),
+      ...(email && { email }),
     };
     handleSubmitData(data);
   };
@@ -79,12 +80,12 @@ const ContactInfo = ({
               />
             </div>
             <div>
-              <label htmlFor="whatsappLink"> WhatsApp Link</label>
+              <label htmlFor="whatsapp"> WhatsApp Link</label>
               <br />
               <input
                 placeholder="Enter WhatsApp Link"
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px]"
-                value={whatsappLink}
+                value={whatsapp}
                 onChange={(e) => {
                   setWhatsAppLink(e.target.value)
                   setError("")

@@ -29,9 +29,9 @@ const PropertyCard = ({
   return (
     <div className="w-full">
       {loadingII ? <LoadingII /> :
-        <div className="w-[335px] md:w-full flex flex-col  gap-[17px] px-[76px]">
-          <div className="flex flex-col gap-1 items-start">
-            <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] mb-1">
+        <div className="w-[335px] md:w-full flex flex-col gap-[17px] md:px-[76px]">
+          <div className="flex flex-col md:gap-1 gap-[-10px] items-start">
+            <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] md:mb-1">
               {Property && Property.length > 0
                 ? ` Property`
                 : "Property not found"}
@@ -44,9 +44,9 @@ const PropertyCard = ({
           </div>
           {Property === null ? (
             <>
-              <div className="w-full flex items-center justify-center">
-                <div className="h-[239px] md:mb-4 md:px-0 md:h-[303px] md:w-[1225px] mx-auto rounded-[16px] bg-center bg-opacity-5 bg-cover bg-[url('https://s3-alpha-sig.figma.com/img/a4f4/d5e1/871a6ade1220a3d8c6f14f7aca031b73?Expires=1711929600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UbzQjXk6Ul6C5B1y8g4sukqAyvH7hxThMjd7RwsUlOCzABDMuThCQqJPLa8TSqLbuSKTZ~BYxNU5g39yKvgsdPvvd8nghZNPR98PUt2WR5LmvIfs1xL7diaK~AdAJWMPTCi7sxhiUk4klBS-0Danh6RAW~LhmXCgG4Kh7wL2AC2c7qwvQ-gVLeor-gvefkttdhIITohMiRgg9ua~PAq6IAl9GcNeU3iRHCZqfaZemL48OykaWU1OKabek5QjWDp9qktzuvvz0IiEuFVeoQxHGkzWC9fTsLS58xKzkxs6-VMrgomR63ZpsnvX2nhn2Dondut2n26BCwS6FQxi19UysA__')]">
-                  <div className="h-[239px] md:h-[303px]   rounded-[16px] flex flex-col items-center  gap-[15px] justify-center bg-[#006AFF] bg-opacity-95 mb-2">
+              <div className="w-full flex justify-center">
+                <div className="h-[239px] md:mb-4 md:px-0 md:h-[303px] md:w-[1225px] rounded-[16px] bg-center bg-cover bg-[url('/Background_image.png')] bg-[#006AFF]">
+                  <div className="h-[239px] md:h-[303px] rounded-[16px] flex flex-col items-center  gap-[15px] justify-center mb-2">
                     <p className="text-[18px] leading-[22.68px] px-4 text-center md:text-[36px] font-[700] md:leading-[45.36px] text-white">
                       Can’t find the property you’re looking for?
                     </p>
@@ -85,10 +85,10 @@ const PropertyCard = ({
           ) : (
             <>
               <div className="flex items-center justify-center w-full flex-col ">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-[30px] mb-3 md:w-full ">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
                   {Property && currentProperties?.map((property, index) => (
                     <div
-                      className="flex flex-col w-[100%]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                      className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
                       key={index}
                     >
                       <div

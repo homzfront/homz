@@ -22,6 +22,7 @@ const EditProperty = ({ property }) => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
 
+  console.log(data);
 
   const clear = () => {
     setSelectedProperty(null);
@@ -30,8 +31,8 @@ const EditProperty = ({ property }) => {
     setSelectedRooms(null);
   };
 
-  console.log(property);
-  console.log(data)
+  // console.log(property);
+  // console.log(data)
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
@@ -150,7 +151,7 @@ const EditProperty = ({ property }) => {
             <span className="ml-1"> Reset</span>
           </button>
           {
-            property?.length === 1 && data?.businessInfo?.isVerified === false ?
+            property?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
               <div
                 onClick={() => setOpenModalForBusi(true)}
                 className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"

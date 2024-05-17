@@ -15,7 +15,7 @@ import useProfileStore from "@/store/profile";
 
 const ListProperty = () => {
     const router = useRouter();
-    const {profile} = useProfileStore();
+    const { fetchProfile, profile } = useProfileStore();
     const [email, setEmail] = useState(profile?.email || "");
     const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
         useState(false);
@@ -37,9 +37,11 @@ const ListProperty = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const storedEmail = Cookies.get("email");
-        setEmail(storedEmail);
-    }, []);
+        if (!profile) {
+            fetchProfile();
+        }
+        setEmail(profile?.email);
+    }, [profile, fetchProfile]);
 
     const {
         register,
@@ -196,7 +198,7 @@ const ListProperty = () => {
     }
 
     const goBack = () => {
-      router.back();
+        router.back();
     };
 
     return (
@@ -229,9 +231,9 @@ const ListProperty = () => {
             <div className="flex flex-col md:gap-[35px] px-6 pt-8 md:pt-0 miniPadding">
                 <div className="h-[29px] mt-0 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse sm:items-center p-5 justify-between">
                     <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>
-                    <div 
-                   onClick={goBack}
-                     className="flex gap-1 cursor-pointer">
+                    <div
+                        onClick={goBack}
+                        className="flex gap-1 cursor-pointer">
                         <Image
                             src="/static/images/arrow-left.svg"
                             height={16}
@@ -349,9 +351,12 @@ const ListProperty = () => {
                                     <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
                                         Help us verify your business
                                     </p>
+                                    <p className="text-[12px] md:text-[16px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
+                                        Kindly upload any of the following documents for verification (format must be PDF)
+                                    </p>
                                     <p className="text-[11px] text-[#4E4E4E] md:text-[14px] font-[400] text-left leading-[16.5px] md:leading-[21px]">
-                                        Upload your CAC certificate or membership certificate from
-                                        any accredited Real Estate body. (E.g AEAN or NIESV)
+                                        1. Clear copy of your CAC <br />  2. Clear copy of your membership certificate from any valid real estate body. (AEAEN or NIESV)
+                                        <br />  3. Clear copy of a valid means of identification.(Voters card, National Identity card, international Passport)
                                     </p>
 
                                     <div className="gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[10px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] h-[93px]">

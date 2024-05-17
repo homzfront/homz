@@ -66,7 +66,7 @@ const MenuItem = ({ item }) => {
         item.title === "Logout" ? (
           <div
             onClick={logoutII}
-            className={`flex flex-row space-x-4 items-center p-2 rounded-lg fontSize ${item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path ? "bg-BlueHomz text-white" : "hover:bg-blue-100"
+            className={`flex flex-row space-x-4 items-center cursor-pointer p-2 rounded-lg fontSize ${item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path ? "bg-BlueHomz text-white" : "hover:bg-blue-100"
               }`}
           >
             {item.path === path || item.pathII === path || item.pathIII === path || item.pathIV === path

@@ -107,6 +107,13 @@ const ViewProperty = ({ PropertyID }) => {
     router.push("/user_homepage/PropertyListing")
   }
 
+
+  const viewFile = (url) => {
+    if (url) {
+      window.open(url);
+    }
+  };
+
   return (
     <div>
       {loading ? <LoadingII /> : <div className="w-full pt-10 md:pt-8 pb-10 md:px-[120px] px-5">
@@ -143,7 +150,7 @@ const ViewProperty = ({ PropertyID }) => {
                   height={161}
                   width={162}
                   className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px]`}
-                  layout="full" 
+                  layout="full"
                   objectFit="cover"
                   objectPosition="center"
                   quality={100}
@@ -409,12 +416,13 @@ const ViewProperty = ({ PropertyID }) => {
                   width={16}
                   height={17}
                   alt=""
-                  onClick={() =>
+                  onClick={() => {
                     handleCopyClick(
                       `${propertyData?.contacts?.whatsapp}`,
                       "whatsAppNumber"
                     )
-                  }
+                    viewFile(propertyData?.contacts?.whatsapp)
+                  }}
                   className="cursor-pointer"
                 />
               </div>

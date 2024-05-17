@@ -16,7 +16,7 @@ const MiniPropertyListings = ({
       <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] my-3 ">
         Other properties
       </p>
-      <div className="flex  w-[340px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-cent">
+      <div className="flex w-[340px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-center">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <div
             className={`flex flex-col w-[335px]  ${width ? width : " md:w-[333px]"

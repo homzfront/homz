@@ -25,6 +25,13 @@ const ViewProperty = ({ PropertyID }) => {
     propertyData();
   }, [PropertyID]);
 
+
+  const viewFile = (url) => {
+    if (url) {
+      window.open(url);
+    }
+  };
+
   useEffect(() => {
     if (propertyData && propertyData.coverPhoto && propertyData.photos) {
       const newData = {
@@ -125,57 +132,57 @@ const ViewProperty = ({ PropertyID }) => {
       {
         !propertyData ? <LoadingII /> :
           <>
- <div className="mt-4 ml-3">
-          <div className="flex flex-wrap gap-4">
-            {combinedData &&
-              combinedData?.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={` ${index === 0 ? "w-full flex-shrink-0" : "flex-grow"
-                    }`}
-                  onClick={() => openImageModal(index, item)}
-                >
-                  {index === 0 || index <= 5 ? (
-                    <Image
-                      src={item.url}
-                      alt=""
-                      height={index === 0 ? 368 : 161}
-                      width={index === 0 ? 1110 : 162}
-                      className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px] ${index === 0 ? "w-full h-[368px]" : ""
+            <div className="mt-4 ml-3">
+              <div className="flex flex-wrap gap-4">
+                {combinedData &&
+                  combinedData?.map((item, index) => (
+                    <div
+                      key={item.id}
+                      className={` ${index === 0 ? "w-full flex-shrink-0" : "flex-grow"
                         }`}
-                      layout="full" // Specify the desired height
-                      objectFit="cover"
-                      objectPosition="center"
-                      quality={100}
-                      priority
-                    />
-                  ) : index === 6 ? (
-                    <div className="cursor-pointer relative inline-block rounded-md flex-grow">
-                      <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
-                        <p>+{remainder} more</p>
-                      </div>
-                      <Image
-                        src={item.url}
-                        alt=""
-                        height={161}
-                        width={162}
-                        className="rounded-md"
-                      />
+                      onClick={() => openImageModal(index, item)}
+                    >
+                      {index === 0 || index <= 5 ? (
+                        <Image
+                          src={item.url}
+                          alt=""
+                          height={index === 0 ? 368 : 161}
+                          width={index === 0 ? 1110 : 162}
+                          className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px] ${index === 0 ? "w-full h-[368px]" : ""
+                            }`}
+                          layout="full" // Specify the desired height
+                          objectFit="cover"
+                          objectPosition="center"
+                          quality={100}
+                          priority
+                        />
+                      ) : index === 6 ? (
+                        <div className="cursor-pointer relative inline-block rounded-md flex-grow">
+                          <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
+                            <p>+{remainder} more</p>
+                          </div>
+                          <Image
+                            src={item.url}
+                            alt=""
+                            height={161}
+                            width={162}
+                            className="rounded-md"
+                          />
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                </div>
-              ))}
-          </div>
-          {openSelectedImage && combinedData.length >= 1 && (
-            <ImageModal
-              imageData={selectedImage.data}
-              onClose={closeImageModal}
-              totalImages={combinedData?.length}
-              currentImageIndex={currentImageIndex}
-              setCurrentImageIndex={setCurrentImageIndex}
-            />
-          )}
-        </div>
+                  ))}
+              </div>
+              {openSelectedImage && combinedData.length >= 1 && (
+                <ImageModal
+                  imageData={selectedImage.data}
+                  onClose={closeImageModal}
+                  totalImages={combinedData?.length}
+                  currentImageIndex={currentImageIndex}
+                  setCurrentImageIndex={setCurrentImageIndex}
+                />
+              )}
+            </div>
             <div className="flex flex-col md:gap-[19px] pt-5 pb-3 gap-[20px]">
               <div className="flex justify-between items-center">
                 <div className="flex gap-3 items-center">
@@ -386,12 +393,13 @@ const ViewProperty = ({ PropertyID }) => {
                       width={16}
                       height={17}
                       alt=""
-                      onClick={() =>
+                      onClick={() => {
                         handleCopyClick(
                           `${propertyData?.contacts?.whatsapp}`,
                           "whatsAppNumber"
                         )
-                      }
+                        viewFile(propertyData?.contacts?.whatsapp)
+                      }}
                       className="cursor-pointer"
                     />
                   </div>

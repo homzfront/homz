@@ -49,8 +49,8 @@ const PropertyPhoto = ({
         // File size exceeds the limit
         setErrorMsg2("Photo size exceeds 5MB.");
         return;
-      } 
-      else{
+      }
+      else {
         setErrorMsg2("")
         setFileUpload(true);
         setUploadedCoverPhoto(file);
@@ -70,25 +70,25 @@ const PropertyPhoto = ({
         // File size exceeds the limit
         setErrorMsg("Photo size exceeds 5MB.");
         return;
-      } 
-      else{
+      }
+      else {
         setErrorMsg("");
-      setFileUpload2(true);
-      setOtherPhotos((prevPhotos) => {
-        if (!Array.isArray(prevPhotos)) {
-          // console.log("Initializing otherPhotos as an empty array");
-          return [];
-        }
-        // Spread the previous photos and add the new file
-        return [...prevPhotos, file];
-      });
-      setHouses([...houses, URL.createObjectURL(file)]);
-      setUploadedOtherPhotos((uploadedOtherPhotos) => [
-        ...uploadedOtherPhotos,
-        file,
-      ]);
+        setFileUpload2(true);
+        setOtherPhotos((prevPhotos) => {
+          if (!Array.isArray(prevPhotos)) {
+            // console.log("Initializing otherPhotos as an empty array");
+            return [];
+          }
+          // Spread the previous photos and add the new file
+          return [...prevPhotos, file];
+        });
+        setHouses([...houses, URL.createObjectURL(file)]);
+        setUploadedOtherPhotos((uploadedOtherPhotos) => [
+          ...uploadedOtherPhotos,
+          file,
+        ]);
+      }
     }
-  }
   };
 
   return (
@@ -105,7 +105,7 @@ const PropertyPhoto = ({
         </p>
       </div>
       <main className="User_body profiles flex flex-col  md:flex-row  gap-[7rem] w-full duoViewPoint">
-        <div className={`profiles flex gap-[2rem] md:gap-[4rem] flex-col md:flex-row ${houses.length >1? 'cols sideBarHidden' : 'rows'}`}>
+        <div className={`profiles flex gap-[2rem] md:gap-[4rem] flex-col md:flex-row ${houses.length > 1 ? 'cols sideBarHidden' : 'rows'}`}>
           <div className="md:space-y-4">
             <label for="CoverPhoto " className="text-[14px]">
               Cover photo
@@ -118,7 +118,7 @@ const PropertyPhoto = ({
               <form
                 enctype="multipart/form-data"
                 method="put"
-                // action="/api/updateUser/"
+              // action="/api/updateUser/"
               >
                 <input
                   type="file"
@@ -151,9 +151,9 @@ const PropertyPhoto = ({
                 )}
               </form>
             </div>
-              <p className="text-[11px] text-red-600">
-                {errorMsg2 ? errorMsg2 : ""}
-              </p>
+            <p className="text-[11px] text-red-600">
+              {errorMsg2 ? errorMsg2 : ""}
+            </p>
           </div>
 
           <div className=" md:space-y-4 ">
@@ -162,7 +162,7 @@ const PropertyPhoto = ({
             </label>
             <br />
             <div className="flex gap-7 flex-wrap md:w-full w-[357px] duoViewPoint ">
-              <div className={` flex gap-4 md:gap-7 flex-wrap mt-2 md:mt-0 ${houses.length >1? "miniViewCol": "w-[400px]"}`}>
+              <div className={` flex gap-4 md:gap-7 flex-wrap mt-2 md:mt-0 ${houses.length > 1 ? "miniViewCol" : "w-[400px]"}`}>
                 {houses.map((house, index) => (
                   // Render each house dynamically
                   <div
@@ -185,7 +185,7 @@ const PropertyPhoto = ({
                         alt="img"
                         onClick={() => deleteFile(index)}
                       />
-                      
+
                     )}
                   </div>
                 ))}
@@ -196,7 +196,7 @@ const PropertyPhoto = ({
                     <form
                       enctype="multipart/form-data"
                       method="put"
-                      // action="/api/updateUser/"
+                    // action="/api/updateUser/"
                     >
                       <input
                         type="file"
@@ -217,14 +217,14 @@ const PropertyPhoto = ({
                         height={70.63}
                       />
                     </form>
-                    <p className="text-[11px] text-red-600">
-                {errorMsg ? errorMsg : ""}
-              </p>
                   </div>
                 )}
               </div>
             </div>
-             
+                <p className="text-[11px] text-red-600">
+                  {errorMsg ? errorMsg : ""}
+                </p>
+
           </div>
         </div>
       </main>
@@ -259,18 +259,16 @@ const PropertyPhoto = ({
           <button
             disabled={!fileUploaded && houses.length < 3}
             onClick={handlePagePropertyPhoto}
-            className={`flex h-[36px] w-[36px] md:h-full md:w-[100px] justify-center items-center text-[14px] font-[500] md:p-2 rounded-md ${
-              fileUploaded && houses.length >= 3
+            className={`flex h-[36px] w-[36px] md:h-full md:w-[100px] justify-center items-center text-[14px] font-[500] md:p-2 rounded-md ${fileUploaded && houses.length >= 3
                 ? "md:bg-BlueHomz text-white proBorders"
                 : "bg-GrayHomz5 text-GrayHomz proBorders"
-            }`}
+              }`}
           >
             <span className="hidden md:block">Next</span>
 
             <Image
-              src={`/static/dashboard/enterprisemanager/dashboard/arrow-right${
-                fileUploaded && houses.length >= 3 ? "-white" : ""
-              }.png`}
+              src={`/static/dashboard/enterprisemanager/dashboard/arrow-right${fileUploaded && houses.length >= 3 ? "-white" : ""
+                }.png`}
               alt=""
               height={16}
               width={16}
