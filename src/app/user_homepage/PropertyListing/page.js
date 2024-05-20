@@ -200,7 +200,7 @@ const PreviewPropertyContent = () => {
   console.log(currentPage)
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
-      <div className="hidden md:flex justify-between items-center w-full px-[76px]">
+      <div className="hidden xl:flex justify-between items-center w-full px-[76px]">
         <div className="relative flex items-center w-[20%] h-[44px] py-[12px]  mr-1">
           <input
             type="text"
@@ -289,7 +289,7 @@ const PreviewPropertyContent = () => {
           </button>
         </div>
       </div>
-      <div className="flex justify-between md:hidden w-full px-8">
+      <div className="flex justify-between xl:hidden w-full px-8 pl-8 md:pl-14">
         <div className="searchPane relative w-[86%] rounded-[4px]">
           <input
             type="text"
@@ -343,7 +343,7 @@ const PreviewPropertyContent = () => {
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-5 rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by

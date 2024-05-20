@@ -407,8 +407,10 @@ const ContactDoc = () => {
             </div>
           </div>
           <div className="flex flex-col sm:hidden gap-6">
-            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-              <Image src={"/sms.png"} height={24} width={24} alt={`call-img`} />
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Message />
+              </div>
             </div>
             <div className="flex sm:hidden gap-2">
               <p className="text-[20px] font-[500] underline text-GrayHomz ">

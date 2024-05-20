@@ -115,7 +115,7 @@ const ViewProperty = ({ PropertyID }) => {
           </span>
         </Link>
         <Link
-          href={`/dashboard/list_Property/edit_property/${propertyData?.slug}`}
+          href={`/dashboard/list_Property/edit_property/${propertyData?._id}`}
           className="text-[14px] font-[400] text-BlueHomz"
         >
           <span className="hidden md:block">Edit Property</span>
@@ -348,67 +348,55 @@ const ViewProperty = ({ PropertyID }) => {
                     )}
                   </div>
                 </div>
-                <div>
-                  <p className="text-[13px] font-[400] text-BlackHomz">Email</p>
-                  <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-                    <p className="text-[14px] font-[500] text-BlueHomz">
-                      {propertyData?.contacts?.email}
-                    </p>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/propertyList/copy.png"
-                      }
-                      width={16}
-                      height={17}
-                      alt=""
-                      onClick={() =>
-                        handleCopyClick(
-                          `${propertyData?.contacts?.email}`,
-                          "email"
-                        )
-                      }
-                      className="cursor-pointer"
-                    />
-                  </div>
+                {propertyData?.contacts?.email && (
                   <div>
-                    {copiedState.email && (
-                      <div className="italic text-[12px] text-Success">Copied</div>
-                    )}
+                    <p className="text-[13px] font-[400] text-BlackHomz">Email</p>
+                    <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
+                      <p className="text-[14px] font-[500] text-BlueHomz">
+                        {propertyData?.contacts?.email}
+                      </p>
+                      <Image
+                        src={
+                          "/static/dashboard/enterprisemanager/propertyList/copy.png"
+                        }
+                        width={16}
+                        height={17}
+                        alt=""
+                        onClick={() =>
+                          handleCopyClick(
+                            `${propertyData?.contacts?.email}`,
+                            "email"
+                          )
+                        }
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <div>
+                      {copiedState.email && (
+                        <div className="italic text-[12px] text-Success">Copied</div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className="text-[13px] font-[400] text-BlackHomz">
-                    WhatsApp Link
-                  </p>
-                  <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-                    <p className="text-[14px] font-[500] text-BlueHomz">
-                      {propertyData?.contacts?.whatsapp
-                        ? `${propertyData?.contacts?.whatsapp}`
-                        : ""}
-                    </p>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/propertyList/copy.png"
-                      }
-                      width={16}
-                      height={17}
-                      alt=""
-                      onClick={() => {
-                        handleCopyClick(
-                          `${propertyData?.contacts?.whatsapp}`,
-                          "whatsAppNumber"
-                        )
-                        viewFile(propertyData?.contacts?.whatsapp)
-                      }}
-                      className="cursor-pointer"
-                    />
-                  </div>
+                )}
+                {propertyData?.contacts?.whatsapp && (
                   <div>
-                    {copiedState.whatsAppNumber && (
-                      <div className="italic text-[12px] text-Success">Copied</div>
-                    )}
+                    <p className="text-[13px] font-[400] text-BlackHomz">
+                      WhatsApp Link
+                    </p>
+                    <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
+                      <p
+                        onClick={() => {
+                          viewFile(propertyData?.contacts?.whatsapp)
+                        }}
+                        className="text-[14px] font-[500] text-BlueHomz underline cursor-pointer"
+                      >
+                        {propertyData?.contacts?.whatsapp
+                          ? `${propertyData?.contacts?.whatsapp}`
+                          : ""}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div></>
       }

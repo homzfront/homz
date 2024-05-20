@@ -26,7 +26,6 @@ const Profile = () => {
     fetchData();
   }, []);
 
-  console.log(data);
   const closeModal = () => {
     setSaveModalIsOpen(false);
     setSuccessModalIsOpen(true);

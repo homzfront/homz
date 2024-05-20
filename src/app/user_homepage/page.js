@@ -22,7 +22,6 @@ const customTheme = {
       "hidden md:inline-block absolute top-[7rem] left-2 flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
     rightControl:
       "hidden md:inline-block absolute top-[7rem] right-11 flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
-    // Add hover styles for leftControl and rightControl
     "&:hover $leftControl, &:hover $rightControl": {
       display: "inline-block",
     },
@@ -73,9 +72,7 @@ const HomePage = () => {
     numberOfBathrooms: null,
     listingType: rent ? "for rent" : null,
   });
-  // Determine the number of indicators based on the number of slides
-  const numSlides = Math.ceil(featuredData?.length / 3); // Assuming each slide displays three cards
-  const indicators = Array.from({ length: numSlides }, (_, index) => index);
+
   const handleOpen = (e) => {
     e.preventDefault();
     setOpenFilter(!openFilter);
@@ -175,9 +172,9 @@ const HomePage = () => {
     }
     return null;
   }
-  
+
   const [windowWidth, setWindowWidth] = useState(getWindowDimensions());
-  
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       function handleResize() {
@@ -188,21 +185,29 @@ const HomePage = () => {
     }
   }, []);
 
-  const slidesToShow = windowWidth < 768 ? 1 : 3; // Show 1 slide on mobile, 3 on other screens
+  const slidesToShow = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth > 1024) return 3;
+      if (window.innerWidth < 768) return 1;
+      return 2;
+    }
+    return 1;
+  };
 
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
-    slidesToShow: slidesToShow, // Adjusted based on screen size
+    slidesToShow: slidesToShow(), // Adjusted based on screen size
     className: "center",
     centerMode: true,
     centerPadding: "0",
     autoplay: true,
     autoplaySpeed: 3000,
-    prevArrow: null, // Remove previous arrow
-    nextArrow: null, // Remove next arrow
+    prevArrow: null,
+    nextArrow: null,
+    appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
   };
 
   const sliderSettingsII = {
@@ -210,27 +215,27 @@ const HomePage = () => {
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
-    slidesToShow: 1, // Adjusted based on screen size
+    slidesToShow: 1,
     className: "center",
     centerMode: true,
     centerPadding: "0%",
     autoplay: true,
     autoplaySpeed: 3000,
-    prevArrow: null, // Remove previous arrow
-    nextArrow: null, // Remove next arrow
+    prevArrow: null,
+    nextArrow: null,
   };
 
   return (
-    <div className="md:w-full mx-auto  mt-10 md:mt-20 ">
-      <div className="flex flex-col relative px-6 md:px-0">
+    <div className="md:w-full mx-auto mt-10 md:mt-20 ">
+      <div className="flex flex-col justify-center items-center relative px-8 md:px-0">
         <div className="flex md:items-center md:justify-between relative w-[330px] md:w-full">
           <div className="flex flex-col items-start w-[310px] md:w-[580px] gap-3 md:gap-2 md:pb-[165px] md:pl-20">
-            <p className=" md:h-[43px] p-[8px] text-center text-[13px] md:text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[400] md:font-[500] md:leading-[27px]">
+            <p className="md:h-[43px] p-[8px] text-center text-[13px] md:text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[400] md:font-[500] md:leading-[27px]">
               One-Stop Real Estate Solution
             </p>
 
             <h1 className=" text-[#202020]">
-              <span className="hidden md:block text-[41px] font-[700]">
+              <span className="hidden md:block text-[36px] lg:text-[41px] font-[700] leading-tight">
                 Find, Manage, Appraise Your Property With Homz
               </span>
               <span className="md:hidden text-[29px] font-[700] leading-tight">Find & Manage Properties on Homz</span>
@@ -246,14 +251,13 @@ const HomePage = () => {
             />
           </div>
         </div>
-
-        <div className="md:absolute w-[330px] h-full mt-[20px] md:mt-0 px-[24px] border-[2px] border-BlueHomz flex flex-col justify-between bottom-12 md:bottom-[150px] left-20 md:w-[882px] md:h-[144px] md:px-[20px] py-[24px] rounded-[12px] bg-[#EEF5FF] md:bg-opacity-75">
+        <div className="md:absolute w-[330px] h-full mt-[20px] md:mt-0 px-[24px] border-[2px] border-BlueHomz flex flex-col justify-between bottom-12 md:bottom-[140px] lg:bottom-[155px] md:left-20 max-w-[882px] md:w-[655px] lg:w-full md:h-[144px] md:px-[20px] py-[24px] rounded-[12px] bg-[#EEF5FF] md:bg-opacity-75">
           <div className="flex md:gap-[8px] flex-wrap gap-[14px] ">
             <button
               className={`md:text-[14px] text-[13px] text-center font-[500] cursor-pointer h-[44px] p-[12px] ${rent
                 ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
                 : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] `}
+                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] `}
               onClick={handleRent}
             >
               <span className="hidden md:block">For Rent</span>
@@ -263,7 +267,7 @@ const HomePage = () => {
               className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${sale
                 ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
                 : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] text-center`}
+                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleSale}
             >
               <span className="hidden md:block">For Sale</span>
@@ -274,7 +278,7 @@ const HomePage = () => {
               className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${shortlist
                 ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
                 : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] text-center`}
+                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleShortlist}
             >
               Shortlet
@@ -283,13 +287,13 @@ const HomePage = () => {
               className={`md:text-[14px] text-[13px] font-[500] cursor-pointer h-[44px] p-[12px] ${land
                 ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
                 : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[126.25px] text-center `}
+                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center `}
               onClick={handleLand}
             >
               Land
             </button>
             <Link href={link() !== null ? link() : ""}
-              className=" md:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] border border-[#006AFF] gap-[8px] text-BlueHomz hover:bg-BlueHomz3 items-center rounded-[4px] text-[16px] font-[600]">
+              className=" md:w-[100px] lg:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] border border-[#006AFF] gap-[8px] text-BlueHomz hover:bg-BlueHomz3 items-center rounded-[4px] text-[16px] font-[600]">
               <Image
                 src="/static/images/search-normal.svg"
                 alt=""
@@ -427,11 +431,11 @@ const HomePage = () => {
                 />
               </Link>
             </div>
-            <div className="flex items-center justify-between gap-2 flex-row w-[72%]">
+            <div className="flex items-center justify-between gap-2 flex-row lg:w-[72%]">
               <div>
                 <PropertyType
                   getPropertyType={handleSearch}
-                  className={"w-[142px]"}
+                  className={"w-[100px] lg:w-[142px]"}
                   selectOption={`${filters?.propertyType === null
                     ? "Property Type"
                     : capitalizeFirstLetter(filters?.propertyType)
@@ -442,7 +446,7 @@ const HomePage = () => {
               <div>
                 <Bedroom
                   getBedrooms={handleSearch}
-                  className={"w-[142px]"}
+                  className={"w-[100px] lg:w-[142px]"}
                   selectOption={`${filters?.numberOfBathrooms === null
                     ? "No of bedrooms"
                     : `${filters?.numberOfBathrooms} Bedrooms`
@@ -450,10 +454,10 @@ const HomePage = () => {
                   classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
-              <div>
+              <div className={``}>
                 <MinPrice
                   getPrice={handleSearch}
-                  className={"w-[142px]"}
+                  className={"w-[100px] lg:w-[142px]"}
                   selectOption={`${filters?.minPrice === null
                     ? "Min Price"
                     : addCommasToNumberWithoutN(filters?.minPrice)
@@ -461,10 +465,10 @@ const HomePage = () => {
                   classNameII={"border-BlueHomz4 bg-white"}
                 />
               </div>
-              <div>
+              <div className={``}>
                 <MaxPrice
                   getPrice={handleSearch}
-                  className={"w-[142px]"}
+                  className={"w-[100px] lg:w-[142px]"}
                   selectOption={`${filters?.maxPrice === null
                     ? "Max Price"
                     : addCommasToNumberWithoutN(filters?.maxPrice)
@@ -476,7 +480,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-6 pt-8 mt-6 pb-12">
+      <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-8 pt-8 mt-6 pb-12">
         <p className="w-[202px] text-[13px] md:w-[300px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
           Designed for stress-free living
         </p>
@@ -488,7 +492,7 @@ const HomePage = () => {
           Effortless Solution for all
         </h1>
         <div className="flex md:mt-5 md:gap-[12rem] flex-col md:flex-row w-[330px] md:w-full ">
-          <div className="relative md:h-[468.66px] hidden md:block">
+          <div className="relative md:h-[468.66px] hidden lg:block">
             <Image
               src="/static/images/HP-image.png"
               alt=""
@@ -721,163 +725,146 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="md:w-full md:h-[750px] h-[640px] gap-4 bg-[#006AFF] text-white flex flex-col px-6 md:px-[3rem] md:py-9 pt-6">
-        <h1 className="text-[23px] px-3 leading-[36.54px] md:text-[36px] font-[700] md:leading-[51.66px]  flex justify-between md:px-[6rem]">
-          <span className="">Featured Listed Properties</span>
+      <div className="flex flex-col items-center justify-center md:items-start md:justify-start bg-[#006AFF] text-white py-5 md:py-10 w-full max-w-[1440px] mx-auto h-auto">
+        <h1 className="text-[23px] md:text-[36px] font-[700] flex justify-between w-full px-8 md:px-24">
+          <span>Featured Listed Properties</span>
           <Link
             href="user_homepage/PropertyListing"
-            className="hidden border border-white w-[103px] h-[48px] p-[5px] pl-2 rounded-[4px] text-[16px] md:flex gap-1 items-center"
+            className="hidden md:flex items-center gap-1 border border-white rounded px-2 py-1"
           >
-            <span className="">View All</span>
+            <span className="text-[16px] font-[500]">View All</span>
             <Image
               src="/static/images/white-right-arrow.svg"
               alt=""
               width={16}
               height={16}
-              className="h-[12px] w-[12px] md:w-[16px] md:h-[16px]"
+              className="w-4 h-4"
             />
           </Link>
         </h1>
-        <p className=" md:text-[16px] font-[500] md:leading-[25px] md:w-[754px] md:px-[6rem] w-[308px] px-3">
+        <p className="mt-2 text-[16px] md:text-[20px] font-[400] w-full lg:w-[920px] text-start px-8 md:px-24">
           <span className="hidden md:block">
-            Below are the list of the different houses that we currently have on
-            the platform. Select any of these to view the house details and the
-            features.
+            Below are the list of the different houses that we currently have on the platform. Select any of these to view the house details and the features.
           </span>
-          <span className="md:hidden ">
-            Browse through house listings on our platform for details and
-            features.
+          <span className="md:hidden">
+            Browse through house listings on our platform for details and features.
           </span>
         </p>
-
-        <div className="max-w-[1299px] w-full m-auto px-6">
-          <div className="m-auto mt-[-40px] md:mt-0">
+        <div className="w-full max-w-[1440px] my-4 flex flex-col justify-center items-center px-8 md:px-[80px]">
+          <div className="w-full">
             <Slider {...sliderSettings}>
               {featuredData?.map((property, idx) => (
-                <div
-                  className="grid grid-cols-1 md:grid-cols-3 justify-center items-center md:px-6 px-8"
-                  key={idx}
-                >
-                  <div className="w-[241px] md:w-[350px] gap-4 bg-white h-[300px] md:h-[458px] rounded-[12px] shadow-md">
-                    <div
-                      className="cursor-pointer md:w-[350px] md:h-[252px] "
-                    >
+                <div className="w-full" key={idx}>
+                  <div className="w-[300px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
+                    <div className="cursor-pointer w-[373px] h-[252px]">
                       <Carousel
                         slide={false}
                         theme={customTheme}
-                        className="w-[241px] h-[156.06px] md:h-full  md:w-full"
+                        className="w-[300px] sm:w-[373px] h-[252px]"
                       >
                         {property?.property?.photos &&
-                          property?.property?.photos?.map((img, index) => (
-                            <div
-                              key={index}
-                              className="w-[241px] h-[156.06px] md:h-full md:w-full"
-                            >
+                          property?.property?.photos.map((img, index) => (
+                            <div key={index} className="w-[300px] sm:w-[373px] h-[252px]">
                               <Image
                                 src={img?.url}
                                 alt=""
                                 width={373}
                                 height={252}
-                                className="w-[241px] h-[156.06px] md:h-full md:w-full rounded-[12px] object-cover relative z-0"
+                                className="w-[300px] sm:w-[373px] h-[252px] rounded-lg object-cover"
                               />
                             </div>
                           ))}
                       </Carousel>
                     </div>
-                    <div className="flex flex-col px-4 md:px-3 pt-2 md:pt-5 gap-[12px] md:gap-[10px] h-full md:h-auto">
-                      <div className="flex justify-between items-center ">
-                        <p className="text-[#006AFF] text-[14px] md:text-[23px] font-[700] leading-[28.98px] text-center">
+                    <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
+                      <div className="flex justify-between items-center">
+                        <p className="text-BlueHomz text-[23px] font-[700]">
                           {capitalizeFirstLetter(property?.property?.name || property?.property?.title)}
                         </p>
-                        <p className={` w-[45.86px] h-[20px] md:w-auto md:h-[25px] flex items-center justify-center text-[6.81px] md:text-[11px] font-[400] px-2 md:px-[12px] rounded-[4px] text-white bg-[#006AFF]
-                           ${property?.property?.listingType ? "" : "hidden"}
-                           `}
-                        >
-                          {capitalizeFirstLetter(property?.property?.listingType)}
-                        </p>
+                        {property?.property?.listingType && (
+                          <div className="bg-BlueHomz rounded-[4px] flex justify-center items-center w-[68px] h-[25px]">
+                            <p className="text-white text-[11px] font-[400]">
+                              {capitalizeFirstLetter(property?.property?.listingType)}
+                            </p>
+                          </div>
+                        )}
                       </div>
-                      <p className="text-[8px] md:text-[14px] font-[400] text-[#006AFF]">
-                        {capitalizeFirstLetter(property?.property?.propertyType)}
-                      </p>
-                      <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[9.91px] md:text-[16px] flex items-center 
-                        ${property?.totalFee ? "" : "hidden"}
-                        `}>
-                        <Image
-                          src="/static/images/nairaIcon.svg"
-                          alt=""
-                          width={17}
-                          height={25}
-                          className="h-[9.82px] w-[7.43px] md:w-[15px] md:h-[25px]"
-                        />
-                        <span className="pl-1 text-[#202020]">
-                          {property?.totalFee ? Number(property?.property?.price).toLocaleString() : ""}
-                        </span>
-                      </p>
-                      <p className="flex gap-1 items-center">
+                      {property?.property?.propertyType && (
+                        <p className="text-blue-600 text-[14px] font-[400]">
+                          {capitalizeFirstLetter(property?.property?.propertyType)}
+                        </p>
+                      )}
+                      {property?.property?.price && (
+                        <p className="text-[16px] font-[700] flex items-center">
+                          <Image
+                            src="/static/images/nairaIcon.svg"
+                            alt=""
+                            width={15}
+                            height={25}
+                            className="h-6 w-4"
+                          />
+                          <span className="pl-1 text-BlackHomz">
+                            {Number(property?.property?.price).toLocaleString()}
+                          </span>
+                        </p>
+                      )}
+                      <p className="flex gap-1 items-center text-[14px] font-[500] text-BlackHomz">
                         <Image
                           src="/static/images/Location_Vector.svg"
                           alt=""
                           width={12}
-                          height={15.85}
-                          className="h-[9.82px] w-[7.43px] md:w-[12px] md:h-[15.85px]"
+                          height={16}
+                          className="h-4 w-3"
                         />
-                        <span className="text-[8px] md:text-[16px] font-[500] text-[#020202]">
-                          {`${capitalizeFirstLetter(property?.property?.area)}, ${capitalizeFirstLetter(property?.property?.state)}`}
-                        </span>
+                        {`${capitalizeFirstLetter(property?.property?.area)}, ${capitalizeFirstLetter(property?.property?.state)}`}
                       </p>
-                      <div className=" flex gap-2 md:justify-between mb-2">
-                        <div className="flex  gap-4">
-                          <p className="flex md:gap-1 items-center md:pt-4">
-                            <Image
-                              src="/static/images/bed_Vector.svg"
-                              alt=""
-                              width={17}
-                              height={11.9}
-                              className="h-[7.37px] w-[10.53px] md:w-[17px] md:h-[11.9px]"
-                            />
-                            <span className=" text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans'] text-[#202020]">
-                              {property?.property?.numberOfBathrooms}
-                            </span>
-                          </p>
-                          <p className="flex gap-1 items-center md:pt-4">
-                            <Image
-                              src="/static/images/shower_Vector.svg"
-                              alt=""
-                              width={17}
-                              height={11.9}
-                              className="h-[7.8px] w-[8.67px] md:w-[17px] md:h-[11.9px]"
-                            />
-                            <span className="text-[#202020] text-[7px] md:text-[10px] font-[500] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
-                              {property?.property?.numberOfToilets}
-                            </span>
-                          </p>
-                          <p className={`flex gap-1 items-center md:pt-4 ${property?.property?.squareMeter ? "" : "hidden"}`}>
-                            <Image
-                              src="/static/images/sqrtFeet-vector.svg"
-                              alt=""
-                              width={21}
-                              height={11.86}
-                              className="h-[7.34px] w-[13px] md:w-[21px] md:h-[11.86px]"
-                            />
-                            <span className=" text-[#202020] text-[7px] md:text-[10px] font-[500] leading-[4px] md:leading-[15px] text-center font-['Plus Kakarta Sans']">
+                      <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
+                        <div className="flex gap-4 items-center text-xs md:text-sm text-gray-800">
+                          {property?.property?.numberOfRooms && (
+                            <div className="flex items-center gap-1">
+                              <Image
+                                src="/static/images/bed_Vector.svg"
+                                alt=""
+                                width={17}
+                                height={12}
+                                className="h-4 w-4"
+                              />
+                              {property?.property?.numberOfRooms === 1 ? `${property?.property?.numberOfRooms} bedroom` : `${property?.property?.numberOfRooms} bedrooms`}
+                            </div>
+                          )}
+                          {property?.property?.numberOfBathrooms && (
+                            <div className="flex items-center gap-1">
+                              <Image
+                                src="/static/images/shower_Vector.svg"
+                                alt=""
+                                width={17}
+                                height={12}
+                                className="h-4 w-4"
+                              />
+                              {property?.property?.numberOfBathrooms === 1 ? `${property?.property?.numberOfBathrooms} bathroom` : `${property?.property?.numberOfBathrooms} bathrooms`}
+                            </div>
+                          )}
+                          {property?.property?.squareMeter && (
+                            <div className="flex items-center gap-1">
+                              <Image
+                                src="/static/images/sqrtFeet-vector.svg"
+                                alt=""
+                                width={21}
+                                height={12}
+                                className="h-4 w-5"
+                              />
                               {property?.property?.squareMeter} Sqft
-                            </span>
-                          </p>
+                            </div>
+                          )}
                         </div>
-                        <Link
-                          className="cursor-pointer "
-                          href={{
-                            pathname: "/user_homepage/PreviewProperty",
-                            query: { property: property?.property?.slug },
-                          }}
-                        >
-                          <button className="cursor-pointer">
+                        <Link href={{ pathname: "/user_homepage/PreviewProperty", query: { property: property?.property?.slug } }}>
+                          <button className="">
                             <Image
                               src="/static/images/arrow-in-circle.svg"
                               alt=""
                               width={40}
                               height={40}
-                              className="h-[24.77px] w-[24.77px] md:w-[40px] md:h-[40px]"
+                              className="h-10 w-10"
                             />
                           </button>
                         </Link>
@@ -889,16 +876,20 @@ const HomePage = () => {
             </Slider>
           </div>
         </div>
-        <button className="md:hidden mb-10 mt-[-40px] border mx-auto border-white w-[103px] h-[48px] p-[5px]  rounded-[4px] text-[16px] flex gap-1 items-center justify-center">
-          <span className="">View All</span>
-          <Image
-            src="/static/images/white-right-arrow.svg"
-            alt=""
-            width={16}
-            height={16}
-            className="h-[12px] w-[12px] md:w-[16px] md:h-[16px]"
-          />
-        </button>
+        <Link
+          href="user_homepage/PropertyListing"
+        >
+          <button className="md:hidden mt-10 mb-8 border border-white px-4 py-2 rounded text-[14px] font-[500] flex gap-1 items-center">
+            <span>View All</span>
+            <Image
+              src="/static/images/white-right-arrow.svg"
+              alt=""
+              width={16}
+              height={16}
+              className="w-4 h-4"
+            />
+          </button>
+        </Link>
       </div>
       <div className="h-auto md:h-[303px] py-[20px] md:py-0 w-full bg-center bg-cover bg-[url('/Background-image.png')] bg-black">
         <div className="h-[239px] md:h-[303px]  flex flex-col items-center gap-[15px] justify-center mb-2">
@@ -922,7 +913,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full md:h-[491px] min-h-[500px] md:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
+      <div className="w-full md:h-[491px] min-h-[500px] lg:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
         <h1 className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[23px] font-[700] leading-[28.98px]  flex justify-between items-center text-[#0058D4]">
           <span className="">Don’t Just Take Our Word For It</span>
           <Link
@@ -932,29 +923,29 @@ const HomePage = () => {
             Contact Us
           </Link>
         </h1>
-        <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] md:w-[754px]  w-[308px] mx-auto md:mx-0">
+        <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
           <span className="">
             Hear from our delighted clients who found dream apartments with
             Homz.
           </span>
         </p>
         <div>
-          <div className="mt-8 px-12 md:px-4 md:mb-0 mb-6">
+          <div className="mt-2 md:mt-8 px-12 md:px-0 md:mb-0 mb-6">
             <Slider {...sliderSettingsII}>
               {Testimonials.map((testimonial, index) => (
                 <div
-                  className="flex flex-col gap-4 items-center justify-center w-[277px] h-[230px] md:mb-4 md:h-[220px] pt-2 bg-white md:w-full py-6 md:py-[20px] px-[14px] rounded-[12px]"
+                  className="flex flex-col gap-4 items-center justify-center w-[277px] h-[230px] md:h-[275px] lg:h-[220px] md:mb-4 pt-2 bg-white md:w-full py-6 md:py-[20px] px-[14px] rounded-[12px]"
                   key={index}
                 >
                   <div className="flex flex-col justify-between items-center mt-2 md:mt-0 h-full">
-                    <p className=" md:text-[20px] leading-[20.16px] text-center text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] ">
+                    <p className="text-[16px] md:text-[20px] leading-[20.16px] text-center text-BlackHomz md:text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] ">
                       {testimonial.Testimony}
                     </p>
                     <div className="flex flex-col gap-1 items-center">
-                      <span className="md:text-[14px] md:font-[400] md:leading-[24px] text-[#202020]">
+                      <span className="text-[13px] md:text-[14px] md:font-[400] md:leading-[24px] text-[#202020]">
                         {testimonial.Name}
                       </span>
-                      <span className="md:text-[13px] md:font-[500] md:leading-[19.5px] text-[#A9A9A9]">
+                      <span className="text-[11px] md:text-[13px] md:font-[500] md:leading-[19.5px] text-[#A9A9A9]">
                         {testimonial.Type}
                       </span>
                     </div>
@@ -965,7 +956,7 @@ const HomePage = () => {
           </div>
         </div>
         <Link
-          href=""
+          href="/contact-page"
           className="md:hidden mt-4 mx-auto flex items-center justify-center border border-[#006AFF]  text-[#006AFF] w-[110px] h-[48px] font-[500] rounded-[4px] text-[16px] "
         >
           Contact Us
@@ -1022,35 +1013,3 @@ const Testimonials = [
   },
 ];
 
-const testimonialTheme = {
-  root: {
-    base: "relative md:w-full md:h-[295px] w-[297px] h-[310px] mx-auto",
-    leftControl:
-      " hidden absolute top-0 left-0  h-full items-center justify-center px-4 focus:outline-none",
-    rightControl:
-      "absolute top-0 right-0 hidden h-full items-center justify-center px-4 focus:outline-none",
-  },
-  indicators: {
-    active: {
-      off: "bg-white testimonial md:border-0 hover:bg-white dark:bg-gray-800/50 dark:hover:bg-gray-800",
-      on: "bg-[#006AFF] dark:bg-gray-800",
-    },
-    base: "h-2 w-2 rounded-full",
-    wrapper: "absolute bottom-5 left-1/2 flex -translate-x-1/2 space-x-3",
-  },
-  item: {
-    base: "absolute top-1/2 left-1/2 block md:w-[65.5rem] md:rounded-[12px] -translate-x-1/2 -translate-y-1/2",
-    wrapper: {
-      off: "w-full md:h-full h-[260px] md:w-[65.5rem] md:rounded-[12px] flex-shrink-0 transform cursor-default snap-center",
-      on: "w-full md:h-full h-[260px] md:w-[65.5rem]  md:rounded-[12px] flex-shrink-0 transform cursor-grab snap-center",
-    },
-  },
-  control: {
-    base: "inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10",
-    icon: "h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6",
-  },
-  scrollContainer: {
-    base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-hidden scroll-smooth rounded-lg",
-    snap: "snap-x",
-  },
-};

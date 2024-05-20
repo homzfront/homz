@@ -546,15 +546,14 @@ const ListProperty = () => {
                                         </span>
                                     )}
                                 </div>
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] text-BlackHomz">
+                                <div className="flex flex-col gap-2 text-BlackHomz">
+                                    <label className="text-[14px] font-[500]">
                                         Email
                                     </label>
                                     <input
                                         type="text"
                                         placeholder="Enter your email"
-                                        disabled
-                                        className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px] opacity-60"
+                                        className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                                         value={email}
                                     />
                                 </div>

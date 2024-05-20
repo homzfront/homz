@@ -85,7 +85,7 @@ const PropertyCard = ({
           ) : (
             <>
               <div className="flex items-center justify-center w-full flex-col ">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
                   {Property && currentProperties?.map((property, index) => (
                     <div
                       className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
@@ -141,8 +141,9 @@ const PropertyCard = ({
                         <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
                           {capitalizeFirstLetter(property?.propertyType)}
                         </p>
-                        <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[14.37px] md:text-[16px] flex items-center  ${property?.totalFee ? "" : "hidden"}`}
-                        >
+                        <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
+                 ${property?.price ? "" : "hidden"}
+              `}>
                           <Image
                             src="/static/images/nairaIcon.svg"
                             alt=""
@@ -151,7 +152,7 @@ const PropertyCard = ({
                             className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                           />
                           <span className="pl-1">
-                            {property?.totalFee ? Number(property?.price).toLocaleString() : ""}
+                            {property?.price ? Number(property?.price).toLocaleString() : ""}
                           </span>
                         </p>
                         <p className="flex gap-1 items-center">
@@ -168,30 +169,34 @@ const PropertyCard = ({
                         </p>
                         <div className="h-full flex justify-between mb-2">
                           <div className="flex  gap-4">
-                            <p className="flex gap-1 items-center md:pt-4">
-                              <Image
-                                src="/static/images/bed_Vector.svg"
-                                alt=""
-                                width={17}
-                                height={11.9}
-                                className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
-                              />
-                              <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                {property?.numberOfBathrooms}
-                              </span>
-                            </p>
-                            <p className="flex gap-1 items-center md:pt-4">
-                              <Image
-                                src="/static/images/shower_Vector.svg"
-                                alt=""
-                                width={17}
-                                height={11.9}
-                                className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
-                              />
-                              <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                {property?.numberOfToilets}
-                              </span>
-                            </p>
+                            {property?.numberOfRooms && (
+                              <p className="flex gap-1 items-center md:pt-4">
+                                <Image
+                                  src="/static/images/bed_Vector.svg"
+                                  alt=""
+                                  width={17}
+                                  height={11.9}
+                                  className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
+                                />
+                                <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                  {property?.numberOfRooms === 1 ? `${property?.numberOfRooms} bedroom` : `${property?.numberOfRooms} bedrooms`}
+                                </span>
+                              </p>
+                            )}
+                            {property?.numberOfBathrooms && (
+                              <p className="flex gap-1 items-center md:pt-4">
+                                <Image
+                                  src="/static/images/shower_Vector.svg"
+                                  alt=""
+                                  width={17}
+                                  height={11.9}
+                                  className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
+                                />
+                                <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                  {property?.numberOfBathrooms === 1 ? `${property?.numberOfBathrooms} bathroom` : `${property?.numberOfBathrooms} bathrooms`}
+                                </span>
+                              </p>
+                            )}
                             <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
                               <Image
                                 src="/static/images/sqrtFeet-vector.svg"
@@ -208,7 +213,7 @@ const PropertyCard = ({
                             className="cursor-pointer "
                             href={{
                               pathname: "/user_homepage/PreviewProperty",
-                              query: { property: property?.slug  },
+                              query: { property: property?.slug },
                             }}
                           >
                             <Image

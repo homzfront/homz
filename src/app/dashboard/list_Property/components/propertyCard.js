@@ -43,7 +43,6 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
     (_, index) => lastThreePagesStart + index
   );
   
-  console.log(currentProperties);
   return (
     <div className="w-[335px] md:w-full flex flex-col  gap-[64px] pt-6">
       <div className="flex  w-[340px] flex-wrap gap-[16px] md:w-full propertyListing">
@@ -61,7 +60,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                   className="cursor-pointer text-[14px]"
                   href={{
                     pathname: "/dashboard/list_Property/PreviewProperty",
-                    query: { Property: property?.slug },
+                    query: { Property: property?._id },
                   }}
                 >
                   <Image
@@ -105,7 +104,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                       className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[140px] md:right-[6px] mt-2 h-[37px] py-2  md:w-[212px] bg-white shadow-md rounded-md"
                       onClick={() =>
                         router.push(
-                          `/dashboard/list_Property/edit_property/${property?.slug}`
+                          `/dashboard/list_Property/edit_property/${property?._id}`
                         )
                       }
                     >

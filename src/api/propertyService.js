@@ -11,7 +11,7 @@ export const fetchPropertyListedAll = async () => {
 
 export const fetchSingleProperty = async (id) => {
   try {
-    const response = await api.get(`/properties/${id}`);
+    const response = await api.get(`/properties/single/${id}`);
     return response.data;
   } catch (error) {
     throw error;
