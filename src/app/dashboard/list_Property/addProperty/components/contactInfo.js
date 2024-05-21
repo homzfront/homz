@@ -22,7 +22,7 @@ const ContactInfo = ({
       setError("Phone number must be 11 digits");
       return;
     } if (whatsapp) {
-      if (!whatsappLinkRegex.test(whatsappLink)) {
+      if (!whatsappLinkRegex.test(whatsapp)) {
         setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
         return;
       }
@@ -90,15 +90,6 @@ const ContactInfo = ({
                   setWhatsAppLink(e.target.value)
                   setError("")
                 }}
-              // onBlur={() => {
-              //   if (whatsappLink.trim() !== "") {
-              //     // Remove all non-numeric characters from the phone number
-              //     const phoneNumber = whatsappLink
-              //       .replace(/[^0-9]/g, "")
-              //       .replace(/^0+/, "");
-              //     setWhatsAppLink(`https://wa.me/${phoneNumber}`);
-              //   }
-              // }}
               />
             </div>
             {

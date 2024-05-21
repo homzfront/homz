@@ -95,7 +95,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
 
   const handleBusinessCertificate = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    // console.log(file);
 
     if (file) {
 
@@ -111,8 +111,8 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
     }
   };
 
-  console.log(businessCertificate);
-  console.log(businessCertificateUpload)
+  // console.log(businessCertificate);
+  // console.log(businessCertificateUpload)
 
   const UploadBusCertificate = async (e) => {
     e.preventDefault();
@@ -185,13 +185,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
     setOpenDocUpload(true);
   };
 
-  console.log(Business_Info);
+  // console.log(Business_Info);
   // console.log(openDocUpload)
   // console.log(busCertSuccess)
 
-  useEffect(() => {
-    console.log('busCertSuccess:', busCertSuccess, 'progress:', progress);
-  }, [busCertSuccess, progress]);
+  // useEffect(() => {
+  //   // console.log('busCertSuccess:', busCertSuccess, 'progress:', progress);
+  // }, [busCertSuccess, progress]);
   return (
     <div className="">
       <div
