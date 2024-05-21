@@ -47,7 +47,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <br />
               <select
                 name="paymentType"
-                className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%]"
                 onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>
@@ -63,7 +63,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             <div>
               <label htmlFor="price">Price</label> <span className="text-error">*</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!price && "opacity-50"
                     }`}
@@ -84,7 +84,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             <div>
               <label htmlFor="totalFee">How much is the total fee?</label> <span className="text-error">*</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!total && "opacity-60"
                     }`}
@@ -93,7 +93,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[335px]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[100%]"
                   type="number"
                   name="totalFee"
                   min="0"
@@ -107,7 +107,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             <div>
               <label htmlFor="agencyFee">How much is the Agency fee?</label> <span className="text-error">*</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!agency && "opacity-60"
                     }`}
@@ -116,7 +116,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[335px]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[100%]"
                   type="number"
                   name="agencyFee"
                   min="0"
@@ -131,7 +131,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               </label>
               <span className="text-error"> *</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!maintenance && "opacity-60"
                     }`}
@@ -140,7 +140,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[335px]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[100%]"
                   type="number"
                   name="maintenanceFee"
                   min="0"

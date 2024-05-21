@@ -44,18 +44,18 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
   );
   
   return (
-    <div className="w-[335px] md:w-full flex flex-col  gap-[64px] pt-6">
-      <div className="flex  w-[340px] flex-wrap gap-[16px] md:w-full propertyListing">
+    <div className="w-full flex flex-col gap-[64px] pt-6 justify-center items-center">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {currentProperties.map((property, index) => (
           <div
-            className="flex flex-col w-[158px]  md:w-[234px]  md:h-[281px] rounded-[12px] shadow-md"
+            className="flex flex-col w-[140px] md:w-[234px] md:h-[281px] rounded-[12px] shadow-md"
             key={index}
           >
             <div
-              className="cursor-pointer w-[158px] md:w-[234px] md:h-[168px] rounded-[10px] "
+              className="cursor-pointer w-[140px] md:w-[234px] md:h-[168px] rounded-[10px] "
               // onClick={() => handleClearInputField("option4Qestion")}
             >
-              <div className="w-[158px] relative h-[100.55px] md:h-full md:w-full">
+              <div className="w-[140px] relative h-[100.55px] md:h-full md:w-full">
                 <Link
                   className="cursor-pointer text-[14px]"
                   href={{
@@ -68,7 +68,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                     alt=""
                     width={264}
                     height={168}
-                    className="w-[158px] h-[100.55px] md:h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
+                    className="w-[140px] h-[100.55px] md:h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
                   />
                 </Link>
                 {/* <div className=" absolute flex items-center bottom-[75px] right-[.5rem] gap-[4px] w-[26px] h-[15px] rounded-[8px] py-[2px] px-[4px] bg-white z-20 md:hidden">

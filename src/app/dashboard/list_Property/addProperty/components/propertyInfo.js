@@ -69,7 +69,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 <br />
                 <select
                   name="listingType"
-                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                  className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint sm:p-[12px] rounded-[4px] border w-[100%]"
                   id="listingType"
                   {...register("listingType", {
                     required: "Listing type is required",
@@ -103,7 +103,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                           required: true,
                         })}
                         placeholder="Property Title"
-                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] pl-2 border w-[335px]"
+                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] pl-2 border w-[100%]"
                       />
                       {errors.Title && (
                         <p className="errorMsg">Property's title is required</p>
@@ -117,7 +117,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <br />
                       <select
                         name="landType"
-                        className={`h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px] ${
+                        className={`h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%] ${
                           !propertyType && "opacity-50"
                         } `}
                         id="landType"
@@ -149,7 +149,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         {...register("squareMeter", {
                           required: "Square Metres is required",
                         })}
-                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px] pl-2"
+                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%] pl-2"
                         placeholder="Enter Square Metres"
                       />
                       {errors.squareMetres && (
@@ -172,7 +172,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                           required: true,
                         })}
                         placeholder="Property Name"
-                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] pl-2 border w-[335px]"
+                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] pl-2 border w-[100%]"
                       />
                       {errors.name && (
                         <p className="errorMsg">Property's name is required</p>
@@ -187,7 +187,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="propertyType"
                         id="propertyType"
-                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%]"
                         {...register("propertyType", {
                           required: true,
                         })}
@@ -267,7 +267,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         {...register("address", {
                           required: "Street name is required",
                         })}
-                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px] pl-2"
+                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%] pl-2"
                         placeholder="Enter street name"
                       />
                       {errors.address && (
@@ -283,7 +283,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <br />
                       <select
                         name="numberOfRooms"
-                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                        className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%]"
                         id="numberOfRooms"
                         {...register("numberOfRooms", {
                           required: "Number of rooms is required",
@@ -376,7 +376,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       {...register("address", {
                         required: "Street name is required",
                       })}
-                      className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px] pl-2"
+                      className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%] pl-2"
                       placeholder="Enter street name"
                     />
                     {errors.address && (
@@ -396,7 +396,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <select
                       name="numberOfBathrooms"
                       id="numberOfBathrooms"
-                      className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                      className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%]"
                       {...register("numberOfBathrooms", {
                         required: "Number of bathrooms is required",
                       })}
@@ -425,7 +425,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <select
                       name="numberOfToilets"
                       id="numberOfToilets"
-                      className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                      className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%]"
                       {...register("numberOfToilets", {
                         required: "Number of toilets is required",
                       })}
@@ -480,7 +480,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
           <div className="flex justify-between mt-8 ">
             <div>
               <button
-                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz sm:w-full w-[158px]"
+                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz sm:w-full "
                 // onClick={handleShowCancelDialogue}
               >
                 Cancel
@@ -490,7 +490,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
             <div className="">
               <button
                 disabled={!isValid ? true : false}
-                className={`flex sm:mr-14 border justify-center  sm:w-[77px] w-[158px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
+                className={`flex sm:mr-14 border justify-center  sm:w-[77px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
                   !isValid
                     ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
                     : "text-white border-white bg-BlueHomz"

@@ -12,7 +12,7 @@ const RootLayout = ({ children }) => {
   return (
     <div className=" gap-3 md:gap-0 dashboard_main">
       <SideNav />
-      <main className="w-full ">
+      <main className="w-full main_dd">
           <Header />
           <HeaderMobile />
           <div className="w-full flex flex-col justify-center items-center px-10">

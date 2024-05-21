@@ -8,6 +8,9 @@ import timeAgo from "@/utils/timeAgo";
 import LoadingII from "@/components/mainmenu/loadingII";
 import ImageModal from "../components/imageModal";
 import useBodyScroll from "@/utils/useBodyScroll";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -93,9 +96,36 @@ const ViewProperty = ({ PropertyID }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
+
+  const slidesToShow = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth > 1278) return 3;
+      if (window.innerWidth < 1000) return 1;
+      if (window.innerWidth < 1279 && window.innerWidth > 999) return 2;
+    }
+    return 1;
+  };
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
+    slidesToShow: slidesToShow(), // Adjusted based on screen size
+    className: "center",
+    centerMode: true,
+    centerPadding: "0",
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: null,
+    nextArrow: null,
+    appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
+  };
+
+
   return (
-    <div className="pt-10 md:pt-0 pb-10">
-      <div className="flex md:justify-between items-center gap-[4rem] md:gap-0">
+    <div className="pt-11 md:pt-0 pb-10">
+      <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
         <Link href="/dashboard/list_Property" className="flex gap-2 items-center">
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
@@ -132,7 +162,30 @@ const ViewProperty = ({ PropertyID }) => {
       {
         !propertyData ? <LoadingII /> :
           <>
-            <div className="mt-4 ml-3">
+            <div className="xl:hidden my-4 w-full">
+              <Slider {...sliderSettings}>
+                {combinedData &&
+                  combinedData?.map((item, index) => (
+                    <div key={index} className="w-full">
+                      <div className="h-[322px] w-[324px] mx-auto">
+                        <Image
+                          src={item.url}
+                          alt=""
+                          height={322}
+                          width={324}
+                          className={`rounded-md object-cover bg-center h-[322px] w-[324px]`}
+                          layout="full"
+                          objectFit="cover"
+                          objectPosition="center"
+                          quality={100}
+                          priority
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </Slider>
+            </div>
+            <div className="hidden xl:block mt-4 ml-3">
               <div className="flex flex-wrap gap-4">
                 {combinedData &&
                   combinedData?.map((item, index) => (

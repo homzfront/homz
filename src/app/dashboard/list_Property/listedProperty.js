@@ -58,7 +58,7 @@ const EditProperty = ({ property }) => {
 
 
   return (
-    <div>
+    <div className="z-20">
       {
         openModalForBusi &&
         <div
@@ -179,8 +179,8 @@ const EditProperty = ({ property }) => {
 
         </div>
       </div>
-      <div className="flex justify-between  md:hidden w-[335px]">
-        <div className="searchPane relative w-[86%] rounded-[4px]">
+      <div className="flex justify-between md:hidden w-full">
+        <div className="relative w-[86%] rounded-[4px]">
           <input
             type="text"
             className="border h-[40px] pl-8 rounded-[4px] w-full "
@@ -195,7 +195,7 @@ const EditProperty = ({ property }) => {
             width={16}
           />
         </div>
-        <div className=" rounded-[4px] p-[11px] filterBorder hover:border-blue-600">
+        <div className=" rounded-[4px] p-[11px] hover:border-blue-600">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"
@@ -211,7 +211,7 @@ const EditProperty = ({ property }) => {
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-5 rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[320px] h-auto  py-[24px] px-5 rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
@@ -228,55 +228,56 @@ const EditProperty = ({ property }) => {
               </button>
             </div>
           </div>
-
-          <div className="w-[120px]">
-            <Dropdown
-              options={options}
-              onSelect={(option) => setSelectedState(option)}
-              selectOption={
-                selectedState === null ? "State" : selectedState
-              }
-              className={
-                "text-[14px] font-[500] text-GrayHomz2"
-              }
-            />
-          </div>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options2}
-              onSelect={(option) => setSelectedArea(option)}
-              selectOption={selectedArea === null ? "Area" : selectedArea}
-              className={
-                "text-[14px] font-[500] text-GrayHomz2"
-              }
-            />
-          </div>
-          <div className="w-[180px]">
-            <Dropdown
-              options={options3}
-              onSelect={(option) => setSelectedProperty(option)}
-              selectOption={
-                selectedProperty === null
-                  ? "Property Type"
-                  : selectedProperty
-              }
-              className={"text-[14px] font-[500] text-GrayHomz2"}
-            />
-          </div>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options4}
-              onSelect={(option) => setSelectedRooms(option)}
-              selectOption={
-                selectedRooms === null ? "Bedroom" : selectedRooms
-              }
-              className={
-                "w-[120px] text-[14px] font-[500] text-GrayHomz2"
-              }
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="w-[100%]">
+              <Dropdown
+                options={options}
+                onSelect={(option) => setSelectedState(option)}
+                selectOption={
+                  selectedState === null ? "State" : selectedState
+                }
+                className={
+                  "text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+            </div>
+            <div className="w-[100%]">
+              <Dropdown
+                options={options2}
+                onSelect={(option) => setSelectedArea(option)}
+                selectOption={selectedArea === null ? "Area" : selectedArea}
+                className={
+                  "text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+            </div>
+            <div className="w-[100%]">
+              <Dropdown
+                options={options3}
+                onSelect={(option) => setSelectedProperty(option)}
+                selectOption={
+                  selectedProperty === null
+                    ? "Property Type"
+                    : selectedProperty
+                }
+                className={"text-[14px] font-[500] text-GrayHomz2"}
+              />
+            </div>
+            <div className="w-[100%]">
+              <Dropdown
+                options={options4}
+                onSelect={(option) => setSelectedRooms(option)}
+                selectOption={
+                  selectedRooms === null ? "Bedroom" : selectedRooms
+                }
+                className={
+                  "w-[100%] text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+            </div>
           </div>
           <button
-            className="border w-[313px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
+            className="border w-full h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
             onClick={() => clear()}
           >
             <span>

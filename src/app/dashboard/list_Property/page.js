@@ -19,8 +19,8 @@ const List_Property = () => {
   return (
     <div className="dashboard w-full">
       {data && <>
-        <div className={` ${data?.length === 0 ? "hidden" : ""} flex items-center gap-6 mb-6 pt-2 md:mb-0`}>
-          <div className="flex gap-2 items-center mb-4">
+        <div className={` ${data?.length === 0 ? "hidden" : ""} flex items-center gap-6 mt-9 md:mt-0 mb-6 pt-2 md:mb-0`}>
+          <div className="flex gap-2 items-center md:mb-4">
             <p className="font-[500] leading-[30px] md:text-[20px]">
               Listed Properties
             </p>

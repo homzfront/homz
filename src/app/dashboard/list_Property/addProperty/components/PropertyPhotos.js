@@ -93,7 +93,7 @@ const PropertyPhoto = ({
 
   return (
     <div className="flex flex-col gap-8 w-full mt-6">
-      <div className="flex flex-col gap-2 md:w-full w-[334px] fields">
+      <div className="flex flex-col gap-2 md:w-full w-[100%] fields">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
 
         <p className="text-[13px] font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
@@ -167,7 +167,7 @@ const PropertyPhoto = ({
                   // Render each house dynamically
                   <div
                     key={index}
-                    className={`md:w-[170px] md:h-[170px]  w-[157px] h-[158px] rounded-[14.13px] mb-8 photos`}
+                    className={`md:w-[170px] md:h-[170px]  w-[138px] h-[138px] rounded-[14.13px] mb-8 photos`}
                   >
                     <Image
                       src={house}
@@ -191,7 +191,7 @@ const PropertyPhoto = ({
                 ))}
                 {houses.length === 5 ? null : (
                   <div
-                    className={` md:w-[170px] md:h-[170px]  w-[157px] h-[158px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+                    className={` md:w-[170px] md:h-[170px]  w-[138px] h-[138px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
                   >
                     <form
                       enctype="multipart/form-data"
@@ -211,10 +211,10 @@ const PropertyPhoto = ({
                       <Image
                         src={add}
                         alt="Cover Photo"
-                        className="w-[70.63px] h-[70.63px] rounded-[14.13px]"
+                        className="w-[69px] h-[69px] rounded-[14.13px]"
                         onClick={uploadFile2}
-                        width={70.63}
-                        height={70.63}
+                        width={69}
+                        height={69}
                       />
                     </form>
                   </div>
