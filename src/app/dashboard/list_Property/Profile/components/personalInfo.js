@@ -70,14 +70,19 @@ const PersonalInfo = ({
   const onSubmit = () => {
     const phoneNumberRegex = /^\d{11}$/;
     const whatsappLinkRegex = /^https:\/\/wa\.me\//;
-    if (!phoneNumberRegex.test(phoneNumber)) {
-      setError("Phone number must be 11 digits");
-      return;
+    if (phoneNumber) {
+      if (!phoneNumberRegex.test(phoneNumber)) {
+        setError("Phone number must be 11 digits");
+        return;
+      }
     }
-    if (!whatsappLinkRegex.test(whatsappLink)) {
-      setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
-      return;
+    if (whatsappLink) {
+      if (!whatsappLinkRegex.test(whatsappLink)) {
+        setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
+        return;
+      }
     }
+
     const data = {
       fullName,
       phoneNumber,
