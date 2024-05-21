@@ -101,7 +101,11 @@ const HomePage = () => {
     setSale(false);
     setShortlist(false);
     setLand(false);
-    handleFilterChange("listingType", lowerCaseData(e.target.innerText));
+    if (lowerCaseData(e.target.innerText) === 'rent') {
+      handleFilterChange("listingType", 'for rent');
+    } else {
+      handleFilterChange("listingType", lowerCaseData(e.target.innerText));
+    }
   };
   const handleSale = (e) => {
     e.preventDefault();
@@ -109,7 +113,11 @@ const HomePage = () => {
     setSale(true);
     setShortlist(false);
     setLand(false);
-    handleFilterChange("listingType", lowerCaseData(e.target.innerText));
+    if (lowerCaseData(e.target.innerText) === 'buy') {
+      handleFilterChange("listingType", 'for sale');
+    } else {
+      handleFilterChange("listingType", lowerCaseData(e.target.innerText));
+    }
   };
   const handleShortlist = (e) => {
     e.preventDefault();
@@ -187,9 +195,9 @@ const HomePage = () => {
 
   const slidesToShow = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth > 1024) return 3;
-      if (window.innerWidth < 768) return 1;
-      return 2;
+      if (window.innerWidth > 1320) return 3;
+      if (window.innerWidth < 1000) return 1;
+      if (window.innerWidth < 1321 && window.innerWidth > 999) return 2;
     }
     return 1;
   };
@@ -227,7 +235,128 @@ const HomePage = () => {
 
   return (
     <div className="md:w-full mx-auto mt-10 md:mt-20 ">
-      <div className="flex flex-col justify-center items-center relative px-8 md:px-0">
+      <div className="sm:hidden bg-[url('/static/images/Fine_Building.jpeg')] bg-cover h-[510px] py-8 px-6 flex flex-col justify-between">
+        <div className="bg-whiteblue p-2 w-[200px] rounded-[4px]">
+          <p className="text-[13px] font-[400] text-BlueHomz">One-Stop real estate solution</p>
+        </div>
+        <p className="text-[29px] font-[700] text-white leading-tight">
+          Find & Manage Properties on Homz
+        </p>
+        <div className="w-full p-4 bg-HomePageBg rounded-[12px] border-[2px] border-BlueHomz flex flex-col gap-4">
+          <div className="text-[13px] font-[500] w-full flex ">
+            <button
+              onClick={handleRent}
+              className={`w-[25%] h-[38px] rounded-tl-[4px] rounded-bl-[4px] ${rent
+                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                : "bg-[#FFFFFF]"} text-BlueHomz`}
+            >
+              Rent
+            </button>
+            <button
+              onClick={handleSale}
+              className={`w-[25%] h-[38px] ${sale
+                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                : "bg-[#FFFFFF]"} text-BlueHomz`}
+            >
+              Buy
+            </button>
+            <button
+              onClick={handleShortlist}
+              className={`w-[25%] h-[38px] ${shortlist
+                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                : "bg-[#FFFFFF]"} text-BlueHomz`}
+            >
+              Shortlet
+            </button>
+            <button
+              onClick={handleLand}
+              className={`w-[25%] h-[38px] rounded-tr-[4px] rounded-br-[4px] ${land
+                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                : "bg-[#FFFFFF]"} text-BlueHomz`}
+            >
+              Land
+            </button>
+          </div>
+          <div className="relative w-full">
+            <input
+              type="text"
+              id="searchState_Area"
+              name="searchState_Area"
+              placeholder="Search by state or area"
+              className=" w-full  h-[42px]  rounded-[4px] placeholder:bold placeholder:text-slate-400 block bg-white border border-BlueHomz py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-[13px]"
+              value={filters.search}
+              onChange={handleSearchChange}
+            />
+            <Link href={link() !== null ? link() : ""} className={``}>
+              <Image
+                src="/static/images/search-normal.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="absolute top-3 right-5"
+              />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <PropertyType
+                getPropertyType={handleSearch}
+                className={"w-[100%]"}
+                selectOption={`${filters?.propertyType === null
+                  ? "Type"
+                  : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
+                classNameII={"border-BlueHomz4 bg-white"}
+              />
+            </div>
+            <div>
+              <Bedroom
+                getBedrooms={handleSearch}
+                className={"w-[100%]"}
+                selectOption={`${filters?.numberOfBathrooms === null
+                  ? "No of bedrooms"
+                  : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
+                classNameII={"border-BlueHomz4 bg-white"}
+              />
+            </div>
+            <div>
+              <MinPrice
+                getPrice={handleSearch}
+                className={"w-[100%]"}
+                selectOption={`${filters?.minPrice === null
+                  ? "Min Price"
+                  : addCommasToNumberWithoutN(filters?.minPrice)
+                  }`}
+                classNameII={"border-BlueHomz4 bg-white"}
+              />
+            </div>
+            <div>
+              <MaxPrice
+                getPrice={handleSearch}
+                className={"w-[100%]"}
+                selectOption={`${filters?.maxPrice === null
+                  ? "Max Price"
+                  : addCommasToNumberWithoutN(filters?.maxPrice)
+                  }`}
+                classNameII={"border-BlueHomz4 bg-white"}
+              />
+            </div>
+          </div>
+          <Link href={link() !== null ? link() : ""} className="w-full">
+            <button className="w-full flex items-center justify-center cursor-pointer h-[44px] p-[12px] bg-[#006AFF] gap-[8px] text-white rounded-[4px]">
+              <Image
+                src="/static/images/white-search.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
+              <span className="">Search</span>
+            </button>
+          </Link>
+        </div>
+      </div>
+      <div className={`hidden sm:flex flex-col justify-center items-center relative px-8 md:px-0`}>
         <div className="flex md:items-center md:justify-between relative w-[330px] md:w-full">
           <div className="flex flex-col items-start w-[310px] md:w-[580px] gap-3 md:gap-2 md:pb-[165px] md:pl-20">
             <p className="md:h-[43px] p-[8px] text-center text-[13px] md:text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[400] md:font-[500] md:leading-[27px]">
@@ -265,7 +394,7 @@ const HomePage = () => {
             </button>
             <button
               className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${sale
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#333b46] text-white"
                 : "bg-[#FFFFFF]"
                 } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleSale}

@@ -78,7 +78,7 @@ const SelectPlan = () => {
 
   return (
     <div>
-      <div className="max-w-[1156px] h-[712px] my-20 flex flex-col justify-between m-auto">
+      <div className="max-w-[1156px] px-[16px] xl:px-[0px] h-[712px] my-20 flex flex-col justify-between m-auto">
         <Image
           src={"/Link_2.png"}
           alt=""
@@ -92,7 +92,7 @@ const SelectPlan = () => {
         ) : (
           <div>
             <div>
-              <h1 className="sm:px-0 w-[428px] sm:max-w-full m-auto font-[700] text-[24px]  sm:text-[36px] text-left sm:text-center text-BlackHomz">
+              <h1 className="mt-4 md:mt-0 sm:px-0 w-full md:w-[428px] sm:max-w-full m-auto font-[700] text-[24px] sm:text-[36px] text-start sm:text-center text-BlackHomz">
                 How Would You Like To Use Homz?
               </h1>
             </div>

@@ -372,7 +372,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                         PDF ({businessCertificate?.size && (businessCertificate.size / (1024 * 1024)).toFixed(2)} MB)
                       </span>
                     </p>
-                    <div className="flex flex-row gap-[20px] items-center">
+                    <div className={`flex flex-row gap-[20px] items-center ${isLoading ? "pointer-events-none" : ""}`}>
                       <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(businessCertificate)}>
                         View
                       </p>
@@ -464,7 +464,26 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                       </p>
                       <p className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">PDF (max. 5mb)</p>
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="flex flex-col gap-[4px]">
+                      <input
+                        type="file"
+                        name="BusinessCertificate"
+                        ref={BusinessCertificateRef}
+                        id="BusinessCertificate"
+                        onChange={handleBusinessCertificate}
+                        style={{ display: 'none' }}
+                        accept="application/pdf"
+                      />
+                      <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left ">
+                        <span className="text-[#006AFF] inline-block cursor-pointer" onClick={uploadBusinessCertificate}>
+                          Select CAC or membership certificate
+                        </span>
+                        <span className="text-[#4E4E4E] hidden md:inline-block"> or drag and drop</span>
+                      </p>
+                      <p className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">PDF (max. 5mb)</p>
+                    </div>
+                  )}
             </>
           </div>
           <p className="text-[11px] text-red-600">{errorMsg ? errorMsg : ""}</p>

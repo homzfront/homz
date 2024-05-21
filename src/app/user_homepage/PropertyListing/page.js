@@ -197,7 +197,7 @@ const PreviewPropertyContent = () => {
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-  console.log(currentPage)
+  
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
       <div className="hidden xl:flex justify-between items-center w-full px-[76px]">
@@ -289,7 +289,7 @@ const PreviewPropertyContent = () => {
           </button>
         </div>
       </div>
-      <div className="flex justify-between xl:hidden w-full px-8 pl-8 md:pl-14">
+      <div className="flex justify-between xl:hidden w-full px-6 pl-6 md:pl-14">
         <div className="searchPane relative w-[86%] rounded-[4px]">
           <input
             type="text"
@@ -302,7 +302,7 @@ const PreviewPropertyContent = () => {
           <Image
             src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
             alt=""
-            className="absolute top-3 left-3"
+            className="absolute top-[14.8px] left-3"
             height={16}
             width={16}
             onClick={() => {

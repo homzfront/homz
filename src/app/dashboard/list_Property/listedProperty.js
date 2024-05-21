@@ -22,8 +22,6 @@ const EditProperty = ({ property }) => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
 
-  console.log(data);
-
   const clear = () => {
     setSelectedProperty(null);
     setSelectedState(null);
@@ -64,9 +62,8 @@ const EditProperty = ({ property }) => {
       {
         openModalForBusi &&
         <div
-          ref={dropdownRef}
           className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
-          <div className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+          <div ref={dropdownRef} className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
             <BusinessAlert />
             <p className="text-[20px] font-[700] text-BlackHomz">
               Update Business Information
@@ -75,7 +72,7 @@ const EditProperty = ({ property }) => {
               Kindly upload your business certification in order to list more properties
             </p>
             <Link
-              href={"/dashboard/list_Property/Profile"}
+              href={"/dashboard/list_Property/Profile?tab=business"}
               className="w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
             >
               <span className="text-white text-[16px] font-[700]">

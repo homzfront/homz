@@ -14,14 +14,14 @@ const MiniPropertyListings = ({
   return (
     <div className={`w-full`}>
       <div className="">
-        <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] w-[340px] md:w-full mx-auto md:mx-0 my-3">
+        <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] w-[315px] md:w-full mx-auto md:mx-0 my-3">
           Other properties
         </p>
       </div>
-      <div className="flex w-[340px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
+      <div className="flex w-[315px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <div
-            className={`flex flex-col w-[335px]  ${width ? width : " md:w-[333px]"
+            className={`flex flex-col w-[315px]  ${width ? width : " md:w-[333px]"
               }  md:h-[458px] rounded-[12px] shadow-md`}
             key={index}
           >
@@ -32,13 +32,13 @@ const MiniPropertyListings = ({
               <Carousel
                 slide={false}
                 theme={customTheme}
-                className="w-[335px] h-[226.33px] md:h-full md:w-full"
+                className="w-[315px] h-[226.33px] md:h-full md:w-full"
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
                     <div
                       key={index}
-                      className="w-[335px] h-full md:h-full md:w-full"
+                      className="w-[315px] h-full md:h-full md:w-full"
                     >
                       <Image
                         src={img?.url}

@@ -10,16 +10,19 @@ import ChangePassword from "./components/changePassword";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import { updateBusinessInfoLister, updatePersonalInfoLister } from "@/api/listingServices";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import { useSearchParams } from "next/navigation";
 
 const Profile = () => {
-  const [personalActive, setPersonalActive] = useState(true);
-  const [businessActive, setActiveTwo] = useState(false);
-  const [changePwdActive, setActiveFour] = useState(false);
+  const urlParams = useSearchParams();
+  const tab = urlParams.get("tab")
+
+  const [personalActive, setPersonalActive] = useState(tab ? tab === 'personal' : true);
+  const [businessActive, setActiveTwo] = useState(tab === 'business');
+  const [changePwdActive, setActiveFour] = useState(tab === 'password');
   const [loading, setLoading] = useState(false);
   const [personalInfo, setPersonalInfo] = useState([]);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
-  const [propertyData, setPropertyData] = useState([]);
 
   const { data, fetchData } = useProfileListingMe();
   useEffect(() => {
