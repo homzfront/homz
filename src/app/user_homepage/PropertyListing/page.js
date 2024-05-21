@@ -389,7 +389,7 @@ const PreviewPropertyContent = () => {
                 className={"w-[150px]"}
                 selectOption={`${filters?.minPrice === null
                   ? "Min Price"
-                  : capitalizeFirstLetter(filters?.minPrice)
+                  : addCommasToNumberWithoutN(filters?.minPrice)
                   }`}
               />
             </div>
