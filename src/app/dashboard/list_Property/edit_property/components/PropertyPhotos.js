@@ -174,9 +174,9 @@ const PropertyPhoto = ({ data }) => {
       {loading ? (
         <LoadingII />
       ) : (
-        <div className="w-full flex flex-col px-8">
-          <div className="flex items-start w-full justify-between mt-8">
-            <div className="w-[25%]">
+        <div className="w-full flex flex-col md:px-8">
+          <div className="flex flex-col md:flex-row md:items-start w-full justify-between md:mt-8">
+            <div className="md:w-[25%]">
               <div>
                 <p className="text-[13px] font-[500] text-GrayHomz">
                   Cover photo
@@ -191,11 +191,11 @@ const PropertyPhoto = ({ data }) => {
                 </div>
               </div>
             </div>
-            <div className="grid w-[75%]">
+            <div className="mt-6 md:mt-0 md:grid md:w-[75%]">
               <p className="text-[13px] font-[500] text-GrayHomz">
                 Other photos
               </p>
-              <div className="mt-4 grid gap-8 grid-cols-4">
+              <div className="mt-4 grid gap-8 grid-cols-1 md:grid-cols-4">
                 <div className="w-[120px] flex justify-start">
                   <ImageUpload
                     handleImageUpload={(file) => handleImageUpload("uploadedImage", file)}
@@ -241,7 +241,7 @@ const PropertyPhoto = ({ data }) => {
           </div>
         </div>
       )}
-      <div className="mt-[10%] flex justify-between w-full px-3">
+      <div className="mt-[10%] flex justify-between w-full md:px-3">
         <div></div>
         <button
           onClick={handleSubmit}

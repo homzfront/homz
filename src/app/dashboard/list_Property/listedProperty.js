@@ -8,6 +8,7 @@ import Dropdown from "./components/dropDownFilter";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
+import addCommasToNumber from "@/utils/addCommasToNumber";
 
 const EditProperty = ({ property }) => {
   const { data, fetchData } = useProfileListingMe();
@@ -19,6 +20,7 @@ const EditProperty = ({ property }) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
 
@@ -27,6 +29,7 @@ const EditProperty = ({ property }) => {
     setSelectedState(null);
     setSelectedArea(null);
     setSelectedRooms(null);
+    setSearchQuery("");
   };
 
   // console.log(property);
@@ -48,17 +51,18 @@ const EditProperty = ({ property }) => {
   const options4 = [...new Set(property?.map((item) => item?.numberOfBathrooms))];
 
   const filteredData = property?.filter(
-    (data) =>
-      (!selectedState || data?.state === selectedState) &&
-      (!selectedArea || data?.area === selectedArea) &&
-      (!selectedProperty || data?.propertyType === selectedProperty) &&
-      (!selectedRooms || data?.numberOfBathrooms === selectedRooms)
-  );
-
-
+    (data) => {
+      const matchesState = !selectedState || data?.state === selectedState;
+      const matchesArea = !selectedArea || data?.area === selectedArea;
+      const matchesSearchQuery = !searchQuery ||
+        data?.location.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        data?.location.area.toLowerCase().includes(searchQuery.toLowerCase());
+      const bathrooms =  !selectedRooms || data?.numberOfBathrooms === selectedRooms
+      return matchesState && matchesArea && matchesSearchQuery && bathrooms;
+    });
 
   return (
-    <div className="z-20">
+    <div className="z-20 mb-14">
       {
         openModalForBusi &&
         <div
@@ -185,6 +189,8 @@ const EditProperty = ({ property }) => {
             type="text"
             className="border h-[40px] pl-8 rounded-[4px] w-full "
             id="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by state or area "
           />
           <Image
@@ -195,7 +201,7 @@ const EditProperty = ({ property }) => {
             width={16}
           />
         </div>
-        <div className=" rounded-[4px] p-[11px] hover:border-blue-600">
+        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"
@@ -268,7 +274,7 @@ const EditProperty = ({ property }) => {
                 options={options4}
                 onSelect={(option) => setSelectedRooms(option)}
                 selectOption={
-                  selectedRooms === null ? "Bedroom" : selectedRooms
+                  selectedRooms === null ? "Bedroom" : (selectedRooms === 1 ? `${selectedRooms} Bedroom` :  `${selectedRooms} Bedrooms`)
                 }
                 className={
                   "w-[100%] text-[14px] font-[500] text-GrayHomz2"

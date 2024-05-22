@@ -164,7 +164,7 @@ const PropertyForms = ({ propertyData }) => {
   };
 
   return (
-    <div className="pt-10 md:pt-0">
+    <div className="mt-[-54px] md:mt-0 md:pt-0">
       {/* {
         loading && <LoadingII />
       } */}
@@ -196,7 +196,7 @@ const PropertyForms = ({ propertyData }) => {
             <span>Go Back</span>
             <div>
               <span className="text-[#4E4E4E] font-[400] md:text-[16px] md:leading-[24px]">
-                {propertyData?.PropertyInfo?.Title ?? ""}/{" "}
+                {(propertyData?.title || propertyData?.name) ?? ""} /{" "}
 
               </span>
               <span className="md:text-[18px] md:font-[500] md:leading-[30px] text-[#4E4E4E]">
@@ -214,7 +214,7 @@ const PropertyForms = ({ propertyData }) => {
             />
             <div>
               <span className="text-[#4E4E4E] font-[400] leading-[17.64px] text-[14px]">
-                {propertyData?.PropertyInfo?.Title ?? ""}/{" "}
+                {(propertyData?.title || propertyData?.name) ?? ""} /{" "}
               </span>
               <span className="font-[400] leading-[20.16px] text-[16px]">
                 Property Details
@@ -223,14 +223,14 @@ const PropertyForms = ({ propertyData }) => {
           </span>
         </Link>
         <Link
-          href={`/dashboard/list_Property/PreviewProperty?Property=${propertyData?.slug}`}
+          href={`/dashboard/list_Property/PreviewProperty?Property=${propertyData?._id}`}
           className="text-[#006AFF] text-[14px] leading-[21px] hidden md:block mr-3"
         >
           See public view
         </Link>
       </div>
       <div className="flex flex-col gap-2 mt-8 w-full">
-        <div className="flex gap-[15px] w-[335px] md:w-[571px]">
+        <div className="flex flex-wrap gap-[15px] w-full md:w-[571px]">
           <button
             onClick={handlePropertyInfoActive}
             className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${propertyInfoActive

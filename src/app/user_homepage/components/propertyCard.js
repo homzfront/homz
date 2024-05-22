@@ -109,10 +109,7 @@ const PropertyCard = ({
                                 >
                                   <Link
                                     className="cursor-pointer "
-                                    href={{
-                                      pathname: "/user_homepage/PreviewProperty",
-                                      query: { property: property?.slug },
-                                    }}
+                                    href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
                                   >
                                     <Image
                                       src={img?.url}
@@ -211,10 +208,7 @@ const PropertyCard = ({
                           </div>
                           <Link
                             className="cursor-pointer "
-                            href={{
-                              pathname: "/user_homepage/PreviewProperty",
-                              query: { property: property?.slug },
-                            }}
+                            href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
                           >
                             <Image
                               src="/static/images/arrow-in-circle.svg"

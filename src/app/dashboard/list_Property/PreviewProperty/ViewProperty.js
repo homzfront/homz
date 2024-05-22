@@ -11,6 +11,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from "next/navigation";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -18,6 +19,11 @@ const ViewProperty = ({ PropertyID }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [propertyData, setPropertyData] = useState([]);
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
+  }
+
   useBodyScroll([openSelectedImage])
   useEffect(() => {
     const propertyData = async () => {
@@ -124,9 +130,12 @@ const ViewProperty = ({ PropertyID }) => {
 
 
   return (
-    <div className="pt-11 md:pt-0 pb-10">
+    <div className="mt-[-54px] md:mt-0 md:pt-0 pb-10">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
-        <Link href="/dashboard/list_Property" className="flex gap-2 items-center">
+        <div
+          onClick={goBack}
+          className="flex gap-2 items-center cursor-pointer"
+        >
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             height={16}
@@ -143,7 +152,7 @@ const ViewProperty = ({ PropertyID }) => {
               alt=""
             />
           </span>
-        </Link>
+        </div>
         <Link
           href={`/dashboard/list_Property/edit_property/${propertyData?._id}`}
           className="text-[14px] font-[400] text-BlueHomz"
@@ -250,7 +259,7 @@ const ViewProperty = ({ PropertyID }) => {
                 </div>
                 {/* <Link
                   href="#contactOwner"
-                  className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
+                  className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[100%]  h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
                 >
                   Contact Owner
                 </Link> */}
@@ -347,7 +356,7 @@ const ViewProperty = ({ PropertyID }) => {
                 </div>
               </div>
             </div>
-            <div className="headerAdmin md:h-[91px] py-3 md:w-full w-[335px]">
+            <div className="headerAdmin md:h-[91px] py-3 md:w-full w-[100%]">
               <p className="md:text-[14px] md:font-[500] md:leading-[21px] text-left text-[#4E4E4E] break-words">
                 {propertyData?.description}
               </p>

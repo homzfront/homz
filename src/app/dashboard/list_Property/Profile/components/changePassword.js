@@ -128,17 +128,17 @@ const ChangePassword = () => {
   };
 
   return (
-    <div>
-      <div className=" flex flex-wrap gap-7 pt-8 md:pt-0 md:px-4">
+    <div className="w-full">
+      <div className="w-full flex flex-wrap gap-7 pt-8 md:pt-0 md:px-4">
         <div
-          className=" flex flex-col md:w-full md:gap-[28px] gap-[24px]"
+          className="w-full flex flex-col md:w-full md:gap-[28px] gap-[24px]"
         >
-          <div className=" space-y-1">
+          <div className="w-full space-y-1">
             <label for="currentPwd" className="">
               Current Password
             </label>
             <br />
-            <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[335px]">
+            <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
                 disabled={!update || loading}
                 type={showPassword ? "text" : "password"}
@@ -176,7 +176,7 @@ const ChangePassword = () => {
           <div className=" space-y-1">
             <label for="newPwd">Enter New Password</label>
             <br />
-            <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[335px]">
+            <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
                 disabled={!update || loading}
                 onChange={(e) => {
@@ -213,7 +213,7 @@ const ChangePassword = () => {
           <div className=" space-y-1">
             <label for="confirmNewPwd">Re-enter Password</label>
             <br />
-            <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[335px]">
+            <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
                 disabled={!update || loading}
                 type={showRePassword ? "text" : "password"}
@@ -250,27 +250,51 @@ const ChangePassword = () => {
               <div className="text-error italic text-[11px]">{passwordError}</div>
             )}
           </div>
-          <div className="flex  md:justify-end justify-center mt-16 md:mt-12 ">
-            <div className="flex flex-col ">
-              {update ? (
-                <button
-                  className="flex  border justify-center  md:w-[120px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+          <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
+          <div className="flex flex-col ">
+            {update ? (
+              <button
+              onClick={() => setSaveModalIsOpen(true)}
+                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                  onClick={() => setSaveModalIsOpen(true)}
-                >
-                  Save Update
-                </button>
-              ) : (
-                <p
-                  className="flex  border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                type="submit"
+              >
+                Save Update
+              </button>
+            ) : (
+              <p
+                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                  onClick={() => setUpdate(true)}
-                >
-                  Update
-                </p>
-              )}
-            </div>
+                onClick={() => setUpdate(true)}
+              >
+                Update
+              </p>
+            )}
           </div>
+        </div>
+
+        <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
+          <div className="flex flex-col w-full">
+            {update ? (
+              <button
+              onClick={() => setSaveModalIsOpen(true)}
+                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                type="submit"
+              >
+                Save Update
+              </button>
+            ) : (
+              <p
+                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                onClick={() => setUpdate(true)}
+              >
+                Update
+              </p>
+            )}
+          </div>
+        </div>
         </div>
         <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
           <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">

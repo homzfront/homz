@@ -76,9 +76,9 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
     <div className="flex flex-col gap-4">
       <div className="flex justify-between flex-col md:flex-row">
         <div
-          className=" flex flex-col sm:w-full"
+          className=" flex flex-col md:w-full"
         >
-          <div className="flex sm:gap-[50px] gap-[24px] flex-col sm:flex-row lg:gap-[24px]">
+          <div className="flex md:gap-[50px] gap-[24px] flex-col md:flex-row lg:gap-[24px]">
             <div className="flex flex-col gap-[24px]">
               <div className="">
                 <label htmlFor="listingType">
@@ -89,7 +89,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                   name="listingType"
                   className={` ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                    } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] rounded-[4px] border w-[335px]`}
+                    } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                   onChange={handleChange}
                   disabled={!editMode}
                 >
@@ -119,7 +119,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         value={formData?.title || ""}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] pl-2 rounded-[4px] border w-[335px]`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px]  rounded-[4px] border w-[100%]`}
                       />
                     </div>
                     <div className="">
@@ -134,7 +134,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] pl-2 rounded-[4px] border w-[335px]`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                       >
                         <option >
                           {capitalizeFirstLetter(formData?.landType) || "select option"}
@@ -158,7 +158,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] pl-2 rounded-[4px] border w-[335px]`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                         placeholder="Enter Square Metres"
                         value={formData?.squareMeter}
                       />
@@ -180,7 +180,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         value={formData?.name || ""}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] pl-2 rounded-[4px] border w-[335px]`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%]`}
                       />
                     </div>
                     <div className="">
@@ -195,7 +195,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] rounded-[4px] border w-[335px]`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                       >
                         <option>
                           {capitalizeFirstLetter(formData?.propertyType) || "Select Property Type"}
@@ -234,7 +234,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         <select
                           name="state"
                           disabled={!editMode}
-                          className="w-[158px] h-[43px] sm:w-[228px]  dropdwField sm:h-[45px] border rounded-[4px] p-[12px]"
+                          className="w-[100%] h-[43px] md:w-[228px]   md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
                           onChange={
                             (e) => {
                               handleChange
@@ -256,7 +256,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                           name="area"
                           onChange={handleChange}
                           disabled={!editMode}
-                          className="w-[158px] h-[43px] sm:w-[228px]  dropdwField  sm:h-[45px] border rounded-[4px] p-[12px]"
+                          className="w-[100%] h-[43px] md:w-[228px]  md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
                         >
                           <option>
                             {capitalizeFirstLetter(formData?.area) || "Select Area"}
@@ -281,7 +281,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={`${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] rounded-[4px] border w-[335px] pl-2`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] pl-2`}
                         placeholder="Enter street name"
                         value={formData?.address}
                       />
@@ -297,7 +297,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } h-[43px] sm:h-[45px] sm:w-[473px] sm:p-[12px] rounded-[4px] border w-[335px]`}
+                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                         id="Rooms"
                       >
                         <option>
@@ -333,7 +333,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } w-[158px] h-[43px] sm:w-[228px] p-[12px] rounded-[4px] border`}
+                          } w-[100%] h-[43px] md:w-[228px] p-[12px] rounded-[4px] border`}
                         onChange={
                           (e) => {
                             handleChange
@@ -357,7 +357,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                          } w-[158px] h-[43px] sm:w-[228px] p-[12px] rounded-[4px] border`}
+                          } w-[100%] h-[43px] md:w-[228px] p-[12px] rounded-[4px] border`}
                       >
                         <option>
                           {capitalizeFirstLetter(formData?.area) || "Select Area"}
@@ -382,7 +382,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       disabled={!editMode}
                       className={` ${!editMode &&
                         "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                        } h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] border w-[335px]`}
+                        } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                       placeholder="Enter street name"
                       value={formData?.address}
                     />
@@ -401,7 +401,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       disabled={!editMode}
                       className={` ${!editMode &&
                         "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                        } h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] border w-[335px]`}
+                        } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                     >
                       <option>
                         {formData?.numberOfBathrooms || 0}
@@ -425,7 +425,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       disabled={!editMode}
                       className={` ${!editMode &&
                         "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                        } h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] border w-[335px]`}
+                        } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%]`}
                     >
                       <option>
                         {formData?.numberOfToilets || 0}
@@ -452,7 +452,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                 <textarea
                   className={` ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                    } mt-1 md:h-[280px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 `}
+                    } mt-1 md:h-[280px] rounded-md border w-full p-2 md:p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 `}
                   placeholder="Property Description"
                   onChange={handleChange}
                   disabled={!editMode}
@@ -463,28 +463,30 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
             </div>
           </div>
           <div className="flex md:justify-end justify-center mt-8">
-            {editMode ? (
-              <button className="flex border justify-center md:w-[127px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                onClick={onSubmit}>
-                Save Update
-              </button>
-            ) : (
-              <div className="flex cursor-pointer border justify-center md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                onClick={() => setEditMode(true)}
-              >
-                Update
-              </div>
-            )}
-            <div className="md:hidden flex flex-col ">
+            <div className="hidden md:block">
+              {editMode ? (
+                <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                  onClick={onSubmit}>
+                  Save Update
+                </button>
+              ) : (
+                <div className="flex cursor-pointer border justify-center md:w-[77px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                  onClick={() => setEditMode(true)}
+                >
+                  Update
+                </div>
+              )}
+            </div>
+            <div className="md:hidden flex flex-col w-full">
               <Link
-                href=""
+                href={`/dashboard/list_Property/PreviewProperty?Property=${formData?._id}`}
                 className="text-[#006AFF] text-[14px] leading-[21px]  md:hidden mx-auto mb-3"
               >
                 See public view
               </Link>
               {editMode ? (
                 <button
-                  className="flex  border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                  className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                   onClick={onSubmit}
                 >
@@ -492,7 +494,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </button>
               ) : (
                 <div
-                  className="flex cursor-pointer border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                  className="flex cursor-pointer border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                   onClick={() => setEditMode(true)}
                 >

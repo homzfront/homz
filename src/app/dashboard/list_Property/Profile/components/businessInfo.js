@@ -150,7 +150,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
       setIsLoading(false);
     }
   };
-  
+
 
   const cancelUpload = () => {
     setProgress(0);
@@ -274,7 +274,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                 disabled={!update}
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] duoViewPoint ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] duoViewPoint ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
@@ -292,14 +292,14 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                 value={businessEmail}
                 onChange={(e) => setBusinessEmail(e.target.value)}
                 placeholder="Enter Business Email"
-                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
+                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
           </div>
         </div>
-        <div className="md:w-full w-[336px] flex flex-col gap-[14px] pt-5">
+        <div className="md:w-full w-[100%] flex flex-col gap-[14px] md:pt-5">
           <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
             Kindly upload any of the following documents for verification (format must be PDF)
           </p>
@@ -329,7 +329,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                       View
                     </p>
                   </div>
-                  <div className="absolute bottom-[-30px] left-0 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                  <div className="absolute bottom-[-45px] md:bottom-[-30px] left-0 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
                     <TickSuccess />
                     <div>
                       Your business certificate has successfully been verified. You can now <></>
@@ -489,26 +489,43 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
           <p className="text-[11px] text-red-600">{errorMsg ? errorMsg : ""}</p>
         </div>
 
-        <div className="flex  md:justify-end justify-center mt-16 md:mt-12 ">
-          {/* <button
-            className="hidden md:flex  border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-            type="submit"
-          >
-            Update
-          </button> */}
+        <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
           <div className="flex flex-col ">
             {update ? (
               <button
-                className="flex  border justify-center duoViewPoint  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
                 onClick={onSubmit}
+                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                type="submit"
               >
                 Save Update
               </button>
             ) : (
               <p
-                className="flex cursor-pointer border justify-center duoViewPoint items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                onClick={() => setUpdate(true)}
+              >
+                Update
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
+          <div className="flex flex-col w-full">
+            {update ? (
+              <button
+                onClick={onSubmit}
+                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                type="submit"
+              >
+                Save Update
+              </button>
+            ) : (
+              <p
+                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >

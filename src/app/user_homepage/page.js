@@ -871,14 +871,14 @@ const HomePage = () => {
             />
           </Link>
         </h1>
-        <p className="mt-2 text-[16px] md:text-[20px] font-[400] w-full lg:w-[920px] text-start px-8 md:px-24">
+        {/* <p className="mt-2 text-[16px] md:text-[20px] font-[400] w-full lg:w-[920px] text-start px-8 md:px-24">
           <span className="hidden md:block">
             Below are the list of the different houses that we currently have on the platform. Select any of these to view the house details and the features.
           </span>
           <span className="md:hidden">
             Browse through house listings on our platform for details and features.
           </span>
-        </p>
+        </p> */}
         <div className="w-full max-w-[1440px] my-4 flex flex-col justify-center items-center px-8 md:px-[80px]">
           <div className="w-full">
             <Slider {...sliderSettings}>
@@ -986,7 +986,7 @@ const HomePage = () => {
                             </div>
                           )}
                         </div>
-                        <Link href={{ pathname: "/user_homepage/PreviewProperty", query: { property: property?.property?.slug } }}>
+                        <Link href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}>
                           <button className="">
                             <Image
                               src="/static/images/arrow-in-circle.svg"

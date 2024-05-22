@@ -44,7 +44,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 name="paymentType"
                 onChange={handleChange}
                 disabled={!editMode}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 fields duoViewPoint border w-[335px] ${!editMode &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 fields duoViewPoint border w-[100%] ${!editMode &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               >
@@ -65,7 +65,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 Price
               </label>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.price && "opacity-50"
                     }`}
@@ -76,7 +76,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                   name="price"
                   placeholder="00.00"
                   value={formData?.price}
-                  className={`h-[43px] md:h-[45px] sm:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[335px] ${!editMode &&
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                     }`}
                   type="number"
@@ -89,7 +89,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
             <div>
               <label htmlFor="totalFee">How much is the total fee?</label>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.totalFee && "opacity-60"
                     }`}
@@ -98,7 +98,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] sm:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[335px] ${!editMode &&
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                     }`}
                   type="number"
@@ -115,7 +115,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
             <div>
               <label htmlFor="agencyFee">How much is the Agency fee?</label>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.agencyFee && "opacity-60"
                     }`}
@@ -124,7 +124,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] sm:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[335px] ${!editMode &&
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                     }`}
                   type="number"
@@ -141,7 +141,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 How much is the maintenance fee?
               </label>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.maintenanceFee && "opacity-60"
                     }`}
@@ -150,7 +150,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] sm:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[335px] ${!editMode &&
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                     }`}
                   type="number"
@@ -165,28 +165,30 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
           </div>
         </div>
         <div className="flex md:justify-end justify-center mt-8">
-          {editMode ? (
-            <button className="flex border justify-center md:w-[127px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-              onClick={onSubmit}>
-              Save Update
-            </button>
-          ) : (
-            <div className="flex cursor-pointer border justify-center md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-              onClick={() => setEditMode(true)}
-            >
-              Update
-            </div>
-          )}
-          <div className="md:hidden flex flex-col ">
+          <div className="hidden md:block">
+            {editMode ? (
+              <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                onClick={onSubmit}>
+                Save Update
+              </button>
+            ) : (
+              <div className="flex cursor-pointer border justify-center md:w-[77px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                onClick={() => setEditMode(true)}
+              >
+                Update
+              </div>
+            )}
+          </div>
+          <div className="md:hidden flex flex-col w-full">
             <Link
-              href=""
+              href={`/dashboard/list_Property/PreviewProperty?Property=${formData?._id}`}
               className="text-[#006AFF] text-[14px] leading-[21px]  md:hidden mx-auto mb-3"
             >
               See public view
             </Link>
             {editMode ? (
               <button
-                className="flex  border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={onSubmit}
               >
@@ -194,7 +196,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
               </button>
             ) : (
               <div
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setEditMode(true)}
               >

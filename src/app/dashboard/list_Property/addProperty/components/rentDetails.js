@@ -47,7 +47,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <br />
               <select
                 name="paymentType"
-                className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[100%]"
+                className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%]"
                 onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>

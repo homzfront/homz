@@ -37,7 +37,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
     { length: Math.min(totalPages, 3) },
     (_, index) => index + 1
   );
-  const lastThreePagesStart = Math.max(totalPages - 2, 1); // Calculate the starting page number for the last three pages
+  const lastThreePagesStart = Math.max(totalPages - 2, 1); 
   const lastThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
     (_, index) => lastThreePagesStart + index
@@ -48,14 +48,13 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {currentProperties.map((property, index) => (
           <div
-            className="flex flex-col w-[140px] md:w-[234px] md:h-[281px] rounded-[12px] shadow-md"
+            className="flex flex-col w-[100%] md:w-[234px] md:h-[281px] rounded-[12px] shadow-md"
             key={index}
           >
             <div
-              className="cursor-pointer w-[140px] md:w-[234px] md:h-[168px] rounded-[10px] "
-              // onClick={() => handleClearInputField("option4Qestion")}
+              className="cursor-pointer w-[100%] md:w-[234px] md:h-[168px] rounded-[10px] "
             >
-              <div className="w-[140px] relative h-[100.55px] md:h-full md:w-full">
+              <div className="w-[100%] relative h-[100.55px] md:h-full md:w-full">
                 <Link
                   className="cursor-pointer text-[14px]"
                   href={{
@@ -68,26 +67,14 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                     alt=""
                     width={264}
                     height={168}
-                    className="w-[140px] h-[100.55px] md:h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
+                    className="w-[100%] h-[100.55px] md:h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
                   />
                 </Link>
-                {/* <div className=" absolute flex items-center bottom-[75px] right-[.5rem] gap-[4px] w-[26px] h-[15px] rounded-[8px] py-[2px] px-[4px] bg-white z-20 md:hidden">
-                  <Image
-                    src="/static/images/star.svg"
-                    alt=""
-                    width={8}
-                    height={8}
-                  />
-                  <span className="text-[9px] font-[500] leading-[11.34px] ">
-                    {property.PropertyInfo.Rating}
-                  </span>
-                </div> */}
               </div>
             </div>
             <div className="flex flex-col px-2 pb-2  pt-2 md:pt-5 gap-[5px] md:gap-[2px]">
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-[#006AFF] text-[11px] md:text-[16px] font-[700] leading-[13.86px] md:leading-[24px] text-center">
-                  {/* {`${property.Bedrooms.split(" ")[0]}-${property.Property_type}`} */}
+              <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
+                <p className="text-[#006AFF] font-[700] leading-[13.86px] md:leading-[24px] text-center">
                   {property?.name ? property?.name : property?.title}
                 </p>
                 <div className="relative">
@@ -101,7 +88,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                   />
                   {isMenuOpen[index] && (
                     <button
-                      className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[140px] md:right-[6px] mt-2 h-[37px] py-2  md:w-[212px] bg-white shadow-md rounded-md"
+                      className="absolute md:top-[1.55rem] top-[1rem] right-[5px] w-[80px] md:right-[6px] mt-2 h-[37px] py-2  md:w-[212px] bg-white shadow-md rounded-md"
                       onClick={() =>
                         router.push(
                           `/dashboard/list_Property/edit_property/${property?._id}`
@@ -142,17 +129,6 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                     per year
                   </span>
                 </p>
-                {/* <div className="hidden md:flex gap-[4px] w-[29px] h-[20px] rounded-[8px] py-[2px] px-[4px] bg-white">
-                  <Image
-                    src="/static/images/star.svg"
-                    alt=""
-                    width={8}
-                    height={8}
-                  />
-                  <span className="text-[13px] font-[500] leading-[16.38px] ">
-                    {property.PropertyInfo.Rating}
-                  </span>
-                </div> */}
               </div>
             </div>
           </div>

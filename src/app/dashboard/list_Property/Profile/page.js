@@ -139,10 +139,10 @@ const Profile = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="pt-10 md:pt-0 md:px-2 w-full">
-        <h1>Profile</h1>
+      <div className="mt-[-55px] md:mt-0 md:pt-0 md:px-2 w-full">
+        <h1 className="w-[50%]">Profile</h1>
         <div className="flex flex-col gap-2 mt-8 ">
-          <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full profileVP duoViewPoint ">
+          <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full">
             <button
               onClick={handlePersonalActive}
               className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${personalActive
@@ -183,18 +183,18 @@ const Profile = () => {
           }}
           className="mt-5 md:hidden"
         />
-        <div className=" md:mt-7 mb-7  rounded-[12px] ">
-          <div className={`${personalActive ? "inline-block" : "hidden"}`}>
+        <div className=" md:mt-7 mb-7 w-full rounded-[12px] ">
+          <div className={`${personalActive ? "block" : "hidden"}`}>
             <PersonalInfo handleUpdate={handleUpdateDetails} data={data} />
           </div>
-          <div className={`${businessActive ? "inline-block" : "hidden"}`}>
+          <div className={`${businessActive ? "block" : "hidden"}`}>
             <BusinessInfo
               Business_Info={data}
               handleUpdate={handleUpdateDetails}
             />
           </div>
 
-          <div className={`${changePwdActive ? "inline-block" : "hidden"}`}>
+          <div className={`${changePwdActive ? "block" : "hidden"}`}>
             <ChangePassword
             />
           </div>
@@ -207,10 +207,10 @@ const Profile = () => {
             <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
               Proceed with saving changes?
             </p>
-            <div className={`flex flex-wrap md:flex-col gap-[16px] ${loading ? "pointer-events-none" : ""}`}>
+            <div className={`flex gap-2 md:flex-wrap md:flex-col md:gap-[16px] ${loading ? "pointer-events-none" : ""}`}>
               <button
                 className={`bg-BlueHomz2 w-[137.5px] text-white rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center
-                  ${loading ? "pointer-events-none w-full flex justify-center" : ""} 
+                  ${loading ? "pointer-events-none flex justify-center" : ""} 
                   `}
                 onClick={handleSaved}
               >
