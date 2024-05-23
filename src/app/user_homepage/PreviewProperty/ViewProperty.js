@@ -30,7 +30,7 @@ const ViewProperty = ({ PropertyID }) => {
     whatsAppNumber: false,
   });
 
-  const [propertyData, setPropertyData] = useState([]);
+  const [propertyData, setPropertyData] = useState(null);
 
   useEffect(() => {
     const propertyData = async () => {
@@ -140,11 +140,11 @@ const ViewProperty = ({ PropertyID }) => {
     nextArrow: null,
     appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
   };
-
-
+  
   return (
     <div>
       {loading ? <LoadingII /> :
+        propertyData &&
         <div className="w-full pt-10 md:pt-8 pb-10 md:px-[120px] px-5">
           <div className="w-full flex md:justify-between items-center gap-[4rem] md:gap-0">
             <div
