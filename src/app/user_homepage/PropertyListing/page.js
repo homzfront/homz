@@ -108,6 +108,8 @@ const PreviewPropertyContent = () => {
         setParams(false);
       }
     }
+    // Scroll to top after fetching properties
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -195,10 +197,10 @@ const PreviewPropertyContent = () => {
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-console.log(currentPage)
+  
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
-      <div className="hidden md:flex justify-between items-center w-full px-[76px]">
+      <div className="hidden xl:flex justify-between items-center w-full px-[76px]">
         <div className="relative flex items-center w-[20%] h-[44px] py-[12px]  mr-1">
           <input
             type="text"
@@ -287,11 +289,11 @@ console.log(currentPage)
           </button>
         </div>
       </div>
-      <div className="flex justify-between md:hidden w-full">
+      <div className="flex justify-between xl:hidden w-full px-6 pl-6 md:pl-14">
         <div className="searchPane relative w-[86%] rounded-[4px]">
           <input
             type="text"
-            className="border h-[40px] pl-8 rounded-[4px] w-full "
+            className="border h-[46px] pl-8 rounded-[4px] w-full"
             id="search"
             placeholder="Search by state or area"
             value={filters.search}
@@ -300,7 +302,7 @@ console.log(currentPage)
           <Image
             src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
             alt=""
-            className="absolute top-3 left-3"
+            className="absolute top-[14.8px] left-3"
             height={16}
             width={16}
             onClick={() => {
@@ -308,7 +310,7 @@ console.log(currentPage)
             }}
           />
         </div>
-        <div className=" rounded-[4px] p-[11px] border hover:border-blue-600">
+        <div className=" rounded-[4px] p-[10px] border hover:border-blue-600">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"
@@ -341,7 +343,7 @@ console.log(currentPage)
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-5 rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
@@ -387,7 +389,7 @@ console.log(currentPage)
                 className={"w-[150px]"}
                 selectOption={`${filters?.minPrice === null
                   ? "Min Price"
-                  : capitalizeFirstLetter(filters?.minPrice)
+                  : addCommasToNumberWithoutN(filters?.minPrice)
                   }`}
               />
             </div>

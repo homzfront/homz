@@ -33,10 +33,10 @@ const ContactInfo = ({
       <div
         className=" flex flex-col md:w-full"
       >
-        <div className="flex  gap-[2rem] mt-5">
-          <div className="profiles flex  flex-col space-y-4">
+        <div className="flex w-full gap-[2rem] mt-5">
+          <div className="w-full flex flex-col space-y-4">
             <div>
-              <label htmlFor="PhoneNumber">
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="PhoneNumber">
                 Phone Number <span className="text-red-500 text-[15px]">*</span>
               </label>
               <br />
@@ -46,13 +46,13 @@ const ContactInfo = ({
                 onChange={handleChange}
                 disabled={!editMode}
                 value={formData?.contacts?.phoneNumber}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!editMode &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!editMode &&
+                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                   }`}
               />
             </div>
             <div>
-              <label htmlFor="Email">
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Email">
                 Email
               </label>
               <br />
@@ -63,13 +63,13 @@ const ContactInfo = ({
                 disabled={!editMode}
                 value={formData?.contacts?.email}
                 placeholder="Enter Email"
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!editMode &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] placeholder: md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!editMode &&
+                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                   }`}
               />
             </div>
             <div>
-              <label htmlFor="WhatsAppLink"> WhatsApp Link</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="WhatsAppLink"> WhatsApp Link</label>
               <br />
               <input
                 type="text"
@@ -78,36 +78,38 @@ const ContactInfo = ({
                 disabled={!editMode}
                 value={formData?.contacts?.whatsapp}
                 placeholder="Enter WhatsApp Link"
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!editMode &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] placeholder: md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!editMode &&
+                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                   }`}
               />
             </div>
           </div>
         </div>
         <div className="flex md:justify-end justify-center mt-8">
-          {editMode ? (
-            <button className="flex border justify-center md:w-[127px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-              onClick={onSubmit}>
-              Save Update
-            </button>
-          ) : (
-            <div className="flex cursor-pointer border justify-center md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-              onClick={() => setEditMode(true)}
-            >
-              Update
-            </div>
-          )}
-          <div className="md:hidden flex flex-col ">
+          <div className="hidden md:block">
+            {editMode ? (
+              <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                onClick={onSubmit}>
+                Save Update
+              </button>
+            ) : (
+              <div className="flex cursor-pointer border justify-center md:w-[77px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                onClick={() => setEditMode(true)}
+              >
+                Update
+              </div>
+            )}
+          </div>
+          <div className="md:hidden flex flex-col w-full">
             <Link
-              href=""
+              href={`/dashboard/list_Property/PreviewProperty/${formData?._id}`}
               className="text-[#006AFF] text-[14px] leading-[21px]  md:hidden mx-auto mb-3"
             >
               See public view
             </Link>
             {editMode ? (
               <button
-                className="flex  border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={onSubmit}
               >
@@ -115,7 +117,7 @@ const ContactInfo = ({
               </button>
             ) : (
               <div
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setEditMode(true)}
               >

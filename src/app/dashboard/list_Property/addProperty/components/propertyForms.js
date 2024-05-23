@@ -147,7 +147,7 @@ const PropertyForms = () => {
 
 
   return (
-    <div className=" dashboard pt-10 sm:pt-4">
+    <div className=" dashboard md:pt-4">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -168,7 +168,7 @@ const PropertyForms = () => {
           viewBox="0 0 24 24"
           stroke-w_idth="1.5"
           stroke="currentColor"
-          class="w-5 h-5 text-gray-400 hidden sm:block"
+          class="w-5 h-5 text-gray-400 hidden md:block"
         >
           <path
             stroke-linecap="round"
@@ -176,10 +176,10 @@ const PropertyForms = () => {
             d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
           />
         </svg>
-        <span className=" text-gray-400 text-[14px] hidden sm:block">
+        <span className=" text-gray-400 text-[14px] hidden md:block">
           Go Back
         </span>
-        <span className="sm:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
+        <span className="mt-[-0px] md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
           <Image
             src="/static/images/blue-arrow-left.svg"
             width={20}
@@ -189,7 +189,7 @@ const PropertyForms = () => {
         </span>
       </Link>
       <div className="flex flex-col gap-2 mt-8 w-full">
-        <div className="flex items-center sm:mx-14">
+        <div className="flex items-center md:mx-14">
           <span
             className={`${propertyInfoActive &&
               "inline-block p-1 rounded-full bg-white shadow-md"
@@ -200,7 +200,7 @@ const PropertyForms = () => {
               width={18}
               height={16}
               alt=""
-              className="hidden sm:block rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+              className="hidden md:block rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
             />
             {!propertyInfoActive ? (
               <Image
@@ -208,7 +208,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             ) : (
               <Image
@@ -216,12 +216,12 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             )}
           </span>
 
-          <hr className="h-[1px] w-[25%] px-2 sm:px-0 sm:w-[30%] bottom-0 bg-gray-600" />
+          <hr className="h-[1px] w-[25%] px-2 md:px-0 md:w-[30%] bottom-0 bg-gray-600" />
           <span
             className={`${activeTwo && "inline-block p-1 rounded-full bg-white shadow-md"
               }`}
@@ -231,7 +231,7 @@ const PropertyForms = () => {
               width={18}
               height={16}
               alt=""
-              className="hidden sm:block rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+              className="hidden md:block rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
             />
             {!activeTwo ? (
               <Image
@@ -239,7 +239,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             ) : (
               <Image
@@ -247,12 +247,12 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             )}
           </span>
 
-          <hr className="h-[1px] w-[25%] px-2 sm:px-0  sm:w-[30%] bottom-0 bg-gray-600" />
+          <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
           <span
             className={`${activeThree && "inline-block p-1 rounded-full bg-white shadow-md"
               }`}
@@ -262,7 +262,7 @@ const PropertyForms = () => {
               width={18}
               height={16}
               alt=""
-              className="hidden sm:block rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+              className="hidden md:block rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
             />
             {!activeThree ? (
               <Image
@@ -270,7 +270,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             ) : (
               <Image
@@ -278,11 +278,11 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             )}
           </span>
-          <hr className="h-[1px] w-[25%] px-2 sm:px-0  sm:w-[30%] bottom-0 bg-gray-600" />
+          <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
           <span
             className={`${activeFour && "inline-block p-1 rounded-full bg-white shadow-md"
               }`}
@@ -292,7 +292,7 @@ const PropertyForms = () => {
               width={18}
               height={16}
               alt=""
-              className="hidden sm:block rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+              className="hidden md:block rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
             />
             {!activeFour ? (
               <Image
@@ -300,7 +300,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             ) : (
               <Image
@@ -308,12 +308,12 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="sm:hidden rounded-full h-[12px] w-[12px] sm:w-[18px] sm:h-[10px]"
+                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
             )}
           </span>
         </div>
-        <div className="hidden sm:flex items-center justify-between text-[#4E4E4E] text-[14px]">
+        <div className="hidden md:flex items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Information</p>
           <p>Rent Details</p>
           <p className="pl-4">Add Photo(s)</p>
@@ -353,15 +353,15 @@ const PropertyForms = () => {
         </div>
       </div>
       <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
-        <div className={`bg-white border w-[333px] flex flex-col sm:w-[464px] py-[24px] px-[16px] sm:p-[32px] rounded-[12px] gap-[18px] items-center justify-center
+        <div className={`bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center
         ${loading ? "pointer-events-none" : ""}
         `}>
-          <p className=" text-[14px] leading-[19.5px] sm:text-[16px] text-[400] sm:leading-[24px] text-center">
+          <p className=" text-[14px] leading-[19.5px] md:text-[16px] text-[400] md:leading-[24px] text-center">
             Proceed to list property?
           </p>
 
           <button
-            className={`bg-BlueHomz2 w-[301px]  text-white rounded-[4px] border  sm:w-[400px] h-[48px] 
+            className={`bg-BlueHomz2 w-[301px]  text-white rounded-[4px] border  md:w-[400px] h-[48px] 
             ${loading ? "pointer-events-none w-full flex justify-center" : ""} 
             `}
             onClick={handleSaved}
@@ -369,7 +369,7 @@ const PropertyForms = () => {
             {loading ? <LoadingFormII /> : "Yes"}
           </button>
           <button
-            className="border-BlueHomz w-[301px]  text-blue-600 rounded-[4px] border  sm:w-[400px] h-[48px] p-[12px]"
+            className="border-BlueHomz w-[301px]  text-blue-600 rounded-[4px] border  md:w-[400px] h-[48px] p-[12px]"
             onClick={() => {
               setSaveModalIsOpen(false);
             }}
@@ -382,7 +382,7 @@ const PropertyForms = () => {
         isOpen={successModalIsOpen}
         onRequestClose={closeSuccessModal}
       >
-        <div className="bg-white border flex flex-col w-[333px] sm:w-[464px]  p-[32px] rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[333px] md:w-[464px]  p-[32px] rounded-[12px] gap-[18px]">
           <div className="flex flex-col gap-6 items-center justify-center">
             <Image
               src="/static/images/success_icon.svg"
@@ -391,10 +391,10 @@ const PropertyForms = () => {
               alt=""
             />
             <div className="flex  flex-col">
-              <p className="text-[14px] sm:text-[20px] font-[700] leading-[17.64px] sm:leading-[25.2px] text-center">
+              <p className="text-[14px] md:text-[20px] font-[700] leading-[17.64px] md:leading-[25.2px] text-center">
                 Property Added Successfully
               </p>
-              <p className="text-[14px] sm:text-[16px] font-[400] leading-[17.64px] sm:leading-[24px] text-center text-[#4E4E4E]">
+              <p className="text-[14px] md:text-[16px] font-[400] leading-[17.64px] md:leading-[24px] text-center text-[#4E4E4E]">
                 Click on the button to view property
               </p>
             </div>

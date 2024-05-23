@@ -24,7 +24,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
   };
 
   return (
-    <div className="px-0">
+    <div className="px-0 w-full">
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
         Rent Details
       </div>
@@ -38,16 +38,16 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
         (Only fill the fields that are applicable to your property).
       </p>
       <div
-        className=" flex flex-col md:w-full mt-6"
+        className=" flex flex-col w-full mt-6"
       >
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
             <div className="">
-              <label htmlFor="paymentType">Payment Type</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="paymentType">Payment Type</label> <span className="text-error">*</span>
               <br />
               <select
                 name="paymentType"
-                className="h-[43px] sm:h-[45px] sm:w-[473px] fields duoViewPoint  sm:p-[12px] rounded-[4px] border w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] pl-2   md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
                 onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>
@@ -61,18 +61,18 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               </select>
             </div>
             <div>
-              <label htmlFor="price">Price</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="price">Price</label> <span className="text-error">*</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!price && "opacity-50"
+                  className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!price && "opacity-50"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] w-full py-[12px] pl-8 rounded-[4px] border"
+                  className="h-[43px] md:h-[45px] w-full py-[12px] pl-8 rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  "
                   type="number"
                   name="price"
                   min="0"
@@ -82,18 +82,18 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               </div>
             </div>
             <div>
-              <label htmlFor="totalFee">How much is the total fee?</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="totalFee">How much is the total fee?</label> <span className="text-error">*</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!total && "opacity-60"
+                  className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!total && "opacity-60"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[335px]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] w-[100%] text-GrayHomz placeholder:text-[13px]"
                   type="number"
                   name="totalFee"
                   min="0"
@@ -105,18 +105,18 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           </div>
           <div className="flex md:gap-[28px] gap-[24px] flex-col">
             <div>
-              <label htmlFor="agencyFee">How much is the Agency fee?</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label> <span className="text-error">*</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!agency && "opacity-60"
+                  className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!agency && "opacity-60"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[335px]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
                   type="number"
                   name="agencyFee"
                   min="0"
@@ -126,20 +126,21 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               </div>
             </div>
             <div>
-              <label htmlFor="maintenanceFee">
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="maintenanceFee">
                 How much is the maintenance fee?
               </label>
+              <span className="text-error"> *</span>
               <br />
-              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[335px]">
+              <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!maintenance && "opacity-60"
+                  className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!maintenance && "opacity-60"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border duoViewPoint w-[335px]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
                   type="number"
                   name="maintenanceFee"
                   min="0"
@@ -176,30 +177,61 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           </div>
 
           <div className="">
-            <button
-              onClick={onSubmit}
-              className={`flex md:mr-5 border justify-center  md:w-[77px] items-center text-[14px] font-[500] md:py-[8px] md:px-[12px] ${
-                "md:text-white text-[#D5D5D5] md:bg-BlueHomz h-[36px] w-[36px] md:h-full "
-                } rounded-[4px]`}
-            >
-              <span className="hidden md:block">Next</span>
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-                className="hidden md:block"
-              />
-              <Image
-                src="/static/images/right-arrow-Icon.svg"
-                width={16}
-                height={16}
-                alt=""
-                className="md:hidden"
-              />
-            </button>
+            {
+              paymentType !== "" &&
+                price !== "" &&
+                maintenance !== "" &&
+                total !== "" &&
+                agency !== "" 
+                ?
+                <button
+                  onClick={onSubmit}
+                  className={`flex md:mr-5 border justify-center  md:w-[77px] items-center text-[14px] font-[500] md:py-[8px] md:px-[12px] ${"md:text-white text-[#D5D5D5] md:bg-BlueHomz h-[36px] w-[36px] md:h-full "
+                    } rounded-[4px]`}
+                >
+                  <span className="hidden md:block">Next</span>
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                    }
+                    alt=""
+                    height={16}
+                    width={16}
+                    className="hidden md:block"
+                  />
+                  <Image
+                    src="/static/images/right-arrow-Icon.svg"
+                    width={16}
+                    height={16}
+                    alt=""
+                    className="md:hidden"
+                  />
+                </button>
+                : 
+                <button
+                className={`flex md:mr-5 border justify-center  md:w-[77px] items-center text-[14px] font-[500] md:py-[8px] md:px-[12px] ${"text-GrayHomz bg-GrayHomz5 border-[#A9A9A9] h-[36px] w-[36px] md:h-full "
+                  } rounded-[4px]`}
+              >
+                <span className="hidden md:block">Next</span>
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                  }
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="hidden md:block"
+                />
+                <Image
+                  src="/static/images/right-arrow-Icon.svg"
+                  width={16}
+                  height={16}
+                  alt=""
+                  className="md:hidden"
+                />
+              </button>
+            }
+
           </div>
         </div>
       </div>

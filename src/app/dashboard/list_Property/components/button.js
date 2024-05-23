@@ -11,7 +11,7 @@ const Button = ({
   firstThreePages,
 }) => {
   return (
-    <div className="flex md:w-full gap-2 justify-between  mt-4">
+    <div className="flex md:w-full gap-2 justify-between items-center mt-4">
       <div>
         <button
           onClick={handlePrev}

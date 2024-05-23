@@ -33,7 +33,7 @@ const AdminHeader = () => {
   return (
     <div
       className={
-        `hidden sm:block header mb-3 w-full sm:h-[85px]`}
+        `hidden md:block header mb-3 w-full sm:h-[85px]`}
     >
       <div className="sm:flex h-full  sm:items-center sm:justify-between px-4 sm:pt-0 pt-10">
         <div className="relative hidden sm:block">

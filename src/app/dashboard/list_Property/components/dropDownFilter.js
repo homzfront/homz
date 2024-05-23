@@ -20,19 +20,16 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   };
 
   // Filter options based on search term
-// Filter options based on search term
-const filteredOptions = options?.filter((option) =>
-  typeof option === 'string' &&
-  typeof searchTerm === 'string' &&
-  option.toLowerCase().includes(searchTerm.toLowerCase())
-);
-
+  const filteredOptions = options?.filter((option) => {
+    const optionString = option?.toString().toLowerCase();
+    const searchString = searchTerm?.toString().toLowerCase();
+    return optionString?.includes(searchString);
+  });
 
   return (
     <div className={`relative inline-block w-full ${className}`} ref={dropdownRef}>
       <div
-        className={`text-BlackHomz px-4 border h-[42px] p-2 rounded-md cursor-pointer ${isOpen ? "border" : ""
-          }`}
+        className={`text-BlackHomz px-4 border h-[42px] p-2 rounded-md cursor-pointer ${isOpen ? "border" : ""}`}
         onClick={handleDropdownToggle}
       >
         <div className="flex w-full justify-between items-center">
@@ -47,7 +44,6 @@ const filteredOptions = options?.filter((option) =>
             <Image src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png" height={16} width={16} alt="" />
           </div>
         </div>
-
       </div>
 
       {isOpen && (

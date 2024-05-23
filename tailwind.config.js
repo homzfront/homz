@@ -49,7 +49,8 @@ module.exports = {
         textGray: "#475467",
         avatarBg: "#F2F4F7",
         logoutRed: "#D92D20",
-        GrayHomzDash: "#006AFF"
+        GrayHomzDash: "#006AFF",
+        HomePageBg: "#EDF3FB"
       },
     },
   },

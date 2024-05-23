@@ -8,6 +8,7 @@ import Dropdown from "./components/dropDownFilter";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
+import addCommasToNumber from "@/utils/addCommasToNumber";
 
 const EditProperty = ({ property }) => {
   const { data, fetchData } = useProfileListingMe();
@@ -19,19 +20,20 @@ const EditProperty = ({ property }) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
-
 
   const clear = () => {
     setSelectedProperty(null);
     setSelectedState(null);
     setSelectedArea(null);
     setSelectedRooms(null);
+    setSearchQuery("");
   };
 
-  console.log(property);
-  console.log(data)
+  // console.log(property);
+  // console.log(data)
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
@@ -49,23 +51,23 @@ const EditProperty = ({ property }) => {
   const options4 = [...new Set(property?.map((item) => item?.numberOfBathrooms))];
 
   const filteredData = property?.filter(
-    (data) =>
-      (!selectedState || data?.state === selectedState) &&
-      (!selectedArea || data?.area === selectedArea) &&
-      (!selectedProperty || data?.propertyType === selectedProperty) &&
-      (!selectedRooms || data?.numberOfBathrooms === selectedRooms)
-  );
-
-
+    (data) => {
+      const matchesState = !selectedState || data?.state === selectedState;
+      const matchesArea = !selectedArea || data?.area === selectedArea;
+      const matchesSearchQuery = !searchQuery ||
+        data?.location.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        data?.location.area.toLowerCase().includes(searchQuery.toLowerCase());
+      const bathrooms =  !selectedRooms || data?.numberOfBathrooms === selectedRooms
+      return matchesState && matchesArea && matchesSearchQuery && bathrooms;
+    });
 
   return (
-    <div>
+    <div className="z-20 mb-14">
       {
         openModalForBusi &&
         <div
-          ref={dropdownRef}
           className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
-          <div className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+          <div ref={dropdownRef} className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
             <BusinessAlert />
             <p className="text-[20px] font-[700] text-BlackHomz">
               Update Business Information
@@ -74,7 +76,7 @@ const EditProperty = ({ property }) => {
               Kindly upload your business certification in order to list more properties
             </p>
             <Link
-              href={"/dashboard/list_Property/Profile"}
+              href={"/dashboard/list_Property/Profile?tab=business"}
               className="w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
             >
               <span className="text-white text-[16px] font-[700]">
@@ -150,7 +152,7 @@ const EditProperty = ({ property }) => {
             <span className="ml-1"> Reset</span>
           </button>
           {
-            property?.length === 1 && data?.businessInfo?.isVerified === false ?
+            property?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
               <div
                 onClick={() => setOpenModalForBusi(true)}
                 className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
@@ -181,12 +183,14 @@ const EditProperty = ({ property }) => {
 
         </div>
       </div>
-      <div className="flex justify-between  md:hidden w-[335px]">
-        <div className="searchPane relative w-[86%] rounded-[4px]">
+      <div className="flex justify-between md:hidden w-full">
+        <div className="relative w-[86%] rounded-[4px]">
           <input
             type="text"
             className="border h-[40px] pl-8 rounded-[4px] w-full "
             id="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by state or area "
           />
           <Image
@@ -197,7 +201,7 @@ const EditProperty = ({ property }) => {
             width={16}
           />
         </div>
-        <div className=" rounded-[4px] p-[11px] filterBorder hover:border-blue-600">
+        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"
@@ -213,7 +217,7 @@ const EditProperty = ({ property }) => {
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-5 rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[320px] h-auto  py-[24px] px-5 rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
@@ -230,55 +234,56 @@ const EditProperty = ({ property }) => {
               </button>
             </div>
           </div>
-
-          <div className="w-[120px]">
-            <Dropdown
-              options={options}
-              onSelect={(option) => setSelectedState(option)}
-              selectOption={
-                selectedState === null ? "State" : selectedState
-              }
-              className={
-                "text-[14px] font-[500] text-GrayHomz2"
-              }
-            />
-          </div>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options2}
-              onSelect={(option) => setSelectedArea(option)}
-              selectOption={selectedArea === null ? "Area" : selectedArea}
-              className={
-                "text-[14px] font-[500] text-GrayHomz2"
-              }
-            />
-          </div>
-          <div className="w-[180px]">
-            <Dropdown
-              options={options3}
-              onSelect={(option) => setSelectedProperty(option)}
-              selectOption={
-                selectedProperty === null
-                  ? "Property Type"
-                  : selectedProperty
-              }
-              className={"text-[14px] font-[500] text-GrayHomz2"}
-            />
-          </div>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options4}
-              onSelect={(option) => setSelectedRooms(option)}
-              selectOption={
-                selectedRooms === null ? "Bedroom" : selectedRooms
-              }
-              className={
-                "w-[120px] text-[14px] font-[500] text-GrayHomz2"
-              }
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="w-[100%]">
+              <Dropdown
+                options={options}
+                onSelect={(option) => setSelectedState(option)}
+                selectOption={
+                  selectedState === null ? "State" : selectedState
+                }
+                className={
+                  "text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+            </div>
+            <div className="w-[100%]">
+              <Dropdown
+                options={options2}
+                onSelect={(option) => setSelectedArea(option)}
+                selectOption={selectedArea === null ? "Area" : selectedArea}
+                className={
+                  "text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+            </div>
+            <div className="w-[100%]">
+              <Dropdown
+                options={options3}
+                onSelect={(option) => setSelectedProperty(option)}
+                selectOption={
+                  selectedProperty === null
+                    ? "Property Type"
+                    : selectedProperty
+                }
+                className={"text-[14px] font-[500] text-GrayHomz2"}
+              />
+            </div>
+            <div className="w-[100%]">
+              <Dropdown
+                options={options4}
+                onSelect={(option) => setSelectedRooms(option)}
+                selectOption={
+                  selectedRooms === null ? "Bedroom" : (selectedRooms === 1 ? `${selectedRooms} Bedroom` :  `${selectedRooms} Bedrooms`)
+                }
+                className={
+                  "w-[100%] text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+            </div>
           </div>
           <button
-            className="border w-[313px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
+            className="border w-full h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
             onClick={() => clear()}
           >
             <span>

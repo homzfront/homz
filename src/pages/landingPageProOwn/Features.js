@@ -25,19 +25,19 @@ const Features = () => {
       icon: <MoneyReceived />,
       title: "Receive Rent On Time",
       description:
-        "Seamlessly manage your finance, save and pay your rent with a click, making life as a tenant hassle-free.",
+        "Our robust rent collection system makes it easy for tenants to pay rent on time. ",
     },
     {
       icon: <Verify />,
       title: "Get Verified Renters on Your Property",
       description:
-        "Secure your home effortlessly with our convenient rental loan options tailored for you.",
+        "Our platform ensures that only verified tenants can access your property. Easily review your tenants from your dashboard.",
     },
     {
       icon: <Building />,
       title: "Monitor All Properties In One Place",
       description:
-        "Secure your home effortlessly with our convenient rental loan options tailored for you.",
+        "Stay on top of your property with our intuitive dashboard! Track your rental income and your property's performance.",
     },
   ];
 
@@ -55,18 +55,27 @@ const Features = () => {
           solution.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div className="relative">
-          <div className="hidden lg:inline absolute left-[-160px]">
-            <Image src={"/static/images/DashboardManager.png"} width={610} height={506} alt="img" />
+          <div className="hidden lg:inline absolute left-[-200px]">
+            <Image
+              src={"/static/images/DashboardLandLord.png"}
+              width={2880}
+              height={2048}
+              alt="img"
+              layout="responsive"
+              objectFit="cover"
+              objectPosition="right" // Adjust this to crop from the left
+              className="object-top bg-top h-[504px] image-clipII border-t-4 border-r-4 border-BlueHomz rounded-[12px]"
+            />
           </div>
         </div>
         <div className="">
-          <div className="hidden md:grid max-w-[768px] px-[64px] sm:p-0  sm:max-w-full md:grid-cols-2 gap-6 mt-8 xl:grid-cols-2">
+          <div className="hidden md:grid max-w-[768px] px-[64px] sm:p-0 sm:max-w-full md:grid-cols-2 gap-3">
             {cards.map((card, index) => (
               <div
                 key={index}
-                className="flex flex-col h-auto gap-4 w-full justify-around"
+                className="flex flex-col h-auto gap-4 w-full"
               >
                 <div
                   className={`rounded-full h-[48px] w-[48px] flex justify-center items-center bg-blue-100`}
@@ -76,10 +85,10 @@ const Features = () => {
                   </>
                 </div>
                 <div className="flex flex-col gap-1 justify-between h-max">
-                  <p className="font-[700] text-[20px] text-BlackHomz">
+                  <p className={`font-[600] h-[60px] text-[20px] text-BlackHomz ${card?.title === "Receive Rent On Time" ? "w-[60%]" : ""} `}>
                     {card.title}
                   </p>
-                  <p className="font-[400] text-[18px] text-GrayHomz">
+                  <p className="font-[400] h-[140px] text-[18px] text-GrayHomz">
                     {card.description}
                   </p>
                 </div>

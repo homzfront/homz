@@ -26,19 +26,19 @@ const HowItWorks = ({ routeTo, profile }) => {
       icon: <TickCircle />,
       title: " Simple Onboarding",
       description:
-        "Begin by signing up for free. Our intuitive interface guides you through the process ensuring a quick and easy setup.",
-    },
-    {
-      icon: <ChartSquare />,
-      title: "Centralized Dashboard",
-      description:
-        "Access a centralized dashboard that provides a comprehensive overview of all your properties in one place.",
+        "Fill out the simple landlord onboarding form and one of our client representative will contact you",
     },
     {
       icon: <DashArrow />,
-      title: "Effortless Navigation",
+      title: "Accept Your Onboarding Mail",
       description:
-        "Effortlessly manage everything from finances and tenants to property maintenance with our intuitive interface.",
+        "An invite mail will be sent to your registered email upon complete onboarding & verification of your property.",
+    },
+    {
+      icon: <ChartSquare />,
+      title: "Access Your Dashboard",
+      description:
+        "Access  your centralized dashboard that provides a comprehensive overview of all your properties in one place.",
     },
   ];
   return (

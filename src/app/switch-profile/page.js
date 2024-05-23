@@ -1,4 +1,5 @@
 "use client";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 import LoadingII from "@/components/mainmenu/loadingII";
 import api from "@/utils/api";
 import Image from "next/image";
@@ -30,7 +31,7 @@ const SelectPlan = () => {
 
     fetchData();
   }, []);
-  
+
   const Data = [
     {
       id: 1,
@@ -78,21 +79,21 @@ const SelectPlan = () => {
 
   return (
     <div>
-      <div className="max-w-[1156px] h-[712px] my-20 flex flex-col justify-between m-auto">
-        <Image
-          src={"/Link_2.png"}
-          alt=""
-          height={25}
-          width={85}
-          className="cursor-pointer"
-          onClick={handleBackButtonClick}
-        />
+      <div className="max-w-[1156px] px-[16px] xl:px-[0px] h-[712px] my-20 flex flex-col justify-between m-auto">
+        <div 
+        onClick={handleBackButtonClick}
+        className="flex justify-start gap-1 items-center cursor-pointer">
+          <ArrowLeftBlue />
+          <p className="text-BlueHomz4 text-[16px] font-[500]">
+            Go back
+          </p>
+        </div>
         {loading ? (
           <LoadingII />
         ) : (
           <div>
             <div>
-              <h1 className="sm:px-0 w-[428px] sm:max-w-full m-auto font-[700] text-[24px]  sm:text-[36px] text-left sm:text-center text-BlackHomz">
+              <h1 className="mt-4 md:mt-0 sm:px-0 w-full md:w-[428px] sm:max-w-full m-auto font-[700] text-[24px] sm:text-[36px] text-start sm:text-center text-BlackHomz">
                 How Would You Like To Use Homz?
               </h1>
             </div>
@@ -122,7 +123,7 @@ const SelectPlan = () => {
                       {user && user.some(userPlan => userPlan.name === data.name) ? (
                         <Link href={data.link}>
                           <button className="hover:border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] bg-walletBg text-BlueHomz hover:bg-white hover:border-BlueHomz">
-                          Signed In
+                            Signed In
                           </button>
                         </Link>
                       ) : data.active ? (

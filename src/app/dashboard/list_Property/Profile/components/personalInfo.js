@@ -70,14 +70,19 @@ const PersonalInfo = ({
   const onSubmit = () => {
     const phoneNumberRegex = /^\d{11}$/;
     const whatsappLinkRegex = /^https:\/\/wa\.me\//;
-    if (!phoneNumberRegex.test(phoneNumber)) {
-      setError("Phone number must be 11 digits");
-      return;
+    if (phoneNumber) {
+      if (!phoneNumberRegex.test(phoneNumber)) {
+        setError("Phone number must be 11 digits");
+        return;
+      }
     }
-    if (!whatsappLinkRegex.test(whatsappLink)) {
-      setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
-      return;
+    if (whatsappLink) {
+      if (!whatsappLinkRegex.test(whatsappLink)) {
+        setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
+        return;
+      }
     }
+
     const data = {
       fullName,
       phoneNumber,
@@ -90,12 +95,12 @@ const PersonalInfo = ({
 
 
   return (
-    <div className="">
+    <div className="w-full">
       <div
-        className=" flex flex-col md:w-full md:px-6"
+        className="w-full flex flex-col md:w-full md:px-6"
       >
-        <div className="flex  md:gap-[78px] gap-8 mt-5 flex-col md:flex-row">
-          <div className={`flex md:flex-col flex-row gap-[28px] items-center 
+        <div className="flex w-full md:gap-[78px] gap-8 mt-5 flex-col md:flex-row">
+          <div className={`flex md:flex-col flex-row gap-[28px] items-center w-full
           ${!update ? "pointer-events-none" : ""} 
           `}>
             <div>
@@ -156,23 +161,23 @@ const PersonalInfo = ({
               </p>
             </div>
           </div>
-          <div className="profiles flex  flex-col space-y-4">
-            <div>
-              <label htmlFor="Full Name"> Full Name</label>
+          <div className="w-full flex flex-col gap-4">
+            <div className="w-full">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="Full Name"> Full Name</label>
               <br />
               <input
                 disabled={!update}
                 placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
 
-            <div>
-              <label htmlFor="PhoneNumber"> Phone Number</label>
+            <div className="w-full">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="PhoneNumber"> Phone Number</label>
               <br />
               <input
                 disabled={!update}
@@ -183,13 +188,13 @@ const PersonalInfo = ({
                   setPhoneNumber(e.target.value)
                   setError("")
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
-            <div>
-              <label htmlFor="Email">
+            <div className="w-full">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="Email">
                 Email
               </label>
               <br />
@@ -199,26 +204,26 @@ const PersonalInfo = ({
                 readOnly
                 value={data?.user?.email}
                 placeholder="Enter Email"
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
-            <div>
-              <label htmlFor="House Address"> House Address</label>
+            <div className="w-full">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="House Address"> House Address</label>
               <br />
               <input
                 disabled={!update}
                 placeholder="House Address"
                 value={houseAddress}
                 onChange={(e) => setHouseAddress(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
-            <div>
-              <label htmlFor="WhatsAppLink"> WhatsApp Link</label>
+            <div className="w-full">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="WhatsAppLink"> WhatsApp Link</label>
               <br />
               <input
                 type="text"
@@ -230,7 +235,7 @@ const PersonalInfo = ({
                   setWhatsappLink(e.target.value)
                   setError("")
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[335px] ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
@@ -245,12 +250,12 @@ const PersonalInfo = ({
             }
           </div>
         </div>
-        <div className="flex  md:justify-end justify-center mt-16 md:mt-12 ">
+        <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
           <div className="flex flex-col ">
             {update ? (
               <button
                 onClick={onSubmit}
-                className="flex  border justify-center  md:w-[120px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 type="submit"
               >
@@ -258,7 +263,30 @@ const PersonalInfo = ({
               </button>
             ) : (
               <p
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[335px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                onClick={() => setUpdate(true)}
+              >
+                Update
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
+          <div className="flex flex-col w-full">
+            {update ? (
+              <button
+                onClick={onSubmit}
+                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                 rounded-[4px]"
+                type="submit"
+              >
+                Save Update
+              </button>
+            ) : (
+              <p
+                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >

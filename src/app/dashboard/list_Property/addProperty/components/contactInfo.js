@@ -9,7 +9,7 @@ const ContactInfo = ({
 }) => {
   const { profile } = useProfileStore();
   const [email, setEmail] = useState(profile?.email || "");
-  const [whatsappLink, setWhatsAppLink] = useState("");
+  const [whatsapp, setWhatsAppLink] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("")
   const [error, setError] = useState(null);
   const [isValid, setIsValid] = useState(false);
@@ -21,31 +21,32 @@ const ContactInfo = ({
     if (!phoneNumberRegex.test(phoneNumber)) {
       setError("Phone number must be 11 digits");
       return;
-    } if (whatsappLink) {
-      if (!whatsappLinkRegex.test(whatsappLink)) {
+    } if (whatsapp) {
+      if (!whatsappLinkRegex.test(whatsapp)) {
         setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
         return;
       }
     }
     const data = {
       ...(phoneNumber && { phoneNumber }),
-      ...(whatsappLink && { whatsappLink }),
+      ...(whatsapp && { whatsapp }),
+      ...(email && { email }),
     };
     handleSubmitData(data);
   };
   return (
-    <div className="">
-      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] duoViewPoint">
+    <div className="w-full">
+      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] ">
         Contact Information
       </div>
       <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
         Kindly fill in your correct contact information
       </div>
       <div
-        className=" flex flex-col md:w-full duoViewPoint"
+        className=" flex flex-col w-full "
       >
-        <div className="flex  gap-[2rem] mt-5">
-          <div className="profiles flex  flex-col space-y-4">
+        <div className="flex w-full gap-[2rem] mt-5 text-[13px] md:text-[14px] font-[500] text-GrayHomz ">
+          <div className="profiles flex w-full flex-col space-y-4">
             <div>
               <label htmlFor="phoneNumber">
                 {" "}
@@ -61,43 +62,32 @@ const ContactInfo = ({
                   setIsValid(true);
                   setError("");
                 }}
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
               />
             </div>
             <div>
               <label htmlFor="email">
                 Email
-                {/* <span className="text-red-500 text-xs">*</span> */}
               </label>
               <br />
               <input
-                // {...register("email")}
                 value={email}
                 placeholder="Enter email"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px] opacity-60"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
                 disabled
               />
             </div>
             <div>
-              <label htmlFor="whatsappLink"> WhatsApp Link</label>
+              <label htmlFor="whatsapp"> WhatsApp Link</label>
               <br />
               <input
                 placeholder="Enter WhatsApp Link"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[335px]"
-                value={whatsappLink}
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
+                value={whatsapp}
                 onChange={(e) => {
                   setWhatsAppLink(e.target.value)
                   setError("")
                 }}
-              // onBlur={() => {
-              //   if (whatsappLink.trim() !== "") {
-              //     // Remove all non-numeric characters from the phone number
-              //     const phoneNumber = whatsappLink
-              //       .replace(/[^0-9]/g, "")
-              //       .replace(/^0+/, "");
-              //     setWhatsAppLink(`https://wa.me/${phoneNumber}`);
-              //   }
-              // }}
               />
             </div>
             {
@@ -133,7 +123,7 @@ const ContactInfo = ({
           </div>
           <button
             disabled={!isValid ? true : false}
-            className={`flex md:mr-14 border justify-center  w-[122px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
+            className={`flex md:mr-14 border justify-center  w-[122px] md:w-[142px] items-center text-[12.5px] md:text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
               ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
               : "text-white border-white bg-BlueHomz"
               } rounded-[4px]`}

@@ -8,6 +8,10 @@ import timeAgo from "@/utils/timeAgo";
 import LoadingII from "@/components/mainmenu/loadingII";
 import ImageModal from "../components/imageModal";
 import useBodyScroll from "@/utils/useBodyScroll";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from "next/navigation";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -15,6 +19,11 @@ const ViewProperty = ({ PropertyID }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [propertyData, setPropertyData] = useState([]);
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
+  }
+
   useBodyScroll([openSelectedImage])
   useEffect(() => {
     const propertyData = async () => {
@@ -24,6 +33,13 @@ const ViewProperty = ({ PropertyID }) => {
     };
     propertyData();
   }, [PropertyID]);
+
+
+  const viewFile = (url) => {
+    if (url) {
+      window.open(url);
+    }
+  };
 
   useEffect(() => {
     if (propertyData && propertyData.coverPhoto && propertyData.photos) {
@@ -86,10 +102,40 @@ const ViewProperty = ({ PropertyID }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
+
+  const slidesToShow = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth > 1278) return 3;
+      if (window.innerWidth < 1000) return 1;
+      if (window.innerWidth < 1279 && window.innerWidth > 999) return 2;
+    }
+    return 1;
+  };
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
+    slidesToShow: slidesToShow(), // Adjusted based on screen size
+    className: "center",
+    centerMode: true,
+    centerPadding: "0",
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: null,
+    nextArrow: null,
+    appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
+  };
+
+
   return (
-    <div className="pt-10 md:pt-0 pb-10">
-      <div className="flex md:justify-between items-center gap-[4rem] md:gap-0">
-        <Link href="/dashboard/list_Property" className="flex gap-2 items-center">
+    <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10">
+      <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
+        <div
+          onClick={goBack}
+          className="flex gap-2 items-center cursor-pointer"
+        >
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             height={16}
@@ -106,9 +152,9 @@ const ViewProperty = ({ PropertyID }) => {
               alt=""
             />
           </span>
-        </Link>
+        </div>
         <Link
-          href={`/dashboard/list_Property/edit_property/${propertyData?.slug}`}
+          href={`/dashboard/list_Property/edit_property/${propertyData?._id}`}
           className="text-[14px] font-[400] text-BlueHomz"
         >
           <span className="hidden md:block">Edit Property</span>
@@ -125,57 +171,80 @@ const ViewProperty = ({ PropertyID }) => {
       {
         !propertyData ? <LoadingII /> :
           <>
- <div className="mt-4 ml-3">
-          <div className="flex flex-wrap gap-4">
-            {combinedData &&
-              combinedData?.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={` ${index === 0 ? "w-full flex-shrink-0" : "flex-grow"
-                    }`}
-                  onClick={() => openImageModal(index, item)}
-                >
-                  {index === 0 || index <= 5 ? (
-                    <Image
-                      src={item.url}
-                      alt=""
-                      height={index === 0 ? 368 : 161}
-                      width={index === 0 ? 1110 : 162}
-                      className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px] ${index === 0 ? "w-full h-[368px]" : ""
-                        }`}
-                      layout="full" // Specify the desired height
-                      objectFit="cover"
-                      objectPosition="center"
-                      quality={100}
-                      priority
-                    />
-                  ) : index === 6 ? (
-                    <div className="cursor-pointer relative inline-block rounded-md flex-grow">
-                      <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
-                        <p>+{remainder} more</p>
+            <div className="xl:hidden my-4 w-full">
+              <Slider {...sliderSettings}>
+                {combinedData &&
+                  combinedData?.map((item, index) => (
+                    <div key={index} className="w-full">
+                      <div className="h-[322px] w-[324px] mx-auto">
+                        <Image
+                          src={item.url}
+                          alt=""
+                          height={322}
+                          width={324}
+                          className={`rounded-md object-cover bg-center h-[322px] w-[324px]`}
+                          layout="full"
+                          objectFit="cover"
+                          objectPosition="center"
+                          quality={100}
+                          priority
+                        />
                       </div>
-                      <Image
-                        src={item.url}
-                        alt=""
-                        height={161}
-                        width={162}
-                        className="rounded-md"
-                      />
                     </div>
-                  ) : null}
-                </div>
-              ))}
-          </div>
-          {openSelectedImage && combinedData.length >= 1 && (
-            <ImageModal
-              imageData={selectedImage.data}
-              onClose={closeImageModal}
-              totalImages={combinedData?.length}
-              currentImageIndex={currentImageIndex}
-              setCurrentImageIndex={setCurrentImageIndex}
-            />
-          )}
-        </div>
+                  ))}
+              </Slider>
+            </div>
+            <div className="hidden xl:block mt-4 ml-3">
+              <div className="flex flex-wrap gap-4">
+                {combinedData &&
+                  combinedData?.map((item, index) => (
+                    <div
+                      key={item.id}
+                      className={` ${index === 0 ? "w-full flex-shrink-0" : "flex-grow"
+                        }`}
+                      onClick={() => openImageModal(index, item)}
+                    >
+                      {index === 0 || index <= 5 ? (
+                        <Image
+                          src={item.url}
+                          alt=""
+                          height={index === 0 ? 368 : 161}
+                          width={index === 0 ? 1110 : 162}
+                          className={`rounded-md cursor-pointer object-cover bg-center h-[120px] w-[180px] ${index === 0 ? "w-full h-[368px]" : ""
+                            }`}
+                          layout="full" // Specify the desired height
+                          objectFit="cover"
+                          objectPosition="center"
+                          quality={100}
+                          priority
+                        />
+                      ) : index === 6 ? (
+                        <div className="cursor-pointer relative inline-block rounded-md flex-grow">
+                          <div className="bg-black opacity-[40%] absolute h-full w-full rounded-md text-[16px] font-[500] text-white flex justify-center items-center">
+                            <p>+{remainder} more</p>
+                          </div>
+                          <Image
+                            src={item.url}
+                            alt=""
+                            height={161}
+                            width={162}
+                            className="rounded-md"
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+                  ))}
+              </div>
+              {openSelectedImage && combinedData.length >= 1 && (
+                <ImageModal
+                  imageData={selectedImage.data}
+                  onClose={closeImageModal}
+                  totalImages={combinedData?.length}
+                  currentImageIndex={currentImageIndex}
+                  setCurrentImageIndex={setCurrentImageIndex}
+                />
+              )}
+            </div>
             <div className="flex flex-col md:gap-[19px] pt-5 pb-3 gap-[20px]">
               <div className="flex justify-between items-center">
                 <div className="flex gap-3 items-center">
@@ -190,7 +259,7 @@ const ViewProperty = ({ PropertyID }) => {
                 </div>
                 {/* <Link
                   href="#contactOwner"
-                  className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[335px] h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
+                  className="md:w-[128px] md:h-[37px] px-[12px] md:text-[14px] py-[8px] w-[100%]  h-[42px] text-center rounded-[4px] bg-[#006AFF] text-[#FFFFFF] hidden md:block"
                 >
                   Contact Owner
                 </Link> */}
@@ -244,7 +313,7 @@ const ViewProperty = ({ PropertyID }) => {
             </div>
             <div className="border-b pt-2 pb-3 headerAdmin">
               <div className={`flex flex-col my-2 gap-3`}>
-                <div className={`flex  ${propertyData?.propertyType ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.propertyType ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Property Type
                   </p>
@@ -252,7 +321,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {propertyData?.propertyType}
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.state ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.state ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Address
                   </p>
@@ -261,7 +330,7 @@ const ViewProperty = ({ PropertyID }) => {
                     ,&nbsp;
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.numberOfRooms ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.numberOfRooms ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Rooms
                   </p>
@@ -269,7 +338,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {propertyData?.numberOfRooms}
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.numberOfBathrooms ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.numberOfBathrooms ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Bathrooms
                   </p>
@@ -277,7 +346,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {propertyData?.numberOfBathrooms}
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.numberOfToilets ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.numberOfToilets ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Toilets
                   </p>
@@ -287,7 +356,7 @@ const ViewProperty = ({ PropertyID }) => {
                 </div>
               </div>
             </div>
-            <div className="headerAdmin md:h-[91px] py-3 md:w-full w-[335px]">
+            <div className="headerAdmin md:h-auto py-3 md:w-full w-[100%]">
               <p className="md:text-[14px] md:font-[500] md:leading-[21px] text-left text-[#4E4E4E] break-words">
                 {propertyData?.description}
               </p>
@@ -341,66 +410,55 @@ const ViewProperty = ({ PropertyID }) => {
                     )}
                   </div>
                 </div>
-                <div>
-                  <p className="text-[13px] font-[400] text-BlackHomz">Email</p>
-                  <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-                    <p className="text-[14px] font-[500] text-BlueHomz">
-                      {propertyData?.contacts?.email}
-                    </p>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/propertyList/copy.png"
-                      }
-                      width={16}
-                      height={17}
-                      alt=""
-                      onClick={() =>
-                        handleCopyClick(
-                          `${propertyData?.contacts?.email}`,
-                          "email"
-                        )
-                      }
-                      className="cursor-pointer"
-                    />
-                  </div>
+                {propertyData?.contacts?.email && (
                   <div>
-                    {copiedState.email && (
-                      <div className="italic text-[12px] text-Success">Copied</div>
-                    )}
+                    <p className="text-[13px] font-[400] text-BlackHomz">Email</p>
+                    <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
+                      <p className="text-[14px] font-[500] text-BlueHomz">
+                        {propertyData?.contacts?.email}
+                      </p>
+                      <Image
+                        src={
+                          "/static/dashboard/enterprisemanager/propertyList/copy.png"
+                        }
+                        width={16}
+                        height={17}
+                        alt=""
+                        onClick={() =>
+                          handleCopyClick(
+                            `${propertyData?.contacts?.email}`,
+                            "email"
+                          )
+                        }
+                        className="cursor-pointer"
+                      />
+                    </div>
+                    <div>
+                      {copiedState.email && (
+                        <div className="italic text-[12px] text-Success">Copied</div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className="text-[13px] font-[400] text-BlackHomz">
-                    WhatsApp Link
-                  </p>
-                  <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-                    <p className="text-[14px] font-[500] text-BlueHomz">
-                      {propertyData?.contacts?.whatsapp
-                        ? `${propertyData?.contacts?.whatsapp}`
-                        : ""}
-                    </p>
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/propertyList/copy.png"
-                      }
-                      width={16}
-                      height={17}
-                      alt=""
-                      onClick={() =>
-                        handleCopyClick(
-                          `${propertyData?.contacts?.whatsapp}`,
-                          "whatsAppNumber"
-                        )
-                      }
-                      className="cursor-pointer"
-                    />
-                  </div>
+                )}
+                {propertyData?.contacts?.whatsapp && (
                   <div>
-                    {copiedState.whatsAppNumber && (
-                      <div className="italic text-[12px] text-Success">Copied</div>
-                    )}
+                    <p className="text-[13px] font-[400] text-BlackHomz">
+                      WhatsApp Link
+                    </p>
+                    <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
+                      <p
+                        onClick={() => {
+                          viewFile(propertyData?.contacts?.whatsapp)
+                        }}
+                        className="text-[14px] font-[500] text-BlueHomz underline cursor-pointer"
+                      >
+                        {propertyData?.contacts?.whatsapp
+                          ? `${propertyData?.contacts?.whatsapp}`
+                          : ""}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div></>
       }

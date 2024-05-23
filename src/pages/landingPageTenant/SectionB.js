@@ -22,16 +22,16 @@ const SectionB = () => {
   const cards = [
     {
       icon: <Card />,
-      title: "Pay & Save rent",
+      title: "Pay rent",
       description:
         "Seamlessly manage your finance, save and pay your rent with a click, making life as a tenant hassle-free.",
     },
-    {
-      icon: <MoneyReceived />,
-      title: "Get a rental loan",
-      description:
-        "Secure your home effortlessly with our convenient rental loan options tailored for you."
-    },
+    // {
+    //   icon: <MoneyReceived />,
+    //   title: "Get a rental loan",
+    //   description:
+    //     "Secure your home effortlessly with our convenient rental loan options tailored for you."
+    // },
     {
       icon: <MessageTwo />,
       title: "Interact with property management",
