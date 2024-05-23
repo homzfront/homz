@@ -48,12 +48,12 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full flex flex-col gap-2">
-      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px]">
-        Property Details
-      </div>
-      <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
-        Kindly fill in the accurate property details
-      </div>
+        <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px]">
+          Property Details
+        </div>
+        <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
+          Kindly fill in the accurate property details
+        </div>
       </div>
       <div className="flex justify-between flex-col md:flex-row">
         <form
@@ -63,13 +63,13 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
           <div className="flex md:gap-[50px] gap-[24px] flex-col md:flex-row  sideBarHidden lg:gap-[24px]">
             <div className="flex flex-col gap-[24px]">
               <div className="">
-                <label htmlFor="listingType">
+                <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="listingType">
                   Listing Type <span className="text-red-500 text-xs">*</span>
                 </label>
                 <br />
                 <select
                   name="listingType"
-                  className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint md:p-[12px] rounded-[4px] border w-[100%]"
+                  className="h-[43px] md:h-[45px] md:w-[473px] fields p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                   id="listingType"
                   {...register("listingType", {
                     required: "Listing type is required",
@@ -93,7 +93,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 {propertyType === "land" ? (
                   <>
                     <div>
-                      <label htmlFor="title">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="title">
                         {" "}
                         Title <span className="text-red-500 text-xs">*</span>
                       </label>
@@ -103,23 +103,22 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                           required: true,
                         })}
                         placeholder="Property Title"
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] pl-2 border w-[100%]"
+                        className="h-[43px] md:h-[45px] md:w-[473px] fields p-[8px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       />
                       {errors.Title && (
                         <p className="errorMsg">Property's title is required</p>
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="landType">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="landType">
                         Land Type{" "}
                         <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <select
                         name="landType"
-                        className={`h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%] ${
-                          !propertyType && "opacity-50"
-                        } `}
+                        className={`h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!propertyType && "opacity-50"
+                          } `}
                         id="landType"
                         {...register("landType", {
                           required: "Land type is required",
@@ -140,7 +139,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="squareMeter">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="squareMeter">
                         Square Metres{" "}
                         <span className="text-red-500 text-xs">*</span>
                       </label>
@@ -149,7 +148,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         {...register("squareMeter", {
                           required: "Square Metres is required",
                         })}
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%] pl-2"
+                        className="h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
                         placeholder="Enter Square Metres"
                       />
                       {errors.squareMetres && (
@@ -162,7 +161,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 ) : (
                   <>
                     <div>
-                      <label htmlFor="name">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="name">
                         {" "}
                         Name <span className="text-red-500 text-xs">*</span>
                       </label>
@@ -172,14 +171,14 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                           required: true,
                         })}
                         placeholder="Property Name"
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] pl-2 border w-[100%]"
+                        className="h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       />
                       {errors.name && (
                         <p className="errorMsg">Property's name is required</p>
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="propertyType">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="propertyType">
                         Property Type{" "}
                         <span className="text-red-500 text-xs">*</span>
                       </label>
@@ -187,7 +186,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="propertyType"
                         id="propertyType"
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%]"
+                        className="h-[43px] md:h-[45px] md:w-[473px] fields p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         {...register("propertyType", {
                           required: true,
                         })}
@@ -206,7 +205,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="Property_Location">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Property_Location">
                         Property Location{" "}
                         <span className="text-red-500 text-xs">*</span>
                       </label>
@@ -215,7 +214,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <select
                           name="state"
                           id="state"
-                          className="w-[100%] h-[43px] md:w-[228px] fields duoViewPoint dropdwField md:h-[45px] border rounded-[4px] p-[12px]"
+                          className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                           {...register("state", {
                             // required: true,
                           })}
@@ -237,7 +236,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <select
                           name="area"
                           id="area"
-                          className="w-[100%] h-[43px] md:w-[228px] fields duoViewPoint dropdwField md:h-[45px] border rounded-[4px] p-[12px]"
+                          className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                           {...register("area", {
                             // required: "Area is required.",
                           })}
@@ -259,7 +258,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       </div>
                     </div>
                     <div className="">
-                      <label htmlFor="address">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="address">
                         Street <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
@@ -267,7 +266,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         {...register("address", {
                           required: "Street name is required",
                         })}
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%] pl-2"
+                        className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
                         placeholder="Enter street name"
                       />
                       {errors.address && (
@@ -277,13 +276,13 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       )}
                     </div>
                     <div className="">
-                      <label htmlFor="numberOfRooms">
+                      <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="numberOfRooms">
                         Rooms <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <select
                         name="numberOfRooms"
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%]"
+                        className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         id="numberOfRooms"
                         {...register("numberOfRooms", {
                           required: "Number of rooms is required",
@@ -316,7 +315,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
               {propertyType === "land" ? (
                 <>
                   <div className="">
-                    <label htmlFor="Property_Location">
+                    <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Property_Location">
                       Property Location{" "}
                       <span className="text-red-500 text-xs">*</span>
                     </label>
@@ -325,7 +324,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="state"
                         id="state"
-                        className="w-[100%] h-[43px] md:w-[228px] fields duoViewPoint dropdwField md:h-[45px] border rounded-[4px] p-[12px]"
+                        className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         {...register("state", {
                           required: true,
                         })}
@@ -347,7 +346,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="area"
                         id="area"
-                        className="w-[100%] h-[43px] md:w-[228px] fields duoViewPoint dropdwField  md:h-[45px] border rounded-[4px] p-[12px]"
+                        className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         {...register("area", {
                           required: "Area is required.",
                         })}
@@ -368,7 +367,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     </div>
                   </div>
                   <div className="">
-                    <label htmlFor="address">
+                    <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="address">
                       Street <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
@@ -376,7 +375,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       {...register("address", {
                         required: "Street name is required",
                       })}
-                      className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%] pl-2"
+                      className="h-[43px] md:h-[45px] md:w-[473px] p-[8px]  md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
                       placeholder="Enter street name"
                     />
                     {errors.address && (
@@ -389,14 +388,14 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
               ) : (
                 <>
                   <div className="">
-                    <label htmlFor="numberOfBathrooms">
+                    <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="numberOfBathrooms">
                       Bathrooms <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
                     <select
                       name="numberOfBathrooms"
                       id="numberOfBathrooms"
-                      className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%]"
+                      className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       {...register("numberOfBathrooms", {
                         required: "Number of bathrooms is required",
                       })}
@@ -418,14 +417,14 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     )}
                   </div>
                   <div className="">
-                    <label htmlFor="numberOfToilets">
+                    <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="numberOfToilets">
                       Toilets <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
                     <select
                       name="numberOfToilets"
                       id="numberOfToilets"
-                      className="h-[43px] md:h-[45px] md:w-[473px] fields duoViewPoint  md:p-[12px] rounded-[4px] border w-[100%]"
+                      className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       {...register("numberOfToilets", {
                         required: "Number of toilets is required",
                       })}
@@ -465,7 +464,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       message: "Minimum length should be 10.",
                     },
                   })}
-                  className="mt-1 md:h-[280px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+                  className="mt-1 h-[140px] md:h-[280px] rounded-md border w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] scrollbar-container"
                   placeholder="Property description"
                   // value={description}
                   id="description"
@@ -481,7 +480,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
             <div>
               <button
                 className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz md:w-full "
-                // onClick={handleShowCancelDialogue}
+              // onClick={handleShowCancelDialogue}
               >
                 Cancel
               </button>
@@ -490,11 +489,10 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
             <div className="">
               <button
                 disabled={!isValid ? true : false}
-                className={`flex md:mr-14 border justify-center  md:w-[77px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
-                  !isValid
+                className={`flex md:mr-14 border justify-center  md:w-[77px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
                     ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
                     : "text-white border-white bg-BlueHomz"
-                } rounded-[4px]`}
+                  } rounded-[4px]`}
                 type="submit"
               >
                 Next

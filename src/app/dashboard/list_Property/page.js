@@ -51,7 +51,7 @@ const List_Property = () => {
         </div>
       }
       {data && <>
-        <div className={` ${data?.length === 0 ? "hidden" : ""} flex w-[80%] items-center gap-6 mt-[-63px] md:mt-0 mb-6 pt-2 md:mb-0`}>
+        <div className={` ${data?.length === 0 ? "hidden" : ""} flex w-[80%] items-center gap-6 mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}>
           <div className="flex gap-2 items-center md:mb-4">
             <p className="font-[500] leading-[30px] md:text-[20px]">
               Listed Properties
@@ -136,6 +136,3 @@ const List_Property = () => {
 };
 
 export default List_Property;
-{
-  /* <h1>{Properties.length} Found</h1> */
-}

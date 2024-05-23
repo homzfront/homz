@@ -164,7 +164,7 @@ const PropertyForms = ({ propertyData }) => {
   };
 
   return (
-    <div className="mt-[-54px] md:mt-0 md:pt-0">
+    <div className="mt-[-10px] md:mt-0 md:pt-0">
       {/* {
         loading && <LoadingII />
       } */}
@@ -223,7 +223,7 @@ const PropertyForms = ({ propertyData }) => {
           </span>
         </Link>
         <Link
-          href={`/dashboard/list_Property/PreviewProperty?Property=${propertyData?._id}`}
+          href={`/dashboard/list_Property/PreviewProperty/${propertyData?._id}`}
           className="text-[#006AFF] text-[14px] leading-[21px] hidden md:block mr-3"
         >
           See public view

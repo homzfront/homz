@@ -130,7 +130,7 @@ const ViewProperty = ({ PropertyID }) => {
 
 
   return (
-    <div className="mt-[-54px] md:mt-0 md:pt-0 pb-10">
+    <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
         <div
           onClick={goBack}
@@ -313,7 +313,7 @@ const ViewProperty = ({ PropertyID }) => {
             </div>
             <div className="border-b pt-2 pb-3 headerAdmin">
               <div className={`flex flex-col my-2 gap-3`}>
-                <div className={`flex  ${propertyData?.propertyType ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.propertyType ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Property Type
                   </p>
@@ -321,7 +321,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {propertyData?.propertyType}
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.state ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.state ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Address
                   </p>
@@ -330,7 +330,7 @@ const ViewProperty = ({ PropertyID }) => {
                     ,&nbsp;
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.numberOfRooms ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.numberOfRooms ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Rooms
                   </p>
@@ -338,7 +338,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {propertyData?.numberOfRooms}
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.numberOfBathrooms ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.numberOfBathrooms ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Bathrooms
                   </p>
@@ -346,7 +346,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {propertyData?.numberOfBathrooms}
                   </p>
                 </div>
-                <div className={`flex  ${propertyData?.numberOfToilets ? "" : "hidden"}`}>
+                <div className={`flex gap-4 md:gap-0  ${propertyData?.numberOfToilets ? "" : "hidden"}`}>
                   <p className="text-[14px] font-[400] text-GrayHomz md:w-[20%] md:leading-[21px]">
                     Toilets
                   </p>
@@ -356,7 +356,7 @@ const ViewProperty = ({ PropertyID }) => {
                 </div>
               </div>
             </div>
-            <div className="headerAdmin md:h-[91px] py-3 md:w-full w-[100%]">
+            <div className="headerAdmin md:h-auto py-3 md:w-full w-[100%]">
               <p className="md:text-[14px] md:font-[500] md:leading-[21px] text-left text-[#4E4E4E] break-words">
                 {propertyData?.description}
               </p>

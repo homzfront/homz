@@ -163,21 +163,21 @@ const PersonalInfo = ({
           </div>
           <div className="w-full flex flex-col gap-4">
             <div className="w-full">
-              <label htmlFor="Full Name"> Full Name</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="Full Name"> Full Name</label>
               <br />
               <input
                 disabled={!update}
                 placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%]  ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
 
             <div className="w-full">
-              <label htmlFor="PhoneNumber"> Phone Number</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="PhoneNumber"> Phone Number</label>
               <br />
               <input
                 disabled={!update}
@@ -188,13 +188,13 @@ const PersonalInfo = ({
                   setPhoneNumber(e.target.value)
                   setError("")
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%]  ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
             <div className="w-full">
-              <label htmlFor="Email">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="Email">
                 Email
               </label>
               <br />
@@ -204,26 +204,26 @@ const PersonalInfo = ({
                 readOnly
                 value={data?.user?.email}
                 placeholder="Enter Email"
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%]  ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
             <div className="w-full">
-              <label htmlFor="House Address"> House Address</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="House Address"> House Address</label>
               <br />
               <input
                 disabled={!update}
                 placeholder="House Address"
                 value={houseAddress}
                 onChange={(e) => setHouseAddress(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%]  ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
             <div className="w-full">
-              <label htmlFor="WhatsAppLink"> WhatsApp Link</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="WhatsAppLink"> WhatsApp Link</label>
               <br />
               <input
                 type="text"
@@ -235,7 +235,7 @@ const PersonalInfo = ({
                   setWhatsappLink(e.target.value)
                   setError("")
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%]  ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />

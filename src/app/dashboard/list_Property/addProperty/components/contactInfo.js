@@ -36,16 +36,16 @@ const ContactInfo = ({
   };
   return (
     <div className="w-full">
-      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] duoViewPoint">
+      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] ">
         Contact Information
       </div>
       <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
         Kindly fill in your correct contact information
       </div>
       <div
-        className=" flex flex-col w-full duoViewPoint"
+        className=" flex flex-col w-full "
       >
-        <div className="flex w-full gap-[2rem] mt-5">
+        <div className="flex w-full gap-[2rem] mt-5 text-[13px] md:text-[14px] font-[500] text-GrayHomz ">
           <div className="profiles flex w-full flex-col space-y-4">
             <div>
               <label htmlFor="phoneNumber">
@@ -62,20 +62,18 @@ const ContactInfo = ({
                   setIsValid(true);
                   setError("");
                 }}
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[100%]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
               />
             </div>
             <div>
               <label htmlFor="email">
                 Email
-                {/* <span className="text-red-500 text-xs">*</span> */}
               </label>
               <br />
               <input
-                // {...register("email")}
                 value={email}
                 placeholder="Enter email"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[100%]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
                 disabled
               />
             </div>
@@ -84,7 +82,7 @@ const ContactInfo = ({
               <br />
               <input
                 placeholder="Enter WhatsApp Link"
-                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border duoViewPoint w-[100%]"
+                className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
                 value={whatsapp}
                 onChange={(e) => {
                   setWhatsAppLink(e.target.value)
@@ -125,7 +123,7 @@ const ContactInfo = ({
           </div>
           <button
             disabled={!isValid ? true : false}
-            className={`flex md:mr-14 border justify-center  w-[122px]  items-center text-[12.5px] md:text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
+            className={`flex md:mr-14 border justify-center  w-[122px] md:w-[142px] items-center text-[12.5px] md:text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
               ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
               : "text-white border-white bg-BlueHomz"
               } rounded-[4px]`}

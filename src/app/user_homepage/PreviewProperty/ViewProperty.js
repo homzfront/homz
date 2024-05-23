@@ -351,7 +351,7 @@ const ViewProperty = ({ PropertyID }) => {
               </div>
             </div>
           </div>
-          <div className=" md:h-[91px] py-3 md:w-full w-[100%]">
+          <div className=" md:h-auto py-3 md:w-full w-[100%]">
             <p className="md:text-[14px] md:font-[500] md:leading-[21px] text-left text-[#4E4E4E] break-words">
               {propertyData?.description}
             </p>

@@ -134,7 +134,7 @@ const ChangePassword = () => {
           className="w-full flex flex-col md:w-full md:gap-[28px] gap-[24px]"
         >
           <div className="w-full space-y-1">
-            <label for="currentPwd" className="">
+            <label for="currentPwd" className="text-[13px] md:text-[14px] font-[500] text-GrayHomz">
               Current Password
             </label>
             <br />
@@ -147,7 +147,7 @@ const ChangePassword = () => {
                   setPasswordError(null);
                 }}
                 value={password}
-                className="w-[100%] h-[100%] rounded-[4px]  px-2"
+                className="w-[100%] h-[100%] rounded-[4px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  px-2"
                 placeholder="********"
               />
               <p
@@ -174,7 +174,7 @@ const ChangePassword = () => {
             </div>
           </div>
           <div className=" space-y-1">
-            <label for="newPwd">Enter New Password</label>
+            <label for="newPwd" className="text-[13px] md:text-[14px] font-[500] text-GrayHomz">Enter New Password</label>
             <br />
             <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
@@ -185,7 +185,7 @@ const ChangePassword = () => {
                 }}
                 value={newPassword}
                 type={showNewPassword ? "text" : "password"}
-                className="w-[100%] h-[100%] rounded-[4px] px-2"
+                className="w-[100%] h-[100%] rounded-[4px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] px-2"
                 placeholder="********"
               />
               <p
@@ -211,7 +211,7 @@ const ChangePassword = () => {
             </div>
           </div>
           <div className=" space-y-1">
-            <label for="confirmNewPwd">Re-enter Password</label>
+            <label for="confirmNewPwd" className="text-[13px] md:text-[14px] font-[500] text-GrayHomz">Re-enter Password</label>
             <br />
             <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
@@ -222,7 +222,7 @@ const ChangePassword = () => {
                   setPasswordError(null);
                 }}
                 value={reEnterPassword}
-                className="w-[100%] h-[100%] rounded-[4px] px-2"
+                className="w-[100%] h-[100%] rounded-[4px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] px-2"
                 placeholder="********"
               />
               <p

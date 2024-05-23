@@ -37,12 +37,12 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
     { length: Math.min(totalPages, 3) },
     (_, index) => index + 1
   );
-  const lastThreePagesStart = Math.max(totalPages - 2, 1); 
+  const lastThreePagesStart = Math.max(totalPages - 2, 1);
   const lastThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
     (_, index) => lastThreePagesStart + index
   );
-  
+
   return (
     <div className="w-full flex flex-col gap-[64px] pt-6 justify-center items-center">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -57,10 +57,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
               <div className="w-[100%] relative h-[100.55px] md:h-full md:w-full">
                 <Link
                   className="cursor-pointer text-[14px]"
-                  href={{
-                    pathname: "/dashboard/list_Property/PreviewProperty",
-                    query: { Property: property?._id },
-                  }}
+                  href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
                 >
                   <Image
                     src={property?.coverPhoto?.url}

@@ -179,7 +179,7 @@ const PropertyForms = () => {
         <span className=" text-gray-400 text-[14px] hidden md:block">
           Go Back
         </span>
-        <span className="mt-[-80px] md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
+        <span className="mt-[-0px] md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
           <Image
             src="/static/images/blue-arrow-left.svg"
             width={20}

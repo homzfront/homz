@@ -264,7 +264,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
           </div>
           <div className="profiles flex  flex-col md:flex-row gap-[16px] md:gap-[28px] headerAdmin pb-8 sideBarHidden">
             <div>
-              <label htmlFor="Business Name">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz" htmlFor="Business Name">
                 Business Name
                 <span className="text-red-500 text-[16px]">*</span>
               </label>
@@ -274,14 +274,14 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                 disabled={!update}
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] duoViewPoint ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
             </div>
 
             <div>
-              <label htmlFor="businessEmail">
+              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz" htmlFor="businessEmail">
                 Business Email
               </label>
               <br />
@@ -292,7 +292,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
                 value={businessEmail}
                 onChange={(e) => setBusinessEmail(e.target.value)}
                 placeholder="Enter Business Email"
-                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!update &&
+                className={`duoViewPoint h-[43px] md:h-[45px] md:w-[450px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
               />
@@ -300,7 +300,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate }) => {
           </div>
         </div>
         <div className="md:w-full w-[100%] flex flex-col gap-[14px] md:pt-5">
-          <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
+          <p className="text-[14px] md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
             Kindly upload any of the following documents for verification (format must be PDF)
           </p>
           <p className="text-[11px] text-[#4E4E4E] md:text-[14px] font-[400] text-left leading-[16.5px] md:leading-[21px]">

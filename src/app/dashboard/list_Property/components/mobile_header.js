@@ -43,7 +43,12 @@ const Mobile_header = () => {
           </div>
         </div>
       )}
-      <div className="md:hidden w-full flex justify-end items-center p-8 z-0">
+      <div className="md:hidden w-full flex justify-between items-center p-8 z-0">
+        <Link
+          href={"/"}
+        >
+          <Image src="/homz.svg" width={86} height={18} alt="" />
+        </Link>
         <div className="cursor-pointer h-full " onClick={openSidebar}>
           <Menu />
         </div>

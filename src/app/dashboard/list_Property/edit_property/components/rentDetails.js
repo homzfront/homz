@@ -38,14 +38,14 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
             <div className="">
-              <label htmlFor="Payment_Type">Payment Type</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Payment_Type">Payment Type</label>
               <br />
               <select
                 name="paymentType"
                 onChange={handleChange}
                 disabled={!editMode}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 fields duoViewPoint border w-[100%] ${!editMode &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-0 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!editMode &&
+                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                   }`}
               >
                 <option>
@@ -61,13 +61,13 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
               </select>
             </div>
             <div>
-              <label htmlFor="Price">
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Price">
                 Price
               </label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.price && "opacity-50"
+                  className={`absolute left-3 top-0 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] bottom-0 flex items-center ${!formData?.price && "opacity-50"
                     }`}
                 >
                   N
@@ -76,8 +76,8 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                   name="price"
                   placeholder="00.00"
                   value={formData?.price}
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
+                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                     }`}
                   type="number"
                   min="0"
@@ -87,19 +87,19 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
               </div>
             </div>
             <div>
-              <label htmlFor="totalFee">How much is the total fee?</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="totalFee">How much is the total fee?</label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.totalFee && "opacity-60"
+                  className={`absolute left-3 top-0 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] bottom-0 flex items-center ${!formData?.totalFee && "opacity-60"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
+                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                     }`}
                   type="number"
                   name="totalFee"
@@ -113,19 +113,19 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
           </div>
           <div className="flex md:gap-[28px] gap-[24px] flex-col">
             <div>
-              <label htmlFor="agencyFee">How much is the Agency fee?</label>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.agencyFee && "opacity-60"
+                  className={`absolute left-3 top-0 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] bottom-0 flex items-center ${!formData?.agencyFee && "opacity-60"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
+                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                     }`}
                   type="number"
                   name="agencyFee"
@@ -137,21 +137,21 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
               </div>
             </div>
             <div>
-              <label htmlFor="maintenanceFee">
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="maintenanceFee">
                 How much is the maintenance fee?
               </label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center ${!formData?.maintenanceFee && "opacity-60"
+                  className={`absolute left-3 top-0 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] bottom-0 flex items-center ${!formData?.maintenanceFee && "opacity-60"
                     }`}
                 >
                   N
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
+                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                     }`}
                   type="number"
                   name="maintenanceFee"
@@ -181,7 +181,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
           </div>
           <div className="md:hidden flex flex-col w-full">
             <Link
-              href={`/dashboard/list_Property/PreviewProperty?Property=${formData?._id}`}
+            href={`/dashboard/list_Property/PreviewProperty/${formData?._id}`}
               className="text-[#006AFF] text-[14px] leading-[21px]  md:hidden mx-auto mb-3"
             >
               See public view

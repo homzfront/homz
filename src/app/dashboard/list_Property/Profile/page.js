@@ -139,7 +139,7 @@ const Profile = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="mt-[-55px] md:mt-0 md:pt-0 md:px-2 w-full">
+      <div className="mt-[-15px] md:mt-0 md:pt-0 md:px-2 w-full">
         <h1 className="w-[50%]">Profile</h1>
         <div className="flex flex-col gap-2 mt-8 ">
           <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full">

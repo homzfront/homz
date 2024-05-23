@@ -260,7 +260,7 @@ const ListProperty = () => {
                                                 required: "Business name is required",
                                             })}
                                             placeholder="Enter your business name"
-                                            className="border md:px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
+                                            className="border px-4 h-[45px] w-full rounded-md placeholder:text-[14px]"
                                         />
                                         {errors.businessName && (
                                             <span className=" text-red-500 text-[11px] font-normal">
@@ -347,7 +347,7 @@ const ListProperty = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="md:w-full w-[336px] flex flex-col gap-[14px] pt-5">
+                                <div className="md:w-full w-full flex flex-col gap-[14px] pt-5">
                                     <p className="md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
                                         Help us verify your business
                                     </p>
