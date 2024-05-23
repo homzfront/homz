@@ -10,8 +10,10 @@ import ContactInfo from "./contactInfo";
 import CustomizedModal from "../../components/CustomizedModal";
 import api from "@/utils/api";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import { useRouter } from "next/navigation";
 
 const PropertyForms = () => {
+  const router = useRouter();
   const [propertyInfoActive, setPropertyInfoActive] = useState(true);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -95,7 +97,7 @@ const PropertyForms = () => {
         toast.error("Update failed");
       }
     }
-    
+
   };
 
   const handleSubmit = (data) => {
@@ -119,7 +121,7 @@ const PropertyForms = () => {
     setPropertyInfoActive(true);
     setActiveThree(false);
   };
- 
+
 
   const handleRentalInfo = (data) => {
     setActiveThree(true);
@@ -145,6 +147,10 @@ const PropertyForms = () => {
     setActiveFour(false);
   };
 
+  const goBack = () => {
+    router.back();
+  }
+
 
   return (
     <div className=" dashboard md:pt-4">
@@ -161,7 +167,9 @@ const PropertyForms = () => {
         pauseOnHover
         theme="dark"
       />
-      <Link href="/dashboard/list_Property" className="flex items-center gap-2">
+      <div
+        onClick={goBack}
+        className="flex items-center gap-2 cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -187,7 +195,7 @@ const PropertyForms = () => {
             alt=""
           />
         </span>
-      </Link>
+      </div>
       <div className="flex flex-col gap-2 mt-8 w-full">
         <div className="flex items-center md:mx-14">
           <span
