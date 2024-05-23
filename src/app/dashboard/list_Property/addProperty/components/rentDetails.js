@@ -42,12 +42,12 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
       >
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
-            <div className="">
+            <div className="custom-select-wrapper">
               <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="paymentType">Payment Type</label> <span className="text-error">*</span>
               <br />
               <select
                 name="paymentType"
-                className="h-[43px] md:h-[45px] md:w-[473px] pl-2   md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
+                className="custom-select h-[43px] md:h-[45px] md:w-[473px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
                 onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>
@@ -82,7 +82,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               </div>
             </div>
             <div>
-              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="totalFee">How much is the total fee?</label> <span className="text-error">*</span>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="totalFee">How much is the total fee?</label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -105,7 +105,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           </div>
           <div className="flex md:gap-[28px] gap-[24px] flex-col">
             <div>
-              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label> <span className="text-error">*</span>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label> 
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -129,7 +129,6 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="maintenanceFee">
                 How much is the maintenance fee?
               </label>
-              <span className="text-error"> *</span>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -179,10 +178,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           <div className="">
             {
               paymentType !== "" &&
-                price !== "" &&
-                maintenance !== "" &&
-                total !== "" &&
-                agency !== "" 
+                price !== "" 
                 ?
                 <button
                   onClick={onSubmit}

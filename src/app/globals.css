@@ -147,3 +147,52 @@ body {
   clip-path: polygon(10% 0, 100% 0, 100% 95%, 10% 95%); /* Adjust percentages as needed */
 }
 
+/* Custom Select Wrapper */
+.custom-select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Default select styling */
+.custom-select {
+  appearance: none; /* Removes default arrow in most browsers */
+  -webkit-appearance: none; /* Removes default arrow in Safari */
+  -moz-appearance: none; /* Removes default arrow in Firefox */
+  padding: 10px;
+  padding-right: 40px; /* Add space for the default arrow */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  position: relative;
+}
+
+/* Dropdown items */
+.custom-select option {
+  padding: 10px; /* Add padding for more spacing */
+  background: white;
+  color: #333;
+  line-height: 1.5; /* Increase line height for better spacing */
+}
+
+/* Hover effect for dropdown items */
+.custom-select option:hover {
+  background-color: #f0f0f0;
+  color: #006aff;
+}
+
+/* Custom select dropdown styling */
+.custom-select {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Adjust the default arrow placement */
+.custom-select {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KICAgIDxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik01IDZMMCAwbDYgNkwxMiAwek0wIDEybDYtNi02IDZ6Ii8+Cjwvc3ZnPg=='); /* Use a custom arrow icon as a background image */
+  background-repeat: no-repeat;
+  background-position: right 15px center; /* Adjust the position of the arrow */
+}
+
+

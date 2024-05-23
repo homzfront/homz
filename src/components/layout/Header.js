@@ -8,15 +8,23 @@ import useProfileStore from "@/store/profile";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
-import LoadingTable from "../mainmenu/loadingTable";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+import useClickOutside from "@/utils/clickOutside";
+import BusinessAlert from "../icons/businessAlert";
 
 const Header = () => {
+  const [openModalForBusi, setOpenModalForBusi] = useState(false);
+  const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
   const { fetchProfile, profile, loading, logout } = useProfileStore();
+  const { data, fetchData } = useProfileListingMe();
   const path = usePathname();
   const pathname = keepThree(path);
   const [isLoading, setIsLoading] = useState(false); // Internal loading state
 
+  const handleOpenModal = () => {
+    setOpenModalForBusi(true);
+  };
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -30,6 +38,18 @@ const Header = () => {
       setIsLoading(true);
     }
   }, [profile]);
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  function hasListPropertyAccount(profile) {
+    return profile?.accounts?.some(account => account.name === 'LIST_PROPERTY');
+  }
+
+  const url = !profile ? "/register" : hasListPropertyAccount(profile) 
+  ? "/dashboard/list_Property/addProperty" 
+  : "/switch-profile";
 
   const isUserPresent = profile && Object.keys(profile).length > 0;
 
@@ -87,11 +107,35 @@ const Header = () => {
       return '/'; // No specific dashboard identified
     }
 
-  }
+  };
 
-  
+  console.log(url)
+
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
+      {
+        openModalForBusi &&
+        <div
+          className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+          <div ref={dropdownRef} className="bg-white w-[320px] md:w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+            <BusinessAlert />
+            <p className="text-[16px] md:text-[20px] font-[700] text-BlackHomz">
+              Update Business Information
+            </p>
+            <p className="text-[14px] md:text-[16px] font-[400] text-GrayHomz text-center">
+              Kindly upload your business certification in order to list more properties
+            </p>
+            <Link
+              href={"/dashboard/list_Property/Profile?tab=business"}
+              className="w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
+            >
+              <span className="text-white text-[14px] md:text-[16px] font-[700]">
+                Upload Certificate
+              </span>
+            </Link>
+          </div>
+        </div>
+      }
       <Link href={"/"}>
         <Image
           src={"/Homz_Logo_Blue.png"}
@@ -106,7 +150,7 @@ const Header = () => {
           }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
-        <Link href={"/"} className={`hover:text-blue-400 ${pathname === "/" || pathname === "/user_homepage/PropertyListing"  || pathname === "/user_homepage/PreviewProperty" || pathname === "/user_homepage" ? "text-BlueHomz" : ""}`}>
+          <Link href={"/"} className={`hover:text-blue-400 ${pathname === "/" || pathname === "/user_homepage/PropertyListing" || pathname === "/user_homepage/PreviewProperty" || pathname === "/user_homepage" ? "text-BlueHomz" : ""}`}>
             Home
           </Link>
           <Link
@@ -132,13 +176,21 @@ const Header = () => {
           >
             Tenant
           </Link>
-          {/* <Link
-            href={"/"}
-            className="hover:text-blue-400 "
-            onClick={() => setOpen(false)}
-          >
-            List Property
-          </Link> */}
+          {data?.properties?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
+            <div
+              className="hover:text-blue-400 cursor-pointer"
+              onClick={handleOpenModal}>
+              List Property
+            </div>
+            :
+            <Link
+              href={url}
+              className="hover:text-blue-400 "
+              onClick={() => setOpen(false)}
+            >
+              List Property
+            </Link>
+          }
         </div>
       </nav>
       <div

@@ -80,7 +80,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
         >
           <div className="flex md:gap-[50px] gap-[24px] flex-col md:flex-row lg:gap-[24px]">
             <div className="flex flex-col gap-[24px]">
-              <div className="">
+              <div className="custom-select-wrapper">
                 <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="listingType">
                   Listing Type <span className="text-red-500 text-xs">*</span>
                 </label>
@@ -89,7 +89,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                   name="listingType"
                   className={` ${!editMode &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                    } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                   onChange={handleChange}
                   disabled={!editMode}
                 >
@@ -122,7 +122,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                           } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       />
                     </div>
-                    <div className="">
+                    <div className="custom-select-wrapper">
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="LandType">
                         Land Type{" "}
                         <span className="text-red-500 text-xs">*</span>
@@ -134,7 +134,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                          } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       >
                         <option >
                           {capitalizeFirstLetter(formData?.landType) || "select option"}
@@ -183,7 +183,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                           } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       />
                     </div>
-                    <div className="">
+                    <div className="custom-select-wrapper">
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Property_Type">
                         Property Type{" "}
                         <span className="text-red-500 text-xs">*</span>
@@ -195,7 +195,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                          } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       >
                         <option>
                           {capitalizeFirstLetter(formData?.propertyType) || "Select Property Type"}
@@ -234,7 +234,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         <select
                           name="state"
                           disabled={!editMode}
-                          className="w-[100%] h-[43px] md:w-[228px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
+                          className="custom-select w-[100%] h-[43px] md:w-[228px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
                           onChange={
                             (e) => {
                               handleChange
@@ -256,7 +256,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                           name="area"
                           onChange={handleChange}
                           disabled={!editMode}
-                          className="w-[100%] h-[43px] md:w-[228px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
+                          className="custom-select w-[100%] h-[43px] md:w-[228px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
                         >
                           <option>
                             {capitalizeFirstLetter(formData?.area) || "Select Area"}
@@ -286,7 +286,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         value={formData?.address}
                       />
                     </div>
-                    <div className="">
+                    <div className="custom-select-wrapper">
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Rooms">
                         Rooms <span className="text-red-500 text-xs">*</span>
                       </label>
@@ -297,7 +297,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                          } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                         id="Rooms"
                       >
                         <option>
@@ -333,7 +333,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                          } custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                         onChange={
                           (e) => {
                             handleChange
@@ -357,7 +357,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         disabled={!editMode}
                         className={` ${!editMode &&
                           "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                          } custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       >
                         <option>
                           {capitalizeFirstLetter(formData?.area) || "Select Area"}
@@ -390,7 +390,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </>
               ) : (
                 <>
-                  <div className="">
+                  <div className="custom-select-wrapper">
                     <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Bathrooms">
                       Bathrooms <span className="text-red-500 text-xs">*</span>
                     </label>
@@ -401,7 +401,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       disabled={!editMode}
                       className={` ${!editMode &&
                         "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                        } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                        } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                     >
                       <option>
                         {formData?.numberOfBathrooms || 0}
@@ -414,7 +414,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <option value="6">6</option>
                     </select>
                   </div>
-                  <div className="">
+                  <div className="custom-select-wrapper">
                     <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Toilets">
                       Toilets <span className="text-red-500 text-xs">*</span>
                     </label>
@@ -425,7 +425,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       disabled={!editMode}
                       className={` ${!editMode &&
                         "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                        } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                        } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                     >
                       <option>
                         {formData?.numberOfToilets || 0}

@@ -61,7 +61,7 @@ const List_Property = () => {
               {data?.length > 0 ? data?.length : 0}
             </p>
           </div>
-          {
+          { data?.length > 0 &&
             (profile?.businessInfo?.isVerified === 'unverified' || profile?.businessInfo?.isVerified === 'pending' || profile?.businessInfo?.isVerified === 'rejected') ?
               <div>
                 <Image

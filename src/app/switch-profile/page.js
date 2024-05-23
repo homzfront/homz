@@ -31,7 +31,7 @@ const SelectPlan = () => {
 
     fetchData();
   }, []);
-
+console.log(user);
   const Data = [
     {
       id: 1,
