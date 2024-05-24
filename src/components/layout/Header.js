@@ -21,12 +21,20 @@ const Header = () => {
   const path = usePathname();
   const pathname = keepThree(path);
   const [isLoading, setIsLoading] = useState(false); // Internal loading state
+  const [hasListProperty, setHasListProperty] = useState(false);
 
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
   };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  function hasListPropertyAccount(profile) {
+    return profile?.accounts?.some(account => account.name === 'LIST_PROPERTY');
+  }
+
   useEffect(() => {
     if (!profile) {
       fetchProfile();
@@ -40,19 +48,24 @@ const Header = () => {
   }, [profile]);
 
   useEffect(() => {
-    fetchData();
-  }, [])
+    if (profile) {
+      setHasListProperty(hasListPropertyAccount(profile));
+    }
+  }, [profile]);
 
-  function hasListPropertyAccount(profile) {
-    return profile?.accounts?.some(account => account.name === 'LIST_PROPERTY');
-  }
+  useEffect(() => {
+    const DataAgain = () => {
+      fetchProfile();
+      if (profile) {
+        setHasListProperty(hasListPropertyAccount(profile));
+      }
+    }
+    DataAgain()
+  }, [hasListProperty])
 
-  const url = !profile ? "/register" : hasListPropertyAccount(profile) 
-  ? "/dashboard/list_Property/addProperty" 
-  : "/switch-profile";
-
-  const isUserPresent = profile && Object.keys(profile).length > 0;
-
+  const url = !profile ? "/register" :  hasListProperty
+    ? "/dashboard/list_Property/addProperty"
+    : "/switch-profile";
 
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
@@ -82,10 +95,7 @@ const Header = () => {
 
   function determineUserDashboard(profile) {
     let user;
-
-
     if (typeof user === "string") {
-      // If the input is a string, assume it's an email
       user = profile;
     } else if (profile && profile?.isVerified) {
       user = profile
@@ -94,7 +104,7 @@ const Header = () => {
       user = profile?.user
     }
     if (user?.isVerified && user?.accounts.length === 0) {
-      return "/select-plan"; // Redirect to select plan for verified users with no accounts
+      return "/select-plan";
     } else if (user?.accounts?.[0].name === "TENANT") {
       return "/dashboard/tenant/dashboard";
     } else if (user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
@@ -104,12 +114,9 @@ const Header = () => {
     } else if (user?.accounts?.[0].name === "LIST_PROPERTY") {
       return "/dashboard/list_Property";
     } else {
-      return '/'; // No specific dashboard identified
+      return '/';
     }
-
   };
-
-  console.log(url)
 
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">

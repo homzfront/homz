@@ -18,22 +18,24 @@ const ViewProperty = ({ PropertyID }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
-  const [propertyData, setPropertyData] = useState([]);
+  const [propertyData, setPropertyData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const goBack = () => {
     router.back();
   }
 
   useBodyScroll([openSelectedImage])
+
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSingleProperty(PropertyID);
       const property = await response;
       setPropertyData(property?.data);
+      setLoading(false);
     };
     propertyData();
   }, [PropertyID]);
-
 
   const viewFile = (url) => {
     if (url) {
@@ -92,6 +94,7 @@ const ViewProperty = ({ PropertyID }) => {
       // console.error("Unable to copy to clipboard:", error);
     }
   };
+
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
     setOpenSelectedImage(!openSelectedImage);
@@ -128,7 +131,6 @@ const ViewProperty = ({ PropertyID }) => {
     appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
   };
 
-
   return (
     <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
@@ -155,7 +157,7 @@ const ViewProperty = ({ PropertyID }) => {
         </div>
         <Link
           href={`/dashboard/list_Property/edit_property/${propertyData?._id}`}
-          className="text-[14px] font-[400] text-BlueHomz"
+          className={`text-[14px] font-[400] text-BlueHomz ${propertyData ? "" : "hidden"}`}
         >
           <span className="hidden md:block">Edit Property</span>
           <span className="md:hidden items-center flex">
@@ -169,7 +171,8 @@ const ViewProperty = ({ PropertyID }) => {
         </Link>
       </div>
       {
-        !propertyData ? <LoadingII /> :
+        loading ? <LoadingII /> :
+          propertyData &&
           <>
             <div className="xl:hidden my-4 w-full">
               <Slider {...sliderSettings}>

@@ -202,7 +202,7 @@ const ListProperty = () => {
     };
 
     return (
-        <div className="pt-[64px] miniPaddingTop">
+        <div className="pt-[64px] max-w-[1156px] m-auto">
             {loading && <Loading />}
             {isSubmitConfirmationVisible && (
                 <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
@@ -248,7 +248,7 @@ const ListProperty = () => {
                 <div className="w-full ">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex flex-col md:flex-row justify-between md:gap-0 gap-6 sideBarHidden">
-                            <div className="md:w-[564px] fields miniMargin md:mx-5 md:bg-[#F6F6F6] md:rounded-[12px] p-[20px] headerAdmin md:border-0">
+                            <div className="md:w-full fields miniMargin md:mx-5 md:bg-[#F6F6F6] md:rounded-[12px] p-[20px] headerAdmin md:border-0">
                                 <div className="flex justify-between flex-col gap-6 border-b border-GrayHomz2 pb-6">
                                     <div className="flex flex-col gap-2 ">
                                         <label className="text-[14px] font-[500] text-BlackHomz">
@@ -526,7 +526,7 @@ const ListProperty = () => {
                                     </p>
                                 </div>
                             </div>
-                            <div className=" md:w-[564px] miniMargin md:mx-5 flex flex-col gap-[28px]   bg-[#F6F6F6] rounded-[12px] p-[20px] fields">
+                            <div className=" md:w-full miniMargin md:mx-5 flex flex-col gap-[28px]   bg-[#F6F6F6] rounded-[12px] p-[20px] fields">
                                 <div className="flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] text-BlackHomz">
                                         Full Name <span className="text-red-500">*</span>

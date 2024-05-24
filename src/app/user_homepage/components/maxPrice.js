@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import useClickOutside from "@/utils/clickOutside";
-import lowerCaseData from "@/utils/lowerCaseData";
 import extractNumber from "@/utils/removeCommasFromString";
 import ArrowDown from "@/components/icons/arrowDown";
 

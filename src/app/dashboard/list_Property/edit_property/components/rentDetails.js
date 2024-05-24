@@ -44,7 +44,7 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 name="paymentType"
                 onChange={handleChange}
                 disabled={!editMode}
-                className={`custom-select h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-0 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!editMode &&
+                className={`custom-select h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-2 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!editMode &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                   }`}
               >
