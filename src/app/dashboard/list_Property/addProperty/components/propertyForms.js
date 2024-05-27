@@ -323,7 +323,7 @@ const PropertyForms = () => {
         </div>
         <div className="hidden md:flex items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Information</p>
-          <p>Rent Details</p>
+          <p>Payment Details</p>
           <p className="pl-4">Add Photo(s)</p>
           <p>Contact Information</p>
         </div>

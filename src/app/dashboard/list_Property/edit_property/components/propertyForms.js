@@ -248,7 +248,7 @@ const PropertyForms = ({ propertyData }) => {
               : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
               }`}
           >
-            Rent Details
+            Payment Details
           </button>
 
           <button

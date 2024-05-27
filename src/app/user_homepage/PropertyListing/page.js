@@ -108,7 +108,6 @@ const PreviewPropertyContent = () => {
         setParams(false);
       }
     }
-    // Scroll to top after fetching properties
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 

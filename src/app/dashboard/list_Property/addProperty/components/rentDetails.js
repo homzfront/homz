@@ -26,10 +26,10 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
   return (
     <div className="px-0 w-full">
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
-        Rent Details
+      Payment Details
       </div>
       <div className="text-[13px] md:text-[18px] font-[400] w-[270px] md:w-full">
-        Kindly fill in the accurate property details{" "}
+        Kindly fill in the accurate payment details{" "}
         <span className="text-error hidden md:blcok text-[14px]">
           (Only fill the fields that are applicable to your property).
         </span>
@@ -51,7 +51,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                 onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>
-                  Select Property Type
+                  Select Payment Type
                 </option>
                 {paymentTypeValues.map((type, index) => (
                   <option key={index} value={type}>

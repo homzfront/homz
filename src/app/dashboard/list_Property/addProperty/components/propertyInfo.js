@@ -96,6 +96,9 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="title">
                         {" "}
                         Title <span className="text-red-500 text-xs">*</span>
+                        <span className="text-[10px] font-[500] text-GrayHomz2 italic">
+                        2 plots of land
+                        </span>
                       </label>
                       <br />
                       <input
@@ -163,7 +166,10 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <div>
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="name">
                         {" "}
-                        Name <span className="text-red-500 text-xs">*</span>
+                        Name <span className="text-red-500 text-xs">*</span> 
+                        <span className="text-[10px] font-[500] text-GrayHomz2 italic">
+                        4 bedroom duplex
+                        </span>
                       </label>
                       <br />
                       <input

@@ -5,6 +5,7 @@ import Button from "./button";
 import { Properties } from "./Properties";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const PropertyCard = ({ Property, state, setDataProperties }) => {
   const ITEMS_PER_PAGE = 8;
@@ -42,6 +43,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
     { length: Math.min(totalPages, 3) },
     (_, index) => lastThreePagesStart + index
   );
+
 
   return (
     <div className="w-full flex flex-col gap-[64px] pt-6 justify-center items-center">
@@ -122,8 +124,8 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
                   <span className="pl-1">
                     {Number(property?.price).toLocaleString()}{" "}
                   </span>
-                  <span className=" text-[8px] ml-1 pt-1 text-gray-500">
-                    per year
+                  <span className="text-[16px] font-[400] md:text-[18px] md:font-[500] ml-1 pt-1 text-[#4E4E4E]">
+                    {capitalizeFirstLetter(property?.paymentType)}
                   </span>
                 </p>
               </div>

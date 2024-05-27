@@ -1,27 +1,32 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState, useCallback } from 'react';
 import useAuthStore from '@/store/useAuth/authStore';
 import { useRouter, usePathname } from 'next/navigation';
 import keepTwo from '@/utils/keepTwo';
 
 const withAuth = (WrappedComponent) => {
     const WithAuthComponent = (props) => {
-        const [compon, setCompon] = useState(false);
+        const [loading, setLoading] = useState(true);
         const fetchUserProfile = useAuthStore((state) => state.fetchUserProfile);
         const user = useAuthStore((state) => state.user);
-        useLayoutEffect(() => {
-            const loadData = async () => {
-                await fetchUserProfile();
-                setCompon(!compon);
-            };
-            loadData();
-        }, [fetchUserProfile]);
-        const [loading, setLoading] = useState(true);
         const route = useRouter();
         const path = usePathname();
         const pathnameII = keepTwo(path);
+
+        const loadData = useCallback(async () => {
+            await fetchUserProfile();
+            setLoading(false);
+        }, [fetchUserProfile]);
+
+        useLayoutEffect(() => {
+            loadData();
+        }, [loadData]);
+
         useLayoutEffect(() => {
             const checkAuth = async () => {
-                const userAccounts = user?.accounts.map((account) => account.name);
+                if (loading) return;
+
+                const userAccounts = user?.accounts.map((account) => account.name) || [];
+                
                 if (user) {
                     if (path === '/login' || path === '/register') {
                         route.push('/');
@@ -34,16 +39,13 @@ const withAuth = (WrappedComponent) => {
                     } else if (!userAccounts.includes('LIST_PROPERTY') && pathnameII === '/dashboard/list_property') {
                         route.push('/');
                     }
+                } else if (user === null && !['/login', '/register'].includes(path)) {
+                    route.push('/login');
                 }
-                if (user === null && compon) {
-                    if (path !== '/login' && path !== '/register') {
-                        route.push('/login');
-                    }
-                }
-                setLoading(false);
             };
             checkAuth();
-        }, [user, compon]);
+        }, [user, loading, path, pathnameII, route]);
+
         if (loading) {
             return <div />;
         } else {
@@ -51,7 +53,6 @@ const withAuth = (WrappedComponent) => {
         }
     };
 
-    // Adding displayName to the component
     WithAuthComponent.displayName = `WithAuth(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
     return WithAuthComponent;
