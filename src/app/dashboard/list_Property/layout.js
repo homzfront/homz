@@ -4,7 +4,7 @@ import React from "react";
 import Header from "./components/header";
 import HeaderMobile from "./components/mobile_header";
 import SideNav from "./components/sideNav";
-import WithAuth from "@/utils/withAuth";
+import WithAuth from '@/components/auth/withAuth';
 
 
 const RootLayout = ({ children }) => {

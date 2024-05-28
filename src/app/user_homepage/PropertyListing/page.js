@@ -108,7 +108,6 @@ const PreviewPropertyContent = () => {
         setParams(false);
       }
     }
-    // Scroll to top after fetching properties
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -206,7 +205,7 @@ const PreviewPropertyContent = () => {
             type="text"
             id="searchState_Area"
             name="searchState_Area"
-            className="w-full h-[45px] border pl-2 rounded-[6px]"
+            className="w-full h-[45px] border border-GrayHomz pl-2 rounded-[6px] placeholder:text-GrayHomz outline-none"
             placeholder="Search by state or area"
             value={filters.search}
             onChange={handleSearchChange}
@@ -231,6 +230,9 @@ const PreviewPropertyContent = () => {
                 ? "Listing Type"
                 : capitalizeFirstLetter(filters?.listingType)
                 }`}
+                classNameII = {"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -241,6 +243,9 @@ const PreviewPropertyContent = () => {
                 ? "Property Type"
                 : capitalizeFirstLetter(filters?.propertyType)
                 }`}
+                classNameII = {"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -251,6 +256,9 @@ const PreviewPropertyContent = () => {
                 ? "No of bedrooms"
                 : `${filters?.numberOfBathrooms} Bedrooms`
                 }`}
+                classNameII = {"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -261,6 +269,9 @@ const PreviewPropertyContent = () => {
                 ? "Min Price"
                 : addCommasToNumberWithoutN(filters?.minPrice)
                 }`}
+                classNameII = {"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -271,6 +282,9 @@ const PreviewPropertyContent = () => {
                 ? "Max Price"
                 : addCommasToNumberWithoutN(filters?.maxPrice)
                 }`}
+                classNameII = {"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
             />
           </div>
           <button

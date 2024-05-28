@@ -306,7 +306,10 @@ const HomePage = () => {
                   ? "Type"
                   : capitalizeFirstLetter(filters?.propertyType)
                   }`}
-                classNameII={"border-BlueHomz4 bg-white"}
+                classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                classNameIII={"text-GrayHomz2"}
+                classNameIV={"text-GrayHomz2"}
+                arrowColor={"#A9A9A9"}
               />
             </div>
             <div>
@@ -317,7 +320,10 @@ const HomePage = () => {
                   ? "No of bedrooms"
                   : `${filters?.numberOfBathrooms} Bedrooms`
                   }`}
-                classNameII={"border-BlueHomz4 bg-white"}
+                classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                classNameIII={"text-GrayHomz2"}
+                classNameIV={"text-GrayHomz2"}
+                arrowColor={"#A9A9A9"}
               />
             </div>
             <div>
@@ -328,7 +334,10 @@ const HomePage = () => {
                   ? "Min Price"
                   : addCommasToNumberWithoutN(filters?.minPrice)
                   }`}
-                classNameII={"border-BlueHomz4 bg-white"}
+                classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                classNameIII={"text-GrayHomz2"}
+                classNameIV={"text-GrayHomz2"}
+                arrowColor={"#A9A9A9"}
               />
             </div>
             <div>
@@ -339,7 +348,10 @@ const HomePage = () => {
                   ? "Max Price"
                   : addCommasToNumberWithoutN(filters?.maxPrice)
                   }`}
-                classNameII={"border-BlueHomz4 bg-white"}
+                classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                classNameIII={"text-GrayHomz2"}
+                classNameIV={"text-GrayHomz2"}
+                arrowColor={"#A9A9A9"}
               />
             </div>
           </div>
@@ -476,7 +488,10 @@ const HomePage = () => {
                     ? "Property Type"
                     : capitalizeFirstLetter(filters?.propertyType)
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
               <div>
@@ -487,7 +502,10 @@ const HomePage = () => {
                     ? "No of bedrooms"
                     : `${filters?.numberOfBathrooms} Bedrooms`
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
               <div>
@@ -498,7 +516,10 @@ const HomePage = () => {
                     ? "Min Price"
                     : addCommasToNumberWithoutN(filters?.minPrice)
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
               <div>
@@ -509,7 +530,10 @@ const HomePage = () => {
                     ? "Max Price"
                     : addCommasToNumberWithoutN(filters?.maxPrice)
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
 
@@ -569,7 +593,10 @@ const HomePage = () => {
                     ? "Property Type"
                     : capitalizeFirstLetter(filters?.propertyType)
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
               <div>
@@ -580,7 +607,10 @@ const HomePage = () => {
                     ? "No of bedrooms"
                     : `${filters?.numberOfBathrooms} Bedrooms`
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
               <div className={``}>
@@ -591,7 +621,10 @@ const HomePage = () => {
                     ? "Min Price"
                     : addCommasToNumberWithoutN(filters?.minPrice)
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
               <div className={``}>
@@ -602,7 +635,10 @@ const HomePage = () => {
                     ? "Max Price"
                     : addCommasToNumberWithoutN(filters?.maxPrice)
                     }`}
-                  classNameII={"border-BlueHomz4 bg-white"}
+                  classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
+                  classNameIII={"text-GrayHomz2"}
+                  classNameIV={"text-GrayHomz2"}
+                  arrowColor={"#A9A9A9"}
                 />
               </div>
             </div>

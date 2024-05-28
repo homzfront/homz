@@ -1,5 +1,5 @@
 "use client"
-import WithAuth from '@/utils/withAuth';
+import WithAuth from '@/components/auth/withAuth';
 import React from 'react'
 const Layout = ({children}) => {
   return (

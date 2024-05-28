@@ -12,28 +12,34 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
-  const [propertyData, setPropertyData] = useState([]);
+  const [propertyData, setPropertyData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const goBack = () => {
     router.back();
   }
 
+  console.log(propertyData);
+
   useBodyScroll([openSelectedImage])
+
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSingleProperty(PropertyID);
       const property = await response;
       setPropertyData(property?.data);
+      setLoading(false);
     };
     propertyData();
   }, [PropertyID]);
-
 
   const viewFile = (url) => {
     if (url) {
@@ -92,6 +98,7 @@ const ViewProperty = ({ PropertyID }) => {
       // console.error("Unable to copy to clipboard:", error);
     }
   };
+
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
     setOpenSelectedImage(!openSelectedImage);
@@ -128,7 +135,6 @@ const ViewProperty = ({ PropertyID }) => {
     appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
   };
 
-
   return (
     <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
@@ -155,7 +161,7 @@ const ViewProperty = ({ PropertyID }) => {
         </div>
         <Link
           href={`/dashboard/list_Property/edit_property/${propertyData?._id}`}
-          className="text-[14px] font-[400] text-BlueHomz"
+          className={`text-[14px] font-[400] text-BlueHomz ${propertyData ? "" : "hidden"}`}
         >
           <span className="hidden md:block">Edit Property</span>
           <span className="md:hidden items-center flex">
@@ -169,7 +175,8 @@ const ViewProperty = ({ PropertyID }) => {
         </Link>
       </div>
       {
-        !propertyData ? <LoadingII /> :
+        loading ? <LoadingII /> :
+          propertyData &&
           <>
             <div className="xl:hidden my-4 w-full">
               <Slider {...sliderSettings}>
@@ -275,7 +282,7 @@ const ViewProperty = ({ PropertyID }) => {
                   {Number(propertyData?.price).toLocaleString()}{" "}
                 </span>
                 <span className="text-[16px] font-[400] md:text-[18px] md:font-[500] ml-1 pt-1 text-[#4E4E4E]">
-                  per year
+                 {capitalizeFirstLetter(propertyData?.paymentType)}
                 </span>
               </p>
               <div className="flex gap-2 items-center">
@@ -363,23 +370,31 @@ const ViewProperty = ({ PropertyID }) => {
             </div>
 
             <div className="mt-3 flex flex-col gap-4 md:h-[180px]" id="contactOwner">
-              <p className="text-[13px] font-[400] text-GrayHomz2">Property Owner</p>
+              <p className="text-[13px] font-[400] text-GrayHomz2">Property lister</p>
               <div className="flex gap-2 items-center">
-                <Image
-                  src={"/static/images/OwnerImagesTwo.png"}
-                  alt=""
-                  height={40}
-                  width={40}
-                  layout="full" // Specify the desired height
-                  objectFit="cover"
-                  objectPosition="center"
-                  className="object-cover bg-center h-[40px] rounded-full"
-                  quality={100}
-                  priority
-                />
+                {
+                  propertyData?.lisitingPropertyId?.businessInfo?.businessLogo
+                    ?
+                    <Image
+                      src={propertyData?.lisitingPropertyId?.businessInfo?.businessLogo?.url}
+                      alt=""
+                      height={40}
+                      width={40}
+                      layout="full" // Specify the desired height
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="object-cover bg-center h-[40px] rounded-full"
+                      quality={100}
+                      priority
+                    />
+                    :
+                    <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                      <EmptyAvatar />
+                    </div>
+                }
 
                 <p className="text-[18px] font-[500] text-GrayHomz">
-                  {propertyData?.lisitingPropertyId?.fullName}
+                  {propertyData?.lisitingPropertyId?.businessInfo?.businessName}
                 </p>
               </div>
               <div className="flex gap-6 flex-col md:flex-row">

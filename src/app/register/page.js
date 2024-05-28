@@ -12,6 +12,7 @@ import Loading from "@/components/mainmenu/loading";
 import SliderAuth from "@/components/auth/slider";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import ReCaptcha from "@/components/auth/reCaptcha";
 
 const Register = () => {
   const router = useRouter();
@@ -23,9 +24,26 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+
+  const showCapta = () => {
+    setShowCaptcha(true)
+  }
+
+
+  const handleCaptchaChange = () => {
+    setVerified(true);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!verified) {
+      setPasswordError("Please complete the CAPTCHA");
+      setLoading(false);
+      return;
+    }
 
     if (!formData.password || !formData.email) {
       setPasswordError("Please fill in all fields and agree to terms.");
@@ -59,9 +77,9 @@ const Register = () => {
           localStorage.setItem("email", formData.email);
         }
         setTimeout(() => {
-           // Reset the form data after submitting
-           setFormData({ email: "", password: "", agreedToTerms: false });
-            // Set loading to false after 5 seconds
+          // Reset the form data after submitting
+          setFormData({ email: "", password: "", agreedToTerms: false });
+          // Set loading to false after 5 seconds
           setLoading(false);
         }, 5000); // 5000 milliseconds = 5 seconds
       } else {
@@ -125,7 +143,7 @@ const Register = () => {
                       Email <span className="text-error">*</span>
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." ? "border-red-500" : ""
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." && passwordError !== "Please complete the CAPTCHA" ? "border-red-500" : ""
                         }`}
                       type="email"
                       value={formData.email}
@@ -142,7 +160,7 @@ const Register = () => {
                       Password <span className="text-error">*</span>
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." ? "border-red-500" : ""
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." && passwordError !== "Please complete the CAPTCHA" ? "border-red-500" : ""
                         }`}
                       type={visible ? "text" : "password"}
                       value={formData.password}
@@ -164,7 +182,7 @@ const Register = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
-                      className={`mr-2 cursor-pointer ${passwordError ? "border-red-500" : ""
+                      className={`mr-2 cursor-pointer ${passwordError == "Agree to terms." ? "border-red-500" : ""
                         }`}
                       checked={formData.agreedToTerms}
                       onChange={() => {
@@ -196,12 +214,32 @@ const Register = () => {
                     </span>
                   )}
                 </div>
-                <button
-                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
-                  type="Submit"
-                >
-                  {loading ? <LoadingFormII /> : "Get Started"}
-                </button>
+                <ReCaptcha onChange={handleCaptchaChange} />
+                {
+                  !verified ?
+                    <div className="relative inline-block">
+                      <button
+                        type="Submit"
+                        onMouseEnter={() => setShowCaptcha(true)}
+                        onMouseLeave={() => setShowCaptcha(false)}
+                        className={`bg-BlueHomz mt-3 text-white font-[700] items-center flex justify-center text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px]`}
+                      >
+                        Get Started
+                      </button>
+                      {showCaptcha && (
+                        <span className="absolute bg-GrayHomz2 bg-transparent text-[12px] text-white text-center rounded w-[140px]  py-2 top-[-25px]">
+                          Complete Captcha
+                        </span>
+                      )}
+                    </div>
+                    :
+                    <button
+                      className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
+                      type="Submit"
+                    >
+                      {loading ? <LoadingFormII /> : "Get Started"}
+                    </button>
+                }
                 {/* <div className="">
                   <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
                     <Image

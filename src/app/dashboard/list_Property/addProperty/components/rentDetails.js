@@ -26,10 +26,10 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
   return (
     <div className="px-0 w-full">
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
-        Rent Details
+      Payment Details
       </div>
       <div className="text-[13px] md:text-[18px] font-[400] w-[270px] md:w-full">
-        Kindly fill in the accurate property details{" "}
+        Kindly fill in the accurate payment details{" "}
         <span className="text-error hidden md:blcok text-[14px]">
           (Only fill the fields that are applicable to your property).
         </span>
@@ -42,16 +42,16 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
       >
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
-            <div className="">
+            <div className="custom-select-wrapper">
               <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="paymentType">Payment Type</label> <span className="text-error">*</span>
               <br />
               <select
                 name="paymentType"
-                className="h-[43px] md:h-[45px] md:w-[473px] pl-2   md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
+                className="custom-select h-[43px] md:h-[45px] md:w-[473px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
                 onChange={(e) => setPaymentType(e.target.value)}
               >
                 <option value="" disabled selected>
-                  Select Property Type
+                  Select Payment Type
                 </option>
                 {paymentTypeValues.map((type, index) => (
                   <option key={index} value={type}>
@@ -82,7 +82,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               </div>
             </div>
             <div>
-              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="totalFee">How much is the total fee?</label> <span className="text-error">*</span>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="totalFee">How much is the total fee?</label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -105,7 +105,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           </div>
           <div className="flex md:gap-[28px] gap-[24px] flex-col">
             <div>
-              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label> <span className="text-error">*</span>
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label> 
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -129,7 +129,6 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
               <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="maintenanceFee">
                 How much is the maintenance fee?
               </label>
-              <span className="text-error"> *</span>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -179,10 +178,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           <div className="">
             {
               paymentType !== "" &&
-                price !== "" &&
-                maintenance !== "" &&
-                total !== "" &&
-                agency !== "" 
+                price !== "" 
                 ?
                 <button
                   onClick={onSubmit}

@@ -29,11 +29,11 @@ const PopUpMenu = ({ user }) => {
              priority
            />
          )}
-        <div className="flex flex-col">
-          <span className="font-[600] text-[14px] text-BlackHomz">
+        <div className="flex flex-col w-full">
+          <span className="font-[600] text-[14px] text-BlackHomz break-words w-[95%]">
             {user?.fullName}
           </span>
-          <span className="font-[400] text-[11px] text-GrayHomz">
+          <span className="font-[400] text-[11px] text-GrayHomz break-words w-[95%]">
             {user?.user?.email}
           </span>
         </div>

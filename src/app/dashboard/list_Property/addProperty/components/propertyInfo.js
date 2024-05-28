@@ -62,14 +62,14 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
         >
           <div className="flex md:gap-[50px] gap-[24px] flex-col md:flex-row  sideBarHidden lg:gap-[24px]">
             <div className="flex flex-col gap-[24px]">
-              <div className="">
+              <div className="custom-select-wrapper">
                 <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="listingType">
                   Listing Type <span className="text-red-500 text-xs">*</span>
                 </label>
                 <br />
                 <select
                   name="listingType"
-                  className="h-[43px] md:h-[45px] md:w-[473px] fields p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                  className="custom-select h-[43px] md:h-[45px] md:w-[473px] fields p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                   id="listingType"
                   {...register("listingType", {
                     required: "Listing type is required",
@@ -96,6 +96,9 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="title">
                         {" "}
                         Title <span className="text-red-500 text-xs">*</span>
+                        <span className="text-[10px] font-[500] text-GrayHomz2 italic">
+                        2 plots of land
+                        </span>
                       </label>
                       <br />
                       <input
@@ -109,7 +112,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <p className="errorMsg">Property's title is required</p>
                       )}
                     </div>
-                    <div className="">
+                    <div className="custom-select-wrapper">
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="landType">
                         Land Type{" "}
                         <span className="text-red-500 text-xs">*</span>
@@ -117,7 +120,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <br />
                       <select
                         name="landType"
-                        className={`h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!propertyType && "opacity-50"
+                        className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!propertyType && "opacity-50"
                           } `}
                         id="landType"
                         {...register("landType", {
@@ -163,7 +166,10 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <div>
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="name">
                         {" "}
-                        Name <span className="text-red-500 text-xs">*</span>
+                        Name <span className="text-red-500 text-xs">*</span> 
+                        <span className="text-[10px] font-[500] text-GrayHomz2 italic">
+                        4 bedroom duplex
+                        </span>
                       </label>
                       <br />
                       <input
@@ -177,7 +183,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <p className="errorMsg">Property's name is required</p>
                       )}
                     </div>
-                    <div className="">
+                    <div className="custom-select-wrapper">
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="propertyType">
                         Property Type{" "}
                         <span className="text-red-500 text-xs">*</span>
@@ -186,7 +192,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="propertyType"
                         id="propertyType"
-                        className="h-[43px] md:h-[45px] md:w-[473px] fields p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                        className="custom-select h-[43px] md:h-[45px] md:w-[473px] fields p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         {...register("propertyType", {
                           required: true,
                         })}
@@ -214,7 +220,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <select
                           name="state"
                           id="state"
-                          className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                          className="custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                           {...register("state", {
                             // required: true,
                           })}
@@ -236,7 +242,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <select
                           name="area"
                           id="area"
-                          className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                          className={`custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!allStates ? "pointer-events-none" : ""}`}
                           {...register("area", {
                             // required: "Area is required.",
                           })}
@@ -275,14 +281,14 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         </span>
                       )}
                     </div>
-                    <div className="">
+                    <div className="custom-select-wrapper">
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="numberOfRooms">
                         Rooms <span className="text-red-500 text-xs">*</span>
                       </label>
                       <br />
                       <select
                         name="numberOfRooms"
-                        className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                        className="custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         id="numberOfRooms"
                         {...register("numberOfRooms", {
                           required: "Number of rooms is required",
@@ -300,6 +306,17 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         <option value="7">7</option>
                         <option value="8">8</option>
                         <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
                       </select>
                       {errors.numberOfRooms && (
                         <p className="errorMsg">
@@ -324,7 +341,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="state"
                         id="state"
-                        className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                        className="custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                         {...register("state", {
                           required: true,
                         })}
@@ -346,7 +363,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <select
                         name="area"
                         id="area"
-                        className="w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                        className={`custom-select-wrapper w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!allStates ? "pointer-events-none" : ""}`}
                         {...register("area", {
                           required: "Area is required.",
                         })}
@@ -387,15 +404,16 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                 </>
               ) : (
                 <>
-                  <div className="">
+                  <div className="custom-select-wrapper">
                     <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="numberOfBathrooms">
                       Bathrooms <span className="text-red-500 text-xs">*</span>
                     </label>
                     <br />
+                    {/* overflow-y-auto scrollbar-container */}
                     <select
                       name="numberOfBathrooms"
                       id="numberOfBathrooms"
-                      className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                      className="custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       {...register("numberOfBathrooms", {
                         required: "Number of bathrooms is required",
                       })}
@@ -409,6 +427,20 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <option value="4">4</option>
                       <option value="5">5</option>
                       <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
                     </select>
                     {errors.numberOfBathrooms && (
                       <p className="errorMsg">
@@ -416,7 +448,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       </p>
                     )}
                   </div>
-                  <div className="">
+                  <div className="custom-select-wrapper">
                     <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="numberOfToilets">
                       Toilets <span className="text-red-500 text-xs">*</span>
                     </label>
@@ -424,7 +456,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <select
                       name="numberOfToilets"
                       id="numberOfToilets"
-                      className="h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+                      className="custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       {...register("numberOfToilets", {
                         required: "Number of toilets is required",
                       })}
@@ -438,6 +470,20 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <option value="4">4</option>
                       <option value="5">5</option>
                       <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
                     </select>
                     {errors.numberOfToilets && (
                       <p className="errorMsg">
@@ -490,8 +536,8 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
               <button
                 disabled={!isValid ? true : false}
                 className={`flex md:mr-14 border justify-center  md:w-[77px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${!isValid
-                    ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
-                    : "text-white border-white bg-BlueHomz"
+                  ? "text-GrayHomz bg-GrayHomz5 border-[#A9A9A9]"
+                  : "text-white border-white bg-BlueHomz"
                   } rounded-[4px]`}
                 type="submit"
               >

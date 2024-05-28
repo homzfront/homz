@@ -76,7 +76,6 @@ const SelectPlan = () => {
       active: true
     },
   ];
-
   return (
     <div>
       <div className="max-w-[1156px] px-[16px] xl:px-[0px] h-[712px] my-20 flex flex-col justify-between m-auto">
@@ -127,7 +126,7 @@ const SelectPlan = () => {
                           </button>
                         </Link>
                       ) : data.active ? (
-                        <Link href={data.url}>
+                        <Link href={user?.length > 0 ? data.url : "/"}>
                           <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
                             Get Started
                           </button>

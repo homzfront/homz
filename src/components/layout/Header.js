@@ -8,17 +8,33 @@ import useProfileStore from "@/store/profile";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
-import LoadingTable from "../mainmenu/loadingTable";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+import useClickOutside from "@/utils/clickOutside";
+import BusinessAlert from "../icons/businessAlert";
 
 const Header = () => {
+  const [openModalForBusi, setOpenModalForBusi] = useState(false);
+  const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
   const { fetchProfile, profile, loading, logout } = useProfileStore();
+  const { data, fetchData } = useProfileListingMe();
   const path = usePathname();
   const pathname = keepThree(path);
   const [isLoading, setIsLoading] = useState(false); // Internal loading state
+  const [hasListProperty, setHasListProperty] = useState(false);
 
+  const handleOpenModal = () => {
+    setOpenModalForBusi(true);
+  };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  function hasListPropertyAccount(profile) {
+    return profile?.accounts?.some(account => account.name === 'LIST_PROPERTY');
+  }
+
   useEffect(() => {
     if (!profile) {
       fetchProfile();
@@ -31,8 +47,25 @@ const Header = () => {
     }
   }, [profile]);
 
-  const isUserPresent = profile && Object.keys(profile).length > 0;
+  useEffect(() => {
+    if (profile) {
+      setHasListProperty(hasListPropertyAccount(profile));
+    }
+  }, [profile]);
 
+  useEffect(() => {
+    const DataAgain = () => {
+      fetchProfile();
+      if (profile) {
+        setHasListProperty(hasListPropertyAccount(profile));
+      }
+    }
+    DataAgain()
+  }, [hasListProperty])
+
+  const url = !profile ? "/register" :  hasListProperty
+    ? "/dashboard/list_Property/addProperty"
+    : "/switch-profile";
 
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
@@ -62,10 +95,7 @@ const Header = () => {
 
   function determineUserDashboard(profile) {
     let user;
-
-
     if (typeof user === "string") {
-      // If the input is a string, assume it's an email
       user = profile;
     } else if (profile && profile?.isVerified) {
       user = profile
@@ -74,7 +104,7 @@ const Header = () => {
       user = profile?.user
     }
     if (user?.isVerified && user?.accounts.length === 0) {
-      return "/select-plan"; // Redirect to select plan for verified users with no accounts
+      return "/select-plan";
     } else if (user?.accounts?.[0].name === "TENANT") {
       return "/dashboard/tenant/dashboard";
     } else if (user?.accounts?.[0].name === "ENTERPRISE_PLAN") {
@@ -84,14 +114,35 @@ const Header = () => {
     } else if (user?.accounts?.[0].name === "LIST_PROPERTY") {
       return "/dashboard/list_Property";
     } else {
-      return '/'; // No specific dashboard identified
+      return '/';
     }
+  };
 
-  }
-
-  
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
+      {
+        openModalForBusi &&
+        <div
+          className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+          <div ref={dropdownRef} className="bg-white w-[320px] md:w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+            <BusinessAlert />
+            <p className="text-[16px] md:text-[20px] font-[700] text-BlackHomz">
+              Update Business Information
+            </p>
+            <p className="text-[14px] md:text-[16px] font-[400] text-GrayHomz text-center">
+              Kindly upload your business certification in order to list more properties
+            </p>
+            <Link
+              href={"/dashboard/list_Property/Profile?tab=business"}
+              className="w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
+            >
+              <span className="text-white text-[14px] md:text-[16px] font-[700]">
+                Upload Certificate
+              </span>
+            </Link>
+          </div>
+        </div>
+      }
       <Link href={"/"}>
         <Image
           src={"/Homz_Logo_Blue.png"}
@@ -106,7 +157,7 @@ const Header = () => {
           }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
-        <Link href={"/"} className={`hover:text-blue-400 ${pathname === "/" || pathname === "/user_homepage/PropertyListing"  || pathname === "/user_homepage/PreviewProperty" || pathname === "/user_homepage" ? "text-BlueHomz" : ""}`}>
+          <Link href={"/"} className={`hover:text-blue-400 ${pathname === "/" || pathname === "/user_homepage/PropertyListing" || pathname === "/user_homepage/PreviewProperty" || pathname === "/user_homepage" ? "text-BlueHomz" : ""}`}>
             Home
           </Link>
           <Link
@@ -132,13 +183,21 @@ const Header = () => {
           >
             Tenant
           </Link>
-          {/* <Link
-            href={"/"}
-            className="hover:text-blue-400 "
-            onClick={() => setOpen(false)}
-          >
-            List Property
-          </Link> */}
+          {data?.properties?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
+            <div
+              className="hover:text-blue-400 cursor-pointer"
+              onClick={handleOpenModal}>
+              List Property
+            </div>
+            :
+            <Link
+              href={url}
+              className="hover:text-blue-400 "
+              onClick={() => setOpen(false)}
+            >
+              List Property
+            </Link>
+          }
         </div>
       </nav>
       <div

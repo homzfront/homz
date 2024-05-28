@@ -37,14 +37,14 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
       >
         <div className="flex md:gap-[45px] gap-[24px] flex-col md:flex-row sideBarHidden">
           <div className="flex flex-col md:gap-[28px] gap-[24px]">
-            <div className="">
+            <div className="custom-select-wrapper">
               <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="Payment_Type">Payment Type</label>
               <br />
               <select
                 name="paymentType"
                 onChange={handleChange}
                 disabled={!editMode}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-0 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!editMode &&
+                className={`custom-select h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-2 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!editMode &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
                   }`}
               >

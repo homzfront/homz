@@ -12,6 +12,8 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -272,7 +274,7 @@ const ViewProperty = ({ PropertyID }) => {
                 {Number(propertyData?.price).toLocaleString()}{" "}
               </span>
               <span className="text-[16px] font-[400] md:text-[18px] md:font-[500] ml-1 pt-1 text-[#4E4E4E]">
-                per year
+              {capitalizeFirstLetter(propertyData?.paymentType)}
               </span>
             </p>
             <div className="flex gap-2 items-center">
@@ -357,23 +359,30 @@ const ViewProperty = ({ PropertyID }) => {
             </p>
           </div>
           <div className="mt-3 flex flex-col gap-4 md:h-[180px] mb-10 md:mb-[130px] xl:mb-5">
-            <p className="text-[13px] font-[400] text-GrayHomz2">Property Owner</p>
+            <p className="text-[13px] font-[400] text-GrayHomz2">Marketed by</p>
             <div className="flex gap-2 items-center">
-              <Image
-                src={"/static/images/OwnerImagesTwo.png"}
-                alt=""
-                height={40}
-                width={40}
-                layout="full"
-                objectFit="cover"
-                objectPosition="center"
-                className="object-cover bg-center h-[40px] rounded-full"
-                quality={100}
-                priority
-              />
-
+            {
+                  propertyData?.lisitingPropertyId?.businessInfo?.businessLogo
+                    ?
+                    <Image
+                      src={propertyData?.lisitingPropertyId?.businessInfo?.businessLogo?.url}
+                      alt=""
+                      height={40}
+                      width={40}
+                      layout="full" // Specify the desired height
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="object-cover bg-center h-[40px] rounded-full"
+                      quality={100}
+                      priority
+                    />
+                    :
+                    <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                      <EmptyAvatar />
+                    </div>
+                }
               <p className="text-[18px] font-[500] text-GrayHomz">
-                {propertyData?.lisitingPropertyId?.fullName}
+              {propertyData?.lisitingPropertyId?.businessInfo?.businessName}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-16">
