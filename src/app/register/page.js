@@ -143,7 +143,7 @@ const Register = () => {
                       Email <span className="text-error">*</span>
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." ? "border-red-500" : ""
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." && passwordError !== "Please complete the CAPTCHA" ? "border-red-500" : ""
                         }`}
                       type="email"
                       value={formData.email}
@@ -160,7 +160,7 @@ const Register = () => {
                       Password <span className="text-error">*</span>
                     </label>
                     <input
-                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." ? "border-red-500" : ""
+                      className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." && passwordError !== "Please complete the CAPTCHA" ? "border-red-500" : ""
                         }`}
                       type={visible ? "text" : "password"}
                       value={formData.password}
@@ -182,7 +182,7 @@ const Register = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
-                      className={`mr-2 cursor-pointer ${passwordError ? "border-red-500" : ""
+                      className={`mr-2 cursor-pointer ${passwordError == "Agree to terms." ? "border-red-500" : ""
                         }`}
                       checked={formData.agreedToTerms}
                       onChange={() => {
@@ -218,13 +218,14 @@ const Register = () => {
                 {
                   !verified ?
                     <div className="relative inline-block">
-                      <div
+                      <button
+                        type="Submit"
                         onMouseEnter={() => setShowCaptcha(true)}
                         onMouseLeave={() => setShowCaptcha(false)}
                         className={`bg-BlueHomz mt-3 text-white font-[700] items-center flex justify-center text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px]`}
                       >
                         Get Started
-                      </div>
+                      </button>
                       {showCaptcha && (
                         <span className="absolute bg-GrayHomz2 bg-transparent text-[12px] text-white text-center rounded w-[140px]  py-2 top-[-25px]">
                           Complete Captcha
