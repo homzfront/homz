@@ -12,6 +12,7 @@ import Loading from "@/components/mainmenu/loading";
 import SliderAuth from "@/components/auth/slider";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import ReCaptcha from "@/components/auth/reCaptcha";
 
 const Register = () => {
   const router = useRouter();
@@ -23,9 +24,21 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+
+  const handleCaptchaChange = () => {
+    setVerified(true); 
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!verified) {
+      setPasswordError("Please complete the CAPTCHA");
+      setLoading(false);
+      return;
+    }
 
     if (!formData.password || !formData.email) {
       setPasswordError("Please fill in all fields and agree to terms.");
@@ -196,6 +209,7 @@ const Register = () => {
                     </span>
                   )}
                 </div>
+                <ReCaptcha onChange={handleCaptchaChange} />
                 <button
                   className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
                   type="Submit"
