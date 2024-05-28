@@ -359,7 +359,7 @@ const ViewProperty = ({ PropertyID }) => {
             </p>
           </div>
           <div className="mt-3 flex flex-col gap-4 md:h-[180px] mb-10 md:mb-[130px] xl:mb-5">
-            <p className="text-[13px] font-[400] text-GrayHomz2">Property lister</p>
+            <p className="text-[13px] font-[400] text-GrayHomz2">Marketed by</p>
             <div className="flex gap-2 items-center">
             {
                   propertyData?.lisitingPropertyId?.businessInfo?.businessLogo
