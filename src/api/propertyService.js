@@ -77,7 +77,7 @@ export const updateContactInfo = async (propertyId, updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error: error?.response.data.message };
+    return { success: false, error: error };
   }
 };
 
@@ -89,7 +89,7 @@ export const updatePropertyDetails = async (id, updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error: error?.response.data.message };
+    return { success: false, error: error };
   }
 };
 
@@ -167,7 +167,7 @@ export const rentDetails = async (id, updatedData) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error: error?.response.data.message };
+    return { success: false, error: error };
   }
 };
 

@@ -375,12 +375,12 @@ const HomePage = () => {
               One-Stop Real Estate Solution
             </p>
 
-            <h1 className=" text-[#202020]">
-              <span className="hidden md:block text-[36px] lg:text-[41px] font-[700] leading-tight">
+            <div className=" text-[#202020]">
+              <h1 className="hidden md:block text-[37px] lg:text-[41px] font-[700] leading-tight">
                 Find, Manage, Appraise Your Property With Homz
-              </span>
+              </h1>
               <span className="md:hidden text-[29px] font-[700] leading-tight">Find & Manage Properties on Homz</span>
-            </h1>
+            </div>
           </div>
           <div className="hidden md:block">
             <Image
@@ -650,12 +650,12 @@ const HomePage = () => {
           Designed for stress-free living
         </p>
 
-        <h1 className="hidden md:block text-[36px] font-[700] leading-[45.36px] text-[#202020] text-center">
+        <h2 className="hidden md:block text-[35px] font-[700] leading-[45.36px] text-[#202020] text-center">
           Effortless Solution for Landlords, Property Managers and Tenants
-        </h1>
-        <h1 className="w-[295px] text-[23px] text-left leading-[28.98px] font-[700] md:hidden text-[#202020] mx-auto">
+        </h2>
+        <h3 className="w-[295px] text-[22px] text-left leading-[28.98px] font-[700] md:hidden text-[#202020] mx-auto">
           Effortless Solution for all
-        </h1>
+        </h3>
         <div className="flex md:mt-5 md:gap-[12rem] flex-col md:flex-row w-[330px] md:w-full ">
           <div className="relative md:h-[468.66px] hidden lg:block">
             <Image
@@ -891,8 +891,8 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center md:items-start md:justify-start bg-[#006AFF] text-white py-5 md:py-10 w-full max-w-[1440px] mx-auto h-auto">
-        <h1 className="text-[23px] md:text-[36px] font-[700] flex justify-between w-full px-8 md:px-24">
-          <span>Featured Listed Properties</span>
+        <div className="text-[23px] md:text-[34px] font-[700] flex justify-between w-full px-8 md:px-24">
+          <h4>Featured Listed Properties</h4>
           <Link
             href="user_homepage/PropertyListing"
             className="hidden md:flex items-center gap-1 border border-white rounded px-2 py-1"
@@ -906,7 +906,7 @@ const HomePage = () => {
               className="w-4 h-4"
             />
           </Link>
-        </h1>
+        </div>
         {/* <p className="mt-2 text-[16px] md:text-[20px] font-[400] w-full lg:w-[920px] text-start px-8 md:px-24">
           <span className="hidden md:block">
             Below are the list of the different houses that we currently have on the platform. Select any of these to view the house details and the features.
@@ -915,14 +915,14 @@ const HomePage = () => {
             Browse through house listings on our platform for details and features.
           </span>
         </p> */}
-        <div className="w-full max-w-[1440px] my-4 flex flex-col justify-center items-center px-8 md:px-[80px]">
+        <div className="w-full max-w-[1440px] my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
           <div className="w-full">
             {
               featuredData?.length < 4 ?
                 <Slider {...sliderSettingsII}>
                   {featuredData?.map((property, idx) => (
                     <div className="w-full" key={idx}>
-                      <div className="w-[300px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
+                      <div className="w-[300px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
                         <div className="cursor-pointer w-[373px] h-[252px]">
                           <Carousel
                             slide={false}
@@ -1044,7 +1044,7 @@ const HomePage = () => {
                 :
                 <Slider {...sliderSettings}>
                   {featuredData?.map((property, idx) => (
-                    <div className="w-full" key={idx}>
+                    <div className="w-full mb-8" key={idx}>
                       <div className="w-[300px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
                         <div className="cursor-pointer w-[373px] h-[252px]">
                           <Carousel
@@ -1206,20 +1206,17 @@ const HomePage = () => {
         </div>
       </div>
       <div className="w-full md:h-[491px] min-h-[500px] lg:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
-        <h1 className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[23px] font-[700] leading-[28.98px]  flex justify-between items-center text-[#0058D4]">
-          <span className="">Don’t Just Take Our Word For It</span>
+        <div className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[24px] font-[700] leading-[28.98px]  flex justify-between items-center text-[#0058D4]">
+          <h5 className="">Don’t Just Take Our Word For It</h5>
           <Link
             href="/contact-page"
             className="hidden  border text-[#006AFF] border-[#006AFF] w-[110px] h-[48px]  rounded-[4px] text-[16px] md:flex items-center justify-center"
           >
             Contact Us
           </Link>
-        </h1>
+        </div>
         <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
-          <span className="">
-            Hear from our delighted clients who found dream apartments with
-            Homz.
-          </span>
+          <span className="">Hear from our satisfied clients who found their dream apartments with Homz.</span>
         </p>
         <div>
           <div className="mt-2 md:mt-8 px-12 md:px-0 md:mb-0 mb-6">
@@ -1263,14 +1260,14 @@ export default HomePage;
 const Testimonials = [
   {
     _id: 1,
-    Name: "John Doe",
+    Name: "Fatima Sani",
     Type: "Client",
     Testimony:
       "Homz Company has been instrumental in streamlining our real estate management system. Their expertise and dedication have significantly improved our operations.",
   },
   {
     _id: 2,
-    Name: "Jane Smith",
+    Name: "Okechukwu Okocha",
     Type: "Client",
     Testimony:
       "We are extremely satisfied with the services provided by Homz Company. Their innovative solutions have helped us effectively manage our real estate assets.",
@@ -1284,14 +1281,14 @@ const Testimonials = [
   },
   {
     _id: 4,
-    Name: "David Brown",
+    Name: "Dotun Odubote",
     Type: "Client",
     Testimony:
       "We have been working with Homz Company for several years now, and they continue to exceed our expectations. Their professionalism and expertise in real estate management are unparalleled.",
   },
   {
     _id: 5,
-    Name: "Emily Davis",
+    Name: "Emmanuel Sambo",
     Type: "Client",
     Testimony:
       "Homz Company has been an invaluable partner in our real estate endeavors. Their cutting-edge solutions have allowed us to stay ahead in the competitive market.",

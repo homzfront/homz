@@ -1,6 +1,5 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { ReactQueryProvider } from "@/utils/useReactQuery";
 import GoogleAnalytics from "@/utils/googleAnalytics";
 import "dotenv/config";
 
@@ -10,8 +9,8 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Homz",
-  description: "Homzng is a integrated estate management platform for property managers, Landlords & Tenants",
+  title: "Homz.ng - The Best Real Estate Management Solution for Landlords, Tenants and Property Managers",
+  description: "Homz.ng is a comprehensive software solution simplifying real estate management. Find, manage, appraise, rent or sell properties with ease. Try Homz.ng today.",
   icons: {
     icon: "/icon.png",
   },
@@ -22,7 +21,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
         <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-      ) : null}
+      ) : (
+        <GoogleAnalytics ga_id="G-J2KVN3RH83" />
+      )}
       <body>
         <script
           dangerouslySetInnerHTML={{
@@ -41,7 +42,6 @@ export default function RootLayout({ children }) {
         />
       </body>
       <body className={plus_Jakarta_Sans.className}>{children}
-        {/* <ReactQueryProvider>{children}</ReactQueryProvider> */}
       </body>
     </html>
   );

@@ -24,7 +24,7 @@ const Footer = () => {
               />
             </Link>
             <p className="mt-7 lg:max-w-[280px]">
-              Homz is your ultimate companion in real estate! We are all for creating seamless experiences for both landlords and tenants alike.
+            Homz.ng: Your Trusted Partner in Real Estate - Simplifying Property Transactions for Landlords, Managers and Tenants
             </p>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
               <p className="mb-1">Follow Us</p>
@@ -32,13 +32,13 @@ const Footer = () => {
                 <Link href={"https://www.instagram.com/homzng"}>
                   <InstaWhite />
                 </Link>
-                <Link href={""}>
+                <Link href={"https://www.facebook.com/homzng"}>
                   <FacebookWhite />
                 </Link>
                 <Link href={"https://twitter.com/homzng"}>
                   <TwitterWhite />
                 </Link>
-                <Link href={""}>
+                <Link href={"https://linkedin.com/company/homzng"}>
                   <LinkedInWhite />
                 </Link>
               </div>
