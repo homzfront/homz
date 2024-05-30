@@ -18,6 +18,10 @@ export const metadata = {
   twitter: {
     card: "summary_large_image"
   },
+  openGraph: {
+    site_name: "Homz.ng",
+    url: "https://www.homz.ng",
+  }
 };
 
 export default function RootLayout({ children }) {
