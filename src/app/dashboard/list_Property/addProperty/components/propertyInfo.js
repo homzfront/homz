@@ -96,16 +96,13 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="title">
                         {" "}
                         Title <span className="text-red-500 text-xs">*</span>
-                        <span className="text-[10px] font-[500] text-GrayHomz2 italic">
-                        2 plots of land
-                        </span>
                       </label>
                       <br />
                       <input
                         {...register("title", {
                           required: true,
                         })}
-                        placeholder="Property Title"
+                        placeholder="2 plots of land"
                         className="h-[43px] md:h-[45px] md:w-[473px] fields p-[8px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       />
                       {errors.Title && (
@@ -166,17 +163,14 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                     <div>
                       <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="name">
                         {" "}
-                        Name <span className="text-red-500 text-xs">*</span> 
-                        <span className="text-[10px] font-[500] text-GrayHomz2 italic">
-                        4 bedroom duplex
-                        </span>
+                        Name/Title <span className="text-red-500 text-xs">*</span> 
                       </label>
                       <br />
                       <input
                         {...register("name", {
                           required: true,
                         })}
-                        placeholder="Property Name"
+                        placeholder="4 bedroom duplex"
                         className="h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       />
                       {errors.name && (

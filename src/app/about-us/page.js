@@ -1,13 +1,16 @@
 import React from 'react'
 import Hero from '@/pages/aboutUs/Hero';
 import Meet from '@/pages/aboutUs/Meet';
-// import Meet from '@/components/aboutUs/Meet';
+
+export const metadata = {
+  title: "About us"
+}
 
 const AboutUs = () => {
   return (
     <div>
-        <Hero/>
-        <Meet/>
+      <Hero />
+      <Meet />
     </div>
   )
 }

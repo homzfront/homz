@@ -47,14 +47,14 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
 
   return (
     <div className="w-full flex flex-col gap-[64px] pt-6 justify-center items-center">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
         {currentProperties.map((property, index) => (
           <div
-            className="flex flex-col w-[100%] md:w-[234px] md:h-[281px] rounded-[12px] shadow-md"
+            className="flex flex-col w-[100%] md:w-[224px] md:h-[281px] rounded-[12px] shadow-md"
             key={index}
           >
             <div
-              className="cursor-pointer w-[100%] md:w-[234px] md:h-[168px] rounded-[10px] "
+              className="cursor-pointer w-[100%] md:w-[224px] md:h-[168px] rounded-[10px] "
             >
               <div className="w-[100%] relative h-[100.55px] md:h-full md:w-full">
                 <Link

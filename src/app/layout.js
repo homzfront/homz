@@ -9,10 +9,13 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Homz.ng - The Best Real Estate Management Solution for Landlords, Tenants and Property Managers",
+  title: {
+    default: "Homz.ng - The Best Real Estate Management Solution for Landlords, Tenants and Property Managers",
+    template: "Homz - %s"
+  },
   description: "Homz.ng is a comprehensive software solution simplifying real estate management. Find, manage, appraise, rent or sell properties with ease. Try Homz.ng today.",
-  icons: {
-    icon: "/icon.png",
+  twitter: {
+    card: "summary_large_image"
   },
 };
 

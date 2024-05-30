@@ -88,7 +88,7 @@ const EditProperty = ({ property }) => {
       }
       <div className="dashboard hidden md:flex justify-between">
         <div className="flex gap-1 filter">
-          <p className="text-[#4E4E4E]  text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
+          <p className="text-[#4E4E4E] w-[90px] text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
             Filter by:
           </p>
           <div className="w-[120px]">

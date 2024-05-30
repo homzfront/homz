@@ -2,6 +2,10 @@ import React from 'react'
 import ContactDoc from '@/pages/contactPage/ContactDoc';
 import ContactB from '@/pages/contactPage/ContactB';
 
+export const metadata = {
+  title: "Contact us"
+}
+
 const ContactPage = () => {
   
   return (
