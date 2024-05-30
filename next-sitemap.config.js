@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: 'http://localhost:3000',
+  siteUrl: 'http://www.homz.ng',
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
