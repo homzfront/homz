@@ -44,7 +44,7 @@ const ContactInfo = ({
                 placeholder="Enter Phone Number"
                 name="phoneNumber"
                 onChange={handleChange}
-                disabled={!editMode}
+
                 value={formData?.contacts?.phoneNumber}
                 className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!editMode &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
@@ -60,7 +60,7 @@ const ContactInfo = ({
                 type="email"
                 name="email"
                 onChange={handleChange}
-                disabled={!editMode}
+
                 value={formData?.contacts?.email}
                 placeholder="Enter Email"
                 className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] placeholder: md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!editMode &&
@@ -75,7 +75,7 @@ const ContactInfo = ({
                 type="text"
                 name="whatsapp"
                 onChange={handleChange}
-                disabled={!editMode}
+
                 value={formData?.contacts?.whatsapp}
                 placeholder="Enter WhatsApp Link"
                 className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] placeholder: md:p-[12px] rounded-[4px] pl-2 border w-[100%] ${!editMode &&
@@ -87,18 +87,10 @@ const ContactInfo = ({
         </div>
         <div className="flex md:justify-end justify-center mt-8">
           <div className="hidden md:block">
-            {editMode ? (
-              <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                onClick={onSubmit}>
-                Save Update
-              </button>
-            ) : (
-              <div className="flex cursor-pointer border justify-center md:w-[77px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                onClick={() => setEditMode(true)}
-              >
-                Update
-              </div>
-            )}
+            <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+              onClick={onSubmit}>
+              Update
+            </button>
           </div>
           <div className="md:hidden flex flex-col w-full">
             <Link
@@ -107,23 +99,14 @@ const ContactInfo = ({
             >
               See public view
             </Link>
-            {editMode ? (
-              <button
-                className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+            <button
+              className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                onClick={onSubmit}
-              >
-                Save Update
-              </button>
-            ) : (
-              <div
-                className="flex cursor-pointer border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setEditMode(true)}
-              >
-                Update
-              </div>
-            )}
+              onClick={onSubmit}
+            >
+              Update
+            </button>
+
           </div>
         </div>
       </div>

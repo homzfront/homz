@@ -43,10 +43,8 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
               <select
                 name="paymentType"
                 onChange={handleChange}
-                disabled={!editMode}
-                className={`custom-select h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-2 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!editMode &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                  }`}
+               
+                className={`custom-select h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] md:pl-2 rounded-[4px] pl-2 fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
               >
                 <option>
                   {capitalizeFirstLetter(formData?.paymentType) || "select option"}
@@ -76,13 +74,11 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                   name="price"
                   placeholder="00.00"
                   value={formData?.price}
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    }`}
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                   type="number"
                   min="0"
                   onChange={handleChange}
-                  disabled={!editMode}
+                 
                 />
               </div>
             </div>
@@ -98,14 +94,12 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    }`}
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                   type="number"
                   name="totalFee"
                   min="0"
                   onChange={handleChange}
-                  disabled={!editMode}
+                 
                   value={formData?.totalFee}
                 />
               </div>
@@ -124,14 +118,12 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    }`}
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                   type="number"
                   name="agencyFee"
                   min="0"
                   onChange={handleChange}
-                  disabled={!editMode}
+                 
                   value={formData?.agencyFee}
                 />
               </div>
@@ -150,14 +142,12 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    }`}
+                  className={`h-[43px] md:h-[45px] md:w-full py-[12px] pl-8 rounded-[4px]  fields duoViewPoint border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                   type="number"
                   name="maintenanceFee"
                   min="0"
                   onChange={handleChange}
-                  disabled={!editMode}
+                 
                   value={formData?.maintenanceFee}
                 />
               </div>
@@ -166,18 +156,10 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
         </div>
         <div className="flex md:justify-end justify-center mt-8">
           <div className="hidden md:block">
-            {editMode ? (
               <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
                 onClick={onSubmit}>
-                Save Update
-              </button>
-            ) : (
-              <div className="flex cursor-pointer border justify-center md:w-[77px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                onClick={() => setEditMode(true)}
-              >
                 Update
-              </div>
-            )}
+              </button>
           </div>
           <div className="md:hidden flex flex-col w-full">
             <Link
@@ -186,23 +168,13 @@ const RentDetails = ({ property, handleUpdate, setEditMode, editMode }) => {
             >
               See public view
             </Link>
-            {editMode ? (
               <button
                 className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={onSubmit}
               >
-                Save Update
-              </button>
-            ) : (
-              <div
-                className="flex cursor-pointer border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setEditMode(true)}
-              >
                 Update
-              </div>
-            )}
+              </button> 
           </div>
         </div>
       </div>

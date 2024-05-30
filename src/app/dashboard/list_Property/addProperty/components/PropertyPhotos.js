@@ -257,7 +257,7 @@ const PropertyPhoto = ({
 
         <div className="">
           <button
-            disabled={!fileUploaded && houses.length < 3}
+            disabled={houses.length < 3}
             onClick={handlePagePropertyPhoto}
             className={`flex h-[36px] w-[36px] md:h-full md:w-[100px] justify-center items-center text-[14px] font-[500] md:p-2 rounded-md ${fileUploaded && houses.length >= 3
                 ? "md:bg-BlueHomz text-white proBorders"

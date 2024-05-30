@@ -54,11 +54,13 @@ const EditProperty = ({ property }) => {
     (data) => {
       const matchesState = !selectedState || data?.state === selectedState;
       const matchesArea = !selectedArea || data?.area === selectedArea;
+      
       const matchesSearchQuery = !searchQuery ||
         data?.location.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
         data?.location.area.toLowerCase().includes(searchQuery.toLowerCase());
       const bathrooms =  !selectedRooms || data?.numberOfBathrooms === selectedRooms
-      return matchesState && matchesArea && matchesSearchQuery && bathrooms;
+      const property =  !selectedProperty || data?.propertyType === selectedProperty
+      return matchesState && matchesArea && matchesSearchQuery && bathrooms && property;
     });
 
   return (

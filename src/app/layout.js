@@ -9,6 +9,7 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://www.homz.ng'),
   title: {
     default: "Homz.ng - The Best Real Estate Management Solution for Landlords, Tenants and Property Managers",
     template: "Homz - %s"

@@ -87,11 +87,9 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                 <br />
                 <select
                   name="listingType"
-                  className={` ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                  className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                   onChange={handleChange}
-                  disabled={!editMode}
+
                 >
                   <option>
                     {capitalizeFirstLetter(formData?.listingType) || "select option"}
@@ -115,11 +113,9 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         name="title"
                         placeholder="title"
                         onChange={handleChange}
-                        disabled={!editMode}
+
                         value={formData?.title || ""}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                        className={`h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       />
                     </div>
                     <div className="custom-select-wrapper">
@@ -131,10 +127,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <select
                         name="landType"
                         onChange={handleChange}
-                        disabled={!editMode}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                        className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       >
                         <option >
                           {capitalizeFirstLetter(formData?.landType) || "select option"}
@@ -155,10 +149,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <input
                         name="squareMeter"
                         onChange={handleChange}
-                        disabled={!editMode}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                        className={`h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                         placeholder="Enter Square Metres"
                         value={formData?.squareMeter}
                       />
@@ -175,12 +167,10 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <input
                         name="name"
                         onChange={handleChange}
-                        disabled={!editMode}
+
                         placeholder="Property Name"
                         value={formData?.name || ""}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                        className={`h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px]  rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       />
                     </div>
                     <div className="custom-select-wrapper">
@@ -192,10 +182,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <select
                         name="propertyType"
                         onChange={handleChange}
-                        disabled={!editMode}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                        className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       >
                         <option>
                           {capitalizeFirstLetter(formData?.propertyType) || "Select Property Type"}
@@ -233,7 +221,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <div className="flex gap-4">
                         <select
                           name="state"
-                          disabled={!editMode}
+
                           className="custom-select w-[100%] h-[43px] md:w-[228px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
                           onChange={
                             (e) => {
@@ -255,7 +243,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         <select
                           name="area"
                           onChange={handleChange}
-                          disabled={!editMode}
+
                           className="custom-select w-[100%] h-[43px] md:w-[228px] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] md:h-[45px] border px-1 rounded-[4px] flex justify-center items-center"
                         >
                           <option>
@@ -278,10 +266,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <input
                         name="address"
                         onChange={handleChange}
-                        disabled={!editMode}
-                        className={`${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2`}
+
+                        className={`h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2`}
                         placeholder="Enter street name"
                         value={formData?.address}
                       />
@@ -294,10 +280,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <select
                         name="numberOfRooms"
                         onChange={handleChange}
-                        disabled={!editMode}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                        className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                         id="Rooms"
                       >
                         <option>
@@ -341,10 +325,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                     <div className="flex gap-4">
                       <select
                         name="state"
-                        disabled={!editMode}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                        className={`custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                         onChange={
                           (e) => {
                             handleChange
@@ -365,10 +347,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                       <select
                         name="area"
                         onChange={handleChange}
-                        disabled={!editMode}
-                        className={` ${!editMode &&
-                          "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                          } custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                        className={`custom-select w-[100%] h-[43px] md:w-[228px] px-[6px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       >
                         <option>
                           {capitalizeFirstLetter(formData?.area) || "Select Area"}
@@ -390,10 +370,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                     <input
                       name="address"
                       onChange={handleChange}
-                      disabled={!editMode}
-                      className={` ${!editMode &&
-                        "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                        } h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                      className={`h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                       placeholder="Enter street name"
                       value={formData?.address}
                     />
@@ -409,10 +387,8 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                     <select
                       name="numberOfBathrooms"
                       onChange={handleChange}
-                      disabled={!editMode}
-                      className={` ${!editMode &&
-                        "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                        } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                      className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                     >
                       <option>
                         {formData?.numberOfBathrooms || 0}
@@ -447,34 +423,32 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                     <select
                       name="numberOfToilets"
                       onChange={handleChange}
-                      disabled={!editMode}
-                      className={` ${!editMode &&
-                        "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                        } custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+
+                      className={`custom-select h-[43px] md:h-[45px] md:w-[473px] p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
                     >
                       <option>
                         {formData?.numberOfToilets || 0}
                       </option>
                       <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
                     </select>
                   </div>
                 </>
@@ -489,12 +463,10 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                   </p>
                 </div>
                 <textarea
-                  className={` ${!editMode &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit"
-                    } mt-1 h-[140px] md:h-[280px] rounded-md border w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] scrollbar-container`}
+                  className={` mt-1 h-[140px] md:h-[280px] rounded-md border w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] scrollbar-container`}
                   placeholder="Property Description"
                   onChange={handleChange}
-                  disabled={!editMode}
+
                   name="description"
                   value={formData?.description}
                 ></textarea>
@@ -503,18 +475,10 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
           </div>
           <div className="flex md:justify-end justify-center mt-8">
             <div className="hidden md:block">
-              {editMode ? (
-                <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                  onClick={onSubmit}>
-                  Save Update
-                </button>
-              ) : (
-                <div className="flex cursor-pointer border justify-center md:w-[77px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
-                  onClick={() => setEditMode(true)}
-                >
-                  Update
-                </div>
-              )}
+              <button className="flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz rounded-[4px]"
+                onClick={onSubmit}>
+                Update
+              </button>
             </div>
             <div className="md:hidden flex flex-col w-full">
               <Link
@@ -523,23 +487,13 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
               >
                 See public view
               </Link>
-              {editMode ? (
-                <button
-                  className="flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+              <button
+                className="flex border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                  onClick={onSubmit}
-                >
-                  Save Update
-                </button>
-              ) : (
-                <div
-                  className="flex cursor-pointer border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                  onClick={() => setEditMode(true)}
-                >
-                  Update
-                </div>
-              )}
+                onClick={onSubmit}
+              >
+                Update
+              </button>
             </div>
           </div>
         </div>
