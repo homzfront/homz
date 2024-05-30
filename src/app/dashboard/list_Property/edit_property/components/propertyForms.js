@@ -41,20 +41,23 @@ const PropertyForms = ({ propertyData }) => {
     if (loading) return; // Do nothing if already loading
     setLoading(true); // Set loading to true when submitting the form
     let success = false; // Initialize success variable
+    let error = false;
 
     if (form !== null || formII !== null || formIV !== null) {
       try {
         if (form !== null) {
-          const { success: successForm, upDateddata, error } = await updatePropertyDetails(
+          const { success: successForm, upDateddata, error: formerror } = await updatePropertyDetails(
             propertyData._id,
             form
           );
+          error = formerror
           success = successForm; // Update success variable
         } else if (formII !== null) {
-          const { success: successFormII, upDateddata, error } = await rentDetails(
+          const { success: successFormII, upDateddata, error: formerror } = await rentDetails(
             propertyData._id,
             formII
           );
+          error = formerror
           success = successFormII; // Update success variable
         } else if (formIV !== null) {
           const whatsappRegex = /^https:\/\/wa\.me\/\d{10,}$/;
@@ -77,10 +80,11 @@ const PropertyForms = ({ propertyData }) => {
             setSaveModalIsOpen(false);
             return;
           }
-          const { success: successFormIV, upDateddata, error } = await updateContactInfo(
+          const { success: successFormIV, upDateddata, error: formerror } = await updateContactInfo(
             propertyData._id,
             formIV
           );
+          error = formerror
           success = successFormIV; // Update success variable
         }
 
@@ -99,6 +103,23 @@ const PropertyForms = ({ propertyData }) => {
           setLoading(false);
           setSaveModalIsOpen(false);
         }
+        if (error) {
+          setLoading(false);
+          setSaveModalIsOpen(false);
+          if (
+            error?.response?.data?.error?.errors &&
+            error.response.data.error.errors.length > 0
+          ) {
+            const errorMessage = error.response.data.error.errors[0];
+            console.log(errorMessage);
+            toast.error(`Update failed: ${errorMessage}`);
+          } else if (error?.response?.data?.message) {
+            const errorMessage = error.response.data.message;
+            toast.error(`Update failed: ${errorMessage}`);
+          } else {
+            toast.error("Update failed");
+          }
+        }
       } catch (error) {
         setLoading(false);
         setSaveModalIsOpen(false);
@@ -107,7 +128,8 @@ const PropertyForms = ({ propertyData }) => {
           error.response.data.error.errors.length > 0
         ) {
           const errorMessage = error.response.data.error.errors[0];
-          // toast.error(`Update failed: ${errorMessage}`);
+          console.log(errorMessage);
+          toast.error(`Update failed: ${errorMessage}`);
         } else if (error?.response?.data?.message) {
           const errorMessage = error.response.data.message;
           toast.error(`Update failed: ${errorMessage}`);

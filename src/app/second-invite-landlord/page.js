@@ -1,6 +1,7 @@
 "use client";
 import { acceptSecondInvitation, acceptSecondInvitationHomz } from '@/api/acceptProManInvitation';
 import Loading from '@/components/mainmenu/loading';
+import LoadingII from '@/components/mainmenu/loadingII';
 import Login from '@/pages/ownerAccount/login'
 import useProfileStore from '@/store/profile';
 import Image from 'next/image';
@@ -13,6 +14,7 @@ const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
   const [dashboard, setDashboard] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   let urlParams;
   if (typeof window !== 'undefined') {
@@ -27,11 +29,14 @@ const App = () => {
   const invitation = urlParams.get("invitation");
   const isHomzEnterprise = urlParams.get("isHomzEnterprise");
 
-  const { fetchProfile, user, loading } = useProfileStore();
+  const { user } = useProfileStore();
 
   useEffect(() => {
     if (!user) {
-      setShowLogin(true); // Show login page if user is not available
+      setShowLogin(true);
+      setLoading(false)
+    } else {
+      setLoading(false);
     }
   }, [isHomzEnterprise, user]);
 
@@ -49,7 +54,6 @@ const App = () => {
         if (success) {
           setLoadingII(false);
           setDashboard(!dashboard);
-          // toast.success(upDateddata);
         } else {
           setLoadingII(false);
           toast.error(error);
@@ -70,7 +74,6 @@ const App = () => {
         if (success) {
           setLoadingII(false);
           setDashboard(!dashboard);
-          // toast.success(upDateddata);
         } else {
           setLoadingII(false);
           toast.error(error);
@@ -98,67 +101,68 @@ const App = () => {
       />
       {loadingII && <Loading />}
       {
-        dashboard ? (
-          <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">
-            <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md shadow-lg">
-              <div className="mt-[-10px] w-[464px] flex flex-col justify-around p-8 items-center gap-3">
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
-                  }
-                  alt=""
-                  height={48}
-                  width={48}
-                />
-                <h1 className="text-BlackHomz font-[700] text-[20px]">
-                  Account Created
-                </h1>
-                <p className="text-[16px] font-[400] text-GrayHomz text-center">
-                  Your account has successfully been created.
-                </p>
-                <Link
-                  href={"/dashboard/property-owner/dashboard"}
-                  className="h-[48px] rounded-md w-full bg-BlueHomz flex justify-center items-center text-white text-[16px] font-[700]"
-                >
-                  Go to dashboard
-                </Link>
-              </div>
-            </div>
-          </div>
-        ) :
-          showLogin ? (
-            <div className="mt-20 flex justify-center items-center">
-              <Login setShowLogin={setShowLogin} />
-            </div>
-          ) : (
+        loading ? <LoadingII /> :
+          dashboard ? (
             <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">
-              <div className="h-[260px] sm:h-[340px] w-[340px] sm:w-[580px] border rounded-[12px] flex flex-col items-center p-10 justify-between">
-                <Image src={"/Icon.png"} alt="" height={28} width={131} />
-
-                <div className="w-[360px] sm:w-[517px] text-BlackHomz mt-0 sm:mt-2">
-                  <p className="text-[18px] sm:text-[23px] font-[700] text-center">
-                    User Role Invite
+              <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md shadow-lg">
+                <div className="mt-[-10px] w-[464px] flex flex-col justify-around p-8 items-center gap-3">
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+                    }
+                    alt=""
+                    height={48}
+                    width={48}
+                  />
+                  <h1 className="text-BlackHomz font-[700] text-[20px]">
+                    Account Created
+                  </h1>
+                  <p className="text-[16px] font-[400] text-GrayHomz text-center">
+                    Your account has successfully been created.
                   </p>
-                  <p className="mt-1 text-[12px] sm:text-[18px] font-[400] text-center">
-                    Company’s Name has invited you to their dashboard as a
-                    viewer/editor.
-                  </p>
-                </div>
-
-                <div className="flex gap-4">
-                  <button
-                    onClick={handleSubmit}
-                    className="h-[40px] sm:h-[48px] w-[100px] sm:w-[160px] rounded-[4px] text-[12px] sm:text-[16px] font-[700] text-white bg-Success hover:bg-successBg"
+                  <Link
+                    href={"/dashboard/property-owner/dashboard"}
+                    className="h-[48px] rounded-md w-full bg-BlueHomz flex justify-center items-center text-white text-[16px] font-[700]"
                   >
-                    Accept Invite
-                  </button>
-                  <Link href={"/"} className="h-[40px] sm:h-[48px] w-[100px] sm:w-[160px] flex justify-center items-center rounded-[4px] text-[12px] sm:text-[16px] font-[500] text-error border border-error hover:bg-successBg hover:text-white hover:border-none ">
-                    Decline
+                    Go to dashboard
                   </Link>
                 </div>
               </div>
             </div>
-          )}
+          ) :
+            showLogin ? (
+              <div className="mt-20 flex justify-center items-center">
+                <Login setShowLogin={setShowLogin} />
+              </div>
+            ) : (
+              <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">
+                <div className="h-[260px] sm:h-[340px] w-[340px] sm:w-[580px] border rounded-[12px] flex flex-col items-center p-10 justify-between">
+                  <Image src={"/Icon.png"} alt="" height={28} width={131} />
+
+                  <div className="w-[360px] sm:w-[517px] text-BlackHomz mt-0 sm:mt-2">
+                    <p className="text-[18px] sm:text-[23px] font-[700] text-center">
+                      User Role Invite
+                    </p>
+                    <p className="mt-1 text-[12px] sm:text-[18px] font-[400] text-center">
+                      Company’s Name has invited you to their dashboard as a
+                      viewer/editor.
+                    </p>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <button
+                      onClick={handleSubmit}
+                      className="h-[40px] sm:h-[48px] w-[100px] sm:w-[160px] rounded-[4px] text-[12px] sm:text-[16px] font-[700] text-white bg-Success hover:bg-successBg"
+                    >
+                      Accept Invite
+                    </button>
+                    <Link href={"/"} className="h-[40px] sm:h-[48px] w-[100px] sm:w-[160px] flex justify-center items-center rounded-[4px] text-[12px] sm:text-[16px] font-[500] text-error border border-error hover:bg-successBg hover:text-white hover:border-none ">
+                      Decline
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
     </div>
   )
 }

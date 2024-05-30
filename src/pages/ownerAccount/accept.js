@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Loading from "@/components/mainmenu/loading";
+import LoadingII from "@/components/mainmenu/loadingII";
 
 const Accept = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -17,68 +18,63 @@ const Accept = () => {
   const [dashboard, setDashboard] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
   const [data, setData] = useState([]);
-  const router = useRouter();
-  // const { email, role, invitation, isHomzEnterprise } =
+  const [loading, setLoading] = useState(true);
+
   let urlParams;
   if (typeof window !== 'undefined') {
     const queryString = window.location.search;
     urlParams = new URLSearchParams(queryString);
   } else {
-    // Handle server-side rendering or non-browser environment
-    // For example, provide default values or set urlParams to an empty object
     urlParams = new URLSearchParams();
   }
-  
+
   const email = urlParams.get("email");
   const role = urlParams.get("role");
   const invitation = urlParams.get("invitation");
   const isHomzEnterprise = urlParams.get("isHomzEnterprise");
 
-  const form = () => {
-    setOpenForm(!openForm);
-  };
-
-  const closeForm   // console.log(email)
-  // console.log(role)
-  // console.log(invitation)
-  // console.log(isHomzEnterprise)
-
-= () => {
+  const closeForm = () => {
     setOpenForm(false);
   };
 
-  const { fetchProfile, user, loading } = useProfileStore();
+  const { user } = useProfileStore();
+  
+  console.log(user);
 
   useEffect(() => {
     if (isHomzEnterprise === "true") {
       if (!user) {
-        setShowLogin(true); // Show login page if user is not available
+        setShowLogin(true);
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
     } else {
       setOpenForm(true);
-      setData(
-        {
-          email,
-          role,
-          invitation,
-          isHomzEnterprise
-        }
-      ) // Show OwnerLoginForm if isHomzEnterprise is false
+      setData({
+        email,
+        role,
+        invitation,
+        isHomzEnterprise
+      })
+      setLoading(false);
     }
   }, [isHomzEnterprise, user]);
 
   useEffect(() => {
-    // Check user authentication
     if (!user) {
       setShowLogin(!showLogin);
+      setLoading(false);
     }
-  }, [user]); // Update the dependencies array
+    else {
+      setLoading(false);
+    }
+  }, [user]);
 
   const handleSubmit = async () => {
-    // e.preventDefault();
     setLoadingII(true);
     try {
-      const { success, upDateddata, error } = await acceptInvitation(
+      const { success, error } = await acceptInvitation(
         email,
         role,
         invitation,
@@ -88,7 +84,6 @@ const Accept = () => {
       if (success) {
         setLoadingII(false);
         setDashboard(!dashboard);
-        // toast.success(upDateddata);
       } else {
         setLoadingII(false);
         toast.error(error);
@@ -114,9 +109,9 @@ const Accept = () => {
         theme="dark"
       />
       {loadingII && <Loading />}
-      {openForm ? (
+      {loading ? <LoadingII /> : openForm ? (
         <div>
-          <OwnerLoginForm data={data}  closeForm={closeForm} />
+          <OwnerLoginForm data={data} closeForm={closeForm} />
         </div>
       ) : dashboard ? (
         <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">

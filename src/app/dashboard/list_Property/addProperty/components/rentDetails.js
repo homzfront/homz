@@ -9,24 +9,32 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
   const [agency, setAgency] = useState("");
 
   const onSubmit = () => {
-    const data = {
-      paymentType,
-      maintenanceFee: parseInt(maintenance),
-      totalFee: parseInt(total),
-      agencyFee: parseInt(agency),
-      price: parseInt(price)
+    const data = {};
+
+    if (paymentType !== undefined && paymentType !== null) {
+      data.paymentType = paymentType;
     }
-    if (data?.maintenanceFee) {
-      handleRentalInfo(data);
-    } else {
-      handleRentalInfo();
+    if (!isNaN(parseInt(maintenance))) {
+      data.maintenanceFee = parseInt(maintenance);
     }
+    if (!isNaN(parseInt(total))) {
+      data.totalFee = parseInt(total);
+    }
+    if (!isNaN(parseInt(agency))) {
+      data.agencyFee = parseInt(agency);
+    }
+    if (!isNaN(parseInt(price))) {
+      data.price = parseInt(price);
+    }
+
+    handleRentalInfo(data);
+
   };
 
   return (
     <div className="px-0 w-full">
       <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
-      Payment Details
+        Payment Details
       </div>
       <div className="text-[13px] md:text-[18px] font-[400] w-[270px] md:w-full">
         Kindly fill in the accurate payment details{" "}
@@ -105,7 +113,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           </div>
           <div className="flex md:gap-[28px] gap-[24px] flex-col">
             <div>
-              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label> 
+              <label className="text-[13px] md:text-[14px] font-[500] text-BlackHomz" htmlFor="agencyFee">How much is the Agency fee?</label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
@@ -178,7 +186,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
           <div className="">
             {
               paymentType !== "" &&
-                price !== "" 
+                price !== ""
                 ?
                 <button
                   onClick={onSubmit}
@@ -203,29 +211,29 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                     className="md:hidden"
                   />
                 </button>
-                : 
+                :
                 <button
-                className={`flex md:mr-5 border justify-center  md:w-[77px] items-center text-[14px] font-[500] md:py-[8px] md:px-[12px] ${"text-GrayHomz bg-GrayHomz5 border-[#A9A9A9] h-[36px] w-[36px] md:h-full "
-                  } rounded-[4px]`}
-              >
-                <span className="hidden md:block">Next</span>
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                  }
-                  alt=""
-                  height={16}
-                  width={16}
-                  className="hidden md:block"
-                />
-                <Image
-                  src="/static/images/right-arrow-Icon.svg"
-                  width={16}
-                  height={16}
-                  alt=""
-                  className="md:hidden"
-                />
-              </button>
+                  className={`flex md:mr-5 border justify-center  md:w-[77px] items-center text-[14px] font-[500] md:py-[8px] md:px-[12px] ${"text-GrayHomz bg-GrayHomz5 border-[#A9A9A9] h-[36px] w-[36px] md:h-full "
+                    } rounded-[4px]`}
+                >
+                  <span className="hidden md:block">Next</span>
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+                    }
+                    alt=""
+                    height={16}
+                    width={16}
+                    className="hidden md:block"
+                  />
+                  <Image
+                    src="/static/images/right-arrow-Icon.svg"
+                    width={16}
+                    height={16}
+                    alt=""
+                    className="md:hidden"
+                  />
+                </button>
             }
 
           </div>

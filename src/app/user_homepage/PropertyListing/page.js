@@ -14,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from 'react';
 import LoadingII from "@/components/mainmenu/loadingII";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
+import Reset from "@/components/icons/reset";
 
 const UserHomePage = () => {
   return (
@@ -196,7 +197,7 @@ const PreviewPropertyContent = () => {
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-  
+
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
       <div className="hidden xl:flex justify-between items-center w-full px-[76px]">
@@ -230,9 +231,9 @@ const PreviewPropertyContent = () => {
                 ? "Listing Type"
                 : capitalizeFirstLetter(filters?.listingType)
                 }`}
-                classNameII = {"text-GrayHomz border-GrayHomz"}
-                classNameIII={"text-GrayHomz"}
-                classNameIV={"text-GrayHomz"}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -243,9 +244,9 @@ const PreviewPropertyContent = () => {
                 ? "Property Type"
                 : capitalizeFirstLetter(filters?.propertyType)
                 }`}
-                classNameII = {"text-GrayHomz border-GrayHomz"}
-                classNameIII={"text-GrayHomz"}
-                classNameIV={"text-GrayHomz"}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -256,9 +257,9 @@ const PreviewPropertyContent = () => {
                 ? "No of bedrooms"
                 : `${filters?.numberOfBathrooms} Bedrooms`
                 }`}
-                classNameII = {"text-GrayHomz border-GrayHomz"}
-                classNameIII={"text-GrayHomz"}
-                classNameIV={"text-GrayHomz"}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -269,9 +270,9 @@ const PreviewPropertyContent = () => {
                 ? "Min Price"
                 : addCommasToNumberWithoutN(filters?.minPrice)
                 }`}
-                classNameII = {"text-GrayHomz border-GrayHomz"}
-                classNameIII={"text-GrayHomz"}
-                classNameIV={"text-GrayHomz"}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
           <div>
@@ -282,9 +283,9 @@ const PreviewPropertyContent = () => {
                 ? "Max Price"
                 : addCommasToNumberWithoutN(filters?.maxPrice)
                 }`}
-                classNameII = {"text-GrayHomz border-GrayHomz"}
-                classNameIII={"text-GrayHomz"}
-                classNameIV={"text-GrayHomz"}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
           <button
@@ -418,22 +419,33 @@ const PreviewPropertyContent = () => {
               />
             </div>
           </div>
-          <button
-            className="border w-[318px] h-[42px] p-[12px] border-BlueHomz bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
-            onClick={reset}
-          >
-            <span>
+          <div className="w-full flex flex-row gap-4">
+            <button
+              className="border w-[70%] h-[42px] p-[12px] border-BlueHomz text-white bg-BlueHomz items-center text-[14px] font-[500] flex justify-center gap-2 rounded-[4px] cursor-pointer mt-4"
+              onClick={closeMobileModal}
+            >
               <Image
-                src={"/static/images/white_repeat.svg"}
+                src="/static/images/white-search.svg"
                 alt=""
-                height={17}
                 width={16}
+                height={16}
               />
-            </span>
-            <span className="text-[14px] leading-[17.64px]  text-[700] text-white">
-              Reset
-            </span>
-          </button>
+              <span className="">
+                Filter
+              </span>
+            </button>
+            <button
+              className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"
+              onClick={reset}
+            >
+              <span>
+                <Reset className="#006AFF" />
+              </span>
+              <span className="text-[14px] leading-[17.64px]  text-[500] text-BlueHomz">
+                Reset
+              </span>
+            </button>
+          </div>
         </div>
       </CustomizedModal>
     </div>

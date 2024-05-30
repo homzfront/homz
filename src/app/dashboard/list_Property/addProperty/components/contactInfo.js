@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import useProfileStore from "@/store/profile";
 
 const ContactInfo = ({
   BackToPropertyPhotos,
   handleSubmitData,
   // loading,
 }) => {
-  const { profile } = useProfileStore();
-  const [email, setEmail] = useState(profile?.email || "");
+  const [email, setEmail] = useState("");
   const [whatsapp, setWhatsAppLink] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("")
   const [error, setError] = useState(null);
@@ -18,12 +16,21 @@ const ContactInfo = ({
   const onSubmit = () => {
     const phoneNumberRegex = /^\d{11}$/;
     const whatsappLinkRegex = /^https:\/\/wa\.me\//;
+    const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
     if (!phoneNumberRegex.test(phoneNumber)) {
       setError("Phone number must be 11 digits");
       return;
-    } if (whatsapp) {
+    }
+    if (whatsapp) {
       if (!whatsappLinkRegex.test(whatsapp)) {
         setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
+        return;
+      }
+    }
+    if (email) {
+      const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+      if (!validEmail.test(email)) {
+        setError("Invalid email link format");
         return;
       }
     }
@@ -72,9 +79,12 @@ const ContactInfo = ({
               <br />
               <input
                 value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  setError("")
+                }}
                 placeholder="Enter email"
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
-                disabled
               />
             </div>
             <div>
