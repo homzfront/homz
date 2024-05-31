@@ -21,8 +21,6 @@ const MaintenanceTable = ({ request, fetchData }) => {
   const [loading, setLoading] = useState(false);
   const [loadingRows, setLoadingRows] = useState({});
 
-  console.log(request);
-
   const ITEMS_PER_PAGE = 6;
 
   const [currentPage, setCurrentPage] = useState(1);

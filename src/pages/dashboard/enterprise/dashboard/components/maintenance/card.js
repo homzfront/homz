@@ -11,10 +11,9 @@ const Maintenance = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); 
+  }, []);
 
   const Data = request?.results
-
   return (
     <div className="rounded-[12px] border sm:w-[45%] h-[514px] overflow-auto scrollbar-container ">
       <div className="flex justify-between items-center p-6">
@@ -62,7 +61,7 @@ const Maintenance = () => {
                 <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                   {request.tenant?.coverPhoto?.url === null ||
                     request.tenant?.coverPhoto?.url === undefined ? (
-                      <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                    <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                       <EmptyAvatar />
                     </div>
                   ) : (

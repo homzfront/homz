@@ -25,8 +25,6 @@ const Maintenance = () => {
     setSelectedDate(null);
   };
 
-  console.log(request)
-
   const options = [
     ...new Set(
       request?.results?.map((item) => item?.status)
