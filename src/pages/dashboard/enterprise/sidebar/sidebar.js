@@ -45,6 +45,8 @@ const Sidebar = () => {
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
   const { request: maintenanceRequest, fetchData: fetchMaintenance } = useMaintenanceRequestStore();
 
+  console.log(maintenanceRequest);
+
   const logoutII = () => {
     setLogoutModal(!logoutModal);
   };

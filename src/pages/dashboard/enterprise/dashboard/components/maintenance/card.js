@@ -6,23 +6,14 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 
 const Maintenance = () => {
-  const { request, tenantData, loading, fetchData } =
+  const { request, loading, fetchData } =
     useMaintenanceRequestStore();
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); 
 
-  const tenantLookup = {};
-  tenantData?.forEach((tenant) => {
-    tenantLookup[tenant?.data._id] = tenant?.data;
-  });
-
-  // Now, you can iterate through maintenanceRequests and access the corresponding tenantData using the lookup
-  const Data = request?.results?.map((request) => ({
-    ...request,
-    tenantData: tenantLookup[request?.tenant._id],
-  }));
+  const Data = request?.results
 
   return (
     <div className="rounded-[12px] border sm:w-[45%] h-[514px] overflow-auto scrollbar-container ">
@@ -69,14 +60,14 @@ const Maintenance = () => {
             {Data?.map((request) => (
               <tr key={request?._id} className=" border-t-[1px] items-center">
                 <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                  {request.tenantData?.coverPhoto?.url === null ||
-                    request.tenantData?.coverPhoto?.url === undefined ? (
+                  {request.tenant?.coverPhoto?.url === null ||
+                    request.tenant?.coverPhoto?.url === undefined ? (
                       <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                       <EmptyAvatar />
                     </div>
                   ) : (
                     <Image
-                      src={request.tenantData?.coverPhoto?.url}
+                      src={request.tenant?.coverPhoto?.url}
                       alt=""
                       width={40}
                       height={40}
@@ -87,7 +78,7 @@ const Maintenance = () => {
                       priority
                     />
                   )}
-                  <span className="py-[15px]">     {request?.tenantData?.fullName}</span>
+                  <span className="py-[15px]">     {request?.tenant?.fullName}</span>
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden sm:table-cell">
                   {request?.subject}
