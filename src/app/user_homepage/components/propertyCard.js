@@ -126,10 +126,10 @@ const PropertyCard = ({
                       </div>
                       <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
                         <div className="flex justify-between">
-                          <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
+                          <p className="text-[#006AFF] w-[75%] truncate text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-start">
                             {capitalizeFirstLetter(property?.name || property?.title)}
                           </p>
-                          <p className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
+                          <p className={`w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
                           >
                             {capitalizeFirstLetter(property?.listingType)}
                           </p>
@@ -139,8 +139,8 @@ const PropertyCard = ({
                           {capitalizeFirstLetter(property?.propertyType)}
                         </p>
                         <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
-                 ${property?.price ? "" : "hidden"}
-              `}>
+                           ${property?.price ? "" : "hidden"}
+                           `}>
                           <Image
                             src="/static/images/nairaIcon.svg"
                             alt=""

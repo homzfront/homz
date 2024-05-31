@@ -37,7 +37,7 @@ const Card = ({data}) => {
           </h1>
         </div>
         <div>
-          <Link href={"/dashboard/enterprise-property/estates"}>
+          <Link href={"/dashboard/enterprise-property/estates?tab=addProperty"}>
             <Image
               alt=""
               height={40}

@@ -122,7 +122,7 @@ const SelectPlan = () => {
                       {user && user.some(userPlan => userPlan.name === data.name) ? (
                         <Link href={data.link}>
                           <button className="hover:border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] bg-walletBg text-BlueHomz hover:bg-white hover:border-BlueHomz">
-                            Signed In
+                            Activated
                           </button>
                         </Link>
                       ) : data.active ? (

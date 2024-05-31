@@ -74,13 +74,13 @@ const Tenants = ({ id }) => {
               />
               <Link
                 href={"/dashboard/enterprise-property/estates"}
-                className="text-[14px] font-[400] text-GrayHomz2"
+                className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
               >
                 Go Back
               </Link>
               <Link
                 href={"/dashboard/enterprise-property/estates"}
-                className="text-[16px] font-[400] text-GrayHomz"
+                className="text-[16px] truncate font-[400] text-GrayHomz"
               >
                {datas?.name ? datas?.name : "Property Name"}<> </>/
               </Link>

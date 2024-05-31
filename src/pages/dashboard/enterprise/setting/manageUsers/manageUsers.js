@@ -257,7 +257,7 @@ const ManageUsers = () => {
                 Yet to add a property?
               </p>
               <Link
-                href={"/dashboard/enterprise-property/estates"}
+                href={"/dashboard/enterprise-property/estates?tab=addProperty"}
                 className="text-[14px] font-[700] text-BlueHomz"
               >
                 Add New Property

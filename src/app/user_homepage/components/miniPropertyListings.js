@@ -19,7 +19,7 @@ const MiniPropertyListings = ({
         </p>
       </div>
       <div className="flex w-[315px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
-        {Properties?.slice(0, 3)?.map((property, index) => (
+        {Properties?.map((property, index) => (
           <div
             className={`flex flex-col w-[315px]  ${width ? width : " md:w-[333px]"
               }  md:h-[458px] rounded-[12px] shadow-md`}
@@ -53,7 +53,7 @@ const MiniPropertyListings = ({
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
               <div className="flex justify-between">
-                <p className="text-[#006AFF] text-[20.66px] md:text-[21px] font-[700] leading-[28.98px] text-center">
+                <p className="text-[#006AFF] w-[75%] truncate text-[20.66px] md:text-[21px] font-[700] leading-[28.98px] text-start">
                   {capitalizeFirstLetter(property?.name || property?.title)}
                 </p>
                 <p className={`hidden md:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]

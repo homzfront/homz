@@ -73,7 +73,7 @@ const PropertyCard = ({ Property, state, setDataProperties }) => {
             </div>
             <div className="flex flex-col px-2 pb-2  pt-2 md:pt-5 gap-[5px] md:gap-[2px]">
               <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
-                <p className="text-[#006AFF] font-[700] leading-[13.86px] md:leading-[24px] text-center">
+                <p className="text-[#006AFF] truncate font-[700] leading-[13.86px] md:leading-[24px] text-center">
                   {property?.name ? property?.name : property?.title}
                 </p>
                 <div className="relative">

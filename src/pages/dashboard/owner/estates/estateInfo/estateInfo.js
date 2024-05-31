@@ -4,7 +4,7 @@ import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
 import useEstateForOneStore from "@/store/useEstateForOne";
-const EstateInfo = ({id}) => {
+const EstateInfo = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();
 
   useEffect(() => {
@@ -26,15 +26,15 @@ const EstateInfo = ({id}) => {
             />
             <Link
               href={"/dashboard/property-owner/estates"}
-              className="text-[14px] font-[400] text-GrayHomz2"
+              className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
             >
               Go Back
             </Link>
             <Link
               href={"/dashboard/property-owner/estates"}
-              className="text-[16px] font-[400] text-GrayHomz"
+              className="text-[16px] truncate font-[400] text-GrayHomz"
             >
-   {data?.name ? data?.name : "Property Name"}<> </>/
+              {data?.name ? data?.name : "Property Name"}<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Information
@@ -42,7 +42,7 @@ const EstateInfo = ({id}) => {
           </div>
         </div>
         <div>
-          <Widget data={data}/>
+          <Widget data={data} />
         </div>
       </div>
     </div>
