@@ -5,9 +5,12 @@ import MaintenanceRequest from "./components/maintenanceRequest/maintenanceReque
 import Request from "./components/request/request";
 import LoadingII from "@/components/mainmenu/loadingII";
 import useMaintenanceTenantStore from "@/store/tenantStore/useMaintenanceTenantStore";
+import { useSearchParams } from "next/navigation";
 
 const Maintenance = () => {
-  const [maintenanceReq, setMaintenanceReq] = useState(false);
+  const urlParams = useSearchParams();
+  const tab = urlParams.get("tab");
+  const [maintenanceReq, setMaintenanceReq] = useState(tab === "maintenance");
   const { data, loading, fetchData } = useMaintenanceTenantStore();
 
   useEffect(() => {

@@ -40,7 +40,7 @@ const PopUpMenu = ({ user }) => {
       </Link>
       <div className="p-2 w-full">
         <Link
-          href={"/dashboard/tenant/notifications"}
+          href={"/dashboard/tenant/notificationPage"}
           className="cursor-pointer  text-GrayHomz hover:text-BlueHomz hover:bg-whiteblue h-[40px] rounded-md flex gap-1 items-center  py-2 px-2 w-full  text-center"
         >
           <Image

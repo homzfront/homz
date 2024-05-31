@@ -42,7 +42,7 @@ const HomesCard = ({ statsData }) => {
 
 
   return (
-    <div className="border sm:w-[33%] rounded-[12px] ">
+    <div className="border md:w-[33%] rounded-[12px] ">
       <h1 className="text-BlueHomz px-6 pt-6 pb-3 font-[500] text-[14px]">Homes</h1>
       <div className="flex justify-between gap-1  px-3 pb-6">
         <div className="h-[98px]">
@@ -57,7 +57,7 @@ const HomesCard = ({ statsData }) => {
               <h3 className="text-[10px] font-[400] text-GrayHomz ">
                 Total Homes
               </h3>
-              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
                 {statsData?.totalNumberOfHouses
                   ? `${statsData?.totalNumberOfHouses}`
                   : "0"}
@@ -72,7 +72,7 @@ const HomesCard = ({ statsData }) => {
               <h3 className="text-[10px] font-[400] text-GrayHomz ">
                 Rented Homes
               </h3>
-              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
                 {statsData?.totalRentedHomes
                   ? `${statsData?.totalRentedHomes}`
                   : "0"}
@@ -87,7 +87,7 @@ const HomesCard = ({ statsData }) => {
               <h3 className="text-[10px] font-[400] text-GrayHomz ">
                 Vacant Homes
               </h3>
-              <h3 className="text-[11px] sm:text-[14px] font-[700] text-BlackHomz">
+              <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
                 {statsData?.totalVacantHomes
                   ? `${statsData?.totalVacantHomes}`
                   : "0"}

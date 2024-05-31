@@ -9,7 +9,7 @@ import Link from "next/link";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 import useEstateForOneStore from "@/store/useEstateForOne";
 
-const Dashboard = ({id}) => {
+const Dashboard = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
   const { data: datas, fetchData: Fetch } = useEstateForOneStore();
 
@@ -34,16 +34,15 @@ const Dashboard = ({id}) => {
             />
             <Link
               href={"/dashboard/enterprise-property/estates"}
-              className="text-[14px] font-[400] text-GrayHomz2"
+              className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
             >
               Go Back
             </Link>
             <Link
               href={"/dashboard/enterprise-property/estates"}
-              className="text-[16px] font-[400] text-GrayHomz"
+              className="text-[16px] truncate font-[400] text-GrayHomz"
             >
-                     {datas?.name ? datas?.name : "Property Name"}<> </>/
-       
+              {datas?.name ? datas?.name : "Property Name"}<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Dashboard
@@ -51,12 +50,14 @@ const Dashboard = ({id}) => {
           </div>
         </div>
         <div className="mt-8 w-[784px] justify-between flex gap-5">
-          <HomeCard revData={datas}/>
-          <RevCard id={id}/>
+          <div className="w-[50%]">
+            <HomeCard revData={datas} />
+          </div>
+          {/* <RevCard id={id}/> */}
         </div>
         <div className="mt-8 flex gap-5">
-          <TenantsCard data={data}/>
-          <Maintenance data={data} maintData={datas}/>
+          <TenantsCard data={data} />
+          <Maintenance data={data} maintData={datas} />
         </div>
       </div>
     </div>

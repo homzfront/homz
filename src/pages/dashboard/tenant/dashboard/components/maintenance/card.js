@@ -24,10 +24,10 @@ const Maintenance = () => {
           </div>
         </div>
 
-        <Link href={"/dashboard/tenant/maintenance"} className="hidden sm:block text-[13px] font-[400] text-BlueHomz">
+        <Link href={"/dashboard/tenant/maintenance?tab=maintenance"} className="hidden sm:block text-[13px] font-[400] text-BlueHomz">
           Request for maintenance
         </Link >
-        <Link href={"/dashboard/tenant/maintenance"} className="sm:hidden">
+        <Link href={"/dashboard/tenant/maintenance?tab=maintenance"} className="sm:hidden">
           <Add />
         </Link>
       </div>

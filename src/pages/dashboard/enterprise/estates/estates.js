@@ -8,8 +8,11 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import estateStore from "@/store/enterpriseStore/estates";
 import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
+import { useSearchParams } from "next/navigation";
 
 const Estate = () => {
+  const urlParams = useSearchParams();
+  const tab = urlParams.get("tab")
   const { data, loading, fetchData } = estateStore();
   
 
@@ -22,7 +25,7 @@ const Estate = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [registrationForm, setRegistrationForm] = useState(false);
+  const [registrationForm, setRegistrationForm] = useState(tab === 'addProperty');
   const [inviteTenant, setInviteTenant] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);

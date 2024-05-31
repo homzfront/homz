@@ -52,9 +52,16 @@ module.exports = {
         GrayHomzDash: "#006AFF",
         HomePageBg: "#EDF3FB"
       },
+      // screens: {
+      //   'sm': '640px',
+      //   'md': '768px',
+      //   'lg': '1024px',
+      //   'xl': '1280px',
+      //   '2xl': '1536px',
+      //   'mini': '370px',
+      // },
     },
   },
   plugins: [],
 }
-
 

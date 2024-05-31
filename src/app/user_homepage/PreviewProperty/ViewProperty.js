@@ -252,7 +252,7 @@ const ViewProperty = ({ PropertyID }) => {
                   {propertyData?.name || propertyData?.title}
                 </p>
 
-                <p className="text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] flex md:text-[16px] px-[8px] bg-[#EEF5FF] items-center h-[28px] md:h-[35px]  rounded-[8px]">
+                <p className="text-[#006AFF] font-[500] w-[130px] md:w-[auto] md:leading-[24px] text-[13px] leading-[19.5px] flex justify-center md:text-[16px] px-[8px] bg-[#EEF5FF] items-center h-[28px] md:h-[35px]  rounded-[8px]">
                   {propertyData?.listingType && (propertyData?.listingType === "Sale" || propertyData?.listingType === "Rent") ? `For ${propertyData?.listingType}` : propertyData?.listingType}
                   {/* {"For Rent"} */}
                 </p>

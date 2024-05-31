@@ -102,7 +102,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                         {...register("title", {
                           required: true,
                         })}
-                        placeholder="2 plots of land"
+                        placeholder="Land measuring 35,000 sqm"
                         className="h-[43px] md:h-[45px] md:w-[473px] fields p-[8px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
                       />
                       {errors.Title && (

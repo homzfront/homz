@@ -98,17 +98,17 @@ const Tenants = ({ id }) => {
           />
           <Link
             href={"/dashboard/property-owner/estates"}
-            className="text-[14px] font-[400] text-GrayHomz2"
+            className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
           >
             Go Back
           </Link>
           <Link
             href={"/dashboard/property-owner/estates"}
-            className="text-[16px] font-[400] text-GrayHomz"
+            className="text-[16px] truncate font-[400] text-GrayHomz"
           >
-                            {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
-       
-     
+            {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
+
+
           </Link>
           <div className="text-[20px] font-[500] text-GrayHomz">Tenants</div>
         </div>

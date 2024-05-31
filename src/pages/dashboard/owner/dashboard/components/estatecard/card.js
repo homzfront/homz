@@ -4,7 +4,7 @@ import React from "react";
 
 const Card = ({ data }) => {
   return (
-    <div className="border rounded-[12px] p-6 sm:w-[27%] flex flex-col gap-10">
+    <div className="border rounded-[12px] p-6 md:w-[27%] flex flex-col gap-10">
       <div className="flex justify-between">
         <h3 className="font-[500] text-[14px] text-BlueHomz">Properties</h3>
 

@@ -945,7 +945,7 @@ const HomePage = () => {
                         </div>
                         <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
                           <div className="flex justify-between items-center">
-                            <p className="text-BlueHomz text-[23px] font-[700]">
+                            <p className="text-BlueHomz text-[23px] w-[75%] truncate text-start font-[700]">
                               {capitalizeFirstLetter(property?.property?.name || property?.property?.title)}
                             </p>
                             {property?.property?.listingType && (
@@ -1068,7 +1068,7 @@ const HomePage = () => {
                         </div>
                         <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
                           <div className="flex justify-between items-center">
-                            <p className="text-BlueHomz text-[23px] font-[700]">
+                            <p className="text-BlueHomz w-[75%] truncate text-start text-[23px] font-[700]">
                               {capitalizeFirstLetter(property?.property?.name || property?.property?.title)}
                             </p>
                             {property?.property?.listingType && (

@@ -206,7 +206,7 @@ const ListedEstates = ({
 
       {inviteTenant && (
         <div  className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={""} openRegistrationForm={openRegistrationForm}/>
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"?tab=addProperty"} openRegistrationForm={openRegistrationForm}/>
         </div>
       )}
     </div>

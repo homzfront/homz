@@ -44,7 +44,7 @@ const Widget = ({ data }) => {
     <div>
 
       <div className="w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-[680px] cursor-pointer">
+        <div className="flex mt-5 gap-2 justify-between w-[500px] cursor-pointer">
           <div
             className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
               !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
@@ -64,7 +64,7 @@ const Widget = ({ data }) => {
               <p className="text-[14px] font-500">Profile Picture</p>
             </div>
           </div>
-          
+{/*           
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
@@ -74,7 +74,7 @@ const Widget = ({ data }) => {
             >
               <p className="text-[14px] font-500">Account Information</p>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
@@ -95,9 +95,9 @@ const Widget = ({ data }) => {
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
           <ProfilePicture data={data} />
         </div>
-        <div className={`${activeThree ? "inline" : "hidden"}`}>
+        {/* <div className={`${activeThree ? "inline" : "hidden"}`}>
           <AccountInfo />
-        </div>
+        </div> */}
         <div className={`${activeFour ? "inline" : "hidden"}`}>
           <ChangePassword />
         </div>

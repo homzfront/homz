@@ -48,18 +48,18 @@ const Table = ({ tenantData, datas }) => {
         <div className="">
           <table border="1" className="w-full ">
             <thead className="">
-              <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6">Date</th>
-                <th className="text-left ">Due Date</th>
-                <th className="text-left ">Rent Paid</th>
-                <th className="text-left ">Property Type</th>
-                <th className="text-left ">Status</th>
+              <tr className="bg-whiteblue h-[50px] text-[11px] md:text-[13px]  font-[500] text-BlackHomz">
+                <th className="text-left pl-6 hidden md:table-cell ">Name</th>
+                <th className="text-left pl-4 md:pl-0 w-[25%] md:w-auto">Due Date</th>
+                <th className="text-left w-[25%] md:w-auto">Rent Paid</th>
+                <th className="text-left w-[25%] md:w-auto">Property Type</th>
+                <th className="text-left w-[25%] md:w-auto">Status</th>
               </tr>
             </thead>
             <tbody className="">
               {currentData?.map((data) => (
                 <tr key={data._id} className=" w-2 border-t-[1px] items-center">
-                  <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
+                  <td className="md:flex items-center gap-1 pr-2 pl-6 text-GrayHomz4 font-[500] text-[11px] hidden">
                     {tenantData?.data?.data?.coverPhoto?.url === null ||
                       tenantData?.data?.data?.coverPhoto?.url === undefined ? (
                         <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
@@ -80,20 +80,20 @@ const Table = ({ tenantData, datas }) => {
                     )}
                     <span className="py-[15px]">  {tenantData?.data?.data?.fullName}</span>
                   </td>
-                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                  <td className="text-GrayHomz pl-4 md:pl-0 py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
                     {changeBackendDateFormat(data?.dueDate)}
                   </td>
-                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
                     {addCommasToNumber(data?.totalRent)}
                   </td>
-                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
                     {data?.propertyType}
                   </td>
                   <td
-                    className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] w-24`}
+                    className={`text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] md:w-24 w-[25%]`}
                   >
                     <span
-                      className={`p-[6px] rounded-md text-center  ${data?.rentInfo?.paymentStatus === "pending"
+                      className={`md:p-[6px] rounded-md text-center break-words  ${data?.rentInfo?.paymentStatus === "pending"
                         ? "bg-warningBg text-warning2 px-[13px]"
                         : ""
                         } ${data?.rentInfo?.paymentStatus === "paid"
@@ -102,7 +102,7 @@ const Table = ({ tenantData, datas }) => {
                         }  ${data?.rentInfo?.paymentStatus === "over due" ? "bg-error text-white" : ""
                         }`}
                     >
-                      {capitalizeFirstLetter(data?.status)}
+                      {capitalizeFirstLetter(data?.status) === "PENDING_AUTHORIZATION" ? "Pending" : capitalizeFirstLetter(data?.status)}
                     </span>
                   </td>
                 </tr>

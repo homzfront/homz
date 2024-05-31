@@ -51,7 +51,7 @@ const Dashboard = () => {
         <div className="flex flex-col sm:flex-row gap-5">
           <Card data={statsData} />
           <HomesCard statsData={statsData}/>
-          <RevCard revData={revData}/>
+          {/* <RevCard revData={revData}/> */}
         </div>
       </div>
       <div className="flex flex-col sm:flex-row px-8 gap-5 w-full">

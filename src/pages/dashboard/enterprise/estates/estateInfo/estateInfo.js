@@ -20,7 +20,7 @@ const EstateInfo = ({ id }) => {
     <div className="w-full p-8">
       <div>
         <div>
-          <div className="w-[475px] flex gap-2 items-center">
+          <div className="w-[575px] flex gap-2 items-center">
             <Image
               src={
                 "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
@@ -31,13 +31,13 @@ const EstateInfo = ({ id }) => {
             />
             <Link
               href={"/dashboard/enterprise-property/estates"}
-              className="text-[14px] font-[400] text-GrayHomz2"
+              className="text-[14px] w-[90px] font-[400] text-GrayHomz2"
             >
               Go Back
             </Link>
             <Link
               href={"/dashboard/enterprise-property/estates"}
-              className="text-[16px] font-[400] text-GrayHomz"
+              className="text-[16px] truncate font-[400] text-GrayHomz"
             >
               {data?.name ? data?.name : "Property Name"}<> </>/
 

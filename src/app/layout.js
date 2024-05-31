@@ -29,9 +29,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
         <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-      ) : (
-        <GoogleAnalytics ga_id="G-J2KVN3RH83" />
-      )}
+      ) : null}
       <body>
         <script
           dangerouslySetInnerHTML={{

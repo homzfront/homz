@@ -47,7 +47,7 @@ const Card = ({
 
         <div className="p-4 flex gap-3 h-full flex-col">
           <div ref={dropdownRef} className="relative flex justify-between items-center">
-            <p className="font-[700] text-[16px] text-BlueHomz">{value2}</p>
+            <p className="font-[700] truncate text-[16px] text-BlueHomz">{value2}</p>
             <Image
               src={
                 "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -70,7 +70,7 @@ const Card = ({
               alt=""
               style={{ height: "auto", width: "auto" }}
             />
-            <p className="font-[500] text-[11px] text-GrayHomz">{value3}</p>
+            <p className="font-[500] truncate text-[11px] text-GrayHomz">{value3}</p>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
