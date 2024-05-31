@@ -31,9 +31,7 @@ const Sidebar = () => {
   const path = usePathname();
   const pathname = keepThree(path);
   const pathname2 = keepFour(path);
-
-  // console.log(pathname);
-  // console.log(pathname2);
+  
   const { logout } = useProfileStore();
   const [logoutModal, setLogoutModal] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(false);

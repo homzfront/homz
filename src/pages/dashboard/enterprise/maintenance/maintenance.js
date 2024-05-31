@@ -12,7 +12,7 @@ const Maintenance = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
-  const { request, tenantData, loading, fetchData } =
+  const { request, loading, fetchData } =
     useMaintenanceRequestStore();
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const Maintenance = () => {
           </div>
 
           <div>
-            <MaintenanceTable fetchData={fetchData} request={filteredData} tenantData={tenantData} />
+            <MaintenanceTable fetchData={fetchData} request={filteredData} />
           </div>
         </div>
       ) : (

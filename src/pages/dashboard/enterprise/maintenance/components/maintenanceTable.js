@@ -14,35 +14,23 @@ import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 
-const MaintenanceTable = ({ request, tenantData, fetchData }) => {
+const MaintenanceTable = ({ request, fetchData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadingRows, setLoadingRows] = useState({});
 
-  // Create a lookup object for faster access
-  const tenantLookup = {};
-  tenantData?.forEach((tenant) => {
-    tenantLookup[tenant?.data._id] = tenant?.data;
-  });
-
-  // Now, you can iterate through maintenanceRequests and access the corresponding tenantData using the lookup
-  const MaintenanceRequests = request?.map((request) => ({
-    ...request,
-    tenantData: tenantLookup[request?.tenant._id],
-  }));
-
   const ITEMS_PER_PAGE = 6;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(MaintenanceRequests?.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(request?.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const currentData = MaintenanceRequests?.slice(startIndex, endIndex);
+  const currentData = request?.slice(startIndex, endIndex);
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -133,14 +121,14 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
                   className="flex bg-white border-t-[1px] items-center px-8 h-[64px]"
                 >
                   <div className="flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
-                    {request.tenantData?.coverPhoto?.url === null ||
-                      request.tenantData?.coverPhoto?.url === undefined ? (
+                    {request.tenant?.coverPhoto?.url === null ||
+                      request.tenant?.coverPhoto?.url === undefined ? (
                       <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                         <EmptyAvatar />
                       </div>
                     ) : (
                       <Image
-                        src={request.tenantData?.coverPhoto?.url}
+                        src={request.tenant?.coverPhoto?.url}
                         alt=""
                         width={40}
                         height={40}
@@ -152,7 +140,7 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
                       />
                     )}
                     <span className="py-[15px] ">
-                      {request?.tenantData?.fullName}
+                      {request?.tenant?.fullName}
                     </span>
                   </div>
                   <div className="flex-1 text-GrayHomz  font-[500] text-[11px]">
@@ -177,21 +165,21 @@ const MaintenanceTable = ({ request, tenantData, fetchData }) => {
                     {changeBackendDateFormat(request?.requestDate)}
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                    {request?.tenantData?.estateId?.name}
+                    {request?.tenant?.estateId?.name}
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                    {request.tenantData?.rentInfo?.apartmentNumber
-                      ? request.tenantData?.rentInfo?.apartmentNumber
+                    {request.tenant?.rentInfo?.apartmentNumber
+                      ? request.tenant?.rentInfo?.apartmentNumber
                       : "-----"}
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                    {request?.tenantData?.houseAddress}
+                    {request?.tenant?.estateId?.address}
                   </div>
                   <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
-                    {request?.tenantData?.phoneNumber}
+                    {request?.tenant?.phoneNumber}
                   </div>
                   <div className="flex-[0.2] relative ">
-                    <button onClick={() => handleToggleMenu(request._id)}>
+                    <button onClick={() => handleToggleMenu(request?.tenant?._id)}>
                       <Image
                         src={
                           "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
