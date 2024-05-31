@@ -56,7 +56,7 @@ const MiniPropertyListings = ({
                 <p className="text-[#006AFF] w-[75%] truncate text-[20.66px] md:text-[21px] font-[700] leading-[28.98px] text-start">
                   {capitalizeFirstLetter(property?.name || property?.title)}
                 </p>
-                <p className={`hidden md:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
+                <p className={`flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
                 >
