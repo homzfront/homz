@@ -140,7 +140,7 @@ const Tenants = () => {
                 <div className="relative w-[86%] rounded-[4px]">
                   <input
                     type="text"
-                    className="border h-[40px] pl-8 rounded-[4px] w-full "
+                    className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
                     id="search"
                     // value={searchQuery}
                     // onChange={(e) => setSearchQuery(e.target.value)}

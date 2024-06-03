@@ -9,10 +9,10 @@ const Photos = ({ data }) => {
   const uploadedImage3 = (data?.photos?.[1]?.url ? data?.photos?.[1]?.url : null);
   return (
     <div>
-      <div className="flex gap-4 mt-10">
+      <div className="flex flex-col md:flex-row gap-4 mt-10">
         <div className="">
           <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo</p>
-          <div className="mt-4 w-[235px] flex justify-start">
+          <div className="md:mt-4 w-[235px] flex justify-start">
             <div
               className={`h-[196px] rounded-[8px] w-[196px] justify-center items-center flex ${uploadedImage !== null
                 ? ""
@@ -42,7 +42,7 @@ const Photos = ({ data }) => {
         </div>
         <div className={`${uploadedImage2 !== null ? "" : "hidden"}`}>
           <p className=" text-[13px] font-[500] text-GrayHomz">Other photos</p>
-          <div className="mt-4 flex gap-2 w-[750px]">
+          <div className="md:mt-4 flex gap-2 md:w-[750px]">
             <div className="w-[235px] flex justify-start">
               <div
                 className={`h-[196px] rounded-[8px] w-[196px] justify-center items-center flex ${uploadedImage2 !== null

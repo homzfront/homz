@@ -28,8 +28,8 @@ const UpdateButton = ({updateDone, doneUpdate, setDoneUpdate, loading, showDialo
       {
         loading && <Loading/>
       }
-      <div className="mt-[5%] flex justify-end">
-        <button onClick={handleUpdate} className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-[100px] justify-center items-center">
+      <div className="mt-8 md:mt-[5%] flex justify-end">
+        <button onClick={handleUpdate} className="text-[14px] font-[500] p-4 rounded-md text-white bg-BlueHomz flex w-full md:w-[100px] justify-center items-center">
           Update
         </button>
       </div>

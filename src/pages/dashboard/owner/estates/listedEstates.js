@@ -63,28 +63,29 @@ const ListedEstates = ({
 
   return (
     <div className="w-full">
-      <div>
-        <div className="p-8 flex justify-between items-center">
-          <div className="flex gap-2 items-center">
-            <p className="text-[20px] font-[500]">Properties</p>
-            <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-              <span className="text-BlueHomz text-[18px] font-[400]">{data?.length}</span>
-            </span>
-          </div>
+      <div className="w-full px-8 py-2 md:py-8">
+        <div>
+          <div className="w-full hidden md:flex justify-between items-center">
+            <div className="flex gap-2 items-center">
+              <p className="text-[20px] font-[500]">Properties</p>
+              <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
+                <span className="text-BlueHomz text-[18px] font-[400]">{data?.length}</span>
+              </span>
+            </div>
 
-          <div className="flex items-center justify-center gap-2">
-            <p className="text-[16px] font-[400] text-BlackHomz pr-2">
-              Filter by:{" "}
-            </p>
-            <div className="w-[200px]">
-                  <Dropdown
-                    options={options3}
-                    onSelect={(option) => setSelectedProperty(option)}
-                    selectOption={selectedProperty === null ? "Property" : selectedProperty}
-                    className={"text-[14px] font-[500] text-GrayHomz2"}
-                  />
-                </div>
-            {/* <div className="w-[120px]">
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-[16px] font-[400] text-BlackHomz pr-2">
+                Filter by:{" "}
+              </p>
+              <div className="w-[200px]">
+                <Dropdown
+                  options={options3}
+                  onSelect={(option) => setSelectedProperty(option)}
+                  selectOption={selectedProperty === null ? "Property" : selectedProperty}
+                  className={"text-[14px] font-[500] text-GrayHomz2"}
+                />
+              </div>
+              {/* <div className="w-[120px]">
               <Dropdown
                 options={options}
                 onSelect={(option) => setSelectedState(option)}
@@ -102,25 +103,56 @@ const ListedEstates = ({
                 className={"text-[14px] font-[500] text-GrayHomz2"}
               />
             </div> */}
-            <button
-              onClick={clear}
-              type="text" className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
-              <span>
+              <button
+                onClick={clear}
+                type="text" className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] mb-1 p-1 rounded cursor-pointer">
+                <span>
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/repeat.png"
+                    }
+                    alt=""
+                    height={17}
+                    width={16}
+                  />
+                </span>
+                Reset
+              </button>
+            </div>
+          </div>
+          <div className="mt-4 flex justify-between md:hidden w-full">
+            <div className="relative w-[86%] rounded-[4px]">
+              <input
+                type="text"
+                className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+                id="search"
+                // value={searchQuery}
+                // onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by state or area "
+              />
+              <Image
+                src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                alt=""
+                className="absolute top-3 left-3"
+                height={16}
+                width={16}
+              />
+            </div>
+            <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+              <button
+              // onClick={openMobileModal}
+              >
                 <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                  }
+                  src="/static/images/filter.svg"
                   alt=""
-                  height={17}
                   width={16}
+                  height={16}
                 />
-              </span>
-              Reset
-            </button>
+              </button>
+            </div>
           </div>
         </div>
-
-        <div className="px-8 py-4 h-[750px] flex flex-col justify-between">
+        <div className="py-4 h-[750px] flex flex-col justify-between">
           <EstateCard
             Data={currentData}
             handleToggleMenu={handleToggleMenu}

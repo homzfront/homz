@@ -67,7 +67,7 @@ const Maintenance = () => {
         <LoadingII />
       ) : data && data?.length >= 1 ? (
         <div className="">
-          <div className="flex justify-between items-center">
+          <div className="hidden md:flex justify-between items-center">
             <p className="text-[20px] font-[500] text-BlackHomz">Maintenance</p>
             <Filter
               selectedProperty={selectedProperty}
@@ -81,9 +81,40 @@ const Maintenance = () => {
               clear={clear}
             />
           </div>
-          <div className="absolute border-t w-full left-0 top-[105px]">
+          <div className="flex justify-between md:hidden w-full">
+            <div className="relative w-[86%] rounded-[4px]">
+              <input
+                type="text"
+                className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+                id="search"
+                // value={searchQuery}
+                // onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by state or area "
+              />
+              <Image
+                src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                alt=""
+                className="absolute top-3 left-3"
+                height={16}
+                width={16}
+              />
+            </div>
+            <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+              <button
+              // onClick={openMobileModal}
+              >
+                <Image
+                  src="/static/images/filter.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+              </button>
+            </div>
           </div>
-          <div className="flex gap-4 mt-[70px]">
+          <div className="hidden md:absolute border-t w-full left-0 top-[105px]">
+          </div>
+          <div className="hidden md:flex gap-4 mt-[70px]">
             <Box
               type={"Total Requests"}
               money={data?.length}
@@ -109,9 +140,38 @@ const Maintenance = () => {
               bgColor={"successBg"}
             />
           </div>
-
+          <div className="md:hidden w-full mt-[32px]">
+            <Box
+              type={"Total Requests"}
+              money={data?.length}
+              border={"border-BlueHomz"}
+              textColor={"text-BlueHomz"}
+              textColor2={"text-BlueHomz"}
+              bgColor={"whiteblue"}
+            />
+            <div className="flex mt-4 gap-4">
+              <Box
+                type={"Pending Request"}
+                money={pendingCount}
+                border={"border-warning2"}
+                textColor={"text-warning2"}
+                textColor2={"text-BlackHomz"}
+                bgColor={"warningBg"}
+                width={"w-[50%]"}
+              />
+              <Box
+                type={"Resolved Requests"}
+                money={resolvedCount}
+                border={"border-Success"}
+                textColor={"text-Success"}
+                textColor2={"text-BlackHomz"}
+                bgColor={"successBg"}
+                width={"w-[50%]"}
+              />
+            </div>
+          </div>
           <div>
-            <MaintenanceTable data={filteredData}/>
+            <MaintenanceTable data={filteredData} />
           </div>
         </div>
       ) : (
