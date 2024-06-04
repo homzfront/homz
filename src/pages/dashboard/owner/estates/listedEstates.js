@@ -4,6 +4,7 @@ import EstateCard from "./components/estateCard";
 import Button from "../components/button";
 import Image from "next/image";
 import Dropdown from "../components/dropDownFilter";
+import FilterMobile from "../components/filterMobile";
 
 
 const ListedEstates = ({
@@ -24,6 +25,12 @@ const ListedEstates = ({
   options2,
   options3,
   clear,
+  openMobileFilterModal,
+  searchQuery,
+  setSearchQuery,
+  closeMobileFilterModal,
+  setSelectedDate,
+  filterModal
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -63,6 +70,19 @@ const ListedEstates = ({
 
   return (
     <div className="w-full">
+      {filterModal &&
+        <div>
+          <FilterMobile
+            reset={clear}
+            closeMobileModal={closeMobileFilterModal}
+            setSelectedDate={setSelectedDate}
+            selectedStatus={selectedArea}
+            setSelectedStatus={setSelectedArea}
+            options={options2}
+            defaultName={"Area"}
+          />
+        </div>
+      }
       <div className="w-full px-8 py-2 md:py-8">
         <div>
           <div className="w-full hidden md:flex justify-between items-center">
@@ -126,9 +146,9 @@ const ListedEstates = ({
                 type="text"
                 className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
                 id="search"
-                // value={searchQuery}
-                // onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by state or area "
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by property name"
               />
               <Image
                 src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
@@ -140,7 +160,7 @@ const ListedEstates = ({
             </div>
             <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
               <button
-              // onClick={openMobileModal}
+                 onClick={openMobileFilterModal}
               >
                 <Image
                   src="/static/images/filter.svg"

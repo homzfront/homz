@@ -13,6 +13,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
+import Switch from '@/components/icons/dashboardMobile/switch'
 
 const SidebarMobile = ({ setOpen, user }) => {
   const path = usePathname();
@@ -165,7 +166,13 @@ const SidebarMobile = ({ setOpen, user }) => {
           </div>
           <p className=''> Support</p>
         </Link>
-
+        <Link
+          href={"/switch-profile"}
+          onClick={() => setOpen(false)}
+          className='text-GrayHomz w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4'>
+          <Switch />
+          <p className=''> Switch</p>
+        </Link>
       </div>
 
       <div className='p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px]'>

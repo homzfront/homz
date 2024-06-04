@@ -129,7 +129,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="E.g Broken Window"
-            className="px-4 h-[45px] w-[475px] border rounded-[4px]"
+            className="px-4 h-[45px] w-full md:w-[475px] border rounded-[4px]"
           />
         </div>
         {/* <div className="flex flex-col gap-2">

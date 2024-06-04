@@ -9,17 +9,21 @@ import tenantsDataForLoggedInOwner from "@/store/propertyOwnerStore/tenantsDataF
 import formatDateII from "@/utils/formatDateII";
 import lowerCaseData from "@/utils/lowerCaseData";
 import Dropdown from "../../components/dropDownFilter";
+import FilterMobile from "../../components/filterMobile";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filterModal, setFilterModal] = useState(false);
 
   const clear = () => {
     setSelectedProperty(null);
     setSelectedStatus(null);
     setSelectedDate(null)
+    setSearchQuery(null)
   };
 
   const { data, loading, fetchData } = tenantsDataForLoggedInOwner();
@@ -35,17 +39,43 @@ const Tenants = () => {
   const options2 = ["Pending", "Paid", "Over due"];
   const filteredData = tenantData?.filter(
     (data) => {
+      const matchesSearchQuery = !searchQuery ||
+        data?.fullName.toLowerCase().includes(searchQuery.toLowerCase());
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
       return (
         (!selectedProperty || data?.estateId.name === selectedProperty) &&
         (!selectedStatus || data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
-        (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
+        (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) && matchesSearchQuery
       );
     });
 
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
+
+
+  console.log(tenantData);
+
   return (
     <div className=" w-full p-8">
+      {filterModal &&
+        <div>
+          <FilterMobile
+            reset={clear}
+            closeMobileModal={closeMobileFilterModal}
+            setSelectedDate={setSelectedDate}
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+            options={options2}
+            defaultName={"Status"}
+          />
+        </div>
+      }
       <div className="">
         {data?.length < 1 ? (
           <div>
@@ -142,9 +172,9 @@ const Tenants = () => {
                     type="text"
                     className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
                     id="search"
-                    // value={searchQuery}
-                    // onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search by state or area "
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search by name"
                   />
                   <Image
                     src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
@@ -156,7 +186,7 @@ const Tenants = () => {
                 </div>
                 <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
                   <button
-                  // onClick={openMobileModal}
+                    onClick={openMobileFilterModal}
                   >
                     <Image
                       src="/static/images/filter.svg"

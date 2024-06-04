@@ -7,11 +7,15 @@ import useMaintenanceOwnerStore from "@/store/propertyOwnerStore/useMaintenance"
 import formatDateII from "@/utils/formatDateII";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Image from "next/image";
+import FilterMobile from "../components/filterMobile";
 
 const Maintenance = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(null)
+  const [filterModal, setFilterModal] = useState(false);
+
   const { data, loading, fetchData } =
     useMaintenanceOwnerStore();
 
@@ -23,7 +27,17 @@ const Maintenance = () => {
     setSelectedProperty(null);
     setSelectedStatus(null);
     setSelectedDate(null);
+    setSearchQuery(null)
   };
+
+
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
 
   const options = [
     ...new Set(
@@ -38,6 +52,8 @@ const Maintenance = () => {
   ];
 
   const filteredData = data?.filter((data) => {
+    const matchesSearchQuery = !searchQuery ||
+    data?.subject.toLowerCase().includes(searchQuery.toLowerCase());
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.createdAt));
     return (
@@ -45,7 +61,7 @@ const Maintenance = () => {
         data?.status === selectedStatus) &&
       (!selectedProperty ||
         data?.tenant?.estateId?.name === selectedProperty) &&
-      (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
+      (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)  && matchesSearchQuery
     );
   });
 
@@ -63,6 +79,19 @@ const Maintenance = () => {
 
   return (
     <div className="relative block w-full p-8">
+      {filterModal &&
+        <div>
+          <FilterMobile
+            reset={clear}
+            closeMobileModal={closeMobileFilterModal}
+            setSelectedDate={setSelectedDate}
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+            options={options}
+            defaultName={"Status"}
+          />
+        </div>
+      }
       {loading ? (
         <LoadingII />
       ) : data && data?.length >= 1 ? (
@@ -87,9 +116,9 @@ const Maintenance = () => {
                 type="text"
                 className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
                 id="search"
-                // value={searchQuery}
-                // onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by state or area "
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by subject"
               />
               <Image
                 src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
@@ -101,7 +130,7 @@ const Maintenance = () => {
             </div>
             <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
               <button
-              // onClick={openMobileModal}
+                onClick={openMobileFilterModal}
               >
                 <Image
                   src="/static/images/filter.svg"
@@ -117,7 +146,7 @@ const Maintenance = () => {
           <div className="hidden md:flex gap-4 mt-[70px]">
             <Box
               type={"Total Requests"}
-              money={data?.length}
+              money={filteredData?.length}
               border={"border-BlueHomz"}
               textColor={"text-BlueHomz"}
               textColor2={"text-BlueHomz"}
@@ -143,7 +172,7 @@ const Maintenance = () => {
           <div className="md:hidden w-full mt-[32px]">
             <Box
               type={"Total Requests"}
-              money={data?.length}
+              money={filteredData?.length}
               border={"border-BlueHomz"}
               textColor={"text-BlueHomz"}
               textColor2={"text-BlueHomz"}

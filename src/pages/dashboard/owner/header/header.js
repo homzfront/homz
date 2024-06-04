@@ -10,6 +10,7 @@ import SidebarMobile from "../sidebarMobile/sidebarHeader";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import Link from "next/link";
+import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
 
 
 const Header = () => {
@@ -38,6 +39,9 @@ const Header = () => {
 
   const user = data;
 
+  const { showKindlyWait } = LandLordInactiveStore();
+
+
   return (
     <div className="header">
       {open && (
@@ -47,11 +51,11 @@ const Header = () => {
               <Link href={"/"}>
                 <Image src="/homz.svg" width={86} height={18} alt="" />
               </Link >
-              <div className="cursor-pointer" onClick={closeSidebar}>
+              <div className={`cursor-pointer ${showKindlyWait ? "pointer-events-none" : ""}`} onClick={closeSidebar}>
                 <Image src="/close.svg" width={16} height={16} alt="" />
               </div>
             </div>
-            <div>
+            <div className={`${showKindlyWait ? "pointer-events-none" : ""}`}>
               <SidebarMobile user={user} setOpen={setOpen} />
             </div>
           </div>

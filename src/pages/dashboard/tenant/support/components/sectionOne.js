@@ -29,7 +29,7 @@ const SectionOne = () => {
   return (
     <div>
       <div className="max-w-[420px] gap-6  flex flex-col">
-        <p className="text-[16px] w-[380px] mt-2 font-[400] text-GrayHomz ">
+        <p className="text-[16px] md:w-[380px] mt-2 font-[400] text-GrayHomz ">
           Any questions or remarks? Just send us a message. Fill up the form
           and our team will get back to you.
         </p>

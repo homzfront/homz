@@ -60,7 +60,7 @@ const MaintenanceTable = ({
                 <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
                   <th className="text-left pl-4" style={{ width: "160px" }}>Tenant</th>
                   <th className="text-left ">Subject</th>
-                  <th className="text-left hidden md:table-cell" >
+                  <th className="text-left w-[15%]  hidden md:table-cell" >
                     Status
                   </th>
                   <th className="text-left hidden md:table-cell">Request Date</th>
@@ -103,7 +103,7 @@ const MaintenanceTable = ({
                         {data?.subject}
                       </td>
                       <td
-                        className={`hidden md:table-cell text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
+                        className={`w-[15%] hidden md:table-cell text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
                       >
                         <span
                           className={`p-[6px] rounded-lg text-center ${data.status === "pending"

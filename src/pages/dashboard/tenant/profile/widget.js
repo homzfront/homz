@@ -83,7 +83,7 @@ const Widget = ({ data }) => {
               }`}
               onClick={(e) => handlePageChangeTwo(e)}
             >
-              <p className="text-[14px] font-500">Property Information</p>
+              <p className="text-[14px] font-500">Personal Information</p>
             </div>
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">

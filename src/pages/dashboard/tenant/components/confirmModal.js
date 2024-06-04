@@ -3,8 +3,8 @@ import React from "react";
 
 const ConfirmModal = ({ header, body, button, returnHome }) => {
   return (
-    <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="max-w-[464px] bg-white h-[290px] rounded-md">
+    <div className="absolute top-0 z-20 h-screen w-full px-8 md:px-0 inset-0 flex items-center justify-center bg-black bg-opacity-30">
+      <div className="w-full md:max-w-[464px] bg-white h-[290px] rounded-md">
         <div className="w-full h-full flex justify-center items-center m-auto">
         <div className="w-[464px] flex flex-col justify-around px-8  items-center gap-3">
           <Image
