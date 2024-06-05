@@ -66,7 +66,7 @@ const PaymentHistory = (data) => {
 
   return (
     <div>
-      <div className="flex flex-col gap-4">{
+      <div className="flex flex-col md:flex-row gap-4">{
         boxes.map((data) => (
           <div key={data.id} className="w-full">
             <div className={`${data?.type === "Maintenance" ? "hidden md:block" : ""} h-[80px] min-w-[180px] max-w-[220px] py-2 flex flex-col justify-around border ${data?.border}  rounded-md px-[12px] bg-${data?.bgColor}`}>

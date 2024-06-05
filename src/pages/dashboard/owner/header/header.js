@@ -62,10 +62,10 @@ const Header = () => {
         </div>
       )}
       <div className="md:hidden w-full flex justify-between items-center p-8">
-        <div>
+        <Link href={"/"}>
           <Image src="/homz.svg" width={86} height={18} alt="" />
-        </div>
-        <div className="cursor-pointer h-full " onClick={openSidebar}>
+        </Link >
+        <div className={`cursor-pointer h-full ${showKindlyWait ? "pointer-events-none" : ""}`} onClick={openSidebar}>
           <Menu />
         </div>
       </div>

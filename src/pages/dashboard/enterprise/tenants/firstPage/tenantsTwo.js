@@ -102,16 +102,16 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
 
         <div className=" border w-full rounded-t-[12px]">
           <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
-            <div className="w-[15%] ">Tenant</div>
-            <div className="w-[10%] ">Property</div>
-            <div className="w-[11%] ">Apartment No</div>
-            <div className="w-[11%] ">Address</div>
-            <div className="w-[10%] ">Email</div>
-            <div className="w-[10%] pl-1">Phone No</div>
-            <div className="w-[7%] pl-1">Rent</div>
-            <div className="w-[13%] pl-1">Status</div>
-            <div className="w-[10%] ">Due Date</div>
-            <div className="w-[3%] "></div>
+            <div className="w-[55%] md:w-[15%] ">Tenant</div>
+            <div className="w-[10%] hidden md:table-cell">Property</div>
+            <div className="w-[11%] hidden md:table-cell">Apartment No</div>
+            <div className="w-[11%] hidden md:table-cell">Address</div>
+            <div className="w-[10%] hidden md:table-cell">Email</div>
+            <div className="w-[10%] pl-1 hidden md:table-cell">Phone No</div>
+            <div className="w-[7%] pl-1 hidden md:table-cell">Rent</div>
+            <div className="w-[40%] md:w-[13%] pl-1">Status</div>
+            <div className="w-[10%] hidden md:table-cell">Due Date</div>
+            <div className="w-[5%] md:w-[3%] "></div>
           </div>
 
           <div className="">
@@ -122,7 +122,7 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                   className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
                 >
                   {/* Apply the same styles as the header to each column in the body */}
-                  <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
+                  <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[55%] md:w-[15%]">
                     {!data?.coverPhoto?.url ? (
                       <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                         <EmptyAvatar />
@@ -142,32 +142,32 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                     )}
                     <span className="">{data?.fullName}</span>
                   </div>
-                  <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
+                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
                     {data?.estateId?.name}
                   </div>
-                  <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
+                  <div className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
                     {`${data?.rentInfo?.apartmentNumber
-                        ? data?.rentInfo?.apartmentNumber
-                        : "______"
+                      ? data?.rentInfo?.apartmentNumber
+                      : "______"
                       }`}
                   </div>
-                  <div className="text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
+                  <div className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
                     {data?.estateId?.address}
                   </div>
-                  <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
+                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
                     <span className="break-words">{data?.user?.email}</span>
                   </div>
-                  <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
+                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
                     {data?.phoneNumber}
                   </div>
-                  <div className="text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
+                  <div className="hidden md:table-cell text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
                     {`${data?.rentInfo?.totalRent
-                        ? addCommasToNumber(data?.rentInfo?.totalRent)
-                        : "______"
+                      ? addCommasToNumber(data?.rentInfo?.totalRent)
+                      : "______"
                       }`}
                   </div>
                   <div
-                    className={`text-GrayHomz w-[13%] font-[500] text-[11px] text-start`}
+                    className={`text-GrayHomz w-[40%] md:w-[13%] font-[500] text-[11px] text-start`}
                   >
                     {data?.rentInfo?.paymentStatus ? (
                       <StatusDropdown
@@ -191,13 +191,13 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                       "______"
                     )}
                   </div>
-                  <div className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
+                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
                     {`${data?.rentInfo?.dueDate
-                        ? changeBackendDateFormat(data?.rentInfo?.dueDate)
-                        : "______"
+                      ? changeBackendDateFormat(data?.rentInfo?.dueDate)
+                      : "______"
                       }`}
                   </div>
-                  <div className="relative w-[3%]">
+                  <div className="relative w-[5%] md:w-[3%]">
                     <button onClick={() => handleToggleMenu(data?._id)}>
                       <Image
                         src={

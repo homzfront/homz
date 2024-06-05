@@ -31,6 +31,7 @@ const SelectPlan = () => {
 
     fetchData();
   }, []);
+  
 
   const Data = [
     {
@@ -126,7 +127,7 @@ const SelectPlan = () => {
                           </button>
                         </Link>
                       ) : data.active ? (
-                        <Link href={user?.length > 0 ? data.url : "/"}>
+                        <Link href={user ? data.url : "/"}>
                           <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
                             Get Started
                           </button>

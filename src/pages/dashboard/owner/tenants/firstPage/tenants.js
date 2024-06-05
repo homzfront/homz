@@ -58,9 +58,6 @@ const Tenants = () => {
     setFilterModal(false)
   }
 
-
-  console.log(tenantData);
-
   return (
     <div className=" w-full p-8">
       {filterModal &&

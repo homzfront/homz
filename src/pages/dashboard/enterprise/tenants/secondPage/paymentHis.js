@@ -67,10 +67,10 @@ const PaymentHis = ({ tenantData }) => {
 
   return (
     <div>
-      <div className="flex gap-4">{
+      <div className="flex flex-col md:flex-row gap-4">{
         boxes.map((data) => (
           <div key={data.id} className="w-full">
-            <div className={`h-[80px] min-w-[180px] max-w-[220px] py-2 flex flex-col justify-around border ${data?.border}  rounded-md px-[12px] bg-${data?.bgColor}`}>
+            <div className={`${data?.type === "Maintenance" ? "hidden md:block" : ""}  h-[80px] min-w-[180px] max-w-[220px] py-2 flex flex-col justify-around border ${data?.border}  rounded-md px-[12px] bg-${data?.bgColor}`}>
               <div className={`${data?.textColor} text-[13px] font-[600] `}>{data?.type}</div>
               <div className={`text-[14px] font-[500] ${data?.textColor2}`}>{data?.money}</div>
               <div className="text-[10px] font-[400] text-BlackHomz">{data?.dueDate} </div>

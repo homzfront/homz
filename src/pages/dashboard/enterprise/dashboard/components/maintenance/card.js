@@ -15,16 +15,16 @@ const Maintenance = () => {
 
   const Data = request?.results
   return (
-    <div className="rounded-[12px] border sm:w-[45%] h-[514px] overflow-auto scrollbar-container ">
+    <div className="rounded-[12px] border md:w-[45%] h-[514px] overflow-auto scrollbar-container ">
       <div className="flex justify-between items-center p-6">
-        <div className="text-BlueHomz font-[500] text-[15px] sm:text-[18px] flex gap-1 items-center">
+        <div className="text-BlueHomz font-[500] text-[15px] md:text-[18px] flex gap-1 items-center">
           <p>Maintenance Request</p>
           <p>
             {Data?.length ? `${Data?.length}` : "0"}/
             {Data?.length ? `${Data?.length}` : "0"}
           </p>
         </div>
-        <Link href={"/dashboard/enterprise-property/maintenance"} className="hidden sm:flex gap-1 items-center">
+        <Link href={"/dashboard/enterprise-property/maintenance"} className="hidden md:flex gap-1 items-center">
           <p className="text-[13px] font-[400]">View All</p>
           <Image
             src={
@@ -35,7 +35,7 @@ const Maintenance = () => {
             width={16}
           />
         </Link>
-        <Link href={"/dashboard/enterprise-property/maintenance"} className="sm:hidden">
+        <Link href={"/dashboard/enterprise-property/maintenance"} className="md:hidden">
           <Image
             src={
               "/static/dashboard/enterprisemanager/dashboard/arrow-right-blue.png"
@@ -51,8 +51,8 @@ const Maintenance = () => {
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
-              <th className="text-left  hidden sm:table-cell">Subject</th>
-              <th className="text-left sm:w-[27%]">Status</th>
+              <th className="text-left  hidden md:table-cell">Subject</th>
+              <th className="text-left md:w-[27%]">Status</th>
             </tr>
           </thead>
           <tbody className="">
@@ -79,11 +79,11 @@ const Maintenance = () => {
                   )}
                   <span className="py-[15px]">     {request?.tenant?.fullName}</span>
                 </td>
-                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden sm:table-cell">
+                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden md:table-cell">
                   {request?.subject}
                 </td>
                 <td
-                  className={`text-GrayHomz py-[15px] pr-6 font-[500] sm:w-[27%] text-[11px] `}
+                  className={`text-GrayHomz py-[15px] pr-6 font-[500] md:w-[27%] text-[11px] `}
                 >
                   <span
                     className={`p-[6px] rounded-lg text-center ${request?.status === "pending"
