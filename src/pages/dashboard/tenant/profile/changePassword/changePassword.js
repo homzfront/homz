@@ -100,11 +100,11 @@ const ChangePassword = () => {
 
   return (
     <div>
-      <div className="w-[498px] flex flex-col gap-4">
+      <div className="md:w-[498px] flex flex-col gap-4">
         <InputVisible
           password={password}
           setPassword={setPassword}
-          label={""}
+          label={"Password"}
           placeholder={"Enter your current password"}
           setError={setPasswordError}  
           autoComplete={"c"}

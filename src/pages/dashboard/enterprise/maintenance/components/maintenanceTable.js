@@ -190,7 +190,7 @@ const MaintenanceTable = ({ request, fetchData }) => {
                         style={{ height: "auto", width: "auto" }}
                       />
                     </button>
-                    {popUpMenuTwo && selectedDataId === request._id && (
+                    {popUpMenuTwo && selectedDataId === request?.tenant?._id && (
                       <PopUpMenu data={request} />
                     )}
                   </div>

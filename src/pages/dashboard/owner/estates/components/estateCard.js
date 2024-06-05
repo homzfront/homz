@@ -4,7 +4,7 @@ import Card from "./card";
 const EstateCard = ({ Data, handleToggleMenu, popUpMenu, selectedDataId }) => {
 
   return (
-    <div className="grid grid-cols-4 gap-4 ">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
        {Data && Data.map((data) => (
         <Card
           key={data._id}

@@ -86,18 +86,18 @@ const Maintenance = ({ data }) => {
           <table border="1" className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6 w-[40%]">Tenant</th>
-                <th className="text-left w-[35%] ">Subject</th>
-                <th className="text-left w-[25%] pl-1">Status</th>
+                <th className="text-left pl-4 md:pl-6 w-[33.3%] md:w-[40%]">Tenant</th>
+                <th className="text-left w-[33.3%] md:w-[35%] ">Subject</th>
+                <th className="text-left w-[33.3%] md:w-[25%] md:pl-1">Status</th>
               </tr>
             </thead>
             <tbody className="">
               {currentData?.map((data) => (
-                <tr key={data._id} className=" border-t-[1px] items-center">
-                  <td className="pt-2 flex items-center gap-1  pl-6 text-GrayHomz4 font-[500] text-[11px]">
+                <tr key={data._id} className="border-t-[1px] items-center">
+                  <td className="pt-[18px] sm:pt-2 flex items-center gap-1 pl-4 md:pl-6 w-[33.3%] md:w-[40%] text-GrayHomz4 font-[500] text-[11px]">
                     {data?.user?.coverPhoto?.url === null ||
                       data?.user?.coverPhoto?.url === undefined ? (
-                      <div className="py-[15px] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                      <div className="hidden py-[15px] h-[40px] w-[40px] sm:flex justify-center items-center bg-avatarBg rounded-full">
                         <EmptyAvatar />
                       </div>
                     ) : (
@@ -109,19 +109,19 @@ const Maintenance = ({ data }) => {
                         layout="full" // Specify the desired height
                         objectFit="cover"
                         objectPosition="center"
-                        className=" object-cover bg-center h-[40px] rounded-full"
+                        className="hidden sm:block object-cover bg-center h-[40px] rounded-full"
                         quality={100}
                         priority
                       />
                     )}
                     <span className="">{data?.user?.fullName}</span>
                   </td>
-                  <td className="text-GrayHomz py-[15px] w-[35%] font-[500] text-[11px]">
+                  <td className="text-GrayHomz py-[15px] w-[33.3%] md:w-[35%] font-[500] text-[11px]">
                     {data?.maintenanceRequest?.subject}
                   </td>
 
                   <td
-                    className={`text-GrayHomz py-[15px] pl-1  w-[25%] font-[500]  text-[11px]`}
+                    className={`text-GrayHomz py-[15px] w-[33.3%] md:w-[25%] md:pl-1 font-[500]  text-[11px]`}
                   >
                     <StatusDropDownMain
                       data={data}

@@ -6,6 +6,7 @@ import Request from "./components/request/request";
 import LoadingII from "@/components/mainmenu/loadingII";
 import useMaintenanceTenantStore from "@/store/tenantStore/useMaintenanceTenantStore";
 import { useSearchParams } from "next/navigation";
+import RequestMobile from "./components/request/requestMobile";
 
 const Maintenance = () => {
   const urlParams = useSearchParams();
@@ -24,7 +25,7 @@ const Maintenance = () => {
     setMaintenanceReq(false);
     try {
       fetchData();
-    } catch (error) {}
+    } catch (error) { }
 
   };
 
@@ -35,6 +36,13 @@ const Maintenance = () => {
       ) : data && data.length >= 1 ? (
         <div>
           <Request
+            data={data}
+            openMaintenanceForm={openMaintenanceForm}
+            maintenanceReq={maintenanceReq}
+            closeMaintenanceForm={closeMaintenanceForm}
+            fetchData={fetchData}
+          />
+          <RequestMobile
             data={data}
             openMaintenanceForm={openMaintenanceForm}
             maintenanceReq={maintenanceReq}

@@ -31,6 +31,7 @@ const SelectPlan = () => {
 
     fetchData();
   }, []);
+  
 
   const Data = [
     {
@@ -78,10 +79,10 @@ const SelectPlan = () => {
   ];
   return (
     <div>
-      <div className="max-w-[1156px] px-[16px] xl:px-[0px] h-[712px] my-20 flex flex-col justify-between m-auto">
+      <div className="max-w-[1156px] px-[16px] xl:px-[0px] h-[712px] my-8 md:my-20 flex flex-col justify-between m-auto">
         <div 
         onClick={handleBackButtonClick}
-        className="flex justify-start gap-1 items-center cursor-pointer">
+        className="flex px-8 md:px-0 justify-start gap-1 items-center cursor-pointer">
           <ArrowLeftBlue />
           <p className="text-BlueHomz4 text-[16px] font-[500]">
             Go back
@@ -92,7 +93,7 @@ const SelectPlan = () => {
         ) : (
           <div>
             <div>
-              <h1 className="mt-4 md:mt-0 sm:px-0 w-full md:w-[428px] sm:max-w-full m-auto font-[700] text-[24px] sm:text-[36px] text-start sm:text-center text-BlackHomz">
+              <h1 className="mt-4 px-8 md:mt-0 md:px-0 w-full md:w-[428px] sm:max-w-full m-auto font-[700] text-[24px] sm:text-[36px] text-start sm:text-center text-BlackHomz">
                 How Would You Like To Use Homz?
               </h1>
             </div>
@@ -126,7 +127,7 @@ const SelectPlan = () => {
                           </button>
                         </Link>
                       ) : data.active ? (
-                        <Link href={user?.length > 0 ? data.url : "/"}>
+                        <Link href={user ? data.url : "/"}>
                           <button className="border rounded-[4px] w-[214px] h-[48px] font-[700] text-[16px] text-white bg-BlueHomz hover:text-BlueHomz hover:bg-white hover:border-BlueHomz">
                             Get Started
                           </button>

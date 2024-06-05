@@ -65,12 +65,12 @@ const GetStarted = ({ openMaintenanceForm }) => {
               />
             </div>
             <p className="text-[41px] font-[700] text-BlueHomz">Get Started</p>
-            <p className="text-[18px] font-[400] text-GrayHomz">
+            <p className="text-[18px] font-[400] text-center text-GrayHomz">
               Send a request for utility maintenance
             </p>
             <button
               onClick={openMaintenanceForm}
-              className="mt-3 bg-BlueHomz w-[220px] h-[48px] text-white rounded-[4px]"
+              className="mt-3 bg-BlueHomz w-full md:w-[220px] h-[48px] text-white rounded-[4px]"
             >
               Request for maintenance
             </button>

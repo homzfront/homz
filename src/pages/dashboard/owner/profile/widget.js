@@ -43,7 +43,7 @@ const Widget = ({ data }) => {
   return (
     <div>
 
-      <div className="w-full h-auto py-4">
+      <div className="hidden md:block w-full h-auto py-4">
         <div className="flex mt-5 gap-2 justify-between w-[500px] cursor-pointer">
           <div
             className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${

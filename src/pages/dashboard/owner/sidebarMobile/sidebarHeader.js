@@ -20,8 +20,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
+import LandLordInactiveStore from '@/store/landLordInactiveStore/landLordInactiveStore'
 
 const SidebarMobile = ({ setOpen, user }) => {
+  const { showKindlyWait } = LandLordInactiveStore();
   const path = usePathname();
   const pathname = keepThree(path);
   const { logout } = useProfileStore();
@@ -61,7 +63,7 @@ const SidebarMobile = ({ setOpen, user }) => {
           </Link>
         </div>
       </div>
-      <div className='p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px]'>
+      <div className={` ${showKindlyWait ? "pointer-events-none" : ""} p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px] `}>
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/dashboard"}
@@ -150,7 +152,7 @@ const SidebarMobile = ({ setOpen, user }) => {
           </div>
           <p className=''> Property Listing</p>
         </Link> */}
-        <Link
+        {/* <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/payments"}
           className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
@@ -171,7 +173,7 @@ const SidebarMobile = ({ setOpen, user }) => {
             }
           </div>
           <p className=''>Payments</p>
-        </Link>
+        </Link> */}
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/maintenance"}
@@ -216,7 +218,13 @@ const SidebarMobile = ({ setOpen, user }) => {
           </div>
           <p className=''> Support</p>
         </Link>
-
+        <Link
+          href={"/switch-profile"}
+          onClick={() => setOpen(false)}
+          className='text-GrayHomz w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4'>
+          <Switch />
+          <p className=''> Switch</p>
+        </Link>
       </div>
       <div className='p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px]'>
         <div onClick={() => logout(logout)} className='hover:bg-white cursor-pointer w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4'>

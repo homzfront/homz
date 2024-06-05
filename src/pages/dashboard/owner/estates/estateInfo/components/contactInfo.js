@@ -15,7 +15,7 @@ const ContactInfo = ({data}) => {
           Kindly fill in your contact information
         </p>
       </div> */}
-      <div className="w-[50%] mt-4 flex flex-col gap-2 ">
+      <div className="md:w-[50%] mt-4 flex flex-col gap-2 ">
         <Input
           label={"Manager’s Phone Number"}
           placeholder={"0000 - 000 - 0000"}

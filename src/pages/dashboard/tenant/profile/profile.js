@@ -5,6 +5,7 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import tenantProfile from "@/store/tenantStore/tenantProfile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import WidgetMobile from "./widgetMobile";
 
 const Profile = () => {
   const { data, loading, fetchData } = tenantProfile();
@@ -29,7 +30,16 @@ const Profile = () => {
         theme="dark"
       />
       <p className="font-[500] mt-8 text-[20px] text-GrayHomz">Profile</p>
-      {loading ? <LoadingII /> : <Widget data={data} />}
+      {loading ? <LoadingII /> :
+        <div>
+          <div className="hidden md:block">
+            <Widget data={data} />
+          </div>
+          <div className="md:hidden">
+            <WidgetMobile data={data} />
+          </div>
+        </div>
+      }
     </div>
   );
 };

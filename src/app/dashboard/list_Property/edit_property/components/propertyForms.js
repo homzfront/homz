@@ -111,7 +111,7 @@ const PropertyForms = ({ propertyData }) => {
             error.response.data.error.errors.length > 0
           ) {
             const errorMessage = error.response.data.error.errors[0];
-            console.log(errorMessage);
+            // console.log(errorMessage);
             toast.error(`Update failed: ${errorMessage}`);
           } else if (error?.response?.data?.message) {
             const errorMessage = error.response.data.message;

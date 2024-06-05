@@ -27,7 +27,7 @@ const Request = ({ data, openMaintenanceForm, maintenanceReq, closeMaintenanceFo
     });
 
   return (
-    <div>
+    <div className="hidden md:block">
       {maintenanceReq ? (
         <div>
           <MaintenanceRequest

@@ -60,14 +60,14 @@ const MaintenanceTable = ({
                 <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
                   <th className="text-left pl-4" style={{ width: "160px" }}>Tenant</th>
                   <th className="text-left ">Subject</th>
-                  <th className="text-left " >
+                  <th className="text-left w-[15%]  hidden md:table-cell" >
                     Status
                   </th>
-                  <th className="text-left ">Request Date</th>
-                  <th className="text-left ">Property</th>
-                  <th className="text-left">Apartment No</th>
-                  <th className="text-left " style={{ width: "110px" }}>Address</th>
-                  <th className="text-left ">Phone No</th>
+                  <th className="text-left hidden md:table-cell">Request Date</th>
+                  <th className="text-left hidden md:table-cell">Property</th>
+                  <th className="text-left hidden md:table-cell">Apartment No</th>
+                  <th className="text-left hidden md:table-cell" style={{ width: "110px" }}>Address</th>
+                  <th className="text-left hidden md:table-cell">Phone No</th>
                   <th></th>
                 </tr>
               </thead>
@@ -103,7 +103,7 @@ const MaintenanceTable = ({
                         {data?.subject}
                       </td>
                       <td
-                        className={`text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
+                        className={`w-[15%] hidden md:table-cell text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
                       >
                         <span
                           className={`p-[6px] rounded-lg text-center ${data.status === "pending"
@@ -120,20 +120,20 @@ const MaintenanceTable = ({
                           {capitalizeFirstLetter(data?.status)}
                         </span>
                       </td>
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                      <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {changeBackendDateFormat(data?.requestDate)}
                       </td>
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                      <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {data?.tenant?.estateId?.name}
                       </td>
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                      <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {data?.tenant?.rentInfo?.apartmentNumber}
                       </td>
 
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                      <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {data?.tenant?.estateId?.address}
                       </td>
-                      <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                      <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {data?.tenant?.phoneNumber}
                       </td>
                       <td className="relative py-[15px] pr-4">

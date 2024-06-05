@@ -1,0 +1,217 @@
+import RightArrow from '@/components/icons/dashboardMobile/rightArrow';
+import MobileBackButton from '@/components/icons/mobileBackButton';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
+import { useSearchParams } from "next/navigation";
+import PaymentHis from '../secondPage/paymentHis';
+import RentInfo from '../secondPage/rentInfo';
+import Maintenance from '../secondPage/maintenance';
+
+const MobileProfile = ({ data, rentInformation }) => {
+    const urlParams = useSearchParams();
+    const tab = urlParams.get("tab")
+    const [showWidget, setShowWidget] = useState(false);
+    const [active, setActive] = useState(tab ? tab === 'rentInfo' : true);
+    const [activeTwo, setActiveTwo] = useState(tab === 'paymentHis');
+    const [activeThree, setActiveThree] = useState(tab === 'maintenance');
+    const route = useRouter()
+
+    const goBack = () => {
+        if (showWidget) {
+            setShowWidget(false)
+        } else {
+            route.back();
+        }
+    };
+
+    const handleRent = () => {
+        setActiveTwo(false);
+        setActiveThree(false);
+        setActive(true);
+    };
+
+    const handlePaymentHis = () => {
+        setActiveTwo(true);
+        setActive(false);
+        setActiveThree(false);
+    };
+
+    const handleMaintain = () => {
+        setActiveThree(true);
+        setActiveTwo(false);
+        setActive(false);
+    };
+
+    return (
+        <div className='p-8 flex flex-col gap-2'>
+            <div className='flex gap-4 items-center'>
+                <div onClick={goBack} className='cursor-pointer'>
+                    <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
+                        <MobileBackButton />
+                    </div>
+                </div>
+                <p className='text-[16px] font-[400] text-BlackHomz'>
+                    Tenant Profile
+                </p>
+            </div>
+            {showWidget
+                ?
+                <div>
+                    <div className="flex flex-col gap-2 mt-8 w-full">
+                        <div className="flex flex-wrap gap-[15px] w-full">
+                            <button
+                                onClick={handleRent}
+                                className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${active
+                                    ? "inline-block shadow-md bg-[#006AFF] text-white "
+                                    : "bg-[#EEF5FF] text-[#006AFF]"
+                                    }`}
+                            >
+                                Rent Information
+                            </button>
+                            <button
+                                onClick={handlePaymentHis}
+                                className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeTwo
+                                    ? "inline-block shadow-md bg-[#006AFF] text-white "
+                                    : "bg-[#EEF5FF] text-[#006AFF]"
+                                    }`}
+                            >
+                                Payment History
+                            </button>
+                            <button
+                                onClick={handleMaintain}
+                                className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeThree
+                                    ? "inline-block shadow-md bg-[#006AFF] text-white "
+                                    : "bg-[#EEF5FF] text-[#006AFF]"
+                                    }`}
+                            >
+                                Maintenance request
+                                <span
+                                    className={` rounded-[40%] w-auto py-1 px-2 ml-2 ${activeThree
+                                        ? "bg-white text-GrayHomz"
+                                        : "text-white bg-BlueHomz"
+                                        }`}
+                                >
+                                    {data?.data?.maintenanceRequests ? data?.data?.maintenanceRequests?.length : "0"}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="my-7 rounded-[12px] w-full">
+                        <div className={`${active ? "inline" : "hidden"}`}>
+                            <RentInfo
+                                profile={data}
+                                rentInformation={rentInformation}
+                            />
+                        </div>
+                        <div className={`${activeTwo ? "inline" : "hidden"}`}>
+                            <PaymentHis
+                                tenantData={data}
+                            />
+                        </div>
+                        <div className={`${activeThree ? "inline" : "hidden"} w-full`}>
+                            <Maintenance
+                                data={data}
+                            />
+                        </div>
+                    </div>
+                </div>
+                :
+                <div>
+                    <div className='mt-4 bg-inputBg rounded-[12px] px-4 py-6'>
+                        <div className='flex flex-col justify-center items-center'>
+                            <div className="">
+                                {data?.data?.coverPhoto?.url ? (
+                                    <Image
+                                        src={data?.data?.coverPhoto?.url}
+                                        height={198}
+                                        width={198}
+                                        alt=""
+                                        layout="full" // Specify the desired height
+                                        objectFit="cover"
+                                        objectPosition="center"
+                                        className="object-cover bg-center h-[198px] rounded-full"
+                                        quality={100}
+                                        priority
+                                    />
+                                ) : (
+                                    <div className="w-[198px] h-[198px] bg-GrayHomz5 rounded-full flex items-center justify-center">
+                                        <Image
+                                            src="/static/dashboard/enterprisemanager/profile/user.png"
+                                            height={52}
+                                            width={52}
+                                            alt="img"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <h1 className="font-[700] my-2 text-[20px] text-GrayHomz">
+                                {data?.data?.fullName}
+                            </h1>
+                        </div>
+                        <div className="mt-2 flex flex-col gap-2">
+                            <div className="flex justify-between gap-3">
+                                <p className="text-[13px] font-[400] text-GrayHomz">Phone No</p>
+                                <p className="text-[13px] font-[500] text-end text-BlackHomz w-[62%]">
+                                    {data?.data?.phoneNumber}
+                                </p>
+                            </div>
+                            <div className="flex justify-between gap-3">
+                                <p className="text-[13px] font-[400] text-GrayHomz">Email</p>
+                                <p className="text-[13px] font-[500] text-end break-words text-BlackHomz w-[62%]">
+                                    {data?.data?.user?.email}
+                                </p>
+                            </div>
+                            <div className="flex justify-between gap-3">
+                                <p className="text-[13px] font-[400] text-GrayHomz">Home Address</p>
+                                <p className="text-[13px] font-[500] text-end text-BlackHomz break-words w-[62%]">
+                                    {data?.data?.houseAddress}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='mt-6 w-full bg-GrayHomz6 rounded-[12px] text-[14px] font-[500] text-BlackHomz'>
+                        <div className='px-4 h-[60px] flex items-center justify-between border-GrayHomz2 border-b-[1px] w-full'>
+                            Rent Information
+                            <div
+                                onClick={() => {
+                                    setShowWidget(true)
+                                    handleRent()
+                                }}
+                                className='cursor-pointer'
+                            >
+                                <RightArrow />
+                            </div>
+                        </div>
+                        <div className='px-4 h-[60px] flex items-center border-GrayHomz2 border-b-[1px] justify-between w-full'>
+                            Payment History
+                            <div
+                                onClick={() => {
+                                    setShowWidget(true)
+                                    handlePaymentHis()
+                                }}
+                                className='cursor-pointer'
+                            >
+                                <RightArrow />
+                            </div>
+                        </div>
+                        <div className='px-4 h-[60px] flex items-center justify-between w-full'>
+                            Maintenance request
+                            <div
+                                onClick={() => {
+                                    setShowWidget(true)
+                                    handleMaintain()
+                                }}
+                                className='cursor-pointer'
+                            >
+                                <RightArrow />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    )
+}
+
+export default MobileProfile;

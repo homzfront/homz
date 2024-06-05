@@ -61,17 +61,17 @@ const Table = ({ tenantData }) => {
           <table border="1" className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6">Date</th>
-                <th className="text-left ">Due Date</th>
-                <th className="text-left ">Rent Paid</th>
-                <th className="text-left ">Property Type</th>
-                <th className="text-left ">Status</th>
+                <th className="text-left pl-6 hidden md:table-cell">Name</th>
+                <th className="text-left pl-4 md:pl-0 w-[25%] md:w-auto">Due Date</th>
+                <th className="text-left w-[25%] md:w-auto">Rent Paid</th>
+                <th className="text-left w-[25%] md:w-auto">Property Type</th>
+                <th className="text-left w-[25%] md:w-auto">Status</th>
               </tr>
             </thead>
             <tbody className="">
               {currentData.map((data) => (
                 <tr key={data.id} className={`w-2 border-t-[1px] items-center ${tenantId === data?.tenantId?._id ? "" : "hidden"}`}>
-                  <td className="flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
+                  <td className="hidden md:flex items-center gap-1 pr-2  pl-6 text-GrayHomz4 font-[500] text-[11px]">
                     {data?.tenantId?.coverPhoto?.url === null ||
                       data?.tenantId?.coverPhoto?.url === undefined ? (
                       <div className="py-[15px] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
@@ -93,7 +93,7 @@ const Table = ({ tenantData }) => {
                     )}
                     <span className="py-[15px]">     {changeBackendDateFormat(data?.paymentDate)}</span>
                   </td>
-                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                  <td className="text-GrayHomz pl-4 md:pl-0 py-[15px] pr-2 font-[500] text-[11px]">
                     {changeBackendDateFormat(data?.dueDate)}
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">

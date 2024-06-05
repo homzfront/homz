@@ -102,7 +102,7 @@ const ChangePassword = () => {
 
   return (
     <div>
-      <div className="w-[498px] flex flex-col gap-4">
+      <div className="w-full md:w-[498px] flex flex-col gap-4">
         <InputVisible
           password={password}
           setPassword={setPassword}

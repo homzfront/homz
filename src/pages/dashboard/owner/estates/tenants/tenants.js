@@ -7,9 +7,17 @@ import useEstateForOneStore from "@/store/useEstateForOne";
 import { fetchSpecificTenantOwner } from "@/api/tenantSevice";
 import tenantsDataForLoggedInOwner from "@/store/propertyOwnerStore/tenantsDataForLoggedInOwner";
 import formatDateII from "@/utils/formatDateII";
+import MobileBackButton from "@/components/icons/mobileBackButton";
+import { useRouter } from "next/navigation";
 
 const Tenants = ({ id }) => {
   const { data, fetchData: fetchEstateData } = useEstateForOneStore();
+  const route = useRouter()
+
+  const goBack = () => {
+    route.back();
+  };
+
 
   useEffect(() => {
     fetchEstateData(id);
@@ -89,7 +97,7 @@ const Tenants = ({ id }) => {
   return (
     <div className="w-full  p-8">
       <div className="mb-4">
-        <div className="w-[475px] flex gap-2 items-center">
+        <div className="hidden w-[475px] md:flex gap-2 items-center">
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             alt=""
@@ -107,13 +115,29 @@ const Tenants = ({ id }) => {
             className="text-[16px] truncate font-[400] text-GrayHomz"
           >
             {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
-
-
           </Link>
           <div className="text-[20px] font-[500] text-GrayHomz">Tenants</div>
         </div>
+        <div className='flex w-full md:hidden gap-4 items-center'>
+          <div onClick={goBack} className='cursor-pointer'>
+            <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
+              <MobileBackButton />
+            </div>
+          </div>
+          <div className="w-[90%] flex items-center">
+            <Link
+              href={"/dashboard/property-owner/estates"}
+              className="text-[16px] truncate font-[400] text-GrayHomz"
+            >
+              {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
+            </Link>
+            <div className="text-[20px] font-[500] text-GrayHomz">
+              Tenants
+            </div>
+          </div>
+        </div>
       </div>
-      <div className=" flex justify-between items-center">
+      <div className="hidden md:flex justify-between items-center">
         <div className="flex gap-2 ">
           <p>Tenants</p>
           <span className="bg-whiteblue w-6 h-6 flex justify-center ">
@@ -141,6 +165,37 @@ const Tenants = ({ id }) => {
               />
             </span>
             Reset
+          </button>
+        </div>
+      </div>
+      <div className="mt-4 flex justify-between md:hidden w-full">
+        <div className="relative w-[86%] rounded-[4px]">
+          <input
+            type="text"
+            className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+            id="search"
+            // value={searchQuery}
+            // onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by state or area "
+          />
+          <Image
+            src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+            alt=""
+            className="absolute top-3 left-3"
+            height={16}
+            width={16}
+          />
+        </div>
+        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+          <button
+          // onClick={openMobileModal}
+          >
+            <Image
+              src="/static/images/filter.svg"
+              alt=""
+              width={16}
+              height={16}
+            />
           </button>
         </div>
       </div>

@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import ListedEstates from "./listedEstates";
 import ownerEstateStore from "@/store/propertyOwnerStore/ownerEstate";
 import LoadingII from "@/components/mainmenu/loadingII";
+import formatDateII from "@/utils/formatDateII";
 
 const Estate = () => {
-  const { data, loading, fetchData } =   ownerEstateStore()
+  const { data, loading, fetchData } = ownerEstateStore()
 
   useEffect(() => {
     // Fetch data when the component mounts
@@ -19,61 +20,85 @@ const Estate = () => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filterModal, setFilterModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+
   const clear = () => {
     setSelectedState(null);
     setSelectedArea(null);
-    setSelectedProperty(null)
+    setSelectedProperty(null);
+    setSearchQuery(null);
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
- 
+
 
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
-  
 
-  const option3 =  [...new Set(data?.map((item) => item?.name))];
+
+  const option3 = [...new Set(data?.map((item) => item?.name))];
 
 
   const filteredData = data?.filter((data) => {
+    const matchesSearchQuery = !searchQuery ||
+      data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const selectedDateTimestamp = Date.parse(selectedDate);
+      const dueDateTimestamp = Date.parse(formatDateII(data?.requestDate));
+
     return (
-      // (!selectedState || data?.location.state === selectedState) &&
-      // (!selectedArea || data?.location.area === selectedArea) &&
-      (!selectedProperty || data?.name === selectedProperty) 
+      (!selectedState || data?.location.state === selectedState) &&
+      (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) &&
+      (!selectedProperty || data?.name === selectedProperty)
+      && matchesSearchQuery
     );
   });
 
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
 
   return (
     <div className="w-full">
-       {loading ? (
-        <LoadingII /> ) : data && data.length >= 1 ? (
-        <ListedEstates
-          Data={filteredData}
-          selectedDataId={selectedDataId}
-          setSelectedDataId={setSelectedDataId}
-          popUpMenu={popUpMenu}
-          setPopUpMenu={setPopUpMenu}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          selectedArea={selectedArea}
-          selectedState={selectedState}
-          selectedProperty= {selectedProperty}
-          setSelectedProperty={setSelectedProperty}
-          setSelectedArea={setSelectedArea}
-          setSelectedState={setSelectedState}
-          clear={clear}
-          options={options}
-          options2={options2}
-          options3={option3}
-        />
-      ) : (
+      {loading ? (
+        <LoadingII />) : data && data.length >= 1 ? (
+          <ListedEstates
+            Data={filteredData}
+            selectedDataId={selectedDataId}
+            setSelectedDataId={setSelectedDataId}
+            popUpMenu={popUpMenu}
+            setPopUpMenu={setPopUpMenu}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            selectedArea={selectedArea}
+            selectedState={selectedState}
+            selectedProperty={selectedProperty}
+            setSelectedProperty={setSelectedProperty}
+            setSelectedArea={setSelectedArea}
+            setSelectedState={setSelectedState}
+            clear={clear}
+            options={options}
+            options2={options2}
+            options3={option3}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            closeMobileFilterModal={closeMobileFilterModal}
+            openMobileFilterModal={openMobileFilterModal}
+            setSelectedDate={setSelectedProperty}
+            filterModal={filterModal}
+          />
+        ) : (
         <div className="w-full p-8">
           <div className="flex justify-between items-center">
-          <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Properties</p>
               <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-               <span className="text-BlueHomz text-[18px] font-[400]">{data?.length}</span>
+                <span className="text-BlueHomz text-[18px] font-[400]">{data?.length}</span>
               </span>
             </div>
           </div>

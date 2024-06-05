@@ -113,11 +113,11 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
   };
 
   return (
-    <div ref={dropdownRef} className="max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
+    <div ref={dropdownRef} className="w-[340px] md:w-auto md:max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
       {loading || (loadingII && <Loading />)}
       {copied ? (
-        <div className="max-w-[464px] m-auto">
-          <div className="w-[464px] px-8 flex flex-col justify-center items-center gap-5">
+        <div className="md:max-w-[464px] m-auto">
+          <div className="md:w-[464px] px-8 flex flex-col justify-center items-center gap-5">
             <Image
               src={
                 "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
@@ -139,7 +139,7 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
         </div>
       ) : (
         <div className="">
-          <div className="w-[590px]">
+          <div className="md:w-[590px]">
             <h1 className="font-[700] text-[20px] text-BlackHomz">
               Invite Tenants
             </h1>
@@ -161,9 +161,9 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
               onClick={() => handleDropdownClick("estateOptions")}
             >
               <div
-                className={`flex text-[14px] font-[500] text-GrayHomz2 justify-between items-center `}
+                className={`flex w-full text-[14px] font-[500] text-GrayHomz2 justify-between items-center `}
               >
-                <span className="mr-2">
+                <span className="mr-2 truncate">
                   {selectedOptions?.estate || "Select Property"}
                 </span>
                 <div
@@ -187,18 +187,18 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
               className={`flex items-center gap-1 mt-4  ${showLinkBox ? "hidden" : ""
                 }`}
             >
-              <p className="text-[14px] font-[400] text-GrayHomz">
+              <p className="text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?{" "}
               </p>
               <Link href={link_Url ? link_Url : ""} onClick={() => {
                 registrationForm()
                 setInviteTenant(false);
-              }} className="text-BlueHomz text-[14px]  font-[700]">
+              }} className="text-BlueHomz text-[12px] md:text-[14px]  font-[700]">
                 Add New Property
               </Link>
             </div>
             {dropdowns["estateOptions"] && (
-              <div className="absolute top-14 w-full text-GrayHomz2 text-[14px]   bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
+              <div className="absolute top-14 w-full text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
                 {estates &&
                   estates.map((estate) => (
                     <div
@@ -215,8 +215,8 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
           <div>
             <button
               onClick={handleGetLink}
-              className={`mt-4 border rounded-md w-full h-[48px] py-[8px] px-4 text-white bg-BlueHomz text-[16px] font-[700] ${showLinkBox ? "hidden" : ""
-                }`}
+              className={`mt-4 border rounded-md w-full h-[48px] py-[8px] px-4  text-[16px] font-[700] ${showLinkBox ? "hidden" : ""
+                } ${selectedOptions?.estate ? "text-white bg-BlueHomz" : "pointer-events-none text-BlueHomz bg-white"}`}
             >
               Get Link
             </button>

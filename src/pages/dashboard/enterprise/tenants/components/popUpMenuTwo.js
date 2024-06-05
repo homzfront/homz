@@ -8,7 +8,7 @@ function PopUpMenuTwo({ data, handleDelete,dropdownRef }) {
   }
   
     return (
-      <div ref={dropdownRef} className="drop-down absolute top-7 z-40  text-GrayHomz font-[500] text-[13px] right-[26px] border   rounded-md bg-white flex flex-col items-center justify-around">
+      <div ref={dropdownRef} className="drop-down absolute top-5 md:top-7 z-40  text-GrayHomz font-[500] text-[13px] right-2 md:right-[26px] border   rounded-md bg-white flex flex-col items-center justify-around">
         <Link href={`/dashboard/enterprise-property/tenants/profile/${data}`}>
           <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[160px] text-center">
             <Image
@@ -23,7 +23,7 @@ function PopUpMenuTwo({ data, handleDelete,dropdownRef }) {
             View Profile
           </div>
         </Link>
-        <button onClick={() => handleDelete(data?.id)}>
+        {/* <button onClick={() => handleDelete(data?.id)}>
           <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1 rounded-sm w-[160px] text-center">
             <Image
               src={
@@ -36,7 +36,7 @@ function PopUpMenuTwo({ data, handleDelete,dropdownRef }) {
             />
             Delete Profile
           </div>
-        </button>
+        </button> */}
       </div>
     );
   }

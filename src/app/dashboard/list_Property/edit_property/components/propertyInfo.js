@@ -33,6 +33,7 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
         ...prevData,
         [name]: value,
         listingType: formData?.listingType,
+        landType: formData?.landType,
         [formData?.listingType === 'land' ? 'title' : 'name']: formData?.[formData?.listingType === 'land' ? 'title' : 'name'] || '',
       }));
     }
@@ -94,10 +95,10 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                   <option>
                     {capitalizeFirstLetter(formData?.listingType) || "select option"}
                   </option>
-                  <option value="for rent">For Rent</option>
-                  <option value="for sale">For Sale</option>
-                  <option value="shortlet">Shortlet</option>
-                  <option value="land">Land</option>
+                  <option className={`${formData?.listingType === "for rent" ? "hidden" : ""}`} value="for rent">For Rent</option>
+                  <option className={`${formData?.listingType === "for sale" ? "hidden" : ""}`} value="for sale">For Sale</option>
+                  <option className={`${formData?.listingType === "shortlet" ? "hidden" : ""}`} value="shortlet">Shortlet</option>
+                  <option className={`${formData?.listingType === "land" ? "hidden" : ""}`} value="land">Land</option>
                 </select>
               </div>
               <>
@@ -133,11 +134,11 @@ const PropertyInfo = ({ property, handleUpdate, setEditMode, editMode }) => {
                         <option >
                           {capitalizeFirstLetter(formData?.landType) || "select option"}
                         </option>
-                        <option value="commercial land">Commercial Land</option>
-                        <option value="residential land">Residential Land</option>
-                        <option value="mixed-used land">Mixed-Used Land</option>
-                        <option value="industrial land">Industrial Land</option>
-                        <option value="farmland land">Farmland</option>
+                        <option className={`${formData?.landType === "commercial land" ? "hidden" : ""}`} value="commercial land">Commercial Land</option>
+                        <option className={`${formData?.landType === "residential land" ? "hidden" : ""}`} value="residential land">Residential Land</option>
+                        <option className={`${formData?.landType === "mixed-used land" ? "hidden" : ""}`} value="mixed-used land">Mixed-Used Land</option>
+                        <option className={`${formData?.landType === "industrial land" ? "hidden" : ""}`} value="industrial land">Industrial Land</option>
+                        <option className={`${formData?.landType === "farmland land" ? "hidden" : ""}`} value="farmland land">Farmland</option>
                       </select>
                     </div>
                     <div className="">

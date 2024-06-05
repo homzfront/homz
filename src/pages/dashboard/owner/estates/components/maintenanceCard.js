@@ -15,14 +15,14 @@ useEffect(() => {
 const filteredData = data?.filter((data) => id === data?.tenant?.estateId._id)
 
 return (
-  <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container ">
-    <div className="flex justify-between  p-6">
-      <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
-        <p>Maintenance Request</p>
-        <p>     {filteredData?.length ? `${filteredData?.length}` : "0"}/
+  <div className="rounded-[12px] border w-full md:w-[45%] h-[514px] overflow-auto scrollbar-container ">
+    <div className="flex justify-between items-center p-6">
+      <div className="w-[70%] flex gap-1">
+        <p className="text-BlueHomz font-[500] text-[18px] truncate">Maintenance Request</p>
+        <p className="text-BlueHomz font-[500] text-[18px]">     {filteredData?.length ? `${filteredData?.length}` : "0"}/
           {filteredData?.length ? `${filteredData?.length}` : "0"}</p>
       </div>
-      <Link href={"/dashboard/property-owner/maintenance"} className="flex gap-1 items-center">
+      <Link href={"/dashboard/property-owner/maintenance"} className="w-[27%] flex justify-between items-center">
         <p className="text-[13px] font-[400]">View All</p>
         <Image
           src={
@@ -31,6 +31,7 @@ return (
           alt=""
           height={17}
           width={16}
+          className="b"
         />
       </Link>
     </div>
@@ -39,7 +40,7 @@ return (
         <thead className="">
           <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
             <th className="text-left pl-6">Tenant</th>
-            <th className="text-left ">Subject</th>
+            <th className="text-left hidden md:table-cell">Subject</th>
             <th className="text-left">Status</th>
           </tr>
         </thead>
@@ -70,7 +71,7 @@ return (
                 )}
                 <span className="py-[15px]">{data?.tenant?.fullName}</span>
               </td>
-              <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+              <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
               {data?.subject}
               </td>
               <td

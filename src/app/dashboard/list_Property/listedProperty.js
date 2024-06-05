@@ -32,12 +32,8 @@ const EditProperty = ({ property }) => {
     setSearchQuery("");
   };
 
-  // console.log(property);
-  // console.log(data)
-
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-    // setDataProperties(data);
   };
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
