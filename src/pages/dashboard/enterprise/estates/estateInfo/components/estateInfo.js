@@ -95,14 +95,14 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
       ) : (
         <div>
           <div className="mt-8">
-            <h1 className="font-[700] text-[23px] text-BlueHomz">
+            <h1 className="font-[700] text-[20px] md:text-[23px] text-BlueHomz">
               Property Information
             </h1>
-            <p className="text-[18px] font-[400] text-GrayHomz">
+            <p className="text-[15px] md:text-[18px] font-[400] text-GrayHomz">
               Kindly fill in the accurate property information
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-8 py-4 mt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4 mt-2">
             <div className="w-[100%] flex flex-col gap-3">
               <div>
                 <Input

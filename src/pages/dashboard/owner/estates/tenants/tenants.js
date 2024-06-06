@@ -9,6 +9,7 @@ import tenantsDataForLoggedInOwner from "@/store/propertyOwnerStore/tenantsDataF
 import formatDateII from "@/utils/formatDateII";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
+import FilterMobile from "../../components/filterMobile";
 
 const Tenants = ({ id }) => {
   const { data, fetchData: fetchEstateData } = useEstateForOneStore();
@@ -26,9 +27,14 @@ const Tenants = ({ id }) => {
   const ids = data?.tenants
   const [tenantData, setTenantData] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filterModal, setFilterModal] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
 
   const clear = () => {
     setSelectedDate(null)
+    setSearchQuery(null);
+    setSelectedStatus(null);
   };
 
 
@@ -85,17 +91,52 @@ const Tenants = ({ id }) => {
   // Convert mergedData to an array of objects
   const mergedArray = Object.values(mergedData);
 
+  const options = [
+    ...new Set(
+      mergedArray?.map((item) => item?.rentInfo?.paymentStatus)
+    ),
+  ];
+
+  console.log(options);
+
+
   const filteredData = mergedArray?.filter(
     (data) => {
+      const matchesSearchQuery = !searchQuery ||
+      data?.fullName.toLowerCase().includes(searchQuery.toLowerCase())
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
       return (
+        (!selectedStatus ||
+          data?.status === selectedStatus) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
+        && matchesSearchQuery
       );
     });
 
+    const openMobileFilterModal = () => {
+      setFilterModal(!filterModal)
+    }
+  
+    const closeMobileFilterModal = () => {
+      setFilterModal(false)
+    }
+
   return (
     <div className="w-full  p-8">
+            {filterModal &&
+        <div>
+          <FilterMobile
+            reset={clear}
+            closeMobileModal={closeMobileFilterModal}
+            setSelectedDate={setSelectedDate}
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+            options={options}
+            defaultName={"Status"}
+          />
+        </div>
+      }
       <div className="mb-4">
         <div className="hidden w-[475px] md:flex gap-2 items-center">
           <Image
@@ -114,7 +155,7 @@ const Tenants = ({ id }) => {
             href={"/dashboard/property-owner/estates"}
             className="text-[16px] truncate font-[400] text-GrayHomz"
           >
-            {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
+            {mergedArray?.[0]?.estateId?.name ? mergedArray?.[0]?.estateId?.name : "Property Name"}<> </>/
           </Link>
           <div className="text-[20px] font-[500] text-GrayHomz">Tenants</div>
         </div>
@@ -129,8 +170,8 @@ const Tenants = ({ id }) => {
               href={"/dashboard/property-owner/estates"}
               className="text-[16px] truncate font-[400] text-GrayHomz"
             >
-              {filteredData?.[0]?.estateId?.name ? filteredData?.[0]?.estateId?.name : "Property Name"}<> </>/
-            </Link>
+               {mergedArray?.[0]?.estateId?.name ? mergedArray?.[0]?.estateId?.name : "Property Name"}<> </>/
+           </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Tenants
             </div>
@@ -174,8 +215,8 @@ const Tenants = ({ id }) => {
             type="text"
             className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
             id="search"
-            // value={searchQuery}
-            // onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by state or area "
           />
           <Image
@@ -188,7 +229,7 @@ const Tenants = ({ id }) => {
         </div>
         <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
           <button
-          // onClick={openMobileModal}
+                 onClick={openMobileFilterModal}
           >
             <Image
               src="/static/images/filter.svg"

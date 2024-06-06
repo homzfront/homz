@@ -203,8 +203,8 @@ const ManageUsers = () => {
             className={`mt-4  ${isOpen ? "block" : "hidden"
               }`}
           >
-            <div className="flex gap-6 items-center px-5 pb-2 h-[95px] w-full">
-              <div className="w-[360px]">
+            <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-center md:px-5 pb-2 md:h-[95px] w-full">
+              <div className="w-full md:w-[360px]">
                 <input
                   className="border mt-2 rounded-md p-3 h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]"
                   type={"email"}
@@ -215,7 +215,7 @@ const ManageUsers = () => {
               </div>
               <div
                 onClick={() => setShowPopup(true)}
-                className="w-[360px] flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
+                className="md:w-[360px] w-full flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
               >
                 <div className="text-GrayHomz2 text-[13px] font-[400]">
                   {slog?.name
@@ -243,7 +243,7 @@ const ManageUsers = () => {
               )}
               <button
                 onClick={handleSubmit}
-                className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
+                className={`w-full md:w-auto h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
                   ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
                   : "bg-BlueHomz text-white"
                   }`}
@@ -252,13 +252,13 @@ const ManageUsers = () => {
                 Invite
               </button>
             </div>
-            <div className="mt-4 flex gap-1">
-              <p className="text-[14px] font-[400] text-GrayHomz">
+            <div className="w-full md:w-auto mt-4 flex md:gap-1">
+              <p className="w-full md:w-auto text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?
               </p>
               <Link
                 href={"/dashboard/enterprise-property/estates?tab=addProperty"}
-                className="text-[14px] font-[700] text-BlueHomz"
+                className="w-full md:w-auto text-[12px] md:text-[14px] font-[700] text-BlueHomz"
               >
                 Add New Property
               </Link>

@@ -24,11 +24,11 @@ const Card = ({
   };
 
   return (
-    <div className="h-[285px] rounded-lg shadow-md">
+    <div className="md:h-[285px] rounded-lg shadow-md">
       <div className="">
         <div
           style={{ position: "relative" }}
-          className="h-[168px] w-full rounded-lg overflow-hidden relative"
+          className=" h-[130px] md:h-[168px] w-full rounded-lg overflow-hidden relative"
         >
           {value1 && (
             <Image
@@ -39,7 +39,7 @@ const Card = ({
               layout="full" // Specify the desired height
               objectFit="cover"
               objectPosition="center"
-              className="object-cover bg-center h-[168px] rounded-[8px]"
+              className="object-cover bg-center h-[130px]  md:h-[168px] rounded-[8px]"
               priority
             />
           )}
@@ -47,7 +47,7 @@ const Card = ({
 
         <div className="p-4 flex gap-3 h-full flex-col">
           <div ref={dropdownRef} className="relative flex justify-between items-center">
-            <p className="font-[700] truncate text-[16px] text-BlueHomz">{value2}</p>
+            <p className="font-[700] truncate text-[14px] md:text-[16px] text-BlueHomz">{value2}</p>
             <Image
               src={
                 "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -62,7 +62,7 @@ const Card = ({
 
             {popUpMenuVisible && <PopUpMenu data={data} />}
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <Image
               src={Image1}
               height={17}
@@ -70,10 +70,10 @@ const Card = ({
               alt=""
               style={{ height: "auto", width: "auto" }}
             />
-            <p className="font-[500] truncate text-[11px] text-GrayHomz">{value3}</p>
+            <p className="font-[500] truncate text-[9px] md:text-[11px] text-GrayHomz">{value3}</p>
           </div>
           <div className="flex justify-between items-center">
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               <Image
                 src={Image2}
                 height={17}
@@ -81,7 +81,7 @@ const Card = ({
                 alt=""
                 style={{ height: "auto", width: "auto" }}
               />
-              <p className="font-[400] text-[11px] text-GrayHomz">{value4}</p>
+              <p className="font-[400] text-[9px] md:text-[11px] text-GrayHomz">{value4}</p>
             </div>
             {/* <div className="flex gap-2">
               <Image src={Image3} height={12} width={16} alt="" style={{ height: "auto", width: "auto" }}/>

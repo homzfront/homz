@@ -42,18 +42,18 @@ const PendingRequest = ({
 
   return (
     <div className="w-full p-8">
-      <div className="flex justify-between items-center mb-4">
-        <div>
+      <div className="flex w-full flex-col md:flex-row justify-between md:items-center mb-4">
+        <div className="md:w-[20%]">
           <div className="flex justify-between items-center">
-            <div className="flex gap-1">
-              <p>Tenancy Request</p>
-              <span className="bg-whiteblue w-6 h-6 flex justify-center ">
+            <div className="flex gap-2 items-center">
+              <p className="w-full">Tenancy Request</p>
+              <span className="bg-whiteblue p-1 rounded-[4px] flex justify-center ">
                 <span className="text-BlueHomz ">{pendingCount}</span>
               </span>
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="hidden md:flex items-center justify-center gap-2">
           <p className="text-[16px] font-[400] text-BlackHomz pr-2">
             Filter by:{" "}
           </p>
@@ -82,40 +82,66 @@ const PendingRequest = ({
             Reset
           </button>
         </div>
+        <div className="mt-4 flex justify-between md:hidden w-full">
+          <div className="relative w-[86%] rounded-[4px]">
+            <div className="w-full">
+              <Dropdown
+                options={options}
+                onSelect={(option) => setSelectedProperty(option)}
+                selectOption={
+                  selectedProperty === null ? "Property" : selectedProperty
+                }
+                className={"text-[14px] font-[500] text-GrayHomz2"}
+              />
+            </div>
+          </div>
+          <button
+            onClick={clear}
+            className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 mb-1 p-1 rounded cursor-pointer"
+          >
+            <span>
+              <Image
+                src={"/static/dashboard/enterprisemanager/dashboard/repeat.png"}
+                alt=""
+                height={17}
+                width={16}
+              />
+            </span>
+          </button>
+        </div>
       </div>
       <div>
         {friendRequests.map((request) => (
           <div
             key={request._id}
-            className={`${
-              request?.status === "accepted" || request?.status === "declined"
+            className={`${request?.status === "accepted" || request?.status === "declined"
                 ? "hidden"
                 : ""
-            }`}
+              }`}
           >
             {tenantData?.map((data) => (
               <div key={data?.data?._id}>
                 {request?.tenant === data?.data?._id && (
-                  <div className="flex items-center justify-between w-full border-t border-b py-2">
+                  <div className="flex flex-col md:flex-row items-center justify-between w-full border-t border-b py-2">
                     <div className="flex gap-4">
                       <div>
                         {!data?.data?.coverPhoto ? (
-                         <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
-                         <EmptyAvatar />
-                       </div>
-                     ) : (
-                       <Image
-                         src={data?.data?.coverPhoto?.url}
-                         alt=""
-                         width={40}
-                         height={40}
-                         layout="full" // Specify the desired height
-                         objectFit="cover"
-                         objectPosition="center"
-                         className="object-cover bg-center h-[40px] rounded-full"
-                         priority
-                       />
-                     )}
+                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                            <EmptyAvatar />
+                          </div>
+                        ) : (
+                          <Image
+                            src={data?.data?.coverPhoto?.url}
+                            alt=""
+                            width={40}
+                            height={40}
+                            layout="full" // Specify the desired height
+                            objectFit="cover"
+                            objectPosition="center"
+                            className="object-cover bg-center h-[40px] rounded-full"
+                            priority
+                          />
+                        )}
                       </div>
                       <div>
                         <p className="text-[16px] font-[600] text-BlackHomz">
@@ -132,7 +158,8 @@ const PendingRequest = ({
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-4 w-full justify-end">
+                    <div className="mt-1 md:mt-0 flex gap-4 w-full md:justify-end">
+                      <div className="w-[40px] md:hidden"></div>
                       <button
                         onClick={() => handleToggleMenu(request?._id)}
                         className="text-[14px] font-[700] text-white bg-BlueHomz px-3 py-1 rounded-md"
@@ -171,9 +198,9 @@ const PendingRequest = ({
                       </div>
                     )}
                     {done && (
-                      <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                        <div className="max-w-[464px] h-[240px] py-8 rounded-[8px] bg-white m-auto">
-                          <div className="w-[464px] px-8 flex flex-col justify-center items-center gap-5">
+                      <div className="px-8 md:px-0 absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                        <div className="md:max-w-[464px] md:h-[240px] py-8 rounded-[8px] bg-white m-auto">
+                          <div className="md:w-[464px] px-8 flex flex-col justify-center items-center gap-5">
                             <Image
                               src={
                                 "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
@@ -182,7 +209,7 @@ const PendingRequest = ({
                               height={48}
                               width={48}
                             />
-                            <h1 className="text-BlackHomz font-[700] text-[20px]">
+                            <h1 className="text-BlackHomz text-center font-[700] text-[20px]">
                               Tenant Added Successfully
                             </h1>
                             <button
@@ -196,9 +223,9 @@ const PendingRequest = ({
                       </div>
                     )}
                     {doneTwo && (
-                      <div className="absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                        <div className="max-w-[464px] py-8 rounded-[8px] bg-white m-auto">
-                          <div className="w-[464px] px-8 flex flex-col justify-center items-center gap-5">
+                      <div className="px-8 md:px-0 absolute top-0 z-20 h-screen w-full  inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                        <div className="md:max-w-[464px] py-8 rounded-[8px] bg-white m-auto">
+                          <div className="md:w-[464px] px-8 flex flex-col justify-center items-center gap-5">
                             <Image
                               src={
                                 "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
@@ -207,7 +234,7 @@ const PendingRequest = ({
                               height={48}
                               width={48}
                             />
-                            <h1 className="text-BlackHomz font-[700] text-[20px]">
+                            <h1 className="text-BlackHomz text-center font-[700] text-[20px]">
                               Tenant Request Declined Successfully
                             </h1>
                             <button

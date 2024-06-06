@@ -23,41 +23,49 @@ const SelectState = ({ selectedState, setSelectedState, placeholder }) => {
 
     return (
         <div className=''>
-            <Select
-                value={selectedState}
-                onChange={handleChange}
-                options={options}
-                placeholder={ placeholder ? placeholder : "Select State..."}
-                styles={{
-                    control: (base, state) => ({
-                        ...base,
-                        height: '45px', // Set desired height here
-                        borderRadius: '6px', // Add border radius
-                        backgroundColor: 'transparent', // Set background color to transparent
-                        cursor: 'pointer', 
-                        borderColor: state.isFocused ? 'grey' : '',
-                        '&:hover': {
-                            borderColor: '', // Change border color on hover
-                        },
-                    }),
-                    indicatorSeparator: (base) => ({
-                        ...base,
-                        backgroundColor: '', // Customize the color of the separator line
-                    }),
-                    dropdownIndicator: (base) => ({
-                        ...base,
-                        color: 'grey', // Customize the color of the dropdown indicator arrow
-                    }),
-                    // menu: (base) => ({
-                    //     ...base,
-                    //     maxHeight: '100px', // Set maximum height for the dropdown menu
-                    //     overflowY: 'auto', // Allow vertical scrolling if needed
-                    //     '&::-webkit-scrollbar': {
-                    //         display: 'none', // Hide the scrollbar
-                    //     },
-                    // }),
-                }}
-            />
+<Select
+  value={selectedState}
+  onChange={handleChange}
+  options={options}
+  placeholder={placeholder ? placeholder : "Select State..."}
+  styles={{
+    control: (base, state) => ({
+      ...base,
+      height: '45px', // Set desired height here
+      borderRadius: '6px', // Add border radius
+      backgroundColor: 'transparent', // Set background color to transparent
+      cursor: 'pointer', 
+      borderColor: state.isFocused ? 'grey' : '',
+      '&:hover': {
+        borderColor: '', // Change border color on hover
+      },
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    }),
+    singleValue: (base) => ({
+      ...base,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    }),
+    placeholder: (base) => ({
+      ...base,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    }),
+    indicatorSeparator: (base) => ({
+      ...base,
+      backgroundColor: '', // Customize the color of the separator line
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: 'grey', // Customize the color of the dropdown indicator arrow
+    }),
+  }}
+/>
+
         </div>
     );
 }

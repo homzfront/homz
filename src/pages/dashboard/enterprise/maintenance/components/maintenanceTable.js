@@ -102,25 +102,25 @@ const MaintenanceTable = ({ request, fetchData }) => {
 
       <div className="mt-8">
         <div className=" w-full rounded-t-xl border">
-          <div className="flex rounded-t-xl bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz items-center px-8">
-            <div className=" flex-[1.3]">Tenant</div>
-            <div className=" flex-1">Subject</div>
-            <div className=" flex-1">Status</div>
-            <div className=" flex-1">Request Date</div>
-            <div className=" flex-1">Property</div>
-            <div className=" flex-1">Apartment No</div>
-            <div className=" flex-1">Address</div>
-            <div className=" flex-1">Phone No</div>
-            <div className=" flex-[0.2]"></div>
+          <div className="flex rounded-t-xl bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz items-center px-4 md:px-8">
+            <div className="w-[33.3%] md:w-auto flex-[1.3]">Tenant</div>
+            <div className="pl-1 md:pl-0 w-[33.3%] md:w-auto flex-1">Subject</div>
+            <div className="w-[33.3%] md:w-auto flex-1">Status</div>
+            <div className="hidden md:table-cell flex-1">Request Date</div>
+            <div className="hidden md:table-cell flex-1">Property</div>
+            <div className="hidden md:table-cell flex-1">Apartment No</div>
+            <div className="hidden md:table-cell flex-1">Address</div>
+            <div className="hidden md:table-cell flex-1">Phone No</div>
+            <div className="hidden md:table-cell flex-[0.2]"></div>
           </div>
           <div className="flex flex-col">
             {currentData &&
               currentData?.map((request) => (
                 <div
                   key={request?._id}
-                  className="flex bg-white border-t-[1px] items-center px-8 h-[64px]"
+                  className="flex bg-white border-t-[1px] items-center px-4 md:px-8 h-[64px]"
                 >
-                  <div className="flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
+                  <div className="w-[33.3%] md:w-auto flex-[1.3] flex items-center gap-2 text-GrayHomz4 font-[500] text-[11px]">
                     {request.tenant?.coverPhoto?.url === null ||
                       request.tenant?.coverPhoto?.url === undefined ? (
                       <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
@@ -139,14 +139,14 @@ const MaintenanceTable = ({ request, fetchData }) => {
                         priority
                       />
                     )}
-                    <span className="py-[15px] ">
+                    <span className="py-[15px] break-words">
                       {request?.tenant?.fullName}
                     </span>
                   </div>
-                  <div className="flex-1 text-GrayHomz  font-[500] text-[11px]">
+                  <div className="pl-1 md:pl-0 w-[33.3%] md:w-auto flex-1 text-GrayHomz  font-[500] text-[11px]">
                     {request?.subject}
                   </div>
-                  <div className="flex-1 flex items-center ">
+                  <div className="flex-1 w-[33.3%] md:w-auto flex items-center ">
                     <div
                       className={` text-GrayHomz font-[500] w-[80%] py-1 h-[25px] rounded-md text-center text-[11px] `}
                     >
@@ -161,24 +161,24 @@ const MaintenanceTable = ({ request, fetchData }) => {
                       />
                     </div>
                   </div>
-                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                  <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
                     {changeBackendDateFormat(request?.requestDate)}
                   </div>
-                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                  <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
                     {request?.tenant?.estateId?.name}
                   </div>
-                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                  <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
                     {request.tenant?.rentInfo?.apartmentNumber
                       ? request.tenant?.rentInfo?.apartmentNumber
                       : "-----"}
                   </div>
-                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                  <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
                     {request?.tenant?.estateId?.address}
                   </div>
-                  <div className="flex-1 text-GrayHomz font-[500] text-[11px]">
+                  <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
                     {request?.tenant?.phoneNumber}
                   </div>
-                  <div className="flex-[0.2] relative ">
+                  <div className="hidden md:table-cell flex-[0.2] relative ">
                     <button onClick={() => handleToggleMenu(request?.tenant?._id)}>
                       <Image
                         src={

@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import Dashboard from '@/components/icons/dashboard/dashboard'
 import Logout from '@/components/icons/dashboard/logout'
 import Maintenance from '@/components/icons/dashboard/maintenance '
@@ -18,11 +18,35 @@ import Link from 'next/link'
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
 import Switch from '@/components/icons/dashboardMobile/switch'
+import useRequestEnterprise from '@/store/enterpriseStore/useRequestEnterprise'
+import useMaintenanceRequestStore from '@/store/enterpriseStore/useMaintenanceStore'
 
 const SidebarMobile = ({ setOpen, user }) => {
+  const { request, tenantData, loading, fetchData } = useRequestEnterprise();
+  const { request: maintenanceRequest, fetchData: fetchMaintenance } = useMaintenanceRequestStore();
+
   const path = usePathname();
   const pathname = keepThree(path);
   const { logout } = useProfileStore();
+
+  useEffect(() => {
+    const fetchDataInterval = setInterval(() => {
+      fetchData();
+      fetchMaintenance();
+    }, 3 * 60 * 1000); // 3 minutes in milliseconds
+    fetchData();
+    fetchMaintenance();
+
+    // Clean up the interval to avoid memory leaks
+    return () => clearInterval(fetchDataInterval);
+  }, []);
+
+  // Assuming data is the object containing the provided data
+  const results = maintenanceRequest?.results;
+
+  // Check if any request status is "pending"
+  const isAnyPending = results?.some(item => item.status === "pending");
+
 
   return (
     <div className="h-[2000px] px-8 flex flex-col w-[100%] m-auto text-white">
@@ -173,11 +197,11 @@ const SidebarMobile = ({ setOpen, user }) => {
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/enterprise-property/request"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`w-full h-[45px] flex justify-between rounded-[4px] items-center md:justify-start px-4 
           ${pathname === "/dashboard/enterprise-property/request" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
-          <div>
+          <div className='flex gap-2'>
             {
               pathname === "/dashboard/enterprise-property/request"
                 ?
@@ -189,19 +213,20 @@ const SidebarMobile = ({ setOpen, user }) => {
                   <Requests />
                 </div>
             }
+            <p className=''>
+              Requests</p>
           </div>
-          <p className=''>
-            Requests</p>
+          <p className={`${request?.[0]?.status === "pending" ? "bg-error mt-1 h-2 w-2 rounded-full" : "bg-transparent"} `}></p>
         </Link>
 
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/enterprise-property/maintenance"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`w-full h-[45px] flex justify-between rounded-[4px] items-center md:justify-start px-4 
           ${pathname === "/dashboard/enterprise-property/maintenance" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
-          <div>
+          <div className='flex gap-2'>
             {
               pathname === "/dashboard/enterprise-property/maintenance"
                 ?
@@ -213,8 +238,9 @@ const SidebarMobile = ({ setOpen, user }) => {
                   <Maintenance />
                 </div>
             }
+            <p className=''> Maintenance</p>
           </div>
-          <p className=''> Maintenance</p>
+          <p className={`${isAnyPending === true ? "bg-error mt-1 h-2 w-2 rounded-full" : "bg-transparent"} `}></p>
         </Link>
         <Link
           onClick={() => setOpen(false)}

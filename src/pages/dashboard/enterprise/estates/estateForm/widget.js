@@ -176,7 +176,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
 
 
   return (
-    <div className=" w-full h-auto py-4">
+    <div className="hidden md:block w-full h-auto py-4">
             <ToastContainer
         position="top-center"
         autoClose={2000}

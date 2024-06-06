@@ -119,7 +119,7 @@ const Widget = ({ data, isLoading, id }) => {
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Photos data={data} />
           </div>
-          <div className={`${activeThree ? "inline" : "hidden"}`} data={data}>
+          <div className={`${activeThree ? "inline" : "hidden"}`}>
             <ContactInfo data={data} />
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
