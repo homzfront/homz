@@ -46,7 +46,7 @@ const PricingPlan = () => {
       />
       <div
         onClick={goBack}
-        className="border flex justify-start gap-1 items-center cursor-pointer">
+        className="flex justify-start gap-1 items-center cursor-pointer">
         <ArrowLeftBlue />
         <p className="text-BlueHomz4 text-[16px] font-[500]">
           Go back
