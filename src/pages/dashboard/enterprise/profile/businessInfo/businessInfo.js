@@ -14,7 +14,6 @@ const BusinessInfo = ({ data }) => {
   const [showDialogue, setShowDialogue] = useState(false);
 
   useEffect(() => {
-    // Check if data and required properties are available
     if (data) {
       setBusinessName(data?.businessName || "");
       setBusinessAddress(data?.businessAddress || "");

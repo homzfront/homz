@@ -11,7 +11,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchData();
-  }, [data]);
+  }, []);
 
   return (
     <div className="p-8 w-full">
