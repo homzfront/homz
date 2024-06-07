@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import api from "@/utils/api";
+import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 
 
 const PricingPlan = () => {
@@ -83,9 +84,14 @@ const PricingPlan = () => {
         pauseOnHover
         theme="dark"
       />
-      <button onClick={goBack}>
-        <Image src={"/Link (1).png"} alt="Back" height={25} width={85} />
-      </button>
+      <div
+        onClick={goBack}
+        className="flex justify-start gap-1 items-center cursor-pointer">
+        <ArrowLeftBlue />
+        <p className="text-BlueHomz4 text-[16px] font-[500]">
+          Go back
+        </p>
+      </div>
       <div className="flex flex-col justify-center items-center">
         <div className="max-w-[897px] m-auto mb-10 flex flex-col items-center gap-3">
           <h2 className="  text-BlueHomz text-[18px]  text-center font-[500]">
