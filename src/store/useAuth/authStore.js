@@ -10,7 +10,7 @@ const useAuthStore = create((set) => ({
       const userData = response.data.user || null;
       set({ user: userData });
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      // console.error('Error fetching user profile:', error);
       set({ user: null });
     }
   },

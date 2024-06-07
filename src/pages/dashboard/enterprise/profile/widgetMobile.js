@@ -4,6 +4,7 @@ import ChangePassword from './changePassword/changePassword';
 import Payment from './payment/payment';
 import BusinessLogo from './businessLogo/businessLogo';
 import BusinessInfo from './businessInfo/businessInfo';
+import AccountInfo from './accountInfo/accountInfo';
 
 const WidgetMobile = ({ data }) => {
     const [active, setActive] = useState(false);
@@ -11,29 +12,34 @@ const WidgetMobile = ({ data }) => {
     const [activeThree, setActiveThree] = useState(false);
     const [activeFour, setActiveFour] = useState(false);
     const [activeFive, setActiveFive] = useState(false);
+    const [activeSix, setActiveSix] = useState(false);
+
 
     const handlePageChange = () => {
         setActive(false);
         setActiveTwo(false);
         setActiveThree(false);
-        setActiveFour(false); 
+        setActiveFour(false);
         setActiveFive(false);
+        setActiveSix(false);
     };
 
     const handlePageChangeTwo = () => {
         setActiveTwo(true);
         setActive(true);
         setActiveThree(false);
-        setActiveFour(false); 
+        setActiveFour(false);
         setActiveFive(false);
+        setActiveSix(false);
     };
 
     const handlePageChangeThree = () => {
         setActiveThree(true);
         setActiveTwo(false);
         setActive(true);
-        setActiveFour(false); 
+        setActiveFour(false);
         setActiveFive(false);
+        setActiveSix(false);
     };
 
     const handlePageChangeFour = () => {
@@ -42,6 +48,7 @@ const WidgetMobile = ({ data }) => {
         setActiveThree(false);
         setActiveTwo(false);
         setActive(true);
+        setActiveSix(false);
     };
 
     const handlePageChangeFive = () => {
@@ -50,7 +57,17 @@ const WidgetMobile = ({ data }) => {
         setActiveThree(false);
         setActiveTwo(false);
         setActive(true);
+        setActiveSix(false);
     };
+
+    const handlePageChangeSix = () => {
+        setActiveFive(false);
+        setActiveFour(false);
+        setActiveThree(false);
+        setActiveTwo(false);
+        setActive(true);
+        setActiveSix(true);
+    }
 
     return (
         <div>
@@ -90,11 +107,20 @@ const WidgetMobile = ({ data }) => {
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
                     >
-                        Payment
+                        Account Information
                     </button>
                     <button
                         onClick={handlePageChangeFive}
                         className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFive
+                            ? "inline-block shadow-md bg-[#006AFF] text-white "
+                            : "bg-[#EEF5FF] text-[#006AFF]"
+                            }`}
+                    >
+                        Payment
+                    </button>
+                    <button
+                        onClick={handlePageChangeSix}
+                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeSix
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
@@ -114,9 +140,12 @@ const WidgetMobile = ({ data }) => {
                     <PersonalInfo data={data} />
                 </div>
                 <div className={`${activeFour ? "inline" : "hidden"}`}>
-                    <Payment />
+                    <AccountInfo />
                 </div>
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
+                    <Payment />
+                </div>
+                <div className={`${activeSix ? "inline" : "hidden"}`}>
                     <ChangePassword />
                 </div>
             </div>

@@ -103,13 +103,13 @@ const Login = () => {
             setLoading(false);
           }, 5000); // 5000 milliseconds = 5 seconds
         } else {
-          setLoginError(profileResponse.data.message); // Set specific error message
+          setLoginError(profileResponse.data.message);
         }
       } else {
-        setLoginError(response.data.message); // Set specific error message
+        setLoginError(response.data.message);
       }
     } catch (error) {
-      setLoginError(error.response?.data?.message); // Set specific error message (if available)
+      setLoginError(error.response?.data?.message);
       setLoading(false);
     } 
   };
