@@ -56,7 +56,7 @@ const PersonalInfo = ({ data }) => {
 
   return (
     <div className="mt-8">
-      <div className="w-[498px] flex flex-col gap-4">
+      <div className="w-full md:w-[498px] flex flex-col gap-4">
         <Input
           label={"Full Name"}
           placeholder={"Victor Simon"}

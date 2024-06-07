@@ -98,12 +98,12 @@ useBodyScroll([verified, verifyDelete, removeCard]);
     <div>
       <p className="font-[700] text-[14px] text-GrayHomz">Enterprise Plan</p>
       <div className=" flex justify-between h-[69px] items-center rounded-lg bg-inputBg px-4 mt-2">
-        <p className="font-[500] text-[16px] text-GrayHomz2">
+        <p className="font-[500] text-[13px] md:text-[16px] text-GrayHomz2">
           You’re currently on the enterprise plus plan
         </p>
         <Link
           href={"/plans"}
-          className="font-[500] text-[16px] w-[125px] h-[37px] py-1 pl-2 rounded-md text-BlueHomz border border-BlueHomz"
+          className="font-[500] text-[13px] md:text-[16px] w-[150px] md:w-[135px] h-[37px] flex justify-center items-center rounded-md text-BlueHomz border border-BlueHomz"
         >
           Upgrade Plan
         </Link>
