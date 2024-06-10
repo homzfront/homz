@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import useBodyScroll from '@/utils/useBodyScroll';
 import Image from 'next/image';
 import { ThreeDots } from 'react-loader-spinner';
-import NationalPassport from './NationalPassport';
+import NationalPassport from './nationalPassport';
 import { Niconne } from 'next/font/google';
 
 const NationalIdentityNumber = () => {
