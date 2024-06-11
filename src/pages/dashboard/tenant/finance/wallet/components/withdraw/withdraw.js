@@ -27,7 +27,7 @@ const Withdraw = ({ illuminateWallet }) => {
   };
   
   return (
-    <div className={`p-5 border rounded-[12px] flex flex-col gap-4 w-[full] h-[370px] ${illuminateWallet ? "bg-withdrawBg" : "bg-white"}  `}>
+    <div className={`p-5 border rounded-[12px] flex flex-col gap-4 w-[full] h-[285px] ${illuminateWallet ? "bg-withdrawBg" : "bg-white"}  `}>
       <div className="flex gap-1 items-center">
         {illuminateWallet ? (
           <Image

@@ -22,7 +22,7 @@ const Wallet = () => {
 
 
   useEffect(() => {
-      fetchRentInfo() 
+    fetchRentInfo()
   }, [])
 
 
@@ -31,9 +31,9 @@ const Wallet = () => {
       try {
         setLoading(true);
         const data = await propertyOwnerWallet();
-        if (data.statuscode === 200 && data.success === true  && data.data !== null) {
+        if (data.statuscode === 200 && data.success === true && data.data !== null) {
           setIlluminateWallet(!illuminateWallet);
-          fetchRentInfo() 
+          fetchRentInfo()
           const balance = await propertyOwnerWalletBalance();
           setWalletBalance(balance);
           const wallet = data;
@@ -69,8 +69,8 @@ const Wallet = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-full flex gap-8">
-        <div className="w-[50%]">
+      <div className="w-full flex flex-col md:flex-row gap-8">
+        <div className="md:w-[50%]">
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
@@ -81,15 +81,16 @@ const Wallet = () => {
             />
           </div>
           <div>
+            <Withdraw illuminateWallet={illuminateWallet} />
             {/* <TransferDetails illuminateWallet={illuminateWallet} /> */}
           </div>
         </div>
-        <div className="w-[50%]">
+        <div className="md:w-[50%]">
           <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
+
           </div>
           <div>
-            {/* <TransferHis illuminateWallet={illuminateWallet} data={data}/> */}
+            <TransferHis illuminateWallet={illuminateWallet} data={data} />
           </div>
 
         </div>

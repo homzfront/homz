@@ -14,6 +14,7 @@ const SelectPlan = () => {
   };
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notVerified, setNotVerified] = useState(false);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -21,9 +22,17 @@ const SelectPlan = () => {
       try {
         // Fetch user profile using the token
         const response = await api.get("/user/profile");
-        const data = response.data?.user?.accounts;
-        setUser(data);
-        setLoading(false);
+        if (response?.data?.data?.isVerified === true) {
+          const data = response.data?.user?.accounts;
+          setUser(data);
+          setLoading(false);
+        } else {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem("email", response?.data?.user?.email);
+            setNotVerified(!notVerified)
+          }
+          setLoading(false);
+        }
       } catch (error) {
         setLoading(false);
       }
@@ -31,7 +40,7 @@ const SelectPlan = () => {
 
     fetchData();
   }, []);
-  
+
 
   const Data = [
     {
@@ -41,7 +50,7 @@ const SelectPlan = () => {
       content: "As a landlord, monitor your properties, tenants & rent payments in one place.",
       link: "/dashboard/property-owner/dashboard",
       name: "MANAGE_PROPERTY",
-      url: "/plan/manage-property",
+      url: notVerified ? `/verify-email` : "/plan/manage-property",
       active: true
     },
     {
@@ -52,7 +61,7 @@ const SelectPlan = () => {
         "As a tenant, pay rent, request maintenance services in one place.",
       link: "/dashboard/tenant/dashboard",
       name: "TENANT",
-      url: "/plan/tenant-management",
+      url: notVerified ? `/verify-email` : "/plan/tenant-management",
       active: true
     },
     {
@@ -63,7 +72,7 @@ const SelectPlan = () => {
         "As a property manager, manage properties & tenants with our dashboard.",
       link: "/dashboard/enterprise-property/dashboard",
       name: "ENTERPRISE_PLAN",
-      url: "/plan/enterprise-plan",
+      url: notVerified ? `/verify-email` : "/plan/enterprise-plan",
       active: true
     },
     {
@@ -73,16 +82,16 @@ const SelectPlan = () => {
       content: "List your property & find verified renters & buyers with ease.",
       link: "dashboard/list_Property",
       name: "LIST_PROPERTY",
-      url: "plan/list-property",
+      url: notVerified ? `/verify-email` : "plan/list-property",
       active: true
     },
   ];
   return (
     <div>
       <div className="max-w-[1156px] px-[16px] xl:px-[0px] h-[712px] my-8 md:my-20 flex flex-col justify-between m-auto">
-        <div 
-        onClick={handleBackButtonClick}
-        className="flex px-8 md:px-0 justify-start gap-1 items-center cursor-pointer">
+        <div
+          onClick={handleBackButtonClick}
+          className="flex px-8 md:px-0 justify-start gap-1 items-center cursor-pointer">
           <ArrowLeftBlue />
           <p className="text-BlueHomz4 text-[16px] font-[500]">
             Go back

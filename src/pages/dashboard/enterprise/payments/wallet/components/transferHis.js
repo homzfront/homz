@@ -125,7 +125,7 @@ const TransferHis = ({ illuminateWallet }) => {
           <div key={data.Id}>
             <div>
               {data.Status === "Receive" ? (
-                <div className="flex items-center justify-between mt-6 border-b h-[40px] pb-5">
+                <div className="w-full flex md:items-center justify-between mt-6 border-b h-[60px] md:h-[40px] pb-5">
                   <div className="flex gap-6 items-center">
                     <Image
                       src={
@@ -134,27 +134,28 @@ const TransferHis = ({ illuminateWallet }) => {
                       width={20}
                       height={21}
                       alt=""
+                      className=""
                     />
-                    <div className="w-[32px] h-[32px] rounded-[100%] flex items-center justify-center bg-BlueHomz">
+                    <div className="hidden md:mr-2 xl:mr-0 w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
                       <p className="text-[16px] font-[500] text-white">
                         {getFirstLetter(data.From)}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[-5px]">
-                    <p className="text-[10px] font-[500] text-GrayHomz w-[220px]">
+                    <p className="pl-2 md:pl-0 text-[10px] font-[500] text-GrayHomz break-words md:w-[220px]">
                       Received {data.Amount} from {data.From}
                     </p>
-                    <span className="text-[10px] font-[400] text-GrayHomz2">
+                    <span className="pl-2 md:pl-0 text-[10px] font-[400] text-GrayHomz2">
                       {data.TransDate}
                     </span>
                   </div>
-                  <div className="text-[10px] font-[400] text-Success w-[75px]">
+                  <div className="text-[10px] font-[400] text-Success w-[40%] md:w-[75px]">
                     {data.Amount}
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center justify-between mt-6 border-b h-[40px] pb-5">
+                <div className="flex md:items-center justify-between mt-6 border-b h-[60px] md:[40px] pb-5">
                   <div className="flex gap-6 items-center">
                     <Image
                       src={
@@ -164,21 +165,21 @@ const TransferHis = ({ illuminateWallet }) => {
                       height={21}
                       alt=""
                     />
-                    <div className="w-[32px] h-[32px] rounded-[100%] flex items-center justify-center bg-warning2">
+                    <div className="hidden md:mr-2 xl:mr-0 w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
                       <p className="text-[16px] font-[500] text-white">
                         {getFirstLetter(data.From)}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-[-5px]">
-                    <p className="text-[10px] font-[500] text-GrayHomz w-[220px] ">
+                    <p className="pl-2 md:pl-0 text-[10px] font-[500] text-GrayHomz break-words md:w-[220px] ">
                       You sent {data.Amount} to {data.From}
                     </p>
-                    <span className="text-[10px] font-[400] text-GrayHomz2">
+                    <span className="pl-2 md:pl-0 text-[10px] font-[400] text-GrayHomz2">
                       {data.TransDate}
                     </span>
                   </div>
-                  <div className="text-[10px] font-[400] text-error w-[75px]">
+                  <div className="text-[10px] font-[400] text-error w-[40%] md:w-[75px]">
                     {data.Amount}
                   </div>
                 </div>

@@ -32,7 +32,7 @@ const Dropdown = ({
     >
       <div className="flex items-center justify-between ">
       <span
-          className={`mr-2  text-[14px] font-[500] ${
+          className={`mr-2 truncate text-[14px] font-[500] ${
             illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
           }`}
         >   

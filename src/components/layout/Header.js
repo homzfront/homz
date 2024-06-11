@@ -114,7 +114,7 @@ const Header = () => {
     } else if (user?.accounts?.[0].name === "LIST_PROPERTY") {
       return "/dashboard/list_Property";
     } else {
-      return '/';
+      return '/switch-profile';
     }
   };
 

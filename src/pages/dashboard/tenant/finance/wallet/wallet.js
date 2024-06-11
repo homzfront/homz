@@ -15,12 +15,12 @@ const Wallet = ({ activeTwo }) => {
   const { data, fetchData: fetchRentInfo } = tenantRentHis();
   const { wallet, walletBalance, loading, fetchData: walletData, illuminateWallet } = tenantWalletStore();
 
-  useEffect(() => {
-    walletData()
-    if (wallet !== null) {
-      fetchRentInfo()
-    }
-  }, [])
+  // useEffect(() => {
+  //   walletData()
+  //   if (wallet !== null) {
+  //     fetchRentInfo()
+  //   }
+  // }, [])
 
   const fetchDataAgain = () => {
     walletData();
@@ -43,8 +43,8 @@ const Wallet = ({ activeTwo }) => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-full flex gap-8 px-8">
-        <div className="flex flex-col w-[50%] h-[400px] justify-between">
+      <div className="w-full flex flex-col md:flex-row gap-8 px-8">
+        <div className="flex flex-col w-full md:w-[50%] gap-4 md:h-[400px] justify-between">
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
@@ -55,14 +55,14 @@ const Wallet = ({ activeTwo }) => {
               loading={loading}
             />
           </div>
-          {/* <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
-              </div> */}
           <div>
-            {/* <Activities illuminateWallet={illuminateWallet} /> */}
+            <Withdraw illuminateWallet={illuminateWallet} />
+          </div>
+          <div>
+            <Activities illuminateWallet={illuminateWallet} />
           </div>
         </div>
-        <div className="w-[50%]">
+        <div className="w-full md:w-[50%]">
           <TransferHis illuminateWallet={illuminateWallet} data={data} />
         </div>
       </div>

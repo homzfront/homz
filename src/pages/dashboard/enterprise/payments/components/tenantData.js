@@ -91,13 +91,13 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
                 <th className="text-left pl-4">Tenant</th>
-                <th className="text-left ">Payment Date</th>
-                <th className="text-left ">Due Date</th>
-                <th className="text-left ">Amount</th>
-                <th className="text-left ">Purpose</th>
+                <th className="text-left hidden md:table-cell">Payment Date</th>
+                <th className="text-left hidden md:table-cell">Due Date</th>
+                <th className="text-left hidden md:table-cell">Amount</th>
+                <th className="text-left hidden md:table-cell">Purpose</th>
                 <th className="text-left " style={{ width: "110px" }}>Payment Status</th>
-                <th className="text-left ">Property</th>
-                <th className="text-left">Apartment No</th>
+                <th className="text-left hidden md:table-cell">Property</th>
+                <th className="text-left hidden md:table-cell">Apartment No</th>
                 <th></th>
               </tr>
             </thead>
@@ -129,16 +129,16 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
                       )}
                       <span className="py-[15px]">{data?.tenantId?.fullName}</span>
                     </td>
-                    <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                    <td className="hidden md:table-cell text-GrayHomz py-[15px] font-[500] text-[11px]">
                       {changeBackendDateFormat(data?.paymentDate)}
                     </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                    <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {changeBackendDateFormat(data?.dueDate)}
                     </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                    <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {addCommasToNumber(data?.rent)}
                     </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                    <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}  rents
                     </td>
                     <td 
@@ -162,13 +162,13 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
                         dropdownRef={dropdownRefII}
                       />
                     </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                    <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {data?.estateId?.name}
                     </td>
-                    <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                    <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {data?.apartmentNumber}
                     </td>
-                    <td className="relative py-[15px] pr-4">
+                    <td className="hidden md:table-cell relative py-[15px] pr-4">
                       <button onClick={() => handleToggleMenu(data._id)}>
                         <Image
                           src={

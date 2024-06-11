@@ -23,7 +23,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   useBodyScroll([loading])
 
@@ -33,28 +33,21 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Early return if already loading
     if (loading) return;
   
-    setLoading(true); // Set loading state
-  
-    // Validate email format
+    setLoading(true);
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setLoginError("Please enter a valid email address.");
       setLoading(false);
       return;
     }
-  
-    // Validate required fields
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
     }
-  
-    // Check password length
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
       setLoading(false);
@@ -62,49 +55,50 @@ const Login = () => {
     }
   
     try {
-      // Login request
       const response = await api.post("/auth/login", {
         email,
         password,
       });
   
-      if (response.status === 201) { // Handle expected successful login status code
+      if (response.status === 201) { 
         const data = response.data.data.token;
-        // toast.success("Login Successful")
         localStorage.setItem('jwt', data)
-        // Fetch user profile
+
         const profileResponse = await api.get("/user/profile");
-  
-        if (profileResponse.status === 200 || profileResponse.status === 201) { // Handle expected success status codes
-          const profileData = profileResponse.data;
-  
-          // Navigation logic based on user roles and account status
-          const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
-          if (navigateTo) {
-            router.push(navigateTo);
+        if (response?.data?.data?.isverified === true) {
+          if (profileResponse.status === 200 || profileResponse.status === 201) {
+            const profileData = profileResponse.data;
+
+            // Navigation logic based on user roles and account status
+            const navigateTo = determineUserDashboard(profileData);
+            if (navigateTo) {
+              router.push(navigateTo);
+            } else {
+              router.push("/");
+            }
+    
+            useProfileStore.setState({
+              user: data,
+              profile: profileData,
+              isLoggedIn: true,
+              loading: false,
+            });
+    
+            setTimeout(() => {
+              setEmail("");
+              setPassword("");
+              setLoading(false);
+            }, 5000); // 5 seconds
           } else {
-            // Default navigation for unhandled roles or empty accounts
-            router.push("/");
+            setLoginError(profileResponse.data.message);
           }
-  
-          // Update user and profile state
-          useProfileStore.setState({
-            user: data,
-            profile: profileData,
-            isLoggedIn: true,
-            loading: false,
-          });
-  
-          
-          // Set loading to false after 5 seconds
-          setTimeout(() => {
-            setEmail("");
-            setPassword("");
-            setLoading(false);
-          }, 5000); // 5000 milliseconds = 5 seconds
         } else {
-          setLoginError(profileResponse.data.message);
+          router.push(`/verify-email`);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem("email", response?.data?.data?.email);
+          }
         }
+  
       } else {
         setLoginError(response.data.message);
       }
@@ -122,7 +116,6 @@ const Login = () => {
 
   return (
     <div className="">
-
       <ToastContainer
         position="top-center"
         autoClose={2000}

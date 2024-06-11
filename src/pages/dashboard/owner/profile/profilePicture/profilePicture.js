@@ -63,7 +63,7 @@ const ProfilePicture = ({ data }) => {
   };
 
   const handleImageRemove = () => {
-    setUploadedImage(null); // Clear the uploaded image
+    setUploadedImage(null);
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });

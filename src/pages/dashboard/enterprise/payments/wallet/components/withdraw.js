@@ -21,7 +21,7 @@ const Withdraw = ({ illuminateWallet }) => {
     setFillBankDetails(false);
   };
   return (
-    <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[100%] h-[360px]">
+    <div className="p-5 border rounded-[12px] flex flex-col gap-4 w-[100%] h-auto md:h-[360px]">
       <div className="flex gap-1 items-center">
         {illuminateWallet ? (
           <Image

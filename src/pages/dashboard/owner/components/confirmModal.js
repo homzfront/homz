@@ -14,7 +14,7 @@ const ConfirmModal = ({ header, body, button, returnHome }) => {
             height={48}
             width={48}
           />
-          <h1 className="text-BlackHomz font-[700] text-[20px]">{header}</h1>
+          <h1 className="text-BlackHomz text-center font-[700] text-[20px]">{header}</h1>
           <p className="text-[16px] font-[400] text-GrayHomz text-center">{body}</p>
           <button
             onClick={returnHome}

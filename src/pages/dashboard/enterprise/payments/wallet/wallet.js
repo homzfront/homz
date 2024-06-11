@@ -22,7 +22,7 @@ const Wallet = () => {
       try {
         setLoading(true);
         const data = await enterpriseUserWallet();
-        if (data.statuscode === 200 && data.success === true  && data.data !== null) {
+        if (data.statuscode === 200 && data.success === true && data.data !== null) {
           setIlluminateWallet(!illuminateWallet);
           const balance = await enterpriseWalletBalance();
           setWalletBalance(balance);
@@ -43,11 +43,11 @@ const Wallet = () => {
   const fetchDataAgain = () => {
     setFetchData(!fetchData);
   };
-  
+
   return (
     <div className="w-full">
-      <div className="w-full flex gap-8">
-        <div className="w-[50%]">
+      <div className="w-full flex flex-col md:flex-row gap-8">
+        <div className="w-full md:w-[50%]">
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
@@ -57,22 +57,23 @@ const Wallet = () => {
               loading={loading}
             />
           </div>
+          <div className="mt-6">
+            <TransferDetails
+              illuminateWallet={illuminateWallet}
+              setIlluminateWallet={setIlluminateWallet}
+              fetchDataAgain={fetchDataAgain}
+            />
+          </div>
           <div>
           </div>
         </div>
-        <div className="w-[50%]">
-          <TransferDetails
-            illuminateWallet={illuminateWallet}
-            setIlluminateWallet={setIlluminateWallet}
-            fetchDataAgain={fetchDataAgain}
-          />
-          {/* <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
-          </div> */}
+        <div className="w-full md:w-[50%]">
           <div>
-            {/* <TransferHis illuminateWallet={illuminateWallet} /> */}
+            <Withdraw illuminateWallet={illuminateWallet} />
           </div>
-
+          <div>
+            <TransferHis illuminateWallet={illuminateWallet} />
+          </div>
         </div>
       </div>
     </div>

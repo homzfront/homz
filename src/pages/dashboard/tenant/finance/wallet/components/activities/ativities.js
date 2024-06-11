@@ -118,7 +118,7 @@ const Activities = ({ illuminateWallet }) => {
           <div key={data.Id}>
             <div>
               {data.Status === "Receive" ? (
-                <div className="flex items-center justify-between mt-8 border-b h-[40px] pb-8">
+                <div className="flex md:items-center justify-between mt-8 border-b h-[60px] md:h-[40px] pb-8">
                   <div className="flex gap-6 items-center">
                     <Image
                       src={
@@ -128,7 +128,7 @@ const Activities = ({ illuminateWallet }) => {
                       height={21}
                       alt=""
                     />
-                    <div className="flex p-2 bg-BlueHomz rounded-full">
+                    <div className="hidden md:flex p-2 bg-BlueHomz rounded-full">
                       <Image src={data.Image} alt="" height={20} width={20} />
                     </div>
                   </div>
@@ -155,7 +155,7 @@ const Activities = ({ illuminateWallet }) => {
                       height={21}
                       alt=""
                     />
-                    <div className="flex p-2 bg-BlueHomz rounded-full">
+                    <div className="hidden md:flex p-2 bg-BlueHomz rounded-full">
                       <Image src={data.Image} alt="" height={20} width={20} />
                     </div>
                   </div>

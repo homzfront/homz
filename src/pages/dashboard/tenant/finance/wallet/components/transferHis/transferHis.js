@@ -98,7 +98,7 @@ const TransferHis = ({ illuminateWallet, data }) => {
           </p>
         </div>
 
-        <div className={`${illuminateWallet ? "block" : "hidden"}`}>
+        <div className={`hidden md:block ${illuminateWallet ? "block" : "hidden"}`}>
           <table className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
