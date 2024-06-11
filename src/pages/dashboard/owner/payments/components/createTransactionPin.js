@@ -7,7 +7,7 @@ import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import { ownerPinCreation } from '@/api/propertyService';
 import Image from 'next/image';
 
-const CreateTransactionPin = ({ handlePageChangeTwo }) => {
+const CreateTransactionPin = ({ handlePageChangeTwo, closeForm }) => {
     const [username, setUsername] = useState('')
     const [inputError, setInputError] = useState(false);
     const [password, setPassword] = useState('')
