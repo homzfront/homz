@@ -22,7 +22,7 @@ const SelectPlan = () => {
       try {
         // Fetch user profile using the token
         const response = await api.get("/user/profile");
-        if (response?.data?.data?.isVerified === true) {
+        if (response?.data?.user?.isVerified === true) {
           const data = response.data?.user?.accounts;
           setUser(data);
           setLoading(false);

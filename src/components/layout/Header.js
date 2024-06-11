@@ -63,7 +63,7 @@ const Header = () => {
     DataAgain()
   }, [hasListProperty])
 
-  const url = !profile ? "/register" :  hasListProperty
+  const url = !profile ? "/register" : hasListProperty
     ? "/dashboard/list_Property/addProperty"
     : "/switch-profile";
 
@@ -117,6 +117,7 @@ const Header = () => {
       return '/switch-profile';
     }
   };
+
 
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">

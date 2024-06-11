@@ -288,3 +288,32 @@ export const enterpriseUpdatePincode = async (password, otp, pincode) => {
 };
 
 
+export const uploadKYC = async (uploadedImage) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/internationalPassport/kyc/create/enterprise",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
+};
