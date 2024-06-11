@@ -138,23 +138,24 @@ const WalletBalance = ({
           {illuminateWallet ? (
             <div className="py-2 px-4 bg-blue-200  border border-white cursor-pointer rounded-md">
               <p
-                         onClick={openAccountInfo}
-                // onClick={payRent}
+                        onClick={openWalletForm}
+                        // onClick={payRent}
                 className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"
-              >
+                >
                            Create Wallet
                 {/* Pay Rent */}
               </p>
             </div>
           ) :
-            // loading ?
-            //   (
+          // loading ?
+          //   (
             //     <div>
             //     </div>
             //   )
             //   :
             (<div
-              onClick={openWalletForm}
+              // onClick={openWalletForm}
+               onClick={openAccountInfo}
               className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
             >
               <Image

@@ -69,7 +69,7 @@ const Wallet = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-full flex flex-col md:flex-row gap-8">
+      <div className="w-full flex flex-col md:flex-row gap-4 md:gap-8">
         <div className="md:w-[50%]">
           <div>
             <WalletBalance
@@ -87,12 +87,10 @@ const Wallet = () => {
         </div>
         <div className="md:w-[50%]">
           <div>
-
           </div>
           <div>
             <TransferHis illuminateWallet={illuminateWallet} data={data} />
           </div>
-
         </div>
       </div>
     </div>

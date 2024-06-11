@@ -317,3 +317,34 @@ export const uploadKYC = async (uploadedImage) => {
     return { success: false, error: error?.response.data.message };
   }
 };
+
+export const uploadNINKYC = async (uploadedImage, NIN) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+  formData.append("ninNumber", NIN)
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/nin/kyc/create/enterprise",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error };
+  }
+};

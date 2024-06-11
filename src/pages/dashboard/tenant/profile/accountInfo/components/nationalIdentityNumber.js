@@ -3,7 +3,8 @@ import useBodyScroll from '@/utils/useBodyScroll';
 import Image from 'next/image';
 import { ThreeDots } from 'react-loader-spinner';
 import NationalPassport from './nationalPassport';
-import { Niconne } from 'next/font/google';
+import { toast } from 'react-toastify';
+import { uploadNINTenantKYC } from '@/api/tenantSevice';
 
 const NationalIdentityNumber = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,7 @@ const NationalIdentityNumber = () => {
     const [nationalPassportLoading, setNationalPassportLoading] = useState(false);
     const [progress, setProgress] = useState(0);
     const [nationalPassportSuccess, setNationalPassportSuccess] = useState(false);
-    const [NIN, setNIN] = useState("");
+    const [NIN, setNIN] = useState(null);
     const [error, setError] = useState(null);
 
     const nationalPassportRef = useRef(null);
@@ -23,6 +24,14 @@ const NationalIdentityNumber = () => {
     };
 
     const uploadNationalPassport = () => {
+        if (NIN === null) {
+            setError("Input NIN")
+            return;
+        }
+        if (NIN.length !== 11) {
+            setError("NIN must be 11 digits")
+            return;
+        }
         if (nationalPassportRef.current) {
             nationalPassportRef.current.click();
         }
@@ -45,30 +54,59 @@ const NationalIdentityNumber = () => {
         setIsOpen(false);
     };
 
-    const handleUploadNationalPassport = () => {
-        if (NIN === null) {
-            setError("Input NIN")
+    const handleUploadNationalPassport = async () => {
+        setNationalPassportLoading(true);
+
+        if (!nationalPassport) {
+            setNationalPassportLoading(false);
             return;
         }
-        setNationalPassportLoading(true);
-        setNationalPassportSuccess(true);
-        setProgress(0);
-        setTimeout(() => {
-            const totalSize = nationalPassport.size;
-            let uploadedSize = 0;
-            const uploadInterval = setInterval(() => {
-                uploadedSize += 10000;
-                const currentProgress = (uploadedSize / totalSize) * 100;
-                setProgress(currentProgress);
-                setNationalPassportUploaded(false);
-                if (currentProgress >= 100) {
-                    clearInterval(uploadInterval);
-                }
-            }, 40);
-            setTimeout(() => {
+
+        try {
+            const { success, updatedPassport, error } = await uploadNINTenantKYC(
+                nationalPassport,
+                NIN
+            );
+
+            if (success) {
+                setNationalPassportLoading(true);
+                setNationalPassportSuccess(true);
+                setProgress(0);
+                setTimeout(() => {
+                    const totalSize = nationalPassport.size;
+                    let uploadedSize = 0;
+                    const uploadInterval = setInterval(() => {
+                        uploadedSize += 10000;
+                        const currentProgress = (uploadedSize / totalSize) * 100;
+                        setProgress(currentProgress);
+                        setNationalPassportUploaded(false);
+                        if (currentProgress >= 100) {
+                            clearInterval(uploadInterval);
+                        }
+                    }, 40);
+                    setTimeout(() => {
+                        setNationalPassportLoading(false);
+                    }, 1000);
+                }, 800);
+            } else {
+                toast.error(error?.response?.data?.data?.detail);
                 setNationalPassportLoading(false);
-            }, 1000);
-        }, 800);
+            }
+        } catch (error) {
+            setNationalPassportLoading(false);
+            if (
+                error?.response?.data?.error?.errors &&
+                error.response.data.error.errors.length > 0
+            ) {
+                const errorMessage = error.response.data.error.errors[0];
+                toast.error(`Update failed: ${errorMessage}`);
+            } else if (error?.response?.data?.message) {
+                const errorMessage = error.response.data.message;
+                toast.error(`Update failed: ${errorMessage}`);
+            } else {
+                toast.error("Update failed");
+            }
+        }
     }
 
     return (
@@ -85,7 +123,7 @@ const NationalIdentityNumber = () => {
                     NIN={NIN}
                     setNIN={setNIN}
                     error={error}
-                    setError= {setError}
+                    setError={setError}
                 />
             }
             <div className="bg-inputBg rounded-[12px] p-6">
@@ -97,7 +135,7 @@ const NationalIdentityNumber = () => {
                                     [{nationalPassport?.name && nationalPassport.name}]
                                 </span>
                                 <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                                    PDF ({nationalPassport?.size && (nationalPassport.size / (1024 * 1024)).toFixed(2)} MB)
+                                    ({nationalPassport?.size && (nationalPassport.size / (1024 * 1024)).toFixed(2)} MB)
                                 </span>
                             </p>
                             <div className={`flex flex-row gap-[20px] items-center ${nationalPassportLoading ? "pointer-events-none" : ""}`}>

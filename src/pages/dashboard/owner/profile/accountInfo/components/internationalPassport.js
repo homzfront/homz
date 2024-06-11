@@ -3,6 +3,7 @@ import useBodyScroll from '@/utils/useBodyScroll';
 import Image from 'next/image';
 import { ThreeDots } from 'react-loader-spinner';
 import InterPassport from './interPassport';
+import { uploadLandlordKYC } from '@/api/propertyService';
 
 
 const InternationalPassport = () => {
@@ -43,27 +44,59 @@ const InternationalPassport = () => {
         setIsOpen(false);
     };
 
-    const handleUploadInterPassport = () => {
-        // e.preventDefault();
+    const handleUploadInterPassport = async () => {
         setInterPassportLoading(true);
-        setInterPassportSuccess(true);
-        setProgress(0);
-        setTimeout(() => {
-            const totalSize = interPassport.size;
-            let uploadedSize = 0;
-            const uploadInterval = setInterval(() => {
-                uploadedSize += 10000;
-                const currentProgress = (uploadedSize / totalSize) * 100;
-                setProgress(currentProgress);
-                setInterPassportUploaded(false);
-                if (currentProgress >= 100) {
-                    clearInterval(uploadInterval);
-                }
-            }, 40);
-            setTimeout(() => {
+
+        if (!interPassport) {
+            setInterPassportLoading(false);
+            return;
+        }
+
+        try {
+            const { success, updatedPassport, error } = await uploadLandlordKYC(
+                interPassport
+            );
+            console.log(updatedPassport);
+
+            if (success) {
+                setInterPassportLoading(true);
+                setInterPassportSuccess(true);
+                setProgress(0);
+                setTimeout(() => {
+                    const totalSize = interPassport.size;
+                    let uploadedSize = 0;
+                    const uploadInterval = setInterval(() => {
+                        uploadedSize += 10000;
+                        const currentProgress = (uploadedSize / totalSize) * 100;
+                        setProgress(currentProgress);
+                        setInterPassportUploaded(false);
+                        if (currentProgress >= 100) {
+                            clearInterval(uploadInterval);
+                        }
+                    }, 40);
+                    setTimeout(() => {
+                        setInterPassportLoading(false);
+                    }, 1000);
+                }, 800);
+            } else {
+                toast.error(error);
                 setInterPassportLoading(false);
-            }, 1000);
-        }, 800);
+            }
+        } catch (error) {
+            setInterPassportLoading(false);
+            if (
+                error?.response?.data?.error?.errors &&
+                error.response.data.error.errors.length > 0
+            ) {
+                const errorMessage = error.response.data.error.errors[0];
+                toast.error(`Update failed: ${errorMessage}`);
+            } else if (error?.response?.data?.message) {
+                const errorMessage = error.response.data.message;
+                toast.error(`Update failed: ${errorMessage}`);
+            } else {
+                toast.error("Update failed");
+            }
+        }
     }
 
     return (
@@ -88,7 +121,7 @@ const InternationalPassport = () => {
                                     [{interPassport?.name && interPassport.name}]
                                 </span>
                                 <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                                    PDF ({interPassport?.size && (interPassport.size / (1024 * 1024)).toFixed(2)} MB)
+                                    PNG ({interPassport?.size && (interPassport.size / (1024 * 1024)).toFixed(2)} MB)
                                 </span>
                             </p>
                             <div className={`flex flex-row gap-[20px] items-center ${interPassportLoading ? "pointer-events-none" : ""}`}>

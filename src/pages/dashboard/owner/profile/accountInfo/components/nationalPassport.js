@@ -16,10 +16,6 @@ const NationalPassport = ({
 }) => {
 
     const handleNationalPassport = (e) => {
-        if (NIN === null) {
-            setError("Input NIN")
-            return;
-        }
         const file = e.target.files[0];
         const MAX_FILE_SIZE = 5 * 1024 * 1024;
         if (file) {
@@ -68,7 +64,7 @@ const NationalPassport = ({
                     />
                     {
                         error &&
-                        <span className='text-[12px] italic font-[400]'>
+                        <span className='text-[12px] text-error italic font-[400]'>
                             {error}
                         </span>
                     }

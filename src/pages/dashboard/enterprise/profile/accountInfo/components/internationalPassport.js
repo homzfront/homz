@@ -57,7 +57,6 @@ const InternationalPassport = () => {
             const { success, updatedPassport, error } = await uploadKYC(
                 interPassport
             );
-            console.log(updatedPassport);
 
             if (success) {
                 setInterPassportLoading(true);
@@ -123,7 +122,7 @@ const InternationalPassport = () => {
                                     [{interPassport?.name && interPassport.name}]
                                 </span>
                                 <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                                    PDF ({interPassport?.size && (interPassport.size / (1024 * 1024)).toFixed(2)} MB)
+                                    PNG ({interPassport?.size && (interPassport.size / (1024 * 1024)).toFixed(2)} MB)
                                 </span>
                             </p>
                             <div className={`flex flex-row gap-[20px] items-center ${interPassportLoading ? "pointer-events-none" : ""}`}>

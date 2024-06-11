@@ -264,10 +264,10 @@ export const propertyOwnerWallet = async () => {
 export const propertyOwnerWalletBalance = async () => {
   try {
     const response = await api.get(`/wallet/balance/property-owner`);
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error wallet:", error);
+    // console.error("Error wallet:", error);
     throw error;
   }
 };
@@ -360,5 +360,66 @@ export const getRentHisOwner = async () => {
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
     return { success: false, error: error?.response.data };
+  }
+};
+
+export const uploadLandlordKYC = async (uploadedImage) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/internationalPassport/kyc/create/property-owner",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const uploadNINLandlordKYC = async (uploadedImage, NIN) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+  formData.append("ninNumber", NIN)
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/nin/kyc/create/property-owner",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error };
   }
 };

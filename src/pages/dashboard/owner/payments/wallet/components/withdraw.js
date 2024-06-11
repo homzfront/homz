@@ -99,7 +99,7 @@ const Withdraw = ({
   };
 
   return (
-    <div className="mt-8 md:mt-0 p-5 border rounded-[12px] flex flex-col gap-4 w-[100%]">
+    <div className="mt-4 p-5 border rounded-[12px] flex flex-col gap-4 w-[100%]">
       <div className="flex gap-1 items-center">
         {illuminateWallet ? (
           <Image
