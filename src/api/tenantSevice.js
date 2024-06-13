@@ -372,3 +372,34 @@ export const uploadNINTenantKYC = async (uploadedImage, NIN) => {
     return { success: false, error };
   }
 };
+
+export const fetchTenantKYCData = async () => {
+  try {
+    const response = await api.get(`/internationalPassport/kyc/information/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchTenantKYCNINData = async () => {
+  try {
+    const response = await api.get(`/nin/kyc/information/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const enterpriseWalletTenantCreation = async (pincode, confirmPincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/tenant`, {
+      pincode,
+      confirmPincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error};
+  }
+}

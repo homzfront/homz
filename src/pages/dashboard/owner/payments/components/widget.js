@@ -2,10 +2,14 @@
 import React, { useState } from "react";
 import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
+import { useSearchParams } from "next/navigation.js";
 
 const Widget = ({rentData}) => {
-  const [active, setActive] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(false);
+  const urlParams = useSearchParams();
+  const tab = urlParams.get("tab")
+
+  const [active, setActive] = useState(tab ? tab === 'payment' : true);
+  const [activeTwo, setActiveTwo] = useState(tab === 'wallet');
 
   const handlePageChange = () => {
     setActive(false);
@@ -25,7 +29,7 @@ const Widget = ({rentData}) => {
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-                  !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                  active ? "bg-BlueHomz text-white" : "text-BlackHomz "
                 }`}
                 onClick={handlePageChange}
                 justify-center
@@ -47,8 +51,8 @@ const Widget = ({rentData}) => {
           </div>
         </div>
         <div className=" my-5  rounded-[12px]">
-          <div className={`${!active ? "inline" : "hidden"}`}>
-            <Tenants active={active} rentData={rentData}/>
+          <div className={`${active ? "inline" : "hidden"}`}>
+            <Tenants rentData={rentData}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

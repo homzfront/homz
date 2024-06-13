@@ -348,3 +348,34 @@ export const uploadNINKYC = async (uploadedImage, NIN) => {
     return { success: false, error };
   }
 };
+
+export const fetchKYCData = async () => {
+  try {
+    const response = await api.get(`/internationalPassport/kyc/information/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchKYCNINData = async () => {
+  try {
+    const response = await api.get(`/nin/kyc/information/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const enterpriseWalletCreation = async (pincode, confirmPincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/enterprise`, {
+      pincode,
+      confirmPincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error};
+  }
+}

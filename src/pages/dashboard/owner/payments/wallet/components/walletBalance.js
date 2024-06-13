@@ -87,7 +87,7 @@ const WalletBalance = ({
               Wallet Balance
             </p>
           </div>
-          {illuminateWallet ? (
+          {!illuminateWallet ? (
             <div
               // onClick={openAccountInfo}
               onClick={openWalletForm}

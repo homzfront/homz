@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import ConfirmModal from '../../components/confirmModal';
 import LoadingForm from '@/components/mainmenu/loadingForm';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
-import { tenantPinCreation } from '@/api/tenantSevice';
+import { enterpriseWalletTenantCreation, tenantPinCreation } from '@/api/tenantSevice';
 import Image from 'next/image';
 
 const CreateTransactionPin = ({ closeForm }) => {
@@ -30,7 +30,11 @@ const CreateTransactionPin = ({ closeForm }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Password validation
+        
+        if (password != Number(password)) {
+            setError("Input 4 digits");
+            return;
+        }
         if (password.length !== 4) {
             setError("Wallet pin must be 4 characters long.");
             setInputError(true)
@@ -38,31 +42,45 @@ const CreateTransactionPin = ({ closeForm }) => {
             setError("Passwords do not match.");
             setInputError(true)
         } else {
-            // setLoading(true);  
-            setSuccessModal(true);
-            // try {
-            //     const { success, upDateddata, error } = await tenantPinCreation(
-            //         password,
-            //         rePassword
-            //     );
-            //     if (success) {
-            //         setLoading(false);
-            //         setSuccessModal(true);
-            //         toast.success(upDateddata?.message);
-            //         if (typeof window !== 'undefined') {
-            //             const userData = { date: password };
-            //             localStorage.setItem('date', JSON.stringify(userData));
-            //         }
-            //     } else {
-            //         setLoading(false);
-            //         toast.error(error);
-            //         setError(error);
-            //     }
-            // } catch (error) {
-            //     toast.error("Update error", error);
-            //     setLoading(false);
-            //     setError(error);
-            // }
+            setLoading(true);
+            try {
+                const { success, error } = await enterpriseWalletTenantCreation(
+                    password,
+                    rePassword
+                );
+                if (success) {
+                    setLoading(false);
+                    setSuccessModal(true);
+                } else {
+                    setLoading(false);
+                    if (
+                        error?.response?.data?.error?.errors &&
+                        error.response.data.error.errors.length > 0
+                      ) {
+                        const errorMessage = error.response.data.error.errors[0];
+                        setError(`Update failed: ${errorMessage}`);
+                      } else if (error?.response?.data?.message) {
+                        const errorMessage = error.response.data.message;
+                        setError(`Update failed: ${errorMessage}`);
+                      } else {
+                        setError("Update failed");
+                      }
+                }
+            } catch (error) {
+                setLoading(false);
+                if (
+                    error?.response?.data?.error?.errors &&
+                    error.response.data.error.errors.length > 0
+                  ) {
+                    const errorMessage = error.response.data.error.errors[0];
+                    setError(`Update failed: ${errorMessage}`);
+                  } else if (error?.response?.data?.message) {
+                    const errorMessage = error.response.data.message;
+                    setError(`Update failed: ${errorMessage}`);
+                  } else {
+                    setError("Update failed");
+                  }
+            }
         }
     };
 
@@ -72,7 +90,7 @@ const CreateTransactionPin = ({ closeForm }) => {
             {
                 successModal ? (
                     <ConfirmModal
-                        header={"Transaction Pin Created Successfully"}
+                        header={"Tenant wallet created successfully"}
                         button={"Continue"}
                         returnHome={closeForm}
                     />

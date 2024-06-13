@@ -135,7 +135,7 @@ const WalletBalance = ({
               Wallet Balance
             </p>
           </div>
-          {illuminateWallet ? (
+          {!illuminateWallet ? (
             <div className="py-2 px-4 bg-blue-200  border border-white cursor-pointer rounded-md">
               <p
                         onClick={openWalletForm}

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import ConfirmModal from '../../components/confirmModal';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
-import { ownerPinCreation } from '@/api/propertyService';
+import { enterpriseWalletOwnerCreation, ownerPinCreation } from '@/api/propertyService';
 import Image from 'next/image';
 
 const CreateTransactionPin = ({ handlePageChangeTwo, closeForm }) => {
@@ -28,7 +28,10 @@ const CreateTransactionPin = ({ handlePageChangeTwo, closeForm }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Password validation
+        if (password != Number(password)) {
+            setError("Input 4 digits");
+            return;
+        }
         if (password.length !== 4) {
             setError("Wallet pin must be 4 characters long.");
             setInputError(true)
@@ -36,33 +39,48 @@ const CreateTransactionPin = ({ handlePageChangeTwo, closeForm }) => {
             setError("Passwords do not match.");
             setInputError(true)
         } else {
-            // setLoading(true);
-            setSuccessModal(true);
-            // try {
-            //     const { success, upDateddata, error } = await ownerPinCreation(
-            //         password,
-            //         rePassword
-            //     );
-            //     if (success) {
-            //         setLoading(false);
-            //         setSuccessModal(true);
-            //         toast.success(upDateddata?.message);
-            //         if (typeof window !== 'undefined') {
-            //             const userData = { date: password };
-            //             localStorage.setItem('date', JSON.stringify(userData));
-            //         }
-            //     } else {
-            //         setLoading(false);
-            //         toast.error(error);
-            //         setError(error);
-            //     }
-            // } catch (error) {
-            //     toast.error("Update error", error);
-            //     setLoading(false);
-            //     setError(error);
-            // }
+            setLoading(true);
+            try {
+                const { success, error } = await enterpriseWalletOwnerCreation(
+                    password,
+                    rePassword
+                );
+                if (success) {
+                    setLoading(false);
+                    setSuccessModal(true);
+                } else {
+                    setLoading(false);
+                    if (
+                        error?.response?.data?.error?.errors &&
+                        error.response.data.error.errors.length > 0
+                      ) {
+                        const errorMessage = error.response.data.error.errors[0];
+                        setError(`Update failed: ${errorMessage}`);
+                      } else if (error?.response?.data?.message) {
+                        const errorMessage = error.response.data.message;
+                        setError(`Update failed: ${errorMessage}`);
+                      } else {
+                        setError("Update failed");
+                      }
+                }
+            } catch (error) {
+                setLoading(false);
+                if (
+                    error?.response?.data?.error?.errors &&
+                    error.response.data.error.errors.length > 0
+                  ) {
+                    const errorMessage = error.response.data.error.errors[0];
+                    setError(`Update failed: ${errorMessage}`);
+                  } else if (error?.response?.data?.message) {
+                    const errorMessage = error.response.data.message;
+                    setError(`Update failed: ${errorMessage}`);
+                  } else {
+                    setError("Update failed");
+                  }
+            }
         }
     };
+
 
 
     return (
@@ -70,7 +88,7 @@ const CreateTransactionPin = ({ handlePageChangeTwo, closeForm }) => {
             {
                 successModal ? (
                     <ConfirmModal
-                        header={"Transaction Pin Created Successfully"}
+                    header={"Landlord wallet created successfully"}
                         button={"Continue"}
                         returnHome={closeForm}
                     />

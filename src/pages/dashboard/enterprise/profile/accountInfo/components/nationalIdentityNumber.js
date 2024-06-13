@@ -6,7 +6,7 @@ import NationalPassport from './nationalPassport';
 import { toast } from 'react-toastify';
 import { uploadNINKYC } from '@/api/enterpriseManagerService';
 
-const NationalIdentityNumber = () => {
+const NationalIdentityNumber = ({ nationalProfile }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [nationalPassport, setNationalPassport] = useState(null);
     const [nationalPassportUploaded, setNationalPassportUploaded] = useState(false);
@@ -43,6 +43,12 @@ const NationalIdentityNumber = () => {
         if (file) {
             const fileURL = URL.createObjectURL(file);
             window.open(fileURL);
+        }
+    };
+
+    const viewFileII = (file) => {
+        if (file) {
+            window.open(file);
         }
     };
 
@@ -108,7 +114,7 @@ const NationalIdentityNumber = () => {
             }
         }
     }
-
+    
     return (
         <div className="">
             {
@@ -128,98 +134,113 @@ const NationalIdentityNumber = () => {
             }
             <div className="bg-inputBg rounded-[12px] p-6">
                 {
-                    nationalPassportUploaded ? (
-                        <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[12px] md:gap-0">
-                            <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left flex flex-col gap-[4px]">
-                                <span className="text-BlueHomz inline-block">
-                                    [{nationalPassport?.name && nationalPassport.name}]
-                                </span>
-                                <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
-                                    ({nationalPassport?.size && (nationalPassport.size / (1024 * 1024)).toFixed(2)} MB)
-                                </span>
-                            </p>
-                            <div className={`flex flex-row gap-[20px] items-center ${nationalPassportLoading ? "pointer-events-none" : ""}`}>
-                                <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(nationalPassport)}>
-                                    View
+                    nationalProfile?.face_data?.status === true ?
+                        (<div className="flex flex-col gap-[4px] w-full">
+                            <div className="w-full flex justify-between items-center mt-[10px]">
+                                <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
+                                    National Identity Card
                                 </p>
                                 <p
-                                    className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
-                                    onClick={handleRemoved}
+                                    className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                                    onClick={() => viewFileII(nationalProfile?.basic_nin?.NinImage?.url)}
                                 >
-                                    <Image src="/static/images/trash.svg" alt="upload-cloud" width={16} height={16} />
-                                    <span className="text-[13px]">Remove</span>
+                                    View
                                 </p>
-                                <div>
-                                    {!nationalPassportLoading ? (
-                                        <p
-                                            className="border border-BlueHomz py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-BlueHomz leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
-                                            onClick={handleUploadNationalPassport}
-                                        >
-                                            <span className="hidden md:block">Upload Document</span>
-                                            <span className="md:hidden">Upload</span>
-                                        </p>
-                                    ) : (
-                                        <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
-                                            <ThreeDots
-                                                visible={true}
-                                                height="30"
-                                                width="30"
-                                                color="#006AFF"
-                                                radius="9"
-                                                ariaLabel="three-dots-loading"
-                                            />
-                                        </div>
-                                    )}
-                                </div>
                             </div>
                         </div>
-                    )
-                        :
-                        nationalPassportSuccess ? (
-                            <>
-                                {progress >= 100 ? (
-                                    <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
-                                        <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
-                                            <span className="inline-block">
-                                                [{nationalPassport?.name && nationalPassport.name}]
-                                            </span>{' '}
-                                            <span>is currently under review</span>
-                                        </p>
-                                        <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(nationalPassport)}>
-                                            View
-                                        </p>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col gap-[8px] w-full">
-                                        <div className="flex items-center justify-between">
-                                            <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-BlueHomz">
-                                                <span className="text-BlueHomz inline-block ">
-                                                    [{nationalPassport?.name && nationalPassport.name}]
-                                                </span>
+                        ) :
+                        nationalPassportUploaded ? (
+                            <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[12px] md:gap-0">
+                                <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left flex flex-col gap-[4px]">
+                                    <span className="text-BlueHomz inline-block">
+                                        [{nationalPassport?.name && nationalPassport.name}]
+                                    </span>
+                                    <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
+                                        ({nationalPassport?.size && (nationalPassport.size / (1024 * 1024)).toFixed(2)} MB)
+                                    </span>
+                                </p>
+                                <div className={`flex flex-row gap-[20px] items-center ${nationalPassportLoading ? "pointer-events-none" : ""}`}>
+                                    <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(nationalPassport)}>
+                                        View
+                                    </p>
+                                    <p
+                                        className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
+                                        onClick={handleRemoved}
+                                    >
+                                        <Image src="/static/images/trash.svg" alt="upload-cloud" width={16} height={16} />
+                                        <span className="text-[13px]">Remove</span>
+                                    </p>
+                                    <div>
+                                        {!nationalPassportLoading ? (
+                                            <p
+                                                className="border border-BlueHomz py-[8px] px-[12px] hover:bg-BlueHomz hover:text-white rounded-[4px] cursor-pointer text-BlueHomz leading-[19.5px] md:text-[14px] font-[500] text-[13px]"
+                                                onClick={handleUploadNationalPassport}
+                                            >
+                                                <span className="hidden md:block">Upload Document</span>
+                                                <span className="md:hidden">Upload</span>
                                             </p>
-                                        </div>
-                                        <progress id="businessCert" value={progress} max="100" className="w-full h-[4px]" />
+                                        ) : (
+                                            <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
+                                                <ThreeDots
+                                                    visible={true}
+                                                    height="30"
+                                                    width="30"
+                                                    color="#006AFF"
+                                                    radius="9"
+                                                    ariaLabel="three-dots-loading"
+                                                />
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                            </>
-                        )
-                            :
-                            <div
-                                onClick={handleDropdownToggle}
-                                className="flex w-full justify-between items-center cursor-pointer"
-                            >
-                                <div className="text-[16px] font-[400] text-GrayHomz">
-                                    National Identity Number (NIN)
-                                </div>
-                                <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
-                                    <Image
-                                        src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
-                                        height={16}
-                                        width={16}
-                                        alt=""
-                                    />
                                 </div>
                             </div>
+                        )
+                            :
+                            nationalPassportSuccess ? (
+                                <>
+                                    {progress >= 100 ? (
+                                        <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
+                                            <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
+                                                <span className="inline-block">
+                                                    [{nationalPassport?.name && nationalPassport.name}]
+                                                </span>{' '}
+                                                <span>is currently under review</span>
+                                            </p>
+                                            <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(nationalPassport)}>
+                                                View
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col gap-[8px] w-full">
+                                            <div className="flex items-center justify-between">
+                                                <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-BlueHomz">
+                                                    <span className="text-BlueHomz inline-block ">
+                                                        [{nationalPassport?.name && nationalPassport.name}]
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <progress id="businessCert" value={progress} max="100" className="w-full h-[4px]" />
+                                        </div>
+                                    )}
+                                </>
+                            )
+                                :
+                                <div
+                                    onClick={handleDropdownToggle}
+                                    className="flex w-full justify-between items-center cursor-pointer"
+                                >
+                                    <div className="text-[16px] font-[400] text-GrayHomz">
+                                        National Identity Number (NIN)
+                                    </div>
+                                    <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
+                                        <Image
+                                            src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
+                                            height={16}
+                                            width={16}
+                                            alt=""
+                                        />
+                                    </div>
+                                </div>
                 }
             </div>
             {errorMsg &&

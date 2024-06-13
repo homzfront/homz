@@ -423,3 +423,34 @@ export const uploadNINLandlordKYC = async (uploadedImage, NIN) => {
     return { success: false, error };
   }
 };
+
+export const fetchOwnerKYCData = async () => {
+  try {
+    const response = await api.get(`/internationalPassport/kyc/information/property-owner`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchOwnerKYCNINData = async () => {
+  try {
+    const response = await api.get(`/nin/kyc/information/property-owner`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const enterpriseWalletOwnerCreation = async (pincode, confirmPincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/property-owner`, {
+      pincode,
+      confirmPincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error};
+  }
+}

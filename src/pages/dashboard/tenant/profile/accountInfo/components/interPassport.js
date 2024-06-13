@@ -61,7 +61,7 @@ const InterPassport = ({
                         id="BusinessCertificate"
                         onChange={handleInterPassport}
                         style={{ display: 'none' }}
-                        accept=".png"
+                     accept=".jpg, .jpeg, .png"
                     />
                     <div className='flex flex-col items-center'>
                         <p
@@ -70,7 +70,7 @@ const InterPassport = ({
                             <span className='cursor-pointer'>Select Internaional Passport </span> <span className='text-GrayHomz'>or drag and drop</span>
                         </p>
                         <p className='text-[11px] font-[400]'>
-                            PNG (max. 5mb)
+                        JPG, JPEG or PNG (max. 5mb)
                         </p>
                     </div>
                 </div>
