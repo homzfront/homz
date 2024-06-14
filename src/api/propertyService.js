@@ -253,7 +253,7 @@ export const createPropertyOwnerWallet = async (BVNDetails) => {
 
 export const propertyOwnerWallet = async () => {
   try {
-    const response = await api.get(`/wallet/getWallet/property-owner`);
+    const response = await api.get(`/wallet/information/getWallet/property-owner`);
     return response.data;
   } catch (error) {
     throw error;

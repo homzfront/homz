@@ -107,7 +107,7 @@ export const createWalletEnterprise = async (BVNDetails) => {
 
 export const enterpriseUserWallet = async () => {
   try {
-    const response = await api.get(`/wallet/getWallet/enterprise`);
+    const response = await api.get(`/wallet/information/getWallet/enterprise`);
     return response.data;
   } catch (error) {
     throw error;

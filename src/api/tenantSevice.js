@@ -403,3 +403,12 @@ export const enterpriseWalletTenantCreation = async (pincode, confirmPincode) =>
     return { success: false, error: error};
   }
 }
+
+export const tenantUserWallet = async () => {
+  try {
+    const response = await api.get(`/wallet/information/getWallet/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

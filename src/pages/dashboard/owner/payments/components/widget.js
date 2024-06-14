@@ -12,13 +12,13 @@ const Widget = ({rentData}) => {
   const [activeTwo, setActiveTwo] = useState(tab === 'wallet');
 
   const handlePageChange = () => {
-    setActive(false);
+    setActive(true);
     setActiveTwo(false);
   };
 
   const handlePageChangeTwo = () => {
     setActiveTwo(true);
-    setActive(true);
+    setActive(false);
   };
 
   return (

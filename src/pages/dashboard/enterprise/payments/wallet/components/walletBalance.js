@@ -13,6 +13,7 @@ const WalletBalance = ({
   fetchDataAgain,
   walletBalance,
   loading,
+  showKYC
 }) => {
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
@@ -83,28 +84,11 @@ const WalletBalance = ({
                 }`}
             >
               Wallet Balance
-            </p>{" "}
+            </p>
           </div>
-          {!illuminateWallet ? (
+          {showKYC ?
             <div
-              // onClick={openAccountInfo} 
-              onClick={openWalletForm}
-              className="relative bg-white bg-opacity-30 cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 rounded-md border border-white"
-            >
-              <p className="absolute text-white text-[14px] font-[500] w-full text-center">
-                {/* Fund Wallet */}
-                Create Wallet
-              </p>
-            </div>
-          ) : loading ?
-            (
-              <div>
-              </div>
-            )
-            :
-            (<div
               onClick={openAccountInfo}
-              // onClick={openWalletForm}
               className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
             >
               <Image
@@ -116,8 +100,39 @@ const WalletBalance = ({
               <p className="text-white text-[14px] font-[500] w-full text-center">
                 Create Wallet
               </p>
-            </div>
-            )
+            </div> :
+            illuminateWallet ? (
+              <div
+                // onClick={openAccountInfo} 
+                // onClick={openWalletForm}
+                className="relative bg-white bg-opacity-30 cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 rounded-md border border-white"
+              >
+                <p className="absolute text-white text-[14px] font-[500] w-full text-center">
+                  Fund Wallet
+                </p>
+              </div>
+            ) : loading ?
+              (
+                <div>
+                </div>
+              )
+              :
+              (<div
+                // onClick={openAccountInfo}
+                onClick={openWalletForm}
+                className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
+              >
+                <Image
+                  src={"/static/dashboard/enterprisemanager/payment/add.png"}
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                <p className="text-white text-[14px] font-[500] w-full text-center">
+                  Create Wallet
+                </p>
+              </div>
+              )
           }
         </div>
         <div

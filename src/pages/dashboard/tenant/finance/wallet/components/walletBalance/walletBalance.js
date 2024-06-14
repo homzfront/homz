@@ -18,7 +18,8 @@ const WalletBalance = ({
   wallet,
   fetchDataAgain,
   walletBalance,
-  loading
+  loading,
+  showKYC
 }) => {
   const [data, setData] = useState("");
   const [rent, setRent] = useState(false);
@@ -135,27 +136,9 @@ const WalletBalance = ({
               Wallet Balance
             </p>
           </div>
-          {!illuminateWallet ? (
-            <div className="py-2 px-4 bg-blue-200  border border-white cursor-pointer rounded-md">
-              <p
-                        onClick={openWalletForm}
-                        // onClick={payRent}
-                className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"
-                >
-                           Create Wallet
-                {/* Pay Rent */}
-              </p>
-            </div>
-          ) :
-          // loading ?
-          //   (
-            //     <div>
-            //     </div>
-            //   )
-            //   :
-            (<div
-              // onClick={openWalletForm}
-               onClick={openAccountInfo}
+          {showKYC ?
+            <div
+              onClick={openAccountInfo}
               className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
             >
               <Image
@@ -167,26 +150,58 @@ const WalletBalance = ({
               <p className="text-white text-[14px] font-[500] w-full text-center">
                 Create Wallet
               </p>
-            </div>
-            )
+            </div> :
+            illuminateWallet ? (
+              <div className="py-2 px-4 bg-blue-200  border border-white cursor-pointer rounded-md">
+                <p
+                  // onClick={openWalletForm}
+                  // onClick={payRent}
+                  className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"
+                >
+                  Pay Rent
+                </p>
+              </div>
+            ) :
+              // loading ?
+              //   (
+              //     <div>
+              //     </div>
+              //   )
+              //   :
+              (<div
+                onClick={openWalletForm}
+                // onClick={openAccountInfo}
+                className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
+              >
+                <Image
+                  src={"/static/dashboard/enterprisemanager/payment/add.png"}
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                <p className="text-white text-[14px] font-[500] w-full text-center">
+                  Create Wallet
+                </p>
+              </div>
+              )
           }
         </div>
         <div className="flex items-center justify-between">
-        <div
-          className={`text-[18px] font-[400] px-5 pb-3 md:pb-0 text-white flex flex-col md:flex-row md:items-center w-full md:justify-start ${loading ? "" : ""
-            } ${illuminateWallet ? "" : "hidden"
-            }`}
-        >
-          <p
-            className={`text-[14px] font-[400] text-white md:hidden  ${illuminateWallet ? "" : "md:hidden"
+          <div
+            className={`text-[18px] font-[400] px-5 pb-3 md:pb-0 text-white flex flex-col md:flex-row md:items-center w-full md:justify-start ${loading ? "" : ""
+              } ${illuminateWallet ? "" : "hidden"
               }`}
           >
-            Wallet Balance
-          </p>
-          {walletBalance?.data?.availableBalance ?
-            `${addCommasToNumber(walletBalance?.data?.availableBalance)}` : "N 0"
-          }
-        </div>
+            <p
+              className={`text-[14px] font-[400] text-white md:hidden  ${illuminateWallet ? "" : "md:hidden"
+                }`}
+            >
+              Wallet Balance
+            </p>
+            {walletBalance?.data?.availableBalance ?
+              `${addCommasToNumber(walletBalance?.data?.availableBalance)}` : "N 0"
+            }
+          </div>
           {/* <div
             className={`cursor-pointer flex items-center gap-1 ${illuminateWallet ? "" : "hidden"
               }`}

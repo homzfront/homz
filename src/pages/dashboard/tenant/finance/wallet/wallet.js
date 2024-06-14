@@ -3,28 +3,44 @@ import WalletBalance from "./components/walletBalance/walletBalance";
 import TransferHis from "./components/transferHis/transferHis";
 import Withdraw from "./components/withdraw/withdraw";
 import Activities from "./components/activities/ativities";
-import { tenantWallet, tenantWalletBalance } from "@/api/tenantSevice";
+import { tenantUserWallet } from "@/api/tenantSevice";
 import LoadingII from "@/components/mainmenu/loadingII";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import tenantRentHis from "@/store/tenantStore/tenantRentHis";
-import { tenantWalletStore } from "@/store/tenantStore/useTenantWallet";
 
 const Wallet = ({ activeTwo }) => {
-  // const [illuminateWallet, setIlluminateWallet] = useState(true);
-  const { data, fetchData: fetchRentInfo } = tenantRentHis();
-  const { wallet, walletBalance, loading, fetchData: walletData, illuminateWallet } = tenantWalletStore();
+  const [wallet, setWallet] = useState(false);
+  const [illuminateWallet, setIlluminateWallet] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [fetchData, setFetchData] = useState(false);
+  const [walletBalance, setWalletBalance] = useState("");
+  const [showKYC, setShowKYC] = useState(false);
+  const [data, setData] = useState(null);
 
-  // useEffect(() => {
-  //   walletData()
-  //   if (wallet !== null) {
-  //     fetchRentInfo()
-  //   }
-  // }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await tenantUserWallet();
+        if (data.statuscode === 200 && data.success === true && data.data !== null) {
+          setIlluminateWallet(!illuminateWallet);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        if (error?.response?.data?.message === "Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet") {
+          setShowKYC(true);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [fetchData]);
 
   const fetchDataAgain = () => {
-    walletData();
-    fetchRentInfo()
+    setFetchData(!fetchData);
   };
 
 
@@ -53,6 +69,7 @@ const Wallet = ({ activeTwo }) => {
               activeTwo={activeTwo}
               walletBalance={walletBalance}
               loading={loading}
+              showKYC={showKYC}
             />
           </div>
           <div>

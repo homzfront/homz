@@ -18,11 +18,11 @@ const Wallet = () => {
   const [loading, setLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
   const [walletBalance, setWalletBalance] = useState("");
-  const { data, fetchData: fetchRentInfo } = tenantRentHisOwner();
-
+  const [showKYC, setShowKYC] = useState(false);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetchRentInfo()
+    // fetchRentInfo()
   }, [])
 
 
@@ -33,16 +33,14 @@ const Wallet = () => {
         const data = await propertyOwnerWallet();
         if (data.statuscode === 200 && data.success === true && data.data !== null) {
           setIlluminateWallet(!illuminateWallet);
-          fetchRentInfo()
-          const balance = await propertyOwnerWalletBalance();
-          setWalletBalance(balance);
-          const wallet = data;
-          setWallet(wallet);
           setLoading(false);
         } else {
           setLoading(false);
         }
       } catch (error) {
+        if (error?.response?.data?.message === "Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet") {
+          setShowKYC(true);
+        }
         setLoading(false);
       }
     };
@@ -78,6 +76,7 @@ const Wallet = () => {
               fetchDataAgain={fetchDataAgain}
               walletBalance={walletBalance}
               loading={loading}
+              showKYC={showKYC}
             />
           </div>
           <div>

@@ -9,7 +9,7 @@ import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import { enterpriseWalletTenantCreation, tenantPinCreation } from '@/api/tenantSevice';
 import Image from 'next/image';
 
-const CreateTransactionPin = ({ closeForm }) => {
+const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
     const [username, setUsername] = useState('')
     const [inputError, setInputError] = useState(false);
     const [password, setPassword] = useState('')
@@ -51,6 +51,7 @@ const CreateTransactionPin = ({ closeForm }) => {
                 if (success) {
                     setLoading(false);
                     setSuccessModal(true);
+                    fetchDataAgain();
                 } else {
                     setLoading(false);
                     if (

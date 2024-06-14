@@ -7,7 +7,7 @@ import ConfirmModal from '../../components/confirmModal';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import Image from 'next/image';
 
-const CreateTransactionPin = ({ closeForm }) => {
+const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
     const [username, setUsername] = useState('')
     const [inputError, setInputError] = useState(false);
     const [password, setPassword] = useState('')
@@ -48,35 +48,36 @@ const CreateTransactionPin = ({ closeForm }) => {
                 if (success) {
                     setLoading(false);
                     setSuccessModal(true);
+                    fetchDataAgain();
                 } else {
                     setLoading(false);
                     if (
                         error?.response?.data?.error?.errors &&
                         error.response.data.error.errors.length > 0
-                      ) {
+                    ) {
                         const errorMessage = error.response.data.error.errors[0];
                         setError(`Update failed: ${errorMessage}`);
-                      } else if (error?.response?.data?.message) {
+                    } else if (error?.response?.data?.message) {
                         const errorMessage = error.response.data.message;
                         setError(`Update failed: ${errorMessage}`);
-                      } else {
+                    } else {
                         setError("Update failed");
-                      }
+                    }
                 }
             } catch (error) {
                 setLoading(false);
                 if (
                     error?.response?.data?.error?.errors &&
                     error.response.data.error.errors.length > 0
-                  ) {
+                ) {
                     const errorMessage = error.response.data.error.errors[0];
                     setError(`Update failed: ${errorMessage}`);
-                  } else if (error?.response?.data?.message) {
+                } else if (error?.response?.data?.message) {
                     const errorMessage = error.response.data.message;
                     setError(`Update failed: ${errorMessage}`);
-                  } else {
+                } else {
                     setError("Update failed");
-                  }
+                }
             }
         }
     };
