@@ -1,0 +1,22 @@
+# Allow all bots to access everything
+User-agent: *
+Disallow:
+
+# Block all bots from accessing the admin section
+User-agent: *
+Disallow: /admin/
+
+# Block a specific bot from accessing the site
+User-agent: BadBot
+Disallow: /
+
+# Block bots from accessing certain file types
+User-agent: *
+Disallow: /*.pdf$
+Disallow: /*.doc$
+
+# Allow only Googlebot to access the site
+User-agent: Googlebot
+Disallow:
+User-agent: *
+Disallow: /
