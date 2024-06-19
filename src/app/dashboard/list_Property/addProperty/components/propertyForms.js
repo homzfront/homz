@@ -166,7 +166,6 @@ const PropertyForms = () => {
     router.back();
   }
 
-
   return (
     <div className=" dashboard md:pt-4">
       <ToastContainer
@@ -366,6 +365,7 @@ const PropertyForms = () => {
             handlePagePropertyPhoto={handlePropertyPhotos}
             setUploadedCoverPhoto={setUploadedCoverPhoto}
             setUploadedOtherPhotos={setUploadedOtherPhotos}
+            ImagePhoto={photos}
           />
         </div>
         <div className={`${activeFour ? "inline" : "hidden"}`}>
