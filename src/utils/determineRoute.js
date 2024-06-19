@@ -1,6 +1,8 @@
 function determineRoute(profile, data) {
   let user;
-
+  if (profile?.isVerified === false) {
+    return "/switch-profile"
+  }
   if (typeof profile === "string") {
     // If the input is a string, assume it's an email
     user = { email: profile }; // Assuming email is stored in profile object
@@ -13,6 +15,7 @@ function determineRoute(profile, data) {
   if (user?.isVerified && user?.accounts.length === 0) {
     return ["/select-plan"]; // Redirect to select plan for verified users with no accounts
   }
+  console.log(user)
 
   let routes = [];
   if (!user) {
