@@ -9,6 +9,7 @@ const PropertyPhoto = ({
   handlePagePropertyPhoto,
   setUploadedCoverPhoto,
   setUploadedOtherPhotos,
+  ImagePhoto
 }) => {
   const [ImageSrc, setImageScr] = useState(pic);
   const fileUpload = useRef(null);
@@ -25,11 +26,15 @@ const PropertyPhoto = ({
   const deleteFile = (index) => {
     const updatedData = [...houses];
     const updatedFile = [...photos];
+    const updatedImages = [...ImagePhoto]
     updatedData.splice(index, 1);
     updatedFile.splice(index, 1);
+    updatedImages.splice(index, 1);
     setHouses(updatedData);
     setOtherPhotos(updatedFile);
+    setUploadedOtherPhotos(updatedImages)
   };
+
   const uploadCoverPhoto = (e) => {
     fileUpload.current.click();
   };
@@ -59,6 +64,7 @@ const PropertyPhoto = ({
       }
     }
   };
+
   const displayHousePic = (e) => {
     const file = e.target.files[0];
     if (file) {
