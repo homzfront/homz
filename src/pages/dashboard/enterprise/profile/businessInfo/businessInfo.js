@@ -14,7 +14,6 @@ const BusinessInfo = ({ data }) => {
   const [showDialogue, setShowDialogue] = useState(false);
 
   useEffect(() => {
-    // Check if data and required properties are available
     if (data) {
       setBusinessName(data?.businessName || "");
       setBusinessAddress(data?.businessAddress || "");
@@ -56,7 +55,7 @@ const BusinessInfo = ({ data }) => {
 
   return (
     <div className="mt-8">
-      <div className="w-[498px] flex gap-4 flex-col">
+      <div className="w-full md:w-[498px] flex gap-4 flex-col">
         <Input
           label={"Business Name"}
           placeholder={"Victostates"}

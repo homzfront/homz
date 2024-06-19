@@ -13,80 +13,100 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const VerifyEmail = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(null);
   const [error, setError] = useState(false);
   const [error2, setError2] = useState("");
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [otp, setOTP] = useState(["", "", "", ""]);
-  const inputRefs = useRef([]); // Array of refs for each input field
+  const inputRefs = useRef([]);
   const [loading, setLoading] = useState(false);
-
+  const [timer, setTimer] = useState(false);
+  const [seconds, setSeconds] = useState(60);
 
   useEffect(() => {
-    // Retrieve email from localStorage
     if (typeof window !== 'undefined') {
       const storedEmail = localStorage.getItem('email');
       setEmail(storedEmail || '');
     }
-
   }, []);
+
+  useEffect(() => {
+    if (email !== null) {
+      (async () => {
+        const response = await api.get("/user/profile");
+        if (response?.data?.user?.isVerified === false) {
+          await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
+          // toast.success('OTP SENT');
+          startTimer();
+        }
+      })();
+    }
+  }, [email])
+
+  useEffect(() => {
+    let countdownInterval;
+
+    if (timer) {
+      countdownInterval = setInterval(() => {
+        setSeconds(prevSeconds => {
+          if (prevSeconds <= 1) {
+            clearInterval(countdownInterval);
+            setTimer(false);
+            return 0;
+          }
+          return prevSeconds - 1;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(countdownInterval);
+  }, [timer]);
+
+  const startTimer = () => {
+    setSeconds(60)
+    setTimer(true)
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       // Make a POST request to verify the OTP
-      const response = await api.post(
-        "/auth/verification",
-        {
-          email: email, // Replace with the actual email
-          pincode: otp.join(""),
-        }
-      );
+      await api.post("/auth/verification", { email, pincode: otp.join("") });
       setVerificationSuccess(true);
       setError(false);
       setError2("");
       setLoading(false);
     } catch (error) {
-      // Handle errors
       setError2(error.response.data.error);
       setError(true);
       setLoading(false);
 
       if (error.response) {
+        setError2(error.response.data.error);
       } else if (error.request) {
         setError2("No response received from the server");
-        setLoading(false);
       } else {
-        setLoading(false);
+        setError2("Error occurred while making the request");
       }
     }
   };
 
-
   const ResendOtp = async (e) => {
     e.preventDefault();
     try {
-      // Make a POST request to verify the OTP
-      const response = await api.post(
-        "/auth/requestnewopt",
-        {
-          email: email, // Replace with the actual email
-          pincode: otp.join(""),
-        }
-      );
-      toast.success('OTP SENT')
+      await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
+      toast.success('OTP SENT');
+      startTimer();
     } catch (error) {
-      toast.error(error.response?.data?.message)
+      toast.error(error.response?.data?.message);
     }
   };
-
 
   const handleEmailVerification = (e) => {
     e.preventDefault();
     router.push("/select-plan");
   };
-
 
   const handleInputChange = (index, value) => {
     if (/^\d$/.test(value)) {
@@ -128,7 +148,6 @@ const VerifyEmail = () => {
 
   const isOTPComplete = otp.every((digit) => /^\d$/.test(digit));
 
-
   return (
     <div className="">
       <ToastContainer
@@ -144,22 +163,20 @@ const VerifyEmail = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="flex m-auto  max-w-[1440px] h-[1024px]">
+      <div className="flex m-auto max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
         </div>
-        <div className="w-[794px]  flex flex-col justify-around items-center">
-          <div className="h-[85%] px-6 w-[320px] sm:w-full  py-4">
+        <div className="w-[794px] flex flex-col justify-around items-center">
+          <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
             {!verificationSuccess ? (
-              <div className="flex flex-col gap-6 m-auto max-w-[320px]  sm:max-w-[360px]">
-                <h1 className="text-start text-[30px]  sm:text-[36px] font-[700] text-BlackHomz">
+              <div className="flex flex-col gap-6 m-auto max-w-[320px] sm:max-w-[360px]">
+                <h1 className="text-start text-[30px] sm:text-[36px] font-[700] text-BlackHomz">
                   Check Your Email
                 </h1>
                 <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
                   We sent an OTP to
-                  <span className="text-BlackHomz font-[500]">
-                    <> </> {email}
-                  </span>
+                  <span className="text-BlackHomz font-[500]"> {email}</span>
                 </p>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-4 w-360">
@@ -178,7 +195,7 @@ const VerifyEmail = () => {
                       ))}
                     </div>
                     <p className="mt-[-10px] text-[14px] font-[400] text-GrayHomz2">
-                      Enter OTP sent to <> </> {email}
+                      Enter OTP sent to {email}
                     </p>
                     {error2 && <span className="text-red-500">{error2}</span>}
                     {isOTPComplete ? (
@@ -198,17 +215,32 @@ const VerifyEmail = () => {
                       </button>
                     )}
                   </div>
-                  <p className="text-center font-[400] text-[14px]">
-                    Didn't receive the email?
-                    <button onClick={ResendOtp}>
-                      <Link
-                        className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
-                        href={""}
-                      >
-                        Click to resend
-                      </Link>
-                    </button>
-                  </p>
+                  <div className="flex gap-2 items-center">
+                    <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[14px]`}>
+                      Didn't receive the email?
+                    </p>
+                    {
+                      timer ?
+                          <div
+                            className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[14px]  ml-1`}
+                          >
+                            Click to resend
+                          </div> :
+                        <button onClick={ResendOtp}>
+                          <Link
+                            className={`text-BlueHomz text-center font-[700] text-[14px]  ml-1`}
+                            href={""}
+                          >
+                            Click to resend
+                          </Link>
+                        </button>
+                    }
+                    {timer && (
+                      <div className="flex justify-center items-center">
+                        <p className="text-[12px] text-BlueHomz font-[400]">{seconds} Seconds</p>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex justify-center gap-1">
                     <Image
                       src={"/arrow-left.png"}

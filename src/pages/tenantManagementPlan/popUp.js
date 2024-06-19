@@ -36,9 +36,9 @@ const Popup = ({ onClose, setEstate, estateData }) => {
 
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-75">
-      <div className="relative h-[650px] sm:h-[581px]  w-[816px] m-auto bg-white rounded-lg">
-        <div className="flex justify-between w-full px-8 py-6 items-center border-b mb-8">
-          <div className="sm:hidden cursor-pointer">
+      <div className="relative h-screen sm:h-[581px] w-full sm:w-[816px] m-auto bg-white rounded-lg">
+        <div className="h-[20%] sm:h-auto flex justify-between w-full px-8 py-6 items-center border-b mb-8">
+          <div className="sm:hidden w-full cursor-pointer">
             <div onClick={onClose} className="flex gap-1 items-center">
               <ArrowLeftBlue />
               <span className="text-BlueHomz4">Go Back</span>
@@ -84,9 +84,9 @@ const Popup = ({ onClose, setEstate, estateData }) => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-between w-full px-8">
+        <div className="h-[17%] sm:h-auto flex items-center justify-between w-full px-8">
           <div className="sm:flex items-center w-full gap-4">
-            <div className="sm:w-[48%] relative pr-2">
+            <div className="sm:w-[48%] w-full relative pr-2">
               <input
                 type="text"
                 className="border h-[45px] pl-8 rounded-md w-full"
@@ -104,14 +104,14 @@ const Popup = ({ onClose, setEstate, estateData }) => {
                 width={16}
               />
             </div>
-            <p className="mt-2 sm:mt-0 sm:hidden  text-[13px] text-BlackHomz font-[400] pr-1">
+            <p className="mt-2 sm:mt-0 sm:hidden text-[13px] text-BlackHomz font-[400] pr-1">
               Filter by:
             </p>
-            <div className="flex items-center mt-2 sm:mt-0  justify-between sm:justify-normal sm:gap-[6px]">
+            <div className="flex w-[100%] items-center mt-2 sm:mt-0  justify-between sm:justify-normal sm:gap-[6px]">
               <p className="hidden sm:block  text-[13px] text-BlackHomz font-[400] pr-1">
                 Filter by:
               </p>
-              <div className="w-[200px]">
+              <div className="sm:w-[200px]">
                 <Dropdown
                   options={options3}
                   onSelect={(option) => setSelectedProperty(option)}
@@ -122,7 +122,7 @@ const Popup = ({ onClose, setEstate, estateData }) => {
               <button
                 onClick={clear}
                 type="button"
-                className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 w-[92px] rounded cursor-pointer"
+                className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-10 sm:w-[92px] rounded cursor-pointer"
               >
                 <span>
                   <Image
@@ -139,48 +139,49 @@ const Popup = ({ onClose, setEstate, estateData }) => {
             </div>
           </div>
         </div>
-        <div className="px-8 mt-4">
-          <div className=" text-[11px] px-4 font-[500] bg-whiteblue w-full h-[44px] flex items-center justify-between">
-            <div className=" sm:hidden w-[30%]"></div>
-            <div className="w-[33%]"> Property</div>
-            <div className="w-[37%]">Address</div>
-            <div className="hidden sm:block w-[30%]">Action</div>
-          </div>
-        </div>
-
-        <div className="overflow-auto h-[50%] sm:h-[55%] scrollbar-container px-8">
-          {/* Set max height and overflow-auto for scrolling */}
-          {filteredData?.map((data, index) => (
-            <div
-              key={index}
-              className={`flex items-center justify-between h-[64px] px-4 ${index % 2 === 1 ? "bg-whiteblue" : ""
-                }`}
-            >
-
-              <div className="sm:hidden w-[30%] pl-3">
-                <input
-                  type="radio"
-                  onClick={() => handleSelect(data)}
-                  className="text-[11px] text-white bg-BlueHomz "
-                />
-              </div>
-              <p className="text-[11px] text-GrayHomz font-[400] w-[33%]">
-                {data.name}
-              </p>
-              <p className="pl-1 text-[11px] text-GrayHomz2 font-[500] w-[37%]">
-                {data.address}
-              </p>
-
-              <div className="hidden sm:block w-[30%] pl-3">
-                <button
-                  onClick={() => handleSelect(data)}
-                  className="text-[11px] text-white bg-BlueHomz font-[500] w-[107px] h-[33px] rounded-[4px]"
-                >
-                  Select Property
-                </button>
-              </div>
+        <div className="w-full h-[63%] sm:h-auto">
+          <div className="px-8 mt-4">
+            <div className="text-[11px] px-4 font-[500] bg-whiteblue w-full h-[44px] flex items-center justify-between">
+              <div className=" sm:hidden w-[30%]"></div>
+              <div className="w-[33%]"> Property</div>
+              <div className="w-[37%]">Address</div>
+              <div className="hidden sm:block w-[30%]">Action</div>
             </div>
-          ))}
+          </div>
+          <div className="overflow-auto h-[75%] w-full sm:h-[55%] scrollbar-container px-8">
+            {/* Set max height and overflow-auto for scrolling */}
+            {filteredData?.map((data, index) => (
+              <div
+                key={index}
+                className={`flex items-center w-full justify-between h-[64px] px-4 ${index % 2 === 1 ? "bg-whiteblue" : ""
+                  }`}
+              >
+
+                <div className="sm:hidden w-[30%] pl-3">
+                  <input
+                    type="radio"
+                    onClick={() => handleSelect(data)}
+                    className="text-[11px] text-white bg-BlueHomz "
+                  />
+                </div>
+                <p className="text-[11px] text-GrayHomz font-[400] w-[33%]">
+                  {data.name}
+                </p>
+                <p className="pl-1 text-[11px] text-GrayHomz2 font-[500] w-[37%]">
+                  {data.address}
+                </p>
+
+                <div className="hidden sm:block w-[30%] pl-3">
+                  <button
+                    onClick={() => handleSelect(data)}
+                    className="text-[11px] text-white bg-BlueHomz font-[500] w-[107px] h-[33px] rounded-[4px]"
+                  >
+                    Select Property
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

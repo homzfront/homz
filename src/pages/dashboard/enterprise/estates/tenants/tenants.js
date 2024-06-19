@@ -9,13 +9,23 @@ import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 import useClickOutside from "@/utils/clickOutside";
 import formatDateII from "@/utils/formatDateII";
 import useEstateForOneStore from "@/store/useEstateForOne";
+import MobileBackButton from "@/components/icons/mobileBackButton";
+import { useRouter } from "next/navigation";
+import FilterMobile from "../../components/filterMobile";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
   const { data: datas, fetchData: Fetch } = useEstateForOneStore();
 
+  const route = useRouter()
+
+  const goBack = () => {
+    route.back();
+  };
+
+
   useEffect(() => {
-    fetchData(id); 
+    fetchData(id);
     Fetch(id);
   }, [id]);
 
@@ -24,18 +34,33 @@ const Tenants = ({ id }) => {
   const [addNewProperty, setAddNewProperty] = useState(false);
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
   const [selectedDate, setSelectedDate] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filterModal, setFilterModal] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
 
   const clear = () => {
-    setSelectedDate(null)
+    setSelectedDate(null);
+    setSearchQuery(null);
+    setSelectedStatus(null);
   };
 
+  const options = [
+    ...new Set(
+      data?.map((item) => item?.rentInfo?.paymentStatus)
+    ),
+  ];
 
   const filteredData = data?.filter(
     (data) => {
+      const matchesSearchQuery = !searchQuery ||
+        data?.fullName.toLowerCase().includes(searchQuery.toLowerCase())
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
       return (
+        (!selectedStatus ||
+          data?.status === selectedStatus) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp)
+        && matchesSearchQuery
       );
     });
 
@@ -51,8 +76,30 @@ const Tenants = ({ id }) => {
     setAddNewProperty(false);
   };
 
+
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
+
   return (
     <div className="w-full  p-8">
+      {filterModal &&
+        <div>
+          <FilterMobile
+            reset={clear}
+            closeMobileModal={closeMobileFilterModal}
+            setSelectedDate={setSelectedDate}
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+            options={options}
+            defaultName={"Status"}
+          />
+        </div>
+      }
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <Modal dropdownRef={dropdownRef} />
@@ -63,7 +110,25 @@ const Tenants = ({ id }) => {
       ) : (
         <div>
           <div className="mb-4">
-            <div className="w-[475px] flex gap-2 items-center">
+            <div className='flex w-full md:hidden gap-4 items-center'>
+              <div onClick={goBack} className='cursor-pointer'>
+                <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
+                  <MobileBackButton />
+                </div>
+              </div>
+              <div className="w-[90%] flex items-center">
+                <Link
+                  href={"/dashboard/property-owner/estates"}
+                  className="text-[16px] truncate font-[400] text-GrayHomz"
+                >
+                  {datas?.name ? datas?.name : "Property Name"}<> </>/
+                </Link>
+                <div className="text-[20px] font-[500] text-GrayHomz">
+                  Tenants
+                </div>
+              </div>
+            </div>
+            <div className="hidden w-[475px] md:flex gap-2 items-center">
               <Image
                 src={
                   "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
@@ -82,14 +147,14 @@ const Tenants = ({ id }) => {
                 href={"/dashboard/enterprise-property/estates"}
                 className="text-[16px] truncate font-[400] text-GrayHomz"
               >
-               {datas?.name ? datas?.name : "Property Name"}<> </>/
+                {datas?.name ? datas?.name : "Property Name"}<> </>/
               </Link>
               <div className="text-[20px] font-[500] text-GrayHomz">
                 Tenants
               </div>
             </div>
           </div>
-          <div className=" flex justify-between items-center">
+          <div className="hidden md:flex justify-between items-center">
             <div className="flex gap-2 items-center">
               <p className="text-[20px] font-[500]">Tenants</p>
               <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
@@ -154,8 +219,39 @@ const Tenants = ({ id }) => {
               </button>
             </div>
           </div>
+          <div className="mt-4 flex justify-between md:hidden w-full">
+            <div className="relative w-[86%] rounded-[4px]">
+              <input
+                type="text"
+                className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+                id="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by name"
+              />
+              <Image
+                src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                alt=""
+                className="absolute top-3 left-3"
+                height={16}
+                width={16}
+              />
+            </div>
+            <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+              <button
+                onClick={openMobileFilterModal}
+              >
+                <Image
+                  src="/static/images/filter.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+              </button>
+            </div>
+          </div>
           <div className="h-[734px] mb-4">
-            <TenantsTwo Data={filteredData}/>
+            <TenantsTwo Data={filteredData} />
           </div>
         </div>
       )}

@@ -7,6 +7,8 @@ import Input from "./components/inputEstate";
 import EstateForm from "./estateForm/estateForm";
 import Modal from "../tenants/components/modal";
 import Dropdown from "../components/dropDownFilter";
+import FilterMobile from "../components/filterMobile";
+import Add from "@/components/icons/add";
 
 
 
@@ -36,13 +38,18 @@ const ListedEstates = ({
   clear,
   fetchData,
   dropdownRef,
-  openRegistrationForm
+  openRegistrationForm,
+  openMobileFilterModal,
+  searchQuery,
+  setSearchQuery,
+  closeMobileFilterModal,
+  filterModal
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-// Use the custom hook
+  // Use the custom hook
 
 
   const ITEMS_PER_PAGE = 8;
@@ -77,26 +84,46 @@ const ListedEstates = ({
     setInviteTenant(true);
   };
 
-  
+
 
 
 
   return (
     <div className="w-full">
+      {filterModal &&
+        <div>
+          <FilterMobile
+            reset={clear}
+            closeMobileModal={closeMobileFilterModal}
+            setSelectedDate={setSelectedDate}
+            selectedStatus={selectedArea}
+            setSelectedStatus={setSelectedArea}
+            options={options2}
+            defaultName={"Area"}
+          />
+        </div>
+      }
       {registrationForm ? (
-        <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData}/>
+        <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
       ) : (
         <div>
           <div className="p-8">
-            <div className="flex gap-2 mb-6">
-              <p>Properties</p>
-              <span className="bg-whiteblue rounded-[8px] w-6 h-6 flex justify-center items-center">
-                <span className="text-BlueHomz text-[18px] font-[400]">
-                  {Data.length}
+            <div className="flex gap-4 items-center">
+              <div className="flex gap-2 items-center md:mb-6">
+                <p>Properties</p>
+                <span className="bg-whiteblue rounded-[8px] w-6 h-6 flex justify-center items-center">
+                  <span className="text-BlueHomz text-[18px] font-[400]">
+                    {Data.length}
+                  </span>
                 </span>
-              </span>
+              </div>
+              <div
+                onClick={addNewEstate}
+                className="md:hidden">
+                <Add />
+              </div>
             </div>
-            <div className=" flex justify-between items-center">
+            <div className="hidden md:flex justify-between items-center">
               <div className="flex items-center justify-center gap-2">
                 <p className="text-[16px] font-[400] text-BlackHomz pr-2">
                   Filter by:{" "}
@@ -182,9 +209,40 @@ const ListedEstates = ({
                 </button>
               </div>
             </div>
+            <div className="mt-4 flex justify-between md:hidden w-full">
+              <div className="relative w-[86%] rounded-[4px]">
+                <input
+                  type="text"
+                  className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+                  id="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by property name"
+                />
+                <Image
+                  src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                  alt=""
+                  className="absolute top-3 left-3"
+                  height={16}
+                  width={16}
+                />
+              </div>
+              <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+                <button
+                  onClick={openMobileFilterModal}
+                >
+                  <Image
+                    src="/static/images/filter.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                  />
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="px-8 py-4 h-[750px] flex flex-col justify-between">
+          <div className="px-8 py-4 md:h-[750px] flex flex-col gap-4 md:justify-between">
             <EstateCard
               Data={currentData}
               handleToggleMenu={handleToggleMenu}
@@ -205,8 +263,8 @@ const ListedEstates = ({
       )}
 
       {inviteTenant && (
-        <div  className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"?tab=addProperty"} openRegistrationForm={openRegistrationForm}/>
+        <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"?tab=addProperty"} openRegistrationForm={openRegistrationForm} />
         </div>
       )}
     </div>

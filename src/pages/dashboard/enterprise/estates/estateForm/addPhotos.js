@@ -47,15 +47,15 @@ const AddPhotos = ({
   return (
     <div className="px-8 block">
       <div className="flex flex-col gap-2">
-        <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
-        <p className="text-[18px] font-[400] text-GrayHomz ">
+        <h1 className="text-[20px] md:text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
+        <p className="text-[15px] md:text-[18px] font-[400] text-GrayHomz ">
           Add cover photo and at least one photo of your property
         </p>
         <p className="text-[13px] font-[400] text-GrayHomz2">
           Supported formats are .jpg and .png and file size must not exceed 5 mb
         </p>
       </div>
-      <div className="flex gap-4 mt-4">
+      <div className="flex flex-col md:flex-row gap-4 mt-4">
         <div className="">
           <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-red-500 font-[10px]">*</span></p>
           <div className="mt-4 w-[235px] flex justify-start">
@@ -67,9 +67,9 @@ const AddPhotos = ({
             />
           </div>
         </div>
-        <div className="">
+        <div className="flex flex-col md:flex-row">
           <p className=" text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-red-500 font-[10px]">*</span></p>
-          <div className="mt-4 flex">
+          <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-0">
             <div className="w-[235px] flex justify-start">
               <ImageUpload
                 onImageRemove={setUploadedImage2}

@@ -5,8 +5,6 @@ import BusinessLogo from "./businessLogo/businessLogo.js";
 import PersonalInfo from "./personalInfo/personalInfo.js";
 import Payment from "./payment/payment.js";
 import ChangePassword from "./changePassword/changePassword.js";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import AccountInfo from "./accountInfo/accountInfo.js";
 const pages = [
   {
@@ -39,21 +37,9 @@ const Widget = ({ data }) => {
 
   return (
     <div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+
       <div className="w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-[800px] cursor-pointer">
+        <div className="flex mt-5 gap-2 justify-between w-[850px] cursor-pointer">
           {pages.map((page) => (
             <div
               key={page.id}

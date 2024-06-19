@@ -79,7 +79,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                   N
                 </span>
                 <input
-                  placeholder="00.00"
+                  placeholder="1000000"
                   className="h-[43px] md:h-[45px] w-full py-[12px] pl-8 rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  "
                   type="number"
                   name="price"
@@ -100,7 +100,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                   N
                 </span>
                 <input
-                  placeholder="00.00"
+                  placeholder="1000000"
                   className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] w-[100%] text-GrayHomz placeholder:text-[13px]"
                   type="number"
                   name="totalFee"
@@ -123,7 +123,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                   N
                 </span>
                 <input
-                  placeholder="00.00"
+                  placeholder="1000000"
                   className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
                   type="number"
                   name="agencyFee"
@@ -146,7 +146,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
                   N
                 </span>
                 <input
-                  placeholder="00.00"
+                  placeholder="1000000"
                   className="h-[43px] md:h-[45px] md:w-[473px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
                   type="number"
                   name="maintenanceFee"

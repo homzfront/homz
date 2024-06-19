@@ -99,8 +99,8 @@ const Photos = ({ data }) => {
       ) : (
         <div>
           <div className="flex flex-col gap-2">
-            <h1 className="text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
-            <p className="text-[18px] font-[400] text-GrayHomz ">
+            <h1 className="text-[20px] md:text-[23px] font-[700] text-BlueHomz">Add Photos</h1>
+            <p className="text-[15px] md:text-[18px] font-[400] text-GrayHomz ">
               Add at least one photo of your property
             </p>
             <p className="text-[13px] font-[400] text-GrayHomz2">

@@ -143,7 +143,7 @@ const RequestPage = () => {
                 width={89}
               />
             </div>
-            <h1 className="text-[20px] font-[500] text-BlueHomz">
+            <h1 className="text-[20px] text-center font-[500] text-BlueHomz">
               You Have No Request At the Moment
             </h1>
             <p className="text-[18px] font-[400] text-GrayHomz">

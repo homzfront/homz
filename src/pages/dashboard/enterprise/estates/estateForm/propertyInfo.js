@@ -41,14 +41,14 @@ const PropertyInfo = ({
   return (
     <div className="px-8">
       <div className="mt-8">
-        <h1 className="font-[700] text-[23px] text-BlueHomz">
+        <h1 className="font-[700] text-[20px] md:text-[23px] text-BlueHomz">
           Property Information
         </h1>
-        <p className="text-[18px] font-[400] text-GrayHomz">
+        <p className="text-[15px] md:text-[18px] font-[400] text-GrayHomz">
           Kindly fill in the accurate property information
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-8 py-4 mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4 mt-2">
         <div className="w-[100%] flex flex-col gap-3">
           <div>
             <Input
@@ -65,10 +65,10 @@ const PropertyInfo = ({
               Property Location <span className="text-error">*</span>
             </div>
             <div className="flex gap-4 w-full">
-              <div className="w-full">
+              <div className="w-[50%] md:w-full">
                 <SelectState selectedState={selectedState} setSelectedState={setSelectedState} />
               </div>
-              <div className={`w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
+              <div className={`w-[50%] md:w-full ${selectedState === null ? "pointer-events-none" : ""}`}>
                 <SelectArea state={selectedState?.value} selectedArea={selectedArea} setSelectedArea={setSelectedArea} />
               </div>
             </div>

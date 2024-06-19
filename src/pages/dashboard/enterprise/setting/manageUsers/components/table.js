@@ -96,11 +96,11 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, pro
       <div>
         <div className="border w-full rounded-t-[12px]">
           <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
-            <div className="w-[5%] "></div>
-            <div className="w-[25%] ">Name</div>
-            <div className="w-[25%] ">Email Address</div>
-            <div className="w-[25%] ">Properties</div>
-            <div className="w-[20%] ">Action</div>
+            <div className="w-[5%] hidden md:block"></div>
+            <div className="w-[33.3%] md:w-[25%]">Name</div>
+            <div className="w-[33.3%] md:w-[25%]">Email Address</div>
+            <div className="w-[33.3%] md:w-[25%]">Properties</div>
+            <div className="hidden md:block w-[20%] ">Action</div>
           </div>
           <div>
             {currentData &&
@@ -109,7 +109,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, pro
                   key={data?._id}
                   className={`border-b-[1px] font-[400] text-[14px] text-GrayHomz  items-center flex justify-center w-full gap-2 px-4 h-[77px]`}
                 >
-                  <div className="pl-4 w-[5%]">
+                  <div className="hidden md:block pl-4 w-[5%]">
                     <input
                       type="checkbox"
                       className="rounded-[50%]"
@@ -117,7 +117,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, pro
                     // checked={handleSelect}
                     />
                   </div>
-                  <div className="flex items-center gap-2 w-[25%]">
+                  <div className="flex items-center gap-2 w-[33.3%] md:w-[25%]">
 
                     {!data?.coverPhoto?.url ? (
                       <Image
@@ -138,15 +138,15 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, pro
                         className="rounded-[100%]"
                       />
                     )}
-                    <span className="text-[14px] text-GrayHomz font-[400]">{data?.propertyOwner?.fullName}</span>
+                    <span className="text-[14px] text-GrayHomz break-words font-[400]">{data?.propertyOwner?.fullName}</span>
                   </div>
-                  <div className="w-[25%] text-[14px] text-GrayHomz font-[400]">{data?.user?.email}</div>
-                  <div className="w-[25%] flex justify-start items-center cursor-pointer">
+                  <div className="w-[33.3%] md:w-[25%] text-[14px] text-GrayHomz font-[400] break-words">{data?.user?.email}</div>
+                  <div className="w-[33.3%] md:w-[25%] flex justify-start items-center cursor-pointer">
                     <div
                       onClick={() => handleToggleMenu(data?._id)}
                       className={` rounded-[2px] h-[45px] w-[90%]  flex gap-3 justify-start items-center`}
                     >
-                      <p className="text-[14px] font-[500] text-GrayHomz2">
+                      <p className="text-[14px] truncate font-[500] text-GrayHomz2">
                         {
                           data?.estatesDetails?.[0]?.estate?.name
                         }
@@ -198,7 +198,7 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, pro
                   ) : (
                     <div
                       onClick={() => handleToggleMenu(data?._id)}
-                      className="w-[20%] cursor-pointer text-BlueHomz ">
+                      className="w-[20%] hidden md:block cursor-pointer text-BlueHomz ">
                       + Add to new property
                     </div>
                   )}

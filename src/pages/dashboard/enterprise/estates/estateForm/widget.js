@@ -32,7 +32,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
   const [size, setSize] = useState("");
   const [numberOfHouses, setNumberOfHouses] = useState("");
   const [description, setDescription] = useState("");
-  
+
   // addphotos
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
@@ -176,8 +176,8 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
 
 
   return (
-    <div className=" w-full h-auto py-4">
-            <ToastContainer
+    <div className="hidden md:block w-full h-auto py-4">
+      <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -215,7 +215,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                 ? " bg-white rounded-full  w-1 h-1 shadow-md "
                 : "h-1 w-1"
                 }`}
-      
+
             >
               <div
                 className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-center`}
@@ -229,7 +229,7 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
                 ? " bg-white rounded-full  w-1 h-1 shadow-md "
                 : "h-1 w-1"
                 }`}
-   
+
             >
               <div
                 className={`rounded-full w-[1px] h-[1px] bg-BlueHomz p-1 text-[14px] font-[500] text-cente`}

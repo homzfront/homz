@@ -149,7 +149,8 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
                           required: "Square Metres is required",
                         })}
                         className="h-[43px] md:h-[45px] md:w-[473px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
-                        placeholder="Enter Square Metres"
+                        placeholder="Enter Square Metres '1080'"
+                        type="number"
                       />
                       {errors.squareMetres && (
                         <span className="text-red-500 text-xs">

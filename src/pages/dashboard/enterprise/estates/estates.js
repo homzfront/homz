@@ -32,6 +32,8 @@ const Estate = () => {
   const [selectedState, setSelectedState] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [filterModal, setFilterModal] = useState(false);
 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
@@ -40,7 +42,8 @@ const Estate = () => {
     setSelectedState(null);
     setSelectedArea(null);
     setSelectedDate(null);
-    setSelectedProperty(null)
+    setSelectedProperty(null);
+    setSearchQuery(null);
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
@@ -53,14 +56,17 @@ const Estate = () => {
 
 
   const filteredData = data?.filter((data) => {
+    const matchesSearchQuery = !searchQuery ||
+    data?.name.toLowerCase().includes(searchQuery.toLowerCase())
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.created));
 
     return (
-      // (!selectedState || data?.location.state === selectedState) &&
-      // (!selectedArea || data?.location.area === selectedArea) &&
+      (!selectedState || data?.location.state === selectedState) &&
+      (!selectedArea || data?.location.area === selectedArea) &&
       (!selectedProperty || data?.name === selectedProperty) &&
       (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
+      && matchesSearchQuery
     );
   });
 
@@ -75,6 +81,15 @@ const Estate = () => {
   const addNewEstate = () => {
     setRegistrationForm(true);
   };
+
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
+
   return (
     <div className="w-full">
       {loading ? (
@@ -108,6 +123,11 @@ const Estate = () => {
           fetchData={fetchData}
           dropdownRef={dropdownRef}
           openRegistrationForm={openRegistrationForm}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          closeMobileFilterModal={closeMobileFilterModal}
+          openMobileFilterModal={openMobileFilterModal}
+          filterModal={filterModal}
         />
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />

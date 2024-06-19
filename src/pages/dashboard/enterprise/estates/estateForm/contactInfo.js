@@ -52,14 +52,14 @@ const ContactInfo = ({
         </div>
       )}
       <div>
-        <h1 className="text-[23px] font-[700] text-BlueHomz">
+        <h1 className="text-[20px] md:text-[23px] font-[700] text-BlueHomz">
           Contact Information
         </h1>
-        <p className="text-[18px] font-[400] text-GrayHomz">
+        <p className="text-[15px] md:text-[18px] font-[400] text-GrayHomz">
           Kindly fill in your contact information
         </p>
       </div>
-      <div className="w-[50%] mt-4 flex flex-col gap-2">
+      <div className="w-full md:w-[50%] mt-4 flex flex-col gap-2">
         <Input
           label={"Manager’s Phone Number"}
           placeholder={"0000 - 000 - 0000"}

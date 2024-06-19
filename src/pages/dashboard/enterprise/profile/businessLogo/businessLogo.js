@@ -69,7 +69,7 @@ const BusinessLogo = ({ data }) => {
   return (
     <div className="mt-8">
       <div className="">
-        <div className="flex items-center gap-8">
+      <div className="flex flex-col md:flex-row items-center md:gap-8">
           <div className="flex gap-2">
             <div
               className={`w-[237px] h-[237px] flex items-center justify-center ${

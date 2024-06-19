@@ -46,14 +46,14 @@ const Maintenance = ({ data, maintData }) => {
 
     // console.log(Data);
   return (
-    <div className="rounded-[12px] border w-[45%] h-[514px] overflow-auto scrollbar-container">
-      <div className="flex justify-between  p-6">
-        <div className="text-BlueHomz font-[500] text-[18px] flex gap-1">
-          <p>Maintenance Request</p>
-          <p> {maintData?.maintenanceRequests?.length ? `${maintData?.maintenanceRequests?.length}` : "0"}/
+    <div className="rounded-[12px] border w-full md:w-[45%] h-[514px] overflow-auto scrollbar-container">
+      <div className="flex justify-between items-center p-6">
+        <div className="w-[70%] flex items-center gap-1">
+          <p className="text-BlueHomz font-[500] text-[18px] truncate">Maintenance Request</p>
+          <p className="text-BlueHomz font-[500] text-[18px]"> {maintData?.maintenanceRequests?.length ? `${maintData?.maintenanceRequests?.length}` : "0"}/
             {maintData?.maintenanceRequests?.length ? `${maintData?.maintenanceRequests?.length}` : "0"}</p>
         </div>
-        <Link href={"/dashboard/enterprise-property/maintenance"} className="flex gap-1 items-center">
+        <Link href={"/dashboard/enterprise-property/maintenance"} className="w-[27%] flex gap-1 items-center">
           <p className="text-[13px] font-[400]">View All</p>
           <Image
             src={
@@ -70,8 +70,8 @@ const Maintenance = ({ data, maintData }) => {
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
-              <th className="text-left ">Subject</th>
-              <th className="text-left w-[27%]">Status</th>
+              <th className="text-left w-[50%] md:w-[55%] hidden md:table-cell">Subject</th>
+              <th className="text-left w-[40%] md:w-[27%] pr-6 md:pr-0">Status</th>
             </tr>
           </thead>
           <tbody className="">
@@ -98,11 +98,11 @@ const Maintenance = ({ data, maintData }) => {
 
                   <span className="py-[15px]">{data?.tenant?.fullName}</span>
                 </td>
-                <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                <td className="hidden md:table-cell w-full md:w-[55%] text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                   {data?.subject}
                 </td>
                 <td
-                  className={`text-GrayHomz w-[27%] py-[15px] pr-6 font-[500]  text-[11px] `}
+                  className={`text-GrayHomz w-[40%] md:w-[27%] py-[15px] md:pr-6 font-[500]  text-[11px] `}
                 >
                   <span
                     className={`p-[6px] rounded-lg text-center ${data?.status === "pending"
