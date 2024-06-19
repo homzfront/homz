@@ -13,7 +13,7 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const VerifyEmail = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(null);
   const [error, setError] = useState(false);
   const [error2, setError2] = useState("");
   const [verificationSuccess, setVerificationSuccess] = useState(false);
@@ -31,14 +31,16 @@ const VerifyEmail = () => {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      const response = await api.get("/user/profile");
-      if (response?.data?.user?.isVerified === false) {
-        await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
-        toast.success('OTP SENT');
-        startTimer();
-      }
-    })();
+    if (email !== null) {
+      (async () => {
+        const response = await api.get("/user/profile");
+        if (response?.data?.user?.isVerified === false) {
+          await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
+          // toast.success('OTP SENT');
+          startTimer();
+        }
+      })();
+    }
   }, [email])
 
   useEffect(() => {
@@ -217,14 +219,22 @@ const VerifyEmail = () => {
                     <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[14px]`}>
                       Didn't receive the email?
                     </p>
-                    <button onClick={ResendOtp}>
-                      <Link
-                        className={`${timer ? "text-GrayHomz6" : "text-BlueHomz"} text-center font-[700] text-[14px]  ml-1`}
-                        href={""}
-                      >
-                        Click to resend
-                      </Link>
-                    </button>
+                    {
+                      timer ?
+                          <div
+                            className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[14px]  ml-1`}
+                          >
+                            Click to resend
+                          </div> :
+                        <button onClick={ResendOtp}>
+                          <Link
+                            className={`text-BlueHomz text-center font-[700] text-[14px]  ml-1`}
+                            href={""}
+                          >
+                            Click to resend
+                          </Link>
+                        </button>
+                    }
                     {timer && (
                       <div className="flex justify-center items-center">
                         <p className="text-[12px] text-BlueHomz font-[400]">{seconds} Seconds</p>

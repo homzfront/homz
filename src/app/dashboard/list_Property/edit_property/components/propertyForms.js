@@ -12,6 +12,7 @@ import CustomizedModal from "../../components/CustomizedModal";
 import { rentDetails, updateContactInfo, updatePropertyDetails } from "@/api/propertyService";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
+import useRemoveNull from "@/utils/removeNull";
 
 
 const PropertyForms = ({ propertyData }) => {
@@ -26,6 +27,7 @@ const PropertyForms = ({ propertyData }) => {
   const [formIV, setFormIV] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const removeNull = useRemoveNull();
 
   const closeModal = () => {
     setSaveModalIsOpen(false);
@@ -46,16 +48,19 @@ const PropertyForms = ({ propertyData }) => {
     if (form !== null || formII !== null || formIV !== null) {
       try {
         if (form !== null) {
+          const cleanForm = removeNull(form)
+          console.log(cleanForm);
           const { success: successForm, upDateddata, error: formerror } = await updatePropertyDetails(
             propertyData._id,
-            form
+            cleanForm
           );
           error = formerror
           success = successForm; // Update success variable
         } else if (formII !== null) {
+          const cleanForm = removeNull(formII)
           const { success: successFormII, upDateddata, error: formerror } = await rentDetails(
             propertyData._id,
-            formII
+            cleanForm
           );
           error = formerror
           success = successFormII; // Update success variable
@@ -80,9 +85,10 @@ const PropertyForms = ({ propertyData }) => {
             setSaveModalIsOpen(false);
             return;
           }
+          const cleanForm = removeNull(formIV)
           const { success: successFormIV, upDateddata, error: formerror } = await updateContactInfo(
             propertyData._id,
-            formIV
+            cleanForm
           );
           error = formerror
           success = successFormIV; // Update success variable
