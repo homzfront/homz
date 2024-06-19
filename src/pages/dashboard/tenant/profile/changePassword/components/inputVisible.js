@@ -43,7 +43,7 @@ const InputVisible = ({
           placeholder={placeholder}
           autoComplete={autoComplete}
         />
-        <div className="absolute top-11 left-[280px] md:left-[465px]" onClick={Visible}>
+     <div className="absolute top-11 left-[90%] md:left-[465px]" onClick={Visible}>
           {visible ? (
             <Eye className="w-4 h-4" />
           ) : (

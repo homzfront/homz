@@ -80,6 +80,21 @@ const PropertyForms = () => {
         setSaveModalIsOpen(false);
         setLoadingForm(false)
         setLoading(false);
+      } else {
+        setLoadingForm(false);
+        setLoading(false);
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          toast.error("Update failed", `${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          toast.error("Update failed", `${errorMessage}`);
+        } else {
+          toast.error("Update failed");
+        }
       }
     } catch (error) {
       setLoadingForm(false);
