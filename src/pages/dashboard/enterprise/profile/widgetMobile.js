@@ -100,7 +100,7 @@ const WidgetMobile = ({ data }) => {
                     >
                         Personal Information
                     </button>
-                    <button
+                    {/* <button
                         onClick={handlePageChangeFour}
                         className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFour
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
@@ -108,7 +108,7 @@ const WidgetMobile = ({ data }) => {
                             }`}
                     >
                         Account Information
-                    </button>
+                    </button> */}
                     <button
                         onClick={handlePageChangeFive}
                         className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFive
@@ -139,9 +139,9 @@ const WidgetMobile = ({ data }) => {
                 <div className={`${activeThree ? "inline" : "hidden"}`}>
                     <PersonalInfo data={data} />
                 </div>
-                <div className={`${activeFour ? "inline" : "hidden"}`}>
+                {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
                     <AccountInfo />
-                </div>
+                </div> */}
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
                     <Payment />
                 </div>

@@ -26,10 +26,10 @@ const EstateForm = ({ returnToStartRegistration, fetchData }) => {
         className='m-8 w-[28px] h-[28px] bg-walletBg rounded-[8px] md:hidden flex justify-center items-center'>
         <MobileBackButton />
       </div>
-      <div>
+      <div className="hidden md:block">
         <Widget returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
       </div>
-      <div>
+      <div className="md:hidden">
         <WidgetMobile returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
       </div>
     </div>
