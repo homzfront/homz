@@ -11,6 +11,8 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Link from "next/link";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
+import TopUPModal from "../../../components/topUPModal";
+import AddWallet from "@/components/icons/addWallet";
 
 const WalletBalance = ({
   activeTwo,
@@ -23,6 +25,7 @@ const WalletBalance = ({
 }) => {
   const [data, setData] = useState("");
   const [rent, setRent] = useState(false);
+  const [topUP, setTopUP] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
   const dropdownRef = useClickOutside(() => setAccountInfo(false));
@@ -45,6 +48,7 @@ const WalletBalance = ({
   const closeAccountInfo = () => {
     setAccountInfo(false);
   };
+
   const payRent = () => {
     setRent(!rent);
   };
@@ -52,6 +56,10 @@ const WalletBalance = ({
   const closeRentPay = () => {
     setRent(false);
   };
+
+  const closeTopUpModal = () => {
+    setTopUP(false);
+  }
 
   useEffect(() => {
     const savedData = localStorage.getItem("Data");
@@ -95,10 +103,12 @@ const WalletBalance = ({
           rentData={rentData}
         />
       )}
+      {topUP && (
+        <TopUPModal
+          closeTopUpModal={closeTopUpModal}
+        />
+      )}
       {accountInfo &&
-        // (
-        //   <AccountInfo closeAccountInfo={closeAccountInfo} wallet={wallet} />
-        // )
         <div
           className="absolute px-8 md:px-0 inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
           <div ref={dropdownRef} className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
@@ -152,25 +162,21 @@ const WalletBalance = ({
               </p>
             </div> :
             illuminateWallet ? (
-              <div className="py-2 px-4 bg-blue-200  border border-white cursor-pointer rounded-md">
-                <p
-                  // onClick={openWalletForm}
-                  // onClick={payRent}
-                  className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"
-                >
-                  Pay Rent
-                </p>
-              </div>
-            ) :
-              // loading ?
-              //   (
-              //     <div>
-              //     </div>
-              //   )
-              //   :
+              <div
+              onClick={() => {
+                setTopUP(!topUP)
+              }}
+              className="py-2 px-4 cursor-pointer rounded-md flex items-center gap-1 hover:border">
+                <AddWallet />
+              <p
+                className="text-white text-[14px] font-[500] w-full text-center"
+              >
+               Top Up Wallet
+              </p>
+            </div>
+            ) : wallet?.data === null ?
               (<div
                 onClick={openWalletForm}
-                // onClick={openAccountInfo}
                 className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"
               >
                 <Image
@@ -183,7 +189,7 @@ const WalletBalance = ({
                   Create Wallet
                 </p>
               </div>
-              )
+              ) : <div></div>
           }
         </div>
         <div className="flex items-center justify-between">

@@ -4,44 +4,21 @@ import WalletBalance from "./components/walletBalance";
 import TransferDetails from "./components/transferDetails";
 import Withdraw from "./components/withdraw";
 import TransferHis from "./components/transferHis";
-import {
-  enterpriseUserWallet,
-  enterpriseWalletBalance,
-} from "@/api/enterpriseManagerService";
+import UseWalletStore from "@/store/enterpriseStore/useWalletStore";
 
 
 const Wallet = () => {
-  const [wallet, setWallet] = useState(false);
-  const [illuminateWallet, setIlluminateWallet] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fetchData, setFetchData] = useState(false);
   const [walletBalance, setWalletBalance] = useState("");
-  const [showKYC, setShowKYC] = useState(false);
+
+  const { illuminateWallet, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await enterpriseUserWallet();
-        if (data.statuscode === 200 && data.success === true && data.data !== null) {
-          setIlluminateWallet(!illuminateWallet);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        if (error?.response?.data?.message === "Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet") {
-          setShowKYC(true);
-        }
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [fetchData]);
+    fetchWallet();
+  }, []);
 
   const fetchDataAgain = () => {
-    setFetchData(!fetchData);
+    fetchWallet();
   };
 
   return (
@@ -51,7 +28,7 @@ const Wallet = () => {
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
-              wallet={wallet}
+              wallet={walletInfo}
               fetchDataAgain={fetchDataAgain}
               walletBalance={walletBalance}
               loading={loading}
@@ -61,7 +38,7 @@ const Wallet = () => {
           <div className="mt-6">
             <TransferDetails
               illuminateWallet={illuminateWallet}
-              setIlluminateWallet={setIlluminateWallet}
+              setIlluminateWallet={null}
               fetchDataAgain={fetchDataAgain}
             />
           </div>

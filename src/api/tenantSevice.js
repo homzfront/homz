@@ -4,7 +4,7 @@ export const fetchSpecificTenant = async (id) => {
   try {
     const response = await api.get(`/tenants/${id}/enterprise`);
     return response.data;
-  } catch (error) { 
+  } catch (error) {
     throw error;
   }
 };
@@ -258,7 +258,7 @@ export const tenantUpdatePincode = async (password, otp, pincode) => {
   try {
     const response = await api.post(`/wallet/pincode/update/tenant`, {
       password,
-      otp, 
+      otp,
       pincode
     });
     return { success: true, upDateddata: response.data };
@@ -400,7 +400,7 @@ export const enterpriseWalletTenantCreation = async (pincode, confirmPincode) =>
     });
     return { success: true, upDateddata: response.data };
   } catch (error) {
-    return { success: false, error: error};
+    return { success: false, error: error };
   }
 }
 
@@ -412,3 +412,14 @@ export const tenantUserWallet = async () => {
     throw error;
   }
 };
+
+export const WalletTopUp = async (amount) => {
+  try {
+    const response = await api.post(`/wallet/top-up/tenant`, {
+      amount
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+}

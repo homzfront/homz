@@ -5,6 +5,7 @@ import { acceptEnterpriseInvitation } from "@/api/acceptProManInvitation";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import Image from "next/image";
+import useBodyScroll from "@/utils/useBodyScroll";
 
 const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
@@ -68,13 +69,15 @@ const Widget = ({ data }) => {
     }
   };
 
+  useBodyScroll([dashboard])
+
   return (
     <div>
       {
         dashboard &&
-          <div className="absolute  inset-0 z-50 w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center bg-black bg-opacity-30">
+          <div className="absolute  inset-0 z-50 w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center bg-black bg-opacity-30 px-4 md:mpx-0">
             <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md shadow-lg">
-              <div className="mt-[-10px] w-[464px] flex flex-col justify-around p-8 items-center gap-3">
+              <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
                 <Image
                   src={
                     "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"

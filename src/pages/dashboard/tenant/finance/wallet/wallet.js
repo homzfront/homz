@@ -3,44 +3,24 @@ import WalletBalance from "./components/walletBalance/walletBalance";
 import TransferHis from "./components/transferHis/transferHis";
 import Withdraw from "./components/withdraw/withdraw";
 import Activities from "./components/activities/ativities";
-import { tenantUserWallet } from "@/api/tenantSevice";
-import LoadingII from "@/components/mainmenu/loadingII";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UseWalletStore from "@/store/tenantStore/useWalletStore";
 
 const Wallet = ({ activeTwo }) => {
-  const [wallet, setWallet] = useState(false);
-  const [illuminateWallet, setIlluminateWallet] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fetchData, setFetchData] = useState(false);
   const [walletBalance, setWalletBalance] = useState("");
-  const [showKYC, setShowKYC] = useState(false);
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await tenantUserWallet();
-        if (data.statuscode === 200 && data.success === true && data.data !== null) {
-          setIlluminateWallet(!illuminateWallet);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        if (error?.response?.data?.message === "Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet") {
-          setShowKYC(true);
-        }
-        setLoading(false);
-      }
-    };
+  const { illuminateWallet, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
+  console.log(walletInfo)
 
-    fetchData();
-  }, [fetchData]);
+  useEffect(() => {
+    fetchWallet();
+  }, []);
 
   const fetchDataAgain = () => {
-    setFetchData(!fetchData);
+    fetchWallet();
   };
 
 
@@ -65,7 +45,7 @@ const Wallet = ({ activeTwo }) => {
             <WalletBalance
               illuminateWallet={illuminateWallet}
               fetchDataAgain={fetchDataAgain}
-              wallet={wallet}
+              wallet={walletInfo}
               activeTwo={activeTwo}
               walletBalance={walletBalance}
               loading={loading}

@@ -5,6 +5,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import NationalPassport from './nationalPassport';
 import { toast } from 'react-toastify';
 import { uploadNINTenantKYC } from '@/api/tenantSevice';
+import UseWalletStore from '@/store/tenantStore/useWalletStore';
 
 const NationalIdentityNumber = ({ nationalProfile }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,8 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
     const [nationalPassportSuccess, setNationalPassportSuccess] = useState(false);
     const [NIN, setNIN] = useState(null);
     const [error, setError] = useState(null);
+    const { fetchData: fetchWallet } = UseWalletStore();
+
 
     const nationalPassportRef = useRef(null);
 
@@ -94,6 +97,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                         setNationalPassportLoading(false);
                     }, 1000);
                 }, 800);
+                fetchWallet();
             } else {
                 toast.error(error?.response?.data?.data?.detail);
                 setNationalPassportLoading(false);

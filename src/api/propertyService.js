@@ -454,3 +454,15 @@ export const enterpriseWalletOwnerCreation = async (pincode, confirmPincode) => 
     return { success: false, error: error};
   }
 }
+
+
+export const WalletTopUp = async (amount) => {
+  try {
+    const response = await api.post(`/wallet/top-up/property-owner`, {
+      amount
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+}

@@ -278,7 +278,7 @@ export const enterpriseUpdatePincode = async (password, otp, pincode) => {
   try {
     const response = await api.post(`/wallet/pincode/update/enterprise`, {
       password,
-      otp, 
+      otp,
       pincode
     });
     return { success: true, upDateddata: response.data };
@@ -376,6 +376,18 @@ export const enterpriseWalletCreation = async (pincode, confirmPincode) => {
     });
     return { success: true, upDateddata: response.data };
   } catch (error) {
-    return { success: false, error: error};
+    return { success: false, error: error };
+  }
+}
+
+
+export const WalletTopUp = async (amount) => {
+  try {
+    const response = await api.post(`/wallet/top-up/enterprise`, {
+      amount
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
   }
 }

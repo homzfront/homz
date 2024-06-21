@@ -11,45 +11,24 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import tenantRentHisOwner from "@/store/propertyOwnerStore/tenantRentHisOwner";
+import UseWalletStore from "@/store/propertyOwnerStore/useWalletStore";
 
 const Wallet = () => {
   const [wallet, setWallet] = useState(false);
-  const [illuminateWallet, setIlluminateWallet] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
   const [walletBalance, setWalletBalance] = useState("");
-  const [showKYC, setShowKYC] = useState(false);
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    // fetchRentInfo()
-  }, [])
+  const { illuminateWallet, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await propertyOwnerWallet();
-        if (data.statuscode === 200 && data.success === true && data.data !== null) {
-          setIlluminateWallet(!illuminateWallet);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        if (error?.response?.data?.message === "Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet") {
-          setShowKYC(true);
-        }
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [fetchData]);
+    fetchWallet();
+  }, []);
 
   const fetchDataAgain = () => {
-    setFetchData(!fetchData);
+    fetchWallet();
   };
 
   return (
@@ -72,7 +51,7 @@ const Wallet = () => {
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
-              wallet={wallet}
+              wallet={walletInfo}
               fetchDataAgain={fetchDataAgain}
               walletBalance={walletBalance}
               loading={loading}

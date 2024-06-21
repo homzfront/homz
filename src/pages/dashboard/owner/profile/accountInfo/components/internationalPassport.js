@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ThreeDots } from 'react-loader-spinner';
 import InterPassport from './interPassport';
 import { uploadLandlordKYC } from '@/api/propertyService';
+import UseWalletStore from '@/store/propertyOwnerStore/useWalletStore';
 
 
 const InternationalPassport = ({ passportProfile }) => {
@@ -14,6 +15,7 @@ const InternationalPassport = ({ passportProfile }) => {
     const [interPassportLoading, setInterPassportLoading] = useState(false);
     const [progress, setProgress] = useState(0);
     const [interPassportSuccess, setInterPassportSuccess] = useState(false);
+    const { fetchData: fetchWallet } = UseWalletStore();
 
     const interPassportRef = useRef(null);
 
@@ -84,6 +86,7 @@ const InternationalPassport = ({ passportProfile }) => {
                         setInterPassportLoading(false);
                     }, 1000);
                 }, 800);
+                fetchWallet();
             } else {
                 toast.error(error);
                 setInterPassportLoading(false);

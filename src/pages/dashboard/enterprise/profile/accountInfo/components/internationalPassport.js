@@ -5,6 +5,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import InterPassport from './interPassport';
 import { uploadKYC } from '@/api/enterpriseManagerService';
 import { toast } from 'react-toastify';
+import UseWalletStore from '@/store/enterpriseStore/useWalletStore';
 
 const InternationalPassport = ({ passportProfile }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ const InternationalPassport = ({ passportProfile }) => {
     const [interPassportLoading, setInterPassportLoading] = useState(false);
     const [progress, setProgress] = useState(0);
     const [interPassportSuccess, setInterPassportSuccess] = useState(false);
-
+    const { fetchData: fetchWallet } = UseWalletStore();
     const interPassportRef = useRef(null);
 
     const handleDropdownToggle = () => {
@@ -84,6 +85,7 @@ const InternationalPassport = ({ passportProfile }) => {
                         setInterPassportLoading(false);
                     }, 1000);
                 }, 800);
+                fetchWallet();
             } else {
                 toast.error(error);
                 setInterPassportLoading(false);
