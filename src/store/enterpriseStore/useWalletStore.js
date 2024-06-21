@@ -1,4 +1,4 @@
-import { enterpriseUserWallet } from '@/api/enterpriseManagerService';
+import { enterpriseUserWallet, enterpriseWalletBalance } from '@/api/enterpriseManagerService';
 import { create } from 'zustand'
 
 const UseWalletStore = create((set) => ({
@@ -6,11 +6,14 @@ const UseWalletStore = create((set) => ({
     loading: true,
     illuminateWallet: false,
     showKYC: false,
+    walletBalance: null,
     fetchData: async () => {
         try {
             const response = await enterpriseUserWallet();
             if (response?.success === true) {
                 set({ illuminateWallet: true });
+                const balance = await enterpriseWalletBalance();
+                set({ walletBalance: balance?.data?.balance?.availableBalance })
             }
             const wallet = response;
             set({ data: wallet, loading: false });

@@ -17,10 +17,9 @@ const Wallet = () => {
   const [wallet, setWallet] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
-  const [walletBalance, setWalletBalance] = useState("");
   const [data, setData] = useState(null);
 
-  const { illuminateWallet, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
 
 
   useEffect(() => {

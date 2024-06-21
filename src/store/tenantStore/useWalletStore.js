@@ -1,16 +1,19 @@
 import { create } from 'zustand'
-import { tenantUserWallet } from '@/api/tenantSevice';
+import { tenantUserWallet, tenantWalletBalance } from '@/api/tenantSevice';
 
 const UseWalletStore = create((set) => ({
     data: null,
     loading: true,
     illuminateWallet: false,
     showKYC: false,
+    walletBalance: null,
     fetchData: async () => {
         try {
             const response = await tenantUserWallet();
             if (response?.success === true) {
                 set({ illuminateWallet: true });
+             const balance = await tenantWalletBalance();
+            set({walletBalance: balance?.data?.balance?.availableBalance})
             }
             const wallet = response;
             set({ data: wallet, loading: false });

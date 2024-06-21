@@ -288,8 +288,6 @@ export const getRentHis = async () => {
 };
 
 
-
-
 export const tenantWalletBalance = async () => {
   try {
     const response = await api.get(`/wallet/balance/tenant`);

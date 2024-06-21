@@ -9,9 +9,8 @@ import UseWalletStore from "@/store/enterpriseStore/useWalletStore";
 
 const Wallet = () => {
   const [loading, setLoading] = useState(false);
-  const [walletBalance, setWalletBalance] = useState("");
 
-  const { illuminateWallet, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();

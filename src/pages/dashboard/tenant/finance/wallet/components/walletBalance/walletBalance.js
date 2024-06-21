@@ -14,6 +14,7 @@ import useClickOutside from "@/utils/clickOutside";
 import TopUPModal from "../../../components/topUPModal";
 import AddWallet from "@/components/icons/addWallet";
 
+
 const WalletBalance = ({
   activeTwo,
   illuminateWallet,
@@ -200,15 +201,15 @@ const WalletBalance = ({
             >
               Wallet Balance
             </p>
-            {walletBalance?.data?.availableBalance ?
-              `${addCommasToNumber(walletBalance?.data?.availableBalance)}` : "N 0"
+            {walletBalance ?
+              `${addCommasToNumber(walletBalance)}` : "N 0"
             }
           </div>
           <div
             onClick={() => {
               setTopUP(!topUP)
             }}
-            className="py-2 px-4 w-[35%] cursor-pointer rounded-md flex items-center justify-center gap-1 hover:border">
+            className={`${illuminateWallet ? "" : "hidden"} py-2 px-4 w-[35%] cursor-pointer rounded-md flex items-center justify-center gap-1 hover:border`}>
             <AddWallet />
             <p
               className="hidden md:block text-white text-[11px] md:text-[12px] xl:text-[14px] font-[500] w-full text-center"

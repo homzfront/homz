@@ -9,11 +9,9 @@ import UseWalletStore from "@/store/tenantStore/useWalletStore";
 
 const Wallet = ({ activeTwo }) => {
   const [loading, setLoading] = useState(false);
-  const [walletBalance, setWalletBalance] = useState("");
   const [data, setData] = useState(null);
 
-  const { illuminateWallet, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
-  console.log(walletInfo)
+  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
