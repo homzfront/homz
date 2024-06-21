@@ -39,7 +39,7 @@ const WalletBalance = ({
     setOpenForm(false);
   };
 
-  useBodyScroll([openForm, rent, accountInfo]);
+  useBodyScroll([openForm, rent, accountInfo, topUP]);
 
   const openAccountInfo = () => {
     setAccountInfo(!accountInfo);
@@ -130,7 +130,7 @@ const WalletBalance = ({
           </div>
         </div>
       }
-      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-full md:h-[132px] rounded-[12px]">
+      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-full md:h-[160px] rounded-[12px] flex flex-col justify-between md:pb-4">
         <div className="flex items-center justify-between p-5">
           <div className="flex items-center gap-3">
             <Image
@@ -162,18 +162,14 @@ const WalletBalance = ({
               </p>
             </div> :
             illuminateWallet ? (
-              <div
-              onClick={() => {
-                setTopUP(!topUP)
-              }}
-              className="py-2 px-4 cursor-pointer rounded-md flex items-center gap-1 hover:border">
-                <AddWallet />
-              <p
-                className="text-white text-[14px] font-[500] w-full text-center"
-              >
-               Top Up Wallet
-              </p>
-            </div>
+              <div className="w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md md:mr-2">
+                <p
+                  onClick={payRent}
+                  className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"
+                >
+                  Pay Rent
+                </p>
+              </div>
             ) : wallet?.data === null ?
               (<div
                 onClick={openWalletForm}
@@ -192,9 +188,9 @@ const WalletBalance = ({
               ) : <div></div>
           }
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pr-4">
           <div
-            className={`text-[18px] font-[400] px-5 pb-3 md:pb-0 text-white flex flex-col md:flex-row md:items-center w-full md:justify-start ${loading ? "" : ""
+            className={`w-[65%] text-[18px] font-[400] px-5 pb-3 md:pb-0 text-white flex flex-col md:flex-row md:items-center md:justify-start ${loading ? "" : ""
               } ${illuminateWallet ? "" : "hidden"
               }`}
           >
@@ -208,23 +204,18 @@ const WalletBalance = ({
               `${addCommasToNumber(walletBalance?.data?.availableBalance)}` : "N 0"
             }
           </div>
-          {/* <div
-            className={`cursor-pointer flex items-center gap-1 ${illuminateWallet ? "" : "hidden"
-              }`}
-          >
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/add.png"}
-              alt=""
-              width={16}
-              height={16}
-            />
+          <div
+            onClick={() => {
+              setTopUP(!topUP)
+            }}
+            className="py-2 px-4 w-[35%] cursor-pointer rounded-md flex items-center justify-center gap-1 hover:border">
+            <AddWallet />
             <p
-              onClick={openAccountInfo}
-              className="cursor-pointer text-[14px] font-[500] text-white"
+              className="hidden md:block text-white text-[11px] md:text-[12px] xl:text-[14px] font-[500] w-full text-center"
             >
               Top Up Wallet
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
