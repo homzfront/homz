@@ -4,9 +4,11 @@ import ManageUsers from "./manageUsers/manageUsers.js";
 import Estate from "./estates/estates.js";
 import Tenants from "./tenants/tenants.js";
 import Notifications from "./notifications/notifications.js";
+import ManageUserRoles from "./manageUserRoles/manageUserRoles.js";
 
 const pages = [
   { id: 1, name: "Manage Users", component: <ManageUsers /> },
+  // { id: 2, name: "Manage other users", component: <ManageUserRoles /> },
   // { id: 2, name: "Properties", component: <Estate /> },
   // { id: 3, name: "Tenants", component: <Tenants /> },
   // { id: 4, name: "Notifications", component: <Notifications /> },
