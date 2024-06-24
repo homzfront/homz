@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState,useRef, useEffect } from "react";
 import { toast } from "react-toastify";
-import infoPop from "./infoPopUp";
+import InfoPopUp from "./infoPopUp";
 
 const Plans = ({ data, profile }) => {
   const [loading, setLoading] = useState(false);
@@ -144,7 +144,7 @@ const Plans = ({ data, profile }) => {
                 {feature.name}
               </p>
             </div>
-            <InfoPopUp handleInfoClick={handleInfoClick} selectedDataId={selectedDataId} feature={feature} index={i} />
+            <InfoPopUp handleInfoClic={handleInfoClick} selectedData={selectedDataId} feature={feature} index={i} />
 
             {/* <button
               ref={el => infoButtonRef.current[i] = el}

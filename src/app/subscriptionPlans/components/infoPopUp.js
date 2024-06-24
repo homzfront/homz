@@ -1,9 +1,18 @@
 import React, {useState} from 'react'
 import Image from "next/image";
 
-const InfoPopUp = ({handleInfoClick, feature,selectedDataId, index}) => {
+const InfoPopUp = ({handleInfoClic, feature, selectedData, index}) => {
   const [openInfo, setOpenInfo] = useState(false);
+  const [selectedDataId, setSelectedDataId] = useState(null);
 
+  const handleInfoClick = (event, featureId, index) => {
+    const rect = event.target.getBoundingClientRect();
+    // setTooltipPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
+    setSelectedDataId(index);
+    setOpenInfo(!openInfo);
+  };
+  
+console.log(index)
   return (
     <div>
       <button
@@ -24,7 +33,7 @@ const InfoPopUp = ({handleInfoClick, feature,selectedDataId, index}) => {
     
             {openInfo && selectedDataId === index && (
             <div
-              className="absolute w-[460px] left-[200px] top-[346px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
+              className="absolute w-[460px] left-[117px] top-[576px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
            
             >
               <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[382px]">
