@@ -4,34 +4,31 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState} from "react";
 import { toast } from "react-toastify";
 
 const PlansYearly = ({ data, profile }) => {
-
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
 
-  const infoButtonRef = useRef([]);
+
 
   const handleInfoClick = (event, featureId, index) => {
     const rect = event.target.getBoundingClientRect();
-    setTooltipPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
+    setTooltipPosition({
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
     setSelectedDataId(featureId);
     setOpenInfo(!openInfo);
   };
-  
-  useEffect(() => {
-    const counts = pricingPlans.map(plan => plan.features.length);
-    infoButtonRef.current = infoButtonRef.current.slice(0, counts);
-  }, []);
-  const router = useRouter()
-  useBodyScroll([loading])
 
-  
+  const router = useRouter();
+  useBodyScroll([loading]);
+
   // Optional URL validation function (consider using a more robust library)
   function isValidUrl(url) {
     const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
@@ -42,26 +39,36 @@ const PlansYearly = ({ data, profile }) => {
     setLoading(true);
 
     if (!interval || !plans) {
-      setFormError('Please select an interval and plan.');
+      setFormError("Please select an interval and plan.");
       setLoading(false);
       return; // Early exit if required fields are missing
     }
 
     try {
       let response;
-      if (profile.PlanStatus === "free_trial" || profile?.planName === "Enterprise Starter" ||
-        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+      if (
+        profile.PlanStatus === "free_trial" ||
+        profile?.planName === "Enterprise Starter" ||
+        profile?.planName === "Enterprise Plus" ||
+        profile?.planName === "Enterprise Premium" ||
+        profile.planName === "Enterprise Trial"
+      ) {
         response = await updateEnterPriseSub({
           planName: plans,
-          interval
-        })
+          interval,
+        });
       }
       if (response.success) {
         setLoading(false);
-        const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
+        const successMessage =
+          response?.updatedData?.data?.message ||
+          "Enterprise Plan account created successfully"; // Use response.data?.message if available, otherwise default message
         toast.success(successMessage);
-        const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
-        const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
+        const authorizationUrl =
+          response?.updatedData?.data?.data?.data?.authorization_url;
+        const paystackAuthorizationUrl =
+          response?.updatedData?.data?.data?.paystackResponse?.data
+            ?.authorization_url;
 
         if (isValidUrl(authorizationUrl)) {
           router.push(authorizationUrl);
@@ -72,7 +79,7 @@ const PlansYearly = ({ data, profile }) => {
         }
       } else {
         if (response.error) {
-          setFormError(response.error || 'An error occurred.'); // Default error message
+          setFormError(response.error || "An error occurred."); // Default error message
           // console.error("Error creating profile:", response.error);
           setLoading(false);
           toast.error(response.error);
@@ -81,121 +88,121 @@ const PlansYearly = ({ data, profile }) => {
     } catch (error) {
       toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
       // console.log(error.response?.data?.error)
-      setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
+      setFormError(
+        error.response?.data?.message || error.response?.data?.error
+      ); // Log the original error
       setLoading(false);
     }
-
   }
-
-
-
 
   return (
     <div className="mt-[60px] m-auto  flex flex-col  gap-[60px]">
-    {loading && <Loading />}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
-      {pricingPlans.map((plan, index) => (
-        <div
-          key={index}
-          className="flex flex-col p-6 text-[16px] font-[400] w-[265px] min-h-[540px] border shadow-lg rounded-2xl"
-        >
-          <div className="flex flex-col mb-4">
-            <p className="text-[20px] leading-[30px] text-center font-[700] text-BlackHomz">
-              {plan.title}
-            </p>
-            <p className="text-[14px] text-center font-[500] text-[#559CFF] mb-3">
-              {plan.billing}
-            </p>
-            <p className="text-[23px] text-center font-[700] text-BlackHomz">
-              {plan.price}
-            </p>
-          </div>
-
-          <div className="flex-grow mt-3">
-    {plan.features.map((feature, i) => (
-      <div key={i} className="flex items-start mb-2 flex-col">
-        <div className="flex flex-row items-center justify-between w-full gap-[12px] mb-2">
-          <div className="flex items-center gap-3">
-            <p
-              className={`h-[24px] w-[24px] ${
-                feature.opacity ? "opacity-35" : "bg-[#D1FADF]"
-              } flex items-center justify-center border rounded-full`}
-            >
-              <Image
-                height={10.5}
-                width={12}
-                alt="img"
-                src={"/static/images/IconMark.png"}
-              />
-            </p>
-            <p
-              className={`${
-                feature.opacity ? "text-GrayHomz5" : ""
-              } font-['Text md/Regular']`}
-            >
-              {feature.name}
-            </p>
-          </div>
-          <button
-            ref={el => infoButtonRef.current[i] = el}
-            onClick={(e) => handleInfoClick(e, feature.id, i)}
-            className={`relative h-[14px] w-[16px] cursor-pointer ${
-              !feature.enable && "hidden"
-            }`}
-            disabled={feature.info ===""}
-          >
-            <Image
-              height={10.5}
-              width={12}
-              alt="img"
-              src={"/static/images/gray-info-icon.svg"}
-            />
-          </button>
-        </div>
-        {openInfo && selectedDataId === feature.id && (
+      {loading && <Loading />}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
+        {pricingPlans.map((plan, index) => (
           <div
-            className="absolute w-[460px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
-            style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
+            key={index}
+            className="flex flex-col p-6 text-[16px] font-[400] w-[265px] min-h-[540px] border shadow-lg rounded-2xl"
           >
-            <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[382px]">
-              {feature.info}
-            </p>
-            <Image
-              src="/static/images/close-square.svg"
-              height={16}
-              width={16}
-              alt=""
-              onClick={() => setOpenInfo(false)}
-              className="cursor-pointer pb-5"
-            />
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
+            <div className="flex flex-col mb-4">
+              <p className="text-[20px] leading-[30px] text-center font-[700] text-BlackHomz">
+                {plan.title}
+              </p>
+              <p className="text-[14px] text-center font-[500] text-[#559CFF] mb-3">
+                {plan.billing}
+              </p>
+              <p className="text-[23px] text-center font-[700] text-BlackHomz">
+                {plan.price}
+              </p>
+            </div>
 
-          <button
-            onClick={() => {
-              handleSubmit(plan.interval, plan.title);
-            }}
-            className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
-              plan.status === true ? "hidden" : ""
-            } ${
-              profile?.planName === plan.title &&
+            <div className="flex-grow mt-3">
+              {plan.features.map((feature, i) => (
+                <div key={i} className="flex items-start mb-2 flex-col">
+                  <div className="flex flex-row items-center justify-between w-full gap-[12px] mb-2">
+                    <div className="flex items-center gap-3">
+                      <p
+                        className={`h-[24px] w-[24px] ${
+                          feature.opacity ? "opacity-35" : "bg-[#D1FADF]"
+                        } flex items-center justify-center border rounded-full`}
+                      >
+                        <Image
+                          height={10.5}
+                          width={12}
+                          alt="img"
+                          src={"/static/images/IconMark.png"}
+                        />
+                      </p>
+                      <p
+                        className={`${
+                          feature.opacity ? "text-GrayHomz5" : ""
+                        } font-['Text md/Regular']`}
+                      >
+                        {feature.name}
+                      </p>
+                    </div>
+                    <button
+                      onClick={(e) => handleInfoClick(e, feature.id, i)}
+                      className={`relative h-[14px] w-[16px] cursor-pointer ${
+                        !feature.enable && "hidden"
+                      }`}
+                      disabled={feature.info === ""}
+                    >
+                      <Image
+                        height={10.5}
+                        width={12}
+                        alt="img"
+                        src={"/static/images/gray-info-icon.svg"}
+                      />
+                    </button>
+                  </div>
+                  {openInfo && selectedDataId === feature.id && (
+                    <div
+                      className="absolute w-[460px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
+                      style={{
+                        top: tooltipPosition.top + 10,
+                        left: tooltipPosition.left - 459,
+                      }}
+                    >
+                      <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[382px]">
+                        {feature.info}
+                      </p>
+                      <Image
+                        src="/static/images/close-square.svg"
+                        height={16}
+                        width={16}
+                        alt=""
+                        onClick={() => setOpenInfo(false)}
+                        className="cursor-pointer pb-5"
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                handleSubmit(plan.interval, plan.title);
+              }}
+              className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
+                plan.status === true ? "hidden" : ""
+              } ${
+                profile?.planName === plan.title &&
+                profile?.interval === "monthly"
+                  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
+                  : "bg-BlueHomz hover:bg-blue-400 text-white"
+              }`}
+            >
+              {profile?.planName === plan.title &&
               profile?.interval === "monthly"
-                ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
-                : "bg-BlueHomz hover:bg-blue-400 text-white"
-            }`}
-          >
-            {profile?.planName === plan.title &&
-            profile?.interval === "monthly"
-              ? "Active"
-              : "Select Plan"}
-          </button>
-        </div>
-      ))}
+                ? "Active"
+                : "Select Plan"}
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
   );
 };
 
@@ -217,10 +224,10 @@ const pricingPlans2 = [
       "Manage tenant applications",
       "Advertise vacant properties",
       "Early rent incentives for renters",
-      "Training & data migration"
+      "Training & data migration",
     ],
     status: false,
-    interval: "annually"
+    interval: "annually",
   },
   {
     price: "N190,000",
@@ -238,10 +245,10 @@ const pricingPlans2 = [
       "Manage tenant applications",
       "Advertise vacant properties",
       "Early rent incentives for renters",
-      "Training & data migration"
+      "Training & data migration",
     ],
     status: false,
-    interval: "annually"
+    interval: "annually",
   },
   {
     price: "N500,000",
@@ -259,10 +266,10 @@ const pricingPlans2 = [
       "Manage tenant applications",
       "Advertise vacant properties",
       "Early rent incentives for renters",
-      "Training & data migration"
+      "Training & data migration",
     ],
     status: false,
-    interval: "annually"
+    interval: "annually",
   },
   {
     price: "Contact Sales", // You might want to provide an actual price for the premium plan
@@ -280,10 +287,10 @@ const pricingPlans2 = [
       "Manage tenant applications",
       "Advertise vacant properties",
       "Early rent incentives for renters",
-      "Training & data migration"
+      "Training & data migration",
     ],
     status: true,
-    interval: "annually"
+    interval: "annually",
   },
 ];
 const pricingPlans = [

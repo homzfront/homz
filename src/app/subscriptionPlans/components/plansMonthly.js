@@ -5,9 +5,9 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState,useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
-import InfoPopUp from "./infoPopUp";
+
 
 const Plans = ({ data, profile }) => {
   const [loading, setLoading] = useState(false);
@@ -16,19 +16,16 @@ const Plans = ({ data, profile }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
 
-  const infoButtonRef = useRef([]);
-
   const handleInfoClick = (event, featureId, index) => {
     const rect = event.target.getBoundingClientRect();
-    setTooltipPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
+    setTooltipPosition({
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
     setSelectedDataId(index);
     setOpenInfo(!openInfo);
   };
-  
-  useEffect(() => {
-    const counts = pricingPlans.map(plan => plan.features.length);
-    infoButtonRef.current = infoButtonRef.current.slice(0, counts);
-  }, []);
+
   const router = useRouter();
   useBodyScroll([loading]);
 
@@ -120,69 +117,70 @@ const Plans = ({ data, profile }) => {
             </div>
 
             <div className="flex-grow mt-3">
-      {plan.features.map((feature, i) => (
-        <div key={i} className="flex items-start mb-2 flex-col">
-          <div className="flex flex-row items-center justify-between w-full gap-[12px] mb-2">
-            <div className="flex items-center gap-3">
-              <p
-                className={`h-[24px] w-[24px] ${
-                  feature.opacity ? "opacity-35" : "bg-[#D1FADF]"
-                } flex items-center justify-center border rounded-full`}
-              >
-                <Image
-                  height={10.5}
-                  width={12}
-                  alt="img"
-                  src={"/static/images/IconMark.png"}
-                />
-              </p>
-              <p
-                className={`${
-                  feature.opacity ? "text-GrayHomz5" : ""
-                } font-['Text md/Regular']`}
-              >
-                {feature.name}
-              </p>
+              {plan.features.map((feature, i) => (
+                <div key={i} className="flex items-start mb-2 flex-col">
+                  <div className="flex flex-row items-center justify-between w-full gap-[12px] mb-2">
+                    <div className="flex items-center gap-3">
+                      <p
+                        className={`h-[24px] w-[24px] ${
+                          feature.opacity ? "opacity-35" : "bg-[#D1FADF]"
+                        } flex items-center justify-center border rounded-full`}
+                      >
+                        <Image
+                          height={10.5}
+                          width={12}
+                          alt="img"
+                          src={"/static/images/IconMark.png"}
+                        />
+                      </p>
+                      <p
+                        className={`${
+                          feature.opacity ? "text-GrayHomz5" : ""
+                        } font-['Text md/Regular']`}
+                      >
+                        {feature.name}
+                      </p>
+                    </div>
+                  
+                    <button
+                      onClick={(e) => handleInfoClick(e, feature.id, i)}
+                      className={`relative h-[14px] w-[16px] cursor-pointer ${
+                        !feature.enable && "hidden"
+                      }`}
+                      disabled={feature.info === ""}
+                    >
+                      <Image
+                        height={10.5}
+                        width={12}
+                        alt="img"
+                        src={"/static/images/gray-info-icon.svg"}
+                      />
+                    </button>
+                  </div>
+                  {openInfo && selectedDataId === i && (
+                    <div
+                      className="absolute w-[460px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
+                      style={{
+                        top: tooltipPosition.top + 10,
+                        left: tooltipPosition.left - 459,
+                      }}
+                    >
+                      <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[382px]">
+                        {feature.info}
+                      </p>
+                      <Image
+                        src="/static/images/close-square.svg"
+                        height={16}
+                        width={16}
+                        alt=""
+                        onClick={() => setOpenInfo(false)}
+                        className="cursor-pointer pb-5"
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-            <InfoPopUp handleInfoClic={handleInfoClick} selectedData={selectedDataId} feature={feature} index={i} />
-
-            {/* <button
-              ref={el => infoButtonRef.current[i] = el}
-              onClick={(e) => handleInfoClick(e, feature.id, i)}
-              className={`relative h-[14px] w-[16px] cursor-pointer ${
-                !feature.enable && "hidden"
-              }`}
-              disabled={feature.info ===""}
-            >
-              <Image
-                height={10.5}
-                width={12}
-                alt="img"
-                src={"/static/images/gray-info-icon.svg"}
-              />
-            </button> */}
-          </div>
-          {/* {openInfo && selectedDataId === i && (
-            <div
-              className="absolute w-[460px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
-              style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
-            >
-              <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[382px]">
-                {feature.info}
-              </p>
-              <Image
-                src="/static/images/close-square.svg"
-                height={16}
-                width={16}
-                alt=""
-                onClick={() => setOpenInfo(false)}
-                className="cursor-pointer pb-5"
-              />
-            </div>
-          )} */}
-        </div>
-      ))}
-    </div>
 
             <button
               onClick={() => {
