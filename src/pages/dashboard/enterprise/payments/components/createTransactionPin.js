@@ -125,16 +125,15 @@ const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
                                     </div>
                                     <input
                                         type="text"
-                                        name="username" // Ensure a name attribute for password managers
+                                        name="username"
                                         autocomplete="username"
                                         value={username}
                                         className='hidden'
-                                        hidden // Hide visually but still accessible to screen readers
+                                        hidden 
                                     />
                                     <input
                                         type={visible ? "text" : "password"}
-                                        name="password" // Ensure a name attribute for password managers
-                                        // autoComplete="new-password" // Use new-password for password fields
+                                        name="password" 
                                         value={password}
                                         className='w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]'
                                         onChange={(e) => {
@@ -157,8 +156,8 @@ const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
                                     </label>
                                     <input
                                         type={visibleII ? "text" : "password"}
-                                        name="rePassword" // Ensure a name attribute for password managers
-                                        autoComplete="new-password" // Use new-password for password fields
+                                        name="rePassword"
+                                        autoComplete="new-password"
                                         value={rePassword}
                                         className='w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]'
                                         onChange={(e) => {
