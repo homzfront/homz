@@ -17,7 +17,7 @@ const initialCenter = {
 const MyComponent = ({addressData}) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP,
   });
 let address="ikeja lagos"
   const [map, setMap] = useState(null);

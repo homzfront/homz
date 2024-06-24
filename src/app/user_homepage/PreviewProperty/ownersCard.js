@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import formatNumber from "@/utils/formatNumber";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const OwnersCard = ({ propertyData }) => {
   const [copiedState, setCopiedState] = useState({
@@ -37,7 +38,9 @@ const OwnersCard = ({ propertyData }) => {
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%]"
       id="contactOwner"
     >
-      <p cclassName="text-[16px] leading-[24px] font-[500] text-[#202020]">Marketer</p>
+      <p cclassName="text-[16px] leading-[24px] font-[500] text-[#202020]">
+        Marketer
+      </p>
       <div className="flex gap-2 items-center border-b pb-3">
         {propertyData?.lisitingPropertyId?.businessInfo?.businessLogo ? (
           <Image
@@ -60,10 +63,18 @@ const OwnersCard = ({ propertyData }) => {
           </div>
         )}
         <div className="">
-          <p className="text-[18px] font-[500] text-GrayHomz">
-            {propertyData?.lisitingPropertyId?.businessInfo?.businessName}
+          <p className="text-[18px] font-[500] text-GrayHomz flex items-center gap-[8px]">
+            <span className="">
+              {capitalizeFirstLetter(propertyData?.lisitingPropertyId?.businessInfo?.businessName)}
+            </span>
+            <Image
+              src="/static/images/green_verify.svg"
+              alt=""
+              width={20}
+              height={20}
+            />
           </p>
-          <button className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer" >
+          <button className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
             <span>View more properties from this marketer</span>
             <Image
               src="/static/images/send.svg"
@@ -83,9 +94,14 @@ const OwnersCard = ({ propertyData }) => {
       <div className="flex gap-[12px] flex-col">
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
           <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
-            {showNumber ? propertyData?.contacts?.phoneNumber : formatNumber(propertyData?.contacts?.phoneNumber)}
+            {showNumber
+              ? propertyData?.contacts?.phoneNumber
+              : formatNumber(propertyData?.contacts?.phoneNumber)}
           </p>
-          <button className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]" onClick={()=>setShowNumber(!showNumber)}>
+          <button
+            className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+            onClick={() => setShowNumber(!showNumber)}
+          >
             {showNumber ? "Hide" : "Show"}
           </button>
         </div>
@@ -104,7 +120,7 @@ const OwnersCard = ({ propertyData }) => {
             Send Message
           </button>
         </div>
-        
+
         {/* {propertyData?.contacts?.whatsapp
                           ? `${propertyData?.contacts?.whatsapp}`
                           : ""} */}

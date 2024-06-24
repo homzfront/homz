@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import Button from "./button";
+import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
 import MiniPropertyListing from "./miniPropertyListings";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
-import Skeleton from 'react-loading-skeleton';
+import Skeleton from "react-loading-skeleton";
 
 const PropertyCard = ({
   Property,
@@ -23,12 +23,14 @@ const PropertyCard = ({
   loadingII,
   reset,
   setLoadingII,
-  properties
+  properties,
 }) => {
-  const currentProperties = Property
+  const currentProperties = Property;
   return (
     <div className="w-full">
-      {loadingII ? <LoadingII /> :
+      {loadingII ? (
+        <LoadingII />
+      ) : (
         <div className="w-[335px] md:w-full flex flex-col gap-[17px] md:px-[76px]">
           <div className="flex flex-col md:gap-1 gap-[-10px] items-start">
             <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] md:mb-1">
@@ -38,7 +40,9 @@ const PropertyCard = ({
             </h1>
             <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px] text-left font-['Plus Jakarta Sans'] mb-2">
               {Property && Property.length > 0
-                ? `${totalData} ${Property.length > 1 ? " results found" : " result found"}`
+                ? `${totalData} ${
+                    Property.length > 1 ? " results found" : " result found"
+                  }`
                 : "We’re sorry, the property you searched for are unavailable"}
             </p>
           </div>
@@ -60,10 +64,10 @@ const PropertyCard = ({
                       <button
                         onClick={() => {
                           setLoadingII(true);
-                          reset()
-                        }
-                        }
-                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]">
+                          reset();
+                        }}
+                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]"
+                      >
                         Explore properties
                       </button>
                       <Link href={"/contact-page"}>
@@ -86,158 +90,211 @@ const PropertyCard = ({
             <>
               <div className="flex items-center justify-center w-full flex-col ">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
-                  {Property && currentProperties?.map((property, index) => (
-                    <div
-                      className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
-                      key={index}
-                    >
+                  {Property &&
+                    currentProperties?.map((property, index) => (
                       <div
-                        className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] "
+                        className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                        key={index}
                       >
-                        {loading ? <Skeleton height={252} count={5} />
-                          :
-                          <Carousel
-                            slide={false}
-                            theme={customTheme}
-                            className="w-[100%] h-[226.33px] md:h-full md:w-full"
-                          >
-                            {property?.photos &&
-                              property?.photos.map((img, index) => (
-                                <div
-                                  key={index}
-                                  className="w-[100%] h-[226.33px border border-BlueHomz md:h-full md:w-full"
+                        <div className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] relative">
+                          {loading ? (
+                            <Skeleton height={252} count={5} />
+                          ) : (
+                            <>
+                              {property?.photos ? (
+                                <Carousel
+                                  slide={false}
+                                  theme={customTheme}
+                                  className="w-[100%] h-[226.33px] md:h-full md:w-full"
                                 >
-                                  <Link
-                                    className="cursor-pointer "
-                                    href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                                  >
-                                    <Image
-                                      src={img?.url}
-                                      alt=""
-                                      width={363}
-                                      height={252}
-                                      className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
-                                    />
-                                  </Link>
-                                </div>
-                              ))}
-                          </Carousel>
-                        }
-                      </div>
-                      <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
-                        <div className="flex justify-between">
-                          <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                            {capitalizeFirstLetter(property?.name || property?.title)}
+                                  {property?.photos.map((img, index) => (
+                                    <div
+                                      key={index}
+                                      className="w-[100%] h-[226.33px border border-BlueHomz md:h-full md:w-full"
+                                    >
+                                      <Link
+                                        className="cursor-pointer "
+                                        href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                      >
+                                        <Image
+                                          src={img?.url}
+                                          alt=""
+                                          width={363}
+                                          height={252}
+                                          className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                        />
+                                      </Link>
+                                    </div>
+                                  ))}
+                                </Carousel>
+                              ) : (
+                                <Image
+                                  src="/static/images/comingSoonImage.svg"
+                                  alt=""
+                                  width={363}
+                                  height={252}
+                                  className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                />
+                              )}
+                            </>
+                          )}
+                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute left-[322px] flex items-center justify-center top-[14px] ">
+                            <Image
+                              src="/static/images/green_verify.svg"
+                              alt=""
+                              width={20.62}
+                              height={20.63}
+                            />
                           </p>
-                          <p className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
-                          >
-                            {capitalizeFirstLetter(property?.listingType)}
+                          {/* {sponsored && ( */}
+                          <p className=" absolute left-[232px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
+                            <Image
+                              src="/static/images/white-medal-star.svg"
+                              alt=""
+                              width={10}
+                              height={10}
+                              className=""
+                            />
+                            <span className="font-[500] text-[11px] text-[#EEF5FF] leading-[16.5px]">
+                              Sponsored
+                            </span>
                           </p>
+                          {/* )} */}
                         </div>
-
-                        <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
-                          {capitalizeFirstLetter(property?.propertyType)}
-                        </p>
-                        <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
-                 ${property?.price ? "" : "hidden"}
-              `}>
-                          <Image
-                            src="/static/images/nairaIcon.svg"
-                            alt=""
-                            width={17}
-                            height={25}
-                            className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
-                          />
-                          <span className="pl-1">
-                            {property?.price ? Number(property?.price).toLocaleString() : ""}
-                          </span>
-                        </p>
-                        <p className="flex gap-1 items-center">
-                          <Image
-                            src="/static/images/Location_Vector.svg"
-                            alt=""
-                            width={12}
-                            height={15.85}
-                            className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
-                          />
-                          <span className="text-[12.57px] md:text-[16px] font-[500]">
-                            {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
-                          </span>
-                        </p>
-                        <div className="h-full flex justify-between mb-2">
-                          <div className="flex  gap-4">
-                            {property?.numberOfRooms && (
-                              <p className="flex gap-1 items-center md:pt-4">
-                                <Image
-                                  src="/static/images/bed_Vector.svg"
-                                  alt=""
-                                  width={17}
-                                  height={11.9}
-                                  className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
-                                />
-                                <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                  {property?.numberOfRooms === 1 ? `${property?.numberOfRooms} bedroom` : `${property?.numberOfRooms} bedrooms`}
-                                </span>
-                              </p>
-                            )}
-                            {property?.numberOfBathrooms && (
-                              <p className="flex gap-1 items-center md:pt-4">
-                                <Image
-                                  src="/static/images/shower_Vector.svg"
-                                  alt=""
-                                  width={17}
-                                  height={11.9}
-                                  className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
-                                />
-                                <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                  {property?.numberOfBathrooms === 1 ? `${property?.numberOfBathrooms} bathroom` : `${property?.numberOfBathrooms} bathrooms`}
-                                </span>
-                              </p>
-                            )}
-                            <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
-                              <Image
-                                src="/static/images/sqrtFeet-vector.svg"
-                                alt=""
-                                width={21}
-                                height={11.86}
-                              />
-                              <span className="text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                {property?.squareMeter} Sqft
-                              </span>
+                        <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
+                          <div className="flex justify-between">
+                            <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
+                              {capitalizeFirstLetter(
+                                property?.name || property?.title
+                              )}
+                            </p>
+                            <p
+                              className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${
+                                property?.listingType ? "" : "hidden"
+                              }`}
+                            >
+                              {capitalizeFirstLetter(property?.listingType)}
                             </p>
                           </div>
-                          <Link
-                            className="cursor-pointer "
-                            href={`/user_homepage/PreviewProperty/${property?.slug}`}
+
+                          <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
+                            {capitalizeFirstLetter(property?.propertyType)}
+                          </p>
+                          <p
+                            className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
+                 ${property?.price ? "" : "hidden"}
+              `}
                           >
                             <Image
-                              src="/static/images/arrow-in-circle.svg"
+                              src="/static/images/nairaIcon.svg"
                               alt=""
-                              width={40}
-                              height={40}
-                              className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
+                              width={17}
+                              height={25}
+                              className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                             />
-                          </Link>
+                            <span className="pl-1">
+                              {property?.price
+                                ? Number(property?.price).toLocaleString()
+                                : ""}
+                            </span>
+                          </p>
+                          <p className="flex gap-1 items-center">
+                            <Image
+                              src="/static/images/Location_Vector.svg"
+                              alt=""
+                              width={12}
+                              height={15.85}
+                              className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
+                            />
+                            <span className="text-[12.57px] md:text-[16px] font-[500]">
+                              {`${capitalizeFirstLetter(
+                                property?.area
+                              )}, ${capitalizeFirstLetter(property?.state)}`}
+                            </span>
+                          </p>
+                          <div className="h-full flex justify-between mb-2">
+                            <div className="flex  gap-4">
+                              {property?.numberOfRooms && (
+                                <p className="flex gap-1 items-center md:pt-4">
+                                  <Image
+                                    src="/static/images/bed_Vector.svg"
+                                    alt=""
+                                    width={17}
+                                    height={11.9}
+                                    className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
+                                  />
+                                  <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                    {property?.numberOfRooms === 1
+                                      ? `${property?.numberOfRooms} bedroom`
+                                      : `${property?.numberOfRooms} bedrooms`}
+                                  </span>
+                                </p>
+                              )}
+                              {property?.numberOfBathrooms && (
+                                <p className="flex gap-1 items-center md:pt-4">
+                                  <Image
+                                    src="/static/images/shower_Vector.svg"
+                                    alt=""
+                                    width={17}
+                                    height={11.9}
+                                    className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
+                                  />
+                                  <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                    {property?.numberOfBathrooms === 1
+                                      ? `${property?.numberOfBathrooms} bathroom`
+                                      : `${property?.numberOfBathrooms} bathrooms`}
+                                  </span>
+                                </p>
+                              )}
+                              <p
+                                className={`flex gap-1 items-center md:pt-4 ${
+                                  property?.squareMeter ? "" : "hidden"
+                                }`}
+                              >
+                                <Image
+                                  src="/static/images/sqrtFeet-vector.svg"
+                                  alt=""
+                                  width={21}
+                                  height={11.86}
+                                />
+                                <span className="text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                  {property?.squareMeter} Sqft
+                                </span>
+                              </p>
+                            </div>
+                            <Link
+                              className="cursor-pointer "
+                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                            >
+                              <Image
+                                src="/static/images/arrow-in-circle.svg"
+                                alt=""
+                                width={40}
+                                height={40}
+                                className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
+                              />
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-                {<Button
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  handleNext={handleNext}
-                  handlePageClick={handlePageClick}
-                  handlePrev={handlePrev}
-                  firstThreePages={firstThreePages}
-                  lastThreePages={lastThreePages}
-                />
+                {
+                  <Button
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handleNext={handleNext}
+                    handlePageClick={handlePageClick}
+                    handlePrev={handlePrev}
+                    firstThreePages={firstThreePages}
+                    lastThreePages={lastThreePages}
+                  />
                 }
               </div>
             </>
           )}
         </div>
-      }
+      )}
     </div>
   );
 };

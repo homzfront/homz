@@ -122,8 +122,7 @@ const Login = () => {
 
   return (
     <div className="">
-
-      <ToastContainer
+   <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -134,6 +133,7 @@ const Login = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        progressStyle={{ background: "#006AFF" }}
         theme="dark"
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">

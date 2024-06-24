@@ -8,12 +8,16 @@ import LoadingII from "./components/loading";
 import useClickOutside from "@/utils/clickOutside";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const { propertyListedAll, loading, fetchData } = usePropertyStore();
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
+  const [options, setOptions] = useState(false);
+  const [openPromoModal, setOpenPromoModal] = useState(false);
+  const [selectedProperty, setSelectedProperties] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -24,6 +28,21 @@ const List_Property = () => {
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
   };
+  const handleCancel = () => {
+    setSelectedProperties([]);
+    setOptions(false);
+  };
+  const handlePromoteOptions = () => {
+    if (selectedProperty.length > 0) {
+      setOpenPromoModal(true);
+    } else {
+      setOptions(true);
+    }
+  };
+  const toggleModal = () => {
+    setOpenPromoModal(false);
+  };
+
   // console.log(profile)
   return (
     <div className="dashboard w-full">
@@ -69,40 +88,73 @@ const List_Property = () => {
                   {data?.length > 0 ? data?.length : 0}
                 </span>
               </p>
-              <>
-                {data?.length > 0 &&
-                (profile?.businessInfo?.isVerified === "unverified" ||
-                  profile?.businessInfo?.isVerified === "pending" ||
-                  profile?.businessInfo?.isVerified === "rejected") ? (
-                  <div
-                    onClick={() => setOpenModalForBusi(true)}
-                    className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] ml-3"
+              <div className="flex items-center gap-[12px]">
+                {options && (
+                  <button
+                    className="w-fit flex gap-1 h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-[#D92D20] hover:border hover:border-[#D92D20] flex-shrink-0 "
+                    onClick={handleCancel}
                   >
                     <Image
-                      src="/static/images/white-add.svg"
+                      src="/static/images/red-close-circle.svg"
                       alt=""
                       height={16}
                       width={16}
                       className=""
                     />
-                    <span>List New property</span>
-                  </div>
-                ) : (
-                  <Link
-                    href="/dashboard/list_Property/addProperty"
-                    className="w-[338px] flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
-                  >
-                    <Image
-                      src="/static/images/white-add.svg"
-                      alt=""
-                      height={16}
-                      width={16}
-                      className=""
-                    />
-                    <span>List New property</span>
-                  </Link>
+                    <span>Cancel</span>
+                  </button>
                 )}
-              </>
+                <button
+                  onClick={handlePromoteOptions}
+                  className="w-fit flex gap-1  h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 "
+                >
+                  <Image
+                    src="/static/images/orange-send.svg"
+                    alt=""
+                    height={16}
+                    width={16}
+                    className=""
+                  />
+                  <span>
+                    {options ? "Promotion options" : "Promote properties"}
+                  </span>
+                </button>
+
+                <>
+                  {data?.length > 0 &&
+                  (profile?.businessInfo?.isVerified === "unverified" ||
+                    profile?.businessInfo?.isVerified === "pending" ||
+                    profile?.businessInfo?.isVerified === "rejected") ? (
+                    <div
+                      onClick={() => setOpenModalForBusi(true)}
+                      className="w-full cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] ml-3"
+                    >
+                      <Image
+                        src="/static/images/white-add.svg"
+                        alt=""
+                        height={16}
+                        width={16}
+                        className=""
+                      />
+                      <span>List New property</span>
+                    </div>
+                  ) : (
+                    <Link
+                      href="/dashboard/list_Property/addProperty"
+                      className="w-full flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 "
+                    >
+                      <Image
+                        src="/static/images/white-add.svg"
+                        alt=""
+                        height={16}
+                        width={16}
+                        className=""
+                      />
+                      <span>List New property</span>
+                    </Link>
+                  )}
+                </>
+              </div>
             </div>
             {data?.length > 0 &&
             (profile?.businessInfo?.isVerified === "unverified" ||
@@ -152,12 +204,12 @@ const List_Property = () => {
                     Get Started
                   </p>
                   {}
-                  <p className="hidden md:block text-[#4E4E4E] leading-[27px]  w-[338px] md:w-full text-center">
+                  <p className="hidden md:block text-[#4E4E4E] leading-[27px]  w-full md:w-full text-center">
                     List your properties so Tenants can see them.
                   </p>
                   <Link
                     href="/dashboard/list_Property/addProperty"
-                    className="w-[338px] flex gap-1 md:w-[165px] h-[48px] md:p-[12px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
+                    className="w-full flex gap-1 md:w-[165px] h-[48px] md:p-[12px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
                   >
                     <Image
                       src="/static/images/white-add.svg"
@@ -172,7 +224,15 @@ const List_Property = () => {
               </div>
             </div>
           ) : (
-            <Property property={data} />
+            <Property
+              property={data}
+              promoteOption={options}
+              openPromoModal={openPromoModal}
+              setSelectedOption={setSelectedProperties}
+              selectedOptions={selectedProperty}
+              closePromoModal={toggleModal}
+              cancelSelectedOption={handleCancel}
+            />
           )}
         </>
       )}

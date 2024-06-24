@@ -11,14 +11,18 @@ function CardMenus({
   handleUnpublished,
   handlePublished,
   setIsMenuOpen,
-  refs
+  refs,
+  setModalIsOpen
 }) {
   if (!data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
 
   return (
-    <div className="absolute z-50 md:top-[1.55rem] top-[1rem] right-[5px] w-[80px] md:right-[6px] mt-2 py-[4px] px-1  md:w-[207px] bg-white shadow-md rounded-[12px]" ref={refs}>
+    <div
+      className="absolute z-50 md:top-[1.55rem] top-[1rem] right-[5px] w-[80px] md:right-[6px] mt-2 py-[4px] px-1  md:w-[207px] bg-white shadow-md rounded-[12px]"
+      ref={refs}
+    >
       <button
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
         onClick={(e) => {
@@ -37,9 +41,7 @@ function CardMenus({
       <button
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
         onClick={(e) => {
-        
           setDeleteProperty(true);
-         
         }}
       >
         <Image
@@ -65,6 +67,16 @@ function CardMenus({
           className="h-[13px] w-[13px] md:w-[16px] md:h-[16px] cursor-pointer"
         />
         <span>{publish ? "Unpublish" : "Publish"}</span>
+      </button>
+      <button className="w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center justify-start rounded-[8px] text-white bg-[#DC6803] flex-shrink-0 " onClick={()=>setModalIsOpen(true)}>
+        <Image
+          src="/static/images/orange-send.svg"
+          alt=""
+          height={16}
+          width={16}
+          className=""
+        />
+        <span>Promotion options</span>
       </button>
     </div>
   );

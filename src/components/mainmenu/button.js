@@ -9,6 +9,7 @@ const Button = ({
   handlePageClick,
   handlePrev,
   firstThreePages,
+  pixel
 }) => {
 
   const renderPageNumbers = () => {
@@ -41,7 +42,7 @@ const Button = ({
   };
 
   return (
-    <div className="flex md:w-full gap-2 justify-between md:px-14 mt-4">
+    <div className={`flex md:w-full gap-2 justify-between ${pixel ? pixel : "md:px-14"} mt-4`}>
       <div>
         <button
           onClick={handlePrev}

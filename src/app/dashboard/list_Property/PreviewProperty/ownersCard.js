@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import formatNumber from "@/utils/formatNumber";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const OwnersCard = ({ propertyData }) => {
   const [copiedState, setCopiedState] = useState({
@@ -60,10 +61,17 @@ const OwnersCard = ({ propertyData }) => {
           </div>
         )}
 
-        <p className="text-[18px] font-[500] text-GrayHomz">
-          {propertyData?.lisitingPropertyId?.businessInfo?.businessName}
-          
-        </p>
+        <p className="text-[18px] font-[500] text-GrayHomz flex items-center gap-[8px]">
+            <span className="">
+              {capitalizeFirstLetter(propertyData?.lisitingPropertyId?.businessInfo?.businessName)}
+            </span>
+            <Image
+              src="/static/images/green_verify.svg"
+              alt=""
+              width={20}
+              height={20}
+            />
+          </p>
       </div>
       <p className="breakwords font-[400] text-[#4E4E4E] leading-[19.5px] text-[13px] ">
         Certified realtor with tons of amazing properties out in the market. All

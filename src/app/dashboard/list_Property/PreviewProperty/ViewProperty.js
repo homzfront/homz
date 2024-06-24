@@ -247,20 +247,25 @@ const ViewProperty = ({ PropertyID }) => {
             <section className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-[30px] mt-8 w-full">
               <div className=" w-[100%] flex flex-col gap-[12p] ">
                 <div className="flex justify-between items-center ">
-                  <div className="flex gap-3 items-center">
+                  <div className="flex gap-4 items-center">
                     <p
                       className={`font-[700] md:text-[23px] md:leading-[28.98px] text-[18px] leading-[22.68px] text-[#4E4E4E]`}
                     >
                       {propertyData?.name || propertyData?.title}
                     </p>
-
-                    <p className="text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] flex md:text-[16px] px-[12px] bg-[#EEF5FF] items-center py-[8px]  rounded-[8px]">
+                    <Image
+                      src="/static/images/green_verify.svg"
+                      alt=""
+                      width={32}
+                      height={32}
+                    />
+                    <p className="text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] flex md:text-[16px] px-[12px] bg-[#EEF5FF] items-center py-[4px]  rounded-[8px]">
                       {propertyData?.listingType &&
                       (propertyData?.listingType === "Sale" ||
                         propertyData?.listingType === "Rent")
                         ? `For ${propertyData?.listingType}`
                         : capitalizeFirstLetter(propertyData?.listingType)}
-                      {/* {"For Rent"} */}
+                     
                     </p>
                   </div>
                 </div>

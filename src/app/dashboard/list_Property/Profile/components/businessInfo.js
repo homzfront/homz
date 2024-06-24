@@ -225,7 +225,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   // }, [busCertSuccess, progress]);
   return (
     <div className="">
-      <div className=" flex flex-col md:w-full md:px-4 ">
+      <div className=" flex flex-col md:w-full">
         <div className="flex sm:flex-row md:gap-[22px] gap-8 mt-5 flex-col">
           <div className="flex  flex-col gap-[22px] w-[359px]">
             <div>

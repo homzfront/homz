@@ -8,35 +8,119 @@ import Dropdown from "./components/dropDownFilter";
 // import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
-import addCommasToNumber from "@/utils/addCommasToNumber";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
+import ThreeDots from "../../../components/mainmenu/ThreeDotsLoader";
+import { useRouter,usePathname } from "next/navigation";
+import Loading from "@/components/mainmenu/loading";
 
-const EditProperty = ({ property }) => {
+
+const EditProperty = ({
+  property,
+  promoteOption,
+  openPromoModal,
+  setSelectedOption,
+  selectedOptions,
+  closePromoModal,
+  cancelSelectedOption
+}) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
   //   fetchData();
   // }, []);
-  const [filteredData, setFilteredData]= useState(property);
+
+  const [filteredData, setFilteredData] = useState(property);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSubType, setSelectedSubType] = useState("");
   const [tabName, setTabName] = useState("All");
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [dailyWeekModal, setDailyWeekModal] = useState(false);
+  const [subModal, setSubModal] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState("");
+  const [totalSubPrice, setTotalSubPrice] = useState("");
+  const [openInfo, setOpenInfo] = useState(false);
+  const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const router = useRouter();
+  const pathname= usePathname();
 
+
+  let numberOfDay;
+  selectedSubType === "Promote on Email blast"
+    ? (numberOfDay = [...Array(5).keys()].slice(1))
+    : (numberOfDay = [...Array(31).keys()].slice(1));
+  const toggleMenu = () => {
+    setOpenMenu(!openMenu);
+  };
+
+  const handleSelectDuration = (day) => {
+    setSelectedDuration(day);
+    let price = 500 * day;
+    setTotalSubPrice(price);
+    setOpenMenu(false);
+  };
   const clear = () => {
     setSelectedProperty(null);
     setSelectedState(null);
     setSelectedArea(null);
     setSelectedRooms(null);
     setSearchQuery("");
-    setFilteredData(property)
+    setFilteredData(property);
   };
 
-  // console.log(property);
   // console.log(data)
+   useEffect(() => {
+    const handleRouteChangeStart = () => {
+      setIsLoading2(true);
+    };
+
+    const handleRouteChangeComplete = () => {
+      setIsLoading2(false);
+    };
+
+    router?.events?.on('routeChangeStart', handleRouteChangeStart);
+    router?.events?.on('routeChangeComplete', handleRouteChangeComplete);
+
+    // Cleanup the event listeners on component unmount
+    return () => {
+      router?.events?.off('routeChangeStart', handleRouteChangeStart);
+      router?.events?.off('routeChangeComplete', handleRouteChangeComplete);
+    };
+  }, [router]);
+
+  const onSubscriptionBtnClick = () => {
+    closeModal();
+    setIsLoading2(true);
+    setTimeout(() => {
+      router.push("/subscriptionPlans");
+                // setSuccessModalIsOpen(true);
+
+    }, 2000);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSubModal(false);
+    setDailyWeekModal(false);
+    setSelectedDuration("");
+    setTotalSubPrice("");
+    setOpenMenu(false);
+    setOpenInfo(false);
+    closePromoModal()
+
+  };
+  const closeSaveToDraftModal = () => {
+    setSuccessModalIsOpen(false);
+    cancelSelectedOption();
+    // router.back()
+  };
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
@@ -55,23 +139,43 @@ const EditProperty = ({ property }) => {
     ...new Set(property?.map((item) => item?.numberOfBathrooms)),
   ];
 
-  const HandleFilter=()=>{
-    const filteredData = property?.filter((data) => {
-      const matchesState = !selectedState || data?.state === selectedState;
-      const matchesArea = !selectedArea || data?.area === selectedArea;
-      const matchesSearchQuery =
-        !searchQuery ||
-        data?.location.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        data?.location.area.toLowerCase().includes(searchQuery.toLowerCase());
-      const bathrooms =
-        !selectedRooms || data?.numberOfBathrooms === selectedRooms;
-      return matchesState && matchesArea && matchesSearchQuery && bathrooms;
-    });
-    setFilteredData(filteredData);
-  }
-
+  const HandleFilter = () => {
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const filteredData = property?.filter((data) => {
+          const matchesState = !selectedState || data?.state === selectedState;
+          const matchesArea = !selectedArea || data?.area === selectedArea;
+          const matchesSearchQuery =
+            !searchQuery ||
+            data?.location.state
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            data?.location.area
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
+          const bathrooms =
+            !selectedRooms || data?.numberOfBathrooms === selectedRooms;
+          return matchesState && matchesArea && matchesSearchQuery && bathrooms;
+        });
+        setFilteredData(filteredData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    }, 2000);
+  };
+  const handleSelectedSubType = (text) => {
+    setSelectedSubType(text);
+    setModalIsOpen(false);
+    setSubModal(true);
+    closePromoModal()
+  };
   return (
     <div className="z-20 mb-14 px-4">
+      {isLoading2 && <Loading />}
+
       {openModalForBusi && (
         <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
           <div
@@ -100,25 +204,33 @@ const EditProperty = ({ property }) => {
       <div className="dashboard hidden md:flex justify-between">
         <div className="flex gap-[8px]">
           <button
-            className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${tabName ==="All" && "bg-BlueHomz text-white"}`}
+            className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
+              tabName === "All" && "bg-BlueHomz text-white"
+            }`}
             onClick={() => setTabName("All")}
           >
             All
           </button>
           <button
-            className={`py-[8px] px-[12px] ${tabName ==="Publish" && "bg-BlueHomz text-white"} rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
+            className={`py-[8px] px-[12px] ${
+              tabName === "Publish" && "bg-BlueHomz text-white"
+            } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Publish")}
           >
             Published
           </button>
           <button
-            className={`py-[8px] px-[12px] ${tabName === "Unpublish" && "bg-BlueHomz text-white"} rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
+            className={`py-[8px] px-[12px] ${
+              tabName === "Unpublish" && "bg-BlueHomz text-white"
+            } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Unpublish")}
           >
             Unpublished
           </button>
           <button
-            className={`py-[8px] px-[12px] rounded-[4px] ${tabName ==="Drafts" && "bg-BlueHomz text-white"} h-[37px] text-[14px] leading-[21px] font-[500]`}
+            className={`py-[8px] px-[12px] rounded-[4px] ${
+              tabName === "Drafts" && "bg-BlueHomz text-white"
+            } h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Drafts")}
           >
             Drafts
@@ -174,16 +286,22 @@ const EditProperty = ({ property }) => {
             </span>
           </button>
           <button
-            className="adminBorders  border-[#006AFF] bg-[#0058D4] items-center text-[14px] font-[500] flex gap-1 text-white px-[12px] py-[8px] rounded-[4px] h-[37px] w-[75px] cursor-pointer"
+            className="adminBorders  border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex gap-1 text-white px-[12px] py-[8px] rounded-[4px] h-[37px] w-[75px] cursor-pointer  justify-center"
             onClick={HandleFilter}
           >
-            <Image
-              src={"/static/images/filter-add.svg"}
-              alt=""
-              height={17}
-              width={16}
-            />
-            <span>Filter</span>
+            {!isLoading ? (
+              <>
+                <Image
+                  src={"/static/images/filter-add.svg"}
+                  alt=""
+                  height={17}
+                  width={16}
+                />
+                <span>Filter</span>
+              </>
+            ) : (
+              <ThreeDots color="#ffffff" />
+            )}
           </button>
         </div>
       </div>
@@ -216,7 +334,13 @@ const EditProperty = ({ property }) => {
           </button>
         </div>
       </div>
-      <PropertyCard Property={filteredData} />
+      <PropertyCard
+        Property={filteredData}
+        setModalIsOpen={setModalIsOpen}
+        promoteOptions={promoteOption}
+        setSelectedProperty={setSelectedOption}
+        selectedProperty={selectedOptions}
+      />
       <CustomizedModal
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
@@ -298,8 +422,323 @@ const EditProperty = ({ property }) => {
           </button>
         </div>
       </CustomizedModal>
+      <CustomizedModal
+        isOpen={modalIsOpen || openPromoModal}
+        onRequestClose={closeModal}
+      >
+        <div className="bg-white adminCellBorders flex flex-col md:w-[550px] p-[28px] rounded-[12px] gap-[18px]">
+          <div className=" flex items-center justify-between">
+            <p className="flex flex-col gap-1 mb-2 ">
+              <span className="text-[#006AFF] text-[18px] leading-[27px] font-[500]">
+                Choose promotion options
+              </span>
+              <span className="text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400]">
+                Select your preferred promotion type
+              </span>
+            </p>
+
+            <div>
+              <button onClick={closeModal} className="cursor-pointer pb-7">
+                <Image
+                  src="/static/images/close-square.svg"
+                  height={24}
+                  width={24}
+                  alt=""
+                />
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            {typeSubscription.map((subType, index) => (
+              <button
+                className="flex items-center justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] "
+                key={index}
+                onClick={() => handleSelectedSubType(subType)}
+              >
+                <span>{subType}</span>
+                <Image
+                  src="/static/images/blue-arrow-right.svg"
+                  alt=""
+                  height={16}
+                  width={16}
+                  className=""
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+      </CustomizedModal>
+      <CustomizedModal isOpen={subModal} onRequestClose={closeModal}>
+        <div className="bg-white adminCellBorders flex flex-col md:w-[550px] p-[28px] rounded-[12px] gap-[18px]">
+          <div className=" flex items-center justify-between">
+            <div className="w-full flex  items-center gap-3">
+              <div
+                onClick={() => {
+                  setSubModal(false);
+                  setModalIsOpen(true);
+                  setOpenInfo(false);
+                }}
+                className="flex gap-2 items-center cursor-pointer"
+              >
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                  }
+                  height={16}
+                  width={16}
+                  alt=""
+                  className=""
+                />
+                <p className="text-[11px] font-[400] text-[#A9A9A9]">back</p>
+                <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
+                  <Image
+                    src="/static/images/blue-arrow-left.svg"
+                    width={20}
+                    height={20}
+                    alt=""
+                  />
+                </span>
+              </div>
+
+              <p className="text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400]">
+                {selectedSubType}
+              </p>
+            </div>
+
+            <div>
+              <button onClick={closeModal} className="cursor-pointer ">
+                <Image
+                  src="/static/images/close-square.svg"
+                  height={24}
+                  width={24}
+                  alt=""
+                />
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <button
+              className="flex items-center justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] "
+              onClick={onSubscriptionBtnClick}
+            >
+              <span>
+                {selectedSubType === "Promote on Email blast"
+                  ? selectedSubType
+                  : selectedSubType.split(" ")[0]}{" "}
+                with subscription
+              </span>
+              <Image
+                src="/static/images/blue-arrow-right.svg"
+                alt=""
+                height={16}
+                width={16}
+                className=""
+              />
+            </button>
+            <div className="flex items-center justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] ">
+              <div className="flex items-center gap-[8px]">
+                <Image
+                  src="/static/images/info-circle.svg"
+                  alt=""
+                  height={16}
+                  width={16}
+                  className="cursor-pointer"
+                  onClick={() => setOpenInfo(!openInfo)}
+                />
+                <button
+                  className="flex items-center gap-[8px]"
+                  onClick={() => setDailyWeekModal(true)}
+                >
+                  <span>
+                    {" "}
+                    {selectedSubType === "Promote on Email blast"
+                      ? "Pay for weekly Email promotion"
+                      : `Pay for daily ${selectedSubType
+                          .split(" ")[0]
+                          .toLocaleLowerCase()}`}{" "}
+                  </span>
+                  <span className="py-[4px] px-[8px] rounded-[8px] border-[#006AFF] border">
+                    N500{" "}
+                    {selectedSubType === "Promote on Email blast"
+                      ? "week"
+                      : "daily"}
+                  </span>
+                </button>
+              </div>
+              <Image
+                src="/static/images/blue-arrow-right.svg"
+                alt=""
+                height={16}
+                width={16}
+                className="cursor-pointer"
+                onClick={() => setDailyWeekModal(true)}
+              />
+            </div>
+            {openInfo && (
+              <div className=" flex items-center justify-between">
+                <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[448px]">
+                  Your selected property will be promoted on any of our
+                  advertisement channels for the day.
+                </p>
+
+                <Image
+                  src="/static/images/close-square.svg"
+                  height={16}
+                  width={16}
+                  alt=""
+                  onClick={() => setOpenInfo(false)}
+                  className="cursor-pointer pb-5"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </CustomizedModal>
+      <CustomizedModal isOpen={dailyWeekModal} onRequestClose={closeModal}>
+        <div className="bg-white adminCellBorders flex flex-col md:w-[550px] p-[28px] rounded-[12px] gap-[6px]">
+          <div className=" flex items-center justify-between">
+            <div className="w-full flex  items-center gap-3">
+              <div
+                onClick={() => {
+                  setSubModal(true);
+                  setDailyWeekModal(false);
+                  setSelectedDuration("");
+                  setOpenMenu(false);
+                }}
+                className="flex gap-2 items-center cursor-pointer"
+              >
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                  }
+                  height={16}
+                  width={16}
+                  alt=""
+                  className=""
+                />
+                <p className="text-[11px] font-[400] text-[#A9A9A9]">back</p>
+                <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
+                  <Image
+                    src="/static/images/blue-arrow-left.svg"
+                    width={20}
+                    height={20}
+                    alt=""
+                  />
+                </span>
+              </div>
+
+              <p className="text-[#A9A9A9] text-[14px] leading-[21px] font-[400]">
+                {selectedSubType}
+              </p>
+              <p className="text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400]">
+                {selectedSubType === "Promote on Email blast"
+                  ? "> Pay for weekly Email promotion "
+                  : selectedSubType === "Sponsor property"
+                  ? "> Pay for daily sponsor"
+                  : selectedSubType === "Feature property"
+                  ? "> Pay for daily feature"
+                  : "> Pay for daily subscription"}
+              </p>
+            </div>
+
+            <div>
+              <button onClick={closeModal} className="cursor-pointer ">
+                <Image
+                  src="/static/images/close-square.svg"
+                  height={24}
+                  width={24}
+                  alt=""
+                />
+              </button>
+            </div>
+          </div>
+          <p className="text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400]">
+            Specify the duration for which you want to promote your property.
+          </p>
+          <div className="flex flex-col mt-6">
+            <div className="flex gap-[16px]">
+              <button
+                className="flex items-center justify-between font-[500] rounded-[4px] p-[12px] leading-[24px] sm:w-[348px] h-[48px] border text-[#A9A9A9] border-[#A9A9A9]"
+                onClick={toggleMenu}
+              >
+                <span>
+                  {selectedDuration
+                    ? `${selectedDuration} ${
+                        selectedSubType === "Promote on Email blast"
+                          ? selectedDuration === 1
+                            ? "week"
+                            : "weeks"
+                          : selectedDuration === 1
+                          ? "day"
+                          : "days"
+                      }`
+                    : "Select duration"}
+                </span>
+                <Image
+                  src="/static/images/greay-right-arrow.svg"
+                  alt="Arrow Icon"
+                  height={8}
+                  width={8}
+                  className="rotate-90"
+                />
+              </button>
+              <p className="w-[130px] h-[48px] bg-[#E6E6E6] text-[#4E4E4E] text-[14px] leading-[21px] font-[500] p-[12px] rounded-[4px]">
+                {selectedDuration
+                  ? `₦ ${Number(totalSubPrice).toLocaleString()}`
+                  : "₦ 0.00"}
+              </p>
+            </div>
+            {openMenu && (
+              <div className="max-h-[200px] overflow-y-auto border border-[#EEF5FF] sm:w-[348px] py-[8px] px-[12px] rounded-[4px] shadow-md flex flex-col items-start gap-[4px] mt-1">
+                {numberOfDay.map((day) => (
+                  <button
+                    key={day}
+                    value={day}
+                    className="hover:bg-[#EEF5FF] cursor-pointer w-full text-left py-1"
+                    onClick={() => handleSelectDuration(day)}
+                  >
+                    {day}{" "}
+                    {selectedSubType === "Promote on Email blast"
+                      ? day === 1
+                        ? "week"
+                        : "weeks"
+                      : day === 1
+                      ? "day"
+                      : "days"}
+                  </button>
+                ))}
+              </div>
+            )}
+            <button
+              className={` font-[500] rounded-[4px] p-[12px] text-center leading-[24px] w-full h-[48px] border  ${
+                totalSubPrice == ""
+                  ? "bg-[#E6E6E6] text-[#D5D5D5]"
+                  : "bg-[#006AFF] text-white"
+              }   mt-7`}
+              disabled={totalSubPrice == ""}
+            >
+              Make payment{" "}
+              {totalSubPrice != "" &&
+                `(₦ ${Number(totalSubPrice).toLocaleString()})`}
+            </button>
+          </div>
+        </div>
+      </CustomizedModal>
+      <SuccessModal
+        isOpen={successModalIsOpen}
+        title="Promotion Successful"
+        handleEvent={closeSaveToDraftModal}
+        successText="Promotion is currently under review and will be live within 8 hours."
+        optionalText="View listed properties"
+      />
     </div>
   );
 };
 
 export default EditProperty;
+const typeSubscription = [
+  "Promote property",
+  "Sponsor property",
+  "Feature property",
+  "Promote on Email blast",
+];

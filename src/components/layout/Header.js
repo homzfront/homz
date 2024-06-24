@@ -29,7 +29,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, [fetchData])
 
   function hasListPropertyAccount(profile) {
     return profile?.accounts?.some(account => account.name === 'LIST_PROPERTY');
