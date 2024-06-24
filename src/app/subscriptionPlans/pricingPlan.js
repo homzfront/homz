@@ -21,7 +21,7 @@ const PricingPlan = () => {
       setData(JSON.parse(storedData));
     }
   }, []);
-
+ 
   const { data: profile, loading, fetchData } = useProfileEnterpriseMe();
 
   useEffect(() => {
@@ -47,51 +47,51 @@ const PricingPlan = () => {
       <Image src={"/Link (1).png"} alt="Back" height={25} width={85} />
     </button> */}
 
-      
-        <div className=" m-aut mb-10 space-y-2">
-          <div className="flex ">
-            <div className="w-fit flex md:justify-between items-center gap-[4rem] md:gap-0 pl-6">
-              <div
-                onClick={goBack}
-                className="flex gap-2 items-center cursor-pointer"
-              >
+      <div className=" m-aut mb-10 space-y-2">
+        <div className="flex ">
+          <div className="w-fit flex md:justify-between items-center gap-[4rem] md:gap-0 pl-6">
+            <div
+              onClick={goBack}
+              className="flex gap-2 items-center cursor-pointer"
+            >
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                }
+                height={16}
+                width={16}
+                alt=""
+                className="hidden md:block"
+              />
+              <p className="text-[11px] font-[400] hidden md:block text-[#559CFF]">
+                Go Back
+              </p>
+              <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
                 <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-                  }
-                  height={16}
-                  width={16}
+                  src="/static/images/blue-arrow-left.svg"
+                  width={20}
+                  height={20}
                   alt=""
-                  className="hidden md:block"
                 />
-                <p className="text-[11px] font-[400] hidden md:block text-[#559CFF]">
-                  Go Back
-                </p>
-                <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
-                  <Image
-                    src="/static/images/blue-arrow-left.svg"
-                    width={20}
-                    height={20}
-                    alt=""
-                  />
-                </span>
-              </div>
+              </span>
             </div>
-            <h2 className="  text-BlueHomz text-[18px]  text-center font-[500] mx-auto">
-              Subscription Plan
-            </h2>
           </div>
-          <h1 className="text-[23px] sm:text-[36px] text-center font-[700]">
-          Boost Your Property's Visibility Today!
-          </h1>
-          <p className="text-[18px] sm:text-[20px] leading-[30px] text-center text-[#4E4E4E] font-[500]">
-          Choose the Perfect Promotion Plan to Attract More Buyers and Renters
-          </p>
+          <h2 className="  text-BlueHomz text-[18px]  text-center font-[500] mx-auto">
+            Subscription Plan
+          </h2>
         </div>
-    
-      <div>
-        <Widget data={data} profile={profile} />
+        <h1 className="text-[23px] sm:text-[36px] text-center font-[700]">
+          Boost Your Property's Visibility Today!
+        </h1>
+        <p className="text-[18px] sm:text-[20px] leading-[30px] text-center text-[#4E4E4E] font-[500]">
+          Choose the Perfect Promotion Plan to Attract More Buyers and Renters
+        </p>
       </div>
+
+      <div>
+        <Widget data={data} profile={profile}  />
+      </div>
+    
     </div>
   );
 };

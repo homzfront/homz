@@ -4,17 +4,15 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const PlansYearly = ({ data, profile }) => {
+const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-
-
 
   const handleInfoClick = (event, featureId, index) => {
     const rect = event.target.getBoundingClientRect();
@@ -34,7 +32,9 @@ const PlansYearly = ({ data, profile }) => {
     const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
     return regex.test(url);
   }
-
+  const handleSelectPlan = () => {
+    setSuccessModalIsOpen(true);
+  };
   async function handleSubmit(interval, plans) {
     setLoading(true);
 
@@ -182,9 +182,10 @@ const PlansYearly = ({ data, profile }) => {
             </div>
 
             <button
-              onClick={() => {
-                handleSubmit(plan.interval, plan.title);
-              }}
+              // onClick={() => {
+              //   handleSubmit(plan.interval, plan.title);
+              // }}
+              onClick={handleSelectPlan}
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
                 plan.status === true ? "hidden" : ""
               } ${

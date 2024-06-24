@@ -9,7 +9,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
 
-const Plans = ({ data, profile }) => {
+const Plans = ({ data, profile,setSuccessModalIsOpen }) => {
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
   const [openInfo, setOpenInfo] = useState(false);
@@ -95,6 +95,9 @@ const Plans = ({ data, profile }) => {
     }
   }
 
+  const handleSelectPlan=()=>{
+    setSuccessModalIsOpen(true)
+  }
   return (
     <div className="mt-[60px] m-auto  flex flex-col  gap-[60px]">
       {loading && <Loading />}
@@ -183,9 +186,10 @@ const Plans = ({ data, profile }) => {
             </div>
 
             <button
-              onClick={() => {
-                handleSubmit(plan.interval, plan.title);
-              }}
+              // onClick={() => {
+              //   handleSubmit(plan.interval, plan.title);
+              // }}
+              onClick={handleSelectPlan}
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
                 plan.status === true ? "hidden" : ""
               } ${
