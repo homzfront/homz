@@ -132,15 +132,15 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
     id
   } = details
   try {
-    const response = await api.post(`/enterprisePlan/payment/send/${id}/property-owner`, {
+    const response = await api.post(`/wallet/transfer/enterprise/property-owner/${id}`, {
       pincode,
       recipientName,
       amount,
       description
     });
-    return { success: true, upDateddata: response?.data?.data };
+    return { success: true, upDateddata: response };
   } catch (error) {
-    return { success: false, error: error?.response.data }; // Adjusted this line
+    return { success: false, error }; 
   }
 };
 

@@ -38,11 +38,11 @@ const DropDown = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[16px] w-[318px] h-[88px]">
+    <div className="flex flex-col gap-[16px] w-[318px] md:h-[88px]">
       {Object.keys(dropdowns).map((dropdown) => (
         <div key={dropdown} className="relative">
           <div
-            className={`text-BlackHomz px-4 adminCellBorders  mb-1 p-2 h-[36px] rounded cursor-pointer  ${
+            className={`text-BlackHomz px-4 border py-3 rounded cursor-pointer  ${
               dropdowns[dropdown] ? "border" : ""
             }`}
             onClick={() => setDropdowns((prevDropdowns) => ({ ...prevDropdowns, [dropdown]: !prevDropdowns[dropdown] }))}

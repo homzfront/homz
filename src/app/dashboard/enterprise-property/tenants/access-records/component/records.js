@@ -103,7 +103,7 @@ const VisitorsTable = ({ Data, searchValue }) => {
   );
 
   return (
-    <div className="flex flex-col px-2 md:px-0 gap-[1rem] md:gap-0 md:space-y-5">
+    <div className="flex flex-col gap-[1rem] md:gap-0 md:space-y-5">
       {/* <div className={`${property && "hidden"}`}> */}
       <div className="hidden md:flex gap-6 items-center pb-1">
         <Link href="/dashboard/enterprise-property/tenants">
@@ -332,7 +332,7 @@ const VisitorsTable = ({ Data, searchValue }) => {
         handlePrev={handlePrev}
       />
       <CustomizedModal isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <div className="bg-white adminCellBorders flex flex-col md:w-[550px] h-[324px] p-[28px] rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col md:w-[550px] h-[324px] p-[28px] rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-BlueHomz text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Tenant Information
@@ -385,7 +385,7 @@ const VisitorsTable = ({ Data, searchValue }) => {
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white adminCellBorders flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
@@ -405,7 +405,7 @@ const VisitorsTable = ({ Data, searchValue }) => {
 
           <MobileDropDown />
 
-          <button className="adminBorders w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-3">
+          <button className="border w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-3">
             <span>
               <Image
                 src={"/static/images/white_repeat.svg"}
@@ -424,7 +424,7 @@ const VisitorsTable = ({ Data, searchValue }) => {
         isOpen={detailsModalIsOpen}
         onRequestClose={closeDetailsMobileModal}
       >
-        <div className="bg-white adminCellBorders flex flex-col w-[360px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[360px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="text-BlueHomz text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Access Request Information

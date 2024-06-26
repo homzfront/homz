@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Reminder = () => {
   return (
-    <div className="pt-8 flex flex-col gap-y-4 md:pt-4 md:px-8">
+    <div className="pt-8 flex flex-col gap-y-4 md:pt-4 px-8">
       <div className="hidden md:flex gap-6 items-center pb-1">
         <Link href="/dashboard/enterprise-property/tenants">
           <button className="flex items-center gap-2">
@@ -31,7 +31,7 @@ const Reminder = () => {
       <div className="flex justify-between md:items-center pt-2">
         <div className="">
           <div className="flex items-center md:items-start space-x-20 md:space-x-0  mb-9 md:mb-0">
-            <Link href="/dashboard/enterprise-property/Tenants/ManageTenants" className="bg-[#EEF5FF] rounded-[8px] p-[4px] md:hidden">
+            <Link href="/dashboard/enterprise-property/tenants" className="bg-[#EEF5FF] rounded-[8px] p-[4px] md:hidden">
               <Image
                 src={"/static/images/Button.svg"}
                 alt=""
@@ -60,7 +60,7 @@ const Reminder = () => {
             className="rounded-[100%] "
           />
         </div>
-        <div className="flex flex-col w-[306px] gap-[5px] md:w-full">
+        <div className="flex flex-col w-full gap-[5px] md:w-full">
           <div className="flex w-full md:w-[338px] justify-between items-center">
             <p className="text-[14px] text-[400] leading-[21x] text-[#4E4E4E] text-left">
               Full Name
@@ -73,7 +73,7 @@ const Reminder = () => {
             <p className="text-[14px] text-[400] leading-[21x] text-[#4E4E4E] text-left">
               Apartment Number
             </p>
-            <p className="text-[14px] text-[500] leading-[21x] text-[#202020] text-left w-[132px]">
+            <p className="text-[14px] truncate text-[500] leading-[21x] text-[#202020] text-left w-[132px]">
               {"data.ApartmentNumber"}
             </p>
           </div>

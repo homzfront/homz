@@ -10,8 +10,8 @@ const AccessRecords = ({ params }) => {
   // console.log(params.search);
 
   return (
-    <div className="mb-10 pt-9 flex flex-col space-y-7 px-2 md:px-8 md:pt-3">
-      <div className="flex items-center md:items-start space-x-10 md:hidden pl-2">
+    <div className="mb-10 pt-9 flex flex-col space-y-7 px-8 md:px-8 md:pt-3">
+      <div className="flex items-center md:items-start space-x-10 md:hidden md:pl-2">
       <Link href="/dashboard/enterprise-property/tenants" className="bg-[#EEF5FF] rounded-[8px] p-[4px] md:hidden">
               <Image
                 src={"/static/images/Button.svg"}

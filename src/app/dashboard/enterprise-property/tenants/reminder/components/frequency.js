@@ -40,9 +40,9 @@ const Frequency = ({setFrequency}) => {
   return (
     <div className="flex gap-2 w-full">
       {Object.keys(dropdowns).map((dropdown) => (
-        <div key={dropdown} className="relative">
+        <div key={dropdown} className="relative w-full">
           <div
-            className={`w-[335px] md:w-[236px] h-[45px] text-[#A9A9A9]  adminCellBorders  mb-1 px-2 py-3 rounded cursor-pointer  ${
+            className={`w-[100%] md:w-[236px] h-[45px] text-[#A9A9A9]  border  mb-1 px-2 py-3 rounded cursor-pointer  ${
               dropdowns[dropdown] ? "border" : ""
             }`}
             onClick={() => toggleDropdown(dropdown)}

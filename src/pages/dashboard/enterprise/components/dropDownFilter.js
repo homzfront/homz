@@ -27,14 +27,14 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   return (
     <div className={`relative inline-block w-full ${className}`} ref={dropdownRef}>
       <div
-        className={`text-BlackHomz px-4 border h-[42px] p-2 rounded-md cursor-pointer ${isOpen ? "border" : ""
+        className={`text-BlackHomz px-4 border border-GrayHomz2 h-[37px] flex items-center rounded-[4px] cursor-pointer ${isOpen ? "border" : ""
           }`}
         onClick={handleDropdownToggle}
       >
         <div className="flex w-full justify-between items-center">
           <input
             type="text"
-            className="w-full text-GrayHomz2 outline-none focus:border-none"
+            className="font-[500] text-[14px] w-full text-GrayHomz2 outline-none focus:border-none"
             placeholder={selectedOption?.label === selectOption ? selectedOption?.label === selectOption : selectOption}
             value={selectedOption?.label === selectOption ? selectOption : searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -47,7 +47,7 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
       </div>
 
       {isOpen && (
-        <div className="w-full absolute z-20 top-14 text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
+        <div className="w-full absolute z-20 top-14 font-[500] text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
           {/* Display filtered options */}
           {filteredOptions.map((option, index) => (
             <div

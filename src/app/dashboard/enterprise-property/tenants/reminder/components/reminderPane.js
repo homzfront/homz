@@ -41,9 +41,9 @@ const handlePreview=()=>{
   };
   return (
     <div className="flex flex-col pt-3 ">
-      <main className="px-3 md:px-0 min-w-[335px] md:w-full">
+      <main className="md:px-0 min-w-[305px] md:w-full">
         <div className="flex flex-col gap-3 md:flex-row md:items-center border-b md:gap-[120px] pb-[24px]">
-          <div className="flex flex-col w-[335px] md:w-[395px] gap-2">
+          <div className="flex flex-col w-[100%] md:w-[395px] gap-2">
             <p className="text-[14px] text-[500] leading-[24px] text-[#202020]">
               Frequency <span className="text-red-600">*</span>
             </p>
@@ -51,12 +51,12 @@ const handlePreview=()=>{
               Set how frequent you want your tenant(s) to receive the reminder
             </p>
           </div>
-          <div className="border rounded-[4px]">
+          <div className="">
             <Frequency setFrequency={setFrequency} />
           </div>
         </div>
         <div className="flex flex-col gap-3 md:flex-row md:items-center border-b md:gap-[120px] pt-2 pb-[24px]">
-          <div className="flex flex-col w-[335px] md:w-[395px] gap-2">
+          <div className="flex flex-col w-[100%] md:w-[395px] gap-2">
             <p className="text-[14px] text-[500] leading-[24px] text-[#202020]">
               Time <span className="text-red-600">*</span>
             </p>
@@ -77,7 +77,7 @@ const handlePreview=()=>{
           </div>
         </div>
         <div className="flex flex-col gap-3 md:flex-row md:items-center border-b md:gap-[120px] pt-2 pb-[24px]">
-          <div className="flex flex-col w-[335px] md:w-[395px] gap-2">
+          <div className="flex flex-col w-[100%] md:w-[395px] gap-2">
             <p className="text-[14px] text-[500] leading-[24px] text-[#202020]">
               Days before due date <span className="text-red-600">*</span>
             </p>
@@ -99,7 +99,7 @@ const handlePreview=()=>{
           </div>
         </div>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-[120px] pt-2 pb-[24px]">
-          <div className="flex flex-col w-[335px] md:w-[395px] gap-2">
+          <div className="flex flex-col w-[100%] md:w-[395px] gap-2">
             <p className="text-[14px] text-[500] leading-[24px] text-[#202020]">
               Set reminder channel(s) <span className="text-red-600">*</span>
             </p>
@@ -109,7 +109,7 @@ const handlePreview=()=>{
               due reminders.
             </p>
           </div>
-          <div className="border rounded-[4px]">
+          <div className="">
             <Channels  setReminderChannel={setReminderChannel}/>
           </div>
         </div>

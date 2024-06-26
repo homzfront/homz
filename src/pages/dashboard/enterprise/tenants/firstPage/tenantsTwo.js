@@ -13,8 +13,9 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import Checkbox from "@/components/icons/checkbox";
 
-const TenantsTwo = ({ Data, fetchDataAgain }) => {
+const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMasterChecked, setIsMasterChecked }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [data, setData] = useState(Data || []);
@@ -83,6 +84,26 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
 
+  const handleCheckboxChange = (event, id, selectedName) => {
+    const checked = event.target.checked;
+    if (checked) {
+      setSelectedRows([...selectedRows, id]);
+    } else {
+      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
+    }
+  };
+
+  const handleMasterCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    setIsMasterChecked(checked);
+    if (checked) {
+      const allIds = currentData.map((data) => data._id);
+      setSelectedRows(allIds);
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
   return (
     <div className="mt-6">
       <ToastContainer
@@ -102,16 +123,26 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
 
         <div className=" border w-full rounded-t-[12px]">
           <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
-            <div className="w-[55%] md:w-[15%] ">Tenant</div>
+            <div className="w-[4%] md:w-[5%] flex items-center justify-center">
+              <label className="">
+                <input
+                  type="checkbox"
+                  checked={isMasterChecked}
+                  onChange={handleMasterCheckboxChange}
+                />
+                <span className=""></span>
+              </label>
+            </div>
+            <div className="w-[50%] md:w-[18%] ">Tenant</div>
             <div className="w-[10%] hidden md:table-cell">Property</div>
             <div className="w-[11%] hidden md:table-cell">Apartment No</div>
             <div className="w-[11%] hidden md:table-cell">Address</div>
             <div className="w-[10%] hidden md:table-cell">Email</div>
             <div className="w-[10%] pl-1 hidden md:table-cell">Phone No</div>
             <div className="w-[7%] pl-1 hidden md:table-cell">Rent</div>
-            <div className="w-[40%] md:w-[13%] pl-1">Status</div>
-            <div className="w-[10%] hidden md:table-cell">Due Date</div>
-            <div className="w-[5%] md:w-[3%] "></div>
+            <div className="w-[37%] md:w-[13%] pl-1">Status</div>
+            <div className="w-[7%] hidden md:table-cell">Due Date</div>
+            <div className="w-[5%] md:w-[2%] "></div>
           </div>
 
           <div className="">
@@ -121,10 +152,24 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                   key={data?._id}
                   className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
                 >
-                  {/* Apply the same styles as the header to each column in the body */}
-                  <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[55%] md:w-[15%]">
+                  <div className="w-[4%] md:w-[5%] flex items-center justify-center">
+                    <label className="">
+                      <input
+                        type="checkbox"
+                        id={data?._id}
+                        name={data?._id}
+                        checked={selectedRows.includes(data?._id)}
+                        value={data._id}
+                        onChange={(e) =>
+                          handleCheckboxChange(e, data?._id, data?.fullName)
+                        }
+                      />
+                      <span className=""></span>
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[50%] md:w-[18%]">
                     {!data?.coverPhoto?.url ? (
-                      <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                      <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                         <EmptyAvatar />
                       </div>
                     ) : (
@@ -140,7 +185,7 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                         priority
                       />
                     )}
-                    <span className="">{data?.fullName}</span>
+                    <span className="w-[60%] md:w-auto">{data?.fullName}</span>
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
                     {data?.estateId?.name}
@@ -167,7 +212,7 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                       }`}
                   </div>
                   <div
-                    className={`text-GrayHomz w-[40%] md:w-[13%] font-[500] text-[11px] text-start`}
+                    className={`text-GrayHomz w-[37%] md:w-[13%] font-[500] text-[11px] text-start`}
                   >
                     {data?.rentInfo?.paymentStatus ? (
                       <StatusDropdown
@@ -191,13 +236,13 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                       "______"
                     )}
                   </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
+                  <div className="hidden md:table-cell text-GrayHomz w-[7%] font-[500] text-[11px] text-start">
                     {`${data?.rentInfo?.dueDate
                       ? changeBackendDateFormat(data?.rentInfo?.dueDate)
                       : "______"
                       }`}
                   </div>
-                  <div className="relative w-[5%] md:w-[3%]">
+                  <div className="relative w-[5%] md:w-[2%]">
                     <button onClick={() => handleToggleMenu(data?._id)}>
                       <Image
                         src={

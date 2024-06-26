@@ -102,7 +102,7 @@ const TransferDetails = ({
       const { success, upDateddata, error } = await sendMoneyEnterpriseToOwner(
         formData
       );
-
+      console.log(upDateddata)
       if (success) {
         setLoading(false);
         if (typeof window !== "undefined") {
@@ -118,24 +118,56 @@ const TransferDetails = ({
         setTransferToggleModal(false);
         setSelectedLandlord(null);
         setSuccessfulTansferModal(!successfulTansferModal);
-        toast.success("transfer successful");
+        // toast.success("transfer successful");
         fetchDataAgain()
-      } else {
-        toast.error("Internal server error, transfer failed", error);
+      }
+      //   else {
+      //     toast.error("Internal server error, transfer failed", error);
+      //     setLoading(false);
+      //     setTransferToggleModal(false)
+      //     setError(error?.message || error?.error)
+      //   }
+      // } catch (error) {
+      //   setLoading(false);
+      //   toast.error("Internal server error, transfer failed");
+      //   setTransferToggleModal(false)
+      // }
+      else {
         setLoading(false);
         setTransferToggleModal(false)
-        setError(error?.message || error?.error)
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          setError(`${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          setError(`${errorMessage}`);
+        } else {
+          setError("Update failed");
+        }
       }
     } catch (error) {
       setLoading(false);
-      toast.error("Internal server error, transfer failed");
       setTransferToggleModal(false)
-
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        setError(`${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        setError(`${errorMessage}`);
+      } else {
+        setError("Update failed");
+      }
     }
     finally {
       // This part will execute after try or catch block completes
       setTimeout(() => {
-        setIlluminateWallet(true);
+        // setIlluminateWallet(true);
       }, 2000); // 2000 milliseconds = 2 seconds delay
     }
   };
