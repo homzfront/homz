@@ -23,9 +23,9 @@ const Footer = () => {
 
               />
             </Link>
-            <p className="mt-7 lg:max-w-[280px]">
-            Homz.ng: Your Trusted Partner in Real Estate - Simplifying Property Transactions for Landlords, Managers and Tenants
-            </p>
+            <h6 className="mt-7 lg:max-w-[280px]">
+              Your Trusted Partner in Real Estate - Simplifying Property Transactions for Landlords, Managers and Tenants
+            </h6>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
               <p className="mb-1">Follow Us</p>
               <div className="flex gap-2">
@@ -42,6 +42,17 @@ const Footer = () => {
                   <LinkedInWhite />
                 </Link>
               </div>
+            </div>
+            <div className="md:mt-3 lg:mt-8 mt-8 flex flex-col gap-2">
+              <p>
+                Address: 1st Floor, Marina Hub Suite, Foresight House, 163/165, Broad Street, Lagos Nigeria.
+              </p>
+              <p>
+                Contact: 09015159511
+              </p>
+              <p>
+                WhatsApp: 09015159511
+              </p>
             </div>
             <div className="md:mt-3 lg:mt-8 mt-8">
               <p className="mb-3 lg:max-w-[280px] ">
@@ -61,7 +72,7 @@ const Footer = () => {
             </div>
           </div>
           {/* <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4"> */}
-          <div className="flex w-full justify-center">
+          <div className="flex  w-full justify-center">
             <div className="leading-loose pl-0 ">
               <h2 className="font-[700] text-[16px]  mb-2 md:mb-5">
                 Useful Links
