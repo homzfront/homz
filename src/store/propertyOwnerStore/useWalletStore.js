@@ -13,7 +13,7 @@ const UseWalletStore = create((set) => ({
             if (response?.success === true) {
                 set({ illuminateWallet: true });
                 const balance = await propertyOwnerWalletBalance()
-                set({walletBalance: balance?.data?.balance?.availableBalance})
+                set({ walletBalance: balance?.data?.balance?.availableBalance })
             }
             const wallet = response;
             set({ data: wallet, loading: false });
@@ -22,6 +22,9 @@ const UseWalletStore = create((set) => ({
             if (error?.response?.data?.message === 'Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet') {
                 set({ showKYC: true });
             }
+            else set({
+                showKYC: false
+            })
         }
     },
 }));

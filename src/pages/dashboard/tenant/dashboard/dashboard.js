@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   return (
     <div className="dashboard h-[300px] w-full flex flex-col">

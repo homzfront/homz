@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { tenantUserWallet, tenantWalletBalance } from '@/api/tenantSevice';
+import { tenantRentInfo, tenantUserWallet, tenantWalletBalance } from '@/api/tenantSevice';
 
 const UseWalletStore = create((set) => ({
     data: null,
@@ -7,13 +7,16 @@ const UseWalletStore = create((set) => ({
     illuminateWallet: false,
     showKYC: false,
     walletBalance: null,
+    rentData: null,
     fetchData: async () => {
         try {
             const response = await tenantUserWallet();
             if (response?.success === true) {
                 set({ illuminateWallet: true });
-             const balance = await tenantWalletBalance();
-            set({walletBalance: balance?.data?.balance?.availableBalance})
+                const balance = await tenantWalletBalance();
+                set({ walletBalance: balance?.data?.balance?.availableBalance })
+                const rent = await tenantRentInfo();
+                set({ rentData: rent })
             }
             const wallet = response;
             set({ data: wallet, loading: false });
@@ -22,6 +25,9 @@ const UseWalletStore = create((set) => ({
             if (error?.response?.data?.message === 'Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet') {
                 set({ showKYC: true });
             }
+            else set({
+                showKYC: false
+            })
         }
     },
 }));

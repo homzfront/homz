@@ -6,21 +6,24 @@ import Activities from "./components/activities/ativities";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UseWalletStore from "@/store/tenantStore/useWalletStore";
+import rentInfoTeant from "@/store/rentInfoTenant";
 
 const Wallet = ({ activeTwo }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-
-  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet, rentData } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
+    const timeout = setTimeout(() => {
+      fetchWallet();
+    }, 5000);
+    return () => clearTimeout(timeout);
   }, []);
 
   const fetchDataAgain = () => {
     fetchWallet();
   };
-
 
   return (
     <div className="">
@@ -48,6 +51,7 @@ const Wallet = ({ activeTwo }) => {
               walletBalance={walletBalance}
               loading={loading}
               showKYC={showKYC}
+              rentData={rentData}
             />
           </div>
           <div>

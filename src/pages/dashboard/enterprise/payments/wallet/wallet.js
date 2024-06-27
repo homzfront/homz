@@ -14,6 +14,10 @@ const Wallet = () => {
 
   useEffect(() => {
     fetchWallet();
+    const timeout = setTimeout(() => {
+      fetchWallet();
+    }, 5000);
+    return () => clearTimeout(timeout);
   }, []);
 
   const fetchDataAgain = () => {

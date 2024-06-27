@@ -22,6 +22,9 @@ const UseWalletStore = create((set) => ({
             if (error?.response?.data?.message === 'Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet') {
                 set({ showKYC: true });
             }
+            else set({
+                showKYC: false
+            })
         }
     },
 }));

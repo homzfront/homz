@@ -267,14 +267,15 @@ export const tenantUpdatePincode = async (password, otp, pincode) => {
   }
 };
 
-export const payRent = async (pincode) => {
+export const payRent = async (pincode, duration) => {
   try {
-    const response = await api.post(`/rentPayment/tenant`, {
-      pincode
+    const response = await api.post(`/wallet/transfer/tenant/pay-rent/enterprise`, {
+      pincode,
+      duration
     });
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error: error?.response.data };
+    return { success: false, error };
   }
 };
 

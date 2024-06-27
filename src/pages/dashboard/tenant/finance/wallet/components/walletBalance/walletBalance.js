@@ -22,7 +22,8 @@ const WalletBalance = ({
   fetchDataAgain,
   walletBalance,
   loading,
-  showKYC
+  showKYC,
+  rentData,
 }) => {
   const [data, setData] = useState("");
   const [rent, setRent] = useState(false);
@@ -31,7 +32,7 @@ const WalletBalance = ({
   const [accountInfo, setAccountInfo] = useState(false);
   const dropdownRef = useClickOutside(() => setAccountInfo(false));
   const [loadingII, setLoadingII] = useState(false);
-  const [rentData, setRentData] = useState("");
+
   const openWalletForm = () => {
     setOpenForm(!openForm);
   };
@@ -69,24 +70,6 @@ const WalletBalance = ({
     }
   }, [activeTwo]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoadingII(true);
-  //       const data = await tenantRentInfo();
-  //       if (data.statuscode === 200 && data.success === true) {
-  //         setRentData(data);
-  //         setLoadingII(false);
-  //       } else {
-  //         setLoadingII(false);
-  //       }
-  //     } catch (error) {
-  //       setLoadingII(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   return (
     <div className="">

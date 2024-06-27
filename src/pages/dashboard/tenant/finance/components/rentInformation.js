@@ -37,9 +37,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   // console.log(pincode)
 
   const handleOptionSelect = (option) => {
-    // console.log("Selected option:", option);
     setselectedYear(parseInt(option?.label));
-    // Perform any necessary actions with the selected option
   };
 
   const RentValue = selecetedYear * rentData?.data?.rent;
@@ -76,7 +74,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
     setLoading(true);
     try {
       const data = { amount: parseInt(rentData?.data?.totalRent) };
-      const { success, upDateddata, error } = await payRent(pincode);
+      const { success, upDateddata, error } = await payRent(pincode, selecetedYear);
 
       if (success) {
         setLoading(false);
@@ -87,14 +85,37 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
         setConfirm(!confirm);
       } else {
         setLoading(false);
-        setFailed(true);
-        setError(error?.message);
+        setProceed(false);
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          setError(`${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          setError(`${errorMessage}`);
+          setFailed(true);
+        } else {
+          setError("Update failed");
+        }
       }
     } catch (error) {
-      // console.error("Update error", error);
       setLoading(false);
-      setFailed(true);
-      // toast.error("Update failed");
+      setProceed(false);
+      if (
+        error?.response?.data?.error?.errors &&
+        error.response.data.error.errors.length > 0
+      ) {
+        const errorMessage = error.response.data.error.errors[0];
+        setError(`${errorMessage}`);
+      } else if (error?.response?.data?.message) {
+        const errorMessage = error.response.data.message;
+        setError(`${errorMessage}`);
+        setFailed(true);
+      } else {
+        setError("Update failed");
+      }
     }
   };
 
@@ -145,7 +166,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
       ) : failed ? (
         <FailedModal
           header={"Unsuccessful"}
-          body={error === "Invalid pin" ? error : "Your wallet balance is not sufficient for this transaction"}
+          body={error === "Invalid Wallet pin" ? error : "Your wallet balance is not sufficient for this transaction"}
           button={"Close"}
           returnHome={close}
         />
@@ -252,9 +273,9 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
                 <Dropdown
                   options={options}
                   onSelect={handleOptionSelect}
-                  selectOption={`1 - ${duration} year${duration > 1 ? "s" : ""
+                  selectOption={`1${duration > 1 ? - duration : ""} year${duration > 1 ? "s" : ""
                     }`}
-                  className={"w-full mt-2 pointer-events-none"}
+                  className={"w-full mt-2"}
                 />
               </div>
             </div>
@@ -263,7 +284,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
                 Total Rent
               </p>
               <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
-                {addCommasToNumber(rentData?.data?.totalRent)}
+                {addCommasToNumber(RentValue)}
               </p>
             </div>
 
@@ -310,7 +331,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
             }
           </div>
           {
-            rentData?.data !== null && pincode !== ""? <button
+            rentData?.data !== null && pincode !== "" ? <button
               onClick={proceeding}
               className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
             >
@@ -319,7 +340,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
             </button> : <button
               className="pointer-events-none w-full h-[48px] bg-GrayHomz5 rounded-md text-GrayHomz6 text-[16px] font-[700]"
             >
-             Pay Rent
+              Pay Rent
             </button>
           }
 
