@@ -148,7 +148,7 @@ const Popup = ({ onClose, setEstate, estateData }) => {
               <div className="hidden sm:block w-[30%]">Action</div>
             </div>
           </div>
-          <div className="overflow-auto h-[75%] w-full sm:h-[55%] scrollbar-container px-8">
+          <div className="overflow-auto h-[75%] w-full sm:h-[310px] scrollbar-container px-8">
             {/* Set max height and overflow-auto for scrolling */}
             {filteredData?.map((data, index) => (
               <div

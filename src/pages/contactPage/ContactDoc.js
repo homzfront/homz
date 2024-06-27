@@ -14,6 +14,7 @@ import Facebook from "@/components/icons/facebook";
 import Insta from "@/components/icons/insta";
 import Message from "@/components/icons/message";
 import Phone from "@/components/icons/phone";
+import Whatsapp from "@/components/icons/whatsapp";
 
 const ContactDoc = () => {
   const options = [
@@ -28,7 +29,14 @@ const ContactDoc = () => {
     copiedII: false,
     copiedIII: false,
     copiedIV: false,
+    copiedV: false,
   });
+
+  const viewFile = (url) => {
+    if (url) {
+      window.open(url);
+    }
+  };
 
   const [loading, setLoading] = useState(false);
   useBodyScroll([loading]);
@@ -163,10 +171,10 @@ const ContactDoc = () => {
               </div> */}
               <div className="flex gap-2 pl-4">
                 <p className="text-[20px] font-[500] text-GrayHomz ">
-                  +17603133620
+                  +23499015159511
                 </p>
                 <div
-                  onClick={() => handleCopyClick("+17603133620", "copiedII")}
+                  onClick={() => handleCopyClick("+2349015159511", "copiedII")}
                   className="relative"
                 >
                   <Image
@@ -207,6 +215,37 @@ const ContactDoc = () => {
                   width={17}
                 />
                 {copiedState.copiedIII && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="hidden mt-1 sm:flex gap-8">
+            <div className="h-[40px] w-[40px] bg-blue-100 flex justify-center items-center rounded-full">
+              <Whatsapp color="#006AFF" width={20} height={20} />
+            </div>
+            <div className="hidden sm:flex gap-2">
+              <p
+                onClick={() => {
+                  viewFile("https:/wa.me/2349015159511")
+                }}
+                className="text-[20px] font-[500] underline text-GrayHomz cursor-pointer">
+                +2349015159511
+              </p>
+              <div
+                onClick={() => handleCopyClick("https:/wa.me/2349015159511", "copiedV")}
+                className="relative"
+              >
+                <Image
+                  className="cursor-pointer"
+                  src={"/copy.png"}
+                  alt="copy-img"
+                  height={16}
+                  width={17}
+                />
+                {copiedState.copiedV && (
                   <span className="text-[11px] text-Success italic absolute">
                     Copied!
                   </span>
@@ -357,11 +396,12 @@ const ContactDoc = () => {
           </form>
         </div>
         <div className="flex flex-col sm:hidden gap-4">
-          <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
-            <Image src={"/call.png"} height={24} width={24} alt={`call-img`} />
-          </div>
-          <div>
-            {/* <div className="flex sm:hidden gap-2">
+          <div className="flex sm:hidden gap-6">
+            <div className="rounded-full h-[32px] w-[32px] flex justify-center items-center bg-blue-100">
+              <Image src={"/call.png"} height={24} width={24} alt={`call-img`} />
+            </div>
+            <div>
+              {/* <div className="flex sm:hidden gap-2">
               <p className="text-[20px] font-[500] text-GrayHomz ">
                 +23481012345678
               </p>
@@ -383,30 +423,31 @@ const ContactDoc = () => {
                 )}
               </div>
             </div> */}
-            <div className="flex sm:hidden gap-2">
-              <p className="text-[20px] font-[500] text-GrayHomz ">
-                +17603133620
-              </p>
-              <div
-                onClick={() => handleCopyClick("+17603133620", "copiedII")}
-                className="relative"
-              >
-                <Image
-                  className="cursor-pointer"
-                  src={"/copy.png"}
-                  alt="copy-img"
-                  height={16}
-                  width={17}
-                />
-                {copiedState.copiedII && (
-                  <span className="text-[11px] text-Success italic absolute">
-                    Copied!
-                  </span>
-                )}
+              <div className="flex sm:hidden gap-2">
+                <p className="text-[20px] font-[500] text-GrayHomz ">
+                  +2349015159511
+                </p>
+                <div
+                  onClick={() => handleCopyClick("+2349015159511", "copiedII")}
+                  className="relative"
+                >
+                  <Image
+                    className="cursor-pointer"
+                    src={"/copy.png"}
+                    alt="copy-img"
+                    height={16}
+                    width={17}
+                  />
+                  {copiedState.copiedII && (
+                    <span className="text-[11px] text-Success italic absolute">
+                      Copied!
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col sm:hidden gap-6">
+          <div className="flex sm:hidden gap-6">
             <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
               <div className="h-[24px] w-[24px] flex justify-center items-center">
                 <Message />
@@ -435,46 +476,79 @@ const ContactDoc = () => {
               </div>
             </div>
           </div>
-          <div className="flex mt-3 sm:hidden gap-4">
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <Insta />
-              </div>
+          <div className="flex sm:hidden gap-6">
+            <div className="h-[40px] w-[40px] bg-blue-100 flex justify-center items-center rounded-full">
+              <Whatsapp color="#006AFF" width={20} height={20} />
             </div>
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <Facebook />
-              </div>
-            </div>
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <Twitter />
-              </div>
-            </div>
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <LinkedIn />
+            <div className="flex sm:hidden gap-2">
+              <p
+                onClick={() => {
+                  viewFile("https:/wa.me/2349015159511")
+                }}
+                className="text-[20px] font-[500] underline text-GrayHomz cursor-pointer">
+                +2349015159511
+              </p>
+              <div
+                onClick={() => handleCopyClick("https:/wa.me/2349015159511", "copiedV")}
+                className="relative"
+              >
+                <Image
+                  className="cursor-pointer"
+                  src={"/copy.png"}
+                  alt="copy-img"
+                  height={16}
+                  width={17}
+                />
+                {copiedState.copiedV && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
               </div>
             </div>
           </div>
-          <div className="flex">
-            <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
-            <div
-              onClick={() => handleCopyClick("homz.ng", "copiedIV")}
-              className="relative"
-            >
-              <Image
-                className="cursor-pointer"
-                src={"/copy.png"}
-                alt="copy-img"
-                height={12}
-                width={17}
-              />
-              {copiedState.copiedIV && (
-                <span className="text-[11px] text-Success italic absolute">
-                  Copied!
-                </span>
-              )}
+          <div className="flex items-center sm:hidden gap-6">
+            <div className="flex mt-3 sm:hidden gap-4">
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <Insta />
+                </div>
+              </div>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <Facebook />
+                </div>
+              </div>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <Twitter />
+                </div>
+              </div>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <LinkedIn />
+                </div>
+              </div>
+            </div>
+            <div className="flex">
+              <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
+              <div
+                onClick={() => handleCopyClick("homz.ng", "copiedIV")}
+                className="relative"
+              >
+                <Image
+                  className="cursor-pointer"
+                  src={"/copy.png"}
+                  alt="copy-img"
+                  height={12}
+                  width={17}
+                />
+                {copiedState.copiedIV && (
+                  <span className="text-[11px] text-Success italic absolute">
+                    Copied!
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
