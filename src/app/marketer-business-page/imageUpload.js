@@ -49,14 +49,14 @@ const ImageUpload = ({propertyData}) => {
           />
 
           <p
-            className={`md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] flex justify-center items-center mx-auto ${
+            className={`md:w-[181px] md:h-[181px] h-[100px] w-[100px] sm:rounded-[100%] border-[10.53px] border-[#FFFFFF] rounded-[315.79px] flex justify-center items-center mx-auto sm:border-0 ${
               !fileUploaded && "bg-[#D5D5D5]"
             }`}
           >
             <Image
               src={fileUploaded ? ImageSrc : propertyData?.lisitingPropertyId?.businessInfo?.businessLogo?.url ? propertyData.lisitingPropertyId.businessInfo.businessLogo.url :"/static/images/marketerDefaultImage.png"}
               alt="Marketer's Photo"
-              className={"md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] cursor-pointer"}
+              className={"sm:w-[181px] md:h-[181px] h-full w-full rounded-[100%] cursor-pointer"}
               width={181}
               height={181}
               onClick={uploadProfilePhoto}

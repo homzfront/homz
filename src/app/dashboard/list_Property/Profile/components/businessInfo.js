@@ -47,7 +47,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     setLastId(newId);
     setSocialMediaLinks([
       ...socialMedia,
-      { id: newId, placeholder: "Type in social link", value: "" },
+      { id: newId, placeholder: "Type in link", value: "" },
     ]);
   };
   const removeLink = (id) => {
@@ -225,9 +225,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   // }, [busCertSuccess, progress]);
   return (
     <div className="">
-      <div className=" flex flex-col md:w-full">
+      <div className=" flex flex-col w-full">
         <div className="flex sm:flex-row md:gap-[22px] gap-8 mt-5 flex-col">
-          <div className="flex  flex-col gap-[22px] w-[359px]">
+          <div className="flex  sm:flex-col flex-row gap-[15px]  sm:gap-[22px] sm:w-[359px] w-fit">
             <div>
               <input
                 type="file"
@@ -260,11 +260,11 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               </p>
             </div>
             <div
-              className={`flex flex-row md:gap-[10px] gap-2 md:items-center rounded-[12px] md:justify-center border justify-start md:shadow-sm md:p-[16px]
+              className={`flex sm:flex-row flex-col sm:gap-[10px] gap-2 items-center rounded-[12px] justify-center sm:border  sm:shadow-sm sm:p-[16px]
               ${!update ? "pointer-events-none" : ""} 
             `}
             >
-              <p className="hidden w-[40px] h-[40px] rounded-[28px] bg-[#F2F4F7] md:flex items-center justify-center cursor-pointer">
+              <p className=" w-[40px] h-[40px] rounded-[28px] bg-[#F2F4F7]  hidden sm:flex items-center justify-center cursor-pointer">
                 <Image
                   onClick={uploadProfilePhoto}
                   src="/static/images/upload-cloud.svg"
@@ -274,16 +274,15 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 />
               </p>
               <div className="space-y-2">
-                <p className="text-[#006AFF] font-[600] leading-[17.64px] cursor-pointer text-[14px]">
-                  <span
-                    className="hidden md:block cursor-pointer"
-                    onClick={uploadProfilePhoto}
-                  >
+                <p className="text-[#006AFF] sm:font-[600] leading-[17.64px] font-[400] cursor-pointer sm:text-[14px] text-[13px] flex flex-col gap-2">
+                  <span className="cursor-pointer" onClick={uploadProfilePhoto}>
                     Click to upload business logo
                   </span>
-               
+                  <span className="text-[#A9A9A9] font-[400] text-[11px] leading-[16.5px] sm:hidden">
+                    (JPG or PNG (max. 5mb))
+                  </span>
                 </p>
-                <p className="hidden md:block text-[14px] text-[#4E4E4E] font-[600] leading-[21px]">
+                <p className="hidden sm:block text-[14px] text-[#4E4E4E] font-[600] leading-[21px]">
                   or drag and drop{" "}
                   <span className="text-[#4E4E4E] font-[400] text-[11px] leading-[16.5px]">
                     (JPG or PNG (max. 5mb))
@@ -311,7 +310,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   disabled={!update}
                   value={businessName}
                   onChange={(e) => setBusinessName(e.target.value)}
-                  className={`h-[45px] sm:w-[300.5px] md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                  className={`h-[45px] sm:w-[280.5px] md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
                     !update &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
@@ -333,7 +332,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   value={businessEmail}
                   onChange={(e) => setBusinessEmail(e.target.value)}
                   placeholder="Enter Business Email"
-                  className={`duoViewPoint h-[45px] sm:w-[300.5px]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
+                  className={`duoViewPoint h-[45px] sm:w-[280.5px]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
                     !update &&
                     "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                   }`}
@@ -444,14 +443,14 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               />
             </div>
           </div>
-          <div className="bg-[#FCFCFC] rounded-[8px] flex flex-col gap-[16px] sm:py-[32px] sm:px-[24px] ">
+          <div className="bg-[#FCFCFC] rounded-[8px] flex flex-col gap-[16px] sm:py-[32px] sm:px-[24px]  sm:mt-0 mt-5">
             {" "}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between  px-[12px] sm:px-0 32px">
               <p className="text-[#202020] font-[500] leading-[24px]">
                 Social media links
               </p>
               <button
-                className="border h-[40px] text-[14px] gap-1 border-[#006AFF] text-[#006AFF] flex items-center justify-center rounded-[4px] py-[8px] px-[12px]"
+                className="sm:border h-[40px] text-[14px] font-[500] gap-1 border-[#006AFF] text-[#006AFF] flex items-center justify-center rounded-[4px] py-[8px] px-[12px]"
                 onClick={addLink}
                 disabled={!update}
               >
@@ -465,7 +464,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 <span>Add link</span>
               </button>
             </div>
-            <div className="grid sm:grid-cols-2 gap-[16px] max-h-[225px] overflow-y-auto overflow-x-hidden">
+            <div className="grid grid-cols-2 gap-[16px] max-h-[225px] overflow-y-auto overflow-x-hidden sm:py-6 px-[12px] sm:px-0 ">
               {socialMedia.slice(0, 4).map((social) => (
                 <div key={social.id} className="space-y-2 h-fit">
                   <label
@@ -477,7 +476,10 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   <br />
                   <input
                     placeholder={capitalizeFirstLetter(social.placeholder)}
-                    className="h-[45px] sm:w-[217px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
+                    className={`h-[45px] sm:w-[217px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%] ${
+                      !update &&
+                      "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
+                    }`}
                     type="text"
                     value={social.value}
                     disabled={!update}
@@ -513,7 +515,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
             </div>
           </div>
         </section>
-        <div className="border-b pb-2 flex items-center gap-[16px]">
+        <div className="sm:border-b pb-2 flex items-center gap-[16px] sm:flex-row flex-col mt-10 sm:mt-0">
           <button
             className="bg-[#006AFF] w-full  text-white rounded-[4px] border  h-[45px] text-center font-[500]"
             onClick={() => onSubmit("promotePage")}
@@ -521,25 +523,28 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
             Promote my business page
           </button>
           <button
-            className="border-[#006AFF] w-full  text-[#006AFF] font-[500] rounded-[4px] border h-[45px] text-center"
+            className="border-[#006AFF] w-full  text-[#006AFF] font-[500] rounded-[4px] border h-[45px] text-center text-[14px]"
             onClick={() => onSubmit("viewPage")}
           >
             View my business page
           </button>
         </div>
-        <div className="md:w-full w-[100%] flex flex-col gap-[14px] md:pt-5">
-          <p className="text-[14px] md:text-[18px] font-[600] md:leading-[27px] leading-[20.16px] text-left">
+        <div className="md:w-full w-[100%] flex flex-col sm:gap-[14px] gap-[10px] pt-2 md:pt-5">
+          <p className="text-[18px] font-[600] leading-[27px] text-left">
+            Help us verify your business
+          </p>
+          <p className="text-[13px] sm:text-[14px] text-[#4E4E4E] font-[400] leading-[21px] text-left">
             Kindly upload any of the following documents for verification
             (format must be PDF)
           </p>
           <p className="text-[11px] text-[#4E4E4E] md:text-[14px] font-[400] text-left leading-[16.5px] md:leading-[21px]">
             1. Clear copy of your CAC <br /> 2. Clear copy of your membership
-            certificate from any valid real estate body. (AEAEN or NIESV)
+            certificate from any valid real estate body. (NIESV or AEAN)
             <br /> 3. Clear copy of a valid means of identification.(Voters
             card, National Identity card, international Passport)
           </p>
 
-          <div className="relative gap-[16px] py-[16px] px-[24px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">
+          <div className="relative gap-[16px] py-[16px] px-[14px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">
             <Image
               src="/static/images/document-upload.svg"
               alt="upload-cloud"
@@ -549,12 +554,12 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
             <>
               {Business_Info?.businessInfo?.isVerified === "verified" ? (
                 <div className="flex flex-col gap-[4px] w-full">
-                  <div className="w-full flex justify-between items-center mt-[10px]">
+                  <div className="w-full flex justify-between items-center sm:mt-[10px]">
                     <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
                       [{Business_Info?.businessInfo?.certificateName}]
                     </p>
                     <p
-                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                      className="text-[#006AFF] text-[13px] font-[500] leading-[19.5px] cursor-pointer pb-5 sm:pb-0"
                       onClick={() =>
                         viewFileII(
                           Business_Info?.businessInfo?.certificateCAC?.url
@@ -564,7 +569,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       View
                     </p>
                   </div>
-                  <div className="absolute bottom-[-45px] md:bottom-[-30px] left-0 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                  <div className="absolute bottom-[-54px] md:bottom-[-30px] left-0 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center ">
                     <TickSuccess />
                     <div>
                       Your business certificate has successfully been verified.
@@ -588,7 +593,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                     <span>is currently under review</span>
                   </p>
                   <p
-                    className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                    className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer pb-5 sm:pb-0"
                     onClick={() =>
                       viewFileII(
                         Business_Info?.businessInfo?.certificateCAC?.url
@@ -634,13 +639,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                     }`}
                   >
                     <p
-                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
+                      className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer pb-5 sm:pb-0"
                       onClick={() => viewFile(businessCertificate)}
                     >
                       View
                     </p>
                     <p
-                      className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1"
+                      className="text-[#D92D20] text-[13px] font-[400] leading-[19.5px] cursor-pointer flex items-center gap-1 pb-5 sm:pb-0"
                       onClick={() => {
                         setRemoveCertificate(true);
                       }}
@@ -788,7 +793,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
           <p className="text-[11px] text-red-600">{errorMsg ? errorMsg : ""}</p>
         </div>
 
-        <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
+        <div className="hidden md:flex md:justify-end justify-center mt-18 md:mt-12 ">
           <div className="flex flex-col ">
             {update ? (
               <button
@@ -909,25 +914,25 @@ const socialMediaLinks = [
   {
     id: 1,
     name: "WhatsApp",
-    placeholder: "Type in social link",
+    placeholder: "Type in link",
     value: "",
   },
   {
     id: 2,
     name: "Facebook ",
-    placeholder: "Type in social link",
+    placeholder: "Type in link",
     value: "",
   },
   {
     id: 3,
-    name: "Twitter",
-    placeholder: "Type in social link",
+    name: "X (Twitter)",
+    placeholder: "Type in link",
     value: "",
   },
   {
     id: 4,
     name: "Instagram ",
-    placeholder: "Type in social link",
+    placeholder: "Type in link",
     value: "",
   },
 ];

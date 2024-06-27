@@ -4,7 +4,7 @@ import React from "react";
 import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
-import MiniPropertyListing from "./miniPropertyListings";
+import MiniPropertyListing from "../../../components/mainmenu/miniPropertyListings";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Skeleton from "react-loading-skeleton";
@@ -31,14 +31,14 @@ const PropertyCard = ({
       {loadingII ? (
         <LoadingII />
       ) : (
-        <div className="w-[335px] md:w-full flex flex-col gap-[17px] md:px-[76px]">
-          <div className="flex flex-col md:gap-1 gap-[-10px] items-start">
+        <div className="w-full flex flex-col gap-[17px] md:px-[76px] ">
+          <div className="flex flex-col md:gap-1 gap-[-10px] w-full sm:items-start ">
             <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] md:mb-1">
               {Property && Property.length > 0
                 ? ` Property`
                 : "Property not found"}
             </h1>
-            <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px] text-left font-['Plus Jakarta Sans'] mb-2">
+            <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px]   font-['Plus Jakarta Sans'] mb-2">
               {Property && Property.length > 0
                 ? `${totalData} ${
                     Property.length > 1 ? " results found" : " result found"
@@ -88,12 +88,12 @@ const PropertyCard = ({
             </>
           ) : (
             <>
-              <div className="flex items-center justify-center w-full flex-col ">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
+              <div className="flex items-center justify-center w-full px-  sm:w-full flex-col ">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[100%] mb-3 md:w-full ">
                   {Property &&
                     currentProperties?.map((property, index) => (
                       <div
-                        className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                        className="flex flex-col w-[280px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
                         key={index}
                       >
                         <div className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] relative">
@@ -138,7 +138,7 @@ const PropertyCard = ({
                               )}
                             </>
                           )}
-                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute left-[322px] flex items-center justify-center top-[14px] ">
+                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute sm:left-[322px] top-[14px] left-[242px]  flex items-center justify-center  ">
                             <Image
                               src="/static/images/green_verify.svg"
                               alt=""
@@ -147,7 +147,7 @@ const PropertyCard = ({
                             />
                           </p>
                           {/* {sponsored && ( */}
-                          <p className=" absolute left-[232px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
+                          <p className=" absolute sm:left-[232px] left-[154px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
                             <Image
                               src="/static/images/white-medal-star.svg"
                               alt=""

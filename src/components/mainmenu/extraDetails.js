@@ -9,20 +9,20 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
         <p className="bg-[#006AFF] text-white px-[12px] py-[8px] rounded-[4px] text-[13px]">
           Property Details
         </p>
-        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between">
+        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between flex-wrap sm:flex-nowrap">
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Property Type
             </span>
-            <span className="text-[#202020] text-[13px] leading-[21px] font-[400]">
-            {propertyData?.propertyType }
+            <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
+            {capitalizeFirstLetter(propertyData?.propertyType) }
             </span>
           </p>
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Sub-Type
             </span>
-            <span className="text-[#202020] text-[13px] leading-[21px] font-[400]">
+            <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               Houses
             </span>
           </p>
@@ -34,7 +34,7 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
               4 units
             </span>
           </p>
-          <p className="flex flex-col gap-0">
+          <p className="flex flex-col gap-0 mt-6 sm:mt-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Additional Details
             </span>
@@ -59,36 +59,36 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
         <p className="bg-[#006AFF] text-white px-[12px] py-[8px] rounded-[4px] text-[13px]">
           Price
         </p>
-        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between">
+        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between  flex-wrap sm:flex-nowrap gap-6 sm:gap-0">
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Payment Type
             </span>
-            <span className="text-[#202020] text-[13px] leading-[21px] font-[400]">
+            <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               {capitalizeFirstLetter(propertyData?.paymentType)}
             </span>
           </p>
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
-              {capitalizeFirstLetter(propertyData?.paymentType)} Payment
+              {propertyData?.paymentType ? capitalizeFirstLetter(propertyData?.paymentType) : "Payment"}
             </span>
-            <span className="text-[#202020] text-[13px] leading-[21px] font-[400]">
+            <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               ₦ {Number(1000000.0).toLocaleString()}
-            </span>
-          </p>
-          <p className="flex flex-col gap-[5px]">
-            <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
-              Maintenance Fee
-            </span>
-            <span className="text-[#202020] text-[13px] leading-[21px] font-[400]">
-              ₦ {Number(100.0).toLocaleString()}
             </span>
           </p>
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
+              Maintenance Fee
+            </span>
+            <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
+              ₦ {Number(100.0).toLocaleString()}
+            </span>
+          </p>
+          <p className="flex flex-col gap-0 pr-7 sm:pr-0">
+            <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Agency Fee
             </span>
-            <span className="text-[#202020] text-[13px] leading-[21px] font-[400]">
+            <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               ₦ {Number(10.0).toLocaleString()}
             </span>
           </p>
@@ -98,7 +98,7 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
         <p className="bg-[#006AFF] text-white px-[12px] py-[8px] rounded-[4px] text-[13px]">
           Installment Details
         </p>
-        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between">
+        <div className="bg-[#EEF5FF] sm:px-[12px] pl-[12px] py-[8px] rounded-[4px] flex justify-between">
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Frequency

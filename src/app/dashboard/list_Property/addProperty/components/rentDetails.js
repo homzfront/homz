@@ -402,7 +402,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
         <div className="flex sm:justify-between md:mt-24 mt-8 sm:px-3 md:px gap-[19px] ">
           <div>
             <button
-              className="text-[14px] font-[500] py-[8px] px-[12px]  rounded-[4px] md:text-BlueHomz border text-[#D5D5D5] h-full sm:w-full w-[150px] flex items-center justify-center gap-1 "
+              className="text-[14px] font-[500] py-[8px] px-[12px]  rounded-[4px] md:text-BlueHomz text-BlueHomz border border-BlueHomz h-full sm:w-full w-[120px] flex items-center justify-center gap-1 "
               onClick={previousBtn}
             >
               <Image
@@ -445,7 +445,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
             <button
               onClick={onSubmit}
               disabled={price === ""}
-              className={`flex md:mr-14 border gap-1 justify-center  md:w-[77px]  w-[150px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
+              className={`flex md:mr-14 border gap-1 justify-center  md:w-[77px]  w-[120px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
                 price === ""
                   ? "text-[#D5D5D5] bg-[#E6E6E6] border-[#A9A9A9]"
                   : "text-white border-white bg-BlueHomz"

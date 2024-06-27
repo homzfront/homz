@@ -24,14 +24,14 @@ const Amenities = ({
   const handleFormSubmit = (event) => {
     event.preventDefault();
     // amenitiesPicked(selectedAmenities)
-    console.log("Selected Amenities:", selectedAmenities);
-    // setOpenAmeni(false);
+    // console.log("Selected Amenities:", selectedAmenities);
+    setOpenAmeni(false);
   };
 
   return (
-    <div>
+    <div className="">
       <CustomizedModal isOpen={isOpen} onRequestClose={onRequestClose}>
-        <div className="sm:w-[820px] max-h-[623px] overflow-y-auto sm:overflow-hidden rounded-[12px] bg-white sm:p-[32px] px-[16px] py-[32px] flex gap-[24px] flex-col">
+        <div className="sm:w-[820px] mt-6 max-h-[623px] overflow-y-auto sm:overflow-hidden rounded-[12px] bg-white sm:p-[32px] px-[16px] py-[32px] flex gap-[24px] flex-col">
           <section className="space-y-1">
             <div className="modal-header flex items-center justify-between">
               <p className="text-[20px] font-[700] leading-[25.2px] ">
@@ -50,7 +50,7 @@ const Amenities = ({
               Select the available amenities in your property
             </p>
           </section>
-          <div className=" sm:h-full  border grid sm:grid-cols-4 rounded-[4px] grid-cols-2  gap-[4px]">
+          <div className=" sm:h-full  border grid sm:grid-cols-4 rounded-[4px] grid-cols-2  gap-[4px] ">
             {amenities.map((amenity, index) => (
               <div
                 className="inline-flex items-center justify-between p-[12px] bg-[#FCFCFC] rounded-[4px]"

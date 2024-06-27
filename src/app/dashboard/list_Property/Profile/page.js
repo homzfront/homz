@@ -133,7 +133,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full px-6 sm:px-1">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -148,12 +148,12 @@ const Profile = () => {
         theme="dark"
       />
       <div className="mt-[-15px] md:mt-0 md:pt-0 md:px-5 w-full">
-        <h1 className="w-[50%]">Profile</h1>
+        <h1 className="w-[50%] font-[500]">Profile</h1>
         <div className="flex flex-col gap-2 mt-8 ">
-          <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full">
+          <div className="indicators flex items-center  gap-[15px] sm:gap-[15px] flex-wrap w-fit md:w-full">
             <button
               onClick={handlePersonalActive}
-              className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
                 personalActive
                   ? "inline-block shadow-md bg-[#006AFF] text-white "
                   : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
@@ -164,7 +164,7 @@ const Profile = () => {
 
             <button
               onClick={handleBusinessActive}
-              className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
                 businessActive
                   ? "inline-block shadow-md bg-[#006AFF] text-white "
                   : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
@@ -175,7 +175,7 @@ const Profile = () => {
 
             <button
               onClick={handleContactInfo}
-              className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
                 changePwdActive
                   ? "inline-block shadow-md bg-[#006AFF] text-white "
                   : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"

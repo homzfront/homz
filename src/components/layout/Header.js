@@ -119,7 +119,7 @@ const Header = () => {
   };
 
   return (
-    <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
+    <div className="text-BlackHomz px-5 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
       {
         openModalForBusi &&
         <div

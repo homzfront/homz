@@ -29,6 +29,7 @@ const CustomModal = ({ isOpen, onRequestClose, children }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          // marginTop: '20px',
          
         },
       };

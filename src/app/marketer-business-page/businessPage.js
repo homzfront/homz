@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import MiniPropertyListings from "./miniPropertyListings";
 import timeAgo from "@/utils/timeAgo";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { fetchSinglePropertyPublic } from "@/api/propertyService";
 import api from "@/utils/api";
 import LoadingII from "@/components/mainmenu/loadingII";
@@ -14,12 +15,18 @@ import RequestCard from "../user_homepage/PreviewProperty/requestCard";
 import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";
-
+import Reset from "@/components/icons/reset";
+import Bedroom from "@/components/mainmenu/bedrooms";
+import PropertyType from "@/components/mainmenu/propertyType";
+import MaxPrice from "@/components/mainmenu/maxPrice";
+import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
+import MinPrice from "@/components/mainmenu/minPrice";
+import Listing from "@/components/mainmenu/listing";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const MarketerBusinessPage = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [filteredData, setFilteredData] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [tabName, setTabName] = useState("properties");
   const [selectedProperty, setSelectedProperty] = useState(null);
@@ -32,6 +39,36 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState("1");
   const [propertyData, setPropertyData] = useState(null);
+  const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
+  const [paramss, setParams] = useState(false);
+  const urlParams = useSearchParams();
+  // const defaultPage = urlParams.get("page")
+  //   ? parseInt(urlParams.get("page"))
+  //   : 1;
+  const [filters, setFilters] = useState({
+    search: urlParams.get("search") || null,
+    propertyType: urlParams.get("propertyType") || null,
+    listingType: urlParams.get("listingType") || null,
+    minPrice: parseInt(urlParams.get("minPrice")) || null,
+    maxPrice: parseInt(urlParams.get("maxPrice")) || null,
+    numberOfBathrooms: parseInt(urlParams.get("numberOfBathrooms")) || null,
+  });
+  const openMobileModal = () => {
+    setMobileModalIsOpen(true);
+  };
+  const closeMobileModal = () => {
+    setMobileModalIsOpen(false);
+  };
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
+
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    handleFilterChange("search", value);
+    setParams(true);
+  };
 
   const id = "p7567-kristy-for-rent-rivers-bonny";
   useBodyScroll([openSelectedImage]);
@@ -41,13 +78,20 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     router.back();
   };
   const [loading, setLoading] = useState(true);
-  const [copiedState, setCopiedState] = useState({
-    phoneNumber: false,
-    email: false,
-    whatsAppNumber: false,
-  });
+  const reset = () => {
+    setFilters({
+      search: "",
+      propertyType: null,
+      listingType: null,
+      minPrice: null,
+      maxPrice: null,
+      numberOfBathrooms: null,
+      state: null,
+    });
+    // setCurrentPage(1);
+    setParams(true);
+  };
 
- 
   const handleSharePage = async () => {
     const shareData = {
       title: document.title,
@@ -62,7 +106,6 @@ const MarketerBusinessPage = ({ PropertyID }) => {
       console.error("Error sharing the page:", err);
     }
   };
-  const additionalDetails = ["fully furnished", "newly Built", "serviced"];
 
   useEffect(() => {
     const propertyData = async () => {
@@ -152,6 +195,10 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const options4 = [
     ...new Set(properties?.map((item) => item?.numberOfBathrooms)),
   ];
+  const handleSearch2 = (query, label) => {
+    handleFilterChange(label, query);
+    setParams(true);
+  };
   const handleSearch = () => {
     setIsLoading(true);
     setTimeout(async () => {
@@ -179,16 +226,70 @@ const MarketerBusinessPage = ({ PropertyID }) => {
       }
     }, 2000);
   };
-
+  const link = () => {
+    let link;
+    const query = {};
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        query[key] = filters[key];
+      }
+    });
+    if (filters) {
+      link = `/user_homepage/PropertyListing/?page=1&${new URLSearchParams(
+        query
+      ).toString()}`;
+      return link;
+    }
+  };
   return (
     <div className="w-full max-w-[1440px] m-auto">
-   
       {loading ? (
         <LoadingII />
       ) : (
         propertyData && (
-          <div className="w-full pt-10 md:pt-8 pb-10 md:px-[70px] px-5">
-            <div className="w-full flex md:justify-between items-center gap-[4rem] md:gap-0">
+          <div className="w-full pt-10 md:pt-8 pb-1 md:px-[70px] px-5">
+            <div className="flex justify-between sm:hidden w-full ">
+              <div className="searchPane relative w-[86%] rounded-[4px]">
+                <input
+                  type="text"
+                  className="border h-[40px] pl-8 rounded-[4px] w-full"
+                  id="search"
+                  placeholder="Search"
+                  value={filters.search}
+                  onChange={handleSearchChange}
+                />
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/header/search-normal.png"
+                  }
+                  alt=""
+                  className="absolute top-[14.8px] left-3"
+                  height={15}
+                  width={15}
+                  onClick={() => {
+                    handleSearchChange;
+                  }}
+                />
+              </div>
+
+              <Link
+                href={link() !== null ? link() : ""}
+                className=" rounded-[4px] p-[10px] h-[40px] border border-[#006AFF] hover:border-blue-600"
+              >
+                {/* <button
+                  // onClick={openMobileModal}
+                  className=" rounded-[4px] p-[10px] h-[40px] border border-[#006AFF] hover:border-blue-600"
+                > */}
+                <Image
+                  src="/static/images/filter.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                {/* </button> */}
+              </Link>
+            </div>
+            <div className="w-full hidden  sm:flex md:justify-between items-center gap-[4rem] md:gap-0">
               <div
                 onClick={goBack}
                 className="flex gap-2 items-center cursor-pointer"
@@ -216,27 +317,27 @@ const MarketerBusinessPage = ({ PropertyID }) => {
               </div>
             </div>
 
-            <div className="sm:block mt-6 relative">
-              <div className="h-[347px] rounded-[12px] w-fit">
+            <div className="sm:block mt-6 relative h-fit">
+              <div className="sm:h-[347px] h-[173px] rounded-[12px] w-fit">
                 <Image
                   src="/static/images/marketerImage.png"
                   alt=""
                   width={1024}
                   height={347}
-                  className={`rounded-[12px] object-cover w-full h-full`}
-                  layout="full" // Specify the desired height
-                  objectFit="cover"
-                  objectPosition="center"
+                  className={`rounded-[12px] sm:object-cover w-full sm:h-full h-[173px]`}
+                  // layout="full" // Specify the desired height
+                  // objectFit="cover"
+                  // objectPosition="center"
                   quality={100}
                   priority
                 />
               </div>
-              <div className="absolute z-50 top-[257px] left-[32px]">
+              <div className="absolute z-50 sm:top-[257px] sm:left-[32px] top-[127px] left-[15px]">
                 <MarketerImage propertyData={propertyData && propertyData} />
               </div>
               {/* <div className="  w-[100%] flex items-center gap-5"> */}
-              <div className="flex items-center justify-between w-full pl-[225px] py-1">
-                <div className="flex items-start flex-col gap-[5px]">
+              <div className="flex items-center sm:justify-between justify-end  w-full sm:pl-[225px] py-2 h-fit">
+                <div className="hidden sm:flex items-start flex-col gap-[5px]">
                   <p className="text-[32px] text-[#4E4E4E] font-[700] leading-[45.36px]">
                     [Marketer’s Business Name]
                   </p>
@@ -245,18 +346,18 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-[16px] pb-6">
+                <div className="flex items-center gap-2 sm:gap-[16px] pb-6">
                   <button
-                    className="bg-[#006AFF] w-fit text-[14px]  text-white rounded-[4px] border  h-[37px] px-[12px] py-[8px] text-center font-[400]"
+                    className="sm:bg-[#006AFF] w-fit text-[14px] text-[#006AFF] sm:text-white rounded-[4px] sm:border  sm:h-[37px] sm:px-[12px] sm:py-[8px] text-center font-[500]"
                     // onClick={() => onSubmit("promotePage")}
                   >
                     Promote page
                   </button>
                   <button
-                    className="border-[#006AFF] w-fit text-[14px] text-[#006AFF] font-[400] h-[37px] px-[12px] py-[8px] rounded-[4px] border text-center flex items-center gap-2"
+                    className="sm:border-[#006AFF] w-fit text-[14px] sm:text-[#006AFF] bg-[#EEF5FF] font-[400] h-[37px] sm:px-[12px] sm:py-[8px] py-[8px] px-[16px] rounded-[4px] sm:border text-center flex items-center sm:gap-2"
                     onClick={handleSharePage}
                   >
-                    <span>Share page</span>
+                    <span className="hidden sm:block">Share page</span>
                     <Image
                       src="/static/images/send-2.svg"
                       width={20}
@@ -268,10 +369,10 @@ const MarketerBusinessPage = ({ PropertyID }) => {
               </div>
             </div>
 
-            <section className="flex justify-between items-center filter mt-10 border-t pt-5">
-              <div className="flex items-center gap-[16px] ">
+            <section className="flex justify-between items-center filter sm:mt-10 sm:border-t sm:pt-5">
+              <div className="flex items-center sm:gap-[16px] gap-2 ">
                 <button
-                  className={`flex text-[14px] py-2 px-4 items-center justify-center font-[500] h-[37px] rounded-[4px] ${
+                  className={`flex text-[12.5px] sm:text-[14px] py-2 px-4 leading-[21px]  items-center justify-center font-[500] h-[37px] rounded-[4px] ${
                     tabName === "properties"
                       ? "bg-BlueHomz text-white"
                       : "text-[#006AFF] hover:bg-blue-200 bg-[#EEF5FF]"
@@ -281,19 +382,21 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                   Properties
                   {/* className="bg-white py-[2px] px-[10px] flex justify-center items-center rounded-[16px] ml-2" */}
                   <span
-                    className={`py-[2px] px-[10px] flex justify-center items-center text-[11px] leading-[16.5px] font-[400] rounded-[16px] ml-2 ${
+                    className={`sm:py-[2px] sm:px-[10px] px-[7px] py-[1px] flex justify-center items-center text-[11px] leading-[16.5px] font-[400] rounded-[16px] ml-2 ${
                       tabName != "properties"
                         ? "bg-BlueHomz text-white"
                         : "text-BlackHomz hover:bg-blue-200 bg-[#EEF5FF]"
                     }`}
                   >
-                    <span className="">{properties.length || "0"}</span>
+                    <span className="">
+                      {(properties && properties.length) || "0"}
+                    </span>
                   </span>
                 </button>
                 {/* className="border-[#006AFF] w-fit text-[14px] text-[#006AFF] font-[400] h-[37px] px-[12px] py-[8px] rounded-[4px] border text-center flex items-center gap-2" */}
                 <button
                   onClick={() => setTabName("profile")}
-                  className={`flex text-[14px] py-2 px-4 items-center justify-center rounded-[4px] h-[37px] font-[500] ${
+                  className={`flex text-[12.5px] sm:text-[14px] py-2 px-4 leading-[21px] items-center justify-center rounded-[4px] h-[37px] font-[500] ${
                     tabName === "profile"
                       ? "bg-BlueHomz text-white"
                       : "text-[#006AFF] hover:bg-blue-200 bg-[#EEF5FF]"
@@ -302,7 +405,8 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                   Company Profile
                 </button>
               </div>
-              <div className="flex gap-1 ">
+
+              <div className="hidden sm:flex gap-1 ">
                 <div className="relative w-[255px] rounded-[4px]">
                   <input
                     type="text"
@@ -348,7 +452,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                     }
                   />
                 </div>
-
+                    
                 <button
                   className="adminBorders  border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex gap-1 text-white px-[12px] py-[8px] rounded-[4px] h-[37px] w-[75px] cursor-pointer  justify-center"
                   onClick={handleSearch}
@@ -361,6 +465,9 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                 </button>
               </div>
             </section>
+            <div className="sm:hidden mt-8">
+              <OwnersCard propertyData={propertyData && propertyData} />
+            </div>
             <section className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-[30px] mt-8 w-full">
               <div className=" w-[100%] flex flex-col gap-[12p] ">
                 {tabName === "properties" && (
@@ -382,31 +489,132 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                 )}
                 {tabName === "profile" && (
                   <div className="w-full flex flex-col gap-[24px]">
-                    <p className="text-[18px] font-[500] leading-[27px]">
+                    <p className="sm:text-[18px] font-[500] leading-[27px]">
                       About [Marketer’s Business Name]
                     </p>
-                    <p className="break-words leading-[24px] font-[400] ">
+                    <p className="break-words leading-[24px] font-[400] sm:text-[16px] text-[14px]">
                       {word}
                     </p>
                   </div>
                 )}
               </div>
-              <div className="flex flex-col  gap-[24px]">
-                <OwnersCard propertyData={propertyData && propertyData} />
-                <RequestCard />
-                <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
-                  <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
-                    Can’t find the property you are looking for?
-                  </p>
-                  <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
-                    Post a property request
-                  </button>
+              {tabName === "properties" && (
+                <div className="flex flex-col  gap-[24px]">
+                  <div className="hidden sm:block">
+                    <OwnersCard propertyData={propertyData && propertyData} />
+                  </div>
+                  <RequestCard />
+                  <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
+                    <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
+                      Can’t find the property you are looking for?
+                    </p>
+                    <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                      Post a property request
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </section>
           </div>
         )
       )}
+
+      <CustomizedModal
+        isOpen={mobileModalIsOpen}
+        onRequestClose={closeMobileModal}
+      >
+        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
+          <div className=" flex items-center justify-between">
+            <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
+              Filter by
+            </p>
+
+            <div>
+              <button onClick={closeMobileModal} className="cursor-pointer">
+                <Image
+                  src="/static/images/close-square.svg"
+                  height={24}
+                  width={24}
+                  alt=""
+                />
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div>
+              <PropertyType
+                getPropertyType={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${
+                  filters?.propertyType === null
+                    ? "Property Type"
+                    : capitalizeFirstLetter(filters?.propertyType)
+                }`}
+              />
+            </div>
+            <div>
+              <Bedroom
+                getBedrooms={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${
+                  filters?.numberOfBathrooms === null
+                    ? "Number of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                }`}
+              />
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div className="">
+              <MinPrice
+                getPrice={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${
+                  filters?.minPrice === null
+                    ? "Min Price"
+                    : addCommasToNumberWithoutN(filters?.minPrice)
+                }`}
+              />
+            </div>
+            <div>
+              <Listing
+                getState={handleSearch}
+                className={"w-[150px]"}
+                selectOption={`${
+                  filters?.listingType === null
+                    ? "Listing Type"
+                    : capitalizeFirstLetter(filters?.listingType)
+                }`}
+              />
+            </div>
+          </div>
+          <div className="w-full flex flex-row gap-4">
+            <button
+              className="border w-[70%] h-[42px] p-[12px] border-BlueHomz text-white bg-BlueHomz items-center text-[14px] font-[500] flex justify-center gap-2 rounded-[4px] cursor-pointer mt-4"
+              onClick={closeMobileModal}
+            >
+              <Image
+                src="/static/images/white-search.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
+              <span className="">Filter</span>
+            </button>
+            <button
+              className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"
+              onClick={reset}
+            >
+              <span>
+                <Reset className="#006AFF" />
+              </span>
+              <span className="text-[14px] leading-[17.64px]  text-[500] text-BlueHomz">
+                Reset
+              </span>
+            </button>
+          </div>
+        </div>
+      </CustomizedModal>
     </div>
   );
 };

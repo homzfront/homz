@@ -184,7 +184,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                     {errors.units.message}
                   </span>
                 )}
-                <span className="text-[#0e0d0d] text-[14px] font-[500] leading-[21px]  relative bottom-[36px] left-[285px] sm:left-[186px]">
+                <span className="text-[#0e0d0d] text-[14px] font-[500] leading-[21px]  relative bottom-[36px] left-[230px] sm:left-[186px]">
                   units
                 </span>
               </div>
@@ -377,7 +377,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
           <div className="flex justify-between mt-8 ">
             <div>
               <button
-                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz  sm:w-full w-[150px]"
+                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz  sm:w-full w-[120px]"
                 // onClick={handleShowCancelDialogue}
               >
                 Cancel
@@ -406,7 +406,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               </p>
               <button
                 // disabled={!isValid ? true : false}
-                className={`flex md:mr-14 border gap-1 justify-center sm:w-[77px] w-[150px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
+                className={`flex md:mr-14 border gap-1 justify-center sm:w-[77px] w-[120px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
                   "text-white border-white bg-BlueHomz"
                   // isValid
                   //   ? "text-[#D5D5D5] bg-[#E6E6E6] border-[#A9A9A9]"

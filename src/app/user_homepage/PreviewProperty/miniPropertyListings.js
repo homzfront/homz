@@ -12,19 +12,15 @@ const MiniPropertyListings = ({
   setLoadingII,
 }) => {
   return (
-    <div className={`w-full mt-5`}>
-      {/* <div className="">
-        <p className="text-[#A9A9A9] md:text-[18px] font-[400] md:leading-[27px] w-[315px] md:w-full mx-auto md:mx-0 my-3">
-          Other properties
-        </p>
-      </div> */}
+    <div className={`w-full sm:mt-5`}>
+   
       <div className="text-[16px] flex justify-between w-full ">
         <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] ">
           Similar properties
         </p>
         <Link
           href="user_homepage/PropertyListing"
-          className="hidden md:flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
+          className="flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
           <Image
@@ -36,32 +32,32 @@ const MiniPropertyListings = ({
           />
         </Link>
       </div>
-      <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px] my-4 sm:w-[235px] ">
+      <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px] my-4 sm:w-[235px] w-full">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <div
-            className={`flex flex-col sm:w-[235px] h-fit rounded-[12px] shadow-md`}
+            className={`flex flex-col sm:w-[235px] h-fit rounded-[12px] shadow-md w-full`}
             key={index}
           >
             <div
-              className={`cursor-pointer sm:w-[235px] sm:h-[181.77px] rounded-[10px] `}
+              className={`cursor-pointer sm:w-[235px] sm:h-[181.77px] rounded-[10px] w-full`}
             >
               <Carousel
                 slide={false}
                 theme={customTheme}
-                className="w-[200px] h-[181.77px] md:w-full"
+                className="w-full h-[181.77px] "
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
                     <div
                       key={index}
-                      className="w-[200px] h-[181.77px] md:w-full"
+                      className=" h-[181.77px] w-full"
                     >
                       <Image
                         src={img?.url}
                         alt=""
                         width={393}
                         height={181.77}
-                        className="w-[200px] h-[181.77px]  md:w-full object-cover realtive z-0"
+                        className=" h-[181.77px] w-full object-cover realtive z-0"
                       />
                     </div>
                   ))}

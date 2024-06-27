@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Bedroom from "./components/bedrooms";
-import MaxPrice from "./components/maxPrice";
-import MinPrice from "./components/minPrice";
-import PropertyType from "./components/propertyType";
+import Bedroom from "../../components/mainmenu/bedrooms";
+import MaxPrice from "../../components/mainmenu/maxPrice";
+import MinPrice from "../../components/mainmenu/minPrice";
+import PropertyType from "../../components/mainmenu/propertyType";
 import Image from "next/image";
 import Link from "next/link";
 import { Carousel } from "flowbite-react";

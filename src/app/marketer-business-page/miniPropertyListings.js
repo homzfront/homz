@@ -23,10 +23,10 @@ const MiniPropertyListings = ({
   // console.log(Properties);
   return (
     <div className={`w-full `}>
-      <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px]  sm:w-[235px] ">
+      <div className="flex justify-between items-center w-full sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px]  sm:w-[235px] ">
         {Properties?.map((property, index) => (
           <div
-            className={`flex flex-col sm:w-[235px] h-fit rounded-[12px] shadow-md`}
+            className={`flex flex-col sm:w-[235px] h-fit rounded-[12px] shadow-md w-full`}
             key={index}
           >
             <div
@@ -35,20 +35,20 @@ const MiniPropertyListings = ({
               <Carousel
                 slide={false}
                 theme={customTheme}
-                className="w-[200px] h-[181.77px] md:w-full"
+                className="w-full h-[181.77px] md:w-full"
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
                     <div
                       key={index}
-                      className="w-[200px] h-[181.77px] md:w-full"
+                      className="w-full h-[181.77px] md:w-full"
                     >
                       <Image
                         src={img?.url}
                         alt=""
                         width={393}
                         height={181.77}
-                        className="w-[200px] h-[181.77px]  md:w-full object-cover realtive z-0"
+                        className="w-full h-[181.77px]   sm:object-cover retive z-0"
                       />
                     </div>
                   ))}
@@ -56,14 +56,14 @@ const MiniPropertyListings = ({
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
               <div className="flex justify-between">
-                <p className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center">
+                <p className="text-[#006AFF]  sm:text-[16.59px] font-[700] leading-[20.9px] text-center">
                   {trucateWord(
                     capitalizeFirstLetter(property?.name || property?.title),
                     12
                   )}
                 </p>
                 <p
-                  className={`hidden sm:flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
+                  className={`flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
                 >

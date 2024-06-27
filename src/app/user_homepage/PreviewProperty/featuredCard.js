@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { Carousel } from "flowbite-react";
 import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
@@ -28,90 +25,57 @@ const FeaturedCard = () => {
     return 1;
   };
 
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: 1, // Adjusted based on screen size
-    className: "center",
-    centerMode: true,
-    centerPadding: "0",
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: null,
-    nextArrow: null,
-    // appendDots: (dots) => <div style={{ marginTop: "40px" }}>{dots}</div>,
-    appendDots: (dots) => (
-      <div className=" ">
-        <ul className="flex space-x-2"> {dots} </ul>
-      </div>
-    ),
-  };
-
-  const sliderSettingsII = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: 1,
-    className: "center",
-    centerMode: true,
-    centerPadding: "0%",
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: null,
-    nextArrow: null,
-  };
   return (
-    <div className="flex flex-col items-center gap-[16px] rounded-[12px] bg-[#006AFF] text-white py-[20px] px-[20px] w-[100%] sm:h-[600px] ">
-      <div className="text-[16px] flex justify-between w-full ">
-        <p className="font-[500] leading-[24px] ">Featured Properties</p>
+    <div className="flex flex-col items-center gap-[16px] rounded-[12px] bg-[#006AFF] text-white py-[20px] px-[20px] w-[100%] sm:h-[600px] h-[443px]">
+      <div className=" flex justify-between w-full   flex-nowrap">
+        <p className="font-[500] leading-[24px] sm:text-[16px] text-[13px] ">
+          Featured Properties
+        </p>
         <Link
           href="user_homepage/PropertyListing"
-          className="hidden md:flex items-center gap-2 rounded px-2 py-1 text-[13px] font-[400] leading-[19.5px]"
+          className="flex items-center gap-2 rounded px-2 py-1 sm:text-[13px] text-[11.5px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
           <Image
             src="/static/images/white-right-arrow.svg"
             alt=""
-            width={8}
-            height={8}
-            className=""
+            width={6}
+            height={6}
+            // className="sm:w-[8px] sm:h-[8px] w-[8px] h-[8px]"
           />
         </Link>
       </div>
 
-      <div className=" sm:w-[333px] sm:h-[480px] rounded-[12px] ">
+      <div className=" sm:w-[333px] sm:h-[480px] rounded-[12px] w-full h-[331px]">
         <Carousel
           theme={parentTheme}
-        //   slide={false}
-          className="rounded-[12px] sm:h-[478px] w-full"
+          // slide={false}
+          className="rounded-[12px] sm:h-[478px] w-full h-full"
         >
           {featuredData?.map((property, idx) => (
             <div
               className="rounded-[12px] w-full h-full sm:h-[478px]"
               key={idx}
             >
-              <div className="w-[300px] sm:w-[320px] h-fit bg-white rounded-[12px] shadow-md mx-auto">
-                <div className="cursor-pointer w-[300px] h-[252px] ">
+              <div className="w-full sm:w-[320px] h-fit bg-white rounded-[12px] shadow-md mx-auto">
+                <div className="cursor-pointer sm:w-[300px] sm:h-[252px] w-full h-[182px]">
                   <Carousel
                     slide={false}
                     theme={customTheme}
-                    className="w-[300px] sm:w-[320px] h-[252px]"
+                    className="w-full h-full sm:w-[320px] sm:h-[252px]"
                   >
                     {property?.property?.photos &&
                       property?.property?.photos.map((img, index) => (
                         <div
                           key={index}
-                          className="w-[300px] sm:w-[320px] h-[252px]"
+                          className="w-full sm:w-[320px] sm:h-[252px] h-full"
                         >
                           <Image
                             src={img?.url}
                             alt=""
                             width={343}
                             height={252}
-                            className="w-[300px] sm:w-[320px] h-[252px] rounded-lg object-cover"
+                            className="w-[300px] sm:w-[320px] h-[252px]  object-cover"
                           />
                           <p className="bg-[#EEF5FF] text-[#006AFF] rounded-[8px] py-[4px] px-[8px] absolute left-[241px] top-[12px] text-[11px] leading-[16.5px] font-[400]">
                             Featured
@@ -120,49 +84,36 @@ const FeaturedCard = () => {
                       ))}
                   </Carousel>
                 </div>
-                <div className="flex flex-col px-6 py-4 justify-between h-[206px] rounded-b-[12px]">
-                  <div className="flex justify-between items-center">
-                    <p className="text-BlueHomz text-[23px] font-[700]">
+                <div className="flex w-full flex-col sm:px-6 py-4 px-3 justify-between h-fit rounded-b-[12px] gap-[7.43px] sm:gap-[12px]">
+                  <div className="flex w-full justify-between items-center">
+                    <p className="text-BlueHomz sm:text-[23px] font-[700] text-[16.59px] sm:leading-[28.98px] leading-[20.9px]">
                       {capitalizeFirstLetter(
                         property?.property?.name || property?.property?.title
                       )}
                     </p>
                     {property?.property?.listingType && (
-                      <div className="bg-BlueHomz rounded-[4px] flex justify-center items-center w-[68px] h-[25px]">
-                        <p className="text-white text-[11px] font-[400]">
-                          {capitalizeFirstLetter(
-                            property?.property?.listingType
-                          )}
-                        </p>
-                      </div>
+                      <p className="text-white sm:text-[11px] text-[7.93px] font-[400] sm:py-[4px] sm:px-[12px] bg-BlueHomz rounded-[4px] flex justify-center items-center py-[2.89px] px-[8.66px]">
+                        {capitalizeFirstLetter(property?.property?.listingType)}
+                      </p>
                     )}
                   </div>
                   {property?.property?.propertyType && (
-                    <p className="text-blue-600 text-[14px] font-[400]">
+                    <p className="text-blue-600 sm:text-[14px] font-[400] w-fit text-[10.1px]">
                       {capitalizeFirstLetter(property?.property?.propertyType)}
                     </p>
                   )}
                   {property?.property?.price && (
-                    <p className="text-[16px] font-[700] flex items-center">
-                      <Image
-                        src="/static/images/nairaIcon.svg"
-                        alt=""
-                        width={15}
-                        height={25}
-                        className="h-6 w-4"
-                      />
-                      <span className="pl-1 text-BlackHomz">
-                        {Number(property?.property?.price).toLocaleString()}
-                      </span>
+                    <p className=" text-BlackHomz text-[11.54px] sm:text-[16px] font-[700] w-fit">
+                      ₦ {Number(property?.property?.price).toLocaleString()}
                     </p>
                   )}
-                  <p className="flex gap-1 items-center text-[14px] font-[500] text-BlackHomz">
+                  <p className="flex gap-1 items-center sm:text-[14px] text-[10.1px] font-[500] text-BlackHomz  w-fit">
                     <Image
                       src="/static/images/Location_Vector.svg"
                       alt=""
                       width={12}
                       height={16}
-                      className="h-4 w-3"
+                      className="sm:h-4 sm:w-3 h-[11.43px] w-[8.66px]"
                     />
                     {`${capitalizeFirstLetter(
                       property?.property?.area
@@ -171,7 +122,7 @@ const FeaturedCard = () => {
                   <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
                     <div className="flex gap-4 items-center text-[10px] text-gray-800">
                       {property?.property?.numberOfRooms && (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 sm:text-[10px] text-[9px] w-fit">
                           <Image
                             src="/static/images/bed_Vector.svg"
                             alt=""
@@ -185,7 +136,7 @@ const FeaturedCard = () => {
                         </div>
                       )}
                       {property?.property?.numberOfBathrooms && (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 sm:text-[10px] text-[9px]">
                           <Image
                             src="/static/images/shower_Vector.svg"
                             alt=""
@@ -199,7 +150,7 @@ const FeaturedCard = () => {
                         </div>
                       )}
                       {property?.property?.squareMeter && (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 sm:text-[10px] text-[9px]">
                           <Image
                             src="/static/images/sqrtFeet-vector.svg"
                             alt=""
@@ -220,7 +171,7 @@ const FeaturedCard = () => {
                           alt=""
                           width={30}
                           height={30}
-                          className=""
+                          className="w-[25.85px] h-[25.85px] sm:w-[30px] sm:h-[30px]"
                         />
                       </button>
                     </Link>
@@ -231,7 +182,7 @@ const FeaturedCard = () => {
           ))}
         </Carousel>
       </div>
-      <Link href="user_homepage/PropertyListing">
+      {/* <Link href="user_homepage/PropertyListing">
         <button className="md:hidden mt-10 mb-8 border border-white px-4 py-2 rounded text-[13px] font-[500] flex gap-1 items-center">
           <span>View All</span>
           <Image
@@ -242,7 +193,7 @@ const FeaturedCard = () => {
             className="w-4 h-4"
           />
         </button>
-      </Link>
+      </Link> */}
     </div>
   );
 };
@@ -262,12 +213,11 @@ const parentTheme = {
   },
   indicators: {
     active: {
-      off: " bg-[#559CFF] hover:bg-white dark:bg-blue-600/50 dark:hover:bg-gray-800",
+      off: " bg-[#559CFF] hover:bg-white dark:bg-blue-600/50 dark:hover:bg-gray-800 ",
       on: " bg-[#EEF5FF] dark:bg-gray-800",
     },
     base: "h-[8px] w-[8px] rounded-full ",
-    wrapper:
-      "absolute bottom-[-25px] left-1/2 -translate-x-1/2  space-x-1 ",
+    wrapper: "absolute bottom-[-25px] w-full  items-center flex justify-center  sm:left-1/2 left-[120px] -translate-x-1/2  space-x-1 ",
   },
   item: {
     base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
@@ -290,9 +240,9 @@ const customTheme = {
   root: {
     base: "relative h-full w-full",
     leftControl:
-      "hidden md:inline-block absolute top-[7rem] left-2 flex h-[30px] w-[30px] items-center justify-center  focus:outline-none transition-opacity duration-300",
+      " inline-block absolute top-[5rem] left-3  sm:top-[7rem] sm:left-2 flex h-[15px] w-[15px] items-center justify-center  focus:outline-none transition-opacity duration-300",
     rightControl:
-      "hidden md:inline-block absolute top-[7rem] right-6 flex h-[20px] w-[20px] items-center justify-center  focus:outline-none transition-opacity duration-300",
+      " inline-block absolute top-[5rem] right-3 sm:top-[7rem] sm:right-6 flex h-[15px] w-[15px] items-center justify-center  focus:outline-none transition-opacity duration-300",
     "&:hover $leftControl, &:hover $rightControl": {
       display: "inline-block",
     },
@@ -314,8 +264,8 @@ const customTheme = {
     },
   },
   control: {
-    base: "hidden md:inline-flex h-[30px] w-[30px] items-center bg-[#292D32] justify-center rounded-full bg-opacity-10 hover:bg-opacity-100  group-focus:outline-none group-focus:ring-4 group-focus:ring-white/30 dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60  dark:group-focus:ring-gray-800/70 sm:h-[30px] sm:w-[30px]",
-    icon: "h-3 w-3 text-white/60 dark:text-gray-800 group-hover:text-white sm:h-6 sm:w-6",
+    base: " inline-flex h-[20px] w-[20px] items-center bg-[#292D32] justify-center rounded-full sm:bg-opacity-10 bg-opacity-70 hover:bg-opacity-100  group-focus:outline-none sm:group-focus:ring-4 sm:group-focus:ring-white/30 dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60  dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10",
+    icon: "h-3 w-3 sm:text-white/60 text-white dark:text-gray-800 group-hover:text-white sm:h- sm:w-6",
   },
   scrollContainer: {
     base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-hidden scroll-smooth rounded-lg",

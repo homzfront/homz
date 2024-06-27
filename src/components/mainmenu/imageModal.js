@@ -44,9 +44,9 @@ const ImageModal = ({
   
 
   return (
-    <div className="text-white absolute top-0 z-20 h-screen max-w-[1440px] m-auto  inset-0  bg-black flex justify-center items-center">
+    <div className="text-white absolute  z-20 h-screen sm:max-w-[1440px]  m-auto  inset-0  bg-black flex justify-center items-center">
       <div className="h-screen flex justify-between py-4 flex-col">
-        <div className="flex w-full justify-between h-[5%]">
+        <div className="flex w-full justify-between h-[5%] px-2 sm:px-0">
           <span className="text-[14px] font-[400]">{`${
             currentImageIndex && currentImageIndex === 0
               ? currentImageIndex === 1
@@ -62,36 +62,36 @@ const ImageModal = ({
             <span className="text-[14px] font-[400]">close</span>
           </button>
         </div>
-        <div className="flex justify-around w-full gap-4 items-center h-[95%]">
+        <div className="flex justify-around w-full gap-4 items-center h-full sm:pt-8">
           <button
-            className="p-4 border rounded-full"
+            className="sm:p-4 p-1 border rounded-full"
             onClick={goToPreviousImage}
           >
             {" "}
             <Image
               src={"/static/dashboard/enterprisemanager/propertyList/left.png"}
-              height={36}
-              width={36}
+              height={16}
+              width={16}
               alt=""
             />
           </button>
-          <div className="w-[1110px] m-auto max-h-[540px]">
+          <div className=" m-auto sm:w-[1110px] sm:h-[540px] w-[200px] h-[200px] sm:pt-12">
             <Image
               src={imageData[currentImageIndex]?.url}
               alt=""
-              height={752}
+              height={542}
               width={1110}
-              className="rounded-[12px] object-contain w-[1110px] max-h-[540px]"
-              layout="responsive"
+              className="rounded-[12px] object-contain sm:w-[1110px] sm:max-h-[440px] w-[200px] h-[200px]"
+              layout="intrinsic"
               objectFit="contain"
             />
           </div>
-          <button className="p-4 border rounded-full" onClick={goToNextImage}>
+          <button className="sm:p-4 border p-1 rounded-full" onClick={goToNextImage}>
             {" "}
             <Image
               src={"/static/dashboard/enterprisemanager/propertyList/right.png"}
-              height={36}
-              width={36}
+              height={16}
+              width={16}
               alt=""
             />
           </button>

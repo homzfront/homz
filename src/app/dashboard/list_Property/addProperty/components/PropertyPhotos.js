@@ -88,84 +88,8 @@ const PropertyPhoto = ({
         const newImages = [...houses];
         newImages[index] = URL.createObjectURL(file);
         setHouses(newImages);
-        const displayHousePic = (e, index) => {
-          const file = e.target.files[0];
-          if (file) {
-            console.log("yes");
-            if (houses.some((house) => URL.createObjectURL(file) === house)) {
-              const newErrorMsg = [...errorMsg];
-              newErrorMsg[index] = "Image already selected";
-              setErrorMsg(newErrorMsg);
-              return;
-            }
-            // Check for duplicate file
 
-            if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-              const newErrorMsg = [...errorMsg];
-              newErrorMsg[index] = "Only, JPG, JPEG or PNG files are allowed.";
-              setErrorMsg(newErrorMsg);
-              return;
-            }
-            if (file.size > MAX_FILE_SIZE) {
-              // File size exceeds the limit
-              const newErrorMsg = [...errorMsg];
-              newErrorMsg[index] = "Photo size exceeds 5MB.";
-              setErrorMsg(newErrorMsg);
-              return;
-            } else {
-              const newErrorMsg = [...errorMsg];
-              newErrorMsg[index] = "";
-              setErrorMsg(newErrorMsg);
-              const newImages = [...houses];
-              newImages[index] = URL.createObjectURL(file);
-              setHouses(newImages);
-              const displayHousePic = (e, index) => {
-                const file = e.target.files[0];
-                if (file) {
-                  if (
-                    imagesFiles.some(
-                      (house) => house && URL.createObjectURL(file) === house
-                    )
-                  ) {
-                    const newErrorMsg = [...errorMsg];
-                    newErrorMsg[index] = "Image already selected";
-                    setErrorMsg(newErrorMsg);
-                    return;
-                  }
-                  // Check for duplicate file
-
-                  if (
-                    !["image/jpeg", "image/png", "image/jpg"].includes(
-                      file.type
-                    )
-                  ) {
-                    const newErrorMsg = [...errorMsg];
-                    newErrorMsg[index] =
-                      "Only, JPG, JPEG or PNG files are allowed.";
-                    setErrorMsg(newErrorMsg);
-                    return;
-                  }
-                  if (file.size > MAX_FILE_SIZE) {
-                    // File size exceeds the limit
-                    const newErrorMsg = [...errorMsg];
-                    newErrorMsg[index] = "Photo size exceeds 5MB.";
-                    setErrorMsg(newErrorMsg);
-                    return;
-                  } else {
-                    const newErrorMsg = [...errorMsg];
-                    newErrorMsg[index] = "";
-                    setErrorMsg(newErrorMsg);
-                    setImagesFiles((prevPhotos) => [...prevPhotos, file]);
-                    const newImages = [...houses];
-                    newImages[index] = URL.createObjectURL(file);
-                    setHouses(newImages);
-                    setUploadedOtherPhotos([...uploadedOtherPhotos, file]);
-                  }
-                }
-              };
-            }
-          }
-        };
+        
       }
     }
   };
@@ -175,7 +99,7 @@ const PropertyPhoto = ({
       <div className="flex flex-col gap-2 md:w-full w-[100%] fields">
         <h1 className="text-[23px] font-[700] text-BlueHomz">Media</h1>
 
-        <p className="text-[18px] flex sm:flex-row  items-center flex-col gap-1 font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
+        <p className="text-[18px] flex sm:flex-row  sm:items-center items-start flex-col gap-1 font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
           <span>Add Photos</span>
           <span className="text-[11px] md:text-[13px] font-[400] text-GrayHomz2 leading-[13.86px] md:leading-[19.5px]">
             (Supported formats are .jpg and .png, and file size must not exceed
@@ -185,114 +109,143 @@ const PropertyPhoto = ({
       </div>
       <main className="border-b pb-7 mt-5">
         <div
-          className={`flex sm:flex-row flex-col sm:flex-nowrap flex-wrap gap-[20px] md:gap-[15px] h-fit `}
+          className={`flex sm:flex-row flex-col sm:flex-nowrap flex-wrap gap-[0px] md:gap-[15px] h-fit `}
         >
-          <div className="md:space-y-4 h-fit  w-fit sm:mr-[32px]">
-            <label for="CoverPhoto " className="text-[13px] font-[500] leading-[19.5px] mb-3">
-              Cover photo
-            </label>
-            <br />
-
-            <div
-              className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-3 md:mt-0 `}
-            >
-              <form
-                enctype="multipart/form-data"
-                method="put"
-                // action="/api/updateUser/"
+          <div className="md:space-y-4 h-fit  w-fit sm:mr-[32px] flex gap-[15px]">
+            <div className="">
+              <label
+                for="CoverPhoto "
+                className="text-[13px] font-[500] leading-[19.5px] mb-3"
               >
-                <input
-                  type="file"
-                  name="coverPhoto"
-                  // accept="image/*"
-                  ref={fileUpload}
-                  id="coverPhoto"
-                  onChange={displayCoverPhoto}
-                  style={{ display: "none" }}
-                  accept="image/jpg, image/png, image/jpeg"
-                />
-                {fileUploaded ? (
-                  <Image
-                    onClick={uploadCoverPhoto}
-                    src={fileUploaded && ImageSrc}
-                    alt="Cover  Photo"
-                    className="md:w-[120px] md:h-[120px] w-[157px] h-[158px] rounded-[14.13px]"
-                    width={120}
-                    height={120}
+                Cover photo
+              </label>
+              <br />
+
+              <div
+                className={` md:w-[120px] md:h-[120px] w-[76px] h-[76px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-3 md:mt-0 `}
+              >
+                <form
+                  enctype="multipart/form-data"
+                  method="put"
+                  // action="/api/updateUser/"
+                >
+                  <input
+                    type="file"
+                    name="coverPhoto"
+                    // accept="image/*"
+                    ref={fileUpload}
+                    id="coverPhoto"
+                    onChange={displayCoverPhoto}
+                    style={{ display: "none" }}
+                    accept="image/jpg, image/png, image/jpeg"
                   />
-                ) : (
-                  <Image
-                    onClick={uploadCoverPhoto}
-                    src={add}
-                    alt="Cover Photo"
-                    className=" rounded-[14.13px]"
-                    width={48}
-                    height={48}
-                  />
-                )}
-              </form>
+                  {fileUploaded ? (
+                    <Image
+                      onClick={uploadCoverPhoto}
+                      src={fileUploaded && ImageSrc}
+                      alt="Cover  Photo"
+                      className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px]"
+                      width={120}
+                      height={120}
+                    />
+                  ) : (
+                    <Image
+                      onClick={uploadCoverPhoto}
+                      src={add}
+                      alt="Cover Photo"
+                      className=" rounded-[14.13px]"
+                      width={38}
+                      height={38}
+                    />
+                  )}
+                </form>
+              </div>
+              <p className="text-[11px] text-red-600">
+                {coverPhotoErrorMsg ? coverPhotoErrorMsg : ""}
+              </p>
             </div>
-            <p className="text-[11px] text-red-600">
-              {coverPhotoErrorMsg ? coverPhotoErrorMsg : ""}
-            </p>
+            <div className="sm:hidden">
+              <MiniOtherPhotosFrame
+                houses={houses}
+                add={add}
+                displayHousePic={displayHousePic}
+                uploadFile2={uploadFile2}
+                errorMsg={errorMsg}
+                fileUploads={fileUploads}
+              />
+            </div>
           </div>
 
-          <div className=" sm:space-y-4 w-fit  ">
-            <label for="others" className="text-[13px] font-[500] leading-[19.5px]">
-              Other Photos
+          <div className="hidden sm:block w-fit  ">
+            <label
+              for="others"
+              className="text-[13px] font-[500] leading-[19.5px]"
+            >
+              Other photos
             </label>
-            <br />
+            {/* <br /> */}
             {/* // Render each house dynamically */}
-          
-           
-              <div
-                className={`h-fit sm:grid sm:grid-cols-6  flex flex-wrap gap-[20px] sm:gap-[20px] sm:w-full w-[357px] mt-2 md:mt-0`}
-              >
-                {houses.map((house, index) => (
-                  <div
-                    className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
-                    key={index}
+
+            <div
+              className={`h-fit sm:grid sm:grid-cols-6 flex  flex-wrap gap-[15px] sm:gap-[20px] sm:w-full w-fit mt-2 sm:mt-0`}
+            >
+              {houses.map((house, index) => (
+                <div
+                  className={` md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+                  key={index}
+                >
+                  <form
+                    enctype="multipart/form-data"
+                    method="put"
+                    // action="/api/updateUser/"
                   >
-                    <form
-                      enctype="multipart/form-data"
-                      method="put"
-                      // action="/api/updateUser/"
-                    >
-                      <input
-                        type="file"
-                        name="HousePic"
-                        ref={(el) => (fileUploads.current[index] = el)}
-                        id={`uploadImage${index}`}
-                        onChange={(e) => displayHousePic(e, index)}
-                        style={{ display: "none" }}
-                        accept="image/jpg, image/png, image/jpeg"
+                    <input
+                      type="file"
+                      name="HousePic"
+                      ref={(el) => (fileUploads.current[index] = el)}
+                      id={`uploadImage${index}`}
+                      onChange={(e) => displayHousePic(e, index)}
+                      style={{ display: "none" }}
+                      accept="image/jpg, image/png, image/jpeg"
+                    />
+                    {house ? (
+                      <Image
+                        onClick={() => uploadFile2(index)}
+                        src={house}
+                        alt="photos"
+                        className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px]"
+                        width={120}
+                        height={120}
                       />
-                      {house ? (
-                        <Image
-                          onClick={() => uploadFile2(index)}
-                          src={house}
-                          alt="photos"
-                          className="md:w-[120px] md:h-[120px] w-[157px] h-[158px] rounded-[14.13px]"
-                          width={120}
-                          height={120}
-                        />
-                      ) : (
-                        <Image
-                          src={add}
-                          alt="Photo"
-                          className="w-[48px] h-[48px] rounded-[14.13px]"
-                          onClick={() => uploadFile2(index)}
-                          width={48}
-                          height={48}
-                        />
-                      )}
-                    </form>
-                    <p className="text-[11px] text-red-600 pl-3">
-                      {errorMsg[index]}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                    ) : (
+                      <Image
+                        src={add}
+                        alt="Photo"
+                        className="w-[38px] h-[38px] rounded-[14.13px]"
+                        onClick={() => uploadFile2(index)}
+                        width={48}
+                        height={48}
+                      />
+                    )}
+                  </form>
+                  <p className="text-[11px] text-red-600 pl-3">
+                    {errorMsg[index]}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* mobile view  */}
+          <div className="sm:hidden">
+            <MiniOtherPhotosFrame
+              houses={houses}
+              add={add}
+              displayHousePic={displayHousePic}
+              uploadFile2={uploadFile2}
+              errorMsg={errorMsg}
+              fileUploads={fileUploads}
+              secondDisplay={true}
+            />
           </div>
         </div>
       </main>
@@ -429,3 +382,78 @@ const PropertyPhoto = ({
 };
 
 export default PropertyPhoto;
+
+const MiniOtherPhotosFrame = ({
+  houses,
+  add,
+  displayHousePic,
+  uploadFile2,
+  errorMsg,
+  fileUploads,
+  secondDisplay,
+}) => {
+  const mapHouse = secondDisplay ? houses.slice(2) : houses.slice(0, 2);
+  return (
+    <div className=" sm:space-y-4 w-fit  ">
+      {!secondDisplay && (
+        <>
+          <label
+            for="others"
+            className="text-[13px] font-[500] leading-[19.5px]"
+          >
+            Other photos
+          </label>
+          <br />
+        </>
+      )}
+      {/* // Render each house dynamically */}
+
+      <div
+        className={`h-fit g grid-cols-3 sm:grid-cols-6 flex  flex-wrap gap-[15px] sm:gap-[20px] sm:w-full w-fit mt-2 md:mt-0`}
+      >
+        {mapHouse.map((house, index) => (
+          <div
+            className={` md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+            key={index}
+          >
+            <form
+              enctype="multipart/form-data"
+              method="put"
+              // action="/api/updateUser/"
+            >
+              <input
+                type="file"
+                name="HousePic"
+                ref={(el) => (fileUploads.current[index] = el)}
+                id={`uploadImage${index}`}
+                onChange={(e) => displayHousePic(e, index)}
+                style={{ display: "none" }}
+                accept="image/jpg, image/png, image/jpeg"
+              />
+              {house ? (
+                <Image
+                  onClick={() => uploadFile2(index)}
+                  src={house}
+                  alt="photos"
+                  className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px]"
+                  width={120}
+                  height={120}
+                />
+              ) : (
+                <Image
+                  src={add}
+                  alt="Photo"
+                  className="w-[38px] h-[38px] rounded-[14.13px]"
+                  onClick={() => uploadFile2(index)}
+                  width={48}
+                  height={48}
+                />
+              )}
+            </form>
+            <p className="text-[11px] text-red-600 pl-3">{errorMsg[index]}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

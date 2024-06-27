@@ -114,10 +114,10 @@ const ContactInfo = ({
             )}
           </div>
         </div>
-        <div className="mt-[8rem] px-3 flex justify-between">
+        <div className="mt-[8rem] sm:px-3 flex justify-between">
           <div>
             <p
-              className="text-[14px] font-[500] md:py-[8px] md:px-[12px]  rounded-[4px] md:text-BlueHomz border text-[#D5D5D5]  h-[36px] w-[36px] md:h-full md:w-full flex items-center justify-center gap-1 cursor-pointer"
+              className="text-[14px] font-[500] py-[8px] px-[12px]  rounded-[4px] md:text-BlueHomz  text-BlueHomz border border-BlueHomz  h-[36px] w-[120px] md:h-full md:w-full flex items-center justify-center gap-1 cursor-pointer"
               onClick={BackToPropertyPhotos}
             >
               <Image
@@ -132,10 +132,10 @@ const ContactInfo = ({
                 width={22}
                 height={22}
                 alt=""
-                className="md:hidden"
+                className="hidden"
               />
 
-              <span className="hidden md:block">Previous</span>
+              <span className="block">Previous</span>
             </p>
           </div>
           {/* <button
@@ -170,7 +170,7 @@ const ContactInfo = ({
           <div className="flex gap-3 items-center">
             <button
               disabled={!isValid ? true : false}
-              className={`flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px]  ${
+              className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px]  ${
                 !isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
               }`}
               onClick={() => setSaveToDraft(true)}
@@ -216,6 +216,23 @@ const ContactInfo = ({
             </button>
           </div>
         </div>
+        <p
+            // disabled={!isValid ? true : false}
+            className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] mt-4 ${
+               "text-BlueHomz"
+              // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
+            }`}
+            onClick={() => setSaveToDraft(true)}
+          >
+            <Image
+              src="/static/images/blueclock.svg"
+              // src={`/static/images/${isValid ? "clock2.svg" : "blueclock.svg"}`}
+              alt=""
+              height={16}
+              width={16}
+            />
+            <span>Save to draft</span>
+          </p>
       </div>
     </div>
   );

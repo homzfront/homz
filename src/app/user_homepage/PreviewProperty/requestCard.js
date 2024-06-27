@@ -14,8 +14,8 @@ const RequestCard = () => {
   
   };
   return (
-    <div className=" flex flex-col gap-4 h-fit border rounded-[12px] p-[20px] w-[100%]">
-      <p className="text-[16px] leading-[24px] font-[500] text-[#202020]">
+    <div className=" flex flex-col gap-4 h-fit border rounded-[12px] p-[20px] w-[100%] mt-2 sm:mt-0">
+      <p className="text-[16px] leading-[24px] font-[500] text-[#181717]">
         Request Callback
       </p>
       <div className="">
@@ -27,7 +27,7 @@ const RequestCard = () => {
         </label>
         <br />
         <input
-          className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
+          className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] sm:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
           placeholder="e.g Victor Desmond"
           onChange={(e) => setName(e.target.value)}
         />
@@ -49,7 +49,7 @@ const RequestCard = () => {
             setPhoneNumber(e.target.value);
             setError("");
           }}
-          className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
+          className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] sm:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
           onBlur={() => {
             if (phoneNumber === "") {
               setError("");

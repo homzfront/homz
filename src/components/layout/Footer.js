@@ -9,7 +9,7 @@ import TwitterWhite from "../icons/twitterWhite";
 
 const Footer = () => {
   return (
-    <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10  mt-36 bg-black text-white">
+    <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10 mt-10 sm:mt-36 bg-black text-white">
       <div className=" items-center flex justify-center flex-col m-auto max-w-[1165px]">
         <div className="flex md:text-sm lg:w-full xl:w-[1165px] flex-col lg:flex-row items-center justify-center  lg:flex lg:items-start">
           <div className="max-w-[338px] md:max-w-full lg:w-auto">
@@ -61,7 +61,7 @@ const Footer = () => {
             </div>
           </div>
           {/* <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4"> */}
-          <div className="flex w-full justify-center">
+          <div className="flex w-full sm:justify-center">
             <div className="leading-loose pl-0 ">
               <h2 className="font-[700] text-[16px]  mb-2 md:mb-5">
                 Useful Links

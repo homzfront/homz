@@ -7,4 +7,5 @@ function capitalizeFirstLetter(str) {
   }
 }
 
+
 export default capitalizeFirstLetter;

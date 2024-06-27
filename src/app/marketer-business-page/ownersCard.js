@@ -34,19 +34,19 @@ const OwnersCard = ({ propertyData }) => {
   };
   return (
     <div
-      className=" flex flex-col gap-[24px] md:h-fit border rounded-[12px] p-[20px] w-[100%]"
+      className=" flex flex-col gap-[15px] sm:gap-[24px] md:h-fit border rounded-[12px] sm:p-[20px] py-[20px] px-[13px] w-[100%]"
       id="contactOwner"
     >
-      <p cclassName="text-[16px] leading-[24px] font-[500] text-[#4E4E4E]">
+      <p cclassName="text-[16px] leading-[24px] font-[700] ">
         Contact Infomation
       </p>
 
       <div className="flex justify-between items-center h-[25px]">
-        <p className="text-[13px] leading-[19.5px] font-[400] w-[116px]">
+        <p className="sm:text-[13px] leading-[16.5px] text-[12px] font-[400] w-[116px]">
           Phone Number
         </p>
-        <div className="  flex items-center gap-6 w-[180px]">
-          <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
+        <div className="  flex items-center gap-5 sm:gap-6 w-[180px]">
+          <p className="text-[#006AFF] sm:text-[13px] leading-[16.5px] text-[12px] font-[400] sm:leading-[19.5px]">
             {showNumber
               ? propertyData?.contacts?.phoneNumber
               : formatNumber(propertyData?.contacts?.phoneNumber)}
@@ -60,23 +60,23 @@ const OwnersCard = ({ propertyData }) => {
         </div>
       </div>
       <div className="flex justify-between items-center h-">
-        <p className="text-[13px] leading-[19.5px] font-[400] w-[116px]">
+        <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] w-[116px]">
           Business Address
         </p>
-        <p className="text-[13px] leading-[19.5px] font-[400] text-left w-[180px]">
+        <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] text-left w-[180px]">
           OB 327, Sunny Place Plaza, Agege, Lagos
         </p>
       </div>
       <div className="flex justify-between items-center h-[25px]">
-        <p className="text-[13px] leading-[19.5px] font-[400] w-[116px]">
+        <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] w-[116px]">
           Website
         </p>
-        <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] text-left w-[180px]">
+        <p className="text-[#006AFF] font-[400] sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] text-left w-[180px]">
           www.websiteaddress.com
         </p>
       </div>
       <div className="flex justify-between items-center h-[25px]">
-        <p className="text-[13px] leading-[19.5px] font-[400] w-[116px]">
+        <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] w-[116px]">
           Social links
         </p>
         <p className="flex items-center gap-3 text-left w-[180px]">
@@ -87,36 +87,40 @@ const OwnersCard = ({ propertyData }) => {
               alt=""
               height={22}
               width={22}
+              className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
             />
           </span>
           <Image
-                src={"/static/images/facebook.svg"}
-                alt=""
-                height={22}
-              width={22}
-              />
-            <Image
-                src={"/static/images/x.svg"}
-                alt=""
-                height={22}
-              width={22}
-              />
-            <Image
-                src={"/static/images/instagram.svg"}
-                alt=""
-                height={22}
-              width={22}
-              />
+            src={"/static/images/facebook.svg"}
+            alt=""
+            height={22}
+            width={22}
+            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+          />
+          <Image
+            src={"/static/images/x.svg"}
+            alt=""
+            height={22}
+            width={22}
+            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+          />
+          <Image
+            src={"/static/images/instagram.svg"}
+            alt=""
+            height={22}
+            width={22}
+            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+          />
         </p>
       </div>
       <div className="flex justify-between gap-3 h-fit flex-col">
-        <p className="text-[13px] leading-[19.5px] font-[400] w-[116px]">
+        <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] w-[116px]">
           Other links
         </p>
-        <p className="flex flex-wrap justify-between">
+        <p className="flex flex-wrap  justify-between">
           {otherLinks.map((links, index) => (
-            <span
-              className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] flex gap-2"
+            <p
+              className="text-[#006AFF]  font-[400] sm:text-[13px] leading-[16.5px] text-[11px] sm:leading-[19.5px] flex gap-1 items-center sm:gap-2"
               key={index}
             >
               <Image
@@ -124,9 +128,10 @@ const OwnersCard = ({ propertyData }) => {
                 alt=""
                 height={13}
                 width={13}
+                  className="sm:w-[13px] sm:h-[13px] w-[11px] h-[11px]"
               />
               <span>{links}</span>
-            </span>
+            </p>
           ))}
         </p>
       </div>
