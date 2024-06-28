@@ -24,13 +24,17 @@ const ViewProperty = ({ PropertyID }) => {
   const [propertyData, setPropertyData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tabName, setTabName] = useState("Overview");
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [viewportWidth, setViewportWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
 
   useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      const handleResize = () => setViewportWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   const isMobileView = viewportWidth < 640;
@@ -98,7 +102,6 @@ const ViewProperty = ({ PropertyID }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
- 
 
   return (
     <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10 px-6">
@@ -423,7 +426,6 @@ const otherPhotos = [
   "/static/images/imageHouseHP.png",
   "/static/images/house2.png",
 ];
-
 
 const amenities = [
   "air conditioning",

@@ -3,6 +3,7 @@ import Image from "next/image";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import formatNumber from "@/utils/formatNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import Link from "next/link";
 
 const OwnersCard = ({ propertyData }) => {
   const [copiedState, setCopiedState] = useState({
@@ -25,7 +26,7 @@ const OwnersCard = ({ propertyData }) => {
         2000
       );
     } catch (error) {
-      // console.error("Unable to copy to clipboard:", error);
+      console.error("Unable to copy to clipboard:", error);
     }
   };
   const viewFile = (url) => {
@@ -48,9 +49,9 @@ const OwnersCard = ({ propertyData }) => {
             alt=""
             height={40}
             width={40}
-            // layout="full" // Specify the desired height
-            // objectFit="cover"
-            // objectPosition="center"
+            layout="full" // Specify the desired height
+            objectFit="cover"
+            objectPosition="center"
             className="object-cover bg-center h-[40px] rounded-full"
             quality={100}
             priority
@@ -60,8 +61,8 @@ const OwnersCard = ({ propertyData }) => {
             <EmptyAvatar />
           </div>
         )}
-
-        <p className="text-[18px] font-[500] text-GrayHomz flex items-center gap-[8px]">
+        <div className="">
+          <p className="text-[18px] font-[500] text-GrayHomz flex items-center gap-[8px]">
             <span className="">
               {capitalizeFirstLetter(propertyData?.lisitingPropertyId?.businessInfo?.businessName)}
             </span>
@@ -72,6 +73,17 @@ const OwnersCard = ({ propertyData }) => {
               height={20}
             />
           </p>
+          <Link href={`/marketer-business-page/${"234"}`} className="breakwords pl-2 flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
+            <span>View your page</span>
+            <Image
+              src="/static/images/send.svg"
+              alt=""
+              width={12}
+              height={12}
+              className="h-[12px] w-[12px]"
+            />
+          </Link>
+        </div>
       </div>
       <p className="breakwords font-[400] text-[#4E4E4E] leading-[19.5px] text-[13px] ">
         Certified realtor with tons of amazing properties out in the market. All

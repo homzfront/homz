@@ -30,7 +30,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [tabName, setTabName] = useState("properties");
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [selectedArea, setSelectedArea] = useState(null);
+  const [currentUser, setCurrentUser] = useState("");
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +42,6 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [paramss, setParams] = useState(false);
   const urlParams = useSearchParams();
-  // const defaultPage = urlParams.get("page")
-  //   ? parseInt(urlParams.get("page"))
-  //   : 1;
   const [filters, setFilters] = useState({
     search: urlParams.get("search") || null,
     propertyType: urlParams.get("propertyType") || null,
@@ -53,6 +50,12 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     maxPrice: parseInt(urlParams.get("maxPrice")) || null,
     numberOfBathrooms: parseInt(urlParams.get("numberOfBathrooms")) || null,
   });
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const user = urlParams.get("user");
+    setCurrentUser(user);
+  }, []);
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
   };
@@ -154,9 +157,9 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     };
     fetchData();
   }, []);
+
   const clear = () => {
     setSelectedProperty(null);
-
     setSelectedRooms(null);
     setSearchQuery("");
     setFilteredData(property);
@@ -203,23 +206,24 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const filteredData = properties?.filter((data) => {
-          const matchesState = !selectedState || data?.state === selectedState;
-          const matchesArea = !selectedArea || data?.area === selectedArea;
-          const matchesSearchQuery =
-            !searchQuery ||
-            data?.location.state
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            data?.location.area
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-          const bathrooms =
-            !selectedRooms || data?.numberOfBathrooms === selectedRooms;
-          return matchesState && matchesArea && matchesSearchQuery && bathrooms;
-        });
-        setFilteredData(filteredData);
+        // const filteredData = properties?.filter((data) => {
+        //   const matchesState = !selectedState || data?.state === selectedState;
+        //   const matchesArea = !selectedArea || data?.area === selectedArea;
+        //   const matchesSearchQuery =
+        //     !searchQuery ||
+        //     data?.location.state
+        //       .toLowerCase()
+        //       .includes(searchQuery.toLowerCase()) ||
+        //     data?.location.area
+        //       .toLowerCase()
+        //       .includes(searchQuery.toLowerCase());
+        //   const bathrooms =
+        //     !selectedRooms || data?.numberOfBathrooms === selectedRooms;
+        //   return matchesState && matchesArea && matchesSearchQuery && bathrooms;
+        // });
+        // setFilteredData(filteredData);
         setIsLoading(false);
+        router.push(link());
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -248,7 +252,37 @@ const MarketerBusinessPage = ({ PropertyID }) => {
       ) : (
         propertyData && (
           <div className="w-full pt-10 md:pt-8 pb-1 md:px-[70px] px-5">
-            <div className="flex justify-between sm:hidden w-full ">
+            <div className="w-full  sm:flex md:justify-between items-center gap-[4rem] md:gap-0">
+              <div
+                onClick={goBack}
+                className="flex gap-2 items-center cursor-pointer"
+              >
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                  }
+                  height={16}
+                  width={16}
+                  alt=""
+                  className="hidden sm:block"
+                />
+                <p className="text-[11px] font-[400] hidden sm:block">
+                  Go Back
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-[7px] sm:hidden w-full ">
+              <span
+                className="sm:hidden bg-[#EEF5FF] w-[40px] flex items-center justify-center h-[40px] p-[4px] rounded-[8px]"
+                onClick={goBack}
+              >
+                <Image
+                  src="/static/images/blue-arrow-left.svg"
+                  width={20}
+                  height={20}
+                  alt=""
+                />
+              </span>
               <div className="searchPane relative w-[86%] rounded-[4px]">
                 <input
                   type="text"
@@ -274,7 +308,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
 
               <Link
                 href={link() !== null ? link() : ""}
-                className=" rounded-[4px] p-[10px] h-[40px] border border-[#006AFF] hover:border-blue-600"
+                className=" rounded-[4px] p-[10px] h-[40px] border border-[#006AFF] hover:border-blue-600 flex justify-center items-center"
               >
                 {/* <button
                   // onClick={openMobileModal}
@@ -289,34 +323,6 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                 {/* </button> */}
               </Link>
             </div>
-            <div className="w-full hidden  sm:flex md:justify-between items-center gap-[4rem] md:gap-0">
-              <div
-                onClick={goBack}
-                className="flex gap-2 items-center cursor-pointer"
-              >
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-                  }
-                  height={16}
-                  width={16}
-                  alt=""
-                  className="hidden md:block"
-                />
-                <p className="text-[11px] font-[400] hidden md:block">
-                  Go Back
-                </p>
-                <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
-                  <Image
-                    src="/static/images/blue-arrow-left.svg"
-                    width={20}
-                    height={20}
-                    alt=""
-                  />
-                </span>
-              </div>
-            </div>
-
             <div className="sm:block mt-6 relative h-fit">
               <div className="sm:h-[347px] h-[173px] rounded-[12px] w-fit">
                 <Image
@@ -347,12 +353,14 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-[16px] pb-6">
-                  <button
-                    className="sm:bg-[#006AFF] w-fit text-[14px] text-[#006AFF] sm:text-white rounded-[4px] sm:border  sm:h-[37px] sm:px-[12px] sm:py-[8px] text-center font-[500]"
-                    // onClick={() => onSubmit("promotePage")}
-                  >
-                    Promote page
-                  </button>
+                  {currentUser != "users" && (
+                    <button
+                      className="sm:bg-[#006AFF] w-fit text-[14px] text-[#006AFF] sm:text-white rounded-[4px] sm:border  sm:h-[37px] sm:px-[12px] sm:py-[8px] text-center font-[500]"
+                      // onClick={() => onSubmit("promotePage")}
+                    >
+                      Promote page
+                    </button>
+                  )}
                   <button
                     className="sm:border-[#006AFF] w-fit text-[14px] sm:text-[#006AFF] bg-[#EEF5FF] font-[400] h-[37px] sm:px-[12px] sm:py-[8px] py-[8px] px-[16px] rounded-[4px] sm:border text-center flex items-center sm:gap-2"
                     onClick={handleSharePage}
@@ -452,7 +460,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                     }
                   />
                 </div>
-                    
+
                 <button
                   className="adminBorders  border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex gap-1 text-white px-[12px] py-[8px] rounded-[4px] h-[37px] w-[75px] cursor-pointer  justify-center"
                   onClick={handleSearch}

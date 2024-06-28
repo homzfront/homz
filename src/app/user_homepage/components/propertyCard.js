@@ -8,6 +8,7 @@ import MiniPropertyListing from "../../../components/mainmenu/miniPropertyListin
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Skeleton from "react-loading-skeleton";
+import trucateWord from "@/utils/trucateWord";
 
 const PropertyCard = ({
   Property,
@@ -163,9 +164,12 @@ const PropertyCard = ({
                         </div>
                         <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
                           <div className="flex justify-between">
-                            <p className="text-[#006AFF] text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-center">
-                              {capitalizeFirstLetter(
-                                property?.name || property?.title
+                            <p className="text-[#006AFF] text-[19.66px] sm:text-[22px] font-[700] leading-[28.98px] text-center">
+                              {trucateWord(
+                                capitalizeFirstLetter(
+                                  property?.name || property?.title
+                                ),
+                                20
                               )}
                             </p>
                             <p
@@ -181,9 +185,9 @@ const PropertyCard = ({
                             {capitalizeFirstLetter(property?.propertyType)}
                           </p>
                           <p
-                            className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
-                 ${property?.price ? "" : "hidden"}
-              `}
+                            className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center ${
+                              property?.price ? "" : "hidden"
+                            }`}
                           >
                             <Image
                               src="/static/images/nairaIcon.svg"

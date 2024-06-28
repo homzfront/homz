@@ -3,6 +3,7 @@ import Image from "next/image";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import formatNumber from "@/utils/formatNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import Link from "next/link";
 
 const OwnersCard = ({ propertyData }) => {
   const [copiedState, setCopiedState] = useState({
@@ -11,6 +12,7 @@ const OwnersCard = ({ propertyData }) => {
     whatsAppNumber: false,
   });
   const [showNumber, setShowNumber] = useState(false);
+  let marketerId=222222
   //   console.log(propertyData)
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -74,7 +76,7 @@ const OwnersCard = ({ propertyData }) => {
               height={20}
             />
           </p>
-          <button className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
+          <Link href={`/marketer-business-page/${marketerId}?user=users`} className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
             <span>View more properties from this marketer</span>
             <Image
               src="/static/images/send.svg"
@@ -83,7 +85,7 @@ const OwnersCard = ({ propertyData }) => {
               height={12}
               className="h-[12px] w-[12px]"
             />
-          </button>
+          </Link>
         </div>
       </div>
       <p className="breakwords font-[400] text-[#4E4E4E] leading-[19.5px] text-[13px] ">
