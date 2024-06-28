@@ -70,7 +70,6 @@ const WalletBalance = ({
     }
   }, [activeTwo]);
 
-
   return (
     <div className="">
       {openForm && (
@@ -146,7 +145,7 @@ const WalletBalance = ({
               </p>
             </div> :
             illuminateWallet ? (
-              <div className="w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md md:mr-2">
+              <div className={`w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md md:mr-2 ${rentData?.data === null ? "hidden" : ""}`}>
                 <p
                   onClick={payRent}
                   className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"

@@ -11,7 +11,7 @@ const AcAndRejModel = ({
   return (
     <div>
       <div className="fixed top-0 z-20 h-screen w-full px-8 md:px-0 inset-0 flex items-center  bg-black bg-opacity-30">
-        <div className="w-full md:max-w-[464px] md:min-w-[400px] p-2 m-auto bg-white h-[240px] rounded-md">
+        <div className="w-full md:max-w-[464px] md:min-w-[400px] p-2 m-auto bg-white md:h-[240px] rounded-md">
           <div className="flex flex-col justify-around items-center h-full p-6">
             <h1 className="text-BlackHomz font-[500] text-[20px] text-center">
               {header}

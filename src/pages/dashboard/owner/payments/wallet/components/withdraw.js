@@ -11,64 +11,51 @@ import {
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import LoadingMutating from "@/components/mainmenu/loadingMutating";
 import { toast } from "react-toastify";
+import UseBankDataStore from "@/store/propertyOwnerStore/useBankDataStore";
 
 const Withdraw = ({
   illuminateWallet,
   fetchDataAgain,
   setIlluminateWallet,
 }) => {
-  const [bankDetails, setBankDetails] = useState([]);
   const [fillBankDetails, setFillBankDetails] = useState(false);
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingII, setLoadingII] = useState(false);
   const [amount, setAmount] = useState("");
-  const [fetchData, setFetchData] = useState(false);
+  const { loading: loadingAcctInfo, bankdata, fetchData: fetchDataBankAcct } = UseBankDataStore();
 
-  // useEffect to handle scrolling
   useBodyScroll([fillBankDetails]);
-
-  // Ensure Data is defined before use
-  const bankdata = bankDetails || []; // Assign an empty array if Data is undefined
 
   const handleAddBankDetails = () => {
     setFillBankDetails(!fillBankDetails);
   };
-  // console.log(bankDetails);
+
   const closeMenu = () => {
     setFillBankDetails(false);
   };
 
   useEffect(() => {
-    // console.log("Component mounted, fetching data...");
-    setLoadingII(true);
+    fetchDataBankAcct();
+  }, []);
+  
+  useEffect(() => {
     const fetchData = async () => {
-      try {
+      if (fillBankDetails === true) {
         const data = await bankCodes();
-        setBanks(data);
-        const bankData = await bankInfoPropertyOwner();
-        setBankDetails(bankData);
-        if (data.success === true) {
-          setLoadingII(false);
-        } else {
-          setLoadingII(false);
-        }
-      } catch (error) {
-        setLoadingII(false);
+        setBanks(data)
       }
-    };
-
-    fetchData();
-  }, [fetchData]);
+    }
+    fetchData()
+  }, [fillBankDetails])
 
   const fetchDataAgainII = () => {
-    setFetchData(!fetchData);
+    fetchDataBankAcct();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Create an object with the collected bank details
+
     const bankDetails = {
       amount: amount,
     };
@@ -118,58 +105,43 @@ const Withdraw = ({
         )}
 
         <p
-          className={`text-[14px] font-[500] ${
-            illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
-          } `}
+          className={`text-[14px] font-[500] ${illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
+            } `}
         >
           Withdraw
         </p>
       </div>
       <p
-        className={`text-[13px] font-[400]  ${
-          illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
-        }`}
+        className={`text-[13px] font-[400]  ${illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+          }`}
       >
         Withdraw from your wallet balance to your local bank account
       </p>
-      {loadingII ? (
+      {loadingAcctInfo ? (
         <div className="w-full flex items-center justify-center">
           {" "}
           <LoadingMutating />{" "}
         </div>
-      ) : bankdata < 1 ? (
-        <div
-          className={` rounded-md w-[212px] h-[37px] flex items-center justify-center  ${
-            illuminateWallet
-              ? "bg-BlueHomz"
-              : "bg-GrayHomz6 pointer-events-none"
-          }`}
-          onClick={handleAddBankDetails}
-        >
-          <p className="text-[14px] font-[700] text-white cursor-pointer">
-            Add withdrawal destination
-          </p>
-        </div>
-      ) : (
+      ) : bankdata && illuminateWallet ? (
         <div className="w-full">
           <div className="flex gap-4 w-[240px] justify-between">
             <p className="text-[11px] font-[400] text-GrayHomz">
               Account Number
             </p>
             <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
-              {bankdata?.data?.accountNumber}
+              {bankdata?.accountNumber}
             </p>
           </div>
           <div className="flex gap-4 w-[240px] justify-between">
             <p className="text-[11px] font-[400] text-GrayHomz">Account Name</p>
             <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
-              {bankdata?.data?.accountName}
+              {bankdata?.accountName}
             </p>
           </div>
           <div className="flex gap-4 w-[240px] justify-between">
             <p className="text-[11px] font-[400] text-GrayHomz">Bank</p>
             <p className="text-[11px] font-[500] text-BlackHomz w-[120px] text-start">
-              {bankdata?.data?.bankName}
+              {bankdata?.bankName}
             </p>
           </div>
 
@@ -182,11 +154,10 @@ const Withdraw = ({
             />
             <div
               onClick={handleSubmit}
-              className={`${
-                amount !== ""
-                  ? "bg-BlueHomz text-white"
-                  : "text-GrayHomz2 bg-GrayHomz6 pointer-events-none"
-              }  w-[full] h-[45px] rounded-md flex justify-center items-center cursor-pointer`}
+              className={`${amount !== ""
+                ? "bg-BlueHomz text-white"
+                : "text-GrayHomz2 bg-GrayHomz6 pointer-events-none"
+                }  w-[full] h-[45px] rounded-md flex justify-center items-center cursor-pointer`}
             >
               <span className={loading ? "pointer-events-none" : ""}>
                 {loading ? <LoadingFormII /> : "Withdraw"}
@@ -194,7 +165,22 @@ const Withdraw = ({
             </div>
           </div>
         </div>
-      )}
+      )
+        :
+        (
+          <div
+            className={`cursor-pointer rounded-md w-[212px] h-[37px] flex items-center justify-center  ${illuminateWallet
+              ? "bg-BlueHomz"
+              : "bg-GrayHomz6 pointer-events-none"
+              }`}
+            onClick={handleAddBankDetails}
+          >
+            <p className="text-[14px] font-[700] text-white">
+              Add withdrawal destination
+            </p>
+          </div>
+        )
+      }
       {fillBankDetails && (
         <div>
           <BankForm

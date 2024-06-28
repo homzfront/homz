@@ -422,3 +422,21 @@ export const WalletTopUp = async (amount) => {
     return { success: false, error: error };
   }
 }
+
+export const bankInfoTenant = async () => {
+  try {
+    const response = await api.get(`/bank/info/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addBankTenant = async (details) => {
+  try {
+    const response = await api.post(`/bank/add/tenant`, details);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    return { success: false, error: error?.response.data };
+  }
+};

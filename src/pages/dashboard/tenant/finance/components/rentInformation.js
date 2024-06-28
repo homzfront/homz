@@ -184,10 +184,10 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
           />
         </div>
       ) : (
-        <div className="h-auto w-[530px] bg-white rounded-lg p-8">
+        <div className="h-auto w-full md:w-[530px] bg-white rounded-lg p-8">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-start">
-              <div className="flex flex-col gap-1 w-[1600px]">
+              <div className="flex flex-col gap-1 md:w-[1600px]">
                 <p className="text-BlackHomz text-[14px] font-[500]">
                   Rent Information
                 </p>
@@ -259,8 +259,6 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
               </div>
             </div>
           </div>
-
-
           <div className="mt-4 flex flex-col gap-3 my-6">
             <div className="w-full flex gap-4">
               <p className="text-BlueHomz text-[14px] font-[400] w-[40%]">

@@ -22,10 +22,7 @@ const Wallet = () => {
   const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet } = UseWalletStore();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      fetchWallet();
-    }, 3000);
-    return () => clearTimeout(timeout);
+    fetchWallet();
   }, []);
 
   const fetchDataAgain = () => {

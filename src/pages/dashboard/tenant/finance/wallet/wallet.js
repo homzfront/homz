@@ -14,10 +14,7 @@ const Wallet = ({ activeTwo }) => {
   const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData } = UseWalletStore();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      fetchWallet();
-    }, 3000);
-    return () => clearTimeout(timeout);
+    fetchWallet();
   }, []);
 
   const fetchDataAgain = () => {

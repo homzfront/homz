@@ -48,7 +48,7 @@ const WalletBalance = ({
 
   return (
     <div>
-      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-[100%] h-[132px] rounded-[12px]">
+      <div className="bg-[url('/Background_image.png')] bg-BlueHomz bg-cover bg-no-repeat w-[100%] md:h-[132px] rounded-[12px]">
         {openForm && (
           <PopUpWalletCreationForm
             closeForm={closeForm}

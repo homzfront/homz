@@ -1,5 +1,5 @@
 import { enterpriseUserWallet, enterpriseWalletBalance } from '@/api/enterpriseManagerService';
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 const UseWalletStore = create((set) => ({
     walletPin: false,
@@ -15,19 +15,21 @@ const UseWalletStore = create((set) => ({
             }
             if (response?.success === true) {
                 set({ illuminateWallet: true });
-                const balance = await enterpriseWalletBalance();
-                set({ walletBalance: balance?.data?.balance?.availableBalance })
+                const timeoutId = setTimeout(async () => {
+                    const balance = await enterpriseWalletBalance();
+                    set({ walletBalance: balance?.data?.balance?.availableBalance });
+                }, 2000);
+                return () => clearTimeout(timeoutId);
             }
         } catch (error) {
             set({ loading: false });
-            if (error?.response?.data?.message === 'Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet') {
+            if (error?.response?.data?.status === 400) {
                 set({ showKYC: true });
+            } else {
+                set({ showKYC: false });
             }
-            else set({
-                showKYC: false
-            })
         }
     },
 }));
 
-export default UseWalletStore
+export default UseWalletStore;
