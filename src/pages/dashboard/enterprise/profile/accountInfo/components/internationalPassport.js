@@ -64,7 +64,6 @@ const InternationalPassport = ({ passportProfile }) => {
             const { success, updatedPassport, error } = await uploadKYC(
                 interPassport
             );
-
             if (success) {
                 setInterPassportLoading(true);
                 setInterPassportSuccess(true);

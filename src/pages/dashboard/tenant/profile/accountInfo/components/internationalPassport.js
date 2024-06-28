@@ -64,8 +64,6 @@ const InternationalPassport = ({ passportProfile }) => {
             const { success, updatedPassport, error } = await uploadTenantKYC(
                 interPassport
             );
-            console.log(updatedPassport);
-
             if (success) {
                 setInterPassportLoading(true);
                 setInterPassportSuccess(true);

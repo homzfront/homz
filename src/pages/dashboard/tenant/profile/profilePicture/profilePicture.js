@@ -7,7 +7,6 @@ import { useDropzone } from "react-dropzone";
 import { updateProfilePicture } from "@/api/tenantSevice";
 
 const ProfilePicture = ({ data }) => {
-  console.log(data);
   const [uploadedImage, setUploadedImage] = useState(null);
   const inputRef = useRef(null);
   const [doneUpdate, setDoneUpdate] = useState(false);

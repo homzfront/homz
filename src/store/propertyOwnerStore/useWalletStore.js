@@ -11,7 +11,7 @@ const UseWalletStore = create((set) => ({
         try {
             const response = await propertyOwnerWallet();
             if (response?.data === null) {
-                set({ walletPin: true, loading: false });
+                set({ showKYC: false, walletPin: true, loading: false });
             }
             if (response?.success === true) {
                 set({ illuminateWallet: true });
