@@ -11,14 +11,14 @@ function PopUpMenuTwo({
   handleDelete,
   dropdownRef,
 }) {
+    const [active, setActive] = useState(false);
+    const [activeTwo, setActiveTwo] = useState(false);
+    const [activeThree, setActiveThree] = useState(false);
+    const [activeFour, setActiveFour] = useState(false);
+
   if (!data) {
     return null;
   }
-
-  const [active, setActive] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(false);
-  const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(false);
 
 
   return (
@@ -69,7 +69,7 @@ function PopUpMenuTwo({
         }
       </Link>
       <button
-        onClick={() => handleDelete(data?.id)}
+        onClick={() => handleDelete(data)}
         onMouseEnter={() => setActiveFour(true)}
         onMouseLeave={() => setActiveFour(false)} >
         {activeFour ?
