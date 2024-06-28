@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import pic from "/public/static/images/coverPhoto.png";
 import add from "/public/static/images/add.svg";
 import Image from "next/image";
+import MiniOtherPhotosFrame from './miniPhotoFrame'
 
 const PropertyPhoto = ({
   BackToRentalsInfo,
@@ -13,10 +14,10 @@ const PropertyPhoto = ({
 }) => {
   const [ImageSrc, setImageScr] = useState(pic);
   const fileUpload = useRef(null);
-  const fileUpload2 = useRef(null);
+  // const fileUpload2 = useRef(null);
   const [coverPhoto, setCoverPicture] = useState(null);
   const [fileUploaded, setFileUpload] = useState(false);
-  const [fileUploaded2, setFileUpload2] = useState(false);
+  // const [fileUploaded2, setFileUpload2] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [houses, setHouses] = useState(Array(10).fill(null));
   const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
@@ -82,6 +83,7 @@ const PropertyPhoto = ({
         setErrorMsg(newErrorMsg);
         return;
       } else {
+        setImagesFiles((prev)=> [...prev,file])
         const newErrorMsg = [...errorMsg];
         newErrorMsg[index] = "";
         setErrorMsg(newErrorMsg);
@@ -122,7 +124,7 @@ const PropertyPhoto = ({
               <br />
 
               <div
-                className={` md:w-[120px] md:h-[120px] w-[76px] h-[76px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-3 md:mt-0 `}
+                className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
               >
                 <form
                   enctype="multipart/form-data"
@@ -144,7 +146,7 @@ const PropertyPhoto = ({
                       onClick={uploadCoverPhoto}
                       src={fileUploaded && ImageSrc}
                       alt="Cover  Photo"
-                      className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px]"
+                      className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                       width={120}
                       height={120}
                     />
@@ -191,7 +193,7 @@ const PropertyPhoto = ({
             >
               {houses.map((house, index) => (
                 <div
-                  className={` md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+                  className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
                   key={index}
                 >
                   <form
@@ -213,7 +215,7 @@ const PropertyPhoto = ({
                         onClick={() => uploadFile2(index)}
                         src={house}
                         alt="photos"
-                        className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px]"
+                        className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                         width={120}
                         height={120}
                       />
@@ -236,7 +238,7 @@ const PropertyPhoto = ({
             </div>
           </div>
           {/* mobile view  */}
-          <div className="sm:hidden">
+          <div className="sm:hidden mt-[7px]">
             <MiniOtherPhotosFrame
               houses={houses}
               add={add}
@@ -250,7 +252,7 @@ const PropertyPhoto = ({
         </div>
       </main>
       <section className="flex flex-col gap-[24px] mt-8">
-        <p className="text-[11px] md:text-[18px] font-[400] text-black leading-[13.86px] md:leading-[19.5px]">
+        <p className="text-[14px] md:text-[18px] font-[400] text-black leading-[13.86px] md:leading-[19.5px]">
           Add video links of your property
         </p>
         <div className="">
@@ -383,77 +385,4 @@ const PropertyPhoto = ({
 
 export default PropertyPhoto;
 
-const MiniOtherPhotosFrame = ({
-  houses,
-  add,
-  displayHousePic,
-  uploadFile2,
-  errorMsg,
-  fileUploads,
-  secondDisplay,
-}) => {
-  const mapHouse = secondDisplay ? houses.slice(2) : houses.slice(0, 2);
-  return (
-    <div className=" sm:space-y-4 w-fit  ">
-      {!secondDisplay && (
-        <>
-          <label
-            for="others"
-            className="text-[13px] font-[500] leading-[19.5px]"
-          >
-            Other photos
-          </label>
-          <br />
-        </>
-      )}
-      {/* // Render each house dynamically */}
 
-      <div
-        className={`h-fit g grid-cols-3 sm:grid-cols-6 flex  flex-wrap gap-[15px] sm:gap-[20px] sm:w-full w-fit mt-2 md:mt-0`}
-      >
-        {mapHouse.map((house, index) => (
-          <div
-            className={` md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
-            key={index}
-          >
-            <form
-              enctype="multipart/form-data"
-              method="put"
-              // action="/api/updateUser/"
-            >
-              <input
-                type="file"
-                name="HousePic"
-                ref={(el) => (fileUploads.current[index] = el)}
-                id={`uploadImage${index}`}
-                onChange={(e) => displayHousePic(e, index)}
-                style={{ display: "none" }}
-                accept="image/jpg, image/png, image/jpeg"
-              />
-              {house ? (
-                <Image
-                  onClick={() => uploadFile2(index)}
-                  src={house}
-                  alt="photos"
-                  className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-[14.13px]"
-                  width={120}
-                  height={120}
-                />
-              ) : (
-                <Image
-                  src={add}
-                  alt="Photo"
-                  className="w-[38px] h-[38px] rounded-[14.13px]"
-                  onClick={() => uploadFile2(index)}
-                  width={48}
-                  height={48}
-                />
-              )}
-            </form>
-            <p className="text-[11px] text-red-600 pl-3">{errorMsg[index]}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};

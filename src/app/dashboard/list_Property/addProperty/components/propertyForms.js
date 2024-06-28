@@ -16,9 +16,9 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const PropertyForms = () => {
   const router = useRouter();
-  const [propertyInfoActive, setPropertyInfoActive] = useState(true);
+  const [propertyInfoActive, setPropertyInfoActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
-  const [activeThree, setActiveThree] = useState(false);
+  const [activeThree, setActiveThree] = useState(true);
   const [activeFour, setActiveFour] = useState(false);
   const [loading, setLoading] = useState(false);
   const [propertyInfo, setPropertyInfo] = useState([]);
