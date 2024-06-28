@@ -2,7 +2,7 @@ import { enterpriseUserWallet, enterpriseWalletBalance } from '@/api/enterpriseM
 import { create } from 'zustand'
 
 const UseWalletStore = create((set) => ({
-    data: null,
+    walletPin: false,
     loading: true,
     illuminateWallet: false,
     showKYC: false,
@@ -10,13 +10,14 @@ const UseWalletStore = create((set) => ({
     fetchData: async () => {
         try {
             const response = await enterpriseUserWallet();
+            if (response?.data === null) {
+                set({ walletPin: true, loading: false });
+            }
             if (response?.success === true) {
                 set({ illuminateWallet: true });
                 const balance = await enterpriseWalletBalance();
                 set({ walletBalance: balance?.data?.balance?.availableBalance })
             }
-            const wallet = response;
-            set({ data: wallet, loading: false });
         } catch (error) {
             set({ loading: false });
             if (error?.response?.data?.message === 'Please add a valid  National Identity Number or international Passport, before creating / viewing a wallet') {

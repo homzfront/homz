@@ -19,7 +19,7 @@ const Wallet = () => {
   const [fetchData, setFetchData] = useState(false);
   const [data, setData] = useState(null);
 
-  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
@@ -53,7 +53,7 @@ const Wallet = () => {
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
-              wallet={walletInfo}
+              walletPin={walletPin}
               fetchDataAgain={fetchDataAgain}
               walletBalance={walletBalance}
               loading={loading}

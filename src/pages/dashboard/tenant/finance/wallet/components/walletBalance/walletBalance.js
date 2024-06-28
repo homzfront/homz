@@ -18,7 +18,7 @@ import AddWallet from "@/components/icons/addWallet";
 const WalletBalance = ({
   activeTwo,
   illuminateWallet,
-  wallet,
+  walletPin,
   fetchDataAgain,
   walletBalance,
   loading,
@@ -154,7 +154,7 @@ const WalletBalance = ({
                   Pay Rent
                 </p>
               </div>
-            ) : wallet?.data === null ?
+            ) : walletPin ?
               (<div
                 onClick={openWalletForm}
                 className="cursor-pointer w-[140px] h-[40px] px-3 flex items-center justify-center py-2 bg-BlueHomz5 rounded-md"

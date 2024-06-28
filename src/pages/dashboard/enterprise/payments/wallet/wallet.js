@@ -10,7 +10,7 @@ import UseWalletStore from "@/store/enterpriseStore/useWalletStore";
 const Wallet = () => {
   const [loading, setLoading] = useState(false);
 
-  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
@@ -31,7 +31,7 @@ const Wallet = () => {
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
-              wallet={walletInfo}
+              walletPin={walletPin}
               fetchDataAgain={fetchDataAgain}
               walletBalance={walletBalance}
               loading={loading}

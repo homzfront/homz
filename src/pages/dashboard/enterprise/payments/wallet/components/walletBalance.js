@@ -11,7 +11,7 @@ import AddWallet from "@/components/icons/addWallet";
 
 const WalletBalance = ({
   illuminateWallet,
-  wallet,
+  walletPin,
   fetchDataAgain,
   walletBalance,
   loading,
@@ -118,14 +118,14 @@ const WalletBalance = ({
                   setTopUP(!topUP)
                 }}
                 className="py-2 px-4 cursor-pointer rounded-md flex items-center gap-1 hover:border">
-                  <AddWallet />
+                <AddWallet />
                 <p
                   className="text-white text-[14px] font-[500] w-full text-center"
                 >
-                 Top Up Wallet
+                  Top Up Wallet
                 </p>
               </div>
-            ) : wallet?.data === null ?
+            ) : walletPin ?
               (
                 <div
                   onClick={openWalletForm}

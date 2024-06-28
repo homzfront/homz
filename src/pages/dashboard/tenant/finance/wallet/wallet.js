@@ -11,7 +11,7 @@ import rentInfoTeant from "@/store/rentInfoTenant";
 const Wallet = ({ activeTwo }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const { illuminateWallet, walletBalance, showKYC, data: walletInfo, fetchData: fetchWallet, rentData } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
@@ -46,7 +46,7 @@ const Wallet = ({ activeTwo }) => {
             <WalletBalance
               illuminateWallet={illuminateWallet}
               fetchDataAgain={fetchDataAgain}
-              wallet={walletInfo}
+              walletPin={walletPin}
               activeTwo={activeTwo}
               walletBalance={walletBalance}
               loading={loading}
