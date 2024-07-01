@@ -2,32 +2,19 @@ import React from "react";
 import Link from "next/link";
 import ReminderPane from "./components/reminderPane";
 import Image from "next/image";
+import ArrowLeftII from "@/components/icons/arrowLeftII";
 
 const Reminder = () => {
   return (
     <div className="pt-8 flex flex-col gap-y-4 md:pt-4 px-8">
       <div className="hidden md:flex gap-6 items-center pb-1">
         <Link href="/dashboard/enterprise-property/tenants">
-          <button className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-w_idth="1.5"
-              stroke="currentColor"
-              class="w-5 h-5 text-gray-400 "
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-              />
-            </svg>
+          <button className="flex items-center gap-1">
+            <ArrowLeftII />
             <span className=" text-gray-400 text-[14px]">Go Back</span>
           </button>
         </Link>
       </div>
-
       <div className="flex justify-between md:items-center pt-2">
         <div className="">
           <div className="flex items-center md:items-start space-x-20 md:space-x-0  mb-9 md:mb-0">
@@ -49,7 +36,6 @@ const Reminder = () => {
           </p>
         </div>
       </div>
-
       <div className="flex flex-col md:flex-row py-[24px] pr-0 pl-[12px] md:pl-[32px] gap-[56px] bg-[#F6F6F6]">
         <div className=" md:w-[132px] h-[132px] rounded-[100%] ">
           <Image
@@ -103,7 +89,6 @@ const Reminder = () => {
           </div>
         </div>
       </div>
-
       <ReminderPane />
     </div>
   );

@@ -38,6 +38,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
 
   const handleOptionSelect = (option) => {
     setselectedYear(parseInt(option?.label));
+    setError(null);
   };
 
   const RentValue = selecetedYear * rentData?.data?.rent;
@@ -59,6 +60,10 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
 
   const proceeding = () => {
     if (pincode.length === 4) {
+      if (selecetedYear === null) {
+        setError("Select rent duration.")
+        return;
+      }
       setProceed(!proceed);
     } else {
       setError("Pincode should be 4 digits")
@@ -176,9 +181,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
             returnHomeTwo={closeProceeding}
             returnHome={openConfirm}
             header={"Proceed To Pay Rent?"}
-            body={`${addCommasToNumber(
-              rentData?.data?.totalRent
-            )} will be deducted from your wallet balance`}
+            body={`${addCommasToNumber(RentValue)} will be deducted from your wallet balance`}
             button={"Yes"}
             buttonTwo={"Cancel"}
           />
@@ -270,7 +273,9 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
                 </p>
                 <Dropdown
                   options={options}
-                  onSelect={handleOptionSelect}
+                  onSelect={
+                    handleOptionSelect
+                  }
                   selectOption={`1${duration > 1 ? - duration : ""} year${duration > 1 ? "s" : ""
                     }`}
                   className={"w-full mt-2"}
@@ -329,12 +334,11 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
             }
           </div>
           {
-            rentData?.data !== null && pincode !== "" ? <button
+            pincode !== "" ? <button
               onClick={proceeding}
               className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
             >
-              {/* {addCommasToNumber(RentValue)} */}
-              {addCommasToNumber(rentData?.data?.totalRent)}
+                 {addCommasToNumber(RentValue)}
             </button> : <button
               className="pointer-events-none w-full h-[48px] bg-GrayHomz5 rounded-md text-GrayHomz6 text-[16px] font-[700]"
             >

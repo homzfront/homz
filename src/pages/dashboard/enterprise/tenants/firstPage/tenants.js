@@ -228,7 +228,7 @@ const Tenants = () => {
                   </div>
                 </div>
                 <Link
-                  href={` ${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminder" : "#"
+                  href={` ${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminderII" : "#"
                     }`}>
                   <button
                     className={`hidden

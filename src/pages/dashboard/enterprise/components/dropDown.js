@@ -35,7 +35,6 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
           </div>
         </div>
       </div>
-
       {isOpen && (
         <div className="p-2 block top-14 w-full text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
           {options.map((option) => (
