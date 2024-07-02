@@ -9,5 +9,4 @@ const Layout = ({children}) => {
   )
 }
 
-// export default WithAuth(Layout);
-export default Layout
+export default WithAuth(Layout);

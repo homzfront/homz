@@ -56,15 +56,15 @@ const Data = [
   //   coming: null,
   //   active: false,
   // },
-  {
-    id: 5,
-    image: <Payment height="16" width="16"/>,
-    image2: <Payment className='text-BlueHomz fill-white' height="16" width="16"/>,
-    link: "/dashboard/property-owner/payments",
-    name: "Payments",
-    coming: null,
-    active: false,
-  },
+  // {
+  //   id: 5,
+  //   image: <Payment height="16" width="16"/>,
+  //   image2: <Payment className='text-BlueHomz fill-white' height="16" width="16"/>,
+  //   link: "/dashboard/property-owner/payments",
+  //   name: "Payments",
+  //   coming: null,
+  //   active: false,
+  // },
   {
     id: 6,
     image: <Maintenance height="16" width="16"/>,
@@ -128,7 +128,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="shadow-lg">
+      <div className="shadow-lg fixed">
         <div className="w-full h-[1024px] px-6 flex flex-col py-10">
           <div className="mb-[50px]">
             <Link href={"/"} >
