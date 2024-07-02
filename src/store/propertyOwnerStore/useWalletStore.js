@@ -18,7 +18,7 @@ const UseWalletStore = create((set) => ({
                 const timeoutId = setTimeout(async () => {
                     const balance = await propertyOwnerWalletBalance();
                     set({ walletBalance: balance?.data?.balance?.availableBalance });
-                }, 2000);
+                }, 3000);
                 return () => clearTimeout(timeoutId);
             }
         } catch (error) {
