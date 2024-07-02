@@ -31,34 +31,34 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
         { id: 3, label: "Email" },
         { id: 4, label: "SMS" },
     ]
-
+    
     return (
         <div>
             {<CustomizeModal isOpen={modalConfirmChnages}>
                 {
                     openCompleted ?
                         <div className="p-2 m-auto bg-white h-auto rounded-md">
-                                <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
-                                    <Image
-                                        src={
-                                            "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
-                                        }
-                                        alt=""
-                                        height={48}
-                                        width={48}
-                                    />
-                                    <h1 className="text-BlackHomz text-center font-[700] text-[20px]">Reminder Settings Saved</h1>
-                                    <p className="text-[16px] font-[400] text-GrayHomz text-center">Tenants will now receive reminders to prompt swift rent  payment</p>
-                                    <button
-                                        onClick={() => {
-                                            setOpenCompleted(false)
-                                            setModalConfirmChnages(false)
-                                        }}
-                                        className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
-                                    >
-                                        Close
-                                    </button>
-                                </div>
+                            <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
+                                <Image
+                                    src={
+                                        "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+                                    }
+                                    alt=""
+                                    height={48}
+                                    width={48}
+                                />
+                                <h1 className="text-BlackHomz text-center font-[700] text-[20px]">Reminder Settings Saved</h1>
+                                <p className="text-[16px] font-[400] text-GrayHomz text-center">Tenants will now receive reminders to prompt swift rent  payment</p>
+                                <button
+                                    onClick={() => {
+                                        setOpenCompleted(false)
+                                        setModalConfirmChnages(false)
+                                    }}
+                                    className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
+                                >
+                                    Close
+                                </button>
+                            </div>
                         </div>
                         :
                         <div className="max-w-[464px] p-2 m-auto bg-white h-auto rounded-md">
@@ -179,7 +179,7 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between border-b py-4 w-[100%]">
+            <div className={`flex justify-between border-b py-4 w-[100%]`}>
                 <div className="flex flex-col w-[50%] md:w-[395px] gap-2">
                     <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                         Email Reminder Message <span className="text-red-600">*</span>
@@ -197,7 +197,7 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between border-b py-4 w-[100%]">
+            <div className={`flex justify-between border-b py-4 w-[100%] `}>
                 <div className="flex flex-col w-[50%] md:w-[395px] gap-2">
                     <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                         Email Reminder Message <span className="text-red-600">*</span>
@@ -225,7 +225,7 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                     </div>
                 </div>
             </div>
-            <div className='border-b py-4 w-[100%]'>
+            <div className={`border-b py-4 w-[100%]`}>
                 <div className="flex justify-between">
                     <div className="flex flex-col w-[50%] md:w-[395px] gap-2">
                         <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">

@@ -59,10 +59,10 @@ export const bankInfoPropertyOwner = async () => {
 
 export const withdrawPropertyOwner = async (details) => {
   try {
-    const response = await api.post(`/bank/withdraw/property-owner`, details);
-    return { success: true, upDateddata: response.data.data };
+    const response = await api.post(`/wallet/withdraw/property-owner`, details);
+    return { success: true, upDateddata: response};
   } catch (error) {
-    return { success: false, error: error?.response.data.message };
+    return { success: false, error: error};
   }
 };
 

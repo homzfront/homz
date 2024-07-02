@@ -46,7 +46,7 @@ const Wallet = () => {
         </div>
         <div className="w-full md:w-[50%]">
           <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
+            {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
           </div>
           <div>
             <TransferHis illuminateWallet={illuminateWallet} />

@@ -51,7 +51,7 @@ const Wallet = ({ activeTwo }) => {
             />
           </div>
           <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
+            {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
           </div>
           <div>
             <Activities illuminateWallet={illuminateWallet} />

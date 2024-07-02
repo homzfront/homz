@@ -108,9 +108,6 @@ const BankForm = ({
   };
 
   const submitted = () => {
-    // Close the form
-    // setIlluminateWallet(false);
-    // setLoading(false);
     fetchDataAgain();
     closeMenu();
   };
