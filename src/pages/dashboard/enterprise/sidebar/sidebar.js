@@ -195,7 +195,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="shadow-lg">
+      <div className="shadow-lg fixed">
         <div className="w-full h-[1024px] px-6 flex flex-col py-10">
           <Link href={"/"} className="mb-[50px]">
             <Image
@@ -210,7 +210,7 @@ const Sidebar = () => {
             {Data.map((data) => (
               data.submenu ? (
                 <>
-                  <Link
+                  <Link 
                     key={data.id}
                     href={data.link}
                     className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
