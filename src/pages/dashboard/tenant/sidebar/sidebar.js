@@ -35,16 +35,15 @@ const Data = [
     coming: null,
     active: false,
   },
-
-  // {
-  //   id: 3,
-  //   image: <Payment height="16" width="16"/>,
-  //   image2: <Payment className='text-BlueHomz fill-white' height="16" width="16"/>,
-  //   link: "/dashboard/tenant/finance",
-  //   name: "Finance",
-  //   coming: null,
-  //   active: false,
-  // },
+  {
+    id: 3,
+    image: <Payment height="16" width="16"/>,
+    image2: <Payment className='text-BlueHomz fill-white' height="16" width="16"/>,
+    link: "/dashboard/tenant/finance",
+    name: "Finance",
+    coming: null,
+    active: false,
+  },
   {
     id: 4,
     image: <Maintenance height="16" width="16"/>,
