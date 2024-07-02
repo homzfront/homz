@@ -62,7 +62,7 @@ const ContactInfo = ({
       <div className="w-full md:w-[50%] mt-4 flex flex-col gap-2">
         <Input
           label={"Manager’s Phone Number"}
-          placeholder={"0000 - 000 - 0000"}
+          placeholder={"00000000000"}
           type={"number"}
           span={"*"}
           value={managerPhoneNumber}
@@ -73,7 +73,7 @@ const ContactInfo = ({
         />
         <Input
           label={"Emergency Phone Number"}
-          placeholder={"0000 - 000 - 0000"}
+          placeholder={"00000000000"}
           type={"number"}
           value={emergencyPhoneNumber}
           onChange={(e) => {
@@ -83,7 +83,7 @@ const ContactInfo = ({
         />
         <Input
           label={"Utility Services Phone Number"}
-          placeholder={"0000 - 000 - 0000"}
+          placeholder={"00000000000"}
           type={"number"}
           span2={"(Dry cleaning, Waste disposal, etc)"}
           value={utilityServicePhoneNumber}
@@ -94,7 +94,7 @@ const ContactInfo = ({
         />
         <Input
           label={"Security  Phone Number"}
-          placeholder={"0000 - 000 - 0000"}
+          placeholder={"00000000000"}
           type={"number"}
           value={securityPhoneNumber}
           onChange={(e) => {
