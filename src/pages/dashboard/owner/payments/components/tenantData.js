@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "../../components/button";
-import StatusDropdownII from "../../components/statusDropDownII";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
@@ -14,9 +13,7 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 const TenantData = ({ data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [openDropdowns, setOpenDropdowns] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
-  const dropdownRefII = useClickOutside(() => setPopUpMenuTwo(false));
 
   const ITEMS_PER_PAGE = 6;
 
@@ -52,38 +49,6 @@ const TenantData = ({ data }) => {
     (_, index) => index + 1
   );
 
-  const handleStatusChange = (status, dataId) => {
-    // Handle status change logic here
-    // Close the corresponding dropdown
-    setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
-    // Correctly update DueDate for the corresponding tenant:
-    // const data = Data.find((tenant) => tenant.id === dataId).Status = status;
-    // console.log(data)
-    // Find the index of the data item with the given dataId
-    const dataIndex = data.findIndex((item) => item.id === dataId);
-
-    if (dataIndex !== -1) {
-      // Update the DueDate property of the found item
-      const updatedData = [...data];
-      updatedData[dataIndex].Status = status;
-
-      // Update the state with the new data
-      setData(updatedData);
-    }
-  };
-
-  const toggleDropdown = (dataId) => {
-    setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
-  };
-
-  const handleDelete = (profileId) => {
-    // Perform your delete logic here...
-    // For example, you can update the state to remove the profile
-    const updatedData = data.filter((profile) => profile.id !== profileId);
-    // Set the updated data to the state
-    setData(updatedData); // Assuming you have a state variable 'setData'
-  };
-
   return (
     <div className="mt-6">
       <div className=" border w-full">
@@ -112,7 +77,7 @@ const TenantData = ({ data }) => {
                     <td className="flex items-center gap-1 pr-2  pl-4 text-GrayHomz4 font-[500] text-[11px]">
                       {data?.tenantId?.coverPhoto?.url === null ||
                         data?.tenantId?.coverPhoto?.url === undefined ? (
-                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                        <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                           <EmptyAvatar />
                         </div>
                       ) : (
@@ -143,11 +108,8 @@ const TenantData = ({ data }) => {
                       {addYearsToValues(data?.duration)}  rents
                     </td>
                     <td className="text-GrayHomz py-[15px] pr-4 font-[500]  text-[11px] w-24">
-                      <div className={`${data?.rentInfo?.paymentStatus === "pending" ? "bg-warningBg text-warning2" :
-                        data?.rentInfo?.paymentStatus === "paid" ? "bg-successBg text-Success" :
-                          data?.rentInfo?.paymentStatus === "over due" ? "bg-error text-white" : ""
-                        }  rounded-md py-1 w-[95px] flex items-center justify-center`}>
-                        {capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                      <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
+                        {capitalizeFirstLetter(data?.status)}
                       </div>
                     </td>
                     <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">

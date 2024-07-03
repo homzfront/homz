@@ -2,15 +2,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "../../components/button";
-import StatusDropdown from "../../components/statusDropDown";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import useClickOutside from "@/utils/clickOutside";
 import PopUpMenuTwo from "./popMenuToTenantProfile";
-import lowerCaseData from "@/utils/lowerCaseData";
-import { updatePaymentStatusTenant } from "@/api/tenantSevice";
-import { toast } from "react-toastify";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 
@@ -18,10 +14,7 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
-  const [loadingRows, setLoadingRows] = useState({});
-  const [selectedStatus, setSelectedStatus] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
-  const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
   const ITEMS_PER_PAGE = 6;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,32 +49,6 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
     (_, index) => index + 1
   );
 
-  const handleStatusChange = async (status, dataId, id) => {
-    setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
-
-    try {
-      // Handle status change logic here
-      const data = await updatePaymentStatusTenant({
-        id,
-        status: lowerCaseData(status),
-      });
-      toast.success("status updated successfully");
-      // Close the corresponding dropdown
-      fetchRentData()
-      RevData()
-      setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
-    } catch (error) {
-      toast.error(error);
-      setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
-    }
-    finally {
-      setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
-    }
-  };
-
-  const toggleDropdown = (dataId) => {
-    setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
-  };
 
   return (
     <div className="mt-6">
@@ -111,7 +78,7 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
                     <td className="flex items-center gap-1 pr-2  pl-4 text-GrayHomz4 font-[500] text-[11px]">
                       {data?.tenantId?.coverPhoto?.url === null ||
                         data?.tenantId?.coverPhoto?.url === undefined ? (
-                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                        <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                           <EmptyAvatar />
                         </div>
                       ) : (
@@ -141,26 +108,12 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
                     <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}  rents
                     </td>
-                    <td 
+                    <td
                       className={`text-GrayHomz py-[15px] pr-4 font-[500]  text-[11px] w-24`}
                     >
-                      <StatusDropdown
-                       setSelectedStatus={(status) =>
-                        setSelectedStatus((prev) => ({
-                          ...prev,
-                          [data._id]: status,
-                        }))
-                      }
-                        value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
-                        selectedStatus={selectedStatus[data._id] || null}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id, data?.rentInfo?._id)
-                        }
-                        isOpen={openDropdowns[data?._id] || false}
-                        toggleDropdown={() => toggleDropdown(data?._id)}
-                        loading={loadingRows[data?._id] || false}
-                        dropdownRef={dropdownRefII}
-                      />
+                      <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
+                        {capitalizeFirstLetter(data?.status)}
+                      </div>
                     </td>
                     <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {data?.estateId?.name}
