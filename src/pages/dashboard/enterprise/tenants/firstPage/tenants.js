@@ -163,7 +163,7 @@ const Tenants = () => {
                     <AddBigBlue />
                   </button>
                   <Link
-                    href={`${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminder" : "#"
+                    href={`${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminderMultiple" : "#"
                       }`}>
                     <button
                       className={`md:hidden
@@ -228,7 +228,7 @@ const Tenants = () => {
                   </div>
                 </div>
                 <Link
-                  href={` ${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminderII" : "#"
+                  href={` ${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminderMultiple" : "#"
                     }`}>
                   <button
                     className={`hidden
