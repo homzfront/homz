@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import Settings from "./components/settings";
 import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import Image from "next/image";
+import SettingsII from "./components/settingsII";
 
 const Data = [
   {
@@ -26,8 +27,18 @@ const Data = [
   },
   {
     id: 4,
-    reminderDate: "3 Days Reminder",
+    reminderDate: "7 Days Reminder",
     tenant: "Tenants will receive a reminder 3 days to their due dates",
+  },
+  {
+    id: 5,
+    reminderDate: "Due Date",
+    tenant: "Tenants will receive a reminder on their due date",
+  },
+  {
+    id: 6,
+    reminderDate: "Post Due Date",
+    tenant: "Tenants will frequently receive set reminder after their due date",
   },
 ]
 
@@ -132,9 +143,14 @@ const ReminderMultiple = () => {
                   </div>
                 </div>
               </div>
-              {selectedId === data.id && (
+              {selectedId === data.id && data?.reminderDate !== "Post Due Date" && (
                 <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
                   <Settings />
+                </div>
+              )}
+              {selectedId === data.id && data?.reminderDate === "Post Due Date" && (
+                <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
+                  <SettingsII />
                 </div>
               )}
             </div>
@@ -143,9 +159,9 @@ const ReminderMultiple = () => {
         <div className="w-full flex justify-end mt-4 mb-10">
           {
             isAnyToggleActive ?
-              <button 
-              onClick={()=> setOpenCompleted(true)}
-              className="text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-3 rounded-[4px]">
+              <button
+                onClick={() => setOpenCompleted(true)}
+                className="text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-3 rounded-[4px]">
                 Save settings
               </button>
               :

@@ -5,13 +5,14 @@ import CustomizeModal from '@/components/mainmenu/CustomizedModal';
 import Image from 'next/image';
 import RichTextEditor from './richTextEditor';
 
-const CustomizeSettings = ({ setCustomizeSettings }) => {
+const CustomizeSettingsII = ({ setCustomizeSettings }) => {
     const [time, setTime] = useState(null);
     const [dueDate, setDueDate] = useState(null);
     const [channels, setChannels] = useState([]);
     const [modalConfirmChanges, setModalConfirmChanges] = useState(false);
     const [modalSave, setModalSave] = useState(false);
     const [openCompleted, setOpenCompleted] = useState(false);
+    const [frequency, setFrequency] = useState(null);
 
     const options = [
         { id: 1, label: "6 months before due date" },
@@ -30,6 +31,14 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
         { id: 3, label: "Email" },
         { id: 4, label: "SMS" },
     ];
+
+    const optionIII = [
+        { id: 1, label: "Every day" },
+        { id: 2, label: "Every 3 days" },
+        { id: 3, label: "Every week" },
+        { id: 4, label: "Every 2 weeks" },
+        { id: 5, label: "Every month" },
+    ]
 
     const isSMSPresent = channels.includes('SMS');
     const isEmailPresent = channels.includes('Email');
@@ -124,6 +133,26 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                         onSelect={(option) => setDueDate(option)}
                         selectOption={
                             dueDate === null ? "Select reminder date" : dueDate.label
+                        }
+                        className="text-[14px] font-[500] text-GrayHomz2 w-[236px]"
+                    />
+                </div>
+            </div>
+            <div className="flex justify-between border-b py-4 w-[100%]">
+                <div className="flex flex-col w-[50%] md:w-[395px] gap-2">
+                    <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
+                        Frequency <span className="text-red-600">*</span>
+                    </p>
+                    <p className="text-[13px] leading-[19.5px] text-[400] text-GrayHomz">
+                        Set how frequent you want your tenant(s) to receive this reminder
+                    </p>
+                </div>
+                <div className="w-[50%]">
+                    <DropDownReminder
+                        options={optionIII}
+                        onSelect={(option) => setFrequency(option)}
+                        selectOption={
+                            frequency === null ? "Select frequency" : frequency.label
                         }
                         className="text-[14px] font-[500] text-GrayHomz2 w-[236px]"
                     />
@@ -254,4 +283,4 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
     );
 };
 
-export default CustomizeSettings;
+export default CustomizeSettingsII;

@@ -1,9 +1,9 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-// import GoogleAnalytics from "@/utils/googleAnalytics";
 import "dotenv/config";
-import { GoogleTagManager } from '@next/third-parties/google'
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import Head from 'next/head';
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -29,6 +29,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE} />
+      </Head>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
       <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
       <body>
@@ -48,8 +51,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </body>
-      <body className={plus_Jakarta_Sans.className}>{children}
-      </body>
+      <body className={plus_Jakarta_Sans.className}>{children}</body>
     </html>
   );
 }
