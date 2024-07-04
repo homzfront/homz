@@ -58,7 +58,7 @@ const ReminderMultiple = () => {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
 
-  const isAnyToggleActive = Object.values(toggleStates).some(value => value);
+  const isAnyToggleActive = Object?.values(toggleStates)?.some(value => value);
 
   return (
     <div className="flex flex-col gap-4">
@@ -115,7 +115,7 @@ const ReminderMultiple = () => {
           </button>
         </div>
         <div className="flex flex-col gap-4">
-          {Data.map((data) => (
+          {Data?.map((data) => (
             <div key={data.id}>
               <div className="w-full p-4 bg-walletBg border border-BlueHomz rounded-[8px]">
                 <div className="flex items-center justify-between">
