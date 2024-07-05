@@ -9,7 +9,7 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
         <p className="bg-[#006AFF] text-white px-[12px] py-[8px] rounded-[4px] text-[13px]">
           Property Details
         </p>
-        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between flex-wrap sm:flex-nowrap">
+        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] grid grid-cols-3 sm:flex justify-between flex-wrap sm:flex-nowrap">
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Property Type
@@ -34,12 +34,12 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
               4 units
             </span>
           </p>
-          <p className="flex flex-col gap-0 mt-6 sm:mt-0">
+          <p className="flex flex-col gap-0 mt-6 sm:mt-0 w-[250px] sm:w-fit">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Additional Details
             </span>
             {additionalDetails.map((detail, index) => (
-              <span className="" key={index}>
+              <span className="px-2" key={index}>
                 <span className="text-[#202020] text-[13px] leading-[21px] font-[400] flex gap-2">
                   <Image
                     src="/static/images/dot.svg"
@@ -59,7 +59,7 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
         <p className="bg-[#006AFF] text-white px-[12px] py-[8px] rounded-[4px] text-[13px]">
           Price
         </p>
-        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] flex justify-between  flex-wrap sm:flex-nowrap gap-6 sm:gap-0">
+        <div className="bg-[#EEF5FF] px-[12px] py-[8px] rounded-[4px] grid grid-cols-2 sm:flex justify-between flex-wrap sm:flex-nowrap gap-6 sm:gap-0">
           <p className="flex flex-col gap-0">
             <span className="text-[11px] text-[#006AFF] leading-[16.5px] font-[500] mb-2">
               Payment Type

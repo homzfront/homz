@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PropertyCard from "./components/propertyCard";
-import CustomizedModal from "./components/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Dropdown from "./components/dropDownFilter";
 // import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
@@ -201,11 +201,40 @@ const EditProperty = ({
           </div>
         </div>
       )}
-      <div className="dashboard hidden md:flex justify-between">
-        <div className="flex gap-[8px]">
+      <div className="flex justify-between md:hidden w-full">
+        <div className="relative w-[86%] rounded-[4px]">
+          <input
+            type="text"
+            className="border h-[40px] pl-8 rounded-[4px] w-full "
+            id="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by state or area "
+          />
+          <Image
+            src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+            alt=""
+            className="absolute top-3 left-3"
+            height={16}
+            width={16}
+          />
+        </div>
+        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+          <button onClick={openMobileModal}>
+            <Image
+              src="/static/images/filter.svg"
+              alt=""
+              width={16}
+              height={16}
+            />
+          </button>
+        </div>
+      </div>
+      <div className="dashboard flex sm:justify-between mt-6 sm:mt-0">
+        <div className="flex sm:gap-[8px] gap-[8px] ">
           <button
             className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
-              tabName === "All" && "bg-BlueHomz text-white"
+              tabName === "All" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             }`}
             onClick={() => setTabName("All")}
           >
@@ -213,7 +242,7 @@ const EditProperty = ({
           </button>
           <button
             className={`py-[8px] px-[12px] ${
-              tabName === "Publish" && "bg-BlueHomz text-white"
+              tabName === "Publish" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Publish")}
           >
@@ -221,7 +250,7 @@ const EditProperty = ({
           </button>
           <button
             className={`py-[8px] px-[12px] ${
-              tabName === "Unpublish" && "bg-BlueHomz text-white"
+              tabName === "Unpublish" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Unpublish")}
           >
@@ -229,14 +258,14 @@ const EditProperty = ({
           </button>
           <button
             className={`py-[8px] px-[12px] rounded-[4px] ${
-              tabName === "Drafts" && "bg-BlueHomz text-white"
+              tabName === "Drafts" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Drafts")}
           >
             Drafts
           </button>
         </div>
-        <div className="flex gap-1 filter">
+        <div className="hidden sm:flex gap-1 filter">
           <p className="text-[#4E4E4E]  text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2"></p>
           <div className="">
             <Dropdown
@@ -305,35 +334,7 @@ const EditProperty = ({
           </button>
         </div>
       </div>
-      <div className="flex justify-between md:hidden w-full">
-        <div className="relative w-[86%] rounded-[4px]">
-          <input
-            type="text"
-            className="border h-[40px] pl-8 rounded-[4px] w-full "
-            id="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by state or area "
-          />
-          <Image
-            src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
-            alt=""
-            className="absolute top-3 left-3"
-            height={16}
-            width={16}
-          />
-        </div>
-        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
-          <button onClick={openMobileModal}>
-            <Image
-              src="/static/images/filter.svg"
-              alt=""
-              width={16}
-              height={16}
-            />
-          </button>
-        </div>
-      </div>
+   
       <PropertyCard
         Property={filteredData}
         setModalIsOpen={setModalIsOpen}

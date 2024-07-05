@@ -14,20 +14,22 @@ function CardMenus({
   refs,
   setModalIsOpen
 }) {
+  // const router= useRouter();
+  // onClick={(e) => {
+  //   router.push(`/dashboard/list_Property/edit_property/${data?._id}`);
+  // }}
   if (!data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
-
   return (
     <div
       className="absolute z-50 md:top-[1.55rem] top-[1rem] right-[5px] w-[80px] md:right-[6px] mt-2 py-[4px] px-1  md:w-[207px] bg-white shadow-md rounded-[12px]"
       ref={refs}
     >
-      <button
+      <Link 
+      href={`/dashboard/list_Property/edit_property/${data?._id}`}
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
-        onClick={(e) => {
-          router.push(`/dashboard/list_Property/edit_property/${data?._id}`);
-        }}
+      
       >
         <Image
           src="/static/images/new_edit-2.svg"
@@ -37,7 +39,7 @@ function CardMenus({
           className="h-[13px] w-[13px] md:w-[16px] md:h-[16px] cursor-pointer"
         />
         <span>Edit details</span>
-      </button>
+      </Link>
       <button
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
         onClick={(e) => {

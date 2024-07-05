@@ -506,22 +506,24 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                   </div>
                 )}
               </div>
-              {tabName === "properties" && (
-                <div className="flex flex-col  gap-[24px]">
-                  <div className="hidden sm:block">
-                    <OwnersCard propertyData={propertyData && propertyData} />
-                  </div>
-                  <RequestCard />
-                  <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
-                    <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
-                      Can’t find the property you are looking for?
-                    </p>
-                    <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
-                      Post a property request
-                    </button>
-                  </div>
+              <div className="flex flex-col  gap-[24px]">
+                <div className="hidden sm:block">
+                  <OwnersCard propertyData={propertyData && propertyData} />
                 </div>
-              )}
+                {tabName === "properties" && (
+                  <>
+                    <RequestCard />
+                    <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
+                      <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
+                        Can’t find the property you are looking for?
+                      </p>
+                      <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                        Post a property request
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </section>
           </div>
         )

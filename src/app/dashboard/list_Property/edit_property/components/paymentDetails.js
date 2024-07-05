@@ -1,66 +1,84 @@
-import Image from "next/image";
-import React, { useState } from "react";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import _ from "lodash";
 
-const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
+const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
+  const [data, setData] = useState(null);
   const [paymentType, setPaymentType] = useState("");
-  const [price, setPrice] = useState("");
-  const [maintenance, setMaintenance] = useState("");
-  const [total, setTotal] = useState("");
-  const [agency, setAgency] = useState("");
-  const [initialPayment, setInitialPayment] = useState("");
-  const [formattedInitialPayment, setFormattedInitialPayment] = useState("");
-  const [formattedPrice, setFormattedPrice] = useState("");
-  const [formattedMaintenancePrice, setFormattedMaintenancePrice] =
-    useState("");
-  const [formattedAgencyPrice, setFormattedAgencyPrice] = useState("");
   const [isFocusPrice, setFocusPrice] = useState(false);
   const [isFocusMaintenance, setFocusMaintenance] = useState(false);
   const [isFocusAgency, setFocusAgency] = useState(false);
+  const [priceClicked, setPriceClicked] = useState(false);
+  const [paymentClicked, setPaymentClicked] = useState(false);
+  const [maintenanceClicked, setMaintenanceClicked] = useState(false);
+  const [initialPaymentClicked, setInitialPaymentClicked] = useState(false);
+  const [agencyClicked, setAgencyClicked] = useState(false);
   const [isFocusInitialPayment, setFocusInitialPayment] = useState(false);
   const [Installment, setInstallment] = useState(false);
   const [selectedClicked, setSelectedClicked] = useState(true);
   const [durationClicked, setDurationClicked] = useState(true);
 
-  const handleNumberChange = (e, setValue, setFormat) => {
+  const [formData, setFormData] = useState({
+    durationClicked: "2",
+    initialPayment: "340003",
+    frequency: "monthly",
+  });
+
+  const [price, setPrice] = useState(formData?.price || "");
+  const [maintenance, setMaintenance] = useState(
+    formData?.maintenanceFee || ""
+  );
+  const [total, setTotal] = useState(formData?.totalFee);
+  const [agency, setAgency] = useState(formData?.agencyFee || "");
+  const [initialPayment, setInitialPayment] = useState(
+    formData?.initialPayment || ""
+  );
+  const originalFormData = useRef({
+    ...property,
+    durationClicked: property?.durationClicked || "2",
+    initialPayment: property?.initialPayment || "340003",
+    frequency: property?.frequency || "monthly",
+  });
+
+  useEffect(() => {
+    if (property) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...property,
+        durationClicked: property?.durationClicked || "2",
+        initialPayment: property?.initialPayment || "340003",
+        frequency: property?.frequency || "monthly",
+      }));
+    }
+  }, [property]);
+
+  useEffect(() => {
+    // Compare formData and originalFormData
+    const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
+    setSaveUpdate(isFormDataChanged);
+  }, [formData, originalFormData, setSaveUpdate]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleNumberChange = (e, setValue) => {
     const value = e.target.value;
     const numericValue = value.match(/^\d*\.?\d*$/);
     if (numericValue) {
       setValue(value);
-      setFormat(value);
     }
   };
 
-  const handleBlur = (value, setValue) => {
-    if (value) {
-      const numericValue = parseFloat(value);
-      if (!isNaN(numericValue)) {
-        setValue(Number(numericValue).toLocaleString());
-      }
-    }
-  };
-
-  const onSubmit = () => {
-    const data = {};
-
-    if (paymentType !== undefined && paymentType !== null) {
-      data.paymentType = paymentType;
-    }
-    if (!isNaN(parseInt(maintenance))) {
-      data.maintenanceFee = parseInt(maintenance);
-    }
-    if (!isNaN(parseInt(total))) {
-      data.totalFee = parseInt(total);
-    }
-    if (!isNaN(parseInt(agency))) {
-      data.agencyFee = parseInt(agency);
-    }
-    if (!isNaN(parseInt(price))) {
-      data.price = parseInt(price);
-    }
-
-    handleRentalInfo(data);
-  };
   const calculateTotalPrice = () => {
     const safeParse = (value) => {
       const parsedValue = parseFloat(value);
@@ -72,20 +90,19 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
     const sum = parsedPrice + parsedMaintenance + parsedAgency;
     setTotal(sum.toLocaleString());
   };
+  // console.log(formData);
+
+  const onSubmit = () => {
+    if (data === null) {
+      setEditMode(false);
+    } else {
+      handleUpdate(data);
+    }
+  };
 
   return (
-    <div className="px-0 w-full">
-      <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px] pb-2">
-        Payment Details
-      </div>
-      <p className="flex sm:flex-row flex-col  items-center gap-1 text-[14px] md:text-[18px] font-[400] w-[270px] md:w-full">
-        <span>Kindly fill in the accurate payment details</span>
-        <span className="text-[#A9A9A9] sm:inline-block pt-2 text-[12px] hidden">
-          (Only fill the fields that are applicable to your property).
-        </span>
-      </p>
-
-      <div className=" flex flex-col w-full mt-6">
+    <div className="px-0">
+      <div className=" flex flex-col md:w-full mt-6">
         <div className="flex md:gap-[45px] gap-[24px] flex-col  sideBarHidden">
           <div className="grid sm:grid-cols-2 md:gap-[28px] gap-[24px]">
             <div className="custom-select-wrapper">
@@ -101,13 +118,23 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 name="paymentType"
                 className="custom-select h-[43px] md:h-[45px] md:w-[473px] pl-2 md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
                 onChange={(e) => {
+                  handleChange(e);
                   setPaymentType(e.target.value);
                 }}
-                onClick={() => setSelectedClicked(false)}
+                onClick={() => {
+                  setPaymentClicked(true);
+                  setSelectedClicked(false);
+                }}
+                style={{
+                  backgroundColor: paymentClicked ? "inherit" : "#E6E6E6",
+                  color: paymentClicked ? "#4E4E4E" : "#A9A9A9",
+                  border: paymentClicked && "1px solid #4E4E4E",
+                }}
               >
                 {selectedClicked && (
-                  <option value="" disabled selected>
-                    Select Payment Type
+                  <option value={formData?.paymentType} selected>
+                    {capitalizeFirstLetter(formData?.paymentType) ||
+                      "select option"}
                   </option>
                 )}
                 {paymentTypeValues.map((type, index) => (
@@ -122,33 +149,38 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
                 htmlFor="price"
               >
-                {capitalizeFirstLetter(paymentType)} Price
+                {capitalizeFirstLetter(paymentType || formData?.paymentType)}{" "}
+                Price
               </label>{" "}
               <span className="text-error">*</span>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[473px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !price && "opacity-50"
+                    !priceClicked && "opacity-50"
                   }`}
                 >
                   ₦
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] w-full py-[12px] pl-8 rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]  "
+                  className={`h-[43px] md:h-[45px] w-full py-[12px] pl-8 rounded-[4px] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] ${
+                    priceClicked
+                      ? "bg-inherit text-[#4E4E4E] border-[#4E4E4E] border"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  }  `}
                   type="text"
                   name="price"
                   min="0"
-                  value={isFocusPrice ? price : formattedPrice}
-                  disabled={paymentType === "" && true}
-                  onChange={(e) =>
-                    handleNumberChange(e, setPrice, setFormattedPrice)
-                  }
+                  value={isFocusPrice ? price : Number(price).toLocaleString()}
+                  onChange={(e) => {
+                    handleChange(e);
+                    handleNumberChange(e, setPrice);
+                  }}
+                  onClick={(e) => setPriceClicked(true)}
                   onBlur={(e) => {
                     setFocusPrice(false);
                     calculateTotalPrice();
-                    handleBlur(e.target.value, setFormattedPrice);
                   }}
                   onSelect={() => setFocusPrice(true)}
                 />
@@ -167,32 +199,34 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !maintenance && "opacity-60"
+                    !maintenanceClicked && "opacity-60"
                   }`}
                 >
                   ₦
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
+                  className={`h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 text-[13px] md:text-[14px] font-[500] w-[100%] placeholder:text-[13px] ${
+                    maintenanceClicked
+                      ? "bg-inherit text-[#4E4E4E] border-[#4E4E4E] border"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  }  `}
                   type="text"
                   name="maintenanceFee"
                   min="0"
                   value={
-                    isFocusMaintenance ? maintenance : formattedMaintenancePrice
+                    isFocusMaintenance
+                      ? maintenance
+                      : Number(maintenance).toLocaleString()
                   }
-                  disabled={paymentType === "" && true}
-                  onChange={(e) =>
-                    handleNumberChange(
-                      e,
-                      setMaintenance,
-                      setFormattedMaintenancePrice
-                    )
-                  }
+                  onClick={(e) => setMaintenanceClicked(true)}
+                  onChange={(e) => {
+                    handleChange(e);
+                    handleNumberChange(e, setMaintenance);
+                  }}
                   onBlur={(e) => {
                     setFocusMaintenance(false);
                     calculateTotalPrice();
-                    handleBlur(e.target.value, setFormattedMaintenancePrice);
                   }}
                   onSelect={() => setFocusMaintenance(true)}
                 />
@@ -209,26 +243,32 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !agency && "opacity-60"
+                    !agencyClicked && "opacity-60"
                   }`}
                 >
                   ₦
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
+                  className={`h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 text-[13px] md:text-[14px] font-[500] w-[100%] placeholder:text-[13px] ${
+                    agencyClicked
+                      ? "bg-inherit text-[#4E4E4E] border-[#4E4E4E] border"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  }  `}
                   type="text"
                   name="agencyFee"
                   min="0"
-                  value={isFocusAgency ? agency : formattedAgencyPrice}
-                  disabled={paymentType === "" && true}
-                  onChange={(e) =>
-                    handleNumberChange(e, setAgency, setFormattedAgencyPrice)
+                  value={
+                    isFocusAgency ? agency : Number(agency).toLocaleString()
                   }
+                  onClick={(e) => setAgencyClicked(true)}
+                  onChange={(e) => {
+                    handleChange(e);
+                    handleNumberChange(e, setAgency);
+                  }}
                   onBlur={(e) => {
                     setFocusAgency(false);
                     calculateTotalPrice();
-                    handleBlur(e.target.value, setFormattedAgencyPrice);
                   }}
                   onSelect={() => setFocusAgency(true)}
                 />
@@ -244,20 +284,20 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <br />
               <div className="flex relative bg-[#E6E6E6] rounded-[4px] items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
                 <span
-                  className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !total && "opacity-60"
-                  }`}
+                  className={`absolute left-3 top-0 bottom-0  flex items-center text-[13px] md:text-[14px] font-[500] text-[#006AFF] placeholder:text-[13px] 
+                  `}
                 >
                   ₦
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] w-[100%] text-GrayHomz placeholder:text-[13px] bg-[#E6E6E6]"
+                  className="h-[43px] text-[#006AFF] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] w-[100%] placeholder:text-[13px] placeholder:text-[#006AFF] bg-[#EEF5FF]"
                   type="text"
                   name="totalFee"
                   min="0"
                   disabled
-                  value={total}
+                  value={formData?.totalFee || total}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -273,7 +313,9 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 type="checkbox"
                 className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
                 id={`checkbox`}
-                onChange={() => setInstallment((prev) => !prev)}
+                onChange={() => {
+                  setInstallment((prev) => !prev);
+                }}
                 // checked={selectedAmenities.includes(amenity)}
               />
               <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
@@ -318,6 +360,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 frequency={frequency}
                 paymentType={paymentType}
                 capitalizeFirstLetter={capitalizeFirstLetter}
+                onChangeMethod={handleChange}
               />
             </div>
             <div className="custom-select-wrapper">
@@ -331,9 +374,15 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <br />
               <select
                 name="paymentType"
+                onChange={handleChange}
                 className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
                 // onChange={(e) => setPaymentType(e.target.value)}
                 onClick={() => setDurationClicked(false)}
+                style={{
+                  backgroundColor: !durationClicked ? "inherit" : "#E6E6E6",
+                  color: !durationClicked ? "#4E4E4E" : "#A9A9A9",
+                  border: !durationClicked && "1px solid #4E4E4E",
+                }}
               >
                 {durationClicked && (
                   <option value="" disabled selected>
@@ -366,26 +415,26 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 </span>
                 <input
                   placeholder="00.00"
-                  className="h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
+                  className={`h-[43px] md:h-[45px] md:w-[300.67px] py-[12px] rounded-[4px] pl-8 text-[13px] md:text-[14px] font-[500] w-[100%] placeholder:text-[13px] ${
+                    initialPaymentClicked
+                      ? "bg-inherit text-[#4E4E4E] border-[#4E4E4E] border"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  }  `}
                   type="text"
+                  onClick={(e) => setInitialPaymentClicked(true)}
                   name="initialPayment"
                   min="0"
                   value={
                     isFocusInitialPayment
                       ? initialPayment
-                      : formattedInitialPayment
+                      : Number(initialPayment).toLocaleString()
                   }
-                  disabled={paymentType === "" && true}
-                  onChange={(e) =>
-                    handleNumberChange(
-                      e,
-                      setInitialPayment,
-                      setFormattedInitialPayment
-                    )
-                  }
+                  onChange={(e) => {
+                    handleChange(e);
+                    handleNumberChange(e, setInitialPayment);
+                  }}
                   onBlur={(e) => {
                     setFocusInitialPayment(false);
-                    handleBlur(e.target.value, setFormattedInitialPayment);
                   }}
                   onSelect={() => setFocusInitialPayment(true)}
                 />
@@ -394,103 +443,49 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
           </div>
         </section>
 
-        <div className="flex sm:justify-between md:mt-24 mt-8 sm:px-3 md:px gap-[19px] ">
-          <div>
-            <button
-              className="text-[14px] font-[500] py-[8px] px-[12px]  rounded-[4px] md:text-BlueHomz text-BlueHomz border border-BlueHomz h-full sm:w-full w-[120px] flex items-center justify-center gap-1 "
-              onClick={previousBtn}
-            >
-              <Image
-                src="/static/images/blue-arrow-left.svg"
-                width={20}
-                height={20}
-                alt=""
-                className="hidden md:block"
-              />
-              {/* <Image
-                src="/static/images/black-arrow-left.svg"
-                width={22}
-                height={22}
-                alt=""
-                className="hidden"
-              /> */}
+        <div className="flex md:justify-end justify-center mt-8">
+          <button
+            className={`hidden sm:flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] border-white ${
+              saveUpdate
+                ? "bg-BlueHomz text-white"
+                : "bg-[#E6E6E6] text-[#D5D5D5]"
+            } 
+                 rounded-[4px]`}
+            onClick={onSubmit}
+            disabled={!saveUpdate}
+          >
+            Save Update
+          </button>
 
-              <span className="">Previous</span>
-            </button>
-          </div>
-
-          <div className="flex gap-3 items-center">
-            <button
-              disabled={price === ""}
-              className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-                price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
-              }`}
-              onClick={() => setSaveToDraft(true)}
+          <div className="md:hidden flex flex-col w-full">
+            <Link
+              href={`/dashboard/list_Property/PreviewProperty/${formData?._id}`}
+              className="text-[#006AFF] text-[14px] leading-[21px]  md:hidden mx-auto mb-3"
             >
-              <Image
-                src={`/static/images/${
-                  price === "" ? "clock2.svg" : "blueclock.svg"
-                }`}
-                alt=""
-                height={16}
-                width={16}
-              />
-              <span>Save to draft</span>
-            </button>
+              See public view
+            </Link>
+
             <button
+              className={`flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px]  border-white ${
+                saveUpdate
+                  ? "bg-BlueHomz text-white"
+                  : "bg-[#E6E6E6] text-[#D5D5D5]"
+              } 
+                 rounded-[4px]`}
               onClick={onSubmit}
-              disabled={price === ""}
-              className={`flex md:mr-14 border gap-1 justify-center  md:w-[77px]  w-[120px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
-                price === ""
-                  ? "text-[#D5D5D5] bg-[#E6E6E6] border-[#A9A9A9]"
-                  : "text-white border-white bg-BlueHomz"
-              } rounded-[4px] `}
-              type="submit"
+              disabled={!saveUpdate}
             >
-              Next
-              {price === "" ? (
-                <Image
-                  src={"/static/images/Vector.svg"}
-                  alt=""
-                  height={8}
-                  width={8}
-                />
-              ) : (
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                  }
-                  alt=""
-                  height={16}
-                  width={16}
-                />
-              )}
+              Save Update
             </button>
           </div>
         </div>
-        <button
-          disabled={price === ""}
-          className={`mx-auto my-5 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-            price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
-          }`}
-          onClick={() => setSaveToDraft(true)}
-        >
-          <Image
-            src={`/static/images/${
-              price === "" ? "clock2.svg" : "blueclock.svg"
-            }`}
-            alt=""
-            height={16}
-            width={16}
-          />
-          <span>Save to draft</span>
-        </button>
       </div>
     </div>
   );
 };
 
 export default RentDetails;
+
 const paymentTypeValues = [
   "outright payment",
   "daily",
@@ -502,7 +497,12 @@ const paymentTypeValues = [
   "2 years (Lease)",
 ];
 const frequency = ["weekly", "monthly", "quarterly", "yearly"];
-const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter }) => {
+const FrequencySelect = ({
+  frequency,
+  paymentType,
+  capitalizeFirstLetter,
+  onChangeMethod,
+}) => {
   // Filter out the 'yearly' option if paymentType is 'yearly'
   const [selectedClicked, setSelectedClicked] = useState(true);
   const filteredFrequency =
@@ -515,6 +515,12 @@ const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter }) => {
       name="frequency"
       className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
       onClick={() => setSelectedClicked(false)}
+      onChange={onChangeMethod}
+      style={{
+        backgroundColor: !selectedClicked ? "inherit" : "#E6E6E6",
+        color: !selectedClicked ? "#4E4E4E" : "#A9A9A9",
+        border: !selectedClicked && "1px solid #4E4E4E",
+      }}
     >
       {selectedClicked && (
         <option value="" disabled selected>

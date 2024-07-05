@@ -78,9 +78,9 @@ const List_Property = () => {
               data?.length === 0 ? "hidden" : ""
             } flex w-full items-center gap-6 mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
-            <div className=" border-b-[1px] flex gap-2 items-center md:mb-4 justify-between w-full py-[16px] pl-[32px]">
+            <div className=" border-b-[1px] flex gap-2 items-center md:mb-4 justify-between w-full py-[16px] pl-4 sm:pl-[32px]">
               <p>
-                <span className="font-[500] leading-[30px] md:text-[20px]">
+                <span className="sm:font-[500] text-[16px] leading-[20.16px] font-[400] sm:leading-[30px] md:text-[20px]">
                   Listed Properties
                 </span>
 
@@ -91,7 +91,7 @@ const List_Property = () => {
               <div className="flex items-center gap-[12px]">
                 {options && (
                   <button
-                    className="w-fit flex gap-1 h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-[#D92D20] hover:border hover:border-[#D92D20] flex-shrink-0 "
+                    className="w-fit flex gap-1 sm:h-[37px] p-[4px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px]  border border-[#D92D20] sm:border-0 text-[#D92D20] hover:border hover:border-[#D92D20] flex-shrink-0 "
                     onClick={handleCancel}
                   >
                     <Image
@@ -99,23 +99,30 @@ const List_Property = () => {
                       alt=""
                       height={16}
                       width={16}
-                      className=""
+                      className="sm:w-[16px] sm:h-[16px] h-[20px] w-[20px]"
                     />
-                    <span>Cancel</span>
+                    <span className="hidden sm:inline-block">Cancel</span>
                   </button>
                 )}
                 <button
                   onClick={handlePromoteOptions}
-                  className="w-fit flex gap-1  h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 "
+                  className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 "
                 >
                   <Image
                     src="/static/images/orange-send.svg"
                     alt=""
                     height={16}
                     width={16}
-                    className=""
+                    className="hidden sm:inline-block"
                   />
-                  <span>
+                  <Image
+                    src="/static/images/promoteOrangeBtn.svg"
+                    alt=""
+                    height={28}
+                    width={28}
+                    className="sm:hidden p-[4px]"
+                  />
+                  <span className="hidden sm:inline-block">
                     {options ? "Promotion options" : "Promote properties"}
                   </span>
                 </button>
@@ -127,30 +134,48 @@ const List_Property = () => {
                     profile?.businessInfo?.isVerified === "rejected") ? (
                     <div
                       onClick={() => setOpenModalForBusi(true)}
-                      className="w-full cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] ml-3"
+                      className="w-full cursor-pointer flex gap-1 sm:w-[166px] sm:h-[42px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white sm:bg-[#006AFF] ml-3"
                     >
                       <Image
                         src="/static/images/white-add.svg"
                         alt=""
                         height={16}
                         width={16}
-                        className=""
+                        className="hidden sm:inline-block"
                       />
-                      <span>List New property</span>
+                      <Image
+                        src="/static/images/addbtn2.svg"
+                        alt=""
+                        height={28}
+                        width={28}
+                        className="sm:hidden rounded-[8px]"
+                      />
+                      <span className="hidden sm:inline-block">
+                        List New property
+                      </span>
                     </div>
                   ) : (
                     <Link
                       href="/dashboard/list_Property/addProperty"
-                      className="w-full flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 "
+                      className=" w-fit flex gap-1 md:w-[166px] sm:h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 "
                     >
                       <Image
                         src="/static/images/white-add.svg"
                         alt=""
                         height={16}
                         width={16}
-                        className=""
+                        className="hidden sm:inline-block"
                       />
-                      <span>List New property</span>
+                        <Image
+                        src="/static/images/addbtn2.svg"
+                        alt=""
+                        height={28}
+                        width={28}
+                        className="sm:hidden rounded-[8px]"
+                      />
+                      <span className="hidden sm:inline-block">
+                        List New property
+                      </span>
                     </Link>
                   )}
                 </>
@@ -173,11 +198,11 @@ const List_Property = () => {
             ) : (
               <Link href="/dashboard/list_Property/addProperty">
                 <Image
-                  src="/static/images/addButton.svg"
+                  src="/static/images/addBtn2.svg"
                   alt=""
                   height={28}
                   width={28}
-                  className="md:hidden rounded-[8px]"
+                  className="hidden rounded-[8px]"
                 />
               </Link>
             )}

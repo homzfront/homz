@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CustomizedModal from "../components/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import PersonalInfo from "./components/personalInfo";
 import BusinessInfo from "./components/businessInfo";
 import ChangePassword from "./components/changePassword";

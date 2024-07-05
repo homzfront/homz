@@ -1,33 +1,89 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import api from "/src/utils/api";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import api from "@/utils/api";
+import _ from "lodash";
 import Amenities from "./Amenities";
 
-const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
+const PropertyInfo = ({
+  property,
+  handleUpdate,
+  setSaveUpdate,
+  saveUpdate,
+}) => {
+  // console.log(property);
+  const [areas, setAreas] = useState([]);
+  const [allStates, setAllStates] = useState([]);
+  const [data, setData] = useState(null);
+  const [squareMeterClicked, setSquareMeterClicked] = useState(false);
+  const [unitsClicked, setUnitsClicked] = useState(false);
+  const [streetClicked, setStreetClicked] = useState(false);
+  const [furnishStatusClicked, setFurnishStatusClicked] = useState(false);
+  const [descriptionClicked, setDescriptionClicked] = useState(false);
   const [propertyType, setPropertyType] = useState("");
-  const [listingType, setListingType] = useState("");
   const [listingClicked, setListingClicked] = useState(true);
   const [stateClicked, setStateClicked] = useState(true);
   const [areaClicked, setAreaClicked] = useState(true);
   const [subClicked, setSubTypeClicked] = useState(true);
+  const [titleClicked, setTitleClicked] = useState(false);
   const [propertyTypeClicked, setPropertyTypeClicked] = useState(true);
   const [bedroomClicked, setBedroomClicked] = useState(true);
   const [bathroomClicked, setBathroomClicked] = useState(true);
   const [toiletClicked, setToiletClicked] = useState(true);
-  const [areas, setAreas] = useState([]);
-  const [allStates, setAllStates] = useState([]);
   const [ameni, setOpenAmeni] = useState(false);
   const [amenities, setAmenities] = useState([]);
   const numberCounts = [...Array(21).keys()].slice(1);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+
+  const [formData, setFormData] = useState({
+    propertyStatus: ["serviced"],
+    amenities: [
+      "air conditioning",
+      "bathtub",
+      "constant electricity",
+      "kitchen shelve",
+      "microwave",
+      "parking space",
+    ],
+  });
+  const originalFormData = useRef({
+    ...property,
+    propertyStatus: property?.propertyStatus || ["serviced"],
+    amenities: property?.amenities || [
+      "air conditioning",
+      "bathtub",
+      "constant electricity",
+      "kitchen shelve",
+      "microwave",
+      "parking space",
+    ]
+  });
 
   useEffect(() => {
-    // console.log("allStates")
+    if (property) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...property,
+        propertyStatus: property.propertyStatus || ["serviced"],
+        amenities: property.amenities || [
+          "air conditioning",
+          "bathtub",
+          "constant electricity",
+          "kitchen shelve",
+          "microwave",
+          "parking space",
+        ],
+      }));
+     
+    }
+  }, [property]);
 
-    fetchStates();
-    fetchAreas();
-  }, []);
+  useEffect(() => {
+    // Compare formData and originalFormData
+    const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
+    setSaveUpdate(isFormDataChanged);
+  }, [formData, originalFormData,setSaveUpdate]);
 
   const fetchStates = async () => {
     try {
@@ -37,46 +93,77 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value, checked, type } = e.target;
+    setFormData((prevState) => {
+      if (type === "checkbox") {
+        const updatedArray = checked
+          ? [...prevState[name], value]
+          : prevState[name].filter((item) => item !== value);
+        return {
+          ...prevState,
+          [name]: updatedArray,
+        };
+      } else {
+        return {
+          ...prevState,
+          [name]: value,
+        };
+      }
+    });
+
+    // if (name === "listingType") {
+    //   setFormData((prevData) => ({
+    //     ...prevData,
+    //     listingType: value,
+    //     // Remove every other data collected when listingType changes
+    //     ...(value !== prevData?.listingType && {
+    //       [name]: value,
+    //     }),
+    //   }));
+    // } else {
+    //   setFormData((prevData) => ({
+    //     ...prevData,
+    //     [name]: value,
+    //     listingType: formData?.listingType,
+    //     [formData?.listingType === "land" ? "title" : "name"]:
+    //       formData?.[formData?.listingType === "land" ? "title" : "name"] || "",
+    //   }));
+    // }
+  };
+
+  const onSubmit = () => {
+    if (data === null) {
+      setEditMode(false);
+    } else {
+      handleUpdate(data);
+    }
+  };
 
   const fetchAreas = async (stateSelected) => {
     try {
       const Areas = await api.post("/state/area", { state: stateSelected });
-      setAreas(Areas?.data?.data);
+      // console.log(Areas.data.data);
+      setAreas(Areas.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // console.log(amenities)
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isValid },
-  } = useForm({
-    criteriaMode: "all",
-  });
-
-  const onSubmit = (data) => {
-    // reset();
-    // console.log(data)
-    handlePropertyInfo(data);
-  };
+  // console.log("formData",formData);
+  // console.log("original",originalFormData);
+  // console.log(saveUpdate);
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-full flex flex-col gap-2">
-        <div className="md:text-[23px] font-[700] text-BlueHomz leading-[20.16px] md:leading-[28.98px]">
-          Property Details
-        </div>
-        <div className="leading-[16.38px] text-[13px] md:text-[14px] font-[400]">
-          Kindly fill in the accurate property details
-        </div>
-      </div>
       <div className="flex justify-between flex-col md:flex-row ">
         <form
-          onSubmit={handleSubmit(onSubmit)}
-          className=" flex flex-col md:w-full sm:gap-[20px] gap-[17px]"
+          onSubmit={onSubmit}
+          className=" flex flex-col sm:w-full sm:gap-[20px] gap-[17px]"
         >
           <div>
             <label
@@ -88,36 +175,38 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
             </label>
             <br />
             <input
-              {...register("title", {
-                required: "Property title is required"
-              })}
+              name="name"
+              onChange={handleChange}
+              onClick={(e) => setTitleClicked(true)}
+              value={formData?.name || ""}
               placeholder="e.g  Luxurious  4 bedroom duplex"
-              className="h-[45px] md:w-[100%] rounded-[4px] p-[12px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
+              className={`h-[45px] md:w-[100%] rounded-[4px] p-[12px]  w-[100%] text-[13px] md:text-[14px] font-[500]  placeholder:text-[13px] ${
+                titleClicked
+                  ? "bg-inherit text-[#4E4E4E] border-[#4E4E4E] border"
+                  : "bg-[#E6E6E6] text-[#A9A9A9]"
+              } `}
             />
-            {errors.title && (
-                <p className="italic text-error text-[11px] font-[400]">{errors.title.message}</p>
-              )}
           </div>
           <div className="grid sm:grid-cols-4 gap-[20px] border-b">
             <MenuItems
               title="Listing Type"
               name="listingType"
               width="100%"
-              reg={register}
-              errors={errors}
-              option1="Select option"
+              option1={formData?.listingType}
               setSelectedClicked={setListingClicked}
               selectedClicked={listingClicked}
               items={listingTypeValues}
+              onChange={handleChange}
             />
             <MenuItems
               title="Property Type"
               name="propertyType"
               width="100%"
-              reg={register}
-              errors={errors}
-              option1="Select Property Type"
-              onChange={(e) => setPropertyType(e.target.value)}
+              option1={formData?.propertyType}
+              onChange={(e) => {
+                handleChange(e);
+                setPropertyType(e.target.value);
+              }}
               setSelectedClicked={setPropertyTypeClicked}
               selectedClicked={propertyTypeClicked}
               items={propertyTypesSaleRent}
@@ -126,9 +215,8 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               title="Sub-Type"
               name="subType"
               width="100%"
-              reg={register}
-              option1="Select the sub type"
-              errors={errors}
+              onChange={handleChange}
+              option1={formData?.subType || "Select Sub-Type"}
               setSelectedClicked={setSubTypeClicked}
               selectedClicked={subClicked}
               items={
@@ -155,17 +243,17 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 </label>
                 <br />
                 <input
-                  {...register("squareMeters", {
-                    required: "Square Meters is required",
-                  })}
-                  className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
+                  onChange={handleChange}
+                  onClick={(e) => setSquareMeterClicked(true)}
+                  className={`h-[45px] p-[8px] md:p-[12px] rounded-[4px] w-[100%] text-[13px] md:text-[14px] font-[500]  placeholder:text-[13px] pl-2 ${
+                    squareMeterClicked
+                      ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E]"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  } `}
+                  name="squareMeter"
                   placeholder="e.g 500 sqm"
+                  value={formData?.squareMeter || ""}
                 />
-                {errors.squareMeters && (
-                  <span className="italic text-error text-[11px] font-[400]">
-                    {errors.squareMeters.message}
-                  </span>
-                )}
               </div>
             ) : (
               <div className="">
@@ -177,16 +265,25 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 </label>
                 <br />
                 <input
-                  {...register("units")}
-                  className="relative h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
+                  onChange={handleChange}
+                  onClick={(e) => setUnitsClicked(true)}
+                  className={`relative h-[45px] p-[8px] md:p-[12px] rounded-[4px]  w-[100%] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] pl-2 ${
+                    unitsClicked
+                      ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E]"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  } `}
                   placeholder="e.g 4"
+                  name="units"
+                  value={formData?.units || ""}
                 />
-                {errors.units && (
-                  <span className="italic text-error text-[11px] font-[400]">
-                    {errors.units.message}
-                  </span>
-                )}
-                <span className="text-[#0e0d0d] text-[14px] font-[500] leading-[21px]  relative bottom-[36px] left-[230px] sm:left-[186px]">
+
+                <span
+                  className={`${
+                    unitsClicked
+                      ? "bg-inherit text-[#0e0d0d] "
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  }  text-[14px] font-[500] leading-[21px]  relative bottom-[36px] left-[230px] sm:left-[175px]`}
+                >
                   units
                 </span>
               </div>
@@ -197,10 +294,11 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               title="State"
               name="state"
               width="100%"
-              reg={register}
-              errors={errors}
-              option1="Select State"
-              onChange={(e) => fetchAreas(e.target.value)}
+              onChange={(e) => {
+                handleChange(e);
+                fetchAreas(e.target.value);
+              }}
+              option1={formData?.state}
               setSelectedClicked={setStateClicked}
               selectedClicked={stateClicked}
               items={allStates}
@@ -209,11 +307,10 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               title="Area"
               name="area"
               width="100%"
-              reg={register}
-              errors={errors}
+              onChange={handleChange}
               setSelectedClicked={setAreaClicked}
               selectedClicked={areaClicked}
-              option1="Select Area"
+              option1={formData?.area}
               items={areas}
             />
             <div className="w-full col-span-2 sm:col-span-1">
@@ -226,17 +323,17 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               </label>
               <br />
               <input
-                {...register("address", {
-                  required: "Street name is required",
-                })}
-                className="h-[43px] md:h-[45px] md:w-[100%] p-[4px] md:p-[12px] rounded-[4px] border w-full text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] sm:pl-2"
+                onChange={handleChange}
+                onClick={(e) => setStreetClicked(true)}
+                className={`h-[43px] md:h-[45px] md:w-[100%] p-[4px] md:p-[12px] rounded-[4px]  w-full text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] sm:pl-2 ${
+                  streetClicked
+                    ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E]"
+                    : "bg-[#E6E6E6] text-[#A9A9A9]"
+                } `}
+                name="address"
+                value={formData?.address || ""}
                 placeholder="e.g  No 32,  Andrew  Street,  Lekki"
               />
-              {errors.address && (
-                <span className="italic text-error text-[11px] font-[400]">
-                  {errors.address.message}
-                </span>
-              )}
             </div>
           </div>
           {propertyType != "Land" && (
@@ -245,9 +342,8 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 title="Bedrooms"
                 name="numberOfRooms"
                 width="100%"
-                reg={register}
-                errors={errors}
-                option1="Select option"
+                onChange={handleChange}
+                option1={formData?.numberOfRooms}
                 setSelectedClicked={setBedroomClicked}
                 selectedClicked={bedroomClicked}
                 items={numberCounts}
@@ -256,9 +352,8 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 title="Bathrooms"
                 name="numberOfBathrooms"
                 width="100%"
-                reg={register}
-                errors={errors}
-                option1="Select option"
+                onChange={handleChange}
+                option1={formData?.numberOfBathrooms}
                 setSelectedClicked={setBathroomClicked}
                 selectedClicked={bathroomClicked}
                 items={numberCounts}
@@ -267,11 +362,10 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 title="Toilets"
                 name="numberOfToilets"
                 width="100%"
-                reg={register}
-                errors={errors}
+                onChange={handleChange}
                 setSelectedClicked={setToiletClicked}
                 selectedClicked={toiletClicked}
-                option1="Select option"
+                option1={formData?.numberOfToilets}
                 items={numberCounts}
               />
 
@@ -293,18 +387,19 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 </label>
               </div>
               <textarea
-                {...register("description", {
-                  required: "Property description is required.",
-                })}
-                className="mt-1 h-[151px] md:h-[90px] rounded-md border w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] scrollbar-container"
+                onChange={handleChange}
+                onClick={(e) => setDescriptionClicked(true)}
+                className={`mt-1 h-[151px] md:h-[90px] rounded-md w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] placeholder:text-[13px]  ${
+                  descriptionClicked
+                    ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E] scrollbar-container"
+                    : "bg-[#E6E6E6] text-[#A9A9A9]"
+                } `}
                 placeholder="Give short description of your property."
                 // value={description}
                 id="description"
                 name="description"
+                value={formData?.description}
               ></textarea>
-              {errors.description && (
-                <p className="italic text-error text-[11px] font-[400]">{errors.description.message}</p>
-              )}
             </div>
             {propertyType === "Land" && (
               <div className="sm:pt-6  sm:w-[349px] inline-block w-[100%]">
@@ -321,9 +416,19 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
             <select
               name="furnishStatus"
               className={`custom-select h-[43px] md:h-[45px] sm:w-[236px]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+              onClick={(e) => setFurnishStatusClicked(true)}
+              style={{
+                backgroundColor: furnishStatusClicked ? "inherit" : "#E6E6E6",
+                color: furnishStatusClicked ? "#4E4E4E" : "#A9A9A9",
+                border: furnishStatusClicked && "1px solid #4E4E4E",
+              }}
               id="furnishStatus"
-              {...register("furnishStatus")}
+              onChange={handleChange}
+              value={formData?.furnishStatus || ""}
             >
+              <option value="" disabled>
+                Select Furnish Status
+              </option>
               {furnishStatus.map((type, index) => (
                 <option key={index} value={type}>
                   {capitalizeFirstLetter(type)}
@@ -343,10 +448,13 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                     <input
                       type="checkbox"
                       className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#78797a] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
+                      name="propertyStatus"
                       id={`checkbox-${index}`}
-                      {...register(status.split(" ")[0])}
-                      // onChange={() => handleCheckboxChange(status)}
-                      // checked={selectedAmenities.includes(status)}
+                      value={status}
+                      onChange={handleChange}
+                      checked={
+                        formData?.propertyStatus.includes(status) || false
+                      }
                     />
                     <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                       <svg
@@ -375,103 +483,57 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               ))}
             </div>
           </div>
+          <div className="flex md:justify-end justify-center mt-8">
+            <button
+              className={`hidden sm:flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] border-white ${
+                saveUpdate
+                  ? "bg-BlueHomz text-white"
+                  : "bg-[#E6E6E6] text-[#D5D5D5]"
+              } 
+                 rounded-[4px]`}
+              onClick={onSubmit}
+              disabled={!saveUpdate}
+            >
+              Save Update
+            </button>
 
-          <div className="flex justify-between mt-8 ">
-            <div>
-              <button
-                className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz  sm:w-full w-[120px]"
-                // onClick={handleShowCancelDialogue}
+            <div className="md:hidden flex flex-col w-full">
+              <Link
+                href={`/dashboard/list_Property/PreviewProperty/${formData?._id}`}
+                className="text-[#006AFF] text-[14px] leading-[21px]  md:hidden mx-auto mb-3"
               >
-                Cancel
-              </button>
-            </div>
+                See public view
+              </Link>
 
-            <div className="flex gap-3 items-center">
-              <p
-                // disabled={!isValid ? true : false}
-                className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] cursor-pointer ${
-                  // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
-                  "text-BlueHomz"
-                }`}
-                onClick={() => setSaveToDraft(true)}
-              >
-                <Image
-                  src={`/static/images/${
-                    "blueclock.svg"
-                    // isValid ? "clock2.svg" : "blueclock.svg"
-                  }`}
-                  alt=""
-                  height={16}
-                  width={16}
-                />
-                <span>Save to draft</span>
-              </p>
               <button
-                // disabled={!isValid ? true : false}
-                className={`flex md:mr-14 border gap-1 justify-center sm:w-[77px] w-[120px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
-                  "text-white border-white bg-BlueHomz"
-                  // isValid
-                  //   ? "text-[#D5D5D5] bg-[#E6E6E6] border-[#A9A9A9]"
-                  //   : "text-white border-white bg-BlueHomz"
-                } rounded-[4px] `}
-                type="submit"
+                className={`flex  border justify-center w-full md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px]  border-white ${
+                  saveUpdate
+                    ? "bg-BlueHomz text-white"
+                    : "bg-[#E6E6E6] text-[#D5D5D5]"
+                } 
+                 rounded-[4px]`}
+                onClick={onSubmit}
+                disabled={!saveUpdate}
               >
-                Next
-                {isValid ? (
-                  <Image
-                    src={"/static/images/Vector.svg"}
-                    alt=""
-                    height={8}
-                    width={8}
-                  />
-                ) : (
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                    }
-                    alt=""
-                    height={16}
-                    width={16}
-                  />
-                )}
+                Save Update
               </button>
             </div>
           </div>
-          <p
-            // disabled={!isValid ? true : false}
-            className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-               "text-BlueHomz"
-              // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
-            }`}
-            onClick={() => setSaveToDraft(true)}
-          >
-            <Image
-              src="/static/images/blueclock.svg"
-              // src={`/static/images/${isValid ? "clock2.svg" : "blueclock.svg"}`}
-              alt=""
-              height={16}
-              width={16}
-            />
-            <span>Save to draft</span>
-          </p>
         </form>
       </div>
       <Amenities
         isOpen={ameni}
         setOpenAmeni={setOpenAmeni}
         amenitiesPicked={setAmenities}
+        selectedAmenities={formData?.amenities}
+        setSelectedAmenities={setSelectedAmenities}
+        handleEvent={handleChange}
       />
     </div>
   );
 };
 
 export default PropertyInfo;
-function capitalizeFirstLetter(word) {
-  if (word.length === 0) {
-    return word;
-  }
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-}
 const MenuItems = ({
   title,
   option1,
@@ -479,8 +541,6 @@ const MenuItems = ({
   width,
   items,
   onChange,
-  reg,
-  errors,
   setSelectedClicked,
   selectedClicked,
 }) => {
@@ -495,25 +555,28 @@ const MenuItems = ({
       <br />
       <select
         name={name}
-        className={`custom-select h-[43px] md:h-[45px] sm:w-[${width}]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+        className={`custom-select h-[43px] md:h-[45px] sm:w-[${width}]  p-[4px] md:p-[12px] rounded-[4px]  w-[100%] text-[13px] md:text-[14px] font-[500]  placeholder:text-[13px]`}
+        style={{
+          backgroundColor: selectedClicked ? "#E6E6E6" : "inherit",
+          color: selectedClicked ? "#A9A9A9" : "#4E4E4E",
+          border: !selectedClicked && "1px solid #4E4E4E",
+        }}
         id={name}
-        {...reg(name, {
-          required: true,
-        })}
         onChange={onChange}
-        onClick={() => setSelectedClicked(false)}
+        onClick={(e) => setSelectedClicked(false)}
       >
         {selectedClicked && (
-          <option value="" disabled selected>
+          <option value={option1} selected>
             {option1}
           </option>
         )}
 
-        {items && items.map((type, index) => (
-          <option key={index} value={type}>
-            {typeof type === "String" ? capitalizeFirstLetter(type) : type}
-          </option>
-        ))}
+        {items &&
+          items.map((type, index) => (
+            <option key={index} value={type}>
+              {typeof type === "String" ? capitalizeFirstLetter(type) : type}
+            </option>
+          ))}
       </select>
       {/* {errors[name] ? <p className="italic text-error text-[11px] font-[400]">{errors[name].message}</p> : ""} */}
     </div>

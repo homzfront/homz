@@ -145,7 +145,7 @@ const Header = () => {
       }
       <Link href={"/"}>
         <Image
-          src={"/Homz_Logo_Blue.png"}
+          src={"/Homz_Logo_Blue.pn"}
           alt="HOMZ"
           height={28}
           className="cursor-pointer "

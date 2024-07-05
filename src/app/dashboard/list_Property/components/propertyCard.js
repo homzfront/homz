@@ -97,15 +97,15 @@ const PropertyCard = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-[64px] pt-6 justify-center items-center mt-3">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="w-full flex flex-col gap-[64px] pt-6 sm:justify-center sm:items-center mt-3">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {currentProperties.map((property, index) => (
           <div
-            className=" relative flex flex-col w-[100%] md:w-[234px] md:h-fit rounded-[12px] shadow-md"
+            className=" relative flex flex-col h-full w-full md:w-[234px] md:h-fit rounded-[12px] shadow-md"
             key={index}
           >
-            <div className="cursor-pointer w-[100%] md:w-[234px] md:h-[168px] rounded-[10px] ">
-              <div className="w-[100%] relative h-[100.55px] md:h-full md:w-full">
+            <div className="cursor-pointer w-full md:w-[234px] h-[168px] rounded-[10px] ">
+              <div className=" relative h-[168px] md:h-full w-full">
                 <Link
                   className="cursor-pointer text-[14px]"
                   href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
@@ -119,11 +119,11 @@ const PropertyCard = ({
                     alt=""
                     width={264}
                     height={168}
-                    className="w-[100%] h-[100.55px] md:h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
+                    className="w-[100%] h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
                   />
                 </Link>
 
-                <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute left-[205px] flex items-center justify-center top-[12px] ">
+                <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] sm:left-[205px] flex items-center justify-center top-[14px] ">
                   <Image
                     src="/static/images/green_verify.svg"
                     alt=""
@@ -131,19 +131,19 @@ const PropertyCard = ({
                     height={20}
                   />
                 </p>
-                <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[130px] top-[12px] text-[11px] leading-[16.5px] font-[400]">
+                <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[230px] sm:left-[130px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                   Published
                 </p>
              
                 {/* <p className="bg-[#DC6803] text-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[96px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Undergoing Review</p> */}
-                {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[165px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
-                {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[120px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
+                {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] sm:left-[165px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
+                {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] sm:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
               </div>
             </div>
             <div className="flex flex-col px-2 pb-2  pt-2 md:pt-5 gap-[5px] md:gap-[2px]">
               <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
                 <p
-                  className="text-[#006AFF] font-[700] leading-[13.86px] md:leading-[24px] text-center"
+                  className="text-[#006AFF] font-[700] leading-[13.86px] md:leading-[24px] text-center text-[16px]"
                   title={property?.name ? property?.name : property?.title}
                 >
                   {truncateText(
@@ -186,12 +186,12 @@ const PropertyCard = ({
                   height={15.85}
                   className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px] "
                 />
-                <span className="text-[9px] md:text-[11px] font-[500]">
+                <span className="text-[11px] font-[500]">
                   {`${property?.area}, ${property?.state}`}
                 </span>
               </p>
               <div className="flex justify-between items-center">
-                <p className=" text-[9px] md:font-[700] leading-[11.34px] font-[500] md:leading-[13.86px]  font-['Plus Jakarta Sans'] text-[9px] md:text-[11px] flex items-center ">
+                <p className=" md:font-[700] leading-[11.34px] font-[500] md:leading-[13.86px]  font-['Plus Jakarta Sans'] text-[11px] flex items-center ">
                   <Image
                     src="/static/images/nairaIcon.svg"
                     alt=""
@@ -208,7 +208,7 @@ const PropertyCard = ({
                 </p>
               </div>
               <p
-                className={`text-[11px]  leading-16.5px] ${
+                className={`text-[13px] sm:text-[11px]  leading-16.5px] ${
                   sponsored ? "mt-1" : "mt-5"
                 } mb-1 `}
               >

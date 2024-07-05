@@ -7,7 +7,7 @@ import PropertyInfo from "./propertyInfo";
 import RentalInfo from "./rentDetails";
 import PropertyPhoto from "./PropertyPhotos";
 import ContactInfo from "./contactInfo";
-import CustomizedModal from "../../components/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import api from "@/utils/api";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";

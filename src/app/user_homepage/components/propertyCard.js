@@ -90,11 +90,11 @@ const PropertyCard = ({
           ) : (
             <>
               <div className="flex items-center justify-center w-full px-  sm:w-full flex-col ">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[100%] mb-3 md:w-full ">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full ">
                   {Property &&
                     currentProperties?.map((property, index) => (
                       <div
-                        className="flex flex-col w-[280px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                        className="flex flex-col w-[325px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
                         key={index}
                       >
                         <div className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] relative">
@@ -106,12 +106,12 @@ const PropertyCard = ({
                                 <Carousel
                                   slide={false}
                                   theme={customTheme}
-                                  className="w-[100%] h-[226.33px] md:h-full md:w-full"
+                                  className="w-full h-[226.33px] md:h-full md:w-full"
                                 >
                                   {property?.photos.map((img, index) => (
                                     <div
                                       key={index}
-                                      className="w-[100%] h-[226.33px border border-BlueHomz md:h-full md:w-full"
+                                      className="w-full h-[226.33px] border border-BlueHomz md:h-full md:w-full"
                                     >
                                       <Link
                                         className="cursor-pointer "
@@ -122,7 +122,7 @@ const PropertyCard = ({
                                           alt=""
                                           width={363}
                                           height={252}
-                                          className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                          className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
                                         />
                                       </Link>
                                     </div>
@@ -134,12 +134,12 @@ const PropertyCard = ({
                                   alt=""
                                   width={363}
                                   height={252}
-                                  className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                  className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
                                 />
                               )}
                             </>
                           )}
-                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute sm:left-[322px] top-[14px] left-[242px]  flex items-center justify-center  ">
+                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute sm:left-[322px] top-[14px] left-[289px]  flex items-center justify-center  ">
                             <Image
                               src="/static/images/green_verify.svg"
                               alt=""
@@ -148,7 +148,7 @@ const PropertyCard = ({
                             />
                           </p>
                           {/* {sponsored && ( */}
-                          <p className=" absolute sm:left-[232px] left-[154px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
+                          <p className=" absolute sm:left-[232px] left-[200px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
                             <Image
                               src="/static/images/white-medal-star.svg"
                               alt=""

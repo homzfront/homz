@@ -39,7 +39,7 @@ const CustomModal = ({ isOpen, onRequestClose, children }) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Access Code Request"
-  
+      ariaHideApp={false}
       overlayClassName="custom-modal-overlay"
       style={customStyles}
         // onAfterOpen={afterOpenModal}

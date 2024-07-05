@@ -4,15 +4,19 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import PropertyInfo from "./propertyInfo";
-import RentalInfo from "./rentDetails";
-import PropertyPhoto from "./PropertyPhotos";
+import PropertyInfo from "./propertyInfos";
+import PaymentDetails from "./paymentDetails";
+import PropertyPhoto from "./PhotoDetails";
 import ContactInfo from "./contactInfo";
-import CustomizedModal from "../../components/CustomizedModal";
-import { rentDetails, updateContactInfo, updatePropertyDetails } from "@/api/propertyService";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import {
+  rentDetails,
+  updateContactInfo,
+  updatePropertyDetails,
+} from "@/api/propertyService";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
-
+import { useRouter } from "next/navigation";
 
 const PropertyForms = ({ propertyData }) => {
   const [propertyInfoActive, setPropertyInfoActive] = useState(true);
@@ -26,7 +30,12 @@ const PropertyForms = ({ propertyData }) => {
   const [formIV, setFormIV] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [savePropertyUpdate, setSavePropertyUpdate] = useState(false);
+  const [savePaymentUpdate, setSavePaymentUpdate] = useState(false);
+  const [savePhotosUpdate, setSavePhotosUpdate] = useState(false);
+  const [saveContactUpdate, setSaveContactUpdate] = useState(false);
 
+  const router= useRouter();
   const closeModal = () => {
     setSaveModalIsOpen(false);
     setSuccessModalIsOpen(true);
@@ -34,7 +43,6 @@ const PropertyForms = ({ propertyData }) => {
   const closeSuccessModal = () => {
     setSuccessModalIsOpen(false);
   };
-
 
   const handleSaved = async (e) => {
     e.preventDefault();
@@ -46,18 +54,20 @@ const PropertyForms = ({ propertyData }) => {
     if (form !== null || formII !== null || formIV !== null) {
       try {
         if (form !== null) {
-          const { success: successForm, upDateddata, error: formerror } = await updatePropertyDetails(
-            propertyData._id,
-            form
-          );
-          error = formerror
+          const {
+            success: successForm,
+            upDateddata,
+            error: formerror,
+          } = await updatePropertyDetails(propertyData._id, form);
+          error = formerror;
           success = successForm; // Update success variable
         } else if (formII !== null) {
-          const { success: successFormII, upDateddata, error: formerror } = await rentDetails(
-            propertyData._id,
-            formII
-          );
-          error = formerror
+          const {
+            success: successFormII,
+            upDateddata,
+            error: formerror,
+          } = await rentDetails(propertyData._id, formII);
+          error = formerror;
           success = successFormII; // Update success variable
         } else if (formIV !== null) {
           const whatsappRegex = /^https:\/\/wa\.me\/\d{10,}$/;
@@ -67,7 +77,7 @@ const PropertyForms = ({ propertyData }) => {
             setSaveModalIsOpen(false);
             return;
           }
-          const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+          const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
           if (formIV?.email && !validEmail.test(formIV?.email)) {
             toast.error("Invalid email link format");
             setLoading(false);
@@ -80,11 +90,12 @@ const PropertyForms = ({ propertyData }) => {
             setSaveModalIsOpen(false);
             return;
           }
-          const { success: successFormIV, upDateddata, error: formerror } = await updateContactInfo(
-            propertyData._id,
-            formIV
-          );
-          error = formerror
+          const {
+            success: successFormIV,
+            upDateddata,
+            error: formerror,
+          } = await updateContactInfo(propertyData._id, formIV);
+          error = formerror;
           success = successFormIV; // Update success variable
         }
 
@@ -140,49 +151,63 @@ const PropertyForms = ({ propertyData }) => {
     }
   };
 
-
   useBodyScroll([loading]);
 
   const updatePropertyDetail = (data) => {
     setSaveModalIsOpen(true);
     setForm(data);
-  }
+  };
 
   const updatePropertyDetailII = (data) => {
     setSaveModalIsOpen(true);
     setFormII(data);
-  }
+  };
 
   const updatePropertyDetailIV = (data) => {
     setSaveModalIsOpen(true);
     setFormIV(data);
-  }
-
+  };
 
   const handlePropertyInfoActive = () => {
-    setActiveTwo(false);
-    setActiveThree(false);
-    setActiveFour(false);
-    setPropertyInfoActive(true);
+    if (savePaymentUpdate || savePhotosUpdate || saveContactUpdate) {
+      setSaveModalIsOpen(true);
+    } else {
+      setActiveTwo(false);
+      setActiveThree(false);
+      setActiveFour(false);
+      setPropertyInfoActive(true);
+    }
   };
-  const handleRentalPage = () => {
-    setActiveTwo(true);
-    setPropertyInfoActive(false);
-    setActiveThree(false);
-    setActiveFour(false);
+  const handlePaymentPage = () => {
+    if (savePropertyUpdate || savePhotosUpdate || saveContactUpdate) {
+      setSaveModalIsOpen(true);
+    } else {
+      setActiveTwo(true);
+      setPropertyInfoActive(false);
+      setActiveThree(false);
+      setActiveFour(false);
+    }
   };
 
   const handleContactInfo = () => {
-    setActiveThree(false);
-    setActiveTwo(false);
-    setActiveFour(true);
-    setPropertyInfoActive(false);
+    if (savePropertyUpdate || savePaymentUpdate || savePhotosUpdate) {
+      setSaveModalIsOpen(true);
+    } else {
+      setActiveThree(false);
+      setActiveTwo(false);
+      setActiveFour(true);
+      setPropertyInfoActive(false);
+    }
   };
   const HandlePhotoPage = () => {
+    if (savePropertyUpdate || savePaymentUpdate || saveContactUpdate) {
+      setSaveModalIsOpen(true);
+    } else {
     setActiveThree(true);
     setActiveTwo(false);
     setPropertyInfoActive(false);
     setActiveFour(false);
+    }
   };
 
   return (
@@ -204,11 +229,13 @@ const PropertyForms = ({ propertyData }) => {
         theme="dark"
       />
       <div className="flex justify-between items-center w-full">
-        <Link href="/dashboard/list_Property" className="flex items-center gap-2">
+        <button
+          // href="/dashboard/list_Property"
+          onClick={() => router.back()}
+          className="flex items-center gap-2"
+        >
           <Image
-            src={
-              "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-            }
+            src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             height={16}
             width={16}
             alt=""
@@ -219,7 +246,6 @@ const PropertyForms = ({ propertyData }) => {
             <div>
               <span className="text-[#4E4E4E] font-[400] md:text-[16px] md:leading-[24px]">
                 {(propertyData?.title || propertyData?.name) ?? ""} /{" "}
-
               </span>
               <span className="md:text-[18px] md:font-[500] md:leading-[30px] text-[#4E4E4E]">
                 Property Details
@@ -243,7 +269,7 @@ const PropertyForms = ({ propertyData }) => {
               </span>
             </div>
           </span>
-        </Link>
+        </button>
         <Link
           href={`/dashboard/list_Property/PreviewProperty/${propertyData?._id}`}
           className="text-[#006AFF] text-[14px] leading-[21px] hidden md:block mr-3"
@@ -255,42 +281,46 @@ const PropertyForms = ({ propertyData }) => {
         <div className="flex flex-wrap gap-[15px] w-full md:w-[571px]">
           <button
             onClick={handlePropertyInfoActive}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${propertyInfoActive
-              ? "inline-block shadow-md bg-[#006AFF] text-white "
-              : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-              }`}
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              propertyInfoActive
+                ? "inline-block shadow-md bg-[#006AFF] text-white "
+                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+            }`}
           >
-            Property Details
+            Property Information
           </button>
 
           <button
-            onClick={handleRentalPage}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${activeTwo
-              ? "inline-block shadow-md bg-[#006AFF] text-white "
-              : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-              }`}
+            onClick={handlePaymentPage}
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              activeTwo
+                ? "inline-block shadow-md bg-[#006AFF] text-white "
+                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+            }`}
           >
             Payment Details
           </button>
 
           <button
             onClick={HandlePhotoPage}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${activeThree
-              ? "inline-block shadow-md bg-[#006AFF] text-white "
-              : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-              }`}
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              activeThree
+                ? "inline-block shadow-md bg-[#006AFF] text-white "
+                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+            }`}
           >
-            Photos
+            Media
           </button>
 
           <button
             onClick={handleContactInfo}
-            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${activeFour
-              ? "inline-block shadow-md bg-[#006AFF] text-white "
-              : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-              }`}
+            className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${
+              activeFour
+                ? "inline-block shadow-md bg-[#006AFF] text-white "
+                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+            }`}
           >
-            Contact Details
+            Contact Information
           </button>
         </div>
       </div>
@@ -299,62 +329,63 @@ const PropertyForms = ({ propertyData }) => {
           <PropertyInfo
             property={propertyData}
             handleUpdate={updatePropertyDetail}
-            setEditMode={setEditMode}
-            editMode={editMode}
+            setSaveUpdate={setSavePropertyUpdate}
+            saveUpdate={savePropertyUpdate}
           />
         </div>
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
-          <RentalInfo
+          <PaymentDetails
             property={propertyData}
             handleUpdate={updatePropertyDetailII}
-            setEditMode={setEditMode}
-            editMode={editMode}
+            setSaveUpdate={setSavePaymentUpdate}
+            saveUpdate={savePaymentUpdate}
           />
         </div>
         <div className={`${activeThree ? "inline" : "hidden"} w-full`}>
-          <PropertyPhoto
-            data={propertyData}
-          />
+          <PropertyPhoto data={propertyData}
+          setSaveUpdate={setSavePhotosUpdate}
+          setSaveModalIsOpen={setSaveModalIsOpen}
+          saveUpdate={savePhotosUpdate} />
         </div>
         <div className={`${activeFour ? "inline" : "hidden"} w-full`}>
           <ContactInfo
             property={propertyData}
             handleUpdate={updatePropertyDetailIV}
-            setEditMode={setEditMode}
-            editMode={editMode}
+            setSaveUpdate={setSaveContactUpdate}
+            saveUpdate={saveContactUpdate}
           />
         </div>
       </div>
-      {
-        loading ? <Loading /> :
-          <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
-            <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
-              <p className=" text-[16px] leading-[19.5px] md:text-[20px] font-[700] md:leading-[24px] text-center">
-                Save Updates?
-              </p>
-              <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
-                Would you like to save your updates before leaving?
-              </p>
-              <div className="flex flex-wrap md:flex-col gap-[16px]">
-
-                <button
-                  className="bg-BlueHomz2 w-[137.5px]  text-white rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
-                  onClick={handleSaved}
-                >
-                  Yes
-                </button>
-                <button
-                  className="border-BlueHomz w-[137.5px]  text-blue-600 rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
-                  onClick={() => {
-                    setSaveModalIsOpen(false);
-                  }}
-                >
-                  No, go back
-                </button>
-              </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
+          <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
+            <p className=" text-[16px] leading-[19.5px] md:text-[20px] font-[700] md:leading-[24px] text-center">
+              Save Updates?
+            </p>
+            <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
+              Would you like to save your updates before leaving?
+            </p>
+            <div className="flex flex-wrap md:flex-col gap-[16px]">
+              <button
+                className="bg-BlueHomz2 w-[137.5px]  text-white rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
+                onClick={handleSaved}
+              >
+                Yes
+              </button>
+              <button
+                className="border-BlueHomz w-[137.5px]  text-blue-600 rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
+                onClick={() => {
+                  setSaveModalIsOpen(false);
+                }}
+              >
+                No, go back
+              </button>
             </div>
-          </CustomizedModal>
-      }
+          </div>
+        </CustomizedModal>
+      )}
       <CustomizedModal
         isOpen={successModalIsOpen}
         onRequestClose={closeSuccessModal}

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import pic from "/public/static/images/coverPhoto.png";
 import add from "/public/static/images/add.svg";
 import Image from "next/image";
-import MiniOtherPhotosFrame from './miniPhotoFrame'
+import MiniOtherPhotosFrame from '@/components/mainmenu/miniPhotoFrame'
 
 const PropertyPhoto = ({
   BackToRentalsInfo,
@@ -57,6 +57,7 @@ const PropertyPhoto = ({
 
   const displayHousePic = (e, index) => {
     const file = e.target.files[0];
+    // console.log(file);
     if (file) {
       if (
         imagesFiles.some(
@@ -95,7 +96,7 @@ const PropertyPhoto = ({
       }
     }
   };
-  // console.log(imagesFiles);
+  // console.log(houses);
   return (
     <div className=" w-full mt-6">
       <div className="flex flex-col gap-2 md:w-full w-[100%] fields">

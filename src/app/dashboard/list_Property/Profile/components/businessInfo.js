@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ThreeDots } from "react-loader-spinner";
 import { useForm } from "react-hook-form";
-import CustomizedModal from "../../components/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import { updateBusinessInfoLister } from "@/api/listingServices";
 import api from "@/utils/api";
 import TickSuccess from "@/components/icons/tickSuccess";
