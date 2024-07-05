@@ -54,7 +54,7 @@ const SettingsII = () => {
                             <div className='w-[50%]'>
                                 <div className='w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[500]'>
-                                        12 : 00 AM
+                                        12 : 00 PM
                                     </p>
                                 </div>
                             </div>
