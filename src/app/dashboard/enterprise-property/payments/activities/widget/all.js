@@ -4,12 +4,6 @@ import Button from "@/pages/dashboard/enterprise/components/button";
 import React, { useEffect, useState } from "react";
 
 const All = ({ data }) => {
-  if (!data) {
-    return [];
-  }
-  const getFirstLetter = (str) => {
-    return str[0];
-  };
 
   const ITEMS_PER_PAGE = 10;
 
@@ -39,6 +33,10 @@ const All = ({ data }) => {
     { length: Math.min(totalPages, 3) },
     (_, index) => index + 1
   );
+
+  const getFirstLetter = (str) => {
+    return str[0];
+  };
 
   return (
     <div className="mt-4 w-full">
