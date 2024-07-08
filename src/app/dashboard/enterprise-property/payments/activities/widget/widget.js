@@ -5,7 +5,7 @@ import TransferFrom from "./transferFrom";
 import TransferTo from "./transferTo";
 import Deposite from "./deposite";
 import WithDrawal from "./withDrawal"
-import FilterWhite from "@/components/icons/Filter";
+import FilterWhite from "@/components/icons/filter";
 import Image from "next/image";
 
 const Widget = ({ data }) => {
