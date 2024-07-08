@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { tenantRentInfo, tenantUserWallet, tenantWalletBalance } from '@/api/tenantSevice';
+import { getRentHis, tenantRentInfo, tenantUserWallet, tenantWalletBalance } from '@/api/tenantSevice';
 
 const UseWalletStore = create((set) => ({
     walletPin: false,
@@ -8,6 +8,7 @@ const UseWalletStore = create((set) => ({
     showKYC: false,
     walletBalance: null,
     rentData: null,
+    rentHis: null,
     fetchData: async () => {
         try {
             const response = await tenantUserWallet();
@@ -17,6 +18,9 @@ const UseWalletStore = create((set) => ({
             if (response?.success === true) {
                 set({ illuminateWallet: true });
                 const rent = await tenantRentInfo();
+                const response = await getRentHis(); 
+                const rentHis = response?.upDateddata?.results;
+                set({ rentHis: rentHis })
                 set({ rentData: rent })
                 const timeoutId = setTimeout(async () => {
                     const balance = await tenantWalletBalance();
@@ -36,4 +40,4 @@ const UseWalletStore = create((set) => ({
     },
 }));
 
-export default UseWalletStore
+export default UseWalletStore;

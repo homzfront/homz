@@ -1,80 +1,50 @@
-import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+"use client";
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Button from "@/pages/dashboard/enterprise/components/button";
+import React, { useEffect, useState } from "react";
 
-const TransferHis = ({ illuminateWallet, walletActivities }) => {
+const All = ({ data }) => {
+
+  const ITEMS_PER_PAGE = 10;
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+
+  const currentData = data?.slice(startIndex, endIndex);
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Use reduce to generate an array of the first three pages
+  const firstThreePages = Array.from(
+    { length: Math.min(totalPages, 3) },
+    (_, index) => index + 1
+  );
 
   const getFirstLetter = (str) => {
-    if (!str) {
-      return "H"
-    } else {
-      return str[0];
-    }
+    return str[0];
   };
 
   return (
-    <div className="p-5 mt-0 border rounded-[12px] w-[100%] overflow-auto max-h-[407px] scrollbar-container">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          {illuminateWallet
-            ? (
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/clock.png"}
-                alt=""
-                height={21}
-                width={20}
-              />
-            ) : (
-              <Image
-                src={"/static/dashboard/tenant/finance/clock.png"}
-                alt=""
-                height={21}
-                width={20}
-              />
-            )}
-          <p
-            className={`text-[14px] font-[500] ${illuminateWallet
-              ? "text-GrayHomz" : "text-GrayHomz6"
-              }`}
-          >
-            Activities
-          </p>
-        </div>
-        <Link href={illuminateWallet ? "/dashboard/property-owner/payments/activities" : ""} className="flex gap-1 items-center">
-          <p
-            className={`text-[13px] font-[400]   ${illuminateWallet
-              ? "text-BlackHomz" : "text-GrayHomz6"
-              }`}
-          >
-            View All
-          </p>
-          {illuminateWallet
-            ? (
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/payment/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={17}
-              />
-            ) : (
-              <Image
-                src={"/static/dashboard/tenant/finance/arrow-right.png"}
-                alt=""
-                height={17}
-                width={17}
-              />
-            )}
-        </Link>
-      </div>
-      <div className={`${illuminateWallet
-        ? "block" : "hidden"}`}>
-        {walletActivities?.map((data) => (
-          <div key={data?._id}>
+    <div className="mt-4 w-full">
+      <div className={`w-full`}>
+        {currentData?.map((data) => (
+          <div key={data?.Id}>
             <div className="">
-              {data?.transactionType === "transfer" && data?.type === "add" ? (
+              {data?.Status === "Receive" && data?.tyepe === "transfer" ? (
                 <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
                   <div className="w-[80%] flex items-center gap-4">
                     <div className="">
@@ -91,26 +61,26 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                     <div className="flex items-center gap-2">
                       <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
                         <p className="text-[16px] font-[500] text-white">
-                          {getFirstLetter(data?.sender?.fullName)}
+                          {getFirstLetter(data?.From)}
                         </p>
                       </div>
                       <div className="flex flex-col">
-                        <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                          {data?.sender?.fullName} transferred N{data?.amount} to You
+                        <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
+                          {data?.From} transferred {data?.Amount} to {data?.To}
                         </p>
-                        <span className="text-[10px]  font-[400] text-GrayHomz2">
-                          {changeBackendDateFormat(data?.transactionDate)}
+                        <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
+                          {data?.TransDate}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                    N{data?.amount}
+                  <div className="text-[9px] md:text-[14px] font-[400] text-Success w-[20%]">
+                    {data?.Amount}
                   </div>
                 </div>
               )
                 :
-                data?.transactionType === "withdrawal" && data?.type === "subtract" ?
+                data?.Status === "Sent" && data?.tyepe === "transfer" ?
                   (
                     <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
                       <div className="w-[80%] flex items-center gap-4">
@@ -127,25 +97,25 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                         <div className="flex items-center gap-2">
                           <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
                             <p className="text-[16px] font-[500] text-white">
-                            {getFirstLetter(data?.sender?.fullName)}
+                              {getFirstLetter(data?.To)}
                             </p>
                           </div>
                           <div className="flex flex-col">
-                            <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                            You withdrew N{data?.amount} to your bank account
+                            <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
+                              {data?.From} transferred {data?.Amount} to {data?.To}
                             </p>
-                            <span className="text-[10px]  font-[400] text-GrayHomz2">
-                            {changeBackendDateFormat(data?.transactionDate)}
+                            <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
+                              {data?.TransDate}
                             </span>
                           </div>
                         </div>
                       </div>
-                      <div className="text-[9px]  font-[500] md:font-[400] text-[#d92d20] w-[20%]">
-                        N{data?.amount}
+                      <div className="text-[9px] md:text-[14px] font-[500] md:font-[400] text-[#d92d20] w-[20%]">
+                        {data?.Amount}
                       </div>
                     </div>
                   ) :
-                  data?.transactionType === "deposit" && data?.type === "add" ?
+                  data?.Status === "Receive" && data?.tyepe === "deposited" ?
                     (
                       <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
                         <div className="w-[80%] flex items-center gap-4">
@@ -163,21 +133,21 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                           <div className="flex items-center gap-2">
                             <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
                               <p className="text-[16px] font-[500] text-white">
-                              {getFirstLetter(data?.sender?.fullName)}
+                                {getFirstLetter(data?.To)}
                               </p>
                             </div>
                             <div className="flex flex-col">
-                              <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                You deposited N{data?.amount} into your wallet
+                              <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
+                                {data?.From} deposited {data?.Amount} into your wallet
                               </p>
-                              <span className="text-[10px]  font-[400] text-GrayHomz2">
-                              {changeBackendDateFormat(data?.transactionDate)}
+                              <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
+                                {data?.TransDate}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                          N{data?.amount}
+                        <div className="text-[9px] md:text-[14px] font-[400] text-Success w-[20%]">
+                          {data?.Amount}
                         </div>
                       </div>
                     )
@@ -202,16 +172,16 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                               </p>
                             </div>
                             <div className="flex flex-col">
-                              <p className="text-[11px]  font-[500] text-GrayHomz break-words">
+                              <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
                                 {data?.From} withdrew {data?.Amount} to your bank account
                               </p>
-                              <span className="text-[10px]  font-[400] text-GrayHomz2">
+                              <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
                                 {data?.TransDate}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div className="text-[9px]  font-[400] text-[#d92d20] w-[20%]">
+                        <div className="text-[9px] md:text-[14px] font-[400] text-[#d92d20] w-[20%]">
                           {data?.Amount}
                         </div>
                       </div>
@@ -220,8 +190,18 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
           </div>
         ))}
       </div>
+      <div className="mt-6">
+        <Button
+          firstThreePages={firstThreePages}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handleNext={handleNext}
+          handlePageClick={handlePageClick}
+          handlePrev={handlePrev}
+        />
+      </div>
     </div>
   );
 };
 
-export default TransferHis;
+export default All;

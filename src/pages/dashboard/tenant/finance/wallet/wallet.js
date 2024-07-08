@@ -7,11 +7,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UseWalletStore from "@/store/tenantStore/useWalletStore";
 import rentInfoTeant from "@/store/rentInfoTenant";
+import tenantRentHis from "@/store/tenantStore/tenantRentHis";
 
 const Wallet = ({ activeTwo }) => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData } = UseWalletStore();
+  // const { data, fetchData: fetchRentInfo } = tenantRentHis();
+  const { rentHis, illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
@@ -58,7 +59,7 @@ const Wallet = ({ activeTwo }) => {
           </div>
         </div>
         <div className="w-full md:w-[50%]">
-          <TransferHis illuminateWallet={illuminateWallet} data={data} />
+          <TransferHis illuminateWallet={illuminateWallet} data={rentHis} />
         </div>
       </div>
     </div>

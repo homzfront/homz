@@ -55,7 +55,7 @@ const RevCard = ({ revData }) => {
     <div className="border md:w-[40%] rounded-[12px] ">
       <div className="flex justify-between items-center px-6 pt-6 pb-3">
         <h1 className="text-BlueHomz font-[500] text-[14px]">Revenue</h1>
-        <Link href={""}>
+        <Link href={"/dashboard/property-owner/payments"}>
           <Image
             src={
               "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"

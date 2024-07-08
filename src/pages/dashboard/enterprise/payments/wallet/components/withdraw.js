@@ -122,7 +122,7 @@ const Withdraw = ({ illuminateWallet }) => {
         :
         (
           <div
-            className={`cursor-pointer rounded-md w-[212px] h-[37px] flex items-center justify-center  ${illuminateWallet
+            className={`cursor-pointer rounded-md w-[212px] h-[37px] flex items-center justify-center ${illuminateWallet
               ? "bg-BlueHomz"
               : "bg-GrayHomz6 pointer-events-none"
               }`}

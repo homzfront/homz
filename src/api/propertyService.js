@@ -272,6 +272,17 @@ export const propertyOwnerWalletBalance = async () => {
   }
 };
 
+export const propertyOwnerWalletActivities = async () => {
+  try {
+    const response = await api.get(`/wallet/activies/property-owner`);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    // console.error("Error wallet:", error);
+    throw error;
+  }
+};
+
 export const ownerGetOtpPincode = async (password) => {
   try {
     const response = await api.post(`/wallet/pincode/otp/property-owner`, {

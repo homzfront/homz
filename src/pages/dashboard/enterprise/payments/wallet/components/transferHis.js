@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 const TransferHis = ({ illuminateWallet }) => {
+  
   const Data = [
     {
       Id: 1, From: "Adeyemo Olayemi", Status: "Receive", To: "you", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "transfer"
@@ -70,7 +71,7 @@ const TransferHis = ({ illuminateWallet }) => {
     return str[0];
   };
   return (
-    <div className="p-5 mt-0 border rounded-[12px] w-[100%] overflow-auto h-[323px] scrollbar-container">
+    <div className="p-5 mt-0 border rounded-[12px] w-[100%] overflow-auto max-h-[640px] scrollbar-container">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           {illuminateWallet
@@ -97,7 +98,6 @@ const TransferHis = ({ illuminateWallet }) => {
             Activities
           </p>
         </div>
-
         <Link href={illuminateWallet ? "/dashboard/enterprise-property/payments/activities" : ""} className="flex gap-1 items-center">
           <p
             className={`text-[13px] font-[400]   ${illuminateWallet
@@ -129,68 +129,150 @@ const TransferHis = ({ illuminateWallet }) => {
       <div className={`${illuminateWallet
         ? "block" : "hidden"}`}>
         {Data.map((data) => (
-          <div key={data.Id}>
-            <div>
-              {data.Status === "Receive" ? (
-                <div className="w-full flex md:items-center justify-between mt-6 border-b h-[60px] md:h-[40px] pb-5">
-                  <div className="flex gap-6 items-center">
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/payment/received_2.png"
-                      }
-                      width={20}
-                      height={21}
-                      alt=""
-                      className=""
-                    />
-                    <div className="hidden md:mr-2 xl:mr-0 w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
-                      <p className="text-[16px] font-[500] text-white">
-                        {getFirstLetter(data.From)}
-                      </p>
+          <div key={data?.Id}>
+            <div className="">
+              {data?.Status === "Receive" && data?.tyepe === "transfer" ? (
+                <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
+                  <div className="w-[80%] flex items-center gap-4">
+                    <div className="">
+                      <Image
+                        src={
+                          "/static/dashboard/enterprisemanager/payment/received_2.png"
+                        }
+                        width={20}
+                        height={21}
+                        alt=""
+                        className=""
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
+                        <p className="text-[16px] font-[500] text-white">
+                          {getFirstLetter(data?.From)}
+                        </p>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-[11px]  font-[500] text-GrayHomz break-words">
+                          {data?.From} transferred {data?.Amount} to {data?.To}
+                        </p>
+                        <span className="text-[10px]  font-[400] text-GrayHomz2">
+                          {data?.TransDate}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-[-5px]">
-                    <p className="pl-2 md:pl-0 text-[10px] font-[500] text-GrayHomz break-words md:w-[220px]">
-                      Received {data.Amount} from {data.From}
-                    </p>
-                    <span className="pl-2 md:pl-0 text-[10px] font-[400] text-GrayHomz2">
-                      {data.TransDate}
-                    </span>
-                  </div>
-                  <div className="text-[10px] font-[400] text-Success w-[40%] md:w-[75px]">
-                    {data.Amount}
+                  <div className="text-[9px]  font-[400] text-Success w-[20%]">
+                    {data?.Amount}
                   </div>
                 </div>
-              ) : (
-                <div className="flex md:items-center justify-between mt-6 border-b h-[60px] md:[40px] pb-5">
-                  <div className="flex gap-6 items-center">
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/payment/send.png"
-                      }
-                      width={20}
-                      height={21}
-                      alt=""
-                    />
-                    <div className="hidden md:mr-2 xl:mr-0 w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
-                      <p className="text-[16px] font-[500] text-white">
-                        {getFirstLetter(data.From)}
-                      </p>
+              )
+                :
+                data?.Status === "Sent" && data?.tyepe === "transfer" ?
+                  (
+                    <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
+                      <div className="w-[80%] flex items-center gap-4">
+                        <div className="">
+                          <Image
+                            src={
+                              "/static/dashboard/enterprisemanager/payment/send.png"
+                            }
+                            width={20}
+                            height={21}
+                            alt=""
+                          />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
+                            <p className="text-[16px] font-[500] text-white">
+                              {getFirstLetter(data?.To)}
+                            </p>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="text-[11px]  font-[500] text-GrayHomz break-words">
+                              {data?.From} transferred {data?.Amount} to {data?.To}
+                            </p>
+                            <span className="text-[10px]  font-[400] text-GrayHomz2">
+                              {data?.TransDate}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-[9px]  font-[500] md:font-[400] text-[#d92d20] w-[20%]">
+                        {data?.Amount}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-[-5px]">
-                    <p className="pl-2 md:pl-0 text-[10px] font-[500] text-GrayHomz break-words md:w-[220px] ">
-                      You sent {data.Amount} to {data.From}
-                    </p>
-                    <span className="pl-2 md:pl-0 text-[10px] font-[400] text-GrayHomz2">
-                      {data.TransDate}
-                    </span>
-                  </div>
-                  <div className="text-[10px] font-[400] text-error w-[40%] md:w-[75px]">
-                    {data.Amount}
-                  </div>
-                </div>
-              )}
+                  ) :
+                  data?.Status === "Receive" && data?.tyepe === "deposited" ?
+                    (
+                      <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
+                        <div className="w-[80%] flex items-center gap-4">
+                          <div className="">
+                            <Image
+                              src={
+                                "/static/dashboard/enterprisemanager/payment/received_2.png"
+                              }
+                              width={20}
+                              height={21}
+                              alt=""
+                              className=""
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
+                              <p className="text-[16px] font-[500] text-white">
+                                {getFirstLetter(data?.To)}
+                              </p>
+                            </div>
+                            <div className="flex flex-col">
+                              <p className="text-[11px]  font-[500] text-GrayHomz break-words">
+                                {data?.From} deposited {data?.Amount} into your wallet
+                              </p>
+                              <span className="text-[10px]  font-[400] text-GrayHomz2">
+                                {data?.TransDate}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-[9px]  font-[400] text-Success w-[20%]">
+                          {data?.Amount}
+                        </div>
+                      </div>
+                    )
+                    :
+                    (
+                      <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
+                        <div className="w-[80%] flex items-center gap-4">
+                          <div className="">
+                            <Image
+                              src={
+                                "/static/dashboard/enterprisemanager/payment/send.png"
+                              }
+                              width={20}
+                              height={21}
+                              alt=""
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
+                              <p className="text-[16px] font-[500] text-white">
+                                A
+                              </p>
+                            </div>
+                            <div className="flex flex-col">
+                              <p className="text-[11px]  font-[500] text-GrayHomz break-words">
+                                {data?.From} withdrew {data?.Amount} to your bank account
+                              </p>
+                              <span className="text-[10px]  font-[400] text-GrayHomz2">
+                                {data?.TransDate}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-[9px]  font-[400] text-[#d92d20] w-[20%]">
+                          {data?.Amount}
+                        </div>
+                      </div>
+                    )}
             </div>
           </div>
         ))}

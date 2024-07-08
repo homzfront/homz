@@ -1,4 +1,4 @@
-import { propertyOwnerWallet, propertyOwnerWalletBalance } from '@/api/propertyService';
+import { propertyOwnerWallet, propertyOwnerWalletActivities, propertyOwnerWalletBalance } from '@/api/propertyService';
 import { create } from 'zustand'
 
 const UseWalletStore = create((set) => ({
@@ -7,6 +7,7 @@ const UseWalletStore = create((set) => ({
     illuminateWallet: false,
     showKYC: false,
     walletBalance: null,
+    walletActivities: null,
     fetchData: async () => {
         try {
             const response = await propertyOwnerWallet();
@@ -14,6 +15,9 @@ const UseWalletStore = create((set) => ({
                 set({ showKYC: false, walletPin: true, loading: false });
             }
             if (response?.success === true) {
+                const activies = await propertyOwnerWalletActivities();
+                console.log(activies)
+                set ({ walletActivities: activies?.data})
                 set({ illuminateWallet: true });
                 const timeoutId = setTimeout(async () => {
                     const balance = await propertyOwnerWalletBalance();
