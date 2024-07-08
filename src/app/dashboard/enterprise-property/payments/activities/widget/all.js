@@ -3,7 +3,7 @@ import Image from "next/image";
 import Button from "@/pages/dashboard/enterprise/components/button";
 import React, { useEffect, useState } from "react";
 
-const All = ({ data = null || [] }) => {
+const All = ({ data }) => {
   if (!data) {
     return [];
   }
