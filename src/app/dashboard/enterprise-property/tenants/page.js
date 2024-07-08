@@ -3,7 +3,7 @@ import Tenants from "@/pages/dashboard/enterprise/tenants/firstPage/tenants";
 
 const App = () => {
   return (
-    <div>
+    <div className="dashboard">
       <Tenants />
     </div>
   );

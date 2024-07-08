@@ -197,7 +197,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="shadow-lg fixed">
+      <div className="shadow-lg">
         <div className="w-full h-[1024px] px-6 flex flex-col py-10">
           <Link href={"/"} className="mb-[50px]">
             <Image

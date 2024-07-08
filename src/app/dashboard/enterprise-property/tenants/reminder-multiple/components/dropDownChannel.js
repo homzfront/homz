@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useClickOutside from "@/utils/clickOutside";
 import ArrowRightSmall from "@/components/icons/arrowRightSmall";
 
@@ -12,10 +12,18 @@ const DropDownChannel = ({ options, onSelect, selectOption, className }) => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  useEffect(() => {
+    if (options.length > 0) {
+      const firstOption = options[0];
+      setSelectedOptions([firstOption]);
+      onSelect(["In-App", "Email", "SMS"]);
+    }
+  }, []);
+
   const handleOptionClick = (option) => {
     if (option.label === "All") {
       setSelectedOptions([option]);
-      onSelect(["Dashboard", "Email", "SMS"]);
+      onSelect(["In-App", "Email", "SMS"]);
     } else {
       setSelectedOptions((prevSelected) => {
         const isAlreadySelected = prevSelected.some(
@@ -37,7 +45,7 @@ const DropDownChannel = ({ options, onSelect, selectOption, className }) => {
   return (
     <div className={`relative inline-block ${className}`} ref={dropdownRef}>
       <div
-        className={`text-BlackHomz px-4 border-BlueHomz border h-[45px] p-3 rounded-md cursor-pointer ${isOpen ? "border z-[-3px]" : ""
+        className={`text-BlackHomz px-4 border-GrayHomz border h-[45px] p-3 rounded-md cursor-pointer ${isOpen ? "border z-[-3px]" : ""
           }`}
         onClick={handleDropdownToggle}
       >

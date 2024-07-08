@@ -197,3 +197,12 @@ body {
 
 
 
+.custom-editor  {
+  border: #4E4E4E solid 0.1px;
+  border-radius: 4px;
+}
+.ql-container {
+}
+
+.ql-toolbar {
+}

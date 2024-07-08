@@ -3,7 +3,9 @@ import DropDownReminder from './dropDownReminder';
 import DropDownChannel from './dropDownChannel';
 import CustomizeModal from '@/components/mainmenu/CustomizedModal';
 import Image from 'next/image';
-import RichTextEditor from './richTextEditor';
+import RichTextEditorEmail from './richTextEditorEmail';
+import RichTextEditorSMS from './richTextEditorSMS';
+import RichTextEditorInApp from './richTextEditorInApp';
 
 const CustomizeSettings = ({ setCustomizeSettings }) => {
     const [time, setTime] = useState(null);
@@ -26,14 +28,14 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
 
     const optionII = [
         { id: 1, label: "All" },
-        { id: 2, label: "Dashboard" },
+        { id: 2, label: "In-App" },
         { id: 3, label: "Email" },
         { id: 4, label: "SMS" },
     ];
 
     const isSMSPresent = channels.includes('SMS');
     const isEmailPresent = channels.includes('Email');
-    const isDashboardPresent = channels.includes('Dashboard');
+    const isInAppPresent = channels.includes('In-App');
 
     return (
         <div>
@@ -145,7 +147,7 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                         name="remindTime"
                         required
                         placeholder="00:00 AM"
-                        className="w-[236px] h-[55px] rounded-[4px] text-GrayHomz border border-BlueHomz px-2"
+                        className="w-[236px] h-[55px] rounded-[4px] text-GrayHomz border border-GrayHomz px-2"
                         onChange={(e) => setTime(e.target.value)}
                     />
                 </div>
@@ -180,8 +182,11 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                             Type in your preferred reminder message for emails
                         </p>
                     </div>
-                    <div className="w-[50%]">
-                        <RichTextEditor />
+                    <div className='w-[50%] flex flex-col gap-2'>
+                        <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
+                            <p className='text-[14px] font-[400]'>Subject</p>
+                        </div>
+                        <RichTextEditorEmail charLimit={500}/>
                     </div>
                 </div>
             )}
@@ -196,10 +201,11 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                         </p>
                     </div>
                     <div className="w-[50%]">
-                        <div className="py-3 px-4 flex items-center border border-BlueHomz text-GrayHomz rounded-[4px]">
-                            <p className="text-[14px] font-[500] text-justify">
-                                Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed eros non elit.
-                            </p>
+                        <div className='w-full flex flex-col gap-2'>
+                            <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
+                                <p className='text-[14px] font-[400]'>Subject</p>
+                            </div>
+                            <RichTextEditorSMS charLimit={500} />
                         </div>
                         <div className="mt-2 flex items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                             Send copy to :
@@ -215,7 +221,7 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                     </div>
                 </div>
             )}
-            {isDashboardPresent && (
+            {isInAppPresent && (
                 <div className="border-b py-4 w-[100%]">
                     <div className="flex justify-between">
                         <div className="flex flex-col w-[50%] md:w-[395px] gap-2">
@@ -226,12 +232,11 @@ const CustomizeSettings = ({ setCustomizeSettings }) => {
                                 Type in your preferred reminder message for In-App notifications
                             </p>
                         </div>
-                        <div className="w-[50%]">
-                            <div className="py-3 px-4 flex items-center border border-BlueHomz text-GrayHomz rounded-[4px]">
-                                <p className="text-[14px] font-[500] text-justify">
-                                    Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed eros non elit.
-                                </p>
+                        <div className='w-[50%] flex flex-col gap-2'>
+                            <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
+                                <p className='text-[14px] font-[400]'>Subject</p>
                             </div>
+                            <RichTextEditorInApp charLimit={500} />
                         </div>
                     </div>
                 </div>

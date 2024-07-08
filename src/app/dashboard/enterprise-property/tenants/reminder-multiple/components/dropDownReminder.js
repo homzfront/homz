@@ -23,7 +23,7 @@ const DropDownReminder = ({ options, onSelect, selectOption, className }) => {
     return (
         <div className={`relative inline-block ${className}`} ref={dropdownRef}>
             <div
-                className={`text-BlackHomz px-4 border-BlueHomz border h-[45px] p-3 rounded-md cursor-pointer ${isOpen ? "border  z-[-3px]" : ""
+                className={`text-BlackHomz px-4 border-GrayHomz border h-[45px] p-3 rounded-md cursor-pointer ${isOpen ? "border  z-[-3px]" : ""
                     }`}
                 onClick={handleDropdownToggle}
 

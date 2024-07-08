@@ -85,9 +85,12 @@ const Settings = () => {
                                     Tenant(s) will receive this message in their emails
                                 </p>
                             </div>
-                            <div className='w-[50%]'>
+                            <div className='w-[50%] flex flex-col gap-2'>
                                 <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[500] text-justify'>
+                                    <p className='text-[14px] font-[400]'>Subject</p>
+                                </div>
+                                <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                    <p className='text-[14px] font-[400] text-justify'>
                                         Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed eros non elit.
                                         Leo mauris etiam leo fames nec pretium egestas fames volutpat. Ut aliquet tortor volutpat faucibus. Nunc etiam vulputate tincidunt tempor malesuada pharetra. Ut ullamcorper turpis arcu felis. Ut urna placerat sem sagittis. Dui eu vel sit bibendum. Velit nam diam malesuada nunc lorem mattis gravida nunc. In convallis a urna egestas justo dictumst cras. Aenean id eget sit risus posuere amet. Quam felis.
                                     </p>
@@ -103,9 +106,12 @@ const Settings = () => {
                                     Tenant(s) will receive this message
                                 </p>
                             </div>
-                            <div className='w-[50%]'>
+                            <div className='w-[50%] flex flex-col gap-2'>
                                 <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[500] text-justify'>
+                                    <p className='text-[14px] font-[400]'>Subject</p>
+                                </div>
+                                <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                    <p className='text-[14px] font-[400] text-justify'>
                                         Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed
                                     </p>
                                 </div>
@@ -115,15 +121,18 @@ const Settings = () => {
                             <div className='flex justify-between'>
                                 <div className='w-[50%] flex flex-col gap-2'>
                                     <p className='text-[14px] font-[500] text-BlueHomz'>
-                                        In-Appp Reminder Message
+                                        In-App Reminder Message
                                     </p>
                                     <p className='text-[13px] font-[400] text-BlackHomz'>
                                         Tenant(s) will receive this message
                                     </p>
                                 </div>
-                                <div className='w-[50%]'>
+                                <div className='w-[50%] flex flex-col gap-2'>
                                     <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                        <p className='text-[14px] font-[500] text-justify'>
+                                        <p className='text-[14px] font-[400]'>Subject</p>
+                                    </div>
+                                    <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                        <p className='text-[14px] font-[400] text-justify'>
                                             Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed            </p>
                                     </div>
                                 </div>
