@@ -1,70 +1,10 @@
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Activities = ({ illuminateWallet }) => {
-  const Data = [
-    {
-      Id: 1, From: "Adeyemo Olayemi", Status: "Receive", To: "you", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 2, From: "You", Status: "Sent", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N500,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 3, From: "You", Status: "Receive", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "deposited"
-    },
-    {
-      Id: 4, From: "You", Status: "Sent", To: "your bank account", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N1, 500,000 ", tyepe: "withdrawal"
-    },
-    {
-      Id: 5, From: "Adeyemo Olayemi", Status: "Receive", To: "you", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 6, From: "You", Status: "Sent", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N500,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 7, From: "You", Status: "Receive", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "deposited"
-    },
-    {
-      Id: 8, From: "You", Status: "Sent", To: "your bank account", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N1, 500,000 ", tyepe: "withdrawal"
-    },
-    {
-      Id: 9, From: "You", Status: "Receive", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "deposited"
-    },
-    {
-      Id: 10, From: "You", Status: "Sent", To: "your bank account", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N1, 500,000 ", tyepe: "withdrawal"
-    },
-    {
-      Id: 11, From: "You", Status: "Receive", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "deposited"
-    },
-    {
-      Id: 12, From: "You", Status: "Sent", To: "your bank account", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N1, 500,000 ", tyepe: "withdrawal"
-    },
-    {
-      Id: 13, From: "You", Status: "Sent", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N500,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 14, From: "You", Status: "Receive", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "deposited"
-    },
-    {
-      Id: 15, From: "You", Status: "Sent", To: "your bank account", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N1, 500,000 ", tyepe: "withdrawal"
-    },
-    {
-      Id: 16, From: "Adeyemo Olayemi", Status: "Receive", To: "you", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 17, From: "You", Status: "Sent", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N500,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 18, From: "Adeyemo Olayemi", Status: "Receive", To: "you", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N4, 000,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 19, From: "You", Status: "Sent", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N500,000 ", tyepe: "transfer"
-    },
-    {
-      Id: 20, From: "You", Status: "Sent", To: "Adeyemo Olayemi", Image: "/static/dashboard/enterprisemanager/payment/Avatar.png", TransDate: "16 Nov, 2024", Amount: "N500,000 ", tyepe: "transfer"
-    },
-  ];
+const Activities = ({ walletActivities, illuminateWallet }) => {
 
   const getFirstLetter = (str) => {
     return str[0];
@@ -128,10 +68,10 @@ const Activities = ({ illuminateWallet }) => {
       </div>
       <div className={`${illuminateWallet
         ? "block" : "hidden"}`}>
-        {Data.map((data) => (
-          <div key={data?.Id}>
+        {walletActivities?.map((data) => (
+          <div key={data?._id}>
             <div className="">
-              {data?.Status === "Receive" && data?.tyepe === "transfer" ? (
+              {data?.transactionType === "transfer" && data?.type === "add" ? (
                 <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
                   <div className="w-[80%] flex items-center gap-4">
                     <div className="">
@@ -148,26 +88,26 @@ const Activities = ({ illuminateWallet }) => {
                     <div className="flex items-center gap-2">
                       <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
                         <p className="text-[16px] font-[500] text-white">
-                          {getFirstLetter(data?.From)}
+                          {getFirstLetter(data?.sender?.fullName)}
                         </p>
                       </div>
                       <div className="flex flex-col">
                         <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                          {data?.From} transferred {data?.Amount} to {data?.To}
+                          {data?.sender?.fullName} transferred {addCommasToNumber(data?.amount)} to You
                         </p>
                         <span className="text-[10px]  font-[400] text-GrayHomz2">
-                          {data?.TransDate}
+                          {changeBackendDateFormat(data?.transactionDate)}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                    {data?.Amount}
+                    {addCommasToNumber(data?.amount)}
                   </div>
                 </div>
               )
                 :
-                data?.Status === "Sent" && data?.tyepe === "transfer" ?
+                data?.transactionType === "withdrawal" && data?.type === "subtract" ?
                   (
                     <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
                       <div className="w-[80%] flex items-center gap-4">
@@ -184,25 +124,25 @@ const Activities = ({ illuminateWallet }) => {
                         <div className="flex items-center gap-2">
                           <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
                             <p className="text-[16px] font-[500] text-white">
-                              {getFirstLetter(data?.To)}
+                              {getFirstLetter(data?.sender?.fullName)}
                             </p>
                           </div>
                           <div className="flex flex-col">
                             <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                              {data?.From} transferred {data?.Amount} to {data?.To}
+                              You withdrew {addCommasToNumber(data?.amount)} to your bank account
                             </p>
                             <span className="text-[10px]  font-[400] text-GrayHomz2">
-                              {data?.TransDate}
+                              {changeBackendDateFormat(data?.transactionDate)}
                             </span>
                           </div>
                         </div>
                       </div>
                       <div className="text-[9px]  font-[500] md:font-[400] text-[#d92d20] w-[20%]">
-                        {data?.Amount}
+                        {addCommasToNumber(data?.amount)}
                       </div>
                     </div>
                   ) :
-                  data?.Status === "Receive" && data?.tyepe === "deposited" ?
+                  data?.transactionType === "deposit" && data?.type === "add" ?
                     (
                       <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
                         <div className="w-[80%] flex items-center gap-4">
@@ -220,21 +160,21 @@ const Activities = ({ illuminateWallet }) => {
                           <div className="flex items-center gap-2">
                             <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
                               <p className="text-[16px] font-[500] text-white">
-                                {getFirstLetter(data?.To)}
+                                {getFirstLetter(data?.sender?.fullName)}
                               </p>
                             </div>
                             <div className="flex flex-col">
                               <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                {data?.From} deposited {data?.Amount} into your wallet
+                                You deposited {addCommasToNumber(data?.amount)} into your wallet
                               </p>
                               <span className="text-[10px]  font-[400] text-GrayHomz2">
-                                {data?.TransDate}
+                                {changeBackendDateFormat(data?.transactionDate)}
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                          {data?.Amount}
+                          {addCommasToNumber(data?.amount)}
                         </div>
                       </div>
                     )
@@ -255,21 +195,21 @@ const Activities = ({ illuminateWallet }) => {
                           <div className="flex items-center gap-2">
                             <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
                               <p className="text-[16px] font-[500] text-white">
-                                A
+                                {getFirstLetter(data?.receiver?.fullName)}
                               </p>
                             </div>
                             <div className="flex flex-col">
                               <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                {data?.From} withdrew {data?.Amount} to your bank account
+                                You transferred {addCommasToNumber(data?.amount)} to {data?.receiver?.fullName}
                               </p>
                               <span className="text-[10px]  font-[400] text-GrayHomz2">
-                                {data?.TransDate}
+                                {changeBackendDateFormat(data?.transactionDate)}
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="text-[9px]  font-[400] text-[#d92d20] w-[20%]">
-                          {data?.Amount}
+                          {addCommasToNumber(data?.amount)}
                         </div>
                       </div>
                     )}

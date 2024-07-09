@@ -1,107 +1,113 @@
-import React, { useState } from 'react'
-import Button from "@/pages/dashboard/enterprise/components/button";
-import Image from 'next/image';
-
-const Data = [
-  { Id: 1, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 2, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 3, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 4, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 5, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 6, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 7, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 8, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 9, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 10, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 11, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 12, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 13, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 14, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 15, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 16, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 17, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 18, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 19, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-  { Id: 20, Image: "/static/dashboard/enterprisemanager/payment/send.png", TransDate: "16 Nov, 2024", Amount: "N500,000" },
-]
+"use client";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import Pagination from "@/components/general/pagination";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import SkeletonLoader from "./skeletonLoader";
+import api from "@/utils/api";
+import addCommasToNumber from "@/utils/addCommasToNumber";
 
 const WithDrawal = () => {
-
-  const ITEMS_PER_PAGE = 10;
-
+  const [currentData, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const totalPages = Math.ceil(Data?.length / ITEMS_PER_PAGE);
+  useEffect(() => {
+    const fetchData = async (page) => {
+      setLoading(true);
+      try {
+        const response = await api.get(`/wallet/activies/tenant?page=${page}&transactionType=withdrawal&type=subtract`);
+        const result = response?.data;
+        setData(result?.data);
+        setTotalPages(result?.pagination?.totalPages);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
+    };
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-
-  const currentData = Data?.slice(startIndex, endIndex);
-
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
-
-  const handlePrev = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
+    fetchData(currentPage);
+  }, [currentPage]);
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
   };
 
-  const firstThreePages = Array.from(
-    { length: Math.min(totalPages, 3) },
-    (_, index) => index + 1
-  );
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const firstThreePages = [1, 2, 3];
+  const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+
+  const getFirstLetter = (str) => {
+    return str[0];
+  };
 
   return (
     <div className={`w-full`}>
-      {currentData?.map((data) => (
-        <div key={data?.Id}>
-          <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
-            <div className="w-[80%] flex items-center gap-4">
-              <div className="">
-                <Image
-                  src={data?.Image}
-                  width={20}
-                  height={21}
-                  alt=""
-                  className=""
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
-                  <p className="text-[16px] font-[500] text-white">
-                    A
-                  </p>
+      {loading ? (
+        <SkeletonLoader data={currentData?.length} />
+      ) : (
+        <div className={`w-full`}>
+          {currentData?.map((data) => (
+            <div key={data?._id}>
+              <div className="w-full flex items-center justify-between mt-8 border-b h-[40px] pb-7">
+                <div className="w-[80%] flex items-center gap-4">
+                  <div className="">
+                    <Image
+                      src={
+                        "/static/dashboard/enterprisemanager/payment/send.png"
+                      }
+                      width={20}
+                      height={21}
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
+                      <p className="text-[16px] font-[500] text-white">
+                        {getFirstLetter(data?.sender?.fullName)}
+                      </p>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
+                        You withdrew {addCommasToNumber(data?.amount)} to your bank account
+                      </p>
+                      <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
+                        {changeBackendDateFormat(data?.transactionDate)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
-                    You withdrew {data?.Amount} to your bank account
-                  </p>
-                  <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
-                    {data?.TransDate}
-                  </span>
+                <div className="text-[9px] md:text-[14px] font-[500] md:font-[400] text-[#d92d20] w-[20%]">
+                  {addCommasToNumber(data?.amount)}
                 </div>
               </div>
             </div>
-            <div className="text-[9px] md:text-[14px] font-[400] text-[#D92D20] w-[20%]">
-              {data?.Amount}
-            </div>
-          </div>
+          ))}
         </div>
-      ))}
-      <div className="mt-6">
-        <Button
+      )}
+      {currentData && currentData.length >= 1 && <div className="mt-6">
+        <Pagination
           firstThreePages={firstThreePages}
           currentPage={currentPage}
           totalPages={totalPages}
           handleNext={handleNext}
           handlePageClick={handlePageClick}
           handlePrev={handlePrev}
+          lastThreePages={lastThreePages}
         />
-      </div>
+      </div>}
     </div>
   )
 };

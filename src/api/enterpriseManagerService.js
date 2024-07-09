@@ -123,6 +123,16 @@ export const enterpriseWalletBalance = async () => {
   }
 };
 
+
+export const enterpriseWalletActivities = async () => {
+  try {
+    const response = await api.get(`/wallet/activies/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const sendMoneyEnterpriseToOwner = async (details) => {
   const {
     pincode,

@@ -12,7 +12,7 @@ import tenantRentHis from "@/store/tenantStore/tenantRentHis";
 const Wallet = ({ activeTwo }) => {
   const [loading, setLoading] = useState(false);
   // const { data, fetchData: fetchRentInfo } = tenantRentHis();
-  const { rentHis, illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData } = UseWalletStore();
+  const { rentHis, illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData, walletActivities } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
@@ -38,7 +38,7 @@ const Wallet = ({ activeTwo }) => {
         theme="dark"
       />
       <div className="w-full flex flex-col md:flex-row gap-8 px-8">
-        <div className="flex flex-col w-full md:w-[50%] gap-4 md:h-[400px] justify-between">
+        <div className="flex flex-col w-full md:w-[50%] gap-4 md:h-[400px]">
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
@@ -55,7 +55,7 @@ const Wallet = ({ activeTwo }) => {
             {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
           </div>
           <div>
-            <Activities illuminateWallet={illuminateWallet} />
+            <Activities walletActivities={walletActivities} illuminateWallet={illuminateWallet} />
           </div>
         </div>
         <div className="w-full md:w-[50%]">

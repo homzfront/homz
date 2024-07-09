@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getRentHis, tenantRentInfo, tenantUserWallet, tenantWalletBalance } from '@/api/tenantSevice';
+import { getRentHis, tenantRentInfo, tenantUserWallet, tenantWalletActivities, tenantWalletBalance } from '@/api/tenantSevice';
 
 const UseWalletStore = create((set) => ({
     walletPin: false,
@@ -9,6 +9,7 @@ const UseWalletStore = create((set) => ({
     walletBalance: null,
     rentData: null,
     rentHis: null,
+    walletActivities: null,
     fetchData: async () => {
         try {
             const response = await tenantUserWallet();
@@ -16,6 +17,8 @@ const UseWalletStore = create((set) => ({
                 set({ showKYC: false, walletPin: true, loading: false });
             }
             if (response?.success === true) {
+                const activies = await tenantWalletActivities();
+                set ({ walletActivities: activies?.data})
                 set({ illuminateWallet: true });
                 const rent = await tenantRentInfo();
                 const response = await getRentHis(); 

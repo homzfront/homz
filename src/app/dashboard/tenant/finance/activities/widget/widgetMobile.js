@@ -6,7 +6,7 @@ import Deposite from './deposite';
 import WithDrawal from './withDrawal';
 import Image from 'next/image';
 
-const WidgetMobile = ({ data }) => {
+const WidgetMobile = () => {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -137,19 +137,19 @@ const WidgetMobile = ({ data }) => {
             </div>
             <div className="my-7 rounded-[12px] w-full">
                 <div className={`${!active ? "inline" : "hidden"}`}>
-                    <All data={data} />
+                    <All />
                 </div>
                 <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                    <TransferFrom data={data} />
+                    <TransferFrom />
                 </div>
                 <div className={`${activeThree ? "inline" : "hidden"}`}>
-                    <TransferTo data={data} />
+                    <TransferTo />
                 </div>
                 <div className={`${activeFour ? "inline" : "hidden"}`}>
-                    <Deposite data={data} />
+                    <Deposite />
                 </div>
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
-                    <WithDrawal data={data} />
+                    <WithDrawal />
                 </div>
             </div>
         </div>

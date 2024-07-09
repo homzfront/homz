@@ -8,18 +8,14 @@ import WithDrawal from "./withDrawal"
 import Image from "next/image";
 import FilterIcon from "@/components/icons/filterIcon";
 
-const Widget = ({ data }) => {
-  const Data = data || [];
+const Widget = () => {
+
   const pages = [
-    { id: 1, name: "All", component: <All data={Data} /> },
-    { id: 2, name: "Transfer From", component: <TransferFrom data={Data} /> },
-    {
-      id: 3,
-      name: "Transfer To",
-      component: <TransferTo data={Data} />,
-    },
-    { id: 4, name: "Deposit", component: <Deposite data={Data} /> },
-    { id: 5, name: "Withdrawal", component: <WithDrawal data={Data} /> },
+    { id: 1, name: "All", component: <All /> },
+    { id: 2, name: "Transfer From", component: <TransferFrom /> },
+    { id: 3, name: "Transfer To", component: <TransferTo /> },
+    { id: 4, name: "Deposit", component: <Deposite /> },
+    { id: 5, name: "Withdrawal", component: <WithDrawal /> },
   ];
 
   const [active, setActive] = useState(pages[0].id);
@@ -65,7 +61,7 @@ const Widget = ({ data }) => {
               />
             </button>
             <button className="p-2 bg-BlueHomz rounded-[4px] flex items-center gap-1">
-             <FilterIcon />
+              <FilterIcon />
               <p className="text-[14px] text-white font-[700]">Filter</p>
             </button>
           </div>

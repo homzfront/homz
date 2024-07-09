@@ -16,7 +16,6 @@ const UseWalletStore = create((set) => ({
             }
             if (response?.success === true) {
                 const activies = await propertyOwnerWalletActivities();
-                console.log(activies)
                 set ({ walletActivities: activies?.data})
                 set({ illuminateWallet: true });
                 const timeoutId = setTimeout(async () => {

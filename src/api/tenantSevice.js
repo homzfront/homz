@@ -412,6 +412,15 @@ export const tenantUserWallet = async () => {
   }
 };
 
+export const tenantWalletActivities = async () => {
+  try {
+    const response = await api.get(`/wallet/activies/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const WalletTopUp = async (amount) => {
   try {
     const response = await api.post(`/wallet/top-up/tenant`, {

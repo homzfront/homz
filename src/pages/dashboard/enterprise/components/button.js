@@ -9,7 +9,7 @@ const Button = ({ currentPage, totalPages, handleNext, handlePageClick, handlePr
       <div>
         <button
           onClick={handlePrev}
-          className={`text-[14px] font-[500] py-2 px-6 border rounded-md hover:bg-whiteblue border-GrayHomz  md:border-BlueHomz text-BlueHomz flex items-center justify-center${currentPage === 1 ? "pointer-events-none opacity-20" : ""
+          className={`text-[14px] font-[500] py-2 px-6 border rounded-md hover:bg-whiteblue border-GrayHomz  md:border-BlueHomz text-BlueHomz flex items-center justify-center ${currentPage === 1 ? "pointer-events-none opacity-20" : ""
             }`}
         >
           <div className='md:hidden'>

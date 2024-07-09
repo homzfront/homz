@@ -1,3 +1,4 @@
+import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
 import Link from "next/link";
@@ -96,7 +97,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                       </div>
                       <div className="flex flex-col">
                         <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                          {data?.sender?.fullName} transferred N{data?.amount} to You
+                          {data?.sender?.fullName} transferred {addCommasToNumber(data?.amount)} to You
                         </p>
                         <span className="text-[10px]  font-[400] text-GrayHomz2">
                           {changeBackendDateFormat(data?.transactionDate)}
@@ -105,7 +106,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                     </div>
                   </div>
                   <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                    N{data?.amount}
+                    {addCommasToNumber(data?.amount)}
                   </div>
                 </div>
               )
@@ -127,21 +128,21 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                         <div className="flex items-center gap-2">
                           <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
                             <p className="text-[16px] font-[500] text-white">
-                            {getFirstLetter(data?.sender?.fullName)}
+                              {getFirstLetter(data?.sender?.fullName)}
                             </p>
                           </div>
                           <div className="flex flex-col">
                             <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                            You withdrew N{data?.amount} to your bank account
+                              You withdrew {addCommasToNumber(data?.amount)} to your bank account
                             </p>
                             <span className="text-[10px]  font-[400] text-GrayHomz2">
-                            {changeBackendDateFormat(data?.transactionDate)}
+                              {changeBackendDateFormat(data?.transactionDate)}
                             </span>
                           </div>
                         </div>
                       </div>
                       <div className="text-[9px]  font-[500] md:font-[400] text-[#d92d20] w-[20%]">
-                        N{data?.amount}
+                        {addCommasToNumber(data?.amount)}
                       </div>
                     </div>
                   ) :
@@ -163,21 +164,21 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                           <div className="flex items-center gap-2">
                             <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-BlueHomz">
                               <p className="text-[16px] font-[500] text-white">
-                              {getFirstLetter(data?.sender?.fullName)}
+                                {getFirstLetter(data?.sender?.fullName)}
                               </p>
                             </div>
                             <div className="flex flex-col">
                               <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                You deposited N{data?.amount} into your wallet
+                                You deposited {addCommasToNumber(data?.amount)} into your wallet
                               </p>
                               <span className="text-[10px]  font-[400] text-GrayHomz2">
-                              {changeBackendDateFormat(data?.transactionDate)}
+                                {changeBackendDateFormat(data?.transactionDate)}
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                          N{data?.amount}
+                          {addCommasToNumber(data?.amount)}
                         </div>
                       </div>
                     )
@@ -198,21 +199,21 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                           <div className="flex items-center gap-2">
                             <div className="hidden w-[32px] h-[32px] rounded-[100%] md:flex items-center justify-center bg-warning2">
                               <p className="text-[16px] font-[500] text-white">
-                                A
+                                {getFirstLetter(data?.receiver?.fullName)}
                               </p>
                             </div>
                             <div className="flex flex-col">
                               <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                {data?.From} withdrew {data?.Amount} to your bank account
+                                You transferred {addCommasToNumber(data?.amount)} to {data?.receiver?.fullName}
                               </p>
                               <span className="text-[10px]  font-[400] text-GrayHomz2">
-                                {data?.TransDate}
+                                {changeBackendDateFormat(data?.transactionDate)}
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="text-[9px]  font-[400] text-[#d92d20] w-[20%]">
-                          {data?.Amount}
+                          {addCommasToNumber(data?.amount)}
                         </div>
                       </div>
                     )}

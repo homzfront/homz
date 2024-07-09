@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import Button from "./button";
+import Pagination from "@/components/general/pagination";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
 import MiniPropertyListing from "./miniPropertyListings";
@@ -223,7 +223,7 @@ const PropertyCard = ({
                     </div>
                   ))}
                 </div>
-                {<Button
+                {<Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   handleNext={handleNext}

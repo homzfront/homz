@@ -10,7 +10,7 @@ import UseWalletStore from "@/store/enterpriseStore/useWalletStore";
 const Wallet = () => {
   const [loading, setLoading] = useState(false);
 
-  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet } = UseWalletStore();
+  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, walletActivities } = UseWalletStore();
 
   useEffect(() => {
     fetchWallet();
@@ -49,7 +49,7 @@ const Wallet = () => {
             {/* <Withdraw illuminateWallet={illuminateWallet} /> */}
           </div>
           <div>
-            <TransferHis illuminateWallet={illuminateWallet} />
+            <TransferHis illuminateWallet={illuminateWallet} walletActivities={walletActivities} />
           </div>
         </div>
       </div>
