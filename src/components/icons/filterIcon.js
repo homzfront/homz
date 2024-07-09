@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Filter = () => {
+const FilterIcon = () => {
     return (
         <div>
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,4 +12,4 @@ const Filter = () => {
     )
 }
 
-export default Filter
+export default FilterIcon

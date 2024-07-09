@@ -5,8 +5,8 @@ import TransferFrom from "./transferFrom";
 import TransferTo from "./transferTo";
 import Deposite from "./deposite";
 import WithDrawal from "./withDrawal"
-import FilterWhite from "@/components/icons/Filter";
 import Image from "next/image";
+import FilterIcon from "@/components/icons/filterIcon";
 
 const Widget = ({ data }) => {
   const Data = data || [];
@@ -65,7 +65,7 @@ const Widget = ({ data }) => {
               />
             </button>
             <button className="p-2 bg-BlueHomz rounded-[4px] flex items-center gap-1">
-              <FilterWhite />
+              <FilterIcon />
               <p className="text-[14px] text-white font-[700]">Filter</p>
             </button>
           </div>

@@ -6,7 +6,7 @@ import TransferTo from "./transferTo";
 import Deposite from "./deposite";
 import WithDrawal from "./withDrawal"
 import Image from "next/image";
-import Filter from "@/components/icons/filter";
+import FilterIcon from "@/components/icons/filterIcon";
 
 const Widget = ({ data }) => {
   const Data = data || [];
@@ -65,7 +65,7 @@ const Widget = ({ data }) => {
               />
             </button>
             <button className="p-2 bg-BlueHomz rounded-[4px] flex items-center gap-1">
-              <Filter />
+             <FilterIcon />
               <p className="text-[14px] text-white font-[700]">Filter</p>
             </button>
           </div>
