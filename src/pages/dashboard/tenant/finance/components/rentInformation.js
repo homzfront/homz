@@ -151,7 +151,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   }
 
   return (
-    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+    <div className="absolute top-0 z-20 h-[150vh] md:h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       {loading && <Loading />}
       {receipt ? (
         <Receipt
@@ -338,7 +338,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
               onClick={proceeding}
               className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
             >
-                 {addCommasToNumber(RentValue)}
+              {addCommasToNumber(RentValue)}
             </button> : <button
               className="pointer-events-none w-full h-[48px] bg-GrayHomz5 rounded-md text-GrayHomz6 text-[16px] font-[700]"
             >

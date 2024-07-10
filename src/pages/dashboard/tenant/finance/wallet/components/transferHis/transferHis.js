@@ -29,6 +29,7 @@ const TransferHis = ({ illuminateWallet, data }) => {
   const [receiptData, setReceiptdata] = useState({})
   const openReceipt = () => {
     setShowReceipt(!showReceipt);
+    setPopUpMenuTwo(false);
   };
   const closeReceipt = () => {
     setShowReceipt(false);
@@ -98,13 +99,13 @@ const TransferHis = ({ illuminateWallet, data }) => {
           </p>
         </div>
 
-        <div className={`hidden md:block ${illuminateWallet ? "block" : "hidden"}`}>
+        <div className={`${illuminateWallet ? "block" : "hidden"}`}>
           <table className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6">Amount</th>
-                <th className="text-left pl-4">Duration</th>
-                <th className="text-left pl-4">payment Date</th>
+                <th className="text-left pl-2 md:pl-6">Amount</th>
+                <th className="text-left pl-2 md:pl-4">Duration</th>
+                <th className="text-left pl-2 md:pl-4 ">payment Date</th>
                 <th className="text-left">Status</th>
                 <th></th>
               </tr>
@@ -116,13 +117,13 @@ const TransferHis = ({ illuminateWallet, data }) => {
                     key={data._id}
                     className=" w-2 border-b-[1px] items-center"
                   >
-                    <td className="pl-6 text-GrayHomz4 font-[500] text-[11px]">
+                    <td className="pl-2 md:pl-6 text-GrayHomz4 font-[500] text-[11px]">
                       {addCommasToNumber(data?.totalRent)}
                     </td>
-                    <td className="text-GrayHomz pl-4 py-[15px] font-[500] text-[11px]">
+                    <td className="text-GrayHomz pl-2 md:pl-4 py-[15px] font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}
                     </td>
-                    <td className="text-GrayHomz pl-4 py-[15px] font-[500] text-[11px]">
+                    <td className="text-GrayHomz text-left pl-2 md:pl-4 py-[15px] font-[500] text-[11px] ">
                       {changeBackendDateFormat(data?.paymentDate)}
                     </td>
                     <td

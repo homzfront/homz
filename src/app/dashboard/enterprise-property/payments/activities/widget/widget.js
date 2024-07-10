@@ -1,17 +1,41 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import All from "./all";
 import TransferFrom from "./transferFrom";
 import TransferTo from "./transferTo";
 import Deposite from "./deposite";
 import WithDrawal from "./withDrawal"
-import Image from "next/image";
-import FilterIcon from "@/components/icons/filterIcon";
+import Reset from "@/components/icons/reset";
 
-const Widget = () => {
+const Widget = ({
+  firstThreePages,
+  currentPage,
+  totalPages,
+  handleNext,
+  handlePageClick,
+  handlePrev,
+  lastThreePages,
+  currentData,
+  loading,
+  setSelectedDate,
+  clear
+}) => {
 
   const pages = [
-    { id: 1, name: "All", component: <All /> },
+    {
+      id: 1, name: "All", component:
+        <All
+          firstThreePages={firstThreePages}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handleNext={handleNext}
+          handlePageClick={handlePageClick}
+          handlePrev={handlePrev}
+          lastThreePages={lastThreePages}
+          currentData={currentData}
+          loading={loading}
+        />
+    },
     { id: 2, name: "Transfer From", component: <TransferFrom /> },
     { id: 3, name: "Transfer To", component: <TransferTo /> },
     { id: 4, name: "Deposit", component: <Deposite /> },
@@ -40,29 +64,19 @@ const Widget = () => {
               </div>
             ))}
           </div>
-          <div className="hidden md:flex items-center gap-2">
+          <div className={`items-center gap-2 ${active === 1 ? "hidden md:flex" : "hidden"}`}>
             <input
               type="date"
-              // onChange={(e) => setSelectedDate(e.target.value)}
-              className="border px-4 h-[42px] w-[130px] text-GrayHomz2 p-2 rounded cursor-pointer"
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="border px-4 h-[37px] w-[160px] text-GrayHomz2 p-2 rounded cursor-pointer"
             />
             <button
-              // onClick={clear}
+              onClick={clear}
               type="text"
-              className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz p-[9px] rounded cursor-pointer"
+              className="bg-BlueHomz items-center text-[14px] font-[500] gap-2 flex text-white p-[8px] rounded cursor-pointer"
             >
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-            <button className="p-2 bg-BlueHomz rounded-[4px] flex items-center gap-1">
-              <FilterIcon />
-              <p className="text-[14px] text-white font-[700]">Filter</p>
+              <Reset />
+              Reset
             </button>
           </div>
         </div>

@@ -32,7 +32,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
   };
 
   return (
-    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
+    <div className="absolute top-0 z-20 h-[150vh] md:h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       <div
         id="receipt-content"
         className="h-auto w-[530px] bg-white rounded-lg px-8 pt-6"
@@ -150,12 +150,12 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
           </div>
           <div className="relative rounded-lg bg-whiteblue p-4 flex flex-col gap-2">
-            <div className="w-full flex gap-4">
+            <div className="w-full flex items-center gap-4">
               <p className="text-BlueHomz text-[13px] font-[400] w-[50%]">
                 Transaction Reference No
               </p>
               <div className="flex items-center gap-2 w-[50%]">
-                <p className="text-BlueHomz text-[14px] font-[400]">
+                <p className="text-BlueHomz text-[14px] break-words font-[400] w-[85%]">
                   {rentData?.reference}
                 </p>
                 <Image
@@ -179,7 +179,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
                 )}
               </div>
             </div>
-            <div className="w-full flex gap-4">
+            <div className="w-full flex items-center gap-2 md:gap-4">
               <p className="text-BlueHomz text-[13px] font-[400] w-[50%]">
                 Status
               </p>
@@ -196,28 +196,32 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
           >
             Share Receipt
           </button>
-          <div className="border-t grid grid-cols-2 gap-2 pt-2">
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/sms.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterPrise?.user?.email}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/call.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterPrise?.phoneNumber}
-              </p>
+          <div className="border-t flex flex-col gap-2 pt-2 w-full">
+            <div className="flex justify-between items-start w-full">
+              <div className="flex items-start md:items-center gap-2 w-[45%] break-words">
+                <div className="mt-[2px] md:mt-0">
+                  <Image
+                    src={"/static/dashboard/enterprisemanager/payment/sms.png"}
+                    alt=""
+                    height={12}
+                    width={12}
+                  />
+                </div>
+                <p className="text-GrayHomz2 text-[11px] font-[500] w-[80%]">
+                  {rentData?.enterPrise?.user?.email}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 w-[45%]">
+                <Image
+                  src={"/static/dashboard/enterprisemanager/payment/call.png"}
+                  alt=""
+                  height={12}
+                  width={12}
+                />
+                <p className="text-GrayHomz2 text-[11px] font-[500]">
+                  {rentData?.enterPrise?.phoneNumber}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <Image
@@ -227,7 +231,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
                 width={12}
               />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterPrise?.estateAddress}
+                {rentData?.enterPrise?.businessAddress}
               </p>
             </div>
           </div>

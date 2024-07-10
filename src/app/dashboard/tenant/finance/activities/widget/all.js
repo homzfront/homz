@@ -1,58 +1,25 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Pagination from "@/components/general/pagination";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import SkeletonLoader from "./skeletonLoader";
-import api from "@/utils/api";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 
-const All = () => {
-  const [currentData, setData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async (page) => {
-      setLoading(true);
-      try {
-        const response = await api.get(`/wallet/activies/tenant?page=${page}`);
-        const result = response?.data;
-        setData(result?.data);
-        setTotalPages(result?.pagination?.totalPages);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
-    fetchData(currentPage);
-  }, [currentPage]);
-
-  const handlePageClick = (page) => {
-    setCurrentPage(page);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const firstThreePages = [1, 2, 3];
-  const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
-
+const All = ({
+  firstThreePages,
+  currentPage,
+  totalPages,
+  handleNext,
+  handlePageClick,
+  handlePrev,
+  lastThreePages,
+  currentData,
+  loading,
+}) => {
   const getFirstLetter = (str) => {
     return str[0];
   };
-
 
   return (
     <div className="mt-4 w-full">

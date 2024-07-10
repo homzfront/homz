@@ -1,11 +1,67 @@
 "use client"
 import ArrowLeftSmall from '@/components/icons/arrowLeftSmall';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Widget from './widget/widget';
 import WidgetMobile from './widget/widgetMobile';
+import api from '@/utils/api';
 
 const Activities = () => {
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [currentData, setData] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async (page) => {
+            setLoading(true);
+            try {
+                if (selectedDate) {
+                    const response = await api.get(`/wallet/activies/tenant?page=${page}&startDate=${selectedDate}`);
+                    const result = response?.data;
+                    setData(result?.data);
+                    setTotalPages(result?.pagination?.totalPages);
+                    setLoading(false);
+                } else {
+                    const response = await api.get(`/wallet/activies/tenant?page=${page}`);
+                    const result = response?.data;
+                    setData(result?.data);
+                    setTotalPages(result?.pagination?.totalPages);
+                    setLoading(false);
+                }
+            } catch (error) {
+                setLoading(false);
+            }
+        };
+
+        fetchData(currentPage);
+    }, [currentPage, selectedDate]);
+
+    const handlePageClick = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const firstThreePages = [1, 2, 3];
+    const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+
+    const clear = () => {
+        if (selectedDate) {
+            setSelectedDate(null);
+        }
+    };
 
     return (
         <div className='p-6'>
@@ -24,11 +80,23 @@ const Activities = () => {
                 </p>
             </div>
 
-            <div className="hidden md:block">
+             <div className="hidden md:block">
                 {(
                     <div>
                         <div>
-                            <Widget />
+                            <Widget
+                                firstThreePages={firstThreePages}
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                handleNext={handleNext}
+                                handlePageClick={handlePageClick}
+                                handlePrev={handlePrev}
+                                lastThreePages={lastThreePages}
+                                currentData={currentData}
+                                loading={loading}
+                                setSelectedDate={setSelectedDate}
+                                clear={clear}
+                            />
                         </div>
                     </div>
                 )}
@@ -37,7 +105,20 @@ const Activities = () => {
                 {(
                     <div>
                         <div>
-                            <WidgetMobile />
+                            <WidgetMobile 
+                             firstThreePages={firstThreePages}
+                             currentPage={currentPage}
+                             totalPages={totalPages}
+                             handleNext={handleNext}
+                             handlePageClick={handlePageClick}
+                             handlePrev={handlePrev}
+                             lastThreePages={lastThreePages}
+                             currentData={currentData}
+                             loading={loading}
+                             setSelectedDate={setSelectedDate}
+                             selectedDate={selectedDate}
+                             clear={clear}
+                            />
                         </div>
                     </div>
                 )}

@@ -4,9 +4,21 @@ import TransferFrom from './transferFrom';
 import TransferTo from './transferTo';
 import Deposite from './deposite';
 import WithDrawal from './withDrawal';
-import Image from 'next/image';
+import Reset from '@/components/icons/reset';
 
-const WidgetMobile = () => {
+const WidgetMobile = ({
+    firstThreePages,
+    currentPage,
+    totalPages,
+    handleNext,
+    handlePageClick,
+    handlePrev,
+    lastThreePages,
+    currentData,
+    loading,
+    setSelectedDate,
+    clear
+}) => {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -55,36 +67,22 @@ const WidgetMobile = () => {
 
     return (
         <div>
-            <div className="mt-4 flex justify-between md:hidden w-full">
-                <div className="relative w-[86%] rounded-[4px]">
+            <div className={`mt-4 flex gap-4 w-full ${!active ? "md:hidden" : "hidden"}`}>
+                <div className="relative w-[65%] rounded-[4px]">
                     <input
-                        type="text"
-                        className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full"
-                        id="search"
-                        // value={searchQuery}
-                        // onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search"
-                    />
-                    <Image
-                        src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
-                        alt=""
-                        className="absolute top-3 left-3"
-                        height={16}
-                        width={16}
+                        type="date"
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                        className="border px-4 h-[37px] w-full text-GrayHomz2 p-2 rounded cursor-pointer"
                     />
                 </div>
-                <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
-                    <button
-                    // onClick={openMobileFilterModal}
-                    >
-                        <Image
-                            src="/static/images/filter.svg"
-                            alt=""
-                            width={16}
-                            height={16}
-                        />
-                    </button>
-                </div>
+                <button
+                    onClick={clear}
+                    type="text"
+                    className="bg-BlueHomz items-center text-[14px] font-[500] gap-2 flex text-white p-[8px] rounded cursor-pointer"
+                >
+                    <Reset />
+                    Reset
+                </button>
             </div>
             <div className="flex flex-col gap-2 mt-6 w-full">
                 <div className="flex flex-wrap gap-[15px] w-full">
@@ -137,7 +135,17 @@ const WidgetMobile = () => {
             </div>
             <div className="my-7 rounded-[12px] w-full">
                 <div className={`${!active ? "inline" : "hidden"}`}>
-                    <All />
+                    <All
+                        firstThreePages={firstThreePages}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        handleNext={handleNext}
+                        handlePageClick={handlePageClick}
+                        handlePrev={handlePrev}
+                        lastThreePages={lastThreePages}
+                        currentData={currentData}
+                        loading={loading}
+                    />
                 </div>
                 <div className={`${activeTwo ? "inline" : "hidden"}`}>
                     <TransferFrom />
