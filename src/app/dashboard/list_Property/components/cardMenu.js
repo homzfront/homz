@@ -23,7 +23,7 @@ function CardMenus({
   }
   return (
     <div
-      className="absolute z-50 md:top-[1.55rem] top-[1rem] right-[5px] w-[80px] md:right-[6px] mt-2 py-[4px] px-1  md:w-[207px] bg-white shadow-md rounded-[12px]"
+      className="absolute z-50 md:top-[1.55rem] top-[1rem] right-[5px]  md:right-[6px] mt-2 py-[12px] px-1  w-[207px] bg-white shadow-md rounded-[12px]"
       ref={refs}
     >
       <Link 

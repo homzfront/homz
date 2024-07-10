@@ -1,26 +1,57 @@
 import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
 import Loading from "@/components/mainmenu/loading";
+import api from "@/utils/api";
 import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
+import MobilePlan from "./MobilePlan";
 
-const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
+const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
   const [loading, setLoading] = useState(false);
+  const [screenSize, setScreensize] = useState(false);
   const [formError, setFormError] = useState();
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
-  const handleInfoClick = (event, featureId, index) => {
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const getTooltipStyles = (tooltipPosition) => {
+    if (isMobile) {
+      return {
+        top: `${tooltipPosition.top + 10}px`,
+        left: "20px", // Adjust as needed for mobile
+      };
+    }
+
+    return {
+      top: `${tooltipPosition.top + 10}px`,
+      left: `${tooltipPosition.left - 459}px`, // Adjust as needed for large screens
+    };
+  };
+
+  const handleInfoClick = (event, index) => {
     const rect = event.target.getBoundingClientRect();
     setTooltipPosition({
       top: rect.top + window.scrollY,
       left: rect.left + window.scrollX,
     });
-    setSelectedDataId(featureId);
+    setSelectedDataId(index);
     setOpenInfo(!openInfo);
   };
 
@@ -32,9 +63,7 @@ const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
     const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
     return regex.test(url);
   }
-  const handleSelectPlan = () => {
-    setSuccessModalIsOpen(true);
-  };
+
   async function handleSubmit(interval, plans) {
     setLoading(true);
 
@@ -95,10 +124,26 @@ const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
     }
   }
 
+  const handleSelectPlan = () => {
+    setSuccessModalIsOpen(true);
+  };
   return (
-    <div className="mt-[60px] m-auto  flex flex-col  gap-[60px]">
+    <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
       {loading && <Loading />}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
+      <div className="sm:hidden">
+        <MobilePlan
+          handleSelectPlan={handleSelectPlan}
+          pricingPlans={pricingPlans}
+          handleInfoClick={handleInfoClick}
+          getTooltipStyles={getTooltipStyles}
+          tooltipPosition={tooltipPosition}
+          setOpenInfo={setOpenInfo}
+          openInfo={openInfo}
+          profile={profile}
+          selectedDataId={selectedDataId}
+        />
+      </div>
+      <div className="sm:grid hidden gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
             key={index}
@@ -141,6 +186,7 @@ const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
                         {feature.name}
                       </p>
                     </div>
+
                     <button
                       onClick={(e) => handleInfoClick(e, feature.id, i)}
                       className={`relative h-[14px] w-[16px] cursor-pointer ${
@@ -156,15 +202,12 @@ const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
                       />
                     </button>
                   </div>
-                  {openInfo && selectedDataId === feature.id && (
+                  {openInfo && selectedDataId === i && (
                     <div
-                      className="absolute w-[460px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
-                      style={{
-                        top: tooltipPosition.top + 10,
-                        left: tooltipPosition.left - 459,
-                      }}
+                      className="absolute sm:w-[460px] w-[245px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
+                      style={getTooltipStyles(tooltipPosition)}
                     >
-                      <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] max-w-[382px]">
+                      <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] sm:max-w-[382px] w-full">
                         {feature.info}
                       </p>
                       <Image
@@ -182,9 +225,6 @@ const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
             </div>
 
             <button
-              // onClick={() => {
-              //   handleSubmit(plan.interval, plan.title);
-              // }}
               onClick={handleSelectPlan}
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
                 plan.status === true ? "hidden" : ""
@@ -207,93 +247,8 @@ const PlansYearly = ({ data, profile, setSuccessModalIsOpen }) => {
   );
 };
 
-export default PlansYearly;
-const pricingPlans2 = [
-  {
-    price: "N95,000",
-    title: "Enterprise Starter",
-    billing: "Billed Annually",
-    features: [
-      "Up to 10 Properties",
-      "Up to 2 users",
-      "Accounts & reporting",
-      "Whitelabels",
-      "Maintenance management",
-      "Property information",
-      "Tenant Management",
-      "Documents (receipts)",
-      "Manage tenant applications",
-      "Advertise vacant properties",
-      "Early rent incentives for renters",
-      "Training & data migration",
-    ],
-    status: false,
-    interval: "annually",
-  },
-  {
-    price: "N190,000",
-    title: "Enterprise Plus",
-    billing: "Billed Annually",
-    features: [
-      "Up to 30 Properties",
-      "Up to 5 users",
-      "Accounts & reporting",
-      "Whitelabels",
-      "Maintenance management",
-      "Property information",
-      "Tenant Management",
-      "Documents (receipts)",
-      "Manage tenant applications",
-      "Advertise vacant properties",
-      "Early rent incentives for renters",
-      "Training & data migration",
-    ],
-    status: false,
-    interval: "annually",
-  },
-  {
-    price: "N500,000",
-    title: "Enterprise Premium",
-    billing: "Billed Annually",
-    features: [
-      "Up to 100 properties",
-      "Unlimited",
-      "Accounts & reporting",
-      "Whitelabels",
-      "Maintenance management",
-      "Property information",
-      "Tenant Management",
-      "Documents (receipts)",
-      "Manage tenant applications",
-      "Advertise vacant properties",
-      "Early rent incentives for renters",
-      "Training & data migration",
-    ],
-    status: false,
-    interval: "annually",
-  },
-  {
-    price: "Contact Sales", // You might want to provide an actual price for the premium plan
-    title: "Premium Plan",
-    billing: "Billed Annually",
-    features: [
-      "Unlimited Properties",
-      "Unlimited Users",
-      "Accounts & reporting",
-      "Whitelabels",
-      "Maintenance management",
-      "Property information",
-      "Tenant Management",
-      "Documents (receipts)",
-      "Manage tenant applications",
-      "Advertise vacant properties",
-      "Early rent incentives for renters",
-      "Training & data migration",
-    ],
-    status: true,
-    interval: "annually",
-  },
-];
+export default Plans;
+
 const pricingPlans = [
   {
     price: "", // You might want to provide an actual price for the premium plan

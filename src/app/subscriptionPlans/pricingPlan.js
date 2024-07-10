@@ -47,36 +47,27 @@ const PricingPlan = () => {
       <Image src={"/Link (1).png"} alt="Back" height={25} width={85} />
     </button> */}
 
-      <div className=" m-aut mb-10 space-y-2">
-        <div className="flex ">
-          <div className="w-fit flex md:justify-between items-center gap-[4rem] md:gap-0 pl-6">
+      <div className=" m-aut mb-10 space-y-2 mt-2">
+        <div className="flex sm:flex-row flex-col ">
+          <div className="w-fit flex md:justify-between items-center gap-[4rem] md:gap-0 ">
             <div
               onClick={goBack}
-              className="flex gap-2 items-center cursor-pointer"
+              className="flex gap-1 items-center cursor-pointer"
             >
               <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-                }
+               src="/static/images/blue-arrow-left2.svg"
                 height={16}
                 width={16}
                 alt=""
-                className="hidden md:block"
+                className=""
               />
-              <p className="text-[11px] font-[400] hidden md:block text-[#559CFF]">
+              <p className="text-[14px] font-[400]  text-[#559CFF]">
                 Go Back
               </p>
-              <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
-                <Image
-                  src="/static/images/blue-arrow-left.svg"
-                  width={20}
-                  height={20}
-                  alt=""
-                />
-              </span>
+            
             </div>
           </div>
-          <h2 className="  text-BlueHomz text-[18px]  text-center font-[500] mx-auto">
+          <h2 className="  text-BlueHomz text-[18px]  text-center font-[500] mx-auto mt-3">
             Subscription Plan
           </h2>
         </div>

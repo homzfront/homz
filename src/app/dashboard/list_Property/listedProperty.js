@@ -10,9 +10,8 @@ import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import ThreeDots from "../../../components/mainmenu/ThreeDotsLoader";
-import { useRouter,usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Loading from "@/components/mainmenu/loading";
-
 
 const EditProperty = ({
   property,
@@ -21,7 +20,7 @@ const EditProperty = ({
   setSelectedOption,
   selectedOptions,
   closePromoModal,
-  cancelSelectedOption
+  cancelSelectedOption,
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
@@ -50,8 +49,7 @@ const EditProperty = ({
   const [openInfo, setOpenInfo] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const router = useRouter();
-  const pathname= usePathname();
-
+  const pathname = usePathname();
 
   let numberOfDay;
   selectedSubType === "Promote on Email blast"
@@ -77,7 +75,7 @@ const EditProperty = ({
   };
 
   // console.log(data)
-   useEffect(() => {
+  useEffect(() => {
     const handleRouteChangeStart = () => {
       setIsLoading2(true);
     };
@@ -86,13 +84,13 @@ const EditProperty = ({
       setIsLoading2(false);
     };
 
-    router?.events?.on('routeChangeStart', handleRouteChangeStart);
-    router?.events?.on('routeChangeComplete', handleRouteChangeComplete);
+    router?.events?.on("routeChangeStart", handleRouteChangeStart);
+    router?.events?.on("routeChangeComplete", handleRouteChangeComplete);
 
     // Cleanup the event listeners on component unmount
     return () => {
-      router?.events?.off('routeChangeStart', handleRouteChangeStart);
-      router?.events?.off('routeChangeComplete', handleRouteChangeComplete);
+      router?.events?.off("routeChangeStart", handleRouteChangeStart);
+      router?.events?.off("routeChangeComplete", handleRouteChangeComplete);
     };
   }, [router]);
 
@@ -101,8 +99,7 @@ const EditProperty = ({
     setIsLoading2(true);
     setTimeout(() => {
       router.push("/subscriptionPlans");
-                // setSuccessModalIsOpen(true);
-
+      // setSuccessModalIsOpen(true);
     }, 2000);
   };
   const closeModal = () => {
@@ -113,8 +110,7 @@ const EditProperty = ({
     setTotalSubPrice("");
     setOpenMenu(false);
     setOpenInfo(false);
-    closePromoModal()
-
+    closePromoModal();
   };
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
@@ -170,7 +166,7 @@ const EditProperty = ({
     setSelectedSubType(text);
     setModalIsOpen(false);
     setSubModal(true);
-    closePromoModal()
+    closePromoModal();
   };
   return (
     <div className="z-20 mb-14 px-4">
@@ -234,7 +230,9 @@ const EditProperty = ({
         <div className="flex sm:gap-[8px] gap-[8px] ">
           <button
             className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
-              tabName === "All" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+              tabName === "All"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             }`}
             onClick={() => setTabName("All")}
           >
@@ -242,7 +240,9 @@ const EditProperty = ({
           </button>
           <button
             className={`py-[8px] px-[12px] ${
-              tabName === "Publish" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+              tabName === "Publish"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Publish")}
           >
@@ -250,7 +250,9 @@ const EditProperty = ({
           </button>
           <button
             className={`py-[8px] px-[12px] ${
-              tabName === "Unpublish" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+              tabName === "Unpublish"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Unpublish")}
           >
@@ -258,7 +260,9 @@ const EditProperty = ({
           </button>
           <button
             className={`py-[8px] px-[12px] rounded-[4px] ${
-              tabName === "Drafts" ? "bg-BlueHomz text-white" : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+              tabName === "Drafts"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } h-[37px] text-[14px] leading-[21px] font-[500]`}
             onClick={() => setTabName("Drafts")}
           >
@@ -334,7 +338,7 @@ const EditProperty = ({
           </button>
         </div>
       </div>
-   
+
       <PropertyCard
         Property={filteredData}
         setModalIsOpen={setModalIsOpen}
@@ -427,7 +431,7 @@ const EditProperty = ({
         isOpen={modalIsOpen || openPromoModal}
         onRequestClose={closeModal}
       >
-        <div className="bg-white adminCellBorders flex flex-col md:w-[550px] p-[28px] rounded-[12px] gap-[18px]">
+        <div className="bg-white adminCellBorders flex flex-col w-full md:w-[550px] p-[28px] rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <p className="flex flex-col gap-1 mb-2 ">
               <span className="text-[#006AFF] text-[18px] leading-[27px] font-[500]">
@@ -452,7 +456,7 @@ const EditProperty = ({
           <div className="flex flex-col gap-2">
             {typeSubscription.map((subType, index) => (
               <button
-                className="flex items-center justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] "
+                className="flex items-center bg-[#EEF5FF] justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-full  sm:w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] "
                 key={index}
                 onClick={() => handleSelectedSubType(subType)}
               >
@@ -470,7 +474,7 @@ const EditProperty = ({
         </div>
       </CustomizedModal>
       <CustomizedModal isOpen={subModal} onRequestClose={closeModal}>
-        <div className="bg-white adminCellBorders flex flex-col md:w-[550px] p-[28px] rounded-[12px] gap-[18px]">
+        <div className="bg-white adminCellBorders flex flex-col w-full sm:w-[550px] p-[28px] rounded-[12px] gap-[18px]">
           <div className=" flex items-center justify-between">
             <div className="w-full flex  items-center gap-3">
               <div
@@ -491,14 +495,6 @@ const EditProperty = ({
                   className=""
                 />
                 <p className="text-[11px] font-[400] text-[#A9A9A9]">back</p>
-                <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
-                  <Image
-                    src="/static/images/blue-arrow-left.svg"
-                    width={20}
-                    height={20}
-                    alt=""
-                  />
-                </span>
               </div>
 
               <p className="text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400]">
@@ -519,7 +515,7 @@ const EditProperty = ({
           </div>
           <div className="flex flex-col gap-2">
             <button
-              className="flex items-center justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] "
+              className="flex items-center text-left sm:text-justify justify-between font-[500] rounded-[4px] p-[12px] bg-[#EEF5FF] leading-[24px] w-full sm:w-[494px] sm:h-[48px] border border-[#006AFF] text-[#006AFF] "
               onClick={onSubscriptionBtnClick}
             >
               <span>
@@ -536,34 +532,33 @@ const EditProperty = ({
                 className=""
               />
             </button>
-            <div className="flex items-center justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-[494px] h-[48px] border border-[#006AFF] text-[#006AFF] ">
-              <div className="flex items-center gap-[8px]">
-                <Image
-                  src="/static/images/info-circle.svg"
-                  alt=""
-                  height={16}
-                  width={16}
-                  className="cursor-pointer"
-                  onClick={() => setOpenInfo(!openInfo)}
-                />
-                <button
-                  className="flex items-center gap-[8px]"
-                  onClick={() => setDailyWeekModal(true)}
-                >
-                  <span>
-                    {" "}
+            <div className="flex items-center bg-[#EEF5FF] justify-between font-[500] rounded-[4px] p-[12px]  leading-[24px] w-full sm:w-[494px] sm:h-[48px] border border-[#006AFF] text-[#006AFF] ">
+              <div className="flex sm:items-center sm:flex-row flex-col gap-[8px]">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/static/images/info-circle.svg"
+                    alt=""
+                    height={16}
+                    width={16}
+                    className="cursor-pointer"
+                    onClick={() => setOpenInfo(!openInfo)}
+                  />
+                  <button
+                    className="flex items-center gap-[8px] text-left "
+                    onClick={() => setDailyWeekModal(true)}
+                  >
                     {selectedSubType === "Promote on Email blast"
                       ? "Pay for weekly Email promotion"
                       : `Pay for daily ${selectedSubType
                           .split(" ")[0]
                           .toLocaleLowerCase()}`}{" "}
-                  </span>
-                  <span className="py-[4px] px-[8px] rounded-[8px] border-[#006AFF] border">
-                    N500{" "}
-                    {selectedSubType === "Promote on Email blast"
-                      ? "week"
-                      : "daily"}
-                  </span>
+                  </button>
+                </div>
+                <button className="py-[4px] px-[8px] rounded-[8px] border-[#006AFF] border w-fit ml-7 bg-[#FFFFFF] sm:ml-0">
+                  N500{" "}
+                  {selectedSubType === "Promote on Email blast"
+                    ? "week"
+                    : "daily"}
                 </button>
               </div>
               <Image
@@ -618,27 +613,19 @@ const EditProperty = ({
                   className=""
                 />
                 <p className="text-[11px] font-[400] text-[#A9A9A9]">back</p>
-                <span className="md:hidden bg-[#EEF5FF] w-[28px] h-[28px] p-[4px] rounded-[8px]">
-                  <Image
-                    src="/static/images/blue-arrow-left.svg"
-                    width={20}
-                    height={20}
-                    alt=""
-                  />
-                </span>
               </div>
 
-              <p className="text-[#A9A9A9] text-[14px] leading-[21px] font-[400]">
+              <p className="hidden sm:inline-block text-[#A9A9A9] text-[14px] leading-[21px] font-[400]">
                 {selectedSubType}
               </p>
-              <p className="text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400]">
+              <p className="text-[##4E4E4E] text-[13px] leading-[19.5px] font-[500]">
                 {selectedSubType === "Promote on Email blast"
-                  ? "> Pay for weekly Email promotion "
+                  ? "Pay for weekly Email promotion "
                   : selectedSubType === "Sponsor property"
-                  ? "> Pay for daily sponsor"
+                  ? "Pay for daily sponsor"
                   : selectedSubType === "Feature property"
-                  ? "> Pay for daily feature"
-                  : "> Pay for daily subscription"}
+                  ? "Pay for daily feature"
+                  : "Pay for daily subscription"}
               </p>
             </div>
 
@@ -659,7 +646,7 @@ const EditProperty = ({
           <div className="flex flex-col mt-6">
             <div className="flex gap-[16px]">
               <button
-                className="flex items-center justify-between font-[500] rounded-[4px] p-[12px] leading-[24px] sm:w-[348px] h-[48px] border text-[#A9A9A9] border-[#A9A9A9]"
+                className="flex items-center sm:text-[16px] text-[14px] justify-between font-[500] rounded-[4px] p-[12px] leading-[24px] sm:w-[348px] h-[48px] w-[149px] border text-[#4E4E4E] border-[#A9A9A9]"
                 onClick={toggleMenu}
               >
                 <span>
