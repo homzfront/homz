@@ -38,8 +38,7 @@ const Accept = () => {
   };
 
   const { user } = useProfileStore();
-  
-  console.log(user);
+
 
   useEffect(() => {
     if (isHomzEnterprise === "true") {
