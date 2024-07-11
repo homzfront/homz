@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import InputVisible from "./components/inputVisible";
-import UpdateButton from "../components/updateButton";
 import { toast } from "react-toastify";
 import { updatePassword } from "@/api/enterpriseManagerService";
+import UpdateButtonPassword from "./components/updateButtonPassword.js";
 
 const ChangePassword = () => {
   const [password, setPassword] = useState("");
@@ -63,7 +63,7 @@ const ChangePassword = () => {
         setReEnterPassword("");
         setLoading(false);
         setDoneUpdate(true);
-        setShowDialogue(false);
+        // setShowDialogue(false);
         setPasswordError('')
         // toast.success("Update successful");
       } else {
@@ -107,7 +107,7 @@ const ChangePassword = () => {
           label={"Password"}
           placeholder={"Enter your current password"}
           setError={setPasswordError}
-          autoComplete={"c"}
+          autoComplete={""}
         />
         <InputVisible
           password={newPassword}
@@ -135,7 +135,7 @@ const ChangePassword = () => {
           <div className="text-error italic text-[11px]">{passwordError}</div>
         )}
       </div>
-      <UpdateButton
+      <UpdateButtonPassword
         updateDone={updateDone}
         doneUpdate={doneUpdate}
         setDoneUpdate={setDoneUpdate}

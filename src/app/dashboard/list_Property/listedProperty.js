@@ -9,28 +9,34 @@ import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import PropertyType from "@/app/user_homepage/components/propertyType";
+import Bedrooms from "@/app/user_homepage/components/bedrooms";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
-const EditProperty = ({ property }) => {
+const EditProperty = ({
+  property,
+  firstThreePages,
+  currentPage,
+  totalPages,
+  handleNext,
+  handlePageClick,
+  handlePrev,
+  lastThreePages,
+  currentData,
+  loading,
+  filters,
+  handleSearch,
+  handleSearchChange,
+  reset,
+}) => {
   const { data, fetchData } = useProfileListingMe();
   useEffect(() => {
     fetchData();
   }, []);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [selectedArea, setSelectedArea] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
-  const [selectedRooms, setSelectedRooms] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
 
-  const clear = () => {
-    setSelectedProperty(null);
-    setSelectedState(null);
-    setSelectedArea(null);
-    setSelectedRooms(null);
-    setSearchQuery("");
-  };
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
@@ -38,26 +44,7 @@ const EditProperty = ({ property }) => {
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-  const options = [...new Set(property?.map((item) => item?.state))];
 
-  const options2 = [...new Set(property?.map((item) => item?.area))];
-
-  const options3 = [...new Set(property?.map((item) => item?.propertyType))];
-
-  const options4 = [...new Set(property?.map((item) => item?.numberOfBathrooms))];
-
-  const filteredData = property?.filter(
-    (data) => {
-      const matchesState = !selectedState || data?.state === selectedState;
-      const matchesArea = !selectedArea || data?.area === selectedArea;
-      
-      const matchesSearchQuery = !searchQuery ||
-        data?.location.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        data?.location.area.toLowerCase().includes(searchQuery.toLowerCase());
-      const bathrooms =  !selectedRooms || data?.numberOfBathrooms === selectedRooms
-      const property =  !selectedProperty || data?.propertyType === selectedProperty
-      return matchesState && matchesArea && matchesSearchQuery && bathrooms && property;
-    });
 
   return (
     <div className="z-20 mb-14">
@@ -89,55 +76,56 @@ const EditProperty = ({ property }) => {
           <p className="text-[#4E4E4E] w-[90px] text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
             Filter by:
           </p>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options}
-              onSelect={(option) => setSelectedState(option)}
-              selectOption={
-                selectedState === null ? "State" : selectedState
-              }
-              className={
-                "text-[14px] font-[500] text-GrayHomz2"
-              }
+          <div className="relative flex items-center w-[230px] h-[44px] py-[12px]  mr-1">
+            <input
+              type="text"
+              id="searchState_Area"
+              name="searchState_Area"
+              className="w-full h-[45px] border border-GrayHomz pl-2 rounded-[6px] placeholder:text-GrayHomz outline-none"
+              placeholder="Search"
+              value={filters.search}
+              onChange={handleSearchChange}
+            />
+            <Image
+              src="/static/images/search-normal.svg"
+              alt=""
+              width={16}
+              height={16}
+              className="cursor-pointer right-[15px] absolute"
+              onClick={() => {
+                handleSearchChange
+              }}
             />
           </div>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options2}
-              onSelect={(option) => setSelectedArea(option)}
-              selectOption={selectedArea === null ? "Area" : selectedArea}
-              className={
-                "text-[14px] font-[500] text-GrayHomz2"
-              }
+          <div>
+            <PropertyType
+              getPropertyType={handleSearch}
+              className={"w-[150px]"}
+              selectOption={`${filters?.propertyType === null
+                ? "Property Type"
+                : capitalizeFirstLetter(filters?.propertyType)
+                }`}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
-          <div className="w-[180px]">
-            <Dropdown
-              options={options3}
-              onSelect={(option) => setSelectedProperty(option)}
-              selectOption={
-                selectedProperty === null
-                  ? "Property Type"
-                  : selectedProperty
-              }
-              className={"text-[14px] font-[500] text-GrayHomz2"}
-            />
-          </div>
-          <div className="w-[120px]">
-            <Dropdown
-              options={options4}
-              onSelect={(option) => setSelectedRooms(option)}
-              selectOption={
-                selectedRooms === null ? "Bedroom" : selectedRooms
-              }
-              className={
-                "w-[120px] text-[14px] font-[500] text-GrayHomz2"
-              }
+          <div>
+            <Bedrooms
+              getBedrooms={handleSearch}
+              className={"w-[150px]"}
+              selectOption={`${filters?.numberOfBathrooms === null
+                ? "No of bedrooms"
+                : `${filters?.numberOfBathrooms} Bedrooms`
+                }`}
+              classNameII={"text-GrayHomz border-GrayHomz"}
+              classNameIII={"text-GrayHomz"}
+              classNameIV={"text-GrayHomz"}
             />
           </div>
           <button
-            className="border cursor-pointer border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded h-[41px]"
-            onClick={clear}
+            className="border cursor-pointer border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded h-[45px]"
+            onClick={reset}
           >
             <span>
               <Image
@@ -149,37 +137,36 @@ const EditProperty = ({ property }) => {
             </span>
             <span className="ml-1"> Reset</span>
           </button>
-          {
-            property?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
-              <div
-                onClick={() => setOpenModalForBusi(true)}
-                className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
-              >
-                <Image
-                  src="/static/images/white-add.svg"
-                  alt=""
-                  height={16}
-                  width={16}
-                  className=""
-                />
-                <span>List New property</span>
-              </div> :
-              <Link
-                href="/dashboard/list_Property/addProperty"
-                className="w-[338px] flex gap-1 md:w-[166px] h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
-              >
-                <Image
-                  src="/static/images/white-add.svg"
-                  alt=""
-                  height={16}
-                  width={16}
-                  className=""
-                />
-                <span>List New property</span>
-              </Link>
-          }
-
         </div>
+        {
+          property?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
+            <div
+              onClick={() => setOpenModalForBusi(true)}
+              className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
+            >
+              <Image
+                src="/static/images/white-add.svg"
+                alt=""
+                height={16}
+                width={16}
+                className=""
+              />
+              <span>List New property</span>
+            </div> :
+            <Link
+              href="/dashboard/list_Property/addProperty"
+              className="w-[338px] flex gap-1 md:w-[166px] h-[45px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
+            >
+              <Image
+                src="/static/images/white-add.svg"
+                alt=""
+                height={16}
+                width={16}
+                className=""
+              />
+              <span>List New property</span>
+            </Link>
+        }
       </div>
       <div className="flex justify-between md:hidden w-full">
         <div className="relative w-[86%] rounded-[4px]">
@@ -187,9 +174,9 @@ const EditProperty = ({ property }) => {
             type="text"
             className="border h-[40px] pl-8 rounded-[4px] w-full "
             id="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by state or area "
+            value={filters.search}
+            onChange={handleSearchChange}
+            placeholder="Search"
           />
           <Image
             src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
@@ -210,7 +197,17 @@ const EditProperty = ({ property }) => {
           </button>
         </div>
       </div>
-      <PropertyCard Property={filteredData} />
+      <PropertyCard
+        firstThreePages={firstThreePages}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handleNext={handleNext}
+        handlePageClick={handlePageClick}
+        handlePrev={handlePrev}
+        lastThreePages={lastThreePages}
+        currentData={currentData}
+        loading={loading}
+      />
       <CustomizedModal
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
@@ -232,57 +229,59 @@ const EditProperty = ({ property }) => {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="w-[100%]">
-              <Dropdown
-                options={options}
-                onSelect={(option) => setSelectedState(option)}
-                selectOption={
-                  selectedState === null ? "State" : selectedState
-                }
-                className={
-                  "text-[14px] font-[500] text-GrayHomz2"
-                }
+          <div className="grid grid-cols-1 gap-4">
+            <div className="searchPane relative w-[100%] rounded-[4px]">
+              <input
+                type="text"
+                className="border h-[46px] pl-8 rounded-[4px] w-full"
+                id="search"
+                placeholder="Search"
+                value={filters.search}
+                onChange={handleSearchChange}
+              />
+              <Image
+                src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                alt=""
+                className="absolute top-[14.8px] left-3"
+                height={16}
+                width={16}
+                onClick={() => {
+                  handleSearchChange
+                }}
               />
             </div>
-            <div className="w-[100%]">
-              <Dropdown
-                options={options2}
-                onSelect={(option) => setSelectedArea(option)}
-                selectOption={selectedArea === null ? "Area" : selectedArea}
-                className={
-                  "text-[14px] font-[500] text-GrayHomz2"
-                }
-              />
-            </div>
-            <div className="w-[100%]">
-              <Dropdown
-                options={options3}
-                onSelect={(option) => setSelectedProperty(option)}
-                selectOption={
-                  selectedProperty === null
+            <div className="flex items-center justify-between w-full">
+              <div>
+                <PropertyType
+                  getPropertyType={handleSearch}
+                  className={"w-[135px]"}
+                  selectOption={`${filters?.propertyType === null
                     ? "Property Type"
-                    : selectedProperty
-                }
-                className={"text-[14px] font-[500] text-GrayHomz2"}
-              />
-            </div>
-            <div className="w-[100%]">
-              <Dropdown
-                options={options4}
-                onSelect={(option) => setSelectedRooms(option)}
-                selectOption={
-                  selectedRooms === null ? "Bedroom" : (selectedRooms === 1 ? `${selectedRooms} Bedroom` :  `${selectedRooms} Bedrooms`)
-                }
-                className={
-                  "w-[100%] text-[14px] font-[500] text-GrayHomz2"
-                }
-              />
+                    : capitalizeFirstLetter(filters?.propertyType)
+                    }`}
+                  classNameII={"text-GrayHomz border-GrayHomz"}
+                  classNameIII={"text-GrayHomz"}
+                  classNameIV={"text-GrayHomz"}
+                />
+              </div>
+              <div>
+                <Bedrooms
+                  getBedrooms={handleSearch}
+                  className={"w-[135px]"}
+                  selectOption={`${filters?.numberOfBathrooms === null
+                    ? "No of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                    }`}
+                  classNameII={"text-GrayHomz border-GrayHomz"}
+                  classNameIII={"text-GrayHomz"}
+                  classNameIV={"text-GrayHomz"}
+                />
+              </div>
             </div>
           </div>
           <button
             className="border w-full h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
-            onClick={() => clear()}
+            onClick={reset}
           >
             <span>
               <Image
