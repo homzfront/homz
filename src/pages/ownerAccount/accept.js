@@ -116,7 +116,7 @@ const Accept = () => {
       ) : dashboard ? (
         <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">
           <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md shadow-lg">
-            <div className="mt-[-10px] w-[464px] flex flex-col justify-around p-8 items-center gap-3">
+            <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
               <Image
                 src={
                   "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
