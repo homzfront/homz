@@ -90,8 +90,6 @@ const Withdraw = ({
       if (success) {
         setLoading(false);
         setSuccessModal(true);
-        setAmount("");
-        setPincode("");
         setError(null)
       } else {
         setLoading(false);
@@ -144,6 +142,8 @@ const Withdraw = ({
               onClick={() => {
                 setSuccessModal(false)
                 setWithdraw(false);
+                setAmount("");
+                setPincode("");
                 fetchDataAgain();
               }}
               className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
@@ -212,7 +212,7 @@ const Withdraw = ({
           </div>
 
           {
-            withdraw ? <div className="flex flex-col gap-4 mt-4">
+            withdraw ? <div className={`flex flex-col gap-4 mt-4 ${loading ? "pointer-events-none" : ""}`}>
               <Input
                 value={amount}
                 label={"Amount (N)"}

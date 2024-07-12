@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import CustomizeSettingsII from './customizeSettingsII';
 
-const SettingsII = () => {
+const SettingsII = ({data}) => {
     const [modalCustom, setModalCustom] = useState(false);
     const [customizeSettings, setCustomizeSettings] = useState(false);
 
@@ -38,12 +38,12 @@ const SettingsII = () => {
             {
                 customizeSettings ?
                     <div>
-                        <CustomizeSettingsII setCustomizeSettings={setCustomizeSettings} />
+                        <CustomizeSettingsII setCustomizeSettings={setCustomizeSettings}  data={data}/>
                     </div>
                     :
                     <div>
-                        <div className='flex justify-between border-b py-4 w-[100%]'>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     Time
                                 </p>
@@ -51,50 +51,50 @@ const SettingsII = () => {
                                     Rent reminder will be sent out to tenants at this time
                                 </p>
                             </div>
-                            <div className='w-[50%]'>
-                                <div className='w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                            <div className='w-full md:w-[50%]'>
+                                <div className='w-full md:w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[500]'>
                                         12 : 00 PM
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-between border-b py-4 w-[100%]'>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     Frequency
                                 </p>
-                                <p className='text-[13px] font-[400] w-[70%] text-BlackHomz'>
+                                <p className='text-[13px] font-[400] md:w-[70%] text-BlackHomz'>
                                     Set how frequent you want your tenant(s) to receive this reminder
                                 </p>
                             </div>
-                            <div className='w-[50%]'>
-                                <div className='w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                            <div className='w-full md:w-[50%]'>
+                                <div className='w-full md:w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[500]'>
                                         Every 2 weeks
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-between border-b py-4 w-[100%]'>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     Reminder channel(s)
                                 </p>
-                                <p className='text-[13px] font-[400] w-[70%] text-BlackHomz'>
+                                <p className='text-[13px] font-[400] md:w-[70%] text-BlackHomz'>
                                     Rent reminder(s) will be sent to your tenants through these channels
                                 </p>
                             </div>
-                            <div className='w-[50%]'>
-                                <div className='w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                            <div className='w-full md:w-[50%]'>
+                                <div className='w-full md:w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[500]'>
                                         In-app, Email, SMS
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-between border-b py-4 w-[100%]'>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     Email Reminder Message
                                 </p>
@@ -102,20 +102,19 @@ const SettingsII = () => {
                                     Tenant(s) will receive this message in their emails
                                 </p>
                             </div>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[400]'>Subject</p>
+                                    <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                                 </div>
                                 <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[400] text-justify'>
-                                        Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed eros non elit.
-                                        Leo mauris etiam leo fames nec pretium egestas fames volutpat. Ut aliquet tortor volutpat faucibus. Nunc etiam vulputate tincidunt tempor malesuada pharetra. Ut ullamcorper turpis arcu felis. Ut urna placerat sem sagittis. Dui eu vel sit bibendum. Velit nam diam malesuada nunc lorem mattis gravida nunc. In convallis a urna egestas justo dictumst cras. Aenean id eget sit risus posuere amet. Quam felis.
+                                        {data?.emailText}
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-between border-b py-4 w-[100%]'>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     SMS Reminder Message
                                 </p>
@@ -123,20 +122,20 @@ const SettingsII = () => {
                                     Tenant(s) will receive this message
                                 </p>
                             </div>
-                            <div className='w-[50%] flex flex-col gap-2'>
+                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[400]'>Subject</p>
+                                    <p className='text-[14px] font-[400]'>{data?.sms_label}</p>
                                 </div>
                                 <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[400] text-justify'>
-                                        Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed
+                                        {data?.sms}
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div className='py-4 w-[100%]'>
-                            <div className='flex justify-between'>
-                                <div className='w-[50%] flex flex-col gap-2'>
+                            <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between'>
+                                <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                     <p className='text-[14px] font-[500] text-BlueHomz'>
                                         In-App Reminder Message
                                     </p>
@@ -144,13 +143,14 @@ const SettingsII = () => {
                                         Tenant(s) will receive this message
                                     </p>
                                 </div>
-                                <div className='w-[50%] flex flex-col gap-2'>
+                                <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                     <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                        <p className='text-[14px] font-[400]'>Subject</p>
+                                        <p className='text-[14px] font-[400]'>{data?.in_app}</p>
                                     </div>
                                     <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                         <p className='text-[14px] font-[400] text-justify'>
-                                            Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed            </p>
+                                            {data?.in_app_text}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

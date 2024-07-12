@@ -44,7 +44,7 @@ const WalletBalance = ({
     setTopUP(false);
   }
 
-  useBodyScroll([openForm, accountInfo]);
+  useBodyScroll([openForm, accountInfo, topUP]);
 
   return (
     <div>

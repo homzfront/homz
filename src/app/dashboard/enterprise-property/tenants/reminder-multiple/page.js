@@ -8,39 +8,8 @@ import Settings from "./components/settings";
 import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import Image from "next/image";
 import SettingsII from "./components/settingsII";
+import Data from "./components/reminderData";
 
-const Data = [
-  {
-    id: 1,
-    reminderDate: "6 Months Reminder",
-    tenant: "Tenants will receive a reminder 6 months to their due dates",
-  },
-  {
-    id: 2,
-    reminderDate: "3 Months Reminder",
-    tenant: "Tenants will receive a reminder 3 months to their due dates",
-  },
-  {
-    id: 3,
-    reminderDate: "1 Month Reminder",
-    tenant: "Tenants will receive a reminder 1 month to their due dates",
-  },
-  {
-    id: 4,
-    reminderDate: "7 Days Reminder",
-    tenant: "Tenants will receive a reminder 3 days to their due dates",
-  },
-  {
-    id: 5,
-    reminderDate: "Due Date",
-    tenant: "Tenants will receive a reminder on their due date",
-  },
-  {
-    id: 6,
-    reminderDate: "Post Due Date",
-    tenant: "Tenants will frequently receive set reminder after their due date",
-  },
-]
 
 const ReminderMultiple = () => {
   const [toggleStates, setToggleStates] = useState({});
@@ -103,37 +72,52 @@ const ReminderMultiple = () => {
         </div>
       </div>
       <div className="px-8 flex flex-col gap-4 ">
-        <div className="w-full p-4 bg-inputBg rounded-[8px] flex justify-between items-center">
+        <div className="w-full p-4 bg-inputBg rounded-[8px] flex justify-between gap-4 md:gap-0 items-start md:items-center">
           <div className="flex gap-2 items-center">
             <PinNoti />
-            <p className="text-GrayHomz text-[16px] font-[400]">
+            <p className="text-GrayHomz text-[16px] font-[400] hidden md:block">
               Note that this feature can only be applied when you have set a rent due date for your tenant
             </p>
           </div>
-          <button className="text-BlueHomz text-[14px] font-[500]">
-            Set your tenant rent due date
-          </button>
+          <div className="">
+            <p className={`text-GrayHomz text-[16px] font-[400] md:hidden`}>
+              Note that this feature can only be applied when you have set a rent due date for your tenant
+            </p>
+            <button className="text-BlueHomz text-[14px] font-[500]">
+              Set your tenant rent due date
+            </button>
+          </div>
         </div>
         <div className="flex flex-col gap-4">
           {Data?.map((data) => (
             <div key={data.id}>
               <div className="w-full p-4 bg-walletBg border border-BlueHomz rounded-[8px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-4">
+                <div className="flex flex-col md:flex-row items-center justify-between">
+                  <div className="flex gap-2 md:gap-4">
                     <ToggleButton
                       onToggle={() => handleToggle(data.id)}
                       isOpen={toggleStates[data.id]}
                     />
-                    <div>
-                      <p className="text-[16px] font-[500] text-BlueHomz">
-                        {data.reminderDate}
-                      </p>
-                      <p className="text-[14px] font-[500] text-BlackHomz">
-                        {data.tenant}
-                      </p>
+                    <div className="flex flex-col">
+                      <div>
+                        <p className="text-[16px] font-[500] text-BlueHomz">
+                          {data.reminderDate}
+                        </p>
+                        <p className="text-[14px] font-[500] text-BlackHomz">
+                          {data.tenant}
+                        </p>
+                      </div>
+                      <div className="md:hidden mt-2">
+                        <button
+                          onClick={() => handleSetting(data.id)}
+                          className="text-BlueHomz"
+                        >
+                          View settings
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div>
+                  <div className="hidden md:block">
                     <button
                       onClick={() => handleSetting(data.id)}
                       className="text-BlueHomz"
@@ -145,12 +129,12 @@ const ReminderMultiple = () => {
               </div>
               {selectedId === data.id && data?.reminderDate !== "Post Due Date" && (
                 <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
-                  <Settings />
+                  <Settings data={data} />
                 </div>
               )}
               {selectedId === data.id && data?.reminderDate === "Post Due Date" && (
                 <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
-                  <SettingsII />
+                  <SettingsII data={data}/>
                 </div>
               )}
             </div>

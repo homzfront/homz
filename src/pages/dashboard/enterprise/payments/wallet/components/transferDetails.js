@@ -102,7 +102,6 @@ const TransferDetails = ({
       const { success, upDateddata, error } = await sendMoneyEnterpriseToOwner(
         formData
       );
-      console.log(upDateddata)
       if (success) {
         setLoading(false);
         if (typeof window !== "undefined") {

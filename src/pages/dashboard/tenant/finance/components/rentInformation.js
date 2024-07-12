@@ -151,7 +151,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   }
 
   return (
-    <div className="absolute top-0 z-20 h-[150vh] md:h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
+    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       {loading && <Loading />}
       {receipt ? (
         <Receipt

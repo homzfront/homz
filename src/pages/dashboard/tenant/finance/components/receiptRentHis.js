@@ -32,7 +32,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
   };
 
   return (
-    <div className="absolute top-0 z-20 h-[150vh] md:h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
+    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       <div
         id="receipt-content"
         className="h-auto w-[530px] bg-white rounded-lg px-8 pt-6"

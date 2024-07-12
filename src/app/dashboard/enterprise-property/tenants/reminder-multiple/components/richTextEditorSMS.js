@@ -6,8 +6,8 @@ import 'react-quill/dist/quill.snow.css';
 // Dynamically import ReactQuill
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const RichTextEditorSMS = ({ charLimit }) => {
-  const [editorHtml, setEditorHtml] = useState('Lorem ipsum dolor sit amet consectetur. Massa lectus nulla proin morbi id. Lectus nulla turpis vel ultricies pretium dictumst amet lectus nulla. Enim quis urna lacus in blandit arcu eget erat amet. Arcu massa ultricies tristique tellus at pretium hendrerit vivamus. Risus adipiscing dis semper senectus vitae sed turpis sed est. Nunc est diam et magna lorem nec fermentum donec risus. Viverra sed ut id eros lobortis sed eros non elit.');
+const RichTextEditorSMS = ({ charLimit, text }) => {
+  const [editorHtml, setEditorHtml] = useState(text);
   const [charCount, setCharCount] = useState(0);
 
   const handleChange = (html) => {

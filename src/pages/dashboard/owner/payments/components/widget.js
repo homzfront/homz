@@ -25,7 +25,7 @@ const Widget = ({rentData}) => {
     <div>
       <div className="w-full h-auto py-4">
         <div className="flex justify-between items-center">
-          <div className=" flex mt-5 gap-4  w-[571px] cursor-pointer">
+          <div className=" flex mt-5 gap-4 md:w-[571px] cursor-pointer">
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${

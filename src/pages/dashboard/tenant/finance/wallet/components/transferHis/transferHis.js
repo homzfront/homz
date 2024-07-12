@@ -26,7 +26,8 @@ const TransferHis = ({ illuminateWallet, data }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const [receiptData, setReceiptdata] = useState({})
+  const [receiptData, setReceiptdata] = useState({});
+  
   const openReceipt = () => {
     setShowReceipt(!showReceipt);
     setPopUpMenuTwo(false);
