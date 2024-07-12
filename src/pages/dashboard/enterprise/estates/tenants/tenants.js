@@ -8,10 +8,10 @@ import EstateForm from "../estateForm/estateForm";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 import useClickOutside from "@/utils/clickOutside";
 import formatDateII from "@/utils/formatDateII";
-import useEstateForOneStore from "@/store/useEstateForOne";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
 import FilterMobile from "../../components/filterMobile";
+import { useEstateForOneStore } from "@/store/useEstateForOne";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
