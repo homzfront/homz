@@ -3,29 +3,24 @@ import React, { useEffect, useState } from "react";
 import TenantsTwo from "../../tenants/firstPage/tenantsTwo";
 import Image from "next/image";
 import Link from "next/link";
-import useEstateForOneStore from "@/store/useEstateForOne";
-import { fetchSpecificTenantOwner } from "@/api/tenantSevice";
-import tenantsDataForLoggedInOwner from "@/store/propertyOwnerStore/tenantsDataForLoggedInOwner";
+import { usePropertyLandlordTenant } from "@/store/useEstateForOne";
 import formatDateII from "@/utils/formatDateII";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
 import FilterMobile from "../../components/filterMobile";
 
 const Tenants = ({ id }) => {
-  const { data, fetchData: fetchEstateData } = useEstateForOneStore();
+  const { data: tenants, fetchData: fetchEstateData } = usePropertyLandlordTenant();
   const route = useRouter()
 
   const goBack = () => {
     route.back();
   };
 
-
   useEffect(() => {
     fetchEstateData(id);
   }, []);
 
-  const ids = data?.tenants
-  const [tenantData, setTenantData] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [searchQuery, setSearchQuery] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
@@ -36,71 +31,9 @@ const Tenants = ({ id }) => {
     setSearchQuery(null);
     setSelectedStatus(null);
   };
+  
 
-
-  useEffect(() => {
-    if (ids === undefined) {
-      setTenantData({})
-    } else {
-      const fetchDataForId = async (id) => {
-        try {
-          if (id !== undefined) {
-            const response = await fetchSpecificTenantOwner(id);
-            setTenantData(prevData => ({
-              ...prevData,
-              [id]: response?.data // Store the response with the id as the key
-            }));
-          }
-        } catch (error) {
-        }
-      };
-
-      // Fetch additional data for each ID
-      ids?.forEach(id => {
-        fetchDataForId(id);
-      });
-    }
-
-  }, [ids]); // Empty dependency array ensures this effect runs only once on component mount
-
-  const Data = Object.values(tenantData).flat();
-
-  const { data: tenantData2, loading, fetchData } = tenantsDataForLoggedInOwner();
-
-  useEffect(() => {
-    fetchData(); // Fetch data on component mount
-  }, []);
-
-  // Create a new object with _id as keys
-  const mergedData = {};
-
-  // Iterate over data1 and add each object to mergedData
-  Data?.forEach(obj => {
-    mergedData[obj._id] = obj;
-  });
-
-  // Iterate over data2 and merge each object with the corresponding object in mergedData
-  tenantData2?.forEach(obj => {
-    // Check if the _id exists in mergedData
-    if (mergedData[obj._id]) {
-      // Merge the objects
-      mergedData[obj._id] = { ...mergedData[obj._id], ...obj };
-    }
-  });
-
-  // Convert mergedData to an array of objects
-  const mergedArray = Object.values(mergedData);
-
-  const options = [
-    ...new Set(
-      mergedArray?.map((item) => item?.rentInfo?.paymentStatus)
-    ),
-  ];
-
-  console.log(options);
-
-
-  const filteredData = mergedArray?.filter(
+  const filteredData = tenants?.filter(
     (data) => {
       const matchesSearchQuery = !searchQuery ||
       data?.fullName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -155,7 +88,7 @@ const Tenants = ({ id }) => {
             href={"/dashboard/property-owner/estates"}
             className="text-[16px] truncate font-[400] text-GrayHomz"
           >
-            {mergedArray?.[0]?.estateId?.name ? mergedArray?.[0]?.estateId?.name : "Property Name"}<> </>/
+            {tenants?.[0]?.estateId?.name ? tenants?.[0]?.estateId?.name : "Property Name"}<> </>/
           </Link>
           <div className="text-[20px] font-[500] text-GrayHomz">Tenants</div>
         </div>
@@ -170,7 +103,7 @@ const Tenants = ({ id }) => {
               href={"/dashboard/property-owner/estates"}
               className="text-[16px] truncate font-[400] text-GrayHomz"
             >
-               {mergedArray?.[0]?.estateId?.name ? mergedArray?.[0]?.estateId?.name : "Property Name"}<> </>/
+               {tenants?.[0]?.estateId?.name ? tenants?.[0]?.estateId?.name : "Property Name"}<> </>/
            </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Tenants
@@ -182,7 +115,7 @@ const Tenants = ({ id }) => {
         <div className="flex gap-2 ">
           <p>Tenants</p>
           <span className="bg-whiteblue w-6 h-6 flex justify-center ">
-            <span className="text-BlueHomz ">{Data.length}</span>
+            <span className="text-BlueHomz ">{tenants.length}</span>
           </span>
         </div>
         <div className="flex items-center justify-center gap-2">

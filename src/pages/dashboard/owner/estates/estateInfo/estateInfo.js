@@ -3,10 +3,11 @@ import React, { useEffect } from "react";
 import Widget from "./widget";
 import Image from "next/image";
 import Link from "next/link";
-import useEstateForOneStore from "@/store/useEstateForOne";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
 import WidgetMobile from "./widgetMobile";
+import { useEstateForOneStore } from "@/store/useEstateForOne";
+
 const EstateInfo = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();
   const route = useRouter()
