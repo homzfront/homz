@@ -158,7 +158,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn }) => {
             </div>
           </div>
         </div>
-        <div className="flex justify-between md:mt-24 mt-24 px-3 md:px">
+        <div className="flex gap-2 md:gap-0 md:justify-between md:mt-24 mt-24 px-3 md:px">
           <div>
             <button
               className="text-[14px] font-[500] md:py-[8px] md:px-[12px]  rounded-[4px] md:text-BlueHomz border text-[#D5D5D5]  h-[36px] w-[36px] md:h-full md:w-full flex items-center justify-center gap-1 "

@@ -16,6 +16,7 @@ import Image from "next/image";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import Popup from "@/pages/tenantManagementPlan/popUp";
 
@@ -106,7 +107,7 @@ const ManageUsers = () => {
           estateName: slog?.name,
           slug: slog?.slug
         });
-  
+
         if (success) {
           // console.log(upDateddata);
           setLoadingII(false);
@@ -118,7 +119,7 @@ const ManageUsers = () => {
         }
       } catch (error) {
         setLoadingII(false);
-  
+
         if (
           error?.response?.data?.error?.errors &&
           error.response.data.error.errors.length > 0
@@ -139,7 +140,7 @@ const ManageUsers = () => {
           estateName: slog?.name,
           slug: slog?.slug
         });
-  
+
         if (success) {
           // console.log(upDateddata);
           setLoadingII(false);
@@ -151,7 +152,7 @@ const ManageUsers = () => {
         }
       } catch (error) {
         setLoadingII(false);
-  
+
         if (
           error?.response?.data?.error?.errors &&
           error.response.data.error.errors.length > 0
@@ -166,7 +167,7 @@ const ManageUsers = () => {
         }
       }
     }
-    
+
   };
 
   const returnHome = () => {
@@ -235,11 +236,11 @@ const ManageUsers = () => {
                 </div>
               </div>
               {showPopup && (
-              <Popup
-              onClose={() => setShowPopup(false)}
-              estateData={data}
-              setEstate={setSlog}
-            />
+                <Popup
+                  onClose={() => setShowPopup(false)}
+                  estateData={data}
+                  setEstate={setSlog}
+                />
               )}
               <button
                 onClick={handleSubmit}
@@ -265,15 +266,6 @@ const ManageUsers = () => {
             </div>
           </div>
         </div>
-
-        {openModal && (
-          <ConfirmModal
-            header={"Invite Sent Successfully"}
-            body={`Your invite link has successfully been sent to ${email}`}
-            button={"Close"}
-            returnHome={returnHome}
-          />
-        )}
         {/* {selectOp.label === "Can View" && (
           <div className="mt-4">
             <div className="flex gap-3 items-center">
@@ -312,15 +304,29 @@ const ManageUsers = () => {
           <TableUser estateData={data} profileData={profileData} />
         </div>
       </div>
-      {openModal && (
-        <ConfirmModal
-          header={"Invite Sent Successfully"}
-          body={`Your invite link has successfully been sent to ${dataEmail}`}
-          button={"Close"}
-          returnHome={returnHome}
-        />
-      )}
       {/* <Invites /> */}
+      <CustomizedModal isOpen={openModal}>
+        <div className="md:max-w-[464px] m-auto bg-white md:h-[260px] rounded-md">
+          <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+              }
+              alt=""
+              height={48}
+              width={48}
+            />
+            <h1 className="text-BlackHomz font-[700] text-[20px]">Invite Sent Successfully</h1>
+            <p className="text-[16px] font-[400] text-GrayHomz text-center">{`Your invite link has successfully been sent to ${email}`}</p>
+            <button
+              onClick={returnHome}
+              className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </CustomizedModal>
     </div>
   );
 };

@@ -107,7 +107,7 @@ const ContactInfo = ({
             }
           </div>
         </div>
-        <div className="mt-[8rem] px-3 flex justify-between">
+        <div className="mt-[8rem] px-3 flex gap-2 md:gap-0 md:justify-between">
           <div>
             <p
               className="text-[14px] font-[500] md:py-[8px] md:px-[12px]  rounded-[4px] md:text-BlueHomz border text-[#D5D5D5]  h-[36px] w-[36px] md:h-full md:w-full flex items-center justify-center gap-1 cursor-pointer"

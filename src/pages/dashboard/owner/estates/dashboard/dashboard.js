@@ -24,9 +24,6 @@ const Dashboard = ({ id }) => {
     fetchData(id);
   }, []);
 
-
-
-
   return (
     <div className="w-full">
       <div className="px-8 py-8">
