@@ -5,10 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import api from "@/utils/api";
 import { fetchEstatesSpecificUSer } from "@/api/estateService";
-import useEstateForOneStore from "@/store/useEstateForOne";
 import { useRouter } from "next/navigation";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import WidgetMobile from "./widgetMobile";
+import { useEstateForOneStore } from "@/store/useEstateForOne";
 
 const EstateInfo = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();

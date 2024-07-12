@@ -235,7 +235,7 @@ const PropertyPhoto = ({
         </div>
       </main>
 
-      <div className="flex justify-between mt-20 px-3 md:px-0 paginate">
+      <div className="flex gap-2 md:gap-0 md:justify-between mt-20 px-3 md:px-0 paginate">
         <div>
           <button
             onClick={BackToRentalsInfo}
