@@ -97,10 +97,10 @@ const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
                     />
                 )
                     :
-                    <div className='w-full md:w-[550px] h-auto bg-white shadow-lg rounded-md p-8'>
+                    <div className='w-full min-w-[330px] md:w-[550px] h-auto bg-white shadow-lg rounded-md p-8'>
                         <div className="flex items-start w-full justify-between">
-                            <div className="w-[100%]">
-                                <p className="text-[16px] w-full font-[500] text-BlueHomz">
+                            <div className="w-full">
+                                <p className="text-[14px] font-[500] text-BlueHomz">
                                     Create Wallet
                                 </p>
                             </div>

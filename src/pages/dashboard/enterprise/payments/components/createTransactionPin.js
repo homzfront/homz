@@ -94,10 +94,10 @@ const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
                     />
                 )
                     :
-                    <div className='w-full md:w-[550px] h-auto bg-white shadow-lg rounded-md p-8'>
+                    <div className='w-full min-w-[330px] md:w-[550px] h-auto bg-white shadow-lg rounded-md p-8'>
                         <div className="flex items-start w-full justify-between">
-                            <div className="w-[100%]">
-                                <p className="text-[16px] w-full font-[500] text-BlueHomz">
+                            <div className="w-full">
+                                <p className="text-[14px] font-[500] text-BlueHomz">
                                     Create Wallet
                                 </p>
                             </div>
@@ -129,11 +129,11 @@ const CreateTransactionPin = ({ closeForm, fetchDataAgain }) => {
                                         autocomplete="username"
                                         value={username}
                                         className='hidden'
-                                        hidden 
+                                        hidden
                                     />
                                     <input
                                         type={visible ? "text" : "password"}
-                                        name="password" 
+                                        name="password"
                                         value={password}
                                         className='w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]'
                                         onChange={(e) => {
