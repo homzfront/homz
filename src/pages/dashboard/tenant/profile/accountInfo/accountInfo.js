@@ -22,7 +22,7 @@ const AccountInfo = () => {
             {
                 loading || loadingP ? <LoadingII /> :
                     <div className="mt-8">
-                        <div className="border-t p-8 ">
+                        <div className="border-t py-8">
                             <div className='mb-4'>
                                 <p className='text-[18px] font-[500] text-BlackHomz'>
                                     Verify your identity
