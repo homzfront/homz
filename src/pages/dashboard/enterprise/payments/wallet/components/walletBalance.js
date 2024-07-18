@@ -156,7 +156,7 @@ const WalletBalance = ({
             Wallet Balance
           </p>
           {walletBalance ?
-            `${addCommasToNumber(walletBalance)}` : "N 0"
+            `${addCommasToNumber(walletBalance)}` : "₦ 0"
           }
         </div>
       </div>
