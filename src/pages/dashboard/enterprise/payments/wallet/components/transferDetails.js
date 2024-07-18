@@ -119,19 +119,7 @@ const TransferDetails = ({
         setSuccessfulTansferModal(!successfulTansferModal);
         // toast.success("transfer successful");
         fetchDataAgain()
-      }
-      //   else {
-      //     toast.error("Internal server error, transfer failed", error);
-      //     setLoading(false);
-      //     setTransferToggleModal(false)
-      //     setError(error?.message || error?.error)
-      //   }
-      // } catch (error) {
-      //   setLoading(false);
-      //   toast.error("Internal server error, transfer failed");
-      //   setTransferToggleModal(false)
-      // }
-      else {
+      } else {
         setLoading(false);
         setTransferToggleModal(false)
         if (

@@ -9,6 +9,7 @@ import Modal from "../tenants/components/modal";
 import Dropdown from "../components/dropDownFilter";
 import FilterMobile from "../components/filterMobile";
 import Add from "@/components/icons/add";
+import AddBigBlue from "@/components/icons/addBigBlue";
 
 
 
@@ -117,10 +118,18 @@ const ListedEstates = ({
                   </span>
                 </span>
               </div>
-              <div
-                onClick={addNewEstate}
-                className="md:hidden">
-                <Add />
+              <div className="md:hidden flex gap-2 items-center">
+                <div
+                  onClick={addNewEstate}
+                  className="">
+                  <AddBigBlue />
+                </div>
+                <div
+                  onClick={toggleInvite}
+                  className={`cursor-pointer`}
+                >
+                  <Add />
+                </div>
               </div>
             </div>
             <div className="hidden md:flex justify-between items-center">

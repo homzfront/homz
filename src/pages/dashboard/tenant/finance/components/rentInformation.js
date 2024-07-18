@@ -16,7 +16,8 @@ import jsPDF from 'jspdf';
 import Eye from "@/components/icons/Eye";
 import BashedEye from "@/components/icons/BashedEye";
 
-const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
+const 
+RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   const [proceed, setProceed] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [receipt, setReceipt] = useState(false);
@@ -45,7 +46,30 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
 
   // Example usage
   const today = new Date();
-  const duration = rentData?.data?.duration;
+  // const duration = rentData?.data?.duration;
+
+  const options = [
+    {
+      id: 1,
+      label: "1 year"
+    },
+    {
+      id: 2,
+      label: "2 years"
+    },
+    {
+      id: 3,
+      label: "3 years"
+    },
+    {
+      id: 4,
+      label: "4 years"
+    },
+    {
+      id: 5,
+      label: "5 years"
+    },
+  ]
 
   const generateOptions = (duration) => {
     const options = [];
@@ -56,7 +80,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   };
 
   // Use the generated options in your Dropdown component
-  const options = generateOptions(duration);
+  // const options = generateOptions(duration);
 
   const proceeding = () => {
     if (pincode.length === 4) {
@@ -151,7 +175,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
   }
 
   return (
-    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
+    <div className="fixed top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       {loading && <Loading />}
       {receipt ? (
         <Receipt
@@ -171,7 +195,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
       ) : failed ? (
         <FailedModal
           header={"Unsuccessful"}
-          body={error === "Invalid Wallet pin" ? error : "Your wallet balance is not sufficient for this transaction"}
+          body={error === "Invalid Wallet pin" ? error : error === "Insufficient balance" ? "Your wallet balance is not sufficient for this transaction" : error}
           button={"Close"}
           returnHome={close}
         />
@@ -276,8 +300,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain, }) => {
                   onSelect={
                     handleOptionSelect
                   }
-                  selectOption={`1${duration > 1 ? - duration : ""} year${duration > 1 ? "s" : ""
-                    }`}
+                  selectOption={`select rent duration`}
                   className={"w-full mt-2"}
                 />
               </div>

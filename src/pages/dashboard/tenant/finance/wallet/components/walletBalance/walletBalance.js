@@ -32,6 +32,7 @@ const WalletBalance = ({
   const [accountInfo, setAccountInfo] = useState(false);
   const dropdownRef = useClickOutside(() => setAccountInfo(false));
   const [loadingII, setLoadingII] = useState(false);
+  const [showPayrent, setShowPayrent] = useState(false);
 
   const openWalletForm = () => {
     setOpenForm(!openForm);
@@ -41,7 +42,7 @@ const WalletBalance = ({
     setOpenForm(false);
   };
 
-  useBodyScroll([openForm, rent, accountInfo, topUP]);
+  // useBodyScroll([openForm, rent, accountInfo, topUP]);
 
   const openAccountInfo = () => {
     setAccountInfo(!accountInfo);
@@ -70,6 +71,16 @@ const WalletBalance = ({
     }
   }, [activeTwo]);
 
+  useEffect(() => {
+    if (rentData) {
+      if (rentData?.message === "rent information not found") {
+        setShowPayrent(false);
+      } else {
+        setShowPayrent(true);
+      }
+    }
+  }, [rentData]);
+
   return (
     <div className="">
       {openForm && (
@@ -93,7 +104,7 @@ const WalletBalance = ({
       )}
       {accountInfo &&
         <div
-          className="absolute px-8 md:px-0 inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+          className="fixed px-8 md:px-0 inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
           <div ref={dropdownRef} className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
             <BusinessAlert />
             <p className="text-[20px] font-[700] text-BlackHomz">
@@ -144,8 +155,8 @@ const WalletBalance = ({
                 Create Wallet
               </p>
             </div> :
-            illuminateWallet ? (
-              <div className={`w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md md:mr-2 ${rentData?.data === null ? "hidden" : ""}`}>
+            showPayrent ? (
+              <div className={`w-[82px] py-2 bg-blue-200  border border-white cursor-pointer rounded-md md:mr-2 ${!illuminateWallet ? "hidden" : ""}`}>
                 <p
                   onClick={payRent}
                   className="text-BlueHomz2 text-[14px] font-[400] w-full text-center"

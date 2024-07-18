@@ -6,6 +6,7 @@ import InterPassport from './interPassport';
 import { uploadKYC } from '@/api/enterpriseManagerService';
 import { toast } from 'react-toastify';
 import UseWalletStore from '@/store/enterpriseStore/useWalletStore';
+import TickSuccess from '@/components/icons/tickSuccess';
 
 const InternationalPassport = ({ passportProfile }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -187,17 +188,19 @@ const InternationalPassport = ({ passportProfile }) => {
                             interPassportSuccess ? (
                                 <>
                                     {progress >= 100 ? (
-                                        <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
-                                            <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
-                                                <span className="inline-block">
-                                                    [{interPassport?.name && interPassport.name}]
-                                                </span>{' '}
-                                                <span>is currently under review</span>
-                                            </p>
-                                            <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(interPassport)}>
-                                                View
-                                            </p>
-                                        </div>
+                                       <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
+                                       <div className='flex gap-2'>
+                                           <TickSuccess />
+                                           <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
+                                               <span className="inline-block">
+                                                   [{interPassport?.name && interPassport.name}]
+                                               </span>
+                                           </p>
+                                       </div>
+                                       <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(interPassport)}>
+                                           View
+                                       </p>
+                                   </div>
                                     ) : (
                                         <div className="flex flex-col gap-[8px] w-full">
                                             <div className="flex items-center justify-between">
