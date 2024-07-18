@@ -102,7 +102,12 @@ const Withdraw = ({
         } else if (error?.response?.data?.message) {
           const errorMessage = error.response.data.message;
           setError(`${errorMessage}`);
-        } else {
+        }
+        else if (error?.response?.data?.error) {
+          const errorMessage = error.response.data.error;
+          setError(`${errorMessage}`);
+        }
+        else {
           setError("Update failed");
         }
       }
