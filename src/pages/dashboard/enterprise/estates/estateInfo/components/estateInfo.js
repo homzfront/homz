@@ -89,12 +89,12 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
   };
 
   return (
-    <div className="">
+    <div className="w-full px-8">
       {loading ? (
         <LoadingII />
       ) : (
         <div>
-          <div className="mt-8">
+          <div className="">
             <h1 className="font-[700] text-[20px] md:text-[23px] text-BlueHomz">
               Property Information
             </h1>
@@ -158,18 +158,15 @@ const PropertyInfo = ({ handlePageChangeTwo, data }) => {
                 />
               </div>
             </div>
-            <div className="w-[100%] h-[100%] pb-6 flex flex-col gap-2">
+            <div className="w-[100%] h-[100%] pb-6 flex flex-col">
               <div>
                 <label className="text-[14px] font-[500] text-BlackHomz ">
                   Property Description
                 </label>
-                <p className="text-[13px] font-[400] text-GrayHomz ">
-                  Give short description of your property.
-                </p>
               </div>
               <textarea
-                className="mt-4 h-[363px] rounded-md border w-full p-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
-                placeholder="Property Description"
+                className="mt-2 h-[363px] rounded-md border w-full py-2 px-4 text-top placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 "
+                placeholder="Give short description of your property."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>

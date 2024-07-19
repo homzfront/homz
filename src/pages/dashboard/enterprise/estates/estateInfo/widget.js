@@ -7,31 +7,36 @@ import Documents from "./components/documents.js";
 import Image from "next/image.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import BankAccountDetails from "./components/bankAccountDetails.js";
 const Widget = ({ data, isLoading, id }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(false); // State for the fourth page
+  const [activeFour, setActiveFour] = useState(false); 
+  const [activeFive, setActiveFive] = useState(false); 
 
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);
     setActiveThree(false);
-    setActiveFour(false); // Reset the state for the fourth page
+    setActiveFour(false); 
+    setActiveFive(false);
   };
 
   const handlePageChangeTwo = () => {
     setActiveTwo(true);
     setActive(true);
     setActiveThree(false);
-    setActiveFour(false); // Reset the state for the fourth page
+    setActiveFour(false); 
+    setActiveFive(false);
   };
 
   const handlePageChangeThree = () => {
     setActiveThree(true);
     setActiveTwo(false);
     setActive(true);
-    setActiveFour(false); // Reset the state for the fourth page
+    setActiveFour(false); 
+    setActiveFive(false);
   };
 
   const handlePageChangeFour = () => {
@@ -39,10 +44,20 @@ const Widget = ({ data, isLoading, id }) => {
     setActiveThree(false);
     setActiveTwo(false);
     setActive(true);
+    setActiveFive(false);
   };
 
+  const handlePageChangeFive = () => {
+    setActiveFour(false);
+    setActiveThree(false);
+    setActiveTwo(false);
+    setActive(true);
+    setActiveFive(true);
+  };
+
+
   return (
-    <div>
+    <div >
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -56,9 +71,9 @@ const Widget = ({ data, isLoading, id }) => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-full h-auto py-4">
-        <div className="w-full mt-5 flex justify-between items-center">
-          <div className=" flex  gap-4 justify-between w-[620px] cursor-pointer">
+      <div className="w-full h-auto pb-4">
+        <div className="w-full mt-5 flex justify-between items-center px-8">
+          <div className=" flex  gap-4 justify-between w-[800px] cursor-pointer">
             <div
               className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
                 !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
@@ -99,6 +114,16 @@ const Widget = ({ data, isLoading, id }) => {
                 <p className="text-[14px] font-500">Documents</p>
               </div>
             </div>
+            <div className="flex flex-col items-center gap-2 justify-center">
+              <div
+                className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
+                  activeFive ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
+                onClick={(e) => handlePageChangeFive(e)}
+              >
+                <p className="text-[14px] font-500">Bank Account Details</p>
+              </div>
+            </div>
           </div>
           {/* <button className="flex items-center gap-1">
             <Image
@@ -112,7 +137,7 @@ const Widget = ({ data, isLoading, id }) => {
             </p>
           </button> */}
         </div>
-        <div className=" my-5  rounded-[12px]">
+        <div className="my-5 w-full rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
             <EstateInfo active={active} isLoading={isLoading} data={data} />
           </div>
@@ -124,6 +149,9 @@ const Widget = ({ data, isLoading, id }) => {
           </div>
           <div className={`${activeFour ? "inline" : "hidden"}`}>
             <Documents id={id} />
+          </div>
+          <div className={`${activeFive ? "inline" : "hidden"}`}>
+            <BankAccountDetails id={id} />
           </div>
         </div>
       </div>

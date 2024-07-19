@@ -93,7 +93,7 @@ const Photos = ({ data }) => {
   };
 
   return (
-    <div className=" block">
+    <div className="w-full px-8 block">
       {loading ? (
         <LoadingII />
       ) : (
