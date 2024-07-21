@@ -19,20 +19,31 @@ import OwnersCard from "./ownersCard";
 import RequestCard from "./requestCard";
 import FeaturedCard from "./featuredCard";
 import TipsFrame from "./tipsFrame";
+import PropertyRequest from "./propertyRequest";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
+  const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [tabName, setTabName] = useState("Overview");
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [viewportWidth, setViewportWidth] = useState(0);
 
   useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setViewportWidth(window.innerWidth);
+      };
+      setViewportWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      // Cleanup event listener on component unmount
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
   }, []);
 
   const isMobileView = viewportWidth < 640;
@@ -48,6 +59,11 @@ const ViewProperty = ({ PropertyID }) => {
   const [loading, setLoading] = useState(true);
   const [propertyData, setPropertyData] = useState(null);
   const additionalDetails = ["fully furnished", "newly Built", "serviced"];
+
+  const closeSaveToDraftModal = () => {
+    setOpenSuccessModal(false);
+    // router.back()
+  };
 
   useEffect(() => {
     const propertyData = async () => {
@@ -115,9 +131,6 @@ const ViewProperty = ({ PropertyID }) => {
       window.open(url);
     }
   };
-
- 
-
 
   return (
     <div>
@@ -187,7 +200,6 @@ const ViewProperty = ({ PropertyID }) => {
                         className=" "
                         onClick={() => openImageModal(index, item)}
                       >
-                       
                         <Image
                           src={item.url}
                           alt=""
@@ -279,7 +291,6 @@ const ViewProperty = ({ PropertyID }) => {
                     </p>
                   </div>
 
-                
                   <div className="flex sm:items-center sm:flex-row flex-col  sm:justify-between  sm:pb-3 sm:gap-[15px] gap-[12px] sm:border-b mt-5">
                     <p className=" text-[16px] md:font-[700] leading-[19.16px] font-[500] md:leading-[28.98px]  font-['Plus Jakarta Sans'] md:text-[23px] flex flex-col gap-1">
                       <span className="sm:leading-[19.5px] leading-[16.5px] font-400] sm:text-[13px] text-[11px] text-[#202020]">
@@ -500,7 +511,10 @@ const ViewProperty = ({ PropertyID }) => {
                     <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
                       Can’t find the property you are looking for?
                     </p>
-                    <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                    <button
+                      className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                      onClick={() => setOpenPropertyReq(true)}
+                    >
                       Post a property request
                     </button>
                   </div>
@@ -518,6 +532,16 @@ const ViewProperty = ({ PropertyID }) => {
           </div>
         )
       )}
+      <PropertyRequest
+        isOpen={openPropertyReq}
+        setOpenPropertyReq={setOpenPropertyReq}
+        setOpenSuccessModal={setOpenSuccessModal}
+      />
+      <SuccessModal
+        isOpen={OpenSuccessModal}
+        title="Property Request Sent Successfully"
+        handleEvent={closeSaveToDraftModal}
+      />
     </div>
   );
 };

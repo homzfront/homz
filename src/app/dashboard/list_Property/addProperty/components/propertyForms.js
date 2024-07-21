@@ -16,9 +16,9 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const PropertyForms = () => {
   const router = useRouter();
-  const [propertyInfoActive, setPropertyInfoActive] = useState(false);
+  const [propertyInfoActive, setPropertyInfoActive] = useState(true);
   const [activeTwo, setActiveTwo] = useState(false);
-  const [activeThree, setActiveThree] = useState(true);
+  const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
   const [loading, setLoading] = useState(false);
   const [propertyInfo, setPropertyInfo] = useState([]);
@@ -101,10 +101,13 @@ const PropertyForms = () => {
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
+        console.log(errorMessage)
         toast.error("Update failed", `${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
         toast.error("Update failed", `${errorMessage}`);
+        console.log(errorMessage)
+
       } else {
         toast.error("Update failed");
       }

@@ -9,9 +9,9 @@ const ContactInfo = ({
 }) => {
   const { profile } = useProfileStore();
   const [email, setEmail] = useState(profile?.email || "");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [whatsapp, setWhatsAppLink] = useState("");
   const [whatsappFormatted, setWhatsAppFormatted] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(null);
   const [error2, setError2] = useState(null);
   const [isValid, setIsValid] = useState(false);
@@ -95,8 +95,7 @@ const ContactInfo = ({
                   if (!phoneFormat.test(whatsapp)) {
                     setError2("Invalid Phone number");
                     setFocus(true);
-                  }
-                  else {
+                  } else {
                     setError2("");
                     const phoneNumber = whatsapp
                       .replace(/[^0-9]/g, "")
@@ -217,22 +216,22 @@ const ContactInfo = ({
           </div>
         </div>
         <p
-            // disabled={!isValid ? true : false}
-            className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] mt-4 ${
-               "text-BlueHomz"
-              // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
-            }`}
-            onClick={() => setSaveToDraft(true)}
-          >
-            <Image
-              src="/static/images/blueclock.svg"
-              // src={`/static/images/${isValid ? "clock2.svg" : "blueclock.svg"}`}
-              alt=""
-              height={16}
-              width={16}
-            />
-            <span>Save to draft</span>
-          </p>
+          // disabled={!isValid ? true : false}
+          className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] mt-4 ${
+            "text-BlueHomz"
+            // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
+          }`}
+          onClick={() => setSaveToDraft(true)}
+        >
+          <Image
+            src="/static/images/blueclock.svg"
+            // src={`/static/images/${isValid ? "clock2.svg" : "blueclock.svg"}`}
+            alt=""
+            height={16}
+            width={16}
+          />
+          <span>Save to draft</span>
+        </p>
       </div>
     </div>
   );

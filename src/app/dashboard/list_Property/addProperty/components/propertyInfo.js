@@ -4,7 +4,14 @@ import Image from "next/image";
 import api from "/src/utils/api";
 import { useForm } from "react-hook-form";
 import Amenities from "./Amenities";
+import MenuItems from "@/components/mainmenu/menuItems";
 
+function capitalizeFirstLetter(word) {
+  if (word.length === 0) {
+    return word;
+  }
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
 const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
   const [propertyType, setPropertyType] = useState("");
   const [listingType, setListingType] = useState("");
@@ -23,10 +30,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
   const numberCounts = [...Array(21).keys()].slice(1);
 
   useEffect(() => {
-    // console.log("allStates")
-
     fetchStates();
-    fetchAreas();
   }, []);
 
   const fetchStates = async () => {
@@ -105,6 +109,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               width="100%"
               reg={register}
               errors={errors}
+              required={true}
               option1="Select option"
               setSelectedClicked={setListingClicked}
               selectedClicked={listingClicked}
@@ -116,6 +121,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               width="100%"
               reg={register}
               errors={errors}
+              required={true}
               option1="Select Property Type"
               onChange={(e) => setPropertyType(e.target.value)}
               setSelectedClicked={setPropertyTypeClicked}
@@ -127,6 +133,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               name="subType"
               width="100%"
               reg={register}
+              required={true}
               option1="Select the sub type"
               errors={errors}
               setSelectedClicked={setSubTypeClicked}
@@ -168,7 +175,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 )}
               </div>
             ) : (
-              <div className="">
+              <div className="space-y-2">
                 <label
                   className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
                   htmlFor="units"
@@ -198,6 +205,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               name="state"
               width="100%"
               reg={register}
+              required={true}
               errors={errors}
               option1="Select State"
               onChange={(e) => fetchAreas(e.target.value)}
@@ -210,13 +218,14 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               name="area"
               width="100%"
               reg={register}
+              required={true}
               errors={errors}
               setSelectedClicked={setAreaClicked}
               selectedClicked={areaClicked}
               option1="Select Area"
               items={areas}
             />
-            <div className="w-full col-span-2 sm:col-span-1">
+            <div className="w-full col-span-2 sm:col-span-1 space-y-2">
               <label
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
                 htmlFor="address"
@@ -246,6 +255,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 name="numberOfRooms"
                 width="100%"
                 reg={register}
+                required={true}
                 errors={errors}
                 option1="Select option"
                 setSelectedClicked={setBedroomClicked}
@@ -257,6 +267,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 name="numberOfBathrooms"
                 width="100%"
                 reg={register}
+                required={true}
                 errors={errors}
                 option1="Select option"
                 setSelectedClicked={setBathroomClicked}
@@ -268,6 +279,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 name="numberOfToilets"
                 width="100%"
                 reg={register}
+                required={true}
                 errors={errors}
                 setSelectedClicked={setToiletClicked}
                 selectedClicked={toiletClicked}
@@ -275,7 +287,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
                 items={numberCounts}
               />
 
-              <div className="sm:pt-6 pt-2">
+              <div className="sm:pt-6 pt-2 mt-2">
                 <p
                   className="border bg-[#006AFF] rounded-[4px] text-white flex items-center justify-center px-[8px] py-[12px] font-[400] leading-[21px] text-[14px] w-[100%] h-[37px] cursor-pointer"
                   onClick={() => setOpenAmeni(true)}
@@ -286,7 +298,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
             </div>
           )}
           <div className="flex sm:flex-row flex-col items-center gap-[28px]">
-            <div className="w-[100%] h-[100%] inline-flex flex-col gap-2 ">
+            <div className="w-[100%] h-[100%] inline-flex flex-col gap-2 space-y-2">
               <div>
                 <label className="text-[14px] font-[500] text-BlackHomz ">
                   Property Description <span className="text-error">*</span>
@@ -307,7 +319,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               )}
             </div>
             {propertyType === "Land" && (
-              <div className="sm:pt-6  sm:w-[349px] inline-block w-[100%]">
+              <div className="sm:mt-  sm:w-[349px] inline-block w-[100%]">
                 <p
                   className="border bg-[#006AFF] rounded-[4px] text-white flex items-center justify-center px-[8px] py-[12px] font-[400] leading-[21px] text-[14px] w-[100%] h-[37px] cursor-pointer"
                   onClick={() => setOpenAmeni(true)}
@@ -466,59 +478,6 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
 };
 
 export default PropertyInfo;
-function capitalizeFirstLetter(word) {
-  if (word.length === 0) {
-    return word;
-  }
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-}
-const MenuItems = ({
-  title,
-  option1,
-  name,
-  width,
-  items,
-  onChange,
-  reg,
-  errors,
-  setSelectedClicked,
-  selectedClicked,
-}) => {
-  return (
-    <div className="custom-select-wrapper">
-      <label
-        className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
-        htmlFor={name}
-      >
-        {title} <span className="text-red-500 text-xs">*</span>
-      </label>
-      <br />
-      <select
-        name={name}
-        className={`custom-select h-[43px] md:h-[45px] sm:w-[${width}]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
-        id={name}
-        {...reg(name, {
-          required: true,
-        })}
-        onChange={onChange}
-        onClick={() => setSelectedClicked(false)}
-      >
-        {selectedClicked && (
-          <option value="" disabled selected>
-            {option1}
-          </option>
-        )}
-
-        {items && items.map((type, index) => (
-          <option key={index} value={type}>
-            {typeof type === "String" ? capitalizeFirstLetter(type) : type}
-          </option>
-        ))}
-      </select>
-      {/* {errors[name] ? <p className="italic text-error text-[11px] font-[400]">{errors[name].message}</p> : ""} */}
-    </div>
-  );
-};
 
 const propertyTypeValues = [
   "boys quarters",

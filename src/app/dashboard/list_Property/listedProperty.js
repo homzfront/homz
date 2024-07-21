@@ -9,7 +9,7 @@ import Dropdown from "./components/dropDownFilter";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-import ThreeDots from "../../../components/mainmenu/ThreeDotsLoader";
+import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter, usePathname } from "next/navigation";
 import Loading from "@/components/mainmenu/loading";
 

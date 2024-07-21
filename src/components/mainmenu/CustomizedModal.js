@@ -29,6 +29,8 @@ const CustomModal = ({ isOpen, onRequestClose, children }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          maxHeight: '100%', 
+          paddingTop:"3rem"
          
         },
       };
