@@ -21,6 +21,7 @@ import FeaturedCard from "./featuredCard";
 import TipsFrame from "./tipsFrame";
 import PropertyRequest from "./propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
+import { property } from "lodash";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -68,6 +69,7 @@ const ViewProperty = ({ PropertyID }) => {
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSinglePropertyPublic(PropertyID);
+      console.log(response)
       const property = await response;
       setPropertyData(property?.data);
       setLoading(false);
@@ -131,7 +133,20 @@ const ViewProperty = ({ PropertyID }) => {
       window.open(url);
     }
   };
+  const handleSharePage = async () => {
+    const shareData = {
+      title: document.title,
+      text: "Check out this page!",
+      url: window.location.href,
+    };
 
+    try {
+      await navigator.share(shareData);
+      // console.log("Page shared successfully!");
+    } catch (err) {
+      console.error("Error sharing the page:", err);
+    }
+  };
   return (
     <div>
       {loading ? (
@@ -251,7 +266,10 @@ const ViewProperty = ({ PropertyID }) => {
                       </p>
                     </div>
 
-                    <button className="hidden text-white font-[700] text-[14px] sm:flex gap-1 items-center  bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] ">
+                    <button
+                      className="hidden text-white font-[700] text-[14px] sm:flex gap-1 items-center  bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] "
+                      onClick={handleSharePage}
+                    >
                       <span>Share</span>
                       <Image
                         src="/static/images/share.svg"
@@ -264,7 +282,7 @@ const ViewProperty = ({ PropertyID }) => {
                     </button>
                   </div>
 
-                  <div className=" hidden sm:flex gap-2 items-center border-b pb-4 mt-2">
+                  <div className=" hidden sm:flex gap-[12px] items-center border-b pb-4 mt-2">
                     <p className="flex gap-1 items-center">
                       <Image
                         src="/static/images/Location_Vector.svg"
@@ -273,8 +291,8 @@ const ViewProperty = ({ PropertyID }) => {
                         height={24}
                         className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                       />
-                      <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E] min-w-[246px]">
-                        {propertyData?.area}, {propertyData?.state}
+                      <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E]">
+                      {propertyData?.address}, {propertyData?.area}, {propertyData?.state}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center">
@@ -296,9 +314,9 @@ const ViewProperty = ({ PropertyID }) => {
                       <span className="sm:leading-[19.5px] leading-[16.5px] font-400] sm:text-[13px] text-[11px] text-[#202020]">
                         Total Price
                       </span>
-                      <span className="sm:pl-1 font-[700] leading-[20.16px] flex justify-between">
-                        <span className="">
-                          ₦ {Number(propertyData?.price).toLocaleString()}{" "}
+                      <span className="sm:pl-1  leading-[20.16px] flex gap-[24px] sm:justify-between items-center">
+                        <span className="font-[700]">
+                          ₦ {Number(propertyData?.price).toLocaleString()}{" "} <span className="font-[400]  sm:hidden text-[#4E4E4E]">per year</span>
                         </span>
                         <span className="sm:hidden text-[#006AFF] font-[500]  text-[13px] leading-[19.5px]  px-[8px] bg-[#EEF5FF] text-center py-[4px]  rounded-[8px]">
                           {propertyData?.listingType &&
@@ -365,7 +383,7 @@ const ViewProperty = ({ PropertyID }) => {
                         className="h-[16px] w-[16px]"
                       />
                       <span className="leading-[21px] text-[14px] font-[500] text-[#4E4E4E] min-w-[246px]">
-                        {propertyData?.area}, {propertyData?.state}
+                      {propertyData?.address}, {propertyData?.area}, {propertyData?.state}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center">
@@ -381,7 +399,10 @@ const ViewProperty = ({ PropertyID }) => {
                       </span>
                     </p>
                   </div>
-                  <button className="sm:hidden text-white font-[700] text-[14px] flex gap-1 items-center justify-center w-full  bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] ">
+                  <button
+                    className="sm:hidden text-white font-[700] text-[14px] flex gap-1 items-center justify-center w-full  bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] "
+                    onClick={handleSharePage}
+                  >
                     <span>Share</span>
                     <Image
                       src="/static/images/share.svg"
@@ -392,9 +413,20 @@ const ViewProperty = ({ PropertyID }) => {
                       // onClick={() => setOpenAmeni(false)}
                     />
                   </button>
-                  <div className="sm:hidden mb-5">
+                  <div className="sm:hidden mb-5 space-y-6">
                     <OwnersCard propertyData={propertyData && propertyData} />
-                    <RequestCard />
+                    <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
+                    <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
+                      Can’t find the property you are looking for?
+                    </p>
+                    <button
+                      className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                      onClick={() => setOpenPropertyReq(true)}
+                    >
+                      Post a property request
+                    </button>
+                  </div>
+                    {/* <RequestCard /> */}
                     <TipsFrame />
                   </div>
                   <div className="space-y-4 mb-3">
@@ -453,7 +485,7 @@ const ViewProperty = ({ PropertyID }) => {
                     </div>
                   </div>
 
-                  <ContactCard />
+                  <ContactCard  contactData={propertyData?.lisitingPropertyId}/>
                   <div className="w-full hidden sm:block">
                     <MiniPropertyListings
                       reset={linkToSearch}
@@ -464,9 +496,20 @@ const ViewProperty = ({ PropertyID }) => {
                   </div>
                 </div>
                 <div className="flex flex-col  gap-[24px]">
-                  <div className="hidden sm:block">
+                  <div className="hidden sm:block space-y-5">
                     <OwnersCard propertyData={propertyData && propertyData} />
-                    <RequestCard />
+                    <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
+                      <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
+                        Can’t find the property you are looking for?
+                      </p>
+                      <button
+                        className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                        onClick={() => setOpenPropertyReq(true)}
+                      >
+                        Post a property request
+                      </button>
+                    </div>
+                    {/* <RequestCard /> */}
                   </div>
                   <div className="hidden sm:flex flex-col gap-4 h-fit border rounded-[12px] p-[20px] w-[100%] bg-[#202020]">
                     <p className="text-[16px] leading-[24px] flex items-center gap-2 font-[500] text-white">
@@ -507,17 +550,7 @@ const ViewProperty = ({ PropertyID }) => {
                       Get Started
                     </button>
                   </div>
-                  <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
-                    <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
-                      Can’t find the property you are looking for?
-                    </p>
-                    <button
-                      className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
-                      onClick={() => setOpenPropertyReq(true)}
-                    >
-                      Post a property request
-                    </button>
-                  </div>
+
                   <div className="w-full sm:hidden">
                     <MiniPropertyListings
                       reset={linkToSearch}

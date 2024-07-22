@@ -210,7 +210,7 @@ const PropertyRequest = ({
   return (
     <div className="">
       <CustomizedModal isOpen={isOpen} onRequestClose={onRequestClose}>
-        <div className="sm:w-[813px]  rounded-[12px] bg-white sm:p-[32px] px-[28px] py-[32px] flex gap-[4px] flex-col h-fit ">
+        <div className="sm:w-[813px] mt-8 rounded-[12px] bg-white sm:p-[32px] px-[28px] py-[32px] flex gap-[4px] flex-col h-fit ">
           <section className="space-y-1 pb-[24px] border-b-[1px] border-[#A9A9A9] ">
             <div className="modal-header flex items-center justify-between">
               <p className="text-[20px] font-[700] leading-[25.2px] ">

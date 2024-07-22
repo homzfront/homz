@@ -12,7 +12,7 @@ const OwnersCard = ({ propertyData }) => {
     whatsAppNumber: false,
   });
   const [showNumber, setShowNumber] = useState(false);
-  let marketerId=222222
+  let marketerId = 222222;
   //   console.log(propertyData)
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -30,11 +30,7 @@ const OwnersCard = ({ propertyData }) => {
       // console.error("Unable to copy to clipboard:", error);
     }
   };
-  const viewFile = (url) => {
-    if (url) {
-      window.open(url);
-    }
-  };
+
   return (
     <div
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%] mt-4 sm:mt-0"
@@ -67,16 +63,24 @@ const OwnersCard = ({ propertyData }) => {
         <div className="">
           <p className="text-[18px] font-[500] text-GrayHomz flex items-center gap-[8px]">
             <span className="">
-              {capitalizeFirstLetter(propertyData?.lisitingPropertyId?.businessInfo?.businessName)}
+              {capitalizeFirstLetter(
+                propertyData?.lisitingPropertyId?.businessInfo?.businessName
+              )}
             </span>
-            <Image
-              src="/static/images/green_verify.svg"
-              alt=""
-              width={20}
-              height={20}
-            />
+            {propertyData?.lisitingPropertyId?.businessInfo?.isVerified ===
+              "verified" && (
+              <Image
+                src="/static/images/green_verify.svg"
+                alt=""
+                width={20}
+                height={20}
+              />
+            )}
           </p>
-          <Link href={`/marketer-business-page/${marketerId}?user=users`} className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
+          <Link
+            href={`/marketer-business-page/${marketerId}?user=users`}
+            className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
+          >
             <span>View more properties from this marketer</span>
             <Image
               src="/static/images/send.svg"
