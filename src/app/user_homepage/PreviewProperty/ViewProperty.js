@@ -13,7 +13,8 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { Carousel } from "flowbite-react";
 import Amenities from "@/components/mainmenu/amenities";
 import ExtraDetails from "@/components/mainmenu/extraDetails";
-import GoogleMap from "@/utils/googleMap";
+// import GoogleMap from "@/utils/googleMap";
+import MapFrame from "@/utils/map";
 import ContactCard from "./contactCard";
 import OwnersCard from "./ownersCard";
 import RequestCard from "./requestCard";
@@ -69,7 +70,7 @@ const ViewProperty = ({ PropertyID }) => {
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSinglePropertyPublic(PropertyID);
-      console.log(response)
+      // console.log(response);
       const property = await response;
       setPropertyData(property?.data);
       setLoading(false);
@@ -251,12 +252,12 @@ const ViewProperty = ({ PropertyID }) => {
                       >
                         {propertyData?.name || propertyData?.title}
                       </p>
-                      <Image
+                      {/* <Image
                         src="/static/images/green_verify.svg"
                         alt=""
                         width={32}
                         height={32}
-                      />
+                      /> */}
                       <p className="hidden text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] sm:flex md:text-[16px] px-[12px] bg-[#EEF5FF] items-center py-[4px]  rounded-[8px]">
                         {propertyData?.listingType &&
                         (propertyData?.listingType === "Sale" ||
@@ -292,7 +293,8 @@ const ViewProperty = ({ PropertyID }) => {
                         className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                       />
                       <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E]">
-                      {propertyData?.address}, {propertyData?.area}, {propertyData?.state}
+                        {propertyData?.address}, {propertyData?.area},{" "}
+                        {propertyData?.state}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center">
@@ -316,7 +318,10 @@ const ViewProperty = ({ PropertyID }) => {
                       </span>
                       <span className="sm:pl-1  leading-[20.16px] flex gap-[24px] sm:justify-between items-center">
                         <span className="font-[700]">
-                          ₦ {Number(propertyData?.price).toLocaleString()}{" "} <span className="font-[400]  sm:hidden text-[#4E4E4E]">per year</span>
+                          ₦ {Number(propertyData?.price).toLocaleString()}{" "}
+                          <span className="font-[400]  sm:hidden text-[#4E4E4E]">
+                            per year
+                          </span>
                         </span>
                         <span className="sm:hidden text-[#006AFF] font-[500]  text-[13px] leading-[19.5px]  px-[8px] bg-[#EEF5FF] text-center py-[4px]  rounded-[8px]">
                           {propertyData?.listingType &&
@@ -383,7 +388,8 @@ const ViewProperty = ({ PropertyID }) => {
                         className="h-[16px] w-[16px]"
                       />
                       <span className="leading-[21px] text-[14px] font-[500] text-[#4E4E4E] min-w-[246px]">
-                      {propertyData?.address}, {propertyData?.area}, {propertyData?.state}
+                        {propertyData?.address}, {propertyData?.area},{" "}
+                        {propertyData?.state}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center">
@@ -416,20 +422,20 @@ const ViewProperty = ({ PropertyID }) => {
                   <div className="sm:hidden mb-5 space-y-6">
                     <OwnersCard propertyData={propertyData && propertyData} />
                     <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
-                    <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
-                      Can’t find the property you are looking for?
-                    </p>
-                    <button
-                      className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
-                      onClick={() => setOpenPropertyReq(true)}
-                    >
-                      Post a property request
-                    </button>
-                  </div>
+                      <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
+                        Can’t find the property you are looking for?
+                      </p>
+                      <button
+                        className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                        onClick={() => setOpenPropertyReq(true)}
+                      >
+                        Post a property request
+                      </button>
+                    </div>
                     {/* <RequestCard /> */}
                     <TipsFrame />
                   </div>
-                  <div className="space-y-4 mb-3">
+                  <div className="space-y-4 mt-6">
                     <div className="flex items-start gap-[8px]">
                       <button
                         className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
@@ -479,13 +485,18 @@ const ViewProperty = ({ PropertyID }) => {
 
                       {tabName === "Map" && (
                         <div className="h-[556px] w-[100%]">
-                          <GoogleMap addressData={"ikeja lagos"} />
+                          {/* <GoogleMap addressData={"ikeja lagos"} /> */}
+                          <MapFrame
+                            street={propertyData?.address}
+                            area={propertyData?.area}
+                            state={propertyData?.state}
+                          />
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <ContactCard  contactData={propertyData?.lisitingPropertyId}/>
+                  <ContactCard contactData={propertyData?.lisitingPropertyId} />
                   <div className="w-full hidden sm:block">
                     <MiniPropertyListings
                       reset={linkToSearch}
