@@ -4,7 +4,7 @@ import PlansMonthly from "./components/plansMonthly.js";
 import PlansYearly from "./components/plansYearly.js";
 
 
-const Widget = ({ data, profile }) => {
+const Widget = ({ data, setLoadProfile }) => {
   
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly /> },
@@ -35,7 +35,7 @@ const Widget = ({ data, profile }) => {
         <div className="my-5 rounded-[12px] ">
           {pages.map((page) => (
             <div key={page.id} className={active === page.id ? "inline" : "hidden"}>
-              {React.cloneElement(page.component, { data, profile })}
+              {React.cloneElement(page.component, { data, setLoadProfile })}
             </div>
           ))}
         </div>

@@ -1,18 +1,15 @@
 import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
-import Loading from "@/components/mainmenu/loading";
-import api from "@/utils/api";
-import useBodyScroll from "@/utils/useBodyScroll";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const Plans = ({ data, profile }) => {
+const Plans = ({ profile }) => {
   const [loading, setLoading] = useState(false);
-  const [formError, setFormError] = useState();
-  const router = useRouter()
-  useBodyScroll([loading])
+  const [loadingCard, setLoadingCard] = useState(null);
+  const router = useRouter();
 
   const pricingPlans = [
     {
@@ -79,7 +76,7 @@ const Plans = ({ data, profile }) => {
       interval: "monthly"
     },
     {
-      price: "Contact Sales", // You might want to provide an actual price for the premium plan
+      price: "Contact Sales",
       title: "Premium Plan",
       billing: "Billed monthly",
       features: [
@@ -101,65 +98,48 @@ const Plans = ({ data, profile }) => {
     },
   ];
 
-  // Optional URL validation function (consider using a more robust library)
   function isValidUrl(url) {
-    const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
+    const regex = /^(http|https):\/\/[^\s]+/;
     return regex.test(url);
   }
 
-  async function handleSubmit(interval, plans) {
+  const handleSubmit = async (interval, planTitle) => {
     setLoading(true);
-
-    if (!interval || !plans) {
-      setFormError('Please select an interval and plan.');
-      setLoading(false);
-      return; // Early exit if required fields are missing
-    }
-
+    setLoadingCard(planTitle);
     try {
       let response;
-      if (profile.PlanStatus === "free_trial" || profile?.planName === "Enterprise Starter" ||
+      if (profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
         profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
         response = await updateEnterPriseSub({
-          planName: plans,
+          planName: planTitle,
           interval
-        })
-      } 
+        });
+      }
       if (response.success) {
-        setLoading(false);
-        const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
+        const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully';
         toast.success(successMessage);
         const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
         const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
-
         if (isValidUrl(authorizationUrl)) {
           router.push(authorizationUrl);
         } else if (isValidUrl(paystackAuthorizationUrl)) {
           router.push(paystackAuthorizationUrl);
-        } else {
-          // console.warn('Invalid or missing authorization URL in response.');
+        }
+      } else {
+        if (response.error) {
+          toast.error(response.error);
         }
       }
-      else {
-        if (response.error) {
-          setFormError(response.error || 'An error occurred.'); // Default error message
-          // console.error("Error creating profile:", response.error);
-          setLoading(false);
-          toast.error(response.error);
-        } // Use the specific error message from response.error
-      }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-      // console.log(error.response?.data?.error)
-      setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
+      toast.error(error.response?.data?.message || error.response?.data?.error);
+    } finally {
       setLoading(false);
+      setLoadingCard(null);
     }
-  }
+  };
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
-      {
-        loading && <Loading />}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
@@ -177,33 +157,38 @@ const Plans = ({ data, profile }) => {
               className={`h-[48px] rounded-lg text-[16px] w-full flex justify-center items-center ${plan.status === true
                 ? "bg-BlueHomz hover:bg-blue-400 text-white"
                 : " hidden"
-                }`}
+                } 
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                `}
             >
               Contact Sales
             </Link>
             <button
-              onClick={() => {
-                handleSubmit(plan.interval, plan.title)
-              }}
+              onClick={() => handleSubmit(plan.interval, plan.title)}
+              disabled={loading}
               className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                 ? " hidden"
                 : ""
-                }  ${profile?.planName === plan.title && profile?.interval === "monthly"  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                } 
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
+                ${profile?.planName === plan.title && profile?.interval === "monthly" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
             >
-              {profile?.planName === plan.title && profile?.interval === "monthly" 
+              {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly"
                 ? "Active"
                 : "Get Started"}
             </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
-                <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                  (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                  (plan.title === "Enterprise Plus" && feature === "Training & data migration")
-                  || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
-                  ? "opacity-[20%]" // Apply a different color class here
-                  : "bg-green-200"
-                  } flex justify-center border rounded-full`}
+                <div
+                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                    ? "opacity-[20%]"
+                    : "bg-green-200"
+                    } flex justify-center border rounded-full`}
                 >
                   <Image
                     height={10.5}

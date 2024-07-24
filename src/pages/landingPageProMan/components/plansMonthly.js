@@ -1,17 +1,24 @@
+import { updateEnterPriseSub } from "@/api/planEnterprise";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const Plans = () => {
+const Plans = ({ routeTo, profile }) => {
+  const [loading, setLoading] = useState(false);
+  const [loadingCard, setLoadingCard] = useState(null);
+  const router = useRouter()
+
   const pricingPlans = [
     {
       price: "N9,500",
-      title: "Enterprise starter",
+      title: "Enterprise Starter",
       billing: "Billed monthly",
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -24,15 +31,15 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: false,
+      interval: "monthly"
     },
     {
       price: "N19,000",
-      title: "Enterprise plus",
+      title: "Enterprise Plus",
       billing: "Billed monthly",
       features: [
         "Up to 30 properties",
         "Up to 5 users",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -45,15 +52,15 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: false,
+      interval: "monthly"
     },
     {
       price: "N50,000",
-      title: "Enterprise premium",
+      title: "Enterprise Premium",
       billing: "Billed monthly",
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -66,15 +73,15 @@ const Plans = () => {
         "Training & data migration"
       ],
       status: false,
+      interval: "monthly"
     },
     {
-      price: "Contact Sales", // You might want to provide an actual price for the premium plan
-      title: "Premium plan",
+      price: "Contact Sales",
+      title: "Premium Plan",
       billing: "Billed monthly",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Free Trial",
         "Accounts & reporting",
         "Whitelabels",
         "Maintenance management",
@@ -86,12 +93,57 @@ const Plans = () => {
         "Early rent incentives for renters",
         "Training & data migration"
       ],
-      status: false,
+      status: true,
+      interval: "monthly"
     },
   ];
 
+  function isValidUrl(url) {
+    const regex = /^(http|https):\/\/[^\s]+/;
+    return regex.test(url);
+  }
+
+  async function handleSubmit(interval, planTitle) {
+    if (routeTo === "/dashboard/enterprise-property/dashboard") {
+      setLoading(true);
+      setLoadingCard(planTitle);
+      try {
+        let response;
+        if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" ||
+          profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+          response = await updateEnterPriseSub({
+            planName: planTitle,
+            interval
+          })
+        }
+        if (response.success) {
+          const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
+          toast.success(successMessage);
+          const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
+          const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
+          if (isValidUrl(authorizationUrl)) {
+            router.push(authorizationUrl);
+          } else if (isValidUrl(paystackAuthorizationUrl)) {
+            router.push(paystackAuthorizationUrl);
+          }
+        } else {
+          if (response.error) {
+            toast.error(response.error);
+          }
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.message || error.response?.data?.error);
+      } finally {
+        setLoading(false);
+        setLoadingCard(null);
+      }
+    } else {
+      router.push(routeTo);
+    }
+  }
+
   return (
-    <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
+    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
@@ -105,25 +157,42 @@ const Plans = () => {
             <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
               {plan.billing}
             </p>
-            <Link href={"/register"}>
-              <button
-                className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
-                  ? "border border-BlueHomz text-BlueHomz bg-inputBg "
-                  : "bg-BlueHomz hover:bg-blue-400 text-white"
-                  }`}
-              >
-                Get Started
-              </button>
+            <Link href={"/contact-page"}
+              className={`h-[48px] rounded-lg text-[16px] w-full flex justify-center items-center ${plan.status === true
+                ? "bg-BlueHomz hover:bg-blue-400 text-white"
+                : " hidden"
+                }
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                `}
+            >
+              Contact Sales
             </Link>
+            <button
+              onClick={() => { handleSubmit(plan.interval, plan.title) }}
+              disabled={loading}
+              className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
+                ? " hidden"
+                : ""
+                } 
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
+                ${profile?.planName === plan.title && profile?.interval === "annually" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
+            >
+              {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually"
+                ? "Active"
+                : "Get Started"}
+            </button>
             {plan.features.map((feature, i) => (
               <div key={i} className="flex flex-row items-center gap-2">
-                <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
-                  (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
-                  (plan.title === "Enterprise plus" && feature === "Training & data migration")
-                  || (plan.title === "Enterprise starter" && feature === "Training & data migration")
-                  ? "opacity-[20%]" // Apply a different color class here
-                  : "bg-green-200"
-                  } flex justify-center border rounded-full`}
+                <div
+                  className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                    ? "opacity-[20%]"
+                    : "bg-green-200"
+                    } flex justify-center border rounded-full`}
                 >
                   <Image
                     height={10.5}
@@ -133,10 +202,10 @@ const Plans = () => {
                   />
                 </div>
                 <p
-                  className={`  ${(plan.title === "Enterprise starter" && feature === "Whitelabels") ||
-                    (plan.title === "Enterprise plus" && feature === "Whitelabels") ||
-                    (plan.title === "Enterprise plus" && feature === "Training & data migration")
-                    || (plan.title === "Enterprise starter" && feature === "Training & data migration")
+                  className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                    || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                     ? "text-GrayHomz5"
                     : ""
                     }`}
