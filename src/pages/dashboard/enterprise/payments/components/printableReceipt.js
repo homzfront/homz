@@ -2,6 +2,9 @@ import Image from "next/image";
 import React from "react";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import formatPaidAtDate from "@/utils/formatPaidAtDate";
+import PhoneReceipt from "@/components/icons/phoneReceipt";
+import EmailReceipt from "@/components/icons/emailReceipt";
+import AddressReceipt from "@/components/icons/addressReceipt";
 
 const PrintableReceipt = React.forwardRef(({ data }, ref) => (
   <div
@@ -91,34 +94,19 @@ const PrintableReceipt = React.forwardRef(({ data }, ref) => (
         </div>
         <div className="border-t grid grid-cols-2 gap-2 pt-4">
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/sms.png"}
-              alt=""
-              height={12}
-              width={12}
-            />
+            <EmailReceipt />
             <p className="text-GrayHomz2 text-[11px] font-[500]">
               {data?.enterprise?.email}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/call.png"}
-              alt=""
-              height={12}
-              width={12}
-            />
+            <PhoneReceipt />
             <p className="text-GrayHomz2 text-[11px] font-[500]">
               {data?.enterprise?.businessPhoneNumber}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/location.png"}
-              alt=""
-              height={12}
-              width={12}
-            />
+            <AddressReceipt />
             <p className="text-GrayHomz2 text-[11px] font-[500]">
               {data?.enterprise?.businessAddress}
             </p>

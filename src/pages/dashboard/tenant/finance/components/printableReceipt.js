@@ -1,9 +1,12 @@
 import React from "react";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
-import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import formatPaidAtDate from "@/utils/formatPaidAtDate";
 import Image from "next/image";
+import EmailReceipt from "@/components/icons/emailReceipt";
+import PhoneReceipt from "@/components/icons/phoneReceipt";
+import AddressReceipt from "@/components/icons/addressReceipt";
+import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
 
 const PrintableReceipt = React.forwardRef(({ rentData }, ref) => (
   <div
@@ -37,7 +40,7 @@ const PrintableReceipt = React.forwardRef(({ rentData }, ref) => (
         </div>
         <div>
           <p className="text-BlueHomz text-[14px] font-[500]">
-            Transaction Receipt
+            Rent Payment Receipt
           </p>
         </div>
         <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-2">
@@ -67,10 +70,10 @@ const PrintableReceipt = React.forwardRef(({ rentData }, ref) => (
           </div>
           <div className="w-full flex gap-4">
             <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-              Next Due Date
+              Tenancy Duration
             </p>
             <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-              {changeBackendDateFormat(rentData?.rentDueDate)}
+              {changeBackendDateFormatII(rentData?.rentStartDate)} - {changeBackendDateFormatII(rentData?.rentDueDate)}
             </p>
           </div>
           <div className="w-full flex gap-4">
@@ -128,34 +131,19 @@ const PrintableReceipt = React.forwardRef(({ rentData }, ref) => (
         </div>
         <div className="border-t grid grid-cols-2 gap-2 pt-2">
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/sms.png"}
-              alt=""
-              height={12}
-              width={12}
-            />
+            <EmailReceipt />
             <p className="text-GrayHomz2 text-[11px] font-[500]">
               {rentData?.enterprise?.user?.email}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/call.png"}
-              alt=""
-              height={12}
-              width={12}
-            />
+            <PhoneReceipt />
             <p className="text-GrayHomz2 text-[11px] font-[500]">
               {rentData?.enterprise?.businessPhoneNumber}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Image
-              src={"/static/dashboard/enterprisemanager/payment/location.png"}
-              alt=""
-              height={12}
-              width={12}
-            />
+            <AddressReceipt />
             <p className="text-GrayHomz2 text-[11px] font-[500]">
               {rentData?.enterprise?.businessAddress}
             </p>

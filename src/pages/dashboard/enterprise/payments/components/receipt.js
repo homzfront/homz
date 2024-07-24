@@ -7,6 +7,9 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import handleCopyClick from "@/utils/handleCopyClick";
 import formatPaidAtDate from "@/utils/formatPaidAtDate";
 import PrintableReceipt from "./printableReceipt";
+import EmailReceipt from "@/components/icons/emailReceipt";
+import PhoneReceipt from "@/components/icons/phoneReceipt";
+import AddressReceipt from "@/components/icons/addressReceipt";
 
 const Receipt = ({ closeReceipt, data }) => {
   const [copiedState, setCopiedState] = useState({ copied: false });
@@ -113,7 +116,7 @@ const Receipt = ({ closeReceipt, data }) => {
                 Transaction Reference No
               </p>
               <div className="flex items-center gap-2 w-[50%]">
-                <p className="text-BlueHomz truncate text-[14px] font-[400]">
+                <p className="text-BlueHomz break-words text-[14px] font-[400] w-[85%]">
                   {data ? data.referenceTransaction : <Skeleton width={100} />}
                 </p>
                 {data && (
@@ -155,36 +158,25 @@ const Receipt = ({ closeReceipt, data }) => {
           >
             Share Receipt
           </button>
-          <div className="border-t grid md:grid-cols-2 grid-cols-1 gap-2 pt-4">
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/sms.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {data ? data.enterprise.email : <Skeleton width={150} />}
-              </p>
+          <div className="border-t flex flex-col gap-2 pt-2 w-full">
+            <div className="flex justify-between items-start w-full">
+              <div className="flex items-start md:items-center gap-2 w-[45%] break-words">
+                <div className="mt-[2px] md:mt-0">
+                  <EmailReceipt />
+                </div>
+                <p className="text-GrayHomz2 text-[11px] font-[500] w-[80%]">
+                  {data ? data.enterprise.email : <Skeleton width={150} />}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 w-[45%]">
+                <PhoneReceipt />
+                <p className="text-GrayHomz2 text-[11px] font-[500]">
+                  {data ? data.enterprise.businessPhoneNumber : <Skeleton width={150} />}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/call.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {data ? data.enterprise.businessPhoneNumber : <Skeleton width={150} />}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/location.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
+              <AddressReceipt />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
                 {data ? data.enterprise.businessAddress : <Skeleton width={200} />}
               </p>

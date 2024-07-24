@@ -2,12 +2,15 @@
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import handleCopyClick from "@/utils/handleCopyClick";
-import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import PrintableReceipt from "./printableReceipt";
 import formatPaidAtDate from "@/utils/formatPaidAtDate";
+import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
+import EmailReceipt from "@/components/icons/emailReceipt";
+import PhoneReceipt from "@/components/icons/phoneReceipt";
+import AddressReceipt from "@/components/icons/addressReceipt";
 
 const Receipt = ({ closeReceipt, rentData }) => {
   const [copiedState, setCopiedState] = useState({ copied: false });
@@ -66,7 +69,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
           </div>
           <div>
             <p className="text-BlueHomz text-[14px] font-[500]">
-              Transaction Receipt
+              Rent Payment Receipt
             </p>
           </div>
           <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-2">
@@ -96,10 +99,10 @@ const Receipt = ({ closeReceipt, rentData }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Next Due Date
+                Tenancy Duration
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {changeBackendDateFormat(rentData?.rentDueDate)}
+                {changeBackendDateFormatII(rentData?.rentStartDate)} - {changeBackendDateFormatII(rentData?.rentDueDate)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -141,7 +144,7 @@ const Receipt = ({ closeReceipt, rentData }) => {
                 Transaction Reference No
               </p>
               <div className="flex items-center gap-2 w-[50%]">
-                <p className="text-BlueHomz text-[14px] font-[400]">
+                <p className="text-BlueHomz text-[14px] break-words font-[400] w-[85%]">
                   {rentData?.referenceTransaction}
                 </p>
                 <Image
@@ -180,36 +183,25 @@ const Receipt = ({ closeReceipt, rentData }) => {
           >
             Share Receipt
           </button>
-          <div className="border-t grid grid-cols-2 gap-2 pt-2">
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/sms.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterprise?.user?.email}
-              </p>
+          <div className="border-t flex flex-col gap-2 pt-2 w-full">
+            <div className="flex justify-between items-start w-full">
+              <div className="flex items-start md:items-center gap-2 w-[45%] break-words">
+                <div className="mt-[2px] md:mt-0">
+                  <EmailReceipt />
+                </div>
+                <p className="text-GrayHomz2 text-[11px] font-[500] w-[80%]">
+                  {rentData?.enterprise?.user?.email}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 w-[45%]">
+                <PhoneReceipt />
+                <p className="text-GrayHomz2 text-[11px] font-[500]">
+                  {rentData?.enterprise?.businessPhoneNumber}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/call.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterprise?.businessPhoneNumber}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/location.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
+              <AddressReceipt />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
                 {rentData?.enterprise?.businessAddress}
               </p>
