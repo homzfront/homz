@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const Plans = ({ data, profile }) => {
+const Plans = ({ data, setLoadProfile }) => {
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
   const router = useRouter()
@@ -148,6 +148,7 @@ const Plans = ({ data, profile }) => {
           setFormError(response.error || 'An error occurred.'); // Default error message
           setLoading(false);
           toast.error(response.error);
+          setLoadProfile(true)
         } // Use the specific error message from response.error
       }
     } catch (error) {
@@ -155,6 +156,7 @@ const Plans = ({ data, profile }) => {
       // console.log(error.response?.data?.error)
       setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
       setLoading(false);
+      setLoadProfile(true)
     }
   }
 

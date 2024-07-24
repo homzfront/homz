@@ -15,8 +15,7 @@ function determineRoute(profile, data) {
   if (user?.isVerified && user?.accounts.length === 0) {
     return ["/select-plan"]; // Redirect to select plan for verified users with no accounts
   }
-  console.log(user)
-
+  
   let routes = [];
   if (!user) {
     return "/register"
