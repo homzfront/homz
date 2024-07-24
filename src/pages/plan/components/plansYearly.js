@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const PlansYearly = ({ data, profile }) => {
+const PlansYearly = ({ data, setLoadProfile }) => {
 
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
@@ -148,12 +148,14 @@ const PlansYearly = ({ data, profile }) => {
           setFormError(response.error || 'An error occurred.'); // Default error message
           setLoading(false);
           toast.error(response.error);
+          setLoadProfile(true)
         } // Use the specific error message from response.error
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
       setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
       setLoading(false);
+      setLoadProfile(true)
     }
 
   }

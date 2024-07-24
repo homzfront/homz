@@ -1,23 +1,23 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import Widget from "./widget";
-import Link from "next/link";
-import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
-import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
-import api from "@/utils/api";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
+import useProfileEnterpriseMeTwo from "@/store/enterpriseStore/useProfileEnterpriseMeTwo";
 
 
 const PricingPlan = () => {
   const router = useRouter();
+  const [loadProfile, setLoadProfile] = useState(false);
+  const [data, setData] = useState(null)
+  const { data: profile, loading, fetchData, triggerFetch, shouldFetch } = useProfileEnterpriseMeTwo();
 
   const goBack = () => {
     router.back();
   };
-  const [data, setData] = useState(null)
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedData = localStorage.getItem('enterData');
@@ -25,49 +25,22 @@ const PricingPlan = () => {
     }
   }, []);
 
-  const { data: profile, loading, fetchData } = useProfileEnterpriseMe();
+  useEffect(() => {
+    if (loadProfile) {
+      triggerFetch();
+    }
+  }, [loadProfile, triggerFetch]);
 
   useEffect(() => {
-    fetchData(); // Fetch profile data (likely server-side)
-
-    const handleProfileResponse = async () => {
-      const profileResponse = await api.get("/user/profile"); // Fetch profile data (client-side)
-      if ([200, 201].includes(profileResponse.status)) { // Handle expected success status codes
-        const profileData = profileResponse.data;
-        const determineUserDashboard = (profileData) => {
-          // Check if profileData is null or undefined
-          if (profileData === null || profileData === undefined) {
-            return;
-          } else {
-            // Check if profileData.user and profileData.user.accounts are defined
-            if (profileData.user && profileData.user.accounts && profileData.user.accounts.length > 0) {
-              // Check if the first account's name is "ENTERPRISE_PLAN"
-              if (profileData.user.accounts[0].name === "ENTERPRISE_PLAN") {
-                return "/dashboard/enterprise-property/dashboard";
-              }
-            }
-          }
-        };
-        const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
-        if (navigateTo) {
-          router.push(navigateTo);
+    if (shouldFetch) {
+      fetchData().then(() => {
+        if (profile) {
+          router.push('/dashboard/enterprise-property/dashboard');
         }
-      } else {
-        // console.error("Error fetching profile data:", profileResponse.statusText); 
-        // Handle errors
-      }
-    };
-
-    // Ensure client-side execution (consider using `useClient` if necessary)
-    if (typeof window !== 'undefined') {
-      handleProfileResponse();
+      });
     }
+  }, [shouldFetch, fetchData, profile, router]);
 
-    // Cleanup function (optional, in case you need to cancel requests, etc.)
-    return () => {
-      // ...cleanup tasks here
-    };
-  }, []);
 
   return (
     <div className="max-w-[1440px] w-full px-8 py-4 m-auto">
@@ -107,7 +80,7 @@ const PricingPlan = () => {
         </div>
       </div>
       <div>
-        <Widget data={data} profile={profile} />
+        <Widget data={data} setLoadProfile={setLoadProfile} />
       </div>
     </div>
   );
