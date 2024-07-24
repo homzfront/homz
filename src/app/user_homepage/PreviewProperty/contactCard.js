@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import formatNumber from "@/utils/formatNumber";
 import Image from "next/image";
+import Link from "next/link";
 
-const ContactCard = ({ contactData }) => {
+const ContactCard = ({ contactData,setOpenPropertyReq }) => {
   // console.log(contactData);
   const [showNumber, setShowNumber] = useState(false);
 
@@ -36,11 +37,18 @@ const ContactCard = ({ contactData }) => {
             />
             <span>Whatsapp</span>
           </p>
-          <button className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]">
+          <Link
+          href={`https://wa.me/${contactData?.whatsApp || ""}`}
+          target="_blank"
+
+           className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]">
             Send Message
-          </button>
+          </Link>
         </div>
-        <button className="text-white sm:w-[154px] h-[44px] bg-[#006AFF] py-[8px] px-[12px] rounded-[8px] flex items-center text-[11px] justify-center gap-1 leading-[16.5px] font-[400]">
+        <button
+          className="text-white sm:w-[154px] h-[44px] bg-[#006AFF] py-[8px] px-[12px] rounded-[8px] flex items-center text-[11px] justify-center gap-1 leading-[16.5px] font-[400]"
+          onClick={() => setOpenPropertyReq(true)}
+        >
           <Image
             src="/static/images/call.svg"
             alt=""

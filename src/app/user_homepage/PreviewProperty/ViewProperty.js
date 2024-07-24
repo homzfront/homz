@@ -23,6 +23,7 @@ import TipsFrame from "./tipsFrame";
 import PropertyRequest from "./propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import { property } from "lodash";
+import Link from "next/link";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -496,7 +497,7 @@ const ViewProperty = ({ PropertyID }) => {
                     </div>
                   </div>
 
-                  <ContactCard contactData={propertyData?.lisitingPropertyId} />
+                  <ContactCard contactData={propertyData?.lisitingPropertyId} setOpenPropertyReq={setOpenPropertyReq} />
                   <div className="w-full hidden sm:block">
                     <MiniPropertyListings
                       reset={linkToSearch}
@@ -537,9 +538,13 @@ const ViewProperty = ({ PropertyID }) => {
                       Make your property visible to over 2,000+ property seekers
                       on our platform.
                     </p>
-                    <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                    <Link 
+                    href="/dashboard/list_Property/addProperty"
+                    className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] text-center text-[14px] leading-[16.5px] font-[400]"
+                    
+                    >
                       Get Started
-                    </button>
+                    </Link>
                   </div>
                   <FeaturedCard />
                   <div className="sm:hidden flex flex-col gap-4 h-fit border rounded-[12px] p-[20px] w-[100%] bg-[#202020]">
@@ -557,9 +562,17 @@ const ViewProperty = ({ PropertyID }) => {
                       Make your property visible to over 2,000+ property seekers
                       on our platform.
                     </p>
-                    <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                    {/* <button 
+                    className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
                       Get Started
-                    </button>
+                    </button> */}
+                    <Link 
+                    href="/dashboard/list_Property/addProperty"
+                    className="text-white bg-[#006AFF] py-[8px] text-center px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                    
+                    >
+                      Get Started
+                    </Link>
                   </div>
 
                   <div className="w-full sm:hidden">
