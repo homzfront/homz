@@ -1,13 +1,14 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import Button from "./button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
 import MiniPropertyListing from "./miniPropertyListings";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Skeleton from 'react-loading-skeleton';
+import Pagination from "@/components/general/pagination";
+import PropertySkeletonLoader from "@/components/general/skeletonLoader";
 
 const PropertyCard = ({
   Property,
@@ -86,16 +87,18 @@ const PropertyCard = ({
             <>
               <div className="flex items-center justify-center w-full flex-col ">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
-                  {Property && currentProperties?.map((property, index) => (
-                    <div
-                      className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
-                      key={index}
-                    >
+                  {loading ?
+                    (
+                      <PropertySkeletonLoader count={currentProperties?.length || 6} />
+                    ) :
+                    Property && currentProperties?.map((property, index) => (
                       <div
-                        className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] "
+                        className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                        key={index}
                       >
-                        {loading ? <Skeleton height={252} count={5} />
-                          :
+                        <div
+                          className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] "
+                        >
                           <Carousel
                             slide={false}
                             theme={customTheme}
@@ -105,7 +108,7 @@ const PropertyCard = ({
                               property?.photos.map((img, index) => (
                                 <div
                                   key={index}
-                                  className="w-[100%] h-[226.33px border border-BlueHomz md:h-full md:w-full"
+                                  className="w-[100%] h-[226.33px] border border-BlueHomz md:h-full md:w-full"
                                 >
                                   <Link
                                     className="cursor-pointer "
@@ -122,108 +125,107 @@ const PropertyCard = ({
                                 </div>
                               ))}
                           </Carousel>
-                        }
-                      </div>
-                      <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
-                        <div className="flex justify-between">
-                          <p className="text-[#006AFF] w-[75%] truncate text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-start">
-                            {capitalizeFirstLetter(property?.name || property?.title)}
-                          </p>
-                          <p className={`w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
-                          >
-                            {capitalizeFirstLetter(property?.listingType)}
-                          </p>
                         </div>
-
-                        <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
-                          {capitalizeFirstLetter(property?.propertyType)}
-                        </p>
-                        <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
-                           ${property?.price ? "" : "hidden"}
-                           `}>
-                          <Image
-                            src="/static/images/nairaIcon.svg"
-                            alt=""
-                            width={17}
-                            height={25}
-                            className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
-                          />
-                          <span className="pl-1">
-                            {property?.price ? Number(property?.price).toLocaleString() : ""}
-                          </span>
-                        </p>
-                        <p className="flex gap-1 items-center">
-                          <Image
-                            src="/static/images/Location_Vector.svg"
-                            alt=""
-                            width={12}
-                            height={15.85}
-                            className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
-                          />
-                          <span className="text-[12.57px] md:text-[16px] font-[500]">
-                            {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
-                          </span>
-                        </p>
-                        <div className="h-full flex justify-between mb-2">
-                          <div className="flex  gap-4">
-                            {property?.numberOfRooms && (
-                              <p className="flex gap-1 items-center md:pt-4">
-                                <Image
-                                  src="/static/images/bed_Vector.svg"
-                                  alt=""
-                                  width={17}
-                                  height={11.9}
-                                  className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
-                                />
-                                <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                  {property?.numberOfRooms === 1 ? `${property?.numberOfRooms} bedroom` : `${property?.numberOfRooms} bedrooms`}
-                                </span>
-                              </p>
-                            )}
-                            {property?.numberOfBathrooms && (
-                              <p className="flex gap-1 items-center md:pt-4">
-                                <Image
-                                  src="/static/images/shower_Vector.svg"
-                                  alt=""
-                                  width={17}
-                                  height={11.9}
-                                  className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
-                                />
-                                <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                  {property?.numberOfBathrooms === 1 ? `${property?.numberOfBathrooms} bathroom` : `${property?.numberOfBathrooms} bathrooms`}
-                                </span>
-                              </p>
-                            )}
-                            <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
-                              <Image
-                                src="/static/images/sqrtFeet-vector.svg"
-                                alt=""
-                                width={21}
-                                height={11.86}
-                              />
-                              <span className="text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                {property?.squareMeter} Sqft
-                              </span>
+                        <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
+                          <div className="flex justify-between">
+                            <p className="text-[#006AFF] w-[75%] truncate text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-start">
+                              {capitalizeFirstLetter(property?.name || property?.title)}
+                            </p>
+                            <p className={`w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
+                            >
+                              {capitalizeFirstLetter(property?.listingType)}
                             </p>
                           </div>
-                          <Link
-                            className="cursor-pointer "
-                            href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                          >
+
+                          <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
+                            {capitalizeFirstLetter(property?.propertyType)}
+                          </p>
+                          <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
+                           ${property?.price ? "" : "hidden"}
+                           `}>
                             <Image
-                              src="/static/images/arrow-in-circle.svg"
+                              src="/static/images/nairaIcon.svg"
                               alt=""
-                              width={40}
-                              height={40}
-                              className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
+                              width={17}
+                              height={25}
+                              className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                             />
-                          </Link>
+                            <span className="pl-1">
+                              {property?.price ? Number(property?.price).toLocaleString() : ""}
+                            </span>
+                          </p>
+                          <p className="flex gap-1 items-center">
+                            <Image
+                              src="/static/images/Location_Vector.svg"
+                              alt=""
+                              width={12}
+                              height={15.85}
+                              className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
+                            />
+                            <span className="text-[12.57px] md:text-[16px] font-[500]">
+                              {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
+                            </span>
+                          </p>
+                          <div className="h-full flex justify-between mb-2">
+                            <div className="flex  gap-4">
+                              {property?.numberOfRooms && (
+                                <p className="flex gap-1 items-center md:pt-4">
+                                  <Image
+                                    src="/static/images/bed_Vector.svg"
+                                    alt=""
+                                    width={17}
+                                    height={11.9}
+                                    className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
+                                  />
+                                  <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                    {property?.numberOfRooms === 1 ? `${property?.numberOfRooms} bedroom` : `${property?.numberOfRooms} bedrooms`}
+                                  </span>
+                                </p>
+                              )}
+                              {property?.numberOfBathrooms && (
+                                <p className="flex gap-1 items-center md:pt-4">
+                                  <Image
+                                    src="/static/images/shower_Vector.svg"
+                                    alt=""
+                                    width={17}
+                                    height={11.9}
+                                    className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
+                                  />
+                                  <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                    {property?.numberOfBathrooms === 1 ? `${property?.numberOfBathrooms} bathroom` : `${property?.numberOfBathrooms} bathrooms`}
+                                  </span>
+                                </p>
+                              )}
+                              <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
+                                <Image
+                                  src="/static/images/sqrtFeet-vector.svg"
+                                  alt=""
+                                  width={21}
+                                  height={11.86}
+                                />
+                                <span className="text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
+                                  {property?.squareMeter} Sqft
+                                </span>
+                              </p>
+                            </div>
+                            <Link
+                              className="cursor-pointer "
+                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                            >
+                              <Image
+                                src="/static/images/arrow-in-circle.svg"
+                                alt=""
+                                width={40}
+                                height={40}
+                                className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
+                              />
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-                {<Button
+                {currentProperties && <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   handleNext={handleNext}

@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import SearchEstate from "./getStarted/searchEstate";
 import InviteLink from "./getStarted/InviteLink";
 import AvailableEstate from "./availableEstate/availableEstate";
-import ConfirmModal from "../components/confirmModal";
 import SentInvite from "./components/sentInvite";
 import EstateInfo from "./estateInfo/estateInfo";
 import { toast } from "react-toastify";
 import AcAndRejModelEs from "./components/acAndRejModalEs";
 import tenantProfile from "@/store/tenantStore/tenantProfile";
 import LoadingII from "@/components/mainmenu/loadingII";
-import useBodyScroll from "@/utils/useBodyScroll";
 import { sendInviteProperty } from "@/api/tenantSevice";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import Image from "next/image";
 
 const EstateInformation = () => {
   const [openEstate, setOpenEstate] = useState(false);
@@ -27,10 +27,6 @@ const EstateInformation = () => {
   useEffect(() => {
     fetchData(); // Fetch data on component mount
   }, []);
-
-
-  // useEffect to handle scrolling
-  useBodyScroll([openLinkModal, linkConfirmationModal]);
 
   const openAvailableEstate = () => {
     setOpenEstate(!openEstate);
@@ -119,30 +115,48 @@ const EstateInformation = () => {
           </div>
         </div>
       )}
-      {openLinkModal && (
-        <div>
-          <AcAndRejModelEs
-            header={"Proceed To Join Property?"}
-            body={"You’re about to join Property"}
-            button={"Yes"}
-            buttonTwo={"No"}
-            returnHomeTwo={closeLink}
-            returnHome={openLinkConfirmationModal}
-          />
-        </div>
-      )}
-      {linkConfirmationModal && (
-        <div>
-          <ConfirmModal
-            header={"Request sent"}
-            body={
-              "Your request to join Property has been sent to the property manager."
-            }
-            button={"Close"}
-            returnHome={closeLinkConfirmationModal}
-          />
-        </div>
-      )}
+      <CustomizedModal isOpen={openLinkModal}>
+        {
+          linkConfirmationModal
+            ?
+            <div className="w-full md:max-w-[464px] bg-white h-[290px] rounded-md">
+              <div className="w-full h-full flex justify-center items-center m-auto">
+                <div className="w-[464px] flex flex-col justify-around px-8  items-center gap-3">
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+                    }
+                    alt=""
+                    height={48}
+                    width={48}
+                  />
+                  <h1 className="text-BlackHomz font-[700] text-[20px]">Request sent</h1>
+                  <p className="text-[16px] font-[400] text-GrayHomz text-center">
+                    Your request to join Property has been sent to the property manager.
+                  </p>
+                  <button
+                    onClick={closeLinkConfirmationModal}
+                    className="h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[700]"
+                  >
+                    close
+                  </button>
+                </div>
+              </div>
+            </div>
+            :
+            <div>
+              <AcAndRejModelEs
+                header={"Proceed To Join Property?"}
+                body={"You’re about to join Property"}
+                button={"Yes"}
+                buttonTwo={"No"}
+                returnHomeTwo={closeLink}
+                returnHome={openLinkConfirmationModal}
+                loading={loadingii}
+              />
+            </div>
+        }
+      </CustomizedModal>
     </div>
   );
 };

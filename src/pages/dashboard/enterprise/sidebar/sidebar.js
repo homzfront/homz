@@ -210,7 +210,7 @@ const Sidebar = () => {
             {Data.map((data) => (
               data.submenu ? (
                 <>
-                  <Link
+                  <Link 
                     key={data.id}
                     href={data.link}
                     className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link

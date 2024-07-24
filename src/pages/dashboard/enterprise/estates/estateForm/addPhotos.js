@@ -67,24 +67,26 @@ const AddPhotos = ({
             />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row">
+        <div>
           <p className=" text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-red-500 font-[10px]">*</span></p>
-          <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-0">
-            <div className="w-[235px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage2}
-                handleImageUpload={handleImageUpload2}
-                uploadedImage={uploadedImage2}
-                file={"photos"}
-              />
-            </div>
-            <div className="w-[235px] flex justify-start">
-              <ImageUpload
-                onImageRemove={setUploadedImage3}
-                handleImageUpload={handleImageUpload3}
-                uploadedImage={uploadedImage3}
-                file={"photos"}
-              />
+          <div className="flex flex-col md:flex-row">
+            <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-0">
+              <div className="w-[235px] flex justify-start">
+                <ImageUpload
+                  onImageRemove={setUploadedImage2}
+                  handleImageUpload={handleImageUpload2}
+                  uploadedImage={uploadedImage2}
+                  file={"photos"}
+                />
+              </div>
+              <div className="w-[235px] flex justify-start">
+                <ImageUpload
+                  onImageRemove={setUploadedImage3}
+                  handleImageUpload={handleImageUpload3}
+                  uploadedImage={uploadedImage3}
+                  file={"photos"}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const ManageProperty = () => {
   const [formError, setFormError] = useState("");
@@ -42,9 +43,9 @@ const ManageProperty = () => {
     ) {
       setLoading(false);
       return setFormError("Fill in all required fields");
-      
+
     }
-    
+
     setLoading(true);
     // Prepare data to be sent
     const requestData = {
@@ -77,35 +78,32 @@ const ManageProperty = () => {
     }
   }
 
-  // useEffect to handle scrolling
-  useBodyScroll([isSubmitConfirmationVisible]);
+ 
 
   return (
-    <div className="pt-[64px] relative">
-      {isSubmitConfirmationVisible && (
-        <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <div className="bg-white p-8 rounded-md">
-            <Image
-              className="m-auto my-2"
-              src={"/Featured icon.png"}
-              height={48}
-              width={48}
-              alt="img"
-            />
-            <p className="text-center text-[24px] font-[700] text-BlackHomz mb-4">
-              Account Created
-            </p>
-            <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
-              Your account has been successfully created.
-            </p>
-            <Link href="/dashboard/property-owner/dashboard">
-              <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
-                Go to Dashboard
-              </button>
-            </Link>
-          </div>
+    <div className="pt-[100px] md:pt-[64px] relative">
+      <CustomizedModal isOpen={isSubmitConfirmationVisible}>
+        <div className="bg-white p-8 rounded-md">
+          <Image
+            className="m-auto my-2"
+            src={"/Featured icon.png"}
+            height={48}
+            width={48}
+            alt="img"
+          />
+          <p className="text-center text-[24px] font-[700] text-BlackHomz mb-4">
+            Account Created
+          </p>
+          <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
+            Your account has been successfully created.
+          </p>
+          <Link href="/dashboard/property-owner/dashboard">
+            <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
+              Go to Dashboard
+            </button>
+          </Link>
         </div>
-      )}
+      </CustomizedModal>
       <div className="max-w-[1156px] m-auto flex flex-col sm:gap-[70px]">
         <div className="sm:h-[29px] sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse  sm:items-center px-8 justify-between">
           <div>

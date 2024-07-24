@@ -517,7 +517,7 @@ const PropertyInfo = ({ handlePropertyInfo }) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between mt-8 ">
+          <div className="flex gap-2 md:gap-0 md:justify-between mt-8 ">
             <div>
               <button
                 className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz md:w-full "

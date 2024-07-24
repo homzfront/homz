@@ -4,7 +4,7 @@ import React from "react";
 const SentInvite = () => {
   return (
     <div className="absolute top-0 z-20 h-full w-full inset-0 px-8 py-10">
-      <div className="w-[800px] h-[140px] bg-BlueHomz p-8 flex items-start gap-4 rounded-[12px]">
+      <div className="md:w-[800px] md:h-[140px] bg-BlueHomz p-8 flex items-start gap-4 rounded-[12px]">
         <Image
           src={"/static/dashboard/tenant/estateInfo/Frame022.png"}
           alt=""

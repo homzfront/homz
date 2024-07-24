@@ -7,9 +7,9 @@ import Maintenance from "../components/maintenanceCard";
 import Image from "next/image";
 import Link from "next/link";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
-import useEstateForOneStore from "@/store/useEstateForOne";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
+import { useEstateForOneStore } from "@/store/useEstateForOne";
 
 const Dashboard = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
