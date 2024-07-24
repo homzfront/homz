@@ -37,7 +37,7 @@ function PopUpMenuTwo({
           </div>
         }
       </Link>
-      <Link
+      {/* <Link
         href={`/dashboard/enterprise-property/tenants/reminder`}
         onMouseEnter={() => setActiveTwo(true)}
         onMouseLeave={() => setActiveTwo(false)} >
@@ -51,7 +51,7 @@ function PopUpMenuTwo({
             Set rent due reminder
           </div>
         }
-      </Link>
+      </Link> */}
       <Link
         href={`/dashboard/enterprise-property/tenants/access-records`}
         onMouseEnter={() => setActiveThree(true)}

@@ -56,7 +56,7 @@ const ReminderMultiple = () => {
         </div>
       </CustomizeModal>
       <div className="p-8 border-b flex flex-col gap-4">
-        <Link href="/dashboard/enterprise-property/tenants">
+        <Link href="/dashboard/enterprise-property/estates">
           <button className="flex items-center gap-1">
             <ArrowLeftII />
             <span className=" text-gray-400 text-[14px]">Go Back</span>

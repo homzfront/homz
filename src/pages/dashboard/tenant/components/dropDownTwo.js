@@ -25,7 +25,7 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
         onClick={handleDropdownToggle}
       >
         <div className="flex items-center justify-between">
-          <span className={`mr-2 ${selectOption ? "text-GrayHomz2" : "text-BlackHomz"}`}>{selectedOption?.label || selectOption }</span>
+          <span className={`truncate mr-2 ${selectOption ? "text-GrayHomz2" : "text-BlackHomz"}`}>{selectedOption?.label || selectOption }</span>
           <div className={`w-5 h-5 ${isOpen ? "transform rotate-180" : ""}`}>
             <Image src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png" height={16} width={16} alt="" />
           </div>

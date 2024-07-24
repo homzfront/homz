@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import WalletBalance from "./components/walletBalance/walletBalance";
 import TransferHis from "./components/transferHis/transferHis";
-import Withdraw from "./components/withdraw/withdraw";
 import Activities from "./components/activities/ativities";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UseWalletStore from "@/store/tenantStore/useWalletStore";
-import rentInfoTeant from "@/store/rentInfoTenant";
-import tenantRentHis from "@/store/tenantStore/tenantRentHis";
 
-const Wallet = ({ activeTwo }) => {
-  const [loading, setLoading] = useState(false);
-  // const { data, fetchData: fetchRentInfo } = tenantRentHis();
+const Wallet = () => {
   const { rentHis, illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, rentData, walletActivities } = UseWalletStore();
 
   useEffect(() => {
@@ -44,9 +39,7 @@ const Wallet = ({ activeTwo }) => {
               illuminateWallet={illuminateWallet}
               fetchDataAgain={fetchDataAgain}
               walletPin={walletPin}
-              activeTwo={activeTwo}
               walletBalance={walletBalance}
-              loading={loading}
               showKYC={showKYC}
               rentData={rentData}
             />

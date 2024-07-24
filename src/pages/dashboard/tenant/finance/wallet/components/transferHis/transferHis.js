@@ -27,7 +27,7 @@ const TransferHis = ({ illuminateWallet, data }) => {
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptdata] = useState({});
-  
+
   const openReceipt = () => {
     setShowReceipt(!showReceipt);
     setPopUpMenuTwo(false);
@@ -61,11 +61,11 @@ const TransferHis = ({ illuminateWallet, data }) => {
       {receipt && <ShareAbleReceipt />}
       {showReceipt && (
         <div>
-          <ReceiptRentHis closeReceipt={closeReceipt} shareReceipt={shareReceipt} rentData={receiptData}/>
+          <ReceiptRentHis closeReceipt={closeReceipt} shareReceipt={shareReceipt} rentData={receiptData} />
         </div>
       )}
 
-      <div className="py-8 border rounded-[12px] h-[700px] w-full">
+      <div className="py-8 border rounded-[12px] h-[700px] w-full overflow-auto scrollbar-container">
         <div className="px-8 pb-4">
           <div className="flex items-center gap-2">
             {illuminateWallet ? (
@@ -84,17 +84,15 @@ const TransferHis = ({ illuminateWallet, data }) => {
               />
             )}
             <p
-              className={`text-[14px] font-[500]  ${
-                illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
-              } `}
+              className={`text-[14px] font-[500]  ${illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
+                } `}
             >
               Rent History
             </p>
           </div>
           <p
-            className={`mt-1 text-[13px] font-[400]  ${
-              illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
-            }`}
+            className={`mt-1 text-[13px] font-[400]  ${illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+              }`}
           >
             All rent payments are displayed here
           </p>
@@ -131,22 +129,16 @@ const TransferHis = ({ illuminateWallet, data }) => {
                       className={`text-GrayHomz py-[15px] font-[500] text-[11px] `}
                     >
                       <p
-                        className={`w-[73px] h-[25px] flex justify-center items-center rounded-[8px] ${
-                          data?.rentInfo?.paymentStatus ===  lowerCaseData("Paid")
-                            ? "bg-successBg text-Success "
-                            : ""
-                        } ${
-                          data?.rentInfo?.paymentStatus === lowerCaseData("Pending")
-                            ? "bg-warningBg text-warning "
-                            : ""
-                        } `}
+                        className={`w-[73px] h-[25px] flex justify-center items-center rounded-[8px] bg-successBg text-Success`}
                       >
-                        {data?.rentInfo?.paymentStatus}
+                        {data?.status}
                       </p>
                     </td>
                     <td className="relative py-[15px] pr-2">
-                      <button onClick={() => {handleToggleMenu(data._id)
-                      setReceiptdata(data)}}>
+                      <button onClick={() => {
+                        handleToggleMenu(data._id)
+                        setReceiptdata(data)
+                      }}>
                         <Image
                           src={
                             "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"

@@ -46,9 +46,8 @@ const TopUPModal = ({ closeTopUpModal }) => {
     };
 
 
-
     return (
-        <div className="fixed top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30 px-4 md:px-0">
+        <div className="">
             <div className="h-auto w-full md:w-[530px] bg-white rounded-lg p-8">
                 <div
                     onClick={closeTopUpModal}

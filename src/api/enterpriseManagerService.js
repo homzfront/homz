@@ -133,6 +133,15 @@ export const enterpriseWalletActivities = async () => {
   }
 };
 
+export const ReceiptEnterpriseToOwner = async (id) => {
+  try {
+    const response = await api.get(`/wallet/transfer/enterprise/property-owner/receipt/${id}`);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    return { success: false, error }; 
+  }
+}
+
 export const sendMoneyEnterpriseToOwner = async (details) => {
   const {
     pincode,

@@ -4,32 +4,19 @@ import addYearsToValues from "@/utils/addYearsToNumber";
 import handleCopyClick from "@/utils/handleCopyClick";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas"; // For converting HTML to canvas
+import React, { useEffect, useRef, useState } from "react";
+import PrintableReceiptII from "./printableReceiptII";
+import { useReactToPrint } from "react-to-print";
 
 const ReceiptRentHis = ({ closeReceipt, rentData }) => {
-  const [copiedState, setCopiedState] = useState({
-    copied: false,
+  const [copiedState, setCopiedState] = useState({ copied: false });
+  const printableRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: "Homz Receipt",
+    onAfterPrint: () => console.log("Receipt printed."),
   });
-
-  const downloadPDF = () => {
-    const input = document.getElementById("receipt-content");
-
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4"); // Create new PDF with portrait orientation
-      pdf.addImage(
-        imgData,
-        "PNG",
-        0,
-        0,
-        pdf.internal.pageSize.getWidth(),
-        pdf.internal.pageSize.getHeight()
-      );
-      pdf.save("Homz-Rent-Receipt.pdf"); // Download PDF with filename 'receipt.pdf'
-    });
-  };
 
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
@@ -189,9 +176,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
           </div>
           <button
-            onClick={() => {
-              downloadPDF();
-            }}
+            onClick={handlePrint}
             className={`w-full h-[48px] bg-BlueHomz rounded-md text-white `}
           >
             Share Receipt
@@ -239,6 +224,12 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
         <p className="m-4 text-[11px] font-[400] text-GrayHomz text-center">
           Copyright 2024 Homz.ng. All Rights Reserved
         </p>
+      </div>
+      <div style={{ display: 'none' }}>
+        <PrintableReceiptII
+          ref={printableRef}
+          rentData={rentData}
+        />
       </div>
     </div>
   );

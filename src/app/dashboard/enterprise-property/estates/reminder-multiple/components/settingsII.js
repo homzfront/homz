@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import CustomizeSettingsII from './customizeSettingsII';
+import Print from '@/components/icons/print';
 
-const SettingsII = ({data}) => {
+const SettingsII = ({ data }) => {
     const [modalCustom, setModalCustom] = useState(false);
     const [customizeSettings, setCustomizeSettings] = useState(false);
 
@@ -38,11 +39,11 @@ const SettingsII = ({data}) => {
             {
                 customizeSettings ?
                     <div>
-                        <CustomizeSettingsII setCustomizeSettings={setCustomizeSettings}  data={data}/>
+                        <CustomizeSettingsII setCustomizeSettings={setCustomizeSettings} data={data} />
                     </div>
                     :
                     <div>
-                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                        {/* <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
                             <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     Time
@@ -58,7 +59,7 @@ const SettingsII = ({data}) => {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
                             <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
@@ -110,6 +111,15 @@ const SettingsII = ({data}) => {
                                     <p className='text-[14px] font-[400] text-justify'>
                                         {data?.emailText}
                                     </p>
+                                </div>
+                                <div className='flex justify-between w-full'>
+                                    <div className='text-GrayHomz font-[400] text-[13px]'>
+                                        Send copy to: Landlord
+                                    </div>
+                                    <div className='flex items-center gap-1 text-BlueHomz font-[400] text-[14px]'>
+                                        <Print />
+                                        Print copy
+                                    </div>
                                 </div>
                             </div>
                         </div>

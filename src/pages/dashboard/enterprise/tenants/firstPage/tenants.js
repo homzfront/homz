@@ -162,7 +162,7 @@ const Tenants = () => {
                   >
                     <AddBigBlue />
                   </button>
-                  <Link
+                  {/* <Link
                     href={`${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminder-multiple" : "#"
                       }`}>
                     <button
@@ -176,7 +176,7 @@ const Tenants = () => {
                     >
                       <ReminderWhite />
                     </button>
-                  </Link>
+                  </Link> */}
                 </div>
                 <div className="hidden md:flex items-center gap-2">
                   <p className="text-[16px] font-[400] text-BlackHomz ">
@@ -227,7 +227,7 @@ const Tenants = () => {
                     </button>
                   </div>
                 </div>
-                <Link
+                {/* <Link
                   href={` ${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminder-multiple" : "#"
                     }`}>
                   <button
@@ -242,7 +242,7 @@ const Tenants = () => {
                     <ReminderWhite />
                     Set due date reminder
                   </button>
-                </Link>
+                </Link> */}
                 <div className="mt-4 flex justify-between md:hidden w-full">
                   <div className="relative w-[86%] rounded-[4px]">
                     <input

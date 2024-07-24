@@ -1,50 +1,37 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import Input from "../../components/input";
+import React, { useEffect, useState } from "react";
 import Dropdown from "../../components/dropDown";
-import AcAndRejModel from "../../../components/acAndRejModel";
+import AcAndRejModel from "../../components/acAndRejModel";
 import ReceiptModal from "../../components/receiptModal";
 import Receipt from "../../components/receipt";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
-import ShareAbleReceipt from "../../components/shareAbleReceipt";
-import useBodyScroll from "@/utils/useBodyScroll";
-import { enterpriseMePropertyOwner, sendMoneyEnterpriseToOwner } from "@/api/enterpriseManagerService";
-import Loading from "@/components/mainmenu/loading";
+import { enterpriseMePropertyOwner, ReceiptEnterpriseToOwner, sendMoneyEnterpriseToOwner } from "@/api/enterpriseManagerService";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import addCommasToNumber from "@/utils/addCommasToNumber";
-import { toast } from "react-toastify";
 import Eye from "@/components/icons/Eye";
 import BashedEye from "@/components/icons/BashedEye";
-import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import ConfirmModal from "../../../components/confirmModal";
 
 const TransferDetails = ({
   illuminateWallet,
-  setIlluminateWallet,
   fetchDataAgain,
 }) => {
-  // console.log(illuminateWallet);
   const [username, setUsername] = useState('')
   const [pincode, setPincode] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [transfer, setTransfer] = useState([]);
   const [transferToggleModal, setTransferToggleModal] = useState(false);
   const [successfulTansferModal, setSuccessfulTansferModal] = useState(false);
   const [receipt, setReceipt] = useState(false);
-  const [shareAbleReceipt, setShareAbleReceipt] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [landlords, setLandlords] = useState([]);
   const [selectedLandlord, setSelectedLandlord] = useState(null)
   const [error, setError] = useState('')
-  const { data, fetchData } = useProfileEnterpriseMe();
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  // console.log(data);
+  const [receiptData, setReceiptData] = useState(null);
+  const [id, setId] = useState(null);
+  const [transfer, setTransfer] = useState([]);
+  const [showPending, setShowPending] = useState(false);
 
   const Visible = () => {
     setVisible(!visible);
@@ -60,8 +47,17 @@ const TransferDetails = ({
     fetchData();
   }, []);
 
-  // useEffect to handle scrolling
-  useBodyScroll([receipt, successfulTansferModal, transferToggleModal]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await ReceiptEnterpriseToOwner(id);
+        setReceiptData(data?.upDateddata?.data?.data);
+      } catch { }
+    };
+    fetchData();
+  }, [successfulTansferModal])
+
 
   const showTransferConfirmation = () => {
     setTransferToggleModal(!transferToggleModal);
@@ -71,14 +67,18 @@ const TransferDetails = ({
     setSuccessfulTansferModal(false);
   };
 
-
-
   const handleSelect = (option) => {
     setSelectedLandlord(option);
   };
+
   const showReceipt = () => {
-    setReceipt(!receipt);
-    setSuccessfulTansferModal(false);
+    if (receiptData?.status === 'pending') {
+      setShowPending(!showPending);
+      setSuccessfulTansferModal(false)
+    } else {
+      setReceipt(!receipt);
+      setSuccessfulTansferModal(false)
+    }
   };
 
   const closeReceipt = () => {
@@ -86,11 +86,9 @@ const TransferDetails = ({
   };
   const options = landlords
 
-
   const handleSend = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // You can now access the form data here
     const formData = {
       pincode,
       recipientName: selectedLandlord?.fullName,
@@ -102,23 +100,17 @@ const TransferDetails = ({
       const { success, upDateddata, error } = await sendMoneyEnterpriseToOwner(
         formData
       );
+      setTransfer(formData);
       if (success) {
         setLoading(false);
-        if (typeof window !== "undefined") {
-          localStorage.setItem(
-            "MoneyTransfer Response",
-            JSON.stringify(upDateddata, formData)
-          );
-        }
-        setTransfer(formData);
         setDescription("");
         setPincode("")
         setAmount("");
         setTransferToggleModal(false);
         setSelectedLandlord(null);
         setSuccessfulTansferModal(!successfulTansferModal);
-        // toast.success("transfer successful");
         fetchDataAgain()
+        setId(upDateddata?.data?.data?._id)
       } else {
         setLoading(false);
         setTransferToggleModal(false)
@@ -157,87 +149,55 @@ const TransferDetails = ({
       }
     }
     finally {
-      // This part will execute after try or catch block completes
       setTimeout(() => {
-        // setIlluminateWallet(true);
-      }, 2000); // 2000 milliseconds = 2 seconds delay
+      }, 2000);
     }
-  };
-
-  const receiptRef = useRef(null);
-
-  // console.log(transfer);
-
-  const openShareAbleReceipt = () => {
-    // setShareAbleReceipt((prevShareAbleReceipt) => {
-    //   // Toggle shareAbleReceipt
-    //   const newShareAbleReceipt = !prevShareAbleReceipt;
-
-    //   // Set Receipt to false
-    //   setReceipt(false);
-
-    //   // Return the new value for shareAbleReceipt
-    //   return newShareAbleReceipt;
-    // });
-  };
-
-  const closeShareAbleReceipt = () => {
-    setShareAbleReceipt(false);
   };
 
   return (
     <div>
-      <div>
-        {shareAbleReceipt && (
-          <ShareAbleReceipt closeShareAbleReceipt={closeShareAbleReceipt} />
-        )}
-        {receipt && (
-          <div>
-            <Receipt
-              closeReceipt={closeReceipt}
-              openShareAbleReceipt={openShareAbleReceipt}
-              transfer={transfer}
-              setIlluminateWallet={setIlluminateWallet}
-              fetchDataAgain={fetchDataAgain}
-              data={data}
-            />
-          </div>
-        )}
-      </div>
-      <div>
-        {successfulTansferModal && (
-          <div>
-            <ReceiptModal
-              body={`You have successfully sent ${addCommasToNumber(
-                transfer?.amount
-              )} to ${transfer?.recipientName}.`}
-              header={"Transaction Complete"}
-              button={"View Reciept"}
-              buttonTwo={"Close"}
-              returnHomeTwo={cancelTranser}
-              returnHome={showReceipt}
-            />
-          </div>
-        )}
-      </div>
-      <div>
-        {transferToggleModal && (
-          <div>
-            {loading && <Loading />}
-            <AcAndRejModel
-              header={"Confirm Transaction"}
-              body={`You’re sending ${addCommasToNumber(
-                amount
-              )} to ${selectedLandlord?.fullName}`}
-              button={"Yes, Send"}
-              buttonTwo={"Cancel Transaction"}
-              returnHome={handleSend}
-              returnHomeTwo={cancelTranser}
-            />
-          </div>
-        )}
-      </div>
-
+      <CustomizedModal isOpen={receipt}>
+        <Receipt
+          closeReceipt={closeReceipt}
+          data={receiptData}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={successfulTansferModal}>
+        <ReceiptModal
+          body={`You have successfully sent ${addCommasToNumber(
+            transfer?.amount
+          )} to ${transfer?.recipientName}.`}
+          header={"Transaction Complete"}
+          button={"View Reciept"}
+          buttonTwo={"Close"}
+          returnHomeTwo={cancelTranser}
+          returnHome={showReceipt}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={showPending}>
+        <ConfirmModal
+          header={"Processing receipt"}
+          button={"Close"}
+          returnHome={() => {
+            setShowPending(false)
+            setTransferToggleModal(false);
+            setSuccessfulTansferModal(false);
+          }}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={transferToggleModal}>
+        <AcAndRejModel
+          header={"Confirm Transaction"}
+          body={`You’re sending ${addCommasToNumber(
+            amount
+          )} to ${selectedLandlord?.fullName}`}
+          button={"Yes, Send"}
+          buttonTwo={"Cancel Transaction"}
+          returnHome={handleSend}
+          returnHomeTwo={cancelTranser}
+          loading={loading}
+        />
+      </CustomizedModal>
       <div className="p-5 border rounded-[12px] h-auto w-[100%]  flex flex-col gap-6">
         <div className="flex items-center">
           <div className="flex items-center gap-2">
@@ -339,11 +299,11 @@ const TransferDetails = ({
               </div>
               <input
                 type="text"
-                name="username" // Ensure a name attribute for password managers
+                name="username"
                 autocomplete="username"
                 value={username}
                 className="hidden"
-                hidden // Hide visually but still accessible to screen readers
+                hidden
               />
               <input
                 className={`w-full border rounded-md p-3 h-[45px] bg-inputBg placeholder:text-GrayHomz5 placeholder:text-[13px] placeholder:font-[500]`}

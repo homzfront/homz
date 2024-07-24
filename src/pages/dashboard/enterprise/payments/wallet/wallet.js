@@ -37,7 +37,6 @@ const Wallet = () => {
           <div className="mt-6">
             <TransferDetails
               illuminateWallet={illuminateWallet}
-              setIlluminateWallet={null}
               fetchDataAgain={fetchDataAgain}
             />
           </div>

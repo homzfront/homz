@@ -3,11 +3,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import RentInformation from "../../../components/rentInformation";
 import PopUpWalletCreationForm from "../../../components/popUpWalletCreationForm";
-import useBodyScroll from "@/utils/useBodyScroll";
-import AccountInfo from "../../../components/accountInfo";
-import { tenantRentInfo } from "@/api/tenantSevice";
 import addCommasToNumber from "@/utils/addCommasToNumber";
-import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Link from "next/link";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
@@ -16,22 +13,18 @@ import AddWallet from "@/components/icons/addWallet";
 
 
 const WalletBalance = ({
-  activeTwo,
   illuminateWallet,
   walletPin,
   fetchDataAgain,
   walletBalance,
-  loading,
   showKYC,
   rentData,
 }) => {
-  const [data, setData] = useState("");
   const [rent, setRent] = useState(false);
   const [topUP, setTopUP] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [accountInfo, setAccountInfo] = useState(false);
   const dropdownRef = useClickOutside(() => setAccountInfo(false));
-  const [loadingII, setLoadingII] = useState(false);
   const [showPayrent, setShowPayrent] = useState(false);
 
   const openWalletForm = () => {
@@ -42,14 +35,8 @@ const WalletBalance = ({
     setOpenForm(false);
   };
 
-  // useBodyScroll([openForm, rent, accountInfo, topUP]);
-
   const openAccountInfo = () => {
     setAccountInfo(!accountInfo);
-  };
-
-  const closeAccountInfo = () => {
-    setAccountInfo(false);
   };
 
   const payRent = () => {
@@ -65,13 +52,6 @@ const WalletBalance = ({
   }
 
   useEffect(() => {
-    const savedData = localStorage.getItem("Data");
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    }
-  }, [activeTwo]);
-
-  useEffect(() => {
     if (rentData) {
       if (rentData?.message === "rent information not found") {
         setShowPayrent(false);
@@ -83,25 +63,25 @@ const WalletBalance = ({
 
   return (
     <div className="">
-      {openForm && (
+      <CustomizedModal isOpen={openForm}>
         <PopUpWalletCreationForm
           closeForm={closeForm}
           setOpenForm={setOpenForm}
           fetchDataAgain={fetchDataAgain}
         />
-      )}
-      {rent && (
+      </CustomizedModal>
+      <CustomizedModal isOpen={rent}>
         <RentInformation
           fetchDataAgain={fetchDataAgain}
           closeRentPay={closeRentPay}
           rentData={rentData}
         />
-      )}
-      {topUP && (
+      </CustomizedModal>
+      <CustomizedModal isOpen={topUP}>
         <TopUPModal
           closeTopUpModal={closeTopUpModal}
         />
-      )}
+      </CustomizedModal>
       {accountInfo &&
         <div
           className="fixed px-8 md:px-0 inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
@@ -184,8 +164,7 @@ const WalletBalance = ({
         </div>
         <div className="flex items-center justify-between pr-4">
           <div
-            className={`w-[65%] text-[18px] font-[400] px-5 pb-3 md:pb-0 text-white flex flex-col md:flex-row md:items-center md:justify-start ${loading ? "" : ""
-              } ${illuminateWallet ? "" : "hidden"
+            className={`w-[65%] text-[18px] font-[400] px-5 pb-3 md:pb-0 text-white flex flex-col md:flex-row md:items-center md:justify-start ${illuminateWallet ? "" : "hidden"
               }`}
           >
             <p

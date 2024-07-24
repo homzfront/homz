@@ -279,6 +279,16 @@ export const payRent = async (pincode, duration) => {
   }
 };
 
+
+export const ReceiptTenant = async (id) => {
+  try {
+    const response = await api.get(`/wallet/transfer/tenant/pay-rent/receipt/${id}`);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    return { success: false, error }; 
+  }
+}
+
 export const getRentHis = async () => {
   try {
     const response = await api.get(`/rentPayment/tenant`);
