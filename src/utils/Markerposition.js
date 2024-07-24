@@ -9,7 +9,7 @@ export default function Markerposition( prop ) {
 
   useEffect(() => {
     map.flyTo(position, 13, {
-      animate: false,
+      animate: true,
     })
   }, [map, position])
 
