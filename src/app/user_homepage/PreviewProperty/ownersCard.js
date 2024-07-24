@@ -14,21 +14,12 @@ const OwnersCard = ({ propertyData }) => {
   const [showNumber, setShowNumber] = useState(false);
   let marketerId = 222222;
   //   console.log(propertyData)
-  const handleCopyClick = async (text, identifier) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
-      setTimeout(
-        () =>
-          setCopiedState((prevState) => ({
-            ...prevState,
-            [identifier]: false,
-          })),
-        2000
-      );
-    } catch (error) {
-      // console.error("Unable to copy to clipboard:", error);
+
+  const whatsApp = (number) => {
+    if (number.startsWith("0")) {
+      number = number.substring(1);
     }
+    window.open(`https://wa.me/${number}`);
   };
 
   return (
@@ -122,13 +113,19 @@ const OwnersCard = ({ propertyData }) => {
             />
             <span>Whatsapp</span>
           </p>
-          <Link
-          href={`https://wa.me/${propertyData?.contacts?.whatsApp || ""}`}
-          target="_blank"
-
-           className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]">
+          {/* <Link
+            href={`https://wa.me/${propertyData?.contacts?.whatsApp || ""}`}
+            target="_blank"
+            className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+          >
             Send Message
-          </Link>
+          </Link> */}
+          <button
+            onClick={() => whatsApp(propertyData?.contacts?.whatsApp || "")}
+            className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+          >
+            Send Message
+          </button>
         </div>
 
         {/* {propertyData?.contacts?.whatsapp

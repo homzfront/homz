@@ -3,9 +3,15 @@ import formatNumber from "@/utils/formatNumber";
 import Image from "next/image";
 import Link from "next/link";
 
-const ContactCard = ({ contactData,setOpenPropertyReq }) => {
+const ContactCard = ({ contactData, setOpenPropertyReq }) => {
   // console.log(contactData);
   const [showNumber, setShowNumber] = useState(false);
+  const whatsApp = (number) => {
+    if (number.startsWith("0")) {
+      number = number.substring(1);
+    }
+    window.open(`https://wa.me/${number}`);
+  };
 
   return (
     <div className="py-[32px] mt-5 px-[16px] flex flex-col gap-[12px] rounded-[8px] text-white bg-[#202020]">
@@ -37,13 +43,12 @@ const ContactCard = ({ contactData,setOpenPropertyReq }) => {
             />
             <span>Whatsapp</span>
           </p>
-          <Link
-          href={`https://wa.me/${contactData?.whatsApp || ""}`}
-          target="_blank"
-
-           className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]">
+          <button
+            onClick={() => whatsApp(contactData?.whatsApp || "")}
+            className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+          >
             Send Message
-          </Link>
+          </button>
         </div>
         <button
           className="text-white sm:w-[154px] h-[44px] bg-[#006AFF] py-[8px] px-[12px] rounded-[8px] flex items-center text-[11px] justify-center gap-1 leading-[16.5px] font-[400]"
