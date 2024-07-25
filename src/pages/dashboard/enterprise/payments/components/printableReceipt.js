@@ -23,12 +23,14 @@ const PrintableReceipt = React.forwardRef(({ data }, ref) => (
               width={64}
               className="rounded-full"
             />
-          ) : <Image
-            src={"/static/dashboard/enterprisemanager/payment/BWFrame.png"}
-            alt=""
-            height={64}
-            width={64}
-          />}
+          ) : (
+            <Image
+              src={"/static/dashboard/enterprisemanager/payment/BWFrame.png"}
+              alt=""
+              height={64}
+              width={64}
+            />
+          )}
           <p className="text-GrayHomz text-[18px] font-[500]">
             {data?.enterprise?.businessName}
           </p>
@@ -112,10 +114,14 @@ const PrintableReceipt = React.forwardRef(({ data }, ref) => (
             </p>
           </div>
         </div>
-        <p className="text-[11px] font-[400] text-GrayHomz text-center w-full">&copy; Copyright  2024  Homz.ng. All Rights Reserved</p>
+        <p className="text-[11px] font-[400] text-GrayHomz text-center w-full">
+          &copy; Copyright 2024 Homz.ng. All Rights Reserved
+        </p>
       </div>
     </div>
   </div>
 ));
+
+PrintableReceipt.displayName = "PrintableReceipt";
 
 export default PrintableReceipt;
