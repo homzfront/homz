@@ -8,7 +8,7 @@ import PhoneReceipt from "@/components/icons/phoneReceipt";
 import AddressReceipt from "@/components/icons/addressReceipt";
 import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
 
-const PrintableReceiptII = React.forwardRef(({ rentData }, ref) => (
+const PrintableReceiptII = React.forwardRef(({ rentData, tenantData }, ref) => (
   <div
     ref={ref}
     className="flex justify-center items-center h-screen bg-GrayHomz"
@@ -74,12 +74,20 @@ const PrintableReceiptII = React.forwardRef(({ rentData }, ref) => (
             </p>
           </div>
           <div className="w-full flex gap-4">
-          <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Tenancy Duration
-              </p>
-              <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {changeBackendDateFormatII(rentData?.startDate)} - {changeBackendDateFormatII(rentData?.dueDate)}
-              </p>
+            <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
+              Tenant
+            </p>
+            <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
+              {tenantData?.data?.tenantId.fullName}
+            </p>
+          </div>
+          <div className="w-full flex gap-4">
+            <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
+              Tenancy Period
+            </p>
+            <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
+              {changeBackendDateFormatII(rentData?.startDate)} - {changeBackendDateFormatII(rentData?.dueDate)}
+            </p>
           </div>
           <div className="w-full flex gap-4">
             <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
@@ -91,10 +99,10 @@ const PrintableReceiptII = React.forwardRef(({ rentData }, ref) => (
           </div>
           <div className="w-full flex gap-4">
             <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-              Property
+              Property Address
             </p>
             <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-              {rentData?.estateId?.name}
+              {tenantData?.data?.estateId?.address}
             </p>
           </div>
           <div className="w-full flex gap-4">
@@ -103,14 +111,6 @@ const PrintableReceiptII = React.forwardRef(({ rentData }, ref) => (
             </p>
             <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
               {rentData?.propertyType}
-            </p>
-          </div>
-          <div className="w-full flex gap-4">
-            <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-              Property Manager
-            </p>
-            <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-              {rentData?.enterPrise?.fullName}
             </p>
           </div>
         </div>
@@ -165,5 +165,7 @@ const PrintableReceiptII = React.forwardRef(({ rentData }, ref) => (
     </div>
   </div>
 ));
+
+PrintableReceiptII.displayName = "PrintableReceiptII";
 
 export default PrintableReceiptII;

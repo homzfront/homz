@@ -52,7 +52,7 @@ const Wallet = () => {
           </div>
         </div>
         <div className="w-full md:w-[50%]">
-          <TransferHis illuminateWallet={illuminateWallet} data={rentHis} />
+          <TransferHis illuminateWallet={illuminateWallet} data={rentHis} tenantData={rentData} />
         </div>
       </div>
     </div>

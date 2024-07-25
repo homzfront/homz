@@ -12,7 +12,7 @@ import PhoneReceipt from "@/components/icons/phoneReceipt";
 import AddressReceipt from "@/components/icons/addressReceipt";
 import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
 
-const ReceiptRentHis = ({ closeReceipt, rentData }) => {
+const ReceiptRentHis = ({ closeReceipt, rentData, tenantData }) => {
   const [copiedState, setCopiedState] = useState({ copied: false });
   const printableRef = useRef();
 
@@ -21,8 +21,6 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
     documentTitle: "Homz Receipt",
     onAfterPrint: () => console.log("Receipt printed."),
   });
-
-  console.log(rentData)
 
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
@@ -103,7 +101,15 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Tenancy Duration
+                Tenant
+              </p>
+              <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
+                {tenantData?.data?.tenantId.fullName}
+              </p>
+            </div>
+            <div className="w-full flex gap-4">
+              <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
+                Tenancy Period
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
                 {changeBackendDateFormatII(rentData?.startDate)} - {changeBackendDateFormatII(rentData?.dueDate)}
@@ -119,10 +125,10 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Property
+                Property Address
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {rentData?.estateId?.name}
+                {tenantData?.data?.estateId?.address}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -131,14 +137,6 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
                 {rentData?.propertyType}
-              </p>
-            </div>
-            <div className="w-full flex gap-4">
-              <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Property Manager
-              </p>
-              <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {rentData?.enterPrise?.fullName}
               </p>
             </div>
           </div>
@@ -220,6 +218,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
         <PrintableReceiptII
           ref={printableRef}
           rentData={rentData}
+          tenantData={tenantData}
         />
       </div>
     </div>

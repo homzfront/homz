@@ -1,28 +1,16 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import Input from "../../../components/input";
-import Dropdown from "../../../components/dropDown";
-import AcAndRejModel from "../../../../components/acAndRejModel";
-import ReceiptModal from "../../../components/receiptModal";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
-import ShareAbleReceipt from "../../../components/shareAbleReceipt";
+import React, { useState } from "react";
 import PopUpReceipt from "../../../components/popUpReceipt";
 import useBodyScroll from "@/utils/useBodyScroll";
-import tenantRentHis from "@/store/tenantStore/tenantRentHis";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
-import lowerCaseData from "@/utils/lowerCaseData";
 import ReceiptRentHis from "../../../components/receiptRentHis";
 import useClickOutside from "@/utils/clickOutside";
 
 
-const TransferHis = ({ illuminateWallet, data }) => {
-  const [transferToggleModal, setTransferToggleModal] = useState(false);
-  const [successfulTansferModal, setSuccessfulTansferModal] = useState(false);
-  const [receipt, setReceipt] = useState(false);
+const TransferHis = ({ illuminateWallet, data, tenantData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
@@ -32,27 +20,19 @@ const TransferHis = ({ illuminateWallet, data }) => {
     setShowReceipt(!showReceipt);
     setPopUpMenuTwo(false);
   };
+
   const closeReceipt = () => {
     setShowReceipt(false);
   };
 
-  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
-
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); 
 
   // useEffect to handle scrolling
-  useBodyScroll([receipt, successfulTansferModal, transferToggleModal, showReceipt]);
+  useBodyScroll([showReceipt]);
 
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
     setSelectedDataId(id);
-  };
-
-  const shareReceipt = () => {
-    setReceipt(!receipt);
-  };
-
-  const closeSharedReceipt = () => {
-    setReceipt(false);
   };
 
 
@@ -60,7 +40,7 @@ const TransferHis = ({ illuminateWallet, data }) => {
     <div>
       {showReceipt && (
         <div>
-          <ReceiptRentHis closeReceipt={closeReceipt} shareReceipt={shareReceipt} rentData={receiptData} />
+          <ReceiptRentHis closeReceipt={closeReceipt} rentData={receiptData} tenantData={tenantData}/>
         </div>
       )}
 

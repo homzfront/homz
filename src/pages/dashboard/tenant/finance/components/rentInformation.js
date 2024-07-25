@@ -136,7 +136,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
       setReceipt(!receipt);
     }
   };
-
+  
   const closeReceipt = () => {
     setReceipt(false);
     setConfirm(false);
@@ -161,7 +161,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
   return (
     <div className="">
       {receipt ? (
-        <Receipt closeReceipt={closeReceipt} rentData={receiptData} />
+        <Receipt closeReceipt={closeReceipt} rentData={rentData} receiptData={receiptData} />
       ) : confirm ? (
         <ReceiptModal
           header={"Transaction Complete"}

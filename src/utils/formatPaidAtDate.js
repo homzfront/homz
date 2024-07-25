@@ -55,7 +55,8 @@ function formatPaidAtDate(inputDate) {
   
       const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
   
-      return `${formattedDate} ${formattedTime}`;
+      // return `${formattedDate} ${formattedTime}`;
+      return `${formattedDate}`;
     }
   }
   
