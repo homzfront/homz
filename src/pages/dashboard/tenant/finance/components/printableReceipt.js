@@ -157,4 +157,6 @@ const PrintableReceipt = React.forwardRef(({ rentData, receiptData }, ref) => (
   </div>
 ));
 
+PrintableReceipt.displayName = "RentPrintableReceipt";
+
 export default PrintableReceipt;
