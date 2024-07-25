@@ -22,6 +22,8 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
     onAfterPrint: () => console.log("Receipt printed."),
   });
 
+  console.log(rentData)
+
   return (
     <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       <div
@@ -198,7 +200,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
               <div className="flex items-center gap-2 w-[45%]">
                 <PhoneReceipt />
                 <p className="text-GrayHomz2 text-[11px] font-[500]">
-                  {rentData?.enterPrise?.businessPhoneNumber}
+                  {rentData?.enterPrise?.phoneNumber}
                 </p>
               </div>
             </div>

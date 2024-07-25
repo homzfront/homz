@@ -58,7 +58,6 @@ const TransferHis = ({ illuminateWallet, data }) => {
 
   return (
     <div>
-      {receipt && <ShareAbleReceipt />}
       {showReceipt && (
         <div>
           <ReceiptRentHis closeReceipt={closeReceipt} shareReceipt={shareReceipt} rentData={receiptData} />
