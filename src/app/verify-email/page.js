@@ -22,6 +22,7 @@ const VerifyEmail = () => {
   const inputRefs = useRef([]);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(false);
+  const [resend, setResend] = useState(false);
   const [seconds, setSeconds] = useState(60);
   const { profile } = useProfileStore();
 
@@ -95,12 +96,15 @@ const VerifyEmail = () => {
 
   const ResendOtp = async (e) => {
     e.preventDefault();
+    setResend(true);
     try {
       await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
       toast.success('OTP SENT');
       startTimer();
+      setResend(false);
     } catch (error) {
       toast.error(error.response?.data?.message);
+      setResend(false);
     }
   };
 
@@ -224,7 +228,7 @@ const VerifyEmail = () => {
                         </div> :
                         <button onClick={ResendOtp}>
                           <Link
-                            className={`text-BlueHomz text-center font-[700] text-[14px]  ml-1`}
+                            className={`${resend ? "pointer-events-none" : ""} text-BlueHomz text-center font-[700] text-[14px]  ml-1`}
                             href={""}
                           >
                             Click to resend
