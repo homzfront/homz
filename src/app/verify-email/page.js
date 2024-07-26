@@ -105,6 +105,8 @@ const VerifyEmail = () => {
     } catch (error) {
       toast.error(error.response?.data?.message);
       setResend(false);
+    } finally {
+      setResend(false);
     }
   };
 
