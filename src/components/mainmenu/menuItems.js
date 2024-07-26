@@ -21,7 +21,9 @@ const MenuItems = ({
   required,
   showError,
   Desktop,
-  Mobile
+  Mobile,
+  value
+
 }) => {
 //   const { watch, setValue } = useFormContext();
 //   const selectedValue = watch(name);
@@ -48,6 +50,7 @@ const MenuItems = ({
   {...(required ? reg(name, { required: `This is required` }) : reg(name))}
   onChange={onChange}
   onClick={() => setSelectedClicked(false)}
+  value={value}
 >
   <option value="" disabled selected>
     {option1}

@@ -18,7 +18,7 @@ const PropertyRequest = ({
   const [listingType, setListingType] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const [selectedState, setSelectedState] = useState("");
-  const [selectedMbileState, setSelectedMobileState] = useState("");
+  const [selectedMobileState, setSelectedMobileState] = useState("");
   const [selectedArea, setSelectedArea] = useState("");
   const [bedrooms, setBedrooms] = useState();
   const [moreInfo, setMoreInfo] = useState("");
@@ -58,25 +58,46 @@ const PropertyRequest = ({
 
     if (details.phoneNumber === "") {
       setPhoneError("Phone Number is required");
-      return;
+      return true;
     } else if (!phoneFormat.test(details.phoneNumber)) {
       setPhoneError("Phone number is not valid");
-      return;
+      return true;
     } else if (details.email === "") {
       setEmailError("Email is required");
-      return;
+      return true;
     } else if (!emailFormat.test(details.email)) {
       setEmailError("Enter a valid email address");
-      return;
+      return true;
     } else if (list === "") {
       setError("Please select listing type");
-      return;
+      return true;
     } else {
       // Perform the necessary actions when all fields are valid
       console.log("All fields are valid");
     }
   };
-
+  const resetFields = () => {
+    setDetails(() => ({
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+    }));
+    reset();
+    setPhoneError("");
+    setEmailError("");
+    setFormattedMaxBudget("");
+    setError("");
+    setPropertyType("");
+    setSubType("");
+    setSelectedState("");
+    setSelectedArea("");
+    setBedrooms("");
+    setSqrMeter("");
+    setMoreInfo("");
+    setContactType("");
+    setSelectedMobileState("");
+    setListingType("");
+  };
   useEffect(() => {
     fetchStates();
   }, []);
@@ -102,15 +123,8 @@ const PropertyRequest = ({
     }
   };
   const cancel = () => {
-    reset();
     setOpenPropertyReq(false);
-    setListingType("");
-    setFormattedMaxBudget("");
-    setDetails(() => ({
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-    }));
+    resetFields();
   };
 
   const handleNumberChange = (e, setValue, setFormat) => {
@@ -148,16 +162,18 @@ const PropertyRequest = ({
   };
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     // console.log(details);
-    validateDetails(details, listingType);
-    if (phoneError || emailError || error) {
+    const vali = validateDetails(details, listingType);
+    if (vali) {
+      setIsLoading(false);
+      setError("");
       return;
     }
     // If everything is fine, proceed with submission
-    setIsLoading(true);
-    setError("");
+
     let state = "";
-    if (selectedState === "") state = selectedMbileState;
+    if (selectedState === "") state = selectedMobileState;
     else state = selectedState;
     setTimeout(async () => {
       try {
@@ -178,19 +194,8 @@ const PropertyRequest = ({
         });
         if (response.status === 201) {
           setIsLoading(false);
-          setDetails(() => ({
-            fullName: "",
-            email: "",
-            phoneNumber: "",
-          }));
-          reset();
-          setPhoneError("");
-          setEmailError("");
-          setFormattedMaxBudget("")
-          setError("");
-          setListingType("");
-          setOpenPropertyReq(false);
           setOpenSuccessModal(true);
+          resetFields();
         }
       } catch (error) {
         setIsLoading(false);
@@ -329,6 +334,7 @@ const PropertyRequest = ({
                   setSelectedClicked={setPropertyTypeClicked}
                   selectedClicked={propertyTypeClicked}
                   items={propertyTypesSaleRent}
+                  value={propertyType}
                 />
                 <MenuItems
                   title="Sub-Type"
@@ -342,6 +348,7 @@ const PropertyRequest = ({
                   setSelectedClicked={setSubTypeClicked}
                   selectedClicked={subClicked}
                   items={items}
+                  value={subType}
                 />
               </div>
               <div className="grid sm:grid-cols-2  gap-[28px] w-full">
@@ -394,6 +401,7 @@ const PropertyRequest = ({
                     items={allStates}
                     Desktop={true}
                     Mobile={false}
+                    value={selectedState}
                   />
                 </div>
               </div>
@@ -415,6 +423,7 @@ const PropertyRequest = ({
                   items={allStates}
                   Mobile={true}
                   Desktop={false}
+                  value={selectedMobileState}
                 />
 
                 <MenuItems
@@ -428,6 +437,7 @@ const PropertyRequest = ({
                   selectedClicked={areaClicked}
                   option1="Select Area"
                   items={areas}
+                  value={selectedArea}
                 />
                 <MenuItems
                   title="Bedrooms"
@@ -440,6 +450,7 @@ const PropertyRequest = ({
                   setSelectedClicked={setBedroomClicked}
                   selectedClicked={bedroomClicked}
                   items={numberCounts}
+                  value={bedrooms}
                 />
                 <div className="space-y-2">
                   <label
@@ -454,6 +465,7 @@ const PropertyRequest = ({
                     className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-full text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
                     min="0"
                     placeholder="e.g 500"
+                    value={squareMeters}
                   />
                   {errors.squareMeters && (
                     <span className="italic text-error text-[11px] font-[400]">
@@ -498,6 +510,7 @@ const PropertyRequest = ({
                   setSelectedClicked={setSeekerAgentClicked}
                   selectedClicked={seekerAgentClicked}
                   items={seekerAgentData}
+                  value={contactType}
                 />
                 <div className="space-y-2">
                   <label
@@ -520,8 +533,8 @@ const PropertyRequest = ({
                     </p>
                   )}
                 </div>
-              {/* </div> */}
-              {/* <div className="grid grid-cols-2  gap-[28px] w-full"> */}
+                {/* </div> */}
+                {/* <div className="grid grid-cols-2  gap-[28px] w-full"> */}
                 <div>
                   <label
                     htmlFor="phoneNumber"
