@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import useProfileStore from "@/store/profile";
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(false);
   const [seconds, setSeconds] = useState(60);
+  const { profile } = useProfileStore();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -31,7 +33,7 @@ const VerifyEmail = () => {
   }, []);
 
   useEffect(() => {
-    if (email !== null) {
+    if (email !== null && profile?.isVerified === false) {
       (async () => {
         const response = await api.get("/user/profile");
         if (response?.data?.user?.isVerified === false) {
@@ -221,11 +223,11 @@ const VerifyEmail = () => {
                     </p>
                     {
                       timer ?
-                          <div
-                            className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[14px]  ml-1`}
-                          >
-                            Click to resend
-                          </div> :
+                        <div
+                          className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[14px]  ml-1`}
+                        >
+                          Click to resend
+                        </div> :
                         <button onClick={ResendOtp}>
                           <Link
                             className={`text-BlueHomz text-center font-[700] text-[14px]  ml-1`}

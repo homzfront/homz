@@ -97,7 +97,7 @@ const ForgotPassword = () => {
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
-                          setEmailError(false); // Reset the error when the user types
+                          setEmailError(false); 
                         }}
                         placeholder="Enter your email"
                       />
