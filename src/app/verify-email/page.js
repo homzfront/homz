@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import useProfileStore from "@/store/profile";
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -21,22 +22,29 @@ const VerifyEmail = () => {
   const inputRefs = useRef([]);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(false);
+  const [resend, setResend] = useState(false);
   const [seconds, setSeconds] = useState(60);
+  const { profile } = useProfileStore();
+
+  const startTimer = () => {
+    setSeconds(60)
+    setTimer(true)
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedEmail = localStorage.getItem('email');
       setEmail(storedEmail || '');
+      startTimer();
     }
   }, []);
 
   useEffect(() => {
-    if (email !== null) {
+    if (email !== null && profile?.isVerified === false) {
       (async () => {
         const response = await api.get("/user/profile");
         if (response?.data?.user?.isVerified === false) {
           await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
-          // toast.success('OTP SENT');
           startTimer();
         }
       })();
@@ -62,16 +70,10 @@ const VerifyEmail = () => {
     return () => clearInterval(countdownInterval);
   }, [timer]);
 
-  const startTimer = () => {
-    setSeconds(60)
-    setTimer(true)
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Make a POST request to verify the OTP
       await api.post("/auth/verification", { email, pincode: otp.join("") });
       setVerificationSuccess(true);
       setError(false);
@@ -94,12 +96,17 @@ const VerifyEmail = () => {
 
   const ResendOtp = async (e) => {
     e.preventDefault();
+    setResend(true);
     try {
       await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
       toast.success('OTP SENT');
       startTimer();
+      setResend(false);
     } catch (error) {
       toast.error(error.response?.data?.message);
+      setResend(false);
+    } finally {
+      setResend(false);
     }
   };
 
@@ -113,36 +120,31 @@ const VerifyEmail = () => {
       const newOTP = [...otp];
       newOTP[index] = value;
       setOTP(newOTP);
-      setError(false); // Reset error when a valid digit is entered
-      // Focus the next input field if the value is non-empty and not the last one
+      setError(false);
       if (value && index < otp.length - 1) {
         inputRefs.current[index + 1].focus();
       }
     } else if (value === "" && index >= 0) {
-      // If backspace is pressed and the box is not the first one
       const newOTP = [...otp];
       newOTP[index] = "";
       setOTP(newOTP);
-      setError(false); // Reset error when backspace is pressed
-      // If backspace is pressed and it's the first input, clear the error
+      setError(false);
       if (index === 0) {
         setError(false);
       } else {
-        // Move focus to the previous input field if not the first one
         inputRefs.current[index - 1].focus();
       }
     } else {
-      setError(true); // Set error when an invalid character is entered
+      setError(true);
     }
   };
 
   const handlePaste = (event) => {
     event.preventDefault();
     const pastedValue = event.clipboardData.getData('text');
-    // Check if pasted value is a valid 4-digit number
     if (pastedValue.length === 4 && /^\d+$/.test(pastedValue)) {
       setOTP(pastedValue.split(''));
-      setError(false); // Reset error if valid pasted value
+      setError(false);
     }
   };
 
@@ -168,7 +170,7 @@ const VerifyEmail = () => {
           <SliderAuth />
         </div>
         <div className="w-[794px] flex flex-col justify-around items-center">
-          <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
+          <div className="h-[85%] md:x-6 w-[320px] sm:w-full py-4">
             {!verificationSuccess ? (
               <div className="flex flex-col gap-6 m-auto max-w-[320px] sm:max-w-[360px]">
                 <h1 className="text-start text-[30px] sm:text-[36px] font-[700] text-BlackHomz">
@@ -216,23 +218,22 @@ const VerifyEmail = () => {
                     )}
                   </div>
                   <div className="flex gap-2 items-center">
-                    <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[14px]`}>
+                    <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[12px] md:text-[14px]`}>
                       Didn't receive the email?
                     </p>
                     {
                       timer ?
-                          <div
-                            className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[14px]  ml-1`}
-                          >
-                            Click to resend
-                          </div> :
-                        <button onClick={ResendOtp}>
-                          <Link
-                            className={`text-BlueHomz text-center font-[700] text-[14px]  ml-1`}
-                            href={""}
-                          >
-                            Click to resend
-                          </Link>
+                        <div
+                          className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[12px] md:text-[14px] ml-1`}
+                        >
+                          Click to resend
+                        </div> :
+                        <button
+                          onClick={ResendOtp}
+                          className={`${resend ? "pointer-events-none" : ""} text-BlueHomz text-center font-[700] text-[12px] md:text-[14px] ml-1`}
+                          href={""}
+                        >
+                          Click to resend
                         </button>
                     }
                     {timer && (
