@@ -29,7 +29,7 @@ const PropertyRequest = ({
   });
   const [subType, setSubType] = useState("");
   const [contactType, setContactType] = useState();
-  const [error, setError] = useState("");
+  const [listingError, setListingError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [stateClicked, setStateClicked] = useState(true);
@@ -54,7 +54,7 @@ const PropertyRequest = ({
     // Reset errors
     setPhoneError("");
     setEmailError("");
-    setError("");
+    setListingError("");
 
     if (details.phoneNumber === "") {
       setPhoneError("Phone Number is required");
@@ -67,9 +67,6 @@ const PropertyRequest = ({
       return true;
     } else if (!emailFormat.test(details.email)) {
       setEmailError("Enter a valid email address");
-      return true;
-    } else if (list === "") {
-      setError("Please select listing type");
       return true;
     } else {
       // Perform the necessary actions when all fields are valid
@@ -86,7 +83,7 @@ const PropertyRequest = ({
     setPhoneError("");
     setEmailError("");
     setFormattedMaxBudget("");
-    setError("");
+    setListingError("");
     setPropertyType("");
     setSubType("");
     setSelectedState("");
@@ -103,7 +100,7 @@ const PropertyRequest = ({
   }, []);
   const getListingTypes = (type) => {
     setListingType(type);
-    setError("");
+    setListingError("");
   };
   const fetchStates = async () => {
     try {
@@ -164,10 +161,15 @@ const PropertyRequest = ({
   const onSubmit = (data) => {
     setIsLoading(true);
     // console.log(details);
-    const vali = validateDetails(details, listingType);
+    const vali = validateDetails(details);
     if (vali) {
       setIsLoading(false);
-      setError("");
+      setListingError("");
+      return;
+    }
+    if (listingType === "") {
+      setListingError("Please select listing type");
+      setIsLoading(false);
       return;
     }
     // If everything is fine, proceed with submission
@@ -194,6 +196,7 @@ const PropertyRequest = ({
         });
         if (response.status === 201) {
           setIsLoading(false);
+          setOpenPropertyReq(false);
           setOpenSuccessModal(true);
           resetFields();
         }
@@ -315,9 +318,9 @@ const PropertyRequest = ({
                     Shortlet
                   </p>
                 </div>
-                {error != "" && (
+                {listingError != "" && (
                   <span className="italic text-error text-[11px] font-[400]">
-                    {error}
+                    {listingError}
                   </span>
                 )}
               </div>
