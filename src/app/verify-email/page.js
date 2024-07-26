@@ -22,6 +22,7 @@ const VerifyEmail = () => {
   const inputRefs = useRef([]);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(false);
+  const [resend, setResend] = useState(false);
   const [seconds, setSeconds] = useState(60);
   const { profile } = useProfileStore();
 
@@ -95,12 +96,17 @@ const VerifyEmail = () => {
 
   const ResendOtp = async (e) => {
     e.preventDefault();
+    setResend(true);
     try {
       await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
       toast.success('OTP SENT');
       startTimer();
+      setResend(false);
     } catch (error) {
       toast.error(error.response?.data?.message);
+      setResend(false);
+    } finally {
+      setResend(false);
     }
   };
 
@@ -122,14 +128,14 @@ const VerifyEmail = () => {
       const newOTP = [...otp];
       newOTP[index] = "";
       setOTP(newOTP);
-      setError(false); 
+      setError(false);
       if (index === 0) {
         setError(false);
       } else {
         inputRefs.current[index - 1].focus();
       }
     } else {
-      setError(true); 
+      setError(true);
     }
   };
 
@@ -138,7 +144,7 @@ const VerifyEmail = () => {
     const pastedValue = event.clipboardData.getData('text');
     if (pastedValue.length === 4 && /^\d+$/.test(pastedValue)) {
       setOTP(pastedValue.split(''));
-      setError(false); 
+      setError(false);
     }
   };
 
@@ -164,7 +170,7 @@ const VerifyEmail = () => {
           <SliderAuth />
         </div>
         <div className="w-[794px] flex flex-col justify-around items-center">
-          <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
+          <div className="h-[85%] md:x-6 w-[320px] sm:w-full py-4">
             {!verificationSuccess ? (
               <div className="flex flex-col gap-6 m-auto max-w-[320px] sm:max-w-[360px]">
                 <h1 className="text-start text-[30px] sm:text-[36px] font-[700] text-BlackHomz">
@@ -212,23 +218,22 @@ const VerifyEmail = () => {
                     )}
                   </div>
                   <div className="flex gap-2 items-center">
-                    <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[14px]`}>
+                    <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[12px] md:text-[14px]`}>
                       Didn't receive the email?
                     </p>
                     {
                       timer ?
                         <div
-                          className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[14px]  ml-1`}
+                          className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[12px] md:text-[14px] ml-1`}
                         >
                           Click to resend
                         </div> :
-                        <button onClick={ResendOtp}>
-                          <Link
-                            className={`text-BlueHomz text-center font-[700] text-[14px]  ml-1`}
-                            href={""}
-                          >
-                            Click to resend
-                          </Link>
+                        <button
+                          onClick={ResendOtp}
+                          className={`${resend ? "pointer-events-none" : ""} text-BlueHomz text-center font-[700] text-[12px] md:text-[14px] ml-1`}
+                          href={""}
+                        >
+                          Click to resend
                         </button>
                     }
                     {timer && (
