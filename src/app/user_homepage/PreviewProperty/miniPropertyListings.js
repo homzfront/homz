@@ -35,11 +35,11 @@ const MiniPropertyListings = ({
       <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px] my-4 sm:w-[235px] w-full">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <div
-            className={`flex flex-col sm:w-[235px] h-fit rounded-[12px] shadow-md w-full`}
+            className={`flex flex-col sm:w-[245px] h-fit rounded-[12px] shadow-md w-full`}
             key={index}
           >
             <div
-              className={`cursor-pointer sm:w-[235px] sm:h-[181.77px] rounded-[10px] w-full`}
+              className={`cursor-pointer sm:w-[245px] sm:h-[181.77px] rounded-[10px] w-full`}
             >
               <Carousel
                 slide={false}

@@ -164,26 +164,33 @@ const PropertyCard = ({
                         </div>
                         <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
                           <div className="flex justify-between">
-                            <p className="text-[#006AFF] text-[19.66px] sm:text-[22px] font-[700] leading-[28.98px] text-center">
+                            <Link
+                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                              className="text-[#006AFF] text-[19.66px] sm:text-[22px] font-[700] leading-[28.98px] text-center"
+                            >
                               {trucateWord(
                                 capitalizeFirstLetter(
                                   property?.name || property?.title
                                 ),
                                 20
                               )}
-                            </p>
-                            <p
+                            </Link>
+                            <Link
+                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
                               className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${
                                 property?.listingType ? "" : "hidden"
                               }`}
                             >
                               {capitalizeFirstLetter(property?.listingType)}
-                            </p>
+                            </Link>
                           </div>
 
-                          <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
+                          <Link
+                            href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                            className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]"
+                          >
                             {capitalizeFirstLetter(property?.propertyType)}
-                          </p>
+                          </Link>
                           <p
                             className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center ${
                               property?.price ? "" : "hidden"
