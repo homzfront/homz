@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MobilePlan from "./MobilePlan";
 
 const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
@@ -143,7 +145,8 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
           selectedDataId={selectedDataId}
         />
       </div>
-      <div className="sm:grid hidden gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
+
+      <div className="sm:grid hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
         {pricingPlans.map((plan, index) => (
           <div
             key={index}
@@ -230,13 +233,13 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
                 plan.status === true ? "hidden" : ""
               } ${
                 profile?.planName === plan.title &&
-                profile?.interval === "monthly"
+                profile?.interval === "weekly"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
             >
               {profile?.planName === plan.title &&
-              profile?.interval === "monthly"
+              profile?.interval === "weekly"
                 ? "Active"
                 : "Select Plan"}
             </button>
@@ -248,7 +251,6 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
 };
 
 export default Plans;
-
 const pricingPlans = [
   {
     price: "", // You might want to provide an actual price for the premium plan
@@ -321,12 +323,12 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "weekly",
   },
   {
-    price: "N306,000",
+    price: "N10,000",
     title: "Basic Plan",
-    billing: "Annually",
+    billing: "weekly",
     features: [
       {
         id: 1,
@@ -392,12 +394,12 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "weekly",
   },
   {
-    price: "N510,000",
+    price: "N15,000",
     title: "Enterprise Plan",
-    billing: "Annually",
+    billing: "weekly",
     features: [
       {
         id: 1,
@@ -415,7 +417,7 @@ const pricingPlans = [
       },
       {
         id: 3,
-        name: "50 Sponsored ads",
+        name: "30 Sponsored ads",
         enable: true,
         info: "You can select 50 of any of your listings to be promoted on any of our advertisement channels during your subscription",
         opacity: false,
@@ -460,17 +462,17 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "weekly",
   },
   {
-    price: "N1,020,000",
+    price: "N33,500",
     title: "Premium Plan",
-    billing: "Annually",
+    billing: "weekly",
     features: [
       {
         id: 1,
 
-        name: "Unlimited listings",
+        name: "200 listings",
         enable: false,
         info: "",
         opacity: false,
@@ -534,6 +536,6 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "weekly",
   },
 ];

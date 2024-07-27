@@ -113,13 +113,7 @@ const OwnersCard = ({ propertyData }) => {
             />
             <span>Whatsapp</span>
           </p>
-          {/* <Link
-            href={`https://wa.me/${propertyData?.contacts?.whatsApp || ""}`}
-            target="_blank"
-            className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-          >
-            Send Message
-          </Link> */}
+        
           <button
             onClick={() => whatsApp(propertyData?.contacts?.whatsApp || "")}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"

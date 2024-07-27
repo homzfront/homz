@@ -15,6 +15,7 @@ import OwnersCard from "./ownersCard";
 import Amenities from "@/components/mainmenu/amenities";
 import ExtraDetails from "@/components/mainmenu/extraDetails";
 import { Carousel } from "flowbite-react";
+import MapFrame from "@/utils/map";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -218,12 +219,12 @@ const ViewProperty = ({ PropertyID }) => {
                       >
                         {propertyData?.name || propertyData?.title}
                       </p>
-                      <Image
+                      {/* <Image
                         src="/static/images/green_verify.svg"
                         alt=""
                         width={32}
                         height={32}
-                      />
+                      /> */}
                       <p className="hidden text-[#006AFF] font-[500] md:leading-[24px] text-[13px] leading-[19.5px] sm:flex md:text-[16px] px-[12px] bg-[#EEF5FF] items-center py-[4px]  rounded-[8px]">
                         {propertyData?.listingType &&
                         (propertyData?.listingType === "Sale" ||
@@ -233,7 +234,7 @@ const ViewProperty = ({ PropertyID }) => {
                       </p>
                     </div>
                   </div>
-                  <div className=" hidden sm:flex gap-2 items-center border-b pb-4 mt-2">
+                  <div className=" hidden sm:flex gap-[12px] items-center border-b pb-4 mt-2">
                     <p className="flex gap-1 items-center">
                       <Image
                         src="/static/images/Location_Vector.svg"
@@ -242,8 +243,9 @@ const ViewProperty = ({ PropertyID }) => {
                         height={24}
                         className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                       />
-                      <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E] min-w-[246px]">
-                        {propertyData?.area}, {propertyData?.state}
+                      <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E]">
+                        {propertyData?.address}, {propertyData?.area},{" "}
+                        {propertyData?.state}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center">
@@ -353,7 +355,7 @@ const ViewProperty = ({ PropertyID }) => {
                   <div className="sm:hidden mb-5">
                     <OwnersCard propertyData={propertyData && propertyData} />
                   </div>
-                  <div className="space-y-4 mb-3">
+                  <div className="space-y-4 mt-6">
                     <div className="flex items-start gap-[8px]">
                       <button
                         className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
@@ -400,7 +402,12 @@ const ViewProperty = ({ PropertyID }) => {
 
                       {tabName === "Map" && (
                         <div className="h-[556px] w-[100%]">
-                          <GoogleMap addressData={"ikeja lagos"} />
+                          {/* <GoogleMap addressData={"ikeja lagos"} /> */}
+                          <MapFrame
+                            street={propertyData?.address}
+                            area={propertyData?.area}
+                            state={propertyData?.state}
+                          />
                         </div>
                       )}
                     </div>

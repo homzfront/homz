@@ -30,6 +30,8 @@ const PropertyCard = ({
   const [deleteProperty, setDeleteProperty] = useState(false);
   const [propertyDeleted, setPropertyDeleted] = useState(false);
   const [unpublishProperty, setUnpublisProperty] = useState(false);
+  const [stopPromote, setStopPromotion] = useState(false);
+  const [promotionStoppedModal, setPromotionStoppedModal] = useState(false);
   const [propertyUnpublished, setPropertyUnpublished] = useState(false);
 
   const popUp = useRef(null);
@@ -60,9 +62,14 @@ const PropertyCard = ({
     setUnpublisProperty(false);
     setPropertyUnpublished(true);
   };
+  const handlePropertyPromotion = () => {
+    setPromotionStoppedModal(true);
+    setStopPromotion(false);
+  };
   const closeSuccessModal = () => {
     setPropertyUnpublished(false);
     setPropertyDeleted(false);
+    setPromotionStoppedModal(false);
   };
   const handleUnpublished = () => {
     setUnpublisProperty(true);
@@ -134,7 +141,7 @@ const PropertyCard = ({
                 <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[230px] sm:left-[130px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                   Published
                 </p>
-             
+
                 {/* <p className="bg-[#DC6803] text-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[96px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Undergoing Review</p> */}
                 {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] sm:left-[165px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
                 {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] sm:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
@@ -142,7 +149,8 @@ const PropertyCard = ({
             </div>
             <div className="flex flex-col px-2 py-5 md:pt-5 gap-[5px] md:gap-[2px]">
               <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
-                <p
+                <Link
+                  href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
                   className="text-[#006AFF] font-[700] leading-[13.86px] md:leading-[24px] text-center text-[16px]"
                   title={property?.name ? property?.name : property?.title}
                 >
@@ -150,7 +158,7 @@ const PropertyCard = ({
                     property?.name ? property?.name : property?.title,
                     20
                   )}
-                </p>
+                </Link>
                 <div className="relative">
                   <Image
                     src="/static/images/verticatDotsIcon.svg"
@@ -220,7 +228,10 @@ const PropertyCard = ({
                 </span>
               </p>
               {sponsored && (
-                <p className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px] ">
+                <button
+                  className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px] "
+                  onClick={() => setStopPromotion(true)}
+                >
                   <Image
                     src="/static/images/medal-star.svg"
                     alt=""
@@ -229,9 +240,9 @@ const PropertyCard = ({
                     className=""
                   />
                   <span className="font-[500] text-[11px] text-[#006AFF] leading-[16.5px]">
-                    Sponsored
+                    Promoted
                   </span>
-                </p>
+                </button>
               )}
             </div>
             {promoteOptions && (
@@ -302,7 +313,7 @@ const PropertyCard = ({
         title="Unpublish Property?"
         confirmatoryText={`This property will no longer be visible to the public but will be saved in your drafts`}
         handleEvent={handleUnpublishProperty}
-        cancel={setUnpublisProperty}
+        cancel={setPropertyUnpublished}
         optionText="Proceed"
         optionText2="Cancel"
         // color="text-[#D92D20]"
@@ -317,6 +328,22 @@ const PropertyCard = ({
           router.push("/dashboard/list_Property");
         }}
         buttonColor={true}
+      />
+      {/* stop property promotion */}
+      <ConfirmationModal
+        isOpen={stopPromote}
+        title="Stop Promotion?"
+        confirmatoryText="This property will no longer be promoted on Homz"
+        handleEvent={handlePropertyPromotion}
+        cancel={setStopPromotion}
+        optionText="Proceed"
+        optionText2="Cancel"
+        // color="text-[#D92D20]"
+      />
+      <SuccessModal
+        isOpen={promotionStoppedModal}
+        title="Promotion Stopped Successfully"
+        handleEvent={closeSuccessModal}
       />
     </div>
   );

@@ -11,7 +11,14 @@ const OwnersCard = ({ propertyData }) => {
     email: false,
     whatsAppNumber: false,
   });
+  const [showNumber, setShowNumber] = useState(false);
 
+  const whatsApp = (number) => {
+    if (number.startsWith("0")) {
+      number = number.substring(1);
+    }
+    window.open(`https://wa.me/${number}`);
+  };
   //   console.log(propertyData)
   const handleCopyClick = async (text, identifier) => {
     try {
@@ -91,15 +98,20 @@ const OwnersCard = ({ propertyData }) => {
       </p>
       <div className="flex gap-[12px] flex-col">
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
-          <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
-            {formatNumber("08034567823")}
+        <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
+            {showNumber
+              ? propertyData?.contacts?.phoneNumber
+              : formatNumber(propertyData?.contacts?.phoneNumber)}
           </p>
-          <button className="text-white bg-[#E6E6E6] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]">
-            Show
+          <button
+            className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+            onClick={() => setShowNumber(!showNumber)}
+          >
+            {showNumber ? "Hide" : "Show"}
           </button>
         </div>
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
-          <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
+        <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
             <Image
               src="/static/images/whatsapp.svg"
               alt=""
@@ -109,7 +121,11 @@ const OwnersCard = ({ propertyData }) => {
             />
             <span>Whatsapp</span>
           </p>
-          <button className="text-white bg-[#E6E6E6] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]">
+        
+          <button
+            onClick={() => whatsApp(propertyData?.contacts?.whatsApp || "")}
+            className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+          >
             Send Message
           </button>
         </div>

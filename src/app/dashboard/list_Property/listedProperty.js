@@ -169,7 +169,7 @@ const EditProperty = ({
     closePromoModal();
   };
   return (
-    <div className="z-20 mb-14 px-4">
+    <div className="z-20 mb-14 px-">
       {isLoading2 && <Loading />}
 
       {openModalForBusi && (
@@ -226,7 +226,7 @@ const EditProperty = ({
           </button>
         </div>
       </div>
-      <div className="dashboard flex sm:justify-between mt-6 sm:mt-0">
+      <div className="dashboard flex sm:justify-between w-fit mt-6 sm:mt-0 sm:px-4">
         <div className="flex sm:gap-[8px] gap-[8px] ">
           <button
             className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
@@ -247,6 +247,16 @@ const EditProperty = ({
             onClick={() => setTabName("Publish")}
           >
             Published
+          </button>
+          <button
+            className={`py-[8px] px-[12px] ${
+              tabName === "Promoted"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+            } rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500]`}
+            onClick={() => setTabName("Promoted")}
+          >
+            Promoted
           </button>
           <button
             className={`py-[8px] px-[12px] ${
@@ -276,7 +286,7 @@ const EditProperty = ({
               options={options}
               onSelect={(option) => setSelectedState(option)}
               selectOption={selectedState === null ? "State" : selectedState}
-              className={"text-[14px] w-[110px] font-[500] text-GrayHomz2"}
+              className={"text-[14px] w-[100px] font-[500] text-GrayHomz2"}
             />
           </div>
           <div className="">
@@ -284,7 +294,7 @@ const EditProperty = ({
               options={options2}
               onSelect={(option) => setSelectedArea(option)}
               selectOption={selectedArea === null ? "Area" : selectedArea}
-              className={"text-[14px] w-[110px] font-[500] text-GrayHomz2"}
+              className={"text-[14px] w-[90px] font-[500] text-GrayHomz2"}
             />
           </div>
           <div className="">
@@ -294,7 +304,7 @@ const EditProperty = ({
               selectOption={
                 selectedProperty === null ? "Property Type" : selectedProperty
               }
-              className={"text-[14px] w-[148px] font-[500] text-GrayHomz2"}
+              className={"text-[14px] w-[134px] font-[500] text-GrayHomz2"}
             />
           </div>
           <div className="">
@@ -302,7 +312,7 @@ const EditProperty = ({
               options={options4}
               onSelect={(option) => setSelectedRooms(option)}
               selectOption={selectedRooms === null ? "Bedroom" : selectedRooms}
-              className={"w-[115px] text-[14px] font-[500] text-GrayHomz2"}
+              className={"w-[100px] text-[14px] font-[500] text-GrayHomz2"}
             />
           </div>
           <button

@@ -77,7 +77,9 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
                 : "---"}
             </span>
             <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
-              ₦ {Number(propertyData?.price).toLocaleString() || "---"}
+              {propertyData?.price
+                ? "₦" + Number(propertyData?.price).toLocaleString()
+                : "---"}
             </span>
           </p>
           <p className="flex flex-col gap-0">
@@ -85,7 +87,9 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
               Maintenance Fee
             </span>
             <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
-              ₦ {Number(propertyData?.maintenanceFee).toLocaleString() || "---"}
+              {propertyData?.maintenanceFee
+                ? "₦" + Number(propertyData?.maintenanceFee).toLocaleString()
+                : "---"}
             </span>
           </p>
           <p className="flex flex-col gap-0 pr-7 sm:pr-0">
@@ -93,7 +97,9 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
               Agency Fee
             </span>
             <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
-              ₦ {Number(propertyData?.agencyFee).toLocaleString() || "---"}
+              {propertyData?.agencyFee
+                ? "₦" + Number(propertyData?.agencyFee).toLocaleString()
+                : "---"}
             </span>
           </p>
         </div>

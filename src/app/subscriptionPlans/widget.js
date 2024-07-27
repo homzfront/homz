@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import PlansMonthly from "./components/plansMonthly.js";
+import PlansWeekly from "./components/plansWeekly.js";
 import PlansYearly from "./components/plansYearly.js";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import { Carousel } from "react-responsive-carousel";
@@ -12,11 +13,16 @@ const Widget = ({ data, profile }) => {
   const pages = [
     {
       id: 1,
+      name: "Pay Weekly",
+      component: <PlansWeekly setSuccessModalIsOpen={setSuccessModalIsOpen} />,
+    },
+    {
+      id: 2,
       name: "Pay Monthly",
       component: <PlansMonthly setSuccessModalIsOpen={setSuccessModalIsOpen} />,
     },
     {
-      id: 2,
+      id: 3,
       name: "Pay Yearly",
       component: <PlansYearly setSuccessModalIsOpen={setSuccessModalIsOpen} />,
     },
@@ -34,7 +40,7 @@ const Widget = ({ data, profile }) => {
   return (
     <div>
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-2 justify-between w-[250px] cursor-pointer m-auto">
+        <div className="flex mt-1 gap-2 justify-between w-fit cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}

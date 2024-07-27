@@ -152,8 +152,8 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
             key={index}
             className="flex flex-col p-6 text-[16px] font-[400] w-[265px] min-h-[540px] border shadow-lg rounded-2xl"
           >
-            <div className="flex flex-col mb-4">
-              <p className="text-[20px] leading-[30px] text-center font-[700] text-BlackHomz">
+            <div className="flex flex-col mb-4 items-center justify-center">
+              <p className="text-[20px] leading-[30px] text-center font-[500] text-BlackHomz">
                 {plan.title}
               </p>
               <p className="text-[14px] text-center font-[500] text-[#559CFF] mb-3">
