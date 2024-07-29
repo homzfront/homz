@@ -36,17 +36,25 @@ const PropertyCard = ({
 
   const popUp = useRef(null);
   const router = useRouter();
-  const handleClickOutside = (event) => {
-    if (popUp.current && !popUp.current.contains(event.target)) {
-      setIsMenuOpen(false);
-    }
-  };
+
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (popUp.current && !popUp.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isMenuOpen]);
+
   const handleCheckboxChange = (property) => {
     setSelectedProperty((prevSelected) =>
       prevSelected.includes(property)
@@ -105,7 +113,7 @@ const PropertyCard = ({
 
   return (
     <div className="w-full flex flex-col gap-[64px] pt-6 sm:justify-center sm:items-center mt-3">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
         {currentProperties.map((property, index) => (
           <div
             className=" relative flex flex-col h-full w-full md:w-[234px] md:h-fit rounded-[12px] shadow-md"
@@ -313,7 +321,7 @@ const PropertyCard = ({
         title="Unpublish Property?"
         confirmatoryText={`This property will no longer be visible to the public but will be saved in your drafts`}
         handleEvent={handleUnpublishProperty}
-        cancel={setPropertyUnpublished}
+        cancel={setUnpublisProperty}
         optionText="Proceed"
         optionText2="Cancel"
         // color="text-[#D92D20]"
@@ -345,6 +353,7 @@ const PropertyCard = ({
         title="Promotion Stopped Successfully"
         handleEvent={closeSuccessModal}
       />
+   
     </div>
   );
 };

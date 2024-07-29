@@ -13,13 +13,13 @@ const SuccessModal = ({
   buttonColor
 }) => {
   return (
-    <div>
+    
       <CustomizedModal
         isOpen={isOpen}
         // onRequestClose={closeSuccessModal}
       >
-        <div className="bg-white border flex flex-col w-[333px] md:w-[464px]  p-[32px] rounded-[12px] gap-[18px]">
-          <div className="flex flex-col gap-6 items-center justify-center">
+        <div className="bg-white border flex flex-col w-full md:w-[464px] py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+          <div className="flex flex-col sm:gap-6 gap-3 items-center justify-center">
             <Image
               src="/static/images/success_icon.svg"
               height={48}
@@ -37,7 +37,7 @@ const SuccessModal = ({
           </div>
           {optionTextnbutton && (
             <button
-              className="bg-BlueHomz2 w-[301px]  text-white rounded-[4px] adminCellBorders  sm:w-[400px] h-[48px] p-[12px]"
+              className="bg-BlueHomz2   text-white rounded-[4px] adminCellBorders h-[48px] p-[12px]"
               onClick={handleOptionButton}
             >
               {optionTextnbutton}
@@ -51,7 +51,7 @@ const SuccessModal = ({
           </button>
         </div>
       </CustomizedModal>
-    </div>
+    
   );
 };
 

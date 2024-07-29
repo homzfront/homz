@@ -11,7 +11,7 @@ const ConfirmationModal = ({
   optionText2, color
 }) => {
   return (
-    <div>
+    
       <CustomizedModal isOpen={isOpen}>
         <div className="bg-white border w-[333px] flex flex-col sm:w-[464px] py-[24px] px-[16px] sm:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
           <p className={` text-[14px] leading-[19.5px] sm:text-[20px] font-[700] sm:leading-[25.2px] text-center ${color && color}`}>
@@ -38,7 +38,7 @@ const ConfirmationModal = ({
           </button>
         </div>
       </CustomizedModal>
-    </div>
+    
   );
 };
 

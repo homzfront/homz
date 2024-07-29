@@ -6,10 +6,11 @@ import PlansYearly from "./components/plansYearly.js";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useRouter } from "next/navigation.js";
 
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
-
+const router= useRouter();
   const pages = [
     {
       id: 1,
@@ -31,7 +32,7 @@ const Widget = ({ data, profile }) => {
   const [active, setActive] = useState(pages[0].id);
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
-    // router.back()
+    router.back()
   };
   const handlePageChange = (id) => {
     setActive(id);

@@ -76,9 +76,9 @@ const List_Property = () => {
           <div
             className={` ${
               data?.length === 0 ? "hidden" : ""
-            } flex w-full items-center gap-6 mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
+            } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
-            <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] pl-4 sm:px-">
+            <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] px-4 sm:px-">
               <p>
                 <span className="sm:font-[500] text-[16px] leading-[20.16px] font-[400] sm:leading-[30px] md:text-[20px]">
                   Listed Properties
@@ -88,7 +88,7 @@ const List_Property = () => {
                   {data?.length > 0 ? data?.length : 0}
                 </span>
               </p>
-              <div className="flex items-center gap-[12px] sm:-4">
+              <div className="flex items-center gap-[12px] ">
                 {options && (
                   <button
                     className="w-fit flex gap-1 sm:h-[37px] p-[4px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px]  border border-[#D92D20] sm:border-0 text-[#D92D20] hover:border hover:border-[#D92D20] flex-shrink-0 "
