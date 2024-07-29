@@ -130,6 +130,9 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
   };
 
   const showReceipt = () => {
+    if (!receiptData) {
+      return;
+    }
     if (receiptData?.status === 'pending') {
       setShowPending(!showPending);
     } else {

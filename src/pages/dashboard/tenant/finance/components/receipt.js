@@ -18,7 +18,7 @@ const Receipt = ({ closeReceipt, rentData, receiptData }) => {
 
   const handlePrint = useReactToPrint({
     content: () => printableRef.current,
-    documentTitle: "Homz Receipt",
+    documentTitle: "Homz Rent Payment Receipt",
     onAfterPrint: () => console.log("Receipt printed."),
   });
 

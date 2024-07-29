@@ -72,6 +72,9 @@ const TransferDetails = ({
   };
 
   const showReceipt = () => {
+    if (!receiptData) {
+      return;
+    }
     if (receiptData?.status === 'pending') {
       setShowPending(!showPending);
       setSuccessfulTansferModal(false)
