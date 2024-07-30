@@ -66,7 +66,8 @@ const FeaturedCard = () => {
                   >
                     {property?.property?.photos &&
                       property?.property?.photos.map((img, index) => (
-                        <div
+                        <Link
+                          href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
                           key={index}
                           className="w-full sm:w-[320px] sm:h-[252px] h-full"
                         >
@@ -80,17 +81,20 @@ const FeaturedCard = () => {
                           <p className="bg-[#EEF5FF] text-[#006AFF] rounded-[8px] py-[4px] px-[8px] absolute left-[241px] top-[12px] text-[11px] leading-[16.5px] font-[400]">
                             Featured
                           </p>
-                        </div>
+                        </Link>
                       ))}
                   </Carousel>
                 </div>
                 <div className="flex w-full flex-col sm:px-6 py-4 px-3 justify-between h-fit rounded-b-[12px] gap-[7.43px] sm:gap-[12px]">
                   <div className="flex w-full justify-between items-center">
-                    <p className="text-BlueHomz sm:text-[23px] font-[700] text-[16.59px] sm:leading-[28.98px] leading-[20.9px]">
+                    <Link
+                      href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
+                      className="text-BlueHomz sm:text-[23px] font-[700] text-[16.59px] sm:leading-[28.98px] leading-[20.9px]"
+                    >
                       {capitalizeFirstLetter(
                         property?.property?.name || property?.property?.title
                       )}
-                    </p>
+                    </Link>
                     {property?.property?.listingType && (
                       <p className="text-white sm:text-[11px] text-[7.93px] font-[400] sm:py-[4px] sm:px-[12px] bg-BlueHomz rounded-[4px] flex justify-center items-center py-[2.89px] px-[8.66px]">
                         {capitalizeFirstLetter(property?.property?.listingType)}
@@ -217,7 +221,8 @@ const parentTheme = {
       on: " bg-[#EEF5FF] dark:bg-gray-800",
     },
     base: "h-[8px] w-[8px] rounded-full ",
-    wrapper: "absolute bottom-[-25px] w-full  items-center flex justify-center  sm:left-1/2 left-[120px] -translate-x-1/2  space-x-1 ",
+    wrapper:
+      "absolute bottom-[-25px] w-full  items-center flex justify-center  sm:left-1/2 left-[120px] -translate-x-1/2  space-x-1 ",
   },
   item: {
     base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",

@@ -54,6 +54,11 @@ const ViewProperty = ({ PropertyID }) => {
     ? combinedData.slice(1, 4)
     : combinedData.slice(1, 5);
 
+  const reminderImage = isMobileView
+    ? combinedData.length - 4
+    : combinedData.length - 5;
+  let indexNumber = isMobileView ? 2 : 3;
+
   useBodyScroll([openSelectedImage]);
   const router = useRouter();
   const goBack = () => {
@@ -71,7 +76,7 @@ const ViewProperty = ({ PropertyID }) => {
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSinglePropertyPublic(PropertyID);
-      // console.log(response);
+      console.log(response?.data);
       const property = await response;
       setPropertyData(property?.data);
       setLoading(false);
@@ -214,7 +219,7 @@ const ViewProperty = ({ PropertyID }) => {
                     slicedData.map((item, index) => (
                       <div
                         key={item.id}
-                        className=" "
+                        className="relative "
                         onClick={() => openImageModal(index, item)}
                       >
                         <Image
@@ -229,6 +234,15 @@ const ViewProperty = ({ PropertyID }) => {
                           quality={100}
                           priority
                         />
+                        {reminderImage > 0 && index === indexNumber && (
+                          <div className="cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] absolute inset-0 bg-black bg-opacity-40 z-10 flex items-center justify-center">
+                            <p
+                              className="text-[18px] font-[500] leading-[27px] text-white"
+                            >
+                              +{reminderImage} more
+                            </p>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </div>
@@ -347,7 +361,11 @@ const ViewProperty = ({ PropertyID }) => {
                           height={16}
                           className="h-[16px] w-[16px] md:w-[24px] md:h-[16px] "
                         />
-                        <span>{propertyData?.numberOfRooms} Beds</span>
+
+                        <span>
+                          {propertyData?.numberOfRooms}
+                          {propertyData?.numberOfRooms > 1 ? ` Beds` : " Bed"}
+                        </span>
                       </p>
                       <p
                         className={`flex text-[12px] sm:text-[16px] leading-[19.5px] items-center gap-[8px] font-[500] text-[#202020] sm:leading-[24px] ${
@@ -361,7 +379,12 @@ const ViewProperty = ({ PropertyID }) => {
                           height={18}
                           className="h-[16px] w-[16px] md:w-[20px] md:h-[18px] "
                         />
-                        <span>{propertyData?.numberOfBathrooms} Bathrooms</span>
+                        <span>
+                          {propertyData?.numberOfBathrooms}
+                          {propertyData?.numberOfBathrooms > 1
+                            ? ` Bathrooms`
+                            : " Bathroom"}
+                        </span>
                       </p>
                       <p
                         className={`flex text-[12px] sm:text-[16px] leading-[19.5px] items-center gap-[8px] font-[500] text-[#202020] sm:leading-[24px] ${
@@ -375,7 +398,12 @@ const ViewProperty = ({ PropertyID }) => {
                           height={24}
                           className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                         />
-                        <span>{propertyData?.numberOfToilets} Toilet</span>
+                        <span>
+                          {propertyData?.numberOfToilets}
+                          {propertyData?.numberOfToilets > 1
+                            ? ` Toilets`
+                            : " Toilet"}
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -497,7 +525,11 @@ const ViewProperty = ({ PropertyID }) => {
                     </div>
                   </div>
 
-                  <ContactCard contactData={propertyData?.lisitingPropertyId} setOpenPropertyReq={setOpenPropertyReq} />
+                  <ContactCard
+                    contactData={propertyData?.lisitingPropertyId}
+                    setOpenPropertyReq={setOpenPropertyReq}
+                    slug={propertyData?.slug}
+                  />
                   <div className="w-full hidden sm:block">
                     <MiniPropertyListings
                       reset={linkToSearch}
@@ -538,10 +570,9 @@ const ViewProperty = ({ PropertyID }) => {
                       Make your property visible to over 2,000+ property seekers
                       on our platform.
                     </p>
-                    <Link 
-                    href="/dashboard/list_Property/addProperty"
-                    className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] text-center text-[14px] leading-[16.5px] font-[400]"
-                    
+                    <Link
+                      href="/dashboard/list_Property/addProperty"
+                      className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px] text-center text-[14px] leading-[16.5px] font-[400]"
                     >
                       Get Started
                     </Link>
@@ -566,10 +597,9 @@ const ViewProperty = ({ PropertyID }) => {
                     className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
                       Get Started
                     </button> */}
-                    <Link 
-                    href="/dashboard/list_Property/addProperty"
-                    className="text-white bg-[#006AFF] py-[8px] text-center px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
-                    
+                    <Link
+                      href="/dashboard/list_Property/addProperty"
+                      className="text-white bg-[#006AFF] py-[8px] text-center px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
                     >
                       Get Started
                     </Link>

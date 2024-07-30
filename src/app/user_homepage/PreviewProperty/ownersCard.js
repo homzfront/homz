@@ -4,6 +4,8 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import formatNumber from "@/utils/formatNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import Link from "next/link";
+import whatsApp from "@/utils/whatsAppMessenger";
+
 
 const OwnersCard = ({ propertyData }) => {
   const [copiedState, setCopiedState] = useState({
@@ -15,12 +17,7 @@ const OwnersCard = ({ propertyData }) => {
   let marketerId = 222222;
   //   console.log(propertyData)
 
-  const whatsApp = (number) => {
-    if (number.startsWith("0")) {
-      number = number.substring(1);
-    }
-    window.open(`https://wa.me/${number}`);
-  };
+  
 
   return (
     <div
@@ -115,7 +112,7 @@ const OwnersCard = ({ propertyData }) => {
           </p>
         
           <button
-            onClick={() => whatsApp(propertyData?.contacts?.whatsApp || "")}
+            onClick={() => whatsApp(propertyData?.contacts?.phoneNumber || propertyData?.contacts?.whatsApp, propertyData?.slug)}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
           >
             Send Message

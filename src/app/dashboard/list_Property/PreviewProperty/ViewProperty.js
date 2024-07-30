@@ -39,9 +39,6 @@ const ViewProperty = ({ PropertyID }) => {
   }, []);
 
   const isMobileView = viewportWidth < 640;
-  const slicedData = isMobileView
-    ? combinedData.slice(1, 4)
-    : combinedData.slice(1, 5);
 
   const router = useRouter();
   const goBack = () => {
@@ -91,7 +88,14 @@ const ViewProperty = ({ PropertyID }) => {
     setPropertyData(property);
   }, [PropertyID]);
 
-  // console.log(combinedData);
+  const slicedData = isMobileView
+    ? combinedData.slice(1, 4)
+    : combinedData.slice(1, 5);
+
+  const reminderImage = isMobileView
+    ? combinedData.length - 4
+    : combinedData.length - 5;
+    let indexNumber= isMobileView? 2 : 3
 
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
@@ -175,27 +179,36 @@ const ViewProperty = ({ PropertyID }) => {
                   </Carousel>
                 </div>
 
+                {/* className=" absolute top-0 left-0 w-full h-full  " */}
                 <div className="grid sm:grid-cols-2 grid-cols-3  gap-[12px] ">
                   {combinedData &&
                     slicedData.map((item, index) => (
                       <div
                         key={item.id}
-                        className=" "
+                        className="relative"
                         onClick={() => openImageModal(index, item)}
                       >
-                        {/* {index === 0 || index <= 5 ? ( */}
                         <Image
                           src={item.url}
                           alt=""
                           width={160}
                           height={157}
-                          className={` cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] w-[106.36px] h-[90px] sm:w-[310.86px] sm:h-[229.36px] `}
+                          className={`cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] w-[106.36px] h-[90px] sm:w-[310.86px] sm:h-[229.36px]`}
                           layout="full"
                           objectFit="cover"
                           objectPosition="center"
                           quality={100}
                           priority
                         />
+                       {reminderImage > 0 && index === indexNumber && (
+                          <div className="cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] absolute inset-0 bg-black bg-opacity-40 z-10 flex items-center justify-center">
+                            <p
+                              className="text-[18px] font-[500] leading-[27px] text-white"
+                            >
+                              +{reminderImage} more
+                            </p>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </div>
@@ -294,7 +307,10 @@ const ViewProperty = ({ PropertyID }) => {
                           height={16}
                           className="h-[16px] w-[16px] md:w-[24px] md:h-[16px] "
                         />
-                        <span>{propertyData?.numberOfRooms} Beds</span>
+                        <span>
+                          {propertyData?.numberOfRooms}
+                          {propertyData?.numberOfRooms > 1 ? ` Beds` : " Bed"}
+                        </span>
                       </p>
                       <p
                         className={`flex text-[12px] sm:text-[16px] leading-[19.5px] items-center gap-[8px] font-[500] text-[#202020] sm:leading-[24px] ${
@@ -308,7 +324,12 @@ const ViewProperty = ({ PropertyID }) => {
                           height={18}
                           className="h-[16px] w-[16px] md:w-[20px] md:h-[18px] "
                         />
-                        <span>{propertyData?.numberOfBathrooms} Bathrooms</span>
+                        <span>
+                          {propertyData?.numberOfBathrooms}
+                          {propertyData?.numberOfBathrooms > 1
+                            ? ` Bathrooms`
+                            : " Bathroom"}
+                        </span>
                       </p>
                       <p
                         className={`flex text-[12px] sm:text-[16px] leading-[19.5px] items-center gap-[8px] font-[500] text-[#202020] sm:leading-[24px] ${
@@ -322,7 +343,10 @@ const ViewProperty = ({ PropertyID }) => {
                           height={24}
                           className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                         />
-                        <span>{propertyData?.numberOfToilets} Toilet</span>
+                        {propertyData?.numberOfToilets}
+                        {propertyData?.numberOfToilets > 1
+                          ? ` Toilets`
+                          : " Toilet"}
                       </p>
                     </div>
                   </div>

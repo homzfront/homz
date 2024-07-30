@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import formatNumber from "@/utils/formatNumber";
 import Image from "next/image";
-import Link from "next/link";
+import whatsApp from "@/utils/whatsAppMessenger";
 
-const ContactCard = ({ contactData, setOpenPropertyReq }) => {
+const ContactCard = ({ contactData, setOpenPropertyReq,slug }) => {
   // console.log(contactData);
   const [showNumber, setShowNumber] = useState(false);
-  const whatsApp = (number) => {
-    if (number.startsWith("0")) {
-      number = number.substring(1);
-    }
-    window.open(`https://wa.me/${number}`);
-  };
 
   return (
     <div className="py-[32px] mt-5 px-[16px] flex flex-col gap-[12px] rounded-[8px] text-white bg-[#202020]">
@@ -44,7 +38,7 @@ const ContactCard = ({ contactData, setOpenPropertyReq }) => {
             <span>Whatsapp</span>
           </p>
           <button
-            onClick={() => whatsApp(contactData?.whatsApp || "")}
+            onClick={() => whatsApp(contactData?.phoneNumber || contactData?.whatsApp, slug)}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
           >
             Send Message

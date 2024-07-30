@@ -3,7 +3,7 @@ import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import trucateWord from "@/utils/trucateWord"
+import trucateWord from "@/utils/trucateWord";
 const MiniPropertyListings = ({
   Properties,
   width,
@@ -13,7 +13,6 @@ const MiniPropertyListings = ({
 }) => {
   return (
     <div className={`w-full sm:mt-5`}>
-   
       <div className="text-[16px] flex justify-between w-full ">
         <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] ">
           Similar properties
@@ -48,7 +47,8 @@ const MiniPropertyListings = ({
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
-                    <div
+                    <Link
+                      href={`/user_homepage/PreviewProperty/${property?.slug}`}
                       key={index}
                       className=" h-[181.77px] w-full"
                     >
@@ -59,22 +59,29 @@ const MiniPropertyListings = ({
                         height={181.77}
                         className=" h-[181.77px] w-full object-cover realtive z-0"
                       />
-                    </div>
+                    </Link>
                   ))}
               </Carousel>
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
               <div className="flex justify-between">
-                <p className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center">
-                  {trucateWord(capitalizeFirstLetter(property?.name || property?.title), 12)}
-                </p>
-                <p
+                <Link
+                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center"
+                >
+                  {trucateWord(
+                    capitalizeFirstLetter(property?.name || property?.title),
+                    12
+                  )}
+                </Link>
+                <Link
+                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
                   className={`hidden sm:flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
                 >
                   {capitalizeFirstLetter(property?.listingType)}
-                </p>
+                </Link>
               </div>
 
               <p className="text-[9px] md:text-[10.1px] font-[400] text-[#006AFF]">
@@ -152,7 +159,7 @@ const MiniPropertyListings = ({
                       height={11.86}
                       className="h-[12px] w-[14px] md:w-[13.89px] md:h-[6.13px]"
                     />
-                    <span className=" text-[6.98px] md:text-[7.21px] font-[500] leading-[10.82px] text-center font-['Plus Kakarta Sans']">  
+                    <span className=" text-[6.98px] md:text-[7.21px] font-[500] leading-[10.82px] text-center font-['Plus Kakarta Sans']">
                       {property?.squareMeter} Sqft
                     </span>
                   </p>

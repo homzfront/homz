@@ -39,7 +39,8 @@ const MiniPropertyListings = ({
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
-                    <div
+                    <Link
+                      href={`/user_homepage/PreviewProperty/${property?.slug}`}
                       key={index}
                       className="w-full h-[181.77px] md:w-full"
                     >
@@ -50,25 +51,29 @@ const MiniPropertyListings = ({
                         height={181.77}
                         className="w-full h-[181.77px]   sm:object-cover retive z-0"
                       />
-                    </div>
+                    </Link>
                   ))}
               </Carousel>
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
               <div className="flex justify-between">
-                <p className="text-[#006AFF]  sm:text-[16.59px] font-[700] leading-[20.9px] text-center">
+                <Link
+                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  className="text-[#006AFF]  sm:text-[16.59px] font-[700] leading-[20.9px] text-center"
+                >
                   {trucateWord(
                     capitalizeFirstLetter(property?.name || property?.title),
                     12
                   )}
-                </p>
-                <p
+                </Link>
+                <Link
+                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
                   className={`flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
                 >
                   {capitalizeFirstLetter(property?.listingType)}
-                </p>
+                </Link>
               </div>
 
               <p className="text-[9px] md:text-[10.1px] font-[400] text-[#006AFF]">
