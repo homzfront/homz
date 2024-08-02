@@ -17,6 +17,7 @@ const Widget = ({ data, profile }) => {
 
   const router = useRouter();
   const propertyIds = usePropertyIds((state) => state.propertyIds);
+  const resetPropertyIds = usePropertyIds((state) => state.resetPropertyIds);
   // console.log(propertyIds)
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const Widget = ({ data, profile }) => {
   const [active, setActive] = useState(pages[0].id);
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
+    resetPropertyIds();
     router.push("/dashboard/list_Property");
   };
   const handlePageChange = (id) => {

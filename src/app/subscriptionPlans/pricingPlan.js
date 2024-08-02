@@ -7,11 +7,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import useStorePropertyIds from "@/store/propertyIds";
 
 const PricingPlan = () => {
   const router = useRouter();
+  const resetPropertyIds = useStorePropertyIds((state) => state.resetPropertyIds);
 
   const goBack = () => {
+    resetPropertyIds();
     router.back();
   };
   const [data, setData] = useState(null);
