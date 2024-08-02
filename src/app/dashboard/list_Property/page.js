@@ -1,14 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Property from "./listedProperty";
 import usePropertyStore from "@/store/propertyForMeStore";
+import usePropertyIds from "@/store/propertyIds";
 import LoadingII from "./components/loading";
 import useClickOutside from "@/utils/clickOutside";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
-import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import { useRouter } from "next/navigation";
+import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
+// import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
@@ -19,8 +22,11 @@ const List_Property = () => {
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
   const [page, setPage] = useState(1);
+  const [isLoading, setLoader] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-
+  const setPropertyIds = usePropertyIds((state) => state.setPropertyIds);
   const handlePageNumber = (pageNumber) => {
     // console.log(pageNumber);
     setPage(pageNumber);
@@ -29,27 +35,42 @@ const List_Property = () => {
   useEffect(() => {
     fetchData(page);
     fetchProfile();
-  }, [fetchData, fetchProfile,page]);
+  }, [fetchData, fetchProfile, page]);
 
+  
+  useEffect(() => {
+    if (isPending) {
+      return setLoader(true);
+    }
+    setLoader(false);
+  }, [isPending]);
 
   const property = propertyListedAll;
   const data = propertyListedAll.data?.results?.[0].data;
 
-// console.log(property)
+  // console.log(selectedProperty)
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
   };
   const handleCancel = () => {
+    setPropertyIds([]);
     setSelectedProperties([]);
     setOptions(false);
   };
   const handlePromoteOptions = () => {
+    // if (!options) {
     if (selectedProperty.length > 0) {
-      setOpenPromoModal(true);
+      setLoader(true);
+      setPropertyIds(selectedProperty);
+      startTransition(() => {
+        router.push(`/subscriptionPlans?type=multiple`);
+      });
     } else {
       setOptions(true);
     }
   };
+
+
   const toggleModal = () => {
     setOpenPromoModal(false);
   };
@@ -117,25 +138,31 @@ const List_Property = () => {
                 )}
                 <button
                   onClick={handlePromoteOptions}
-                  className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 "
+                  className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 sm:w-[180px]"
                 >
-                  <Image
-                    src="/static/images/orange-send.svg"
-                    alt=""
-                    height={16}
-                    width={16}
-                    className="hidden sm:inline-block"
-                  />
-                  <Image
-                    src="/static/images/promoteOrangeBtn.svg"
-                    alt=""
-                    height={28}
-                    width={28}
-                    className="sm:hidden p-[4px]"
-                  />
-                  <span className="hidden sm:inline-block">
-                    {options ? "Promotion options" : "Promote properties"}
-                  </span>
+                  {!isLoading ? (
+                    <>
+                      <Image
+                        src="/static/images/orange-send.svg"
+                        alt=""
+                        height={16}
+                        width={16}
+                        className="hidden sm:inline-block"
+                      />
+                      <Image
+                        src="/static/images/promoteOrangeBtn.svg"
+                        alt=""
+                        height={28}
+                        width={28}
+                        className="sm:hidden p-[4px]"
+                      />
+                      <span className="hidden sm:inline-block">
+                        {options ? "Promotion options" : "Promote properties"}
+                      </span>
+                    </>
+                  ) : (
+                    <ThreeDotsLoader color="#ffffff" />
+                  )}
                 </button>
 
                 <>
@@ -177,7 +204,7 @@ const List_Property = () => {
                         width={16}
                         className="hidden sm:inline-block"
                       />
-                        <Image
+                      <Image
                         src="/static/images/addbtn2.svg"
                         alt=""
                         height={28}

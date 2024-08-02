@@ -4,7 +4,8 @@ import PlansMonthly from "./components/plansMonthly.js";
 import PlansWeekly from "./components/plansWeekly.js";
 import PlansYearly from "./components/plansYearly.js";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-import { Carousel } from "react-responsive-carousel";
+// import { Carousel } from "react-responsive-carousel";
+import usePropertyIds from "@/store/propertyIds";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRouter } from "next/navigation.js";
 
@@ -12,14 +13,20 @@ const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [propertyId, setPropertyId] = useState();
+  const [type, setType] = useState("");
 
   const router = useRouter();
+  const propertyIds = usePropertyIds((state) => state.propertyIds);
+  // console.log(propertyIds)
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const propertyId = urlParams.get("propertyId");
+    const type = urlParams.get("type");
+    setType(type);
     setPropertyId(propertyId);
   }, []);
-  // console.log(propertyId);
+
   const pages = [
     {
       id: 1,
@@ -29,6 +36,8 @@ const Widget = ({ data, profile }) => {
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
           propertyId={propertyId}
+          propertyIds={propertyIds}
+          planType={type}
         />
       ),
     },
@@ -40,6 +49,8 @@ const Widget = ({ data, profile }) => {
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
           propertyId={propertyId}
+          propertyIds={propertyIds}
+          planType={type}
         />
       ),
     },
@@ -51,6 +62,8 @@ const Widget = ({ data, profile }) => {
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
           propertyId={propertyId}
+          propertyIds={propertyIds}
+          planType={type}
         />
       ),
     },

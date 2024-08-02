@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,26 +19,37 @@ function CardMenus({
 }) {
   const router = useRouter();
   const [isLoading, setLoader] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (isPending) {
+      return setLoader(true);
+    }
+    setLoader(false);
+  }, [isPending]);
+
   // onClick={(e) => {
   //   router.push(`/dashboard/list_Property/edit_property/${data?._id}`);
   // }}
   if (!data) {
-    return null; // or handle accordingly, e.g., return a loading state
+    return null; 
   }
 
-  const handlePromoteProperty = (propertyId) => {
+  const handlePromoteProperty = () => {
     setLoader(true);
-
-    setTimeout(() => {
-      if (promoted) {
-        setModalIsOpen(true);
-        setLoader(false);
-      } else {
-        router.push(`/subscriptionPlans?propertyId=${data?._id}`);
-        setLoader(false);
-      }
-    }, 2000);
+    if (promoted) {
+      setModalIsOpen(true);
+      setLoader(false);
+    } else {
+      startTransition(() => {
+        router.push(`/subscriptionPlans?propertyId=${data?._id}&type=single`);
+      });
+    }
   };
+
+  // const toggleModal = () => {
+  //   setOpenPromoModal(false);
+  // };
 
   return (
     <div

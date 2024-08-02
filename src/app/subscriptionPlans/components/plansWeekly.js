@@ -1,13 +1,11 @@
-import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
-import Loading from "@/components/mainmenu/loading";
-import promoteProperty from "@/utils/promoteProperty";
-import useBodyScroll from "@/utils/useBodyScroll";
+// import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
+// import Link from "next/link";
+// import { toast } from "react-toastify";
+// import Loading from "@/components/mainmenu/loading";
+// import { useRouter } from "next/navigation";
+import handleSelectPlans from "@/utils/promotionPlan";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
-import { toast } from "react-toastify";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MobilePlan from "./MobilePlan";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
@@ -17,17 +15,16 @@ const Plans = ({
   profile,
   setSuccessModalIsOpen,
   propertyId,
+  propertyIds,
+  planType,
   setModalIsOpen,
 }) => {
-  const [loading, setLoading] = useState(false);
- 
-  const [formError, setFormError] = useState();
+  // const [formError, setFormError] = useState();
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [loadingStates, setLoadingStates] = useState({});
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,100 +63,24 @@ const Plans = ({
     setOpenInfo(!openInfo);
   };
 
-  const router = useRouter();
-  useBodyScroll([loading]);
-
-  // Optional URL validation function (consider using a more robust library)
-  function isValidUrl(url) {
-    const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
-    return regex.test(url);
-  }
-
-  // async function handleSubmit(interval, plans) {
-  //   setLoading(true);
-
-  //   if (!interval || !plans) {
-  //     setFormError("Please select an interval and plan.");
-  //     setLoading(false);
-  //     return; // Early exit if required fields are missing
-  //   }
-
-  //   try {
-  //     let response;
-  //     if (
-  //       profile.PlanStatus === "free_trial" ||
-  //       profile?.planName === "Enterprise Starter" ||
-  //       profile?.planName === "Enterprise Plus" ||
-  //       profile?.planName === "Enterprise Premium" ||
-  //       profile.planName === "Enterprise Trial"
-  //     ) {
-  //       response = await updateEnterPriseSub({
-  //         planName: plans,
-  //         interval,
-  //       });
-  //     }
-  //     if (response.success) {
-  //       setLoading(false);
-  //       const successMessage =
-  //         response?.updatedData?.data?.message ||
-  //         "Enterprise Plan account created successfully"; // Use response.data?.message if available, otherwise default message
-  //       toast.success(successMessage);
-  //       const authorizationUrl =
-  //         response?.updatedData?.data?.data?.data?.authorization_url;
-  //       const paystackAuthorizationUrl =
-  //         response?.updatedData?.data?.data?.paystackResponse?.data
-  //           ?.authorization_url;
-
-  //       if (isValidUrl(authorizationUrl)) {
-  //         router.push(authorizationUrl);
-  //       } else if (isValidUrl(paystackAuthorizationUrl)) {
-  //         router.push(paystackAuthorizationUrl);
-  //       } else {
-  //         // console.warn('Invalid or missing authorization URL in response.');
-  //       }
-  //     } else {
-  //       if (response.error) {
-  //         setFormError(response.error || "An error occurred."); // Default error message
-  //         // console.error("Error creating profile:", response.error);
-  //         setLoading(false);
-  //         toast.error(response.error);
-  //       } // Use the specific error message from response.error
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-  //     // console.log(error.response?.data?.error)
-  //     setFormError(
-  //       error.response?.data?.message || error.response?.data?.error
-  //     ); // Log the original error
-  //     setLoading(false);
-  //   }
-  // }
+  // const router = useRouter();
 
   const handleSelectPlan = async (index) => {
-    setLoadingStates(prev => ({ ...prev, [index]: true }));
-    try {
-      const results = await promoteProperty("2026-02-17", propertyId);
-      console.log(results);
-      if (results.status === false) {
-        setLoadingStates(prev => ({ ...prev, [index]: false }));
-        setModalIsOpen(true);
-      } else if(results.status === true) {
-        setLoadingStates(prev => ({ ...prev, [index]: false }));
-        setSuccessModalIsOpen(true);
-      }
-      else{
-        setLoadingStates(prev => ({ ...prev, [index]: false }));
-        return ;
-      }
-    } catch (error) {
-      console.error("Error selecting plan:", error);
-      setLoadingStates(prev => ({ ...prev, [index]: false }));
-    }
+    let date = "2026-02-17";
+    await handleSelectPlans(
+      date,
+      index,
+      propertyId,
+      planType,
+      propertyIds,
+      setLoadingStates,
+      setModalIsOpen,
+      setSuccessModalIsOpen
+    );
   };
 
   return (
     <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
-      {loading && <Loading />}
       <div className="sm:hidden">
         <MobilePlan
           handleSelectPlan={handleSelectPlan}
@@ -258,26 +179,28 @@ const Plans = ({
             </div>
 
             <button
-          key={index}
-          onClick={() => handleSelectPlan(index)}
-          className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
-            plan.status === true ? "hidden" : ""
-          } ${
-            profile?.planName === plan.title && profile?.interval === "weekly"
-              ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
-              : "bg-BlueHomz hover:bg-blue-400 text-white"
-          }`}
-        >
-          {loadingStates[index] ? (
-            <ThreeDots color="#ffffff" />
-          ) : (
-            <>
-              {profile?.planName === plan.title && profile?.interval === "weekly"
-                ? "Active"
-                : "Select Plan"}
-            </>
-          )}
-        </button>
+              key={index}
+              onClick={() => handleSelectPlan(index)}
+              className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
+                plan.status === true ? "hidden" : ""
+              } ${
+                profile?.planName === plan.title &&
+                profile?.interval === "weekly"
+                  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
+                  : "bg-BlueHomz hover:bg-blue-400 text-white"
+              }`}
+            >
+              {loadingStates[index] ? (
+                <ThreeDots color="#ffffff" />
+              ) : (
+                <>
+                  {profile?.planName === plan.title &&
+                  profile?.interval === "weekly"
+                    ? "Active"
+                    : "Select Plan"}
+                </>
+              )}
+            </button>
           </div>
         ))}
       </div>
@@ -574,3 +497,69 @@ const pricingPlans = [
     interval: "weekly",
   },
 ];
+
+// Optional URL validation function (consider using a more robust library)
+// function isValidUrl(url) {
+//   const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
+//   return regex.test(url);
+// }
+
+// async function handleSubmit(interval, plans) {
+//   setLoading(true);
+
+//   if (!interval || !plans) {
+//     setFormError("Please select an interval and plan.");
+//     setLoading(false);
+//     return; // Early exit if required fields are missing
+//   }
+
+//   try {
+//     let response;
+//     if (
+//       profile.PlanStatus === "free_trial" ||
+//       profile?.planName === "Enterprise Starter" ||
+//       profile?.planName === "Enterprise Plus" ||
+//       profile?.planName === "Enterprise Premium" ||
+//       profile.planName === "Enterprise Trial"
+//     ) {
+//       response = await updateEnterPriseSub({
+//         planName: plans,
+//         interval,
+//       });
+//     }
+//     if (response.success) {
+//       setLoading(false);
+//       const successMessage =
+//         response?.updatedData?.data?.message ||
+//         "Enterprise Plan account created successfully"; // Use response.data?.message if available, otherwise default message
+//       toast.success(successMessage);
+//       const authorizationUrl =
+//         response?.updatedData?.data?.data?.data?.authorization_url;
+//       const paystackAuthorizationUrl =
+//         response?.updatedData?.data?.data?.paystackResponse?.data
+//           ?.authorization_url;
+
+//       if (isValidUrl(authorizationUrl)) {
+//         router.push(authorizationUrl);
+//       } else if (isValidUrl(paystackAuthorizationUrl)) {
+//         router.push(paystackAuthorizationUrl);
+//       } else {
+//         // console.warn('Invalid or missing authorization URL in response.');
+//       }
+//     } else {
+//       if (response.error) {
+//         setFormError(response.error || "An error occurred."); // Default error message
+//         // console.error("Error creating profile:", response.error);
+//         setLoading(false);
+//         toast.error(response.error);
+//       } // Use the specific error message from response.error
+//     }
+//   } catch (error) {
+//     toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
+//     // console.log(error.response?.data?.error)
+//     setFormError(
+//       error.response?.data?.message || error.response?.data?.error
+//     ); // Log the original error
+//     setLoading(false);
+//   }
+// }

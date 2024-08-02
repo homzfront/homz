@@ -11,8 +11,8 @@ import useClickOutside from "@/utils/clickOutside";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter, usePathname } from "next/navigation";
-import Loading from "@/components/mainmenu/loading";
-import api from "@/utils/api";
+// import Loading from "@/components/mainmenu/loading";
+// import api from "@/utils/api";
 import Button from "@/components/mainmenu/button";
 
 const ListedProperties = ({
@@ -29,7 +29,7 @@ const ListedProperties = ({
   // useEffect(() => {
   //   fetchData();
   // }, []);
-  console.log(property)
+  // console.log(property)
   const ITEMS_PER_PAGE = 8;
   const [filteredData, setFilteredData] = useState(property.data?.results?.[0].data);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
@@ -44,7 +44,7 @@ const ListedProperties = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageNumber, setPageNumber] = useState(property.data?.results?.[0].metadata[0].page);
+  const [pageNumber, setPageNumber] = useState(property.data?.results?.[0].metadata[0].page || 1);
   const totalPages = Math.ceil(property?.data?.totalCount / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -87,6 +87,7 @@ const ListedProperties = ({
       router?.events?.off("routeChangeComplete", handleRouteChangeComplete);
     };
   }, [router]);
+  
   function pageManagement(num) {
     const newUrl = pathName.includes("?")
       ? `${pathName}&page=${num}`
@@ -103,7 +104,7 @@ const ListedProperties = ({
   }, [totalPages]);
 
   const handleNext = () => {
-    const nextPageNumber = currentPage + 1;
+    const nextPageNumber = pageNumber + 1;
     pageManagement(nextPageNumber);
     setPageNumber(nextPageNumber);
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -118,7 +119,7 @@ const ListedProperties = ({
   };
 
   const handlePrev = () => {
-    const prevPageNumber = Math.max(currentPage - 1, 1);
+    const prevPageNumber = Math.max(pageNumber - 1, 1);
     pageManagement(prevPageNumber);
     setPageNumber(prevPageNumber);
     setCurrentPage((prev) => Math.max(prev - 1, 1));

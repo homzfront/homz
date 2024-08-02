@@ -26,6 +26,7 @@ const PropertyCard = ({
   const currentProperties = Property?.slice(startIndex, endIndex);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activePromo, setActivePromoted] = useState(false);
   const [deleteProperty, setDeleteProperty] = useState(false);
   const [propertyDeleted, setPropertyDeleted] = useState(false);
   const [unpublishProperty, setUnpublisProperty] = useState(false);
@@ -54,7 +55,12 @@ const PropertyCard = ({
     };
   }, [isMenuOpen]);
 
-  const handleCheckboxChange = (property) => {
+  const handleCheckboxChange = (property, is_promoted) => {
+    if (is_promoted) {
+      setActivePromoted(true);
+      return;
+    }
+
     setSelectedProperty((prevSelected) =>
       prevSelected.includes(property)
         ? prevSelected.filter((item) => item !== property)
@@ -77,6 +83,7 @@ const PropertyCard = ({
     setPropertyUnpublished(false);
     setPropertyDeleted(false);
     setPromotionStoppedModal(false);
+    setActivePromoted(false);
   };
   const handleUnpublished = () => {
     setUnpublisProperty(true);
@@ -256,7 +263,7 @@ const PropertyCard = ({
                     type="checkbox"
                     className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 bg-[#FFFFFF] before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#FFFFFF] hover:before:opacity-2"
                     id={`checkbox-${index}`}
-                    onChange={() => handleCheckboxChange(property._id)}
+                    onChange={() => handleCheckboxChange(property._id, property.is_promoted)}
                     checked={selectedProperty.includes(property._id)}
                   />
                   <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
@@ -296,6 +303,11 @@ const PropertyCard = ({
       <SuccessModal
         isOpen={propertyDeleted}
         title="Property Deleted Successfully"
+        handleEvent={closeSuccessModal}
+      />
+      <SuccessModal
+        isOpen={activePromo}
+        title="This property is already promoted"
         handleEvent={closeSuccessModal}
       />
 
