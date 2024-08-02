@@ -11,11 +11,15 @@ import { useRouter } from "next/navigation.js";
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [propertyId, setPropertyId]= useState()
 
 const router= useRouter();
-
-  const urlParams = new URLSearchParams(window && window.location.search);
+useEffect(() => {
+  
+  const urlParams = new URLSearchParams(window.location.search);
   const propertyId = urlParams.get("propertyId");
+  setPropertyId(propertyId);
+}, []);
 // console.log(propertyId);
   const pages = [
     {
