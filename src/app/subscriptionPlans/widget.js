@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlansMonthly from "./components/plansMonthly.js";
 import PlansWeekly from "./components/plansWeekly.js";
 import PlansYearly from "./components/plansYearly.js";
@@ -11,38 +11,55 @@ import { useRouter } from "next/navigation.js";
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [propertyId, setPropertyId]= useState()
+  const [propertyId, setPropertyId] = useState();
 
-const router= useRouter();
-useEffect(() => {
-  
-  const urlParams = new URLSearchParams(window.location.search);
-  const propertyId = urlParams.get("propertyId");
-  setPropertyId(propertyId);
-}, []);
-// console.log(propertyId);
+  const router = useRouter();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const propertyId = urlParams.get("propertyId");
+    setPropertyId(propertyId);
+  }, []);
+  // console.log(propertyId);
   const pages = [
     {
       id: 1,
       name: "Pay Weekly",
-      component: <PlansWeekly setSuccessModalIsOpen={setSuccessModalIsOpen} setModalIsOpen={setModalIsOpen}  propertyId={propertyId} />,
+      component: (
+        <PlansWeekly
+          setSuccessModalIsOpen={setSuccessModalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          propertyId={propertyId}
+        />
+      ),
     },
     {
       id: 2,
       name: "Pay Monthly",
-      component: <PlansMonthly setSuccessModalIsOpen={setSuccessModalIsOpen} setModalIsOpen={setModalIsOpen} propertyId={propertyId} />,
+      component: (
+        <PlansMonthly
+          setSuccessModalIsOpen={setSuccessModalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          propertyId={propertyId}
+        />
+      ),
     },
     {
       id: 3,
       name: "Pay Yearly",
-      component: <PlansYearly setSuccessModalIsOpen={setSuccessModalIsOpen} setModalIsOpen={setModalIsOpen} propertyId={propertyId}/>,
+      component: (
+        <PlansYearly
+          setSuccessModalIsOpen={setSuccessModalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          propertyId={propertyId}
+        />
+      ),
     },
   ];
 
   const [active, setActive] = useState(pages[0].id);
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
-    router.push('/dashboard/list_Property')
+    router.push("/dashboard/list_Property");
   };
   const handlePageChange = (id) => {
     setActive(id);
@@ -77,7 +94,6 @@ useEffect(() => {
           ))}
         </div>
       </div>
-   
 
       <SuccessModal
         isOpen={successModalIsOpen}
@@ -86,10 +102,10 @@ useEffect(() => {
         successText="Promotion is currently under review and will be live within 8 hours."
         optionalText="View listed properties"
       />
-          <SuccessModal
+      <SuccessModal
         isOpen={modalIsOpen}
         title="Promotion is Active"
-        handleEvent={()=>setModalIsOpen(false)}
+        handleEvent={() => setModalIsOpen(false)}
         successText={`Your ${"[Monthly]"} promotion is currently running for this property`}
       />
     </div>
