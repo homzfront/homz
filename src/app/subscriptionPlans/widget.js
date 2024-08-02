@@ -14,7 +14,7 @@ const Widget = ({ data, profile }) => {
 
 const router= useRouter();
 
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window && window.location.search);
   const propertyId = urlParams.get("propertyId");
 // console.log(propertyId);
   const pages = [
