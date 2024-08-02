@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Carousel } from "flowbite-react";
+import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 const MobilePlan = ({
   handleSelectPlan,
   pricingPlans,
@@ -10,7 +11,9 @@ const MobilePlan = ({
   setOpenInfo,
   openInfo,
   profile,
-  selectedDataId
+  selectedDataId,
+  loadingStates,
+  period
 }) => {
   return (
     <div className="cursor-pointer rounded-[10px] w-full sm:hidden h-[660px] mb-8">
@@ -99,22 +102,28 @@ const MobilePlan = ({
               ))}
             </div>
 
+        
             <button
-              onClick={handleSelectPlan}
-              className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
-                plan.status === true ? "hidden" : ""
-              } ${
-                profile?.planName === plan.title &&
-                profile?.interval === "monthly"
-                  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
-                  : "bg-BlueHomz hover:bg-blue-400 text-white"
-              }`}
-            >
-              {profile?.planName === plan.title &&
-              profile?.interval === "monthly"
+          key={index}
+          onClick={() => handleSelectPlan(index)}
+          className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
+            plan.status === true ? "hidden" : ""
+          } ${
+            profile?.planName === plan.title && profile?.interval === period
+              ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
+              : "bg-BlueHomz hover:bg-blue-400 text-white"
+          }`}
+        >
+          {loadingStates && loadingStates[index] ? (
+            <ThreeDotsLoader color="#ffffff" />
+          ) : (
+            <>
+              {profile?.planName === plan.title && profile?.interval === period
                 ? "Active"
                 : "Select Plan"}
-            </button>
+            </>
+          )}
+        </button>
           </div>
         ))}
       </Carousel>

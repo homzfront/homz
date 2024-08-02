@@ -10,29 +10,35 @@ import { useRouter } from "next/navigation.js";
 
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
 const router= useRouter();
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const propertyId = urlParams.get("propertyId");
+// console.log(propertyId);
   const pages = [
     {
       id: 1,
       name: "Pay Weekly",
-      component: <PlansWeekly setSuccessModalIsOpen={setSuccessModalIsOpen} />,
+      component: <PlansWeekly setSuccessModalIsOpen={setSuccessModalIsOpen} setModalIsOpen={setModalIsOpen}  propertyId={propertyId} />,
     },
     {
       id: 2,
       name: "Pay Monthly",
-      component: <PlansMonthly setSuccessModalIsOpen={setSuccessModalIsOpen} />,
+      component: <PlansMonthly setSuccessModalIsOpen={setSuccessModalIsOpen} setModalIsOpen={setModalIsOpen} propertyId={propertyId} />,
     },
     {
       id: 3,
       name: "Pay Yearly",
-      component: <PlansYearly setSuccessModalIsOpen={setSuccessModalIsOpen} />,
+      component: <PlansYearly setSuccessModalIsOpen={setSuccessModalIsOpen} setModalIsOpen={setModalIsOpen} propertyId={propertyId}/>,
     },
   ];
 
   const [active, setActive] = useState(pages[0].id);
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
-    router.back()
+    router.push('/dashboard/list_Property')
   };
   const handlePageChange = (id) => {
     setActive(id);
@@ -41,11 +47,11 @@ const router= useRouter();
   return (
     <div>
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-2 justify-between w-fit cursor-pointer m-auto">
+        <div className="flex mt-1 sm:gap-2 justify-between gap-[10px] sm:w-fit  cursor-pointer sm:m-auto">
           {pages.map((page) => (
             <div
               key={page.id}
-              className={`flex flex-col items-center py-2 px-3 justify-center rounded-md w-[105px] h-[37px] ${
+              className={`flex flex-col items-center py-2 sm:px-3 justify-center rounded-md w-[105px] h-[37px] ${
                 active === page.id
                   ? "bg-BlueHomz text-white"
                   : "bg-whiteblue text-BlueHomz "
@@ -56,7 +62,7 @@ const router= useRouter();
             </div>
           ))}
         </div>
-        <div className="my-5 rounded-[12px] ">
+        <div className="my-5 rounded-[12px] sm:pl-6">
           {pages.map((page) => (
             <div
               key={page.id}
@@ -75,6 +81,12 @@ const router= useRouter();
         handleEvent={closeSaveToDraftModal}
         successText="Promotion is currently under review and will be live within 8 hours."
         optionalText="View listed properties"
+      />
+          <SuccessModal
+        isOpen={modalIsOpen}
+        title="Promotion is Active"
+        handleEvent={()=>setModalIsOpen(false)}
+        successText={`Your ${"[Monthly]"} promotion is currently running for this property`}
       />
     </div>
   );

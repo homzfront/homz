@@ -18,13 +18,24 @@ const List_Property = () => {
   const [options, setOptions] = useState(false);
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
+  const [page, setPage] = useState(1);
 
+
+  const handlePageNumber = (pageNumber) => {
+    // console.log(pageNumber);
+    setPage(pageNumber);
+    fetchData(pageNumber);
+  };
   useEffect(() => {
-    fetchData();
+    fetchData(page);
     fetchProfile();
-  }, [fetchData, fetchProfile]);
-  const data = propertyListedAll;
+  }, [fetchData, fetchProfile,page]);
 
+
+  const property = propertyListedAll;
+  const data = propertyListedAll.data?.results?.[0].data;
+
+// console.log(property)
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
   };
@@ -75,7 +86,7 @@ const List_Property = () => {
         <>
           <div
             className={` ${
-              data?.length === 0 ? "hidden" : ""
+              property?.data?.totalCount === 0 ? "hidden" : ""
             } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
             <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] px-4 sm:px-">
@@ -85,7 +96,7 @@ const List_Property = () => {
                 </span>
 
                 <span className="text-[#006AFF] md:text-[18px] bg-[#EEF5FF] px-[8px] h-[28px] md:h-[35px] py-[4px] rounded-[8px] ml-2">
-                  {data?.length > 0 ? data?.length : 0}
+                  {property.data.totalCount || 0}
                 </span>
               </p>
               <div className="flex items-center gap-[12px] ">
@@ -128,7 +139,7 @@ const List_Property = () => {
                 </button>
 
                 <>
-                  {data?.length > 0 &&
+                  {property?.data?.totalCount > 0 &&
                   (profile?.businessInfo?.isVerified === "unverified" ||
                     profile?.businessInfo?.isVerified === "pending" ||
                     profile?.businessInfo?.isVerified === "rejected") ? (
@@ -181,7 +192,7 @@ const List_Property = () => {
                 </>
               </div>
             </div>
-            {data?.length > 0 &&
+            {property?.data?.totalCount > 0 &&
             (profile?.businessInfo?.isVerified === "unverified" ||
               profile?.businessInfo?.isVerified === "pending" ||
               profile?.businessInfo?.isVerified === "rejected") ? (
@@ -211,7 +222,7 @@ const List_Property = () => {
             <div className="h-screen flex justify-center items-center">
               <LoadingII />
             </div>
-          ) : data && data.length < 1 ? (
+          ) : property && property?.data?.totalCount < 1 ? (
             <div>
               <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
                 List your properties so Tenants can see them.
@@ -250,13 +261,14 @@ const List_Property = () => {
             </div>
           ) : (
             <Property
-              property={data}
+              property={property}
               promoteOption={options}
               openPromoModal={openPromoModal}
               setSelectedOption={setSelectedProperties}
               selectedOptions={selectedProperty}
               closePromoModal={toggleModal}
               cancelSelectedOption={handleCancel}
+              handlePageNumber={handlePageNumber}
             />
           )}
         </>

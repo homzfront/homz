@@ -28,9 +28,9 @@ export const fetchSinglePropertyPublic = async (id) => {
 };
 
 
-export const propertyForMe = async () => {
+export const propertyForMe = async (page) => {
   try {
-    const response = await api.get("/properties/user/me");
+    const response = await api.get(`/properties/user/me?page=${page && page}`);
     return response.data;
   } catch (error) {
     throw error;

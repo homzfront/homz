@@ -1,6 +1,7 @@
 import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
 import Loading from "@/components/mainmenu/loading";
-import api from "@/utils/api";
+import promoteProperty from "@/utils/promoteProperty";
+import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +10,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import MobilePlan from "./MobilePlan";
 
-const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
+const Plans = ({
+  data,
+  profile,
+  setSuccessModalIsOpen,
+  propertyId,
+  setModalIsOpen,
+}) => {
   const [loading, setLoading] = useState(false);
-  const [screenSize, setScreensize] = useState(false);
+  const [loadingStates, setLoadingStates] = useState({});
   const [formError, setFormError] = useState();
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -124,8 +131,22 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
     }
   }
 
-  const handleSelectPlan = () => {
-    setSuccessModalIsOpen(true);
+  const handleSelectPlan = async (index) => {
+    setLoadingStates((prev) => ({ ...prev, [index]: true }));
+    try {
+      const results = await promoteProperty("2026-02-17", propertyId);
+      console.log(results);
+      if (results.status === false) {
+        setLoadingStates((prev) => ({ ...prev, [index]: false }));
+        setModalIsOpen(true);
+      } else {
+        setLoadingStates((prev) => ({ ...prev, [index]: false }));
+        setSuccessModalIsOpen(true);
+      }
+    } catch (error) {
+      console.error("Error selecting plan:", error);
+      setLoadingStates((prev) => ({ ...prev, [index]: false }));
+    }
   };
   return (
     <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
@@ -141,6 +162,8 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
           openInfo={openInfo}
           profile={profile}
           selectedDataId={selectedDataId}
+          loadingStates={loadingStates}
+          period="annually"
         />
       </div>
       <div className="sm:grid hidden gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
@@ -225,20 +248,27 @@ const Plans = ({ data, profile, setSuccessModalIsOpen }) => {
             </div>
 
             <button
-              onClick={handleSelectPlan}
-              className={`h-[48px] rounded-lg text-[16px] w-full mt-6 ${
+              key={index}
+              onClick={() => handleSelectPlan(index)}
+              className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true ? "hidden" : ""
               } ${
                 profile?.planName === plan.title &&
-                profile?.interval === "monthly"
+                profile?.interval === "annually"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
             >
-              {profile?.planName === plan.title &&
-              profile?.interval === "monthly"
-                ? "Active"
-                : "Select Plan"}
+              {loadingStates[index] ? (
+                <ThreeDots color="#ffffff" />
+              ) : (
+                <>
+                  {profile?.planName === plan.title &&
+                  profile?.interval === "annually"
+                    ? "Active"
+                    : "Select Plan"}
+                </>
+              )}
             </button>
           </div>
         ))}

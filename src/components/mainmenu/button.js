@@ -12,6 +12,7 @@ const Button = ({
   pixel
 }) => {
 
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     if (totalPages <= 6) {

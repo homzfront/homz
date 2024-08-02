@@ -9,17 +9,16 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import CardMenus from "./cardMenu";
+import formatDate from "@/utils/formatDate";
 
 const PropertyCard = ({
   Property,
   selectedProperty,
   setSelectedProperty,
-  setModalIsOpen,
   promoteOptions,
 }) => {
   const ITEMS_PER_PAGE = 8;
   const [publish, setPublish] = useState(true);
-  const [sponsored, setSponsored] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(Property?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -36,7 +35,7 @@ const PropertyCard = ({
 
   const popUp = useRef(null);
   const router = useRouter();
-
+  // console.log(Property);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popUp.current && !popUp.current.contains(event.target)) {
@@ -87,36 +86,17 @@ const PropertyCard = ({
     setSelectedDataId(index);
     setIsMenuOpen(!isMenuOpen);
   };
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
 
-  const handlePrev = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handlePageClick = (page) => {
-    setCurrentPage(page);
-  };
-  const firstThreePages = Array.from(
-    { length: Math.min(totalPages, 3) },
-    (_, index) => index + 1
-  );
-  const lastThreePagesStart = Math.max(totalPages - 2, 1);
-  const lastThreePages = Array.from(
-    { length: Math.min(totalPages, 3) },
-    (_, index) => lastThreePagesStart + index
-  );
   const truncateText = (text, length) => {
     return text.length > length ? text.substring(0, length) + "..." : text;
   };
 
   return (
-    <div className="w-full flex flex-col gap-[64px] pt-6 sm:justify-center sm:items-center mt-3">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+    <div className="w-full flex flex-col gap-[64px] mt-6 sm:justify-center sm:items-center h-fit">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
         {currentProperties.map((property, index) => (
           <div
-            className=" relative flex flex-col h-full w-full md:w-[234px] md:h-fit rounded-[12px] shadow-md"
+            className=" relative flex flex-col h-fit w-full md:w-[234px] md:h-[313px] rounded-[12px] shadow-md"
             key={index}
           >
             <div className="cursor-pointer w-full md:w-[234px] h-[168px] rounded-[10px] ">
@@ -146,16 +126,18 @@ const PropertyCard = ({
                     height={20}
                   />
                 </p>
-                <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[230px] sm:left-[130px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
-                  Published
-                </p>
+                {property?.is_published && (
+                  <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[230px] sm:left-[130px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
+                    Published
+                  </p>
+                )}
 
                 {/* <p className="bg-[#DC6803] text-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[96px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Undergoing Review</p> */}
                 {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] sm:left-[165px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
                 {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] sm:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
               </div>
             </div>
-            <div className="flex flex-col px-2 py-5 md:pt-5 gap-[5px] md:gap-[2px]">
+            <div className="flex flex-col px-2 py-5 md:pt-2 gap-[5px] md:gap-[2px]">
               <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
                 <Link
                   href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
@@ -188,7 +170,8 @@ const PropertyCard = ({
                       handlePublished={handlePublished}
                       setIsMenuOpen={setIsMenuOpen}
                       refs={popUp}
-                      setModalIsOpen={setModalIsOpen}
+                      promoted={property?.is_promoted}
+                      setStopPromotion={setStopPromotion}
                     />
                   )}
                 </div>
@@ -225,19 +208,18 @@ const PropertyCard = ({
               </div>
               <p
                 className={`text-[13px] sm:text-[11px]  leading-16.5px] ${
-                  sponsored ? "mt-1" : "mt-5"
-                } mb-1 `}
+                  property?.is_promoted || property?.is_promoted === null
+                    ? "mt-1"
+                    : "mt-6"
+                } mb- `}
               >
-                <span className="text-[#DC6803] font-[500] mr-1">
-                  In review
-                </span>
                 <span className="text-[#A9A9A9] font-[400]">
-                  Added: 24th May, 2024
+                  {"Added: " + formatDate(property?.createdAt)}
                 </span>
               </p>
-              {sponsored && (
+              {property?.is_promoted && (
                 <button
-                  className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px] "
+                  className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px]"
                   onClick={() => setStopPromotion(true)}
                 >
                   <Image
@@ -245,13 +227,24 @@ const PropertyCard = ({
                     alt=""
                     width={10}
                     height={10}
-                    className=""
                   />
                   <span className="font-[500] text-[11px] text-[#006AFF] leading-[16.5px]">
                     Promoted
                   </span>
                 </button>
               )}
+
+              {/* ) : (
+                <p className="border w-fit border-[#DC6803] bg-[#FCF3EB] font-[500] text-[11px] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px] leading-[16.5px] text-[#DC6803]">
+                  <Image
+                    src="/static/images/orangePromote.svg"
+                    alt=""
+                    width={10}
+                    height={10}
+                  />
+                  <span className="sm:inline-block hidden" >Promotion in review</span>
+                  <span className=" sm:hidden" >In review</span>
+                </p> */}
             </div>
             {promoteOptions && (
               <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10 flex items-center justify-center rounded-[12px] ">
@@ -289,15 +282,6 @@ const PropertyCard = ({
         ))}
       </div>
 
-      <Button
-        firstThreePages={firstThreePages}
-        currentPage={currentPage}
-        lastThreePages={lastThreePages}
-        totalPages={totalPages}
-        handleNext={handleNext}
-        handlePageClick={handlePageClick}
-        handlePrev={handlePrev}
-      />
       {/* Delete a property */}
       <ConfirmationModal
         isOpen={deleteProperty}
@@ -353,7 +337,6 @@ const PropertyCard = ({
         title="Promotion Stopped Successfully"
         handleEvent={closeSuccessModal}
       />
-   
     </div>
   );
 };

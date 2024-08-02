@@ -12,8 +12,10 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter, usePathname } from "next/navigation";
 import Loading from "@/components/mainmenu/loading";
+import api from "@/utils/api";
+import Button from "@/components/mainmenu/button";
 
-const EditProperty = ({
+const ListedProperties = ({
   property,
   promoteOption,
   openPromoModal,
@@ -21,13 +23,15 @@ const EditProperty = ({
   selectedOptions,
   closePromoModal,
   cancelSelectedOption,
+  handlePageNumber
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
   //   fetchData();
   // }, []);
-
-  const [filteredData, setFilteredData] = useState(property);
+  console.log(property)
+  const ITEMS_PER_PAGE = 8;
+  const [filteredData, setFilteredData] = useState(property.data?.results?.[0].data);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
@@ -39,11 +43,16 @@ const EditProperty = ({
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(property.data?.results?.[0].metadata[0].page);
+  const totalPages = Math.ceil(property?.data?.totalCount / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const [firstThreePages, setFirstThreePages] = useState([]);  
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
+  const pathName = usePathname();
+ 
 
   const clear = () => {
     setSelectedProperty(null);
@@ -53,8 +62,13 @@ const EditProperty = ({
     setSearchQuery("");
     setFilteredData(property);
   };
-
-  // console.log(data)
+ 
+ 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get("page");
+    setCurrentPage(page ? parseInt(page, 10) : 1); // Default to page 1 if no page param is found
+  }, []);
   useEffect(() => {
     const handleRouteChangeStart = () => {
       setIsLoading2(true);
@@ -73,7 +87,63 @@ const EditProperty = ({
       router?.events?.off("routeChangeComplete", handleRouteChangeComplete);
     };
   }, [router]);
+  function pageManagement(num) {
+    const newUrl = pathName.includes("?")
+      ? `${pathName}&page=${num}`
+      : `${pathName}?page=${num}`;
+   
+    router.push(newUrl, { scroll: false, swallow: true });
+  }
+  useEffect(() => {
+    const newFirstThreePages = Array.from(
+      { length: Math.min(totalPages, 3) },
+      (_, index) => index + 1
+    );
+    setFirstThreePages(newFirstThreePages);
+  }, [totalPages]);
 
+  const handleNext = () => {
+    const nextPageNumber = currentPage + 1;
+    pageManagement(nextPageNumber);
+    setPageNumber(nextPageNumber);
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    const newFirstThreePages = Array.from(
+      { length: Math.min(totalPages - nextPageNumber + 1, 3) },
+      (_, index) => nextPageNumber + index
+    );
+
+    // Update the state for firstThreePages
+    setFirstThreePages(newFirstThreePages);
+    handlePageNumber(nextPageNumber);
+  };
+
+  const handlePrev = () => {
+    const prevPageNumber = Math.max(currentPage - 1, 1);
+    pageManagement(prevPageNumber);
+    setPageNumber(prevPageNumber);
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    const newFirstThreePages = Array.from(
+      { length: Math.min(totalPages - prevPageNumber - 1, 3) },
+      (_, index) => prevPageNumber + index
+    );
+
+    // Update the state for firstThreePages
+    setFirstThreePages(newFirstThreePages);
+    handlePageNumber(prevPageNumber);
+  };
+  
+  const lastThreePagesStart = Math.max(totalPages - 2, 1); // Calculate the starting page number for the last three pages
+  const lastThreePages = Array.from(
+    { length: Math.min(totalPages, 3) },
+    (_, index) => lastThreePagesStart + index
+  );
+
+  const handlePageClick = (page) => {
+    pageManagement(page);
+    setPageNumber(page);
+    handlePageNumber(page);
+    setCurrentPage(page);
+  };
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
     cancelSelectedOption();
@@ -87,21 +157,21 @@ const EditProperty = ({
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-  const options = [...new Set(property?.map((item) => item?.state))];
+  const options = [...new Set(property.data?.results?.[0].data?.map((item) => item?.state))];
 
-  const options2 = [...new Set(property?.map((item) => item?.area))];
+  const options2 = [...new Set(property.data?.results?.[0].data?.map((item) => item?.area))];
 
-  const options3 = [...new Set(property?.map((item) => item?.propertyType))];
+  const options3 = [...new Set(property.data?.results?.[0].data?.map((item) => item?.propertyType))];
 
   const options4 = [
-    ...new Set(property?.map((item) => item?.numberOfBathrooms)),
+    ...new Set(property.data?.results?.[0].data?.map((item) => item?.numberOfBathrooms)),
   ];
 
   const HandleFilter = () => {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const filteredData = property?.filter((data) => {
+        const filteredData = property.data?.results?.[0].data?.filter((data) => {
           const matchesState = !selectedState || data?.state === selectedState;
           const matchesArea = !selectedArea || data?.area === selectedArea;
           const matchesSearchQuery =
@@ -116,6 +186,7 @@ const EditProperty = ({
             !selectedRooms || data?.numberOfBathrooms === selectedRooms;
           return matchesState && matchesArea && matchesSearchQuery && bathrooms;
         });
+        console.log(filteredData);
         setFilteredData(filteredData);
         setIsLoading(false);
       } catch (error) {
@@ -126,8 +197,8 @@ const EditProperty = ({
   };
 
   return (
-    <div className=" mb-14 px-4">
-      {isLoading2 && <Loading />}
+    <div className=" mb-10 px-4 ">
+      {/* {isLoading2 && <Loading />} */}
 
       {openModalForBusi && (
         <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
@@ -256,11 +327,22 @@ const EditProperty = ({
 
       <PropertyCard
         Property={filteredData}
-        setModalIsOpen={setModalIsOpen}
         promoteOptions={promoteOption}
         setSelectedProperty={setSelectedOption}
         selectedProperty={selectedOptions}
       />
+      <div className="mt-16">
+        <Button
+          firstThreePages={firstThreePages}
+          currentPage={currentPage}
+          lastThreePages={lastThreePages}
+          totalPages={totalPages}
+          handleNext={handleNext}
+          handlePageClick={handlePageClick}
+          handlePrev={handlePrev}
+          pixel="px-0"
+        />
+      </div>
       <CustomizedModal
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
@@ -371,14 +453,8 @@ const EditProperty = ({
         successText="Promotion is currently under review and will be live within 8 hours."
         optionalText="View listed properties"
       />
-         <SuccessModal
-        isOpen={modalIsOpen}
-        title="Promotion is Active"
-        handleEvent={()=>setModalIsOpen(false)}
-        successText={`Your ${"[Monthly]"} promotion is currently running for this property`}
-      />
     </div>
   );
 };
 
-export default EditProperty;
+export default ListedProperties;
