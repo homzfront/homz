@@ -75,65 +75,65 @@ const Plans = ({
     return regex.test(url);
   }
 
-  async function handleSubmit(interval, plans) {
-    setLoading(true);
+  // async function handleSubmit(interval, plans) {
+  //   setLoading(true);
 
-    if (!interval || !plans) {
-      setFormError("Please select an interval and plan.");
-      setLoading(false);
-      return; // Early exit if required fields are missing
-    }
+  //   if (!interval || !plans) {
+  //     setFormError("Please select an interval and plan.");
+  //     setLoading(false);
+  //     return; // Early exit if required fields are missing
+  //   }
 
-    try {
-      let response;
-      if (
-        profile.PlanStatus === "free_trial" ||
-        profile?.planName === "Enterprise Starter" ||
-        profile?.planName === "Enterprise Plus" ||
-        profile?.planName === "Enterprise Premium" ||
-        profile.planName === "Enterprise Trial"
-      ) {
-        response = await updateEnterPriseSub({
-          planName: plans,
-          interval,
-        });
-      }
-      if (response.success) {
-        setLoading(false);
-        const successMessage =
-          response?.updatedData?.data?.message ||
-          "Enterprise Plan account created successfully"; // Use response.data?.message if available, otherwise default message
-        toast.success(successMessage);
-        const authorizationUrl =
-          response?.updatedData?.data?.data?.data?.authorization_url;
-        const paystackAuthorizationUrl =
-          response?.updatedData?.data?.data?.paystackResponse?.data
-            ?.authorization_url;
+  //   try {
+  //     let response;
+  //     if (
+  //       profile.PlanStatus === "free_trial" ||
+  //       profile?.planName === "Enterprise Starter" ||
+  //       profile?.planName === "Enterprise Plus" ||
+  //       profile?.planName === "Enterprise Premium" ||
+  //       profile.planName === "Enterprise Trial"
+  //     ) {
+  //       response = await updateEnterPriseSub({
+  //         planName: plans,
+  //         interval,
+  //       });
+  //     }
+  //     if (response.success) {
+  //       setLoading(false);
+  //       const successMessage =
+  //         response?.updatedData?.data?.message ||
+  //         "Enterprise Plan account created successfully"; // Use response.data?.message if available, otherwise default message
+  //       toast.success(successMessage);
+  //       const authorizationUrl =
+  //         response?.updatedData?.data?.data?.data?.authorization_url;
+  //       const paystackAuthorizationUrl =
+  //         response?.updatedData?.data?.data?.paystackResponse?.data
+  //           ?.authorization_url;
 
-        if (isValidUrl(authorizationUrl)) {
-          router.push(authorizationUrl);
-        } else if (isValidUrl(paystackAuthorizationUrl)) {
-          router.push(paystackAuthorizationUrl);
-        } else {
-          // console.warn('Invalid or missing authorization URL in response.');
-        }
-      } else {
-        if (response.error) {
-          setFormError(response.error || "An error occurred."); // Default error message
-          // console.error("Error creating profile:", response.error);
-          setLoading(false);
-          toast.error(response.error);
-        } // Use the specific error message from response.error
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-      // console.log(error.response?.data?.error)
-      setFormError(
-        error.response?.data?.message || error.response?.data?.error
-      ); // Log the original error
-      setLoading(false);
-    }
-  }
+  //       if (isValidUrl(authorizationUrl)) {
+  //         router.push(authorizationUrl);
+  //       } else if (isValidUrl(paystackAuthorizationUrl)) {
+  //         router.push(paystackAuthorizationUrl);
+  //       } else {
+  //         // console.warn('Invalid or missing authorization URL in response.');
+  //       }
+  //     } else {
+  //       if (response.error) {
+  //         setFormError(response.error || "An error occurred."); // Default error message
+  //         // console.error("Error creating profile:", response.error);
+  //         setLoading(false);
+  //         toast.error(response.error);
+  //       } // Use the specific error message from response.error
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
+  //     // console.log(error.response?.data?.error)
+  //     setFormError(
+  //       error.response?.data?.message || error.response?.data?.error
+  //     ); // Log the original error
+  //     setLoading(false);
+  //   }
+  // }
 
   const handleSelectPlan = async (index) => {
     setLoadingStates(prev => ({ ...prev, [index]: true }));
@@ -143,9 +143,13 @@ const Plans = ({
       if (results.status === false) {
         setLoadingStates(prev => ({ ...prev, [index]: false }));
         setModalIsOpen(true);
-      } else {
+      } else if(results.status === true) {
         setLoadingStates(prev => ({ ...prev, [index]: false }));
         setSuccessModalIsOpen(true);
+      }
+      else{
+        setLoadingStates(prev => ({ ...prev, [index]: false }));
+        return ;
       }
     } catch (error) {
       console.error("Error selecting plan:", error);
