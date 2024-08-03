@@ -9,6 +9,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MobilePlan from "./MobilePlan";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
+import { Tooltip } from "react-tippy";
+import "react-tippy/dist/tippy.css";
 
 const Plans = ({
   data,
@@ -20,48 +22,8 @@ const Plans = ({
   setModalIsOpen,
 }) => {
   // const [formError, setFormError] = useState();
-  const [openInfo, setOpenInfo] = useState(false);
-  const [selectedDataId, setSelectedDataId] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+
   const [loadingStates, setLoadingStates] = useState({});
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    handleResize(); // Set initial state
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const getTooltipStyles = (tooltipPosition) => {
-    if (isMobile) {
-      return {
-        top: `${tooltipPosition.top + 10}px`,
-        left: "20px", // Adjust as needed for mobile
-      };
-    }
-
-    return {
-      top: `${tooltipPosition.top + 10}px`,
-      left: `${tooltipPosition.left - 459}px`, // Adjust as needed for large screens
-    };
-  };
-
-  const handleInfoClick = (event, index) => {
-    const rect = event.target.getBoundingClientRect();
-    setTooltipPosition({
-      top: rect.top + window.scrollY,
-      left: rect.left + window.scrollX,
-    });
-    setSelectedDataId(index);
-    setOpenInfo(!openInfo);
-  };
 
   // const router = useRouter();
 
@@ -85,13 +47,7 @@ const Plans = ({
         <MobilePlan
           handleSelectPlan={handleSelectPlan}
           pricingPlans={pricingPlans}
-          handleInfoClick={handleInfoClick}
-          getTooltipStyles={getTooltipStyles}
-          tooltipPosition={tooltipPosition}
-          setOpenInfo={setOpenInfo}
-          openInfo={openInfo}
           profile={profile}
-          selectedDataId={selectedDataId}
           loadingStates={loadingStates}
           period="weekly"
         />
@@ -141,39 +97,28 @@ const Plans = ({
                       </p>
                     </div>
 
-                    <button
-                      onClick={(e) => handleInfoClick(e, feature.id, i)}
-                      className={`relative h-[14px] w-[16px] cursor-pointer ${
-                        !feature.enable && "hidden"
-                      }`}
-                      disabled={feature.info === ""}
+                    <Tooltip
+                      title={feature.info}
+                      position="left"
+                      trigger="click"
+                      arrow={true}
+                      style={{ fontSize: "11px", borderRadius: "20px" }}
                     >
-                      <Image
-                        height={10.5}
-                        width={12}
-                        alt="img"
-                        src={"/static/images/gray-info-icon.svg"}
-                      />
-                    </button>
+                      <button
+                        className={`relative h-[14px] w-[16px] cursor-pointer ${
+                          !feature.enable && "hidden"
+                        }`}
+                        disabled={feature.info === ""}
+                      >
+                        <Image
+                          height={10.5}
+                          width={12}
+                          alt="img"
+                          src={"/static/images/gray-info-icon.svg"}
+                        />
+                      </button>
+                    </Tooltip>
                   </div>
-                  {openInfo && selectedDataId === i && (
-                    <div
-                      className="absolute sm:w-[460px] w-[245px] flex justify-between border border-[#D5D5D5] bg-[#D5D5D5] rounded-[12px] p-[12px]"
-                      style={getTooltipStyles(tooltipPosition)}
-                    >
-                      <p className="break-words text-[#4E4E4E] text-[13px] leading-[19.5px] font-[400] sm:max-w-[382px] w-full">
-                        {feature.info}
-                      </p>
-                      <Image
-                        src="/static/images/close-square.svg"
-                        height={16}
-                        width={16}
-                        alt=""
-                        onClick={() => setOpenInfo(false)}
-                        className="cursor-pointer pb-5"
-                      />
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
