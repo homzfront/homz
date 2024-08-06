@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
-import Button from "./button";
-import { Properties } from "./Properties";
+import React, { useState, useEffect, useRef, useTransition } from "react";
+import PromotionHooks from "@/utils/promoteProperty";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
@@ -16,6 +15,9 @@ const PropertyCard = ({
   selectedProperty,
   setSelectedProperty,
   promoteOptions,
+  refreshData,
+  setOpenPlanModal,
+  setPromotePropertry
 }) => {
   const ITEMS_PER_PAGE = 8;
   const [publish, setPublish] = useState(true);
@@ -33,6 +35,7 @@ const PropertyCard = ({
   const [stopPromote, setStopPromotion] = useState(false);
   const [promotionStoppedModal, setPromotionStoppedModal] = useState(false);
   const [propertyUnpublished, setPropertyUnpublished] = useState(false);
+  const [isLoading, setLoader] = useState(false);
 
   const popUp = useRef(null);
   const router = useRouter();
@@ -75,15 +78,34 @@ const PropertyCard = ({
     setUnpublisProperty(false);
     setPropertyUnpublished(true);
   };
-  const handlePropertyPromotion = () => {
-    setPromotionStoppedModal(true);
-    setStopPromotion(false);
+ 
+  const handleStopPropertyPromotion = async () => {
+    setLoader(true);
+    try {
+      const results = await PromotionHooks.stopSinglePromotion(selectedDataId);
+      if (results.status === true) {
+        setLoader(false);
+        setPromotionStoppedModal(true);
+        setStopPromotion(false);
+      } else {
+        setLoader(false);
+        return;
+      }
+      // console.log(results);
+    } catch (error) {
+      console.error("Error Stopping the promotion:", error);
+      setLoader(false);
+    }
   };
   const closeSuccessModal = () => {
     setPropertyUnpublished(false);
     setPropertyDeleted(false);
-    setPromotionStoppedModal(false);
     setActivePromoted(false);
+  };
+
+  const handlePromotionStop = () => {
+    refreshData();
+    setPromotionStoppedModal(false);
   };
   const handleUnpublished = () => {
     setUnpublisProperty(true);
@@ -125,16 +147,16 @@ const PropertyCard = ({
                   />
                 </Link>
 
-                <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] sm:left-[205px] flex items-center justify-center top-[14px] ">
+                {/* <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] sm:left-[205px] flex items-center justify-center top-[14px] ">
                   <Image
                     src="/static/images/green_verify.svg"
                     alt=""
                     width={20}
                     height={20}
                   />
-                </p>
+                </p> */}
                 {property?.is_published && (
-                  <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[230px] sm:left-[130px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
+                  <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] sm:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                     Published
                   </p>
                 )}
@@ -165,10 +187,10 @@ const PropertyCard = ({
                     className="h-[15px] w-[15px] md:w-[20px] md:h-[20px] cursor-pointer"
                     onClick={(event) => {
                       event.stopPropagation();
-                      handleMenuToggle(index);
+                      handleMenuToggle(property?._id);
                     }}
                   />
-                  {isMenuOpen && selectedDataId === index && (
+                  {isMenuOpen && selectedDataId === property?._id && (
                     <CardMenus
                       data={property}
                       publish={publish}
@@ -179,6 +201,8 @@ const PropertyCard = ({
                       refs={popUp}
                       promoted={property?.is_promoted}
                       setStopPromotion={setStopPromotion}
+                      setOpenPlanModal={setOpenPlanModal}
+                      setPromotePropertry={setPromotePropertry}
                     />
                   )}
                 </div>
@@ -227,7 +251,10 @@ const PropertyCard = ({
               {property?.is_promoted && (
                 <button
                   className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px]"
-                  onClick={() => setStopPromotion(true)}
+                  onClick={() => {
+                    setSelectedDataId(property?._id);
+                    setStopPromotion(true);
+                  }}
                 >
                   <Image
                     src="/static/images/medal-star.svg"
@@ -263,7 +290,9 @@ const PropertyCard = ({
                     type="checkbox"
                     className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 bg-[#FFFFFF] before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#FFFFFF] hover:before:opacity-2"
                     id={`checkbox-${index}`}
-                    onChange={() => handleCheckboxChange(property._id, property.is_promoted)}
+                    onChange={() =>
+                      handleCheckboxChange(property._id, property.is_promoted)
+                    }
                     checked={selectedProperty.includes(property._id)}
                   />
                   <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
@@ -299,6 +328,7 @@ const PropertyCard = ({
         optionText="Proceed"
         optionText2="Cancel"
         color="text-[#D92D20]"
+        // isLoading={isLoading}
       />
       <SuccessModal
         isOpen={propertyDeleted}
@@ -320,6 +350,7 @@ const PropertyCard = ({
         cancel={setUnpublisProperty}
         optionText="Proceed"
         optionText2="Cancel"
+        // isLoading={isLoading}
         // color="text-[#D92D20]"
       />
       <SuccessModal
@@ -333,21 +364,23 @@ const PropertyCard = ({
         }}
         buttonColor={true}
       />
+    
       {/* stop property promotion */}
       <ConfirmationModal
         isOpen={stopPromote}
         title="Stop Promotion?"
         confirmatoryText="This property will no longer be promoted on Homz"
-        handleEvent={handlePropertyPromotion}
+        handleEvent={handleStopPropertyPromotion}
         cancel={setStopPromotion}
         optionText="Proceed"
         optionText2="Cancel"
+        isLoading={isLoading}
         // color="text-[#D92D20]"
       />
       <SuccessModal
         isOpen={promotionStoppedModal}
         title="Promotion Stopped Successfully"
-        handleEvent={closeSuccessModal}
+        handleEvent={handlePromotionStop}
       />
     </div>
   );

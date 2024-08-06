@@ -3,6 +3,7 @@ import React, { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Property from "./listedProperty";
+import PromotionHooks from "@/utils/promoteProperty";
 import usePropertyStore from "@/store/propertyForMeStore";
 import usePropertyIds from "@/store/propertyIds";
 import LoadingII from "./components/loading";
@@ -11,7 +12,9 @@ import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import { useRouter } from "next/navigation";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
-// import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
+
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
@@ -20,15 +23,24 @@ const List_Property = () => {
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
   const [openPromoModal, setOpenPromoModal] = useState(false);
+  const [openPlanModal, setOpenPlanModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoader] = useState(false);
+  const [isLoading2, setLoader2] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [promoteProperty, setPromotePropertry] = useState(false);
+  const [promotePropertySuccess, setPromotePropertrySuccess] = useState(false);
   const router = useRouter();
-
   const setPropertyIds = usePropertyIds((state) => state.setPropertyIds);
+  const singlePropertyId = usePropertyIds((state) => state.singleId);
+  // const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
+  const [planType, setPlanType]= useState(usePropertyIds((state) => state.propertyPlanType));
+  // const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
+
+  // console.log(singlePropertyId, planType); 
+
   const handlePageNumber = (pageNumber) => {
-    // console.log(pageNumber);
     setPage(pageNumber);
     fetchData(pageNumber);
   };
@@ -37,18 +49,27 @@ const List_Property = () => {
     fetchProfile();
   }, [fetchData, fetchProfile, page]);
 
-  
+  const refreshData = () => {
+    fetchData(page);
+  };
   useEffect(() => {
     if (isPending) {
-      return setLoader(true);
+      return setLoader(true) ;
     }
     setLoader(false);
+    setOpenPlanModal(false)
   }, [isPending]);
 
   const property = propertyListedAll;
   const data = propertyListedAll.data?.results?.[0].data;
 
-  // console.log(selectedProperty)
+  const closePromotionModal=()=>{
+    fetchData(page);
+    setPromotePropertrySuccess(false);
+    handleCancel();
+    setPlanType("")
+  }
+  
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
   };
@@ -56,21 +77,77 @@ const List_Property = () => {
     setPropertyIds([]);
     setSelectedProperties([]);
     setOptions(false);
+    setPlanType("")
   };
-  const handlePromoteOptions = () => {
-    // if (!options) {
-    if (selectedProperty.length > 0) {
-      setLoader(true);
-      setPropertyIds(selectedProperty);
-      startTransition(() => {
-        router.push(`/subscriptionPlans?type=multiple`);
-      });
-    } else {
-      setOptions(true);
+
+  const handleSelectPlan = async () => {
+    try {
+      const response = await PromotionHooks.checkCurrentSubscription();
+      if (response.data === null) {
+        startTransition(() => {
+          router.push(`/subscriptionPlans`);
+        });
+      }
+    } catch (error) {
+      console.error("Error", error.response?.data || error.message);
+      return (
+        error.response?.data || { message: "An unexpected error occurred." }
+      );
     }
   };
+  const handlePromoteOptions = async () => {
+    setLoader2(true)
+    try {
+      const response = await PromotionHooks.checkCurrentSubscription();
+      // console.log(response);
+      if (response.data === null) {
+        setLoader2(false)
+        setOpenPlanModal(true);
+      } else {
+        setLoader2(false)
+        if (selectedProperty.length > 0) {
+          // setLoader(true);
+          setPlanType("multiple")
+          setPropertyIds(selectedProperty);
+          setPromotePropertry(true);
+        } else {
+          setOptions(true);
+        }
+      }
+    } catch (error) {
+      console.error("Error", error.response?.data || error.message);
+      return (
+        error.response?.data || { message: "An unexpected error occurred." }
+      );
+    }
+  };
+  const handlePropertyPromotion = async () => {
+    setLoader(true);
+    try {
+      let date = "2024-04-10";
+      // let plan = "single";
+      const results = await PromotionHooks.promoteProperty(
+        date,
+        singlePropertyId,
+        planType,
+        selectedProperty
+      );
 
+      if (results.status === true) {
+        setLoader(false);
+        setPromotePropertrySuccess(true);
+        setPromotePropertry(false);
 
+      } else {
+        setLoader(false);
+        return;
+      }
+      // console.log(results);
+    } catch (error) {
+      console.error("Error Stopping the promotion:", error);
+      setLoader(false);
+    }
+  };
   const toggleModal = () => {
     setOpenPromoModal(false);
   };
@@ -140,7 +217,7 @@ const List_Property = () => {
                   onClick={handlePromoteOptions}
                   className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 sm:w-[180px]"
                 >
-                  {!isLoading ? (
+                  {!isLoading2 ? (
                     <>
                       <Image
                         src="/static/images/orange-send.svg"
@@ -296,10 +373,46 @@ const List_Property = () => {
               closePromoModal={toggleModal}
               cancelSelectedOption={handleCancel}
               handlePageNumber={handlePageNumber}
+              refreshData={refreshData}
+              setOpenPlanModal={setOpenPlanModal}
+              setPromotePropertry={setPromotePropertry}
+
             />
           )}
         </>
       )}
+
+      <ConfirmationModal
+        isOpen={openPlanModal}
+        title="No Active Plan"
+        confirmatoryText={`You do not have an active subscription plan yet`}
+        handleEvent={handleSelectPlan}
+        cancel={setOpenPlanModal}
+        optionText="Proceed to subscribe?"
+        optionText2="Cancel"
+        isLoading={isLoading}
+        // color="text-[#D92D20]"
+      />
+        {/* promotion property */}
+        <ConfirmationModal
+        isOpen={promoteProperty}
+        title="Promote Property?"
+        confirmatoryText="You are about to promote this property on Homz"
+        handleEvent={handlePropertyPromotion}
+        cancel={setPromotePropertry}
+        optionText="Proceed"
+        optionText2="Cancel"
+        isLoading={isLoading}
+        // color="text-[#D92D20]"
+      />
+     
+         <SuccessModal
+        isOpen={promotePropertySuccess}
+        title="Promotion Successful"
+        handleEvent={closePromotionModal}
+        successText="Promotion is currently under review and will be live within 8 hours."
+        // optionalText="View listed properties"
+      />
     </div>
   );
 };

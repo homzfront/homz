@@ -5,10 +5,11 @@
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import handleSelectPlans from "@/utils/promotionPlan";
 import Image from "next/image";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useTransition } from "react";
 import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
+import { useRouter } from "next/router";
 
 const Plans = ({
   data,
@@ -22,18 +23,28 @@ const Plans = ({
   // const [loading, setLoading] = useState(false);
   // const [formError, setFormError] = useState();
   const [loadingStates, setLoadingStates] = useState({});
+  const [isPending, startTransition] = useTransition();
 
-  const handleSelectPlan = async (index) => {
-    let date = "2026-02-17";
-    await handleSelectPlans(
-      date,
+  useEffect(() => {
+    if (isPending) {
+      return   setLoadingStates((prev) => ({ ...prev, [index]: true }));
+
+    }
+    setLoadingStates((prev) => ({ ...prev, [index]: false }));
+
+  }, [isPending]);
+  const router = useRouter();
+
+  const handleSelectPlan = async (index, planType, interval, amount) => {
+    await handleSelectPlans.handleSelectPlan(
       index,
-      propertyId,
       planType,
-      propertyIds,
+      interval,
       setLoadingStates,
+      amount,
       setModalIsOpen,
-      setSuccessModalIsOpen
+      setSuccessModalIsOpen,
+      router,startTransition
     );
   };
 
@@ -119,9 +130,11 @@ const Plans = ({
 
             <button
               key={index}
-              onClick={() => handleSelectPlan(index)}
+              onClick={() =>
+                handleSelectPlan(index, plan.title, plan.billing, plan.price)
+               }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
-                plan.status === true ? "hidden" : ""
+                plan.status === true || plan.title ==="Free"  ? "hidden" : ""
               } ${
                 profile?.planName === plan.title &&
                 profile?.interval === "annually"

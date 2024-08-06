@@ -3,6 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
+import PromotionHooks from "@/utils/promoteProperty";
+import usePropertyIds from "@/store/propertyIds";
+
 
 function CardMenus({
   data,
@@ -14,12 +17,15 @@ function CardMenus({
   setIsMenuOpen,
   refs,
   setStopPromotion,
-  setModalIsOpen,
+  setOpenPlanModal,
   promoted,
+  setPromotePropertry
 }) {
   const router = useRouter();
   const [isLoading, setLoader] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const setPropertyId = usePropertyIds((state) => state.setSinglePropertyId);
+  const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
 
   useEffect(() => {
     if (isPending) {
@@ -28,22 +34,36 @@ function CardMenus({
     setLoader(false);
   }, [isPending]);
 
-  // onClick={(e) => {
-  //   router.push(`/dashboard/list_Property/edit_property/${data?._id}`);
-  // }}
   if (!data) {
-    return null; 
+    return null;
   }
 
-  const handlePromoteProperty = () => {
+  const handlePromoteProperty = async () => {
     setLoader(true);
+    try {
+      const response = await PromotionHooks.checkCurrentSubscription();
+      // console.log(response)
+      if (response.data === null) {
+        setOpenPlanModal(true);
+      }
+      else{
+    setLoader(false);
+
     if (promoted) {
-      setModalIsOpen(true);
-      setLoader(false);
-    } else {
-      startTransition(() => {
-        router.push(`/subscriptionPlans?propertyId=${data?._id}&type=single`);
-      });
+        setModalIsOpen(true);
+        setLoader(false);
+      } else {
+        setPromotePropertry(true);
+        setPropertyId(data._id);
+        setPropertyPlanType("single")
+        setLoader(false);
+          }
+        }
+    } catch (error) {
+      console.error("Error", error.response?.data || error.message);
+      return (
+        error.response?.data || { message: "An unexpected error occurred." }
+      );
     }
   };
 

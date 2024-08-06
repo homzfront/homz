@@ -11,9 +11,8 @@ import useClickOutside from "@/utils/clickOutside";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter, usePathname } from "next/navigation";
-// import Loading from "@/components/mainmenu/loading";
-// import api from "@/utils/api";
 import Button from "@/components/mainmenu/button";
+
 
 const ListedProperties = ({
   property,
@@ -23,7 +22,10 @@ const ListedProperties = ({
   selectedOptions,
   closePromoModal,
   cancelSelectedOption,
-  handlePageNumber
+  handlePageNumber,
+  refreshData,
+  setOpenPlanModal,
+  setPromotePropertry
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
@@ -31,7 +33,9 @@ const ListedProperties = ({
   // }, []);
   // console.log(property)
   const ITEMS_PER_PAGE = 8;
-  const [filteredData, setFilteredData] = useState(property.data?.results?.[0].data);
+  const [filteredData, setFilteredData] = useState(
+    property.data?.results?.[0].data
+  );
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
@@ -44,15 +48,16 @@ const ListedProperties = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageNumber, setPageNumber] = useState(property.data?.results?.[0].metadata[0].page || 1);
+  const [pageNumber, setPageNumber] = useState(
+    property.data?.results?.[0].metadata[0].page || 1
+  );
   const totalPages = Math.ceil(property?.data?.totalCount / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const [firstThreePages, setFirstThreePages] = useState([]);  
+  const [firstThreePages, setFirstThreePages] = useState([]);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const router = useRouter();
   const pathName = usePathname();
- 
 
   const clear = () => {
     setSelectedProperty(null);
@@ -62,8 +67,7 @@ const ListedProperties = ({
     setSearchQuery("");
     setFilteredData(property);
   };
- 
- 
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -87,12 +91,12 @@ const ListedProperties = ({
       router?.events?.off("routeChangeComplete", handleRouteChangeComplete);
     };
   }, [router]);
-  
+
   function pageManagement(num) {
     const newUrl = pathName.includes("?")
       ? `${pathName}&page=${num}`
       : `${pathName}?page=${num}`;
-   
+
     router.push(newUrl, { scroll: false, swallow: true });
   }
   useEffect(() => {
@@ -132,7 +136,7 @@ const ListedProperties = ({
     setFirstThreePages(newFirstThreePages);
     handlePageNumber(prevPageNumber);
   };
-  
+
   const lastThreePagesStart = Math.max(totalPages - 2, 1); // Calculate the starting page number for the last three pages
   const lastThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
@@ -158,36 +162,51 @@ const ListedProperties = ({
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
-  const options = [...new Set(property.data?.results?.[0].data?.map((item) => item?.state))];
+  const options = [
+    ...new Set(property.data?.results?.[0].data?.map((item) => item?.state)),
+  ];
 
-  const options2 = [...new Set(property.data?.results?.[0].data?.map((item) => item?.area))];
+  const options2 = [
+    ...new Set(property.data?.results?.[0].data?.map((item) => item?.area)),
+  ];
 
-  const options3 = [...new Set(property.data?.results?.[0].data?.map((item) => item?.propertyType))];
+  const options3 = [
+    ...new Set(
+      property.data?.results?.[0].data?.map((item) => item?.propertyType)
+    ),
+  ];
 
   const options4 = [
-    ...new Set(property.data?.results?.[0].data?.map((item) => item?.numberOfBathrooms)),
+    ...new Set(
+      property.data?.results?.[0].data?.map((item) => item?.numberOfBathrooms)
+    ),
   ];
 
   const HandleFilter = () => {
     setIsLoading(true);
     setTimeout(async () => {
       try {
-        const filteredData = property.data?.results?.[0].data?.filter((data) => {
-          const matchesState = !selectedState || data?.state === selectedState;
-          const matchesArea = !selectedArea || data?.area === selectedArea;
-          const matchesSearchQuery =
-            !searchQuery ||
-            data?.location.state
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) ||
-            data?.location.area
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase());
-          const bathrooms =
-            !selectedRooms || data?.numberOfBathrooms === selectedRooms;
-          return matchesState && matchesArea && matchesSearchQuery && bathrooms;
-        });
-        console.log(filteredData);
+        const filteredData = property.data?.results?.[0].data?.filter(
+          (data) => {
+            const matchesState =
+              !selectedState || data?.state === selectedState;
+            const matchesArea = !selectedArea || data?.area === selectedArea;
+            const matchesSearchQuery =
+              !searchQuery ||
+              data?.location.state
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+              data?.location.area
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+            const bathrooms =
+              !selectedRooms || data?.numberOfBathrooms === selectedRooms;
+            return (
+              matchesState && matchesArea && matchesSearchQuery && bathrooms
+            );
+          }
+        );
+        // console.log(filteredData);
         setFilteredData(filteredData);
         setIsLoading(false);
       } catch (error) {
@@ -331,6 +350,9 @@ const ListedProperties = ({
         promoteOptions={promoteOption}
         setSelectedProperty={setSelectedOption}
         selectedProperty={selectedOptions}
+        refreshData={refreshData}
+        setOpenPlanModal={setOpenPlanModal}
+        setPromotePropertry={setPromotePropertry}
       />
       <div className="mt-16">
         <Button

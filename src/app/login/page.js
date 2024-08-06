@@ -3,7 +3,7 @@ import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useProfileStore from "@/store/profile";
@@ -25,20 +25,27 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
-  useBodyScroll([loading])
+  useBodyScroll([loading]);
+  const [isPending, startTransition] = useTransition();
 
+  useEffect(() => {
+    if (isPending) {
+      return setLoading(true);
+    }
+    setLoading(false);
+  }, [isPending]);
   // const handleGoogleSignIn = () => {
   //   signIn('google');
   // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Early return if already loading
     if (loading) return;
-  
+
     setLoading(true); // Set loading state
-  
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -46,47 +53,51 @@ const Login = () => {
       setLoading(false);
       return;
     }
-  
+
     // Validate required fields
     if (!password || !email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
     }
-  
+
     // Check password length
     if (password.length < 8) {
       setLoginError("Password must be at least 8 characters");
       setLoading(false);
       return;
     }
-  
+
     try {
       // Login request
       const response = await api.post("/auth/login", {
         email,
         password,
       });
-  
-      if (response.status === 201) { // Handle expected successful login status code
+
+      if (response.status === 201) {
+        // Handle expected successful login status code
         const data = response.data.data.token;
         // toast.success("Login Successful")
-        localStorage.setItem('jwt', data)
+        localStorage.setItem("jwt", data);
         // Fetch user profile
         const profileResponse = await api.get("/user/profile");
-  
-        if (profileResponse.status === 200 || profileResponse.status === 201) { // Handle expected success status codes
+
+        if (profileResponse.status === 200 || profileResponse.status === 201) {
+          // Handle expected success status codes
           const profileData = profileResponse.data;
-  
+
           // Navigation logic based on user roles and account status
           const navigateTo = determineUserDashboard(profileData); // Helper function for cleaner logic
-          if (navigateTo) {
-            router.push(navigateTo);
-          } else {
-            // Default navigation for unhandled roles or empty accounts
-            router.push("/");
-          }
-  
+          startTransition(() => {
+            if (navigateTo) {
+              router.push(navigateTo);
+            } else {
+              // Default navigation for unhandled roles or empty accounts
+              router.push("/");
+            }
+          });
+
           // Update user and profile state
           useProfileStore.setState({
             user: data,
@@ -94,8 +105,7 @@ const Login = () => {
             isLoggedIn: true,
             loading: false,
           });
-  
-          
+
           // Set loading to false after 5 seconds
           setTimeout(() => {
             setEmail("");
@@ -111,18 +121,16 @@ const Login = () => {
     } catch (error) {
       setLoginError(error.response?.data?.message); // Set specific error message (if available)
       setLoading(false);
-    } 
+    }
   };
-  
 
   const Visible = () => {
     setVisible(!visible);
   };
 
-
   return (
     <div className="">
-   <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -137,7 +145,6 @@ const Login = () => {
         theme="dark"
       />
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
-
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
         </div>
@@ -151,7 +158,11 @@ const Login = () => {
                 Welcome back, please enter your details.
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className={`flex flex-col gap-4 ${loading ? "pointer-events-none" : ""}`}>
+                <div
+                  className={`flex flex-col gap-4 ${
+                    loading ? "pointer-events-none" : ""
+                  }`}
+                >
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
                       Email <span className="text-error">*</span>
@@ -161,13 +172,12 @@ const Login = () => {
                       type="text"
                       value={email}
                       onChange={(e) => {
-                        setEmail(e.target.value)
-                        setLoginError("")
+                        setEmail(e.target.value);
+                        setLoginError("");
                       }}
                       placeholder="Enter your email"
-                      autoComplete="email" 
+                      autoComplete="email"
                     />
-
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
@@ -178,11 +188,11 @@ const Login = () => {
                       type={visible ? "text" : "password"}
                       value={password}
                       onChange={(e) => {
-                        setPassword(e.target.value)
-                        setLoginError("")
+                        setPassword(e.target.value);
+                        setLoginError("");
                       }}
                       placeholder="Enter your password"
-                      autoComplete="current-password" 
+                      autoComplete="current-password"
                     />
                     <div className="absolute top-11 right-4" onClick={Visible}>
                       {visible ? (
@@ -205,7 +215,11 @@ const Login = () => {
                   </Link>
                 </div>
                 <button
-                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}
+                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${
+                    loading
+                      ? "pointer-events-none w-full flex justify-center"
+                      : ""
+                  } `}
                   type="Submit"
                 >
                   {loading ? <LoadingFormII /> : "Log In"}

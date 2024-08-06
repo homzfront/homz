@@ -2,10 +2,10 @@
 // import Link from "next/link";
 // import { toast } from "react-toastify";
 // import Loading from "@/components/mainmenu/loading";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import handleSelectPlans from "@/utils/promotionPlan";
 import Image from "next/image";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useTransition } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MobilePlan from "./MobilePlan";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
@@ -24,20 +24,28 @@ const Plans = ({
   // const [formError, setFormError] = useState();
 
   const [loadingStates, setLoadingStates] = useState({});
+  const [isPending, startTransition] = useTransition();
 
-  // const router = useRouter();
+  useEffect(() => {
+    if (isPending) {
+      return   setLoadingStates((prev) => ({ ...prev, [index]: true }));
 
-  const handleSelectPlan = async (index) => {
-    let date = "2026-02-17";
-    await handleSelectPlans(
-      date,
+    }
+    setLoadingStates((prev) => ({ ...prev, [index]: false }));
+
+  }, [isPending]);
+  const router = useRouter();
+
+  const handleSelectPlan = async (index, planType, interval, amount) => {
+    await handleSelectPlans.handleSelectPlan(
       index,
-      propertyId,
       planType,
-      propertyIds,
+      interval,
       setLoadingStates,
+      amount,
       setModalIsOpen,
-      setSuccessModalIsOpen
+      setSuccessModalIsOpen,
+      router,startTransition
     );
   };
 
@@ -67,7 +75,7 @@ const Plans = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {plan.price}
+                {"N" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 
@@ -125,9 +133,11 @@ const Plans = ({
 
             <button
               key={index}
-              onClick={() => handleSelectPlan(index)}
+              onClick={() =>
+                handleSelectPlan(index, plan.title, plan.billing, plan.price)
+              }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
-                plan.status === true ? "hidden" : ""
+                plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
                 profile?.planName === plan.title &&
                 profile?.interval === "weekly"
@@ -229,7 +239,7 @@ const pricingPlans = [
     interval: "weekly",
   },
   {
-    price: "N10,000",
+    price: "10000",
     title: "Basic Plan",
     billing: "weekly",
     features: [
@@ -300,7 +310,7 @@ const pricingPlans = [
     interval: "weekly",
   },
   {
-    price: "N15,000",
+    price: "15000",
     title: "Enterprise Plan",
     billing: "weekly",
     features: [
@@ -368,7 +378,7 @@ const pricingPlans = [
     interval: "weekly",
   },
   {
-    price: "N33,500",
+    price: "33500",
     title: "Premium Plan",
     billing: "weekly",
     features: [
