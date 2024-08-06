@@ -9,7 +9,7 @@ import React, { useState, useRef, useEffect, useTransition } from "react";
 import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Plans = ({
   data,

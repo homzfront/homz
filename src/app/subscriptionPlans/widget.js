@@ -7,7 +7,7 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 // import { Carousel } from "react-responsive-carousel";
 import usePropertyIds from "@/store/propertyIds";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useRouter } from "next/navigation.js";
+import { useRouter } from "next/navigation";
 
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
