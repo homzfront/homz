@@ -34,11 +34,10 @@ const List_Property = () => {
   const router = useRouter();
   const setPropertyIds = usePropertyIds((state) => state.setPropertyIds);
   const singlePropertyId = usePropertyIds((state) => state.singleId);
-  // const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
-  const [planType, setPlanType]= useState(usePropertyIds((state) => state.propertyPlanType));
-  // const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
+  const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
+  const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
 
-  // console.log(singlePropertyId, planType); 
+  console.log(singlePropertyId, propertyPlan); 
 
   const handlePageNumber = (pageNumber) => {
     setPage(pageNumber);
@@ -67,7 +66,7 @@ const List_Property = () => {
     fetchData(page);
     setPromotePropertrySuccess(false);
     handleCancel();
-    setPlanType("")
+    setPropertyPlanType("")
   }
   
   const handleOpenModal = () => {
@@ -77,7 +76,7 @@ const List_Property = () => {
     setPropertyIds([]);
     setSelectedProperties([]);
     setOptions(false);
-    setPlanType("")
+    setPropertyPlanType("")
   };
 
   const handleSelectPlan = async () => {
@@ -97,6 +96,7 @@ const List_Property = () => {
   };
   const handlePromoteOptions = async () => {
     setLoader2(true)
+    setPropertyPlanType("")
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
       // console.log(response);
@@ -107,7 +107,6 @@ const List_Property = () => {
         setLoader2(false)
         if (selectedProperty.length > 0) {
           // setLoader(true);
-          setPlanType("multiple")
           setPropertyIds(selectedProperty);
           setPromotePropertry(true);
         } else {
@@ -129,7 +128,7 @@ const List_Property = () => {
       const results = await PromotionHooks.promoteProperty(
         date,
         singlePropertyId,
-        planType,
+        propertyPlan,
         selectedProperty
       );
 
