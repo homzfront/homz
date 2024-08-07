@@ -5,6 +5,7 @@
 
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
+  overflow: hidden; /* Hide the scrollbar globally */
 }
 
 /* Add this to your existing styles or create a separate stylesheet */

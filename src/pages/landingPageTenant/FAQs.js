@@ -89,7 +89,7 @@ const FAQs = () => {
 
       <div className="mt-[60px] text-white flex flex-col justify-center items-center h-[210px] gap-2  max-w-[1159px] rounded-md bg-BlueHomz">
         <h1 className="text-[20px] font-[600]">Still have questions?</h1>
-        <p className="md:text-[18px] text-center md:text-start text-[16px]  font-[400] ">
+        <p className="md:text-[18px] text-center md:text-start text-[16px]  font-[400] text-walletBg">
           Can’t find the answer you’re looking for? Please send a message to us.
         </p>
         <Link href={"/contact-page"}>

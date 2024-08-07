@@ -25,6 +25,7 @@ import AccessRecord from "@/components/icons/dashboard/accessRecord";
 import Down from "@/components/icons/Down";
 import keepFour from "@/utils/keepFour";
 import ManageTenant from "@/components/icons/dashboard/manageTenant";
+import DocumentInformation from "@/components/icons/dashboard/documentInformation";
 
 
 const Sidebar = () => {
@@ -122,15 +123,15 @@ const Sidebar = () => {
       coming: null,
       active: false,
     },
-    // {
-    //   id: 4,
-    //   image: <PropertyListing height="16" width="16"/>,
-    //   image2: <PropertyListing className='text-BlueHomz fill-white' height="16" width="16"/>,
-    //   link: "/dashboard/enterprise-property/propertylisting",
-    //   name: "Property Listing",
-    //   coming: null,
-    //   active: false,
-    // },
+    {
+      id: 4,
+      image: <DocumentInformation />,
+      image2: <DocumentInformation className='text-BlueHomz fill-white' />,
+      link: "/dashboard/enterprise-property/documentGeneration",
+      name: "Document Generation",
+      coming: null,
+      active: false,
+    },
     {
       id: 5,
       image: <Payment height="16" width="16" />,
@@ -222,11 +223,11 @@ const Sidebar = () => {
                       } `}
                   >
                     {pathname === data.link ? (
-                      <div>
+                      <div className={``}>
                         {data.image2}
                       </div>
                     ) : (
-                      <div>
+                      <div className={``}>
                         {data.image}
                       </div>
                     )}
@@ -299,16 +300,16 @@ const Sidebar = () => {
                     } `}
                 >
                   {pathname === data.link ? (
-                    <div>
+                    <div className={`${data.name === "Document Generation" ? "pt-1 pl-[1px] w-[7%]" : ""}`}>
                       {data.image2}
                     </div>
                   ) : (
-                    <div>
+                    <div className={`${data.name === "Document Generation" ? "pt-1 pl-[1px] w-[7%]" : ""}`}>
                       {data.image}
                     </div>
                   )}
                   <div className="flex items-center w-full justify-between">
-                    <span className="">{data.name}</span>
+                    <span className={`${data.name === "Document Generation" ? "" : ""}`}>{data.name}</span>
                     <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
                       } mt-1 h-2 w-2 rounded-full`}
                     ></p>

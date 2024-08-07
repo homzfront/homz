@@ -1,0 +1,236 @@
+import ArrowRightBlue from '@/components/icons/arrowRightBlue';
+import BriefCase from '@/components/icons/briefCase';
+import Complaint from '@/components/icons/complaint';
+import Convenient from '@/components/icons/convenient';
+import DocAccurate from '@/components/icons/docAccurate';
+import DocClock from '@/components/icons/docClock';
+import DocDocu from '@/components/icons/docDocu';
+import DocReceipt from '@/components/icons/docReceipt';
+import DocSettings from '@/components/icons/DocSettings';
+import QuickNotice from '@/components/icons/quickNotice';
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
+import React from 'react'
+import FAQs from './components/FAQs';
+import Image from 'next/image';
+import DocFlash from '@/components/icons/docFlash';
+import DocFunnel from '@/components/icons/docFunnel';
+
+const DocSolution = [
+    {
+        id: 1,
+        title: "Tenancy Agreement",
+        body: "Generate comprehensive  and customizable tenancy agreements.",
+        image: < DocDocu />
+    },
+    {
+        id: 2,
+        title: "Receipts",
+        body: "Create and send professional rent invoices and receipts.",
+        image: < DocReceipt />
+    },
+    {
+        id: 3,
+        title: "Quit Notice",
+        body: "Handle tenant eviction processes with legally compliant notices.",
+        image: < QuickNotice />
+    }
+]
+
+const DocSolutionII = [
+    {
+        id: 1,
+        title: "Choose Document",
+        body: "Pick the type of document you need to generate.",
+    },
+    {
+        id: 2,
+        title: "Fill in Details",
+        body: "Enter the necessary information to customize your document.",
+    },
+    {
+        id: 3,
+        title: "Review & Generate",
+        body: "Review the pre-filled document, make any edits, and generate your document.",
+    }
+]
+
+const DocumentGene = () => {
+    return (
+        <div className='max-w-[1440px] m-auto w-full flex flex-col items-center'>
+            <Header />
+            <div className='max-w-[1160px] w-full px-6'>
+                <div className='w-full'>
+                    <div className='h-[550px] relative flex justify-between w-[100%]'>
+                        <div className='w-[50%] flex justify-center text-center'>
+                            <div className='w-full flex flex-col justify-center gap-5'>
+                                <div className='ml-8'>
+                                    <div className='flex justify-center items-center bg-whiteblue rounded-full w-[40px] h-[40px]'>
+                                        <DocDocu />
+                                    </div>
+                                </div>
+                                <div className='text-start flex flex-col gap-2'>
+                                    <p className='text-[41px] font-[700] text-BlackHomz leading-tight'>
+                                        One-Click Property documents generation
+                                    </p>
+                                    <p className='text-[20px] font-[500] text-GrayHomz'>
+                                        Easily create and manage all essential property-related documents in one place.
+                                    </p>
+                                    <div className='mt-4'>
+                                        <button className='px-4 py-2 bg-BlueHomz text-white text-[16px] font-[700] rounded-[4px]'>
+                                            Start Free Trial
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className='w-full absolute bottom-4 right-[180px] flex justify-center pr-14'>
+                                    <div className='flex justify-center items-center bg-warningBg rounded-full w-[40px] h-[40px]'>
+                                        <BriefCase />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='w-[50%] flex justify-end'>
+                            <div className='flex flex-col justify-between py-8 gap-2 items-center h-full'>
+                                <div className='flex justify-center items-center bg-whiteblue rounded-full w-[30px] h-[30px]'>
+                                    <DocSettings />
+                                </div>
+                                <div className='w-full'>
+                                    <div className='absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40'>
+                                        <Image
+                                            height={150}
+                                            width={360}
+                                            src="/Successful.png"
+                                            alt='document-modal-img'
+                                            className='w-[360px] h-[150px] rounded-[12px] object-cover bg-center'
+                                        />
+                                    </div>
+                                </div>
+                                <div className='w-[531px] h-[411px] rounded-[12px]'>
+                                    <Image
+                                        height={411}
+                                        width={531}
+                                        src="/DocumentGenHomepage.jpg"
+                                        alt='document-hero-img'
+                                        className='w-[531px] h-[411px] rounded-[12px] object-cover bg-center'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div className='mt-8 h-[136px] w-full flex items-center justify-around bg-gradient-to-r from-BlueHomz2 to- bg-BlueHomzDark px-[120px]'>
+                <div className='flex gap-2 items-center'>
+                    <div className='bg-white rounded-full flex justify-center items-center h-[40px] w-[40px]'>
+                        <DocClock />
+                    </div>
+                    <p className='text-[20px] font-[500] text-white'>
+                        Efficient
+                    </p>
+                </div>
+                <div className='flex gap-2 items-center'>
+                    <div className='bg-white rounded-full flex justify-center items-center h-[40px] w-[40px]'>
+                        <DocAccurate />
+                    </div>
+                    <p className='text-[20px] font-[500] text-white'>
+                        Accurate
+                    </p>
+                </div>
+                <div className='flex gap-2 items-center'>
+                    <div className='bg-white rounded-full flex justify-center items-center h-[40px] w-[40px]'>
+                        <Complaint />
+                    </div>
+                    <p className='text-[20px] font-[500] text-white'>
+                        Complaint
+                    </p>
+                </div>
+                <div className='flex gap-2 items-center'>
+                    <div className='bg-white rounded-full flex justify-center items-center h-[40px] w-[40px]'>
+                        <Convenient />
+                    </div>
+                    <p className='text-[20px] font-[500] text-white'>
+                        Convenient
+                    </p>
+                </div>
+            </div>
+            <div className='my-14'>
+                <div className='flex justify-center'>
+                    <div className='flex flex-col justify-center'>
+                        <p className='text-[36px] font-[700] text-BlackHomz text-center'>
+                            Comprehensive Document Solutions
+                        </p>
+                        <p className='text-[20px] font-[500] text-GrayHomz text-center'>
+                            Meticulously designed to simplify and streamline your document creation process.
+                        </p>
+                    </div>
+                </div>
+                <div className="flex space-x-4 mt-10">
+                    {DocSolution.map((data) =>
+                        <div
+                            className={`bg-whiteblue rounded-[12px] p-8 flex flex-col justify-between items-center h-[260px] w-[360px]`}
+                            key={data.id}
+                        >
+                            <div className='flex flex-col gap-1 w-full justify-center items-center'>
+                                <div className='w-[45px] h-[45px] rounded-full bg-white flex justify-center items-center'>
+                                    {data.image}
+                                </div>
+                                <p className='text-[20px] font-[600] text-BlackHomz text-center'>{data.title}</p>
+                                <p className='text-[18px] font-[400] text-GrayHomz text-center'>{data.body}</p>
+                            </div>
+                            <div className='flex items-center gap-1'>
+                                <p className='text-[16px] font-[500] text-BlueHomz'>
+                                    Generate
+                                </p>
+                                <ArrowRightBlue />
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className='mt-14 relative'>
+                <div className='flex justify-center'>
+                    <div className='flex flex-col justify-center items-center'>
+                        <div className='absolute left-[-80px] bottom-[50px]'>
+                            <div className='flex justify-center items-center bg-whiteblue rounded-full w-[45px] h-[45px]'>
+                                <DocFlash />
+                            </div>
+                        </div>
+                        <div className='absolute top-0 right-0'>
+                            <div className='flex justify-center items-center bg-warningBg rounded-full w-[45px] h-[45px]'>
+                                <DocFunnel />
+                            </div>
+                        </div>
+                        <p className='text-[18px] font-[500] text-BlueHomz'>How It Works</p>
+                        <p className='text-[36px] font-[700] text-BlackHomz text-center w-[550px] leading-tight mt-2'>
+                            Seamless Document Generation in Just a Few Steps
+                        </p>
+                        <p className='text-[20px] font-[500] text-GrayHomz text-center w-[680px] mt-2'>
+                            Effortlessly create, customize, and manage essential property-related documents with our intuitive workflow.
+                        </p>
+                    </div>
+                </div>
+                <div className="flex space-x-4 mt-10">
+                    {DocSolutionII.map((data) =>
+                        <div
+                            className={`border border-BlueHomz4 rounded-[12px] px-8 flex flex-col justify-center items-center h-[260px] w-[360px]`}
+                            key={data.id}
+                        >
+                            <div className='flex flex-col gap-1 w-full justify-center items-center'>
+                                <div className='w-[45px] h-[45px] text-[20px] font-[700] text-white rounded-full bg-BlueHomz flex justify-center items-center'>
+                                    {data.id}
+                                </div>
+                                <p className='text-[20px] font-[600] text-BlackHomz text-center'>{data.title}</p>
+                                <p className='text-[18px] font-[400] text-GrayHomz text-center'>{data.body}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <FAQs />
+            <Footer />
+        </div>
+    )
+}
+
+export default DocumentGene;

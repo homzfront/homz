@@ -2,7 +2,7 @@ import React from 'react'
 import Setting from '@/pages/dashboard/enterprise/setting/setting'
 const App = () => {
   return (
-    <div className='dashboard h-[900px]'>
+    <div className='overflow-y-auto h-screen scrollbar-container'>
         <Setting />
     </div>
   )

@@ -20,6 +20,7 @@ import keepThree from "@/utils/keepThree";
 import Switch from '@/components/icons/dashboardMobile/switch'
 import useRequestEnterprise from '@/store/enterpriseStore/useRequestEnterprise'
 import useMaintenanceRequestStore from '@/store/enterpriseStore/useMaintenanceStore'
+import DocumentInformation from '@/components/icons/dashboard/documentInformation'
 
 const SidebarMobile = ({ setOpen, user }) => {
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
@@ -150,28 +151,28 @@ const SidebarMobile = ({ setOpen, user }) => {
           </div>
           <p className=''> Property Management</p>
         </Link>
-        {/* <Link
+        <Link
           onClick={() => setOpen(false)}
-          href={"/dashboard/enterprise-property/propertylisting"}
+          href={"/dashboard/enterprise-property/documentGeneration"}
           className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
-          ${pathname === "/dashboard/enterprise-property/propertylisting" ? "bg-white text-BlueHomz"
+          ${pathname === "/dashboard/enterprise-property/documentGeneration" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
-          <div>
+          <div className={`pt-1 w-[7%]`}>
             {
-              pathname === "/dashboard/enterprise-property/propertylisting"
+              pathname === "/dashboard/enterprise-property/documentGeneration"
                 ?
                 <div>
-                  <PropertyListing className='text-BlueHomz fill-BlueHomz' />
+                  <DocumentInformation className='text-BlueHomz fill-BlueHomz' />
                 </div>
                 :
                 <div>
-                  <PropertyListing />
+                  <DocumentInformation />
                 </div>
             }
           </div>
-          <p className=''> Property Listing</p>
-        </Link> */}
+          <p className=''>Document Generation</p>
+        </Link>
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/enterprise-property/payments"}
