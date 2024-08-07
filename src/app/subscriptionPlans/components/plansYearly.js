@@ -24,18 +24,21 @@ const Plans = ({
   // const [formError, setFormError] = useState();
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
+  const [ind, setIndex]=useState()
 
   useEffect(() => {
     if (isPending) {
-      return   setLoadingStates((prev) => ({ ...prev, [index]: true }));
+      return   setLoadingStates((prev) => ({ ...prev, [ind]: true }));
 
     }
-    setLoadingStates((prev) => ({ ...prev, [index]: false }));
+    setLoadingStates((prev) => ({ ...prev, [ind]: false }));
 
   }, [isPending]);
   const router = useRouter();
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
+    setIndex(index)
+
     await handleSelectPlans.handleSelectPlan(
       index,
       planType,

@@ -11,6 +11,8 @@ import MobilePlan from "./MobilePlan";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
+import { indexOf } from "lodash";
+
 
 const Plans = ({
   data,
@@ -25,18 +27,20 @@ const Plans = ({
 
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
+  const [ind, setIndex]=useState()
 
   useEffect(() => {
     if (isPending) {
-      return   setLoadingStates((prev) => ({ ...prev, [index]: true }));
+      return   setLoadingStates((prev) => ({ ...prev, [ind]: true }));
 
     }
-    setLoadingStates((prev) => ({ ...prev, [index]: false }));
+    setLoadingStates((prev) => ({ ...prev, [ind]: false }));
 
   }, [isPending]);
   const router = useRouter();
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
+    setIndex(index)
     await handleSelectPlans.handleSelectPlan(
       index,
       planType,

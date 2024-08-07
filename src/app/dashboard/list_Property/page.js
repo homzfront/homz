@@ -37,7 +37,7 @@ const List_Property = () => {
   const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
   const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
 
-  console.log(singlePropertyId, propertyPlan); 
+  // console.log(singlePropertyId, propertyPlan); 
 
   const handlePageNumber = (pageNumber) => {
     setPage(pageNumber);
@@ -151,7 +151,7 @@ const List_Property = () => {
     setOpenPromoModal(false);
   };
 
-  // console.log(profile)
+  console.log(property)
   return (
     <div className="dashboard w-full">
       {openModalForBusi && (
@@ -325,7 +325,22 @@ const List_Property = () => {
             <div className="h-screen flex justify-center items-center">
               <LoadingII />
             </div>
-          ) : property && property?.data?.totalCount < 1 ? (
+          ) : property && property?.data?.totalCount > 0 ? (
+            <Property
+              property={property}
+              promoteOption={options}
+              openPromoModal={openPromoModal}
+              setSelectedOption={setSelectedProperties}
+              selectedOptions={selectedProperty}
+              closePromoModal={toggleModal}
+              cancelSelectedOption={handleCancel}
+              handlePageNumber={handlePageNumber}
+              refreshData={refreshData}
+              setOpenPlanModal={setOpenPlanModal}
+              setPromotePropertry={setPromotePropertry}
+
+            />
+          ) : (
             <div>
               <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
                 List your properties so Tenants can see them.
@@ -362,21 +377,7 @@ const List_Property = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            <Property
-              property={property}
-              promoteOption={options}
-              openPromoModal={openPromoModal}
-              setSelectedOption={setSelectedProperties}
-              selectedOptions={selectedProperty}
-              closePromoModal={toggleModal}
-              cancelSelectedOption={handleCancel}
-              handlePageNumber={handlePageNumber}
-              refreshData={refreshData}
-              setOpenPlanModal={setOpenPlanModal}
-              setPromotePropertry={setPromotePropertry}
-
-            />
+           
           )}
         </>
       )}
