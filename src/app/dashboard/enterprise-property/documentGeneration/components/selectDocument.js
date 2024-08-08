@@ -39,7 +39,10 @@ const SelectDocument = ({ handlePageChangeTwo }) => {
       <div className='grid grid-cols-2 gap-4 mt-4'>
         {
           data.map((data) => (
-            <div className='w-full bg-whiteblue rounded-[8px] h-[80px] flex items-center px-8 text-BlackHomz hover:text-white hover:bg-BlueHomz cursor-pointer' onClick={() => handleSelectDocument(data.text)} key={data.id}>
+            <div className='w-full bg-whiteblue rounded-[8px] h-[80px] flex items-center px-8 text-BlackHomz hover:text-white hover:bg-BlueHomz cursor-pointer'
+              onClick={() => handleSelectDocument(data.text)}
+              key={data.id}
+            >
               <div className='flex justify-start gap-2 items-center text-[16px] font-[400]'>
                 <div className='h-[45px] w-[45px] bg-white flex justify-center items-center rounded-full'>{data.image}</div>
                 {data.text}

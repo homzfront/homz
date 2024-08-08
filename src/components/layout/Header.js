@@ -11,8 +11,10 @@ import keepThree from "@/utils/keepThree";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import useClickOutside from "@/utils/clickOutside";
 import BusinessAlert from "../icons/businessAlert";
+import Down from "../icons/Down";
 
 const Header = () => {
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
@@ -25,6 +27,10 @@ const Header = () => {
 
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
+  };
+
+  const toggleSubMenu = () => {
+    setSubMenuOpen(!subMenuOpen);
   };
 
   useEffect(() => {
@@ -168,14 +174,27 @@ const Header = () => {
           >
             Management
           </Link>
-          <Link
-            href={"/landing-page-property"}
-            // href={""}
-            className={`hover:text-blue-400 ${pathname === "/landing-page-property" ? "text-BlueHomz" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            Enterprise
-          </Link>
+          <div className="relative hover:text-blue-400 flex items-center gap-1">
+            <Link
+              href={"/landing-page-property"}
+              // href={""}
+              className={` ${pathname === "/landing-page-property" || pathname === "/document-gene" ? "text-BlueHomz" : ""}`}
+              onClick={() => setOpen(false)}
+            >
+              Enterprise
+            </Link>
+            <div onClick={toggleSubMenu} className={`cursor-pointer ${subMenuOpen ? "rotate-180" : ""} flex`}>
+              <Down />
+            </div>
+            {subMenuOpen &&
+              <Link
+                href={"/document-gene"}
+                className={`absolute w-[200px] md:w-[240px] top-5 md:top-7 py-2 flex items-center justify-center rounded-md bg-inputBg text-[12px] md:text-[14px] text-BlackHomz hover:bg-BlueHomz4 hover:text-white `}
+              >
+                Property Document Generation
+              </Link>
+            }
+          </div>
           <Link
             href={"/landing-page-tenant"}
             // href={""}

@@ -1,3 +1,4 @@
+"use client"
 import ArrowRightBlue from '@/components/icons/arrowRightBlue';
 import BriefCase from '@/components/icons/briefCase';
 import Complaint from '@/components/icons/complaint';
@@ -8,13 +9,16 @@ import DocDocu from '@/components/icons/docDocu';
 import DocReceipt from '@/components/icons/docReceipt';
 import DocSettings from '@/components/icons/DocSettings';
 import QuickNotice from '@/components/icons/quickNotice';
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import FAQs from './components/FAQs';
 import Image from 'next/image';
 import DocFlash from '@/components/icons/docFlash';
 import DocFunnel from '@/components/icons/docFunnel';
+import ArrowWhiteBig from '@/components/icons/arrowWhiteBig';
+import FormSelection from '@/store/document/FormSelection';
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import DocumentCreation from '../dashboard/enterprise-property/documentGeneration/components/documentCreation';
+import useTabForDocuGen from '@/store/document/useTabForDocuGen';
 
 const DocSolution = [
     {
@@ -56,9 +60,38 @@ const DocSolutionII = [
 ]
 
 const DocumentGene = () => {
+    const docSolutionRef = useRef(null);
+    const [hover, setHover] = useState(null);
+    const { setDocType } = FormSelection();
+    const { setTab } = useTabForDocuGen();
+    const [documentCreation, setDocumentCreation] = useState(false);
+
+    const handleScroll = () => {
+        if (docSolutionRef.current) {
+            docSolutionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    const handleSelectDocument = (docType) => {
+        if (docType === "Receipts") {
+            setDocType("Invoice and Receipt")
+        } else {
+            setDocType(docType);
+        }
+        setTab('nameDoc')
+        setDocumentCreation(true);
+    };
+
+
     return (
-        <div className='max-w-[1440px] m-auto w-full flex flex-col items-center'>
-            <Header />
+        <div className='w-full flex flex-col items-center'>
+            {
+                <CustomizedModal isOpen={documentCreation}>
+                    <DocumentCreation setDocumentCreation={setDocumentCreation}
+                    // setShowPreview={setShowPreview}
+                    />
+                </CustomizedModal>
+            }
             <div className='max-w-[1160px] w-full px-6'>
                 <div className='w-full'>
                     <div className='h-[550px] relative flex justify-between w-[100%]'>
@@ -77,7 +110,7 @@ const DocumentGene = () => {
                                         Easily create and manage all essential property-related documents in one place.
                                     </p>
                                     <div className='mt-4'>
-                                        <button className='px-4 py-2 bg-BlueHomz text-white text-[16px] font-[700] rounded-[4px]'>
+                                        <button onClick={handleScroll} className='px-4 py-2 bg-BlueHomz text-white text-[16px] font-[700] rounded-[4px]'>
                                             Start Free Trial
                                         </button>
                                     </div>
@@ -154,7 +187,7 @@ const DocumentGene = () => {
                     </p>
                 </div>
             </div>
-            <div className='my-14'>
+            <div ref={docSolutionRef} className='my-14'>
                 <div className='flex justify-center'>
                     <div className='flex flex-col justify-center'>
                         <p className='text-[36px] font-[700] text-BlackHomz text-center'>
@@ -166,26 +199,41 @@ const DocumentGene = () => {
                     </div>
                 </div>
                 <div className="flex space-x-4 mt-10">
-                    {DocSolution.map((data) =>
+                    {DocSolution.map((data) => (
                         <div
-                            className={`bg-whiteblue rounded-[12px] p-8 flex flex-col justify-between items-center h-[260px] w-[360px]`}
+                            onClick={() => handleSelectDocument(data.title)}
+                            onMouseEnter={() => { setHover(data.id) }}
+                            onMouseLeave={() => { setHover(null) }}
+                            className={`cursor-pointer bg-whiteblue hover:bg-BlueHomz group rounded-[12px] p-8 flex flex-col justify-between items-center h-[260px] w-[360px]`}
                             key={data.id}
                         >
                             <div className='flex flex-col gap-1 w-full justify-center items-center'>
                                 <div className='w-[45px] h-[45px] rounded-full bg-white flex justify-center items-center'>
                                     {data.image}
                                 </div>
-                                <p className='text-[20px] font-[600] text-BlackHomz text-center'>{data.title}</p>
-                                <p className='text-[18px] font-[400] text-GrayHomz text-center'>{data.body}</p>
-                            </div>
-                            <div className='flex items-center gap-1'>
-                                <p className='text-[16px] font-[500] text-BlueHomz'>
-                                    Generate
+                                <p className='text-[20px] font-[600] text-BlackHomz group-hover:text-white text-center'>
+                                    {data.title}
                                 </p>
-                                <ArrowRightBlue />
+                                <p className='text-[18px] font-[400] text-GrayHomz group-hover:text-white text-center'>
+                                    {data.body}
+                                </p>
                             </div>
+                            {
+                                hover && hover === data.id ?
+                                    <div>
+                                        <ArrowWhiteBig />
+                                    </div>
+                                    :
+                                    <div className='flex items-center gap-1'>
+                                        <p className='text-[16px] font-[500] text-BlueHomz group-hover:text-white'>
+                                            Generate
+                                        </p>
+                                        <ArrowRightBlue />
+                                    </div>
+                            }
                         </div>
-                    )}
+                    ))}
+
                 </div>
             </div>
             <div className='mt-14 relative'>
@@ -228,7 +276,6 @@ const DocumentGene = () => {
                 </div>
             </div>
             <FAQs />
-            <Footer />
         </div>
     )
 }

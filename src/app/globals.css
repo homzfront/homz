@@ -5,7 +5,19 @@
 
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
-  overflow: hidden; /* Hide the scrollbar globally */
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+  background-color: #d1e4ff;
+  border-top-right-radius: 30px;
+  /* Set the width of the scrollbar track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
+  padding-top: 10px;
+  border-top-right-radius: 30px;
 }
 
 /* Add this to your existing styles or create a separate stylesheet */

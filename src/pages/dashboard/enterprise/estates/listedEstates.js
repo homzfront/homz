@@ -44,7 +44,7 @@ const ListedEstates = ({
   searchQuery,
   setSearchQuery,
   closeMobileFilterModal,
-  filterModal
+  filterModal,
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {

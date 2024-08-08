@@ -3,7 +3,7 @@ import React from 'react'
 const PreviewedData = () => {
     return (
         <div className='flex flex-col gap-2 mb-[60px]'>
-            <div className='h-[100vh] bg-white flex justify-center items-center'>
+            <div className='h-[750px] bg-white flex justify-center items-center'>
                 <div className='flex flex-col gap-4 items-center justify-center'>
                     <h1 className='text-[20px] font-[700] text-black'>
                         Tenancy Agreement
@@ -30,7 +30,7 @@ const PreviewedData = () => {
                     </div>
                 </div>
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
                 <p>This Tenancy Agreement is made the <span className='font-[600]'>[Document Preparation Date]</span></p>
 
                 <span>BETWEEN</span>
@@ -53,7 +53,7 @@ const PreviewedData = () => {
                 <span className='font-[600]'>1. TERM</span>
                 <p> 1.1	In pursuance of the agreement recited above and in consideration of the rent herein reserved and of the covenants stated herein to be observed by the <span className='font-[600]'>tenant</span>, the <span className='font-[600]'>Landlord</span> hereby grants unto the tenant,</p>
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
                 <p><span className='font-[600]'>all of the</span> Demised Premises  <span className='font-[600]'>together with</span> all rights of way and easements necessary for the full enjoyment of the Demised Premises and together with all fittings, fixtures and appurtenances attached and or appropriated thereto, <span className='font-[600]'>to hold</span> the same unto the <span className='font-[600]'>tenant</span> for a term of One (1) year certain. Hence, the tenancy hereby commences on the <span className='text-Success font-[600]'>[Tenancy Commencement Date]</span > and would terminate on the <span className='text-error font-[600]'>[Tenancy Ending Date]</span>.</p>
 
                 <p>1.2 Where the <span className='font-[600]'>tenant</span> has not breached any of its covenants and obligations herein specified or any other term of this Agreement the <span className='font-[600]'>Landlord</span> may, upon the written request of the tenant made at least three (3) months before the expiration of the term hereby created, grant to the <span className='font-[600]'>tenant</span> a further term on such terms and conditions and at such rent as the Parties may at the time agree.  In the absence of such request, and subject to Clauses 1.3 and 3.3 below, the tenancy hereby created shall determine at the expiration of the term indicated in Clause 1.1 above, without any obligation on the <span className='font-[600]'>Landlord</span> to issue a Notice to Quit or causing same to be issued.</p>
@@ -69,7 +69,7 @@ const PreviewedData = () => {
                 <p className='font-[600]'>3. 	TENANT’S COVENANTS</p>
 
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
                 <p>3.1 The <span className='font-[600]'>tenant</span>, for itself and its heirs and successor-in-title, covenants with the Landlord as follows: </p>
                 <p>(a) To pay the rent, Fees and other charges reserved herein at the time and in manner provided in Clause 2. </p>
                 <p>(b) To pay all electricity, water, and other utility bills as well as the service Charge as apportioned by the
@@ -87,7 +87,7 @@ const PreviewedData = () => {
                 <p>(f) Not to assign, sublet or part with the possession of the Demised Premises or any part thereof, without the prior written
                     consent of the Landlord (such consent not to be unreasonably withheld or delayed in the case of a responsible person).</p>
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
                 <p>(g) Not to do or permit to be done in the Demised Premises, any act or thing which may constitute a nuisance or disturbance to the
                     Landlord or any adjoining or neighbouring premises. </p>
                 <p>(h) Not to install on the Demised Premises, any part thereof or any other part of the Property
@@ -103,7 +103,7 @@ const PreviewedData = () => {
                     shall pay to the Landlord interest at the prevailing commercial rate on any due rents or other sums, from the date when the payments were due to the date on which they are paid. For the avoidance of doubt,
                     the accrual of interests on any sums due under the tenancy shall not in any way prevent the Landlord from</p>
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
                 <p className='ml-6'>terminating the tenancy for breach of express or implied covenants.</p>
                 <p>3.2 The covenants and obligations contained herein shall subsist throughout the term hereby created.</p>
                 <p>3.3 If any covenant on the part of the tenant herein contained is not performed or observed and the tenant has continued to neglect and or refuse to perform and observe same fourteen (14) days after
@@ -118,7 +118,7 @@ const PreviewedData = () => {
                 <p><span className='font-[600]'>4.2</span> If the Landlord fails or neglects to perform or observe its covenant to promptly effect structural repairs to the Demised Premises, the tenant shall be at liberty to effect such structural repairs thirty (30) days after
                     the tenant has given to the Landlord, a notice to perform or observe</p>
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
                 <p>that covenant. The Landlord shall reimburse the tenant for the actual and verifiable costs of effecting such repairs; provided that the tenant shall furnish receipts or invoices evidencing the costs incurred. </p>
                 <p className='font-[600] pt-1'>5. NOTICES </p>
                 <p>All notices required to be given pursuant to this Agreement shall be in writing and will be hand-delivered (a) if to the landlord, at the address of its home residence
@@ -135,7 +135,7 @@ const PreviewedData = () => {
                 <p>LAW This Agreement shall be governed and construed in all respects in accordance with the laws of Lagos State of Nigeria, and the Magistrate Court of Lagos State shall have exclusive
                     jurisdiction over all disputes arising between the Parties, in connection with this Agreement.</p>
             </div>
-            <div className='h-[100vh] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify gap-6 p-4'>
+            <div className='h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify gap-6 p-4'>
                 <p><span className='font-[600]'>IN WITNESS WHEREOF</span> the Parties hereto have caused their respective common seals to be affixed hereunto the day and year first above written.</p>
                 <div>
                     <p className='font-[600]'>SIGNED SEALED AND DELIVERED</p>

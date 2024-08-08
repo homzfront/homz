@@ -91,7 +91,7 @@ const Tenants = () => {
       }
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"/dashboard/enterprise-property/estates?tab=addProperty"} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
       {loading ? (

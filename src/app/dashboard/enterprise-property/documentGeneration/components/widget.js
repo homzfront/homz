@@ -8,7 +8,7 @@ import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 const Widget = ({ setDocumentCreation, setShowPreview }) => {
     const { tab } = useTabForDocuGen();
     const [active, setActive] = useState(tab ? true : false);
-    const [activeTwo, setActiveTwo] = useState(false);
+    const [activeTwo, setActiveTwo] = useState(tab === 'nameDoc');
     const [activeThree, setActiveThree] = useState((tab === 'customInfo'));
     const [activeFour, setActiveFour] = useState(false);
 

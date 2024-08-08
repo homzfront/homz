@@ -19,8 +19,10 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import Popup from "@/pages/tenantManagementPlan/popUp";
+import useTabForAddProperty from "@/store/document/useTabForAddProperty";
 
 const ManageUsers = () => {
+  const { setTab } = useTabForAddProperty();
   const { data, loading, fetchData } = estateStore();
   const [slog, setSlog] = useState(null)
   const [email, setEmail] = useState("");
@@ -257,12 +259,16 @@ const ManageUsers = () => {
               <p className="w-full md:w-auto text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?
               </p>
-              <Link
-                href={"/dashboard/enterprise-property/estates?tab=addProperty"}
-                className="w-full md:w-auto text-[12px] md:text-[14px] font-[700] text-BlueHomz"
+              <div
+                onClick={() => { setTab("addProperty") }}
+                className="cursor-pointer w-full md:w-auto text-[12px] md:text-[14px] font-[700] text-BlueHomz"
               >
-                Add New Property
-              </Link>
+                <Link
+                  href={"/dashboard/enterprise-property/estates"}
+                >
+                  Add New Property
+                </Link>
+              </div>
             </div>
           </div>
         </div>
