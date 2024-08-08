@@ -10,48 +10,53 @@ const SuccessModal = ({
   successText,
   optionalText,
   optionTextnbutton,
-  buttonColor
+  buttonColor,
+  error,
 }) => {
   return (
-    
-      <CustomizedModal
-        isOpen={isOpen}
-        // onRequestClose={closeSuccessModal}
-      >
-        <div className="bg-white border flex flex-col w-full md:w-[464px] py-[24px] px-[16px] rounded-[12px] gap-[18px]">
-          <div className="flex flex-col sm:gap-6 gap-3 items-center justify-center">
+    <CustomizedModal
+      isOpen={isOpen}
+      // onRequestClose={closeSuccessModal}
+    >
+      <div className="bg-white border flex flex-col w-full md:w-[464px] py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+        <div className="flex flex-col sm:gap-6 gap-3 items-center justify-center">
+          {!error && (
             <Image
               src="/static/images/success_icon.svg"
               height={48}
               width={46}
               alt=""
             />
-            <div className="flex  flex-col">
-              <p className="text-[14px] md:text-[20px] font-[700] leading-[17.64px] md:leading-[25.2px] text-center mb-1">
-                {title}
-              </p>
-              <p className=" leading-[19.5px] text-[13px] md:text-[16px] font-[400] md:leading-[24px] text-center">
-                {successText}
-              </p>
-            </div>
-          </div>
-          {optionTextnbutton && (
-            <button
-              className="bg-BlueHomz2   text-white rounded-[4px] adminCellBorders h-[48px] p-[12px]"
-              onClick={handleOptionButton}
-            >
-              {optionTextnbutton}
-            </button>
           )}
-          <button
-            className={`${buttonColor? "border-BlueHomz2 text-BlueHomz": "bg-BlueHomz2 text-white"} font-[500]  rounded-[4px] border h-[48px] p-[12px]`}
-            onClick={handleEvent}
-          >
-            {optionalText ? optionalText : "Close"}
-          </button>
+          <div className="flex  flex-col">
+            <p className="text-[14px] md:text-[20px] font-[700] leading-[17.64px] md:leading-[25.2px] text-center mb-1">
+              {title}
+            </p>
+            <p className=" leading-[19.5px] text-[13px] md:text-[16px] font-[400] md:leading-[24px] text-center">
+              {successText}
+            </p>
+          </div>
         </div>
-      </CustomizedModal>
-    
+        {optionTextnbutton && (
+          <button
+            className="bg-BlueHomz2   text-white rounded-[4px] adminCellBorders h-[48px] p-[12px]"
+            onClick={handleOptionButton}
+          >
+            {optionTextnbutton}
+          </button>
+        )}
+        <button
+          className={`${
+            buttonColor
+              ? "border-BlueHomz2 text-BlueHomz"
+              : "bg-BlueHomz2 text-white"
+          } font-[500]  rounded-[4px] border h-[48px] p-[12px]`}
+          onClick={handleEvent}
+        >
+          {optionalText ? optionalText : "Close"}
+        </button>
+      </div>
+    </CustomizedModal>
   );
 };
 

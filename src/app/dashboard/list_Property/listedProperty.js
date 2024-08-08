@@ -17,15 +17,14 @@ import Button from "@/components/mainmenu/button";
 const ListedProperties = ({
   property,
   promoteOption,
-  openPromoModal,
   setSelectedOption,
   selectedOptions,
-  closePromoModal,
   cancelSelectedOption,
   handlePageNumber,
   refreshData,
   setOpenPlanModal,
-  setPromotePropertry
+  setPromotePropertry,
+  setErrorModal
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
@@ -353,6 +352,7 @@ const ListedProperties = ({
         refreshData={refreshData}
         setOpenPlanModal={setOpenPlanModal}
         setPromotePropertry={setPromotePropertry}
+        setErrorModal={setErrorModal}
       />
       <div className="mt-16">
         <Button

@@ -79,7 +79,7 @@ const Plans = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {"N" + Number(plan.price).toLocaleString()}
+                {plan?.price  && ("N" + Number(plan.price).toLocaleString())}
               </p>
             </div>
 

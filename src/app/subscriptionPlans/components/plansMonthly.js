@@ -77,7 +77,7 @@ const Plans = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {plan.price}
+              {plan?.price  && ("N" + Number(plan.price).toLocaleString())}
               </p>
             </div>
 
@@ -241,7 +241,7 @@ const pricingPlans = [
     interval: "monthly",
   },
   {
-    price: "N30,000",
+    price: "30000",
     title: "Basic Plan",
     billing: "monthly",
     features: [
@@ -312,7 +312,7 @@ const pricingPlans = [
     interval: "monthly",
   },
   {
-    price: "N50,000",
+    price: "50000",
     title: "Enterprise Plan",
     billing: "monthly",
     features: [
@@ -380,7 +380,7 @@ const pricingPlans = [
     interval: "monthly",
   },
   {
-    price: "N100,000",
+    price: "100000",
     title: "Premium Plan",
     billing: "monthly",
     features: [

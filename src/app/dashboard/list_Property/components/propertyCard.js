@@ -17,7 +17,8 @@ const PropertyCard = ({
   promoteOptions,
   refreshData,
   setOpenPlanModal,
-  setPromotePropertry
+  setPromotePropertry,
+  setErrorModal,
 }) => {
   const ITEMS_PER_PAGE = 8;
   const [publish, setPublish] = useState(true);
@@ -78,7 +79,7 @@ const PropertyCard = ({
     setUnpublisProperty(false);
     setPropertyUnpublished(true);
   };
- 
+
   const handleStopPropertyPromotion = async () => {
     setLoader(true);
     try {
@@ -203,6 +204,7 @@ const PropertyCard = ({
                       setStopPromotion={setStopPromotion}
                       setOpenPlanModal={setOpenPlanModal}
                       setPromotePropertry={setPromotePropertry}
+                      setErrorModal={setErrorModal}
                     />
                   )}
                 </div>
@@ -364,7 +366,7 @@ const PropertyCard = ({
         }}
         buttonColor={true}
       />
-    
+
       {/* stop property promotion */}
       <ConfirmationModal
         isOpen={stopPromote}

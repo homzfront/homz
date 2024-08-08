@@ -6,7 +6,6 @@ import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import PromotionHooks from "@/utils/promoteProperty";
 import usePropertyIds from "@/store/propertyIds";
 
-
 function CardMenus({
   data,
   handleDelete,
@@ -19,14 +18,16 @@ function CardMenus({
   setStopPromotion,
   setOpenPlanModal,
   promoted,
-  setPromotePropertry
+  setPromotePropertry,
+  setErrorModal
 }) {
   const router = useRouter();
   const [isLoading, setLoader] = useState(false);
   const [isPending, startTransition] = useTransition();
   const setPropertyId = usePropertyIds((state) => state.setSinglePropertyId);
-  const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
-  
+  const setPropertyPlanType = usePropertyIds(
+    (state) => state.setPropertyPlanType
+  );
 
   useEffect(() => {
     if (isPending) {
@@ -43,23 +44,25 @@ function CardMenus({
     setLoader(true);
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      // console.log(response)
+      // console.log(response);
       if (response.data === null) {
+        localStorage.setItem("prp_tygf2ty", data._id);
+        localStorage.setItem("prp_xry_pl#a$n", "single");
         setOpenPlanModal(true);
-      }
-      else{
-    setLoader(false);
-
-    if (promoted) {
-        setModalIsOpen(true);
+      } else if ((response.message == "An unexpected error occurred.")) {
         setLoader(false);
+        setErrorModal(true);
       } else {
-        setPromotePropertry(true);
-        setPropertyId(data._id);
-        setPropertyPlanType("single")
-        setLoader(false);
-          }
+        if (promoted) {
+          setModalIsOpen(true);
+          setLoader(false);
+        } else {
+          setPromotePropertry(true);
+          setPropertyId(data._id);
+          setPropertyPlanType("single");
+          setLoader(false);
         }
+      }
     } catch (error) {
       console.error("Error", error.response?.data || error.message);
       return (

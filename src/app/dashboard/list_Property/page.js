@@ -15,6 +15,7 @@ import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/CustomizedModal";
+import { Trykker } from "next/font/google";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
@@ -22,17 +23,19 @@ const List_Property = () => {
   const { propertyListedAll, loading, fetchData } = usePropertyStore();
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
-  const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(true);
+  const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(false);
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [openPlanModal, setOpenPlanModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoader] = useState(false);
+  const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
   const [isLoading2, setLoader2] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [promoteProperty, setPromotePropertry] = useState(false);
   const [promotePropertySuccess, setPromotePropertrySuccess] = useState(false);
   const router = useRouter();
+  const [errorModal, setErrorModal] = useState(false);
   const setPropertyIds = usePropertyIds((state) => state.setPropertyIds);
   const singlePropertyId = usePropertyIds((state) => state.singleId);
   const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
@@ -40,7 +43,9 @@ const List_Property = () => {
     (state) => state.setPropertyPlanType
   );
 
-  console.log(singlePropertyId, propertyPlan);
+  var id = localStorage.getItem("prp_tygf2ty");
+  var plan = localStorage.getItem("prp_xry_pl#a$n");
+  // console.log(id, type);
 
   const handlePageNumber = (pageNumber) => {
     setPage(pageNumber);
@@ -50,6 +55,15 @@ const List_Property = () => {
     fetchData(page);
     fetchProfile();
   }, [fetchData, fetchProfile, page]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("status");
+    if (status === "success") {
+      setPaymentSuccessfulModal(true);
+      router.prefetch("/dashboard/list_Property");
+    }
+  }, [router]);
 
   const refreshData = () => {
     fetchData(page);
@@ -106,6 +120,9 @@ const List_Property = () => {
       if (response.data === null) {
         setLoader2(false);
         setOpenPlanModal(true);
+      } else if (response.message == "An unexpected error occurred.") {
+        setLoader2(false);
+        setErrorModal(true);
       } else {
         setLoader2(false);
         if (selectedProperty.length > 0) {
@@ -123,36 +140,64 @@ const List_Property = () => {
       );
     }
   };
+
   const handlePropertyPromotion = async () => {
     setLoader(true);
+    var status = false;
+
+    const propertyId = singlePropertyId || id;
+    const promotionPlan = propertyPlan || plan;
+    const promotionDate = "2024-04-10";
+
     try {
-      let date = "2024-04-10";
-      // let plan = "single";
       const results = await PromotionHooks.promoteProperty(
-        date,
-        singlePropertyId,
-        propertyPlan,
+        promotionDate,
+        propertyId,
+        promotionPlan,
         selectedProperty
       );
 
-      if (results.status === true) {
-        setLoader(false);
+      setLoader(false);
+
+      if (results.status) {
         setPromotePropertrySuccess(true);
         setPromotePropertry(false);
-      } else {
-        setLoader(false);
-        return;
+        status = true;
       }
-      // console.log(results);
     } catch (error) {
-      console.error("Error Stopping the promotion:", error);
+      console.error("Error promoting the property:", error);
       setLoader(false);
+      status = false;
     }
+    return status;
   };
+
   const toggleModal = () => {
     setOpenPromoModal(false);
   };
+  const handleClick = async () => {
+    // Prefetch the page right before navigation
+    await router.prefetch("/dashboard/list_Property");
+    setPaymentSuccessfulModal(false);
+    router.push("/dashboard/list_Property");
+    localStorage.removeItem("prp_tygf2ty");
+    localStorage.removeItem("prp_xry_pl#a$n");
+  };
 
+  const handleSecondPromo = async () => {
+    setLoaderSecondPromo(true);
+    try {
+      let res = await handlePropertyPromotion();
+      if (res) {
+        setLoaderSecondPromo(false);
+        handleClick();
+      }
+      setLoaderSecondPromo(false);
+    } catch (error) {
+      console.error(error);
+      setLoaderSecondPromo(false);
+    }
+  };
   // console.log("global value", loading);
 
   // console.log(Array.isArray(property));
@@ -378,6 +423,7 @@ const List_Property = () => {
               refreshData={refreshData}
               setOpenPlanModal={setOpenPlanModal}
               setPromotePropertry={setPromotePropertry}
+              setErrorModal={setErrorModal}
             />
           )}
         </>
@@ -409,10 +455,17 @@ const List_Property = () => {
 
       <SuccessModal
         isOpen={promotePropertySuccess}
-        title="Promotion Successful"
+        title="Promotion is Active"
         handleEvent={closePromotionModal}
-        successText="Promotion is currently under review and will be live within 8 hours."
+        successText="Your [Monthly] promotion is currently running for this property"
         // optionalText="View listed properties"
+      />
+      <SuccessModal
+        isOpen={errorModal}
+        title="Oops! An error has Occurred"
+        error={true}
+        successText="Unable to promote right now. Please try again later!"
+        handleEvent={() => setErrorModal(false)}
       />
 
       <Confirm isOpen={paymentSuccessfulModal}>
@@ -427,9 +480,9 @@ const List_Property = () => {
           <div className="flex gap-[8px] items-center w-full">
             <button
               className="bg-BlueHomz2  flex items-center justify-center  text-white rounded-[4px] w-[196px] h-[48px] p-[12px] "
-              // onClick={handleEvent}
+              onClick={handleSecondPromo}
             >
-              {!isLoading ? (
+              {!loadingSecondPromo ? (
                 <span>Promote</span>
               ) : (
                 <ThreeDotsLoader color="#ffffff" />
@@ -437,11 +490,9 @@ const List_Property = () => {
             </button>
             <button
               className="border-BlueHomz text-blue-600 rounded-[4px] border h-[48px] p-[12px] w-[196px]"
-              onClick={() => {
-                setPaymentSuccessfulModal(false);
-              }}
+              onClick={handleClick}
             >
-             Cancel
+              Cancel
             </button>
           </div>
         </div>
