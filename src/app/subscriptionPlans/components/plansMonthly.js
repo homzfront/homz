@@ -32,7 +32,7 @@ const Plans = ({
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
 
-  }, [isPending]);
+  }, [isPending,ind]);
   const router = useRouter();
 
   const handleSelectPlan = async (index, planType, interval, amount) => {

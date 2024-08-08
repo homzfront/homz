@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-
+import Confirm from "@/components/mainmenu/CustomizedModal";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
@@ -22,6 +22,7 @@ const List_Property = () => {
   const { propertyListedAll, loading, fetchData } = usePropertyStore();
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
+  const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(true);
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [openPlanModal, setOpenPlanModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
@@ -35,9 +36,11 @@ const List_Property = () => {
   const setPropertyIds = usePropertyIds((state) => state.setPropertyIds);
   const singlePropertyId = usePropertyIds((state) => state.singleId);
   const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
-  const setPropertyPlanType = usePropertyIds((state) => state.setPropertyPlanType);
+  const setPropertyPlanType = usePropertyIds(
+    (state) => state.setPropertyPlanType
+  );
 
-  // console.log(singlePropertyId, propertyPlan); 
+  console.log(singlePropertyId, propertyPlan);
 
   const handlePageNumber = (pageNumber) => {
     setPage(pageNumber);
@@ -53,22 +56,22 @@ const List_Property = () => {
   };
   useEffect(() => {
     if (isPending) {
-      return setLoader(true) ;
+      return setLoader(true);
     }
     setLoader(false);
-    setOpenPlanModal(false)
+    setOpenPlanModal(false);
   }, [isPending]);
 
   const property = propertyListedAll;
   const data = propertyListedAll.data?.results?.[0].data;
 
-  const closePromotionModal=()=>{
+  const closePromotionModal = () => {
     fetchData(page);
     setPromotePropertrySuccess(false);
     handleCancel();
-    setPropertyPlanType("")
-  }
-  
+    setPropertyPlanType("");
+  };
+
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
   };
@@ -76,7 +79,7 @@ const List_Property = () => {
     setPropertyIds([]);
     setSelectedProperties([]);
     setOptions(false);
-    setPropertyPlanType("")
+    setPropertyPlanType("");
   };
 
   const handleSelectPlan = async () => {
@@ -95,16 +98,16 @@ const List_Property = () => {
     }
   };
   const handlePromoteOptions = async () => {
-    setLoader2(true)
-    setPropertyPlanType("")
+    setLoader2(true);
+    setPropertyPlanType("");
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
       // console.log(response);
       if (response.data === null) {
-        setLoader2(false)
+        setLoader2(false);
         setOpenPlanModal(true);
       } else {
-        setLoader2(false)
+        setLoader2(false);
         if (selectedProperty.length > 0) {
           // setLoader(true);
           setPropertyIds(selectedProperty);
@@ -136,7 +139,6 @@ const List_Property = () => {
         setLoader(false);
         setPromotePropertrySuccess(true);
         setPromotePropertry(false);
-
       } else {
         setLoader(false);
         return;
@@ -151,7 +153,9 @@ const List_Property = () => {
     setOpenPromoModal(false);
   };
 
-  console.log(property)
+  // console.log("global value", loading);
+
+  // console.log(Array.isArray(property));
   return (
     <div className="dashboard w-full">
       {openModalForBusi && (
@@ -321,11 +325,47 @@ const List_Property = () => {
               </Link>
             )}
           </div>
+
           {loading ? (
             <div className="h-screen flex justify-center items-center">
               <LoadingII />
             </div>
-          ) : property && property?.data?.totalCount > 0 ? (
+          ) : Array.isArray(property) ? (
+            <>
+              <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
+                List your properties so Tenants can see them.
+              </p>
+              <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-0">
+                <div className="flex flex-col items-center justify-center md:h-[412px] gap-[20px]">
+                  <Image
+                    src="/static/images/PropertyLister.svg"
+                    alt=""
+                    height={121}
+                    width={121}
+                    className="rounded-[8px] mx-auto"
+                  />
+                  <p className="text-[23px] md:text-[36px] font-[700] leading-[28.98px] md:leading-[45px] text-[#006AFF]">
+                    Get Started
+                  </p>
+                  <p className="hidden md:block text-[#4E4E4E] leading-[27px] w-full text-center">
+                    List your properties so Tenants can see them.
+                  </p>
+                  <Link
+                    href="/dashboard/list_Property/addProperty"
+                    className="w-full flex gap-1 md:w-[165px] h-[48px] md:p-[12px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
+                  >
+                    <Image
+                      src="/static/images/white-add.svg"
+                      alt=""
+                      height={16}
+                      width={16}
+                    />
+                    <span>List Properties</span>
+                  </Link>
+                </div>
+              </div>
+            </>
+          ) : (
             <Property
               property={property}
               promoteOption={options}
@@ -338,46 +378,7 @@ const List_Property = () => {
               refreshData={refreshData}
               setOpenPlanModal={setOpenPlanModal}
               setPromotePropertry={setPromotePropertry}
-
             />
-          ) : (
-            <div>
-              <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
-                List your properties so Tenants can see them.
-              </p>
-              <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-0">
-                <div className="flex flex-col items-center justify-center md:h-[412px] gap-[20px] ">
-                  <Image
-                    src="/static/images/PropertyLister.svg"
-                    alt=""
-                    height={121}
-                    width={121}
-                    className="rounded-[8px] mx-auto"
-                  />
-                  <p className="text-[23px] md:text-[36px] text-[700] leading-[28.98px] md:leading-[45px] text-[#006AFF] ">
-                    Get Started
-                  </p>
-                  {}
-                  <p className="hidden md:block text-[#4E4E4E] leading-[27px]  w-full md:w-full text-center">
-                    List your properties so Tenants can see them.
-                  </p>
-                  <Link
-                    href="/dashboard/list_Property/addProperty"
-                    className="w-full flex gap-1 md:w-[165px] h-[48px] md:p-[12px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
-                  >
-                    <Image
-                      src="/static/images/white-add.svg"
-                      alt=""
-                      height={16}
-                      width={16}
-                      className=""
-                    />
-                    <span>List Properties</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-           
           )}
         </>
       )}
@@ -393,8 +394,8 @@ const List_Property = () => {
         isLoading={isLoading}
         // color="text-[#D92D20]"
       />
-        {/* promotion property */}
-        <ConfirmationModal
+      {/* promotion property */}
+      <ConfirmationModal
         isOpen={promoteProperty}
         title="Promote Property?"
         confirmatoryText="You are about to promote this property on Homz"
@@ -405,14 +406,46 @@ const List_Property = () => {
         isLoading={isLoading}
         // color="text-[#D92D20]"
       />
-     
-         <SuccessModal
+
+      <SuccessModal
         isOpen={promotePropertySuccess}
         title="Promotion Successful"
         handleEvent={closePromotionModal}
         successText="Promotion is currently under review and will be live within 8 hours."
         // optionalText="View listed properties"
       />
+
+      <Confirm isOpen={paymentSuccessfulModal}>
+        <div className="bg-white border w-[333px] flex flex-col sm:w-[464px] py-[24px] px-[16px] sm:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
+          <p className="text-[14px] leading-[19.5px] sm:text-[20px] font-[700] sm:leading-[25.2px] text-center">
+            Your payment was successful!
+          </p>
+          <p className=" leading-[19.5px] text-[13px] md:text-[16px] font-[400] md:leading-[24px] text-center">
+            Would you like to activate the promotion on the selected property
+            now?
+          </p>
+          <div className="flex gap-[8px] items-center w-full">
+            <button
+              className="bg-BlueHomz2  flex items-center justify-center  text-white rounded-[4px] w-[196px] h-[48px] p-[12px] "
+              // onClick={handleEvent}
+            >
+              {!isLoading ? (
+                <span>Promote</span>
+              ) : (
+                <ThreeDotsLoader color="#ffffff" />
+              )}
+            </button>
+            <button
+              className="border-BlueHomz text-blue-600 rounded-[4px] border h-[48px] p-[12px] w-[196px]"
+              onClick={() => {
+                setPaymentSuccessfulModal(false);
+              }}
+            >
+             Cancel
+            </button>
+          </div>
+        </div>
+      </Confirm>
     </div>
   );
 };
