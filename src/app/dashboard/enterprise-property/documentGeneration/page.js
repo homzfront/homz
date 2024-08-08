@@ -12,11 +12,12 @@ import PreviewedData from "./components/previewedData";
 import QuitNoticeData from "./components/quitNoticeData";
 import ReceiptData from "./components/receiptData";
 import FormSelection from "@/store/document/FormSelection";
-import Link from "next/link";
+import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 
 
 
 const App = () => {
+  const { setTab } = useTabForDocuGen();
   const { DocType } = FormSelection();
   const [selectedStatus, setSelectedStatus] = useState(null);
   const option = ["PDF", "Word"];
@@ -74,16 +75,17 @@ const App = () => {
               </div>
               <div>
                 <div className="w-[55%] flex gap-4 items-center">
-                  <Link href={"/dashboard/enterprise-property/documentGeneration?tab=customInfo"}>
-                    <button
-                      onMouseEnter={() => setHover(true)}
-                      onMouseLeave={() => setHover(false)}
-                      onClick={() => setShowPreview(false)}
-                      className="px-6 flex justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[14px] text-BlueHomz hover:text-white hover:bg-BlueHomz border border-BlueHomz">
-                      {hover ? <EditBlue /> : <EditBlue className="#006AFF" />}
-                      Edit
-                    </button>
-                  </Link>
+                  <button
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
+                    onClick={() => {
+                      setShowPreview(false)
+                      setTab("customInfo")
+                    }}
+                    className="px-6 flex justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[14px] text-BlueHomz hover:text-white hover:bg-BlueHomz border border-BlueHomz">
+                    {hover ? <EditBlue /> : <EditBlue className="#006AFF" />}
+                    Edit
+                  </button>
                   <DropDownBlue
                     options={options}
                     onSelect={(option) => setSelectedFormat(option)}
@@ -132,7 +134,10 @@ const App = () => {
               </div>
               <div className="w-[25%]">
                 <button
-                  onClick={() => setDocumentCreation(!documentCreation)}
+                  onClick={() => {
+                    setDocumentCreation(!documentCreation)
+                    setTab(null);
+                  }}
                   className="w-full flex justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[16px] text-white bg-BlueHomz">
                   <PluswithoutCircle />
                   Generate New Document

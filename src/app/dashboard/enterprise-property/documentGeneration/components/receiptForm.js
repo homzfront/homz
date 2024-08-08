@@ -11,7 +11,6 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
     const { formData, setFormData } = useAgreementFormStore();
-    const options = ["Monthly", "Quarterly", "Annually"];
     const optionsII = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
 
     return (
@@ -22,7 +21,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview }) => {
                         src={"/Ellipse 75.png"}
                         height={80}
                         width={80}
-                        alt='emptyImage'
+                        alt='avatar'
                     />
                 </div>
                 <div className='absolute top-1/3 right-1/3'>

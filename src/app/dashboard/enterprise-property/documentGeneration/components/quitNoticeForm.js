@@ -21,7 +21,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview }) => {
                         src={"/Ellipse 75.png"}
                         height={80}
                         width={80}
-                        alt='emptyImage'
+                        alt='avatar'
                     />
                 </div>
                 <div className='absolute top-1/3 right-1/3'>

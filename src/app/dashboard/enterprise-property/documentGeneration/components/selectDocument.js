@@ -23,7 +23,7 @@ const SelectDocument = ({ handlePageChangeTwo }) => {
     }
   ]
 
-  const { setDocType, DocType } = FormSelection();
+  const { setDocType } = FormSelection();
 
   const handleSelectDocument = (docType) => {
     setDocType(docType);
