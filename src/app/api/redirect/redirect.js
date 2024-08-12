@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 export const config = {
-  
   // This middleware will run for every request
   async rewrites() {
     const url = await this.nextUrl.clone();

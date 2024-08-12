@@ -13,9 +13,11 @@ import QuitNoticeData from "./components/quitNoticeData";
 import ReceiptData from "./components/receiptData";
 import FormSelection from "@/store/document/FormSelection";
 import useTabForDocuGen from "@/store/document/useTabForDocuGen";
+import AddBigBlue from "@/components/icons/addBigBlue";
+import Image from "next/image";
+import FilterMobile from "./components/filterMobile";
 
-
-
+        
 const App = () => {
   const { setTab } = useTabForDocuGen();
   const { DocType } = FormSelection();
@@ -26,8 +28,12 @@ const App = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [hover, setHover] = useState(false);
   const options = ["PDF", "Word"];
+  const options2 = ["Tenancy Agreement", "Receipt", "Quit Notice"];
   const [showDocuments, setShowDocuments] = useState(false);
-
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [filterModal, setFilterModal] = useState(false);
 
   const openDocumentCreation = () => {
     setSelectedFormat(false);
@@ -45,6 +51,14 @@ const App = () => {
       setSelectedFormat(false);
     }
     setShowDocuments(true);
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
+
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
   }
 
   return (
@@ -111,7 +125,7 @@ const App = () => {
           </div>
           :
           <div className="p-8">
-            <div className="flex items-center justify-between">
+            <div className="hidden md:flex items-center justify-between">
               <div className="w-[25%] flex gap-4 items-center">
                 <div className="w-[600%]">
                   <Dropdown
@@ -138,11 +152,68 @@ const App = () => {
                     setDocumentCreation(!documentCreation)
                     setTab(null);
                   }}
-                  className="w-full flex justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[16px] text-white bg-BlueHomz">
+                  className="w-full flex px-4 justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[16px] text-white bg-BlueHomz">
                   <PluswithoutCircle />
                   Generate New Document
                 </button>
               </div>
+            </div>
+            <div className="md:hidden flex flex-col gap-2 items-start">
+              <div className="flex gap-2 items-center">
+                <p>
+                  Document Generation
+                </p>
+                <div
+                  onClick={() => {
+                    setDocumentCreation(!documentCreation)
+                    setTab(null);
+                  }}
+                >
+                  <AddBigBlue />
+                </div>
+              </div>
+              <div className="mt-4 flex justify-between md:hidden w-full">
+                <div className="relative w-[86%] rounded-[4px]">
+                  <input
+                    type="text"
+                    className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+                    id="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search"
+                  />
+                  <Image
+                    src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                    alt=""
+                    className="absolute top-3 left-3"
+                    height={16}
+                    width={16}
+                  />
+                </div>
+                <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+                  <button
+                  onClick={openMobileFilterModal}
+                  >
+                    <Image
+                      src="/static/images/filter.svg"
+                      alt=""
+                      width={16}
+                      height={16}
+                    />
+                  </button>
+                </div>
+              </div>
+              <CustomizedModal isOpen={filterModal}>
+                <FilterMobile
+                  // reset={clear}
+                  closeMobileModal={closeMobileFilterModal}
+                  setSelectedDate={setSelectedDate}
+                  selectedStatus={selectedArea}
+                  setSelectedStatus={setSelectedArea}
+                  options={options2}
+                  defaultName={"Document Type"}
+                />
+              </CustomizedModal>
             </div>
             {
               showDocuments &&
@@ -192,7 +263,7 @@ const App = () => {
             }
           </div>
       }
-    </div>
+    </div >
   );
 };
 

@@ -7,7 +7,7 @@ import useAgreementFormStore from '@/store/document/useAgreementFormStore';
 import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
 
-const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview }) => {
+const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
     const { formData, setFormData } = useAgreementFormStore();
@@ -90,15 +90,15 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview }) => {
                     value={formData.tenantAddress}
                     onChange={(e) => setFormData('tenantAddress', e.target.value)}
                 />
-            </div>    
+            </div>
             <div className='mt-2 w-full'>
-                    <DropDown
-                        label={"Tenancy Duration"}
-                        options={options}
-                        onSelect={(option) => setFormData('duration', option)}
-                        className={"text-[14px] font-[500] text-GrayHomz2"}
-                    />
-                </div>
+                <DropDown
+                    label={"Tenancy Duration"}
+                    options={options}
+                    onSelect={(option) => setFormData('duration', option)}
+                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                />
+            </div>
             <div className='mt-2'>
                 <Input
                     label={"Property Manager’s Name"}
@@ -144,25 +144,27 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview }) => {
                     onChange={(e) => setFormData('agreementDate', e.target.value)}
                 />
             </div>
-            <div className='flex items-center justify-between mt-10 mb-4 text-[16px] font-[500]'>
-                <div className='h-[48px] border border-BlueHomz w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
+            <div className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
+                <div
+                    onClick={() => setDocumentCreation(false)}
+                    className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
                     <p>
                         Close
                     </p>
                 </div>
-                <div className='flex justify-between w-[45%]'>
+                <div className='flex justify-between w-full md:w-[45%]'>
                     <div
                         onClick={handlePageChangeTwo}
                         onMouseEnter={() => setHover(true)}
                         onMouseLeave={() => setHover(false)}
-                        className='h-[48px] border border-BlueHomz w-[45%] rounded-[4px] text-BlueHomz hover:text-white flex gap-1 justify-center items-center cursor-pointer hover:bg-BlueHomz2'>
+                        className='hidden h-[48px] border border-BlueHomz w-[45%] rounded-[4px] text-BlueHomz hover:text-white md:flex gap-1 justify-center items-center cursor-pointer hover:bg-BlueHomz2'>
                         {hover ? <ArrowLeftBlueSmall className='#ffffff' /> : <ArrowLeftBlueSmall />}  Go Back
                     </div>
                     <div
                         onClick={() => setShowPreview(true)}
                         onMouseEnter={() => setHoverII(true)}
                         onMouseLeave={() => setHoverII(false)}
-                        className='h-[48px] hover:border hover:border-BlueHomz w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
+                        className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
                         Generate {hoverII ? <ArrowRightWhiteSmall /> : <ArrowRightWhiteSmall className='#ffffff' />}
                     </div>
                 </div>

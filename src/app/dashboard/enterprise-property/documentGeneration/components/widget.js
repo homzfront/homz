@@ -43,12 +43,12 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
 
     return (
         <div>
-            <div className="sm:w-full w-[360px] h-auto">
+            <div className="md:w-full w-[300px] h-auto">
                 <div className="h-auto flex justify-center pr-4 py-3">
-                    <div className="z-0 absolute w-[360px] sm:w-[620px] pr-[105px] pl-[79px] py-[27.5px]">
+                    <div className="z-0 absolute w-[255px] pr-[32px] md:w-[620px] md:pr-[78px] md:pl-[79px] py-[29.5px] md:py-[27.5px]">
                         <div className="border-b-[1px] border-GrayHomz"></div>
                     </div>
-                    <div className="z-1 relative flex mt-5 gap-4 justify-between items-center px-8 w-[360px] sm:w-[620px]">
+                    <div className="z-1 relative flex mt-5 gap-4 justify-between items-center pr-6 md:pr-0 md:px-8 w-[300px] md:w-[620px]">
                         <div className="flex flex-col items-center gap-2 justify-center">
                             <div
                                 className={`flex flex-col items-center p-2 justify-center ${!active
@@ -61,7 +61,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     className={`${!active ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
                                 ></div>
                             </div>
-                            <p className={`text-[13px] font-400 text-center ${!active ? "text-GrayHomz" : "text-GrayHomz2"}`}>Select Document</p>
+                            <p className={`hidden md:block text-[13px] font-400 text-center ${!active ? "text-GrayHomz" : "text-GrayHomz2"}`}>Select Document</p>
                         </div>
                         <div className="flex flex-col items-center gap-2 justify-center">
                             <div
@@ -75,7 +75,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     className={`${activeTwo ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
                                 ></div>
                             </div>
-                            <p className={`text-[13px] font-400 text-center ${activeTwo ? "text-GrayHomz" : "text-GrayHomz2"}`}>Name Document</p>
+                            <p className={`hidden md:block text-[13px] font-400 text-center ${activeTwo ? "text-GrayHomz" : "text-GrayHomz2"}`}>Name Document</p>
                         </div>
                         <div className="flex flex-col items-center gap-2 justify-center">
                             <div
@@ -89,7 +89,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     className={`${activeThree ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
                                 ></div>
                             </div>
-                            <p className={`text-[13px] font-400 text-center ${activeThree ? "text-GrayHomz" : "text-GrayHomz2"}`}>Custom Information</p>
+                            <p className={`hidden md:block text-[13px] font-400 text-center ${activeThree ? "text-GrayHomz" : "text-GrayHomz2"}`}>Custom Information</p>
                         </div>
                         <div className="flex flex-col items-center gap-2 justify-center">
                             <div
@@ -103,7 +103,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     className={`${activeFour ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
                                 ></div>
                             </div>
-                            <p className={`text-[13px] font-400 text-center ${activeFour ? "text-GrayHomz" : "text-GrayHomz2"}`}>Preview & Download</p>
+                            <p className={`hidden md:block text-[13px] font-400 text-center ${activeFour ? "text-GrayHomz" : "text-GrayHomz2"}`}>Preview & Download</p>
                         </div>
                     </div>
                     <div
@@ -117,17 +117,16 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                     </div>
                 </div>
                 <div className="border-b-[1px]">
-
                 </div>
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${!active ? "inline" : "hidden"}`}>
                         <SelectDocument handlePageChangeTwo={handlePageChangeTwo} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <NewDocument handlePageChangeThree={handlePageChangeThree} handlePageChange={handlePageChange} />
+                        <NewDocument handlePageChangeThree={handlePageChangeThree} setDocumentCreation={setDocumentCreation} handlePageChange={handlePageChange} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <CustomInformation handlePageChangeTwo={handlePageChangeTwo} setShowPreview={setShowPreview} />
+                        <CustomInformation handlePageChangeTwo={handlePageChangeTwo} setShowPreview={setShowPreview} setDocumentCreation={setDocumentCreation}/>
                     </div>
                     <div className={`${activeFour ? "inline" : "hidden"}`}>
                     </div>

@@ -33,10 +33,10 @@ const SelectDocument = ({ handlePageChangeTwo }) => {
 
   return (
     <div>
-      <p className='mt-2 text-[18px] font-[500] text-BlackHomz'>
+      <p className='mt-2 text-[14px] md:text-[18px] font-[500] text-BlackHomz'>
         Select document type
       </p>
-      <div className='grid grid-cols-2 gap-4 mt-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
         {
           data.map((data) => (
             <div className='w-full bg-whiteblue rounded-[8px] h-[80px] flex items-center px-8 text-BlackHomz hover:text-white hover:bg-BlueHomz cursor-pointer'

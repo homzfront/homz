@@ -6,8 +6,8 @@ const DocFaqDoc = () => {
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M25.3056 18.358L22.7078 21.7762C20.47 24.7308 18.3592 25.3879 15.6321 23.8429C15.1917 23.6027 14.7352 23.3005 14.2626 22.9364L12.8913 21.8867C9.48628 19.2838 9.14738 16.877 11.7452 13.4588L14.3471 10.0315C14.8761 9.33667 15.3967 8.75863 15.9192 8.32375C17.9736 6.5903 20.0557 6.80737 22.7842 8.88949L24.1505 9.92599C27.5778 12.5279 27.9035 14.9398 25.3056 18.358Z" stroke="#0058D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M15.6317 23.8434C14.8944 23.9743 14.0394 23.9762 13.0456 23.8723L11.3908 23.7036C7.24369 23.2552 5.77087 21.4266 6.21006 17.2755L6.65024 13.1467C7.09857 8.99957 8.92212 7.51355 13.0692 7.96187L14.724 8.13064C15.1514 8.17894 15.5524 8.23736 15.9188 8.32416C15.3963 8.75904 14.8757 9.33708 14.3467 10.0319L11.7448 13.4592C9.14699 16.8774 9.48589 19.2842 12.8909 21.8871L14.2622 22.9368C14.7349 23.301 15.1914 23.6031 15.6317 23.8434Z" stroke="#0058D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M17.8462 12.9395L21.7744 16.0386" stroke="#0058D5" strokewidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M15.3745 16.0742L17.7215 17.9314" stroke="#0058D5" strokewidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M17.8462 12.9395L21.7744 16.0386" stroke="#0058D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M15.3745 16.0742L17.7215 17.9314" stroke="#0058D5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         </div>
     )

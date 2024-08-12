@@ -20,10 +20,10 @@ const Section = (routeTo, profile) => {
             incentivize on-time payments, and gain a clear financial overview.
           </p>
         </div>
-        <div className="flex md:flex-row flex-col justify-center items-center md:gap-4 gap-2">
+        <div className="w-full flex md:flex-row flex-col justify-center items-center md:gap-4 gap-2">
           <Link
             href={profile ? routeTo : "/register"}
-            className="text-md w-full sm:w-[147px] h-[48px] text-[16px] mt-10 rounded-md font-normal flex items-center justify-center text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
+            className="text-md w-full md:w-[147px] h-[48px] text-[16px] mt-10 rounded-md font-normal flex items-center justify-center text-white bg-BlueHomz  px-4 py-1 hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz">
             Get Started
           </Link>
           <Link 

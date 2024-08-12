@@ -5,7 +5,7 @@ import ArrowLeftBlueSmall from '@/components/icons/arrowLeftBlueSmall';
 import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
 import useAgreementFormStore from '@/store/document/useAgreementFormStore';
 
-const AgreementForm = ({handlePageChangeTwo, setShowPreview}) => {
+const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
     const { formData, setFormData } = useAgreementFormStore();
@@ -85,7 +85,7 @@ const AgreementForm = ({handlePageChangeTwo, setShowPreview}) => {
                     onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
                 />
             </div>
-            <div className='mt-2'> 
+            <div className='mt-2'>
                 <Input
                     label={"Rent Paid (In Words)"}
                     placeholder={"e.g Eight Million Naira"}
@@ -94,8 +94,8 @@ const AgreementForm = ({handlePageChangeTwo, setShowPreview}) => {
                     onChange={(e) => setFormData('rentPaymentInWords', e.target.value)}
                 />
             </div>
-            <div className='mt-2 w-full flex justify-between items-end'>
-            <div className='w-[48%]'>
+            <div className='mt-2 w-full flex flex-col md:flex-row gap-2 md:justify-between items-end'>
+                <div className='w-full md:w-[48%]'>
                     <Input
                         label={"Rent Paid (in Figures)"}
                         placeholder={"e.g 8,000,000"}
@@ -104,7 +104,7 @@ const AgreementForm = ({handlePageChangeTwo, setShowPreview}) => {
                         onChange={(e) => setFormData('rentPayment', e.target.value)}
                     />
                 </div>
-                <div className='w-[48%]'>
+                <div className='w-full md:w-[48%]'>
                     <DropDown
                         label={"Currency"}
                         options={options}
@@ -122,25 +122,27 @@ const AgreementForm = ({handlePageChangeTwo, setShowPreview}) => {
                     onChange={(e) => setFormData('agreementDate', e.target.value)}
                 />
             </div>
-            <div className='flex items-center justify-between mt-10 mb-4 text-[16px] font-[500]'>
-                <div className='h-[48px] border border-BlueHomz w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
+            <div 
+                     onClick={() => setDocumentCreation(false)}
+            className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
+                <div className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
                     <p>
                         Close
                     </p>
                 </div>
-                <div className='flex justify-between w-[45%]'>
+                <div className='flex justify-between w-full md:w-[45%]'>
                     <div
                         onClick={handlePageChangeTwo}
                         onMouseEnter={() => setHover(true)}
                         onMouseLeave={() => setHover(false)}
-                        className='h-[48px] border border-BlueHomz w-[45%] rounded-[4px] text-BlueHomz hover:text-white flex gap-1 justify-center items-center cursor-pointer hover:bg-BlueHomz2'>
+                        className='hidden h-[48px] border border-BlueHomz w-[45%] rounded-[4px] text-BlueHomz hover:text-white md:flex gap-1 justify-center items-center cursor-pointer hover:bg-BlueHomz2'>
                         {hover ? <ArrowLeftBlueSmall className='#ffffff' /> : <ArrowLeftBlueSmall />}  Go Back
                     </div>
                     <div
                         onClick={() => setShowPreview(true)}
                         onMouseEnter={() => setHoverII(true)}
                         onMouseLeave={() => setHoverII(false)}
-                        className='h-[48px] hover:border hover:border-BlueHomz w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
+                        className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
                         Generate {hoverII ? <ArrowRightWhiteSmall /> : <ArrowRightWhiteSmall className='#ffffff' />}
                     </div>
                 </div>

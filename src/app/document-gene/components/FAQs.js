@@ -38,7 +38,7 @@ const FAQs = () => {
         },
     ];
     return (
-        <div className="mt-[160px] max-w-[1160px] w-full m-auto mb-[60px] bg-whiteblue rounded-[12px] p-8">
+        <div className="mt-[100px] md:mt-[160px] max-w-[1160px] w-full m-auto mb-[60px] bg-whiteblue rounded-[12px] p-8">
             <div className="flex flex-col justify-center items-center">
                 <h1 className="sm:text-[36px] text-[23px]  font-[700] text-center text-BlackHomz">
                     Frequently Asked Questions
@@ -73,8 +73,8 @@ const FAQs = () => {
                 ))}
             </div>
             <div className="mt-[60px]">
-                <div className="h-[210px] text-white flex justify-between bg-BlueHomz px-8 py-4 rounded-[16px] ">
-                    <div className="flex flex-col justify-between">
+                <div className="md:h-[210px] text-white flex justify-between bg-BlueHomz px-8 py-4 rounded-[16px] ">
+                    <div className="hidden md:flex flex-col justify-between">
                         <div className="h-[50%]"></div>
                         <div className="h-[50%] flex flex-col justify-end">
                             <div className="h-[40px] w-[40px] flex items-center justify-center bg-whiteblue opacity-60 rounded-full">
@@ -82,8 +82,8 @@ const FAQs = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center h-[210px] gap-2 max-w-[1159px]">
-                        <h1 className="text-[20px] font-[600]">Ready to Simplify Your Property Management?</h1>
+                    <div className="flex flex-col justify-center items-center md:h-[210px] gap-2 max-w-[1159px]">
+                        <h1 className="text-[20px] font-[600] text-center">Ready to Simplify Your Property Management?</h1>
                         <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] text-walletBg">
                             Get started today and experience the ease of automated document generation.
                         </p>
@@ -93,7 +93,7 @@ const FAQs = () => {
                             </button>
                         </Link>
                     </div>
-                    <div className="flex flex-col justify-start">
+                    <div className="hidden md:flex flex-col justify-start">
                         <div className="h-[40px] w-[40px] flex items-center justify-center bg-whiteblue opacity-60 rounded-full">
                             <DocFaqDocII />
                         </div>
