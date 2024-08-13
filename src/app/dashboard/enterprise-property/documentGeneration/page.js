@@ -16,8 +16,9 @@ import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import AddBigBlue from "@/components/icons/addBigBlue";
 import Image from "next/image";
 import FilterMobile from "./components/filterMobile";
+import PopUp from "./components/popUp";
 
-        
+
 const App = () => {
   const { setTab } = useTabForDocuGen();
   const { DocType } = FormSelection();
@@ -31,9 +32,9 @@ const App = () => {
   const options2 = ["Tenancy Agreement", "Receipt", "Quit Notice"];
   const [showDocuments, setShowDocuments] = useState(false);
   const [searchQuery, setSearchQuery] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedArea, setSelectedArea] = useState(null);
+  const [documentType, setDocumentType] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
+  const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
 
   const openDocumentCreation = () => {
     setSelectedFormat(false);
@@ -61,6 +62,12 @@ const App = () => {
     setFilterModal(!filterModal)
   }
 
+
+  const handleToggleMenuClick = () => {
+    setPopUpMenuVisible(!popUpMenuVisible);
+  };
+
+
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
       {
@@ -78,8 +85,8 @@ const App = () => {
       {
         showPreview ?
           <div className="mx-4 px-4 py-4 my-2 bg-inputBg m-auto">
-            <div className="flex items-center justify-between border-b-[1px] pb-4">
-              <div className="w-[25%] flex gap-4 items-center">
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-0 justify-between border-b-[1px] pb-4">
+              <div className="md:w-[25%] flex gap-4 items-center">
                 <p className="text-[18px] font-[400] text-BlackHomz">
                   Document Preview
                 </p>
@@ -88,7 +95,7 @@ const App = () => {
                 </p>
               </div>
               <div>
-                <div className="w-[55%] flex gap-4 items-center">
+                <div className="md:w-[55%] flex gap-4 items-center">
                   <button
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
@@ -104,6 +111,7 @@ const App = () => {
                     options={options}
                     onSelect={(option) => setSelectedFormat(option)}
                     className={"text-[14px] font-[500]"}
+                    width={"w-[190px] md:w-[240px]"}
                     show="false"
                   />
                 </div>
@@ -192,7 +200,7 @@ const App = () => {
                 </div>
                 <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
                   <button
-                  onClick={openMobileFilterModal}
+                    onClick={openMobileFilterModal}
                   >
                     <Image
                       src="/static/images/filter.svg"
@@ -207,9 +215,8 @@ const App = () => {
                 <FilterMobile
                   // reset={clear}
                   closeMobileModal={closeMobileFilterModal}
-                  setSelectedDate={setSelectedDate}
-                  selectedStatus={selectedArea}
-                  setSelectedStatus={setSelectedArea}
+                  selectedStatus={documentType}
+                  setSelectedStatus={setDocumentType}
                   options={options2}
                   defaultName={"Document Type"}
                 />
@@ -221,19 +228,20 @@ const App = () => {
                 <div className="flex flex-col justify-between h-auto py-4">
                   <div className="w-full">
                     <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz px-4">
-                      <div className="w-[50%] md:w-[25%] ">Document Type</div>
-                      <div className="w-[25%] hidden md:table-cell">Document Name</div>
+                      <div className="w-[45%] md:w-[25%]">Document Type</div>
+                      <div className="w-[45%] md:w-[25%]">Document Name</div>
                       <div className="w-[25%] hidden md:table-cell">Date Generated</div>
                       <div className="w-[25%] hidden md:table-cell">Action</div>
+                      <div className="w-[10px] md:hidden"></div>
                     </div>
                     <div className="">
                       <div
                         className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
                       >
-                        <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
-                          Tenancy Agreement
+                        <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
+                          {DocType}
                         </div>
-                        <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
+                        <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
                           [Document Name]
                         </div>
                         <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
@@ -249,6 +257,20 @@ const App = () => {
                             width="w-[150px]"
                             placeholder="Download"
                           />
+                        </div>
+                        <div className="md:hidden relative">
+                          <Image
+                            src={
+                              "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                            }
+                            alt=""
+                            height={21}
+                            width={19}
+                            onClick={handleToggleMenuClick}
+                            className="cursor-pointer"
+                            style={{ height: "auto", width: "auto" }}
+                          />
+                          {popUpMenuVisible && <PopUp />}
                         </div>
                       </div>
                     </div>

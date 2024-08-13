@@ -31,14 +31,14 @@ const DropDownBlue = ({ options, onSelect, className, width = "w-[240px]", place
             <div
                 className={`${width} text-walletBg hover:text-BlueHomz px-4 bg-BlueHomz hover:bg-white hover:border hover:border-BlueHomz h-[48px] flex items-center rounded-[4px] cursor-pointer ${isOpen ? "border" : ""
                     }`}
-                onMouseEnter={() => {
-                    setHover(true)
-                    setHoverII(true)
-                }}
-                onMouseLeave={() => {
-                    setHover(false)
-                    setHoverII(false)
-                }}
+                // onMouseEnter={() => {
+                //     setHover(true)
+                //     setHoverII(true)
+                // }}
+                // onMouseLeave={() => {
+                //     setHover(false)
+                //     setHoverII(false)
+                // }}
                 onClick={handleDropdownToggle}
             >
                 <div className="flex w-full justify-between items-center gap-1">
@@ -48,7 +48,7 @@ const DropDownBlue = ({ options, onSelect, className, width = "w-[240px]", place
                         {hoverII ? <WhiteDoc classname="#006AFF" /> : <WhiteDoc />}
                     </div>
                     <div className="flex w-full justify-between items-center">
-                        <div className={`font-[500] text-[14px] w-full `}>
+                        <div className={`font-[500] text-[14px] w-full truncate`}>
                             {selectedOption ? selectedOption : placeholder}
                         </div>
                         <div

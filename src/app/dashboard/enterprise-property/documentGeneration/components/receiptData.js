@@ -4,7 +4,7 @@ import Image from 'next/image';
 const ReceiptData = () => {
     return (
         <div className='mb-[60px]'>
-            <div className='h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
+            <div className='md:h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={"/Frame 1278.png"}
@@ -30,11 +30,11 @@ const ReceiptData = () => {
                     </div>
                 </div>
                 <div className='w-full flex flex-col'>
-                    <div className='h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
+                    <div className='py-2 md:py-0 md:h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
                         <p className='text-[12px] font-[400]'>Property  Information</p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Property Address
@@ -46,7 +46,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Property Description
@@ -61,11 +61,11 @@ const ReceiptData = () => {
                     </div>
                 </div>
                 <div className='w-full flex flex-col'>
-                    <div className='h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
+                    <div className='py-2 md:py-0 md:h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
                         <p className='text-[12px] font-[400]'>Property Manager’s Information </p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Company Name
@@ -77,7 +77,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Company Address
@@ -89,7 +89,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Company Phone Number
@@ -104,11 +104,11 @@ const ReceiptData = () => {
                     </div>
                 </div>
                 <div className='w-full flex flex-col'>
-                    <div className='h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
+                    <div className='py-2 md:py-0 md:h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
                         <p className='text-[12px] font-[400]'>Tenant Information </p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Name
@@ -120,7 +120,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Phone Number
@@ -132,7 +132,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Tenancy Period
@@ -144,7 +144,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full flex justify-between pl-2'>
                             <div className='w-[30%]'>
                             </div>
                             <div className='w-[60%]'>
@@ -156,11 +156,11 @@ const ReceiptData = () => {
                     </div>
                 </div>
                 <div className='w-full flex flex-col'>
-                    <div className='h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
+                    <div className='py-2 md:py-0 md:h-[26px] w-full bg-BlackHomz text-white flex items-center px-2'>
                         <p className='text-[12px] font-[400]'> Payment Information</p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Amount in words
@@ -172,7 +172,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Amount in figures
@@ -184,7 +184,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Mode of payment
@@ -196,7 +196,7 @@ const ReceiptData = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className='h-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Tenancy End Date

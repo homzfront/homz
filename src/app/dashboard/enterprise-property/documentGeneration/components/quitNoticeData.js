@@ -4,7 +4,7 @@ import React from 'react'
 const QuitNoticeData = () => {
     return (
         <div className='mb-[60px]'>
-            <div className='h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
+            <div className='h-[1050px] md:h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={"/Frame 1278.png"}

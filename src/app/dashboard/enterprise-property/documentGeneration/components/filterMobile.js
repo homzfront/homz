@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Reset from '@/components/icons/reset'
 import Dropdown from '@/pages/dashboard/enterprise/components/dropDownFilter'
 
-const FilterMobile = ({ defaultName, selectedStatus, options, reset, closeMobileModal, setSelectedDate, setSelectedStatus }) => {
+const FilterMobile = ({ defaultName, selectedStatus, options, reset, closeMobileModal, setSelectedStatus }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
-            <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
+            <div className="bg-white border flex flex-col w-[350px] h-auto py-[24px] px-4 rounded-[12px] gap-[18px]">
                 <div className=" flex items-center justify-between">
                     <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
                         Filter by
@@ -32,13 +32,6 @@ const FilterMobile = ({ defaultName, selectedStatus, options, reset, closeMobile
                             className={"text-[14px] font-[500] text-GrayHomz2"}
                         />
                     </div>
-                </div>
-                <div className="flex justify-between">
-                    <input
-                        type="date"
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        className="border px-4 h-[42px] w-full text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
-                    />
                 </div>
                 <div className="w-full flex flex-row gap-4">
                     <button
