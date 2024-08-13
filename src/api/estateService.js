@@ -18,6 +18,15 @@ export const fetchEstatesSpecificUSer = async (id) => {
   }
 };
 
+export const fetchEstateRentReminders = async (id) => {
+  try {
+    const response = await api.get(`/rentReminder/${id}/estate`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const getPropertyTenantLandlord = async (id) => {
   try {
     const response = await api.get(`/estates/${id}/tenants/property-owner`);

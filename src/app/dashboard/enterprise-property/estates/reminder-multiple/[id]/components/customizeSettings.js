@@ -7,14 +7,13 @@ import RichTextEditorEmail from './richTextEditorEmail';
 import RichTextEditorSMS from './richTextEditorSMS';
 import RichTextEditorInApp from './richTextEditorInApp';
 
-const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
+const CustomizeSettings = ({ setCustomizeSettings, data }) => {
     const [time, setTime] = useState(null);
     const [dueDate, setDueDate] = useState(null);
     const [channels, setChannels] = useState([]);
     const [modalConfirmChanges, setModalConfirmChanges] = useState(false);
     const [modalSave, setModalSave] = useState(false);
     const [openCompleted, setOpenCompleted] = useState(false);
-    const [frequency, setFrequency] = useState(null);
 
     const options = [
         { id: 1, label: "6 months before due date" },
@@ -34,20 +33,12 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
         { id: 4, label: "SMS" },
     ];
 
-    const optionIII = [
-        { id: 1, label: "Every day" },
-        { id: 2, label: "Every 3 days" },
-        { id: 3, label: "Every week" },
-        { id: 4, label: "Every 2 weeks" },
-        { id: 5, label: "Every month" },
-    ]
-
     const isSMSPresent = channels.includes('SMS');
     const isEmailPresent = channels.includes('Email');
     const isInAppPresent = channels.includes('In-App');
 
     return (
-        <div className='w-full'>
+        <div>
             <CustomizeModal isOpen={modalConfirmChanges}>
                 {openCompleted ? (
                     <div className="p-2 m-auto bg-white h-auto rounded-md">
@@ -98,7 +89,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
             </CustomizeModal>
             <CustomizeModal isOpen={modalSave}>
                 <div className="max-w-[464px] p-2 m-auto bg-white md:h-[245px] rounded-md">
-                <div className="flex flex-col justify-around items-center h-full p-6">
+                    <div className="flex flex-col justify-around items-center h-full p-6">
                         <h1 className="text-BlackHomz font-[500] text-[20px] text-center">
                             Restore Default Settings
                         </h1>
@@ -121,7 +112,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                 </div>
             </CustomizeModal>
             {/* <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                <div className="flex flex-col w-[100%] md:w-[50%] gap-2">
+                <div className="flex flex-col md:w-[50%] w-full gap-2">
                     <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                         Date before/after due date <span className="text-red-600">*</span>
                     </p>
@@ -129,7 +120,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                         Select your preferred date for reminder(s) to be sent out
                     </p>
                 </div>
-                <div className="w-full md:w-[50%]">
+                <div className="md:w-[50%] w-full">
                     <DropDownReminder
                         options={options}
                         onSelect={(option) => setDueDate(option)}
@@ -140,28 +131,8 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                     />
                 </div>
             </div> */}
-            <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                <div className="flex flex-col w-[100%] md:w-[50%] gap-2">
-                    <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
-                        Frequency <span className="text-red-600">*</span>
-                    </p>
-                    <p className="text-[13px] leading-[19.5px] text-[400] text-GrayHomz">
-                        Set how frequent you want your tenant(s) to receive this reminder
-                    </p>
-                </div>
-                <div className="w-full md:w-[50%]">
-                    <DropDownReminder
-                        options={optionIII}
-                        onSelect={(option) => setFrequency(option)}
-                        selectOption={
-                            frequency === null ? "Select frequency" : frequency.label
-                        }
-                        className="text-[14px] font-[500] text-GrayHomz2 md:w-[236px] w-full"
-                    />
-                </div>
-            </div>
             {/* <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                <div className="flex flex-col w-[100%] md:w-[50%] gap-2">
+                <div className="flex flex-col md:w-[50%] w-full gap-2">
                     <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                         Time <span className="text-red-600">*</span>
                     </p>
@@ -169,7 +140,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                         Enter your preferred time for reminder(s) to be sent out
                     </p>
                 </div>
-                <div className="w-full md:w-[50%]">
+                <div className="md:w-[50%] w-full">
                     <input
                         type="time"
                         id="remindTime"
@@ -182,7 +153,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                 </div>
             </div> */}
             <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                <div className="flex flex-col w-[100%] md:w-[50%] gap-2">
+                <div className="flex flex-col md:w-[50%] w-full  gap-2">
                     <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                         Set reminder channel(s) <span className="text-red-600">*</span>
                     </p>
@@ -190,7 +161,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                         Select the channels through which your tenants would receive rent due reminders.
                     </p>
                 </div>
-                <div className="w-full md:w-[50%]">
+                <div className="md:w-[50%] w-full">
                     <DropDownChannel
                         options={optionII}
                         onSelect={(options) => setChannels(options)}
@@ -203,7 +174,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
             </div>
             {isEmailPresent && (
                 <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                    <div className="flex flex-col w-full md md:w-[50%] gap-2">
+                    <div className="flex flex-col md:w-[50%] w-full gap-2">
                         <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                             Email Reminder Message<span className="text-red-600">*</span>
                         </p>
@@ -211,32 +182,17 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                             Type in your preferred reminder message for emails
                         </p>
                     </div>
-                    <div className='w-full md:w-[50%] flex flex-col gap-2'>
+                    <div className='md:w-[50%] w-full flex flex-col gap-2'>
                         <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                         </div>
-                        <RichTextEditorEmail charLimit={500} text={data?.emailText} />
-                        <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
-                            <div>
-                                Send copy to :
-                            </div>
-                            <div className='flex gap-2'>
-                                <div className="flex items-center gap-1">
-                                    <input type="radio" name="sms-copy" />
-                                    <p>Property Manager</p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <input type="radio" name="sms-copy" />
-                                    <p>Property Owner</p>
-                                </div>
-                            </div>
-                        </div>
+                        <RichTextEditorEmail charLimit={500} text={data?.emailContent} />
                     </div>
                 </div>
             )}
             {isSMSPresent && (
                 <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                    <div className="flex flex-col w-full md:w-[50%] gap-2">
+                    <div className="flex flex-col md:w-[50%] w-full gap-2">
                         <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                             SMS Reminder Message<span className="text-red-600">*</span>
                         </p>
@@ -244,12 +200,12 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                             Type in your preferred reminder message for SMS
                         </p>
                     </div>
-                    <div className="w-full md:w-[50%]">
-                        <div className='flex flex-col gap-2 w-full'>
+                    <div className="md:w-[50%] w-full">
+                        <div className='w-full flex flex-col gap-2'>
                             <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                                 <p className='text-[14px] font-[400]'>{data?.sms_label}</p>
                             </div>
-                            <RichTextEditorSMS charLimit={150} text={data?.sms} />
+                            <RichTextEditorSMS charLimit={150} text={data?.smsContent} />
                         </div>
                         <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                             <div>
@@ -272,7 +228,7 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
             {isInAppPresent && (
                 <div className="border-b py-4 w-[100%]">
                     <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between">
-                        <div className="flex flex-col w-full md:w-[50%] gap-2">
+                        <div className="flex flex-col md:w-[50%] w-full gap-2">
                             <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
                                 In-App Reminder Notification<span className="text-red-600">*</span>
                             </p>
@@ -280,26 +236,11 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
                                 Type in your preferred reminder message for In-App notifications
                             </p>
                         </div>
-                        <div className='w-full md:w-[50%] flex flex-col gap-2'>
+                        <div className='md:w-[50%] w-full flex flex-col gap-2'>
                             <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                                 <p className='text-[14px] font-[400]'>{data?.in_app}</p>
                             </div>
-                            <RichTextEditorInApp charLimit={150} text={data?.in_app_text} />
-                            <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
-                                <div>
-                                    Send copy to :
-                                </div>
-                                <div className='flex gap-2'>
-                                    <div className="flex items-center gap-1">
-                                        <input type="radio" name="sms-copy" />
-                                        <p>Property Manager</p>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <input type="radio" name="sms-copy" />
-                                        <p>Property Owner</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <RichTextEditorInApp charLimit={150} text={data?.inAppContent} />
                         </div>
                     </div>
                 </div>
@@ -322,4 +263,4 @@ const CustomizeSettingsII = ({ setCustomizeSettings, data }) => {
     );
 };
 
-export default CustomizeSettingsII;
+export default CustomizeSettings;
