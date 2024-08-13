@@ -189,7 +189,7 @@ const Header = () => {
             {subMenuOpen &&
               <Link
                 href={"/document-gene"}
-                className={`absolute w-[200px] md:w-[160px] px-3 top-5 md:top-7 py-2 flex items-center justify-center rounded-md bg-inputBg text-[12px] md:text-[14px] text-BlackHomz hover:bg-BlueHomz4 hover:text-white `}
+                className={`absolute w-[220px] md:w-[160px] px-3 top-5 md:top-7 py-2 flex items-center justify-center rounded-md bg-inputBg text-[12px] md:text-[14px] text-BlackHomz hover:bg-BlueHomz4 hover:text-white `}
               >
                 Property Document Generation
               </Link>
