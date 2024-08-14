@@ -6,6 +6,7 @@ import Button from "../../components/button";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import truncateText from "@/utils/truncateText";
 
 const MaintenanceTable = ({
   data,
@@ -14,6 +15,24 @@ const MaintenanceTable = ({
 
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
+  const [hoveredRow, setHoveredRow] = useState(null);
+  const [hoveredRowII, setHoveredRowII] = useState(null);
+
+  const handleMouseEnter = (id) => {
+    setHoveredRow(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRow(null);
+  };
+
+  const handleMouseEnterTwo = (id) => {
+    setHoveredRowII(id);
+  };
+
+  const handleMouseLeaveTwo = () => {
+    setHoveredRowII(null);
+  };
 
   const ITEMS_PER_PAGE = 6;
 
@@ -81,7 +100,7 @@ const MaintenanceTable = ({
                       <td className="flex items-center p-[10px] gap-1 pr-2  pl-4 text-GrayHomz4 font-[500] text-[11px]">
                         {data?.tenant?.coverPhoto?.url === null ||
                           data?.tenant?.coverPhoto?.url === undefined ? (
-                            <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                          <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                             <EmptyAvatar />
                           </div>
                         ) : (
@@ -100,7 +119,17 @@ const MaintenanceTable = ({
                         <span className="py-[15px]">{data?.tenant?.fullName}</span>
                       </td>
                       <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                        {data?.subject}
+                        <div
+                          onMouseEnter={() => handleMouseEnter(data?._id)}
+                          onMouseLeave={handleMouseLeave}
+                          className="max-w-[100px] relative">
+                          {truncateText(data?.subject, 30)}
+                          {hoveredRow === data?._id && (
+                            <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
+                              {data?.subject}
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td
                         className={`w-[15%] hidden md:table-cell text-GrayHomz py-[15px] pr-6 font-[500]  text-[11px] `}
@@ -129,9 +158,18 @@ const MaintenanceTable = ({
                       <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {data?.tenant?.rentInfo?.apartmentNumber}
                       </td>
-
                       <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                        {data?.tenant?.estateId?.address}
+                        <div
+                          onMouseEnter={() => handleMouseEnterTwo(data?._id)}
+                          onMouseLeave={handleMouseLeaveTwo}
+                          className="max-w-[100px] relative">
+                          {truncateText(data?.tenant?.estateId?.address, 30)}
+                          {hoveredRowII === data?._id && (
+                            <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-[250px] w-max">
+                              {data?.tenant?.estateId?.address}
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                         {data?.tenant?.phoneNumber}
