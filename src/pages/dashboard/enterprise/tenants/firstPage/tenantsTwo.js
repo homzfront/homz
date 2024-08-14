@@ -14,6 +14,7 @@ import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Checkbox from "@/components/icons/checkbox";
+import truncateText from "@/utils/truncateText";
 
 const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMasterChecked, setIsMasterChecked }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -24,7 +25,15 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
   const [loadingRows, setLoadingRows] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
   const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
+  const [hoveredRow, setHoveredRow] = useState(null);
 
+  const handleMouseEnter = (id) => {
+    setHoveredRow(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRow(null);
+  };
 
   const ITEMS_PER_PAGE = 10;
 
@@ -119,8 +128,7 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
         pauseOnHover
         theme="dark"
       />
-      <div className="flex flex-col justify-between h-[700px]">
-
+      <div className="flex flex-col justify-between max-h-[900px]">
         <div className=" border w-full rounded-t-[12px]">
           <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
             <div className="w-[4%] md:w-[5%] flex items-center justify-center">
@@ -158,7 +166,7 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
                         type="checkbox"
                         id={data?._id}
                         name={data?._id}
-                        checked={selectedRows.includes(data?._id)}
+                        checked={selectedRows?.includes(data?._id)}
                         value={data._id}
                         onChange={(e) =>
                           handleCheckboxChange(e, data?._id, data?.fullName)
@@ -196,11 +204,22 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
                       : "______"
                       }`}
                   </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                    {data?.estateId?.address}
+                  <div
+                    className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
+                    <div
+                      onMouseEnter={() => handleMouseEnter(data?._id)}
+                      onMouseLeave={handleMouseLeave}
+                      className="max-w-[100px] relative">
+                      {truncateText(data?.estateId?.address, 30)}
+                      {hoveredRow === data?._id && (
+                        <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
+                          {data?.estateId?.address}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
-                    <span className="break-words">{data?.user?.email}</span>
+                    <span className="break-words">{truncateText(data?.user?.email, 35)}</span>
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
                     {data?.phoneNumber}
