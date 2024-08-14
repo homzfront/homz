@@ -13,6 +13,8 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import truncateText from "@/utils/truncateText";
+
 
 const TenantsTwo = ({ Data, fetchDataAgain }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -23,7 +25,15 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
   const [loadingRows, setLoadingRows] = useState({});
   const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
   const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
+  const [hoveredRow, setHoveredRow] = useState(null);
 
+  const handleMouseEnter = (id) => {
+    setHoveredRow(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRow(null);
+  };
 
   const ITEMS_PER_PAGE = 10;
 
@@ -151,11 +161,22 @@ const TenantsTwo = ({ Data, fetchDataAgain }) => {
                       : "______"
                       }`}
                   </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                    {data?.estateId?.address}
+                  <div
+                    className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
+                    <div
+                      onMouseEnter={() => handleMouseEnter(data?._id)}
+                      onMouseLeave={handleMouseLeave}
+                      className="max-w-[100px] relative">
+                      {truncateText(data?.estateId?.address, 30)}
+                      {hoveredRow === data?._id && (
+                        <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
+                          {data?.estateId?.address}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
-                    <span className="break-words">{data?.user?.email}</span>
+                    <span className="break-words">{truncateText(data?.user?.email, 35)}</span>
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
                     {data?.phoneNumber}

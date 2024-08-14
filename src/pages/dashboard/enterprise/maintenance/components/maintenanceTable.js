@@ -13,6 +13,7 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import truncateText from "@/utils/truncateText";
 
 const MaintenanceTable = ({ request, fetchData }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -20,6 +21,24 @@ const MaintenanceTable = ({ request, fetchData }) => {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadingRows, setLoadingRows] = useState({});
+  const [hoveredRow, setHoveredRow] = useState(null);
+  const [hoveredRowII, setHoveredRowII] = useState(null);
+
+  const handleMouseEnter = (id) => {
+    setHoveredRow(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRow(null);
+  };
+
+  const handleMouseEnterTwo = (id) => {
+    setHoveredRowII(id);
+  };
+
+  const handleMouseLeaveTwo = () => {
+    setHoveredRowII(null);
+  };
 
   const ITEMS_PER_PAGE = 6;
 
@@ -144,7 +163,17 @@ const MaintenanceTable = ({ request, fetchData }) => {
                     </span>
                   </div>
                   <div className="pl-1 md:pl-0 w-[33.3%] md:w-auto flex-1 text-GrayHomz  font-[500] text-[11px]">
-                    {request?.subject}
+                    <div
+                      onMouseEnter={() => handleMouseEnter(request?._id)}
+                      onMouseLeave={handleMouseLeave}
+                      className="max-w-[100px] relative">
+                      {truncateText(request?.subject, 30)}
+                      {hoveredRow === request?._id && (
+                        <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
+                          {request?.subject}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex-1 w-[33.3%] md:w-auto flex items-center ">
                     <div
@@ -173,7 +202,17 @@ const MaintenanceTable = ({ request, fetchData }) => {
                       : "-----"}
                   </div>
                   <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
-                    {request?.tenant?.estateId?.address}
+                    <div
+                      onMouseEnter={() => handleMouseEnterTwo(request?._id)}
+                      onMouseLeave={handleMouseLeaveTwo}
+                      className="max-w-[100px] relative">
+                      {truncateText(request?.tenant?.estateId?.address, 30)}
+                      {hoveredRowII === request?._id && (
+                        <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-[250px] w-max">
+                          {request?.tenant?.estateId?.address}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="hidden md:table-cell flex-1 text-GrayHomz font-[500] text-[11px]">
                     {request?.tenant?.phoneNumber}
