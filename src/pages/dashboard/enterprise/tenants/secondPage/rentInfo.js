@@ -13,6 +13,7 @@ import LoadingForm from "@/components/mainmenu/loadingForm";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import lowerCaseData from "@/utils/lowerCaseData";
+import processNumber from "@/utils/processNumber";
 
 const RentInfo = ({ profile, rentInformation }) => {
   const [data, setData] = useState([]);
@@ -121,9 +122,9 @@ const RentInfo = ({ profile, rentInformation }) => {
       const updatedData = {
         propertyType,
         apartmentNumber: parseInt(apartmentNumber),
-        rent: parseInt((rent)),
+        rent: processNumber(rent),
         duration: parseInt(duration),
-        startDate,
+        startDate, 
         dueDate,
         paymentStatus: lowerCaseData(selectedValue),
         property,
@@ -166,7 +167,7 @@ const RentInfo = ({ profile, rentInformation }) => {
       const updatedData = {
         propertyType,
         apartmentNumber: parseInt(apartmentNumber),
-        rent: parseInt(rent),
+        rent: processNumber(rent),
         duration: parseInt(duration),
         startDate,
         dueDate,
@@ -208,8 +209,6 @@ const RentInfo = ({ profile, rentInformation }) => {
 
     return `${year}-${month}-${day}`;
   }
-
-  // console.log(data?.upDateddata);
 
   return (
     <div>
