@@ -8,15 +8,19 @@ import Dropdown from './dropDown';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const RichTextEditorEmail = ({ charLimit, text }) => {
-  const [tags, setTags] = useState(null);
-  const options = ["[Tenant’s First Name]", "[Tenant’s Full Name]", "[Tenant’s Address]", "[Rent Due]", "[Rent Start Date]", "[Rent Due Date]", "[Property Type]", "[Property Manager’s Name]", "[Property Manager’s Business Name]", "[Property Manager’s Phone Number]", "[Property Manager’s Email]", "[Bank Name]", "[Bank Account Number]", "[Bank Account Name]"];
   const [editorHtml, setEditorHtml] = useState(text);
-  const [charCount, setCharCount] = useState(0);
+  const [charCount, setCharCount] = useState(text.length);
+  const options = [
+    "[Tenant’s First Name]", "[Tenant’s Full Name]", "[Tenant’s Address]",
+    "[Rent Due]", "[Rent Start Date]", "[Rent Due Date]", "[Property Type]",
+    "[Property Manager’s Name]", "[Property Manager’s Business Name]",
+    "[Property Manager’s Phone Number]", "[Property Manager’s Email]",
+    "[Bank Name]", "[Bank Account Number]", "[Bank Account Name]"
+  ];
 
   const handleChange = (html) => {
     const text = html.replace(/<[^>]+>/g, ''); // Remove HTML tags
     const currentCharCount = text.length;
-
     if (currentCharCount <= charLimit) {
       setEditorHtml(html);
       setCharCount(currentCharCount);
@@ -24,8 +28,8 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
   };
 
   const handleKeyDown = (event) => {
-    const text = editorHtml.replace(/<[^>]+>/g, ''); // Remove HTML tags
-    if (text.length >= charLimit && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+    const plainText = editorHtml.replace(/<[^>]+>/g, ''); // Remove HTML tags
+    if (plainText.length >= charLimit && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
       event.preventDefault();
     }
   };
@@ -33,19 +37,18 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
   const handlePaste = (event) => {
     event.preventDefault();
     const clipboardData = (event.clipboardData || window.clipboardData).getData('Text');
-    const text = editorHtml.replace(/<[^>]+>/g, ''); // Remove HTML tags
-    if (text.length + clipboardData.length <= charLimit) {
+    const plainText = editorHtml.replace(/<[^>]+>/g, ''); // Remove HTML tags
+    if (plainText.length + clipboardData.length <= charLimit) {
       setEditorHtml(editorHtml + clipboardData);
-      setCharCount(text.length + clipboardData.length);
+      setCharCount(plainText.length + clipboardData.length);
     } else {
-      const allowedText = clipboardData.slice(0, charLimit - text.length);
+      const allowedText = clipboardData.slice(0, charLimit - plainText.length);
       setEditorHtml(editorHtml + allowedText);
       setCharCount(charLimit);
     }
   };
 
   useEffect(() => {
-    // Move the toolbar to the bottom after the component mounts
     const toolbar = document.querySelector('.ql-toolbar');
     const editor = document.querySelector('.ql-container');
     if (toolbar && editor) {
@@ -68,6 +71,16 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
 
   const charLeft = charLimit - charCount;
 
+  const handleTagSelect = (tag) => {
+    if (tag.length < charLeft) {
+      setEditorHtml((prevHtml) => prevHtml + tag);
+      setCharCount((prevCount) => prevCount + tag.length);
+    } else {
+      return;
+    }
+  };
+
+
   return (
     <div className='text-[14px] text-[400] text-GrayHomz'>
       <div className='custom-editor'>
@@ -80,15 +93,17 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
         />
       </div>
       <div className='flex flex-col md:flex-row items-center gap-2 w-full'>
-      <div className='w-full md:w-[850px]'>
+        <div className='w-full md:w-[850px]'>
           <Dropdown
             options={options}
-            onSelect={(option) => setTags(option)}
+            onSelect={handleTagSelect}
             className={"text-[14px] font-[500] text-GrayHomz2"}
             width={"w-full"}
           />
         </div>
-        <div className="mt-2 w-full text-right text-GrayHomz2 text-[11px] text-[400]">{charLeft} characters left</div>
+        <div className="mt-2 w-full text-right text-GrayHomz2 text-[11px] text-[400]">
+          {charLeft} characters left
+        </div>
       </div>
     </div>
   );
@@ -96,7 +111,7 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
 
 RichTextEditorEmail.propTypes = {
   charLimit: PropTypes.number.isRequired,
-  borderColor: PropTypes.string
+  text: PropTypes.string,
 };
 
 RichTextEditorEmail.modules = {
