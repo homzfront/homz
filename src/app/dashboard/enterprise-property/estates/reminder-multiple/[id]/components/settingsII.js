@@ -3,7 +3,7 @@ import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import CustomizeSettingsII from './customizeSettingsII';
 import Print from '@/components/icons/print';
 
-const SettingsII = ({ data }) => {
+const SettingsII = ({ data, fetchDataAgain }) => {
     const [modalCustom, setModalCustom] = useState(false);
     const [customizeSettings, setCustomizeSettings] = useState(false);
 
@@ -39,7 +39,7 @@ const SettingsII = ({ data }) => {
             {
                 customizeSettings ?
                     <div>
-                        <CustomizeSettingsII setCustomizeSettings={setCustomizeSettings} data={data} />
+                        <CustomizeSettingsII fetchDataAgain={fetchDataAgain} setCustomizeSettings={setCustomizeSettings} data={data} />
                     </div>
                     :
                     <div>
@@ -60,7 +60,7 @@ const SettingsII = ({ data }) => {
                                 </div>
                             </div>
                         </div> */}
-                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                        {/* <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
                             <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
                                     Frequency
@@ -76,7 +76,7 @@ const SettingsII = ({ data }) => {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
                             <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
@@ -89,65 +89,51 @@ const SettingsII = ({ data }) => {
                             <div className='w-full md:w-[50%]'>
                                 <div className='w-full md:w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[500]'>
-                                        In-app, Email, SMS
+                                        {(data?.channels?.all === true || data?.channels?.email === true) && "Email,"}
+                                        {(data?.channels?.all === true || data?.channels?.sms === true) && "SMS,"}
+                                        {(data?.channels?.all === true || data?.channels?.inApp === true) && "In-app,"}
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
-                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
-                                <p className='text-[14px] font-[500] text-BlueHomz'>
-                                    Email Reminder Message
-                                </p>
-                                <p className='text-[13px] font-[400] text-BlackHomz'>
-                                    Tenant(s) will receive this message in their emails
-                                </p>
-                            </div>
-                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
-                                <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
-                                </div>
-                                <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <div className='text-[14px] font-[400] text-justify'
-                                    dangerouslySetInnerHTML={{ __html: data?.emailContent }}
-                                    />
-                                </div>
-                                <div className='flex justify-between w-full'>
-                                    <div className='text-GrayHomz font-[400] text-[13px]'>
-                                        Send copy to: Landlord
-                                    </div>
-                                    <div className='flex items-center gap-1 text-BlueHomz font-[400] text-[14px]'>
-                                        <Print />
-                                        Print copy
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
-                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
-                                <p className='text-[14px] font-[500] text-BlueHomz'>
-                                    SMS Reminder Message
-                                </p>
-                                <p className='text-[13px] font-[400] text-BlackHomz'>
-                                    Tenant(s) will receive this message
-                                </p>
-                            </div>
-                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
-                                <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[400]'>{data?.sms_label}</p>
-                                </div>
-                                <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <div className='text-[14px] font-[400] text-justify'
-                                    dangerouslySetInnerHTML={{ __html: data?.smsContent }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='py-4 w-[100%]'>
-                            <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between'>
+                        {
+                            (data && (data?.channels?.all === true || data?.channels?.email === true)) &&
+                            <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
                                 <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                     <p className='text-[14px] font-[500] text-BlueHomz'>
-                                        In-App Reminder Message
+                                        Email Reminder Message
+                                    </p>
+                                    <p className='text-[13px] font-[400] text-BlackHomz'>
+                                        Tenant(s) will receive this message in their emails
+                                    </p>
+                                </div>
+                                <div className='w-full md:w-[50%] flex flex-col gap-2'>
+                                    <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                        <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
+                                    </div>
+                                    <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                        <div className='text-[14px] font-[400] text-justify'
+                                            dangerouslySetInnerHTML={{ __html: data?.emailContent }}
+                                        />
+                                    </div>
+                                    <div className='flex justify-between w-full'>
+                                        <div className='text-GrayHomz font-[400] text-[13px]'>
+                                            Send copy to: Landlord
+                                        </div>
+                                        <div className='flex items-center gap-1 text-BlueHomz font-[400] text-[14px]'>
+                                            <Print />
+                                            Print copy
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {
+                            (data && (data?.channels?.all === true || data?.channels?.sms === true)) &&
+                            <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
+                                <div className='w-full md:w-[50%] flex flex-col gap-2'>
+                                    <p className='text-[14px] font-[500] text-BlueHomz'>
+                                        SMS Reminder Message
                                     </p>
                                     <p className='text-[13px] font-[400] text-BlackHomz'>
                                         Tenant(s) will receive this message
@@ -155,21 +141,46 @@ const SettingsII = ({ data }) => {
                                 </div>
                                 <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                     <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                        <p className='text-[14px] font-[400]'>{data?.in_app}</p>
+                                        <p className='text-[14px] font-[400]'>{data?.sms_label}</p>
                                     </div>
                                     <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                         <div className='text-[14px] font-[400] text-justify'
-                                        dangerouslySetInnerHTML={{ __html: data?.inAppContent }}
+                                            dangerouslySetInnerHTML={{ __html: data?.smsContent }}
                                         />
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                onClick={() => setModalCustom(true)}
-                                className='mt-4 text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-2 rounded-[4px]'>
-                                Customize settings
-                            </button>
-                        </div>
+                        }
+                        {
+                            (data && (data?.channels?.all === true || data?.channels?.inApp === true)) &&
+                            <div className='py-4 w-[100%]'>
+                                <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between'>
+                                    <div className='w-full md:w-[50%] flex flex-col gap-2'>
+                                        <p className='text-[14px] font-[500] text-BlueHomz'>
+                                            In-App Reminder Message
+                                        </p>
+                                        <p className='text-[13px] font-[400] text-BlackHomz'>
+                                            Tenant(s) will receive this message
+                                        </p>
+                                    </div>
+                                    <div className='w-full md:w-[50%] flex flex-col gap-2'>
+                                        <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                            <p className='text-[14px] font-[400]'>{data?.in_app}</p>
+                                        </div>
+                                        <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                            <div className='text-[14px] font-[400] text-justify'
+                                                dangerouslySetInnerHTML={{ __html: data?.inAppContent }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setModalCustom(true)}
+                                    className='mt-4 text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-2 rounded-[4px]'>
+                                    Customize settings
+                                </button>
+                            </div>
+                        }
                     </div>
             }
         </div>

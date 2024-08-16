@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DropDownReminder from './dropDownReminder';
 import DropDownChannel from './dropDownChannel';
 import CustomizeModal from '@/components/mainmenu/CustomizedModal';
@@ -6,25 +6,22 @@ import Image from 'next/image';
 import RichTextEditorEmail from './richTextEditorEmail';
 import RichTextEditorSMS from './richTextEditorSMS';
 import RichTextEditorInApp from './richTextEditorInApp';
+import api from '@/utils/api';
+import { toast } from 'react-toastify';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
 
-const CustomizeSettings = ({ setCustomizeSettings, data }) => {
-    const [time, setTime] = useState(null);
-    const [dueDate, setDueDate] = useState(null);
+const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [channels, setChannels] = useState([]);
     const [modalConfirmChanges, setModalConfirmChanges] = useState(false);
     const [modalSave, setModalSave] = useState(false);
     const [openCompleted, setOpenCompleted] = useState(false);
-
-    const options = [
-        { id: 1, label: "6 months before due date" },
-        { id: 2, label: "3 months before due date" },
-        { id: 3, label: "1 month before due date" },
-        { id: 4, label: "7 days before due date" },
-        { id: 5, label: "3 days before due date" },
-        { id: 6, label: "1 day before due date" },
-        { id: 7, label: "Due date" },
-        { id: 8, label: "Post due date" }
-    ];
+    const [channeSettings, setChannelSettings] = useState(null);
+    const [isSMSPresent, setIsSMSPresent] = useState(null);
+    const [isEmailPresent, setIsEmailPresent] = useState(null);
+    const [isInAppPresent, setIsInAppPresent] = useState(null);
+    const [backendData, setBackendData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [selectedChannel, setSelectedChannel] = useState(null);
 
     const optionII = [
         { id: 1, label: "All" },
@@ -33,9 +30,57 @@ const CustomizeSettings = ({ setCustomizeSettings, data }) => {
         { id: 4, label: "SMS" },
     ];
 
-    const isSMSPresent = channels.includes('SMS');
-    const isEmailPresent = channels.includes('Email');
-    const isInAppPresent = channels.includes('In-App');
+    useEffect(() => {
+        if (selectedChannel?.length > 0) {
+            const isAllSelected = selectedChannel.some((channel) => channel.label === 'All');
+            //   setIsAllSelected(isAllSelected);
+            const isSMSPresent = isAllSelected || selectedChannel.some((channel) => channel.label === 'SMS');
+            setIsSMSPresent(isSMSPresent);
+            const isEmailPresent = isAllSelected || selectedChannel.some((channel) => channel.label === 'Email');
+            setIsEmailPresent(isEmailPresent);
+            const isInAppPresent = isAllSelected || selectedChannel.some((channel) => channel.label === 'In-App');
+            setIsInAppPresent(isInAppPresent);
+        }
+    }, [selectedChannel]);
+
+
+    useEffect(() => {
+        const sendIdAndChannels = (data) => {
+            if (data) {
+                const { _id, channels } = data;
+                const newData = {
+                    _id,
+                    channels
+                };
+                setChannelSettings(newData)
+            }
+        }
+        sendIdAndChannels(data);
+    }, [])
+
+    const handleCustomizeChanges = async () => {
+        setLoading(true)
+        if (backendData) {
+            try {
+                const response = await api.patch(
+                    `/rentReminder/${channeSettings?._id}/single`,
+                    backendData
+                );
+                setOpenCompleted(true);
+                setLoading(false);
+                fetchDataAgain();
+                return response;
+            } catch (error) {
+                setLoading(false);
+                throw error;
+            }
+        }
+        else {
+            toast.error("failed to update channels")
+            setLoading(false);
+            setModalConfirmChanges(false);
+        }
+    };
 
     return (
         <div>
@@ -64,7 +109,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data }) => {
                     </div>
                 ) : (
                     <div className="max-w-[464px] p-2 m-auto bg-white h-auto rounded-md">
-                        <div className="flex flex-col justify-around items-center h-full p-6">
+                        <div className={`flex flex-col justify-around items-center h-full p-6 ${loading ? "pointer-events-none" : ""}`}>
                             <h1 className="text-BlackHomz font-[500] text-[20px] text-center">
                                 Change System Settings
                             </h1>
@@ -72,10 +117,10 @@ const CustomizeSettings = ({ setCustomizeSettings, data }) => {
                                 Are you sure you want to change the system’s default settings?
                             </p>
                             <button
-                                onClick={() => setOpenCompleted(true)}
-                                className="mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500]"
+                                onClick={handleCustomizeChanges}
+                                className={`mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500] ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}
                             >
-                                Proceed
+                                {loading ? <LoadingFormII /> : "Proceed"}
                             </button>
                             <button
                                 onClick={() => setModalConfirmChanges(false)}
@@ -163,10 +208,13 @@ const CustomizeSettings = ({ setCustomizeSettings, data }) => {
                 </div>
                 <div className="md:w-[50%] w-full">
                     <DropDownChannel
+                        setData={setSelectedChannel}
+                        setBackendData={setBackendData}
+                        channelSettings={channeSettings}
                         options={optionII}
                         onSelect={(options) => setChannels(options)}
                         selectOption={
-                            channels.length === 0 ? "Select Channel(s)" : channels.map((channel) => channel.label).join(", ")
+                            channels.length === 0 ? "Select Channel(s)" : channels?.map((channel) => channel.label).join(", ")
                         }
                         className="text-[14px] font-[500] text-GrayHomz2 md:w-[236px] w-full"
                     />

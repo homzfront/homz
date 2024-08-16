@@ -5,8 +5,6 @@ import Photos from "./components/photos.js";
 import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 import Image from "next/image.js";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 import BankAccountDetails from "./components/bankAccountDetails.js";
 const Widget = ({ data, isLoading, id }) => {
   const [active, setActive] = useState(false);
@@ -58,19 +56,6 @@ const Widget = ({ data, isLoading, id }) => {
 
   return (
     <div >
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
       <div className="w-full h-auto pb-4">
         <div className="w-full mt-5 flex justify-between items-center px-8">
           <div className=" flex  gap-4 justify-between w-[800px] cursor-pointer">
@@ -151,7 +136,7 @@ const Widget = ({ data, isLoading, id }) => {
             <Documents id={id} />
           </div>
           <div className={`${activeFive ? "inline" : "hidden"}`}>
-            <BankAccountDetails id={id} />
+            <BankAccountDetails data={data}/>
           </div>
         </div>
       </div>

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-const BankSelect = ({ banks, selectedBank, setSelectedBank , setErrorName
+const BankSelect = ({ banks, selectedBank, setSelectedBank, setErrorName
 }) => {
-  
 
   const handleChange = (selectedOption) => {
     setSelectedBank(selectedOption);
@@ -21,8 +20,8 @@ const BankSelect = ({ banks, selectedBank, setSelectedBank , setErrorName
         value={selectedBank}
         onChange={handleChange}
         options={options}
-        placeholder="e.g Access Bank"
-        className='scrollbar-container'
+        placeholder={`${selectedBank ? selectedBank : "e.g Access Bank" }`}
+      className='scrollbar-container'
       />
     </div>
   );

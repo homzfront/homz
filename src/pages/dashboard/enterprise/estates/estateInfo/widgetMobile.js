@@ -3,7 +3,6 @@ import EstateInfo from "./components/estateInfo.js";
 import Photos from "./components/photos.js";
 import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
-import { ToastContainer } from 'react-toastify';
 import BankAccountDetails from './components/bankAccountDetails.js';
 
 const WidgetMobile = ({ data, id }) => {
@@ -55,19 +54,6 @@ const WidgetMobile = ({ data, id }) => {
 
     return (
         <div >
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeButton={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
             <div className="flex flex-col gap-2 mt-8 w-full px-8">
                 <div className="flex flex-wrap gap-[15px] w-full">
                     <button

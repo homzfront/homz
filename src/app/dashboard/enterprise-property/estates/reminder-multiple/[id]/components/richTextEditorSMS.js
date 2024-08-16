@@ -92,7 +92,7 @@ const RichTextEditorSMS = ({ charLimit, text }) => {
         />
       </div>
       <div className='flex flex-col md:flex-row items-center gap-2 w-full'>
-        <div className='w-full md:w-[850px]'>
+        <div className='w-full md:w-[75%]'>
           <Dropdown
             options={options}
             onSelect={handleTagSelect}
@@ -100,7 +100,7 @@ const RichTextEditorSMS = ({ charLimit, text }) => {
             width={"w-full"}
           />
         </div>
-        <div className="mt-2 w-full text-right text-GrayHomz2 text-[11px] text-[400]">
+        <div className="mt-2 w-[25%] text-right text-GrayHomz2 text-[11px] text-[400]">
           {charLeft} characters left
         </div>
       </div>

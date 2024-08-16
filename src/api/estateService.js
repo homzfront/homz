@@ -70,6 +70,18 @@ export const updateContactInfo = async (estateId, updatedData) => {
   }
 };
 
+export const updateEstateBankInfo = async (estateId, updatedData) => {
+  try {
+    const response = await api.patch(
+      `/estates/${estateId}/estate-bank-information`,
+      updatedData
+    );
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+};
+
 export const updateEstateCoverPhoto = async (estateId, uploadedImage) => {
   const formData = new FormData();
   formData.append("coverPhoto", uploadedImage);

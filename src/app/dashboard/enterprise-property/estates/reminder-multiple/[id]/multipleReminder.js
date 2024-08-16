@@ -9,19 +9,15 @@ import Image from "next/image";
 import SettingsII from "./components/settingsII";
 import Data from "./components/reminderData";
 import useEstateRentRemindersStore from "@/store/enterpriseStore/useEstateRentReminder";
-
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import api from "@/utils/api";
 const MultipleReminder = ({ ids }) => {
     const { data, fetchData, error } = useEstateRentRemindersStore();
     const [toggleStates, setToggleStates] = useState({});
     const [selectedId, setSelectedId] = useState(null);
     const [openCompleted, setOpenCompleted] = useState(false);
-
-    const handleToggle = (id) => {
-        setToggleStates((prevState) => ({
-            ...prevState,
-            [id]: !prevState[id],
-        }));
-    };
+    const [loadingStates, setLoadingStates] = useState({});
 
     const handleSetting = (id) => {
         setSelectedId((prevId) => (prevId === id ? null : id));
@@ -35,19 +31,94 @@ const MultipleReminder = ({ ids }) => {
         }
     }, [ids, fetchData]);
 
-    const combinedData = Data.map((item1, index) => {
-        const item2 = data.reminder && data.reminder[index] ? data.reminder[index] : {};
-        return {
-            ...item1,
-            channels: item2?.channels || [],
-            emailContent: item2?.emailMessage?.content || [],
-            smsContent: item2?.smsMessage?.content || [],
-            inAppContent: item2?.inAppMessage?.content || [],
-        };
+    const fetchDataAgain = () => { fetchData(ids); }
+
+    const handleToggle = async (data) => {
+        const id = data?.id
+        setLoadingStates((prevState) => ({
+            ...prevState,
+            [id]: true,
+        }));
+        if (data?.status === 'active') {
+            const status = {
+                status: "inactive"
+            }
+            try {
+                const response = await api.post(
+                    `/rentReminder/${data?._id}/single/toggle`,
+                    status
+                );
+                fetchDataAgain();
+                setToggleStates((prevState) => ({
+                    ...prevState,
+                    [id]: !prevState[id],
+                }));
+                setLoadingStates((prevState) => ({
+                    ...prevState,
+                    [id]: false,
+                }));
+            } catch (error) {
+                toast.error('Error setting reminder')
+                throw error;
+            }
+        } else {
+            const status = {
+                status: "active"
+            }
+            try {
+                const response = await api.post(
+                    `/rentReminder/${data?._id}/single/toggle`,
+                    status
+                );
+                fetchDataAgain();
+                setToggleStates((prevState) => ({
+                    ...prevState,
+                    [id]: !prevState[id],
+                }));
+                setLoadingStates((prevState) => ({
+                    ...prevState,
+                    [id]: false,
+                }));
+                return response;
+            } catch (error) {
+                toast.error('Error setting reminder')
+                throw error;
+            }
+        }
+
+    };
+
+    const combinedData = Data.map((item) => {
+        const correspondingItem = data?.reminder?.find((d) => d.name === item.name);
+        if (correspondingItem) {
+            return {
+                ...item,
+                channels: correspondingItem?.channels || [],
+                emailContent: correspondingItem?.emailMessage?.content || '',
+                smsContent: correspondingItem?.smsMessage?.content || '',
+                inAppContent: correspondingItem?.inAppMessage?.content || '',
+                _id: correspondingItem?._id || '',
+                status: correspondingItem?.status || '',
+            };
+        }
+        return item;
     });
 
     return (
         <div className="flex flex-col gap-4">
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeButton={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
             <CustomizeModal isOpen={openCompleted}>
                 <div className="p-2 m-auto bg-white h-auto rounded-md">
                     <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
@@ -112,8 +183,9 @@ const MultipleReminder = ({ ids }) => {
                                 <div className="flex flex-col md:flex-row items-center justify-between">
                                     <div className="flex gap-2 md:gap-4">
                                         <ToggleButton
-                                            onToggle={() => handleToggle(data.id)}
-                                            isOpen={toggleStates[data.id]}
+                                            loading={loadingStates[data.id] || false}
+                                            onToggle={() => handleToggle(data)}
+                                            isOpen={data?.status === 'active' ? true : false}
                                         />
                                         <div className="flex flex-col">
                                             <div>
@@ -146,12 +218,12 @@ const MultipleReminder = ({ ids }) => {
                             </div>
                             {selectedId === data.id && data?.reminderDate !== "Post Due Date" && (
                                 <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
-                                    <Settings data={data} />
+                                    <Settings fetchDataAgain={fetchDataAgain} data={data} />
                                 </div>
                             )}
                             {selectedId === data.id && data?.reminderDate === "Post Due Date" && (
                                 <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
-                                    <SettingsII data={data} />
+                                    <SettingsII fetchDataAgain={fetchDataAgain} data={data} />
                                 </div>
                             )}
                         </div>

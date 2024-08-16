@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import WidgetMobile from "./widgetMobile";
 import { useEstateForOneStore } from "@/store/useEstateForOne";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EstateInfo = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();
@@ -25,6 +27,19 @@ const EstateInfo = ({ id }) => {
 
   return (
     <div className="w-full">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="w-full">
         <div className="w-full px-8 pt-4">
           <div className='flex w-full md:hidden gap-4 items-center'>
