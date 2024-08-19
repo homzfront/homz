@@ -18,7 +18,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const BusinessCertificateRef = useRef(null);
   const [fileUploaded, setFileUploaded] = useState(false);
   const [businessCertificateUpload, setBusCertUploaded] = useState(false);
-  const [businessCertificate, setBusinessCertificate] = useState(null);
+  const [certificateCAC, setBusinessCertificate] = useState(null);
   const [progress, setProgress] = useState(0);
   const [busCertSuccess, setBusCertSuccess] = useState(false);
   const [uploadIntervalID, setUploadIntervalID] = useState(null);
@@ -29,7 +29,10 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const [removeCertificate, setRemoveCertificate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [businessName, setBusinessName] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
   const [businessEmail, setBusinessEmail] = useState("");
+  const [businessWebsite, setBusinessWebsite] = useState("");
+  const [businessDescription, setBusinessDescription] = useState("");
   const [openDocUpload, setOpenDocUpload] = useState(false);
   const [whatsapp, setWhatsAppLink] = useState("");
   const [whatsappFormatted, setWhatsAppFormatted] = useState("");
@@ -38,7 +41,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const [error2, setError2] = useState(null);
   const [isFocus, setFocus] = useState(false);
   const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
-
+  const [socialLinks, setSocialLinks] = useState({
+    whatsAppLink: "",
+    instagramLink: "",
+    twitterLink: "",
+    facebookLink: "",
+    othersLinks: [],
+  });
   const [socialMedia, setSocialMediaLinks] = useState(socialMediaLinks);
   const [lastId, setLastId] = useState(socialMediaLinks.length);
 
@@ -47,20 +56,36 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     setLastId(newId);
     setSocialMediaLinks([
       ...socialMedia,
-      { id: newId, placeholder: "Type in link", value: "" },
+      { id: newId, placeholder: "Type in link", value: "", name: "otherLinks" },
     ]);
   };
   const removeLink = (id) => {
     setSocialMediaLinks(socialMedia.filter((media) => media.id !== id));
   };
 
-  const handleInputChange = (id, newValue) => {
+  const handleInputChange = (id, name, newValue) => {
     setSocialMediaLinks(
       socialMedia.map((media) =>
         media.id === id ? { ...media, value: newValue } : media
       )
     );
+
+    if (name === "otherLinks") {
+      setSocialLinks({
+        ...socialLinks,
+        othersLinks: socialMedia
+          .filter((media) => media.name === name)
+          .map((media) => media.value),
+      });
+    } else {
+      setSocialLinks({
+        ...socialLinks,
+        [name]: newValue,
+      });
+    }
   };
+  // console.log(socialLinks);
+
   useEffect(() => {
     // Check if data and required properties are available
     if (Business_Info?.businessInfo) {
@@ -139,14 +164,14 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     }
   };
 
-  // console.log(businessCertificate);
+  // console.log(certificateCAC);
   // console.log(businessCertificateUpload)
 
   const UploadBusCertificate = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData();
-    formData.append("certificateCAC", businessCertificate);
+    formData.append("certificateCAC", certificateCAC);
     try {
       const headers = { "Content-Type": "multipart/form-data" };
       const response = await api.patch(
@@ -158,7 +183,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
         setBusCertSuccess(true);
         setProgress(0); // Reset progress before starting the upload simulation
         setTimeout(() => {
-          const totalSize = businessCertificate.size;
+          const totalSize = certificateCAC.size;
           let uploadedSize = 0;
           const uploadInterval = setInterval(() => {
             uploadedSize += 10000;
@@ -211,7 +236,26 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     };
     handleUpdate(data, typeOfAction);
   };
+  const handleUpdateData = () => {
+    // mainSavedButton(true);
+    setUpdate(false);
+    const data = {};
+    data.businessName = businessName;
+    data.businessEmail = businessEmail;
+    data.phoneNumber = phoneNumber;
+    data.websiteUrl = businessWebsite;
+    data.businessAddress = businessAddress;
+    data.businessDescription = businessDescription;
+    data.whatsappLink = whatsappFormatted;
+    data.instagramLink = socialLinks.instagramLink;
+    data.facebookLink = socialLinks.facebookLink;
+    data.twitterLink = socialLinks.twitterLink;
+    data.otherLinks = socialLinks.othersLinks;
+    data.businessLogo = businessLogo;
+    data.certificateCAC = certificateCAC;
 
+    handleUpdate(data);
+  };
   const triggerFileInputClick = () => {
     setOpenDocUpload(true);
   };
@@ -354,9 +398,10 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                 }`}
-                // value={description}
-                id="businessService"
-                name="businessService"
+                value={businessDescription}
+                onChange={(e) => setBusinessDescription(e.target.value)}
+                id="businessDescription"
+                name="businessDescription"
                 disabled={!update}
               ></textarea>
             </div>
@@ -414,7 +459,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 type="text"
                 name="businessAddress"
                 disabled={!update}
-                // onChange={(e) => setBusinessEmail(e.target.value)}
+                onChange={(e) => setBusinessAddress(e.target.value)}
                 placeholder="e.g OB 327, Sunny Place Plaza, Agege, Lagos"
                 className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
                   !update &&
@@ -434,7 +479,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 type="text"
                 name="website"
                 disabled={!update}
-                // onChange={(e) => setBusinessEmail(e.target.value)}
+                onChange={(e) => setBusinessWebsite(e.target.value)}
                 placeholder="e.g www.Homz.ng"
                 className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
                   !update &&
@@ -468,25 +513,57 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               {socialMedia.slice(0, 4).map((social) => (
                 <div key={social.id} className="space-y-2 h-fit">
                   <label
-                    htmlFor={social.name}
-                    className="text-[13px] font-[500] text-GrayHomz "
+                    htmlFor={social.label}
+                    className="text-[13px] font-[500] text-GrayHomz"
                   >
-                    {capitalizeFirstLetter(social.name)}
+                    {capitalizeFirstLetter(social.label)}
                   </label>
                   <br />
                   <input
                     placeholder={capitalizeFirstLetter(social.placeholder)}
-                    className={`h-[45px] sm:w-[217px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%] ${
+                    className={`h-[45px] sm:w-[213px] md:p-[8px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%] ${
                       !update &&
                       "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                     }`}
                     type="text"
-                    value={social.value}
-                    disabled={!update}
-                    onChange={(e) =>
-                      handleInputChange(social.id, e.target.value)
+                    value={
+                      social.id === 1
+                        ? isFocus
+                          ? social.value
+                          : whatsappFormatted
+                        : social.value
                     }
+                    disabled={!update}
+                    onChange={(e) => {
+                      handleInputChange(social.id, social.name, e.target.value);
+                      setError2("");
+                    }}
+                    onBlur={(e) => {
+                      setFocus(false);
+
+                      if (social.id === 1) {
+                        let whatsApp = e.target.value;
+                        if (!phoneFormat.test(whatsApp)) {
+                          setError2("Invalid Phone number");
+                          setFocus(true);
+                        } else {
+                          setError2("");
+                          const phoneNumber = whatsApp
+                            .replace(/[^0-9]/g, "")
+                            .replace(/^0+/, "");
+                          setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+                        }
+                      }
+                    }}
+                    onFocus={() => {
+                      if (social.id === 1) setFocus(true);
+                    }}
                   />
+                  {error2 && social.id === 1 && (
+                    <div className="italic text-error text-[11px] font-[400]">
+                      {error2}
+                    </div>
+                  )}
                 </div>
               ))}
 
@@ -495,11 +572,12 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   <div key={index} className="relative space-y-2 h-fit">
                     <input
                       type="text"
-                      className="h-[45px] sm:w-[217px] md:p-[12px] rounded-[4px] pl-2 pr-10 border placeholder:text-[13px] w-[100%]"
+                      className="h-[45px] sm:w-[217px] md:p-[8px] rounded-[4px] pl-2 pr-10 border placeholder:text-[13px] w-[100%]"
                       placeholder={media.placeholder}
                       value={media.value}
+                      disabled={!update}
                       onChange={(e) =>
-                        handleInputChange(media.id, e.target.value)
+                        handleInputChange(media.id, media.name, e.target.value)
                       }
                     />
                     <Image
@@ -507,8 +585,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       alt="Cancel"
                       width={16}
                       height={16}
-                      className="absolute top-4 transform -translate-y-1/2 right-1 opacity-30 hover:opacity-100 cursor-pointer"
-                      onClick={() => removeLink(media.id)}
+                      disabled={!update}
+                      className={`absolute top-4 transform -translate-y-1/2 right-1 ${
+                        update ? "hover:opacity-100" : ""
+                      } opacity-30  cursor-pointer `}
+                      onClick={() => {
+                        if (update) removeLink(media.id);
+                      }}
                     />
                   </div>
                 ))}
@@ -622,14 +705,12 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 <div className="flex md:items-center flex-col md:flex-row md:justify-between w-full gap-[12px] md:gap-0">
                   <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left flex flex-col gap-[4px]">
                     <span className="text-[#006AFF] inline-block">
-                      [{businessCertificate?.name && businessCertificate.name}]
+                      [{certificateCAC?.name && certificateCAC.name}]
                     </span>
                     <span className="text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E]">
                       PDF (
-                      {businessCertificate?.size &&
-                        (businessCertificate.size / (1024 * 1024)).toFixed(
-                          2
-                        )}{" "}
+                      {certificateCAC?.size &&
+                        (certificateCAC.size / (1024 * 1024)).toFixed(2)}{" "}
                       MB)
                     </span>
                   </p>
@@ -640,7 +721,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   >
                     <p
                       className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer pb-5 sm:pb-0"
-                      onClick={() => viewFile(businessCertificate)}
+                      onClick={() => viewFile(certificateCAC)}
                     >
                       View
                     </p>
@@ -690,16 +771,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                     <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
                       <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#DC6803]">
                         <span className="inline-block">
-                          [
-                          {businessCertificate?.name &&
-                            businessCertificate.name}
-                          ]
+                          [{certificateCAC?.name && certificateCAC.name}]
                         </span>{" "}
                         <span>is currently under review</span>
                       </p>
                       <p
                         className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
-                        onClick={() => viewFile(businessCertificate)}
+                        onClick={() => viewFile(certificateCAC)}
                       >
                         View
                       </p>
@@ -709,10 +787,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       <div className="flex items-center justify-between">
                         <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-[#006AFF]">
                           <span className="text-[#006AFF] inline-block ">
-                            [
-                            {businessCertificate?.name &&
-                              businessCertificate.name}
-                            ]
+                            [{certificateCAC?.name && certificateCAC.name}]
                           </span>
                         </p>
                         {/* <Image
@@ -797,10 +872,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
           <div className="flex flex-col ">
             {update ? (
               <button
-                onClick={() => {
-                  mainSavedButton(true);
-                  setUpdate(false);
-                }}
+                onClick={handleUpdateData}
                 className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 type="submit"
@@ -809,11 +881,11 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               </button>
             ) : (
               <p
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center   w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >
-                Update
+                Click to update
               </p>
             )}
           </div>
@@ -823,10 +895,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
           <div className="flex flex-col w-full">
             {update ? (
               <button
-                onClick={() => {
-                  mainSavedButton(true);
-                  setUpdate(false);
-                }}
+                onClick={handleUpdateData}
                 className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 type="submit"
@@ -913,25 +982,29 @@ export default BusinessInfo;
 const socialMediaLinks = [
   {
     id: 1,
-    name: "WhatsApp",
+    label: "WhatsApp",
+    name: "whatsAppLink",
     placeholder: "Type in link",
     value: "",
   },
   {
     id: 2,
-    name: "Facebook ",
+    label: "Facebook ",
+    name: "facebookLink",
     placeholder: "Type in link",
     value: "",
   },
   {
     id: 3,
-    name: "X (Twitter)",
+    label: "X (Twitter)",
+    name: "twitterLink",
     placeholder: "Type in link",
     value: "",
   },
   {
     id: 4,
-    name: "Instagram ",
+    label: "Instagram ",
+    name: "instagramLink",
     placeholder: "Type in link",
     value: "",
   },

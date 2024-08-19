@@ -11,6 +11,7 @@ const useProfileStore = create((set) => ({
     try {
       set({ loading: true });
       const response = await api.get('/user/profile');
+      // console.log(response)
       const userData = response.data.user || null;
       set({ profile: userData, isLoggedIn: true, loading: false });
       if (typeof window !== 'undefined') {

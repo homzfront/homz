@@ -15,9 +15,7 @@ const Plans = ({
   data,
   profile,
   setSuccessModalIsOpen,
-  propertyId,
-  propertyIds,
-  planType,
+  upgradePlan,
   setModalIsOpen,
 }) => {
   // const [loading, setLoading] = useState(false);
@@ -36,7 +34,7 @@ const Plans = ({
   }, [isPending,ind]);
   const router = useRouter();
 
-  const handleSelectPlan = async (index, planType, interval, amount) => {
+  const handleSelectPlan = async (index, planType, interval, amount,upgradePlan) => {
     setIndex(index)
 
     await handleSelectPlans.handleSelectPlan(
@@ -45,6 +43,7 @@ const Plans = ({
       interval,
       setLoadingStates,
       amount,
+      upgradePlan,
       setModalIsOpen,
       setSuccessModalIsOpen,
       router,startTransition

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Property from "./listedProperty";
 import PromotionHooks from "@/utils/promoteProperty";
 import usePropertyStore from "@/store/propertyForMeStore";
-import usePropertyIds from "@/store/propertyIds";
+import usePropertyPromotionsData from "@/store/propertyPromotions";
 import LoadingII from "./components/loading";
 import useClickOutside from "@/utils/clickOutside";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-import Confirm from "@/components/mainmenu/CustomizedModal";
+import Confirm from "@/components/mainmenu/actionModal";
 import { Trykker } from "next/font/google";
 
 const List_Property = () => {
@@ -30,23 +30,29 @@ const List_Property = () => {
   const [page, setPage] = useState(1);
   const [isLoading, setLoader] = useState(false);
   const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
+  const [loadingUpgradePromo, setLoaderUpgradePromo] = useState(false);
   const [isLoading2, setLoader2] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [promoteProperty, setPromotePropertry] = useState(false);
   const [promotePropertySuccess, setPromotePropertrySuccess] = useState(false);
   const router = useRouter();
   const [errorModal, setErrorModal] = useState(false);
-  const setPropertyIds = usePropertyIds((state) => state.setPropertyIds);
-  const singlePropertyId = usePropertyIds((state) => state.singleId);
-  const propertyPlan = usePropertyIds((state) => state.propertyPlanType);
-  const setPropertyPlanType = usePropertyIds(
+  const setPropertyIds = usePropertyPromotionsData(
+    (state) => state.setPropertyIds
+  );
+  const singlePropertyId = usePropertyPromotionsData((state) => state.singleId);
+  const propertyPlan = usePropertyPromotionsData(
+    (state) => state.propertyPlanType
+  );
+  const setPropertyPlanType = usePropertyPromotionsData(
     (state) => state.setPropertyPlanType
   );
-
+  const [openLimitModal, setLimitModal] = useState(false);
+  const [subsciptionStatus, setSubsciptionStatus] = useState([]);
   var id = localStorage.getItem("prp_tygf2ty");
   var plan = localStorage.getItem("prp_xry_pl#a$n");
   // console.log(id, type);
-
+  // console.log(singlePropertyId)
   const handlePageNumber = (pageNumber) => {
     setPage(pageNumber);
     fetchData(pageNumber);
@@ -56,14 +62,25 @@ const List_Property = () => {
     fetchProfile();
   }, [fetchData, fetchProfile, page]);
 
+  // // check for subsciption plan Status
+  // useEffect(() => {
+  //   async function getSubscription() {
+  //     const response = await PromotionHooks.checkCurrentSubscription();
+  //     return response;
+  //   }
+  //   let status = getSubscription();
+  //   setSubsciptionStatus([...subsciptionStatus, status]);
+  // }, [subsciptionStatus]);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get("status");
-    if (status === "success") {
+
+    if (status === "success" && plan === "single") {
       setPaymentSuccessfulModal(true);
       router.prefetch("/dashboard/list_Property");
     }
-  }, [router]);
+  }, [router, plan]);
 
   const refreshData = () => {
     fetchData(page);
@@ -74,6 +91,7 @@ const List_Property = () => {
     }
     setLoader(false);
     setOpenPlanModal(false);
+    setLimitModal(false);
   }, [isPending]);
 
   const property = propertyListedAll;
@@ -84,6 +102,7 @@ const List_Property = () => {
     setPromotePropertrySuccess(false);
     handleCancel();
     setPropertyPlanType("");
+    router.push("/dashboard/list_Property");
   };
 
   const handleOpenModal = () => {
@@ -156,14 +175,17 @@ const List_Property = () => {
         promotionPlan,
         selectedProperty
       );
-
+      console.log(results)
       setLoader(false);
 
       if (results.status) {
         setPromotePropertrySuccess(true);
-        setPromotePropertry(false);
+        router.prefetch("/dashboard/list_Property");
         status = true;
+      } else if (results.message) {
+        setLimitModal(true);
       }
+      setPromotePropertry(false);
     } catch (error) {
       console.error("Error promoting the property:", error);
       setLoader(false);
@@ -197,6 +219,12 @@ const List_Property = () => {
       console.error(error);
       setLoaderSecondPromo(false);
     }
+  };
+  const handleUpgradePlan = () => {
+    // setLoaderUpgradePromo(true);
+    startTransition(() => {
+      router.push(`/subscriptionPlans?upgrade=true`);
+    });
   };
   // console.log("global value", loading);
 
@@ -468,7 +496,26 @@ const List_Property = () => {
         handleEvent={() => setErrorModal(false)}
       />
 
-      <Confirm isOpen={paymentSuccessfulModal}>
+      <Confirm
+        title=" Your payment was successful!"
+        description=" Would you like to activate the promotion on the selected property
+            now?"
+        action1={handleSecondPromo}
+        action2={handleClick}
+        isOpen={paymentSuccessfulModal}
+        loader={loadingSecondPromo}
+        action1Title="Promote"
+      />
+      <Confirm
+        title=" Promotion Limit exceeded!"
+        description="You have exceeded the promotion limit for your plan, Would you like to upgrade your plan?"
+        action1={handleUpgradePlan}
+        action2={() => setLimitModal(false)}
+        isOpen={openLimitModal}
+        loader={isLoading}
+        action1Title="Proceed"
+      />
+      {/* <Confirm isOpen={paymentSuccessfulModal}>
         <div className="bg-white border w-[333px] flex flex-col sm:w-[464px] py-[24px] px-[16px] sm:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
           <p className="text-[14px] leading-[19.5px] sm:text-[20px] font-[700] sm:leading-[25.2px] text-center">
             Your payment was successful!
@@ -496,7 +543,7 @@ const List_Property = () => {
             </button>
           </div>
         </div>
-      </Confirm>
+      </Confirm> */}
     </div>
   );
 };

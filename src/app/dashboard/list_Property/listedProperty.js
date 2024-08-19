@@ -24,7 +24,8 @@ const ListedProperties = ({
   refreshData,
   setOpenPlanModal,
   setPromotePropertry,
-  setErrorModal
+  setErrorModal,
+  subsciptionStatus
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {

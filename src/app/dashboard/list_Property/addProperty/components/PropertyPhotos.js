@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import pic from "/public/static/images/coverPhoto.png";
 import add from "/public/static/images/add.svg";
 import Image from "next/image";
-import MiniOtherPhotosFrame from '@/components/mainmenu/miniPhotoFrame'
+import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 
 const PropertyPhoto = ({
   BackToRentalsInfo,
@@ -11,6 +11,7 @@ const PropertyPhoto = ({
   setUploadedCoverPhoto,
   setUploadedOtherPhotos,
   setSaveToDraft,
+  setVideoLinksData,
 }) => {
   const [ImageSrc, setImageScr] = useState(pic);
   const fileUpload = useRef(null);
@@ -23,6 +24,17 @@ const PropertyPhoto = ({
   const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
   const [imagesFiles, setImagesFiles] = useState([]);
+  const [videoLinks, setVideoLinks] = useState({
+    youtubeUrl: "",
+    instagramUrl: "",
+  });
+
+  const submitData = () => {
+    setVideoLinksData(videoLinks);
+    setUploadedOtherPhotos(imagesFiles);
+    setUploadedCoverPhoto(coverPhoto);
+    handlePagePropertyPhoto();
+  };
   const fileUploads = useRef([]);
 
   const uploadCoverPhoto = (e) => {
@@ -48,7 +60,6 @@ const PropertyPhoto = ({
       } else {
         setCoverPhotoErrorMsg("");
         setFileUpload(true);
-        setUploadedCoverPhoto(file);
         setImageScr(URL.createObjectURL(file));
         setCoverPicture(file);
       }
@@ -84,15 +95,13 @@ const PropertyPhoto = ({
         setErrorMsg(newErrorMsg);
         return;
       } else {
-        setImagesFiles((prev)=> [...prev,file])
+        setImagesFiles((prev) => [...prev, file]);
         const newErrorMsg = [...errorMsg];
         newErrorMsg[index] = "";
         setErrorMsg(newErrorMsg);
         const newImages = [...houses];
         newImages[index] = URL.createObjectURL(file);
         setHouses(newImages);
-
-        
       }
     }
   };
@@ -270,6 +279,9 @@ const PropertyPhoto = ({
             className="h-[45px] p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
             type="text"
             name="youTube"
+            onChange={(e) =>
+              setVideoLinks({ ...videoLinks, youtubeUrl: e.target.value })
+            }
           />
         </div>
         <div className="">
@@ -286,6 +298,9 @@ const PropertyPhoto = ({
             className="h-[45px] p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
             type="text"
             name="Instagram"
+            onChange={(e) =>
+              setVideoLinks({ ...videoLinks, instagramUrl: e.target.value })
+            }
           />
         </div>
       </section>
@@ -336,7 +351,7 @@ const PropertyPhoto = ({
               Skip
             </button>
             <button
-              onClick={handlePagePropertyPhoto}
+              onClick={submitData}
               // disabled={fileUploaded && houses.length >= 3 ? true : false}
               disabled={!fileUploaded || houses.length < 1}
               className={`flex md:mr-14 border gap-1 justify-center  md:w-[77px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
@@ -385,5 +400,3 @@ const PropertyPhoto = ({
 };
 
 export default PropertyPhoto;
-
-

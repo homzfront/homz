@@ -59,11 +59,10 @@ const MobilePlan = ({
 
                     <Tooltip
                       title={feature.info}
-                      position="bottom"
+                      position="left"
                       trigger="click"
-                      size="small"
                       arrow={true}
-                      style={{ fontSize: "11px",borderRadius:"20px" }}
+                      style={{ fontSize: "11px", borderRadius: "20px" }}
                     >
                       <button
                         className={`relative h-[14px] w-[16px] cursor-pointer ${

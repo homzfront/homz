@@ -5,27 +5,24 @@ import PlansWeekly from "./components/plansWeekly.js";
 import PlansYearly from "./components/plansYearly.js";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 // import { Carousel } from "react-responsive-carousel";
-import usePropertyIds from "@/store/propertyIds";
+import useStorePropertyPromotionData from "@/store/propertyPromotions.js";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRouter } from "next/navigation";
 
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [propertyId, setPropertyId] = useState();
   const [type, setType] = useState("");
+  const [upgradePlan, setUpgradePlan] = useState("");
 
   const router = useRouter();
-  const propertyIds = usePropertyIds((state) => state.propertyIds);
-  const resetPropertyIds = usePropertyIds((state) => state.resetPropertyIds);
+  const resetPropertyIds = useStorePropertyPromotionData((state) => state.resetPropertyIds);
   // console.log(propertyIds)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const propertyId = urlParams.get("propertyId");
-    const type = urlParams.get("type");
-    setType(type);
-    setPropertyId(propertyId);
+    const upgrade= urlParams.get("upgrade");
+    setUpgradePlan(upgrade);
   }, []);
 
   const pages = [
@@ -36,9 +33,7 @@ const Widget = ({ data, profile }) => {
         <PlansWeekly
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
-          propertyId={propertyId}
-          propertyIds={propertyIds}
-          planType={type}
+          upgradePlan={upgradePlan}
         />
       ),
     },
@@ -49,9 +44,8 @@ const Widget = ({ data, profile }) => {
         <PlansMonthly
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
-          propertyId={propertyId}
-          propertyIds={propertyIds}
-          planType={type}
+          upgradePlan={upgradePlan}
+
         />
       ),
     },
@@ -62,9 +56,8 @@ const Widget = ({ data, profile }) => {
         <PlansYearly
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
-          propertyId={propertyId}
-          propertyIds={propertyIds}
-          planType={type}
+          upgradePlan={upgradePlan}
+
         />
       ),
     },

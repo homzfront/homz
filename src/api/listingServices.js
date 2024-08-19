@@ -3,6 +3,7 @@ import api from "@/utils/api";
 export const listingMe = async () => {
   try {
     const response = await api.get("/listingProperty/me");
+    console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -38,11 +39,14 @@ export const updatePersonalInfoLister = async (data) => {
 
 
 export const updateBusinessInfoLister = async (data) => {
+  // console.log(data)
   const formData = new FormData();
-  formData.append("businessLogo", data?.businessLogo);
-  formData.append("businessName", data?.businessName);
-  formData.append("businessEmail", data?.businessEmail);
-  formData.append("certificateCAC", data?.certificateCAC);
+  for (const [key, value] of Object.entries(data)) {
+    if (value) {
+      formData.append(key, value);
+    }
+  }
+  // console.log([...formData.entries()])
   try {
     const headers = {
       "Content-Type": "multipart/form-data",
@@ -52,6 +56,7 @@ export const updateBusinessInfoLister = async (data) => {
       formData,
       { headers }
     );
+    // console.log(response)
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
     } else {

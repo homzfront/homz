@@ -7,11 +7,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
-import useStorePropertyIds from "@/store/propertyIds";
+import useStorePropertyPromotionData from "@/store/propertyPromotions";
 
 const PricingPlan = () => {
   const router = useRouter();
-  const resetPropertyIds = useStorePropertyIds((state) => state.resetPropertyIds);
+  const resetPropertyIds = useStorePropertyPromotionData((state) => state.resetPropertyIds);
 
   const goBack = () => {
     resetPropertyIds();
@@ -29,7 +29,7 @@ const PricingPlan = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <div className=" w-full px-8 py-4 m-auto mt-3">

@@ -47,66 +47,39 @@ const Profile = () => {
   const handleSaved = async (e) => {
     e.preventDefault();
     if (loading) return;
+
     setLoading(true);
-    if (personalInfo?.businessName) {
-      try {
-        const { success, updatedImage, error } = await updateBusinessInfoLister(
-          personalInfo
-        );
-        if (success) {
-          setLoading(false);
-          setSuccessModalIsOpen(true);
-          setSaveModalIsOpen(false);
-        } else {
-          toast.error(error);
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
+
+    const updateInfo = personalInfo?.businessName
+      ? updateBusinessInfoLister
+      : updatePersonalInfoLister;
+
+    try {
+      const { success, error } = await updateInfo(personalInfo);
+
+      if (success) {
+        setSuccessModalIsOpen(true);
         setSaveModalIsOpen(false);
-        if (
-          error?.response?.data?.error?.errors &&
-          error.response.data.error.errors.length > 0
-        ) {
-          const errorMessage = error.response.data.error.errors[0];
-          toast.error("Update failed", `${errorMessage}`);
-        } else if (error?.response?.data?.message) {
-          const errorMessage = error.response.data.message;
-          toast.error("Update failed", `${errorMessage}`);
-        } else {
-          toast.error("Update failed, Internal Server Error");
-        }
+      } else {
+        toast.error(error);
       }
-    } else {
-      try {
-        const { success, updatedImage, error } = await updatePersonalInfoLister(
-          personalInfo
-        );
-        if (success) {
-          setLoading(false);
-          setSuccessModalIsOpen(true);
-          setSaveModalIsOpen(false);
-        } else {
-          toast.error(error);
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-        setSaveModalIsOpen(false);
-        if (
-          error?.response?.data?.error?.errors &&
-          error.response.data.error.errors.length > 0
-        ) {
-          const errorMessage = error.response.data.error.errors[0];
-          toast.error("Update failed", `${errorMessage}`);
-        } else if (error?.response?.data?.message) {
-          const errorMessage = error.response.data.message;
-          toast.error("Update failed", `${errorMessage}`);
-        } else {
-          toast.error("Update failed, Internal Server Error");
-        }
-      }
+    } catch (error) {
+      console.log(error)
+      handleError(error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleError = (error) => {
+    // setSaveModalIsOpen(false);
+
+    const errorMessage =
+      error?.response?.data?.error?.errors?.[0] ||
+      error?.response?.data?.message ||
+      "Internal Server Error";
+
+    toast.error(`Update failed, ${errorMessage}`);
   };
 
   const handleUpdateDetails = (data, typeOfAction) => {
@@ -133,7 +106,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full px-6 sm:px-1">
+    <div className="w-full px-6 sm:px-0">
       <ToastContainer
         position="top-center"
         autoClose={2000}

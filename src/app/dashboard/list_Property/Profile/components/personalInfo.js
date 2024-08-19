@@ -146,7 +146,7 @@ const PersonalInfo = ({
                 >
                   Click to upload profile photo
                 </span>
-                <span className="md:hidden" onClick={uploadProfilePhoto}>
+                <span className="md:hidden cursor-pointer" onClick={uploadProfilePhoto}>
                   Upload profile photo
                 </span>
               </p>
@@ -263,11 +263,11 @@ const PersonalInfo = ({
               </button>
             ) : (
               <p
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+                className="flex cursor-pointer border justify-center   w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >
-                Update
+               Click to update
               </p>
             )}
           </div>

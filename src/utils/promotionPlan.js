@@ -1,3 +1,4 @@
+// );
 import PromotionHooks from "@/utils/promoteProperty";
 // import { useRouter } from "next/navigation";
 
@@ -7,23 +8,23 @@ async function handleSelectPlan(
   interval,
   setLoadingStates,
   amount,
+  upgradePlan,
   setModalIsOpen,
   setSuccessModalIsOpen,
   router,startTransition
 ) {
-
-// const router= useRouter();
+  
+  // const router= useRouter();
   setLoadingStates((prev) => ({ ...prev, [index]: true }));
   try {
     // const results = await PromotionHooks.promoteProperty(
-    //   date,
-    //   propertyId,
-    //   planType,
-    //   propertyIds
-    // );
-    const results= await PromotionHooks.createSubscription(planType,interval,amount )
-
-    // console.log(results);
+      //   date,
+      //   propertyId,
+      //   planType,
+      //   propertyIds
+      const results= await PromotionHooks.createSubscription(planType,interval,amount,upgradePlan )
+      
+      // console.log(results);
     if (results.status === false) {
       setLoadingStates((prev) => ({ ...prev, [index]: false }));
       // setModalIsOpen(true);

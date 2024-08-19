@@ -13,43 +13,46 @@ import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
 import { indexOf } from "lodash";
 
-
 const Plans = ({
   data,
   profile,
   setSuccessModalIsOpen,
-  propertyId,
-  propertyIds,
-  planType,
+  upgradePlan,
   setModalIsOpen,
 }) => {
-  // const [formError, setFormError] = useState();
+ 
 
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
-  const [ind, setIndex]=useState()
+  const [ind, setIndex] = useState();
 
   useEffect(() => {
     if (isPending) {
-      return   setLoadingStates((prev) => ({ ...prev, [ind]: true }));
-
+      return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
-
-  }, [isPending,ind]);
+  }, [isPending, ind]);
   const router = useRouter();
 
-  const handleSelectPlan = async (index, planType, interval, amount) => {
-    setIndex(index)
+  const handleSelectPlan = async (
+    index,
+    planType,
+    interval,
+    amount,
+  ) => {
+    setIndex(index);
+
     await handleSelectPlans.handleSelectPlan(
       index,
       planType,
       interval,
       setLoadingStates,
       amount,
+      upgradePlan,
       setModalIsOpen,
       setSuccessModalIsOpen,
-      router,startTransition
+      router,
+      startTransition
     );
   };
 
@@ -79,7 +82,7 @@ const Plans = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {plan?.price  && ("N" + Number(plan.price).toLocaleString())}
+                {plan?.price && "N" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 

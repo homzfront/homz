@@ -14,19 +14,17 @@ const ContactInfo = ({
   const [whatsappFormatted, setWhatsAppFormatted] = useState("");
   const [error, setError] = useState(null);
   const [error2, setError2] = useState(null);
-  const [isValid, setIsValid] = useState(false);
   const [isFocus, setFocus] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
 
   const onSubmit = () => {
-    // const phoneNumberRegex = /^\d{11}$/;
-    const whatsappLinkRegex = /^https:\/\/wa\.me\//;
-    const data = {
-      ...(phoneNumber && { phoneNumber }),
-      ...(whatsapp && { whatsapp }),
-      ...(email && { email }),
-    };
+ 
+    const data = {};
+    data.phoneNumber=phoneNumber;
+    data.email=email;
+    data.whatsapp=whatsappFormatted
     handleSubmitData(data);
   };
   return (

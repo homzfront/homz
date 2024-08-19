@@ -23,7 +23,7 @@ const Amenities = ({
   };
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // amenitiesPicked(selectedAmenities)
+    amenitiesPicked(selectedAmenities)
     // console.log("Selected Amenities:", selectedAmenities);
     setOpenAmeni(false);
   };

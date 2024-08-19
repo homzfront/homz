@@ -12,7 +12,7 @@ function capitalizeFirstLetter(word) {
   }
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
-const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
+const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft,setAmenities }) => {
   const [propertyType, setPropertyType] = useState("");
   const [listingType, setListingType] = useState("");
   const [listingClicked, setListingClicked] = useState(true);
@@ -26,7 +26,6 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
   const [areas, setAreas] = useState([]);
   const [allStates, setAllStates] = useState([]);
   const [ameni, setOpenAmeni] = useState(false);
-  const [amenities, setAmenities] = useState([]);
   const numberCounts = [...Array(21).keys()].slice(1);
 
   useEffect(() => {
@@ -153,24 +152,24 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
               }
             />
             {propertyType === "Land" ? (
-              <div className="">
+              <div className="space-y-2">
                 <label
                   className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
-                  htmlFor="squareMeters"
+                  htmlFor="squareMeter"
                 >
                   Square Meters <span className="text-red-500 text-xs">*</span>
                 </label>
                 <br />
                 <input
-                  {...register("squareMeters", {
+                  {...register("squareMeter", {
                     required: "Square Meters is required",
                   })}
                   className="h-[45px] p-[8px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] pl-2"
                   placeholder="e.g 500 sqm"
                 />
-                {errors.squareMeters && (
+                {errors.squareMeter && (
                   <span className="italic text-error text-[11px] font-[400]">
-                    {errors.squareMeters.message}
+                    {errors.squareMeter.message}
                   </span>
                 )}
               </div>
@@ -228,22 +227,22 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft }) => {
             <div className="w-full col-span-2 sm:col-span-1 space-y-2">
               <label
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
-                htmlFor="address"
+                htmlFor="street"
               >
                 Street / Estate / Neighborhood{" "}
                 <span className="text-red-500 text-xs">*</span>
               </label>
               <br />
               <input
-                {...register("address", {
+                {...register("street", {
                   required: "Street name is required",
                 })}
                 className="h-[43px] md:h-[45px] md:w-[100%] p-[4px] md:p-[12px] rounded-[4px] border w-full text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] sm:pl-2"
                 placeholder="e.g  No 32,  Andrew  Street,  Lekki"
               />
-              {errors.address && (
+              {errors.street && (
                 <span className="italic text-error text-[11px] font-[400]">
-                  {errors.address.message}
+                  {errors.street.message}
                 </span>
               )}
             </div>

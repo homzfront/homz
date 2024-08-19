@@ -54,7 +54,7 @@ const ViewProperty = ({ PropertyID }) => {
     ? combinedData.slice(1, 4)
     : combinedData.slice(1, 5);
 
-  const reminderImage = isMobileView
+  const remainedImages = isMobileView
     ? combinedData.length - 4
     : combinedData.length - 5;
   let indexNumber = isMobileView ? 2 : 3;
@@ -190,63 +190,80 @@ const ViewProperty = ({ PropertyID }) => {
             </div>
 
             <div className="block mt-6">
-              <div className="flex  sm:flex-row flex-wrap sm:flex-nowrap gap-[13.97px] sm:h-[472.69px] w-fit">
-                <div className="sm:w-[640.34px] sm:h-full w-full h-[174px]">
-                  <Carousel
-                    slide={false}
-                    theme={mainTheme}
-                    className="w-full h-full"
-                  >
-                    {combinedData.map((img, index) => (
-                      <div key={index} className="w-full h-full">
-                        <Image
-                          src={img?.url || "/placeholder-image.png"}
-                          alt={`Carousel image ${index}`}
-                          height={450}
-                          width={450}
-                          className="rounded-md cursor-pointer object-cover bg-center h-full w-full"
-                          quality={100}
-                          priority
-                          onClick={() => openImageModal(index, img)}
-                        />
-                      </div>
-                    ))}
-                  </Carousel>
-                </div>
+            {combinedData.length > 0 ? (
+                <div className="flex  sm:flex-row flex-wrap sm:flex-nowrap gap-[13.97px] sm:h-[472.69px] w-fit">
+                  <div className="sm:w-[640.34px] sm:h-full w-full h-[174px]">
+                    <Carousel
+                      slide={false}
+                      theme={mainTheme}
+                      className="w-full h-full"
+                    >
+                      {combinedData.map((img, index) => (
+                        <div key={index} className="w-full h-full">
+                          <Image
+                            src={img?.url || "/placeholder-image.png"}
+                            alt={`Carousel image ${index}`}
+                            height={450}
+                            width={450}
+                            className="rounded-md cursor-pointer object-cover bg-center h-full w-full"
+                            quality={100}
+                            priority
+                            onClick={() => openImageModal(index, img)}
+                          />
+                        </div>
+                      ))}
+                    </Carousel>
+                  </div>
 
-                <div className="grid sm:grid-cols-2 grid-cols-3  gap-[12px] ">
-                  {combinedData &&
-                    slicedData.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className="relative "
-                        onClick={() => openImageModal(index, item)}
-                      >
-                        <Image
-                          src={item.url}
-                          alt=""
-                          width={160}
-                          height={157}
-                          className={` cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] w-[106.36px] h-[90px] sm:w-[310.86px] sm:h-[229.36px] `}
-                          layout="full"
-                          objectFit="cover"
-                          objectPosition="center"
-                          quality={100}
-                          priority
-                        />
-                        {reminderImage > 0 && index === indexNumber && (
-                          <div className="cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] absolute inset-0 bg-black bg-opacity-40 z-10 flex items-center justify-center">
-                            <p
-                              className="text-[18px] font-[500] leading-[27px] text-white"
-                            >
-                              +{reminderImage} more
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  {/* className=" absolute top-0 left-0 w-full h-full  " */}
+                  <div className="grid sm:grid-cols-2 grid-cols-3  gap-[12px] ">
+                    {combinedData &&
+                      slicedData.map((item, index) => (
+                        <div
+                          key={item.id}
+                          className="relative"
+                          onClick={() => openImageModal(index, item)}
+                        >
+                          <Image
+                            src={item.url}
+                            alt=""
+                            width={160}
+                            height={157}
+                            className={`cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] w-[106.36px] h-[90px] sm:w-[310.86px] sm:h-[229.36px]`}
+                            layout="full"
+                            objectFit="cover"
+                            objectPosition="center"
+                            quality={100}
+                            priority
+                          />
+                          {remainedImages > 0 && index === indexNumber && (
+                            <div className="cursor-pointer sm:rounded-[9.81px] rounded-[7.67px] absolute inset-0 bg-black bg-opacity-40 z-10 flex items-center justify-center">
+                              <p className="text-[18px] font-[500] leading-[27px] text-white">
+                                +{remainedImages} more
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="sm:rounded-[9.81px] rounded-[7.67px] w-fit sm:h-[470.69px]">
+                  <Image
+                    s
+                    src="/static/images/noImagePreview2.png"
+                    alt="no-image"
+                    width={1290}
+                    height={470}
+                    className={`sm:rounded-[9.81px] rounded-[7.67px]  w-fit sm:h-[470.69px]`}
+                    layout="full"
+                    objectFit="cover"
+                    objectPosition="center"
+                    quality={100}
+                    priority
+                  />
+                </div>
+              )}
             </div>
 
             {openSelectedImage && combinedData.length >= 1 ? (

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import PromotionHooks from "@/utils/promoteProperty";
-import usePropertyIds from "@/store/propertyIds";
+import usePropertyPromotionData from "@/store/propertyPromotions";
 
 function CardMenus({
   data,
@@ -24,8 +24,8 @@ function CardMenus({
   const router = useRouter();
   const [isLoading, setLoader] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const setPropertyId = usePropertyIds((state) => state.setSinglePropertyId);
-  const setPropertyPlanType = usePropertyIds(
+  const setPropertyId = usePropertyPromotionData((state) => state.setSinglePropertyId);
+  const setPropertyPlanType = usePropertyPromotionData(
     (state) => state.setPropertyPlanType
   );
 
@@ -41,6 +41,7 @@ function CardMenus({
   }
 
   const handlePromoteProperty = async () => {
+    
     setLoader(true);
     try {
       const response = await PromotionHooks.checkCurrentSubscription();

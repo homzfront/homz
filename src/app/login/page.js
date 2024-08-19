@@ -74,7 +74,7 @@ const Login = () => {
         email,
         password,
       });
-
+      
       if (response.status === 201) {
         // Handle expected successful login status code
         const data = response.data.data.token;

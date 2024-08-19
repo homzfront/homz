@@ -4,6 +4,8 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 
 const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
   const [paymentType, setPaymentType] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [duration, setDuration] = useState("");
   const [price, setPrice] = useState("");
   const [maintenance, setMaintenance] = useState("");
   const [total, setTotal] = useState("");
@@ -58,7 +60,10 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
     if (!isNaN(parseInt(price))) {
       data.price = parseInt(price);
     }
-
+    data.initialPayment=initialPayment;
+    data.frequency=frequency;
+    data.duration=duration;
+    data.installmentPayment=Installment
     handleRentalInfo(data);
   };
   const calculateTotalPrice = () => {
@@ -315,9 +320,10 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <span className="text-error">*</span>
               <br />
               <FrequencySelect
-                frequency={frequency}
+                frequency={frequencyData}
                 paymentType={paymentType}
                 capitalizeFirstLetter={capitalizeFirstLetter}
+                setFrequency={setFrequency}
               />
             </div>
             <div className="custom-select-wrapper">
@@ -332,7 +338,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <select
                 name="paymentType"
                 className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
-                // onChange={(e) => setPaymentType(e.target.value)}
+                onChange={(e) => setDuration(e.target.value)}
                 onClick={() => setDurationClicked(false)}
               >
                 {durationClicked && (
@@ -394,7 +400,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
           </div>
         </section>
 
-        <div className="flex sm:justify-between md:mt-24 mt-8 sm:px-3 md:px gap-[19px] ">
+        <div className="flex justify-between md:mt-24 mt-8 sm:px-3 md:px gap-[19px] ">
           <div>
             <button
               className="text-[14px] font-[500] py-[8px] px-[12px]  rounded-[4px] md:text-BlueHomz text-BlueHomz border border-BlueHomz h-full sm:w-full w-[120px] flex items-center justify-center gap-1 "
@@ -501,8 +507,8 @@ const paymentTypeValues = [
   "yearly",
   "2 years (Lease)",
 ];
-const frequency = ["weekly", "monthly", "quarterly", "yearly"];
-const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter }) => {
+const frequencyData = ["weekly", "monthly", "quarterly", "yearly"];
+const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter,setFrequency }) => {
   // Filter out the 'yearly' option if paymentType is 'yearly'
   const [selectedClicked, setSelectedClicked] = useState(true);
   const filteredFrequency =
@@ -515,6 +521,7 @@ const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter }) => {
       name="frequency"
       className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
       onClick={() => setSelectedClicked(false)}
+      onChange={(e)=>setFrequency(e.target.value)}
     >
       {selectedClicked && (
         <option value="" disabled selected>

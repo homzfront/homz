@@ -25,13 +25,15 @@ const PropertyForms = () => {
   const [rentalInfo, setRentalInfo] = useState([]);
   const [coverPhoto, setUploadedCoverPhoto] = useState(null);
   const [photos, setUploadedOtherPhotos] = useState([]);
-  const [contactInfo, setContactInfo] = useState([]);
+  // const [contactInfo, setContactInfo] = useState({});
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
   const [propertyDetails, setPropertyDetails] = useState([]);
   const [loadingForm, setLoadingForm] = useState(false);
   const [saveToDraft, setSaveToDraft] = useState(false);
   const [savedToDraftSuccess, setSavedToDraftSuccess] = useState(false);
+  const [videoLinks, setVideoLinksData] = useState();
+  const [amenities, setAmenities] = useState([]);
 
   const closeModal = () => {
     setSaveModalIsOpen(false);
@@ -41,43 +43,112 @@ const PropertyForms = () => {
     setSuccessModalIsOpen(false);
   };
   const closeSaveToDraftModal = () => {
-    setSavedToDraftSuccess(false)
-    router.back()
-    
-  }
-  const handleSaveToDraft=()=>{
+    setSavedToDraftSuccess(false);
+    router.back();
+  };
+  // console.log(propertyInfo)
+  // console.log(rentalInfo)
+  // console.log(coverPhoto)
+  // console.log(amenities)
+  // console.log(propertyDetails);
+  // console.log(contactInfo)
+  // console.log(photos)
+
+  const handleSaveToDraft = () => {
     setSaveToDraft(false);
-    setSavedToDraftSuccess(true)
-  }
+    setSavedToDraftSuccess(true);
+  };
   const handleSaved = async () => {
-    setLoadingForm(!loadingForm);
+    // setLoadingForm(!loadingForm);
     setLoading(true);
 
     const formData = new FormData();
+    var filteredDetail = {};
 
     propertyDetails.forEach((detail, index) => {
-      const filteredDetail = {};
       Object.entries(detail).forEach(([key, value]) => {
         // Check if the value is not empty or null
         if (value !== "" && value !== null) {
           filteredDetail[key] = value;
         }
       });
-
-      Object.entries(filteredDetail).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-
-      formData.append("coverPhoto", coverPhoto);
-
-      photos.forEach((photo) => {
-        formData.append("photos", photo);
-      });
     });
+    const {
+      title,
+      installmentPayment,
+      agencyFee,
+      amenities,
+      state,
+      area,
+      street,
+      email,
+      phoneNumber,
+      whatsapp,
+      description,
+      duration,
+      furnishStatus,
+      frequency,
+      initialPayment,
+      listingType,
+      maintenanceFee,
+      newly,
+      squareMeter,
+      numberOfBathrooms,
+      numberOfRooms,
+      numberOfToilets,
+      paymentType,
+      price,
+      propertyType,
+      serviced,
+      subType,
+      totalFee,
+      units,
+      youtubeUrl,
+      instagramUrl,
+    } = filteredDetail;
+    formData.append("coverPhoto", coverPhoto);
+    photos.forEach((photo) => formData.append("photos", photo));
+    const payload = {
+      title,
+      squareMeter,
+      propertyType,
+      listingType,
+      subType,
+      units,
+      price,
+      paymentType,
+      state,
+      area,
+      street,
+      numberOfRooms,
+      numberOfBathrooms,
+      numberOfToilets,
+      amenities,
+      description,
+      maintenanceFee,
+      totalFee,
+      agencyFee,
+      email,
+      phoneNumber,
+      whatsapp,
+      frequency,
+      youtubeUrl,
+      instagramUrl,
+      duration,
+      newlyBuilt: newly,
+      serviced,
+      initialPayment,
+      installmentPayment,
+    };
+
+    for (const [key, value] of Object.entries(payload)) {
+      if (value) {
+        formData.append(key, value);
+      }
+    }
 
     try {
-      let response;
-      response = await api.post(
+      const response = await api.post(
         "/properties/create/listing-property",
         formData,
         {
@@ -86,38 +157,47 @@ const PropertyForms = () => {
           },
         }
       );
-
-      if (response) {
+      // console.log(response);
+      if (response.data.success) {
         setSuccessModalIsOpen(true);
         setSaveModalIsOpen(false);
-        setLoadingForm(false);
+        // setLoadingForm(false);
         setLoading(false);
       }
     } catch (error) {
-      setLoadingForm(false);
+      // setLoadingForm(false);
+      console.log(error);
+
       setLoading(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.log(errorMessage)
-        toast.error("Update failed", `${errorMessage}`);
+        console.log(errorMessage);
+        // toast.error("Update failed", `${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
         toast.error("Update failed", `${errorMessage}`);
-        console.log(errorMessage)
-
-      } else {
-        toast.error("Update failed");
+        console.log(errorMessage);
+      }
+      else {
+        // toast.error("Update failed");
       }
     }
   };
 
-  const handleSubmit = (data) => {
-    setContactInfo(data);
+  const handleSubmit = (contactInfo) => {
+    // setContactInfo(contactInfo);
     setPropertyDetails((preDetails) => [
-      { ...propertyInfo, ...rentalInfo, ...data },
+      {
+        // ...preDetails,
+        ...propertyInfo,
+        ...rentalInfo,
+        ...contactInfo,
+        ...videoLinks,
+        amenities,
+      },
     ]);
     setSaveModalIsOpen(true);
   };
@@ -179,7 +259,10 @@ const PropertyForms = () => {
         pauseOnHover
         theme="dark"
       />
-      <div onClick={goBack} className="flex items-center gap-2 cursor-pointer w-fit">
+      <div
+        onClick={goBack}
+        className="flex items-center gap-2 cursor-pointer w-fit"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -353,6 +436,7 @@ const PropertyForms = () => {
           <PropertyInfo
             handlePropertyInfo={handlePropertyInfo}
             setSaveToDraft={setSaveToDraft}
+            setAmenities={setAmenities}
           />
         </div>
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
@@ -370,7 +454,7 @@ const PropertyForms = () => {
             setUploadedCoverPhoto={setUploadedCoverPhoto}
             setUploadedOtherPhotos={setUploadedOtherPhotos}
             setSaveToDraft={setSaveToDraft}
-
+            setVideoLinksData={setVideoLinksData}
           />
         </div>
         <div className={`${activeFour ? "inline" : "hidden"}`}>
@@ -378,7 +462,6 @@ const PropertyForms = () => {
             BackToPropertyPhotos={BackToPropertyPhotos}
             handleSubmitData={handleSubmit}
             setSaveToDraft={setSaveToDraft}
-
           />
         </div>
       </div>

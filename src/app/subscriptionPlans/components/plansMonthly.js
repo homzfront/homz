@@ -15,28 +15,29 @@ const Plans = ({
   data,
   profile,
   setSuccessModalIsOpen,
-  propertyId,
-  propertyIds,
-  planType,
+  upgradePlan,
   setModalIsOpen,
 }) => {
- 
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
-  const [ind, setIndex]=useState()
-
+  const [ind, setIndex] = useState();
+console.log(upgradePlan)
   useEffect(() => {
     if (isPending) {
-      return   setLoadingStates((prev) => ({ ...prev, [ind]: true }));
-
+      return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
-
-  }, [isPending,ind]);
+  }, [isPending, ind]);
   const router = useRouter();
 
-  const handleSelectPlan = async (index, planType, interval, amount) => {
-    setIndex(index)
+  const handleSelectPlan = async (
+    index,
+    planType,
+    interval,
+    amount,
+    upgradePlan
+  ) => {
+    setIndex(index);
 
     await handleSelectPlans.handleSelectPlan(
       index,
@@ -44,9 +45,11 @@ const Plans = ({
       interval,
       setLoadingStates,
       amount,
+      upgradePlan,
       setModalIsOpen,
       setSuccessModalIsOpen,
-      router,startTransition
+      router,
+      startTransition
     );
   };
 
@@ -77,7 +80,7 @@ const Plans = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-              {plan?.price  && ("N" + Number(plan.price).toLocaleString())}
+                {plan?.price && "N" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 
@@ -106,9 +109,8 @@ const Plans = ({
                         {feature.name}
                       </p>
                     </div>
-
                     <Tooltip
-                       title={feature.info}
+                      title={feature.info}
                       position="left"
                       trigger="click"
                       arrow={true}
@@ -137,9 +139,9 @@ const Plans = ({
               key={index}
               onClick={() =>
                 handleSelectPlan(index, plan.title, plan.billing, plan.price)
-               }
+              }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
-                plan.status === true || plan.title ==="Free" ? "hidden" : ""
+                plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
                 profile?.planName === plan.title &&
                 profile?.interval === "monthly"
