@@ -4,7 +4,7 @@ function addCommasToNumber(number) {
   } else {
     // Convert the number to a string
     const numberString = number.toString();
-    // Use a regular expression to add commas
+    // Use a regular expression to add commas.
     const formattedNumber = numberString.replace(
       /\B(?=(\d{3})+(?!\d))/g,
       ","
