@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import LoadingTable from "../../../../../components/mainmenu/loadingTable.js";
 import StatusDropDownMain from "../components/statusDropDownMain.js";
 import EmptyAvatar from "@/components/icons/emptyAvatar.js";
+import truncateText from "@/utils/truncateText.js";
 const Maintenance = ({ data }) => {
   const [loadingRows, setLoadingRows] = useState({});
 
@@ -31,6 +32,16 @@ const Maintenance = ({ data }) => {
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [hoveredRow, setHoveredRow] = useState(null);
+
+  const handleMouseEnter = (id) => {
+    setHoveredRow(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRow(null);
+  };
+
 
   const totalPages = Math.ceil(newDataArray?.length / ITEMS_PER_PAGE);
 
@@ -102,7 +113,7 @@ const Maintenance = ({ data }) => {
                       </div>
                     ) : (
                       <Image
-                      src={data?.user?.coverPhoto?.url}
+                        src={data?.user?.coverPhoto?.url}
                         alt=""
                         width={40}
                         height={40}
@@ -116,8 +127,16 @@ const Maintenance = ({ data }) => {
                     )}
                     <span className="">{data?.user?.fullName}</span>
                   </td>
-                  <td className="text-GrayHomz py-[15px] w-[33.3%] md:w-[35%] font-[500] text-[11px]">
-                    {data?.maintenanceRequest?.subject}
+                  <td
+                    onMouseEnter={() => handleMouseEnter(data?._id)}
+                    onMouseLeave={handleMouseLeave}
+                    className="relative text-GrayHomz py-[15px] w-[33.3%] md:w-[35%] font-[500] text-[11px]">
+                    {truncateText(data?.maintenanceRequest?.subject, 50)}
+                    {hoveredRow === data?._id && (
+                      <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs sm:w-max">
+                        {data?.maintenanceRequest?.subject}
+                      </span>
+                    )}
                   </td>
 
                   <td

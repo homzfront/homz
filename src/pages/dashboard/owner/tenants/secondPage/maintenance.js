@@ -4,14 +4,25 @@ import React, { useState } from "react";
 import YesNOModal from "../components/yesNOModal";
 import Button from "../../components/button.js";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import truncateText from "@/utils/truncateText";
 
-const Maintenance = ({tenantData}) => {
+const Maintenance = ({ tenantData }) => {
   const data = tenantData?.data
   const maintenanceRequests = data?.maintenanceRequests
 
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [hoveredRow, setHoveredRow] = useState(null);
+
+  const handleMouseEnter = (id) => {
+    setHoveredRow(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRow(null);
+  };
+
 
   const totalPages = Math.ceil(maintenanceRequests?.length / ITEMS_PER_PAGE);
 
@@ -48,16 +59,16 @@ const Maintenance = ({tenantData}) => {
                 <th className="text-left pl-6">Tenant</th>
                 <th className="text-left pl-[-10px]">Subject</th>
                 <th className="text-left ">Status</th>
-        
+
               </tr>
             </thead>
             <tbody className="">
               {currentData?.map((Maindata) => (
                 <tr key={Maindata._id} className=" w-2 border-t-[1px] items-center">
                   <td className="flex items-center gap-1 mr-[-10px]  pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                  {data?.coverPhoto?.url === null ||
+                    {data?.coverPhoto?.url === null ||
                       data?.coverPhoto?.url === undefined ? (
-                        <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                      <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                         <EmptyAvatar />
                       </div>
                     ) : (
@@ -75,32 +86,36 @@ const Maintenance = ({tenantData}) => {
                     )}
                     <span className="py-[15px]">{data?.fullName}</span>
                   </td>
-                  <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                    {Maindata?.subject}
+                  <td
+                    onMouseEnter={() => handleMouseEnter(Maindata?._id)}
+                    onMouseLeave={handleMouseLeave}
+                    className="relative text-GrayHomz py-[15px] font-[500] text-[11px]">
+                    {truncateText(Maindata?.subject, 50)}
+                    {hoveredRow === Maindata?._id && (
+                      <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs sm:w-max">
+                        {Maindata?.subject}
+                      </span>
+                    )}
                   </td>
-
                   <td
                     className={`text-GrayHomz py-[15px]  font-[500]  text-[11px] w-44`}
                   >
                     <span
-                      className={`p-[6px] rounded-lg text-center ${
-                        Maindata?.status === "pending"
+                      className={`p-[6px] rounded-lg text-center ${Maindata?.status === "pending"
                           ? "bg-warningBg text-warning2 px-[18px]"
                           : ""
-                      } ${
-                        Maindata?.status === "resolved"
+                        } ${Maindata?.status === "resolved"
                           ? "bg-successBg text-Success px-4"
                           : ""
-                      } ${
-                        Maindata?.status === "in-progress"
+                        } ${Maindata?.status === "in-progress"
                           ? "bg-warning2  text-warningBg px-[10px]"
                           : ""
-                      }`}
+                        }`}
                     >
                       {Maindata?.status}
                     </span>
                   </td>
-                 
+
                 </tr>
               ))}
             </tbody>
