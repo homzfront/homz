@@ -75,7 +75,7 @@ const Tenants = () => {
 
 
   return (
-    <div className=" w-full p-8">
+    <div className=" w-full p-8 mb-8">
       {filterModal &&
         <div>
           <FilterMobile

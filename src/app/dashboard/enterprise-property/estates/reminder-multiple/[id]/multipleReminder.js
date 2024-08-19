@@ -12,7 +12,10 @@ import useEstateRentRemindersStore from "@/store/enterpriseStore/useEstateRentRe
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import api from "@/utils/api";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 const MultipleReminder = ({ ids }) => {
+    const router = useRouter();
     const { data, fetchData, error } = useEstateRentRemindersStore();
     const [toggleStates, setToggleStates] = useState({});
     const [selectedId, setSelectedId] = useState(null);
@@ -57,8 +60,9 @@ const MultipleReminder = ({ ids }) => {
                     ...prevState,
                     [id]: false,
                 }));
+                toast.success(`${data?.reminderDate} Deactivated`);
             } catch (error) {
-                toast.error('Error setting reminder')
+                toast.error('Failed to create rent reminders')
                 throw error;
             }
         } else {
@@ -79,9 +83,9 @@ const MultipleReminder = ({ ids }) => {
                     ...prevState,
                     [id]: false,
                 }));
-                return response;
+                toast.success(`${data?.reminderDate} Activated`)
             } catch (error) {
-                toast.error('Error setting reminder')
+                toast.error('Failed to create rent reminders')
                 throw error;
             }
         }
@@ -103,6 +107,12 @@ const MultipleReminder = ({ ids }) => {
         }
         return item;
     });
+
+    console.log(combinedData)
+
+    const routeToTenantPage = () => {
+        router.push("/dashboard/enterprise-property/tenants")
+    };
 
     return (
         <div className="flex flex-col gap-4">
@@ -171,13 +181,13 @@ const MultipleReminder = ({ ids }) => {
                         <p className={`text-GrayHomz text-[16px] font-[400] md:hidden`}>
                             Note that this feature can only be applied when you have set a rent due date for your tenant
                         </p>
-                        <button className="text-BlueHomz text-[14px] font-[500]">
+                        <button onClick={routeToTenantPage} className="text-BlueHomz text-[14px] font-[500]">
                             Set your tenant rent due date
                         </button>
                     </div>
                 </div>
                 <div className="flex flex-col gap-4">
-                    {combinedData?.map((data) => (
+                    {data?.reminder?.length > 0 && combinedData?.map((data) => (
                         <div key={data.id}>
                             <div className="w-full p-4 bg-walletBg border border-BlueHomz rounded-[8px]">
                                 <div className="flex flex-col md:flex-row items-center justify-between">
@@ -230,7 +240,7 @@ const MultipleReminder = ({ ids }) => {
                     ))}
                 </div>
                 <div className="w-full flex justify-end mt-4 mb-10">
-                    {
+                    {data?.reminder?.length > 0 && (
                         isAnyToggleActive ?
                             <button
                                 onClick={() => setOpenCompleted(true)}
@@ -241,7 +251,7 @@ const MultipleReminder = ({ ids }) => {
                             <button className="text-[14px] font-[500] w-[155px] bg-GrayHomz6 text-GrayHomz5 py-3 rounded-[4px]">
                                 Save settings
                             </button>
-                    }
+                    )}
                 </div>
             </div>
         </div >

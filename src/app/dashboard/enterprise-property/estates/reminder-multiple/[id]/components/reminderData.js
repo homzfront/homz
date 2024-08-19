@@ -6,7 +6,7 @@ const Data = [
     emailReminder: "Rent Reminder: Rent Due in 6 Months",
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
-    name: '6 Months',
+    name: '6 Months Reminder',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const Data = [
     emailReminder: "Rent Reminder: Rent Due in 3 Months",
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
-    name: '3 Months',
+    name: '3 Months Reminder',
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const Data = [
     emailReminder: "Rent Reminder: Rent Due in 1 Month",
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
-    name: '1 Month',
+    name: '1 Month Reminder',
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ const Data = [
     emailReminder: "Rent Reminder: Rent Due in 7 Days",
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
-    name: '7 Days',
+    name: '7 Days Reminder',
   },
   {
     id: 5,
