@@ -12,7 +12,6 @@ import useEstateRentRemindersStore from "@/store/enterpriseStore/useEstateRentRe
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import api from "@/utils/api";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 const MultipleReminder = ({ ids }) => {
     const router = useRouter();
@@ -107,8 +106,6 @@ const MultipleReminder = ({ ids }) => {
         }
         return item;
     });
-
-    console.log(combinedData)
 
     const routeToTenantPage = () => {
         router.push("/dashboard/enterprise-property/tenants")
