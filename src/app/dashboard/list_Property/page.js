@@ -15,7 +15,7 @@ import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/actionModal";
-import { Trykker } from "next/font/google";
+
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
@@ -30,7 +30,7 @@ const List_Property = () => {
   const [page, setPage] = useState(1);
   const [isLoading, setLoader] = useState(false);
   const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
-  const [loadingUpgradePromo, setLoaderUpgradePromo] = useState(false);
+  // const [loadingUpgradePromo, setLoaderUpgradePromo] = useState(false);
   const [isLoading2, setLoader2] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [promoteProperty, setPromotePropertry] = useState(false);
@@ -48,15 +48,16 @@ const List_Property = () => {
     (state) => state.setPropertyPlanType
   );
   const [openLimitModal, setLimitModal] = useState(false);
-  const [subsciptionStatus, setSubsciptionStatus] = useState([]);
-  var id = localStorage.getItem("prp_tygf2ty");
-  var plan = localStorage.getItem("prp_xry_pl#a$n");
+  // const [subsciptionStatus, setSubsciptionStatus] = useState([]);
   // console.log(id, type);
   // console.log(singlePropertyId)
+  var id = localStorage.getItem("prp_tygf2ty");
+  var plan = localStorage.getItem("prp_xry_pl#a$n");
   const handlePageNumber = (pageNumber) => {
     setPage(pageNumber);
     fetchData(pageNumber);
   };
+  
   useEffect(() => {
     fetchData(page);
     fetchProfile();

@@ -23,10 +23,10 @@ const MiniPropertyListings = ({
   // console.log(Properties);
   return (
     <div className={`w-full `}>
-      <div className="flex justify-between items-center w-full sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px]  sm:w-[235px] ">
-        {Properties?.map((property, index) => (
+      <div className="flex justify-between items-center flex-col w-full sm:grid sm:grid-cols-3  sm:gap-[16.43px] gap-[12px]  sm:w-full ">
+        {Properties && Properties.map((property, index) => (
           <div
-            className={`flex flex-col sm:w-[235px] h-fit rounded-[12px] shadow-md w-full`}
+            className={`flex flex-col sm:w-[235px] h-[340px] rounded-[12px] shadow-md w-full`}
             key={index}
           >
             <div

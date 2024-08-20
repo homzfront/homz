@@ -1,14 +1,15 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useTransition } from "react";
 import Image from "next/image";
 import { ThreeDots } from "react-loader-spinner";
-import { useForm } from "react-hook-form";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import { updateBusinessInfoLister } from "@/api/listingServices";
+// import { updateBusinessInfoLister } from "@/api/listingServices";
 import api from "@/utils/api";
 import TickSuccess from "@/components/icons/tickSuccess";
 import Link from "next/link";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
+import { useRouter } from "next/navigation";
 
 const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const [update, setUpdate] = useState(false);
@@ -28,13 +29,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const [certificateRemoved, setCertificateRemoved] = useState(false);
   const [removeCertificate, setRemoveCertificate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [otherLinksData, setOtherLinksData] = useState([]);
   const [businessName, setBusinessName] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
   const [businessEmail, setBusinessEmail] = useState("");
   const [businessWebsite, setBusinessWebsite] = useState("");
   const [businessDescription, setBusinessDescription] = useState("");
   const [openDocUpload, setOpenDocUpload] = useState(false);
-  const [whatsapp, setWhatsAppLink] = useState("");
   const [whatsappFormatted, setWhatsAppFormatted] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(null);
@@ -50,6 +51,16 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   });
   const [socialMedia, setSocialMediaLinks] = useState(socialMediaLinks);
   const [lastId, setLastId] = useState(socialMediaLinks.length);
+  const [loader, setLoader] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isPending) {
+      return setLoader(true);
+    }
+    setLoader(false);
+  }, [isPending]);
 
   const addLink = () => {
     const newId = lastId + 1;
@@ -84,20 +95,85 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
       });
     }
   };
-  // console.log(socialLinks);
 
+  // Ensure Business_Info and its properties are available
   useEffect(() => {
-    // Check if data and required properties are available
     if (Business_Info?.businessInfo) {
-      setBusinessName(Business_Info?.businessInfo?.businessName || "");
-      setBusinessEmail(Business_Info?.businessInfo?.businessEmail || "");
-      if (Business_Info?.businessInfo?.businessLogo?.url) {
+      // Destructure the relevant properties from Business_Info for easy access
+      const {
+        businessName = "",
+        businessEmail = "",
+        businessDescription = "",
+        businessAddress = "",
+        businessPhoneNo = "",
+        businessLogo = {},
+      } = Business_Info.businessInfo;
+  
+      const {
+        websiteUrl = "",
+        socialMediaLinks = {},
+      } = Business_Info;
+  
+      // Update business-related state variables
+      setBusinessName(businessName);
+      setBusinessEmail(businessEmail);
+      setBusinessDescription(businessDescription);
+      setBusinessWebsite(websiteUrl);
+      setBusinessAddress(businessAddress);
+      setPhoneNumber(businessPhoneNo);
+  
+      if (businessLogo?.url) {
         setFileUploaded(true);
-        setImageSrc(Business_Info?.businessInfo?.businessLogo?.url || "");
+        setImageSrc(businessLogo.url);
       }
-      // setLoading(false); // Set loading to false once data is available
+  
+      // Update social media links
+      const updatedSocialMediaLinks = socialMedia.map((link) => {
+        const { whatsappLink, facebookLink, twitterLink, instagramLink } = socialMediaLinks;
+        const linkMap = {
+          whatsAppLink: whatsappLink,
+          facebookLink: facebookLink,
+          twitterLink: twitterLink,
+          instagramLink: instagramLink,
+        };
+  
+        return {
+          ...link,
+          value: linkMap[link.name] || link.value,
+        };
+      });
+  
+      // Update the state with the new array of social media links
+      setSocialMediaLinks(updatedSocialMediaLinks);
+  
+      // Handle additional links (otherLinks)
+      const { otherLinks = [] } = socialMediaLinks;
+  
+      if (otherLinks.length > 0) {
+        const otherLinksArray = otherLinks.map((link, index) => ({
+          id: socialMedia.length + index + 1,
+          placeholder: "Type in link",
+          value: link, 
+          name: "otherLinks",
+        }));
+  
+        setSocialMediaLinks((prevSocialMedia) => {
+          // Filter out any existing otherLinks to avoid duplicates
+          const filteredPrevSocialMedia = prevSocialMedia.filter(
+            (link) => link.name !== "otherLinks"
+          );
+  
+          // Merge the new otherLinksArray without duplicates
+          return [...filteredPrevSocialMedia, ...otherLinksArray];
+        });
+      }
     }
   }, [Business_Info]);
+  
+  
+
+  // console.log(socialMedia);
+  // console.log(otherLinksData);
 
   const closeModal = () => {
     setRemoveCertificate(false);
@@ -228,13 +304,15 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     }
   };
 
-  const onSubmit = (typeOfAction) => {
-    const data = {
-      ...(businessName && { businessName }),
-      ...(businessEmail && { businessEmail }),
-      ...(businessLogo && { businessLogo }),
-    };
-    handleUpdate(data, typeOfAction);
+  const onSubmit = (user_id) => {
+  
+    if (!update) {
+      startTransition(() => {
+        router.push(`/marketer-business-page/${user_id}`);
+      });
+    } else {
+      handleUpdateData();
+    }
   };
   const handleUpdateData = () => {
     // mainSavedButton(true);
@@ -242,7 +320,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     const data = {};
     data.businessName = businessName;
     data.businessEmail = businessEmail;
-    data.phoneNumber = phoneNumber;
+    data.businessPhoneNo = phoneNumber;
     data.websiteUrl = businessWebsite;
     data.businessAddress = businessAddress;
     data.businessDescription = businessDescription;
@@ -259,8 +337,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const triggerFileInputClick = () => {
     setOpenDocUpload(true);
   };
+  
 
-  // console.log(socialMedia);
+  // console.log(socialLinks.othersLinks);
   // console.log(openDocUpload)
   // console.log(busCertSuccess)
 
@@ -458,6 +537,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               <input
                 type="text"
                 name="businessAddress"
+                value={businessAddress}
                 disabled={!update}
                 onChange={(e) => setBusinessAddress(e.target.value)}
                 placeholder="e.g OB 327, Sunny Place Plaza, Agege, Lagos"
@@ -478,6 +558,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               <input
                 type="text"
                 name="website"
+                value={businessWebsite}
                 disabled={!update}
                 onChange={(e) => setBusinessWebsite(e.target.value)}
                 placeholder="e.g www.Homz.ng"
@@ -530,7 +611,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       social.id === 1
                         ? isFocus
                           ? social.value
-                          : whatsappFormatted
+                          : whatsappFormatted || social.value
                         : social.value
                     }
                     disabled={!update}
@@ -568,8 +649,8 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               ))}
 
               {socialMedia.length > 4 &&
-                socialMedia.slice(4).map((media, index) => (
-                  <div key={index} className="relative space-y-2 h-fit">
+                socialMedia.slice(4).map((media) => (
+                  <div key={media.id} className="relative space-y-2 h-fit">
                     <input
                       type="text"
                       className="h-[45px] sm:w-[217px] md:p-[8px] rounded-[4px] pl-2 pr-10 border placeholder:text-[13px] w-[100%]"
@@ -587,30 +668,36 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       height={16}
                       disabled={!update}
                       className={`absolute top-4 transform -translate-y-1/2 right-1 ${
-                        update ? "hover:opacity-100" : ""
-                      } opacity-30  cursor-pointer `}
-                      onClick={() => {
-                        if (update) removeLink(media.id);
-                      }}
+                        update
+                          ? "hover:opacity-100 cursor-pointer"
+                          : "opacity-30"
+                      }`}
+                      onClick={() => update && removeLink(media.id)}
                     />
                   </div>
                 ))}
             </div>
           </div>
         </section>
-        <div className="sm:border-b pb-2 flex items-center gap-[16px] sm:flex-row flex-col mt-10 sm:mt-0">
-          <button
-            className="bg-[#006AFF] w-full  text-white rounded-[4px] border  h-[45px] text-center font-[500]"
+        <div className="sm:border-b pb-2 flex items-center justify-center gap-[16px] sm:flex-row flex-col mt-10 sm:mt-0">
+          {/* <button
+            className="bg-[#006AFF] text-white w-full   rounded-[4px] border  h-[45px] text-center font-[500]"
             onClick={() => onSubmit("promotePage")}
           >
             Promote my business page
-          </button>
-          <button
-            className="border-[#006AFF] w-full  text-[#006AFF] font-[500] rounded-[4px] border h-[45px] text-center text-[14px]"
-            onClick={() => onSubmit("viewPage")}
-          >
-            View my business page
-          </button>
+          </button> */}
+          {loader ? (
+            <div className="rounded-[4px] border h-[45px] flex justify-center items-center border-[#006AFF] w-full">
+              <ThreeDotsLoader color="#006AFF" />
+            </div>
+          ) : (
+            <button
+              className="border-[#006AFF] w-full  text-[#006AFF] font-[500] rounded-[4px] border h-[45px] text-center text-[14px] hover:bg-[#006AFF] hover:text-white"
+              onClick={() => onSubmit(Business_Info.user._id)}
+            >
+              View my business page
+            </button>
+          )}
         </div>
         <div className="md:w-full w-[100%] flex flex-col sm:gap-[14px] gap-[10px] pt-2 md:pt-5">
           <p className="text-[18px] font-[600] leading-[27px] text-left">
@@ -752,14 +839,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                         </p>
                       ) : (
                         <div className="editBtn px-[12px] rounded-[4px] py-[8px] h-[37px] flex items-center justify-center">
-                          <ThreeDots
-                            visible={true}
-                            height="30"
-                            width="30"
-                            color="#006AFF"
-                            radius="9"
-                            ariaLabel="three-dots-loading"
-                          />
+                          <ThreeDotsLoader color="#006AFF" />
                         </div>
                       )}
                     </div>

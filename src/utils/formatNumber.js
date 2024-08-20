@@ -1,6 +1,10 @@
 import React from "react";
 
 const FormatNumber = (phoneNumber) => {
+  if (phoneNumber == null) {
+    // Handle the case where phoneNumber is undefined or null
+    return "";
+  }
   const str = phoneNumber.toString();
 
   if (str.length !== 11 || !/^\d{11}$/.test(str)) {

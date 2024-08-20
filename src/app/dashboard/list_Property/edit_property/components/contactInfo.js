@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import _ from "lodash";
 
-const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
+const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setEditMode }) => {
   const [data, setData] = useState(null);
   const [phoneClicked, setPhoneClicked] = useState(false);
   const [emailClicked, setEmailClicked] = useState(false);
@@ -32,9 +32,10 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
     }));
   };
 
-  const onSubmit = () => {
-    handleUpdate(data);
+  const onSubmit = (e) => {
+    handleUpdate(e,data);
   };
+
   return (
     <div className="w-full">
       <div className=" flex flex-col md:w-full">

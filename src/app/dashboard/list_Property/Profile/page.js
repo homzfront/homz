@@ -42,6 +42,7 @@ const Profile = () => {
     setSuccessModalIsOpen(true);
   };
   const closeSuccessModal = () => {
+    fetchData();
     setSuccessModalIsOpen(false);
   };
   const handleSaved = async (e) => {
@@ -83,6 +84,7 @@ const Profile = () => {
   };
 
   const handleUpdateDetails = (data, typeOfAction) => {
+    console.log(data)
     setPersonalInfo(data);
     setTypeOfAction(typeOfAction);
     setSaveModalIsOpen(true);

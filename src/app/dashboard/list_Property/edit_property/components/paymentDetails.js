@@ -92,12 +92,8 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
   };
   // console.log(formData);
 
-  const onSubmit = () => {
-    if (data === null) {
-      setEditMode(false);
-    } else {
-      handleUpdate(data);
-    }
+  const onSubmit = (e) => {
+    handleUpdate(e,data);
   };
 
   return (

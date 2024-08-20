@@ -54,7 +54,7 @@ const ImageUpload = ({propertyData}) => {
             }`}
           >
             <Image
-              src={fileUploaded ? ImageSrc : propertyData?.lisitingPropertyId?.businessInfo?.businessLogo?.url ? propertyData.lisitingPropertyId.businessInfo.businessLogo.url :"/static/images/marketerDefaultImage.png"}
+              src={fileUploaded ? ImageSrc : propertyData?.businessLogo?.url ? propertyData.businessLogo.url :"/static/images/marketerDefaultImage.png"}
               alt="Marketer's Photo"
               className={"sm:w-[181px] md:h-[181px] h-full w-full rounded-[100%] cursor-pointer"}
               width={181}

@@ -21,6 +21,7 @@ const PropertyPhoto = ({
   // const [fileUploaded2, setFileUpload2] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [houses, setHouses] = useState(Array(10).fill(null));
+  const [numberOfHouses, setNumberOfHouses] = useState(Array(10).fill(null));
   const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
   const [imagesFiles, setImagesFiles] = useState([]);
@@ -29,6 +30,22 @@ const PropertyPhoto = ({
     instagramUrl: "",
   });
 
+  const deleteFile = (index) => {
+    const updatedData = [...houses];
+    const updatedFile = [...imagesFiles];
+    updatedFile.splice(index, 1);
+    updatedData[index] = null;
+    setHouses(updatedData);
+    setImagesFiles(updatedFile);
+  };
+  const deleteCoverPhoto = () => {
+    setImageScr(null);
+    setCoverPicture(null);
+    setFileUpload(false)
+
+
+  };
+  // console.log(imagesFiles);
   const submitData = () => {
     setVideoLinksData(videoLinks);
     setUploadedOtherPhotos(imagesFiles);
@@ -152,14 +169,26 @@ const PropertyPhoto = ({
                     accept="image/jpg, image/png, image/jpeg"
                   />
                   {fileUploaded ? (
-                    <Image
-                      onClick={uploadCoverPhoto}
-                      src={fileUploaded && ImageSrc}
-                      alt="Cover  Photo"
-                      className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
-                      width={120}
-                      height={120}
-                    />
+                    <>
+                      <Image
+                        onClick={uploadCoverPhoto}
+                        src={fileUploaded && ImageSrc}
+                        alt="Cover  Photo"
+                        className=" relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                        width={120}
+                        height={120}
+                      />
+                      {fileUploaded && (
+                        <Image
+                          src={"/trush-square.png"}
+                          height={24}
+                          width={24}
+                          className="cursor-pointer mt-2 absolute z-10 bottom-[18px] sm:bottom-[-58px]"
+                          alt="img"
+                          onClick={deleteCoverPhoto}
+                        />
+                      )}
+                    </>
                   ) : (
                     <Image
                       onClick={uploadCoverPhoto}
@@ -184,6 +213,7 @@ const PropertyPhoto = ({
                 uploadFile2={uploadFile2}
                 errorMsg={errorMsg}
                 fileUploads={fileUploads}
+                deleteFile={deleteFile}
               />
             </div>
           </div>
@@ -221,14 +251,26 @@ const PropertyPhoto = ({
                       accept="image/jpg, image/png, image/jpeg"
                     />
                     {house ? (
-                      <Image
-                        onClick={() => uploadFile2(index)}
-                        src={house}
-                        alt="photos"
-                        className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
-                        width={120}
-                        height={120}
-                      />
+                      <>
+                        <Image
+                          onClick={() => uploadFile2(index)}
+                          src={house}
+                          alt="photos"
+                          className="relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                          width={120}
+                          height={120}
+                        />
+                        {house && (
+                          <Image
+                            src={"/trush-square.png"}
+                            height={24}
+                            width={24}
+                            className="cursor-pointer  absolute z-10 bottom-[-58px]"
+                            alt="img"
+                            onClick={() => deleteFile(index)}
+                          />
+                        )}
+                      </>
                     ) : (
                       <Image
                         src={add}
@@ -257,6 +299,7 @@ const PropertyPhoto = ({
               errorMsg={errorMsg}
               fileUploads={fileUploads}
               secondDisplay={true}
+              deleteFile={deleteFile}
             />
           </div>
         </div>

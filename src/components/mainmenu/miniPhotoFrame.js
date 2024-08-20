@@ -10,6 +10,7 @@ const MiniPhotoFrame = ({
   fileUploads,
   secondDisplay,
   editMode,
+  deleteFile
 }) => {
   const mapHouse = secondDisplay ? houses.slice(2) : houses.slice(0, 2);
 
@@ -54,19 +55,30 @@ const MiniPhotoFrame = ({
                   accept="image/jpg, image/png, image/jpeg"
                 />
                 {house ? (
-                  <Image
-                    onClick={() => {
-                      if (!editMode) {
-                        uploadFile2(actualIndex);
-                      }
-
-                    }}
-                    src={house?.url || house}
-                    alt="photos"
-                    className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
-                    width={120}
-                    height={120}
-                  />
+                  <>
+                    <Image
+                      onClick={() => {
+                        if (!editMode) {
+                          uploadFile2(actualIndex);
+                        }
+                      }}
+                      src={house?.url || house}
+                      alt="photos"
+                      className="relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                      width={120}
+                      height={120}
+                    />
+                    {house && (
+                      <Image
+                        src={"/trush-square.png"}
+                        height={24}
+                        width={24}
+                        className="cursor-pointer mt-2 absolute z-10 bottom-[-21px]"
+                        alt="img"
+                        onClick={() => deleteFile(actualIndex)}
+                      />
+                    )}
+                  </>
                 ) : (
                   <Image
                     src={add}
@@ -83,7 +95,7 @@ const MiniPhotoFrame = ({
                     src="/static/images/whiteCamera.svg"
                     alt="Cover Photo"
                     className={`rounded-[14.13px] absolute left-[30px] top-[30px] ${
-                      (house?.url || house) ? "inline-block" :"hidden"
+                      house?.url || house ? "inline-block" : "hidden"
                     }`}
                     width={40}
                     height={40}

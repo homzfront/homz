@@ -23,16 +23,16 @@ import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import MinPrice from "@/components/mainmenu/minPrice";
 import Listing from "@/components/mainmenu/listing";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 
 const MarketerBusinessPage = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
-  const [filteredData, setFilteredData] = useState(null);
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [tabName, setTabName] = useState("properties");
-  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [selectedProperty, setSelectedProperty] = useState("");
   const [currentUser, setCurrentUser] = useState("");
-  const [selectedState, setSelectedState] = useState(null);
-  const [selectedRooms, setSelectedRooms] = useState(null);
+  // const [selectedState, setSelectedState] = useState(null);
+  const [selectedRooms, setSelectedRooms] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [properties, setProperties] = useState(null);
@@ -40,7 +40,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const [currentPage, setCurrentPage] = useState("1");
   const [propertyData, setPropertyData] = useState(null);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  const [paramss, setParams] = useState(false);
+  const [params, setParams] = useState(false);
   const urlParams = useSearchParams();
   const [filters, setFilters] = useState({
     search: urlParams.get("search") || null,
@@ -50,15 +50,41 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     maxPrice: parseInt(urlParams.get("maxPrice")) || null,
     numberOfBathrooms: parseInt(urlParams.get("numberOfBathrooms")) || null,
   });
+  const { data, fetchData } = useProfileListingMe();
+  // /properties/user/me?numberOfBathrooms=20&propertyType=duplex
+
+ 
+  const fetchPropertyData = async (url) => {
+    try {
+      const response = await api.get(url);
+      let dataResult = response.data.data.results[0].data;
+      // console.log(dataResult);
+      const total = dataResult.length || 0;
+      setTotalPages(Math.ceil(total / 9));
+      setProperties(dataResult);
+      return dataResult;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+  useEffect(() => {
+    fetchPropertyData("/properties/user/me");
+    fetchData();
+  }, [fetchData]);
+
+  // console.log(propertyDataStore);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const user = urlParams.get("user");
     setCurrentUser(user);
   }, []);
+
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
   };
+
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
@@ -82,17 +108,21 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   };
   const [loading, setLoading] = useState(true);
   const reset = () => {
-    setFilters({
-      search: "",
-      propertyType: null,
-      listingType: null,
-      minPrice: null,
-      maxPrice: null,
-      numberOfBathrooms: null,
-      state: null,
-    });
+    setSearchQuery("");
+    setSelectedProperty("");
+    setSelectedRooms("");
+    fetchPropertyData("/properties/user/me");
+    // setFilters({
+    //   search: "",
+    //   propertyType: '',
+    //   numberOfBathrooms: "",
+    //   listingType: "",
+    //   minPrice: "",
+    //   maxPrice: "",
+    //   state: "",
+    // });
     // setCurrentPage(1);
-    setParams(true);
+    // setParams(true);
   };
 
   const handleSharePage = async () => {
@@ -144,26 +174,6 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     }
   }, [combinedData]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await api.get(`/public/properties/others`);
-      const propertyData = response?.data?.data || null;
-      // console.log(propertyData)
-      const total = propertyData.length || 0;
-      setTotalPages(Math.ceil(total / 9));
-      setProperties(propertyData);
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
-
-  const clear = () => {
-    setSelectedProperty(null);
-    setSelectedRooms(null);
-    setSearchQuery("");
-    setFilteredData(property);
-  };
   const firstThreePages = Array.from({ length: 3 }, (_, i) => i + 1);
   const lastThreePages = Array.from(
     { length: totalPages - 1 },
@@ -176,58 +186,44 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
-    // setParams(true);
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
     }
-    // setParams(true);
   };
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
-    // setParams(true);
   };
-  const linkToSearch = () => {
-    router.push("/user_homepage/PropertyListing");
-  };
+
   const options3 = [...new Set(properties?.map((item) => item?.propertyType))];
 
   const options4 = [
     ...new Set(properties?.map((item) => item?.numberOfBathrooms)),
   ];
-  const handleSearch2 = (query, label) => {
-    handleFilterChange(label, query);
-    setParams(true);
-  };
+
   const handleSearch = () => {
     setIsLoading(true);
+    let query = `/properties/user/me?numberOfBathrooms=${
+      selectedRooms && selectedRooms
+    }&propertyType=${selectedProperty && selectedProperty}&state=${
+      searchQuery && searchQuery
+    }`;
     setTimeout(async () => {
       try {
-        // const filteredData = properties?.filter((data) => {
-        //   const matchesState = !selectedState || data?.state === selectedState;
-        //   const matchesArea = !selectedArea || data?.area === selectedArea;
-        //   const matchesSearchQuery =
-        //     !searchQuery ||
-        //     data?.location.state
-        //       .toLowerCase()
-        //       .includes(searchQuery.toLowerCase()) ||
-        //     data?.location.area
-        //       .toLowerCase()
-        //       .includes(searchQuery.toLowerCase());
-        //   const bathrooms =
-        //     !selectedRooms || data?.numberOfBathrooms === selectedRooms;
-        //   return matchesState && matchesArea && matchesSearchQuery && bathrooms;
-        // });
-        // setFilteredData(filteredData);
-        setIsLoading(false);
-        router.push(link());
+        const filteredData = await fetchPropertyData(query);
+        // console.log(filteredData)
+        if (filteredData.response.data.success === false) {
+          return;
+        }
+        setTotalPages(Math.ceil(filteredData.length / 9));
+        setProperties(filteredData);
       } catch (error) {
         console.error(error);
-        setIsLoading(false);
       }
+      setIsLoading(false);
     }, 2000);
   };
   const link = () => {
@@ -250,7 +246,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
       {loading ? (
         <LoadingII />
       ) : (
-        propertyData && (
+        data && (
           <div className="w-full pt-10 md:pt-8 pb-1 md:px-[70px] px-5">
             <div className="w-full  sm:flex md:justify-between items-center gap-[4rem] md:gap-0">
               <div
@@ -331,21 +327,18 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                   width={1024}
                   height={347}
                   className={`rounded-[12px] sm:object-cover w-full sm:h-full h-[173px]`}
-                  // layout="full" // Specify the desired height
-                  // objectFit="cover"
-                  // objectPosition="center"
                   quality={100}
                   priority
                 />
               </div>
               <div className="absolute z-50 sm:top-[257px] sm:left-[32px] top-[127px] left-[15px]">
-                <MarketerImage propertyData={propertyData && propertyData} />
+                <MarketerImage propertyData={data && data?.businessInfo} />
               </div>
               {/* <div className="  w-[100%] flex items-center gap-5"> */}
               <div className="flex items-center sm:justify-between justify-end  w-full sm:pl-[225px] py-2 h-fit">
                 <div className="hidden sm:flex items-start flex-col gap-[5px]">
                   <p className="text-[32px] text-[#4E4E4E] font-[700] leading-[45.36px]">
-                    [Marketer’s Business Name]
+                    {data?.businessInfo?.businessName}
                   </p>
                   <p className="text-[18px] text-[#4E4E4E] font-[500] leading-[30px]">
                     Marketer
@@ -421,7 +414,9 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                     className="border h-[37px] pl-8 rounded-[4px] w-full text-[14px] font-[500]"
                     id="search"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) =>
+                      setSearchQuery(capitalizeFirstLetter(e.target.value))
+                    }
                     placeholder="Search"
                   />
                   <Image
@@ -439,7 +434,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                     options={options3}
                     onSelect={(option) => setSelectedProperty(option)}
                     selectOption={
-                      selectedProperty === null
+                      selectedProperty === ""
                         ? "Property Type"
                         : selectedProperty
                     }
@@ -453,7 +448,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                     options={options4}
                     onSelect={(option) => setSelectedRooms(option)}
                     selectOption={
-                      selectedRooms === null ? "Bedroom" : selectedRooms
+                      selectedRooms === "" ? "Bedroom" : selectedRooms
                     }
                     className={
                       "w-[148px] text-[14px] font-[500] text-GrayHomz2"
@@ -471,17 +466,33 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                     <ThreeDots color="#ffffff" />
                   )}
                 </button>
+                <button
+                  className="border w-fit px-[12px] py-[8px] h-[37px] border-[#006AFF] text-[#006AFF] gap-1 items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer "
+                  onClick={reset}
+                >
+                  <span>
+                    <Image
+                      src={"/static/images/clear-Blue-repeat.svg"}
+                      alt=""
+                      height={17}
+                      width={16}
+                    />
+                  </span>
+                </button>
               </div>
             </section>
             <div className="sm:hidden mt-8">
-              <OwnersCard propertyData={propertyData && propertyData} />
+              <OwnersCard
+                propertyData={propertyData && propertyData}
+                data={data}
+              />
             </div>
             <section className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-[30px] mt-8 w-full">
               <div className=" w-[100%] flex flex-col gap-[12p] ">
                 {tabName === "properties" && (
                   <div className="w-full">
                     <MiniPropertyListings
-                      reset={linkToSearch}
+                      // reset={linkToSearch}
                       setLoadingII={setLoading}
                       Properties={properties}
                       padding={"md:px-0"}
@@ -498,17 +509,20 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                 {tabName === "profile" && (
                   <div className="w-full flex flex-col gap-[24px]">
                     <p className="sm:text-[18px] font-[500] leading-[27px]">
-                      About [Marketer’s Business Name]
+                      About {data?.businessInfo?.businessName}
                     </p>
                     <p className="break-words leading-[24px] font-[400] sm:text-[16px] text-[14px]">
-                      {word}
+                      {data?.businessInfo?.businessDescription}
                     </p>
                   </div>
                 )}
               </div>
               <div className="flex flex-col  gap-[24px]">
                 <div className="hidden sm:block">
-                  <OwnersCard propertyData={propertyData && propertyData} />
+                  <OwnersCard
+                    propertyData={propertyData && propertyData}
+                    data={data}
+                  />
                 </div>
                 {tabName === "properties" && (
                   <>
@@ -631,7 +645,44 @@ const MarketerBusinessPage = ({ PropertyID }) => {
 
 export default MarketerBusinessPage;
 
-let word = `Lorem ipsum dolor sit amet consectetur. Diam quis enim congue congue. Et sapien libero vitae adipiscing. Integer metus enim mi mauris donec scelerisque nisi ut. Sed felis ut tempor egestas nibh. Luctus leo aliquet mauris faucibus tristique. Faucibus bibendum massa nisl consectetur id massa ornare. Felis ultricies in sit elementum. Adipiscing sapien enim placerat mauris ultrices id. Magna vulputate aliquam eget mattis faucibus cursus mattis scelerisque. Aliquet viverra aliquam imperdiet libero dignissim a aliquet duis. Aliquet volutpat bibendum amet dignissim enim dictumst justo.
-Elementum eu duis amet ullamcorper morbi. Consequat vel placerat magna scelerisque vestibulum. Pellentesque vitae enim massa porta amet vulputate sit. In lacinia diam nulla morbi pellentesque lobortis. Semper eget in maecenas consequat amet vestibulum. Pellentesque elit eu pretium cursus vestibulum dictum id. In aliquam interdum convallis at. Nullam ut ligula ipsum at commodo feugiat rhoncus. Facilisis donec aliquam pretium leo non.
-Nulla euismod nunc eget in vitae in tristique mattis. Ut odio congue lorem aliquam cursus varius lectus. Vitae dolor nascetur ac quam. Laoreet diam nibh viverra pharetra proin suspendisse lobortis nulla tempus. Ultricies donec sit non pellentesque aliquet egestas mattis.
-`;
+// let word = `Lorem ipsum dolor sit amet consectetur. Diam quis enim congue congue. Et sapien libero vitae adipiscing. Integer metus enim mi mauris donec scelerisque nisi ut. Sed felis ut tempor egestas nibh. Luctus leo aliquet mauris faucibus tristique. Faucibus bibendum massa nisl consectetur id massa ornare. Felis ultricies in sit elementum. Adipiscing sapien enim placerat mauris ultrices id. Magna vulputate aliquam eget mattis faucibus cursus mattis scelerisque. Aliquet viverra aliquam imperdiet libero dignissim a aliquet duis. Aliquet volutpat bibendum amet dignissim enim dictumst justo.
+// Elementum eu duis amet ullamcorper morbi. Consequat vel placerat magna scelerisque vestibulum. Pellentesque vitae enim massa porta amet vulputate sit. In lacinia diam nulla morbi pellentesque lobortis. Semper eget in maecenas consequat amet vestibulum. Pellentesque elit eu pretium cursus vestibulum dictum id. In aliquam interdum convallis at. Nullam ut ligula ipsum at commodo feugiat rhoncus. Facilisis donec aliquam pretium leo non.
+// Nulla euismod nunc eget in vitae in tristique mattis. Ut odio congue lorem aliquam cursus varius lectus. Vitae dolor nascetur ac quam. Laoreet diam nibh viverra pharetra proin suspendisse lobortis nulla tempus. Ultricies donec sit non pellentesque aliquet egestas mattis.
+// `;
+// const filteredData = properties?.filter((data) => {
+//   const matchesState = !selectedState || data?.state === selectedState;
+//   const matchesArea = !selectedArea || data?.area === selectedArea;
+//   const matchesSearchQuery =
+//     !searchQuery ||
+//     data?.location.state
+//       .toLowerCase()
+//       .includes(searchQuery.toLowerCase()) ||
+//     data?.location.area
+//       .toLowerCase()
+//       .includes(searchQuery.toLowerCase());
+//   const bathrooms =
+//     !selectedRooms || data?.numberOfBathrooms === selectedRooms;
+//   return matchesState && matchesArea && matchesSearchQuery && bathrooms;
+// });
+// console.log(filteredData);
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     setLoading(true);
+//     const response = await api.get(`/public/properties/others`);
+//     const propertyData = response?.data?.data || null;
+//     // console.log(propertyData)
+//     const total = propertyData.length || 0;
+//     setTotalPages(Math.ceil(total / 9));
+//     // setProperties(propertyData);
+//     setLoading(false);
+//   };
+//   fetchData();
+// }, []);
+
+// const clear = () => {
+//   setSelectedProperty(null);
+//   setSelectedRooms(null);
+//   setSearchQuery("");
+//   setFilteredData(property);
+// };

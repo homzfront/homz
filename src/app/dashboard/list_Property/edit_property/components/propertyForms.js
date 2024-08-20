@@ -35,7 +35,7 @@ const PropertyForms = ({ propertyData }) => {
   const [savePhotosUpdate, setSavePhotosUpdate] = useState(false);
   const [saveContactUpdate, setSaveContactUpdate] = useState(false);
 
-  const router= useRouter();
+  const router = useRouter();
   const closeModal = () => {
     setSaveModalIsOpen(false);
     setSuccessModalIsOpen(true);
@@ -107,7 +107,7 @@ const PropertyForms = ({ propertyData }) => {
           setEditMode(false);
           setForm(null);
           setFormII(null);
-          setFormIII(null);
+          // setFormIII(null);
           setFormIV(null);
         } else {
           // toast.error(error);
@@ -153,17 +153,20 @@ const PropertyForms = ({ propertyData }) => {
 
   useBodyScroll([loading]);
 
-  const updatePropertyDetail = (data) => {
+  const updatePropertyDetail = (e, data) => {
+    e.preventDefault()
     setSaveModalIsOpen(true);
     setForm(data);
   };
 
-  const updatePropertyDetailII = (data) => {
+  const updatePropertyDetailII = (e,data) => {
+    e.preventDefault()
     setSaveModalIsOpen(true);
     setFormII(data);
   };
 
-  const updatePropertyDetailIV = (data) => {
+  const updatePropertyDetailIV = (e,data) => {
+    e.preventDefault()
     setSaveModalIsOpen(true);
     setFormIV(data);
   };
@@ -203,10 +206,10 @@ const PropertyForms = ({ propertyData }) => {
     if (savePropertyUpdate || savePaymentUpdate || saveContactUpdate) {
       setSaveModalIsOpen(true);
     } else {
-    setActiveThree(true);
-    setActiveTwo(false);
-    setPropertyInfoActive(false);
-    setActiveFour(false);
+      setActiveThree(true);
+      setActiveTwo(false);
+      setPropertyInfoActive(false);
+      setActiveFour(false);
     }
   };
 
@@ -331,6 +334,7 @@ const PropertyForms = ({ propertyData }) => {
             handleUpdate={updatePropertyDetail}
             setSaveUpdate={setSavePropertyUpdate}
             saveUpdate={savePropertyUpdate}
+            setEditMode={setEditMode}
           />
         </div>
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
@@ -339,13 +343,17 @@ const PropertyForms = ({ propertyData }) => {
             handleUpdate={updatePropertyDetailII}
             setSaveUpdate={setSavePaymentUpdate}
             saveUpdate={savePaymentUpdate}
+            setEditMode={setEditMode}
           />
         </div>
         <div className={`${activeThree ? "inline" : "hidden"} w-full`}>
-          <PropertyPhoto data={propertyData}
-          setSaveUpdate={setSavePhotosUpdate}
-          setSaveModalIsOpen={setSaveModalIsOpen}
-          saveUpdate={savePhotosUpdate} />
+          <PropertyPhoto
+            data={propertyData}
+            setSaveUpdate={setSavePhotosUpdate}
+            setSaveModalIsOpen={setSaveModalIsOpen}
+            saveUpdate={savePhotosUpdate}
+            setEditMode={setEditMode}
+          />
         </div>
         <div className={`${activeFour ? "inline" : "hidden"} w-full`}>
           <ContactInfo
@@ -353,6 +361,7 @@ const PropertyForms = ({ propertyData }) => {
             handleUpdate={updatePropertyDetailIV}
             setSaveUpdate={setSaveContactUpdate}
             saveUpdate={saveContactUpdate}
+            setEditMode={setEditMode}
           />
         </div>
       </div>

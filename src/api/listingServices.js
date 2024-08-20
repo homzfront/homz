@@ -3,7 +3,7 @@ import api from "@/utils/api";
 export const listingMe = async () => {
   try {
     const response = await api.get("/listingProperty/me");
-    console.log(response)
+    // console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -39,13 +39,17 @@ export const updatePersonalInfoLister = async (data) => {
 
 
 export const updateBusinessInfoLister = async (data) => {
-  // console.log(data)
+ 
   const formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
-    if (value) {
+   
+    if (value && key !="otherLinks") {
       formData.append(key, value);
     }
   }
+  data?.otherLinks.forEach((link, index) => {
+    formData.append(`otherLinks[${index}]`, link);
+  });
   // console.log([...formData.entries()])
   try {
     const headers = {

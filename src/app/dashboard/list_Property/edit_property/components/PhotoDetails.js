@@ -18,6 +18,7 @@ const PropertyPhoto = ({
   setSaveModalIsOpen,
   setSaveUpdate,
   saveUpdate,
+  setEditMode
 }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
@@ -164,6 +165,9 @@ const PropertyPhoto = ({
     setSaveModalIsOpen(true);
 
   }
+  const onSubmit = (e) => {
+    handleUpdate(e,data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

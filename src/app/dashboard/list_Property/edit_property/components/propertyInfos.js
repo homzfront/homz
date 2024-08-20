@@ -11,6 +11,7 @@ const PropertyInfo = ({
   handleUpdate,
   setSaveUpdate,
   saveUpdate,
+  setEditMode
 }) => {
   // console.log(property);
   const [areas, setAreas] = useState([]);
@@ -136,12 +137,13 @@ const PropertyInfo = ({
     // }
   };
 
-  const onSubmit = () => {
-    if (data === null) {
-      setEditMode(false);
-    } else {
-      handleUpdate(data);
-    }
+  const onSubmit = (e) => {
+    // if (data === null) {
+    //   setEditMode(false);
+    //   console.log("No data")
+    // } else {
+    // }
+    handleUpdate(e,data);
   };
 
   const fetchAreas = async (stateSelected) => {
@@ -157,12 +159,12 @@ const PropertyInfo = ({
   // console.log("formData",formData);
   // console.log("original",originalFormData);
   // console.log(saveUpdate);
-
+// 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between flex-col md:flex-row ">
         <form
-          onSubmit={onSubmit}
+          // onSubmit={onSubmit}
           className=" flex flex-col sm:w-full sm:gap-[20px] gap-[17px]"
         >
           <div>

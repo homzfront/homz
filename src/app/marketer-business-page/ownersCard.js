@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import formatNumber from "@/utils/formatNumber";
 
-const OwnersCard = ({ propertyData }) => {
+const OwnersCard = ({ data }) => {
   const [copiedState, setCopiedState] = useState({
     phoneNumber: false,
     email: false,
     whatsAppNumber: false,
   });
   const [showNumber, setShowNumber] = useState(false);
-  //   console.log(propertyData)
+  // console.log(propertyData);
   const handleCopyClick = async (text, identifier) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -27,11 +27,24 @@ const OwnersCard = ({ propertyData }) => {
       // console.error("Unable to copy to clipboard:", error);
     }
   };
-  const viewFile = (url) => {
-    if (url) {
-      window.open(url);
+  const viewLinks = (url) => {
+    if (url && typeof url === 'string' && url.trim() !== "") {
+      if (!url.startsWith('https://') && !url.startsWith('https://www.')) {
+        url = `https://www.${url}`;
+      }
+  
+      try {
+        window.open(url, '_blank', 'noopener,noreferrer');
+        // console.log(url);
+      } catch (error) {
+        console.error("Failed to open the link:", error);
+      }
+    } else {
+      console.warn("Invalid URL:", url);
     }
   };
+  
+
   return (
     <div
       className=" flex flex-col gap-[15px] sm:gap-[24px] md:h-fit border rounded-[12px] sm:p-[20px] py-[20px] px-[13px] w-[100%]"
@@ -47,9 +60,7 @@ const OwnersCard = ({ propertyData }) => {
         </p>
         <div className="  flex items-center gap-5 sm:gap-6 w-[180px]">
           <p className="text-[#006AFF] sm:text-[13px] leading-[16.5px] text-[12px] font-[400] sm:leading-[19.5px]">
-            {showNumber
-              ? propertyData?.contacts?.phoneNumber
-              : formatNumber(propertyData?.contacts?.phoneNumber)}
+            {showNumber ? data?.phoneNumber : formatNumber(data?.phoneNumber)}
           </p>
           <button
             className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
@@ -64,7 +75,7 @@ const OwnersCard = ({ propertyData }) => {
           Business Address
         </p>
         <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] text-left w-[180px]">
-          OB 327, Sunny Place Plaza, Agege, Lagos
+          {data?.businessInfo?.businessAddress}
         </p>
       </div>
       <div className="flex justify-between items-center h-[25px]">
@@ -72,7 +83,7 @@ const OwnersCard = ({ propertyData }) => {
           Website
         </p>
         <p className="text-[#006AFF] font-[400] sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] text-left w-[180px]">
-          www.websiteaddress.com
+          {data?.websiteUrl}
         </p>
       </div>
       <div className="flex justify-between items-center h-[25px]">
@@ -87,29 +98,33 @@ const OwnersCard = ({ propertyData }) => {
               alt=""
               height={22}
               width={22}
-              className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+              className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+              onClick={() => viewLinks(data?.socialMediaLinks?.whatsappLink)}
             />
           </span>
           <Image
             src={"/static/images/facebook.svg"}
             alt=""
-            height={22}
+            height={20}
             width={22}
-            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+            onClick={() => viewLinks(data?.socialMediaLinks?.facebookLink)}
           />
           <Image
             src={"/static/images/x.svg"}
             alt=""
-            height={22}
+            height={20}
             width={22}
-            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+            onClick={() => viewLinks(data?.socialMediaLinks?.twitterLink)}
           />
           <Image
             src={"/static/images/instagram.svg"}
             alt=""
-            height={22}
+            height={20}
             width={22}
-            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+            className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+            onClick={() => viewLinks(data?.socialMediaLinks?.instagramLink)}
           />
         </p>
       </div>
@@ -118,20 +133,21 @@ const OwnersCard = ({ propertyData }) => {
           Other links
         </p>
         <p className="flex flex-wrap  justify-between">
-          {otherLinks.map((links, index) => (
-            <p
-              className="text-[#006AFF]  font-[400] sm:text-[13px] leading-[16.5px] text-[11px] sm:leading-[19.5px] flex gap-1 items-center sm:gap-2"
+          {data?.socialMediaLinks?.otherLinks.map((links, index) => (
+            <button
+              className="text-[#006AFF]  font-[400] sm:text-[13px] leading-[16.5px] text-[11px] sm:leading-[19.5px] flex gap-1 items-center sm:gap-2 cursor-pointer"
               key={index}
+              onClick={() => viewLinks(links)}
             >
               <Image
                 src={"/static/images/link.svg"}
                 alt=""
                 height={13}
                 width={13}
-                  className="sm:w-[13px] sm:h-[13px] w-[11px] h-[11px]"
+                className="sm:w-[13px] sm:h-[13px] w-[11px] h-[11px]"
               />
               <span>{links}</span>
-            </p>
+            </button>
           ))}
         </p>
       </div>
