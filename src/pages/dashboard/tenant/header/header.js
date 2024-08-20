@@ -65,7 +65,6 @@ const Header = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-
   const { data: noti, loading: laodingNoti, fetchData: fetchNoti } = tenantNotiReceive();
 
   useEffect(() => {

@@ -12,12 +12,12 @@ const PopNotification = ({ selectedId, closeMenu }) => {
 
   return (
     <div>
-      <div className="absolute top-0 z-50 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
-        <div className="h-[410px] w-[816px] bg-white rounded-lg">
-          <div className="border-b flex justify-between items-center py-8">
-            <div className="px-8">
-              <div className="flex gap-8 items-center">
-                <div className="rounded-full shadow-md p-2">
+      <div className="absolute top-0 z-50 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
+        <div className="md:h-[410px] md:w-[816px] bg-white rounded-lg pt-2 md:pt-0">
+          <div className="border-b flex justify-between md:items-center pt-4 md:pt-0 py-4 md:py-8">
+            <div className="md:px-8 px-4">
+              <div className="flex md:gap-8 md:items-center">
+                <div className="rounded-full w-[30%] md:shadow-md md:p-2 md:w-auto">
                   {
 
                     data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ?
@@ -36,7 +36,7 @@ const PopNotification = ({ selectedId, closeMenu }) => {
                       <Image src="/static/dashboard/enterprisemanager/notification/AvatarEmpty.png" alt="" height={40} width={40} />
                   }
                 </div>
-                <div>
+                <div className='w-[70%] md:w-auto'>
                   <p className="text-[16px] font-[600] text-BlackHomz">
                     {data?.subject}
                   </p>
@@ -63,7 +63,7 @@ const PopNotification = ({ selectedId, closeMenu }) => {
               </div>
             </div>
           </div>
-          <p className="text-[16px] font-[400] text-GrayHomz p-8">
+          <p className="text-[16px] text-justify font-[400] text-GrayHomz mb-1 md:mb-0 p-4 md:p-8">
             {data?.message}
           </p>
         </div>
