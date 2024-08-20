@@ -14,7 +14,7 @@ const PopNotification = ({ selectedId, closeMenu }) => {
     <div>
       <div className="absolute top-0 z-50 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
         <div className="md:h-[410px] md:w-[816px] bg-white rounded-lg pt-2 md:pt-0">
-          <div className="border-b flex justify-between md:items-center pt-4 md:pt-0 py-4 md:py-8">
+          <div className="border-b flex justify-between md:items-center pt-4 md:pt-8 pb-4 md:pb-8">
             <div className="md:px-8 px-4">
               <div className="flex md:gap-8 md:items-center">
                 <div className="rounded-full w-[30%] md:shadow-md md:p-2 md:w-auto">
