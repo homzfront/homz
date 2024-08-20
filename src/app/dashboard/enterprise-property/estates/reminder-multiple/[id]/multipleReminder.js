@@ -92,7 +92,7 @@ const MultipleReminder = ({ ids }) => {
     };
 
     const combinedData = Data.map((item) => {
-        const correspondingItem = data?.reminder?.find((d) => d.name === item.name);
+        const correspondingItem = data?.reminder?.find((d) => d.name === item.name || d.name === item.name2);
         if (correspondingItem) {
             return {
                 ...item,

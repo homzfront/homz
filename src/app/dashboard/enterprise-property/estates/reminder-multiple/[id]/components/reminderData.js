@@ -7,6 +7,7 @@ const Data = [
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
     name: '6 Months Reminder',
+    name2: '6 Months'
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ const Data = [
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
     name: '3 Months Reminder',
+    name2: '3 Months'
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ const Data = [
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
     name: '1 Month Reminder',
+    name2: '1 Month'
   },
   {
     id: 4,
@@ -34,6 +37,7 @@ const Data = [
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
     name: '7 Days Reminder',
+    name2: '7 Days'
   },
   {
     id: 5,
