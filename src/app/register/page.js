@@ -1,18 +1,18 @@
 "use client";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
-import Loading from "@/components/mainmenu/loading";
+import "dotenv/config";
 import SliderAuth from "@/components/auth/slider";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import ReCaptcha from "@/components/auth/reCaptcha";
+import axios from "axios";
 
 const Register = () => {
   const router = useRouter();
@@ -68,8 +68,22 @@ const Register = () => {
       });
 
       if (response.data.statuscode === 201) {
-        // toast.success("user created, verify your email.");
-        // Handle the response as needed
+        const mailchimpData = {
+          'email_address': formData.email,
+          'status': 'subscribed'
+        };
+
+        // Use axios instead of fetch
+        const mailchimpResponse = await axios.post(`https://us22.api.mailchimp.com/3.0/lists/ae061dd532/members/`,
+          mailchimpData,
+          {
+            headers: {
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MAILCHIMP}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
         const data = response?.data?.data?.token
         localStorage.setItem('jwt', data)
         router.push(`/verify-email`);

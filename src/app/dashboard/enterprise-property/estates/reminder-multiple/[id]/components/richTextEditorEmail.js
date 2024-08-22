@@ -11,12 +11,24 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
   const [editorHtml, setEditorHtml] = useState(text);
   const [charCount, setCharCount] = useState(text.length);
   const options = [
-    "[Tenant’s First Name]", "[Tenant’s Full Name]", "[Tenant’s Address]",
-    "[Rent Due]", "[Rent Start Date]", "[Rent Due Date]", "[Property Type]",
-    "[Property Manager’s Name]", "[Property Manager’s Business Name]",
-    "[Property Manager’s Phone Number]", "[Property Manager’s Email]",
-    "[Bank Name]", "[Bank Account Number]", "[Bank Account Name]"
-  ];
+    "[Tenant’s First Name]",
+    "[Tenant’s Full Name]",
+    "[Tenant’s Address]",
+    "[Rent Due]",
+    "[Rent Start Date]", 
+    "[Rent Due Date]", 
+    "[Bank Name]", 
+    "[Bank Account Number]", 
+    "[Bank Account Name]",
+    "[Property Manager’s Name]",
+    "[Property Manager’s Business Name]",
+    "[Property Manager’s Business Email]", 
+    "[Property Manager’s Business Address]", 
+    "[Property Manager’s Business Logo]",
+    "[Property Manager’s Business Phone Number]", 
+    "[PROPERTY DESCRIPTION]", 
+    "[PROPERTY ADDRESS]"
+      ];
 
   const handleChange = (html) => {
     const text = html.replace(/<[^>]+>/g, ''); // Remove HTML tags
