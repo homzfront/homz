@@ -13,6 +13,7 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import ReCaptcha from "@/components/auth/reCaptcha";
 import axios from "axios";
+import { useFormFields, useMailChimpForm } from 'use-mailchimp-form';
 
 const Register = () => {
   const router = useRouter();
@@ -27,16 +28,28 @@ const Register = () => {
   const [verified, setVerified] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
+  const url = "https://us22.api.mailchimp.com/3.0/lists/ae061dd532/members/";  // Replace with your actual Mailchimp subscribe URL
+  const {
+    loading: mailchimpLoading,
+    error: mailchimpError,
+    success: mailchimpSuccess,
+    message: mailchimpMessage,
+    handleSubmit: handleMailchimpSubmit
+  } = useMailChimpForm(url);
+
+  const { fields, handleFieldChange } = useFormFields({
+    EMAIL: "",
+  });
+
   const showCapta = () => {
     setShowCaptcha(true)
   }
-
 
   const handleCaptchaChange = () => {
     setVerified(true);
   };
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (!verified) {
@@ -68,21 +81,31 @@ const Register = () => {
       });
 
       if (response.data.statuscode === 201) {
-        const mailchimpData = {
-          'email_address': formData.email,
-          'status': 'subscribed'
-        };
+        // const mailchimpData = {
+        //   'email_address': formData.email,
+        //   'status': 'subscribed'
+        // };
 
-        // Use axios instead of fetch
-        const mailchimpResponse = await axios.post(`https://us22.api.mailchimp.com/3.0/lists/ae061dd532/members/`,
-          mailchimpData,
-          {
-            headers: {
-              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MAILCHIMP}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        );
+        // // Use axios instead of fetch
+        // const mailchimpResponse = await axios.post(`https://us22.api.mailchimp.com/3.0/lists/ae061dd532/members/`,
+        //   mailchimpData,
+        //   {
+        //     headers: {
+        //       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MAILCHIMP}`,
+        //       'Content-Type': 'application/json'
+        //     }
+        //   }
+        // );
+
+        // If the form is valid, submit the email to Mailchimp
+        handleMailchimpSubmit(fields);
+
+        // Handle Mailchimp response
+        if (mailchimpError) {
+          alert(mailchimpMessage);
+        } else if (mailchimpSuccess) {
+          alert('You have successfully subscribed!');
+        }
 
         const data = response?.data?.data?.token
         localStorage.setItem('jwt', data)
@@ -150,7 +173,7 @@ const Register = () => {
               <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
                 Your All-In-One property portal in just one click!
               </p>
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
                 <div className={`flex flex-col gap-4 ${loading ? "pointer-events-none" : ""}`}>
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
@@ -160,13 +183,15 @@ const Register = () => {
                       className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." && passwordError !== "Please complete the CAPTCHA" ? "border-red-500" : ""
                         }`}
                       type="email"
+                      name="email"
                       value={formData.email}
                       onChange={(e) => {
-                        setPasswordError("")
-                        handleInputChange("email", e.target.value)
+                        setPasswordError("");
+                        handleInputChange("email", e.target.value);
+                        handleFieldChange(e);
                       }}
                       placeholder="Enter your email"
-                      autoComplete="email" // Add autocomplete attribute
+                      autoComplete="email"
                     />
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
@@ -177,13 +202,14 @@ const Register = () => {
                       className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError && passwordError !== "Agree to terms." && passwordError !== "Please complete the CAPTCHA" ? "border-red-500" : ""
                         }`}
                       type={visible ? "text" : "password"}
+                      name="password"
                       value={formData.password}
                       onChange={(e) => {
-                        setPasswordError("")
-                        handleInputChange("password", e.target.value)
+                        setPasswordError("");
+                        handleInputChange("password", e.target.value);
                       }}
                       placeholder="Create a password"
-                      autoComplete="new-password" // Add autocomplete attribute
+                      autoComplete="new-password"
                     />
                     <div className="absolute top-11 right-8" onClick={Visible}>
                       {visible ? (
@@ -200,25 +226,24 @@ const Register = () => {
                         }`}
                       checked={formData.agreedToTerms}
                       onChange={() => {
-                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
-                        setPasswordError("")
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms });
+                        setPasswordError("");
                       }}
                     />
                     <p
                       className="cursor-pointer text-center text-GrayHomz font-[400] text-[11px]">
                       <span onClick={() => {
-                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
-                        setPasswordError("")
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms });
+                        setPasswordError("");
                       }}>
-
                         I agree to the
                       </span>
                       <Link href={"/terms-and-conditions"} className={` text-BlackHomz font-[700]`}>Terms and Conditions</Link> <span onClick={() => {
-                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
-                        setPasswordError("")
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms });
+                        setPasswordError("");
                       }}>and</span> <Link href={"/privacy-policy"} className={` text-BlackHomz font-[700]`}>Privacy Policy</Link> <span onClick={() => {
-                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })
-                        setPasswordError("")
+                        setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms });
+                        setPasswordError("");
                       }}>of HOMZ.</span>
                     </p>
                   </div>
@@ -248,24 +273,12 @@ const Register = () => {
                     </div>
                     :
                     <button
-                      className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
+                      className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading || mailchimpLoading ? "pointer-events-none w-full flex justify-center" : ""}`}
                       type="Submit"
                     >
-                      {loading ? <LoadingFormII /> : "Get Started"}
+                      {loading || mailchimpLoading ? <LoadingFormII /> : "Get Started"}
                     </button>
                 }
-                {/* <div className="">
-                  <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
-                    <Image
-                      className=""
-                      src={"/Social icon.png"}
-                      alt="google"
-                      height={"20"}
-                      width={"20"}
-                    />
-                    Sign Up with google
-                  </button>
-                </div> */}
                 <p className="text-center font-[400] text-[14px]">
                   Already have an account?
                   <Link
