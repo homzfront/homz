@@ -19,28 +19,28 @@ const OwnersCard = ({ propertyData }) => {
     }
     window.open(`https://wa.me/${number}`);
   };
-  //   console.log(propertyData)
-  const handleCopyClick = async (text, identifier) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
-      setTimeout(
-        () =>
-          setCopiedState((prevState) => ({
-            ...prevState,
-            [identifier]: false,
-          })),
-        2000
-      );
-    } catch (error) {
-      console.error("Unable to copy to clipboard:", error);
-    }
-  };
-  const viewFile = (url) => {
-    if (url) {
-      window.open(url);
-    }
-  };
+    // console.log(propertyData)
+  // const handleCopyClick = async (text, identifier) => {
+  //   try {
+  //     await navigator.clipboard.writeText(text);
+  //     setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
+  //     setTimeout(
+  //       () =>
+  //         setCopiedState((prevState) => ({
+  //           ...prevState,
+  //           [identifier]: false,
+  //         })),
+  //       2000
+  //     );
+  //   } catch (error) {
+  //     console.error("Unable to copy to clipboard:", error);
+  //   }
+  // };
+  // const viewFile = (url) => {
+  //   if (url) {
+  //     window.open(url);
+  //   }
+  // };
   return (
     <div
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%]"
@@ -80,7 +80,7 @@ const OwnersCard = ({ propertyData }) => {
               height={20}
             />
           </p>
-          <Link href={`/marketer-business-page/${"234"}`} className="breakwords pl-2 flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
+          <Link href={`/marketer-business-page/${propertyData?.user?._id}`} className="breakwords pl-2 flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
             <span>View your page</span>
             <Image
               src="/static/images/send.svg"

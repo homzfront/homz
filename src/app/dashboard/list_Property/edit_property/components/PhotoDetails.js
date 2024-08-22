@@ -12,13 +12,14 @@ import add from "/public/static/images/add.svg";
 import Image from "next/image";
 import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 import Link from "next/link";
+import displayHousePictures from "@/utils/displayHousePictures";
 
 const PropertyPhoto = ({
   data,
   setSaveModalIsOpen,
   setSaveUpdate,
   saveUpdate,
-  setEditMode
+  setEditMode,
 }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
@@ -55,7 +56,8 @@ const PropertyPhoto = ({
         newHouses[index] = photo;
       });
       setHouses(newHouses);
-      const newCoverPhoto = data.coverPhoto?.url || "";
+      const newCoverPhoto = data?.coverPhoto?.url;
+      setCoverPhoto(newCoverPhoto);
       // Update originalFormData with new URLs
       originalFormData.current = {
         photos: newHouses,
@@ -114,42 +116,17 @@ const PropertyPhoto = ({
   };
 
   const displayHousePic = (e, index) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (
-        imagesFiles.some(
-          (house) => house.name === file.name && house.size === file.size
-        )
-      ) {
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "Image already selected";
-        setErrorMsg(newErrorMsg);
-        return;
-      }
-      // Check for duplicate file
-
-      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "Only, JPG, JPEG or PNG files are allowed.";
-        setErrorMsg(newErrorMsg);
-        return;
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        // File size exceeds the limit
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "Photo size exceeds 5MB.";
-        setErrorMsg(newErrorMsg);
-        return;
-      } else {
-        setImagesFiles((prev) => [...prev, file]);
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "";
-        setErrorMsg(newErrorMsg);
-        const newImages = [...houses];
-        newImages[index] = URL.createObjectURL(file);
-        setHouses(newImages);
-      }
-    }
+    displayHousePictures(
+      e,
+      index,
+      imagesFiles,
+      setImagesFiles,
+      errorMsg,
+      setErrorMsg,
+      houses,
+      setHouses
+    );
+ 
   };
   useEffect(() => {
     // Check if data and required properties are available
@@ -161,12 +138,11 @@ const PropertyPhoto = ({
   }, [data]);
 
   // console.log(houses);
-  const Submit =()=>{
+  const Submit = () => {
     setSaveModalIsOpen(true);
-
-  }
+  };
   const onSubmit = (e) => {
-    handleUpdate(e,data);
+    handleUpdate(e, data);
   };
 
   const handleSubmit = async (e) => {
@@ -254,7 +230,19 @@ const PropertyPhoto = ({
       setLoading(false); // Set loading to false after all updates are attempted
     }
   };
-
+  const deleteFile = (index) => {
+    const updatedData = [...houses];
+    const updatedFile = [...imagesFiles];
+    updatedFile.splice(index, 1);
+    updatedData[index] = null;
+    setHouses(updatedData);
+    setImagesFiles(updatedFile);
+  };
+  const deleteCoverPhoto = () => {
+    setCoverPhoto(add);
+    setCoverPicture(null);
+    setFileUpload(false);
+  };
   return (
     <div className="block w-full">
       {loading ? (
@@ -294,15 +282,17 @@ const PropertyPhoto = ({
                         style={{ display: "none" }}
                         accept="image/jpg, image/png, image/jpeg"
                       />
-                      {fileUploaded ? (
+                      <>
                         <Image
                           //   onClick={uploadCoverPhoto}
-                          src={fileUploaded && coverPhoto}
+                          src={coverPhoto}
                           alt="Cover  Photo"
                           className="sm:w-[120px] sm:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                           width={120}
                           height={120}
                         />
+                      </>
+                      {/* {fileUploaded ? (
                       ) : (
                         <Image
                           //   onClick={uploadCoverPhoto}
@@ -315,6 +305,16 @@ const PropertyPhoto = ({
                           } rounded-[14.13px]`}
                           width={38}
                           height={38}
+                        />
+                      )} */}
+                      {(fileUploaded || data?.coverPhoto?.url) && (
+                        <Image
+                          src={"/trush-square.png"}
+                          height={24}
+                          width={24}
+                          className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
+                          alt="img"
+                          onClick={deleteCoverPhoto}
                         />
                       )}
                       <Image
@@ -348,6 +348,7 @@ const PropertyPhoto = ({
                     errorMsg={errorMsg}
                     fileUploads={fileUploads}
                     editMode={true}
+                    deleteFile={deleteFile}
                   />
                 </div>
               </div>
@@ -386,13 +387,25 @@ const PropertyPhoto = ({
                           accept="image/jpg, image/png, image/jpeg"
                         />
                         {house ? (
-                          <Image
-                            src={house.url || house}
-                            alt="photos"
-                            className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
-                            width={120}
-                            height={120}
-                          />
+                          <>
+                            <Image
+                              src={house.url || house}
+                              alt="photos"
+                              className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                              width={120}
+                              height={120}
+                            />
+                            {house && (
+                              <Image
+                                src={"/trush-square.png"}
+                                height={24}
+                                width={24}
+                                className="cursor-pointer  absolute z-10 sm:bottom-[-22px]"
+                                alt="img"
+                                onClick={() => deleteFile(index)}
+                              />
+                            )}
+                          </>
                         ) : (
                           <Image
                             src={add}
@@ -434,6 +447,7 @@ const PropertyPhoto = ({
                   fileUploads={fileUploads}
                   secondDisplay={true}
                   editMode={true}
+                  deleteFile={deleteFile}
                 />
               </div>
             </div>

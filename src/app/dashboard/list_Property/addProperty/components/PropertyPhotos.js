@@ -4,7 +4,9 @@ import pic from "/public/static/images/coverPhoto.png";
 import add from "/public/static/images/add.svg";
 import Image from "next/image";
 import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
+import displayHousePictures from "@/utils/displayHousePictures";
 
+// (e, index,imagesFiles,setImagesFiles,errorMsg, setErrorMsg,houses,setHouses)
 const PropertyPhoto = ({
   BackToRentalsInfo,
   handlePagePropertyPhoto,
@@ -41,9 +43,7 @@ const PropertyPhoto = ({
   const deleteCoverPhoto = () => {
     setImageScr(null);
     setCoverPicture(null);
-    setFileUpload(false)
-
-
+    setFileUpload(false);
   };
   // console.log(imagesFiles);
   const submitData = () => {
@@ -84,43 +84,17 @@ const PropertyPhoto = ({
   };
 
   const displayHousePic = (e, index) => {
-    const file = e.target.files[0];
-    // console.log(file);
-    if (file) {
-      if (
-        imagesFiles.some(
-          (house) => house.name === file.name && house.size === file.size
-        )
-      ) {
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "Image already selected";
-        setErrorMsg(newErrorMsg);
-        return;
-      }
-      // Check for duplicate file
-
-      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "Only, JPG, JPEG or PNG files are allowed.";
-        setErrorMsg(newErrorMsg);
-        return;
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        // File size exceeds the limit
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "Photo size exceeds 5MB.";
-        setErrorMsg(newErrorMsg);
-        return;
-      } else {
-        setImagesFiles((prev) => [...prev, file]);
-        const newErrorMsg = [...errorMsg];
-        newErrorMsg[index] = "";
-        setErrorMsg(newErrorMsg);
-        const newImages = [...houses];
-        newImages[index] = URL.createObjectURL(file);
-        setHouses(newImages);
-      }
-    }
+    displayHousePictures(
+      e,
+      index,
+      imagesFiles,
+      setImagesFiles,
+      errorMsg,
+      setErrorMsg,
+      houses,
+      setHouses
+    );
+    
   };
   // console.log(houses);
   return (
@@ -151,7 +125,7 @@ const PropertyPhoto = ({
               <br />
 
               <div
-                className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
+                className={`relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
               >
                 <form
                   enctype="multipart/form-data"
@@ -174,7 +148,7 @@ const PropertyPhoto = ({
                         onClick={uploadCoverPhoto}
                         src={fileUploaded && ImageSrc}
                         alt="Cover  Photo"
-                        className=" relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                        className=" md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                         width={120}
                         height={120}
                       />
@@ -183,7 +157,7 @@ const PropertyPhoto = ({
                           src={"/trush-square.png"}
                           height={24}
                           width={24}
-                          className="cursor-pointer mt-2 absolute z-10 bottom-[18px] sm:bottom-[-58px]"
+                          className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
                           alt="img"
                           onClick={deleteCoverPhoto}
                         />
@@ -233,7 +207,7 @@ const PropertyPhoto = ({
             >
               {houses.map((house, index) => (
                 <div
-                  className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+                  className={`relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
                   key={index}
                 >
                   <form
@@ -256,7 +230,7 @@ const PropertyPhoto = ({
                           onClick={() => uploadFile2(index)}
                           src={house}
                           alt="photos"
-                          className="relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                          className=" md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                           width={120}
                           height={120}
                         />
@@ -265,7 +239,7 @@ const PropertyPhoto = ({
                             src={"/trush-square.png"}
                             height={24}
                             width={24}
-                            className="cursor-pointer  absolute z-10 bottom-[-58px]"
+                            className="cursor-pointer  absolute z-10 sm:bottom-[-22px]"
                             alt="img"
                             onClick={() => deleteFile(index)}
                           />

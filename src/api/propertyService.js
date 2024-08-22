@@ -181,6 +181,14 @@ export const propertyMe = async () => {
     throw error;
   }
 };
+export const publishAndRepublishProperty = async (propertyId) => {
+  try {
+    const response = await api.patch(`/properties/property/${propertyId}/toggle`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const updatePersonalInformation = async ( updatedData) => {
   try {

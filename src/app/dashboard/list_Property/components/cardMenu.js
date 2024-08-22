@@ -113,7 +113,7 @@ function CardMenus({
         className={` flex gap-3 items-center text-[14px] font-[500] leading-[21px] ${
           publish ? "text-[#D92D20]" : "text-[#006AFF]"
         } p-[8px] hover:bg-gray-100 w-full`}
-        onClick={publish ? handleUnpublished : handlePublished}
+        onClick={()=>publish ? handleUnpublished(data?._id) : handlePublished(data?._id)}
       >
         <Image
           src={`/static/images/${publish ? "stop-circle.svg" : "send-2.svg"}`}

@@ -26,21 +26,21 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 
 const MarketerBusinessPage = ({ PropertyID }) => {
-  const [combinedData, setCombinedData] = useState([]);
-  const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  // const [combinedData, setCombinedData] = useState([]);
+  // const [currentUser, setCurrentUser] = useState("");
+  // const [selectedState, setSelectedState] = useState(null);
+  // const [propertyData, setPropertyData] = useState(null);
+  // const [params, setParams] = useState(false);
+  // const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
+  // const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [tabName, setTabName] = useState("properties");
   const [selectedProperty, setSelectedProperty] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  // const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [properties, setProperties] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState("1");
-  const [propertyData, setPropertyData] = useState(null);
-  const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  const [params, setParams] = useState(false);
   const urlParams = useSearchParams();
   const [filters, setFilters] = useState({
     search: urlParams.get("search") || null,
@@ -51,9 +51,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     numberOfBathrooms: parseInt(urlParams.get("numberOfBathrooms")) || null,
   });
   const { data, fetchData } = useProfileListingMe();
-  // /properties/user/me?numberOfBathrooms=20&propertyType=duplex
 
- 
   const fetchPropertyData = async (url) => {
     try {
       const response = await api.get(url);
@@ -62,6 +60,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
       const total = dataResult.length || 0;
       setTotalPages(Math.ceil(total / 9));
       setProperties(dataResult);
+      setLoading(false);
       return dataResult;
     } catch (error) {
       console.log(error);
@@ -73,21 +72,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     fetchData();
   }, [fetchData]);
 
-  // console.log(propertyDataStore);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const user = urlParams.get("user");
-    setCurrentUser(user);
-  }, []);
-
-  const openMobileModal = () => {
-    setMobileModalIsOpen(true);
-  };
-
-  const closeMobileModal = () => {
-    setMobileModalIsOpen(false);
-  };
+ 
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
@@ -96,13 +81,13 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const handleSearchChange = (e) => {
     const { value } = e.target;
     handleFilterChange("search", value);
-    setParams(true);
+    // setParams(true);
   };
 
-  const id = "p7567-kristy-for-rent-rivers-bonny";
-  useBodyScroll([openSelectedImage]);
+  // const id = "p7567-kristy-for-rent-rivers-bonny";
+  // useBodyScroll([openSelectedImage]);
+  // const pathName = usePathname();
   const router = useRouter();
-  const pathName = usePathname();
   const goBack = () => {
     router.back();
   };
@@ -139,40 +124,6 @@ const MarketerBusinessPage = ({ PropertyID }) => {
       console.error("Error sharing the page:", err);
     }
   };
-
-  useEffect(() => {
-    const propertyData = async () => {
-      const response = await fetchSinglePropertyPublic(id);
-      const property = await response;
-      setPropertyData(property?.data);
-      setLoading(false);
-    };
-    propertyData();
-  }, [PropertyID]);
-
-  useEffect(() => {
-    if (propertyData && propertyData.coverPhoto && propertyData.photos) {
-      const newData = {
-        coverPhoto: propertyData.coverPhoto,
-        photos: propertyData.photos,
-      };
-      const combinedData = [newData.coverPhoto, ...newData.photos].map(
-        (item) => ({
-          url: item.url,
-        })
-      );
-      setCombinedData(combinedData);
-    } else {
-      // console.error("Invalid or missing data structure.");
-    }
-  }, [propertyData]);
-
-  useEffect(() => {
-    // Update remainder state when combinedData length changes
-    if (combinedData.length === 8) {
-      setRemainder(combinedData.length - 7);
-    }
-  }, [combinedData]);
 
   const firstThreePages = Array.from({ length: 3 }, (_, i) => i + 1);
   const lastThreePages = Array.from(
@@ -346,14 +297,14 @@ const MarketerBusinessPage = ({ PropertyID }) => {
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-[16px] pb-6">
-                  {currentUser != "users" && (
+                  {/* {currentUser != "users" && (
                     <button
                       className="sm:bg-[#006AFF] w-fit text-[14px] text-[#006AFF] sm:text-white rounded-[4px] sm:border  sm:h-[37px] sm:px-[12px] sm:py-[8px] text-center font-[500]"
                       // onClick={() => onSubmit("promotePage")}
                     >
                       Promote page
                     </button>
-                  )}
+                  )} */}
                   <button
                     className="sm:border-[#006AFF] w-fit text-[14px] sm:text-[#006AFF] bg-[#EEF5FF] font-[400] h-[37px] sm:px-[12px] sm:py-[8px] py-[8px] px-[16px] rounded-[4px] sm:border text-center flex items-center sm:gap-2"
                     onClick={handleSharePage}
@@ -482,10 +433,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
               </div>
             </section>
             <div className="sm:hidden mt-8">
-              <OwnersCard
-                propertyData={propertyData && propertyData}
-                data={data}
-              />
+              <OwnersCard data={data} />
             </div>
             <section className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-[30px] mt-8 w-full">
               <div className=" w-[100%] flex flex-col gap-[12p] ">
@@ -519,10 +467,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
               </div>
               <div className="flex flex-col  gap-[24px]">
                 <div className="hidden sm:block">
-                  <OwnersCard
-                    propertyData={propertyData && propertyData}
-                    data={data}
-                  />
+                  <OwnersCard data={data} />
                 </div>
                 {tabName === "properties" && (
                   <>
@@ -542,103 +487,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
           </div>
         )
       )}
-
-      <CustomizedModal
-        isOpen={mobileModalIsOpen}
-        onRequestClose={closeMobileModal}
-      >
-        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
-          <div className=" flex items-center justify-between">
-            <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
-              Filter by
-            </p>
-
-            <div>
-              <button onClick={closeMobileModal} className="cursor-pointer">
-                <Image
-                  src="/static/images/close-square.svg"
-                  height={24}
-                  width={24}
-                  alt=""
-                />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-between">
-            <div>
-              <PropertyType
-                getPropertyType={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${
-                  filters?.propertyType === null
-                    ? "Property Type"
-                    : capitalizeFirstLetter(filters?.propertyType)
-                }`}
-              />
-            </div>
-            <div>
-              <Bedroom
-                getBedrooms={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${
-                  filters?.numberOfBathrooms === null
-                    ? "Number of bedrooms"
-                    : `${filters?.numberOfBathrooms} Bedrooms`
-                }`}
-              />
-            </div>
-          </div>
-          <div className="flex justify-between">
-            <div className="">
-              <MinPrice
-                getPrice={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${
-                  filters?.minPrice === null
-                    ? "Min Price"
-                    : addCommasToNumberWithoutN(filters?.minPrice)
-                }`}
-              />
-            </div>
-            <div>
-              <Listing
-                getState={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${
-                  filters?.listingType === null
-                    ? "Listing Type"
-                    : capitalizeFirstLetter(filters?.listingType)
-                }`}
-              />
-            </div>
-          </div>
-          <div className="w-full flex flex-row gap-4">
-            <button
-              className="border w-[70%] h-[42px] p-[12px] border-BlueHomz text-white bg-BlueHomz items-center text-[14px] font-[500] flex justify-center gap-2 rounded-[4px] cursor-pointer mt-4"
-              onClick={closeMobileModal}
-            >
-              <Image
-                src="/static/images/white-search.svg"
-                alt=""
-                width={16}
-                height={16}
-              />
-              <span className="">Filter</span>
-            </button>
-            <button
-              className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"
-              onClick={reset}
-            >
-              <span>
-                <Reset className="#006AFF" />
-              </span>
-              <span className="text-[14px] leading-[17.64px]  text-[500] text-BlueHomz">
-                Reset
-              </span>
-            </button>
-          </div>
-        </div>
-      </CustomizedModal>
+      {/*  */}
     </div>
   );
 };
@@ -686,3 +535,146 @@ export default MarketerBusinessPage;
 //   setSearchQuery("");
 //   setFilteredData(property);
 // };
+// useEffect(() => {
+//   const propertyData = async () => {
+//     const response = await fetchSinglePropertyPublic(id);
+//     const property = await response;
+//     setPropertyData(property?.data);
+//     setLoading(false);
+//   };
+//   propertyData();
+// }, [PropertyID]);
+
+// useEffect(() => {
+//   if (propertyData && propertyData.coverPhoto && propertyData.photos) {
+//     const newData = {
+//       coverPhoto: propertyData.coverPhoto,
+//       photos: propertyData.photos,
+//     };
+//     const combinedData = [newData.coverPhoto, ...newData.photos].map(
+//       (item) => ({
+//         url: item.url,
+//       })
+//     );
+//     setCombinedData(combinedData);
+//   } else {
+//     // console.error("Invalid or missing data structure.");
+//   }
+// }, [propertyData]);
+
+// useEffect(() => {
+//   // Update remainder state when combinedData length changes
+//   if (combinedData.length === 8) {
+//     setRemainder(combinedData.length - 7);
+//   }
+// }, [combinedData]);
+
+// useEffect(() => {
+//   const urlParams = new URLSearchParams(window.location.search);
+//   const user = urlParams.get("user");
+//   setCurrentUser(user);
+// }, []);
+
+// const openMobileModal = () => {
+//   setMobileModalIsOpen(true);
+// };
+
+//   <CustomizedModal
+//   isOpen={mobileModalIsOpen}
+//   onRequestClose={closeMobileModal}
+// >
+//   <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
+//     <div className=" flex items-center justify-between">
+//       <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
+//         Filter by
+//       </p>
+
+//       <div>
+//         <button onClick={closeMobileModal} className="cursor-pointer">
+//           <Image
+//             src="/static/images/close-square.svg"
+//             height={24}
+//             width={24}
+//             alt=""
+//           />
+//         </button>
+//       </div>
+//     </div>
+//     <div className="flex justify-between">
+//       <div>
+//         <PropertyType
+//           getPropertyType={handleSearch}
+//           className={"w-[150px]"}
+//           selectOption={`${
+//             filters?.propertyType === null
+//               ? "Property Type"
+//               : capitalizeFirstLetter(filters?.propertyType)
+//           }`}
+//         />
+//       </div>
+//       <div>
+//         <Bedroom
+//           getBedrooms={handleSearch}
+//           className={"w-[150px]"}
+//           selectOption={`${
+//             filters?.numberOfBathrooms === null
+//               ? "Number of bedrooms"
+//               : `${filters?.numberOfBathrooms} Bedrooms`
+//           }`}
+//         />
+//       </div>
+//     </div>
+//     <div className="flex justify-between">
+//       <div className="">
+//         <MinPrice
+//           getPrice={handleSearch}
+//           className={"w-[150px]"}
+//           selectOption={`${
+//             filters?.minPrice === null
+//               ? "Min Price"
+//               : addCommasToNumberWithoutN(filters?.minPrice)
+//           }`}
+//         />
+//       </div>
+//       <div>
+//         <Listing
+//           getState={handleSearch}
+//           className={"w-[150px]"}
+//           selectOption={`${
+//             filters?.listingType === null
+//               ? "Listing Type"
+//               : capitalizeFirstLetter(filters?.listingType)
+//           }`}
+//         />
+//       </div>
+//     </div>
+//     <div className="w-full flex flex-row gap-4">
+//       <button
+//         className="border w-[70%] h-[42px] p-[12px] border-BlueHomz text-white bg-BlueHomz items-center text-[14px] font-[500] flex justify-center gap-2 rounded-[4px] cursor-pointer mt-4"
+//         onClick={closeMobileModal}
+//       >
+//         <Image
+//           src="/static/images/white-search.svg"
+//           alt=""
+//           width={16}
+//           height={16}
+//         />
+//         <span className="">Filter</span>
+//       </button>
+//       <button
+//         className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"
+//         onClick={reset}
+//       >
+//         <span>
+//           <Reset className="#006AFF" />
+//         </span>
+//         <span className="text-[14px] leading-[17.64px]  text-[500] text-BlueHomz">
+//           Reset
+//         </span>
+//       </button>
+//     </div>
+//   </div>
+// </CustomizedModal>
+ // const closeMobileModal = () => {
+  //   setMobileModalIsOpen(false);
+  // };

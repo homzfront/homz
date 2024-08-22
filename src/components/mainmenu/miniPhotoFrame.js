@@ -37,7 +37,7 @@ const MiniPhotoFrame = ({
 
           return (
             <div
-              className={`md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos`}
+              className={` relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos`}
               key={actualIndex}
             >
               <form
@@ -64,7 +64,7 @@ const MiniPhotoFrame = ({
                       }}
                       src={house?.url || house}
                       alt="photos"
-                      className="relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                      className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                       width={120}
                       height={120}
                     />
@@ -73,7 +73,7 @@ const MiniPhotoFrame = ({
                         src={"/trush-square.png"}
                         height={24}
                         width={24}
-                        className="cursor-pointer mt-2 absolute z-10 bottom-[-21px]"
+                        className="cursor-pointer absolute z-10 sm:bottom-[-22p] bottom-[-19px]"
                         alt="img"
                         onClick={() => deleteFile(actualIndex)}
                       />
@@ -91,7 +91,7 @@ const MiniPhotoFrame = ({
                 )}
                 {editMode && (
                   <Image
-                    onClick={() => uploadFile2(index)}
+                    onClick={() => uploadFile2(actualIndex)}
                     src="/static/images/whiteCamera.svg"
                     alt="Cover Photo"
                     className={`rounded-[14.13px] absolute left-[30px] top-[30px] ${

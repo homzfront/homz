@@ -1,6 +1,12 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, useRef, useTransition } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useReducer,
+  useTransition,
+} from "react";
 import PromotionHooks from "@/utils/promoteProperty";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -9,7 +15,36 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import CardMenus from "./cardMenu";
 import formatDate from "@/utils/formatDate";
+import { publishAndRepublishProperty } from "@/api/propertyService";
 
+const initialState = {
+  publishedSuccess: false,
+  unpublishedSuccess: false,
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "Property publish status updated to published":
+      return {
+        ...state,
+        publishedSuccess: true,
+        unpublishedSuccess: false,
+      };
+    case "Property publish status updated to unpublished":
+      return {
+        ...state,
+        publishedSuccess: false,
+        unpublishedSuccess: true,
+      };
+    case "Close Modal":
+      return {
+        ...state,
+        publishedSuccess: false,
+        unpublishedSuccess: false,
+      };
+    default:
+      return state;
+  }
+};
 const PropertyCard = ({
   Property,
   selectedProperty,
@@ -32,14 +67,16 @@ const PropertyCard = ({
   const [activePromo, setActivePromoted] = useState(false);
   const [deleteProperty, setDeleteProperty] = useState(false);
   const [propertyDeleted, setPropertyDeleted] = useState(false);
-  const [unpublishProperty, setUnpublisProperty] = useState(false);
+  const [publishProperty, setPublisProperty] = useState(false);
   const [stopPromote, setStopPromotion] = useState(false);
   const [promotionStoppedModal, setPromotionStoppedModal] = useState(false);
-  const [propertyUnpublished, setPropertyUnpublished] = useState(false);
   const [isLoading, setLoader] = useState(false);
-
+  let unpublishedText =
+    "This property will no longer be visible to the public but will be saved in your drafts";
+  let publishedText = "This property will be made visible to the public.";
   const popUp = useRef(null);
   const router = useRouter();
+  const [publishState, dispatch] = useReducer(reducer, initialState);
   // console.log(Property);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -75,9 +112,22 @@ const PropertyCard = ({
     setDeleteProperty(false);
     setPropertyDeleted(true);
   };
-  const handleUnpublishProperty = () => {
-    setUnpublisProperty(false);
-    setPropertyUnpublished(true);
+  const handlePublishedUnpublishProperty = async () => {
+    setLoader(true);
+    publishAndRepublishProperty(selectedDataId)
+      .then((result) => {
+        dispatch({ type: result.message });
+        setPublisProperty(false);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.error("Error publishing this property:", error);
+      });
+  };
+  const closePublishedSuccessModal = () => {
+    dispatch({ type: "Close Modal" });
+    refreshData();
   };
 
   const handleStopPropertyPromotion = async () => {
@@ -85,13 +135,12 @@ const PropertyCard = ({
     try {
       const results = await PromotionHooks.stopSinglePromotion(selectedDataId);
       if (results.status === true) {
-        setLoader(false);
         setPromotionStoppedModal(true);
         setStopPromotion(false);
       } else {
-        setLoader(false);
         return;
       }
+      setLoader(false);
       // console.log(results);
     } catch (error) {
       console.error("Error Stopping the promotion:", error);
@@ -99,7 +148,6 @@ const PropertyCard = ({
     }
   };
   const closeSuccessModal = () => {
-    setPropertyUnpublished(false);
     setPropertyDeleted(false);
     setActivePromoted(false);
   };
@@ -108,10 +156,15 @@ const PropertyCard = ({
     refreshData();
     setPromotionStoppedModal(false);
   };
-  const handleUnpublished = () => {
-    setUnpublisProperty(true);
+  const handleUnpublished = (propertyId) => {
+    setSelectedDataId(propertyId);
+    setPublisProperty(true);
   };
-  const handlePublished = () => {};
+  const handlePublished = (propertyId) => {
+    setSelectedDataId(propertyId);
+    setPublisProperty(true);
+  };
+
   const handleMenuToggle = (index) => {
     setSelectedDataId(index);
     setIsMenuOpen(!isMenuOpen);
@@ -189,6 +242,7 @@ const PropertyCard = ({
                     onClick={(event) => {
                       event.stopPropagation();
                       handleMenuToggle(property?._id);
+                      setPublish(property?.is_published);
                     }}
                   />
                   {isMenuOpen && selectedDataId === property?._id && (
@@ -345,26 +399,35 @@ const PropertyCard = ({
 
       {/* Unpublish a property */}
       <ConfirmationModal
-        isOpen={unpublishProperty}
-        title="Unpublish Property?"
-        confirmatoryText={`This property will no longer be visible to the public but will be saved in your drafts`}
-        handleEvent={handleUnpublishProperty}
-        cancel={setUnpublisProperty}
+        isOpen={publishProperty}
+        title={`${publish ? "Unpublish Property?" : "Publish Property?"}`}
+        confirmatoryText={`${publish ? unpublishedText : publishedText}`}
+        handleEvent={handlePublishedUnpublishProperty}
+        cancel={setPublisProperty}
         optionText="Proceed"
         optionText2="Cancel"
-        // isLoading={isLoading}
+        isLoading={isLoading}
         // color="text-[#D92D20]"
       />
       <SuccessModal
-        isOpen={propertyUnpublished}
-        title="Property Unpublished Successfully"
-        handleEvent={closeSuccessModal}
-        optionTextnbutton="View drafts"
-        handleOptionButton={() => {
-          setPropertyUnpublished(false);
-          router.push("/dashboard/list_Property");
-        }}
-        buttonColor={true}
+        isOpen={
+          publishState.unpublishedSuccess || publishState.publishedSuccess
+        }
+        title={
+          publishState.unpublishedSuccess
+            ? "Property Unpublished Successfully"
+            : "Property Published Successfully"
+        }
+        handleEvent={closePublishedSuccessModal}
+        optionTextnbutton={
+          publishState.unpublishedSuccess ? "View drafts" : undefined
+        }
+        handleOptionButton={
+          publishState.unpublishedSuccess
+            ? closePublishedSuccessModal
+            : undefined
+        }
+        buttonColor={publishState.unpublishedSuccess ? true : undefined}
       />
 
       {/* stop property promotion */}
