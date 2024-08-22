@@ -105,8 +105,7 @@ const RichTextEditorSMS = ({ charLimit, text }) => {
       </div>
       <div className='flex flex-col md:flex-row items-center gap-2 w-full'>
         <div className='w-full md:w-[75%]'>
-          <Dropd
-          own
+          <Dropdown
             options={options}
             onSelect={handleTagSelect}
             className={"text-[14px] font-[500] text-GrayHomz2"}
