@@ -17,11 +17,7 @@ async function handleSelectPlan(
   // const router= useRouter();
   setLoadingStates((prev) => ({ ...prev, [index]: true }));
   try {
-    // const results = await PromotionHooks.promoteProperty(
-      //   date,
-      //   propertyId,
-      //   planType,
-      //   propertyIds
+   
       const results= await PromotionHooks.createSubscription(planType,interval,amount,upgradePlan )
       
       // console.log(results);

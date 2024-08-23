@@ -143,9 +143,15 @@ const PropertyForms = () => {
 
     for (const [key, value] of Object.entries(payload)) {
       if (value) {
-        formData.append(key, value);
+        if (key !== "amenities") {
+          formData.append(key, value);
+        } else {
+          value.forEach((amenity, index) => {
+            formData.append(`amenities[${index}]`, amenity);
+          });
+        }
       }
-    }
+    }    
 
     try {
       const response = await api.post(

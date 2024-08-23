@@ -176,7 +176,7 @@ const List_Property = () => {
         promotionPlan,
         selectedProperty
       );
-      console.log(results);
+      // console.log(results);
       setLoader(false);
 
       if (results.status) {
@@ -258,12 +258,11 @@ const List_Property = () => {
         </div>
       )}
 
-      {loading && (
+      {loading ? (
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      )}
-      {property?.response?.data?.success===false ? (
+      ) : property?.response?.data?.success === false ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
             List your properties so Tenants can see them.

@@ -15,7 +15,7 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
     console.log(response);
     return response.data;
   } catch (error) {
-    console.log(error.response)
+    console.log(error)
     console.error(
       "Error promoting property:",
       error.response?.data || error.message

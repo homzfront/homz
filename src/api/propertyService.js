@@ -188,6 +188,7 @@ export const publishAndRepublishProperty = async (propertyId) => {
     const response = await api.patch(`/properties/property/${propertyId}/toggle`);
     return response.data;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 };

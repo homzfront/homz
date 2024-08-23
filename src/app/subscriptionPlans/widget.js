@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [type, setType] = useState("");
+  // const [type, setType] = useState("");
   const [upgradePlan, setUpgradePlan] = useState("");
 
   const router = useRouter();
