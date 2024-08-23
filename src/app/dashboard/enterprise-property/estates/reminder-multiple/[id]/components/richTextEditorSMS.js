@@ -126,7 +126,7 @@ const RichTextEditorSMS = ({ charLimit, text, editorHtml, setEditorHtml }) => {
             width={"w-full"}
           />
         </div>
-        <div className="mt-2 w-[25%] text-right text-GrayHomz2 text-[11px] text-[400]">
+        <div className="mt-2 w-full md:w-[25%] text-right text-GrayHomz2 text-[11px] text-[400]">
           {charLeft} characters left
         </div>
       </div>

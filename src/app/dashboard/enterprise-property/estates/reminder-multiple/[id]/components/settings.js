@@ -48,8 +48,6 @@ const Settings = ({ data, fetchDataAgain }) => {
         };
     };
 
-    console.log(data);
-
     return (
         <div>
             <CustomizeModal isOpen={modalCustom}>
@@ -127,8 +125,8 @@ const Settings = ({ data, fetchDataAgain }) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className='flex flex-col gap-1 md:gap-0 md:flex-row md:justify-between w-full'>
-                                        <div className='flex gap-2'>
+                                    <div className='flex flex-col md:flex-row md:justify-between w-full'>
+                                        <div className='flex flex-col md:flex-row gap-0 md:gap-2'>
                                             {data?.sendCopyToEmail?.landlord === true &&
                                                 <div className='text-GrayHomz font-[400] text-[13px]'>
                                                     Send copy to: Landlord
@@ -171,7 +169,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                             dangerouslySetInnerHTML={{ __html: SMSContent }}
                                         />
                                     </div>
-                                    <div className='flex flex-row gap-2'>
+                                    <div className='flex flex-col md:flex-row gap-0 md:gap-2'>
                                         {data?.sendCopyToSMS?.landlord === true &&
                                             <div className='text-GrayHomz font-[400] text-[13px]'>
                                                 Send copy to: Landlord
@@ -207,7 +205,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                                 dangerouslySetInnerHTML={{ __html: inAppContent }}
                                             />
                                         </div>
-                                        <div className='flex flex-row gap-2'>
+                                        <div className='flex flex-col md:flex-row gap-0 md:gap-2'>
                                             {data?.sendCopyToInApp?.landlord === true &&
                                                 <div className='text-GrayHomz font-[400] text-[13px]'>
                                                     Send copy to: Landlord
