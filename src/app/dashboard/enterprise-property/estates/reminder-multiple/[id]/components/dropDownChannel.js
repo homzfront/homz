@@ -115,7 +115,6 @@ const DropDownChannel = ({ options, onSelect, selectOption, className, channelSe
     generateChannelsObject(selectedOptions);
     setData(selectedOptions)
     setBackendData({ channels: generateChannelsObject(selectedOptions) });
-    console.log(generateChannelsObject(selectedOptions));
   }, [selectedOptions]);
 
 

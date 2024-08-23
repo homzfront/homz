@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import DropDownReminder from './dropDownReminder';
 import DropDownChannel from './dropDownChannel';
 import CustomizeModal from '@/components/mainmenu/CustomizedModal';
 import Image from 'next/image';
@@ -22,6 +21,48 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [backendData, setBackendData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [selectedChannel, setSelectedChannel] = useState(null);
+    const [emailContent, setEmailContent] = useState(data?.emailContent);
+    const [SMSContent, setSMSContent] = useState(data?.smsContent);
+    const [inAppContent, setInAppContent] = useState(data?.inAppContent);
+
+    const [copyToInApp, setCopyToInApp] = useState({
+        propertyManager: data?.sendCopyToInApp?.propertyManager || false,
+        propertyOwner: data?.sendCopyToInApp?.landlord || false,
+    });
+
+    const [copyToEmail, setCopyToEmail] = useState({
+        propertyManager: data?.sendCopyToEmail?.propertyManager || false,
+        propertyOwner: data?.sendCopyToEmail?.landlord || false,
+    });
+
+    const [copyToSMS, setCopyToSMS] = useState({
+        propertyManager: data?.sendCopyToSMS?.propertyManager || false,
+        propertyOwner: data?.sendCopyToSMS?.landlord || false,
+    });
+
+    const handleCheckboxChangeForInAPP = (e) => {
+        const { name, checked } = e.target;
+        setCopyToInApp((prevState) => ({
+            ...prevState,
+            [name]: checked,
+        }));
+    };
+
+    const handleCheckboxChangeEmail = (e) => {
+        const { name, checked } = e.target;
+        setCopyToEmail((prevState) => ({
+            ...prevState,
+            [name]: checked,
+        }));
+    };
+
+    const handleCheckboxChangeSMS = (e) => {
+        const { name, checked } = e.target;
+        setCopyToSMS((prevState) => ({
+            ...prevState,
+            [name]: checked,
+        }));
+    };
 
     const optionII = [
         { id: 1, label: "All" },
@@ -30,10 +71,35 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
         { id: 4, label: "SMS" },
     ];
 
+    const submittedData =
+    {
+        "channels": backendData?.channels,
+        "emailMessage": {
+            "sendCopyTo": {
+                "propertyManager": copyToEmail?.propertyManager,
+                "landlord": copyToEmail?.propertyOwner,
+            },
+            "content": emailContent
+        },
+        "smsMessage": {
+            "sendCopyTo": {
+                "propertyManager": copyToSMS?.propertyManager,
+                "landlord": copyToSMS?.propertyOwner
+            },
+            "content": SMSContent
+        },
+        "inAppMessage": {
+            "sendCopyTo": {
+                "propertyManager": copyToInApp?.propertyManager,
+                "landlord": copyToInApp?.propertyOwner
+            },
+            "content": inAppContent
+        }
+    };
+
     useEffect(() => {
         if (selectedChannel?.length > 0) {
             const isAllSelected = selectedChannel.some((channel) => channel.label === 'All');
-            //   setIsAllSelected(isAllSelected);
             const isSMSPresent = isAllSelected || selectedChannel.some((channel) => channel.label === 'SMS');
             setIsSMSPresent(isSMSPresent);
             const isEmailPresent = isAllSelected || selectedChannel.some((channel) => channel.label === 'Email');
@@ -42,7 +108,6 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
             setIsInAppPresent(isInAppPresent);
         }
     }, [selectedChannel]);
-
 
     useEffect(() => {
         const sendIdAndChannels = (data) => {
@@ -60,11 +125,11 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
 
     const handleCustomizeChanges = async () => {
         setLoading(true)
-        if (backendData) {
+        if (submittedData) {
             try {
                 const response = await api.patch(
                     `/rentReminder/${channeSettings?._id}/single`,
-                    backendData
+                    submittedData
                 );
                 setOpenCompleted(true);
                 setLoading(false);
@@ -156,47 +221,6 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                     </div>
                 </div>
             </CustomizeModal>
-            {/* <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                <div className="flex flex-col md:w-[50%] w-full gap-2">
-                    <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
-                        Date before/after due date <span className="text-red-600">*</span>
-                    </p>
-                    <p className="text-[13px] leading-[19.5px] text-[400] text-GrayHomz">
-                        Select your preferred date for reminder(s) to be sent out
-                    </p>
-                </div>
-                <div className="md:w-[50%] w-full">
-                    <DropDownReminder
-                        options={options}
-                        onSelect={(option) => setDueDate(option)}
-                        selectOption={
-                            dueDate === null ? "Select reminder date" : dueDate.label
-                        }
-                        className="text-[14px] font-[500] text-GrayHomz2 md:w-[236px] w-full"
-                    />
-                </div>
-            </div> */}
-            {/* <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
-                <div className="flex flex-col md:w-[50%] w-full gap-2">
-                    <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
-                        Time <span className="text-red-600">*</span>
-                    </p>
-                    <p className="text-[13px] leading-[19.5px] text-[400] text-GrayHomz">
-                        Enter your preferred time for reminder(s) to be sent out
-                    </p>
-                </div>
-                <div className="md:w-[50%] w-full">
-                    <input
-                        type="time"
-                        id="remindTime"
-                        name="remindTime"
-                        required
-                        placeholder="00:00 AM"
-                        className="md:w-[236px] w-full h-[55px] rounded-[4px] text-GrayHomz border border-GrayHomz px-2"
-                        onChange={(e) => setTime(e.target.value)}
-                    />
-                </div>
-            </div> */}
             <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]">
                 <div className="flex flex-col md:w-[50%] w-full  gap-2">
                     <p className="text-[14px] text-[500] leading-[24px] text-BlueHomz">
@@ -234,7 +258,30 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                         <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                         </div>
-                        <RichTextEditorEmail charLimit={500} text={data?.emailContent} />
+                        <RichTextEditorEmail charLimit={500} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
+                        <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
+                            <div>Send copy to :</div>
+                            <div className='flex gap-2'>
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        type="checkbox"
+                                        name="propertyManager"
+                                        checked={copyToEmail.propertyManager}
+                                        onChange={handleCheckboxChangeEmail}
+                                    />
+                                    <p>Property Manager</p>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        type="checkbox"
+                                        name="propertyOwner"
+                                        checked={copyToEmail.propertyOwner}
+                                        onChange={handleCheckboxChangeEmail}
+                                    />
+                                    <p>Property Owner</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
@@ -253,19 +300,27 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                             <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                                 <p className='text-[14px] font-[400]'>{data?.sms_label}</p>
                             </div>
-                            <RichTextEditorSMS charLimit={150} text={data?.smsContent} />
+                            <RichTextEditorSMS charLimit={150} text={data?.smsContent} editorHtml={SMSContent} setEditorHtml={setSMSContent} />
                         </div>
                         <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
-                            <div>
-                                Send copy to :
-                            </div>
+                            <div>Send copy to :</div>
                             <div className='flex gap-2'>
                                 <div className="flex items-center gap-1">
-                                    <input type="radio" name="sms-copy" />
+                                    <input
+                                        type="checkbox"
+                                        name="propertyManager"
+                                        checked={copyToSMS.propertyManager}
+                                        onChange={handleCheckboxChangeSMS}
+                                    />
                                     <p>Property Manager</p>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    <input type="radio" name="sms-copy" />
+                                    <input
+                                        type="checkbox"
+                                        name="propertyOwner"
+                                        checked={copyToSMS.propertyOwner}
+                                        onChange={handleCheckboxChangeSMS}
+                                    />
                                     <p>Property Owner</p>
                                 </div>
                             </div>
@@ -288,7 +343,30 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                             <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                                 <p className='text-[14px] font-[400]'>{data?.in_app}</p>
                             </div>
-                            <RichTextEditorInApp charLimit={150} text={data?.inAppContent} />
+                            <RichTextEditorInApp charLimit={150} text={data?.inAppContent} editorHtml={inAppContent} setEditorHtml={setInAppContent} />
+                            <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
+                                <div>Send copy to :</div>
+                                <div className='flex gap-2'>
+                                    <div className="flex items-center gap-1">
+                                        <input
+                                            type="checkbox"
+                                            name="propertyManager"
+                                            checked={copyToInApp.propertyManager}
+                                            onChange={handleCheckboxChangeForInAPP}
+                                        />
+                                        <p>Property Manager</p>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <input
+                                            type="checkbox"
+                                            name="propertyOwner"
+                                            checked={copyToInApp.propertyOwner}
+                                            onChange={handleCheckboxChangeForInAPP}
+                                        />
+                                        <p>Property Owner</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

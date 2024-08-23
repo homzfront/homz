@@ -4,8 +4,51 @@ import CustomizeSettings from './customizeSettings';
 import Print from '@/components/icons/print';
 
 const Settings = ({ data, fetchDataAgain }) => {
+    // Helper function to decode HTML entities
+    const decodeHtmlEntities = (html) => {
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = html;
+        return textarea.value;
+    };
+    const emailContent = decodeHtmlEntities(data?.emailContent);
+    const SMSContent = decodeHtmlEntities(data?.smsContent);
+    const inAppContent = decodeHtmlEntities(data?.inAppContent);
     const [modalCustom, setModalCustom] = useState(false);
     const [customizeSettings, setCustomizeSettings] = useState(false);
+
+    const handlePrint = (content, title) => {
+        const printWindow = window.open('', '_Rent-Reminder');
+        if (!printWindow) {
+            alert('Failed to open print window. Please check your browser settings.');
+            return;
+        };
+
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <style>
+                        body {
+                            font-family: sans-serif;
+                        }
+                    </style>
+                    <title>${title}</title>
+                </head>
+                <body>
+                    ${content}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+
+        printWindow.onload = () => {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        };
+    };
+
+    console.log(data);
 
     return (
         <div>
@@ -43,23 +86,6 @@ const Settings = ({ data, fetchDataAgain }) => {
                     </div>
                     :
                     <div>
-                        {/* <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
-                            <div className='w-full md:w-[50%] flex flex-col gap-2'>
-                                <p className='text-[14px] font-[500] text-BlueHomz'>
-                                    Time
-                                </p>
-                                <p className='text-[13px] font-[400] text-BlackHomz'>
-                                    Rent reminder will be sent out to tenants at this time
-                                </p>
-                            </div>
-                            <div className='w-full md:w-[50%]'>
-                                <div className='w-full md:w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
-                                    <p className='text-[14px] font-[500]'>
-                                        12 : 00 PM
-                                    </p>
-                                </div>
-                            </div>
-                        </div> */}
                         <div className='flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between border-b py-4 w-[100%]'>
                             <div className='w-full md:w-[50%] flex flex-col gap-2'>
                                 <p className='text-[14px] font-[500] text-BlueHomz'>
@@ -72,9 +98,9 @@ const Settings = ({ data, fetchDataAgain }) => {
                             <div className='w-full md:w-[50%]'>
                                 <div className='w-full md:w-[230px] py-3 pl-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                     <p className='text-[14px] font-[500]'>
-                                      {(data?.channels?.all === true || data?.channels?.email === true) && "Email,"}
-                                      {(data?.channels?.all === true || data?.channels?.sms === true) && "SMS,"}
-                                      {(data?.channels?.all === true || data?.channels?.inApp === true) && "In-app,"}
+                                        {(data?.channels?.all === true || data?.channels?.email === true) && "Email,"}
+                                        {(data?.channels?.all === true || data?.channels?.sms === true) && "SMS,"}
+                                        {(data?.channels?.all === true || data?.channels?.inApp === true) && "In-app,"}
                                     </p>
                                 </div>
                             </div>
@@ -97,15 +123,27 @@ const Settings = ({ data, fetchDataAgain }) => {
                                         </div>
                                         <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                             <div className='text-[14px] font-[400] text-justify'
-                                                dangerouslySetInnerHTML={{ __html: data?.emailContent }}
+                                                dangerouslySetInnerHTML={{ __html: emailContent }}
                                             />
                                         </div>
                                     </div>
-                                    <div className='flex justify-between w-full'>
-                                        <div className='text-GrayHomz font-[400] text-[13px]'>
-                                            Send copy to: Landlord
+                                    <div className='flex flex-col gap-1 md:gap-0 md:flex-row md:justify-between w-full'>
+                                        <div className='flex gap-2'>
+                                            {data?.sendCopyToEmail?.landlord === true &&
+                                                <div className='text-GrayHomz font-[400] text-[13px]'>
+                                                    Send copy to: Landlord
+                                                </div>
+                                            }
+                                            {data?.sendCopyToEmail?.propertyManager === true &&
+                                                <div className='text-GrayHomz font-[400] text-[13px]'>
+                                                    Send copy to: Property Manager
+                                                </div>
+                                            }
                                         </div>
-                                        <div className='flex items-center gap-1 text-BlueHomz font-[400] text-[14px]'>
+                                        <div
+                                            className="flex items-center gap-1 text-BlueHomz font-[400] text-[14px] cursor-pointer"
+                                            onClick={() => handlePrint(emailContent, data?.emailReminder)}
+                                        >
                                             <Print />
                                             Print copy
                                         </div>
@@ -130,8 +168,20 @@ const Settings = ({ data, fetchDataAgain }) => {
                                     </div>
                                     <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                         <div className='text-[14px] font-[400] text-justify'
-                                            dangerouslySetInnerHTML={{ __html: data?.smsContent }}
+                                            dangerouslySetInnerHTML={{ __html: SMSContent }}
                                         />
+                                    </div>
+                                    <div className='flex flex-row gap-2'>
+                                        {data?.sendCopyToSMS?.landlord === true &&
+                                            <div className='text-GrayHomz font-[400] text-[13px]'>
+                                                Send copy to: Landlord
+                                            </div>
+                                        }
+                                        {data?.sendCopyToSMS?.propertyManager === true &&
+                                            <div className='text-GrayHomz font-[400] text-[13px]'>
+                                                Send copy to: Property Manager
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -154,8 +204,20 @@ const Settings = ({ data, fetchDataAgain }) => {
                                         </div>
                                         <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                             <div className='text-[14px] font-[400] text-justify'
-                                                dangerouslySetInnerHTML={{ __html: data?.inAppContent }}
+                                                dangerouslySetInnerHTML={{ __html: inAppContent }}
                                             />
+                                        </div>
+                                        <div className='flex flex-row gap-2'>
+                                            {data?.sendCopyToInApp?.landlord === true &&
+                                                <div className='text-GrayHomz font-[400] text-[13px]'>
+                                                    Send copy to: Landlord
+                                                </div>
+                                            }
+                                            {data?.sendCopyToInApp?.propertyManager === true &&
+                                                <div className='text-GrayHomz font-[400] text-[13px]'>
+                                                    Send copy to: Property Manager
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>

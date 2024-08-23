@@ -53,8 +53,8 @@ const Data = [
     reminderDate: "Post Due Date",
     tenant: "Tenants will frequently receive set reminder after their due date",
     emailReminder: "Rent Reminder: Rent Due after Due Date",
-    sms_label: "Subject",
-    in_app: "Subject",
+    sms_label: "Rent Reminder",
+    in_app: "Rent Reminder",
     name: "Post Due Date",
   }
 ];

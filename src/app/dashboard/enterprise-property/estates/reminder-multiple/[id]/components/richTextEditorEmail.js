@@ -7,31 +7,45 @@ import Dropdown from './dropDown';
 // Dynamically import ReactQuill
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const RichTextEditorEmail = ({ charLimit, text }) => {
-  const [editorHtml, setEditorHtml] = useState(text);
-  const [charCount, setCharCount] = useState(text.length);
+// Helper function to decode HTML entities
+const decodeHtmlEntities = (html) => {
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = html;
+  return textarea.value;
+};
+
+const RichTextEditorEmail = ({ charLimit, text, setEditorHtml, editorHtml }) => {
+  // Decode the initial text to ensure it's clean
+  const [charCount, setCharCount] = useState(decodeHtmlEntities(text).replace(/<[^>]+>/g, '').length);
+
+  useEffect(() => {
+    // Decode and set the initial editorHtml to clean up any encoded HTML entities
+    setEditorHtml(decodeHtmlEntities(text));
+  }, [text, setEditorHtml]);
+
   const options = [
     "[Tenant’s First Name]",
     "[Tenant’s Full Name]",
     "[Tenant’s Address]",
-    "[Rent Due]",
-    "[Rent Start Date]", 
-    "[Rent Due Date]", 
+    "[Due Date]", 
+    "[New Due Date]",
+    "[New Start Date]", 
+    "[Property Manager’s Name]",
     "[Bank Name]", 
     "[Bank Account Number]", 
     "[Bank Account Name]",
-    "[Property Manager’s Name]",
     "[Property Manager’s Business Name]",
     "[Property Manager’s Business Email]", 
     "[Property Manager’s Business Address]", 
     "[Property Manager’s Business Logo]",
     "[Property Manager’s Business Phone Number]", 
+    "[Property Description]",
     "[PROPERTY DESCRIPTION]", 
     "[PROPERTY ADDRESS]"
       ];
 
   const handleChange = (html) => {
-    const text = html.replace(/<[^>]+>/g, ''); // Remove HTML tags
+    const text = html.replace(/<[^>]+>/g, '');
     const currentCharCount = text.length;
     if (currentCharCount <= charLimit) {
       setEditorHtml(html);
@@ -40,7 +54,7 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
   };
 
   const handleKeyDown = (event) => {
-    const plainText = editorHtml.replace(/<[^>]+>/g, ''); // Remove HTML tags
+    const plainText = editorHtml.replace(/<[^>]+>/g, ''); 
     if (plainText.length >= charLimit && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
       event.preventDefault();
     }
@@ -49,7 +63,7 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
   const handlePaste = (event) => {
     event.preventDefault();
     const clipboardData = (event.clipboardData || window.clipboardData).getData('Text');
-    const plainText = editorHtml.replace(/<[^>]+>/g, ''); // Remove HTML tags
+    const plainText = editorHtml.replace(/<[^>]+>/g, '');
     if (plainText.length + clipboardData.length <= charLimit) {
       setEditorHtml(editorHtml + clipboardData);
       setCharCount(plainText.length + clipboardData.length);
@@ -91,7 +105,6 @@ const RichTextEditorEmail = ({ charLimit, text }) => {
       return;
     }
   };
-
 
   return (
     <div className='text-[14px] text-[400] text-GrayHomz'>

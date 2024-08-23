@@ -6,13 +6,13 @@ import React, { useEffect, useState } from "react";
 import Settings from "./components/settings";
 import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import Image from "next/image";
-import SettingsII from "./components/settingsII";
 import Data from "./components/reminderData";
 import useEstateRentRemindersStore from "@/store/enterpriseStore/useEstateRentReminder";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
+
 const MultipleReminder = ({ ids }) => {
     const router = useRouter();
     const { data, fetchData, error } = useEstateRentRemindersStore();
@@ -92,11 +92,14 @@ const MultipleReminder = ({ ids }) => {
     };
 
     const combinedData = Data.map((item) => {
-        const correspondingItem = data?.reminder?.find((d) => d.name === item.name || d.name === item.name2);
+        const correspondingItem = data?.data?.find((d) => d.name === item.name || d.name === item.name2);
         if (correspondingItem) {
             return {
                 ...item,
                 channels: correspondingItem?.channels || [],
+                sendCopyToEmail: correspondingItem?.emailMessage?.sendCopyTo || [],
+                sendCopyToSMS: correspondingItem?.smsMessage?.sendCopyTo || [],
+                sendCopyToInApp: correspondingItem?.inAppMessage?.sendCopyTo || [],
                 emailContent: correspondingItem?.emailMessage?.content || '',
                 smsContent: correspondingItem?.smsMessage?.content || '',
                 inAppContent: correspondingItem?.inAppMessage?.content || '',
@@ -184,7 +187,7 @@ const MultipleReminder = ({ ids }) => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-4">
-                    {data?.reminder?.length > 0 && combinedData?.map((data) => (
+                    {data?.data?.length > 0 && combinedData?.map((data) => (
                         <div key={data.id}>
                             <div className="w-full p-4 bg-walletBg border border-BlueHomz rounded-[8px]">
                                 <div className="flex flex-col md:flex-row items-center justify-between">
@@ -223,21 +226,16 @@ const MultipleReminder = ({ ids }) => {
                                     </div>
                                 </div>
                             </div>
-                            {selectedId === data.id && data?.reminderDate !== "Post Due Date" && (
-                                <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
+                            {selectedId === data.id && (
+                                <div className="my-2 px-4 bg-white border border-lightblue rounded-[8px]">
                                     <Settings fetchDataAgain={fetchDataAgain} data={data} />
-                                </div>
-                            )}
-                            {selectedId === data.id && data?.reminderDate === "Post Due Date" && (
-                                <div className="mt-2 px-4 bg-white border border-lightblue rounded-[8px]">
-                                    <SettingsII fetchDataAgain={fetchDataAgain} data={data} />
                                 </div>
                             )}
                         </div>
                     ))}
                 </div>
-                <div className="w-full flex justify-end mt-4 mb-10">
-                    {data?.reminder?.length > 0 && (
+                {/* <div className="w-full flex justify-end mt-4 mb-10">
+                    {data?.data?.length > 0 && (
                         isAnyToggleActive ?
                             <button
                                 onClick={() => setOpenCompleted(true)}
@@ -249,7 +247,7 @@ const MultipleReminder = ({ ids }) => {
                                 Save settings
                             </button>
                     )}
-                </div>
+                </div> */}
             </div>
         </div >
     );
