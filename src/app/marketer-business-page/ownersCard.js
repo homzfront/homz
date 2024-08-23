@@ -11,22 +11,22 @@ const OwnersCard = ({ data }) => {
   });
   const [showNumber, setShowNumber] = useState(false);
   // console.log(propertyData);
-  const handleCopyClick = async (text, identifier) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
-      setTimeout(
-        () =>
-          setCopiedState((prevState) => ({
-            ...prevState,
-            [identifier]: false,
-          })),
-        2000
-      );
-    } catch (error) {
-      // console.error("Unable to copy to clipboard:", error);
-    }
-  };
+  // const handleCopyClick = async (text, identifier) => {
+  //   try {
+  //     await navigator.clipboard.writeText(text);
+  //     setCopiedState((prevState) => ({ ...prevState, [identifier]: true }));
+  //     setTimeout(
+  //       () =>
+  //         setCopiedState((prevState) => ({
+  //           ...prevState,
+  //           [identifier]: false,
+  //         })),
+  //       2000
+  //     );
+  //   } catch (error) {
+  //     // console.error("Unable to copy to clipboard:", error);
+  //   }
+  // };
   const viewLinks = (url) => {
     if (url && typeof url === 'string' && url.trim() !== "") {
       if (!url.startsWith('https://') && !url.startsWith('https://www.')) {

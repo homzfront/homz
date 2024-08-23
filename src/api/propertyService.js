@@ -31,9 +31,11 @@ export const fetchSinglePropertyPublic = async (id) => {
 export const propertyForMe = async (page) => {
   try {
     const response = await api.get(`/properties/user/me?page=${page && page}`);
+    // console.log(response)
     return response.data;
   } catch (error) {
-    throw error;
+    // console.log(error)
+    return error;
   }
 };
 
@@ -184,6 +186,15 @@ export const propertyMe = async () => {
 export const publishAndRepublishProperty = async (propertyId) => {
   try {
     const response = await api.patch(`/properties/property/${propertyId}/toggle`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const removeProperty = async (propertyId) => {
+  try {
+    const response = await api.delete(`/properties/${propertyId}/property`);
+    // console.log(response)
     return response.data;
   } catch (error) {
     throw error;

@@ -12,10 +12,11 @@ export const listingMe = async () => {
 
 
 export const updatePersonalInfoLister = async (data) => {
+  // console.log(data)
   const formData = new FormData();
   formData.append("coverPhoto", data?.coverPhoto);
   formData.append("fullName", data?.fullName);
-  formData.append("whatsappLink", data?.whatsappLink);
+  formData.append("whatsappLink", data?.whatsApp);
   formData.append("phoneNumber", data?.phoneNumber);
   formData.append("houseAddress", data?.houseAddress);
   try {

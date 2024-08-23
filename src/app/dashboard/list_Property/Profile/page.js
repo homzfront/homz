@@ -84,7 +84,7 @@ const Profile = () => {
   };
 
   const handleUpdateDetails = (data, typeOfAction) => {
-    console.log(data)
+    // console.log(data)
     setPersonalInfo(data);
     setTypeOfAction(typeOfAction);
     setSaveModalIsOpen(true);

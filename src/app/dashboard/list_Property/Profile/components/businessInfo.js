@@ -108,12 +108,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
         businessPhoneNo = "",
         businessLogo = {},
       } = Business_Info.businessInfo;
-  
-      const {
-        websiteUrl = "",
-        socialMediaLinks = {},
-      } = Business_Info;
-  
+
+      const { websiteUrl = "", socialMediaLinks = {} } = Business_Info;
+
       // Update business-related state variables
       setBusinessName(businessName);
       setBusinessEmail(businessEmail);
@@ -121,56 +118,55 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
       setBusinessWebsite(websiteUrl);
       setBusinessAddress(businessAddress);
       setPhoneNumber(businessPhoneNo);
-  
+
       if (businessLogo?.url) {
         setFileUploaded(true);
         setImageSrc(businessLogo.url);
       }
-  
+
       // Update social media links
       const updatedSocialMediaLinks = socialMedia.map((link) => {
-        const { whatsappLink, facebookLink, twitterLink, instagramLink } = socialMediaLinks;
+        const { whatsappLink, facebookLink, twitterLink, instagramLink } =
+          socialMediaLinks;
         const linkMap = {
           whatsAppLink: whatsappLink,
           facebookLink: facebookLink,
           twitterLink: twitterLink,
           instagramLink: instagramLink,
         };
-  
+
         return {
           ...link,
           value: linkMap[link.name] || link.value,
         };
       });
-  
+
       // Update the state with the new array of social media links
       setSocialMediaLinks(updatedSocialMediaLinks);
-  
+
       // Handle additional links (otherLinks)
       const { otherLinks = [] } = socialMediaLinks;
-  
+
       if (otherLinks.length > 0) {
         const otherLinksArray = otherLinks.map((link, index) => ({
           id: socialMedia.length + index + 1,
           placeholder: "Type in link",
-          value: link, 
+          value: link,
           name: "otherLinks",
         }));
-  
+
         setSocialMediaLinks((prevSocialMedia) => {
           // Filter out any existing otherLinks to avoid duplicates
           const filteredPrevSocialMedia = prevSocialMedia.filter(
             (link) => link.name !== "otherLinks"
           );
-  
+
           // Merge the new otherLinksArray without duplicates
           return [...filteredPrevSocialMedia, ...otherLinksArray];
         });
       }
     }
   }, [Business_Info]);
-  
-  
 
   // console.log(socialMedia);
   // console.log(otherLinksData);
@@ -305,7 +301,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   };
 
   const onSubmit = (user_id) => {
-  
     if (!update) {
       startTransition(() => {
         router.push(`/marketer-business-page/${user_id}`);
@@ -316,6 +311,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   };
   const handleUpdateData = () => {
     // mainSavedButton(true);
+    if (error2 || error) {
+      return;
+    }
     setUpdate(false);
     const data = {};
     data.businessName = businessName;
@@ -337,15 +335,23 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const triggerFileInputClick = () => {
     setOpenDocUpload(true);
   };
-  
 
-  // console.log(socialLinks.othersLinks);
-  // console.log(openDocUpload)
-  // console.log(busCertSuccess)
+  const handleWhatsAppFormat = (e, social) => {
+    setFocus(false);
+    if (social.id === 1) {
+      const whatsApp = e.target.value;
+      const isValidFormat = phoneFormat.test(whatsApp);
+      if (!isValidFormat) {
+        setError2("Invalid Phone number");
+        setFocus(true);
+      } else {
+        setError2("");
+        const phoneNumber = whatsApp.replace(/[^0-9]/g, "").replace(/^0+/, "");
+        setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+      }
+    }
+  };
 
-  // useEffect(() => {
-  //   // console.log('busCertSuccess:', busCertSuccess, 'progress:', progress);
-  // }, [busCertSuccess, progress]);
   return (
     <div className="">
       <div className=" flex flex-col w-full">
@@ -610,7 +616,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                     value={
                       social.id === 1
                         ? isFocus
-                          ? social.value
+                          ? social.value.startsWith("https://wa.me/")
+                            ? social.value.replace("https://wa.me/", "0")
+                            : social.value
                           : whatsappFormatted || social.value
                         : social.value
                     }
@@ -619,24 +627,8 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       handleInputChange(social.id, social.name, e.target.value);
                       setError2("");
                     }}
-                    onBlur={(e) => {
-                      setFocus(false);
-
-                      if (social.id === 1) {
-                        let whatsApp = e.target.value;
-                        if (!phoneFormat.test(whatsApp)) {
-                          setError2("Invalid Phone number");
-                          setFocus(true);
-                        } else {
-                          setError2("");
-                          const phoneNumber = whatsApp
-                            .replace(/[^0-9]/g, "")
-                            .replace(/^0+/, "");
-                          setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
-                        }
-                      }
-                    }}
-                    onFocus={() => {
+                    onBlur={(e) => handleWhatsAppFormat(e, social)}
+                    onFocus={(e) => {
                       if (social.id === 1) setFocus(true);
                     }}
                   />

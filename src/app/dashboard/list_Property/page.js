@@ -16,7 +16,6 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/actionModal";
 
-
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
@@ -57,7 +56,7 @@ const List_Property = () => {
     setPage(pageNumber);
     fetchData(pageNumber);
   };
-  
+
   useEffect(() => {
     fetchData(page);
     fetchProfile();
@@ -96,7 +95,8 @@ const List_Property = () => {
   }, [isPending]);
 
   const property = propertyListedAll;
-  const data = propertyListedAll.data?.results?.[0].data;
+  // console.log(propertyListedAll);
+  // const data = propertyListedAll.data?.results?.[0].data;
 
   const closePromotionModal = () => {
     fetchData(page);
@@ -176,7 +176,7 @@ const List_Property = () => {
         promotionPlan,
         selectedProperty
       );
-      console.log(results)
+      console.log(results);
       setLoader(false);
 
       if (results.status) {
@@ -257,7 +257,48 @@ const List_Property = () => {
           </div>
         </div>
       )}
-      {data && (
+
+      {loading && (
+        <div className="h-screen flex justify-center items-center">
+          <LoadingII />
+        </div>
+      )}
+      {property?.response?.data?.success===false ? (
+        <>
+          <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
+            List your properties so Tenants can see them.
+          </p>
+          <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-0">
+            <div className="flex flex-col items-center justify-center md:h-[412px] gap-[20px]">
+              <Image
+                src="/static/images/PropertyLister.svg"
+                alt=""
+                height={121}
+                width={121}
+                className="rounded-[8px] mx-auto"
+              />
+              <p className="text-[23px] md:text-[36px] font-[700] leading-[28.98px] md:leading-[45px] text-[#006AFF]">
+                Get Started
+              </p>
+              <p className="hidden md:block text-[#4E4E4E] leading-[27px] w-full text-center">
+                List your properties so Tenants can see them.
+              </p>
+              <Link
+                href="/dashboard/list_Property/addProperty"
+                className="w-full flex gap-1 md:w-[165px] h-[48px] md:p-[12px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
+              >
+                <Image
+                  src="/static/images/white-add.svg"
+                  alt=""
+                  height={16}
+                  width={16}
+                />
+                <span>List Properties</span>
+              </Link>
+            </div>
+          </div>
+        </>
+      ) : (
         <>
           <div
             className={` ${
@@ -271,7 +312,7 @@ const List_Property = () => {
                 </span>
 
                 <span className="text-[#006AFF] md:text-[18px] bg-[#EEF5FF] px-[8px] h-[28px] md:h-[35px] py-[4px] rounded-[8px] ml-2">
-                  {property.data.totalCount || 0}
+                  {property?.data?.totalCount || 0}
                 </span>
               </p>
               <div className="flex items-center gap-[12px] ">
@@ -400,61 +441,20 @@ const List_Property = () => {
             )}
           </div>
 
-          {loading ? (
-            <div className="h-screen flex justify-center items-center">
-              <LoadingII />
-            </div>
-          ) : Array.isArray(property) ? (
-            <>
-              <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
-                List your properties so Tenants can see them.
-              </p>
-              <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-0">
-                <div className="flex flex-col items-center justify-center md:h-[412px] gap-[20px]">
-                  <Image
-                    src="/static/images/PropertyLister.svg"
-                    alt=""
-                    height={121}
-                    width={121}
-                    className="rounded-[8px] mx-auto"
-                  />
-                  <p className="text-[23px] md:text-[36px] font-[700] leading-[28.98px] md:leading-[45px] text-[#006AFF]">
-                    Get Started
-                  </p>
-                  <p className="hidden md:block text-[#4E4E4E] leading-[27px] w-full text-center">
-                    List your properties so Tenants can see them.
-                  </p>
-                  <Link
-                    href="/dashboard/list_Property/addProperty"
-                    className="w-full flex gap-1 md:w-[165px] h-[48px] md:p-[12px] items-center justify-center rounded-[4px] text-white bg-[#006AFF]"
-                  >
-                    <Image
-                      src="/static/images/white-add.svg"
-                      alt=""
-                      height={16}
-                      width={16}
-                    />
-                    <span>List Properties</span>
-                  </Link>
-                </div>
-              </div>
-            </>
-          ) : (
-            <Property
-              property={property}
-              promoteOption={options}
-              openPromoModal={openPromoModal}
-              setSelectedOption={setSelectedProperties}
-              selectedOptions={selectedProperty}
-              closePromoModal={toggleModal}
-              cancelSelectedOption={handleCancel}
-              handlePageNumber={handlePageNumber}
-              refreshData={refreshData}
-              setOpenPlanModal={setOpenPlanModal}
-              setPromotePropertry={setPromotePropertry}
-              setErrorModal={setErrorModal}
-            />
-          )}
+          <Property
+            property={propertyListedAll}
+            promoteOption={options}
+            openPromoModal={openPromoModal}
+            setSelectedOption={setSelectedProperties}
+            selectedOptions={selectedProperty}
+            closePromoModal={toggleModal}
+            cancelSelectedOption={handleCancel}
+            handlePageNumber={handlePageNumber}
+            refreshData={refreshData}
+            setOpenPlanModal={setOpenPlanModal}
+            setPromotePropertry={setPromotePropertry}
+            setErrorModal={setErrorModal}
+          />
         </>
       )}
 

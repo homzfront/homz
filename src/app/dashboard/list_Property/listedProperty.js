@@ -33,9 +33,7 @@ const ListedProperties = ({
   // }, []);
   // console.log(property)
   const ITEMS_PER_PAGE = 8;
-  const [filteredData, setFilteredData] = useState(
-    property.data?.results?.[0].data
-  );
+  const [filteredData, setFilteredData] = useState([]);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
@@ -68,6 +66,11 @@ const ListedProperties = ({
     setFilteredData(property);
   };
 
+  useEffect(()=>{
+    if(property){
+      setFilteredData( property?.data?.results?.[0].data)
+      }
+  },[property])
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");

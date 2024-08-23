@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { propertyForMe } from '@/api/propertyService';
 
 const usePropertyStore = create((set) => ({
-  propertyListedAll: [],
+  propertyListedAll: {},
   loading: true,
   fetchData: async (page) => {
     set({ loading: true }); // Set loading to true when fetching data

@@ -15,7 +15,10 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import CardMenus from "./cardMenu";
 import formatDate from "@/utils/formatDate";
-import { publishAndRepublishProperty } from "@/api/propertyService";
+import {
+  publishAndRepublishProperty,
+  removeProperty,
+} from "@/api/propertyService";
 
 const initialState = {
   publishedSuccess: false,
@@ -61,7 +64,7 @@ const PropertyCard = ({
   const totalPages = Math.ceil(Property?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProperties = Property?.slice(startIndex, endIndex);
+  const currentProperties = Array.isArray(Property) ? Property.slice(startIndex, endIndex) : [];
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePromo, setActivePromoted] = useState(false);
@@ -77,7 +80,7 @@ const PropertyCard = ({
   const popUp = useRef(null);
   const router = useRouter();
   const [publishState, dispatch] = useReducer(reducer, initialState);
-  // console.log(Property);
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popUp.current && !popUp.current.contains(event.target)) {
@@ -101,7 +104,6 @@ const PropertyCard = ({
       setActivePromoted(true);
       return;
     }
-
     setSelectedProperty((prevSelected) =>
       prevSelected.includes(property)
         ? prevSelected.filter((item) => item !== property)
@@ -109,8 +111,17 @@ const PropertyCard = ({
     );
   };
   const handleDeleteProperty = () => {
-    setDeleteProperty(false);
-    setPropertyDeleted(true);
+    setLoader(true);
+    removeProperty(selectedDataId)
+      .then(result => {
+        setLoader(false);
+        setDeleteProperty(false);
+        setPropertyDeleted(true);
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log(error);
+      });
   };
   const handlePublishedUnpublishProperty = async () => {
     setLoader(true);
@@ -149,12 +160,14 @@ const PropertyCard = ({
   };
   const closeSuccessModal = () => {
     setPropertyDeleted(false);
+    refreshData();
     setActivePromoted(false);
+    setPromotionStoppedModal(false);
   };
 
-  const handlePromotionStop = () => {
-    refreshData();
-    setPromotionStoppedModal(false);
+  const handleDeleteModal = (propertyId) => {
+    setSelectedDataId(propertyId);
+    setDeleteProperty(true);
   };
   const handleUnpublished = (propertyId) => {
     setSelectedDataId(propertyId);
@@ -177,7 +190,7 @@ const PropertyCard = ({
   return (
     <div className="w-full flex flex-col gap-[64px] mt-6 sm:justify-center sm:items-center h-fit">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
-        {currentProperties.map((property, index) => (
+        {currentProperties&&currentProperties.map((property, index) => (
           <div
             className=" relative flex flex-col h-fit w-full md:w-[234px] md:h-[313px] rounded-[12px] shadow-md"
             key={index}
@@ -191,7 +204,7 @@ const PropertyCard = ({
                   <Image
                     src={
                       property?.coverPhoto?.url
-                        ? property.coverPhoto.url
+                        ? property?.coverPhoto.url
                         : "/static/images/comingSoonImage.svg"
                     }
                     alt=""
@@ -249,7 +262,7 @@ const PropertyCard = ({
                     <CardMenus
                       data={property}
                       publish={publish}
-                      setDeleteProperty={setDeleteProperty}
+                      handleDeleteModal={handleDeleteModal}
                       handleUnpublished={handleUnpublished}
                       handlePublished={handlePublished}
                       setIsMenuOpen={setIsMenuOpen}
@@ -384,7 +397,7 @@ const PropertyCard = ({
         optionText="Proceed"
         optionText2="Cancel"
         color="text-[#D92D20]"
-        // isLoading={isLoading}
+        isLoading={isLoading}
       />
       <SuccessModal
         isOpen={propertyDeleted}
@@ -420,7 +433,7 @@ const PropertyCard = ({
         }
         handleEvent={closePublishedSuccessModal}
         optionTextnbutton={
-          publishState.unpublishedSuccess ? "View drafts" : undefined
+          publishState.unpublishedSuccess ? "View Unpublished" : undefined
         }
         handleOptionButton={
           publishState.unpublishedSuccess
@@ -445,7 +458,7 @@ const PropertyCard = ({
       <SuccessModal
         isOpen={promotionStoppedModal}
         title="Promotion Stopped Successfully"
-        handleEvent={handlePromotionStop}
+        handleEvent={closeSuccessModal}
       />
     </div>
   );

@@ -175,10 +175,10 @@ const PropertyForms = () => {
       ) {
         const errorMessage = error.response.data.error.errors[0];
         console.log(errorMessage);
-        // toast.error("Update failed", `${errorMessage}`);
+        toast.error(errorMessage);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        toast.error("Update failed", `${errorMessage}`);
+        toast.error(errorMessage);
         console.log(errorMessage);
       }
       else {

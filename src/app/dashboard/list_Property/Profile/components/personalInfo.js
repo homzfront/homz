@@ -2,13 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-
-
-
-const PersonalInfo = ({
-  handleUpdate,
-  data,
-}) => {
+const PersonalInfo = ({ handleUpdate, data }) => {
   const [update, setUpdate] = useState(false);
   const [ImageSrc, setImageSrc] = useState("");
   const [profileFoto, setProfileFoto] = useState(null);
@@ -16,30 +10,33 @@ const PersonalInfo = ({
   const [fileUploaded, setFileUploaded] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+  const [error2, setError2] = useState(null);
   const [error, setError] = useState(null);
   const [fullName, setFullName] = useState("");
   const [houseAddress, setHouseAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [whatsappLink, setWhatsappLink] = useState("");
+  const [whatsApp, setWhatsApp] = useState("");
+  const [whatsappFormatted, setWhatsAppFormatted] = useState("");
+  const [isFocus, setFocus] = useState(false);
+  const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
 
   function addLeadingZero(number) {
-    return number?.toString()?.startsWith('0') ? number : '0' + number;
+    return number?.toString()?.startsWith("0") ? number : "0" + number;
   }
-
+  // console.log(data)
   useEffect(() => {
     if (data) {
       setFullName(data?.fullName || "");
       setHouseAddress(data?.houseAddress || "");
-      setPhoneNumber(addLeadingZero(data?.phoneNumber) || "");
-      setWhatsappLink(data?.whatsappLink || "")
+      setPhoneNumber(data?.phoneNumber || "");
+      setWhatsApp(data?.whatsApp || "");
 
       if (data?.coverPhoto?.url) {
-        setFileUploaded(true)
-        setImageSrc(data?.coverPhoto?.url || "")
+        setFileUploaded(true);
+        setImageSrc(data?.coverPhoto?.url || "");
       }
     }
   }, [data]);
-
 
   const displayProfilePhoto = (e) => {
     const file = e.target.files[0];
@@ -66,43 +63,30 @@ const PersonalInfo = ({
       ProfilePhoto.current.click();
     }
   };
-
   const onSubmit = () => {
-    const phoneNumberRegex = /^\d{11}$/;
-    const whatsappLinkRegex = /^https:\/\/wa\.me\//;
-    if (phoneNumber) {
-      if (!phoneNumberRegex.test(phoneNumber)) {
-        setError("Phone number must be 11 digits");
-        return;
-      }
+    if(error2 || error){
+      return;
     }
-    if (whatsappLink) {
-      if (!whatsappLinkRegex.test(whatsappLink)) {
-        setError("Invalid whatsApp link. Whatsapp link must start with `https://wa.me/`");
-        return;
-      }
-    }
-
+    setUpdate(false);
     const data = {
       fullName,
       phoneNumber,
-      whatsappLink,
+      whatsApp:whatsappFormatted,
       houseAddress,
-      coverPhoto: profileFoto
-    }
+      coverPhoto: profileFoto,
+    };
     handleUpdate(data);
   };
 
-
   return (
     <div className="w-full">
-      <div
-        className="w-full flex flex-col md:w-full md:px-6"
-      >
+      <div className="w-full flex flex-col md:w-full md:px-6">
         <div className="flex w-full md:gap-[78px] gap-8 mt-5 flex-col md:flex-row">
-          <div className={`flex md:flex-col flex-row gap-[28px] items-center w-full
+          <div
+            className={`flex md:flex-col flex-row gap-[28px] items-center w-full
           ${!update ? "pointer-events-none" : ""} 
-          `}>
+          `}
+          >
             <div>
               <input
                 type="file"
@@ -114,16 +98,18 @@ const PersonalInfo = ({
                 accept="image/png, image/jpg, image/jpeg"
               />
               <p
-                className={`md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] flex justify-center items-center mx-auto ${!fileUploaded && "bg-[#D5D5D5]"
-                  }`}
+                className={`md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] flex justify-center items-center mx-auto ${
+                  !fileUploaded && "bg-[#D5D5D5]"
+                }`}
               >
                 <Image
                   src={fileUploaded ? ImageSrc : "/static/images/user.svg"}
                   alt="Profile Photo"
-                  className={`${fileUploaded
-                    ? "md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] "
-                    : "md:w-[39.71px] md:h-[39.71px] h-[14.26px] w-[14.26px]"
-                    }`}
+                  className={`${
+                    fileUploaded
+                      ? "md:w-[181px] md:h-[181px] h-[65px] w-[65px] rounded-[100%] "
+                      : "md:w-[39.71px] md:h-[39.71px] h-[14.26px] w-[14.26px]"
+                  }`}
                   width={181}
                   height={181}
                 />
@@ -146,7 +132,10 @@ const PersonalInfo = ({
                 >
                   Click to upload profile photo
                 </span>
-                <span className="md:hidden cursor-pointer" onClick={uploadProfilePhoto}>
+                <span
+                  className="md:hidden cursor-pointer"
+                  onClick={uploadProfilePhoto}
+                >
                   Upload profile photo
                 </span>
               </p>
@@ -163,38 +152,68 @@ const PersonalInfo = ({
           </div>
           <div className="w-full flex flex-col gap-4">
             <div className="w-full">
-              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="Full Name"> Full Name</label>
+              <label
+                className="text-[13px] md:text-[14px] font-[500] text-GrayHomz "
+                htmlFor="Full Name"
+              >
+                {" "}
+                Full Name
+              </label>
               <br />
               <input
                 disabled={!update}
                 placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                  !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                }`}
               />
             </div>
 
             <div className="w-full">
-              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="PhoneNumber"> Phone Number</label>
+              <label
+                className="text-[13px] md:text-[14px] font-[500] text-GrayHomz "
+                htmlFor="PhoneNumber"
+              >
+                {" "}
+                Phone Number
+              </label>
               <br />
               <input
                 disabled={!update}
                 placeholder="Enter Phone Number"
-                type="number"
+                type="text"
                 value={phoneNumber}
                 onChange={(e) => {
-                  setPhoneNumber(e.target.value)
-                  setError("")
+                  setPhoneNumber(e.target.value);
+                  setError2("");
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                  !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                }`}
+                onBlur={(e) => {
+                  let phoneNo = e.target.value;
+                  if (!phoneFormat.test(phoneNo)) {
+                  setError2("Invalid Phone number");
+                  }
+                 
+
+                }}
               />
             </div>
+            {error2 && (
+              <p className="italic text-error text-[11px] font-[400]">
+                {error2}
+              </p>
+            )}
             <div className="w-full">
-              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="Email">
+              <label
+                className="text-[13px] md:text-[14px] font-[500] text-GrayHomz "
+                htmlFor="Email"
+              >
                 Email
               </label>
               <br />
@@ -204,50 +223,83 @@ const PersonalInfo = ({
                 readOnly
                 value={data?.user?.email}
                 placeholder="Enter Email"
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                  !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                }`}
               />
             </div>
             <div className="w-full">
-              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="House Address"> House Address</label>
+              <label
+                className="text-[13px] md:text-[14px] font-[500] text-GrayHomz "
+                htmlFor="House Address"
+              >
+                {" "}
+                House Address
+              </label>
               <br />
               <input
                 disabled={!update}
                 placeholder="House Address"
                 value={houseAddress}
                 onChange={(e) => setHouseAddress(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                  !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                }`}
               />
             </div>
             <div className="w-full">
-              <label className="text-[13px] md:text-[14px] font-[500] text-GrayHomz " htmlFor="WhatsAppLink"> WhatsApp Link</label>
+              <label
+                className="text-[13px] md:text-[14px] font-[500] text-GrayHomz "
+                htmlFor="WhatsAppLink"
+              >
+                {" "}
+                WhatsApp Link
+              </label>
               <br />
               <input
                 type="text"
                 name="WhatsAppLink"
                 placeholder="Enter WhatsApp Link"
                 disabled={!update}
-                value={whatsappLink}
+                value={isFocus ? whatsApp : whatsappFormatted}
                 onChange={(e) => {
-                  setWhatsappLink(e.target.value)
-                  setError("")
+                  setWhatsApp(e.target.value);
+                  setError("");
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${!update &&
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                  !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                }`}
+                onBlur={(e) => {
+                  setFocus(false);
+
+                  let whatsapp = e.target.value;
+                  if (!phoneFormat.test(whatsapp)) {
+                    setError("Invalid Phone number");
+                    setFocus(true);
+                  } else {
+                    setError("");
+                    const phoneNumber = whatsapp
+                      .replace(/[^0-9]/g, "")
+                      .replace(/^0+/, "");
+                    setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+                  }
+                }}
+                onFocus={() => {
+                  setFocus(true);
+                }}
               />
               {/* {errors.WhatsAppLink && (
                 <p className="errorMsg">WhatsApp Link is required</p>
               )} */}
             </div>
-            {
-              error && <div className="italic text-error text-[11px] font-[400]">
+            {error && (
+              <div className="italic text-error text-[11px] font-[400]">
                 {error}
               </div>
-            }
+            )}
           </div>
         </div>
         <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
@@ -267,7 +319,7 @@ const PersonalInfo = ({
                  rounded-[4px]"
                 onClick={() => setUpdate(true)}
               >
-               Click to update
+                Click to update
               </p>
             )}
           </div>

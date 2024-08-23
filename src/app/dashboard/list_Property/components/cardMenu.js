@@ -10,7 +10,7 @@ function CardMenus({
   data,
   handleDelete,
   publish,
-  setDeleteProperty,
+  handleDeleteModal,
   handleUnpublished,
   handlePublished,
   setIsMenuOpen,
@@ -97,7 +97,7 @@ function CardMenus({
       <button
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
         onClick={(e) => {
-          setDeleteProperty(true);
+          handleDeleteModal(data?._id);
         }}
       >
         <Image
