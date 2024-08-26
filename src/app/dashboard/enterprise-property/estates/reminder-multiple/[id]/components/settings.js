@@ -169,7 +169,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                             dangerouslySetInnerHTML={{ __html: SMSContent }}
                                         />
                                     </div>
-                                    <div className='flex flex-col md:flex-row gap-0 md:gap-2'>
+                                    {/* <div className='flex flex-col md:flex-row gap-0 md:gap-2'>
                                         {data?.sendCopyToSMS?.landlord === true &&
                                             <div className='text-GrayHomz font-[400] text-[13px]'>
                                                 Send copy to: Landlord
@@ -180,7 +180,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                                 Send copy to: Property Manager
                                             </div>
                                         }
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         }

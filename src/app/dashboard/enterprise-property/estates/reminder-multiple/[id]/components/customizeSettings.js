@@ -302,7 +302,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                             </div>
                             <RichTextEditorSMS charLimit={150} text={data?.smsContent} editorHtml={SMSContent} setEditorHtml={setSMSContent} />
                         </div>
-                        <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
+                        {/* <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                             <div>Send copy to :</div>
                             <div className='flex gap-2'>
                                 <div className="flex items-center gap-1">
@@ -324,7 +324,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                                     <p>Property Owner</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             )}

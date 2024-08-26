@@ -34,6 +34,17 @@ body::-webkit-scrollbar-thumb {
   border-top-right-radius: 30px;
 }
 
+/* Hide the scrollbar but still allow scrolling */
+.scrollbar-containerII {
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scrollbar-containerII::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, and Opera */
+}
+
 .ListProperty {
   @apply grid justify-center;
   grid-template-columns: 1fr 1fr 2fr;

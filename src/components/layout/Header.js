@@ -207,7 +207,7 @@ const Header = () => {
             <div
               className="hover:text-blue-400 cursor-pointer"
               onClick={handleOpenModal}>
-              List a property
+              List A Property
             </div>
             :
             <Link
@@ -215,7 +215,7 @@ const Header = () => {
               className="hover:text-blue-400 "
               onClick={() => setOpen(false)}
             >
-              List a property
+              List A Property
             </Link>
           }
         </div>
