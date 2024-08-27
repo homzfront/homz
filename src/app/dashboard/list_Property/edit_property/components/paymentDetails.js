@@ -4,8 +4,13 @@ import Link from "next/link";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import _ from "lodash";
 
-const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
-  const [data, setData] = useState(null);
+const PaymentDetails = ({
+  property,
+  handleUpdate,
+  setSaveUpdate,
+  setData,
+  saveUpdate,
+}) => {
   const [paymentType, setPaymentType] = useState("");
   const [isFocusPrice, setFocusPrice] = useState(false);
   const [isFocusMaintenance, setFocusMaintenance] = useState(false);
@@ -17,29 +22,18 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
   const [agencyClicked, setAgencyClicked] = useState(false);
   const [isFocusInitialPayment, setFocusInitialPayment] = useState(false);
   const [Installment, setInstallment] = useState(false);
-  const [selectedClicked, setSelectedClicked] = useState(true);
-  const [durationClicked, setDurationClicked] = useState(true);
+  const [selectedClicked, setSelectedClicked] = useState(false);
+  const [durationClicked, setDurationClicked] = useState(false);
 
-  const [formData, setFormData] = useState({
-    durationClicked: "2",
-    initialPayment: "340003",
-    frequency: "monthly",
-  });
-
-  const [price, setPrice] = useState(formData?.price || "");
-  const [maintenance, setMaintenance] = useState(
-    formData?.maintenanceFee || ""
-  );
-  const [total, setTotal] = useState(formData?.totalFee);
-  const [agency, setAgency] = useState(formData?.agencyFee || "");
-  const [initialPayment, setInitialPayment] = useState(
-    formData?.initialPayment || ""
-  );
+  const [formData, setFormData] = useState({});
+  // console.log(property);
+  const [price, setPrice] = useState("");
+  const [maintenance, setMaintenance] = useState("");
+  const [total, setTotal] = useState();
+  const [agency, setAgency] = useState();
+  const [initialPayment, setInitialPayment] = useState("");
   const originalFormData = useRef({
     ...property,
-    durationClicked: property?.durationClicked || "2",
-    initialPayment: property?.initialPayment || "340003",
-    frequency: property?.frequency || "monthly",
   });
 
   useEffect(() => {
@@ -47,9 +41,6 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
       setFormData((prevState) => ({
         ...prevState,
         ...property,
-        durationClicked: property?.durationClicked || "2",
-        initialPayment: property?.initialPayment || "340003",
-        frequency: property?.frequency || "monthly",
       }));
     }
   }, [property]);
@@ -58,42 +49,54 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
     // Compare formData and originalFormData
     const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
     setSaveUpdate(isFormDataChanged);
-  }, [formData, originalFormData, setSaveUpdate]);
+    if (isFormDataChanged) setData(formData);
+    else {
+      setAgencyClicked(false);
+      setMaintenanceClicked(false);
+      setPriceClicked(false);
+      setInitialPaymentClicked(false);
+      setDurationClicked(false);
+      setSelectedClicked(false);
+      setPaymentClicked(false);
+    }
+  }, [formData, originalFormData, setSaveUpdate, setData]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => {
+      if (type === "checkbox") {
+        return {
+          ...prevData,
+          [name]: checked,
+        };
+      } else {
+        return {
+          ...prevData,
+          [name]: value,
+        };
+      }
+    });
   };
-  const handleNumberChange = (e, setValue) => {
-    const value = e.target.value;
-    const numericValue = value.match(/^\d*\.?\d*$/);
-    if (numericValue) {
-      setValue(value);
-    }
-  };
+ 
 
   const calculateTotalPrice = () => {
     const safeParse = (value) => {
       const parsedValue = parseFloat(value);
       return isNaN(parsedValue) ? 0 : parsedValue;
     };
-    const parsedPrice = safeParse(price);
-    const parsedMaintenance = safeParse(maintenance);
-    const parsedAgency = safeParse(agency);
+    const parsedPrice = safeParse(formData?.price);
+    const parsedMaintenance = safeParse(formData?.maintenanceFee);
+    const parsedAgency = safeParse(formData?.agencyFee);
     const sum = parsedPrice + parsedMaintenance + parsedAgency;
-    setTotal(sum.toLocaleString());
+    // console.log(sum);
+    setFormData((prev) => ({ ...prev, totalFee: sum }));
+    // setTotal(sum);
   };
   // console.log(formData);
 
   const onSubmit = (e) => {
-    handleUpdate(e,data);
+    // console.log(formData);
+    handleUpdate(e, formData);
   };
 
   return (
@@ -168,10 +171,14 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
                   type="text"
                   name="price"
                   min="0"
-                  value={isFocusPrice ? price : Number(price).toLocaleString()}
+                  value={
+                    isFocusPrice
+                      ? formData?.price
+                      : Number(formData?.price).toLocaleString()
+                  }
                   onChange={(e) => {
                     handleChange(e);
-                    handleNumberChange(e, setPrice);
+                    // handleNumberChange(e, setPrice);
                   }}
                   onClick={(e) => setPriceClicked(true)}
                   onBlur={(e) => {
@@ -212,13 +219,13 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
                   min="0"
                   value={
                     isFocusMaintenance
-                      ? maintenance
-                      : Number(maintenance).toLocaleString()
+                      ? formData?.maintenanceFee
+                      : Number(formData?.maintenanceFee).toLocaleString()
                   }
                   onClick={(e) => setMaintenanceClicked(true)}
                   onChange={(e) => {
                     handleChange(e);
-                    handleNumberChange(e, setMaintenance);
+                    // handleNumberChange(e, setMaintenance);
                   }}
                   onBlur={(e) => {
                     setFocusMaintenance(false);
@@ -255,12 +262,14 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
                   name="agencyFee"
                   min="0"
                   value={
-                    isFocusAgency ? agency : Number(agency).toLocaleString()
+                    isFocusAgency
+                      ? formData?.agencyFee
+                      : Number(formData?.agencyFee).toLocaleString()
                   }
                   onClick={(e) => setAgencyClicked(true)}
                   onChange={(e) => {
                     handleChange(e);
-                    handleNumberChange(e, setAgency);
+                    // handleNumberChange(e, setAgency);
                   }}
                   onBlur={(e) => {
                     setFocusAgency(false);
@@ -292,7 +301,7 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
                   name="totalFee"
                   min="0"
                   disabled
-                  value={formData?.totalFee || total}
+                  value={Number(formData?.totalFee || total).toLocaleString()}
                   onChange={handleChange}
                 />
               </div>
@@ -308,11 +317,13 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
               <input
                 type="checkbox"
                 className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
+                name="installmentPayment"
                 id={`checkbox`}
-                onChange={() => {
+                onChange={(e) => {
+                  handleChange(e);
                   setInstallment((prev) => !prev);
                 }}
-                // checked={selectedAmenities.includes(amenity)}
+                checked={formData?.installmentPayment}
               />
               <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                 <svg
@@ -340,7 +351,9 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
           </div>
           <div
             className={` ${
-              Installment ? "grid sm:grid-cols-3 gap-[28px] mt-2" : "hidden"
+              formData?.installmentPayment
+                ? "grid sm:grid-cols-3 gap-[28px] mt-2"
+                : "hidden"
             }`}
           >
             <div className="custom-select-wrapper">
@@ -354,7 +367,8 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
               <br />
               <FrequencySelect
                 frequency={frequency}
-                paymentType={paymentType}
+                frequencyValue={formData?.frequency}
+                paymentType={formData?.paymentType}
                 capitalizeFirstLetter={capitalizeFirstLetter}
                 onChangeMethod={handleChange}
               />
@@ -362,27 +376,30 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
             <div className="custom-select-wrapper">
               <label
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
-                htmlFor="paymentType"
+                htmlFor="duration"
               >
                 Duration
               </label>{" "}
               <span className="text-error">*</span>
               <br />
               <select
-                name="paymentType"
+                name="duration"
                 onChange={handleChange}
-                className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
-                // onChange={(e) => setPaymentType(e.target.value)}
-                onClick={() => setDurationClicked(false)}
+                className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2 md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
+                onClick={() => setDurationClicked(true)}
                 style={{
-                  backgroundColor: !durationClicked ? "inherit" : "#E6E6E6",
-                  color: !durationClicked ? "#4E4E4E" : "#A9A9A9",
-                  border: !durationClicked && "1px solid #4E4E4E",
+                  backgroundColor: durationClicked ? "inherit" : "#E6E6E6",
+                  color: durationClicked ? "#4E4E4E" : "#A9A9A9",
+                  border: durationClicked ? "1px solid #4E4E4E" : undefined,
                 }}
               >
-                {durationClicked && (
-                  <option value="" disabled selected>
-                    Select payment duration
+                {!durationClicked && (
+                  <option value={formData?.duration} disabled selected>
+                    {formData?.duration
+                      ? `${formData?.duration} ${
+                          formData?.duration > 1 ? "years" : "year"
+                        }`
+                      : "Select payment duration"}
                   </option>
                 )}
 
@@ -422,12 +439,12 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
                   min="0"
                   value={
                     isFocusInitialPayment
-                      ? initialPayment
-                      : Number(initialPayment).toLocaleString()
+                      ? formData?.initialPayment
+                      : Number(formData?.initialPayment).toLocaleString()
                   }
                   onChange={(e) => {
                     handleChange(e);
-                    handleNumberChange(e, setInitialPayment);
+                    // handleNumberChange(e, setInitialPayment);
                   }}
                   onBlur={(e) => {
                     setFocusInitialPayment(false);
@@ -480,7 +497,7 @@ const RentDetails = ({ property, handleUpdate, setSaveUpdate, saveUpdate }) => {
   );
 };
 
-export default RentDetails;
+export default PaymentDetails;
 
 const paymentTypeValues = [
   "outright payment",
@@ -496,6 +513,7 @@ const frequency = ["weekly", "monthly", "quarterly", "yearly"];
 const FrequencySelect = ({
   frequency,
   paymentType,
+  frequencyValue,
   capitalizeFirstLetter,
   onChangeMethod,
 }) => {
@@ -519,8 +537,8 @@ const FrequencySelect = ({
       }}
     >
       {selectedClicked && (
-        <option value="" disabled selected>
-          Select Frequency
+        <option value={frequencyValue} disabled selected>
+          {capitalizeFirstLetter(frequencyValue) || "Select Frequency"}
         </option>
       )}
       {filteredFrequency.map((type, index) => (

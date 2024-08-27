@@ -94,8 +94,13 @@ const PropertyPhoto = ({
       houses,
       setHouses
     );
-    
   };
+
+  const isButtonEnabled =
+    fileUploaded ||
+    houses.length >= 1 ||
+    videoLinks.youtubeUrl !== "" ||
+    videoLinks.instagramUrl !== "";
   // console.log(houses);
   return (
     <div className=" w-full mt-6">
@@ -369,17 +374,16 @@ const PropertyPhoto = ({
             </button>
             <button
               onClick={submitData}
-              // disabled={fileUploaded && houses.length >= 3 ? true : false}
-              disabled={!fileUploaded || houses.length < 1}
-              className={`flex md:mr-14 border gap-1 justify-center  md:w-[77px]  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
-                !fileUploaded || houses.length < 3
+              disabled={!isButtonEnabled}
+              className={`flex md:mr-14 border gap-1 justify-center md:w-[77px] items-center text-[14px] font-[500] py-[8px] px-[12px] ${
+                !isButtonEnabled
                   ? "text-[#D5D5D5] bg-[#E6E6E6] border-[#A9A9A9]"
                   : "text-white border-white bg-BlueHomz"
-              } rounded-[4px] `}
+              } rounded-[4px]`}
               type="submit"
             >
               Next
-              {!fileUploaded || houses.length < 1 ? (
+              {!isButtonEnabled ? (
                 <Image
                   src={"/static/images/Vector.svg"}
                   alt=""

@@ -12,7 +12,7 @@ function capitalizeFirstLetter(word) {
   }
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
-const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft,setAmenities }) => {
+const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
   const [propertyType, setPropertyType] = useState("");
   const [listingType, setListingType] = useState("");
   const [listingClicked, setListingClicked] = useState(true);
@@ -92,14 +92,16 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft,setAmenities }) => {
             <br />
             <input
               {...register("title", {
-                required: "Property title is required"
+                required: "Property title is required",
               })}
               placeholder="e.g  Luxurious  4 bedroom duplex"
               className="h-[45px] md:w-[100%] rounded-[4px] p-[12px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]"
             />
             {errors.title && (
-                <p className="italic text-error text-[11px] font-[400]">{errors.title.message}</p>
-              )}
+              <p className="italic text-error text-[11px] font-[400]">
+                {errors.title.message}
+              </p>
+            )}
           </div>
           <div className="grid sm:grid-cols-4 gap-[20px] border-b">
             <MenuItems
@@ -314,7 +316,9 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft,setAmenities }) => {
                 name="description"
               ></textarea>
               {errors.description && (
-                <p className="italic text-error text-[11px] font-[400]">{errors.description.message}</p>
+                <p className="italic text-error text-[11px] font-[400]">
+                  {errors.description.message}
+                </p>
               )}
             </div>
             {propertyType === "Land" && (
@@ -328,65 +332,66 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft,setAmenities }) => {
               </div>
             )}
           </div>
-          <div className="flex sm:flex-row sm:gap-[24px] flex-col">
-            <select
-              name="furnishStatus"
-              className={`custom-select h-[43px] md:h-[45px] sm:w-[236px]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
-              id="furnishStatus"
-              {...register("furnishStatus")}
-            >
-              {furnishStatus.map((type, index) => (
-                <option key={index} value={type}>
-                  {capitalizeFirstLetter(type)}
-                </option>
-              ))}
-            </select>
-            <div>
-              {propertyStatus.map((status, index) => (
-                <div
-                  className="inline-flex items-center gap-[12px] sm:p-[12px] py-[14px] pr-[12px] bg-[#FCFCFC] rounded-[4px] w-fit"
-                  key={index}
-                >
-                  <label
-                    className="relative flex items-center rounded-full cursor-pointer"
-                    htmlFor={`checkbox-${index}`}
+          {propertyType != "Land" && (
+            <div className="flex sm:flex-row sm:gap-[24px] flex-col">
+              <select
+                name="furnishStatus"
+                className={`custom-select h-[43px] md:h-[45px] sm:w-[236px]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                id="furnishStatus"
+                {...register("furnishStatus")}
+              >
+                {furnishStatus.map((type, index) => (
+                  <option key={index} value={type}>
+                    {capitalizeFirstLetter(type)}
+                  </option>
+                ))}
+              </select>
+              <div>
+                {propertyStatus.map((status, index) => (
+                  <div
+                    className="inline-flex items-center gap-[12px] sm:p-[12px] py-[14px] pr-[12px] bg-[#FCFCFC] rounded-[4px] w-fit"
+                    key={index}
                   >
-                    <input
-                      type="checkbox"
-                      className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#78797a] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
-                      id={`checkbox-${index}`}
-                      {...register(status.split(" ")[0])}
-                      // onChange={() => handleCheckboxChange(status)}
-                      // checked={selectedAmenities.includes(status)}
-                    />
-                    <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        stroke="currentColor"
-                        stroke-width="1"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clip-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </span>
-                  </label>
-                  <label
-                    className=" leading-[19.5px] text-[16px] font-[500] md:leading-[21px] "
-                    htmlFor={`checkbox-${index}`}
-                  >
-                    {status}
-                  </label>
-                </div>
-              ))}
+                    <label
+                      className="relative flex items-center rounded-full cursor-pointer"
+                      htmlFor={`checkbox-${index}`}
+                    >
+                      <input
+                        type="checkbox"
+                        className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#78797a] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
+                        id={`checkbox-${index}`}
+                        {...register(status.split(" ")[0])}
+                        // onChange={() => handleCheckboxChange(status)}
+                        // checked={selectedAmenities.includes(status)}
+                      />
+                      <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3.5 w-3.5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          stroke="currentColor"
+                          stroke-width="1"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </span>
+                    </label>
+                    <label
+                      className=" leading-[19.5px] text-[16px] font-[500] md:leading-[21px] "
+                      htmlFor={`checkbox-${index}`}
+                    >
+                      {status}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-
+          )}
           <div className="flex justify-between mt-8 ">
             <div>
               <button
@@ -451,7 +456,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft,setAmenities }) => {
           <p
             // disabled={!isValid ? true : false}
             className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-               "text-BlueHomz"
+              "text-BlueHomz"
               // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
             }`}
             onClick={() => setSaveToDraft(true)}

@@ -11,18 +11,17 @@ const PropertyInfo = ({
   handleUpdate,
   setSaveUpdate,
   saveUpdate,
-  setEditMode
+  setData,
 }) => {
   // console.log(property);
   const [areas, setAreas] = useState([]);
   const [allStates, setAllStates] = useState([]);
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const [squareMeterClicked, setSquareMeterClicked] = useState(false);
   const [unitsClicked, setUnitsClicked] = useState(false);
   const [streetClicked, setStreetClicked] = useState(false);
   const [furnishStatusClicked, setFurnishStatusClicked] = useState(false);
   const [descriptionClicked, setDescriptionClicked] = useState(false);
-  const [propertyType, setPropertyType] = useState("");
   const [listingClicked, setListingClicked] = useState(true);
   const [stateClicked, setStateClicked] = useState(true);
   const [areaClicked, setAreaClicked] = useState(true);
@@ -32,33 +31,26 @@ const PropertyInfo = ({
   const [bedroomClicked, setBedroomClicked] = useState(true);
   const [bathroomClicked, setBathroomClicked] = useState(true);
   const [toiletClicked, setToiletClicked] = useState(true);
+  const [propertyType, setPropertyType] = useState("");
   const [ameni, setOpenAmeni] = useState(false);
   const [amenities, setAmenities] = useState([]);
   const numberCounts = [...Array(21).keys()].slice(1);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [propertyStatus, setPropertyStatus] = useState({
+    newlyBuilt: false,
+    serviced: false,
+  });
 
   const [formData, setFormData] = useState({
-    propertyStatus: ["serviced"],
-    amenities: [
-      "air conditioning",
-      "bathtub",
-      "constant electricity",
-      "kitchen shelve",
-      "microwave",
-      "parking space",
-    ],
+    newlyBuilt: false,
+    serviced: false,
+    amenities: [],
   });
   const originalFormData = useRef({
     ...property,
-    propertyStatus: property?.propertyStatus || ["serviced"],
-    amenities: property?.amenities || [
-      "air conditioning",
-      "bathtub",
-      "constant electricity",
-      "kitchen shelve",
-      "microwave",
-      "parking space",
-    ]
+    newlyBuilt: property?.newlyBuilt || false,
+    serviced: property?.serviced || false,
+    amenities: property?.amenities || [],
   });
 
   useEffect(() => {
@@ -66,17 +58,15 @@ const PropertyInfo = ({
       setFormData((prevState) => ({
         ...prevState,
         ...property,
-        propertyStatus: property.propertyStatus || ["serviced"],
-        amenities: property.amenities || [
-          "air conditioning",
-          "bathtub",
-          "constant electricity",
-          "kitchen shelve",
-          "microwave",
-          "parking space",
-        ],
+        newlyBuilt: property?.newlyBuilt || false,
+        serviced: property?.serviced || false,
+        amenities: property.amenities || [],
       }));
-     
+      setPropertyStatus((prev) => ({
+        ...prev,
+        newlyBuilt: property.newlyBuilt || false,
+        serviced: property.serviced || false,
+      }));
     }
   }, [property]);
 
@@ -84,7 +74,8 @@ const PropertyInfo = ({
     // Compare formData and originalFormData
     const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
     setSaveUpdate(isFormDataChanged);
-  }, [formData, originalFormData,setSaveUpdate]);
+    if (isFormDataChanged) setData(formData);
+  }, [formData, originalFormData, setSaveUpdate]);
 
   const fetchStates = async () => {
     try {
@@ -100,50 +91,42 @@ const PropertyInfo = ({
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
+
     setFormData((prevState) => {
       if (type === "checkbox") {
-        const updatedArray = checked
-          ? [...prevState[name], value]
-          : prevState[name].filter((item) => item !== value);
-        return {
-          ...prevState,
-          [name]: updatedArray,
-        };
+        // Handle the checkbox changes for both propertyStatus and amenities
+        if (name === "newlyBuilt" || name === "serviced") {
+          return {
+            ...prevState,
+            [name]: checked,
+          };
+        } else {
+          const updatedArray = checked
+            ? [...prevState[name], value]
+            : prevState[name].filter((item) => item !== value);
+          return {
+            ...prevState,
+            [name]: updatedArray,
+          };
+        }
       } else {
+        // Handle other input types
         return {
           ...prevState,
           [name]: value,
         };
       }
     });
-
-    // if (name === "listingType") {
-    //   setFormData((prevData) => ({
-    //     ...prevData,
-    //     listingType: value,
-    //     // Remove every other data collected when listingType changes
-    //     ...(value !== prevData?.listingType && {
-    //       [name]: value,
-    //     }),
-    //   }));
-    // } else {
-    //   setFormData((prevData) => ({
-    //     ...prevData,
-    //     [name]: value,
-    //     listingType: formData?.listingType,
-    //     [formData?.listingType === "land" ? "title" : "name"]:
-    //       formData?.[formData?.listingType === "land" ? "title" : "name"] || "",
-    //   }));
-    // }
   };
 
   const onSubmit = (e) => {
     // if (data === null) {
     //   setEditMode(false);
-    //   console.log("No data")
+    // console.log(formData);
     // } else {
+    //   console.log(data)
     // }
-    handleUpdate(e,data);
+    handleUpdate(e, formData);
   };
 
   const fetchAreas = async (stateSelected) => {
@@ -159,11 +142,11 @@ const PropertyInfo = ({
   // console.log("formData",formData);
   // console.log("original",originalFormData);
   // console.log(saveUpdate);
-// 
+  //
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between flex-col md:flex-row ">
-        <form
+        <div
           // onSubmit={onSubmit}
           className=" flex flex-col sm:w-full sm:gap-[20px] gap-[17px]"
         >
@@ -177,10 +160,10 @@ const PropertyInfo = ({
             </label>
             <br />
             <input
-              name="name"
+              name="title"
               onChange={handleChange}
               onClick={(e) => setTitleClicked(true)}
-              value={formData?.name || ""}
+              value={formData?.title || ""}
               placeholder="e.g  Luxurious  4 bedroom duplex"
               className={`h-[45px] md:w-[100%] rounded-[4px] p-[12px]  w-[100%] text-[13px] md:text-[14px] font-[500]  placeholder:text-[13px] ${
                 titleClicked
@@ -235,7 +218,7 @@ const PropertyInfo = ({
                   : []
               }
             />
-            {propertyType === "Land" ? (
+            {formData?.propertyType === "Land" ? (
               <div className="">
                 <label
                   className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
@@ -338,7 +321,7 @@ const PropertyInfo = ({
               />
             </div>
           </div>
-          {propertyType != "Land" && (
+          {formData?.propertyType != "Land" && (
             <div className="grid sm:grid-cols-4 gap-[20px] ">
               <MenuItems
                 title="Bedrooms"
@@ -403,7 +386,7 @@ const PropertyInfo = ({
                 value={formData?.description}
               ></textarea>
             </div>
-            {propertyType === "Land" && (
+            {formData?.propertyType === "Land" && (
               <div className="sm:pt-6  sm:w-[349px] inline-block w-[100%]">
                 <p
                   className="border bg-[#006AFF] rounded-[4px] text-white flex items-center justify-center px-[8px] py-[12px] font-[400] leading-[21px] text-[14px] w-[100%] h-[37px] cursor-pointer"
@@ -414,77 +397,77 @@ const PropertyInfo = ({
               </div>
             )}
           </div>
-          <div className="flex sm:flex-row sm:gap-[24px] flex-col">
-            <select
-              name="furnishStatus"
-              className={`custom-select h-[43px] md:h-[45px] sm:w-[236px]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
-              onClick={(e) => setFurnishStatusClicked(true)}
-              style={{
-                backgroundColor: furnishStatusClicked ? "inherit" : "#E6E6E6",
-                color: furnishStatusClicked ? "#4E4E4E" : "#A9A9A9",
-                border: furnishStatusClicked && "1px solid #4E4E4E",
-              }}
-              id="furnishStatus"
-              onChange={handleChange}
-              value={formData?.furnishStatus || ""}
-            >
-              <option value="" disabled>
-                Select Furnish Status
-              </option>
-              {furnishStatus.map((type, index) => (
-                <option key={index} value={type}>
-                  {capitalizeFirstLetter(type)}
+          {formData?.propertyType != "Land" && (
+            <div className="flex sm:flex-row sm:gap-[24px] flex-col">
+              <select
+                name="furnishStatus"
+                className={`custom-select h-[43px] md:h-[45px] sm:w-[236px]  p-[4px] md:p-[12px] rounded-[4px] border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px]`}
+                onClick={(e) => setFurnishStatusClicked(true)}
+                style={{
+                  backgroundColor: furnishStatusClicked ? "inherit" : "#E6E6E6",
+                  color: furnishStatusClicked ? "#4E4E4E" : "#A9A9A9",
+                  border: furnishStatusClicked && "1px solid #4E4E4E",
+                }}
+                id="furnishStatus"
+                onChange={handleChange}
+                value={formData?.furnishStatus || ""}
+              >
+                <option value="" disabled>
+                  Select Furnish Status
                 </option>
-              ))}
-            </select>
-            <div>
-              {propertyStatus.map((status, index) => (
-                <div
-                  className="inline-flex items-center gap-[12px] sm:p-[12px] py-[14px] pr-[12px] bg-[#FCFCFC] rounded-[4px] w-fit"
-                  key={index}
-                >
-                  <label
-                    className="relative flex items-center rounded-full cursor-pointer"
-                    htmlFor={`checkbox-${index}`}
+                {furnishStatus.map((type, index) => (
+                  <option key={index} value={type}>
+                    {capitalizeFirstLetter(type)}
+                  </option>
+                ))}
+              </select>
+              <div>
+                {Object.entries(propertyStatus).map(([key, value], index) => (
+                  <div
+                    className="inline-flex items-center gap-[12px] sm:p-[12px] py-[14px] pr-[12px] bg-[#FCFCFC] rounded-[4px] w-fit"
+                    key={index}
                   >
-                    <input
-                      type="checkbox"
-                      className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#78797a] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
-                      name="propertyStatus"
-                      id={`checkbox-${index}`}
-                      value={status}
-                      onChange={handleChange}
-                      checked={
-                        formData?.propertyStatus.includes(status) || false
-                      }
-                    />
-                    <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        stroke="currentColor"
-                        stroke-width="1"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clip-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </span>
-                  </label>
-                  <label
-                    className=" leading-[19.5px] text-[16px] font-[500] md:leading-[21px] "
-                    htmlFor={`checkbox-${index}`}
-                  >
-                    {status}
-                  </label>
-                </div>
-              ))}
+                    <label
+                      className="relative flex items-center rounded-full cursor-pointer"
+                      htmlFor={`checkbox-${index}`}
+                    >
+                      <input
+                        type="checkbox"
+                        className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#78797a] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#EEF5FF] hover:before:opacity-10"
+                        name={key}
+                        id={`checkbox-${index}`}
+                        value={value}
+                        onChange={(e) => handleChange(e)}
+                        checked={formData[key]} // Dynamically check based on formData
+                      />
+                      <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3.5 w-3.5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          stroke="currentColor"
+                          strokeWidth="1"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    </label>
+                    <label
+                      className="leading-[19.5px] text-[16px] font-[500] md:leading-[21px]"
+                      htmlFor={`checkbox-${index}`}
+                    >
+                      {key === "newlyBuilt" ? "newly built" : key}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div className="flex md:justify-end justify-center mt-8">
             <button
               className={`hidden sm:flex border justify-center md:w-[127px] w-[100%] items-center text-[14px] font-[500] py-[8px] px-[12px] border-white ${
@@ -521,7 +504,7 @@ const PropertyInfo = ({
               </button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <Amenities
         isOpen={ameni}
@@ -657,4 +640,4 @@ const subTypeFlatsApartments = [
 
 const CoworkingSpace = ["co-working space"];
 const furnishStatus = ["partly furnished", "fully furnished"];
-const propertyStatus = ["newly Built", "serviced"];
+const propertyStatus = { newlyBuilt: false, serviced: false };

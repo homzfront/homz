@@ -50,7 +50,7 @@ const MiniPhotoFrame = ({
                   name="HousePic"
                   ref={(el) => (fileUploads.current[actualIndex] = el)}
                   id={`uploadImage${actualIndex}`}
-                  onChange={(e) => displayHousePic(e, actualIndex)}
+                  onChange={(e) => displayHousePic(e, actualIndex,house?.publicId)}
                   style={{ display: "none" }}
                   accept="image/jpg, image/png, image/jpeg"
                 />
@@ -75,7 +75,7 @@ const MiniPhotoFrame = ({
                         width={24}
                         className="cursor-pointer absolute z-10 sm:bottom-[-22p] bottom-[-19px]"
                         alt="img"
-                        onClick={() => deleteFile(actualIndex)}
+                        onClick={() => deleteFile(actualIndex, house?.publicId)}
                       />
                     )}
                   </>

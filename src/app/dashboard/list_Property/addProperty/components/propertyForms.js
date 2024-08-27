@@ -106,6 +106,7 @@ const PropertyForms = () => {
       youtubeUrl,
       instagramUrl,
     } = filteredDetail;
+
     formData.append("coverPhoto", coverPhoto);
     photos.forEach((photo) => formData.append("photos", photo));
     const payload = {
@@ -140,6 +141,7 @@ const PropertyForms = () => {
       initialPayment,
       installmentPayment,
     };
+    console.log(payload)
 
     for (const [key, value] of Object.entries(payload)) {
       if (value) {
@@ -152,7 +154,7 @@ const PropertyForms = () => {
         }
       }
     }    
-
+    // /:id/property-detail
     try {
       const response = await api.post(
         "/properties/create/listing-property",
@@ -187,9 +189,9 @@ const PropertyForms = () => {
         toast.error(errorMessage);
         console.log(errorMessage);
       }
-      else {
-        // toast.error("Update failed");
-      }
+      // else {
+      //   // toast.error("Update failed");
+      // }
     }
   };
 

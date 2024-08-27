@@ -8,7 +8,8 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
   const [duration, setDuration] = useState("");
   const [price, setPrice] = useState("");
   const [maintenance, setMaintenance] = useState("");
-  const [total, setTotal] = useState("");
+  const [formatTotalFee, setFormattedTotalFee] = useState("");
+  const [totalFee, setTotalFee] = useState("");
   const [agency, setAgency] = useState("");
   const [initialPayment, setInitialPayment] = useState("");
   const [formattedInitialPayment, setFormattedInitialPayment] = useState("");
@@ -48,22 +49,22 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
     if (paymentType !== undefined && paymentType !== null) {
       data.paymentType = paymentType;
     }
-    if (!isNaN(parseInt(maintenance))) {
-      data.maintenanceFee = parseInt(maintenance);
-    }
-    if (!isNaN(parseInt(total))) {
-      data.totalFee = parseInt(total);
-    }
-    if (!isNaN(parseInt(agency))) {
-      data.agencyFee = parseInt(agency);
-    }
+    // if (!isNaN(parseInt(maintenance))) {
+    // }
+    // if (!isNaN(parseInt(formatTotalFee))) {
+    // }
+    // if (!isNaN(parseInt(agency))) {
+    // }
     if (!isNaN(parseInt(price))) {
       data.price = parseInt(price);
     }
-    data.initialPayment=initialPayment;
-    data.frequency=frequency;
-    data.duration=duration;
-    data.installmentPayment=Installment
+    data.maintenanceFee = maintenance;
+    data.agencyFee = agency;
+    data.initialPayment = initialPayment;
+    data.frequency = frequency;
+    data.totalFee = totalFee;
+    data.duration = duration;
+    data.installmentPayment = Installment;
     handleRentalInfo(data);
   };
   const calculateTotalPrice = () => {
@@ -75,7 +76,8 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
     const parsedMaintenance = safeParse(maintenance);
     const parsedAgency = safeParse(agency);
     const sum = parsedPrice + parsedMaintenance + parsedAgency;
-    setTotal(sum.toLocaleString());
+    setTotalFee(sum);
+    setFormattedTotalFee(sum.toLocaleString());
   };
 
   return (
@@ -250,7 +252,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               <div className="flex relative bg-[#E6E6E6] rounded-[4px] items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !total && "opacity-60"
+                    !formatTotalFee && "opacity-60"
                   }`}
                 >
                   ₦
@@ -262,7 +264,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                   name="totalFee"
                   min="0"
                   disabled
-                  value={total}
+                  value={formatTotalFee}
                 />
               </div>
             </div>
@@ -508,7 +510,12 @@ const paymentTypeValues = [
   "2 years (Lease)",
 ];
 const frequencyData = ["weekly", "monthly", "quarterly", "yearly"];
-const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter,setFrequency }) => {
+const FrequencySelect = ({
+  frequency,
+  paymentType,
+  capitalizeFirstLetter,
+  setFrequency,
+}) => {
   // Filter out the 'yearly' option if paymentType is 'yearly'
   const [selectedClicked, setSelectedClicked] = useState(true);
   const filteredFrequency =
@@ -521,7 +528,7 @@ const FrequencySelect = ({ frequency, paymentType, capitalizeFirstLetter,setFreq
       name="frequency"
       className="custom-select h-[43px] md:h-[45px] md:w-[300.67px] pl-2  md:p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] w-[100%]"
       onClick={() => setSelectedClicked(false)}
-      onChange={(e)=>setFrequency(e.target.value)}
+      onChange={(e) => setFrequency(e.target.value)}
     >
       {selectedClicked && (
         <option value="" disabled selected>

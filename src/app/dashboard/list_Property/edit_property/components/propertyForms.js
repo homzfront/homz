@@ -10,13 +10,14 @@ import PropertyPhoto from "./PhotoDetails";
 import ContactInfo from "./contactInfo";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import {
-  rentDetails,
-  updateContactInfo,
+  updatePropertyCoverPhoto,
   updatePropertyDetails,
+  updatePropertyOtherPhoto,
 } from "@/api/propertyService";
-import Loading from "@/components/mainmenu/loading";
-import useBodyScroll from "@/utils/useBodyScroll";
+// import Loading from "@/components/mainmenu/loading";
+// import useBodyScroll from "@/utils/useBodyScroll";
 import { useRouter } from "next/navigation";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const PropertyForms = ({ propertyData }) => {
   const [propertyInfoActive, setPropertyInfoActive] = useState(true);
@@ -25,15 +26,17 @@ const PropertyForms = ({ propertyData }) => {
   const [activeFour, setActiveFour] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
-  const [form, setForm] = useState(null);
-  const [formII, setFormII] = useState(null);
-  const [formIV, setFormIV] = useState(null);
+  const [formData, setFormData] = useState(null);
+  const [formII, setFormDataII] = useState(null);
+  const [coverPhotoFile, setCoverPicture] = useState(null);
+  const [propertyPhotos, setPropertyPhotos] = useState([]);
+  const [propertyPhotosPublicId, setPropertyPhotosPublicId] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [editMode, setEditMode] = useState(false);
   const [savePropertyUpdate, setSavePropertyUpdate] = useState(false);
   const [savePaymentUpdate, setSavePaymentUpdate] = useState(false);
   const [savePhotosUpdate, setSavePhotosUpdate] = useState(false);
   const [saveContactUpdate, setSaveContactUpdate] = useState(false);
+  const [videoLinks, setVideoLinks] = useState({});
 
   const router = useRouter();
   const closeModal = () => {
@@ -42,134 +45,105 @@ const PropertyForms = ({ propertyData }) => {
   };
   const closeSuccessModal = () => {
     setSuccessModalIsOpen(false);
+    setSaveContactUpdate(false);
+    setSavePaymentUpdate(false);
+    setSavePropertyUpdate(false);
+    setSavePhotosUpdate(false);
+    setFormData(null);
+    setCoverPicture(null);
   };
 
-  const handleSaved = async (e) => {
+  // console.log(formData);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return; // Do nothing if already loading
-    setLoading(true); // Set loading to true when submitting the form
-    let success = false; // Initialize success variable
-    let error = false;
+    if (loading) return;
 
-    if (form !== null || formII !== null || formIV !== null) {
-      try {
-        if (form !== null) {
-          const {
-            success: successForm,
-            upDateddata,
-            error: formerror,
-          } = await updatePropertyDetails(propertyData._id, form);
-          error = formerror;
-          success = successForm; // Update success variable
-        } else if (formII !== null) {
-          const {
-            success: successFormII,
-            upDateddata,
-            error: formerror,
-          } = await rentDetails(propertyData._id, formII);
-          error = formerror;
-          success = successFormII; // Update success variable
-        } else if (formIV !== null) {
-          const whatsappRegex = /^https:\/\/wa\.me\/\d{10,}$/;
-          if (formIV?.whatsapp && !whatsappRegex.test(formIV?.whatsapp)) {
-            toast.error("Invalid WhatsApp link format");
-            setLoading(false);
-            setSaveModalIsOpen(false);
-            return;
-          }
-          const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
-          if (formIV?.email && !validEmail.test(formIV?.email)) {
-            toast.error("Invalid email link format");
-            setLoading(false);
-            setSaveModalIsOpen(false);
-            return;
-          }
-          if (formIV?.phoneNumber && formIV?.phoneNumber?.length !== 11) {
-            toast.error("Phone number must be 11 digits");
-            setLoading(false);
-            setSaveModalIsOpen(false);
-            return;
-          }
-          const {
-            success: successFormIV,
-            upDateddata,
-            error: formerror,
-          } = await updateContactInfo(propertyData._id, formIV);
-          error = formerror;
-          success = successFormIV; // Update success variable
-        }
+    setLoading(true);
 
-        if (success) {
-          setLoading(false);
-          // toast.success("Update successful");
-          setSuccessModalIsOpen(true);
-          setSaveModalIsOpen(false);
-          setEditMode(false);
-          setForm(null);
-          setFormII(null);
-          // setFormIII(null);
-          setFormIV(null);
-        } else {
-          // toast.error(error);
-          setLoading(false);
-          setSaveModalIsOpen(false);
-        }
-        if (error) {
-          setLoading(false);
-          setSaveModalIsOpen(false);
-          if (
-            error?.response?.data?.error?.errors &&
-            error.response.data.error.errors.length > 0
-          ) {
-            const errorMessage = error.response.data.error.errors[0];
-            console.log(errorMessage);
-            toast.error(`Update failed: ${errorMessage}`);
-          } else if (error?.response?.data?.message) {
-            const errorMessage = error.response.data.message;
-            toast.error(`Update failed: ${errorMessage}`);
-          } else {
-            toast.error("Update failed");
-          }
-        }
-      } catch (error) {
-        setLoading(false);
-        setSaveModalIsOpen(false);
-        if (
-          error?.response?.data?.error?.errors &&
-          error.response.data.error.errors.length > 0
-        ) {
-          const errorMessage = error.response.data.error.errors[0];
-          console.log(errorMessage);
-          toast.error(`Update failed: ${errorMessage}`);
-        } else if (error?.response?.data?.message) {
-          const errorMessage = error.response.data.message;
-          toast.error(`Update failed: ${errorMessage}`);
-        } else {
-          // toast.error("Update failed");
-        }
+    try {
+      let success = false;
+      let error = null;
+
+      // Handle cover photo update
+      if (coverPhotoFile) {
+        const { success: successCover, error: errorCover } =
+          await updatePropertyCoverPhoto(propertyData._id, coverPhotoFile);
+        success = successCover || success; // Keep true if any success
+        error = errorCover || error; // Prioritize any error
       }
+
+      // Handle other property photos update
+      if (propertyPhotos.length > 0) {
+        const { success: successOtherPhotos, error: errorOtherPhotos } =
+          await updatePropertyOtherPhoto(
+            propertyData._id,
+            propertyPhotos,
+            propertyPhotosPublicId
+          );
+        success = successOtherPhotos || success;
+        error = errorOtherPhotos || error;
+      }
+
+      // Handle form data update
+      if (formData) {
+        const updatedFormData = { ...formData, ...videoLinks };
+        const { success: successForm, error: errorForm } =
+          await updatePropertyDetails(propertyData._id, updatedFormData);
+        success = successForm || success;
+        error = errorForm || error;
+      }
+
+      // Handle success
+      if (success) {
+        setSuccessModalIsOpen(true);
+        setCoverPicture(null);
+        setFormData(null);
+      }
+
+      // Handle errors
+      if (error) {
+        handleErrors(error);
+      }
+    } catch (err) {
+      handleErrors(err);
+    } finally {
+      setLoading(false);
+      setSaveModalIsOpen(false);
     }
   };
 
-  useBodyScroll([loading]);
+  const handleErrors = (error) => {
+    console.log(error);
+    const errorMessage =
+      error?.response?.data?.error?.errors?.[0] ||
+      error?.response?.data?.message ||
+      "Update failed";
+    console.error(errorMessage);
+    toast.error(errorMessage);
+  };
 
   const updatePropertyDetail = (e, data) => {
-    e.preventDefault()
+    e.preventDefault();
     setSaveModalIsOpen(true);
-    setForm(data);
+    setFormData(data);
   };
 
-  const updatePropertyDetailII = (e,data) => {
-    e.preventDefault()
+  const updatePropertyDetailII = (e, data) => {
+    e.preventDefault();
     setSaveModalIsOpen(true);
-    setFormII(data);
+    setFormData(data);
   };
 
-  const updatePropertyDetailIV = (e,data) => {
-    e.preventDefault()
+  const updatePropertyDetailIV = (e, data) => {
+    e.preventDefault();
     setSaveModalIsOpen(true);
-    setFormIV(data);
+    setFormData(data);
   };
+  // const updatePropertyPictures = (e, data) => {
+  //   e.preventDefault();
+  //   setSaveModalIsOpen(true);
+  //   setFormData(data);
+  // };
 
   const handlePropertyInfoActive = () => {
     if (savePaymentUpdate || savePhotosUpdate || saveContactUpdate) {
@@ -334,7 +308,7 @@ const PropertyForms = ({ propertyData }) => {
             handleUpdate={updatePropertyDetail}
             setSaveUpdate={setSavePropertyUpdate}
             saveUpdate={savePropertyUpdate}
-            setEditMode={setEditMode}
+            setData={setFormData}
           />
         </div>
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
@@ -343,7 +317,7 @@ const PropertyForms = ({ propertyData }) => {
             handleUpdate={updatePropertyDetailII}
             setSaveUpdate={setSavePaymentUpdate}
             saveUpdate={savePaymentUpdate}
-            setEditMode={setEditMode}
+            setData={setFormData}
           />
         </div>
         <div className={`${activeThree ? "inline" : "hidden"} w-full`}>
@@ -352,7 +326,11 @@ const PropertyForms = ({ propertyData }) => {
             setSaveUpdate={setSavePhotosUpdate}
             setSaveModalIsOpen={setSaveModalIsOpen}
             saveUpdate={savePhotosUpdate}
-            setEditMode={setEditMode}
+            setCoverPicture={setCoverPicture}
+            setLinks={setVideoLinks}
+            setData={setFormData}
+            setPropertyPhotos={setPropertyPhotos}
+            setPropertyPhotosPublicId={setPropertyPhotosPublicId}
           />
         </div>
         <div className={`${activeFour ? "inline" : "hidden"} w-full`}>
@@ -361,40 +339,40 @@ const PropertyForms = ({ propertyData }) => {
             handleUpdate={updatePropertyDetailIV}
             setSaveUpdate={setSaveContactUpdate}
             saveUpdate={saveContactUpdate}
-            setEditMode={setEditMode}
+            setData={setFormData}
           />
         </div>
       </div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
-          <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
-            <p className=" text-[16px] leading-[19.5px] md:text-[20px] font-[700] md:leading-[24px] text-center">
-              Save Updates?
-            </p>
-            <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
-              Would you like to save your updates before leaving?
-            </p>
-            <div className="flex flex-wrap md:flex-col gap-[16px]">
-              <button
-                className="bg-BlueHomz2 w-[137.5px]  text-white rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
-                onClick={handleSaved}
-              >
-                Yes
-              </button>
-              <button
-                className="border-BlueHomz w-[137.5px]  text-blue-600 rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
-                onClick={() => {
-                  setSaveModalIsOpen(false);
-                }}
-              >
-                No, go back
-              </button>
-            </div>
+
+      <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
+        <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
+          <p className=" text-[16px] leading-[19.5px] md:text-[20px] font-[700] md:leading-[24px] text-center">
+            Save Updates?
+          </p>
+          <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
+            Would you like to save your updates before leaving?
+          </p>
+          <div className="flex flex-wrap md:flex-col gap-[16px]">
+            <button
+              className={`bg-BlueHomz2 w-[301px]  text-white rounded-[4px] border  md:w-[400px] h-[48px] 
+            ${loading ? "pointer-events-none w-full flex justify-center" : ""} 
+            `}
+              onClick={handleSubmit}
+            >
+              {loading ? <LoadingFormII /> : "Yes"}
+            </button>
+            <button
+              className="border-BlueHomz w-[137.5px]  text-blue-600 rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
+              onClick={() => {
+                setSaveModalIsOpen(false);
+              }}
+            >
+              No, go back
+            </button>
           </div>
-        </CustomizedModal>
-      )}
+        </div>
+      </CustomizedModal>
+
       <CustomizedModal
         isOpen={successModalIsOpen}
         onRequestClose={closeSuccessModal}
@@ -421,6 +399,7 @@ const PropertyForms = ({ propertyData }) => {
             className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px]"
             onClick={() => {
               closeSuccessModal();
+              // window.location.reload(false);
             }}
           >
             Close

@@ -3,18 +3,27 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import _ from "lodash";
 
-const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setEditMode }) => {
-  const [data, setData] = useState(null);
+const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setData }) => {
+  // const [data, setData] = useState(null);
   const [phoneClicked, setPhoneClicked] = useState(false);
   const [emailClicked, setEmailClicked] = useState(false);
   const [whatsappClicked, setWhatsAppClicked] = useState(false);
-  const [formData, setFormData] = useState(property?.contacts || {});
-  const originalFormData = useRef(property?.contacts || {});
+  const [formData, setFormData] = useState({});
+  const originalFormData = useRef({...property});
+
+  // useEffect(() => {
+  //   if (property) {
+  //     setFormData(property?.contacts || {});
+  //     originalFormData.current = property?.contacts || {};
+  //   }
+  // }, [property]);
 
   useEffect(() => {
     if (property) {
-      setFormData(property?.contacts || {});
-      originalFormData.current = property?.contacts || {};
+      setFormData((prevState) => ({
+        ...prevState,
+        ...property
+      }));
     }
   }, [property]);
 
@@ -22,18 +31,28 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setEdit
     // Compare formData and originalFormData
     const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
     setSaveUpdate(isFormDataChanged);
-  }, [formData, setSaveUpdate]);
+    if(isFormDataChanged) setData(formData)
+      else{
+    setPhoneClicked(false);
+    setWhatsAppClicked(false);
+    }
+  }, [formData,originalFormData, setSaveUpdate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
+    setFormData((prevState) => ({
+      ...prevState,
+      contacts: {
+        ...prevState.contacts,
+        [name]: value
+      }
     }));
   };
+  
 
   const onSubmit = (e) => {
-    handleUpdate(e,data);
+    // console.log(formData)
+    handleUpdate(e,formData);
   };
 
   return (
@@ -52,9 +71,10 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setEdit
               <input
                 placeholder="000 000 00000"
                 name="phoneNumber"
+                type="text"
                 onChange={handleChange}
                 onClick={(e) => setPhoneClicked(true)}
-                value={formData?.contacts?.phoneNumber}
+                value={formData?.contacts?.phoneNumber || ""}
                 className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] md:p-[12px] rounded-[4px] pl-2 w-[100%] ${
                   phoneClicked
                     ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E]"
@@ -98,7 +118,7 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setEdit
                 name="whatsapp"
                 onChange={handleChange}
                 onClick={(e) => setWhatsAppClicked(true)}
-                value={formData?.contacts?.whatsapp}
+                value={formData?.contacts?.whatsapp || ""}
                 placeholder="Enter WhatsApp Link"
                 className={` h-[43px] md:h-[45px] md:w-[473px] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] placeholder: md:p-[12px] rounded-[4px] pl-2 w-[100%] ${
                   whatsappClicked

@@ -4,7 +4,8 @@ import _ from "lodash";
 import { toast } from "react-toastify";
 import LoadingII from "@/components/mainmenu/loadingII";
 import {
-  updatePropertyCoverPhoto,
+  removeCoverPhoto,
+  removePropertyPhotos,
   updatePropertyOtherPhoto,
 } from "@/api/propertyService";
 import pic from "/public/static/images/coverPhoto.png";
@@ -16,10 +17,14 @@ import displayHousePictures from "@/utils/displayHousePictures";
 
 const PropertyPhoto = ({
   data,
+  setLinks,
   setSaveModalIsOpen,
   setSaveUpdate,
   saveUpdate,
-  setEditMode,
+  setCoverPicture,
+  setData,
+  setPropertyPhotos,
+  setPropertyPhotosPublicId,
 }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
@@ -29,39 +34,57 @@ const PropertyPhoto = ({
   const [loading, setLoading] = useState(false);
 
   const fileUpload = useRef(null);
-  const [coverPhotoFile, setCoverPicture] = useState(null);
+  // const [coverPhotoFile, setCoverPicture] = useState(null);
   const [fileUploaded, setFileUpload] = useState(false);
+  const [coverPhotoDeleted, setCoverPhotoDeleted] = useState(false);
   const [youTubeClicked, setYouTubeClicked] = useState(false);
   const [instagramClicked, setInstagramClicked] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
+  const [error1, setError1] = useState("");
+  const [error2, setError2] = useState("");
   const [imagesFiles, setImagesFiles] = useState([]);
   const fileUploads = useRef([]);
-  const [coverPhoto, setCoverPhoto] = useState(pic);
+  const [coverPhoto, setCoverPhoto] = useState("");
   const initialHouses = Array(10).fill(null);
   const [houses, setHouses] = useState(initialHouses);
+  const [videoLinks, setVideoLinks] = useState({
+    youtubeUrl: "",
+    instagramUrl: "",
+  });
 
   // Store the original data for comparison
   const originalFormData = useRef({
     photos: initialHouses.map(() => ({ url: "" })),
     coverPhoto: { url: "" },
+    videoLinks: {
+      youtubeUrl: "",
+      instagramUrl: "",
+    },
   });
 
   useEffect(() => {
     if (data) {
+      setLoading(false);
       // Extract URLs from incoming data
       const newHouses = [...initialHouses];
-      data.photos.forEach((photo, index) => {
+      data?.photos.forEach((photo, index) => {
         newHouses[index] = photo;
       });
       setHouses(newHouses);
       const newCoverPhoto = data?.coverPhoto?.url;
+      setVideoLinks(data?.videoLinks);
       setCoverPhoto(newCoverPhoto);
+      setData((prevState) => ({
+        ...prevState,
+        ...data,
+      }));
       // Update originalFormData with new URLs
       originalFormData.current = {
         photos: newHouses,
         coverPhoto: newCoverPhoto,
+        videoLinks: data?.videoLinks,
       };
     }
   }, [data]);
@@ -72,18 +95,28 @@ const PropertyPhoto = ({
     if (fileUploaded) {
       isCoverPhotoChanged = !_.isEqual(
         coverPhoto,
-        originalFormData.current.coverPhoto.url
+        originalFormData.current.coverPhoto?.url
       );
     }
     const isFormDataChanged = !_.isEqual(
       houses,
       originalFormData.current.photos
     );
-    setSaveUpdate(isCoverPhotoChanged || isFormDataChanged);
-  }, [houses, coverPhoto, fileUploaded, setSaveUpdate]);
+    const isVideoLinksChanged = !_.isEqual(
+      videoLinks,
+      originalFormData.current.videoLinks
+    );
+    setSaveUpdate(
+      isCoverPhotoChanged || isFormDataChanged || isVideoLinksChanged
+    );
+    if (isVideoLinksChanged) setLinks(videoLinks);
+    else {
+      setYouTubeClicked(false);
+      setInstagramClicked(false);
+    }
+  }, [houses, coverPhoto, fileUploaded, videoLinks, setSaveUpdate, setLinks]);
 
   // console.log(originalFormData.current);
-  // console.log(houses);
 
   const uploadCoverPhoto = (e) => {
     fileUpload.current.click();
@@ -93,6 +126,15 @@ const PropertyPhoto = ({
     fileUploads.current[index].click();
   };
 
+  const validateUrl = (e, setError) => {
+    const url = e.target.value;
+    const regex =
+      /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/;
+    if (!regex.test(url)) {
+      setError("Invalid URL, Please provide a valid URL.");
+    }
+    setError("");
+  };
   const displayCoverPhoto = (e) => {
     const file = e.target.files[0];
     // console.log(file);
@@ -115,7 +157,8 @@ const PropertyPhoto = ({
     }
   };
 
-  const displayHousePic = (e, index) => {
+  const displayHousePic = (e, index, id) => {
+    setPropertyPhotosPublicId((prevId) => [...prevId, id]);
     displayHousePictures(
       e,
       index,
@@ -124,113 +167,32 @@ const PropertyPhoto = ({
       errorMsg,
       setErrorMsg,
       houses,
-      setHouses
+      setHouses,
+      setPropertyPhotos
     );
- 
   };
-  useEffect(() => {
-    // Check if data and required properties are available
-    if (data) {
-      // setUploadedImage(data.coverPhoto?.url || null);
 
-      setLoading(false); // Set loading to false once data is available
-    }
-  }, [data]);
-
-  // console.log(houses);
+  // console.log(data);
   const Submit = () => {
+    if (videoLinks) {
+      setLinks(videoLinks);
+    }
     setSaveModalIsOpen(true);
   };
-  const onSubmit = (e) => {
-    handleUpdate(e, data);
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (loading) return; // Do nothing if already loading
+  // console.log(formData);
 
-    setLoading(true); // Set loading to true when submitting the form
-
-    // Create an array to hold all promises
-    const updatePromises = [];
-
-    // Cover photo
-    if (coverPhotoFile) {
-      updatePromises.push(updatePropertyCoverPhoto(data._id, coverPhotoFile));
+ 
+  const deleteFile = (index, publicId) => {
+    if (publicId) {
+      removePropertyPhotos(data?._id, publicId)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-
-    // Other photos
-    if (uploadedImage) {
-      updatePromises.push(
-        updatePropertyOtherPhoto(
-          data._id,
-          uploadedImage,
-          data?.photos?.[0].publicId
-        )
-      );
-    }
-
-    if (uploadedImage2) {
-      updatePromises.push(
-        updatePropertyOtherPhoto(
-          data._id,
-          uploadedImage2,
-          data?.photos?.[1]?.publicId
-        )
-      );
-    }
-
-    if (uploadedImage3) {
-      updatePromises.push(
-        updatePropertyOtherPhoto(
-          data._id,
-          uploadedImage3,
-          data?.photos?.[2]?.publicId
-        )
-      );
-    }
-
-    if (uploadedImage4) {
-      updatePromises.push(
-        updatePropertyOtherPhoto(
-          data._id,
-          uploadedImage4,
-          data?.photos?.[3]?.publicId
-        )
-      );
-    }
-
-    if (uploadedImage5) {
-      updatePromises.push(
-        updatePropertyOtherPhoto(
-          data._id,
-          uploadedImage5,
-          data?.photos?.[4]?.publicId
-        )
-      );
-    }
-
-    try {
-      // Execute all promises simultaneously
-      const responses = await Promise.all(updatePromises);
-
-      // Handle responses
-      responses.forEach(({ success, updatedImage, error }, index) => {
-        if (success) {
-          // console.log(`Image ${index + 1} successfully updated`, updatedImage);
-          toast.success(`Update ${index + 1} successful`);
-        } else {
-          // console.error(`Update ${index + 1} failed`, error);
-          toast.error(`Update ${index + 1} failed: ${error}`);
-        }
-      });
-    } catch (error) {
-      toast.error("Update failed");
-    } finally {
-      setLoading(false); // Set loading to false after all updates are attempted
-    }
-  };
-  const deleteFile = (index) => {
     const updatedData = [...houses];
     const updatedFile = [...imagesFiles];
     updatedFile.splice(index, 1);
@@ -238,11 +200,24 @@ const PropertyPhoto = ({
     setHouses(updatedData);
     setImagesFiles(updatedFile);
   };
-  const deleteCoverPhoto = () => {
+  const deleteCoverPhoto = (publicId) => {
+    if (publicId) {
+      removeCoverPhoto(data?._id)
+        .then((res) => {
+          setCoverPhotoDeleted(true);
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     setCoverPhoto(add);
     setCoverPicture(null);
     setFileUpload(false);
+    setCoverPhotoDeleted(true);
   };
+;
+
   return (
     <div className="block w-full">
       {loading ? (
@@ -282,57 +257,57 @@ const PropertyPhoto = ({
                         style={{ display: "none" }}
                         accept="image/jpg, image/png, image/jpeg"
                       />
-                      <>
+                      {fileUploaded || coverPhoto ? (
                         <Image
-                          //   onClick={uploadCoverPhoto}
                           src={coverPhoto}
-                          alt="Cover  Photo"
+                          alt="Cover Photo"
                           className="sm:w-[120px] sm:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                           width={120}
                           height={120}
                         />
-                      </>
-                      {/* {fileUploaded ? (
                       ) : (
                         <Image
-                          //   onClick={uploadCoverPhoto}
-                          src={data?.coverPhoto?.url || add}
-                          alt="Cover Photo"
-                          className={`${
-                            data?.coverPhoto?.url
-                              ? "sm:w-[120px] sm:h-[120px] w-[96px] h-[96px]"
-                              : "w-[38px] h-[38px]"
-                          } rounded-[14.13px]`}
-                          width={38}
-                          height={38}
-                        />
-                      )} */}
-                      {(fileUploaded || data?.coverPhoto?.url) && (
-                        <Image
-                          src={"/trush-square.png"}
-                          height={24}
-                          width={24}
-                          className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
-                          alt="img"
-                          onClick={deleteCoverPhoto}
+                          src={add}
+                          alt="Photo"
+                          className="w-[38px] h-[38px] rounded-[14.13px]"
+                          width={48}
+                          height={48}
+                          onClick={uploadCoverPhoto}
                         />
                       )}
-                      <Image
-                        onClick={uploadCoverPhoto}
-                        src="/static/images/cameraEdit.svg"
-                        alt="Cover Photo"
-                        className="hidden sm:block rounded-[14.13px] absolute sm:left-[40px] sm:top-[40px] left-[30px] top-[30px] sm:opacity-0 sm:hover:opacity-100"
-                        width={40}
-                        height={40}
-                      />
-                      <Image
-                        onClick={uploadCoverPhoto}
-                        src="/static/images/whiteCamera.svg"
-                        alt="Cover Photo"
-                        className="sm:hidden rounded-[14.13px] absolute sm:left-[40px] sm:top-[40px] left-[30px] top-[30px] sm:opacity-0 sm:hover:opacity-100"
-                        width={40}
-                        height={40}
-                      />
+                    
+                      {(fileUploaded || coverPhoto || coverPhotoDeleted) && (
+                        <>
+                          <Image
+                            src="/trush-square.png"
+                            height={24}
+                            width={24}
+                            className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
+                            alt="Cover Photo"
+                            onClick={() =>
+                              deleteCoverPhoto(data?.coverPhoto?.publicId)
+                            }
+                          />
+                          {[
+                            "/static/images/cameraEdit.svg",
+                            "/static/images/whiteCamera.svg",
+                          ].map((src, index) => (
+                            <Image
+                              key={index}
+                              onClick={uploadCoverPhoto}
+                              src={src}
+                              alt="Cover Photo"
+                              className={`${
+                                index === 0
+                                  ? "hidden sm:block sm:left-[40px] sm:top-[40px]"
+                                  : "sm:hidden sm:left-[40px] sm:top-[40px]"
+                              } rounded-[14.13px] absolute left-[30px] top-[30px] sm:opacity-0 sm:hover:opacity-100`}
+                              width={40}
+                              height={40}
+                            />
+                          ))}
+                        </>
+                      )}
                     </form>
                   </div>
                   <p className="text-[11px] text-red-600">
@@ -382,14 +357,16 @@ const PropertyPhoto = ({
                           name="HousePic"
                           ref={(el) => (fileUploads.current[index] = el)}
                           id={`uploadImage${index}`}
-                          onChange={(e) => displayHousePic(e, index)}
+                          onChange={(e) => {
+                            displayHousePic(e, index, house?.publicId);
+                          }}
                           style={{ display: "none" }}
                           accept="image/jpg, image/png, image/jpeg"
                         />
                         {house ? (
                           <>
                             <Image
-                              src={house.url || house}
+                              src={house?.url || house}
                               alt="photos"
                               className="md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
                               width={120}
@@ -402,7 +379,9 @@ const PropertyPhoto = ({
                                 width={24}
                                 className="cursor-pointer  absolute z-10 sm:bottom-[-22px]"
                                 alt="img"
-                                onClick={() => deleteFile(index)}
+                                onClick={() =>
+                                  deleteFile(index, house?.publicId)
+                                }
                               />
                             )}
                           </>
@@ -475,8 +454,22 @@ const PropertyPhoto = ({
                 type="text"
                 name="youTube"
                 onClick={(e) => setYouTubeClicked(true)}
+                value={videoLinks?.youtubeUrl}
+                onChange={(e) => {
+                  setError1("");
+                  setVideoLinks({
+                    ...videoLinks,
+                    youtubeUrl: e.target.value,
+                  });
+                }}
+                onBlur={(e) => validateUrl(e, setError1)}
               />
             </div>
+            {error1 && (
+              <div className="italic text-error text-[11px] font-[400]">
+                {error1}
+              </div>
+            )}
             <div className="">
               <label
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
@@ -496,8 +489,22 @@ const PropertyPhoto = ({
                 type="text"
                 name="Instagram"
                 onClick={(e) => setInstagramClicked(true)}
+                value={videoLinks?.instagramUrl}
+                onChange={(e) => {
+                  setError2("");
+                  setVideoLinks({
+                    ...videoLinks,
+                    instagramUrl: e.target.value,
+                  });
+                }}
+                onBlur={(e) => validateUrl(e, setError2)}
               />
             </div>
+            {error2 && (
+              <div className="italic text-error text-[11px] font-[400]">
+                {error2}
+              </div>
+            )}
           </section>
         </>
       )}
