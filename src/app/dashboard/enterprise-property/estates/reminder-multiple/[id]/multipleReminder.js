@@ -211,7 +211,7 @@ const MultipleReminder = ({ ids }) => {
                                                     onClick={() => handleSetting(data.id)}
                                                     className="text-BlueHomz"
                                                 >
-                                                    View settings
+                                                    {selectedId === data.id ? "Close settings" : "View settings"}
                                                 </button>
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@ const MultipleReminder = ({ ids }) => {
                                             onClick={() => handleSetting(data.id)}
                                             className="text-BlueHomz"
                                         >
-                                            View settings
+                                             {selectedId === data.id ? "Close settings" : "View settings"}
                                         </button>
                                     </div>
                                 </div>
@@ -234,20 +234,6 @@ const MultipleReminder = ({ ids }) => {
                         </div>
                     ))}
                 </div>
-                {/* <div className="w-full flex justify-end mt-4 mb-10">
-                    {data?.data?.length > 0 && (
-                        isAnyToggleActive ?
-                            <button
-                                onClick={() => setOpenCompleted(true)}
-                                className="text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-3 rounded-[4px]">
-                                Save settings
-                            </button>
-                            :
-                            <button className="text-[14px] font-[500] w-[155px] bg-GrayHomz6 text-GrayHomz5 py-3 rounded-[4px]">
-                                Save settings
-                            </button>
-                    )}
-                </div> */}
             </div>
         </div >
     );

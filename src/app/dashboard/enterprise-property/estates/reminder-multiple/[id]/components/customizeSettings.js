@@ -258,7 +258,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                         <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                         </div>
-                        <RichTextEditorEmail charLimit={500} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
+                        <RichTextEditorEmail charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
                         <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                             <div>Send copy to :</div>
                             <div className='flex gap-2'>
