@@ -14,6 +14,7 @@ import Image from "next/image";
 import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 import Link from "next/link";
 import displayHousePictures from "@/utils/displayHousePictures";
+import { validateUrl } from "@/utils/validateUrl";
 
 const PropertyPhoto = ({
   data,
@@ -126,15 +127,6 @@ const PropertyPhoto = ({
     fileUploads.current[index].click();
   };
 
-  const validateUrl = (e, setError) => {
-    const url = e.target.value;
-    const regex =
-      /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/;
-    if (!regex.test(url)) {
-      setError("Invalid URL, Please provide a valid URL.");
-    }
-    setError("");
-  };
   const displayCoverPhoto = (e) => {
     const file = e.target.files[0];
     // console.log(file);
@@ -182,7 +174,6 @@ const PropertyPhoto = ({
 
   // console.log(formData);
 
- 
   const deleteFile = (index, publicId) => {
     if (publicId) {
       removePropertyPhotos(data?._id, publicId)
@@ -216,8 +207,6 @@ const PropertyPhoto = ({
     setFileUpload(false);
     setCoverPhotoDeleted(true);
   };
-;
-
   return (
     <div className="block w-full">
       {loading ? (
@@ -275,7 +264,7 @@ const PropertyPhoto = ({
                           onClick={uploadCoverPhoto}
                         />
                       )}
-                    
+
                       {(fileUploaded || coverPhoto || coverPhotoDeleted) && (
                         <>
                           <Image
@@ -464,12 +453,12 @@ const PropertyPhoto = ({
                 }}
                 onBlur={(e) => validateUrl(e, setError1)}
               />
+              {error1 && (
+                <div className="italic text-error text-[11px] font-[400]">
+                  {error1}
+                </div>
+              )}
             </div>
-            {error1 && (
-              <div className="italic text-error text-[11px] font-[400]">
-                {error1}
-              </div>
-            )}
             <div className="">
               <label
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
@@ -499,12 +488,12 @@ const PropertyPhoto = ({
                 }}
                 onBlur={(e) => validateUrl(e, setError2)}
               />
+              {error2 && (
+                <div className="italic text-error text-[11px] font-[400]">
+                  {error2}
+                </div>
+              )}
             </div>
-            {error2 && (
-              <div className="italic text-error text-[11px] font-[400]">
-                {error2}
-              </div>
-            )}
           </section>
         </>
       )}

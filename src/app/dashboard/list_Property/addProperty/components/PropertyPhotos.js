@@ -5,6 +5,7 @@ import add from "/public/static/images/add.svg";
 import Image from "next/image";
 import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 import displayHousePictures from "@/utils/displayHousePictures";
+import { validateUrl } from "@/utils/validateUrl";
 
 // (e, index,imagesFiles,setImagesFiles,errorMsg, setErrorMsg,houses,setHouses)
 const PropertyPhoto = ({
@@ -27,6 +28,8 @@ const PropertyPhoto = ({
   const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
   const [imagesFiles, setImagesFiles] = useState([]);
+  const [error1, setError1] = useState("");
+  const [error2, setError2] = useState("");
   const [videoLinks, setVideoLinks] = useState({
     youtubeUrl: "",
     instagramUrl: "",
@@ -305,6 +308,11 @@ const PropertyPhoto = ({
               setVideoLinks({ ...videoLinks, youtubeUrl: e.target.value })
             }
           />
+          {error1 && (
+            <div className="italic text-error text-[11px] font-[400]">
+              {error1}
+            </div>
+          )}
         </div>
         <div className="">
           <label
@@ -324,6 +332,11 @@ const PropertyPhoto = ({
               setVideoLinks({ ...videoLinks, instagramUrl: e.target.value })
             }
           />
+            {error2 && (
+                <div className="italic text-error text-[11px] font-[400]">
+                  {error2}
+                </div>
+              )}
         </div>
       </section>
       <div className="flex mb-0 flex-row justify-between sm:mt-20 mt-10  md:px-0 paginate">

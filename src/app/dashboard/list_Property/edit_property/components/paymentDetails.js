@@ -26,7 +26,7 @@ const PaymentDetails = ({
   const [durationClicked, setDurationClicked] = useState(false);
 
   const [formData, setFormData] = useState({});
-  // console.log(property);
+  console.log(property);
   const [price, setPrice] = useState("");
   const [maintenance, setMaintenance] = useState("");
   const [total, setTotal] = useState();
@@ -174,7 +174,7 @@ const PaymentDetails = ({
                   value={
                     isFocusPrice
                       ? formData?.price
-                      : Number(formData?.price).toLocaleString()
+                      : formData?.price ? Number(formData?.price).toLocaleString() : ""
                   }
                   onChange={(e) => {
                     handleChange(e);
@@ -220,7 +220,7 @@ const PaymentDetails = ({
                   value={
                     isFocusMaintenance
                       ? formData?.maintenanceFee
-                      : Number(formData?.maintenanceFee).toLocaleString()
+                      :formData?.maintenanceFee ? Number(formData?.maintenanceFee).toLocaleString() :""
                   }
                   onClick={(e) => setMaintenanceClicked(true)}
                   onChange={(e) => {
@@ -263,8 +263,8 @@ const PaymentDetails = ({
                   min="0"
                   value={
                     isFocusAgency
-                      ? formData?.agencyFee
-                      : Number(formData?.agencyFee).toLocaleString()
+                      ? formData?.agencyFee 
+                      : formData?.agencyFee ? Number(formData?.agencyFee).toLocaleString() : ""
                   }
                   onClick={(e) => setAgencyClicked(true)}
                   onChange={(e) => {
@@ -440,7 +440,7 @@ const PaymentDetails = ({
                   value={
                     isFocusInitialPayment
                       ? formData?.initialPayment
-                      : Number(formData?.initialPayment).toLocaleString()
+                      : formData?.initialPayment? Number(formData?.initialPayment).toLocaleString() : ""
                   }
                   onChange={(e) => {
                     handleChange(e);
