@@ -105,6 +105,11 @@ const MultipleReminder = ({ ids }) => {
                 inAppContent: correspondingItem?.inAppMessage?.content || '',
                 _id: correspondingItem?._id || '',
                 status: correspondingItem?.status || '',
+                interval: correspondingItem?.interval || '',
+                duration: correspondingItem?.duration || '',
+                type: correspondingItem?.type || '',
+                templateType: correspondingItem?.templateType || '',
+                reminderName: correspondingItem?.name || '',
             };
         }
         return item;

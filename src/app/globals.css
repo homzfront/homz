@@ -230,3 +230,7 @@ body::-webkit-scrollbar-thumb {
 
 .ql-toolbar {
 }
+
+.page-break {
+  page-break-before: always; /* or 'page-break-after' depending on where you want the break */
+}

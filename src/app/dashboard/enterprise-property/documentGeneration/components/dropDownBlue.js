@@ -5,7 +5,7 @@ import useClickOutside from "@/utils/clickOutside";
 import ArrowDownWhite from "@/components/icons/arrowDownWhite";
 import WhiteDoc from "@/components/icons/whiteDoc";
 
-const DropDownBlue = ({ options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
+const DropDownBlue = ({ handlePrint, options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const dropdownRef = useClickOutside(() => setIsOpen(false));
@@ -20,6 +20,7 @@ const DropDownBlue = ({ options, onSelect, className, width = "w-[240px]", place
         setSelectedOption(option);
         onSelect(option);
         setIsOpen(false);
+        handlePrint();
     };
 
     const filteredOptions = options?.filter((option) =>

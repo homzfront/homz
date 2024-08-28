@@ -3,14 +3,14 @@ import Input from "@/pages/dashboard/enterprise/components/input";
 import DropDown from './dropDown';
 import ArrowLeftBlueSmall from '@/components/icons/arrowLeftBlueSmall';
 import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
-import useAgreementFormStore from '@/store/document/useAgreementFormStore';
+import useReceiptFormStore from '@/store/document/useReceiptFormStore';
 import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
-    const { formData, setFormData } = useAgreementFormStore();
+    const { formData, setFormData } = useReceiptFormStore();
     const optionsII = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
 
     return (
@@ -33,8 +33,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Property Manager’s Company"}
                     placeholder={"e.g Real Estate Company Limited"}
                     type={"text"}
-                    value={formData.propDesc}
-                    onChange={(e) => setFormData('propDesc', e.target.value)}
+                    value={formData.propertyManagerCompanyName}
+                    onChange={(e) => setFormData('propertyManagerCompanyName', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -42,8 +42,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Property Manager’s Company Address"}
                     placeholder={"e.g No 2. Ademola Street, Surulere, Lagos"}
                     type={"text"}
-                    value={formData.propAddress}
-                    onChange={(e) => setFormData('propAddress', e.target.value)}
+                    value={formData.propertyManagerCompanyAddress}
+                    onChange={(e) => setFormData('propertyManagerCompanyAddress', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -51,8 +51,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Property Manager’s Company Email"}
                     placeholder={"e.g RealEstateCompany@gmail.com"}
                     type={"text"}
-                    value={formData.landlordName}
-                    onChange={(e) => setFormData('landlordName', e.target.value)}
+                    value={formData.propertyManagerCompanyEmail}
+                    onChange={(e) => setFormData('propertyManagerCompanyEmail', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -60,8 +60,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Property Manager’s Company Phone"}
                     placeholder={"e.g 08000000000"}
                     type={"number"}
-                    value={formData.landlordAddress}
-                    onChange={(e) => setFormData('landlordAddress', e.target.value)}
+                    value={formData.propertyManagerCompanyPhoneNumber}
+                    onChange={(e) => setFormData('propertyManagerCompanyPhoneNumber', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -69,8 +69,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Date"}
                     placeholder={"e.g 1 July, 2026"}
                     type={"text"}
-                    value={formData.tenantName}
-                    onChange={(e) => setFormData('tenantName', e.target.value)}
+                    value={formData.receiptDate}
+                    onChange={(e) => setFormData('receiptDate', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -87,7 +87,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Tenant’s Phone Number"}
                     placeholder={"e.g 08000000000"}
                     type={"number"}
-                    value={formData.tenantAddress}
+                    value={formData.tenantPhoneNumber}
                     onChange={(e) => setFormData('tenantPhoneNumber', e.target.value)}
                 />
             </div>
@@ -96,8 +96,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Property Address"}
                     placeholder={"e.g Plot 1, Sun shine Estate, Lekki Phase 1, Lagos"}
                     type={"text"}
-                    value={formData.tenancyStartDate}
-                    onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
+                    value={formData.propertyAddress}
+                    onChange={(e) => setFormData('propertyAddress', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -105,8 +105,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Property Description"}
                     placeholder={"e.g Five (5) bedroom, terraced apartment with one (1) boys quarter"}
                     type={"text"}
-                    value={formData.tenancyStartDate}
-                    onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
+                    value={formData.propertyDesc}
+                    onChange={(e) => setFormData('propertyDesc', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -114,8 +114,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Amount in words"}
                     placeholder={"e.g Eight Million Naira"}
                     type={"text"}
-                    value={formData.tenancyEndDate}
-                    onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
+                    value={formData.rentPaymentInWords}
+                    onChange={(e) => setFormData('rentPaymentInWords', e.target.value)}
                 />
             </div>
             <div className='mt-2 w-full flex flex-col md:flex-row gap-2 md:gap-0 md:justify-between items-end'>
@@ -143,16 +143,16 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         label={"Tenancy Period"}
                         placeholder={"e.g 1"}
                         type={"number"}
-                        value={formData.rentPayment}
-                        onChange={(e) => setFormData('rentPayment', e.target.value)}
+                        value={formData.tenancyPeriod}
+                        onChange={(e) => setFormData('tenancyPeriod', e.target.value)}
                     />
                 </div>
                 <div className='w-full mt-[-16px] md:w-[48%]'>
                     <Input
                         placeholder={"Month(s) / Year(s)"}
                         type={"text"}
-                        value={formData.rentPayment}
-                        onChange={(e) => setFormData('rentPayment', e.target.value)}
+                        value={formData.tenancy}
+                        onChange={(e) => setFormData('tenancy', e.target.value)}
                     />
                 </div>
             </div>
@@ -161,8 +161,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Tenancy Start Date"}
                     placeholder={"e.g 1 July, 2024"}
                     type={"text"}
-                    value={formData.rentPaymentInWords}
-                    onChange={(e) => setFormData('rentPaymentInWords', e.target.value)}
+                    value={formData.tenancyStartDate}
+                    onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -170,8 +170,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Tenancy End Date"}
                     placeholder={"e.g 31, 2025"}
                     type={"text"}
-                    value={formData.rentPaymentInWords}
-                    onChange={(e) => setFormData('rentPaymentInWords', e.target.value)}
+                    value={formData.tenancyEndDate}
+                    onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -179,8 +179,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Mode of payment"}
                     placeholder={"e.g Cash/Cheque/Draft/Transfer"}
                     type={"text"}
-                    value={formData.agreementDate}
-                    onChange={(e) => setFormData('agreementDate', e.target.value)}
+                    value={formData.modOfPayment}
+                    onChange={(e) => setFormData('modOfPayment', e.target.value)}
                 />
             </div>
             <div className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>

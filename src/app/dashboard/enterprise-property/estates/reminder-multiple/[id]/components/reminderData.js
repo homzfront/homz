@@ -47,6 +47,7 @@ const Data = [
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
     name: "Due Date",
+    name2: "Due Date",
   },
   {
     id: 6,
@@ -56,6 +57,7 @@ const Data = [
     sms_label: "Rent Reminder",
     in_app: "Rent Reminder",
     name: "Post Due Date",
+    name2: "Post Due Date",
   }
 ];
 

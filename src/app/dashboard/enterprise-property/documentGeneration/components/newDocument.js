@@ -5,7 +5,7 @@ import FormSelection from '@/store/document/FormSelection';
 import React, { useState } from 'react'
 
 const NewDocument = ({ handlePageChangeThree, handlePageChange, setDocumentCreation }) => {
-  const { DocType } = FormSelection();
+  const { DocType, setFormName, FormName } = FormSelection();
   const [hover, setHover] = useState(false);
   const [hoverII, setHoverII] = useState(false);
   let string = "> Name Your Document"
@@ -27,6 +27,8 @@ const NewDocument = ({ handlePageChangeThree, handlePageChange, setDocumentCreat
       <div className='mt-4'>
         <input
           type='text'
+          value={FormName}
+          onChange={(e) => setFormName(e.target.value)}
           placeholder='e.g Tenant Agreement'
           className='pl-2 py-2 placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 border w-full border-GrayHomz2 rounded-[4px] outline-none'
         />

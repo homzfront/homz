@@ -3,14 +3,14 @@ import Input from "@/pages/dashboard/enterprise/components/input";
 import DropDown from './dropDown';
 import ArrowLeftBlueSmall from '@/components/icons/arrowLeftBlueSmall';
 import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
-import useAgreementFormStore from '@/store/document/useAgreementFormStore';
+import useQuickNoticeFormStore from '@/store/document/useQuickNoticeFormStore';
 import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
 
 const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
-    const { formData, setFormData } = useAgreementFormStore();
+    const { formData, setFormData } = useQuickNoticeFormStore();
     const options = ["Monthly", "Quarterly", "Annually"];
 
     return (
@@ -33,7 +33,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Notice Period (Months)"}
                     placeholder={"e.g 6"}
                     type={"text"}
-                    value={formData.propDesc}
+                    value={formData.noticePeriod}
                     onChange={(e) => setFormData('noticePeriod', e.target.value)}
                 />
             </div>
@@ -42,7 +42,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Notice Commencement Date"}
                     placeholder={"e.g 1 July, 2024"}
                     type={"text"}
-                    value={formData.propAddress}
+                    value={formData.noticeStartDate}
                     onChange={(e) => setFormData('noticeStartDate', e.target.value)}
                 />
             </div>
@@ -51,7 +51,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Property Description"}
                     placeholder={"e.g Five (5) bedroom, terraced apartment with one (1) boys quarter"}
                     type={"text"}
-                    value={formData.landlordName}
+                    value={formData.propertyDesc}
                     onChange={(e) => setFormData('propertyDesc', e.target.value)}
                 />
             </div>
@@ -69,7 +69,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Landlord’s Name"}
                     placeholder={"e.g Mr. Sylvester David"}
                     type={"text"}
-                    value={formData.tenancyStartDate}
+                    value={formData.landlordName}
                     onChange={(e) => setFormData('landlordName', e.target.value)}
                 />
             </div>
@@ -104,8 +104,8 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Property Manager’s Name"}
                     placeholder={"e.g Mr. Steven John"}
                     type={"text"}
-                    value={formData.tenancyEndDate}
-                    onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
+                    value={formData.propertyManagerName}
+                    onChange={(e) => setFormData('propertyManagerName', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -113,8 +113,8 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Property Manager’s Company"}
                     placeholder={"e.g Real Estate Company Limited"}
                     type={"text"}
-                    value={formData.rentPaymentInWords}
-                    onChange={(e) => setFormData('rentPaymentInWords', e.target.value)}
+                    value={formData.propertyManagerCompanyName}
+                    onChange={(e) => setFormData('propertyManagerCompanyName', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -122,8 +122,8 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Property Manager’s Company Email"}
                     placeholder={"e.g RealEstateCompany@gmail.com"}
                     type={"text"}
-                    value={formData.agreementDate}
-                    onChange={(e) => setFormData('agreementDate', e.target.value)}
+                    value={formData.propertyManagerCompanyEmail}
+                    onChange={(e) => setFormData('propertyManagerCompanyEmail', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -131,8 +131,8 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Property Manager’s Company Address"}
                     placeholder={"e.g No 18, Ambient Street, Lekki, Lagos"}
                     type={"text"}
-                    value={formData.agreementDate}
-                    onChange={(e) => setFormData('agreementDate', e.target.value)}
+                    value={formData.propertyManagerCompanyAddress}
+                    onChange={(e) => setFormData('propertyManagerCompanyAddress', e.target.value)}
                 />
             </div>
             <div className='mt-2'>
@@ -140,8 +140,8 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Property Manager’s Company Website"}
                     placeholder={"e.g www.RealEstateCo.com"}
                     type={"text"}
-                    value={formData.agreementDate}
-                    onChange={(e) => setFormData('agreementDate', e.target.value)}
+                    value={formData.propertyManagerCompanyWebsite}
+                    onChange={(e) => setFormData('propertyManagerCompanyWebsite', e.target.value)}
                 />
             </div>
             <div className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>

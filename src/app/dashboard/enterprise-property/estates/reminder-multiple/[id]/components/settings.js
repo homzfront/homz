@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import CustomizeModal from "@/components/mainmenu/CustomizedModal";
 import CustomizeSettings from './customizeSettings';
 import Print from '@/components/icons/print';
+import { useReactToPrint } from 'react-to-print';
 
 const Settings = ({ data, fetchDataAgain }) => {
     // Helper function to decode HTML entities
@@ -15,37 +16,16 @@ const Settings = ({ data, fetchDataAgain }) => {
     const inAppContent = decodeHtmlEntities(data?.inAppContent);
     const [modalCustom, setModalCustom] = useState(false);
     const [customizeSettings, setCustomizeSettings] = useState(false);
+    const emailContentRef = useRef();
 
-    const handlePrint = (content, title) => {
-        const printWindow = window.open('', '_Rent-Reminder');
-        if (!printWindow) {
-            alert('Failed to open print window. Please check your browser settings.');
-            return;
-        };
+    const handlePri = useReactToPrint({
+        content: () => emailContentRef.current,
+        documentTitle: `${data?.emailReminder ? data?.emailReminder : "Document"}`,
+        onAfterPrint: () => console.log("Document printed."),
+    });
 
-        printWindow.document.open();
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <style>
-                        body {
-                            font-family: sans-serif;
-                        }
-                    </style>
-                    <title>${title}</title>
-                </head>
-                <body>
-                    ${content}
-                </body>
-            </html>
-        `);
-        printWindow.document.close();
-
-        printWindow.onload = () => {
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
-        };
+    const handlePrint = () => {
+        handlePri();
     };
 
     return (
@@ -119,7 +99,8 @@ const Settings = ({ data, fetchDataAgain }) => {
                                         <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                                         </div>
-                                        <div className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                        <div
+                                            className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                             <div className='text-[14px] font-[400] text-justify'
                                                 dangerouslySetInnerHTML={{ __html: emailContent }}
                                             />
@@ -140,7 +121,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                         </div>
                                         <div
                                             className="flex items-center gap-1 text-BlueHomz font-[400] text-[14px] cursor-pointer"
-                                            onClick={() => handlePrint(emailContent, data?.emailReminder)}
+                                            onClick={() => handlePrint()}
                                         >
                                             <Print />
                                             Print copy
@@ -228,6 +209,15 @@ const Settings = ({ data, fetchDataAgain }) => {
                         }
                     </div>
             }
+            <div style={{ display: 'none' }}>
+                <div
+                    ref={emailContentRef}
+                    className='h-screen p-[48px] flex justify-center items-center'>
+                    <div className='p-8 text-[18px] font-[400] text-justify bg-GrayHomz6 text-GrayHomz rounded-[4px]'
+                        dangerouslySetInnerHTML={{ __html: emailContent }}
+                    />
+                </div>
+            </div>
         </div>
     )
 }

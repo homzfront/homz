@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Dropdown from "@/pages/dashboard/enterprise/components/dropDownFilter";
 import Reset from "@/components/icons/reset";
 import PluswithoutCircle from "@/components/icons/pluswithoutCircle";
@@ -17,11 +17,18 @@ import AddBigBlue from "@/components/icons/addBigBlue";
 import Image from "next/image";
 import FilterMobile from "./components/filterMobile";
 import PopUp from "./components/popUp";
+import { useReactToPrint } from "react-to-print";
+import html2pdf from "html2pdf.js";
+import { pdf } from '@react-pdf/renderer';
+import PrintablePreviewedData from "./components/printablePreviewedData";
+import SavedPreviewedData from "./components/savedPreviewedData";
+import useAgreementFormStore from "@/store/document/useAgreementFormStore";
+// import { saveAs } from 'file-saver';
 
 
 const App = () => {
   const { setTab } = useTabForDocuGen();
-  const { DocType } = FormSelection();
+  const { DocType, FormName } = FormSelection();
   const [selectedStatus, setSelectedStatus] = useState(null);
   const option = ["PDF", "Word"];
   const [documentCreation, setDocumentCreation] = useState(false);
@@ -35,6 +42,9 @@ const App = () => {
   const [documentType, setDocumentType] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
+  const [pdfData, setPdfData] = useState(null);
+  const { formData: DataForm } = useAgreementFormStore();
+  const printableRef = useRef();
 
   const openDocumentCreation = () => {
     setSelectedFormat(false);
@@ -52,20 +62,66 @@ const App = () => {
       setSelectedFormat(false);
     }
     setShowDocuments(true);
-  }
+  };
 
   const closeMobileFilterModal = () => {
     setFilterModal(false)
-  }
+  };
 
   const openMobileFilterModal = () => {
     setFilterModal(!filterModal)
-  }
-
+  };
 
   const handleToggleMenuClick = () => {
     setPopUpMenuVisible(!popUpMenuVisible);
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: `${FormName ? FormName : "Document"}`,
+    onAfterPrint: () => console.log("Document printed."),
+  });
+
+  // const generatePdf = async () => {
+  //   const element = printableRef.current;
+
+  //   // Generate the PDF using html2pdf.js
+  //   const pdf = await html2pdf().from(element).outputPdf('dataurlstring');
+
+  //   // Save the PDF data to state
+  //   setPdfData(pdf);
+
+  //   // Optionally, trigger the print dialog after PDF generation
+  //   handlePrint();
+  // };
+
+
+  // const handleSavePdf = async () => {
+
+  //   // Optionally, trigger the print dialog after PDF generation
+  //   handlePrint();
+
+  //   const doc = <SavedPreviewedData formData={DataForm} />;
+  //   if (!doc) {
+  //     console.error('Printable content is not ready');
+  //     return;
+  //   }
+
+  //   // Render the PDF document into a Blob
+  //   const blob = await pdf(doc).toBlob();
+  //   console.log(blob);
+
+  //   const formData = new FormData();
+  //   formData.append('file', blob, `${FormName ? `${FormName}.pdf` : "Document.pdf"}`);
+  //   console.log(formData);
+  //   setPdfData(formData);
+
+  //   // Save the PDF to the client side
+  //   // saveAs(blob, `${FormName ? `${FormName}.pdf` : "Document.pdf"}`);
+
+  // };
+
+  // console.log(pdfData);
 
 
   return (
@@ -113,6 +169,7 @@ const App = () => {
                     className={"text-[14px] font-[500]"}
                     width={"w-[190px] md:w-[240px]"}
                     show="false"
+                    handlePrint={handlePrint}
                   />
                 </div>
               </div>
@@ -120,7 +177,7 @@ const App = () => {
             <div className="w-full flex justify-center">
               <div className="w-[600px] h-[100vh] scrollbar-container overflow-hidden overflow-y-auto p-4 mb-8">
                 <div className={`${DocType === "Tenancy Agreement" ? "" : "hidden"}`}>
-                  <PreviewedData />
+                  <PreviewedData printableRef={printableRef} />
                 </div>
                 <div className={`${DocType === "Quit Notice" ? "" : "hidden"}`}>
                   <QuitNoticeData />
@@ -154,7 +211,7 @@ const App = () => {
                   </span>
                 </button>
               </div>
-              <div className="w-[25%]">
+              <div className="w-[28%]">
                 <button
                   onClick={() => {
                     setDocumentCreation(!documentCreation)
@@ -256,6 +313,7 @@ const App = () => {
                             show="true"
                             width="w-[150px]"
                             placeholder="Download"
+                            handlePrint={handlePrint}
                           />
                         </div>
                         <div className="md:hidden relative">

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import useClickOutside from "@/utils/clickOutside";
 
-const Dropdown = ({ options, onSelect, className, label }) => {
+const Dropdown = ({ options, onSelect, className, label, selectedCurrency }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const dropdownRef = useClickOutside(() => setIsOpen(false));
@@ -34,7 +34,7 @@ const Dropdown = ({ options, onSelect, className, label }) => {
       >
         <div className="flex w-full justify-between items-center">
           <div className={`font-[500] text-[14px] w-full ${selectedOption ? "text-BlackHomz" : "text-GrayHomz2"}`}>
-            {selectedOption ? selectedOption : "Select"}
+            {selectedOption ? selectedOption : selectedCurrency ? selectedCurrency : "Select"}
           </div>
           <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
             <Image src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png" height={16} width={16} alt="" />

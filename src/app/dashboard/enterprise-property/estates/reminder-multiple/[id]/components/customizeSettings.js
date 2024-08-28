@@ -20,6 +20,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [isInAppPresent, setIsInAppPresent] = useState(null);
     const [backendData, setBackendData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [loadingII, setLoadingII] = useState(false);
     const [selectedChannel, setSelectedChannel] = useState(null);
     const [emailContent, setEmailContent] = useState(data?.emailContent);
     const [SMSContent, setSMSContent] = useState(data?.smsContent);
@@ -147,6 +148,35 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
         }
     };
 
+    const restoreDefaultReminder = async () => {
+        setLoadingII(true);
+        if (data) {
+            try {
+                const defaultSettings = {
+                    "name": data?.reminderName,
+                    "interval": data?.interval,
+                    "duration": data?.duration ? data?.duration : 0,
+                    "type": data?.type,
+                    "templateType": data?.templateType
+
+                }
+                const response = await api.patch(
+                    `/rentReminder/${data?._id}/default`,
+                    defaultSettings
+                );
+                fetchDataAgain();
+                setCustomizeSettings(false)
+                return response;
+            } catch (error) {
+                setLoadingII(false);
+                toast.error("Failed to restore default settings")
+                throw error;
+            } finally {
+                setLoadingII(false);
+            }
+        }
+    };
+
     return (
         <div>
             <CustomizeModal isOpen={modalConfirmChanges}>
@@ -199,7 +229,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
             </CustomizeModal>
             <CustomizeModal isOpen={modalSave}>
                 <div className="max-w-[464px] p-2 m-auto bg-white md:h-[245px] rounded-md">
-                    <div className="flex flex-col justify-around items-center h-full p-6">
+                    <div className={`flex flex-col justify-around items-center h-full p-6 ${loadingII ? "pointer-events-none" : ""}`}>
                         <h1 className="text-BlackHomz font-[500] text-[20px] text-center">
                             Restore Default Settings
                         </h1>
@@ -207,10 +237,10 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                             Are you sure you want to restore the system’s default settings?
                         </p>
                         <button
-                            onClick={() => setCustomizeSettings(false)}
-                            className="mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500]"
-                        >
-                            Proceed
+                            onClick={restoreDefaultReminder}
+                            className={`mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500] ${loadingII ? "pointer-events-none w-full flex justify-center" : ""} `}
+                            >
+                            {loadingII ? <LoadingFormII /> : "Proceed"}
                         </button>
                         <button
                             onClick={() => setModalSave(false)}

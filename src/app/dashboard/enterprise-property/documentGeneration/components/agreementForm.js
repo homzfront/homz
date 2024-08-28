@@ -110,6 +110,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                         options={options}
                         onSelect={(option) => setFormData('selectedCurrency', option)}
                         className={"text-[14px] font-[500] text-GrayHomz2"}
+                        selectedCurrency={formData.selectedCurrency}
                     />
                 </div>
             </div>
@@ -122,10 +123,11 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     onChange={(e) => setFormData('agreementDate', e.target.value)}
                 />
             </div>
-            <div 
-                     onClick={() => setDocumentCreation(false)}
-            className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
-                <div className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
+            <div
+                className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
+                <div
+                    onClick={() => setDocumentCreation(false)}
+                    className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
                     <p>
                         Close
                     </p>
