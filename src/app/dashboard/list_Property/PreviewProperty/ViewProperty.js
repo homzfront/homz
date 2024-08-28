@@ -107,7 +107,7 @@ const ViewProperty = ({ PropertyID }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
-
+//  console.log(propertyData)
   return (
     <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10 px-6">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
@@ -437,7 +437,7 @@ const ViewProperty = ({ PropertyID }) => {
                     </div>
                     <div className="mb-4">
                       {tabName === "Amenities" && (
-                        <Amenities amenities={amenities} />
+                        <Amenities amenities={propertyData?.amenities} />
                       )}
 
                       {tabName === "Map" && (

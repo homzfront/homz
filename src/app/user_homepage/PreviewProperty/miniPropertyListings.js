@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import trucateWord from "@/utils/trucateWord";
+import { useRouter } from "next/navigation";
 const MiniPropertyListings = ({
   Properties,
   width,
@@ -11,6 +12,7 @@ const MiniPropertyListings = ({
   reset,
   setLoadingII,
 }) => {
+  const router= useRouter()
   return (
     <div className={`w-full sm:mt-5`}>
       <div className="text-[16px] flex justify-between w-full ">
@@ -44,6 +46,7 @@ const MiniPropertyListings = ({
                 slide={false}
                 theme={customTheme}
                 className="w-full h-[181.77px] "
+                onClick={()=>router.push(`/user_homepage/PreviewProperty/${property?.slug}`)}
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
@@ -70,7 +73,7 @@ const MiniPropertyListings = ({
                   className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center"
                 >
                   {trucateWord(
-                    capitalizeFirstLetter(property?.name || property?.title),
+                    capitalizeFirstLetter(property?.title),
                     12
                   )}
                 </Link>

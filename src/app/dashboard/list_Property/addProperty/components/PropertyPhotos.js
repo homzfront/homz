@@ -368,11 +368,12 @@ const PropertyPhoto = ({
         <div className="flex gap-3 items-center sm:flex-row flex-col">
           <div className="flex gap-3 items-center ">
             <button
-              className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz`}
-              onClick={() => setSaveToDraft(true)}
+              className={`hidden sm:flex gap-2 text-[#c0bfbf] items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] `}
+              // onClick={() => setSaveToDraft(true)}
             >
+            
               <Image
-                src={`/static/images/blueclock.svg`}
+                src={`/static/images/clock2.svg`}
                 alt=""
                 height={16}
                 width={16}
@@ -418,11 +419,11 @@ const PropertyPhoto = ({
         </div>
       </div>
       <button
-        className={`sm:hidden flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz mx-auto my-5 mb-2`}
-        onClick={() => setSaveToDraft(true)}
+        className={`sm:hidden flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-[#c0bfbf] mx-auto my-5 mb-2`}
+        // onClick={() => setSaveToDraft(true)}
       >
         <Image
-          src={`/static/images/blueclock.svg`}
+          src={`/static/images/clock2.svg`}
           alt=""
           height={16}
           width={16}

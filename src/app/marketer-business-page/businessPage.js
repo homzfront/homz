@@ -72,7 +72,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     fetchData();
   }, [fetchData]);
 
- 
+//  console.log(data);
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));

@@ -19,12 +19,14 @@ function CardMenus({
   setOpenPlanModal,
   promoted,
   setPromotePropertry,
-  setErrorModal
+  setErrorModal,
 }) {
   const router = useRouter();
   const [isLoading, setLoader] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const setPropertyId = usePropertyPromotionData((state) => state.setSinglePropertyId);
+  const setPropertyId = usePropertyPromotionData(
+    (state) => state.setSinglePropertyId
+  );
   const setPropertyPlanType = usePropertyPromotionData(
     (state) => state.setPropertyPlanType
   );
@@ -41,7 +43,6 @@ function CardMenus({
   }
 
   const handlePromoteProperty = async () => {
-    
     setLoader(true);
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
@@ -50,7 +51,7 @@ function CardMenus({
         localStorage.setItem("prp_tygf2ty", data._id);
         localStorage.setItem("prp_xry_pl#a$n", "single");
         setOpenPlanModal(true);
-      } else if ((response.message == "An unexpected error occurred.")) {
+      } else if (response.message == "An unexpected error occurred.") {
         setLoader(false);
         setErrorModal(true);
       } else {
@@ -113,7 +114,9 @@ function CardMenus({
         className={` flex gap-3 items-center text-[14px] font-[500] leading-[21px] ${
           publish ? "text-[#D92D20]" : "text-[#006AFF]"
         } p-[8px] hover:bg-gray-100 w-full`}
-        onClick={()=>publish ? handleUnpublished(data?._id) : handlePublished(data?._id)}
+        onClick={() =>
+          publish ? handleUnpublished(data?._id) : handlePublished(data?._id)
+        }
       >
         <Image
           src={`/static/images/${publish ? "stop-circle.svg" : "send-2.svg"}`}
@@ -124,42 +127,46 @@ function CardMenus({
         />
         <span>{publish ? "Unpublish" : "Publish"}</span>
       </button>
-      {promoted ? (
-        <button
-          className="w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center justify-start rounded-[8px] text-[#DC6803] bg-[#FCF3EB] flex-shrink-0 "
-          onClick={() => setStopPromotion(true)}
-        >
-          <Image
-            src="/static/images/orangePromotoStop.svg"
-            alt=""
-            height={16}
-            width={16}
-            className=""
-          />
-          <span>Stop Property promotion</span>
-        </button>
-      ) : (
-        <button
-          className={`w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center ${
-            isLoading ? "justify-center" : "justify-start"
-          }  rounded-[8px] text-white bg-[#DC6803] flex-shrink-0 `}
-          onClick={handlePromoteProperty}
-        >
-          {!isLoading ? (
-            <>
+      {publish && (
+        <div className="">
+          {promoted ? (
+            <button
+              className="w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center justify-start rounded-[8px] text-[#DC6803] bg-[#FCF3EB] flex-shrink-0 "
+              onClick={() => setStopPromotion(true)}
+            >
               <Image
-                src="/static/images/orange-send.svg"
+                src="/static/images/orangePromotoStop.svg"
                 alt=""
                 height={16}
                 width={16}
                 className=""
               />
-              <span>Promotion options</span>
-            </>
+              <span>Stop Property promotion</span>
+            </button>
           ) : (
-            <ThreeDotsLoader color="#ffffff" />
+            <button
+              className={`w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center ${
+                isLoading ? "justify-center" : "justify-start"
+              }  rounded-[8px] text-white bg-[#DC6803] flex-shrink-0 `}
+              onClick={handlePromoteProperty}
+            >
+              {!isLoading ? (
+                <>
+                  <Image
+                    src="/static/images/orange-send.svg"
+                    alt=""
+                    height={16}
+                    width={16}
+                    className=""
+                  />
+                  <span>Promotion options</span>
+                </>
+              ) : (
+                <ThreeDotsLoader color="#ffffff" />
+              )}
+            </button>
           )}
-        </button>
+        </div>
       )}
     </div>
   );

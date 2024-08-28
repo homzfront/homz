@@ -228,7 +228,7 @@ const PropertyPhoto = ({
                   <br />
 
                   <div
-                    className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
+                    className={`group md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
                   >
                     <form
                       enctype="multipart/form-data"
@@ -250,7 +250,7 @@ const PropertyPhoto = ({
                         <Image
                           src={coverPhoto}
                           alt="Cover Photo"
-                          className="sm:w-[120px] sm:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                          className="sm:w-[120px] sm:h-[120px] w-[96px] h-[96px] rounded-[14.13px] ho"
                           width={120}
                           height={120}
                         />
@@ -266,36 +266,41 @@ const PropertyPhoto = ({
                       )}
 
                       {(fileUploaded || coverPhoto || coverPhotoDeleted) && (
-                        <>
-                          <Image
-                            src="/trush-square.png"
-                            height={24}
-                            width={24}
-                            className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
-                            alt="Cover Photo"
+                        <div className="absolute sm:opacity-0 sm:group-hover:opacity-100 bg-black/50  sm:hover:bg-opacity-100  -bottom-0 sm:-bottom-5 sm:group-hover:bottom-0 transition-all duration-300 flex items-center justify-center w-full h-full rounded-[14.13px] gap-3">
+                          <p
+                            className="cursor-pointer"
+                            onClick={uploadCoverPhoto}
+                          >
+                            <Image
+                              src="/static/images/repeat-white.svg"
+                              alt="Cover Photo"
+                              className=""
+                              width={24}
+                              height={24}
+                            />
+
+                            <span className="hidden sm:block text-[8px] text-white font-[500] leading-[21px]">
+                              Change
+                            </span>
+                          </p>
+                          <p
+                            className="cursor-pointer"
                             onClick={() =>
                               deleteCoverPhoto(data?.coverPhoto?.publicId)
                             }
-                          />
-                          {[
-                            "/static/images/cameraEdit.svg",
-                            "/static/images/whiteCamera.svg",
-                          ].map((src, index) => (
+                          >
                             <Image
-                              key={index}
-                              onClick={uploadCoverPhoto}
-                              src={src}
+                              src="/static/images/trash-white.svg"
+                              height={24}
+                              width={24}
+                              className=""
                               alt="Cover Photo"
-                              className={`${
-                                index === 0
-                                  ? "hidden sm:block sm:left-[40px] sm:top-[40px]"
-                                  : "sm:hidden sm:left-[40px] sm:top-[40px]"
-                              } rounded-[14.13px] absolute left-[30px] top-[30px] sm:opacity-0 sm:hover:opacity-100`}
-                              width={40}
-                              height={40}
                             />
-                          ))}
-                        </>
+                            <span className=" hidden sm:block text-[8px] text-white font-[500] leading-[21px]">
+                              Delete
+                            </span>
+                          </p>
+                        </div>
                       )}
                     </form>
                   </div>
@@ -324,15 +329,14 @@ const PropertyPhoto = ({
                 >
                   Other photos
                 </label>
-                {/* <br /> */}
-                {/* // Render each house dynamically */}
+            
 
                 <div
                   className={`h-fit sm:grid sm:grid-cols-6 flex  flex-wrap gap-[15px] sm:gap-[20px] sm:w-full w-fit mt-2 sm:mt-0`}
                 >
                   {houses.map((house, index) => (
                     <div
-                      className={` md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+                      className={`group md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
                       key={index}
                     >
                       <form
@@ -362,16 +366,41 @@ const PropertyPhoto = ({
                               height={120}
                             />
                             {house && (
-                              <Image
-                                src={"/trush-square.png"}
-                                height={24}
-                                width={24}
-                                className="cursor-pointer  absolute z-10 sm:bottom-[-22px]"
-                                alt="img"
-                                onClick={() =>
-                                  deleteFile(index, house?.publicId)
-                                }
-                              />
+                              <div className="absolute opacity-0 group-hover:opacity-100 bg-black/50 hover:bg-opacity-100  -bottom-5 group-hover:bottom-0 transition-all duration-200 flex items-center justify-center w-full h-full rounded-[14.13px] gap-3">
+                                <p
+                                  className="cursor-pointer"
+                                  onClick={() => uploadFile2(index)}
+                                >
+                                  <Image
+                                    src="/static/images/repeat-white.svg"
+                                    alt="Cover Photo"
+                                    className=""
+                                    width={24}
+                                    height={24}
+                                  />
+
+                                  <span className="hidden sm:block text-[8px] text-white font-[500] leading-[21px]">
+                                    Change
+                                  </span>
+                                </p>
+                                <p
+                                  className="cursor-pointer"
+                                  onClick={() =>
+                                    deleteFile(index, house?.publicId)
+                                  }
+                                >
+                                  <Image
+                                    src="/static/images/trash-white.svg"
+                                    height={24}
+                                    width={24}
+                                    className=""
+                                    alt="Cover Photo"
+                                  />
+                                  <span className=" hidden sm:block text-[8px] text-white font-[500] leading-[21px]">
+                                    Delete
+                                  </span>
+                                </p>
+                              </div>
                             )}
                           </>
                         ) : (
@@ -384,18 +413,7 @@ const PropertyPhoto = ({
                             onClick={() => uploadFile2(index)}
                           />
                         )}
-                        <Image
-                          onClick={() => uploadFile2(index)}
-                          src="/static/images/cameraEdit.svg"
-                          alt="Cover Photo"
-                          className={`rounded-[14.13px] absolute sm:left-[40px] sm:top-[40px] left-[30px] top-[30px] ${
-                            house?.url || house
-                              ? "opacity-0 hover:opacity-100"
-                              : "hidden"
-                          }`}
-                          width={40}
-                          height={40}
-                        />
+                    
                       </form>
                       <p className="text-[11px] text-red-600 pl-3">
                         {errorMsg[index]}

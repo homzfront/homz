@@ -399,7 +399,7 @@ const PropertyForms = ({ propertyData }) => {
             className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px]"
             onClick={() => {
               closeSuccessModal();
-              // window.location.reload(false);
+              window.location.reload(false);
             }}
           >
             Close

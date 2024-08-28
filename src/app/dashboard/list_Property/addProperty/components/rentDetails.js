@@ -431,14 +431,16 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
             <button
               disabled={price === ""}
               className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-                price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
+              "text-[#c0bfbf]"
+                // price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
               }`}
-              onClick={() => setSaveToDraft(true)}
+              // onClick={() => setSaveToDraft(true)}
             >
               <Image
-                src={`/static/images/${
-                  price === "" ? "clock2.svg" : "blueclock.svg"
-                }`}
+                src={"/static/images/clock2.svg"}
+                // src={`/static/images/${
+                //   price === "" ? "clock2.svg" : "blueclock.svg"
+                // }`}
                 alt=""
                 height={16}
                 width={16}
@@ -478,15 +480,16 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
         </div>
         <button
           disabled={price === ""}
-          className={`mx-auto my-5 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-            price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
+          className={`mx-auto my-5 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${"text-[#c0bfbf]"
+            // price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
           }`}
-          onClick={() => setSaveToDraft(true)}
+          // onClick={() => setSaveToDraft(true)}
         >
           <Image
-            src={`/static/images/${
-              price === "" ? "clock2.svg" : "blueclock.svg"
-            }`}
+            src={`/static/images/clock2.svg`}
+            // src={`/static/images/${
+            //   price === "" ? "clock2.svg" : "blueclock.svg"
+            // }`}
             alt=""
             height={16}
             width={16}

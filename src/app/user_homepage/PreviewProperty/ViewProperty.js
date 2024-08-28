@@ -76,7 +76,7 @@ const ViewProperty = ({ PropertyID }) => {
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSinglePropertyPublic(PropertyID);
-      console.log(response?.data);
+      // console.log(response?.data);
       const property = await response;
       setPropertyData(property?.data);
       setLoading(false);
@@ -526,7 +526,7 @@ const ViewProperty = ({ PropertyID }) => {
                     </div>
                     <div className="mb-4">
                       {tabName === "Amenities" && (
-                        <Amenities amenities={amenities} />
+                        <Amenities amenities={propertyData?.amenities} />
                       )}
 
                       {tabName === "Map" && (

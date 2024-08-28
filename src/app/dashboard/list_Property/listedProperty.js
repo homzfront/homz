@@ -319,7 +319,7 @@ const ListedProperties = ({
           >
             Unpublished
           </button>
-          <button
+          {/* <button
             className={`py-[8px] px-[12px] rounded-[4px] w-fit ${
               tabName === "Drafts"
                 ? "bg-BlueHomz text-white"
@@ -328,7 +328,7 @@ const ListedProperties = ({
             onClick={() => setTabName("Drafts")}
           >
             Drafts
-          </button>
+          </button> */}
         </div>
         <div className="hidden sm:flex gap-1 filter">
           <p className="text-[#4E4E4E]  text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2"></p>

@@ -407,13 +407,13 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
                 // disabled={!isValid ? true : false}
                 className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] cursor-pointer ${
                   // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
-                  "text-BlueHomz"
+                  "text-[#c0bfbf]"
                 }`}
-                onClick={() => setSaveToDraft(true)}
+                // onClick={() => setSaveToDraft(true)}
               >
                 <Image
                   src={`/static/images/${
-                    "blueclock.svg"
+                    "clock2.svg"
                     // isValid ? "clock2.svg" : "blueclock.svg"
                   }`}
                   alt=""
@@ -456,13 +456,13 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
           <p
             // disabled={!isValid ? true : false}
             className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
-              "text-BlueHomz"
+              "text-[#c0bfbf]"
               // isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
             }`}
-            onClick={() => setSaveToDraft(true)}
+            // onClick={() => setSaveToDraft(true)}
           >
             <Image
-              src="/static/images/blueclock.svg"
+              src="/static/images/clock2.svg"
               // src={`/static/images/${isValid ? "clock2.svg" : "blueclock.svg"}`}
               alt=""
               height={16}

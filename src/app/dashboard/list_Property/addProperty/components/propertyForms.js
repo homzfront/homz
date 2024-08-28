@@ -46,13 +46,6 @@ const PropertyForms = () => {
     setSavedToDraftSuccess(false);
     router.back();
   };
-  // console.log(propertyInfo)
-  // console.log(rentalInfo)
-  // console.log(coverPhoto)
-  // console.log(amenities)
-  // console.log(propertyDetails);
-  // console.log(contactInfo)
-  // console.log(photos)
 
   const handleSaveToDraft = () => {
     setSaveToDraft(false);

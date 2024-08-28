@@ -10,7 +10,7 @@ const MiniPhotoFrame = ({
   fileUploads,
   secondDisplay,
   editMode,
-  deleteFile
+  deleteFile,
 }) => {
   const mapHouse = secondDisplay ? houses.slice(2) : houses.slice(0, 2);
 
@@ -37,7 +37,7 @@ const MiniPhotoFrame = ({
 
           return (
             <div
-              className={` relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos`}
+              className={` group md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos`}
               key={actualIndex}
             >
               <form
@@ -50,7 +50,9 @@ const MiniPhotoFrame = ({
                   name="HousePic"
                   ref={(el) => (fileUploads.current[actualIndex] = el)}
                   id={`uploadImage${actualIndex}`}
-                  onChange={(e) => displayHousePic(e, actualIndex,house?.publicId)}
+                  onChange={(e) =>
+                    displayHousePic(e, actualIndex, house?.publicId)
+                  }
                   style={{ display: "none" }}
                   accept="image/jpg, image/png, image/jpeg"
                 />
@@ -69,14 +71,42 @@ const MiniPhotoFrame = ({
                       height={120}
                     />
                     {house && (
-                      <Image
-                        src={"/trush-square.png"}
-                        height={24}
-                        width={24}
-                        className="cursor-pointer absolute z-10 sm:bottom-[-22p] bottom-[-19px]"
-                        alt="img"
-                        onClick={() => deleteFile(actualIndex, house?.publicId)}
-                      />
+                      <div className="absolute opacity-100 group-hover:opacity bg-black/50 hover:bg-opacit  -bottom-0 group-hover:bottom trtion-200 flex items-center justify-center w-full h-full rounded-[14.13px] gap-3">
+                        <p
+                          className="cursor-pointer"
+                          onClick={() => uploadFile2(actualIndex)}
+                        >
+                          <Image
+                            src="/static/images/repeat-white.svg"
+                            alt="Cover Photo"
+                            className=""
+                            width={24}
+                            height={24}
+                          />
+
+                          <span className="hidden sm:block text-[8px] text-white font-[500] leading-[21px]">
+                            Change
+                          </span>
+                        </p>
+                        <p
+                          className="cursor-pointer"
+                          onClick={() =>
+                            deleteFile(actualIndex, house?.publicId)
+                          }
+                        >
+                          <Image
+                            src="/static/images/trash-white.svg"
+                            height={24}
+                            width={24}
+                            className=""
+                            alt="Cover Photo"
+                          />
+                          <span className=" hidden sm:block text-[8px] text-white font-[500] leading-[21px]">
+                            Delete
+                          </span>
+                        </p>
+                      </div>
+                      
                     )}
                   </>
                 ) : (
@@ -89,7 +119,7 @@ const MiniPhotoFrame = ({
                     height={48}
                   />
                 )}
-                {editMode && (
+                {/* {editMode && (
                   <Image
                     onClick={() => uploadFile2(actualIndex)}
                     src="/static/images/whiteCamera.svg"
@@ -100,7 +130,7 @@ const MiniPhotoFrame = ({
                     width={40}
                     height={40}
                   />
-                )}
+                )} */}
               </form>
               <p className="text-[11px] text-red-600 pl-3">
                 {errorMsg[actualIndex]}
@@ -114,3 +144,13 @@ const MiniPhotoFrame = ({
 };
 
 export default MiniPhotoFrame;
+{
+  /* <Image
+                        src={"/trush-square.png"}
+                        height={24}
+                        width={24}
+                        className="cursor-pointer absolute z-10 sm:bottom-[-22p] bottom-[-19px]"
+                        alt="img"
+                        onClick={() => deleteFile(actualIndex, house?.publicId)}
+                      /> */
+}
