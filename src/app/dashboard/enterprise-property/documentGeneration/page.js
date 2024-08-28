@@ -18,11 +18,11 @@ import Image from "next/image";
 import FilterMobile from "./components/filterMobile";
 import PopUp from "./components/popUp";
 import { useReactToPrint } from "react-to-print";
-import html2pdf from "html2pdf.js";
-import { pdf } from '@react-pdf/renderer';
-import PrintablePreviewedData from "./components/printablePreviewedData";
-import SavedPreviewedData from "./components/savedPreviewedData";
-import useAgreementFormStore from "@/store/document/useAgreementFormStore";
+// import html2pdf from "html2pdf.js";
+// import { pdf } from '@react-pdf/renderer';
+// import PrintablePreviewedData from "./components/printablePreviewedData";
+// import SavedPreviewedData from "./components/savedPreviewedData";
+// import useAgreementFormStore from "@/store/document/useAgreementFormStore";
 // import { saveAs } from 'file-saver';
 
 
@@ -42,8 +42,8 @@ const App = () => {
   const [documentType, setDocumentType] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
-  const [pdfData, setPdfData] = useState(null);
-  const { formData: DataForm } = useAgreementFormStore();
+  // const [pdfData, setPdfData] = useState(null);
+  // const { formData: DataForm } = useAgreementFormStore();
   const printableRef = useRef();
 
   const openDocumentCreation = () => {
