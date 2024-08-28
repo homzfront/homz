@@ -21,17 +21,11 @@ const PaymentDetails = ({
   const [initialPaymentClicked, setInitialPaymentClicked] = useState(false);
   const [agencyClicked, setAgencyClicked] = useState(false);
   const [isFocusInitialPayment, setFocusInitialPayment] = useState(false);
-  const [Installment, setInstallment] = useState(false);
   const [selectedClicked, setSelectedClicked] = useState(false);
   const [durationClicked, setDurationClicked] = useState(false);
 
   const [formData, setFormData] = useState({});
-  console.log(property);
-  const [price, setPrice] = useState("");
-  const [maintenance, setMaintenance] = useState("");
-  const [total, setTotal] = useState();
-  const [agency, setAgency] = useState();
-  const [initialPayment, setInitialPayment] = useState("");
+  // console.log(property);
   const originalFormData = useRef({
     ...property,
   });
@@ -77,7 +71,6 @@ const PaymentDetails = ({
       }
     });
   };
- 
 
   const calculateTotalPrice = () => {
     const safeParse = (value) => {
@@ -88,9 +81,8 @@ const PaymentDetails = ({
     const parsedMaintenance = safeParse(formData?.maintenanceFee);
     const parsedAgency = safeParse(formData?.agencyFee);
     const sum = parsedPrice + parsedMaintenance + parsedAgency;
-    // console.log(sum);
     setFormData((prev) => ({ ...prev, totalFee: sum }));
-    // setTotal(sum);
+
   };
   // console.log(formData);
 
@@ -174,7 +166,9 @@ const PaymentDetails = ({
                   value={
                     isFocusPrice
                       ? formData?.price
-                      : formData?.price ? Number(formData?.price).toLocaleString() : ""
+                      : formData?.price
+                      ? Number(formData?.price).toLocaleString()
+                      : ""
                   }
                   onChange={(e) => {
                     handleChange(e);
@@ -220,7 +214,9 @@ const PaymentDetails = ({
                   value={
                     isFocusMaintenance
                       ? formData?.maintenanceFee
-                      :formData?.maintenanceFee ? Number(formData?.maintenanceFee).toLocaleString() :""
+                      : formData?.maintenanceFee
+                      ? Number(formData?.maintenanceFee).toLocaleString()
+                      : ""
                   }
                   onClick={(e) => setMaintenanceClicked(true)}
                   onChange={(e) => {
@@ -263,8 +259,10 @@ const PaymentDetails = ({
                   min="0"
                   value={
                     isFocusAgency
-                      ? formData?.agencyFee 
-                      : formData?.agencyFee ? Number(formData?.agencyFee).toLocaleString() : ""
+                      ? formData?.agencyFee
+                      : formData?.agencyFee
+                      ? Number(formData?.agencyFee).toLocaleString()
+                      : ""
                   }
                   onClick={(e) => setAgencyClicked(true)}
                   onChange={(e) => {
@@ -301,7 +299,11 @@ const PaymentDetails = ({
                   name="totalFee"
                   min="0"
                   disabled
-                  value={Number(formData?.totalFee || total).toLocaleString()}
+                  value={
+                    formData?.totalFee
+                      ? Number(formData?.totalFee).toLocaleString()
+                      : ""
+                  }
                   onChange={handleChange}
                 />
               </div>
@@ -321,7 +323,6 @@ const PaymentDetails = ({
                 id={`checkbox`}
                 onChange={(e) => {
                   handleChange(e);
-                  setInstallment((prev) => !prev);
                 }}
                 checked={formData?.installmentPayment}
               />
@@ -421,7 +422,7 @@ const PaymentDetails = ({
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
                 <span
                   className={`absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !initialPayment && "opacity-60"
+                    !formData?.initialPayment && "opacity-60"
                   }`}
                 >
                   ₦
@@ -440,7 +441,9 @@ const PaymentDetails = ({
                   value={
                     isFocusInitialPayment
                       ? formData?.initialPayment
-                      : formData?.initialPayment? Number(formData?.initialPayment).toLocaleString() : ""
+                      : formData?.initialPayment
+                      ? Number(formData?.initialPayment).toLocaleString()
+                      : ""
                   }
                   onChange={(e) => {
                     handleChange(e);

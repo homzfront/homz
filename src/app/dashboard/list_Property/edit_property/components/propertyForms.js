@@ -53,7 +53,7 @@ const PropertyForms = ({ propertyData }) => {
     setCoverPicture(null);
   };
 
-  // console.log(formData);
+  // console.log(videoLinks);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;

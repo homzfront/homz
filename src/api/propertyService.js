@@ -132,7 +132,7 @@ export const updatePropertyOtherPhoto = async (id, uploadedImage, publicIds) => 
 
   // formData.append("photos", uploadedImage);
   // formData.append("photoPublicIds", publicId);
-  console.log(publicIds)
+  // console.log(publicIds)
 
   // Convert FormData to object
   const formDataObject = {};
