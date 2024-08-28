@@ -119,7 +119,7 @@ const PropertyForms = ({ propertyData }) => {
       error?.response?.data?.message ||
       "Update failed";
     console.error(errorMessage);
-    toast.error(errorMessage);
+    // toast.error(errorMessage);
   };
 
   const updatePropertyDetail = (e, data) => {
