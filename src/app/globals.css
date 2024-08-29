@@ -11,7 +11,9 @@ body::-webkit-scrollbar {
   width: 6px;
   background-color: #d1e4ff;
   border-top-right-radius: 30px;
-  /* Set the width of the scrollbar track */
+  /* overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  /* scrollbar-width: none;     Firefox */ 
 }
 
 body::-webkit-scrollbar-thumb {
