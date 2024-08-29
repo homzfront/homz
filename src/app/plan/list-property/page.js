@@ -178,30 +178,20 @@ const ListProperty = () => {
                 reset();
                 // console.log("form successfully filled ", response.data);
                 setLoading(false);
+            } else {
+                setFormError(response.data.message);
+                setLoading(false);
             }
         } catch (error) {
             setLoading(false);
             console.error("Error creating profile:", error);
             setFormError(error?.response?.data?.message);
             setFormError(error?.response?.data?.error);
-            if (
-                error?.response?.data?.error?.errors &&
-                error.response.data.error.errors.length > 0
-            ) {
-                const errorMessage = error.response.data.error.errors[0];
-                console.log(errorMessage);
-                setFormError(`Update failed: ${errorMessage}`);
-            } else if (error?.response?.data?.message) {
-                const errorMessage = error.response.data.message;
-                setFormError(`Update failed: ${errorMessage}`);
-            } else {
-                setFormError("Update failed");
-            }
         }
     };
 
     // useEffect to handle scrolling
-    useBodyScroll([loading]);
+    useBodyScroll([loading, isSubmitConfirmationVisible]);
 
     const toDashboard = () => {
         router.push("/dashboard/list_Property")
@@ -214,28 +204,30 @@ const ListProperty = () => {
     return (
         <div className="pt-[64px] max-w-[1156px] m-auto">
             {loading && <Loading />}
-            <CustomizedModal isOpen={isSubmitConfirmationVisible}>
-                <div className="bg-white p-8 rounded-md">
-                    <Image
-                        className="m-auto my-2"
-                        src={"/Featured icon.png"}
-                        height={48}
-                        width={48}
-                        alt="img"
-                    />
-                    <p className="text-center text-[24px] font-[700] text-BlackHomz mb-4">
-                        Account Created
-                    </p>
-                    <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
-                        Your account has been successfully created.
-                    </p>
-                    <div onClick={toDashboard}>
-                        <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
-                            Go to Dashboard
-                        </button>
+            {isSubmitConfirmationVisible && (
+                <div className="absolute top-0 p-8 sm:p-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                    <div className="bg-white p-8 rounded-md">
+                        <Image
+                            className="m-auto my-2"
+                            src={"/Featured icon.png"}
+                            height={48}
+                            width={48}
+                            alt="img"
+                        />
+                        <p className="text-center text-[24px] font-[700] text-BlackHomz mb-4">
+                            Account Created
+                        </p>
+                        <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
+                            Your account has been successfully created.
+                        </p>
+                        <div onClick={toDashboard}>
+                            <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
+                                Go to Dashboard
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </CustomizedModal>
+            )}
             <div className="flex flex-col md:gap-[35px] px-6 pt-8 md:pt-0 miniPadding">
                 <div className="h-[29px] mt-0 sm:mt-0 flex sm:flex-row gap-4 sm:gap-0 flex-col-reverse sm:items-center p-5 justify-between">
                     <p className="text-[23px] font-[700] text-BlackHomz">List Property</p>

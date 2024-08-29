@@ -5,6 +5,7 @@ import LoadingII from "@/components/mainmenu/loadingII";
 
 const PreviewProperty = ({ params }) => {
   const { id } = params;
+  
   return (
     <div className="w-full max-w-[1440px] m-auto">
       <Suspense fallback={<LoadingII />}>

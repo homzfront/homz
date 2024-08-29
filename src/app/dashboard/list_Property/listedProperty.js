@@ -2,63 +2,240 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import PropertyCard from './components/propertyCard';
-import CustomizedModal from "./components/CustomizedModal";
+import PropertyCard from "./components/propertyCard";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Dropdown from "./components/dropDownFilter";
-import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+// import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
-import addCommasToNumber from "@/utils/addCommasToNumber";
-import PropertyType from "@/app/user_homepage/components/propertyType";
-import Bedrooms from "@/app/user_homepage/components/bedrooms";
-import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
+import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
+import { useRouter, usePathname } from "next/navigation";
+import Button from "@/components/mainmenu/button";
 
-const EditProperty = ({
+
+const ListedProperties = ({
   property,
-  firstThreePages,
-  currentPage,
-  totalPages,
-  handleNext,
-  handlePageClick,
-  handlePrev,
-  lastThreePages,
-  currentData,
-  loading,
-  filters,
-  handleSearch,
-  handleSearchChange,
-  reset,
+  promoteOption,
+  setSelectedOption,
+  selectedOptions,
+  cancelSelectedOption,
+  handlePageNumber,
+  refreshData,
+  setOpenPlanModal,
+  setPromotePropertry,
+  setErrorModal,
+  subsciptionStatus
 }) => {
-  const { data, fetchData } = useProfileListingMe();
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // const { data, fetchData } = useProfileListingMe();
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  // console.log(property)
+  const ITEMS_PER_PAGE = 8;
+  const [filteredData, setFilteredData] = useState([]);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedRooms, setSelectedRooms] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [tabName, setTabName] = useState("All");
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(
+    property.data?.results?.[0].metadata[0].page || 1
+  );
+  const totalPages = Math.ceil(property?.data?.totalCount / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const [firstThreePages, setFirstThreePages] = useState([]);
+  const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const router = useRouter();
+  const pathName = usePathname();
 
+  const clear = () => {
+    setSelectedProperty(null);
+    setSelectedState(null);
+    setSelectedArea(null);
+    setSelectedRooms(null);
+    setSearchQuery("");
+    setFilteredData(property);
+  };
+
+  useEffect(()=>{
+    if(property){
+      setFilteredData( property?.data?.results?.[0].data)
+      }
+  },[property])
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get("page");
+    setCurrentPage(page ? parseInt(page, 10) : 1); // Default to page 1 if no page param is found
+  }, []);
+  useEffect(() => {
+    const handleRouteChangeStart = () => {
+      setIsLoading2(true);
+    };
+
+    const handleRouteChangeComplete = () => {
+      setIsLoading2(false);
+    };
+
+    router?.events?.on("routeChangeStart", handleRouteChangeStart);
+    router?.events?.on("routeChangeComplete", handleRouteChangeComplete);
+
+    // Cleanup the event listeners on component unmount
+    return () => {
+      router?.events?.off("routeChangeStart", handleRouteChangeStart);
+      router?.events?.off("routeChangeComplete", handleRouteChangeComplete);
+    };
+  }, [router]);
+
+  function pageManagement(num) {
+    const newUrl = pathName.includes("?")
+      ? `${pathName}&page=${num}`
+      : `${pathName}?page=${num}`;
+
+    router.push(newUrl, { scroll: false, swallow: true });
+  }
+  useEffect(() => {
+    const newFirstThreePages = Array.from(
+      { length: Math.min(totalPages, 3) },
+      (_, index) => index + 1
+    );
+    setFirstThreePages(newFirstThreePages);
+  }, [totalPages]);
+
+  const handleNext = () => {
+    const nextPageNumber = pageNumber + 1;
+    pageManagement(nextPageNumber);
+    setPageNumber(nextPageNumber);
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    const newFirstThreePages = Array.from(
+      { length: Math.min(totalPages - nextPageNumber + 1, 3) },
+      (_, index) => nextPageNumber + index
+    );
+
+    // Update the state for firstThreePages
+    setFirstThreePages(newFirstThreePages);
+    handlePageNumber(nextPageNumber);
+  };
+
+  const handlePrev = () => {
+    const prevPageNumber = Math.max(pageNumber - 1, 1);
+    pageManagement(prevPageNumber);
+    setPageNumber(prevPageNumber);
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    const newFirstThreePages = Array.from(
+      { length: Math.min(totalPages - prevPageNumber - 1, 3) },
+      (_, index) => prevPageNumber + index
+    );
+
+    // Update the state for firstThreePages
+    setFirstThreePages(newFirstThreePages);
+    handlePageNumber(prevPageNumber);
+  };
+
+  const lastThreePagesStart = Math.max(totalPages - 2, 1); // Calculate the starting page number for the last three pages
+  const lastThreePages = Array.from(
+    { length: Math.min(totalPages, 3) },
+    (_, index) => lastThreePagesStart + index
+  );
+
+  const handlePageClick = (page) => {
+    pageManagement(page);
+    setPageNumber(page);
+    handlePageNumber(page);
+    setCurrentPage(page);
+  };
+  const closeSaveToDraftModal = () => {
+    setSuccessModalIsOpen(false);
+    cancelSelectedOption();
+    // router.back()
+  };
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
+    // setDataProperties(data);
   };
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
   };
+  const options = [
+    ...new Set(property.data?.results?.[0].data?.map((item) => item?.state)),
+  ];
 
+  const options2 = [
+    ...new Set(property.data?.results?.[0].data?.map((item) => item?.area)),
+  ];
+
+  const options3 = [
+    ...new Set(
+      property.data?.results?.[0].data?.map((item) => item?.propertyType)
+    ),
+  ];
+
+  const options4 = [
+    ...new Set(
+      property.data?.results?.[0].data?.map((item) => item?.numberOfBathrooms)
+    ),
+  ];
+
+  const HandleFilter = () => {
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const filteredData = property.data?.results?.[0].data?.filter(
+          (data) => {
+            const matchesState =
+              !selectedState || data?.state === selectedState;
+            const matchesArea = !selectedArea || data?.area === selectedArea;
+            const matchesSearchQuery =
+              !searchQuery ||
+              data?.location.state
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()) ||
+              data?.location.area
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+            const bathrooms =
+              !selectedRooms || data?.numberOfBathrooms === selectedRooms;
+            return (
+              matchesState && matchesArea && matchesSearchQuery && bathrooms
+            );
+          }
+        );
+        // console.log(filteredData);
+        setFilteredData(filteredData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    }, 2000);
+  };
 
   return (
-    <div className="z-20 mb-14">
-      {
-        openModalForBusi &&
-        <div
-          className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
-          <div ref={dropdownRef} className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+    <div className=" mb-10 px-4 ">
+      {/* {isLoading2 && <Loading />} */}
+
+      {openModalForBusi && (
+        <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+          <div
+            ref={dropdownRef}
+            className="bg-white w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around"
+          >
             <BusinessAlert />
             <p className="text-[20px] font-[700] text-BlackHomz">
               Update Business Information
             </p>
             <p className="text-[16px] font-[400] text-GrayHomz text-center">
-              Kindly upload your business certification in order to list more properties
+              Kindly upload your business certification in order to list more
+              properties
             </p>
             <Link
               href={"/dashboard/list_Property/Profile?tab=business"}
@@ -70,113 +247,16 @@ const EditProperty = ({
             </Link>
           </div>
         </div>
-      }
-      <div className="dashboard hidden md:flex justify-between">
-        <div className="flex gap-1 filter">
-          <p className="text-[#4E4E4E] w-[90px] text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2">
-            Filter by:
-          </p>
-          <div className="relative flex items-center w-[230px] h-[44px] py-[12px]  mr-1">
-            <input
-              type="text"
-              id="searchState_Area"
-              name="searchState_Area"
-              className="w-full h-[45px] border border-GrayHomz pl-2 rounded-[6px] placeholder:text-GrayHomz outline-none"
-              placeholder="Search"
-              value={filters.search}
-              onChange={handleSearchChange}
-            />
-            <Image
-              src="/static/images/search-normal.svg"
-              alt=""
-              width={16}
-              height={16}
-              className="cursor-pointer right-[15px] absolute"
-              onClick={() => {
-                handleSearchChange
-              }}
-            />
-          </div>
-          <div>
-            <PropertyType
-              getPropertyType={handleSearch}
-              className={"w-[150px]"}
-              selectOption={`${filters?.propertyType === null
-                ? "Property Type"
-                : capitalizeFirstLetter(filters?.propertyType)
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
-            />
-          </div>
-          <div>
-            <Bedrooms
-              getBedrooms={handleSearch}
-              className={"w-[150px]"}
-              selectOption={`${filters?.numberOfBathrooms === null
-                ? "No of bedrooms"
-                : `${filters?.numberOfBathrooms} Bedrooms`
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
-            />
-          </div>
-          <button
-            className="border cursor-pointer border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded h-[45px]"
-            onClick={reset}
-          >
-            <span>
-              <Image
-                src={"/static/dashboard/enterprisemanager/dashboard/repeat.png"}
-                alt=""
-                height={17}
-                width={16}
-              />
-            </span>
-            <span className="ml-1"> Reset</span>
-          </button>
-        </div>
-        {
-          property?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
-            <div
-              onClick={() => setOpenModalForBusi(true)}
-              className="w-[338px] cursor-pointer flex gap-1 md:w-[166px] h-[42px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
-            >
-              <Image
-                src="/static/images/white-add.svg"
-                alt=""
-                height={16}
-                width={16}
-                className=""
-              />
-              <span>List New property</span>
-            </div> :
-            <Link
-              href="/dashboard/list_Property/addProperty"
-              className="w-[338px] flex gap-1 md:w-[166px] h-[45px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 ml-16"
-            >
-              <Image
-                src="/static/images/white-add.svg"
-                alt=""
-                height={16}
-                width={16}
-                className=""
-              />
-              <span>List New property</span>
-            </Link>
-        }
-      </div>
+      )}
       <div className="flex justify-between md:hidden w-full">
         <div className="relative w-[86%] rounded-[4px]">
           <input
             type="text"
             className="border h-[40px] pl-8 rounded-[4px] w-full "
             id="search"
-            value={filters.search}
-            onChange={handleSearchChange}
-            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by state or area "
           />
           <Image
             src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
@@ -197,22 +277,104 @@ const EditProperty = ({
           </button>
         </div>
       </div>
+      <div className="dashboard flex sm:justify-between w-full mt-6 sm:mt-0 ">
+        <div className="flex w-full flex-wrap sm:gap-[8px] gap-[8px]">
+          <button
+            className={`py-[8px] px-[12px] rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] w-fit sm:leading-[21px] font-[500] ${
+              tabName === "All"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+            }`}
+            onClick={() => setTabName("All")}
+          >
+            All
+          </button>
+          <button
+            className={`py-[8px] px-[12px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] w-fit ${
+              tabName === "Publish"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+            } rounded-[4px] h-[37px] font-[500]`}
+            onClick={() => setTabName("Publish")}
+          >
+            Published
+          </button>
+          <button
+            className={`py-[8px] px-[12px] sm:text-[14px] text-[11px] w-fit leading-[13.86px] sm:leading-[21px] ${
+              tabName === "Promoted"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+            } rounded-[4px] h-[37px] font-[500]`}
+            onClick={() => setTabName("Promoted")}
+          >
+            Promoted
+          </button>
+          <button
+            className={`flex items-center justify-center py-[8px] px-[12px] w-fit ${
+              tabName === "Unpublish"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+            } rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] font-[500]`}
+            onClick={() => setTabName("Unpublish")}
+          >
+            Unpublished
+          </button>
+          {/* <button
+            className={`py-[8px] px-[12px] rounded-[4px] w-fit ${
+              tabName === "Drafts"
+                ? "bg-BlueHomz text-white"
+                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+            } h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] font-[500]`}
+            onClick={() => setTabName("Drafts")}
+          >
+            Drafts
+          </button> */}
+        </div>
+        <div className="hidden sm:flex gap-1 filter">
+          <p className="text-[#4E4E4E]  text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2"></p>
+
+          <button
+            className="border  border-[#006AFF] text-[#006AFF] items-center text-[14px] font-[500] flex gap-1 px-[12px] py-[8px] rounded-[4px] h-[37px] w-[104px] cursor-pointer  justify-center"
+            onClick={openMobileModal}
+          >
+            <Image
+              src={"/static/images/filter.svg"}
+              alt=""
+              height={17}
+              width={16}
+            />
+            <span> All Filter</span>
+          </button>
+        </div>
+      </div>
+
       <PropertyCard
-        firstThreePages={firstThreePages}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handleNext={handleNext}
-        handlePageClick={handlePageClick}
-        handlePrev={handlePrev}
-        lastThreePages={lastThreePages}
-        currentData={currentData}
-        loading={loading}
+        Property={filteredData}
+        promoteOptions={promoteOption}
+        setSelectedProperty={setSelectedOption}
+        selectedProperty={selectedOptions}
+        refreshData={refreshData}
+        setOpenPlanModal={setOpenPlanModal}
+        setPromotePropertry={setPromotePropertry}
+        setErrorModal={setErrorModal}
       />
+      <div className="mt-16">
+        <Button
+          firstThreePages={firstThreePages}
+          currentPage={currentPage}
+          lastThreePages={lastThreePages}
+          totalPages={totalPages}
+          handleNext={handleNext}
+          handlePageClick={handlePageClick}
+          handlePrev={handlePrev}
+          pixel="px-0"
+        />
+      </div>
       <CustomizedModal
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[320px] h-auto  py-[24px] px-5 rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[350px] h-auto px-[16px] py-[24px]  rounded-[12px] gap-[20px]">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
@@ -229,76 +391,97 @@ const EditProperty = ({
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="searchPane relative w-[100%] rounded-[4px]">
-              <input
-                type="text"
-                className="border h-[46px] pl-8 rounded-[4px] w-full"
-                id="search"
-                placeholder="Search"
-                value={filters.search}
-                onChange={handleSearchChange}
+          <div className="grid  gap-4">
+            <div className="flex gap-[8px]">
+              <Dropdown
+                options={options}
+                onSelect={(option) => setSelectedState(option)}
+                selectOption={selectedState === null ? "State" : selectedState}
+                className={
+                  "text-[14px] font-[500] text-GrayHomz2 w-[100%] sm:w-[155px]"
+                }
               />
-              <Image
-                src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
-                alt=""
-                className="absolute top-[14.8px] left-3"
-                height={16}
-                width={16}
-                onClick={() => {
-                  handleSearchChange
-                }}
+
+              <Dropdown
+                options={options2}
+                onSelect={(option) => setSelectedArea(option)}
+                selectOption={selectedArea === null ? "Area" : selectedArea}
+                className={
+                  "w-[100%] sm:w-[155px] text-[14px] font-[500] text-GrayHomz2"
+                }
               />
             </div>
-            <div className="flex items-center justify-between w-full">
-              <div>
-                <PropertyType
-                  getPropertyType={handleSearch}
-                  className={"w-[135px]"}
-                  selectOption={`${filters?.propertyType === null
-                    ? "Property Type"
-                    : capitalizeFirstLetter(filters?.propertyType)
-                    }`}
-                  classNameII={"text-GrayHomz border-GrayHomz"}
-                  classNameIII={"text-GrayHomz"}
-                  classNameIV={"text-GrayHomz"}
-                />
-              </div>
-              <div>
-                <Bedrooms
-                  getBedrooms={handleSearch}
-                  className={"w-[135px]"}
-                  selectOption={`${filters?.numberOfBathrooms === null
-                    ? "No of bedrooms"
-                    : `${filters?.numberOfBathrooms} Bedrooms`
-                    }`}
-                  classNameII={"text-GrayHomz border-GrayHomz"}
-                  classNameIII={"text-GrayHomz"}
-                  classNameIV={"text-GrayHomz"}
-                />
-              </div>
+            <div className="flex gap-[8px]">
+              <Dropdown
+                options={options3}
+                onSelect={(option) => setSelectedProperty(option)}
+                selectOption={
+                  selectedProperty === null ? "Property Type" : selectedProperty
+                }
+                className={
+                  "w-[100%] sm:w-[155px] text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
+              {/* </div> */}
+              {/* <div className="w-[100%] sm:w-[155px]"> */}
+              <Dropdown
+                options={options4}
+                onSelect={(option) => setSelectedRooms(option)}
+                selectOption={
+                  selectedRooms === null
+                    ? "Bedroom"
+                    : selectedRooms === 1
+                    ? `${selectedRooms} Bedroom`
+                    : `${selectedRooms} Bedrooms`
+                }
+                className={
+                  "w-[100%] sm:w-[155px]  text-[14px] font-[500] text-GrayHomz2"
+                }
+              />
             </div>
           </div>
-          <button
-            className="border w-full h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-4"
-            onClick={reset}
-          >
-            <span>
-              <Image
-                src={"/static/images/white_repeat.svg"}
-                alt=""
-                height={17}
-                width={16}
-              />
-            </span>
-            <span className="text-[14px] leading-[17.64px] text-[700] text-white">
-              Reset
-            </span>
-          </button>
+          <div className="space-y-2">
+            <button
+              className="border w-full h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[700]  text-white flex justify-center  rounded-[4px] cursor-pointer "
+              onClick={HandleFilter}
+            >
+              {!isLoading ? (
+                <>
+                  <span>Filter</span>
+                </>
+              ) : (
+                <ThreeDots color="#ffffff" />
+              )}
+            </button>
+            <button
+              className="border w-full h-[42px] p-[12px] border-[#006AFF] text-[#006AFF] gap-1 items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer "
+              onClick={() => clear()}
+            >
+              <span>
+                <Image
+                  src={"/static/images/clear-Blue-repeat.svg"}
+                  alt=""
+                  height={17}
+                  width={16}
+                />
+              </span>
+              <span className="text-[14px] leading-[17.64px] text-[500]">
+                Reset
+              </span>
+            </button>
+          </div>
         </div>
       </CustomizedModal>
+
+      <SuccessModal
+        isOpen={successModalIsOpen}
+        title="Promotion Successful"
+        handleEvent={closeSaveToDraftModal}
+        successText="Promotion is currently under review and will be live within 8 hours."
+        optionalText="View listed properties"
+      />
     </div>
   );
 };
 
-export default EditProperty;
+export default ListedProperties;

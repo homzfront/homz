@@ -7,10 +7,12 @@ import PropertyInfo from "./propertyInfo";
 import RentalInfo from "./rentDetails";
 import PropertyPhoto from "./PropertyPhotos";
 import ContactInfo from "./contactInfo";
-import CustomizedModal from "../../components/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import api from "@/utils/api";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
+import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const PropertyForms = () => {
   const router = useRouter();
@@ -23,11 +25,15 @@ const PropertyForms = () => {
   const [rentalInfo, setRentalInfo] = useState([]);
   const [coverPhoto, setUploadedCoverPhoto] = useState(null);
   const [photos, setUploadedOtherPhotos] = useState([]);
-  const [contactInfo, setContactInfo] = useState([]);
+  // const [contactInfo, setContactInfo] = useState({});
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
   const [propertyDetails, setPropertyDetails] = useState([]);
   const [loadingForm, setLoadingForm] = useState(false);
+  const [saveToDraft, setSaveToDraft] = useState(false);
+  const [savedToDraftSuccess, setSavedToDraftSuccess] = useState(false);
+  const [videoLinks, setVideoLinksData] = useState();
+  const [amenities, setAmenities] = useState([]);
 
   const closeModal = () => {
     setSaveModalIsOpen(false);
@@ -36,36 +42,114 @@ const PropertyForms = () => {
   const closeSuccessModal = () => {
     setSuccessModalIsOpen(false);
   };
+  const closeSaveToDraftModal = () => {
+    setSavedToDraftSuccess(false);
+    router.back();
+  };
+
+  const handleSaveToDraft = () => {
+    setSaveToDraft(false);
+    setSavedToDraftSuccess(true);
+  };
   const handleSaved = async () => {
-    setLoadingForm(!loadingForm)
+    // setLoadingForm(!loadingForm);
     setLoading(true);
 
     const formData = new FormData();
+    var filteredDetail = {};
 
     propertyDetails.forEach((detail, index) => {
-      const filteredDetail = {};
       Object.entries(detail).forEach(([key, value]) => {
         // Check if the value is not empty or null
-        if (value !== '' && value !== null) {
+        if (value !== "" && value !== null) {
           filteredDetail[key] = value;
         }
       });
-
-      Object.entries(filteredDetail).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-
-      formData.append("coverPhoto", coverPhoto);
-
-      photos.forEach((photo) => {
-        formData.append("photos", photo);
-      });
     });
+    const {
+      title,
+      installmentPayment,
+      agencyFee,
+      amenities,
+      state,
+      area,
+      street,
+      email,
+      phoneNumber,
+      whatsapp,
+      description,
+      duration,
+      furnishStatus,
+      frequency,
+      initialPayment,
+      listingType,
+      maintenanceFee,
+      newly,
+      squareMeter,
+      numberOfBathrooms,
+      numberOfRooms,
+      numberOfToilets,
+      paymentType,
+      price,
+      propertyType,
+      serviced,
+      subType,
+      totalFee,
+      units,
+      youtubeUrl,
+      instagramUrl,
+    } = filteredDetail;
 
+    formData.append("coverPhoto", coverPhoto);
+    photos.forEach((photo) => formData.append("photos", photo));
+    const payload = {
+      title,
+      squareMeter,
+      propertyType,
+      listingType,
+      subType,
+      units,
+      price,
+      paymentType,
+      state,
+      area,
+      street,
+      numberOfRooms,
+      numberOfBathrooms,
+      numberOfToilets,
+      amenities,
+      description,
+      maintenanceFee,
+      totalFee,
+      agencyFee,
+      email,
+      phoneNumber,
+      whatsapp,
+      frequency,
+      youtubeUrl,
+      instagramUrl,
+      duration,
+      newlyBuilt: newly,
+      serviced,
+      initialPayment,
+      installmentPayment,
+    };
+    console.log(payload)
 
+    for (const [key, value] of Object.entries(payload)) {
+      if (value) {
+        if (key !== "amenities") {
+          formData.append(key, value);
+        } else {
+          value.forEach((amenity, index) => {
+            formData.append(`amenities[${index}]`, amenity);
+          });
+        }
+      }
+    }    
+    // /:id/property-detail
     try {
-      let response
-      response = await api.post(
+      const response = await api.post(
         "/properties/create/listing-property",
         formData,
         {
@@ -74,51 +158,47 @@ const PropertyForms = () => {
           },
         }
       );
-
-      if (response) {
+      // console.log(response);
+      if (response.data.success) {
         setSuccessModalIsOpen(true);
         setSaveModalIsOpen(false);
-        setLoadingForm(false)
+        // setLoadingForm(false);
         setLoading(false);
-      } else {
-        setLoadingForm(false);
-        setLoading(false);
-        if (
-          error?.response?.data?.error?.errors &&
-          error.response.data.error.errors.length > 0
-        ) {
-          const errorMessage = error.response.data.error.errors[0];
-          toast.error("Update failed", `${errorMessage}`);
-        } else if (error?.response?.data?.message) {
-          const errorMessage = error.response.data.message;
-          toast.error("Update failed", `${errorMessage}`);
-        } else {
-          toast.error("Update failed");
-        }
       }
     } catch (error) {
-      setLoadingForm(false);
+      // setLoadingForm(false);
+      console.log(error);
+
       setLoading(false);
       if (
         error?.response?.data?.error?.errors &&
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        toast.error("Update failed", `${errorMessage}`);
+        console.log(errorMessage);
+        toast.error(errorMessage);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        toast.error("Update failed", `${errorMessage}`);
-      } else {
-        toast.error("Update failed");
+        toast.error(errorMessage);
+        console.log(errorMessage);
       }
+      // else {
+      //   // toast.error("Update failed");
+      // }
     }
-
   };
 
-  const handleSubmit = (data) => {
-    setContactInfo(data);
+  const handleSubmit = (contactInfo) => {
+    // setContactInfo(contactInfo);
     setPropertyDetails((preDetails) => [
-      { ...propertyInfo, ...rentalInfo, ...data },
+      {
+        // ...preDetails,
+        ...propertyInfo,
+        ...rentalInfo,
+        ...contactInfo,
+        ...videoLinks,
+        amenities,
+      },
     ]);
     setSaveModalIsOpen(true);
   };
@@ -136,7 +216,6 @@ const PropertyForms = () => {
     setPropertyInfoActive(true);
     setActiveThree(false);
   };
-
 
   const handleRentalInfo = (data) => {
     setActiveThree(true);
@@ -164,7 +243,7 @@ const PropertyForms = () => {
 
   const goBack = () => {
     router.back();
-  }
+  };
 
   return (
     <div className=" dashboard md:pt-4">
@@ -183,7 +262,8 @@ const PropertyForms = () => {
       />
       <div
         onClick={goBack}
-        className="flex items-center gap-2 cursor-pointer">
+        className="flex items-center gap-2 cursor-pointer w-fit"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -213,9 +293,10 @@ const PropertyForms = () => {
       <div className="flex flex-col gap-2 mt-8 w-full">
         <div className="flex items-center md:mx-14">
           <span
-            className={`${propertyInfoActive &&
+            className={`${
+              propertyInfoActive &&
               "inline-block p-1 rounded-full bg-white shadow-md"
-              }`}
+            }`}
           >
             <Image
               src="/static/images/indicator.svg"
@@ -245,8 +326,9 @@ const PropertyForms = () => {
 
           <hr className="h-[1px] w-[25%] px-2 md:px-0 md:w-[30%] bottom-0 bg-gray-600" />
           <span
-            className={`${activeTwo && "inline-block p-1 rounded-full bg-white shadow-md"
-              }`}
+            className={`${
+              activeTwo && "inline-block p-1 rounded-full bg-white shadow-md"
+            }`}
           >
             <Image
               src="/static/images/indicator.svg"
@@ -276,8 +358,9 @@ const PropertyForms = () => {
 
           <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
           <span
-            className={`${activeThree && "inline-block p-1 rounded-full bg-white shadow-md"
-              }`}
+            className={`${
+              activeThree && "inline-block p-1 rounded-full bg-white shadow-md"
+            }`}
           >
             <Image
               src="/static/images/indicator.svg"
@@ -306,8 +389,9 @@ const PropertyForms = () => {
           </span>
           <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
           <span
-            className={`${activeFour && "inline-block p-1 rounded-full bg-white shadow-md"
-              }`}
+            className={`${
+              activeFour && "inline-block p-1 rounded-full bg-white shadow-md"
+            }`}
           >
             <Image
               src="/static/images/indicator.svg"
@@ -338,7 +422,7 @@ const PropertyForms = () => {
         <div className="hidden md:flex items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Information</p>
           <p>Payment Details</p>
-          <p className="pl-4">Add Photo(s)</p>
+          <p className="pr-3">Media</p>
           <p>Contact Information</p>
         </div>
         <div className="hidden items-center justify-between text-[#4E4E4E] text-[14px]">
@@ -350,12 +434,17 @@ const PropertyForms = () => {
       </div>
       <div className=" my-7  rounded-[12px] ">
         <div className={`${propertyInfoActive ? "inline" : "hidden"}`}>
-          <PropertyInfo handlePropertyInfo={handlePropertyInfo} />
+          <PropertyInfo
+            handlePropertyInfo={handlePropertyInfo}
+            setSaveToDraft={setSaveToDraft}
+            setAmenities={setAmenities}
+          />
         </div>
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
           <RentalInfo
             handleRentalInfo={handleRentalInfo}
             previousBtn={handlePropertyInfoActive}
+            setSaveToDraft={setSaveToDraft}
           />
         </div>
 
@@ -365,20 +454,24 @@ const PropertyForms = () => {
             handlePagePropertyPhoto={handlePropertyPhotos}
             setUploadedCoverPhoto={setUploadedCoverPhoto}
             setUploadedOtherPhotos={setUploadedOtherPhotos}
-            ImagePhoto={photos}
+            setSaveToDraft={setSaveToDraft}
+            setVideoLinksData={setVideoLinksData}
           />
         </div>
         <div className={`${activeFour ? "inline" : "hidden"}`}>
           <ContactInfo
             BackToPropertyPhotos={BackToPropertyPhotos}
             handleSubmitData={handleSubmit}
+            setSaveToDraft={setSaveToDraft}
           />
         </div>
       </div>
       <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
-        <div className={`bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center
+        <div
+          className={`bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center
         ${loading ? "pointer-events-none" : ""}
-        `}>
+        `}
+        >
           <p className=" text-[14px] leading-[19.5px] md:text-[16px] text-[400] md:leading-[24px] text-center">
             Proceed to list property?
           </p>
@@ -423,7 +516,8 @@ const PropertyForms = () => {
             </div>
           </div>
 
-          <Link href={"/dashboard/list_Property/"}
+          <Link
+            href={"/dashboard/list_Property/"}
             className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px] flex justify-center items-center"
             onClick={() => {
               closeSuccessModal();
@@ -433,6 +527,22 @@ const PropertyForms = () => {
           </Link>
         </div>
       </CustomizedModal>
+      <ConfirmationModal
+        isOpen={saveToDraft}
+        title="Save property to draft?"
+        confirmatoryText={`You can always go to your draft to complete listing and publish your property at a later time. 
+            `}
+        handleEvent={handleSaveToDraft}
+        cancel={setSaveToDraft}
+        optionText="Proceed"
+        optionText2="Cancel"
+      />
+      <SuccessModal
+        isOpen={savedToDraftSuccess}
+        title="Property Saved to Draft"
+        handleEvent={closeSaveToDraftModal}
+        successText={`Click on the button below to view your saved property`}
+      />
     </div>
   );
 };
