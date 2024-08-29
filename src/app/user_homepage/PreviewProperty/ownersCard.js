@@ -8,14 +8,14 @@ import whatsApp from "@/utils/whatsAppMessenger";
 
 
 const OwnersCard = ({ propertyData }) => {
-  const [copiedState, setCopiedState] = useState({
-    phoneNumber: false,
-    email: false,
-    whatsAppNumber: false,
-  });
+  // const [copiedState, setCopiedState] = useState({
+  //   phoneNumber: false,
+  //   email: false,
+  //   whatsAppNumber: false,
+  // });
   const [showNumber, setShowNumber] = useState(false);
   let marketerId = 222222;
-  //   console.log(propertyData)
+    console.log(propertyData?.user?._id)
 
   
 
@@ -66,7 +66,7 @@ const OwnersCard = ({ propertyData }) => {
             )}
           </p>
           <Link
-            href={`/marketer-business-page/${marketerId}?user=users`}
+            href={`/marketer-business-page/${propertyData?.user?._id}?user=users`}
             className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
           >
             <span>View more properties from this marketer</span>
