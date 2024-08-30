@@ -100,7 +100,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                                         </div>
                                         <div
-                                            className='py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
+                                            className='mt-2 py-3 px-4 flex items-center bg-GrayHomz6 text-GrayHomz rounded-[4px]'>
                                             <div className='text-[14px] font-[400] text-justify'
                                                 dangerouslySetInnerHTML={{ __html: emailContent }}
                                             />
