@@ -13,7 +13,6 @@ import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter, usePathname } from "next/navigation";
 import Button from "@/components/mainmenu/button";
 
-
 const ListedProperties = ({
   property,
   promoteOption,
@@ -25,7 +24,7 @@ const ListedProperties = ({
   setOpenPlanModal,
   setPromotePropertry,
   setErrorModal,
-  subsciptionStatus
+  subsciptionStatus,
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
@@ -63,14 +62,14 @@ const ListedProperties = ({
     setSelectedArea(null);
     setSelectedRooms(null);
     setSearchQuery("");
-    setFilteredData(property);
+    refreshData();
   };
 
-  useEffect(()=>{
-    if(property){
-      setFilteredData( property?.data?.results?.[0].data)
-      }
-  },[property])
+  useEffect(() => {
+    if (property) {
+      setFilteredData(property?.data?.results?.[0].data);
+    }
+  }, [property]);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -219,6 +218,23 @@ const ListedProperties = ({
     }, 2000);
   };
 
+  const refetchData = (propertyStatus) => {
+  
+    const filterParams = {
+      is_published: propertyStatus === 'is_published' ? true : undefined,
+      is_promoted: propertyStatus === 'is_promoted' ? true : undefined,
+      is_unpublished: propertyStatus === 'is_unpublished' ? true : undefined,
+    };
+
+    refreshData(1, filterParams);
+  };
+
+  const handlePropertyStatus = (status, propertyStatus) => {
+    console.log(status);
+    setTabName(status); 
+    // refetchData(propertyStatus); /
+  };
+
   return (
     <div className=" mb-10 px-4 ">
       {/* {isLoading2 && <Loading />} */}
@@ -285,7 +301,10 @@ const ListedProperties = ({
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             }`}
-            onClick={() => setTabName("All")}
+            onClick={() => {
+              setTabName("All");
+              refreshData();
+            }}
           >
             All
           </button>
@@ -295,7 +314,7 @@ const ListedProperties = ({
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] font-[500]`}
-            onClick={() => setTabName("Publish")}
+            onClick={() => handlePropertyStatus("Publish", "is_published")}
           >
             Published
           </button>
@@ -305,7 +324,7 @@ const ListedProperties = ({
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] font-[500]`}
-            onClick={() => setTabName("Promoted")}
+            onClick={() => handlePropertyStatus("Promoted", "is_promoted")}
           >
             Promoted
           </button>
@@ -315,7 +334,7 @@ const ListedProperties = ({
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] font-[500]`}
-            onClick={() => setTabName("Unpublish")}
+            onClick={() => handlePropertyStatus("Unpublish", "is_unpublished")}
           >
             Unpublished
           </button>

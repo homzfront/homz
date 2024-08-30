@@ -27,16 +27,31 @@ export const fetchSinglePropertyPublic = async (id) => {
   }
 };
 
-export const propertyForMe = async (page) => {
+export const propertyForMe = async (
+  page,
+  is_promoted,
+  is_published,
+  is_unpublished
+) => {
   try {
-    const response = await api.get(`/properties/user/me?page=${page && page}`);
-    // console.log(response)
+    let query = `/properties/user/me?page=${page || 1}`;
+
+    if (is_published) {
+      query += `&is_published=true`;
+    } else if (is_promoted) {
+      query += `&is_promoted=true`;
+    } else if (is_unpublished) {
+      query += `&is_unpublished=true`;
+    }
+
+    const response = await api.get(query);
     return response.data;
   } catch (error) {
-    // console.log(error)
+    console.error("Error fetching property data:", error);
     return error;
   }
 };
+
 
 export const addBankPropertyOwner = async (details) => {
   try {
@@ -125,7 +140,11 @@ export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
   }
 };
 
-export const updatePropertyOtherPhoto = async (id, uploadedImage, publicIds) => {
+export const updatePropertyOtherPhoto = async (
+  id,
+  uploadedImage,
+  publicIds
+) => {
   const formData = new FormData();
   uploadedImage.forEach((photo) => formData.append("photos", photo));
   publicIds.forEach((publicId) => formData.append("publicIds", publicId));
@@ -198,7 +217,7 @@ export const removeProperty = async (propertyId) => {
     const response = await api.delete(`/properties/${propertyId}/property`);
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw error;
   }
 };
@@ -214,9 +233,7 @@ export const removePropertyPhotos = async (propertyId, publicId) => {
 };
 export const removeCoverPhoto = async (propertyId, publicId) => {
   try {
-    const response = await api.delete(
-      `/properties/${propertyId}/cover-photo`
-    );
+    const response = await api.delete(`/properties/${propertyId}/cover-photo`);
     return response.data;
   } catch (error) {
     throw error;

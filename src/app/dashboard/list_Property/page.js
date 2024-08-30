@@ -71,6 +71,7 @@ const List_Property = () => {
   //   let status = getSubscription();
   //   setSubsciptionStatus([...subsciptionStatus, status]);
   // }, [subsciptionStatus]);
+  // fetchData(page, true, true, false)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -82,8 +83,8 @@ const List_Property = () => {
     }
   }, [router, plan]);
 
-  const refreshData = () => {
-    fetchData(page);
+  const refreshData = ({propertyStatus}) => {
+    fetchData(page, { propertyStatus: true });
   };
   useEffect(() => {
     if (isPending) {
@@ -485,7 +486,7 @@ const List_Property = () => {
         isOpen={promotePropertySuccess}
         title="Promotion is Active"
         handleEvent={closePromotionModal}
-        successText="Your [Monthly] promotion is currently running for this property"
+        successText="Your promotion is currently running for this property"
         // optionalText="View listed properties"
       />
       <SuccessModal
