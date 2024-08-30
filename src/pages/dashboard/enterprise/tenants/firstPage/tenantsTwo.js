@@ -13,17 +13,15 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
-import Checkbox from "@/components/icons/checkbox";
 import truncateText from "@/utils/truncateText";
 
 const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMasterChecked, setIsMasterChecked }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-  const [data, setData] = useState(Data || []);
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [selectedStatus, setSelectedStatus] = useState({});
   const [loadingRows, setLoadingRows] = useState({});
-  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); // Use the custom hook
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); 
   const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
   const [hoveredRow, setHoveredRow] = useState(null);
 
@@ -72,14 +70,13 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
 
     try {
-      // Handle status change logic here
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
       });
       toast.success("status updated successfully");
-      setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
       // Close the corresponding dropdown
+      setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
       fetchDataAgain();
     } catch (error) {
       toast.error(error);
@@ -131,24 +128,14 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
       <div className="flex flex-col justify-between max-h-[900px]">
         <div className=" border w-full rounded-t-[12px]">
           <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
-            <div className="w-[4%] md:w-[5%] flex items-center justify-center">
-              <label className="">
-                <input
-                  type="checkbox"
-                  checked={isMasterChecked}
-                  onChange={handleMasterCheckboxChange}
-                />
-                <span className=""></span>
-              </label>
-            </div>
             <div className="w-[50%] md:w-[18%] ">Tenant</div>
             <div className="w-[10%] hidden md:table-cell">Property</div>
             <div className="w-[11%] hidden md:table-cell">Apartment No</div>
             <div className="w-[11%] hidden md:table-cell">Address</div>
-            <div className="w-[10%] hidden md:table-cell">Email</div>
+            <div className="w-[15%] hidden md:table-cell">Email</div>
             <div className="w-[10%] pl-1 hidden md:table-cell">Phone No</div>
             <div className="w-[7%] pl-1 hidden md:table-cell">Rent</div>
-            <div className="w-[37%] md:w-[13%] pl-1">Status</div>
+            <div className="w-[41%] md:w-[13%] pl-1">Status</div>
             <div className="w-[7%] hidden md:table-cell">Due Date</div>
             <div className="w-[5%] md:w-[2%] "></div>
           </div>
@@ -160,21 +147,6 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
                   key={data?._id}
                   className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
                 >
-                  <div className="w-[4%] md:w-[5%] flex items-center justify-center">
-                    <label className="">
-                      <input
-                        type="checkbox"
-                        id={data?._id}
-                        name={data?._id}
-                        checked={selectedRows?.includes(data?._id)}
-                        value={data._id}
-                        onChange={(e) =>
-                          handleCheckboxChange(e, data?._id, data?.fullName)
-                        }
-                      />
-                      <span className=""></span>
-                    </label>
-                  </div>
                   <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[50%] md:w-[18%]">
                     {!data?.coverPhoto?.url ? (
                       <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
@@ -218,7 +190,7 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
                       )}
                     </div>
                   </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start pl-1 pr-2">
+                  <div className="hidden md:table-cell text-GrayHomz w-[15%] font-[500] text-[11px] text-start pl-1 pr-2">
                     <span className="break-words">{truncateText(data?.user?.email, 35)}</span>
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
@@ -231,7 +203,7 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
                       }`}
                   </div>
                   <div
-                    className={`text-GrayHomz w-[37%] md:w-[13%] font-[500] text-[11px] text-start`}
+                    className={`text-GrayHomz w-[41%] md:w-[13%] font-[500] text-[11px] text-start`}
                   >
                     {data?.rentInfo?.paymentStatus ? (
                       <StatusDropdown

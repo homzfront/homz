@@ -2,7 +2,7 @@ import React from "react";
 import Payments from "@/pages/dashboard/enterprise/payments/payments";
 const App = () => {
   return (
-    <div className="overflow-y-auto h-screen scrollbar-containerII">
+    <div className="overflow-y-auto h-screen scrollbar-container">
       <Payments />
     </div>
   );

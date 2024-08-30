@@ -15,6 +15,7 @@ import Insta from "@/components/icons/insta";
 import Message from "@/components/icons/message";
 import Phone from "@/components/icons/phone";
 import Whatsapp from "@/components/icons/whatsapp";
+import Link from "next/link";
 
 const ContactDoc = () => {
   const options = [
@@ -200,9 +201,9 @@ const ContactDoc = () => {
               </div>
             </div>
             <div className="hidden sm:flex gap-2">
-              <p className="text-[20px] font-[500] underline text-GrayHomz ">
+              <Link href="mailto:info@homz.ng" className="text-[20px] font-[500] underline text-GrayHomz ">
                 info@homz.ng
-              </p>
+              </Link>
               <div
                 onClick={() => handleCopyClick("info@homz.ng", "copiedIII")}
                 className="relative"
@@ -254,28 +255,36 @@ const ContactDoc = () => {
             </div>
           </div>
           <div className="hidden sm:flex mt-3 gap-5">
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <Insta />
+            <Link href={"https://www.instagram.com/homzng"}>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <Insta />
+                </div>
               </div>
-            </div>
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <Facebook />
+            </Link>
+            <Link href={"https://www.facebook.com/homzng"}>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <Facebook />
+                </div>
               </div>
-            </div>
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <Twitter />
+            </Link>
+            <Link href={"https://twitter.com/homzng"}>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <Twitter />
+                </div>
               </div>
-            </div>
-            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-              <div className="h-[24px] w-[24px] flex justify-center items-center">
-                <LinkedIn />
+            </Link>
+            <Link href={"https://linkedin.com/company/homzng"}>
+              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                <div className="h-[24px] w-[24px] flex justify-center items-center">
+                  <LinkedIn />
+                </div>
               </div>
-            </div>
+            </Link>
             <div className="flex gap-1">
-              <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
+              <Link href={"https://homz.ng"} className="text-[20px] underline font-[500] text-GrayHomz ">homz.ng</Link>
               <div
                 onClick={() => handleCopyClick("homz.ng", "copiedIV")}
                 className="relative"
@@ -454,9 +463,9 @@ const ContactDoc = () => {
               </div>
             </div>
             <div className="flex sm:hidden gap-2">
-              <p className="text-[20px] font-[500] underline text-GrayHomz ">
+              <Link href="mailto:info@homz.ng" className="text-[20px] font-[500] underline text-GrayHomz ">
                 info@homz.ng
-              </p>
+              </Link>
               <div
                 onClick={() => handleCopyClick("info@homz.ng", "copiedIII")}
                 className="relative"
@@ -509,29 +518,37 @@ const ContactDoc = () => {
           </div>
           <div className="flex items-center sm:hidden gap-6">
             <div className="flex mt-3 sm:hidden gap-4">
-              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-                <div className="h-[24px] w-[24px] flex justify-center items-center">
-                  <Insta />
+              <Link href={"https://www.instagram.com/homzng"}>
+                <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                  <div className="h-[24px] w-[24px] flex justify-center items-center">
+                    <Insta />
+                  </div>
                 </div>
-              </div>
-              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-                <div className="h-[24px] w-[24px] flex justify-center items-center">
-                  <Facebook />
+              </Link>
+              <Link href={"https://www.facebook.com/homzng"}>
+                <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                  <div className="h-[24px] w-[24px] flex justify-center items-center">
+                    <Facebook />
+                  </div>
                 </div>
-              </div>
-              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-                <div className="h-[24px] w-[24px] flex justify-center items-center">
-                  <Twitter />
+              </Link>
+              <Link href={"https://twitter.com/homzng"}>
+                <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                  <div className="h-[24px] w-[24px] flex justify-center items-center">
+                    <Twitter />
+                  </div>
                 </div>
-              </div>
-              <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-                <div className="h-[24px] w-[24px] flex justify-center items-center">
-                  <LinkedIn />
+              </Link>
+              <Link href={"https://linkedin.com/company/homzng"}>
+                <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+                  <div className="h-[24px] w-[24px] flex justify-center items-center">
+                    <LinkedIn />
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="flex">
-              <p className="text-[20px] font-[500] text-GrayHomz ">homz.ng</p>
+           <Link href={"https://homz.ng"} className="text-[20px] font-[500] underline text-GrayHomz ">homz.ng</Link>    
               <div
                 onClick={() => handleCopyClick("homz.ng", "copiedIV")}
                 className="relative"
