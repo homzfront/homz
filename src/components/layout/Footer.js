@@ -48,10 +48,10 @@ const Footer = () => {
                 Address: 1st Floor, Marina Hub Suite, Foresight House, 163/165, Broad Street, Lagos Nigeria.
               </p>
               <p>
-                Contact: 09015159511
+                Contact: 09160002460
               </p>
               <p>
-                WhatsApp: 09015159511
+                WhatsApp: 09160002460
               </p>
             </div>
             <div className="md:mt-3 lg:mt-8 mt-8">
@@ -90,7 +90,7 @@ const Footer = () => {
               <Link href={"/contact-page"}>
                 <p>Contact</p>
               </Link>
-              <p>FAQs</p>
+              {/* <p>FAQs</p> */}
             </div>
             {/* <div className="leading-loose  ">
               <h2 className="font-[700] text-[16px] mb-2 md:mb-4">

@@ -41,34 +41,12 @@ const SectionOne = () => {
             </div>
           </div>
           <div className="flex gap-5 flex-col">
-            {/* <div className="flex gap-2">
-              <p className="text-[16px] font-[400] text-GrayHomz ">
-                +23481012345678
-              </p>
-              <div
-                onClick={() => handleCopyClick('+23481012345678', 'copied')}
-                className="relative"
-              >
-                <Image
-                  className="cursor-pointer"
-                  src={"/copy.png"}
-                  alt="copy-img"
-                  height={16}
-                  width={17}
-                />
-                {copiedState.copied && (
-                  <span className="text-[11px] text-Success italic absolute">
-                    Copied!
-                  </span>
-                )}
-              </div>
-            </div> */}
             <div className="flex gap-2 pl-4">
               <p className="text-[16px] font-[400] text-GrayHomz ">
-                +2349015159511
+                +2349160002460
               </p>
               <div
-                onClick={() => handleCopyClick('+2349015159511', 'copiedII')}
+                onClick={() => handleCopyClick('+2349160002460', 'copiedII')}
                 className="relative"
               >
                 <Image
