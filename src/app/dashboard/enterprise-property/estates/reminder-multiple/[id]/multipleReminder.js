@@ -55,10 +55,6 @@ const MultipleReminder = ({ ids }) => {
                     ...prevState,
                     [id]: !prevState[id],
                 }));
-                setLoadingStates((prevState) => ({
-                    ...prevState,
-                    [id]: false,
-                }));
                 toast.success(`${data?.reminderDate} Deactivated`);
             } catch (error) {
                 if (
@@ -74,6 +70,12 @@ const MultipleReminder = ({ ids }) => {
                     toast.error("failed to toggle reminder");
                 }
             }
+            finally {
+                setLoadingStates((prevState) => ({
+                    ...prevState,
+                    [id]: false,
+                }));
+            }
         } else {
             const status = {
                 status: "active"
@@ -87,10 +89,6 @@ const MultipleReminder = ({ ids }) => {
                 setToggleStates((prevState) => ({
                     ...prevState,
                     [id]: !prevState[id],
-                }));
-                setLoadingStates((prevState) => ({
-                    ...prevState,
-                    [id]: false,
                 }));
                 toast.success(`${data?.reminderDate} Activated`)
             } catch (error) {
@@ -106,6 +104,12 @@ const MultipleReminder = ({ ids }) => {
                 } else {
                     toast.error("failed to toggle reminder");
                 }
+            }
+            finally {
+                setLoadingStates((prevState) => ({
+                    ...prevState,
+                    [id]: false,
+                }));
             }
         }
 

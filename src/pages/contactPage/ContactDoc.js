@@ -148,34 +148,12 @@ const ContactDoc = () => {
               </div>
             </div>
             <div className="flex gap-5 flex-col">
-              {/* <div className="hidden  sm:flex gap-2">
-                <p className="text-[20px] font-[500] text-GrayHomz ">
-                  +23481012345678
-                </p>
-                <div
-                  onClick={() => handleCopyClick("+2348012345678", "copied")}
-                  className="relative"
-                >
-                  <Image
-                    className="cursor-pointer"
-                    src={"/copy.png"}
-                    alt="copy-img"
-                    height={16}
-                    width={17}
-                  />
-                  {copiedState.copied && (
-                    <span className="text-[11px] text-Success italic absolute">
-                      Copied!
-                    </span>
-                  )}
-                </div>
-              </div> */}
               <div className="flex gap-2 pl-4">
                 <p className="text-[20px] font-[500] text-GrayHomz ">
-                  +23499015159511
+                  +2349160002460
                 </p>
                 <div
-                  onClick={() => handleCopyClick("+2349015159511", "copiedII")}
+                  onClick={() => handleCopyClick("+2349160002460", "copiedII")}
                   className="relative"
                 >
                   <Image
@@ -230,13 +208,13 @@ const ContactDoc = () => {
             <div className="hidden sm:flex gap-2">
               <p
                 onClick={() => {
-                  viewFile("https:/wa.me/2349015159511")
+                  viewFile("https:/wa.me/2349160002460")
                 }}
                 className="text-[20px] font-[500] underline text-GrayHomz cursor-pointer">
-                +2349015159511
+                +2349160002460
               </p>
               <div
-                onClick={() => handleCopyClick("https:/wa.me/2349015159511", "copiedV")}
+                onClick={() => handleCopyClick("https:/wa.me/2349160002460", "copiedV")}
                 className="relative"
               >
                 <Image
@@ -410,34 +388,12 @@ const ContactDoc = () => {
               <Image src={"/call.png"} height={24} width={24} alt={`call-img`} />
             </div>
             <div>
-              {/* <div className="flex sm:hidden gap-2">
-              <p className="text-[20px] font-[500] text-GrayHomz ">
-                +23481012345678
-              </p>
-              <div
-                onClick={() => handleCopyClick("+2348012345678", "copied")}
-                className="relative"
-              >
-                <Image
-                  className="cursor-pointer"
-                  src={"/copy.png"}
-                  alt="copy-img"
-                  height={16}
-                  width={17}
-                />
-                {copiedState.copied && (
-                  <span className="text-[11px] text-Success italic absolute">
-                    Copied!
-                  </span>
-                )}
-              </div>
-            </div> */}
               <div className="flex sm:hidden gap-2">
                 <p className="text-[20px] font-[500] text-GrayHomz ">
-                  +2349015159511
+                +2349160002460
                 </p>
                 <div
-                  onClick={() => handleCopyClick("+2349015159511", "copiedII")}
+                  onClick={() => handleCopyClick("+2349160002460", "copiedII")}
                   className="relative"
                 >
                   <Image
@@ -492,13 +448,13 @@ const ContactDoc = () => {
             <div className="flex sm:hidden gap-2">
               <p
                 onClick={() => {
-                  viewFile("https:/wa.me/2349015159511")
+                  viewFile("https:/wa.me/2349160002460")
                 }}
                 className="text-[20px] font-[500] underline text-GrayHomz cursor-pointer">
-                +2349015159511
+                +2349160002460
               </p>
               <div
-                onClick={() => handleCopyClick("https:/wa.me/2349015159511", "copiedV")}
+                onClick={() => handleCopyClick("https:/wa.me/2349160002460", "copiedV")}
                 className="relative"
               >
                 <Image
@@ -548,7 +504,7 @@ const ContactDoc = () => {
               </Link>
             </div>
             <div className="flex">
-           <Link href={"https://homz.ng"} className="text-[20px] font-[500] underline text-GrayHomz ">homz.ng</Link>    
+              <Link href={"https://homz.ng"} className="text-[20px] font-[500] underline text-GrayHomz ">homz.ng</Link>
               <div
                 onClick={() => handleCopyClick("homz.ng", "copiedIV")}
                 className="relative"
