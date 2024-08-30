@@ -184,7 +184,7 @@ const EnterprisePlan = () => {
                 </p>
               )}
             </form>
-            <div className="w-[100%] px-8 sm:px-0 sm:mt-12">
+            <div className={`${loading ? "pointer-events-none" : ""} w-[100%] px-8 sm:px-0 sm:mt-12`}>
               <div
                 className={`max-w-[1156px] mt-[40px] m-auto`}              >
                 <button onClick={handleClick} className="hidden sm:block w-full ml-1 text-[16px] font-[500] rounded-md h-[48px] border text-white bg-BlueHomz hover:bg-white hover:border-BlueHomz hover:text-BlueHomz">

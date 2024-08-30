@@ -8,18 +8,12 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
   background-color: #d1e4ff;
-  border-top-right-radius: 30px;
-  /* overflow-y: auto;
-  -ms-overflow-style: none;  /* IE and Edge */
-  /* scrollbar-width: none;     Firefox */ 
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
-  padding-top: 10px;
-  border-top-right-radius: 30px;
+  background-color: #4E4E4E; 
 }
 
 /* Add this to your existing styles or create a separate stylesheet */

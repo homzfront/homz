@@ -19,7 +19,7 @@ const App = () => {
   const id = url;
 
   return (
-    <div className='overflow-y-auto h-screen scrollbar-containerII'>
+    <div className='overflow-y-auto h-screen scrollbar-container'>
       <MultipleReminder ids={id} />
     </div>
   )

@@ -61,8 +61,18 @@ const MultipleReminder = ({ ids }) => {
                 }));
                 toast.success(`${data?.reminderDate} Deactivated`);
             } catch (error) {
-                toast.error('Failed to create rent reminders')
-                throw error;
+                if (
+                    error?.response?.data?.error?.errors &&
+                    error.response.data.error.errors.length > 0
+                ) {
+                    const errorMessage = error.response.data.error.errors[0];
+                    toast.error(`${errorMessage}`);
+                } else if (error?.response?.data?.message) {
+                    const errorMessage = error.response.data.message;
+                    toast.error(`${errorMessage}`);
+                } else {
+                    toast.error("failed to toggle reminder");
+                }
             }
         } else {
             const status = {
@@ -84,8 +94,18 @@ const MultipleReminder = ({ ids }) => {
                 }));
                 toast.success(`${data?.reminderDate} Activated`)
             } catch (error) {
-                toast.error('Failed to create rent reminders')
-                throw error;
+                if (
+                    error?.response?.data?.error?.errors &&
+                    error.response.data.error.errors.length > 0
+                ) {
+                    const errorMessage = error.response.data.error.errors[0];
+                    toast.error(`${errorMessage}`);
+                } else if (error?.response?.data?.message) {
+                    const errorMessage = error.response.data.message;
+                    toast.error(`${errorMessage}`);
+                } else {
+                    toast.error("failed to toggle reminder");
+                }
             }
         }
 
@@ -226,7 +246,7 @@ const MultipleReminder = ({ ids }) => {
                                             onClick={() => handleSetting(data.id)}
                                             className="text-BlueHomz"
                                         >
-                                             {selectedId === data.id ? "Close settings" : "View settings"}
+                                            {selectedId === data.id ? "Close settings" : "View settings"}
                                         </button>
                                     </div>
                                 </div>

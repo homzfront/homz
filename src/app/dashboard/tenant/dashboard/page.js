@@ -7,7 +7,7 @@ export const metadata = {
 
 const App = () => {
   return (
-    <div className="">
+    <div className="overflow-y-auto h-screen scrollbar-container">
       <Dashboard />
     </div>
   );

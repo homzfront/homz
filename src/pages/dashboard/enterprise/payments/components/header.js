@@ -46,7 +46,7 @@ const Header = ({
           <input
             type="date"
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="border px-4 h-[42px] w-[130px] text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
+            className="border px-4 h-[42px] w-[130px] text-GrayHomz2 border-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
           />
 
           <button
