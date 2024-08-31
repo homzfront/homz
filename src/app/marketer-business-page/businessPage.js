@@ -8,24 +8,15 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { fetchSinglePropertyPublic } from "@/api/propertyService";
 import api from "@/utils/api";
 import LoadingII from "@/components/mainmenu/loadingII";
-import useBodyScroll from "@/utils/useBodyScroll";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import OwnersCard from "./ownersCard";
 import RequestCard from "../user_homepage/PreviewProperty/requestCard";
 import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";
-import Reset from "@/components/icons/reset";
-import Bedroom from "@/components/mainmenu/bedrooms";
-import PropertyType from "@/components/mainmenu/propertyType";
-import MaxPrice from "@/components/mainmenu/maxPrice";
-import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
-import MinPrice from "@/components/mainmenu/minPrice";
-import Listing from "@/components/mainmenu/listing";
-import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+import { listingMarketerProfile } from "@/api/listingServices";
 
-const MarketerBusinessPage = ({ PropertyID }) => {
+const MarketerBusinessPage = ({ marketerId }) => {
   // const [combinedData, setCombinedData] = useState([]);
   // const [currentUser, setCurrentUser] = useState("");
   // const [selectedState, setSelectedState] = useState(null);
@@ -40,6 +31,7 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [properties, setProperties] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
+  const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState("1");
   const urlParams = useSearchParams();
   const [filters, setFilters] = useState({
@@ -50,29 +42,43 @@ const MarketerBusinessPage = ({ PropertyID }) => {
     maxPrice: parseInt(urlParams.get("maxPrice")) || null,
     numberOfBathrooms: parseInt(urlParams.get("numberOfBathrooms")) || null,
   });
-  const { data, fetchData } = useProfileListingMe();
 
-  const fetchPropertyData = async (url) => {
+  const router = useRouter();
+  const fetchPropertyData = async () => {
     try {
-      const response = await api.get(url);
+      const response = await api.get(
+        `/properties/${marketerId}/marketerproperties`
+      );
       let dataResult = response.data.data.results[0].data;
-      // console.log(dataResult);
+      // console.log(response);
       const total = dataResult.length || 0;
       setTotalPages(Math.ceil(total / 9));
       setProperties(dataResult);
       setLoading(false);
       return dataResult;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return error;
     }
   };
-  useEffect(() => {
-    fetchPropertyData("/properties/user/me");
-    fetchData();
-  }, [fetchData]);
 
-//  console.log(data);
+  const fetchMarketerProfile = () => {
+    listingMarketerProfile(marketerId)
+      .then((results) => {
+        // console.log(results?.data);
+        setData(results?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        return error;
+      });
+  };
+  useEffect(() => {
+    fetchPropertyData();
+    fetchMarketerProfile();
+  }, []);
+
+  //  console.log(data);
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
@@ -87,7 +93,6 @@ const MarketerBusinessPage = ({ PropertyID }) => {
   // const id = "p7567-kristy-for-rent-rivers-bonny";
   // useBodyScroll([openSelectedImage]);
   // const pathName = usePathname();
-  const router = useRouter();
   const goBack = () => {
     router.back();
   };
@@ -675,6 +680,6 @@ export default MarketerBusinessPage;
 //     </div>
 //   </div>
 // </CustomizedModal>
- // const closeMobileModal = () => {
-  //   setMobileModalIsOpen(false);
-  // };
+// const closeMobileModal = () => {
+//   setMobileModalIsOpen(false);
+// };

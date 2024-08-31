@@ -1,12 +1,14 @@
-import React from 'react'
-import MarketerBuzinesPage from '../businessPage'
+import React from "react";
+import MarketerBuzinesPage from "../businessPage";
+// import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-const MarketerBusinessPage = () => {
+const MarketerBusinessPage = ({ params }) => {
+  let id = params.id;
   return (
     <div className="">
-    <MarketerBuzinesPage />
+      <MarketerBuzinesPage marketerId={id} />
     </div>
-  )
-}
+  );
+};
 
-export default MarketerBusinessPage
+export default MarketerBusinessPage;

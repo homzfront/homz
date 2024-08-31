@@ -9,6 +9,15 @@ export const listingMe = async () => {
     throw error;
   }
 };
+export const listingMarketerProfile = async (id) => {
+  try {
+    const response = await api.get(`/listingProperty/${id}/marketer`);
+    // console.log(response)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 
 export const updatePersonalInfoLister = async (data) => {
