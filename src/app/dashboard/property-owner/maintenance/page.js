@@ -2,7 +2,7 @@ import React from "react";
 import Maintenance from "@/pages/dashboard/owner/maintenance/maintenance";
 const App = () => {
   return (
-    <div className="">
+    <div className="overflow-y-auto h-screen scrollbar-container">
       <Maintenance />
     </div>
   );

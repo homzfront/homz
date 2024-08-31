@@ -11,17 +11,15 @@ import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
 import lowerCaseData from "@/utils/lowerCaseData";
 import Add from "@/components/icons/add";
-import FilterMobile from "@/pages/dashboard/owner/components/filterMobile";
 import AddBigBlue from "@/components/icons/addBigBlue";
-import ReminderWhite from "@/components/icons/reminderWhite";
-import Link from "next/link";
+import FilterMobile from "../../components/filterMobile";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const dropdownRef = useClickOutside(() => setInviteTenant(false)); // Use the custom hook
+  const dropdownRef = useClickOutside(() => setInviteTenant(false));
   const [searchQuery, setSearchQuery] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -162,21 +160,6 @@ const Tenants = () => {
                   >
                     <AddBigBlue />
                   </button>
-                  {/* <Link
-                    href={`${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminder-multiple" : "#"
-                      }`}>
-                    <button
-                      className={`md:hidden
-                      ${selectedRows.length > 0
-                          ? "bg-BlueHomz text-white"
-                          : " bg-GrayHomz6 text-white"
-                        }
-                      h-[32px] px-[8px] flex gap-1 justify-center items-center rounded-[4px] text-[14px] font-[500] ${tenantData?.length < 1 ? "hidden" : "inline"
-                        }`}
-                    >
-                      <ReminderWhite />
-                    </button>
-                  </Link> */}
                 </div>
                 <div className="hidden md:flex items-center gap-2">
                   <p className="text-[16px] font-[400] text-BlackHomz ">
@@ -208,13 +191,13 @@ const Tenants = () => {
                     <input
                       type="date"
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="border px-4 h-[37px] w-[110px] xl:w-[128px] text-GrayHomz2 border-GrayHomz2 font-[500] text-[14px] rounded cursor-pointer"
+                      className="border px-4 h-[42px] w-[110px] xl:w-[128px] text-GrayHomz2 border-GrayHomz2 font-[500] text-[14px] rounded cursor-pointer"
                     />
 
                     <button
                       onClick={clear}
                       type="text"
-                      className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[37px] rounded cursor-pointer"
+                      className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] rounded cursor-pointer"
                     >
                       <Image
                         src={
@@ -227,22 +210,6 @@ const Tenants = () => {
                     </button>
                   </div>
                 </div>
-                {/* <Link
-                  href={` ${selectedRows.length > 0 ? "/dashboard/enterprise-property/tenants/reminder-multiple" : "#"
-                    }`}>
-                  <button
-                    className={`hidden
-                      ${selectedRows.length > 0
-                        ? "bg-BlueHomz text-white"
-                        : " bg-GrayHomz6 text-white"
-                      }
-                      h-[37px] px-[10px] md:flex gap-1 justify-center items-center rounded-[4px] text-[14px] font-[500] ${tenantData?.length < 1 ? "hidden" : "inline"
-                      }`}
-                  >
-                    <ReminderWhite />
-                    Set due date reminder
-                  </button>
-                </Link> */}
                 <div className="mt-4 flex justify-between md:hidden w-full">
                   <div className="relative w-[86%] rounded-[4px]">
                     <input

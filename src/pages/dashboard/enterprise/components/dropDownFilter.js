@@ -27,7 +27,7 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   return (
     <div className={`relative inline-block w-full ${className}`} ref={dropdownRef}>
       <div
-        className={`text-BlackHomz px-4 border border-GrayHomz2 h-[37px] flex items-center rounded-[4px] cursor-pointer ${isOpen ? "border" : ""
+        className={`text-BlackHomz px-4 border border-GrayHomz2 h-[42px] flex items-center rounded-[4px] cursor-pointer ${isOpen ? "border" : ""
           }`}
         onClick={handleDropdownToggle}
       >

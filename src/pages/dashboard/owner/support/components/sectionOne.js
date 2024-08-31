@@ -5,6 +5,7 @@ import Message from '@/components/icons/message';
 import Phone from '@/components/icons/phone';
 import Twitter from '@/components/icons/twitter';
 import Image from 'next/image'
+import Link from 'next/link';
 import React, { useState } from 'react'
 
 const SectionOne = () => {
@@ -40,34 +41,12 @@ const SectionOne = () => {
             </div>
           </div>
           <div className="flex gap-5 flex-col">
-            {/* <div className="flex gap-2">
-              <p className="text-[16px] font-[400] text-GrayHomz ">
-                +23481012345678
-              </p>
-              <div
-                onClick={() => handleCopyClick('+23481012345678', 'copied')}
-                className="relative"
-              >
-                <Image
-                  className="cursor-pointer"
-                  src={"/copy.png"}
-                  alt="copy-img"
-                  height={16}
-                  width={17}
-                />
-                {copiedState.copied && (
-                  <span className="text-[11px] text-Success italic absolute">
-                    Copied!
-                  </span>
-                )}
-              </div>
-            </div> */}
             <div className="flex gap-2 pl-4">
               <p className="text-[16px] font-[400] text-GrayHomz ">
-              +2349015159511
+                +2349160002460
               </p>
               <div
-                onClick={() => handleCopyClick('+2349015159511', 'copiedII')}
+                onClick={() => handleCopyClick('+2349160002460', 'copiedII')}
                 className="relative"
               >
                 <Image
@@ -93,9 +72,9 @@ const SectionOne = () => {
             </div>
           </div>
           <div className=" flex gap-2">
-            <p className="text-[16px] font-[400] underline text-GrayHomz ">
+            <Link href="mailto:info@homz.ng" className="text-[16px] font-[400] underline text-GrayHomz ">
               info@homz.ng
-            </p>
+            </Link>
             <div onClick={() => handleCopyClick('info@homz.ng', 'copiedIII')} className='relative'>
               <Image
                 className="cursor-pointer"
@@ -112,29 +91,37 @@ const SectionOne = () => {
             </div>
           </div>
         </div>
-        <div className=" flex mt-3 gap-5">
-        <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-            <div className="h-[24px] w-[24px] flex justify-center items-center">
-              <Insta />
+        <div className=" flex mt-3 gap-5 items-center">
+          <Link href={"https://www.instagram.com/homzng"}>
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Insta />
+              </div>
             </div>
-          </div>
-          <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-            <div className="h-[24px] w-[24px] flex justify-center items-center">
-              <Facebook />
+          </Link>
+          <Link href={"https://www.facebook.com/homzng"}>
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Facebook />
+              </div>
             </div>
-          </div>
-          <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-            <div className="h-[24px] w-[24px] flex justify-center items-center">
-              <Twitter />
+          </Link>
+          <Link href={"https://twitter.com/homzng"}>
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <Twitter />
+              </div>
             </div>
-          </div>
-          <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
-            <div className="h-[24px] w-[24px] flex justify-center items-center">
-              <LinkedIn />
+          </Link>
+          <Link href={"https://linkedin.com/company/homzng"}>
+            <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+              <div className="h-[24px] w-[24px] flex justify-center items-center">
+                <LinkedIn />
+              </div>
             </div>
-          </div>
+          </Link>
           <div className="flex gap-1">
-            <p className="text-[16px] font-[400] text-GrayHomz ">homz.ng</p>
+            <Link href={"https://homz.ng"} className="text-[16px] font-[400] text-GrayHomz underline">homz.ng</Link>
             <div onClick={() => handleCopyClick('homz.ng', 'copiedIV')} className='relative'>
               <Image
                 className="cursor-pointer"

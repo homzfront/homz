@@ -125,7 +125,7 @@ const App = () => {
 
 
   return (
-    <div className="overflow-y-auto h-screen scrollbar-containerII">
+    <div className="overflow-y-auto h-screen scrollbar-container">
       {
         <CustomizedModal isOpen={selectFormat}>
           <DownloadConfirmModal
@@ -201,7 +201,7 @@ const App = () => {
                   />
                 </div>
                 <button
-                  className="border w-[30%] h-[37px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer"
+                  className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer"
                 >
                   <span>
                     <Reset className="#006AFF" />
