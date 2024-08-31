@@ -57,6 +57,8 @@ const PropertyCard = ({
   setOpenPlanModal,
   setPromotePropertry,
   setErrorModal,
+  setTabName,
+  pageManagement,
 }) => {
   const ITEMS_PER_PAGE = 8;
   const [publish, setPublish] = useState(true);
@@ -139,8 +141,14 @@ const PropertyCard = ({
       });
   };
   const closePublishedSuccessModal = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get("page");
+    const propertyStatus = urlParams.get("propertystatus");
+    let unpublished = publishState.unpublishedSuccess ? "unpublished" : propertyStatus;
     dispatch({ type: "Close Modal" });
-    refreshData();
+    setTabName(unpublished);
+    pageManagement(page, unpublished);
+    refreshData(unpublished);
   };
 
   const handleStopPropertyPromotion = async () => {
@@ -320,7 +328,7 @@ const PropertyCard = ({
                     {"Added: " + formatDate(property?.createdAt)}
                   </span>
                 </p>
-                {property?.is_promoted && (
+                {property?.is_published && property?.is_promoted && (
                   <button
                     className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px]"
                     onClick={() => {
@@ -396,7 +404,10 @@ const PropertyCard = ({
         title="Delete Property?"
         confirmatoryText={`This property will be permanently removed`}
         handleEvent={handleDeleteProperty}
-        cancel={setDeleteProperty}
+        cancel={() => {
+          setLoader(false);
+          setDeleteProperty(false);
+        }}
         optionText="Proceed"
         optionText2="Cancel"
         color="text-[#D92D20]"
@@ -419,7 +430,10 @@ const PropertyCard = ({
         title={`${publish ? "Unpublish Property?" : "Publish Property?"}`}
         confirmatoryText={`${publish ? unpublishedText : publishedText}`}
         handleEvent={handlePublishedUnpublishProperty}
-        cancel={setPublisProperty}
+        cancel={() => {
+          setLoader(false);
+          setPublisProperty(false);
+        }}
         optionText="Proceed"
         optionText2="Cancel"
         isLoading={isLoading}
@@ -452,7 +466,10 @@ const PropertyCard = ({
         title="Stop Promotion?"
         confirmatoryText="This property will no longer be promoted on Homz"
         handleEvent={handleStopPropertyPromotion}
-        cancel={setStopPromotion}
+        cancel={() => {
+          setLoader(false);
+          setStopPromotion(false);
+        }}
         optionText="Proceed"
         optionText2="Cancel"
         isLoading={isLoading}

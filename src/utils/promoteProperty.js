@@ -29,9 +29,10 @@ async function stopSinglePromotion(propertyId) {
     const result = await api.put(
       `/property/promotion/promotion/stop/${propertyId}`
     );
-    // console.log(result.data)
+    console.log(result.data)
     return result.data;
   } catch (error) {
+    console.log(error)
     console.error(
       "Error promoting property:",
       error.response?.data || error.message

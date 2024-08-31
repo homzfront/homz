@@ -21,6 +21,7 @@ const ListedProperties = ({
   cancelSelectedOption,
   handlePageNumber,
   refreshData,
+  filterData,
   setOpenPlanModal,
   setPromotePropertry,
   setErrorModal,
@@ -39,7 +40,7 @@ const ListedProperties = ({
   const [selectedState, setSelectedState] = useState(null);
   const [selectedRooms, setSelectedRooms] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [tabName, setTabName] = useState("All");
+  const [tabName, setTabName] = useState("all");
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [isLoading, setIsLoading] = useState(false);
@@ -73,6 +74,8 @@ const ListedProperties = ({
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
+    const propertyStatus = urlParams.get("propertystatus");
+    setTabName(propertyStatus || "all");
     setCurrentPage(page ? parseInt(page, 10) : 1); // Default to page 1 if no page param is found
   }, []);
   useEffect(() => {
@@ -94,13 +97,23 @@ const ListedProperties = ({
     };
   }, [router]);
 
-  function pageManagement(num) {
-    const newUrl = pathName.includes("?")
-      ? `${pathName}&page=${num}`
-      : `${pathName}?page=${num}`;
-
+  function pageManagement(num, status) {
+    let newUrl = pathName;
+    // Handle page parameter
+    if (num) {
+      newUrl = newUrl.includes("?")
+        ? `${newUrl}&page=${num}`
+        : `${newUrl}?page=${num}`;
+    }
+    // Handle propertystatus parameter
+    if (status) {
+      newUrl = newUrl.includes("?")
+        ? `${newUrl}&propertystatus=${status}`
+        : `${newUrl}?propertystatus=${status}`;
+    }
     router.push(newUrl, { scroll: false, swallow: true });
   }
+
   useEffect(() => {
     const newFirstThreePages = Array.from(
       { length: Math.min(totalPages, 3) },
@@ -111,7 +124,7 @@ const ListedProperties = ({
 
   const handleNext = () => {
     const nextPageNumber = pageNumber + 1;
-    pageManagement(nextPageNumber);
+    pageManagement(nextPageNumber, tabName);
     setPageNumber(nextPageNumber);
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     const newFirstThreePages = Array.from(
@@ -121,12 +134,13 @@ const ListedProperties = ({
 
     // Update the state for firstThreePages
     setFirstThreePages(newFirstThreePages);
-    handlePageNumber(nextPageNumber);
+    const filterParams = filterQueryParams(tabName);
+    handlePageNumber(nextPageNumber, filterParams);
   };
 
   const handlePrev = () => {
     const prevPageNumber = Math.max(pageNumber - 1, 1);
-    pageManagement(prevPageNumber);
+    pageManagement(prevPageNumber, tabName);
     setPageNumber(prevPageNumber);
     setCurrentPage((prev) => Math.max(prev - 1, 1));
     const newFirstThreePages = Array.from(
@@ -136,20 +150,22 @@ const ListedProperties = ({
 
     // Update the state for firstThreePages
     setFirstThreePages(newFirstThreePages);
-    handlePageNumber(prevPageNumber);
+    const filterParams = filterQueryParams(tabName);
+    handlePageNumber(prevPageNumber, filterParams);
   };
 
-  const lastThreePagesStart = Math.max(totalPages - 2, 1); // Calculate the starting page number for the last three pages
+  const lastThreePagesStart = Math.max(totalPages - 2, 1);
   const lastThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
     (_, index) => lastThreePagesStart + index
   );
 
   const handlePageClick = (page) => {
-    pageManagement(page);
+    pageManagement(page, tabName);
     setPageNumber(page);
-    handlePageNumber(page);
     setCurrentPage(page);
+    const filterParams = filterQueryParams(tabName);
+    handlePageNumber(page, filterParams);
   };
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
@@ -218,21 +234,25 @@ const ListedProperties = ({
     }, 2000);
   };
 
-  const refetchData = (propertyStatus) => {
-  
+  const filterQueryParams = (status) => {
     const filterParams = {
-      is_published: propertyStatus === 'is_published' ? true : undefined,
-      is_promoted: propertyStatus === 'is_promoted' ? true : undefined,
-      is_unpublished: propertyStatus === 'is_unpublished' ? true : undefined,
+      is_published: status === "published" ? true : undefined,
+      is_promoted: status === "promoted" ? true : undefined,
+      is_unpublished: status === "unpublished" ? true : undefined,
     };
-
-    refreshData(1, filterParams);
+    return filterParams;
+  };
+  const refetchData = (propertyStatus) => {
+    // console.log(propertyStatus)
+    const filterParams = filterQueryParams(propertyStatus);
+    filterData(pageNumber, filterParams);
   };
 
-  const handlePropertyStatus = (status, propertyStatus) => {
-    console.log(status);
-    setTabName(status); 
-    // refetchData(propertyStatus); /
+  const handlePropertyStatus = (status) => {
+    // console.log(status);
+    setTabName(status);
+    pageManagement("", status);
+    refetchData(status);
   };
 
   return (
@@ -297,44 +317,45 @@ const ListedProperties = ({
         <div className="flex w-full flex-wrap sm:gap-[8px] gap-[8px]">
           <button
             className={`py-[8px] px-[12px] rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] w-fit sm:leading-[21px] font-[500] ${
-              tabName === "All"
+              tabName === "all"
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             }`}
-            onClick={() => {
-              setTabName("All");
-              refreshData();
-            }}
+            // onClick={() => {
+            //   setTabName("All");
+            //   refreshData();
+            // }}
+            onClick={() => handlePropertyStatus("all")}
           >
             All
           </button>
           <button
             className={`py-[8px] px-[12px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] w-fit ${
-              tabName === "Publish"
+              tabName === "published"
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] font-[500]`}
-            onClick={() => handlePropertyStatus("Publish", "is_published")}
+            onClick={() => handlePropertyStatus("published")}
           >
             Published
           </button>
           <button
             className={`py-[8px] px-[12px] sm:text-[14px] text-[11px] w-fit leading-[13.86px] sm:leading-[21px] ${
-              tabName === "Promoted"
+              tabName === "promoted"
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] font-[500]`}
-            onClick={() => handlePropertyStatus("Promoted", "is_promoted")}
+            onClick={() => handlePropertyStatus("promoted")}
           >
             Promoted
           </button>
           <button
             className={`flex items-center justify-center py-[8px] px-[12px] w-fit ${
-              tabName === "Unpublish"
+              tabName === "unpublished"
                 ? "bg-BlueHomz text-white"
                 : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] font-[500]`}
-            onClick={() => handlePropertyStatus("Unpublish", "is_unpublished")}
+            onClick={() => handlePropertyStatus("unpublished")}
           >
             Unpublished
           </button>
@@ -369,6 +390,8 @@ const ListedProperties = ({
 
       <PropertyCard
         Property={filteredData}
+        setTabName={setTabName}
+        pageManagement={pageManagement}
         promoteOptions={promoteOption}
         setSelectedProperty={setSelectedOption}
         selectedProperty={selectedOptions}

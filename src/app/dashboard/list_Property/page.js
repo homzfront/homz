@@ -15,18 +15,18 @@ import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/actionModal";
+import { propertyForMe } from "@/api/propertyService";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
-  const { propertyListedAll, loading, fetchData } = usePropertyStore();
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
   const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(false);
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [openPlanModal, setOpenPlanModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
-  const [page, setPage] = useState(1);
+  const [proStatus, setProStatus] = useState("");
   const [isLoading, setLoader] = useState(false);
   const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
   // const [loadingUpgradePromo, setLoaderUpgradePromo] = useState(false);
@@ -39,6 +39,7 @@ const List_Property = () => {
   const setPropertyIds = usePropertyPromotionsData(
     (state) => state.setPropertyIds
   );
+  const [property, setProData] = useState([]);
   const singlePropertyId = usePropertyPromotionsData((state) => state.singleId);
   const propertyPlan = usePropertyPromotionsData(
     (state) => state.propertyPlanType
@@ -52,16 +53,37 @@ const List_Property = () => {
   // console.log(singlePropertyId)
   var id = localStorage.getItem("prp_tygf2ty");
   var plan = localStorage.getItem("prp_xry_pl#a$n");
-  const handlePageNumber = (pageNumber) => {
-    setPage(pageNumber);
-    fetchData(pageNumber);
+  const handlePageNumber = (pageNumber, status) => {
+    filterData(pageNumber, status);
+  };
+
+  // const { propertyListedAll, loading, fetchData } = usePropertyStore();
+  // useEffect(() => {
+  //   fetchData(page);
+  //   fetchProfile();
+  // }, [fetchData, fetchProfile, page]);
+
+  // useEffect(() => {
+  //   if (propertyListedAll) {
+  //     setProData(propertyListedAll || []);
+  //   }
+  // }, [propertyListedAll]);
+  const filterQueryParams = (status) => {
+    const filterParams = {
+      is_published: status === "published" ? true : undefined,
+      is_promoted: status === "promoted" ? true : undefined,
+      is_unpublished: status === "unpublished" ? true : undefined,
+    };
+    return filterParams;
   };
 
   useEffect(() => {
-    fetchData(page);
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("propertystatus");
+    setProStatus(status);
     fetchProfile();
-  }, [fetchData, fetchProfile, page]);
-
+    refreshData();
+  }, [fetchProfile,proStatus]);
   // // check for subsciption plan Status
   // useEffect(() => {
   //   async function getSubscription() {
@@ -71,7 +93,31 @@ const List_Property = () => {
   //   let status = getSubscription();
   //   setSubsciptionStatus([...subsciptionStatus, status]);
   // }, [subsciptionStatus]);
-  // fetchData(page, true, true, false)
+
+  const refreshData = (stat) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageNumber = urlParams.get("page");
+    const status = urlParams.get("propertystatus");
+    const filterParams = filterQueryParams(stat ? stat : status);
+    filterData(pageNumber, filterParams);
+  };
+
+  // filter the property data based on the query of the params
+  const filterData = async (page, params = {}) => {
+    const { is_published, is_promoted, is_unpublished } = params;
+    try {
+      const results = await propertyForMe(page, {
+        is_published,
+        is_promoted,
+        is_unpublished,
+      });
+      const properties = results?.data?.results?.[0]?.data;
+      // console.log(results);
+      setProData(results);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -83,9 +129,6 @@ const List_Property = () => {
     }
   }, [router, plan]);
 
-  const refreshData = ({propertyStatus}) => {
-    fetchData(page, { propertyStatus: true });
-  };
   useEffect(() => {
     if (isPending) {
       return setLoader(true);
@@ -95,12 +138,8 @@ const List_Property = () => {
     setLimitModal(false);
   }, [isPending]);
 
-  const property = propertyListedAll;
-  // console.log(propertyListedAll);
-  // const data = propertyListedAll.data?.results?.[0].data;
-
   const closePromotionModal = () => {
-    fetchData(page);
+    refreshData();
     setPromotePropertrySuccess(false);
     handleCancel();
     setPropertyPlanType("");
@@ -230,7 +269,7 @@ const List_Property = () => {
   };
   // console.log("global value", loading);
 
-  // console.log(Array.isArray(property));
+  // console.log(proStatus);
   return (
     <div className="dashboard w-full">
       {openModalForBusi && (
@@ -259,11 +298,11 @@ const List_Property = () => {
         </div>
       )}
 
-      {loading ? (
+      {!property ? (
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      ) : property?.response?.data?.success === false ? (
+      ) : (!property?.response?.data?.success  && !proStatus) ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
             List your properties so Tenants can see them.
@@ -442,7 +481,7 @@ const List_Property = () => {
           </div>
 
           <Property
-            property={propertyListedAll}
+            property={property}
             promoteOption={options}
             openPromoModal={openPromoModal}
             setSelectedOption={setSelectedProperties}
@@ -452,6 +491,7 @@ const List_Property = () => {
             handlePageNumber={handlePageNumber}
             refreshData={refreshData}
             setOpenPlanModal={setOpenPlanModal}
+            filterData={filterData}
             setPromotePropertry={setPromotePropertry}
             setErrorModal={setErrorModal}
           />
@@ -463,7 +503,10 @@ const List_Property = () => {
         title="No Active Plan"
         confirmatoryText={`You do not have an active subscription plan yet`}
         handleEvent={handleSelectPlan}
-        cancel={setOpenPlanModal}
+        cancel={() => {
+          setLoader(false);
+          setOpenPlanModal(false);
+        }}
         optionText="Proceed to subscribe?"
         optionText2="Cancel"
         isLoading={isLoading}
@@ -475,7 +518,10 @@ const List_Property = () => {
         title="Promote Property?"
         confirmatoryText="You are about to promote this property on Homz"
         handleEvent={handlePropertyPromotion}
-        cancel={setPromotePropertry}
+        cancel={() => {
+          setLoader(false);
+          setPromotePropertry(false);
+        }}
         optionText="Proceed"
         optionText2="Cancel"
         isLoading={isLoading}

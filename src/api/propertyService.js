@@ -27,12 +27,8 @@ export const fetchSinglePropertyPublic = async (id) => {
   }
 };
 
-export const propertyForMe = async (
-  page,
-  is_promoted,
-  is_published,
-  is_unpublished
-) => {
+export const propertyForMe = async (page, propertyStatus = {}) => {
+  const { is_promoted, is_published, is_unpublished } = propertyStatus;
   try {
     let query = `/properties/user/me?page=${page || 1}`;
 
@@ -51,7 +47,6 @@ export const propertyForMe = async (
     return error;
   }
 };
-
 
 export const addBankPropertyOwner = async (details) => {
   try {

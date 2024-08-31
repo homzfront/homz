@@ -39,9 +39,7 @@ const ConfirmationModal = ({
         </button>
         <button
           className="border-BlueHomz w-[301px]  text-blue-600 rounded-[4px] border  sm:w-[400px] h-[48px] p-[12px]"
-          onClick={() => {
-            cancel(false);
-          }}
+          onClick={cancel}
         >
           {optionText2 ? optionText2 : " No, go back"}
         </button>
