@@ -50,49 +50,12 @@ const List_Property = () => {
   const [openLimitModal, setLimitModal] = useState(false);
   // const [subsciptionStatus, setSubsciptionStatus] = useState([]);
   // console.log(id, type);
-  // console.log(singlePropertyId)
+  // console.log(singlePropertyId);
   var id = localStorage.getItem("prp_tygf2ty");
   var plan = localStorage.getItem("prp_xry_pl#a$n");
   const handlePageNumber = (pageNumber, status) => {
     filterData(pageNumber, status);
   };
-
-  // const { propertyListedAll, loading, fetchData } = usePropertyStore();
-  // useEffect(() => {
-  //   fetchData(page);
-  //   fetchProfile();
-  // }, [fetchData, fetchProfile, page]);
-
-  // useEffect(() => {
-  //   if (propertyListedAll) {
-  //     setProData(propertyListedAll || []);
-  //   }
-  // }, [propertyListedAll]);
-  const filterQueryParams = (status) => {
-    const filterParams = {
-      is_published: status === "published" ? true : undefined,
-      is_promoted: status === "promoted" ? true : undefined,
-      is_unpublished: status === "unpublished" ? true : undefined,
-    };
-    return filterParams;
-  };
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get("propertystatus");
-    setProStatus(status);
-    fetchProfile();
-    refreshData();
-  }, [fetchProfile,proStatus]);
-  // // check for subsciption plan Status
-  // useEffect(() => {
-  //   async function getSubscription() {
-  //     const response = await PromotionHooks.checkCurrentSubscription();
-  //     return response;
-  //   }
-  //   let status = getSubscription();
-  //   setSubsciptionStatus([...subsciptionStatus, status]);
-  // }, [subsciptionStatus]);
 
   const refreshData = (stat) => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -118,6 +81,43 @@ const List_Property = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("propertystatus");
+    setProStatus(status);
+    fetchProfile();
+    refreshData();
+  }, [fetchProfile, proStatus]);
+  // const { propertyListedAll, loading, fetchData } = usePropertyStore();
+  // useEffect(() => {
+  //   fetchData(page);
+  //   fetchProfile();
+  // }, [fetchData, fetchProfile, page]);
+
+  // useEffect(() => {
+  //   if (propertyListedAll) {
+  //     setProData(propertyListedAll || []);
+  //   }
+  // }, [propertyListedAll]);
+  const filterQueryParams = (status) => {
+    const filterParams = {
+      is_published: status === "published" ? true : undefined,
+      is_promoted: status === "promoted" ? true : undefined,
+      is_unpublished: status === "unpublished" ? true : undefined,
+    };
+    return filterParams;
+  };
+
+  // // check for subsciption plan Status
+  // useEffect(() => {
+  //   async function getSubscription() {
+  //     const response = await PromotionHooks.checkCurrentSubscription();
+  //     return response;
+  //   }
+  //   let status = getSubscription();
+  //   setSubsciptionStatus([...subsciptionStatus, status]);
+  // }, [subsciptionStatus]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -269,7 +269,7 @@ const List_Property = () => {
   };
   // console.log("global value", loading);
 
-  // console.log(proStatus);
+  // console.log(property?.msg);
   return (
     <div className="dashboard w-full">
       {openModalForBusi && (
@@ -302,7 +302,7 @@ const List_Property = () => {
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      ) : (!property?.response?.data?.success  && !proStatus) ? (
+      ) : property?.msg !== "Success" && !proStatus ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
             List your properties so Tenants can see them.
