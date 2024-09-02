@@ -93,7 +93,6 @@ const Data3 = [
   },
 ];
 
-
 const Sidebar = () => {
   const path = usePathname();
   const pathname = keepThree(path);
