@@ -90,7 +90,9 @@ const Footer = () => {
               <Link href={"/contact-page"}>
                 <p>Contact</p>
               </Link>
-              {/* <p>FAQs</p> */}
+              <Link href={"http://blog.homz.ng/"}>
+                <p>Blog</p>
+              </Link>
             </div>
             {/* <div className="leading-loose  ">
               <h2 className="font-[700] text-[16px] mb-2 md:mb-4">
