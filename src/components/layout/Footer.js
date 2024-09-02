@@ -72,9 +72,9 @@ const Footer = () => {
             </div>
           </div>
           {/* <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4"> */}
-          <div className="flex  w-full justify-center">
+          <div className="flex w-full mt-4 lg:mt-0 justify-start lg:justify-center">
             <div className="leading-loose pl-0 ">
-              <h2 className="font-[700] text-[16px]  mb-2 md:mb-5">
+              <h2 className="font-[700] text-[16px] lg:mb-3">
                 Useful Links
               </h2>
               <Link href={"/about-us"}>
