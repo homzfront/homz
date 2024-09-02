@@ -80,7 +80,9 @@ const Footer = () => {
               <Link href={"/about-us"}>
                 <p>About Us</p>
               </Link>
-              <p>Properties</p>
+              <Link href={"/user_homepage/PropertyListing?page=1"}>
+                <p>Properties</p>
+              </Link>
               <Link href={"/privacy-policy"}>
                 <p>Privacy Policy</p>
               </Link>
