@@ -156,7 +156,8 @@ const SidebarMobile = ({ setOpen, user }) => {
           href={"/dashboard/enterprise-property/documentGeneration"}
           className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/enterprise-property/documentGeneration" ? "bg-white text-BlueHomz"
-              : "text-GrayHomz"} hover:text-BlueHomz`}
+              : "text-GrayHomz"}
+              opacity-50 pointer-events-none hover:text-BlueHomz`}
         >
           <div className={`pt-1 w-[7%]`}>
             {
@@ -171,7 +172,9 @@ const SidebarMobile = ({ setOpen, user }) => {
                 </div>
             }
           </div>
-          <p className=''>Document Generation</p>
+          <p className=''>Document Generation <span className={`text-[10px] font-[400] text-Success`}>
+            coming soon!
+          </span></p>
         </Link>
         <Link
           onClick={() => setOpen(false)}

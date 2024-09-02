@@ -212,7 +212,7 @@ const Settings = ({ data, fetchDataAgain }) => {
             <div style={{ display: 'none' }}>
                 <div
                     ref={emailContentRef}
-                    className='h-screen p-[48px] flex justify-center items-center'>
+                    className='h-screen p-[48px] flex justify-start items-start'>
                     <div className='p-8 text-[18px] font-[400] text-justify bg-GrayHomz6 text-GrayHomz rounded-[4px]'
                         dangerouslySetInnerHTML={{ __html: emailContent }}
                     />
