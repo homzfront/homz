@@ -57,7 +57,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       setLoading(false);
       return dataResult;
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       return error;
     }
   };
@@ -90,9 +90,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
     // setParams(true);
   };
 
-  // const id = "p7567-kristy-for-rent-rivers-bonny";
-  // useBodyScroll([openSelectedImage]);
-  // const pathName = usePathname();
+
   const goBack = () => {
     router.back();
   };
@@ -102,17 +100,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
     setSelectedProperty("");
     setSelectedRooms("");
     fetchPropertyData("/properties/user/me");
-    // setFilters({
-    //   search: "",
-    //   propertyType: '',
-    //   numberOfBathrooms: "",
-    //   listingType: "",
-    //   minPrice: "",
-    //   maxPrice: "",
-    //   state: "",
-    // });
-    // setCurrentPage(1);
-    // setParams(true);
+
   };
 
   const handleSharePage = async () => {
