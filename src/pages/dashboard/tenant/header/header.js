@@ -137,9 +137,9 @@ const Header = () => {
         </div>
       )}
       <div className="md:hidden w-full flex justify-between items-center p-8">
-        <div>
+        <Link href={"/"}>
           <Image src="/homz.svg" width={86} height={18} alt="" />
-        </div>
+        </Link >
         <div className="cursor-pointer h-full " onClick={openSidebar}>
           <Menu />
         </div>

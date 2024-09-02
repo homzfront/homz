@@ -23,7 +23,7 @@ const Footer = () => {
 
               />
             </Link>
-            <h6 className="mt-7 lg:max-w-[280px]">
+            <h6 className="mt-7">
               Your Trusted Partner in Real Estate - Simplifying Property Transactions for Landlords, Managers and Tenants
             </h6>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
@@ -90,7 +90,9 @@ const Footer = () => {
               <Link href={"/contact-page"}>
                 <p>Contact</p>
               </Link>
-              {/* <p>FAQs</p> */}
+              <Link href={"http://blog.homz.ng/"}>
+                <p>Blog</p>
+              </Link>
             </div>
             {/* <div className="leading-loose  ">
               <h2 className="font-[700] text-[16px] mb-2 md:mb-4">

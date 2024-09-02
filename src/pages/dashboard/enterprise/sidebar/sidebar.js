@@ -129,7 +129,7 @@ const Sidebar = () => {
       image2: <DocumentInformation className='text-BlueHomz fill-white' />,
       link: "/dashboard/enterprise-property/documentGeneration",
       name: "Document Generation",
-      coming: null,
+      coming: true,
       active: false,
     },
     {
@@ -232,7 +232,8 @@ const Sidebar = () => {
                       </div>
                     )}
                     <div className="flex items-center w-full justify-between">
-                      <span className="">{data.name}</span>
+                      <span className="">{data.name}
+                      </span>
                       <div onClick={toggleSubMenu} className={`${subMenuOpen ? "rotate-180" : ""} flex`}>
                         <Down />
                       </div>
@@ -308,12 +309,17 @@ const Sidebar = () => {
                       {data.image}
                     </div>
                   )}
-                  <div className="flex items-center w-full justify-between">
-                    <span className={`${data.name === "Document Generation" ? "" : ""}`}>{data.name}</span>
+                  <div className="flex items-center w-full">
+                    <span className={`${data.name === "Document Generation" ? "" : ""}`}>{data.name} <span className={`${data.name === "Document Generation" ? "" : "hidden"}
+                      text-[10px] font-[400] text-Success`}>
+                      coming soon!
+                    </span>
+                    </span>
                     <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
                       } mt-1 h-2 w-2 rounded-full`}
                     ></p>
                   </div>
+
                 </Link>
             ))}
           </div>{" "}
