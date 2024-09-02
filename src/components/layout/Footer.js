@@ -23,7 +23,7 @@ const Footer = () => {
 
               />
             </Link>
-            <h6 className="mt-7 lg:max-w-[280px]">
+            <h6 className="mt-7">
               Your Trusted Partner in Real Estate - Simplifying Property Transactions for Landlords, Managers and Tenants
             </h6>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
