@@ -69,7 +69,7 @@ const Sidebar = () => {
   const { logout } = useProfileStore();
 
   return (
-    <div className="min-w-[250px]">
+    <div className="hidden min-w-[250px] sm:block ">
       <div className="shadow-lg fixed">
         <div className="m-auto h-[70px] px-6 flex flex-col justify-end">
           <Link href={"/"}>
