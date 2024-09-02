@@ -352,9 +352,9 @@ const PropertyForms = ({ propertyData }) => {
           <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
             Would you like to save your updates before leaving?
           </p>
-          <div className="flex flex-wrap md:flex-col gap-[16px]">
+          <div className="flex flex-wrap md:flex-col gap-[16px] w-full">
             <button
-              className={`bg-BlueHomz2 w-[301px]  text-white rounded-[4px] border  md:w-[400px] h-[48px] 
+              className={`bg-BlueHomz2 w-full  text-white rounded-[4px] border  md:w-[400px] h-[48px] 
             ${loading ? "pointer-events-none w-full flex justify-center" : ""} 
             `}
               onClick={handleSubmit}
@@ -362,7 +362,7 @@ const PropertyForms = ({ propertyData }) => {
               {loading ? <LoadingFormII /> : "Yes"}
             </button>
             <button
-              className="border-BlueHomz w-[137.5px]  text-blue-600 rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
+              className="border-BlueHomz w-full  text-blue-600 rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center"
               onClick={() => {
                 setSaveModalIsOpen(false);
               }}

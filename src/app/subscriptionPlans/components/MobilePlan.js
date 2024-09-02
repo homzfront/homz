@@ -11,6 +11,7 @@ const MobilePlan = ({
   loadingStates,
   period,
 }) => {
+  // console.log(profile);
   return (
     <div className="cursor-pointer rounded-[10px] w-full sm:hidden h-[630px] mb-8">
       <Carousel slide={false} theme={parentTheme} className="h-full">
@@ -85,9 +86,11 @@ const MobilePlan = ({
 
             <button
               key={index}
-              onClick={() => handleSelectPlan(index)}
+              onClick={() =>
+                handleSelectPlan(index, plan.title, plan.interval, plan.price)
+              }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-1 flex items-center justify-center ${
-                plan.status === true || plan.title ==="Free"  ? "hidden" : ""
+                plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
                 profile?.planName === plan.title && profile?.interval === period
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"

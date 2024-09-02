@@ -20,7 +20,7 @@ async function handleSelectPlan(
    
       const results= await PromotionHooks.createSubscription(planType,interval,amount,upgradePlan )
       
-      // console.log(results);
+      console.log(results);
     if (results.status === false) {
       setLoadingStates((prev) => ({ ...prev, [index]: false }));
       // setModalIsOpen(true);

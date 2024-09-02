@@ -20,6 +20,7 @@ const Plans = ({
   upgradePlan,
   setModalIsOpen,
 }) => {
+// console.log(profile)
  
 
   const [loadingStates, setLoadingStates] = useState({});
@@ -141,13 +142,13 @@ const Plans = ({
             <button
               key={index}
               onClick={() =>
-                handleSelectPlan(index, plan.title, plan.billing, plan.price)
+                handleSelectPlan(index, plan.title, plan.interval, plan.price)
               }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
-                profile?.planName === plan.title &&
-                profile?.interval === "weekly"
+                profile?.plan?.name === plan.title &&
+                profile?.plan?.interval === "weekly"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
@@ -156,8 +157,8 @@ const Plans = ({
                 <ThreeDots color="#ffffff" />
               ) : (
                 <>
-                  {profile?.planName === plan.title &&
-                  profile?.interval === "weekly"
+                  { profile?.plan?.name === plan.title &&
+                    profile?.plan?.interval === "weekly"
                     ? "Active"
                     : "Select Plan"}
                 </>

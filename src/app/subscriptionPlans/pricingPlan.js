@@ -17,6 +17,7 @@ const PricingPlan = () => {
     resetPropertyIds();
     router.back();
   };
+  
   const [data, setData] = useState(null);
   useEffect(() => {
     if (typeof window !== "undefined") {

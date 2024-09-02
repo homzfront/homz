@@ -22,8 +22,9 @@ const Widget = ({ data, profile }) => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const upgrade= urlParams.get("upgrade");
+    // console.log(upgrade);
     setUpgradePlan(upgrade);
-  }, []);
+  }, [upgradePlan]);
 
   const pages = [
     {

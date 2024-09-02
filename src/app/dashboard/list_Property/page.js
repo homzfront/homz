@@ -176,14 +176,10 @@ const List_Property = () => {
     setPropertyPlanType("");
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      // console.log(response);
-      if (response.data === null) {
-        setLoader2(false);
-        setOpenPlanModal(true);
-      } else if (response.message == "An unexpected error occurred.") {
-        setLoader2(false);
-        setErrorModal(true);
-      } else {
+      console.log(response.data);
+
+      // ;
+      if (response?.data?.status === "active") {
         setLoader2(false);
         if (selectedProperty.length > 0) {
           // setLoader(true);
@@ -192,6 +188,12 @@ const List_Property = () => {
         } else {
           setOptions(true);
         }
+      } else if (response.message == "An unexpected error occurred.") {
+        setLoader2(false);
+        setErrorModal(true);
+      } else if (response?.data?.status === "inactive") {
+        setLoader2(false);
+        setOpenPlanModal(true);
       }
     } catch (error) {
       console.error("Error", error.response?.data || error.message);
@@ -304,10 +306,10 @@ const List_Property = () => {
         </div>
       ) : property?.msg !== "Success" && !proStatus ? (
         <>
-          <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 md:mt-2">
+          <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 w-fit m-auto">
             List your properties so Tenants can see them.
           </p>
-          <div className="flex flex-col items-center justify-center pt-[10rem] md:pt-0">
+          <div className="flex flex-col items-center justify-center pt-[8rem] md:pt-0">
             <div className="flex flex-col items-center justify-center md:h-[412px] gap-[20px]">
               <Image
                 src="/static/images/PropertyLister.svg"

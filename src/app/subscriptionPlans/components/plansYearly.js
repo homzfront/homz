@@ -18,24 +18,24 @@ const Plans = ({
   upgradePlan,
   setModalIsOpen,
 }) => {
+ 
+
   // const [loading, setLoading] = useState(false);
   // const [formError, setFormError] = useState();
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
-  const [ind, setIndex]=useState()
+  const [ind, setIndex] = useState();
 
   useEffect(() => {
     if (isPending) {
-      return   setLoadingStates((prev) => ({ ...prev, [ind]: true }));
-
+      return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
-
-  }, [isPending,ind]);
+  }, [isPending, ind]);
   const router = useRouter();
 
-  const handleSelectPlan = async (index, planType, interval, amount,upgradePlan) => {
-    setIndex(index)
+  const handleSelectPlan = async (index, planType, interval, amount) => {
+    setIndex(index);
 
     await handleSelectPlans.handleSelectPlan(
       index,
@@ -46,7 +46,8 @@ const Plans = ({
       upgradePlan,
       setModalIsOpen,
       setSuccessModalIsOpen,
-      router,startTransition
+      router,
+      startTransition
     );
   };
 
@@ -75,7 +76,7 @@ const Plans = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-              {plan?.price  && ("N" + Number(plan.price).toLocaleString())}
+                {plan?.price && "N" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 
@@ -133,13 +134,13 @@ const Plans = ({
             <button
               key={index}
               onClick={() =>
-                handleSelectPlan(index, plan.title, plan.billing, plan.price)
-               }
+                handleSelectPlan(index, plan.title, plan.interval, plan.price)
+              }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
-                plan.status === true || plan.title ==="Free"  ? "hidden" : ""
+                plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
-                profile?.planName === plan.title &&
-                profile?.interval === "annually"
+                profile?.plan?.name === plan.title &&
+                profile?.plan?.interval === "annually"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
@@ -148,8 +149,8 @@ const Plans = ({
                 <ThreeDots color="#ffffff" />
               ) : (
                 <>
-                  {profile?.planName === plan.title &&
-                  profile?.interval === "annually"
+                  {profile?.plan?.name === plan.title &&
+                  profile?.plan?.interval === "annually"
                     ? "Active"
                     : "Select Plan"}
                 </>
@@ -236,7 +237,7 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "annually",
   },
   {
     price: "306000",
@@ -307,7 +308,7 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "qnnually",
   },
   {
     price: "510000",
@@ -375,7 +376,7 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "annually",
   },
   {
     price: "1020000",
@@ -449,7 +450,7 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "Annually",
+    interval: "annually",
   },
 ];
 // Optional URL validation function (consider using a more robust library)

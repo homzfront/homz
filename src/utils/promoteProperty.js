@@ -53,16 +53,15 @@ async function checkCurrentSubscription() {
   }
 }
 async function createSubscription(planName, interval, amount, upgradePlan) {
-  // console.log(upgradePlan)
-  try {
+   try {
     
     const results = await api.post(`/subscribe/listingProperty/${upgradePlan? "update":"new"}`, {
       planName: planName,
       interval: interval,
       amount: amount,
     });
-    // console.log(results.data.data.paystackResponse);
-    return results.data.data.paystackResponse
+    // console.log(results.data.paystackResponse);
+    return results?.data?.paystackResponse
   } catch (error) {
     console.error("Error", error.response?.data || error.message);
     return error.response?.data || { message: "An unexpected error occurred." };

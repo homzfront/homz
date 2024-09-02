@@ -21,7 +21,7 @@ const Plans = ({
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
-console.log(upgradePlan)
+  // console.log(upgradePlan)
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
@@ -30,13 +30,7 @@ console.log(upgradePlan)
   }, [isPending, ind]);
   const router = useRouter();
 
-  const handleSelectPlan = async (
-    index,
-    planType,
-    interval,
-    amount,
-    upgradePlan
-  ) => {
+  const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
 
     await handleSelectPlans.handleSelectPlan(
@@ -138,13 +132,13 @@ console.log(upgradePlan)
             <button
               key={index}
               onClick={() =>
-                handleSelectPlan(index, plan.title, plan.billing, plan.price)
+                handleSelectPlan(index, plan.title, plan.interval, plan.price)
               }
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
-                profile?.planName === plan.title &&
-                profile?.interval === "monthly"
+                profile?.plan?.name === plan.title &&
+                profile?.plan?.interval === "monthly"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
@@ -153,8 +147,8 @@ console.log(upgradePlan)
                 <ThreeDots color="#ffffff" />
               ) : (
                 <>
-                  {profile?.planName === plan.title &&
-                  profile?.interval === "monthly"
+                  {profile?.plan?.name === plan.title &&
+                  profile?.plan?.interval === "monthly"
                     ? "Active"
                     : "Select Plan"}
                 </>

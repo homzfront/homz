@@ -72,6 +72,7 @@ const PropertyCard = ({
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePromo, setActivePromoted] = useState(false);
+  const [notPublished, setNotPublished] = useState(false);
   const [deleteProperty, setDeleteProperty] = useState(false);
   const [propertyDeleted, setPropertyDeleted] = useState(false);
   const [publishProperty, setPublisProperty] = useState(false);
@@ -103,7 +104,11 @@ const PropertyCard = ({
     };
   }, [isMenuOpen]);
 
-  const handleCheckboxChange = (property, is_promoted) => {
+  const handleCheckboxChange = (property, is_promoted, is_published) => {
+    if (!is_published) {
+      setNotPublished(true);
+      return;
+    }
     if (is_promoted) {
       setActivePromoted(true);
       return;
@@ -144,7 +149,9 @@ const PropertyCard = ({
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
     const propertyStatus = urlParams.get("propertystatus");
-    let unpublished = publishState.unpublishedSuccess ? "unpublished" : propertyStatus;
+    let unpublished = publishState.unpublishedSuccess
+      ? "unpublished"
+      : propertyStatus;
     dispatch({ type: "Close Modal" });
     setTabName(unpublished);
     pageManagement(page, unpublished);
@@ -172,6 +179,7 @@ const PropertyCard = ({
     setPropertyDeleted(false);
     refreshData();
     setActivePromoted(false);
+    setNotPublished(false);
     setPromotionStoppedModal(false);
   };
 
@@ -371,7 +379,11 @@ const PropertyCard = ({
                       className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 bg-[#FFFFFF] before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#FFFFFF] hover:before:opacity-2"
                       id={`checkbox-${index}`}
                       onChange={() =>
-                        handleCheckboxChange(property._id, property.is_promoted)
+                        handleCheckboxChange(
+                          property?._id,
+                          property?.is_promoted,
+                          property?.is_published
+                        )
                       }
                       checked={selectedProperty.includes(property._id)}
                     />
@@ -422,6 +434,11 @@ const PropertyCard = ({
         isOpen={activePromo}
         title="This property is already promoted"
         handleEvent={() => setActivePromoted(false)}
+      />
+      <SuccessModal
+        isOpen={notPublished}
+        title="This property must be published first"
+        handleEvent={() => setNotPublished(false)}
       />
 
       {/* Unpublish a property */}
