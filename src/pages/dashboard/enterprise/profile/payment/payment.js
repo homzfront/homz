@@ -7,7 +7,7 @@ import CollectCardDetails from "./components/collectCardDetails";
 import YesNOModal from "../../tenants/components/yesNOModal";
 import useBodyScroll from "@/utils/useBodyScroll";
 
-const Payment = () => {
+const Payment = ({data: userProfile}) => {
   const [fillCard, setFillCard] = useState(false);
   const [data, setData] = useState([]);
   const [cvv, setCvv] = useState("");
@@ -99,7 +99,7 @@ useBodyScroll([verified, verifyDelete, removeCard]);
       <p className="font-[700] text-[14px] text-GrayHomz">Enterprise Plan</p>
       <div className=" flex justify-between h-[69px] items-center rounded-lg bg-inputBg px-4 mt-2">
         <p className="font-[500] text-[13px] md:text-[16px] text-GrayHomz2">
-          You’re currently on the enterprise plus plan
+          You’re currently on the {userProfile?.planName} plan, billed {userProfile?.interval === "annually" ? "yearly." : "monthly."}
         </p>
         <Link
           href={"/plans"}
