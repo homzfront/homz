@@ -18,6 +18,15 @@ export const fetchEstatesSpecificUSer = async (id) => {
   }
 };
 
+export const fetchEstateRentReminders = async (id) => {
+  try {
+    const response = await api.get(`/rentReminder/${id}/estate`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const getPropertyTenantLandlord = async (id) => {
   try {
     const response = await api.get(`/estates/${id}/tenants/property-owner`);
@@ -58,6 +67,18 @@ export const updateContactInfo = async (estateId, updatedData) => {
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
     return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const updateEstateBankInfo = async (estateId, updatedData) => {
+  try {
+    const response = await api.patch(
+      `/estates/${estateId}/estate-bank-information`,
+      updatedData
+    );
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    return { success: false, error: error };
   }
 };
 

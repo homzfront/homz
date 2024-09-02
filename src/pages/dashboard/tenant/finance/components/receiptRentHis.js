@@ -4,35 +4,26 @@ import addYearsToValues from "@/utils/addYearsToNumber";
 import handleCopyClick from "@/utils/handleCopyClick";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas"; // For converting HTML to canvas
+import React, { useEffect, useRef, useState } from "react";
+import PrintableReceiptII from "./printableReceiptII";
+import { useReactToPrint } from "react-to-print";
+import EmailReceipt from "@/components/icons/emailReceipt";
+import PhoneReceipt from "@/components/icons/phoneReceipt";
+import AddressReceipt from "@/components/icons/addressReceipt";
+import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
 
-const ReceiptRentHis = ({ closeReceipt, rentData }) => {
-  const [copiedState, setCopiedState] = useState({
-    copied: false,
+const ReceiptRentHis = ({ closeReceipt, rentData, tenantData }) => {
+  const [copiedState, setCopiedState] = useState({ copied: false });
+  const printableRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: "Homz Receipt",
+    onAfterPrint: () => console.log("Receipt printed."),
   });
 
-  const downloadPDF = () => {
-    const input = document.getElementById("receipt-content");
-
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4"); // Create new PDF with portrait orientation
-      pdf.addImage(
-        imgData,
-        "PNG",
-        0,
-        0,
-        pdf.internal.pageSize.getWidth(),
-        pdf.internal.pageSize.getHeight()
-      );
-      pdf.save("Homz-Rent-Receipt.pdf"); // Download PDF with filename 'receipt.pdf'
-    });
-  };
-
   return (
-    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
+    <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
       <div
         id="receipt-content"
         className="h-auto w-[530px] bg-white rounded-lg px-8 pt-6"
@@ -80,7 +71,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
           </div>
           <div>
             <p className="text-BlueHomz text-[14px] font-[500]">
-              Transaction Receipt
+              Rent Payment Receipt
             </p>
           </div>
           <div className="rounded-lg bg-inputBg p-4 flex flex-col gap-2">
@@ -110,10 +101,18 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Next Due Date
+                Tenant
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {changeBackendDateFormat(rentData?.dueDate)}
+                {tenantData?.data?.tenantId.fullName}
+              </p>
+            </div>
+            <div className="w-full flex gap-4">
+              <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
+                Tenancy Period
+              </p>
+              <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
+                {changeBackendDateFormatII(rentData?.startDate)} - {changeBackendDateFormatII(rentData?.dueDate)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -126,10 +125,10 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
             <div className="w-full flex gap-4">
               <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Property
+                Property Address
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {rentData?.estateId?.name}
+                {tenantData?.data?.estateId?.address}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -140,22 +139,14 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
                 {rentData?.propertyType}
               </p>
             </div>
-            <div className="w-full flex gap-4">
-              <p className="text-GrayHomz text-[13px] font-[400] w-[40%]">
-                Property Manager
-              </p>
-              <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {rentData?.enterPrise?.fullName}
-              </p>
-            </div>
           </div>
           <div className="relative rounded-lg bg-whiteblue p-4 flex flex-col gap-2">
-            <div className="w-full flex gap-4">
+            <div className="w-full flex items-center gap-4">
               <p className="text-BlueHomz text-[13px] font-[400] w-[50%]">
                 Transaction Reference No
               </p>
               <div className="flex items-center gap-2 w-[50%]">
-                <p className="text-BlueHomz text-[14px] font-[400]">
+                <p className="text-BlueHomz text-[14px] break-words font-[400] w-[85%]">
                   {rentData?.reference}
                 </p>
                 <Image
@@ -179,7 +170,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
                 )}
               </div>
             </div>
-            <div className="w-full flex gap-4">
+            <div className="w-full flex items-center gap-2 md:gap-4">
               <p className="text-BlueHomz text-[13px] font-[400] w-[50%]">
                 Status
               </p>
@@ -189,45 +180,32 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
             </div>
           </div>
           <button
-            onClick={() => {
-              downloadPDF();
-            }}
+            onClick={handlePrint}
             className={`w-full h-[48px] bg-BlueHomz rounded-md text-white `}
           >
             Share Receipt
           </button>
-          <div className="border-t grid grid-cols-2 gap-2 pt-2">
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/sms.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterPrise?.user?.email}
-              </p>
+          <div className="border-t flex flex-col gap-2 pt-2 w-full">
+            <div className="flex justify-between items-start w-full">
+              <div className="flex items-start md:items-center gap-2 w-[45%] break-words">
+                <div className="mt-[2px] md:mt-0">
+                  <EmailReceipt />
+                </div>
+                <p className="text-GrayHomz2 text-[11px] font-[500] w-[80%]">
+                  {rentData?.enterPrise?.user?.email}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 w-[45%]">
+                <PhoneReceipt />
+                <p className="text-GrayHomz2 text-[11px] font-[500]">
+                  {rentData?.enterPrise?.phoneNumber}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/call.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
+              <AddressReceipt />
               <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterPrise?.phoneNumber}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Image
-                src={"/static/dashboard/enterprisemanager/payment/location.png"}
-                alt=""
-                height={12}
-                width={12}
-              />
-              <p className="text-GrayHomz2 text-[11px] font-[500]">
-                {rentData?.enterPrise?.estateAddress}
+                {rentData?.enterPrise?.businessAddress}
               </p>
             </div>
           </div>
@@ -235,6 +213,13 @@ const ReceiptRentHis = ({ closeReceipt, rentData }) => {
         <p className="m-4 text-[11px] font-[400] text-GrayHomz text-center">
           Copyright 2024 Homz.ng. All Rights Reserved
         </p>
+      </div>
+      <div style={{ display: 'none' }}>
+        <PrintableReceiptII
+          ref={printableRef}
+          rentData={rentData}
+          tenantData={tenantData}
+        />
       </div>
     </div>
   );

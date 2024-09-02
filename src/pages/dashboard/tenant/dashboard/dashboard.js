@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   return (
     <div className="dashboard h-[300px] w-full flex flex-col">
@@ -30,7 +30,7 @@ const Dashboard = () => {
         </div>
         <div className="flex flex-col gap-8">
           <RentFirst />
-          {/* <RentSecond /> */}
+          <RentSecond />
         </div>
       </div>
       <div className="flex flex-col sm:flex-row px-8 w-full pr-6 gap-5">

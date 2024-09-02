@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import TenantsTwo from "../../tenants/firstPage/tenantsTwo";
+import TenantsTwo from "./components/tenantsTwo";
 import Image from "next/image";
 import Link from "next/link";
 import Modal from "../../tenants/components/modal";

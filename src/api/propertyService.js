@@ -27,16 +27,26 @@ export const fetchSinglePropertyPublic = async (id) => {
   }
 };
 
-
-export const propertyForMe = async () => {
+export const propertyForMe = async (page, propertyStatus = {}) => {
+  const { is_promoted, is_published, is_unpublished } = propertyStatus;
   try {
-    const response = await api.get("/properties/user/me");
+    let query = `/properties/user/me?page=${page || 1}`;
+
+    if (is_published) {
+      query += `&is_published=true`;
+    } else if (is_promoted) {
+      query += `&is_promoted=true`;
+    } else if (is_unpublished) {
+      query += `&is_unpublished=true`;
+    }
+
+    const response = await api.get(query);
     return response.data;
   } catch (error) {
-    throw error;
+    console.error("Error fetching property data:", error);
+    return error;
   }
 };
-
 
 export const addBankPropertyOwner = async (details) => {
   try {
@@ -46,7 +56,6 @@ export const addBankPropertyOwner = async (details) => {
     return { success: false, error: error?.response.data };
   }
 };
-
 
 export const bankInfoPropertyOwner = async () => {
   try {
@@ -66,9 +75,6 @@ export const withdrawPropertyOwner = async (details) => {
   }
 };
 
-
-
-
 export const updateContactInfo = async (propertyId, updatedData) => {
   try {
     const response = await api.patch(
@@ -82,17 +88,20 @@ export const updateContactInfo = async (propertyId, updatedData) => {
 };
 
 export const updatePropertyDetails = async (id, updatedData) => {
+  // console.log(updatedData)
+
   try {
     const response = await api.patch(
       `/properties/${id}/property-detail`,
       updatedData
     );
+    // console.log(response);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
+    // console.log(error);
     return { success: false, error: error };
   }
 };
-
 
 export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
   const formData = new FormData();
@@ -114,21 +123,30 @@ export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
       formData,
       { headers }
     );
-
+    // console.log(response);
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
     }
   } catch (error) {
+    console.log(error);
     return { success: false, error: error?.response.data.message };
   }
 };
 
-
-export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
+export const updatePropertyOtherPhoto = async (
+  id,
+  uploadedImage,
+  publicIds
+) => {
   const formData = new FormData();
-  formData.append("photos", uploadedImage);
+  uploadedImage.forEach((photo) => formData.append("photos", photo));
+  publicIds.forEach((publicId) => formData.append("publicIds", publicId));
+
+  // formData.append("photos", uploadedImage);
+  // formData.append("photoPublicIds", publicId);
+  // console.log(publicIds)
 
   // Convert FormData to object
   const formDataObject = {};
@@ -142,22 +160,21 @@ export const updatePropertyOtherPhoto = async (id, uploadedImage, publicId) => {
       // add other headers as needed
     };
     const response = await api.patch(
-      `/properties/${id}/photos?publicId=${publicId}`,
+      `/properties/${id}/property/photos`,
       formData,
       { headers }
     );
-
+    console.log(response);
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
     }
   } catch (error) {
+    console.log(error);
     return { success: false, error: error?.response.data.message };
   }
 };
-
-
 
 export const rentDetails = async (id, updatedData) => {
   try {
@@ -171,8 +188,6 @@ export const rentDetails = async (id, updatedData) => {
   }
 };
 
-
-
 export const propertyMe = async () => {
   try {
     const response = await api.get("/manageProperty/me");
@@ -181,8 +196,46 @@ export const propertyMe = async () => {
     throw error;
   }
 };
+export const publishAndRepublishProperty = async (propertyId) => {
+  try {
+    const response = await api.patch(
+      `/properties/property/${propertyId}/toggle`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export const removeProperty = async (propertyId) => {
+  try {
+    const response = await api.delete(`/properties/${propertyId}/property`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+export const removePropertyPhotos = async (propertyId, publicId) => {
+  try {
+    const response = await api.delete(
+      `/properties/${propertyId}/photos?publicId=${publicId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const removeCoverPhoto = async (propertyId, publicId) => {
+  try {
+    const response = await api.delete(`/properties/${propertyId}/cover-photo`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
-export const updatePersonalInformation = async ( updatedData) => {
+export const updatePersonalInformation = async (updatedData) => {
   try {
     const response = await api.patch(
       `/manageProperty/personalInformation`,
@@ -209,11 +262,9 @@ export const updateProfilePicture = async (uploadedImage) => {
       "Content-Type": "multipart/form-data",
       // add other headers as needed
     };
-    const response = await api.patch(
-      "/manageProperty/coverPhoto",
-      formData,
-      { headers }
-    );
+    const response = await api.patch("/manageProperty/coverPhoto", formData, {
+      headers,
+    });
 
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
@@ -225,16 +276,13 @@ export const updateProfilePicture = async (uploadedImage) => {
   }
 };
 
-export const updatePassword = async ( updatedData ) => {
-try {
-  const response = await api.patch(
-    `/auth/change/password`,
-    updatedData
-  );
-  return { success: true, upDateddata: response.data.data };
-} catch (error) {
-  return { success: false, error: error?.response.data.message };
-}
+export const updatePassword = async (updatedData) => {
+  try {
+    const response = await api.patch(`/auth/change/password`, updatedData);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
 };
 
 export const createPropertyOwnerWallet = async (BVNDetails) => {
@@ -243,7 +291,7 @@ export const createPropertyOwnerWallet = async (BVNDetails) => {
     const response = await api.post(`/wallet/create/property-owner`, {
       bvn,
       bvnDateOfBirth,
-      pincode: pinCode
+      pincode: pinCode,
     });
     return { success: true, upDateddata: response?.data.data };
   } catch (error) {
@@ -259,7 +307,6 @@ export const propertyOwnerWallet = async () => {
     throw error;
   }
 };
-
 
 export const propertyOwnerWalletBalance = async () => {
   try {
@@ -287,8 +334,8 @@ export const ownerUpdatePincode = async (password, otp, pincode) => {
   try {
     const response = await api.post(`/wallet/pincode/update/property-owner`, {
       password,
-      otp, 
-      pincode
+      otp,
+      pincode,
     });
     return { success: true, upDateddata: response.data };
   } catch (error) {
@@ -307,13 +354,14 @@ export const propertyOwnerStatistics = async () => {
 
 export const propertyOwnerRevenue = async () => {
   try {
-    const response = await api.get(`/estates/me/property-owner/calculate-revenue`);
+    const response = await api.get(
+      `/estates/me/property-owner/calculate-revenue`
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
 
 export const fetchOwnerEstatesMe = async () => {
   try {
@@ -352,7 +400,7 @@ export const ownerPinCreation = async (password, rePassword) => {
   } catch (error) {
     return { success: false, error: error?.response?.data?.message };
   }
-}
+};
 
 export const getRentHisOwner = async () => {
   try {

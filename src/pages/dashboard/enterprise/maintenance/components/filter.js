@@ -41,7 +41,7 @@ const Filter = ({
           type="date"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
-          className="border px-4 h-[42px] w-[130px] text-GrayHomz2 p-2 rounded cursor-pointer"
+          className="border px-4 h-[42px] w-[130px] text-GrayHomz2 border-GrayHomz2 p-2 rounded cursor-pointer"
         />
         <button
           onClick={clear}

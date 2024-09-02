@@ -11,16 +11,19 @@ import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
 import lowerCaseData from "@/utils/lowerCaseData";
 import Add from "@/components/icons/add";
-import FilterMobile from "@/pages/dashboard/owner/components/filterMobile";
+import AddBigBlue from "@/components/icons/addBigBlue";
+import FilterMobile from "../../components/filterMobile";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const dropdownRef = useClickOutside(() => setInviteTenant(false)); // Use the custom hook
+  const dropdownRef = useClickOutside(() => setInviteTenant(false));
   const [searchQuery, setSearchQuery] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [isMasterChecked, setIsMasterChecked] = useState(false);
 
   const clear = () => {
     setSelectedProperty(null);
@@ -70,7 +73,7 @@ const Tenants = () => {
 
 
   return (
-    <div className=" w-full p-8">
+    <div className=" w-full p-8 mb-8">
       {filterModal &&
         <div>
           <FilterMobile
@@ -86,7 +89,7 @@ const Tenants = () => {
       }
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"/dashboard/enterprise-property/estates?tab=addProperty"} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
       {loading ? (
@@ -143,21 +146,27 @@ const Tenants = () => {
               <div className="flex flex-col md:flex-row justify-between md:items-center">
                 <div className="flex gap-2 items-center">
                   <p className="text-[20px] font-[500]">Tenants</p>
-                  <span className="bg-whiteblue p-1 flex justify-center items-center rounded-[8px]">
+                  <span className="bg-whiteblue h-[35px] px-[10px] flex justify-center items-center rounded-[8px]">
                     <span className="text-BlueHomz text-[18px] font-[400]">
                       {filteredData?.length}
                     </span>
                   </span>
-                  <div className="pl-6 md:hidden" onClick={()=> setInviteTenant(true)}>
+                  <div className="md:hidden" onClick={() => setInviteTenant(true)}>
                     <Add />
                   </div>
+                  <button
+                    className="hidden md:block"
+                    onClick={toggleInvite}
+                  >
+                    <AddBigBlue />
+                  </button>
                 </div>
                 <div className="hidden md:flex items-center gap-2">
-                  <p className="text-[16px] font-[400] text-BlackHomz">
+                  <p className="text-[16px] font-[400] text-BlackHomz ">
                     Filter by:
                   </p>
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-[160px]">
+                  <div className="flex items-center gap-2">
+                    <div className="w-[110px] xl:w-[128px]">
                       <Dropdown
                         options={options}
                         onSelect={(option) => setSelectedProperty(option)}
@@ -169,7 +178,7 @@ const Tenants = () => {
                         className="mr-2"
                       />
                     </div>
-                    <div className="w-[140px]">
+                    <div className="w-[110px] xl:w-[128px]">
                       <Dropdown
                         options={options2}
                         onSelect={(option) => setSelectedStatus(option)}
@@ -179,20 +188,17 @@ const Tenants = () => {
                         className="mr-2"
                       />
                     </div>
-                  </div>
+                    <input
+                      type="date"
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                      className="border px-4 h-[42px] w-[110px] xl:w-[128px] text-GrayHomz2 border-GrayHomz2 font-[500] text-[14px] rounded cursor-pointer"
+                    />
 
-                  <input
-                    type="date"
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="border px-4 h-[42px] w-[130px] text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
-                  />
-
-                  <button
-                    onClick={clear}
-                    type="text"
-                    className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] w-[92px] mb-1 p-1 rounded cursor-pointer"
-                  >
-                    <span>
+                    <button
+                      onClick={clear}
+                      type="text"
+                      className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] rounded cursor-pointer"
+                    >
                       <Image
                         src={
                           "/static/dashboard/enterprisemanager/dashboard/repeat.png"
@@ -201,24 +207,8 @@ const Tenants = () => {
                         height={17}
                         width={16}
                       />
-                    </span>
-                    Reset
-                  </button>
-                  <button
-                    onClick={toggleInvite}
-                    className={`p-[12px] h-10 mt-[-5px] ml-4 w-[170px] justify-center bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700] ${tenantData?.length < 1 ? "hidden" : "inline"
-                      }`}
-                  >
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-                      }
-                      alt=""
-                      width={16}
-                      height={16}
-                    />
-                    Invite Tenant
-                  </button>
+                    </button>
+                  </div>
                 </div>
                 <div className="mt-4 flex justify-between md:hidden w-full">
                   <div className="relative w-[86%] rounded-[4px]">
@@ -252,7 +242,14 @@ const Tenants = () => {
                   </div>
                 </div>
               </div>
-              <TenantsTwo Data={filteredData} fetchDataAgain={fetchData} />
+              <TenantsTwo
+                Data={filteredData}
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                fetchDataAgain={fetchData}
+                isMasterChecked={isMasterChecked}
+                setIsMasterChecked={setIsMasterChecked}
+              />
             </div>
           )}
         </div>

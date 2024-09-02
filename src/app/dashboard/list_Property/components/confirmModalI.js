@@ -10,8 +10,8 @@ const ConfirmModalI = ({
   buttonTwo,
 }) => {
   return (
-    <div>
-      <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+    
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
         <div className="max-w-[464px] p-2 m-auto bg-white h-[280px] rounded-md">
           <div className="flex flex-col justify-around items-center h-full p-8">
             <h1 className="text-BlackHomz font-[500] text-[20px] text-center">
@@ -35,7 +35,7 @@ const ConfirmModalI = ({
           </div>
         </div>
       </div>
-    </div>
+   
   );
 };
 

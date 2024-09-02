@@ -61,7 +61,10 @@ const BusinessLogo = ({ data }) => {
   };
 
   const handleImageRemove = () => {
-    setUploadedImage(null); // Clear the uploaded image
+    setUploadedImage(null); 
+    if (inputRef.current) {
+      inputRef.current.value = ""; // Reset the input value to allow re-uploading the same image
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });

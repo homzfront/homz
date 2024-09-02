@@ -4,12 +4,15 @@ import ChangePassword from "./changePassword/changePassword.js";
 import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
 import AccountInfo from "./accountInfo/accountInfo.js";
+import { useSearchParams } from "next/navigation";
 
 
 const Widget = ({ data }) => {
-  const [active, setActive] = useState(false);
+  const urlParams = useSearchParams();
+  const tab = urlParams.get("tab");
+  const [active, setActive] = useState(tab ? tab !== 'personal' : false);
   const [activeTwo, setActiveTwo] = useState(false);
-  const [activeThree, setActiveThree] = useState(false);
+  const [activeThree, setActiveThree] = useState(tab === 'acctInfo');
   const [activeFour, setActiveFour] = useState(false);
 
   const handlePageChange = () => {
@@ -39,16 +42,15 @@ const Widget = ({ data }) => {
     setActive(true);
     setActiveFour(true);
   }
- 
+
   return (
     <div>
 
       <div className="hidden md:block w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-[500px] cursor-pointer">
+        <div className="flex mt-5 gap-2 justify-between w-[650px] cursor-pointer">
           <div
-            className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-              !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
-            }`}
+            className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${!active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+              }`}
             onClick={handlePageChange}
           >
             <p className="text-[14px] font-500">Personal Information</p>
@@ -56,30 +58,26 @@ const Widget = ({ data }) => {
 
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChangeTwo}
             >
               <p className="text-[14px] font-500">Profile Picture</p>
             </div>
           </div>
-{/*           
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChangeThree}
             >
               <p className="text-[14px] font-500">Account Information</p>
             </div>
-          </div> */}
+          </div>
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeFour ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeFour ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChangeFour}
             >
               <p className="text-[14px] font-500">Change Password</p>
@@ -95,9 +93,9 @@ const Widget = ({ data }) => {
         <div className={`${activeTwo ? "inline" : "hidden"}`}>
           <ProfilePicture data={data} />
         </div>
-        {/* <div className={`${activeThree ? "inline" : "hidden"}`}>
+        <div className={`${activeThree ? "inline" : "hidden"}`}>
           <AccountInfo />
-        </div> */}
+        </div>
         <div className={`${activeFour ? "inline" : "hidden"}`}>
           <ChangePassword />
         </div>

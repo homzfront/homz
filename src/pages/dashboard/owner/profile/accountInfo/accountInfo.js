@@ -1,77 +1,71 @@
-import React, { useEffect, useState } from 'react'
-import Input from "../../components/input";
-import PinCodeForm from './components/pinCodeForm';
-import useBodyScroll from '@/utils/useBodyScroll';
-import { propertyOwnerWallet } from '@/api/propertyService';
+import React, { useEffect } from 'react'
+import TickSuccess from '@/components/icons/tickSuccess';
+import Link from 'next/link';
+import LoadingII from '@/components/mainmenu/loadingII';
+import usePassportProfileStore from '@/store/propertyOwnerStore/usePassportProfile';
+import useNINProfileStore from '@/store/propertyOwnerStore/useNINProfile';
+import InternationalPassport from './components/internationalPassport';
+import NationalIdentityNumber from './components/nationalIdentityNumber';
 
 
 const AccountInfo = () => {
-    const [data, setData] = useState(null);
-    const [pinCodeForm, setPinCodeForm] = useState(false);
-    useBodyScroll([pinCodeForm]);
+    const { data, loading, fetchData: fetchDataP } = usePassportProfileStore()
+    const { data: dataTwo, fetchData } = useNINProfileStore()
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await propertyOwnerWallet();
-                setData(response?.data);
-            } catch (error) {
-                //   console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const openPinCodeChangeForm = () => {
-        setPinCodeForm(!pinCodeForm);
-    };
-
-    const closeForm = () => {
-        setPinCodeForm(false);
-    };
+        fetchDataP()
+        fetchData()
+    },[]);
 
     return (
-        <div className="mt-8">
+        <div>
             {
-                pinCodeForm && <PinCodeForm closeForm={closeForm} />
-            }
-            <div className="w-[498px] flex gap-4 flex-col">
-                <Input
-                    label={"BVN"}
-                    placeholder={"0000000000"}
-                    type={"text"}
-                    value={data?.bvnDetails?.bvn ? data?.bvnDetails?.bvn : "----------"}
-                />
-                <Input
-                    label={"Account Number"}
-                    placeholder={"0000000000"}
-                    type={"text"}
-                    value={data?.topUpAccountDetails?.accountNumber ? data?.topUpAccountDetails?.accountNumber : "----------"}
-                />
-                <Input
-                    label={"Account Name"}
-                    placeholder={"0000000000"}
-                    type={"text"}
-                    value={data?.topUpAccountDetails?.accountName ? data?.topUpAccountDetails?.accountName : "----------"}
-                />
-                <div>
-                    <label className="text-[14px] font-[500]">
-                        Transaction Pin
-                    </label>
-                    <div className='relative'>
-                        <input
-                            className="border mt-2 rounded-md p-3 h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]"
-                            type="text"
-                            placeholder={"****"}
-                            value={data ? "****" : "----------"}
-                        />
-                          <p onClick={openPinCodeChangeForm} className={`absolute cursor-pointer text-warning2 text-[11px] font-[500] top-[22px] right-4 ${data === null ? "hidden" : ""}`}>
-                           Change
-                        </p>
+                loading ? <LoadingII /> :
+                    <div className="mt-8">
+                        <div className="border-t py-8">
+                            <div className='mb-4'>
+                                <p className='text-[18px] font-[500] text-BlackHomz'>
+                                    Verify your identity
+                                </p>
+                                <p className='text-[14px] font-[400] text-GrayHomz'>
+                                    Choose either ‘International Passport’ or ‘National Identity Card’ to complete your verification
+                                </p>
+                            </div>
+                            <div className='flex flex-col gap-4'>
+                                <div>
+                                    <InternationalPassport passportProfile={data} />
+                                    <div className={`${data?.verification?.status === "VERIFIED" ? "" : "hidden"} `}>
+                                        <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                                            <TickSuccess />
+                                            <div>
+                                                Your international passport has successfully been verified. You can now <></>
+                                                <Link href="/dashboard/property-owner/payments?tab=wallet" className="text-BlueHomz">
+                                                    create a wallet
+                                                </Link>{' '}
+                                                on your dashboard
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <NationalIdentityNumber nationalProfile={dataTwo} />
+                                    <div className={`${dataTwo?.face_data?.status === true ? "" : "hidden"} `}>
+                                        <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                                            <TickSuccess />
+                                            <div>
+                                                Your national identity card has successfully been verified. You can now <></>
+                                                <Link href="/dashboard/property-owner/payments?tab=wallet" className="text-BlueHomz">
+                                                    create a wallet
+                                                </Link>{' '}
+                                                on your dashboard
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+            }
         </div>
     )
 }

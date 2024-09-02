@@ -4,7 +4,7 @@ import React from 'react'
 
 const App = () => {
   return (
-    <div className=''>
+    <div className='overflow-y-auto h-screen scrollbar-container'>
         <EstateInformation />
     </div>
   )

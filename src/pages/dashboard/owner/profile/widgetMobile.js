@@ -2,40 +2,45 @@ import React, { useState } from 'react'
 import PersonalInfo from './personalInfo/personalInfo';
 import ProfilePicture from './profilePicture/profilePicture';
 import ChangePassword from './changePassword/changePassword';
+import AccountInfo from './accountInfo/accountInfo';
+import { useSearchParams } from 'next/navigation';
 
-const WidgetMobile = ({data}) => {
-    const [active, setActive] = useState(false);
+const WidgetMobile = ({ data }) => {
+    const urlParams = useSearchParams();
+    const tab = urlParams.get("tab")
+
+    const [active, setActive] = useState(tab ? tab !== 'personal' : false);
     const [activeTwo, setActiveTwo] = useState(false);
-    const [activeThree, setActiveThree] = useState(false);
-    // const [activeFour, setActiveFour] = useState(false); // State for the fourth page
+    const [activeThree, setActiveThree] = useState(tab === 'acctInfo');
+    const [activeFour, setActiveFour] = useState(false);
 
     const handlePageChange = () => {
         setActive(false);
         setActiveTwo(false);
         setActiveThree(false);
-        // setActiveFour(false); // Reset the state for the fourth page
+        setActiveFour(false);
     };
 
     const handlePageChangeTwo = () => {
         setActiveTwo(true);
         setActive(true);
         setActiveThree(false);
-        // setActiveFour(false); // Reset the state for the fourth page
+        setActiveFour(false);
     };
 
     const handlePageChangeThree = () => {
         setActiveThree(true);
         setActiveTwo(false);
         setActive(true);
-        // setActiveFour(false); // Reset the state for the fourth page
+        setActiveFour(false);
     };
 
-    // const handlePageChangeFour = () => {
-    //   setActiveFour(true);
-    //   setActiveThree(false);
-    //   setActiveTwo(false);
-    //   setActive(true);
-    // };
+    const handlePageChangeFour = () => {
+        setActiveFour(true);
+        setActiveThree(false);
+        setActiveTwo(false);
+        setActive(true);
+    };
 
     return (
         <div>
@@ -66,32 +71,32 @@ const WidgetMobile = ({data}) => {
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
                     >
-                        Change Password
+                        Account Information
                     </button>
-                    {/* <button
+                    <button
                         onClick={handlePageChangeFour}
-                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeThree
+                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFour
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
                     >
-                        Document
-                    </button> */}
+                        Change Password
+                    </button>
                 </div>
             </div>
             <div className="my-7 rounded-[12px] w-full">
                 <div className={`${!active ? "inline" : "hidden"}`}>
-                    <PersonalInfo data={data} active={active} />
+                    <PersonalInfo data={data} />
                 </div>
                 <div className={`${activeTwo ? "inline" : "hidden"}`}>
                     <ProfilePicture data={data} />
                 </div>
                 <div className={`${activeThree ? "inline" : "hidden"}`}>
+                    <AccountInfo />
+                </div>
+                <div className={`${activeFour ? "inline" : "hidden"}`}>
                     <ChangePassword data={data} />
                 </div>
-                {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
-            <Documents />
-          </div> */}
             </div>
         </div>
     )

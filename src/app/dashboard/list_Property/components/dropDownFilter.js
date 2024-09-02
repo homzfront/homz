@@ -9,6 +9,9 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   const [searchTerm, setSearchTerm] = useState(selectedOption?.label || ""); // State to hold search term
   const dropdownRef = useClickOutside(() => setIsOpen(false)); // Use the custom hook
 
+  // const truncateText = (text, length) => {
+  //   return text.length > length ? text.substring(0, length) + "..." : text;
+  // };
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -18,7 +21,7 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
     onSelect(option);
     setIsOpen(false); // Close the dropdown after selecting an option
   };
-
+  
   // Filter options based on search term
   const filteredOptions = options?.filter((option) => {
     const optionString = option?.toString().toLowerCase();
@@ -27,9 +30,9 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
   });
 
   return (
-    <div className={`relative inline-block w-full ${className}`} ref={dropdownRef}>
+    <div className={`relative inline-block w-ful ${className}`} ref={dropdownRef}>
       <div
-        className={`text-BlackHomz px-4 border h-[42px] p-2 rounded-md cursor-pointer ${isOpen ? "border" : ""}`}
+        className={`text-BlackHomz px-4 border h-[37px] p-2 rounded-md cursor-pointer ${isOpen ? "border" : ""}`}
         onClick={handleDropdownToggle}
       >
         <div className="flex w-full justify-between items-center">

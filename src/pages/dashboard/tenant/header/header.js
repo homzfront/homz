@@ -16,7 +16,8 @@ import sortDataByStatusAndDate from "@/utils/sortByStatusAndDate";
 import { updateTenantNoti } from "@/api/notification";
 import Notification from "@/components/icons/notification";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
-
+import useHeaderStore from "@/store/useHeaderStore";
+import ReminderNoti from "./components/reminderNoti";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -26,6 +27,11 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState({});
   const [openAndClose, setOpenAndClose] = useState(false);
+  const popUpMenuThree = useHeaderStore((state) => state.popUpMenuTwo);
+  const headerOpenedOnce = useHeaderStore((state) => state.headerOpenedOnce);
+  const setPopUpMenuThree = useHeaderStore((state) => state.setPopUpMenuTwo);
+  const setHeaderOpenedOnce = useHeaderStore((state) => state.setHeaderOpenedOnce);
+
 
   const selectedData = (data) => {
     if (data) {
@@ -65,7 +71,6 @@ const Header = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-
   const { data: noti, loading: laodingNoti, fetchData: fetchNoti } = tenantNotiReceive();
 
   useEffect(() => {
@@ -88,8 +93,29 @@ const Header = () => {
   const user = data;
   useBodyScroll([openAndClose])
 
+  useEffect(() => {
+    if (!headerOpenedOnce) {
+      // If header has not been opened once, set popUpMenuTwo to true
+      setPopUpMenuThree(true);
+      // Set headerOpenedOnce to true to indicate that header has been opened once
+      setHeaderOpenedOnce(true);
+    } else {
+      // If header has been opened once, set a timeout to make popUpMenuTwo true again after 3 hours
+      const timeout = setTimeout(() => {
+        setPopUpMenuThree(true);
+      }, 3 * 60 * 1000); // 3o minutes in milliseconds
+      // Clean up the timeout to avoid memory leaks
+      return () => clearTimeout(timeout);
+    }
+  }, [headerOpenedOnce, setHeaderOpenedOnce, setPopUpMenuThree]);
+
+  const closeMenuN = () => {
+    setPopUpMenuThree(false);
+  }
+
   return (
-    <div className="header">
+    <div className="header relative">
+      {noti && popUpMenuThree && <ReminderNoti closeMenu={closeMenuN} noti={noti} />}
       {openAndClose && (
         <PopNotification selectedId={selectedId} closeMenu={closeMenu} />
       )}

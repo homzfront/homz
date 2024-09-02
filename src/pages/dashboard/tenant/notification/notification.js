@@ -37,14 +37,15 @@ const Notification = () => {
         (!selectedStatus || data?.status === lowerCaseData(selectedStatus)) &&
         (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) &&
         (!searchQuery ||
-          data?.message.toLowerCase().includes(searchQuery.toLowerCase()))
+          data?.message.toLowerCase().includes(searchQuery.toLowerCase())
+          || data?.subject.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     });
 
   return (
     <div className="h-screen">
-      <Header  searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-      <div className="py-8 px-10 border-b flex justify-between items-center relative">
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <div className="py-8 px-4 md:px-10 border-b flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between md:items-center relative">
         <div className="flex gap-4">
           <p className="font-[500] text-[20px]">Notifications</p>
           <div className="bg-whiteblue w-8 h-8 flex items-center justify-center rounded-md">

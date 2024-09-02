@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import InputVisible from "./components/inputVisible";
 import { toast } from "react-toastify";
 import { updatePassword } from "@/api/enterpriseManagerService";
-import UpdateButtonPassword from "./components/updateButtonPassword";
+import UpdateButtonPassword from "./components/updateButtonPassword.js";
 
 const ChangePassword = () => {
   const [password, setPassword] = useState("");

@@ -3,6 +3,16 @@ import api from "@/utils/api";
 export const listingMe = async () => {
   try {
     const response = await api.get("/listingProperty/me");
+    // console.log(response)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const listingMarketerProfile = async (id) => {
+  try {
+    const response = await api.get(`/listingProperty/${id}/marketer`);
+    // console.log(response)
     return response.data;
   } catch (error) {
     throw error;
@@ -11,10 +21,11 @@ export const listingMe = async () => {
 
 
 export const updatePersonalInfoLister = async (data) => {
+  // console.log(data)
   const formData = new FormData();
   formData.append("coverPhoto", data?.coverPhoto);
   formData.append("fullName", data?.fullName);
-  formData.append("whatsappLink", data?.whatsappLink);
+  formData.append("whatsappLink", data?.whatsApp);
   formData.append("phoneNumber", data?.phoneNumber);
   formData.append("houseAddress", data?.houseAddress);
   try {
@@ -38,11 +49,18 @@ export const updatePersonalInfoLister = async (data) => {
 
 
 export const updateBusinessInfoLister = async (data) => {
+ 
   const formData = new FormData();
-  formData.append("businessLogo", data?.businessLogo);
-  formData.append("businessName", data?.businessName);
-  formData.append("businessEmail", data?.businessEmail);
-  formData.append("certificateCAC", data?.certificateCAC);
+  for (const [key, value] of Object.entries(data)) {
+   
+    if (value && key !="otherLinks") {
+      formData.append(key, value);
+    }
+  }
+  data?.otherLinks.forEach((link, index) => {
+    formData.append(`otherLinks[${index}]`, link);
+  });
+  // console.log([...formData.entries()])
   try {
     const headers = {
       "Content-Type": "multipart/form-data",
@@ -52,6 +70,7 @@ export const updateBusinessInfoLister = async (data) => {
       formData,
       { headers }
     );
+    // console.log(response)
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
     } else {

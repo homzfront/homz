@@ -6,7 +6,6 @@ const useProfileStore = create((set) => ({
   isLoggedIn: false,
   loading: false,
 
-
   fetchProfile: async () => {
     try {
       set({ loading: true });

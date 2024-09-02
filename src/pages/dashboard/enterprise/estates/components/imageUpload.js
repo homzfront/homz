@@ -8,6 +8,9 @@ const ImageUpload = ({ uploadedImage, handleImageUpload, onImageRemove, file }) 
 
   const handleImageRemove = () => {
     onImageRemove(null);
+    if (inputRef.current) {
+      inputRef.current.value = ""; 
+    }
   };
 
   return (

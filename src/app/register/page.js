@@ -1,14 +1,13 @@
 "use client";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
-import Loading from "@/components/mainmenu/loading";
+import "dotenv/config";
 import SliderAuth from "@/components/auth/slider";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
@@ -25,12 +24,6 @@ const Register = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
-  const [showCaptcha, setShowCaptcha] = useState(false);
-
-  const showCapta = () => {
-    setShowCaptcha(true)
-  }
-
 
   const handleCaptchaChange = () => {
     setVerified(true);
@@ -68,8 +61,6 @@ const Register = () => {
       });
 
       if (response.data.statuscode === 201) {
-        // toast.success("user created, verify your email.");
-        // Handle the response as needed
         const data = response?.data?.data?.token
         localStorage.setItem('jwt', data)
         router.push(`/verify-email`);
@@ -152,7 +143,7 @@ const Register = () => {
                         handleInputChange("email", e.target.value)
                       }}
                       placeholder="Enter your email"
-                      autoComplete="email" // Add autocomplete attribute
+                      autoComplete="email"
                     />
                   </div>
                   <div className="relative flex flex-col gap-2 items-start">
@@ -169,7 +160,7 @@ const Register = () => {
                         handleInputChange("password", e.target.value)
                       }}
                       placeholder="Create a password"
-                      autoComplete="new-password" // Add autocomplete attribute
+                      autoComplete="new-password" 
                     />
                     <div className="absolute top-11 right-8" onClick={Visible}>
                       {visible ? (
@@ -216,23 +207,6 @@ const Register = () => {
                 </div>
                 <ReCaptcha onChange={handleCaptchaChange} />
                 {
-                  !verified ?
-                    <div className="relative inline-block">
-                      <button
-                        type="Submit"
-                        onMouseEnter={() => setShowCaptcha(true)}
-                        onMouseLeave={() => setShowCaptcha(false)}
-                        className={`bg-BlueHomz mt-3 text-white font-[700] items-center flex justify-center text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px]`}
-                      >
-                        Get Started
-                      </button>
-                      {showCaptcha && (
-                        <span className="absolute bg-GrayHomz2 bg-transparent text-[12px] text-white text-center rounded w-[140px]  py-2 top-[-25px]">
-                          Complete Captcha
-                        </span>
-                      )}
-                    </div>
-                    :
                     <button
                       className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
                       type="Submit"

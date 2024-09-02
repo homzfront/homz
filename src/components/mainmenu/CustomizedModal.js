@@ -17,18 +17,21 @@ const CustomModal = ({ isOpen, onRequestClose, children }) => {
             right: 0,
             bottom: 0,
             zIndex: 999, 
+            paddingTop:"4rem"
           },
         content: {
           top: 0,
           left: 0,
           right: 0,
           bottom: '1px',
-          padding: '20px',
+          padding: '3rem',
           borderRadius: 0,
           backgroundColor: 'transparent', 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          maxHeight: '100%', 
+        
          
         },
       };
@@ -39,7 +42,7 @@ const CustomModal = ({ isOpen, onRequestClose, children }) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Access Code Request"
-  
+      ariaHideApp={false}
       overlayClassName="custom-modal-overlay"
       style={customStyles}
         // onAfterOpen={afterOpenModal}

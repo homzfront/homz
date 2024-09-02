@@ -8,9 +8,10 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import estateStore from "@/store/enterpriseStore/estates";
+import useTabForAddProperty from "@/store/document/useTabForAddProperty";
 
-const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url }) => {
-
+const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm }) => {
+  const { setTab } = useTabForAddProperty()
   const [dropdowns, setDropdowns] = useState({
     estateOptions: false,
   });
@@ -168,8 +169,8 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
                 </span>
                 <div
                   className={`w-5 h-5 ${dropdowns["estateOptions"]
-                      ? "transform rotate-180 transition duration-300 ease-in-out"
-                      : ""
+                    ? "transform rotate-180 transition duration-300 ease-in-out"
+                    : ""
                     }`}
                 >
                   <Image
@@ -190,10 +191,13 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, link_Url })
               <p className="text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?{" "}
               </p>
-              <Link href={link_Url ? link_Url : ""} onClick={() => {
-                registrationForm()
-                setInviteTenant(false);
-              }} className="text-BlueHomz text-[12px] md:text-[14px]  font-[700]">
+              <Link href={"/dashboard/enterprise-property/estates"}
+                onClick={() => {
+                  registrationForm()
+                  setInviteTenant(false);
+                  setTab("addProperty")
+                }}
+                className="text-BlueHomz text-[12px] md:text-[14px]  font-[700]">
                 Add New Property
               </Link>
             </div>

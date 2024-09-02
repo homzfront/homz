@@ -3,32 +3,41 @@ import PersonalInfo from './personalInfo/personalInfo';
 import ProfilePicture from './profilePicture/profilePicture';
 import ChangePassword from './changePassword/changePassword';
 import RentInformation from './rentInformation/rentInformation';
+import { useSearchParams } from 'next/navigation';
+import AccountInfo from './accountInfo/accountInfo';
 
 const WidgetMobile = ({ data }) => {
-    const [active, setActive] = useState(false);
+    const urlParams = useSearchParams();
+    const tab = urlParams.get("tab")
+
+    const [active, setActive] = useState(tab ? tab !== 'personal' : false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
-    const [activeFour, setActiveFour] = useState(false); // State for the fourth page
+    const [activeFour, setActiveFour] = useState(tab === 'acctInfo');
+    const [activeFive, setActiveFive] = useState(false);
 
     const handlePageChange = () => {
         setActive(false);
         setActiveTwo(false);
         setActiveThree(false);
-        setActiveFour(false); // Reset the state for the fourth page
+        setActiveFour(false);
+        setActiveFive(false);
     };
 
     const handlePageChangeTwo = () => {
         setActiveTwo(true);
         setActive(true);
         setActiveThree(false);
-        setActiveFour(false); // Reset the state for the fourth page
+        setActiveFour(false);
+        setActiveFive(false);
     };
 
     const handlePageChangeThree = () => {
         setActiveThree(true);
         setActiveTwo(false);
         setActive(true);
-        setActiveFour(false); // Reset the state for the fourth page
+        setActiveFour(false);
+        setActiveFive(false);
     };
 
     const handlePageChangeFour = () => {
@@ -36,7 +45,17 @@ const WidgetMobile = ({ data }) => {
         setActiveThree(false);
         setActiveTwo(false);
         setActive(true);
+        setActiveFive(false);
     };
+
+    const handlePageChangeFive = () => {
+        setActiveFour(false);
+        setActiveThree(false);
+        setActiveTwo(false);
+        setActive(true);
+        setActiveFive(true);
+    }
+
 
     return (
         <div>
@@ -58,7 +77,7 @@ const WidgetMobile = ({ data }) => {
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
                     >
-                       Personal Information
+                        Personal Information
                     </button>
                     <button
                         onClick={handlePageChangeThree}
@@ -72,6 +91,15 @@ const WidgetMobile = ({ data }) => {
                     <button
                         onClick={handlePageChangeFour}
                         className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFour
+                            ? "inline-block shadow-md bg-[#006AFF] text-white "
+                            : "bg-[#EEF5FF] text-[#006AFF]"
+                            }`}
+                    >
+                        Account Information
+                    </button>
+                    <button
+                        onClick={handlePageChangeFive}
+                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFive
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
@@ -91,6 +119,9 @@ const WidgetMobile = ({ data }) => {
                     <ProfilePicture data={data} />
                 </div>
                 <div className={`${activeFour ? "inline" : "hidden"}`}>
+                    <AccountInfo />
+                </div>
+                <div className={`${activeFive ? "inline" : "hidden"}`}>
                     <ChangePassword />
                 </div>
             </div>

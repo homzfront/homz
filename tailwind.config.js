@@ -18,6 +18,7 @@ module.exports = {
         BlueHomz2: '#0058D4',
         BlueHomz3: '#F9FBFF',
         BlueHomz4:'#559CFF',
+        BlueHomzDark:'#002E6E',
         BlueHomz5: "#0058D4",
         GrayHomz: '#4E4E4E',
         GrayHomz2: '#A9A9A9',
@@ -50,7 +51,8 @@ module.exports = {
         avatarBg: "#F2F4F7",
         logoutRed: "#D92D20",
         GrayHomzDash: "#006AFF",
-        HomePageBg: "#EDF3FB"
+        HomePageBg: "#EDF3FB",
+        HomzIndigo: "#5856D6"
       },
       // screens: {
       //   'sm': '640px',

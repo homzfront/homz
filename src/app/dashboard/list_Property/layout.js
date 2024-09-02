@@ -17,7 +17,7 @@ const RootLayout = ({ children }) => {
         <div className=" w-full">
           <HeaderMobile />
         </div>
-        <div className="w-full flex flex-col justify-center items-center px-8">
+        <div className="w-full flex flex-col justify-center items-center ">
           {children}
         </div>
       </main>

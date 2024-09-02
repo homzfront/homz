@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Widget from "./widget";
 import LoadingII from "@/components/mainmenu/loadingII";
 import useProfileOwnerMe from "@/store/propertyOwnerStore/useProfileOwnerMe";

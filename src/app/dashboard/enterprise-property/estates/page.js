@@ -2,7 +2,7 @@ import React from 'react'
 import Estates from '@/pages/dashboard/enterprise/estates/estates'
 const App = () => {
   return (
-    <div className=''>
+    <div className='overflow-y-auto h-[1400vh] scrollbar-container'>
         <Estates />
     </div>
   )

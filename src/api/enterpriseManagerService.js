@@ -107,7 +107,7 @@ export const createWalletEnterprise = async (BVNDetails) => {
 
 export const enterpriseUserWallet = async () => {
   try {
-    const response = await api.get(`/wallet/getWallet/enterprise`);
+    const response = await api.get(`/wallet/information/getWallet/enterprise`);
     return response.data;
   } catch (error) {
     throw error;
@@ -123,6 +123,25 @@ export const enterpriseWalletBalance = async () => {
   }
 };
 
+
+export const enterpriseWalletActivities = async () => {
+  try {
+    const response = await api.get(`/wallet/activies/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const ReceiptEnterpriseToOwner = async (id) => {
+  try {
+    const response = await api.get(`/wallet/transfer/enterprise/property-owner/receipt/${id}`);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    return { success: false, error }; 
+  }
+}
+
 export const sendMoneyEnterpriseToOwner = async (details) => {
   const {
     pincode,
@@ -132,15 +151,15 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
     id
   } = details
   try {
-    const response = await api.post(`/enterprisePlan/payment/send/${id}/property-owner`, {
+    const response = await api.post(`/wallet/transfer/enterprise/property-owner/${id}`, {
       pincode,
       recipientName,
       amount,
       description
     });
-    return { success: true, upDateddata: response?.data?.data };
+    return { success: true, upDateddata: response };
   } catch (error) {
-    return { success: false, error: error?.response.data }; // Adjusted this line
+    return { success: false, error }; 
   }
 };
 
@@ -278,7 +297,7 @@ export const enterpriseUpdatePincode = async (password, otp, pincode) => {
   try {
     const response = await api.post(`/wallet/pincode/update/enterprise`, {
       password,
-      otp, 
+      otp,
       pincode
     });
     return { success: true, upDateddata: response.data };
@@ -288,3 +307,124 @@ export const enterpriseUpdatePincode = async (password, otp, pincode) => {
 };
 
 
+export const uploadKYC = async (uploadedImage) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/internationalPassport/kyc/create/enterprise",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const uploadNINKYC = async (uploadedImage, NIN) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+  formData.append("ninNumber", NIN)
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/nin/kyc/create/enterprise",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error };
+  }
+};
+
+export const fetchKYCData = async () => {
+  try {
+    const response = await api.get(`/internationalPassport/kyc/information/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchKYCNINData = async () => {
+  try {
+    const response = await api.get(`/nin/kyc/information/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const enterpriseWalletCreation = async (pincode, confirmPincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/enterprise`, {
+      pincode,
+      confirmPincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+}
+
+
+export const WalletTopUp = async (amount) => {
+  try {
+    const response = await api.post(`/wallet/top-up/enterprise`, {
+      amount
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+}
+
+export const bankInfoPropertyEnterprise = async () => {
+  try {
+    const response = await api.get(`/bank/info/enterprise`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addBankPropertyEnterprise = async (details) => {
+  try {
+    const response = await api.post(`/bank/add/enterprise`, details);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    return { success: false, error: error?.response.data };
+  }
+};

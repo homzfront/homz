@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
 import React from "react";
+import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
-import MiniPropertyListing from "./miniPropertyListings";
+import MiniPropertyListing from "../../../components/mainmenu/miniPropertyListings";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
-import Skeleton from 'react-loading-skeleton';
-import Pagination from "@/components/general/pagination";
-import PropertySkeletonLoader from "@/components/general/skeletonLoader";
+import Skeleton from "react-loading-skeleton";
+import trucateWord from "@/utils/trucateWord";
 
 const PropertyCard = ({
   Property,
@@ -24,22 +24,26 @@ const PropertyCard = ({
   loadingII,
   reset,
   setLoadingII,
-  properties
+  properties,
 }) => {
-  const currentProperties = Property
+  const currentProperties = Property;
   return (
     <div className="w-full">
-      {loadingII ? <LoadingII /> :
-        <div className="w-[335px] md:w-full flex flex-col gap-[17px] md:px-[76px]">
-          <div className="flex flex-col md:gap-1 gap-[-10px] items-start">
+      {loadingII ? (
+        <LoadingII />
+      ) : (
+        <div className="w-full flex flex-col gap-[17px] md:px-[76px] ">
+          <div className="flex flex-col md:gap-1 gap-[-10px] w-full sm:items-start ">
             <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] md:mb-1">
               {Property && Property.length > 0
                 ? ` Property`
                 : "Property not found"}
             </h1>
-            <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px] text-left font-['Plus Jakarta Sans'] mb-2">
+            <p className="text-[#A9A9A9] text-[14px] md:text-[18px] font-[400] leading-[27px]   font-['Plus Jakarta Sans'] mb-2">
               {Property && Property.length > 0
-                ? `${totalData} ${Property.length > 1 ? " results found" : " result found"}`
+                ? `${totalData} ${
+                    Property.length > 1 ? " results found" : " result found"
+                  }`
                 : "We’re sorry, the property you searched for are unavailable"}
             </p>
           </div>
@@ -61,10 +65,10 @@ const PropertyCard = ({
                       <button
                         onClick={() => {
                           setLoadingII(true);
-                          reset()
-                        }
-                        }
-                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]">
+                          reset();
+                        }}
+                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]"
+                      >
                         Explore properties
                       </button>
                       <Link href={"/contact-page"}>
@@ -85,64 +89,113 @@ const PropertyCard = ({
             </>
           ) : (
             <>
-              <div className="flex items-center justify-center w-full flex-col ">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] w-[335px] mb-3 md:w-full ">
-                  {loading ?
-                    (
-                      <PropertySkeletonLoader count={currentProperties?.length || 6} />
-                    ) :
-                    Property && currentProperties?.map((property, index) => (
+              <div className="flex items-center justify-center w-full px-  sm:w-full flex-col ">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full ">
+                  {Property &&
+                    currentProperties?.map((property, index) => (
                       <div
-                        className="flex flex-col w-[335px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                        className="flex flex-col w-[325px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
                         key={index}
                       >
-                        <div
-                          className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] "
-                        >
-                          <Carousel
-                            slide={false}
-                            theme={customTheme}
-                            className="w-[100%] h-[226.33px] md:h-full md:w-full"
-                          >
-                            {property?.photos &&
-                              property?.photos.map((img, index) => (
-                                <div
-                                  key={index}
-                                  className="w-[100%] h-[226.33px] border border-BlueHomz md:h-full md:w-full"
+                        <div className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] relative">
+                          {loading ? (
+                            <Skeleton height={252} count={5} />
+                          ) : (
+                            <>
+                              {property?.photos ? (
+                                <Carousel
+                                  slide={false}
+                                  theme={customTheme}
+                                  className="w-full h-[226.33px] md:h-full md:w-full"
                                 >
-                                  <Link
-                                    className="cursor-pointer "
-                                    href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                                  >
-                                    <Image
-                                      src={img?.url}
-                                      alt=""
-                                      width={363}
-                                      height={252}
-                                      className="w-[100%] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
-                                    />
-                                  </Link>
-                                </div>
-                              ))}
-                          </Carousel>
+                                  {property?.photos.map((img, index) => (
+                                    <div
+                                      key={index}
+                                      className="w-full h-[226.33px] border border-BlueHomz md:h-full md:w-full"
+                                    >
+                                      <Link
+                                        className="cursor-pointer "
+                                        href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                      >
+                                        <Image
+                                          src={img?.url}
+                                          alt=""
+                                          width={363}
+                                          height={252}
+                                          className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                        />
+                                      </Link>
+                                    </div>
+                                  ))}
+                                </Carousel>
+                              ) : (
+                                <Image
+                                  src="/static/images/comingSoonImage.svg"
+                                  alt=""
+                                  width={363}
+                                  height={252}
+                                  className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                />
+                              )}
+                            </>
+                          )}
+                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute sm:left-[322px] top-[14px] left-[289px]  flex items-center justify-center  ">
+                            <Image
+                              src="/static/images/green_verify.svg"
+                              alt=""
+                              width={20.62}
+                              height={20.63}
+                            />
+                          </p>
+                          {/* {sponsored && ( */}
+                          <p className=" absolute sm:left-[232px] left-[200px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
+                            <Image
+                              src="/static/images/white-medal-star.svg"
+                              alt=""
+                              width={10}
+                              height={10}
+                              className=""
+                            />
+                            <span className="font-[500] text-[11px] text-[#EEF5FF] leading-[16.5px]">
+                              Sponsored
+                            </span>
+                          </p>
+                          {/* )} */}
                         </div>
                         <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
                           <div className="flex justify-between">
-                            <p className="text-[#006AFF] w-[75%] truncate text-[20.66px] md:text-[23px] font-[700] leading-[28.98px] text-start">
-                              {capitalizeFirstLetter(property?.name || property?.title)}
-                            </p>
-                            <p className={`w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${property?.listingType ? "" : "hidden"}`}
+                            <Link
+                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                              className="text-[#006AFF] text-[19.66px] sm:text-[22px] font-[700] leading-[28.98px] text-center"
+                            >
+                              {trucateWord(
+                                capitalizeFirstLetter(
+                                  property?.name || property?.title
+                                ),
+                                20
+                              )}
+                            </Link>
+                            <Link
+                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                              className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${
+                                property?.listingType ? "" : "hidden"
+                              }`}
                             >
                               {capitalizeFirstLetter(property?.listingType)}
-                            </p>
+                            </Link>
                           </div>
 
-                          <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
+                          <Link
+                            href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                            className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]"
+                          >
                             {capitalizeFirstLetter(property?.propertyType)}
-                          </p>
-                          <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
-                           ${property?.price ? "" : "hidden"}
-                           `}>
+                          </Link>
+                          <p
+                            className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center ${
+                              property?.price ? "" : "hidden"
+                            }`}
+                          >
                             <Image
                               src="/static/images/nairaIcon.svg"
                               alt=""
@@ -151,7 +204,9 @@ const PropertyCard = ({
                               className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                             />
                             <span className="pl-1">
-                              {property?.price ? Number(property?.price).toLocaleString() : ""}
+                              {property?.price
+                                ? Number(property?.price).toLocaleString()
+                                : ""}
                             </span>
                           </p>
                           <p className="flex gap-1 items-center">
@@ -163,7 +218,9 @@ const PropertyCard = ({
                               className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
                             />
                             <span className="text-[12.57px] md:text-[16px] font-[500]">
-                              {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
+                              {`${capitalizeFirstLetter(
+                                property?.area
+                              )}, ${capitalizeFirstLetter(property?.state)}`}
                             </span>
                           </p>
                           <div className="h-full flex justify-between mb-2">
@@ -178,7 +235,9 @@ const PropertyCard = ({
                                     className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                                   />
                                   <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                    {property?.numberOfRooms === 1 ? `${property?.numberOfRooms} bedroom` : `${property?.numberOfRooms} bedrooms`}
+                                    {property?.numberOfRooms === 1
+                                      ? `${property?.numberOfRooms} bedroom`
+                                      : `${property?.numberOfRooms} bedrooms`}
                                   </span>
                                 </p>
                               )}
@@ -192,11 +251,17 @@ const PropertyCard = ({
                                     className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                                   />
                                   <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                                    {property?.numberOfBathrooms === 1 ? `${property?.numberOfBathrooms} bathroom` : `${property?.numberOfBathrooms} bathrooms`}
+                                    {property?.numberOfBathrooms === 1
+                                      ? `${property?.numberOfBathrooms} bathroom`
+                                      : `${property?.numberOfBathrooms} bathrooms`}
                                   </span>
                                 </p>
                               )}
-                              <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
+                              <p
+                                className={`flex gap-1 items-center md:pt-4 ${
+                                  property?.squareMeter ? "" : "hidden"
+                                }`}
+                              >
                                 <Image
                                   src="/static/images/sqrtFeet-vector.svg"
                                   alt=""
@@ -225,21 +290,22 @@ const PropertyCard = ({
                       </div>
                     ))}
                 </div>
-                {currentProperties && <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  handleNext={handleNext}
-                  handlePageClick={handlePageClick}
-                  handlePrev={handlePrev}
-                  firstThreePages={firstThreePages}
-                  lastThreePages={lastThreePages}
-                />
+                {
+                  <Button
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handleNext={handleNext}
+                    handlePageClick={handlePageClick}
+                    handlePrev={handlePrev}
+                    firstThreePages={firstThreePages}
+                    lastThreePages={lastThreePages}
+                  />
                 }
               </div>
             </>
           )}
         </div>
-      }
+      )}
     </div>
   );
 };

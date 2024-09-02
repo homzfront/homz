@@ -4,7 +4,7 @@ export const fetchSpecificTenant = async (id) => {
   try {
     const response = await api.get(`/tenants/${id}/enterprise`);
     return response.data;
-  } catch (error) { 
+  } catch (error) {
     throw error;
   }
 };
@@ -98,13 +98,13 @@ export const updateProfilePicture = async (uploadedImage) => {
 };
 
 export const updatePassword = async (updatedData) => {
-  console.log(updatedData);
+  // console.log(updatedData);
   try {
     const response = await api.patch(`/auth/change/password`, updatedData);
-    console.log(response);
+    // console.log(response);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    console.error("Update error", error);
+    // console.error("Update error", error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -258,7 +258,7 @@ export const tenantUpdatePincode = async (password, otp, pincode) => {
   try {
     const response = await api.post(`/wallet/pincode/update/tenant`, {
       password,
-      otp, 
+      otp,
       pincode
     });
     return { success: true, upDateddata: response.data };
@@ -267,16 +267,27 @@ export const tenantUpdatePincode = async (password, otp, pincode) => {
   }
 };
 
-export const payRent = async (pincode) => {
+export const payRent = async (pincode, duration) => {
   try {
-    const response = await api.post(`/rentPayment/tenant`, {
-      pincode
+    const response = await api.post(`/wallet/transfer/tenant/pay-rent/enterprise`, {
+      pincode,
+      duration
     });
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error: error?.response.data };
+    return { success: false, error };
   }
 };
+
+
+export const ReceiptTenant = async (id) => {
+  try {
+    const response = await api.get(`/wallet/transfer/tenant/pay-rent/receipt/${id}`);
+    return { success: true, upDateddata: response };
+  } catch (error) {
+    return { success: false, error }; 
+  }
+}
 
 export const getRentHis = async () => {
   try {
@@ -286,8 +297,6 @@ export const getRentHis = async () => {
     return { success: false, error: error?.response.data };
   }
 };
-
-
 
 
 export const tenantWalletBalance = async () => {
@@ -311,5 +320,142 @@ export const tenantPinCreation = async (password, rePassword) => {
   }
 }
 
+export const uploadTenantKYC = async (uploadedImage) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/internationalPassport/kyc/create/tenant",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
+export const uploadNINTenantKYC = async (uploadedImage, NIN) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+  formData.append("ninNumber", NIN)
+
+  // Convert FormData to object
+  const formDataObject = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value;
+  });
+
+  try {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const response = await api.post(
+      "/nin/kyc/create/tenant",
+      formData,
+      { headers }
+    );
+
+    if (response.data.statuscode === 201 || 200) {
+      return { success: true, updatedPassport: response };
+    } else {
+      console.log(response)
+      const error = response.data.message;
+    }
+  } catch (error) {
+    return { success: false, error };
+  }
+};
+
+export const fetchTenantKYCData = async () => {
+  try {
+    const response = await api.get(`/internationalPassport/kyc/information/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchTenantKYCNINData = async () => {
+  try {
+    const response = await api.get(`/nin/kyc/information/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 
+export const enterpriseWalletTenantCreation = async (pincode, confirmPincode) => {
+  try {
+    const response = await api.post(`/wallet/pincode/create/tenant`, {
+      pincode,
+      confirmPincode
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+}
+
+export const tenantUserWallet = async () => {
+  try {
+    const response = await api.get(`/wallet/information/getWallet/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const tenantWalletActivities = async () => {
+  try {
+    const response = await api.get(`/wallet/activies/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const WalletTopUp = async (amount) => {
+  try {
+    const response = await api.post(`/wallet/top-up/tenant`, {
+      amount
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    return { success: false, error: error };
+  }
+}
+
+export const bankInfoTenant = async () => {
+  try {
+    const response = await api.get(`/bank/info/tenant`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addBankTenant = async (details) => {
+  try {
+    const response = await api.post(`/bank/add/tenant`, details);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    return { success: false, error: error?.response.data };
+  }
+};

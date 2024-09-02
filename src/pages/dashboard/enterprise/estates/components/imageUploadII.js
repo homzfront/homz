@@ -13,6 +13,9 @@ const ImageUpload = ({
 
   const handleImageRemove = () => {
     onImageRemove(null);
+    if (inputRef.current) {
+      inputRef.current.value = ""; 
+    }
   };
 
   return (

@@ -168,7 +168,7 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData, profileData })
           }}
         />
       ) : (
-        <div className="w-[464px] h-auto bg-white shadow-lg rounded-md py-8 px-8 flex justify-between flex-col">
+        <div className={`w-[464px] h-auto bg-white shadow-lg rounded-md py-8 px-8 flex justify-between flex-col ${loading ? "pointer-events-none" : ""}`}>
           <div className="flex justify-between items-center">
             <p className="text-BlackHomz text-[20px] font-[700]">
               Property Access
@@ -191,23 +191,24 @@ const PropertyAccess = ({ closeMenu, data, estateData, fetchData, profileData })
               {data?.propertyOwner?.fullName} has access to all properties listed below
             </p>
           </div>
-          {data && estatesData?.map((data) => (
-            <div
-              key={data?._id}
-              className={`w-[100%] mt-1 border-b py-5 flex justify-between items-center ${data?.is_deleted === true ? "hidden" : ""}`}
-            >
-              <p className="text-[14px] font-[400] text-GrayHomz">
-                {data?.estate?.name}
-              </p>
-              <p
-                onClick={() => showRevoke(data)}
-                className="text-[13px] font-[400] text-warning2 cursor-pointer"
+          <div className={`scrollbar-container overflow-y-auto max-h-[250px] pr-1`}>
+            {data && estatesData?.map((data) => (
+              <div
+                key={data?._id}
+                className={`w-[100%] mt-1 border-b py-5 flex justify-between items-center ${data?.is_deleted === true ? "hidden" : ""}`}
               >
-                Revoke access
-              </p>
-            </div>
-          ))}
-
+                <p className="text-[14px] font-[400] text-GrayHomz">
+                  {data?.estate?.name}
+                </p>
+                <p
+                  onClick={() => showRevoke(data)}
+                  className="text-[13px] font-[400] text-warning2 cursor-pointer"
+                >
+                  Revoke access
+                </p>
+              </div>
+            ))}
+          </div>
           <div>
             <p className="mt-6 text-BlueHomz text-[13px] font-[500] cursor-pointer">
               Grant access to new properties

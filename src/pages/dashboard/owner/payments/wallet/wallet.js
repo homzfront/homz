@@ -11,47 +11,22 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import tenantRentHisOwner from "@/store/propertyOwnerStore/tenantRentHisOwner";
+import UseWalletStore from "@/store/propertyOwnerStore/useWalletStore";
 
 const Wallet = () => {
   const [wallet, setWallet] = useState(false);
-  const [illuminateWallet, setIlluminateWallet] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
-  const [walletBalance, setWalletBalance] = useState("");
-  const { data, fetchData: fetchRentInfo } = tenantRentHisOwner();
+  const [data, setData] = useState(null);
 
-
-  useEffect(() => {
-      fetchRentInfo() 
-  }, [])
-
+  const { illuminateWallet, walletBalance, showKYC, walletPin, fetchData: fetchWallet, walletActivities } = UseWalletStore();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await propertyOwnerWallet();
-        if (data.statuscode === 200 && data.success === true  && data.data !== null) {
-          setIlluminateWallet(!illuminateWallet);
-          fetchRentInfo() 
-          const balance = await propertyOwnerWalletBalance();
-          setWalletBalance(balance);
-          const wallet = data;
-          setWallet(wallet);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [fetchData]);
+    fetchWallet();
+  }, []);
 
   const fetchDataAgain = () => {
-    setFetchData(!fetchData);
+    fetchWallet();
   };
 
   return (
@@ -69,29 +44,29 @@ const Wallet = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="w-full flex gap-8">
-        <div className="w-[50%]">
+      <div className="w-full flex flex-col md:flex-row gap-4 md:gap-8">
+        <div className="md:w-[50%]">
           <div>
             <WalletBalance
               illuminateWallet={illuminateWallet}
-              wallet={wallet}
+              walletPin={walletPin}
               fetchDataAgain={fetchDataAgain}
               walletBalance={walletBalance}
               loading={loading}
+              showKYC={showKYC}
             />
           </div>
           <div>
-            {/* <TransferDetails illuminateWallet={illuminateWallet} /> */}
+            <Withdraw illuminateWallet={illuminateWallet} fetchDataAgain={fetchDataAgain} />
           </div>
         </div>
-        <div className="w-[50%]">
+        <div className="md:w-[50%]">
           <div>
-            <Withdraw illuminateWallet={illuminateWallet} />
+            {/* <TransferDetails illuminateWallet={illuminateWallet} /> */}
           </div>
           <div>
-            {/* <TransferHis illuminateWallet={illuminateWallet} data={data}/> */}
+            <TransferHis illuminateWallet={illuminateWallet} walletActivities={walletActivities} />
           </div>
-
         </div>
       </div>
     </div>

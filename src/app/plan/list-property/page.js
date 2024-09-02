@@ -178,25 +178,15 @@ const ListProperty = () => {
                 reset();
                 // console.log("form successfully filled ", response.data);
                 setLoading(false);
+            } else {
+                setFormError(response.data.message);
+                setLoading(false);
             }
         } catch (error) {
             setLoading(false);
             console.error("Error creating profile:", error);
             setFormError(error?.response?.data?.message);
             setFormError(error?.response?.data?.error);
-            if (
-                error?.response?.data?.error?.errors &&
-                error.response.data.error.errors.length > 0
-            ) {
-                const errorMessage = error.response.data.error.errors[0];
-                console.log(errorMessage);
-                setFormError(`Update failed: ${errorMessage}`);
-            } else if (error?.response?.data?.message) {
-                const errorMessage = error.response.data.message;
-                setFormError(`Update failed: ${errorMessage}`);
-            } else {
-                setFormError("Update failed");
-            }
         }
     };
 

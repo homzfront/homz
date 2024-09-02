@@ -3,107 +3,90 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CustomizedModal from "../components/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import PersonalInfo from "./components/personalInfo";
 import BusinessInfo from "./components/businessInfo";
 import ChangePassword from "./components/changePassword";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
-import { updateBusinessInfoLister, updatePersonalInfoLister } from "@/api/listingServices";
+import {
+  updateBusinessInfoLister,
+  updatePersonalInfoLister,
+} from "@/api/listingServices";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useSearchParams } from "next/navigation";
 
 const Profile = () => {
   const urlParams = useSearchParams();
-  const tab = urlParams.get("tab")
+  const tab = urlParams.get("tab");
 
-  const [personalActive, setPersonalActive] = useState(tab ? tab === 'personal' : true);
-  const [businessActive, setActiveTwo] = useState(tab === 'business');
-  const [changePwdActive, setActiveFour] = useState(tab === 'password');
+  const [personalActive, setPersonalActive] = useState(
+    tab ? tab === "personal" : true
+  );
+  const [businessActive, setActiveTwo] = useState(tab === "business");
+  const [changePwdActive, setActiveFour] = useState(tab === "password");
   const [loading, setLoading] = useState(false);
   const [personalInfo, setPersonalInfo] = useState([]);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const [mainSavedModalIsOpen, setMainSavedModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
-
+  const [typeOfAction, setTypeOfAction] = useState("");
   const { data, fetchData } = useProfileListingMe();
+
+  // console.log(typeOfAction)
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const closeModal = () => {
     setSaveModalIsOpen(false);
     setSuccessModalIsOpen(true);
   };
   const closeSuccessModal = () => {
+    fetchData();
     setSuccessModalIsOpen(false);
   };
   const handleSaved = async (e) => {
     e.preventDefault();
     if (loading) return;
-    setLoading(true);
-    if (personalInfo?.businessName) {
-      try {
-        const { success, updatedImage, error } = await updateBusinessInfoLister(
-          personalInfo
-        );
-        if (success) {
-          setLoading(false);
-          setSuccessModalIsOpen(true);
-          setSaveModalIsOpen(false);
-        } else {
-          toast.error(error);
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-        setSaveModalIsOpen(false);
-        if (
-          error?.response?.data?.error?.errors &&
-          error.response.data.error.errors.length > 0
-        ) {
-          const errorMessage = error.response.data.error.errors[0];
-          toast.error("Update failed", `${errorMessage}`);
-        } else if (error?.response?.data?.message) {
-          const errorMessage = error.response.data.message;
-          toast.error("Update failed", `${errorMessage}`);
-        } else {
-          toast.error("Update failed, Internal Server Error");
-        }
-      }
-    } else {
-      try {
-        const { success, updatedImage, error } = await updatePersonalInfoLister(
-          personalInfo
-        );
-        if (success) {
-          setLoading(false);
-          setSuccessModalIsOpen(true);
-          setSaveModalIsOpen(false);
-        } else {
-          toast.error(error);
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-        setSaveModalIsOpen(false);
-        if (
-          error?.response?.data?.error?.errors &&
-          error.response.data.error.errors.length > 0
-        ) {
-          const errorMessage = error.response.data.error.errors[0];
-          toast.error("Update failed", `${errorMessage}`);
-        } else if (error?.response?.data?.message) {
-          const errorMessage = error.response.data.message;
-          toast.error("Update failed", `${errorMessage}`);
-        } else {
-          toast.error("Update failed, Internal Server Error");
-        }
-      }
-    }
 
+    setLoading(true);
+
+    const updateInfo = personalInfo?.businessName
+      ? updateBusinessInfoLister
+      : updatePersonalInfoLister;
+
+    try {
+      const { success, error } = await updateInfo(personalInfo);
+
+      if (success) {
+        setSuccessModalIsOpen(true);
+        setSaveModalIsOpen(false);
+      } else {
+        toast.error(error);
+      }
+    } catch (error) {
+      console.log(error)
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleUpdateDetails = (data) => {
+  const handleError = (error) => {
+    // setSaveModalIsOpen(false);
+
+    const errorMessage =
+      error?.response?.data?.error?.errors?.[0] ||
+      error?.response?.data?.message ||
+      "Internal Server Error";
+
+    toast.error(`Update failed, ${errorMessage}`);
+  };
+
+  const handleUpdateDetails = (data, typeOfAction) => {
+    // console.log(data)
     setPersonalInfo(data);
+    setTypeOfAction(typeOfAction);
     setSaveModalIsOpen(true);
   };
 
@@ -125,7 +108,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full px-6 sm:px-0">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -139,36 +122,39 @@ const Profile = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="mt-[-15px] md:mt-0 md:pt-0 md:px-2 w-full">
-        <h1 className="w-[50%]">Profile</h1>
+      <div className="mt-[-15px] md:mt-0 md:pt-0 md:px-5 w-full">
+        <h1 className="w-[50%] font-[500]">Profile</h1>
         <div className="flex flex-col gap-2 mt-8 ">
-          <div className="indicators flex items-center gap-[15px] flex-wrap w-[335px] md:w-full">
+          <div className="indicators flex items-center  gap-[15px] sm:gap-[15px] flex-wrap w-fit md:w-full">
             <button
               onClick={handlePersonalActive}
-              className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${personalActive
-                ? "inline-block shadow-md bg-[#006AFF] text-white "
-                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-                }`}
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
+                personalActive
+                  ? "inline-block shadow-md bg-[#006AFF] text-white "
+                  : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+              }`}
             >
               Personal Information
             </button>
 
             <button
               onClick={handleBusinessActive}
-              className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${businessActive
-                ? "inline-block shadow-md bg-[#006AFF] text-white "
-                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-                }`}
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
+                businessActive
+                  ? "inline-block shadow-md bg-[#006AFF] text-white "
+                  : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+              }`}
             >
               Business Information
             </button>
 
             <button
               onClick={handleContactInfo}
-              className={`py-[8px] px-[12px] rounded-[4px]  md:text-[14px] text-[11px] ${changePwdActive
-                ? "inline-block shadow-md bg-[#006AFF] text-white "
-                : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
-                }`}
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
+                changePwdActive
+                  ? "inline-block shadow-md bg-[#006AFF] text-white "
+                  : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+              }`}
             >
               Change Password
             </button>
@@ -191,12 +177,12 @@ const Profile = () => {
             <BusinessInfo
               Business_Info={data}
               handleUpdate={handleUpdateDetails}
+              mainSavedButton={setMainSavedModalIsOpen}
             />
           </div>
 
           <div className={`${changePwdActive ? "block" : "hidden"}`}>
-            <ChangePassword
-            />
+            <ChangePassword />
           </div>
         </div>
         <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
@@ -207,7 +193,11 @@ const Profile = () => {
             <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
               Proceed with saving changes?
             </p>
-            <div className={`flex gap-2 md:flex-wrap md:flex-col md:gap-[16px] ${loading ? "pointer-events-none" : ""}`}>
+            <div
+              className={`flex gap-2 md:flex-wrap md:flex-col md:gap-[16px] ${
+                loading ? "pointer-events-none" : ""
+              }`}
+            >
               <button
                 className={`bg-BlueHomz2 w-[137.5px] text-white rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center
                   ${loading ? "pointer-events-none flex justify-center" : ""} 
@@ -222,7 +212,7 @@ const Profile = () => {
                   setSaveModalIsOpen(false);
                 }}
               >
-                No, go back
+                No, don't save
               </button>
             </div>
           </div>
@@ -250,6 +240,35 @@ const Profile = () => {
               className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px]"
               onClick={() => {
                 closeSuccessModal();
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </CustomizedModal>
+        <CustomizedModal
+          isOpen={mainSavedModalIsOpen}
+          onRequestClose={closeSuccessModal}
+        >
+          <div className="bg-white border flex flex-col w-[333px] md:w-[464px]  p-[32px] rounded-[12px] gap-[18px]">
+            <div className="flex flex-col gap-6 items-center justify-center">
+              <Image
+                src="/static/images/success_icon.svg"
+                height={48}
+                width={46}
+                alt=""
+              />
+              <div className="flex  flex-col">
+                <p className="text-[14px] md:text-[20px] font-[700] leading-[17.64px] md:leading-[25.2px] text-center mb-1">
+                  Update Saved
+                </p>
+              </div>
+            </div>
+
+            <button
+              className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px]"
+              onClick={() => {
+                setMainSavedModalIsOpen(false);
               }}
             >
               Close

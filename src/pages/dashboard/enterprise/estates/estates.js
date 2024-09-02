@@ -8,16 +8,13 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import estateStore from "@/store/enterpriseStore/estates";
 import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
-import { useSearchParams } from "next/navigation";
+import useTabForAddProperty from "@/store/document/useTabForAddProperty";
 
 const Estate = () => {
-  const urlParams = useSearchParams();
-  const tab = urlParams.get("tab")
+  const { tab, setTab } = useTabForAddProperty();
   const { data, loading, fetchData } = estateStore();
-  
 
   useEffect(() => {
-    // Fetch data when the component mounts
     fetchData();
   }, []);
 
@@ -47,17 +44,11 @@ const Estate = () => {
   };
 
   const options = [...new Set(data?.map((item) => item?.location.state))];
-
-
   const options2 = [...new Set(data?.map((item) => item?.location.area))];
-
-
   const option3 = [...new Set(data?.map((item) => item?.name))];
 
-
   const filteredData = data?.filter((data) => {
-    const matchesSearchQuery = !searchQuery ||
-    data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearchQuery = !searchQuery || data?.name.toLowerCase().includes(searchQuery.toLowerCase());
     const selectedDateTimestamp = Date.parse(selectedDate);
     const createdDateTimestamp = Date.parse(formatDateII(data?.created));
 
@@ -65,8 +56,8 @@ const Estate = () => {
       (!selectedState || data?.location.state === selectedState) &&
       (!selectedArea || data?.location.area === selectedArea) &&
       (!selectedProperty || data?.name === selectedProperty) &&
-      (!selectedDate || selectedDateTimestamp <= createdDateTimestamp)
-      && matchesSearchQuery
+      (!selectedDate || selectedDateTimestamp <= createdDateTimestamp) &&
+      matchesSearchQuery
     );
   });
 
@@ -75,6 +66,7 @@ const Estate = () => {
   };
 
   const returnToStartRegistration = () => {
+    setTab(null)
     setRegistrationForm(false);
   };
 
@@ -83,12 +75,12 @@ const Estate = () => {
   };
 
   const openMobileFilterModal = () => {
-    setFilterModal(!filterModal)
-  }
+    setFilterModal(!filterModal);
+  };
 
   const closeMobileFilterModal = () => {
-    setFilterModal(false)
-  }
+    setFilterModal(false);
+  };
 
   return (
     <div className="w-full">

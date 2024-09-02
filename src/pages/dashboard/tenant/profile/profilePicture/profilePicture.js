@@ -7,7 +7,6 @@ import { useDropzone } from "react-dropzone";
 import { updateProfilePicture } from "@/api/tenantSevice";
 
 const ProfilePicture = ({ data }) => {
-  console.log(data);
   const [uploadedImage, setUploadedImage] = useState(null);
   const inputRef = useRef(null);
   const [doneUpdate, setDoneUpdate] = useState(false);
@@ -63,7 +62,10 @@ const ProfilePicture = ({ data }) => {
   };
 
   const handleImageRemove = () => {
-    setUploadedImage(null); // Clear the uploaded image
+    setUploadedImage(null); 
+    if (inputRef.current) {
+      inputRef.current.value = ""; 
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });

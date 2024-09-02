@@ -14,7 +14,7 @@ const Header = ({
 }) => {
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="hidden md:flex justify-between items-center">
         <div className="text-[20px] font-[500]">Payment</div>
         <div className="flex gap-2 items-center">
           <p className="text-[16px] font-[400] pr-2">Filter by:</p>
@@ -46,7 +46,7 @@ const Header = ({
           <input
             type="date"
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="border px-4 h-[42px] w-[130px] text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
+            className="border px-4 h-[42px] w-[130px] text-GrayHomz2 border-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
           />
 
           <button

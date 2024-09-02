@@ -71,7 +71,7 @@ const ContactInfo = ({ handlePageChangeTwo, handlePageChangeFour, data }) => {
   };
 
   return (
-    <div className="">
+    <div className="w-full px-8">
 
       {loading ? (
         <LoadingII />

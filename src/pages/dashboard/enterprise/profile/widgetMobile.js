@@ -5,15 +5,18 @@ import Payment from './payment/payment';
 import BusinessLogo from './businessLogo/businessLogo';
 import BusinessInfo from './businessInfo/businessInfo';
 import AccountInfo from './accountInfo/accountInfo';
+import { useSearchParams } from 'next/navigation';
 
 const WidgetMobile = ({ data }) => {
-    const [active, setActive] = useState(false);
+    const urlParams = useSearchParams();
+    const tab = urlParams.get("tab")
+
+    const [active, setActive] = useState(tab ? tab !== 'personal' : false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
-    const [activeFour, setActiveFour] = useState(false);
+    const [activeFour, setActiveFour] = useState(tab === 'acctInfo');
     const [activeFive, setActiveFive] = useState(false);
     const [activeSix, setActiveSix] = useState(false);
-
 
     const handlePageChange = () => {
         setActive(false);
@@ -143,7 +146,7 @@ const WidgetMobile = ({ data }) => {
                     <AccountInfo />
                 </div> */}
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
-                    <Payment />
+                    <Payment data={data}/>
                 </div>
                 <div className={`${activeSix ? "inline" : "hidden"}`}>
                     <ChangePassword />

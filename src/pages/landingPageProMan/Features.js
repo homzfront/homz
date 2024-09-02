@@ -11,6 +11,7 @@ import WalletCheckWhite from "@/components/icons/walletCheckWhite";
 import MessagesWhite from "@/components/icons/messagesWhite";
 import NotificationWhite from "@/components/icons/notificationWhite";
 import BuildingWhite from "@/components/icons/buildingWhite";
+import DocumentGeneWhite from "@/components/icons/documentGeneWhite";
 
 const Features = ({routeTo, profile}) => {
   const settings = {
@@ -45,15 +46,15 @@ const Features = ({routeTo, profile}) => {
     },
     {
       icon: <MessagesWhite />,
-      title: "Manage complaints from renters",
+      title: "Manage Complaints From Tenants",
       description:
-        "Efficiently address and resolve renter concerns with our streamlined complaint management system.",
+        "Efficiently address and resolve Tenant concerns with our streamlined complaint management system.",
     },
     {
-      icon: <NotificationWhite />,
-      title: "Generate announcements to renters",
+      icon: <DocumentGeneWhite />,
+      title: "Generate Property Documents",
       description:
-        "Keep renters informed by effortlessly creating and delivering announcements with our user-friendly platform.",
+        "Easily create and manage all essential property-related documents in one place.",
     },
     {
       icon: <BuildingWhite />,
@@ -81,7 +82,7 @@ const Features = ({routeTo, profile}) => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className="flex flex-col h-auto lg:h-[206px] w-full justify-around items-center"
+            className="flex flex-col h-auto md:h-[206px] w-full justify-around items-center"
           >
             <div
               className={`rounded-full h-[52px] w-[52px] flex justify-center items-center bg-BlueHomz`}
@@ -90,11 +91,11 @@ const Features = ({routeTo, profile}) => {
                 {card.icon}
               </>
             </div>
-            <div className="flex flex-col gap-1 justify-between items-center h-max">
+            <div className="h-[75%] mt-2 flex flex-col gap-1 justify-between items-center">
               <p className="font-[700] text-[20px] text-center text-BlackHomz">
                 {card.title}
               </p>
-              <p className="font-[400] text-[18px] text-center text-GrayHomz">
+              <p className="font-[400] h-[80%] text-[18px] text-center text-GrayHomz">
                 {card.description}
               </p>
             </div>

@@ -2,29 +2,33 @@
 import React, { useState } from "react";
 import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
+import { useSearchParams } from "next/navigation.js";
 
 const Widget = ({rentData, rentLoading, fetchRentData}) => {
-  const [active, setActive] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(false);
+  const urlParams = useSearchParams();
+  const tab = urlParams.get("tab")
+
+  const [active, setActive] = useState(tab ? tab === 'payment' : true);
+  const [activeTwo, setActiveTwo] = useState(tab === 'wallet');
 
   const handlePageChange = () => {
-    setActive(false);
+    setActive(true);
     setActiveTwo(false);
   };
 
   const handlePageChangeTwo = () => {
     setActiveTwo(true);
-    setActive(true);
+    setActive(false);
   };
 
   return (
     <div>
       <div className="w-full h-auto py-4">
-        <div className=" flex mt-5 gap-4  w-[571px] cursor-pointer">
+        <div className=" flex mt-5 gap-4 md:w-[571px] cursor-pointer">
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
               className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-                !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                active ? "bg-BlueHomz text-white" : "text-BlackHomz "
               }`}
               onClick={handlePageChange}
               justify-center
@@ -45,8 +49,8 @@ const Widget = ({rentData, rentLoading, fetchRentData}) => {
           </div>
         </div>
         <div className=" my-5  rounded-[12px]">
-          <div className={`${!active ? "inline" : "hidden"}`}>
-            <Tenants active={active} fetchRentData={fetchRentData} rentData={rentData} rentLoading={rentLoading}/>
+          <div className={`${active ? "inline" : "hidden"}`}>
+            <Tenants fetchRentData={fetchRentData} rentData={rentData} rentLoading={rentLoading}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

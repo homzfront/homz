@@ -7,6 +7,15 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
+body::-webkit-scrollbar {
+  width: 10px;
+  background-color: #d1e4ff;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #4E4E4E; 
+}
+
 /* Add this to your existing styles or create a separate stylesheet */
 .scrollbar-container::-webkit-scrollbar {
   width: 6px;
@@ -19,6 +28,17 @@ body {
   background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
   padding-top: 10px;
   border-top-right-radius: 30px;
+}
+
+/* Hide the scrollbar but still allow scrolling */
+.scrollbar-containerII {
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scrollbar-containerII::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, and Opera */
 }
 
 .ListProperty {
@@ -196,3 +216,17 @@ body {
 }
 
 
+
+.custom-editor  {
+  border: #4E4E4E solid 0.1px;
+  border-radius: 4px;
+}
+/* .ql-container {
+}
+
+.ql-toolbar {
+} */
+
+.page-break {
+  page-break-before: always; /* or 'page-break-after' depending on where you want the break */
+}

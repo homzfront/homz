@@ -6,7 +6,6 @@ import ConfirmModal from "../../components/confirmModal";
 import BankSelect from "./selectBank";
 import { addBankPropertyOwner } from "@/api/propertyService";
 import { VerifyBank } from "@/api/bankCodes";
-import { FallingLines } from "react-loader-spinner";
 import Loading from "@/components/mainmenu/loading";
 import LoadingForm from "@/components/mainmenu/loadingForm";
 
@@ -25,26 +24,45 @@ const BankForm = ({
   const [loading, setLoading] = useState(false)
   const [loadingBank, setLoadingBank] = useState(false)
 
-
-
   useEffect(() => {
     const fetchBankName = async () => {
       try {
-        if (accountNo.length === 10 && bankName) { // Only fetch if both accountNo and bankName are truthy
+        if (accountNo.length === 10 && bankName) { 
           setLoadingBank(true)
           const { success, data, error } = await VerifyBank(accountNo, bankName);
           if (success) {
-            setAccountName(data?.accountName);
+            setAccountName(data?.account_name);
             setLoadingBank(false)
           } else {
-            setErrorName(error?.errors);
-            setErrorName(error?.message)
             setLoadingBank(false)
+            if (
+              error?.response?.data?.error?.errors &&
+              error.response.data.error.errors.length > 0
+            ) {
+              const errorMessage = error.response.data.error.errors[0];
+              setErrorName(`${errorMessage}`);
+            } else if (error?.response?.data?.message) {
+              const errorMessage = error.response.data.message;
+              setErrorName(`${errorMessage?.message}`);
+            } else {
+              setError("Update failed");
+            }
           }
         }
       } catch (error) {
-        throw error;
         setLoadingBank(false)
+        if (
+          error?.response?.data?.error?.errors &&
+          error.response.data.error.errors.length > 0
+        ) {
+          const errorMessage = error.response.data.error.errors[0];
+          setErrorName(`${errorMessage}`);
+        } else if (error?.response?.data?.message) {
+          const errorMessage = error.response.data.message;
+          setErrorName(`${errorMessage}`);
+        } else {
+          setError("Update failed");
+        }
       }
     };
 
@@ -53,9 +71,7 @@ const BankForm = ({
 
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    // Create an object with the collected bank details
     setLoading(true);
     const bankDetails = {
       accountNumber: `${accountNo}`,
@@ -67,7 +83,6 @@ const BankForm = ({
       const { success, upDateddata, error } = await addBankPropertyOwner(
         bankDetails
       );
-
       if (success) {
         setShowSubmitted(!showSubmitted);
         setLoading(false)
@@ -93,9 +108,6 @@ const BankForm = ({
   };
 
   const submitted = () => {
-    // Close the form
-    // setIlluminateWallet(false);
-    // setLoading(false);
     fetchDataAgain();
     closeMenu();
   };
@@ -104,7 +116,7 @@ const BankForm = ({
     setShowConfirmSubmit(false);
   };
   return (
-    <div className="absolute top-0 z-20 h-auto w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
+    <div className="absolute top-0 z-20 px-8 md:px-0 h-auto w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
       {
         loading && <Loading />
       }
@@ -122,7 +134,7 @@ const BankForm = ({
           />
         </div>
       ) : (
-        <div className="w-[550px] h-auto bg-white shadow-lg rounded-md p-8">
+        <div className="md:w-[550px] h-auto bg-white shadow-lg rounded-md p-8">
           <div className="flex justify-between items-center">
             <p className="text-BlueHomz text-[14px] font-[500]">
               Add Your Bank Account
@@ -160,12 +172,12 @@ const BankForm = ({
               />
             </div>
             <div>
-              <div>
+              <div className="w-full">
                 <label className="text-[14px] font-[500]">
                   Account Name
                 </label>
                 <div
-                  className="border mt-2 rounded-md p-3 h-[45px] w-full flex items-center justify-start">
+                  className={`border mt-2 rounded-md p-3 w-full flex items-center ${loadingBank ? "justify-center" : "justify-start"}`}>
 
                   {
                     loadingBank ? <LoadingForm /> : accountName ? accountName : "Account Name"}

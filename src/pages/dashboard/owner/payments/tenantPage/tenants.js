@@ -17,7 +17,7 @@ const Tenants = ({ rentData }) => {
 
   return (
     <div>
-      <div className="mt-2 flex gap-2">
+      <div className="mt-2 grid md:grid-cols-4 grid-cols-2 gap-2">
         <Box
           bgColor={"Success"}
           textColor={"text-successBg"}

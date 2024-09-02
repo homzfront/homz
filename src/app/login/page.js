@@ -63,6 +63,7 @@ const Login = () => {
       if (response.status === 201) { 
         const data = response.data.data.token;
         localStorage.setItem('jwt', data)
+
         const profileResponse = await api.get("/user/profile");
         if (profileResponse?.data?.user?.isVerified === true) {
           if (profileResponse.status === 200 || profileResponse.status === 201) {

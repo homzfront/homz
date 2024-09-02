@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "@/pages/dashboard/enterprise/profile/profile";
 const App = () => {
   return (
-    <div className="dashboard h-[900px]">
+    <div className="overflow-y-auto h-screen scrollbar-container">
       <Profile />
     </div>
   );

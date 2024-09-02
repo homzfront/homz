@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
-
   const { data, loading, fetchData } = useProfileEnterpriseMe();
 
   useEffect(() => {

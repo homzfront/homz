@@ -22,7 +22,7 @@ const EditProperty = ({ params }) => {
   }, [PropertyID]);
   
   return (
-    <div className="md:pl-1 w-full">
+    <div className="px-6 w-full">
       {
         loading ?
           <div className="h-screen flex justify-center items-center">
