@@ -76,7 +76,7 @@ const FeaturedCard = () => {
                             alt=""
                             width={343}
                             height={252}
-                            className="w-[300px] sm:w-[320px] h-[252px]  object-cover"
+                            className="w-full sm:w-[320px] h-[252px]  object-cover"
                           />
                           <p className="bg-[#EEF5FF] text-[#006AFF] rounded-[8px] py-[4px] px-[8px] absolute left-[241px] top-[12px] text-[11px] leading-[16.5px] font-[400]">
                             Featured
@@ -217,12 +217,12 @@ const parentTheme = {
   },
   indicators: {
     active: {
-      off: " bg-[#559CFF] hover:bg-white dark:bg-blue-600/50 dark:hover:bg-gray-800 ",
+      off: " bg-[#559CFf] hover:bg-white dark:bg--600/50 dark:hover:bg-gray-800 ",
       on: " bg-[#EEF5FF] dark:bg-gray-800",
     },
     base: "h-[8px] w-[8px] rounded-full ",
     wrapper:
-      "absolute bottom-[-25px] w-full  items-center flex justify-center  sm:left-1/2 left-[120px] -translate-x-1/2  space-x-1 ",
+      "absolute bottom-[-25px] w-full  items-center flex justify-center  sm:left-1/2 left-[150px] -translate-x-1/2  space-x-1 ",
   },
   item: {
     base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",

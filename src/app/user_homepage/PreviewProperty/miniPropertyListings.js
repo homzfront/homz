@@ -53,14 +53,14 @@ const MiniPropertyListings = ({
                     <Link
                       href={`/user_homepage/PreviewProperty/${property?.slug}`}
                       key={index}
-                      className=" h-[181.77px] w-full"
+                      className=" sm:h-[181.77px] w-full h-full rounded-[8px]"
                     >
                       <Image
                         src={img?.url}
                         alt=""
                         width={393}
                         height={181.77}
-                        className=" h-[181.77px] w-full object-cover realtive z-0"
+                        className=" sm:h-[181.77px] w-full h-full  object-cover realtive z-0 rounded-[8px]"
                       />
                     </Link>
                   ))}
