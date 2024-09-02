@@ -23,6 +23,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderTwo from './components/sliderTwo';
+import Close from '@/components/icons/Close';
 
 const DocSolution = [
     {
@@ -100,11 +101,40 @@ const DocumentGene = () => {
 
     return (
         <div className='w-full flex flex-col items-center'>
-            {
+            {/* {
                 <CustomizedModal isOpen={documentCreation}>
                     <DocumentCreation setDocumentCreation={setDocumentCreation}
                     // setShowPreview={setShowPreview}
                     />
+                </CustomizedModal>
+            } */}
+            {
+                <CustomizedModal isOpen={documentCreation}>
+                    <div className="w-full sm:w-[42%] h-[315px] bg-white border p-[24px] rounded-[12px]">
+                        <div className='w-full flex justify-between items-center'>
+                            <div className="flex gap-2 items-center">
+                                <p className="text-[14px] font-[500] text-GrayHomz">Document Generation</p>
+                            </div>
+                            <button
+                                onClick={() => setDocumentCreation(false)}
+                                className="border h-[20px] border-BlackHomz rounded-[4px]">
+                                <Close />
+                            </button>
+                        </div>
+                        <div className="h-full w-full flex items-center justify-center">
+                            <div>
+                                <Image
+                                    src={"/static/dashboard/tenant/dashboard/FrameFolde.png"}
+                                    height={97}
+                                    width={96}
+                                    alt=""
+                                />
+                                <p className="mt-2 text-[14px] font-[500] text-BlueHomz text-center">
+                                    Coming Soon!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </CustomizedModal>
             }
             <div className='max-w-[1160px] w-full px-6'>
