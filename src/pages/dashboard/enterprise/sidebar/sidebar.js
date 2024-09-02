@@ -316,7 +316,7 @@ const Sidebar = () => {
                     </span>
                     </span>
                     <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
-                      } mt-1 h-2 w-2 rounded-full`}
+                      } mt-1 ml-1 h-2 w-2 rounded-full`}
                     ></p>
                   </div>
 

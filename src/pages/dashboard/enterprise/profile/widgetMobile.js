@@ -146,7 +146,7 @@ const WidgetMobile = ({ data }) => {
                     <AccountInfo />
                 </div>
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
-                    <Payment />
+                    <Payment data={data}/>
                 </div>
                 <div className={`${activeSix ? "inline" : "hidden"}`}>
                     <ChangePassword />
