@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Image from "next/image";
-import useEstateForOneStore from "@/store/useEstateForOne";
+import useEstateForOneStore from "@/store/enterpriseStore/useEstateForOne";
 import useBodyScroll from "@/utils/useBodyScroll";
 import useClickOutside from "@/utils/clickOutside";
 import Modal from "../../tenants/components/modal";

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import RentInfo from "./components/rentInfo";
 import RentInsentive from "./components/rentInsentive";
-import rentInfoTeant from "@/store/rentInfoTenant";
+import rentInfoTeant from "@/store/enterpriseStore/rentInfoTenant";
 
 
 const RentFirst = () => {

@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
-import { useEstateForOneStore, usePropertyLandlordTenant } from "@/store/useEstateForOne";
+import { useEstateForOneStore, usePropertyLandlordTenant } from "@/store/enterpriseStore/useEstateForOne";
 
 const Dashboard = ({ id }) => {
   const { data: tenants, fetchData: fetchEstateData } = usePropertyLandlordTenant();

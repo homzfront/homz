@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Property from "./listedProperty";
 import PromotionHooks from "@/utils/promoteProperty";
-import usePropertyStore from "@/store/propertyForMeStore";
+import usePropertyStore from "@/store/enterpriseStore/propertyForMeStore";
 import usePropertyPromotionsData from "@/store/propertyPromotions";
 import LoadingII from "./components/loading";
 import useClickOutside from "@/utils/clickOutside";

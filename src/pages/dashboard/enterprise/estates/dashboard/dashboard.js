@@ -9,7 +9,7 @@ import Link from "next/link";
 import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
-import { useEstateForOneStore } from "@/store/useEstateForOne";
+import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
 
 const Dashboard = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();

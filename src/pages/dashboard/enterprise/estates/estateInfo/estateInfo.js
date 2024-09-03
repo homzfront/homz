@@ -8,7 +8,7 @@ import { fetchEstatesSpecificUSer } from "@/api/estateService";
 import { useRouter } from "next/navigation";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import WidgetMobile from "./widgetMobile";
-import { useEstateForOneStore } from "@/store/useEstateForOne";
+import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

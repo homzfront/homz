@@ -11,7 +11,7 @@ import formatDateII from "@/utils/formatDateII";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
 import FilterMobile from "../../components/filterMobile";
-import { useEstateForOneStore } from "@/store/useEstateForOne";
+import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import TenantsTwo from "../../tenants/firstPage/tenantsTwo";
 import Image from "next/image";
 import Link from "next/link";
-import { usePropertyLandlordTenant } from "@/store/useEstateForOne";
+import { usePropertyLandlordTenant } from "@/store/enterpriseStore/useEstateForOne";
 import formatDateII from "@/utils/formatDateII";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";

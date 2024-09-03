@@ -6,7 +6,7 @@ import Link from "next/link";
 import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
 import WidgetMobile from "./widgetMobile";
-import { useEstateForOneStore } from "@/store/useEstateForOne";
+import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
 
 const EstateInfo = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();
