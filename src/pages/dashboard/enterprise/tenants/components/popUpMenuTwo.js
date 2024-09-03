@@ -52,7 +52,7 @@ function PopUpMenuTwo({
           </div>
         }
       </Link> */}
-      <Link
+      {/* <Link
         href={`/dashboard/enterprise-property/tenants/access-records`}
         onMouseEnter={() => setActiveThree(true)}
         onMouseLeave={() => setActiveThree(false)} >
@@ -67,8 +67,8 @@ function PopUpMenuTwo({
             Visitor Access Record
           </div>
         }
-      </Link>
-      <button
+      </Link> */}
+      {/* <button
         onClick={() => handleDelete(data)}
         onMouseEnter={() => setActiveFour(true)}
         onMouseLeave={() => setActiveFour(false)} >
@@ -83,7 +83,7 @@ function PopUpMenuTwo({
             Delete Profile
           </div>
         }
-      </button>
+      </button> */}
     </div>
   );
 }
