@@ -15,6 +15,8 @@ import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";
 import { listingMarketerProfile } from "@/api/listingServices";
+import PropertyRequest from "@/components/mainmenu/propertyRequest";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const MarketerBusinessPage = ({ marketerId }) => {
   // const [combinedData, setCombinedData] = useState([]);
@@ -28,10 +30,12 @@ const MarketerBusinessPage = ({ marketerId }) => {
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedRooms, setSelectedRooms] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [properties, setProperties] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [data, setData] = useState(null);
+  const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [currentPage, setCurrentPage] = useState("1");
   const urlParams = useSearchParams();
   const [filters, setFilters] = useState({
@@ -90,7 +94,6 @@ const MarketerBusinessPage = ({ marketerId }) => {
     // setParams(true);
   };
 
-
   const goBack = () => {
     router.back();
   };
@@ -100,7 +103,6 @@ const MarketerBusinessPage = ({ marketerId }) => {
     setSelectedProperty("");
     setSelectedRooms("");
     fetchPropertyData("/properties/user/me");
-
   };
 
   const handleSharePage = async () => {
@@ -469,7 +471,10 @@ const MarketerBusinessPage = ({ marketerId }) => {
                       <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
                         Can’t find the property you are looking for?
                       </p>
-                      <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                      <button
+                        className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                        onClick={() => setOpenPropertyReq(true)}
+                      >
                         Post a property request
                       </button>
                     </div>
@@ -481,6 +486,16 @@ const MarketerBusinessPage = ({ marketerId }) => {
         )
       )}
       {/*  */}
+      <PropertyRequest
+        isOpen={openPropertyReq}
+        setOpenPropertyReq={setOpenPropertyReq}
+        setOpenSuccessModal={setOpenSuccessModal}
+      />
+      <SuccessModal
+        isOpen={OpenSuccessModal}
+        title="Property Request Sent Successfully"
+        handleEvent={() => setOpenSuccessModal(false)}
+      />
     </div>
   );
 };

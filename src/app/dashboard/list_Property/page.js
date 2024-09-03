@@ -20,6 +20,7 @@ import { propertyForMe } from "@/api/propertyService";
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
+  const {propertyListedAll, loading, fetchData}=usePropertyStore();
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
   const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(false);
@@ -30,12 +31,15 @@ const List_Property = () => {
   const [isLoading, setLoader] = useState(false);
   const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
   // const [loadingUpgradePromo, setLoaderUpgradePromo] = useState(false);
+  const [statusName, setTabName] = useState(null);
+
   const [isLoading2, setLoader2] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [promoteProperty, setPromotePropertry] = useState(false);
   const [promotePropertySuccess, setPromotePropertrySuccess] = useState(false);
   const router = useRouter();
   const [errorModal, setErrorModal] = useState(false);
+  const [loader, setLoading] = useState(false);
   const setPropertyIds = usePropertyPromotionsData(
     (state) => state.setPropertyIds
   );
@@ -48,76 +52,69 @@ const List_Property = () => {
     (state) => state.setPropertyPlanType
   );
   const [openLimitModal, setLimitModal] = useState(false);
-  // const [subsciptionStatus, setSubsciptionStatus] = useState([]);
-  // console.log(id, type);
-  // console.log(singlePropertyId);
   var id = localStorage.getItem("prp_tygf2ty");
   var plan = localStorage.getItem("prp_xry_pl#a$n");
   const handlePageNumber = (pageNumber, status) => {
     filterData(pageNumber, status);
   };
 
+  const filterQueryParams = (status) => {
+    return {
+      is_published: status === "published" ? true : undefined,
+      is_promoted: status === "promoted" ? true : undefined,
+      is_unpublished: status === "unpublished" ? true : undefined,
+    };
+  };
+
+  // console.log(loading)
+  // console.log(propertyListedAll)
+
+  // Function to refresh data based on status and page number
   const refreshData = (stat) => {
     const urlParams = new URLSearchParams(window.location.search);
     const pageNumber = urlParams.get("page");
-    const status = urlParams.get("propertystatus");
-    const filterParams = filterQueryParams(stat ? stat : status);
+    const status = stat || urlParams.get("propertystatus");
+    // console.log(status)
+    const filterParams = filterQueryParams(status);
     filterData(pageNumber, filterParams);
+    // fetchData(pageNumber, filterParams);
   };
 
-  // filter the property data based on the query of the params
+  // Function to filter the property data based on the query parameters
   const filterData = async (page, params = {}) => {
     const { is_published, is_promoted, is_unpublished } = params;
+    console.log(params)
     try {
+      setLoading(true);
       const results = await propertyForMe(page, {
         is_published,
         is_promoted,
         is_unpublished,
       });
-      const properties = results?.data?.results?.[0]?.data;
-      // console.log(results);
+
+      // const properties = results?.data?.results?.[0]?.data;
+      console.log(results);
       setProData(results);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false when fetching ends
     }
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get("propertystatus");
-    setProStatus(status);
+    const status = urlParams.get("propertystatus") || statusName;
+  
+    console.log(status);
+    if (status !== proStatus) {
+      setProStatus(status);
+    }
+    
     fetchProfile();
-    refreshData();
-  }, [fetchProfile, proStatus]);
-  // const { propertyListedAll, loading, fetchData } = usePropertyStore();
-  // useEffect(() => {
-  //   fetchData(page);
-  //   fetchProfile();
-  // }, [fetchData, fetchProfile, page]);
-
-  // useEffect(() => {
-  //   if (propertyListedAll) {
-  //     setProData(propertyListedAll || []);
-  //   }
-  // }, [propertyListedAll]);
-  const filterQueryParams = (status) => {
-    const filterParams = {
-      is_published: status === "published" ? true : undefined,
-      is_promoted: status === "promoted" ? true : undefined,
-      is_unpublished: status === "unpublished" ? true : undefined,
-    };
-    return filterParams;
-  };
-
-  // // check for subsciption plan Status
-  // useEffect(() => {
-  //   async function getSubscription() {
-  //     const response = await PromotionHooks.checkCurrentSubscription();
-  //     return response;
-  //   }
-  //   let status = getSubscription();
-  //   setSubsciptionStatus([...subsciptionStatus, status]);
-  // }, [subsciptionStatus]);
+    refreshData(status);
+  }, [fetchProfile,statusName]);
+  
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -155,6 +152,7 @@ const List_Property = () => {
     setOptions(false);
     setPropertyPlanType("");
   };
+  // console.log(proStatus);
 
   const handleSelectPlan = async () => {
     try {
@@ -176,7 +174,7 @@ const List_Property = () => {
     setPropertyPlanType("");
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      console.log(response.data);
+      // console.log(response.data);
 
       // ;
       if (response?.data?.status === "active") {
@@ -300,11 +298,12 @@ const List_Property = () => {
         </div>
       )}
 
-      {!property ? (
+      {loading ? (
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      ) : property?.msg !== "Success" && !proStatus ? (
+      ) : property?.response?.data?.message === "No items found" &&
+        (!proStatus) ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 w-fit m-auto">
             List your properties so Tenants can see them.
@@ -372,35 +371,36 @@ const List_Property = () => {
                     <span className="hidden sm:inline-block">Cancel</span>
                   </button>
                 )}
-                <button
-                  onClick={handlePromoteOptions}
-                  className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 sm:w-[180px]"
-                >
-                  {!isLoading2 ? (
-                    <>
-                      <Image
-                        src="/static/images/orange-send.svg"
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="hidden sm:inline-block"
-                      />
-                      <Image
-                        src="/static/images/promoteOrangeBtn.svg"
-                        alt=""
-                        height={28}
-                        width={28}
-                        className="sm:hidden p-[4px]"
-                      />
-                      <span className="hidden sm:inline-block">
-                        {options ? "Promotion options" : "Promote properties"}
-                      </span>
-                    </>
-                  ) : (
-                    <ThreeDotsLoader color="#ffffff" />
-                  )}
-                </button>
-
+                {property?.data?.totalCount > 1 && (
+                  <button
+                    onClick={handlePromoteOptions}
+                    className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 sm:w-[180px]"
+                  >
+                    {!isLoading2 ? (
+                      <>
+                        <Image
+                          src="/static/images/orange-send.svg"
+                          alt=""
+                          height={16}
+                          width={16}
+                          className="hidden sm:inline-block"
+                        />
+                        <Image
+                          src="/static/images/promoteOrangeBtn.svg"
+                          alt=""
+                          height={28}
+                          width={28}
+                          className="sm:hidden p-[4px]"
+                        />
+                        <span className="hidden sm:inline-block">
+                          {options ? "Promotion options" : "Promote properties"}
+                        </span>
+                      </>
+                    ) : (
+                      <ThreeDotsLoader color="#ffffff" />
+                    )}
+                  </button>
+                )}
                 <>
                   {property?.data?.totalCount > 0 &&
                   (profile?.businessInfo?.isVerified === "unverified" ||
@@ -496,6 +496,7 @@ const List_Property = () => {
             filterData={filterData}
             setPromotePropertry={setPromotePropertry}
             setErrorModal={setErrorModal}
+            setStatusName={setTabName}
           />
         </>
       )}

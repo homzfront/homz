@@ -14,11 +14,7 @@ const OwnersCard = ({ propertyData }) => {
   //   whatsAppNumber: false,
   // });
   const [showNumber, setShowNumber] = useState(false);
-  let marketerId = 222222;
-    console.log(propertyData?.user?._id)
-
-  
-
+  // console.log(propertyData)
   return (
     <div
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%] mt-4 sm:mt-0"
@@ -89,8 +85,8 @@ const OwnersCard = ({ propertyData }) => {
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
           <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
             {showNumber
-              ? propertyData?.contacts?.phoneNumber
-              : formatNumber(propertyData?.contacts?.phoneNumber)}
+              ?propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
+              : formatNumber(propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo)}
           </p>
           <button
             className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"

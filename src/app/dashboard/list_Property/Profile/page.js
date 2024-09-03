@@ -45,6 +45,7 @@ const Profile = () => {
     fetchData();
     setSuccessModalIsOpen(false);
   };
+  console.log(personalInfo)
   const handleSaved = async (e) => {
     e.preventDefault();
     if (loading) return;

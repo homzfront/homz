@@ -311,9 +311,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   };
   const handleUpdateData = () => {
     // mainSavedButton(true);
-    if (error2 || error) {
-      return;
-    }
+    // if (error2 || error) {
+    //   return;
+    // }
     setUpdate(false);
     const data = {};
     data.businessName = businessName;

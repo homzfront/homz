@@ -20,10 +20,11 @@ import OwnersCard from "./ownersCard";
 import RequestCard from "./requestCard";
 import FeaturedCard from "./featuredCard";
 import TipsFrame from "./tipsFrame";
-import PropertyRequest from "./propertyRequest";
+import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import { property } from "lodash";
 import Link from "next/link";
+
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -154,6 +155,7 @@ const ViewProperty = ({ PropertyID }) => {
       console.error("Error sharing the page:", err);
     }
   };
+  // console.log(propertyData)
   return (
     <div>
       {loading ? (
@@ -543,7 +545,7 @@ const ViewProperty = ({ PropertyID }) => {
                   </div>
 
                   <ContactCard
-                    contactData={propertyData?.lisitingPropertyId}
+                    contactData={propertyData}
                     setOpenPropertyReq={setOpenPropertyReq}
                     slug={propertyData?.slug}
                   />

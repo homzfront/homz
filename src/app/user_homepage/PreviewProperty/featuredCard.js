@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Carousel } from "flowbite-react";
 import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import trucateWord from "@/utils/trucateWord";
+
 
 const FeaturedCard = () => {
   const [featuredData, setFeaturedData] = useState(null);
@@ -91,8 +93,11 @@ const FeaturedCard = () => {
                       href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
                       className="text-BlueHomz sm:text-[23px] font-[700] text-[16.59px] sm:leading-[28.98px] leading-[20.9px]"
                     >
-                      {capitalizeFirstLetter(
-                        property?.property?.name || property?.property?.title
+                      {trucateWord(
+                        capitalizeFirstLetter(
+                          property?.property?.name || property?.property?.title
+                        ),
+                        12
                       )}
                     </Link>
                     {property?.property?.listingType && (

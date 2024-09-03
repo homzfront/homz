@@ -60,7 +60,7 @@ export const updateBusinessInfoLister = async (data) => {
   data?.otherLinks.forEach((link, index) => {
     formData.append(`otherLinks[${index}]`, link);
   });
-  // console.log([...formData.entries()])
+  console.log([...formData.entries()])
   try {
     const headers = {
       "Content-Type": "multipart/form-data",
@@ -70,7 +70,7 @@ export const updateBusinessInfoLister = async (data) => {
       formData,
       { headers }
     );
-    // console.log(response)
+    console.log(response)
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
     } else {
