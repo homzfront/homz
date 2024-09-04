@@ -201,10 +201,12 @@ const Settings = ({ data, fetchDataAgain }) => {
                                     </div>
                                 </div>
                                 <button
+                                    disabled
                                     onClick={() => setModalCustom(true)}
-                                    className='mt-4 text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-2 rounded-[4px]'>
-                                    Customize settings
+                                    className=' mt-4 text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-2 rounded-[4px]'>
+                                    Customize settings 
                                 </button>
+                                <span className='text-[10px] italic text-Success ml-2'>coming soon!</span>
                             </div>
                         }
                     </div>
@@ -213,7 +215,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                 <div
                     ref={emailContentRef}
                     className='h-screen p-[48px] flex justify-start items-start'>
-                    <div className='p-8 text-[18px] font-[400] text-justify bg-GrayHomz6 text-GrayHomz rounded-[4px]'
+                    <div className='p-8 text-[18px] font-[400] text-justify bg-bgGray text-GrayHomz rounded-[4px]'
                         dangerouslySetInnerHTML={{ __html: emailContent }}
                     />
                 </div>
