@@ -8,15 +8,10 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate,setData
   const [phoneClicked, setPhoneClicked] = useState(false);
   const [emailClicked, setEmailClicked] = useState(false);
   const [whatsappClicked, setWhatsAppClicked] = useState(false);
-  const [formData, setFormData] = useState({});
   const originalFormData = useRef({...property});
-
-  // useEffect(() => {
-  //   if (property) {
-  //     setFormData(property?.contacts || {});
-  //     originalFormData.current = property?.contacts || {};
-  //   }
-  // }, [property]);
+  
+  
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     if (property) {

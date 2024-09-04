@@ -112,11 +112,11 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 }}
                 onClick={() => setSelectedClicked(false)}
               >
-                {selectedClicked && (
+                {/* {selectedClicked && ( */}
                   <option value="" disabled selected>
                     Select Payment Type
                   </option>
-                )}
+                {/* )} */}
                 {paymentTypeValues.map((type, index) => (
                   <option key={index} value={type}>
                     {capitalizeFirstLetter(type)}
@@ -343,11 +343,11 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 onChange={(e) => setDuration(e.target.value)}
                 onClick={() => setDurationClicked(false)}
               >
-                {durationClicked && (
+                {/* {durationClicked && ( */}
                   <option value="" disabled selected>
                     Select payment duration
                   </option>
-                )}
+                {/* )} */}
 
                 {[...Array(6).keys()].slice(1).map((num) => (
                   <option key={num} value={num}>
@@ -428,7 +428,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
           </div>
 
           <div className="flex gap-3 items-center">
-            <button
+            {/* <button
               disabled={price === ""}
               className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${
               "text-[#c0bfbf]"
@@ -446,7 +446,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 width={16}
               />
               <span>Save to draft</span>
-            </button>
+            </button> */}
             <button
               onClick={onSubmit}
               disabled={price === ""}
@@ -478,7 +478,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
             </button>
           </div>
         </div>
-        <button
+        {/* <button
           disabled={price === ""}
           className={`mx-auto my-5 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] ${"text-[#c0bfbf]"
             // price === "" ? "text-[#D5D5D5]" : "text-BlueHomz"
@@ -495,7 +495,7 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
             width={16}
           />
           <span>Save to draft</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );
@@ -533,11 +533,11 @@ const FrequencySelect = ({
       onClick={() => setSelectedClicked(false)}
       onChange={(e) => setFrequency(e.target.value)}
     >
-      {selectedClicked && (
+      {/* {selectedClicked && ( */}
         <option value="" disabled selected>
           Select Frequency
         </option>
-      )}
+      {/* )} */}
       {filteredFrequency.map((type, index) => (
         <option key={index} value={type}>
           {capitalizeFirstLetter(type)}

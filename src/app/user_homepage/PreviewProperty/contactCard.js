@@ -16,8 +16,8 @@ const ContactCard = ({ contactData, setOpenPropertyReq,slug }) => {
         <div className="bg-white sm:w-[280px] h-[44px] flex items-center justify-between p-[12px] rounded-[8px]">
           <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
             {showNumber
-              ? contactData?.phoneNumber
-              : formatNumber(contactData?.phoneNumber)}
+              ? contactData?.contacts?.phoneNumber
+              : formatNumber(contactData?.contacts?.phoneNumber)}
           </p>
           <button
             className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
@@ -38,8 +38,10 @@ const ContactCard = ({ contactData, setOpenPropertyReq,slug }) => {
             <span>Whatsapp</span>
           </p>
           <button
-            onClick={() => whatsApp(contactData?.phoneNumber || contactData?.whatsApp, slug)}
+            onClick={() => whatsApp(contactData?.lisitingPropertyId?.whatsappLink || contactData?.whatsApp, slug)}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+            title={contactData?.lisitingPropertyId?.whatsappLink || contactData?.whatsApp}
+
           >
             Send Message
           </button>
