@@ -97,15 +97,15 @@ const Maintenance = ({ data }) => {
           <table border="1" className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-4 md:pl-6 w-[33.3%] md:w-[40%]">Tenant</th>
-                <th className="text-left w-[33.3%] md:w-[35%] ">Subject</th>
-                <th className="text-left w-[33.3%] md:w-[25%] md:pl-1">Status</th>
+                {/* <th className="text-left pl-4 md:pl-6 w-[33.3%] md:w-[40%]">Tenant</th> */}
+                <th className="text-left w-[60%] pl-2">Subject</th>
+                <th className="text-left w-[35%] pl-1">Status</th>
               </tr>
             </thead>
             <tbody className="">
               {currentData?.map((data) => (
                 <tr key={data._id} className="border-t-[1px] items-center">
-                  <td className="pt-[18px] sm:pt-2 flex items-center gap-1 pl-4 md:pl-6 w-[33.3%] md:w-[40%] text-GrayHomz4 font-[500] text-[11px]">
+                  {/* <td className="pt-[18px] sm:pt-2 flex items-center gap-1 pl-4 md:pl-6 w-[33.3%] md:w-[40%] text-GrayHomz4 font-[500] text-[11px]">
                     {data?.user?.coverPhoto?.url === null ||
                       data?.user?.coverPhoto?.url === undefined ? (
                       <div className="hidden py-[15px] h-[40px] w-[40px] sm:flex justify-center items-center bg-avatarBg rounded-full">
@@ -126,12 +126,12 @@ const Maintenance = ({ data }) => {
                       />
                     )}
                     <span className="">{data?.user?.fullName}</span>
-                  </td>
+                  </td> */}
                   <td
                     onMouseEnter={() => handleMouseEnter(data?._id)}
                     onMouseLeave={handleMouseLeave}
-                    className="relative text-GrayHomz py-[15px] w-[33.3%] md:w-[35%] font-[500] text-[11px]">
-                    {truncateText(data?.maintenanceRequest?.subject, 50)}
+                    className="relative text-GrayHomz pl-2 py-[15px] w-[60%] font-[500] text-[11px]">
+                    {truncateText(data?.maintenanceRequest?.subject, 70)}
                     {hoveredRow === data?._id && (
                       <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs sm:w-max">
                         {data?.maintenanceRequest?.subject}
@@ -140,7 +140,7 @@ const Maintenance = ({ data }) => {
                   </td>
 
                   <td
-                    className={`text-GrayHomz py-[15px] w-[33.3%] md:w-[25%] md:pl-1 font-[500]  text-[11px]`}
+                    className={`text-GrayHomz py-[15px] w-[35%] pl-1 font-[500]  text-[11px]`}
                   >
                     <StatusDropDownMain
                       data={data}

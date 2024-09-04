@@ -172,7 +172,7 @@ const PropertyCard = ({
                                 capitalizeFirstLetter(
                                   property?.name || property?.title
                                 ),
-                                20
+                                15
                               )}
                             </Link>
                             <Link

@@ -218,7 +218,7 @@ const MaintenanceTable = ({ request, fetchData }) => {
                     {request?.tenant?.phoneNumber}
                   </div>
                   <div className="hidden md:table-cell flex-[0.2] relative ">
-                    <button onClick={() => handleToggleMenu(request?.tenant?._id)}>
+                    <button onClick={() => handleToggleMenu(request?._id)}>
                       <Image
                         src={
                           "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
@@ -229,7 +229,7 @@ const MaintenanceTable = ({ request, fetchData }) => {
                         style={{ height: "auto", width: "auto" }}
                       />
                     </button>
-                    {popUpMenuTwo && selectedDataId === request?.tenant?._id && (
+                    {popUpMenuTwo && selectedDataId === request?._id && (
                       <PopUpMenu data={request} />
                     )}
                   </div>

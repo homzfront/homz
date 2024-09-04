@@ -98,26 +98,31 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                 }, 800);
                 fetchWallet();
             } else {
-                toast.error(error?.response?.data?.data?.detail);
+                if (error?.response?.data?.data?.detail && error) {
+                    toast.error(error?.response?.data?.data?.detail);
+                } else {
+                    toast.error(`NINDataKYC validation failed`);
+                }
                 setNationalPassportLoading(false);
             }
         } catch (error) {
             setNationalPassportLoading(false);
+            console.log(error);
             if (
                 error?.response?.data?.error?.errors &&
                 error.response.data.error.errors.length > 0
             ) {
                 const errorMessage = error.response.data.error.errors[0];
-                toast.error(`Update failed: ${errorMessage}`);
+                toast.error(`NINDataKYC validation failed: ${errorMessage}`);
             } else if (error?.response?.data?.message) {
                 const errorMessage = error.response.data.message;
-                toast.error(`Update failed: ${errorMessage}`);
+                toast.error(`NINDataKYC validation failed: ${errorMessage}`);
             } else {
-                toast.error("Update failed");
+                toast.error("NINDataKYC validation failed");
             }
         }
     }
-    
+
     return (
         <div className="">
             {
@@ -202,19 +207,19 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                             nationalPassportSuccess ? (
                                 <>
                                     {progress >= 100 ? (
-                                         <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
-                                         <div className='flex gap-2'>
-                                             <TickSuccess />
-                                             <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
-                                                 <span className="inline-block">
-                                                     [{nationalPassport?.name && nationalPassport.name}]
-                                                 </span>{' '}
-                                             </p>
-                                         </div>
-                                         <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(nationalPassport)}>
-                                             View
-                                         </p>
-                                     </div>
+                                        <div className="flex md:items-center flex-col md:flex-row justify-between w-full gap-[12px] md:gap-0">
+                                            <div className='flex gap-2'>
+                                                <TickSuccess />
+                                                <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
+                                                    <span className="inline-block">
+                                                        [{nationalPassport?.name && nationalPassport.name}]
+                                                    </span>{' '}
+                                                </p>
+                                            </div>
+                                            <p className="text-BlueHomz text-[13px] font-[400] leading-[19.5px] cursor-pointer" onClick={() => viewFile(nationalPassport)}>
+                                                View
+                                            </p>
+                                        </div>
                                     ) : (
                                         <div className="flex flex-col gap-[8px] w-full">
                                             <div className="flex items-center justify-between">
