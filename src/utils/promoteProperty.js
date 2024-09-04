@@ -15,12 +15,12 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
     // console.log(response);
     return response.data;
   } catch (error) {
-    // console.log(error)
-    // console.error(
-    //   "Error promoting property:",
-    //   error.response?.data || error.message
-    // );
-    return error.response?.data || { message: "An unexpected error occurred." };
+    console.log(error)
+    console.error(
+      "Error promoting property:",
+      error.response?.data || error.message
+    );
+    return error;
   }
 }
 
@@ -64,8 +64,8 @@ async function createSubscription(planName, interval, amount, upgradePlan) {
     // console.log(results?.data?.data);
     return results?.data?.data?.paystackResponse
   } catch (error) {
-    // console.error("Error", error.response?.data || error.message);
-    return error.response?.data || { message: "An unexpected error occurred." };
+    console.error("Error", error.response?.data || error.message);
+    return error;
   }
 }
 
