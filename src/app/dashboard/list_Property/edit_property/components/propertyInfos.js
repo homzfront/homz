@@ -139,9 +139,7 @@ const PropertyInfo = ({
     }
   };
 
-  // console.log("formData",formData);
-  // console.log("original",originalFormData);
-  // console.log(saveUpdate);
+  
   //
   return (
     <div className="flex flex-col gap-4">
@@ -316,7 +314,7 @@ const PropertyInfo = ({
                     : "bg-[#E6E6E6] text-[#A9A9A9]"
                 } `}
                 name="address"
-                value={formData?.address || ""}
+                value={formData?.street || ""}
                 placeholder="e.g  No 32,  Andrew  Street,  Lekki"
               />
             </div>

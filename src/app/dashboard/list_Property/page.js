@@ -111,7 +111,7 @@ const List_Property = () => {
 
     fetchProfile();
     // refreshData(status);
-    filterData(pageNumber, status);
+    filterData(pageNumber, proStatus);
   }, []);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ const List_Property = () => {
     setOptions(false);
     setPropertyPlanType("");
   };
-  // console.log(proStatus);
+  console.log(proStatus);
 
   const handleSelectPlan = async () => {
     try {
@@ -267,7 +267,7 @@ const List_Property = () => {
   };
   // console.log("global value", loading);
 
-  // console.log(property?.msg);
+  console.log(statusName);
   return (
     <div className="dashboard w-full">
       {openModalForBusi && (
@@ -300,7 +300,7 @@ const List_Property = () => {
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      ) : property.length === 0 && !proStatus ? (
+      ) : property.length === 0 && (!statusName || !proStatus) ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 w-fit m-auto">
             List your properties so Tenants can see them.

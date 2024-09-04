@@ -253,7 +253,7 @@ const ListedProperties = ({
   };
 
   const handlePropertyStatus = (status) => {
-    // console.log(status);
+    console.log(status);
     setStatusName(status);
     setTabName(status);
     pageManagement("", status);

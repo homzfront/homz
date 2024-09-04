@@ -20,27 +20,23 @@ const Plans = ({
   upgradePlan,
   setModalIsOpen,
 }) => {
-// console.log(profile)
- 
+  // console.log(profile)
 
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
 
   useEffect(() => {
-    if (isPending) {
-      return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
-    }
-    setLoadingStates((prev) => ({ ...prev, [ind]: false }));
+    setLoadingStates((prev) => ({
+      ...prev,
+      [ind]: isPending,
+    }));
   }, [isPending, ind]);
+  
+
   const router = useRouter();
 
-  const handleSelectPlan = async (
-    index,
-    planType,
-    interval,
-    amount,
-  ) => {
+  const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
 
     await handleSelectPlans.handleSelectPlan(
@@ -157,8 +153,8 @@ const Plans = ({
                 <ThreeDots color="#ffffff" />
               ) : (
                 <>
-                  { profile?.plan?.name === plan.title &&
-                    profile?.plan?.interval === "weekly"
+                  {profile?.plan?.name === plan.title &&
+                  profile?.plan?.interval === "weekly"
                     ? "Active"
                     : "Select Plan"}
                 </>
