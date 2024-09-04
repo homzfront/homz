@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       <Head>
         <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE} />
         <script
-          id="fb-pixel"
+          id="facebook-pixel"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
