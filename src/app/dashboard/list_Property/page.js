@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Property from "./listedProperty";
 import PromotionHooks from "@/utils/promoteProperty";
-import usePropertyStore from "@/store/enterpriseStore/propertyForMeStore";
+import usePropertyStore from "@/store/propertyForMeStore";
 import usePropertyPromotionsData from "@/store/propertyPromotions";
 import LoadingII from "./components/loading";
 import useClickOutside from "@/utils/clickOutside";
@@ -92,7 +92,7 @@ const List_Property = () => {
       const results = await api.get(query);
       setProData(results?.data);
     } catch (error) {
-      // console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);
       setProData([]);
     } finally {
       setLoading(false); // Set loading to false when fetching ends
@@ -155,13 +155,14 @@ const List_Property = () => {
   const handleSelectPlan = async () => {
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
+      console.log(response)
       if (response.data === null) {
         startTransition(() => {
           router.push(`/subscriptionPlans`);
         });
       }
     } catch (error) {
-      // console.error("Error", error.response?.data || error.message);
+      console.error("Error", error.response?.data || error.message);
       return (
         error.response?.data || { message: "An unexpected error occurred." }
       );
@@ -170,34 +171,39 @@ const List_Property = () => {
   const handlePromoteOptions = async () => {
     setLoader2(true);
     setPropertyPlanType("");
+  
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      // console.log(response.data);
-
-      // ;
-      if (response?.data?.status === "active") {
+ 
+  
+      const { status, subscription_code } = response?.data?.data || {};
+      const errorMessage = response?.message;
+  
+      if (status === "active" && subscription_code) {
+        // console.log("Subscription is active");
         setLoader2(false);
+        
         if (selectedProperty.length > 0) {
-          // setLoader(true);
           setPropertyIds(selectedProperty);
           setPromotePropertry(true);
         } else {
           setOptions(true);
         }
-      } else if (response.message == "An unexpected error occurred.") {
+      } else if (errorMessage === "An unexpected error occurred.") {
         setLoader2(false);
         setErrorModal(true);
-      } else if (response?.data?.status === "inactive") {
+      } else if (!status) {
+        console.log("No active subscription");
         setLoader2(false);
         setOpenPlanModal(true);
       }
     } catch (error) {
-      // console.error("Error", error.response?.data || error.message);
-      return (
-        error.response?.data || { message: "An unexpected error occurred." }
-      );
+      console.error("Error", error.response?.data || error.message);
+      setLoader2(false);
+      setErrorModal(true);
     }
   };
+  
 
   const handlePropertyPromotion = async () => {
     setLoader(true);
@@ -214,19 +220,21 @@ const List_Property = () => {
         promotionPlan,
         selectedProperty
       );
-      // console.log(results);
+      console.log(results);
       setLoader(false);
 
-      if (results.status) {
+      if (results?.data?.status === "active") {
         setPromotePropertrySuccess(true);
         router.prefetch("/dashboard/list_Property");
         status = true;
       } else if (results.message) {
         setLimitModal(true);
+      } else if (results.message === "Network Error") {
+        setErrorModal(true);
       }
       setPromotePropertry(false);
     } catch (error) {
-      // console.error("Error promoting the property:", error);
+      console.error("Error promoting the property:", error);
       setLoader(false);
       status = false;
     }
@@ -255,7 +263,7 @@ const List_Property = () => {
       }
       setLoaderSecondPromo(false);
     } catch (error) {
-      // console.error(error);
+      console.error(error);
       setLoaderSecondPromo(false);
     }
   };
@@ -295,7 +303,6 @@ const List_Property = () => {
           </div>
         </div>
       )}
-
       {loader ? (
         <div className="h-screen flex justify-center items-center">
           <LoadingII />

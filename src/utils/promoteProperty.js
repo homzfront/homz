@@ -20,7 +20,7 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
     //   "Error promoting property:",
     //   error.response?.data || error.message
     // );
-    return error.response?.data || { message: "An unexpected error occurred." };
+    return error;
   }
 }
 
@@ -46,10 +46,10 @@ async function checkCurrentSubscription() {
       "/subscribe/listingProperty/current-subscription-Detail"
     );
     // console.log(results);
-    return results.data;
+    return results;
   } catch (error) {
     // console.error("Error", error.response?.data || error.message);
-    return error.response?.data || { message: "An unexpected error occurred." };
+    return error;
   }
 }
 async function createSubscription(planName, interval, amount, upgradePlan) {
