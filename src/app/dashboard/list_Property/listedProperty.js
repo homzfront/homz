@@ -232,7 +232,7 @@ const ListedProperties = ({
         setFilteredData(filteredData);
         setIsLoading(false);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         setIsLoading(false);
       }
     }, 2000);
@@ -253,7 +253,7 @@ const ListedProperties = ({
   };
 
   const handlePropertyStatus = (status) => {
-    console.log(status);
+    // console.log(status);
     setStatusName(status);
     setTabName(status);
     pageManagement("", status);

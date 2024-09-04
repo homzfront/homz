@@ -92,7 +92,7 @@ const List_Property = () => {
       const results = await api.get(query);
       setProData(results?.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
       setProData([]);
     } finally {
       setLoading(false); // Set loading to false when fetching ends
@@ -150,7 +150,7 @@ const List_Property = () => {
     setOptions(false);
     setPropertyPlanType("");
   };
-  console.log(proStatus);
+  // console.log(proStatus);
 
   const handleSelectPlan = async () => {
     try {
@@ -161,7 +161,7 @@ const List_Property = () => {
         });
       }
     } catch (error) {
-      console.error("Error", error.response?.data || error.message);
+      // console.error("Error", error.response?.data || error.message);
       return (
         error.response?.data || { message: "An unexpected error occurred." }
       );
@@ -192,7 +192,7 @@ const List_Property = () => {
         setOpenPlanModal(true);
       }
     } catch (error) {
-      console.error("Error", error.response?.data || error.message);
+      // console.error("Error", error.response?.data || error.message);
       return (
         error.response?.data || { message: "An unexpected error occurred." }
       );
@@ -226,7 +226,7 @@ const List_Property = () => {
       }
       setPromotePropertry(false);
     } catch (error) {
-      console.error("Error promoting the property:", error);
+      // console.error("Error promoting the property:", error);
       setLoader(false);
       status = false;
     }
@@ -255,7 +255,7 @@ const List_Property = () => {
       }
       setLoaderSecondPromo(false);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setLoaderSecondPromo(false);
     }
   };
@@ -267,7 +267,7 @@ const List_Property = () => {
   };
   // console.log("global value", loading);
 
-  console.log(statusName);
+  // console.log(statusName);
   return (
     <div className="dashboard w-full">
       {openModalForBusi && (
