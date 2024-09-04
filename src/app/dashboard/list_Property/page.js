@@ -154,13 +154,10 @@ const List_Property = () => {
 
   const handleSelectPlan = async () => {
     try {
-      const response = await PromotionHooks.checkCurrentSubscription();
-      console.log(response)
-      if (response.data === null) {
-        startTransition(() => {
-          router.push(`/subscriptionPlans`);
-        });
-      }
+     
+      startTransition(() => {
+        router.push(`/subscriptionPlans`);
+      });
     } catch (error) {
       console.error("Error", error.response?.data || error.message);
       return (
