@@ -345,9 +345,8 @@ const List_Property = () => {
       ) : (
         <>
           <div
-            className={` ${
-              property?.data?.totalCount === 0 ? "hidden" : ""
-            } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
+            className={` ${property?.data?.totalCount === 0 ? "hidden" : ""
+              } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
             <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] px-4 sm:px-">
               <p>
@@ -407,9 +406,9 @@ const List_Property = () => {
                 )}
                 <>
                   {property?.data?.totalCount > 0 &&
-                  (profile?.businessInfo?.isVerified === "unverified" ||
-                    profile?.businessInfo?.isVerified === "pending" ||
-                    profile?.businessInfo?.isVerified === "rejected") ? (
+                    (profile?.businessInfo?.isVerified === "unverified" ||
+                      profile?.businessInfo?.isVerified === "pending" ||
+                      profile?.businessInfo?.isVerified === "rejected") ? (
                     <div
                       onClick={() => setOpenModalForBusi(true)}
                       className="w-full cursor-pointer flex gap-1 sm:w-[166px] sm:h-[42px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white sm:bg-[#006AFF] ml-3"
@@ -460,9 +459,9 @@ const List_Property = () => {
               </div>
             </div>
             {property?.data?.totalCount > 0 &&
-            (profile?.businessInfo?.isVerified === "unverified" ||
-              profile?.businessInfo?.isVerified === "pending" ||
-              profile?.businessInfo?.isVerified === "rejected") ? (
+              (profile?.businessInfo?.isVerified === "unverified" ||
+                profile?.businessInfo?.isVerified === "pending" ||
+                profile?.businessInfo?.isVerified === "rejected") ? (
               <div>
                 <Image
                   src="/static/images/addButton.svg"
@@ -517,7 +516,7 @@ const List_Property = () => {
         optionText="Proceed to subscribe?"
         optionText2="Cancel"
         isLoading={isLoading}
-        // color="text-[#D92D20]"
+      // color="text-[#D92D20]"
       />
       {/* promotion property */}
       <ConfirmationModal
@@ -532,7 +531,7 @@ const List_Property = () => {
         optionText="Proceed"
         optionText2="Cancel"
         isLoading={isLoading}
-        // color="text-[#D92D20]"
+      // color="text-[#D92D20]"
       />
 
       <SuccessModal
@@ -540,7 +539,7 @@ const List_Property = () => {
         title="Promotion is Active"
         handleEvent={closePromotionModal}
         successText="Your promotion is currently running for this property"
-        // optionalText="View listed properties"
+      // optionalText="View listed properties"
       />
       <SuccessModal
         isOpen={errorModal}
