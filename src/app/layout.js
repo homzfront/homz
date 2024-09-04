@@ -32,6 +32,8 @@ export default function RootLayout({ children }) {
       <Head>
         <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE} />
         <script
+          id="fb-pixel"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)
@@ -42,14 +44,14 @@ export default function RootLayout({ children }) {
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '584379467167441');
+              fbq('init', ${process.env.NEXT_PUBLIC_PIXEL_ID});
               fbq('track', 'PageView');
             `,
           }}
         />
         <noscript>
           <img height="1" width="1" style={{ display: 'none' }}
-            src="https://www.facebook.com/tr?id=584379467167441&ev=PageView&noscript=1" alt="" />
+            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_PIXEL_ID}&ev=PageView&noscript=1`} alt="" />
         </noscript>
       </Head>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
@@ -70,8 +72,8 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-        <div className={plus_Jakarta_Sans.className}>{children}</div>
       </body>
+      <body className={plus_Jakarta_Sans.className}>{children}</body>
     </html>
   );
 }
