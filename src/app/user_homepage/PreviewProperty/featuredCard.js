@@ -250,7 +250,7 @@ const customTheme = {
   root: {
     base: "relative h-full w-full",
     leftControl:
-      " inline-block absolute top-[5rem] left-3  sm:top-[7rem] sm:left-2 flex h-[15px] w-[15px] items-center justify-center  focus:outline-none transition-opacity duration-300",
+      " inline-block absolute top-[5rem] left-3  sm:top-[7rem] sm:left-6 flex h-[15px] w-[15px] items-center justify-center  focus:outline-none transition-opacity duration-300",
     rightControl:
       " inline-block absolute top-[5rem] right-3 sm:top-[7rem] sm:right-6 flex h-[15px] w-[15px] items-center justify-center  focus:outline-none transition-opacity duration-300",
     "&:hover $leftControl, &:hover $rightControl": {

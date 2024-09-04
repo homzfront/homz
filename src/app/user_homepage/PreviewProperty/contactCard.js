@@ -40,6 +40,8 @@ const ContactCard = ({ contactData, setOpenPropertyReq,slug }) => {
           <button
             onClick={() => whatsApp(contactData?.lisitingPropertyId?.whatsappLink || contactData?.whatsApp, slug)}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+            title={contactData?.lisitingPropertyId?.whatsappLink || contactData?.whatsApp}
+
           >
             Send Message
           </button>
