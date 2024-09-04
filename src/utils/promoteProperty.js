@@ -25,7 +25,7 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
 }
 
 async function stopSinglePromotion(propertyId) {
-  try {
+  try {https://github.com/homzfront/homz/pull/75/conflict?name=src%252Futils%252FpromoteProperty.js&ancestor_oid=5d8c040b04a36a3aa9728512e8332ccd8168f930&base_oid=0cc14c7cb44e0d08a2c4e8ca2e6bc8783704cf2e&head_oid=01594e33f2f859dde1f2f676b6fbb15faa29b803
     const result = await api.put(
       `/property/promotion/promotion/stop/${propertyId}`
     );
@@ -46,10 +46,10 @@ async function checkCurrentSubscription() {
       "/subscribe/listingProperty/current-subscription-Detail"
     );
     // console.log(results);
-    return results.data;
+    return results;
   } catch (error) {
     // console.error("Error", error.response?.data || error.message);
-    return error.response?.data || { message: "An unexpected error occurred." };
+    return error;
   }
 }
 async function createSubscription(planName, interval, amount, upgradePlan) {
