@@ -12,7 +12,7 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
       plan === "single" ? { endDate: date } : { endDate: date, propertyIds };
 
     const response = await api.post(endpoint, payload);
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     console.log(error)
@@ -20,7 +20,7 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
       "Error promoting property:",
       error.response?.data || error.message
     );
-    return error.response?.data || { message: "An unexpected error occurred." };
+    return error;
   }
 }
 
@@ -29,7 +29,7 @@ async function stopSinglePromotion(propertyId) {
     const result = await api.put(
       `/property/promotion/promotion/stop/${propertyId}`
     );
-    console.log(result.data)
+    // console.log(result.data)
     return result.data;
   } catch (error) {
     console.log(error)
@@ -46,14 +46,14 @@ async function checkCurrentSubscription() {
       "/subscribe/listingProperty/current-subscription-Detail"
     );
     // console.log(results);
-    return results.data;
+    return results;
   } catch (error) {
     console.error("Error", error.response?.data || error.message);
-    return error.response?.data || { message: "An unexpected error occurred." };
+    return error;
   }
 }
 async function createSubscription(planName, interval, amount, upgradePlan) {
-  console.log(upgradePlan)
+  // console.log(upgradePlan)
    try {
     
     const results = await api.post(`/subscribe/listingProperty/${upgradePlan? "update":"new"}`, {
@@ -61,7 +61,7 @@ async function createSubscription(planName, interval, amount, upgradePlan) {
       interval: interval,
       amount: amount,
     });
-    console.log(results?.data?.data);
+    // console.log(results?.data?.data);
     return results?.data?.data?.paystackResponse
   } catch (error) {
     console.error("Error", error.response?.data || error.message);

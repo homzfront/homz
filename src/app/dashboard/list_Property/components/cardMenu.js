@@ -46,8 +46,8 @@ function CardMenus({
     setLoader(true);
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      // console.log(response);
-      if (response.data === null) {
+      // console.log(response?.data?.data?.IsExpired);
+      if (!response?.data?.data?.status) {
         localStorage.setItem("prp_tygf2ty", data._id);
         localStorage.setItem("prp_xry_pl#a$n", "single");
         setOpenPlanModal(true);
