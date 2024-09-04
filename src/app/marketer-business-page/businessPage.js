@@ -19,13 +19,7 @@ import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const MarketerBusinessPage = ({ marketerId }) => {
-  // const [combinedData, setCombinedData] = useState([]);
-  // const [currentUser, setCurrentUser] = useState("");
-  // const [selectedState, setSelectedState] = useState(null);
-  // const [propertyData, setPropertyData] = useState(null);
-  // const [params, setParams] = useState(false);
-  // const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  // const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  // console.log(marketerId)
   const [tabName, setTabName] = useState("properties");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedRooms, setSelectedRooms] = useState("");
@@ -48,21 +42,22 @@ const MarketerBusinessPage = ({ marketerId }) => {
   });
 
   const router = useRouter();
-  const fetchPropertyData = async () => {
+  let urlEndPoint = `/properties/${marketerId}/marketerproperties`;
+  const fetchPropertyData = async (url) => {
     try {
-      const response = await api.get(
-        `/properties/${marketerId}/marketerproperties`
-      );
+      const response = await api.get(url);
       let dataResult = response.data.data.results[0].data;
       // console.log(response);
       const total = dataResult.length || 0;
       setTotalPages(Math.ceil(total / 9));
       setProperties(dataResult);
-      setLoading(false);
       return dataResult;
     } catch (error) {
       console.log(error);
-      return error;
+      setProperties([]);
+    } finally {
+      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -78,7 +73,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       });
   };
   useEffect(() => {
-    fetchPropertyData();
+    fetchPropertyData(urlEndPoint);
     fetchMarketerProfile();
   }, []);
 
@@ -102,7 +97,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
     setSearchQuery("");
     setSelectedProperty("");
     setSelectedRooms("");
-    fetchPropertyData("/properties/user/me");
+    fetchPropertyData(urlEndPoint);
   };
 
   const handleSharePage = async () => {
@@ -150,9 +145,10 @@ const MarketerBusinessPage = ({ marketerId }) => {
     ...new Set(properties?.map((item) => item?.numberOfBathrooms)),
   ];
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     setIsLoading(true);
-    let query = `/properties/user/me?numberOfBathrooms=${
+    let query = `/properties/${marketerId}/marketerproperties?numberOfBathrooms=${
       selectedRooms && selectedRooms
     }&propertyType=${selectedProperty && selectedProperty}&state=${
       searchQuery && searchQuery
@@ -161,7 +157,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       try {
         const filteredData = await fetchPropertyData(query);
         // console.log(filteredData)
-        if (filteredData.response.data.success === false) {
+        if (filteredData?.response?.data?.success === false) {
           return;
         }
         setTotalPages(Math.ceil(filteredData.length / 9));
@@ -353,7 +349,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
                 </button>
               </div>
 
-              <div className="hidden sm:flex gap-1 ">
+              <form onSubmit={handleSearch} className="hidden sm:flex gap-1 ">
                 <div className="relative w-[255px] rounded-[4px]">
                   <input
                     type="text"
@@ -404,7 +400,8 @@ const MarketerBusinessPage = ({ marketerId }) => {
 
                 <button
                   className="adminBorders  border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex gap-1 text-white px-[12px] py-[8px] rounded-[4px] h-[37px] w-[75px] cursor-pointer  justify-center"
-                  onClick={handleSearch}
+                  onClick={(e) => handleSearch(e)}
+                  type="submit"
                 >
                   {!isLoading ? (
                     <span>Search</span>
@@ -415,6 +412,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
                 <button
                   className="border w-fit px-[12px] py-[8px] h-[37px] border-[#006AFF] text-[#006AFF] gap-1 items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer "
                   onClick={reset}
+                  type="reset"
                 >
                   <span>
                     <Image
@@ -425,7 +423,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
                     />
                   </span>
                 </button>
-              </div>
+              </form>
             </section>
             <div className="sm:hidden mt-8">
               <OwnersCard data={data} />

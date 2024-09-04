@@ -16,11 +16,12 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/actionModal";
 import { propertyForMe } from "@/api/propertyService";
+import api from "@/utils/api";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
-  const {propertyListedAll, loading, fetchData}=usePropertyStore();
+  const { propertyListedAll, loading, fetchData } = usePropertyStore();
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
   const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(false);
@@ -39,7 +40,7 @@ const List_Property = () => {
   const [promotePropertySuccess, setPromotePropertrySuccess] = useState(false);
   const router = useRouter();
   const [errorModal, setErrorModal] = useState(false);
-  const [loader, setLoading] = useState(false);
+  const [loader, setLoading] = useState(true);
   const setPropertyIds = usePropertyPromotionsData(
     (state) => state.setPropertyIds
   );
@@ -58,45 +59,41 @@ const List_Property = () => {
     filterData(pageNumber, status);
   };
 
-  const filterQueryParams = (status) => {
-    return {
-      is_published: status === "published" ? true : undefined,
-      is_promoted: status === "promoted" ? true : undefined,
-      is_unpublished: status === "unpublished" ? true : undefined,
-    };
-  };
-
-  // console.log(loading)
   // console.log(propertyListedAll)
 
   // Function to refresh data based on status and page number
   const refreshData = (stat) => {
     const urlParams = new URLSearchParams(window.location.search);
     const pageNumber = urlParams.get("page");
-    const status = stat || urlParams.get("propertystatus");
-    // console.log(status)
-    const filterParams = filterQueryParams(status);
-    filterData(pageNumber, filterParams);
-    // fetchData(pageNumber, filterParams);
+    filterData(pageNumber, stat);
   };
+  // fetchData(pageNumber, filterParams);
 
   // Function to filter the property data based on the query parameters
-  const filterData = async (page, params = {}) => {
-    const { is_published, is_promoted, is_unpublished } = params;
-    console.log(params)
+  const filterData = async (page, params) => {
+    // const { is_published, is_promoted, is_unpublished } = params;
+    // console.log(params)
+    // // setLoading(true);
     try {
-      setLoading(true);
-      const results = await propertyForMe(page, {
-        is_published,
-        is_promoted,
-        is_unpublished,
-      });
+      // const results = await propertyForMe(page, {
+      //   is_published,
+      //   is_promoted,
+      //   is_unpublished,
+      // });
+      let query = `/properties/user/me?page=${page || 1}`;
 
-      // const properties = results?.data?.results?.[0]?.data;
-      console.log(results);
-      setProData(results);
+      if (params === "published") {
+        query += `&is_published=true`;
+      } else if (params === "promoted") {
+        query += `&is_promoted=true`;
+      } else if (params === "unpublished") {
+        query += `&is_unpublished=true`;
+      }
+      const results = await api.get(query);
+      setProData(results?.data);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setProData([]);
     } finally {
       setLoading(false); // Set loading to false when fetching ends
     }
@@ -105,16 +102,17 @@ const List_Property = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get("propertystatus") || statusName;
-  
-    console.log(status);
+    const pageNumber = urlParams.get("page") || 1;
+
+    // console.log(status);
     if (status !== proStatus) {
       setProStatus(status);
     }
-    
+
     fetchProfile();
-    refreshData(status);
-  }, [fetchProfile,statusName]);
-  
+    // refreshData(status);
+    filterData(pageNumber, status);
+  }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -298,12 +296,11 @@ const List_Property = () => {
         </div>
       )}
 
-      {loading ? (
+      {loader ? (
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      ) : property?.response?.data?.message === "No items found" &&
-        (!proStatus) ? (
+      ) : property.length === 0 && !proStatus ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 w-fit m-auto">
             List your properties so Tenants can see them.

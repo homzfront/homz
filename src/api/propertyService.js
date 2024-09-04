@@ -44,7 +44,6 @@ export const propertyForMe = async (page, propertyStatus = {}) => {
     // console.log(response)
     return response.data;
   } catch (error) {
-
     console.error("Error fetching property data:", error);
     return error;
   }

@@ -249,7 +249,7 @@ const PersonalInfo = ({ handleUpdate, data }) => {
                 }`}
               />
             </div>
-            <div className="w-full">
+            {/* <div className="w-full">
               <label
                 className="text-[13px] md:text-[14px] font-[500] text-GrayHomz "
                 htmlFor="WhatsAppLink"
@@ -291,15 +291,15 @@ const PersonalInfo = ({ handleUpdate, data }) => {
                   setFocus(true);
                 }}
               />
+            </div> */}
               {/* {errors.WhatsAppLink && (
                 <p className="errorMsg">WhatsApp Link is required</p>
               )} */}
-            </div>
-            {error && (
+            {/* {error && (
               <div className="italic text-error text-[11px] font-[400]">
                 {error}
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">

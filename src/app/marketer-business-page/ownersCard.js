@@ -27,7 +27,7 @@ const OwnersCard = ({ data }) => {
   //     // console.error("Unable to copy to clipboard:", error);
   //   }
   // };
-  console.log(data);
+  // console.log(data);
 
   const viewLinks = (url) => {
     if (url && typeof url === "string" && url.trim() !== "") {
@@ -37,7 +37,7 @@ const OwnersCard = ({ data }) => {
 
       try {
         window.open(url, "_blank", "noopener,noreferrer");
-        // console.log(url);
+        console.log(url);
       } catch (error) {
         console.error("Failed to open the link:", error);
       }
@@ -46,6 +46,12 @@ const OwnersCard = ({ data }) => {
     }
   };
 
+  const whatsApp = (url) => {
+    const number = url.replace("https://wa.me/", "+234");
+    const defaultMessage = "Hi, I am reaching from on Homz.ng";
+    let urlApi = `whatsapp://send?text=${defaultMessage}&phone=${number}`;
+    window.open(urlApi, "_blank", "noopener,noreferrer");
+  };
   return (
     <div
       className=" flex flex-col gap-[15px] sm:gap-[24px] md:h-fit border rounded-[12px] sm:p-[20px] py-[20px] px-[13px] w-[100%]"
@@ -61,14 +67,20 @@ const OwnersCard = ({ data }) => {
         </p>
         <div className="  flex items-center gap-5 sm:gap-6 w-[180px]">
           <p className="text-[#006AFF] sm:text-[13px] leading-[16.5px] text-[12px] font-[400] sm:leading-[19.5px]">
-            {showNumber ? data?.phoneNumber : formatNumber(data?.phoneNumber)}
+            {data?.phoneNumber
+              ? showNumber
+                ? data?.phoneNumber
+                : formatNumber(data?.phoneNumber)
+              : "---"}
           </p>
-          <button
-            className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-            onClick={() => setShowNumber(!showNumber)}
-          >
-            {showNumber ? "Hide" : "Show"}
-          </button>
+          {data?.phoneNumber && (
+            <button
+              className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+              onClick={() => setShowNumber(!showNumber)}
+            >
+              {showNumber ? "Hide" : "Show"}
+            </button>
+          )}
         </div>
       </div>
       <div className="flex justify-between items-center h-">
@@ -76,17 +88,22 @@ const OwnersCard = ({ data }) => {
           Business Address
         </p>
         <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] text-left w-[180px]">
-          {data?.businessInfo?.businessAddress}
+          {data?.businessInfo?.businessAddress || "---"}
         </p>
       </div>
-      <div className="flex justify-between items-center h-[25px]">
-        <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] w-[116px]">
-          Website
-        </p>
-        <p className="text-[#006AFF] font-[400] sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] text-left w-[180px]">
-          {data?.websiteUrl}
-        </p>
-      </div>
+      {data?.websiteUrl && (
+        <div className="flex justify-between items-center h-[25px]">
+          <p className="sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] font-[400] w-[116px]">
+            Website
+          </p>
+          <p
+            className="text-[#006AFF] font-[400] sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] text-left w-[180px] cursor-pointer"
+            onClick={() => viewLinks(data?.websiteUrl)}
+          >
+            {data?.websiteUrl}
+          </p>
+        </div>
+      )}
       {(data?.socialMediaLinks?.whatsappLink ||
         data?.socialMediaLinks?.facebookLink ||
         data?.socialMediaLinks?.twitterLink ||
@@ -105,9 +122,8 @@ const OwnersCard = ({ data }) => {
                   height={22}
                   width={22}
                   className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
-                  onClick={() =>
-                    viewLinks(data?.socialMediaLinks?.whatsappLink)
-                  }
+                  title={data?.socialMediaLinks?.whatsappLink}
+                  onClick={() => whatsApp(data?.socialMediaLinks?.whatsappLink)}
                 />
               </span>
             )}
@@ -118,6 +134,7 @@ const OwnersCard = ({ data }) => {
                 height={20}
                 width={22}
                 className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+                title={data?.socialMediaLinks?.facebookLink}
                 onClick={() => viewLinks(data?.socialMediaLinks?.facebookLink)}
               />
             )}
@@ -128,6 +145,7 @@ const OwnersCard = ({ data }) => {
                 height={20}
                 width={22}
                 className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+                title={data?.socialMediaLinks?.twitterLink}
                 onClick={() => viewLinks(data?.socialMediaLinks?.twitterLink)}
               />
             )}
@@ -138,6 +156,7 @@ const OwnersCard = ({ data }) => {
                 height={20}
                 width={22}
                 className="sm:w-[22px] sm:h-[22px] w-[18px] h-[18px] cursor-pointer"
+                title={data?.socialMediaLinks?.instagramLink}
                 onClick={() => viewLinks(data?.socialMediaLinks?.instagramLink)}
               />
             )}

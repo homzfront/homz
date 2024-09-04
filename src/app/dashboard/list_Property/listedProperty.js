@@ -249,7 +249,7 @@ const ListedProperties = ({
   const refetchData = (propertyStatus) => {
     // console.log(propertyStatus)
     const filterParams = filterQueryParams(propertyStatus);
-    filterData(pageNumber, filterParams);
+    refreshData(propertyStatus);
   };
 
   const handlePropertyStatus = (status) => {

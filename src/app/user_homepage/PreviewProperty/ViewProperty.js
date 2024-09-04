@@ -25,7 +25,6 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 import { property } from "lodash";
 import Link from "next/link";
 
-
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
@@ -192,7 +191,7 @@ const ViewProperty = ({ PropertyID }) => {
             </div>
 
             <div className="block mt-6">
-            {combinedData.length > 0 ? (
+              {propertyData?.coverPhoto || propertyData?.photos.length > 0 ? (
                 <div className="flex  sm:flex-row flex-wrap sm:flex-nowrap gap-[13.97px] sm:h-[472.69px] w-fit">
                   <div className="sm:w-[640.34px] sm:h-full w-full h-[174px]">
                     <Carousel
