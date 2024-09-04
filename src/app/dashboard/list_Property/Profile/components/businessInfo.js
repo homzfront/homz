@@ -65,13 +65,47 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   const addLink = () => {
     const newId = lastId + 1;
     setLastId(newId);
-    setSocialMediaLinks([
-      ...socialMedia,
-      { id: newId, placeholder: "Type in link", value: "", name: "otherLinks" },
-    ]);
+    const newLink = {
+      id: newId,
+      placeholder: "Type in link",
+      value: "",
+      name: "otherLinks",
+    };
+
+    setSocialMediaLinks([...socialMedia, newLink]);
+
+    setSocialLinks((prevLinks) => ({
+      ...prevLinks,
+      othersLinks: [...prevLinks.othersLinks, newLink.value],
+    }));
   };
+  // const removeLink = (id) => {
+  //   const socialId = id - 4;
+
+  //   setSocialMediaLinks(socialMedia.filter((media, index) => index !== id+4));
+
+  //   setSocialLinks(prevLinks => ({
+  //     ...prevLinks,
+  //     othersLinks: prevLinks.othersLinks.filter((_, index) => index !== socialId)
+  //   }));
+  // };
   const removeLink = (id) => {
+    // Update the socialMediaLinks state by removing the link with the matching id
     setSocialMediaLinks(socialMedia.filter((media) => media.id !== id));
+
+    // If the removed link is in the othersLinks, update the othersLinks array
+    if (
+      socialMedia.find(
+        (media) => media.id === id && media.name === "otherLinks"
+      )
+    ) {
+      setSocialLinks((prevLinks) => ({
+        ...prevLinks,
+        othersLinks: prevLinks.othersLinks.filter(
+          (_, index) => index !== id - 5
+        ),
+      }));
+    }
   };
 
   const handleInputChange = (id, name, newValue) => {
@@ -146,7 +180,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
 
       // Handle additional links (otherLinks)
       const { otherLinks = [] } = socialMediaLinks;
-
       if (otherLinks.length > 0) {
         const otherLinksArray = otherLinks.map((link, index) => ({
           id: socialMedia.length + index + 1,
@@ -156,20 +189,19 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
         }));
 
         setSocialMediaLinks((prevSocialMedia) => {
-          // Filter out any existing otherLinks to avoid duplicates
           const filteredPrevSocialMedia = prevSocialMedia.filter(
             (link) => link.name !== "otherLinks"
           );
-
-          // Merge the new otherLinksArray without duplicates
           return [...filteredPrevSocialMedia, ...otherLinksArray];
         });
+
+        setSocialLinks((prevLinks) => ({
+          ...prevLinks,
+          othersLinks: otherLinks,
+        }));
       }
     }
   }, [Business_Info]);
-
-  // console.log(socialMedia);
-  // console.log(otherLinksData);
 
   const closeModal = () => {
     setRemoveCertificate(false);
@@ -236,7 +268,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     }
   };
 
-  // console.log(certificateCAC);
+  
   // console.log(businessCertificateUpload)
 
   const UploadBusCertificate = async (e) => {
@@ -310,28 +342,32 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     }
   };
   const handleUpdateData = () => {
-    // mainSavedButton(true);
     if (error2 || error) {
       return;
     }
     setUpdate(false);
-    const data = {};
-    data.businessName = businessName;
-    data.businessEmail = businessEmail;
-    data.businessPhoneNo = phoneNumber;
-    data.websiteUrl = businessWebsite;
-    data.businessAddress = businessAddress;
-    data.businessDescription = businessDescription;
-    data.whatsappLink = whatsappFormatted;
-    data.instagramLink = socialLinks.instagramLink;
-    data.facebookLink = socialLinks.facebookLink;
-    data.twitterLink = socialLinks.twitterLink;
-    data.otherLinks = socialLinks.othersLinks;
-    data.businessLogo = businessLogo;
-    data.certificateCAC = certificateCAC;
+
+    const data = {
+      businessName,
+      businessEmail,
+      businessPhoneNo: phoneNumber,
+      websiteUrl: businessWebsite,
+      businessAddress,
+      businessDescription,
+      whatsappLink: socialMedia[0]?.value,
+      instagramLink: socialMedia[3]?.value,
+      facebookLink: socialMedia[1]?.value,
+      twitterLink: socialMedia[2]?.value,
+      businessLogo,
+      certificateCAC,
+      otherLinks: socialMedia
+        .filter((media) => media.name === "otherLinks")
+        .map((media) => media.value),
+    };
 
     handleUpdate(data);
   };
+
   const triggerFileInputClick = () => {
     setOpenDocUpload(true);
   };
@@ -340,14 +376,18 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     setFocus(false);
     if (social.id === 1) {
       const whatsApp = e.target.value;
-      const isValidFormat = phoneFormat.test(whatsApp);
-      if (!isValidFormat) {
-        setError2("Invalid Phone number");
-        setFocus(true);
-      } else {
-        setError2("");
-        const phoneNumber = whatsApp.replace(/[^0-9]/g, "").replace(/^0+/, "");
-        setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+      if (whatsApp !== "") {
+        const isValidFormat = phoneFormat.test(whatsApp);
+        if (!isValidFormat) {
+          setError2("Invalid Phone number");
+          setFocus(true);
+        } else {
+          setError2("");
+          const phoneNumber = whatsApp
+            .replace(/[^0-9]/g, "")
+            .replace(/^0+/, "");
+          setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+        }
       }
     }
   };
@@ -520,9 +560,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                 }`}
                 onBlur={() => {
-                  if (!phoneFormat.test(phoneNumber)) {
-                    setError("Invalid Phone number");
-                    return;
+                  if (phoneNumber !== "") {
+                    if (!phoneFormat.test(phoneNumber)) {
+                      setError("Invalid Phone number");
+                      return;
+                    }
+                  } else {
+                    setError("");
                   }
                 }}
               />
@@ -606,8 +650,13 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                     {capitalizeFirstLetter(social.label)}
                   </label>
                   <br />
+
                   <input
-                    placeholder={capitalizeFirstLetter(social.placeholder)}
+                    placeholder={capitalizeFirstLetter(
+                      social.label === "WhatsApp"
+                        ? "Enter whatsApp No"
+                        : social.placeholder
+                    )}
                     className={`h-[45px] sm:w-[213px] md:p-[8px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%] ${
                       !update &&
                       "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
@@ -641,8 +690,8 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               ))}
 
               {socialMedia.length > 4 &&
-                socialMedia.slice(4).map((media) => (
-                  <div key={media.id} className="relative space-y-2 h-fit">
+                socialMedia.slice(4).map((media, index) => (
+                  <div key={index} className="relative space-y-2 h-fit">
                     <input
                       type="text"
                       className="h-[45px] sm:w-[217px] md:p-[8px] rounded-[4px] pl-2 pr-10 border placeholder:text-[13px] w-[100%]"

@@ -15,23 +15,21 @@ import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";
 import { listingMarketerProfile } from "@/api/listingServices";
+import PropertyRequest from "@/components/mainmenu/propertyRequest";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const MarketerBusinessPage = ({ marketerId }) => {
-  // const [combinedData, setCombinedData] = useState([]);
-  // const [currentUser, setCurrentUser] = useState("");
-  // const [selectedState, setSelectedState] = useState(null);
-  // const [propertyData, setPropertyData] = useState(null);
-  // const [params, setParams] = useState(false);
-  // const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
-  // const [openSelectedImage, setOpenSelectedImage] = useState(false);
+  // console.log(marketerId)
   const [tabName, setTabName] = useState("properties");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedRooms, setSelectedRooms] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [properties, setProperties] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [data, setData] = useState(null);
+  const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [currentPage, setCurrentPage] = useState("1");
   const urlParams = useSearchParams();
   const [filters, setFilters] = useState({
@@ -44,21 +42,22 @@ const MarketerBusinessPage = ({ marketerId }) => {
   });
 
   const router = useRouter();
-  const fetchPropertyData = async () => {
+  let urlEndPoint = `/properties/${marketerId}/marketerproperties`;
+  const fetchPropertyData = async (url) => {
     try {
-      const response = await api.get(
-        `/properties/${marketerId}/marketerproperties`
-      );
+      const response = await api.get(url);
       let dataResult = response.data.data.results[0].data;
       // console.log(response);
       const total = dataResult.length || 0;
       setTotalPages(Math.ceil(total / 9));
       setProperties(dataResult);
-      setLoading(false);
       return dataResult;
     } catch (error) {
       console.log(error);
-      return error;
+      setProperties([]);
+    } finally {
+      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -74,7 +73,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       });
   };
   useEffect(() => {
-    fetchPropertyData();
+    fetchPropertyData(urlEndPoint);
     fetchMarketerProfile();
   }, []);
 
@@ -90,7 +89,6 @@ const MarketerBusinessPage = ({ marketerId }) => {
     // setParams(true);
   };
 
-
   const goBack = () => {
     router.back();
   };
@@ -99,8 +97,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
     setSearchQuery("");
     setSelectedProperty("");
     setSelectedRooms("");
-    fetchPropertyData("/properties/user/me");
-
+    fetchPropertyData(urlEndPoint);
   };
 
   const handleSharePage = async () => {
@@ -148,9 +145,10 @@ const MarketerBusinessPage = ({ marketerId }) => {
     ...new Set(properties?.map((item) => item?.numberOfBathrooms)),
   ];
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     setIsLoading(true);
-    let query = `/properties/user/me?numberOfBathrooms=${
+    let query = `/properties/${marketerId}/marketerproperties?numberOfBathrooms=${
       selectedRooms && selectedRooms
     }&propertyType=${selectedProperty && selectedProperty}&state=${
       searchQuery && searchQuery
@@ -159,7 +157,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       try {
         const filteredData = await fetchPropertyData(query);
         // console.log(filteredData)
-        if (filteredData.response.data.success === false) {
+        if (filteredData?.response?.data?.success === false) {
           return;
         }
         setTotalPages(Math.ceil(filteredData.length / 9));
@@ -351,7 +349,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
                 </button>
               </div>
 
-              <div className="hidden sm:flex gap-1 ">
+              <form onSubmit={handleSearch} className="hidden sm:flex gap-1 ">
                 <div className="relative w-[255px] rounded-[4px]">
                   <input
                     type="text"
@@ -402,7 +400,8 @@ const MarketerBusinessPage = ({ marketerId }) => {
 
                 <button
                   className="adminBorders  border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex gap-1 text-white px-[12px] py-[8px] rounded-[4px] h-[37px] w-[75px] cursor-pointer  justify-center"
-                  onClick={handleSearch}
+                  onClick={(e) => handleSearch(e)}
+                  type="submit"
                 >
                   {!isLoading ? (
                     <span>Search</span>
@@ -413,6 +412,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
                 <button
                   className="border w-fit px-[12px] py-[8px] h-[37px] border-[#006AFF] text-[#006AFF] gap-1 items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer "
                   onClick={reset}
+                  type="reset"
                 >
                   <span>
                     <Image
@@ -423,7 +423,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
                     />
                   </span>
                 </button>
-              </div>
+              </form>
             </section>
             <div className="sm:hidden mt-8">
               <OwnersCard data={data} />
@@ -469,7 +469,10 @@ const MarketerBusinessPage = ({ marketerId }) => {
                       <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
                         Can’t find the property you are looking for?
                       </p>
-                      <button className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]">
+                      <button
+                        className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                        onClick={() => setOpenPropertyReq(true)}
+                      >
                         Post a property request
                       </button>
                     </div>
@@ -481,6 +484,16 @@ const MarketerBusinessPage = ({ marketerId }) => {
         )
       )}
       {/*  */}
+      <PropertyRequest
+        isOpen={openPropertyReq}
+        setOpenPropertyReq={setOpenPropertyReq}
+        setOpenSuccessModal={setOpenSuccessModal}
+      />
+      <SuccessModal
+        isOpen={OpenSuccessModal}
+        title="Property Request Sent Successfully"
+        handleEvent={() => setOpenSuccessModal(false)}
+      />
     </div>
   );
 };

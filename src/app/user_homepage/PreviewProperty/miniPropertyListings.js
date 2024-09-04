@@ -12,7 +12,7 @@ const MiniPropertyListings = ({
   reset,
   setLoadingII,
 }) => {
-  const router= useRouter()
+  const router = useRouter();
   return (
     <div className={`w-full sm:mt-5`}>
       <div className="text-[16px] flex justify-between w-full ">
@@ -42,29 +42,42 @@ const MiniPropertyListings = ({
             <div
               className={`cursor-pointer sm:w-[245px] sm:h-[181.77px] rounded-[10px] w-full`}
             >
-              <Carousel
-                slide={false}
-                theme={customTheme}
-                className="w-full h-[181.77px] "
-                onClick={()=>router.push(`/user_homepage/PreviewProperty/${property?.slug}`)}
-              >
-                {property?.photos &&
-                  property?.photos.map((img, index) => (
+              {property?.photos.length > 0 ? (
+                <Carousel
+                  slide={false}
+                  theme={customTheme}
+                  className="w-full h-[181.77px] md:w-full"
+                >
+                  {property?.photos.map((img, index) => (
                     <Link
                       href={`/user_homepage/PreviewProperty/${property?.slug}`}
                       key={index}
-                      className=" sm:h-[181.77px] w-full h-full rounded-[8px]"
+                      className="w-full h-[181.77px] md:w-full"
                     >
                       <Image
                         src={img?.url}
                         alt=""
-                        width={393}
+                        width={383}
                         height={181.77}
-                        className=" sm:h-[181.77px] w-full h-full  object-cover realtive z-0 rounded-[8px]"
+                        className="w-full h-[181.77px]   sm:object-cover retive z-0"
                       />
                     </Link>
                   ))}
-              </Carousel>
+                </Carousel>
+              ) : (
+                <Link
+                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  className="w-full h-[181.77px] md:w-full"
+                >
+                  <Image
+                    src="/static/images/comingSoonImage.svg"
+                    alt=""
+                    width={393}
+                    height={181.77}
+                    className="w-full h-[181.77px]   sm:object-cover retive z-0"
+                  />
+                </Link>
+              )}
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
               <div className="flex justify-between">
@@ -72,10 +85,7 @@ const MiniPropertyListings = ({
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
                   className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center"
                 >
-                  {trucateWord(
-                    capitalizeFirstLetter(property?.title),
-                    12
-                  )}
+                  {trucateWord(capitalizeFirstLetter(property?.title), 12)}
                 </Link>
                 <Link
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}

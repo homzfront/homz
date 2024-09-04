@@ -308,7 +308,7 @@ const pricingPlans = [
       },
     ],
     status: false,
-    interval: "qnnually",
+    interval: "annually",
   },
   {
     price: "510000",

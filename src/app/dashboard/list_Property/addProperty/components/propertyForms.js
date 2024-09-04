@@ -134,7 +134,7 @@ const PropertyForms = () => {
       initialPayment,
       installmentPayment,
     };
-    console.log(payload)
+    // console.log(payload)
 
     for (const [key, value] of Object.entries(payload)) {
       if (value) {

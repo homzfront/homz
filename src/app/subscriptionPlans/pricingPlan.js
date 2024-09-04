@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import useProfileListingMe from "@/store/listingStore/subscriptionStatus";
 import useStorePropertyPromotionData from "@/store/propertyPromotions";
 
 const PricingPlan = () => {
@@ -26,7 +26,7 @@ const PricingPlan = () => {
     }
   }, []);
  
-  const { data: profile, loading, fetchData } = useProfileEnterpriseMe();
+  const { data: profile, loading, fetchData } = useProfileListingMe();
 
   useEffect(() => {
     fetchData();

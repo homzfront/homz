@@ -13,7 +13,7 @@ import {
   updatePersonalInfoLister,
 } from "@/api/listingServices";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Profile = () => {
   const urlParams = useSearchParams();
@@ -31,6 +31,8 @@ const Profile = () => {
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
   const [typeOfAction, setTypeOfAction] = useState("");
   const { data, fetchData } = useProfileListingMe();
+  const pathName = usePathname();
+  const router = useRouter();
 
   // console.log(typeOfAction)
   useEffect(() => {
@@ -45,6 +47,7 @@ const Profile = () => {
     fetchData();
     setSuccessModalIsOpen(false);
   };
+  // console.log(personalInfo)
   const handleSaved = async (e) => {
     e.preventDefault();
     if (loading) return;
@@ -71,6 +74,15 @@ const Profile = () => {
       setLoading(false);
     }
   };
+  function tabManagement(tabName) {
+    let newUrl = pathName;
+    if (tab) {
+      newUrl = newUrl.includes("?")
+        ? `${newUrl}&tab=${tabName}`
+        : `${newUrl}?tab=${tabName}`;
+    }
+    router.push(newUrl, { scroll: false, swallow: true });
+  }
 
   const handleError = (error) => {
     // setSaveModalIsOpen(false);
@@ -94,17 +106,22 @@ const Profile = () => {
     setActiveTwo(false);
     setActiveFour(false);
     setPersonalActive(true);
+    tabManagement("personal")
   };
   const handleBusinessActive = () => {
     setActiveTwo(true);
     setPersonalActive(false);
     setActiveFour(false);
+    tabManagement("business")
+    
   };
 
   const handleContactInfo = () => {
     setActiveTwo(false);
     setActiveFour(true);
     setPersonalActive(false);
+    tabManagement("password")
+
   };
 
   return (

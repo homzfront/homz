@@ -25,7 +25,8 @@ const ListedProperties = ({
   setOpenPlanModal,
   setPromotePropertry,
   setErrorModal,
-  subsciptionStatus,
+  setStatusName,
+  // subsciptionStatus,
 }) => {
   // const { data, fetchData } = useProfileListingMe();
   // useEffect(() => {
@@ -71,6 +72,7 @@ const ListedProperties = ({
       setFilteredData(property?.data?.results?.[0].data);
     }
   }, [property]);
+  
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -78,6 +80,8 @@ const ListedProperties = ({
     setTabName(propertyStatus || "all");
     setCurrentPage(page ? parseInt(page, 10) : 1); // Default to page 1 if no page param is found
   }, []);
+
+
   useEffect(() => {
     const handleRouteChangeStart = () => {
       setIsLoading2(true);
@@ -245,11 +249,12 @@ const ListedProperties = ({
   const refetchData = (propertyStatus) => {
     // console.log(propertyStatus)
     const filterParams = filterQueryParams(propertyStatus);
-    filterData(pageNumber, filterParams);
+    refreshData(propertyStatus);
   };
 
   const handlePropertyStatus = (status) => {
     // console.log(status);
+    setStatusName(status);
     setTabName(status);
     pageManagement("", status);
     refetchData(status);

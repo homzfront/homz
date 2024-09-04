@@ -165,7 +165,7 @@ const ContactInfo = ({
             )}
           </button> */}
           <div className="flex gap-3 items-center">
-            <button
+            {/* <button
               disabled={!isValid ? true : false}
               className={`hidden sm:flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px]  ${"text-[#c0bfbf]"
                 // !isValid ? "text-[#D5D5D5]" : "text-BlueHomz"
@@ -182,7 +182,7 @@ const ContactInfo = ({
                 width={16}
               />
               <span>Save to draft</span>
-            </button>
+            </button> */}
             <button
               disabled={!isValid ? true : false}
               className={`flex md:mr-14 border gap-1 justify-center  md:w-fit  items-center text-[14px] font-[500] py-[8px] px-[12px] ${
@@ -214,7 +214,7 @@ const ContactInfo = ({
             </button>
           </div>
         </div>
-        <p
+        {/* <p
           // disabled={!isValid ? true : false}
           className={`mx-auto my-2 flex md:hidden gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] mt-4 ${
             "text-[#c0bfbf]"
@@ -230,7 +230,7 @@ const ContactInfo = ({
             width={16}
           />
           <span>Save to draft</span>
-        </p>
+        </p> */}
       </div>
     </div>
   );

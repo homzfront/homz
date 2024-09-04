@@ -26,6 +26,7 @@ const PropertyCard = ({
   setLoadingII,
   properties,
 }) => {
+  // console.log(Property);
   const currentProperties = Property;
   return (
     <div className="w-full">
@@ -102,7 +103,7 @@ const PropertyCard = ({
                             <Skeleton height={252} count={5} />
                           ) : (
                             <>
-                              {property?.photos ? (
+                              {property?.photos.length > 0 ? (
                                 <Carousel
                                   slide={false}
                                   theme={customTheme}
@@ -129,37 +130,45 @@ const PropertyCard = ({
                                   ))}
                                 </Carousel>
                               ) : (
-                                <Image
-                                  src="/static/images/comingSoonImage.svg"
-                                  alt=""
-                                  width={363}
-                                  height={252}
-                                  className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
-                                />
+                                <Link
+                                  className="cursor-pointer "
+                                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                >
+                                  <Image
+                                    src="/static/images/comingSoonImage.svg"
+                                    alt=""
+                                    width={363}
+                                    height={252}
+                                    className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                  />
+                                </Link>
                               )}
                             </>
                           )}
-                          <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute sm:left-[322px] top-[14px] left-[289px]  flex items-center justify-center  ">
+                          {/* <p className="bg-[#CDEADD] rounded-full w-[24.75px] h-[24.75px] absolute sm:left-[322px] top-[14px] left-[289px]  flex items-center justify-center  ">
                             <Image
                               src="/static/images/green_verify.svg"
                               alt=""
                               width={20.62}
                               height={20.63}
                             />
-                          </p>
+                          </p> */}
                           {/* {sponsored && ( */}
-                          <p className=" absolute sm:left-[232px] left-[200px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
-                            <Image
-                              src="/static/images/white-medal-star.svg"
-                              alt=""
-                              width={10}
-                              height={10}
-                              className=""
-                            />
-                            <span className="font-[500] text-[11px] text-[#EEF5FF] leading-[16.5px]">
-                              Sponsored
-                            </span>
-                          </p>
+
+                          {property?.is_promoted && (
+                            <p className=" absolute sm:left-[252px] left-[200px] top-[14px] w-fit bg-[#006AFF]  py-[4px] px-[6px] rounded-[8px] flex items-center gap-[2px] ">
+                              <Image
+                                src="/static/images/white-medal-star.svg"
+                                alt=""
+                                width={10}
+                                height={10}
+                                className=""
+                              />
+                              <span className="font-[500] text-[11px] text-[#EEF5FF] leading-[16.5px]">
+                                Sponsored
+                              </span>
+                            </p>
+                          )}
                           {/* )} */}
                         </div>
                         <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
