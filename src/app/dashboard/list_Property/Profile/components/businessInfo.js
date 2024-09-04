@@ -268,7 +268,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     }
   };
 
-  
   // console.log(businessCertificateUpload)
 
   const UploadBusCertificate = async (e) => {
@@ -374,19 +373,22 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
 
   const handleWhatsAppFormat = (e, social) => {
     setFocus(false);
+
     if (social.id === 1) {
       const whatsApp = e.target.value;
+
       if (whatsApp !== "") {
-        const isValidFormat = phoneFormat.test(whatsApp);
+        const whatsAppFormat = /^https:\/\/wa\.me\/\+?\d{10,15}$/;
+        const isValidFormat = whatsAppFormat.test(whatsApp);
+
         if (!isValidFormat) {
-          setError2("Invalid Phone number");
+          setError2("Invalid link, e.g.https://wa.me/2349034672365");
           setFocus(true);
         } else {
           setError2("");
-          const phoneNumber = whatsApp
-            .replace(/[^0-9]/g, "")
-            .replace(/^0+/, "");
-          setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+          // Uncomment the following lines if you need to format the number further:
+          // const phoneNumber = whatsApp.replace(/[^0-9]/g, "").replace(/^0+/, "");
+          // setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
         }
       }
     }
@@ -662,15 +664,16 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                     }`}
                     type="text"
-                    value={
-                      social.id === 1
-                        ? isFocus
-                          ? social.value.startsWith("https://wa.me/")
-                            ? social.value.replace("https://wa.me/", "0")
-                            : social.value
-                          : whatsappFormatted || social.value
-                        : social.value
-                    }
+                    value={social.value}
+                    // value={
+                    //   social.id === 1
+                    //     ? isFocus
+                    //       ? social.value.startsWith("https://wa.me/")
+                    //         ? social.value.replace("https://wa.me/", "")
+                    //         : social.value
+                    //       : whatsappFormatted || social.value
+                    //     : social.value
+                    // }
                     disabled={!update}
                     onChange={(e) => {
                       handleInputChange(social.id, social.name, e.target.value);

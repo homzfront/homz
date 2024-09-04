@@ -1,6 +1,4 @@
-// );
 import PromotionHooks from "@/utils/promoteProperty";
-// import { useRouter } from "next/navigation";
 
 async function handleSelectPlan(
   index,
@@ -11,29 +9,23 @@ async function handleSelectPlan(
   upgradePlan,
   setModalIsOpen,
   setSuccessModalIsOpen,
-  router,startTransition
+  router,
+  startTransition
 ) {
-  
-  // const router= useRouter();
   setLoadingStates((prev) => ({ ...prev, [index]: true }));
+  
   try {
-   
-      const results= await PromotionHooks.createSubscription(planType,interval,amount,upgradePlan )
+    const results = await PromotionHooks.createSubscription(planType, interval, amount, upgradePlan);
+    // console.log(results);
+    if (results.status === true) {
+      setLoadingStates((prev) => ({ ...prev, [index]: false }));
+      let url = results?.data?.authorization_url;
       
-      console.log(results);
-    if (results.status === false) {
-      setLoadingStates((prev) => ({ ...prev, [index]: false }));
-      // setModalIsOpen(true);
-    } else if (results.status === true) {
-      setLoadingStates((prev) => ({ ...prev, [index]: false }));
-      let url=results.data.authorization_url
-         startTransition(() => {
-          router.push(url)
-        });
-      // setSuccessModalIsOpen(true);
+      startTransition(() => {
+        router.push(url);
+      });
     } else {
       setLoadingStates((prev) => ({ ...prev, [index]: false }));
-      return;
     }
   } catch (error) {
     console.error("Error selecting plan:", error);
@@ -41,5 +33,4 @@ async function handleSelectPlan(
   }
 }
 
-
-export default {handleSelectPlan}
+export default { handleSelectPlan };
