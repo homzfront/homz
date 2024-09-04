@@ -28,7 +28,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  useFacebookPixel();
+  // useFacebookPixel();
   return (
     <html lang="en">
       <Head>
