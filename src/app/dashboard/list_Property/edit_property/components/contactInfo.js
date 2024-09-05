@@ -28,16 +28,26 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate, setDat
     }
   }, [property]);
 
-  // Check if formData has changed compared to the original data
+
   useEffect(() => {
-    const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
+  
+    const relevantFields = ['phoneNumber', 'email', 'whatsapp'];
+
+    // Extract the subset of fields from formData and originalFormData
+    const filteredFormData = _.pick(formData, relevantFields);
+    const filteredOriginalData = _.pick(originalFormData.current.contacts, relevantFields);
+    const isFormDataChanged = !_.isEqual(filteredFormData, filteredOriginalData);
+
     setSaveUpdate(isFormDataChanged);
-    if (isFormDataChanged) setData(formData);
-    else {
-      setPhoneClicked(false);
-      setWhatsAppClicked(false);
+
+    if (isFormDataChanged) {
+        setData(formData);
+    } else {
+        setPhoneClicked(false);
+        setWhatsAppClicked(false);
     }
-  }, [formData, setSaveUpdate]);
+}, [formData, setSaveUpdate]);
+
 
   // Handle input changes and update fields in formData directly
   const handleChange = (e) => {
@@ -50,8 +60,8 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate, setDat
 
 
   const onSubmit = (e) => {
-    // console.log(formData);
-    handleUpdate(e, formData);
+    console.log(formData);
+    // handleUpdate(e, formData);
   };
 
   return (
