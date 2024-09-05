@@ -20,8 +20,7 @@ import api from "@/utils/api";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
-  const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
-  const { propertyListedAll, loading, fetchData } = usePropertyStore();
+  const dropdownRef = useClickOutside(() => setOpenModalForBusi(false));
   const { data: profile, fetchData: fetchProfile } = useProfileListingMe();
   const [options, setOptions] = useState(false);
   const [paymentSuccessfulModal, setPaymentSuccessfulModal] = useState(false);
@@ -31,9 +30,7 @@ const List_Property = () => {
   const [proStatus, setProStatus] = useState("");
   const [isLoading, setLoader] = useState(false);
   const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
-  // const [loadingUpgradePromo, setLoaderUpgradePromo] = useState(false);
   const [statusName, setTabName] = useState(null);
-
   const [isLoading2, setLoader2] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [promoteProperty, setPromotePropertry] = useState(false);
@@ -55,31 +52,25 @@ const List_Property = () => {
   const [openLimitModal, setLimitModal] = useState(false);
   var id = localStorage.getItem("prp_tygf2ty");
   var plan = localStorage.getItem("prp_xry_pl#a$n");
+  const initialDataStatus = sessionStorage.getItem("initialDataStatus");
   const handlePageNumber = (pageNumber, status) => {
     filterData(pageNumber, status);
   };
 
-  // console.log(propertyListedAll)
-
   // Function to refresh data based on status and page number
-  const refreshData = (stat) => {
+  const refreshData = async (stat) => {
     const urlParams = new URLSearchParams(window.location.search);
     const pageNumber = urlParams.get("page");
-    filterData(pageNumber, stat);
+    const res = await filterData(pageNumber, stat);
+    if (stat === "all" && res?.data?.totalCount === 0) {
+      sessionStorage.setItem("initialDataStatus", false); // Set to false if no data
+    }
   };
-  // fetchData(pageNumber, filterParams);
+  // console.log(typeof initialDataStatus);
 
   // Function to filter the property data based on the query parameters
   const filterData = async (page, params) => {
-    // const { is_published, is_promoted, is_unpublished } = params;
-    // console.log(params)
-    // // setLoading(true);
     try {
-      // const results = await propertyForMe(page, {
-      //   is_published,
-      //   is_promoted,
-      //   is_unpublished,
-      // });
       let query = `/properties/user/me?page=${page || 1}`;
 
       if (params === "published") {
@@ -91,6 +82,7 @@ const List_Property = () => {
       }
       const results = await api.get(query);
       setProData(results?.data);
+      return results?.data;
     } catch (error) {
       console.error("Error fetching data:", error);
       setProData([]);
@@ -98,26 +90,39 @@ const List_Property = () => {
       setLoading(false); // Set loading to false when fetching ends
     }
   };
-
-  useEffect(() => {
+  const getParams = () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get("propertystatus") || statusName;
-    const pageNumber = urlParams.get("page") || 1;
-
-    // console.log(status);
-    if (status !== proStatus) {
-      setProStatus(status);
-    }
-
-    fetchProfile();
-    // refreshData(status);
-    filterData(pageNumber, proStatus);
+    const page = urlParams.get("page");
+    const propertyStatus = urlParams.get("propertystatus");
+    return {
+      page: page ? parseInt(page) : 1,
+      propertyStatus: propertyStatus ? propertyStatus : "all",
+    };
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const params = getParams();
+        // Fetch profile
+        await fetchProfile();
+        // Fetch filtered data
+        const result = await filterData(params.page, params.propertyStatus);
+        // If data is returned, set session storage
+        if (result?.data?.totalCount > 0 && typeof window !== "undefined") {
+          sessionStorage.setItem("initialDataStatus", true);
+        } else {
+          sessionStorage.setItem("initialDataStatus", false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get("status");
-
     if (status === "success" && plan === "single") {
       setPaymentSuccessfulModal(true);
       router.prefetch("/dashboard/list_Property");
@@ -134,7 +139,8 @@ const List_Property = () => {
   }, [isPending]);
 
   const closePromotionModal = () => {
-    refreshData();
+    const params = getParams();
+    refreshData(params.propertyStatus);
     setPromotePropertrySuccess(false);
     handleCancel();
     setPropertyPlanType("");
@@ -154,7 +160,6 @@ const List_Property = () => {
 
   const handleSelectPlan = async () => {
     try {
-     
       startTransition(() => {
         router.push(`/subscriptionPlans`);
       });
@@ -168,18 +173,17 @@ const List_Property = () => {
   const handlePromoteOptions = async () => {
     setLoader2(true);
     setPropertyPlanType("");
-  
+
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
- 
-  
+
       const { status, subscription_code } = response?.data?.data || {};
       const errorMessage = response?.message;
-  
+
       if (status === "active" && subscription_code) {
         // console.log("Subscription is active");
         setLoader2(false);
-        
+
         if (selectedProperty.length > 0) {
           setPropertyIds(selectedProperty);
           setPromotePropertry(true);
@@ -200,7 +204,6 @@ const List_Property = () => {
       setErrorModal(true);
     }
   };
-  
 
   const handlePropertyPromotion = async () => {
     setLoader(true);
@@ -224,7 +227,10 @@ const List_Property = () => {
         setPromotePropertrySuccess(true);
         router.prefetch("/dashboard/list_Property");
         status = true;
-      } else if (results.message) {
+      } else if (
+        results?.message ===
+        "You have reached the limit of the listings for your current plan."
+      ) {
         setLimitModal(true);
       } else if (results.message === "Network Error") {
         setErrorModal(true);
@@ -304,7 +310,7 @@ const List_Property = () => {
         <div className="h-screen flex justify-center items-center">
           <LoadingII />
         </div>
-      ) : property.length === 0 && (!statusName || !proStatus) ? (
+      ) : initialDataStatus === "false" ? (
         <>
           <p className="md:hidden font-[400] leading-[17.64px] text-[#A9A9A9] text-[14px] mt-0 w-fit m-auto">
             List your properties so Tenants can see them.
@@ -541,9 +547,9 @@ const List_Property = () => {
       />
       <SuccessModal
         isOpen={errorModal}
-        title="Oops! An error has Occurred"
+        title="Error Occurred"
+        successText="Operation failed. Please try again later."
         error={true}
-        successText="Unable to promote right now. Please try again later!"
         handleEvent={() => setErrorModal(false)}
       />
 

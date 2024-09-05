@@ -31,6 +31,7 @@ const useProfileStore = create((set) => ({
       set({ profile: null, isLoggedIn: false, loading: false });
       if (typeof window !== 'undefined') {
         localStorage.clear();
+        sessionStorage.clear();
       }
       window.location.href = '/';
     } catch (error) {

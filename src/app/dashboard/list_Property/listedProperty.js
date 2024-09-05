@@ -28,10 +28,7 @@ const ListedProperties = ({
   setStatusName,
   // subsciptionStatus,
 }) => {
-  // const { data, fetchData } = useProfileListingMe();
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  
   // console.log(property)
   const ITEMS_PER_PAGE = 8;
   const [filteredData, setFilteredData] = useState([]);
@@ -253,7 +250,7 @@ const ListedProperties = ({
   };
 
   const handlePropertyStatus = (status) => {
-    console.log(status);
+    // console.log(status);
     setStatusName(status);
     setTabName(status);
     pageManagement("", status);

@@ -51,7 +51,10 @@ function CardMenus({
         localStorage.setItem("prp_tygf2ty", data._id);
         localStorage.setItem("prp_xry_pl#a$n", "single");
         setOpenPlanModal(true);
-      } else if (response.message == "An unexpected error occurred.") {
+      } else if (
+        response.message === "An unexpected error occurred." ||
+        response.message === "Network Error"
+      ) {
         setLoader(false);
         setErrorModal(true);
       } else {
@@ -115,7 +118,9 @@ function CardMenus({
           publish ? "text-[#D92D20]" : "text-[#006AFF]"
         } p-[8px] hover:bg-gray-100 w-full`}
         onClick={() =>
-          publish ? handleUnpublished(data?._id) : handlePublished(data?._id)
+          publish
+            ? handleUnpublished(data?._id, promoted)
+            : handlePublished(data?._id)
         }
       >
         <Image
