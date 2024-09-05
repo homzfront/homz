@@ -87,6 +87,7 @@ const PropertyForms = ({ propertyData }) => {
       // Handle form data update
       if (formData) {
         const updatedFormData = { ...formData, ...videoLinks };
+        console.log(updatedFormData)
         const { success: successForm, error: errorForm } =
           await updatePropertyDetails(propertyData._id, updatedFormData);
         success = successForm || success;
