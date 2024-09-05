@@ -7,7 +7,6 @@ import LoadingII from '@/components/mainmenu/loadingII';
 import useNINProfileStore from '@/store/enterpriseStore/useNINProfile';
 import usePassportProfileStore from '@/store/enterpriseStore/usePassportProfile';
 
-
 const AccountInfo = () => {
     const { data, loading: loadingP, fetchData: fetchDataP } = usePassportProfileStore()
     const { data: dataTwo, loading, fetchData } = useNINProfileStore()
@@ -33,12 +32,12 @@ const AccountInfo = () => {
                             </div>
                             <div className='flex flex-col gap-4'>
                                 <div>
-                                    <InternationalPassport passportProfile={data} />
-                                    <div className={`${data?.verification?.status === "VERIFIED" ? "" : "hidden"} `}>
+                                    <NationalIdentityNumber nationalProfile={dataTwo} />
+                                    <div className={`${dataTwo?.face_data?.status === true ? "" : "hidden"} `}>
                                         <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
                                             <TickSuccess />
                                             <div>
-                                                Your international passport has successfully been verified. You can now <></>
+                                                Your national identity card has successfully been verified. You can now <></>
                                                 <Link href="/dashboard/enterprise-property/payments?tab=wallet" className="text-BlueHomz">
                                                     create a wallet
                                                 </Link>{' '}
@@ -48,12 +47,12 @@ const AccountInfo = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <NationalIdentityNumber nationalProfile={dataTwo} />
-                                    <div className={`${dataTwo?.face_data?.status === true ? "" : "hidden"} `}>
+                                    <InternationalPassport passportProfile={data} />
+                                    <div className={`${data?.verification?.status === "VERIFIED" ? "" : "hidden"} `}>
                                         <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
                                             <TickSuccess />
                                             <div>
-                                                Your national identity card has successfully been verified. You can now <></>
+                                                Your international passport has successfully been verified. You can now <></>
                                                 <Link href="/dashboard/enterprise-property/payments?tab=wallet" className="text-BlueHomz">
                                                     create a wallet
                                                 </Link>{' '}

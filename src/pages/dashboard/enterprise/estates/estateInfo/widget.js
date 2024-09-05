@@ -6,12 +6,14 @@ import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 import Image from "next/image.js";
 import BankAccountDetails from "./components/bankAccountDetails.js";
+import useEditPropertyTab from "@/store/enterpriseStore/useEditPropertyTab.js";
 const Widget = ({ data, isLoading, id }) => {
-  const [active, setActive] = useState(false);
+  const { tab, setTab } = useEditPropertyTab();
+  const [active, setActive] = useState((tab ? true : false));
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(false); 
-  const [activeFive, setActiveFive] = useState(false); 
+  const [activeFour, setActiveFour] = useState((tab === 'document'));
+  const [activeFive, setActiveFive] = useState((tab === 'bank')); 
 
   const handlePageChange = () => {
     setActive(false);
@@ -19,6 +21,7 @@ const Widget = ({ data, isLoading, id }) => {
     setActiveThree(false);
     setActiveFour(false); 
     setActiveFive(false);
+    setTab(null);
   };
 
   const handlePageChangeTwo = () => {
@@ -27,6 +30,7 @@ const Widget = ({ data, isLoading, id }) => {
     setActiveThree(false);
     setActiveFour(false); 
     setActiveFive(false);
+    setTab(null);
   };
 
   const handlePageChangeThree = () => {
@@ -35,6 +39,7 @@ const Widget = ({ data, isLoading, id }) => {
     setActive(true);
     setActiveFour(false); 
     setActiveFive(false);
+    setTab(null);
   };
 
   const handlePageChangeFour = () => {
@@ -43,6 +48,7 @@ const Widget = ({ data, isLoading, id }) => {
     setActiveTwo(false);
     setActive(true);
     setActiveFive(false);
+    setTab(null);
   };
 
   const handlePageChangeFive = () => {
@@ -51,6 +57,7 @@ const Widget = ({ data, isLoading, id }) => {
     setActiveTwo(false);
     setActive(true);
     setActiveFive(true);
+    setTab(null);
   };
 
 

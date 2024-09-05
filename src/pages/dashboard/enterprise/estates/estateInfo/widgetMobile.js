@@ -4,13 +4,15 @@ import Photos from "./components/photos.js";
 import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 import BankAccountDetails from './components/bankAccountDetails.js';
+import useEditPropertyTab from '@/store/enterpriseStore/useEditPropertyTab.js';
 
 const WidgetMobile = ({ data, id }) => {
-    const [active, setActive] = useState(false);
+    const { tab, setTab } = useEditPropertyTab();
+    const [active, setActive] = useState((tab ? true : false));
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
-    const [activeFour, setActiveFour] = useState(false);
-    const [activeFive, setActiveFive] = useState(false);
+    const [activeFour, setActiveFour] = useState((tab === 'document'));
+    const [activeFive, setActiveFive] = useState((tab === 'bank')); 
 
     const handlePageChange = () => {
         setActive(false);
@@ -18,6 +20,7 @@ const WidgetMobile = ({ data, id }) => {
         setActiveThree(false);
         setActiveFour(false);
         setActiveFive(false);
+        setTab(null);
     };
 
     const handlePageChangeTwo = () => {
@@ -26,6 +29,7 @@ const WidgetMobile = ({ data, id }) => {
         setActiveThree(false);
         setActiveFour(false);
         setActiveFive(false);
+        setTab(null);
     };
 
     const handlePageChangeThree = () => {
@@ -42,6 +46,7 @@ const WidgetMobile = ({ data, id }) => {
         setActiveTwo(false);
         setActive(true);
         setActiveFive(false);
+        setTab(null);
     };
 
     const handlePageChangeFive = () => {
@@ -50,6 +55,7 @@ const WidgetMobile = ({ data, id }) => {
         setActiveTwo(false);
         setActive(true);
         setActiveFive(true);
+        setTab(null);
     }
 
     return (

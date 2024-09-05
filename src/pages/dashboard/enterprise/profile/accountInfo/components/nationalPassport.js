@@ -60,7 +60,7 @@ const NationalPassport = ({
                             setNIN(e.target.value)
                             setError(null);
                         }}
-                        className='w-full pl-4 font-[500] outline-none text-[14px] text-GrayHomz placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500] h-[45px] border rounded-[4px]'
+                        className='w-full px-4 font-[500] outline-none text-[14px] text-GrayHomz placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500] h-[45px] border rounded-[4px]'
                     />
                     {
                         error &&
