@@ -6,7 +6,6 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import Link from "next/link";
 import whatsApp from "@/utils/whatsAppMessenger";
 
-
 const OwnersCard = ({ propertyData }) => {
   // const [copiedState, setCopiedState] = useState({
   //   phoneNumber: false,
@@ -14,7 +13,7 @@ const OwnersCard = ({ propertyData }) => {
   //   whatsAppNumber: false,
   // });
   const [showNumber, setShowNumber] = useState(false);
-  // console.log(propertyData)
+  // console.log(propertyData);
   return (
     <div
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%] mt-4 sm:mt-0"
@@ -84,16 +83,24 @@ const OwnersCard = ({ propertyData }) => {
       <div className="flex gap-[12px] flex-col">
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
           <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
-            {showNumber
-              ?propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
-              : formatNumber(propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo)}
+            {propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
+              ? showNumber
+                ? propertyData?.lisitingPropertyId?.businessInfo
+                    ?.businessPhoneNo
+                : formatNumber(
+                    propertyData?.lisitingPropertyId?.businessInfo
+                      ?.businessPhoneNo
+                  )
+              : "---"}
           </p>
-          <button
-            className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-            onClick={() => setShowNumber(!showNumber)}
-          >
-            {showNumber ? "Hide" : "Show"}
-          </button>
+          {propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo && (
+            <button
+              className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+              onClick={() => setShowNumber(!showNumber)}
+            >
+              {showNumber ? "Hide" : "Show"}
+            </button>
+          )}
         </div>
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
           <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
@@ -106,11 +113,18 @@ const OwnersCard = ({ propertyData }) => {
             />
             <span>Whatsapp</span>
           </p>
-        
+
           <button
-            onClick={() => whatsApp(propertyData?.contacts?.phoneNumber || propertyData?.contacts?.whatsApp, propertyData?.slug)}
+            onClick={() =>
+              whatsApp(
+                propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo,
+                propertyData?.slug
+              )
+            }
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-            title={propertyData?.contacts?.phoneNumber || propertyData?.contacts?.whatsApp}
+            title={
+              propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
+            }
           >
             Send Message
           </button>
