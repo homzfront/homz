@@ -10,7 +10,7 @@ const OwnersCard = ({ data }) => {
     whatsAppNumber: false,
   });
   const [showNumber, setShowNumber] = useState(false);
-  // console.log(propertyData);
+  // console.log(data);
   // const handleCopyClick = async (text, identifier) => {
   //   try {
   //     await navigator.clipboard.writeText(text);
@@ -47,11 +47,16 @@ const OwnersCard = ({ data }) => {
   };
 
   const whatsApp = (url) => {
-    const number = url.replace("https://wa.me/", "+234");
-    const defaultMessage = "Hi, I am reaching from on Homz.ng";
+    // console.log(url);
+    let number = url.replace("https://wa.me/", "");
+    if (!number.startsWith("234") && !number.startsWith("+234")) {
+      number = `+234${number}`;
+    }
+    const defaultMessage = "Hi, I am reaching from Homz.ng";
     let urlApi = `whatsapp://send?text=${defaultMessage}&phone=${number}`;
     window.open(urlApi, "_blank", "noopener,noreferrer");
   };
+
   return (
     <div
       className=" flex flex-col gap-[15px] sm:gap-[24px] md:h-fit border rounded-[12px] sm:p-[20px] py-[20px] px-[13px] w-[100%]"
@@ -67,13 +72,13 @@ const OwnersCard = ({ data }) => {
         </p>
         <div className="  flex items-center gap-5 sm:gap-6 w-[180px]">
           <p className="text-[#006AFF] sm:text-[13px] leading-[16.5px] text-[12px] font-[400] sm:leading-[19.5px]">
-            {data?.phoneNumber
+            {data?.businessInfo?.businessPhoneNo
               ? showNumber
-                ? data?.phoneNumber
-                : formatNumber(data?.phoneNumber)
+                ? data?.businessInfo?.businessPhoneNo
+                : formatNumber(data?.businessInfo?.businessPhoneNo)
               : "---"}
           </p>
-          {data?.phoneNumber && (
+          {data?.businessInfo?.businessPhoneNo && (
             <button
               className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
               onClick={() => setShowNumber(!showNumber)}
