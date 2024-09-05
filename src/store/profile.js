@@ -47,6 +47,7 @@ const useProfileStore = create((set) => ({
       
       if (typeof window !== 'undefined') {
         localStorage.clear();
+        sessionStorage.clear();
       }
       
       window.location.href = '/';

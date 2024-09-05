@@ -1,20 +1,25 @@
 import api from "@/utils/api";
+
 async function promoteProperty(date, propertyId, plan, propertyIds) {
   try {
     const endpoint =
       plan === "single"
         ? `/property/promotion/single-property/${propertyId}`
         : `/property/promotion/multiple-property`;
+
     const payload =
       plan === "single" ? { endDate: date } : { endDate: date, propertyIds };
+
     const response = await api.post(endpoint, payload);
     // console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
+
     return error;
   }
 }
+
 async function stopSinglePromotion(propertyId) {
   try {
     const result = await api.put(
@@ -61,6 +66,7 @@ async function createSubscription(planName, interval, amount, upgradePlan) {
     return error;
   }
 }
+
 export default {
   stopSinglePromotion,
   promoteProperty,

@@ -15,6 +15,7 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import CardMenus from "./cardMenu";
 import formatDate from "@/utils/formatDate";
+import Confirm from "@/components/mainmenu/actionModal";
 import {
   publishAndRepublishProperty,
   removeProperty,
@@ -77,6 +78,7 @@ const PropertyCard = ({
   const [propertyDeleted, setPropertyDeleted] = useState(false);
   const [publishProperty, setPublisProperty] = useState(false);
   const [stopPromote, setStopPromotion] = useState(false);
+  const [unpromoteProperty, setUnpromoteProperty] = useState(false);
   const [promotionStoppedModal, setPromotionStoppedModal] = useState(false);
   const [isLoading, setLoader] = useState(false);
   let unpublishedText =
@@ -129,6 +131,8 @@ const PropertyCard = ({
       })
       .catch((error) => {
         setLoader(false);
+        setDeleteProperty(false);
+        setErrorModal(true);
         console.log(error);
       });
   };
@@ -142,42 +146,75 @@ const PropertyCard = ({
       })
       .catch((error) => {
         setLoader(false);
+        setPublisProperty(false);
+        setErrorModal(true);
         console.error("Error publishing this property:", error);
       });
   };
-  const closePublishedSuccessModal = () => {
+  const getParams = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
     const propertyStatus = urlParams.get("propertystatus");
-    let unpublished = publishState.unpublishedSuccess
-      ? "unpublished"
-      : propertyStatus;
-    dispatch({ type: "Close Modal" });
-    setTabName(unpublished);
-    pageManagement(page, unpublished);
-    refreshData(unpublished);
+    return {
+      page: page ? parseInt(page) : 1,
+      propertyStatus: propertyStatus ? propertyStatus : "all",
+    };
   };
-
-  const handleStopPropertyPromotion = async () => {
+  const closePublishedSuccessModal = () => {
+    const params = getParams();
+    dispatch({ type: "Close Modal" });
+    setTabName("unpublished");
+    pageManagement(params.page, "unpublished");
+    refreshData("unpublished");
+  };
+  const closeModal = () => {
+    const params = getParams();
+    refreshData(params.propertyStatus);
+    setTabName(params.propertyStatus);
+    dispatch({ type: "Close Modal" });
+    pageManagement(params.page, params.propertyStatus);
+  };
+  const handleStopPropertyPromotion = async (type) => {
     setLoader(true);
     try {
       const results = await PromotionHooks.stopSinglePromotion(selectedDataId);
+
       if (results.status === true) {
-        setPromotionStoppedModal(true);
-        setStopPromotion(false);
+        if (type === "unpublish") {
+          setPublisProperty(true);
+          setUnpromoteProperty(false);
+        } else if (type === "stopPromotion") {
+          setPromotionStoppedModal(true);
+          setStopPromotion(false);
+        }
       } else {
-        return;
+        setErrorModal(true);
+
+        if (type === "stopPromotion") {
+          setStopPromotion(false);
+        } else if (type === "unpublish") {
+          setUnpromoteProperty(false);
+        }
+        // return;
       }
-      setLoader(false);
-      // console.log(results);
     } catch (error) {
-      console.error("Error Stopping the promotion:", error);
+      console.error("Error stopping the promotion:", error);
+      setErrorModal(true);
+
+      if (type === "stopPromotion") {
+        setStopPromotion(false);
+      } else if (type === "unpublish") {
+        setUnpromoteProperty(false);
+      }
+    } finally {
       setLoader(false);
     }
   };
+
   const closeSuccessModal = () => {
+    const params = getParams();
     setPropertyDeleted(false);
-    refreshData();
+    refreshData(params.propertyStatus);
     setActivePromoted(false);
     setNotPublished(false);
     setPromotionStoppedModal(false);
@@ -187,9 +224,13 @@ const PropertyCard = ({
     setSelectedDataId(propertyId);
     setDeleteProperty(true);
   };
-  const handleUnpublished = (propertyId) => {
+  const handleUnpublished = (propertyId, promoted) => {
     setSelectedDataId(propertyId);
-    setPublisProperty(true);
+    if (promoted) {
+      setUnpromoteProperty(true);
+    } else {
+      setPublisProperty(true);
+    }
   };
   const handlePublished = (propertyId) => {
     setSelectedDataId(propertyId);
@@ -411,6 +452,16 @@ const PropertyCard = ({
       </div>
 
       {/* Delete a property */}
+
+      <Confirm
+        title="Property is Actively Promoted"
+        description="Stop promotion before unpublishing. Do you want to proceed?"
+        action1={() => handleStopPropertyPromotion("unpublish")}
+        action2={() => setUnpromoteProperty(false)}
+        isOpen={unpromoteProperty}
+        loader={isLoading}
+        action1Title="Proceed"
+      />
       <ConfirmationModal
         isOpen={deleteProperty}
         title="Delete Property?"
@@ -465,11 +516,12 @@ const PropertyCard = ({
             ? "Property Unpublished Successfully"
             : "Property Published Successfully"
         }
-        handleEvent={closePublishedSuccessModal}
+        handleEvent={closeModal} //close modal button
         optionTextnbutton={
           publishState.unpublishedSuccess ? "View Unpublished" : undefined
         }
         handleOptionButton={
+          //close and view unpublished modal
           publishState.unpublishedSuccess
             ? closePublishedSuccessModal
             : undefined
@@ -482,7 +534,7 @@ const PropertyCard = ({
         isOpen={stopPromote}
         title="Stop Promotion?"
         confirmatoryText="This property will no longer be promoted on Homz"
-        handleEvent={handleStopPropertyPromotion}
+        handleEvent={() => handleStopPropertyPromotion("stopPromotion")}
         cancel={() => {
           setLoader(false);
           setStopPromotion(false);

@@ -188,7 +188,7 @@ const MiniPropertyListings = ({
             </div>
           ))}
       </div>
-      {/* {totalPages > 1 && ( */}
+      {totalPages > 1 && (
         <div className="mt-10">
           <Button
             currentPage={currentPage}
@@ -201,7 +201,7 @@ const MiniPropertyListings = ({
             pixel={"md:px-0"}
           />
         </div>
-      {/* )} */}
+      )}
     </div>
   );
 };
