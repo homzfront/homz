@@ -252,13 +252,13 @@ const PropertyCard = ({
         {currentProperties &&
           currentProperties.map((property, index) => (
             <div
-              className=" relative flex flex-col h-fit w-full md:w-[234px] md:h-[313px] rounded-[12px] shadow-md"
+              className=" relative flex flex-col h-fit w-full md:w-[234px] max-sm:h-[313px] rounded-[12px] shadow-md"
               key={index}
             >
               <div className="cursor-pointer w-full md:w-[234px] h-[212px] sm:h-[168px] rounded-[10px] ">
                 <div className=" relative h-[212px] sm:h-[168px] md:h-full w-full">
                   <Link
-                    className="cursor-pointer text-[14px]"
+                    className="cursor-pointer text-[14px] h-full"
                     href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
                   >
                     <Image
