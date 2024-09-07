@@ -247,7 +247,7 @@ const PropertyCard = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-[64px] mt-6 sm:justify-center sm:items-center h-fit">
+    <div className="w-full flex flex-col gap-[17px] sm:gap-[64px] mt-6 sm:justify-center sm:items-center h-fit">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
         {currentProperties &&
           currentProperties.map((property, index) => (
@@ -255,8 +255,8 @@ const PropertyCard = ({
               className=" relative flex flex-col h-fit w-full md:w-[234px] md:h-[313px] rounded-[12px] shadow-md"
               key={index}
             >
-              <div className="cursor-pointer w-full md:w-[234px] h-[168px] rounded-[10px] ">
-                <div className=" relative h-[168px] md:h-full w-full">
+              <div className="cursor-pointer w-full md:w-[234px] h-full rounded-[10px] ">
+                <div className=" relative h-[212px] md:h-full w-full">
                   <Link
                     className="cursor-pointer text-[14px]"
                     href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
@@ -283,7 +283,7 @@ const PropertyCard = ({
                   />
                 </p> */}
                   {property?.is_published && (
-                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] sm:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
+                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[280px] sm:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                       Published
                     </p>
                   )}

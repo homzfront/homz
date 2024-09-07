@@ -20,11 +20,13 @@ const ContactInfo = ({
   const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
 
   const onSubmit = () => {
- 
+    if (error || error2) {
+      return;
+    }
     const data = {};
-    data.phoneNumber=phoneNumber;
-    data.email=email;
-    data.whatsapp=whatsappFormatted
+    data.phoneNumber = phoneNumber;
+    data.email = email;
+    data.whatsapp = whatsappFormatted;
     handleSubmitData(data);
   };
   return (
@@ -83,14 +85,16 @@ const ContactInfo = ({
               <input
                 placeholder="Enter WhatsApp Number"
                 className="h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%]"
-                value={isFocus ? whatsapp : whatsappFormatted}
+                value={
+                  isFocus ? whatsapp : whatsapp === "" ? "" : whatsappFormatted
+                }
                 onChange={(e) => {
                   setWhatsAppLink(e.target.value);
                   setError2("");
                 }}
                 onBlur={() => {
                   setFocus(false);
-                  if (!phoneFormat.test(whatsapp)) {
+                  if (whatsapp !== "" && !phoneFormat.test(whatsapp)) {
                     setError2("Invalid Phone number");
                     setFocus(true);
                   } else {

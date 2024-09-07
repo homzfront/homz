@@ -386,9 +386,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
           setFocus(true);
         } else {
           setError2("");
-          // Uncomment the following lines if you need to format the number further:
-          // const phoneNumber = whatsApp.replace(/[^0-9]/g, "").replace(/^0+/, "");
-          // setWhatsAppFormatted(`https://wa.me/${phoneNumber}`);
+         
         }
       }
     }

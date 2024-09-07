@@ -60,8 +60,8 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate, setDat
 
 
   const onSubmit = (e) => {
-    console.log(formData);
-    // handleUpdate(e, formData);
+    // console.log(formData);
+    handleUpdate(e, formData);
   };
 
   return (

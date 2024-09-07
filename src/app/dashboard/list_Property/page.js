@@ -280,7 +280,7 @@ const List_Property = () => {
 
   // console.log(statusName);
   return (
-    <div className="dashboard w-full">
+    <div className="dashboard w-full max-w-[1440px] px-6 sm:px-0 sm:w-full mx-auto">
       {openModalForBusi && (
         <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
           <div
@@ -352,7 +352,7 @@ const List_Property = () => {
               property?.data?.totalCount === 0 ? "hidden" : ""
             } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
-            <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] px-4 sm:px-">
+            <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] sm:px-4">
               <p>
                 <span className="sm:font-[500] text-[16px] leading-[20.16px] font-[400] sm:leading-[30px] md:text-[20px]">
                   Listed Properties
@@ -488,6 +488,7 @@ const List_Property = () => {
               </Link>
             )}
           </div>
+          
 
           <Property
             property={property}
@@ -505,7 +506,9 @@ const List_Property = () => {
             setErrorModal={setErrorModal}
             setStatusName={setTabName}
           />
+  
         </>
+
       )}
 
       <ConfirmationModal

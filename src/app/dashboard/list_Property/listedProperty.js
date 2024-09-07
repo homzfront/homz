@@ -28,7 +28,6 @@ const ListedProperties = ({
   setStatusName,
   // subsciptionStatus,
 }) => {
-  
   // console.log(property)
   const ITEMS_PER_PAGE = 8;
   const [filteredData, setFilteredData] = useState([]);
@@ -69,7 +68,7 @@ const ListedProperties = ({
       setFilteredData(property?.data?.results?.[0].data);
     }
   }, [property]);
-  
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -77,7 +76,6 @@ const ListedProperties = ({
     setTabName(propertyStatus || "all");
     setCurrentPage(page ? parseInt(page, 10) : 1); // Default to page 1 if no page param is found
   }, []);
-
 
   useEffect(() => {
     const handleRouteChangeStart = () => {
@@ -258,7 +256,7 @@ const ListedProperties = ({
   };
 
   return (
-    <div className=" mb-10 px-4 ">
+    <div className=" mb-10 sm:px-4">
       {/* {isLoading2 && <Loading />} */}
 
       {openModalForBusi && (
@@ -286,7 +284,7 @@ const ListedProperties = ({
           </div>
         </div>
       )}
-      <div className="flex justify-between md:hidden w-full">
+      <div className="flex justify-between md:hidden w-full ">
         <div className="relative w-[86%] rounded-[4px]">
           <input
             type="text"
@@ -304,7 +302,7 @@ const ListedProperties = ({
             width={16}
           />
         </div>
-        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+        <div className="border rounded-[4px] p-[10px] flex justify-center items-center border-BlueHomz ">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"
@@ -315,7 +313,7 @@ const ListedProperties = ({
           </button>
         </div>
       </div>
-      <div className="dashboard flex sm:justify-between w-full mt-6 sm:mt-0 ">
+      <div className="dashboard flex sm:justify-between w-fit sm:w-full mt-6 sm:mt-0 ">
         <div className="flex w-full flex-wrap sm:gap-[8px] gap-[8px]">
           <button
             className={`py-[8px] px-[12px] rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] w-fit sm:leading-[21px] font-[500] ${
