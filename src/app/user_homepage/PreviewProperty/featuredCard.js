@@ -48,18 +48,18 @@ const FeaturedCard = () => {
         </Link>
       </div>
 
-      <div className=" sm:w-[333px] sm:h-[480px] rounded-[12px] w-full h-[331px]">
+      <div className=" sm:w-[333px] sm:h-[460px] rounded-[12px] w-full h-[331px]">
         <Carousel
           theme={parentTheme}
-          // slide={false}
-          className="rounded-[12px] sm:h-[478px] w-full h-full"
+          slide={false}
+          className="rounded-[12px] sm:h-[460px] w-full h-full"
         >
           {featuredData?.map((property, idx) => (
             <div
-              className="rounded-[12px] w-full h-full sm:h-[478px]"
+              className="rounded-[12px] w-full h-full sm:h-[460px]"
               key={idx}
             >
-              <div className="w-full sm:w-[320px] h-fit bg-white rounded-[12px] shadow-md mx-auto">
+              <div className="w-full sm:w-[320px] h-full bg-white rounded-[12px] shadow-md mx-auto">
                 <div className="cursor-pointer sm:w-[300px] sm:h-[252px] w-full h-[182px]">
                   <Carousel
                     slide={false}
@@ -71,7 +71,7 @@ const FeaturedCard = () => {
                         <Link
                           href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
                           key={index}
-                          className="w-full sm:w-[320px] sm:h-[252px] h-full"
+                          className="w-full sm:w-[320px]  h-full"
                         >
                           <Image
                             src={img?.url}
@@ -211,11 +211,11 @@ export default FeaturedCard;
 
 const parentTheme = {
   root: {
-    base: "relative h-full w-full",
+    base: "relative h-full w-full ",
     leftControl:
-      "hidden md:inline-block absolute top-[rem] left-[-0.25rem] flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
+      "hidden md:inline-block mt-5 absolute top-[rem] left-[-0.25rem] flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
     rightControl:
-      "hidden md:inline-block absolute top-[rem] right-7 flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
+      "hidden md:inline-block mt-5 absolute top-[rem] right-7 flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
     "&:hover $leftControl, &:hover $rightControl": {
       display: "inline-block",
     },
@@ -227,7 +227,7 @@ const parentTheme = {
     },
     base: "h-[8px] w-[8px] rounded-full ",
     wrapper:
-      "absolute bottom-[-25px] w-full  items-center flex justify-center  sm:left-1/2 left-[150px] -translate-x-1/2  space-x-1 ",
+      "absolute sm:bottom-[-40px] bottom-[-25px] w-fit  items-center flex justify-center  sm:left-1/2 left-[150px] -translate-x-1/2  space-x-1 ",
   },
   item: {
     base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
