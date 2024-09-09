@@ -18,14 +18,7 @@ const FeaturedCard = () => {
     };
     fetchData();
   }, []);
-  const slidesToShow = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth > 1320) return 3;
-      if (window.innerWidth < 1000) return 1;
-      if (window.innerWidth < 1321 && window.innerWidth > 999) return 2;
-    }
-    return 1;
-  };
+
 
   return (
     <div className="flex flex-col items-center gap-[16px] rounded-[12px] bg-[#006AFF] text-white py-[20px] px-[20px] w-[100%] sm:h-[600px] h-[443px]">
@@ -51,7 +44,7 @@ const FeaturedCard = () => {
       <div className=" sm:w-[333px] sm:h-[460px] rounded-[12px] w-full h-[331px]">
         <Carousel
           theme={parentTheme}
-          slide={false}
+          // slide={false}
           className="rounded-[12px] sm:h-[460px] w-full h-full"
         >
           {featuredData?.map((property, idx) => (
