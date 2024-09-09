@@ -8,6 +8,7 @@ import WithAuth from '@/components/auth/withAuth';
 
 
 const RootLayout = ({ children }) => {
+
   return (
     <div className="gap-3 md:gap-0 dashboard_main z-30">
       <SideNav />
