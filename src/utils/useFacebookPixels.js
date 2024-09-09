@@ -1,27 +1,19 @@
-"use client"
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { initFacebookPixel, trackPageView } from '@/libs/facebookPixel';
+"use client";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation"; 
+import { initFacebookPixel, trackPageView } from "@/libs/facebookPixel";
 
 const useFacebookPixel = () => {
-  const router = useRouter();
+  const pathname = usePathname(); 
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       initFacebookPixel();
       trackPageView();
 
-      const handleRouteChange = () => {
-        trackPageView();
-      };
-
-      router.events.on('routeChangeComplete', handleRouteChange);
-
-      return () => {
-        router.events.off('routeChangeComplete', handleRouteChange);
-      };
+      trackPageView();
     }
-  }, [router.events]);
+  }, [pathname]); 
 };
 
 export default useFacebookPixel;

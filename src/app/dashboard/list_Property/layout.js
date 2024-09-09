@@ -5,10 +5,11 @@ import Header from "./components/header";
 import HeaderMobile from "./components/mobile_header";
 import SideNav from "./components/sideNav";
 import WithAuth from '@/components/auth/withAuth';
+import useFacebookPixel from "@/utils/useFacebookPixels";
 
 
 const RootLayout = ({ children }) => {
-
+  useFacebookPixel();
   return (
     <div className="gap-3 md:gap-0 dashboard_main z-30">
       <SideNav />
