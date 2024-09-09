@@ -1,13 +1,12 @@
 "use client"
 import WithAuth from '@/components/auth/withAuth';
 import React from 'react'
-
-const RootLayout = ({ children }) => {
+const Layout = ({children}) => {
   return (
     <div className=''>
-      {children}
+        {children}
     </div>
   )
 }
 
-export default WithAuth(RootLayout);
+export default WithAuth(Layout);

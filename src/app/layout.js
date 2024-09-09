@@ -4,7 +4,6 @@ import "dotenv/config";
 import { GoogleTagManager } from '@next/third-parties/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Head from 'next/head';
-import Script from "next/script";
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -32,7 +31,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Head>
         <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE} />
-        <Script
+        <script
           id="facebook-pixel"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -49,25 +48,14 @@ export default function RootLayout({ children }) {
               fbq('track', 'PageView');
             `,
           }}
-        ></Script>
+        />
         <noscript>
           <img height="1" width="1" style={{ display: 'none' }}
             src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_PIXEL_ID}&ev=PageView&noscript=1`} alt="" />
         </noscript>
-        <Script
-          id="googleConsole"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','GTM-PK8L8G7X')`,
-          }}
-        ></Script>
       </Head>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
+      <GoogleTagManager  gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
       <body>
         <script
           dangerouslySetInnerHTML={{
