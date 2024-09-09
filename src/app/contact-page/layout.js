@@ -1,7 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import useFacebookPixel from "@/utils/useFacebookPixels";
 
-export default function layout({ children }) {
+const RootLayout = ({ children }) => {
   useFacebookPixel();
   return (
     <div>
@@ -11,3 +11,5 @@ export default function layout({ children }) {
     </div>
   );
 }
+
+export default RootLayout;

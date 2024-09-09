@@ -3,7 +3,7 @@ import WithAuth from '@/components/auth/withAuth';
 import React from 'react'
 import useFacebookPixel from "@/utils/useFacebookPixels";
 
-function layout({ children }) {
+const RootLayout = ({ children }) => {
   useFacebookPixel();
   return (
     <div className=''>
@@ -12,4 +12,4 @@ function layout({ children }) {
   )
 }
 
-export default WithAuth(layout);
+export default WithAuth(RootLayout);
