@@ -5,11 +5,16 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Head from 'next/head';
 import Script from "next/script";
-import FBpixels from "@/libs/FBpixels";
+import dynamic from 'next/dynamic';
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
+});
+
+// Dynamically import the Facebook Pixel component with SSR disabled
+const FacebookPixel = dynamic(() => import('@/libs/FBpixels'), {
+  ssr: false,
 });
 
 export const metadata = {
@@ -33,24 +38,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Head>
         <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE} />
-        <Script
-          id="facebook-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', ${process.env.NEXT_PUBLIC_PIXEL_ID});
-              fbq('track', 'PageView');
-             `,
-          }}
-        ></Script>
         <noscript>
           <img
             height='1'
@@ -61,10 +48,21 @@ export default function RootLayout({ children }) {
           />
         </noscript>
       </Head>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
-      <body>
-        <script
+
+      <body className={plus_Jakarta_Sans.className}>
+        {/* Dynamically loaded Facebook Pixel */}
+        <FacebookPixel />
+
+        {/* Google Analytics */}
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+
+        {/* Google Tag Manager */}
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
+
+        {/* Tawk.to Live Chat Script */}
+        <Script
+          id="tawk-to"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -79,9 +77,8 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-      </body>
-      <body className={plus_Jakarta_Sans.className}>
-        <FBpixels />
+
+        {/* Main Content */}
         {children}
       </body>
     </html>
