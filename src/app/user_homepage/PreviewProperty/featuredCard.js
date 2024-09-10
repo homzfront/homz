@@ -44,7 +44,7 @@ const FeaturedCard = () => {
       <div className=" sm:w-[333px] sm:h-[460px] rounded-[12px] w-full h-[331px]">
         <Carousel
           theme={parentTheme}
-          // slide={false}
+          slide={false}
           className="rounded-[12px] sm:h-[460px] w-full h-full"
         >
           {featuredData?.map((property, idx) => (

@@ -90,7 +90,7 @@ const PropertyCard = ({
             </>
           ) : (
             <>
-              <div className="flex items-center justify-center w-full px-  sm:w-full flex-col ">
+              <div className="flex items-center justify-center w-full px- flex-col ">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full ">
                   {Property &&
                     currentProperties?.map((property, index) => (
