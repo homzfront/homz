@@ -26,7 +26,7 @@ function determineRoute(profile, data) {
       routes.push("/dashboard/tenant/dashboard");
     } else if (account?.name === "ENTERPRISE_PLAN") {
       routes.push("/dashboard/enterprise-property/dashboard");
-    } else if (account?.name === "LIST_PROPERTY" || account?.name === "MANAGE_PROPERTY") {
+    } else if (account?.name === "MANAGE_PROPERTY") {
       routes.push("/dashboard/property-owner/dashboard");
     }
   }
