@@ -155,7 +155,7 @@ const ViewProperty = ({ PropertyID }) => {
         propertyData && (
           <>
             <div className="block mt-6">
-              {combinedData.length > 0 ? (
+              {combinedData && combinedData.length > 0 ? (
                 <div className="flex  sm:flex-row flex-wrap sm:flex-nowrap gap-[13.97px] sm:h-[472.69px] w-fit">
                   <div className="sm:w-[640.34px] sm:h-full w-full h-[174px]">
                     <Carousel
@@ -215,7 +215,6 @@ const ViewProperty = ({ PropertyID }) => {
               ) : (
                 <div className="sm:rounded-[9.81px] rounded-[7.67px] w-fit sm:h-[470.69px]">
                   <Image
-                    s
                     src="/static/images/noImagePreview2.png"
                     alt="no-image"
                     width={1290}

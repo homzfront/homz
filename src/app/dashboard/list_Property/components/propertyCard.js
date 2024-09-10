@@ -283,7 +283,7 @@ const PropertyCard = ({
                   />
                 </p> */}
                   {property?.is_published && (
-                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[280px] sm:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
+                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[75%] sm:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                       Published
                     </p>
                   )}
