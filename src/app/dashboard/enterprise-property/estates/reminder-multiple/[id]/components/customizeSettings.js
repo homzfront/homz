@@ -8,6 +8,7 @@ import RichTextEditorInApp from './richTextEditorInApp';
 import api from '@/utils/api';
 import { toast } from 'react-toastify';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import formatEmailContent from '@/utils/formatEmailContent';
 
 const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [channels, setChannels] = useState([]);
@@ -25,6 +26,10 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [emailContent, setEmailContent] = useState(data?.emailContent);
     const [SMSContent, setSMSContent] = useState(data?.smsContent);
     const [inAppContent, setInAppContent] = useState(data?.inAppContent);
+
+    const firstData = data?.emailContent
+    console.log(firstData)
+    console.log(formatEmailContent(emailContent))
 
     const [copyToInApp, setCopyToInApp] = useState({
         propertyManager: data?.sendCopyToInApp?.propertyManager || false,
@@ -80,7 +85,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                 "propertyManager": copyToEmail?.propertyManager,
                 "landlord": copyToEmail?.propertyOwner,
             },
-            "content": emailContent
+            "content": formatEmailContent(emailContent)
         },
         "smsMessage": {
             "sendCopyTo": {
@@ -97,8 +102,6 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
             "content": inAppContent
         }
     };
-
-    console.log(submittedData);
 
     useEffect(() => {
         if (selectedChannel?.length > 0) {
@@ -241,7 +244,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                         <button
                             onClick={restoreDefaultReminder}
                             className={`mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500] ${loadingII ? "pointer-events-none w-full flex justify-center" : ""} `}
-                            >
+                        >
                             {loadingII ? <LoadingFormII /> : "Proceed"}
                         </button>
                         <button

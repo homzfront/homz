@@ -4,6 +4,8 @@ import "dotenv/config";
 import { GoogleTagManager } from '@next/third-parties/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Head from 'next/head';
+import Script from "next/script";
+import FBpixels from "@/libs/FBpixels";
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -31,7 +33,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Head>
         <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE} />
-        <script
+        <Script
           id="facebook-pixel"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -46,16 +48,21 @@ export default function RootLayout({ children }) {
               'https://connect.facebook.net/en_US/fbevents.js');
               fbq('init', ${process.env.NEXT_PUBLIC_PIXEL_ID});
               fbq('track', 'PageView');
-            `,
+             `,
           }}
-        />
+        ></Script>
         <noscript>
-          <img height="1" width="1" style={{ display: 'none' }}
-            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_PIXEL_ID}&ev=PageView&noscript=1`} alt="" />
+          <img
+            height='1'
+            width='1'
+            style='display:none'
+            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt={'facebook pixel no script image'}
+          />
         </noscript>
       </Head>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-      <GoogleTagManager  gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
       <body>
         <script
           dangerouslySetInnerHTML={{
@@ -73,7 +80,10 @@ export default function RootLayout({ children }) {
           }}
         />
       </body>
-      <body className={plus_Jakarta_Sans.className}>{children}</body>
+      <body className={plus_Jakarta_Sans.className}>
+        <FBpixels />
+        {children}
+      </body>
     </html>
   );
 }

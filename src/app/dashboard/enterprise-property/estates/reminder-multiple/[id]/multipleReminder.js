@@ -143,8 +143,6 @@ const MultipleReminder = ({ ids }) => {
         router.push("/dashboard/enterprise-property/tenants")
     };
 
-console.log(combinedData);
-
     return (
         <div className="flex flex-col gap-4">
             <ToastContainer
