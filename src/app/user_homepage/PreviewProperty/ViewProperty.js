@@ -17,12 +17,12 @@ import ExtraDetails from "@/components/mainmenu/extraDetails";
 import MapFrame from "@/utils/map";
 import ContactCard from "./contactCard";
 import OwnersCard from "./ownersCard";
-import RequestCard from "./requestCard";
+// import RequestCard from "./requestCard";
 import FeaturedCard from "./featuredCard";
 import TipsFrame from "./tipsFrame";
 import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-import { property } from "lodash";
+// import { property } from "lodash";
 import Link from "next/link";
 
 const ViewProperty = ({ PropertyID }) => {
