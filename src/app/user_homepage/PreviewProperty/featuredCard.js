@@ -27,7 +27,7 @@ const FeaturedCard = () => {
           Featured Properties
         </p>
         <Link
-          href="user_homepage/PropertyListing"
+          href="/user_homepage/PropertyListing"
           className="flex items-center gap-2 rounded px-2 py-1 sm:text-[13px] text-[11.5px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
@@ -44,7 +44,7 @@ const FeaturedCard = () => {
       <div className=" sm:w-[333px] sm:h-[460px] rounded-[12px] w-full h-[331px]">
         <Carousel
           theme={parentTheme}
-          slide={false}
+          // slide={false}
           className="rounded-[12px] sm:h-[460px] w-full h-full"
         >
           {featuredData?.map((property, idx) => (
@@ -73,7 +73,7 @@ const FeaturedCard = () => {
                             height={252}
                             className="w-full sm:w-[320px] h-[252px]  object-cover"
                           />
-                          <p className="bg-[#EEF5FF] text-[#006AFF] rounded-[8px] py-[4px] px-[8px] absolute left-[241px] top-[12px] text-[11px] leading-[16.5px] font-[400]">
+                          <p className="bg-[#EEF5FF] text-[#006AFF] rounded-[8px] py-[4px] px-[8px] absolute left-[75%] sm:left-[241px] top-[12px] text-[11px] leading-[16.5px] font-[400]">
                             Featured
                           </p>
                         </Link>
