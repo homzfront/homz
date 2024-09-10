@@ -129,7 +129,7 @@ const Sidebar = () => {
       image2: <DocumentInformation className='text-BlueHomz fill-white' />,
       link: "/dashboard/enterprise-property/documentGeneration",
       name: "Document Generation",
-      coming: true,
+      coming: null,
       active: false,
     },
     {
@@ -310,10 +310,11 @@ const Sidebar = () => {
                     </div>
                   )}
                   <div className="flex items-center w-full">
-                    <span className={`${data.name === "Document Generation" ? "" : ""}`}>{data.name} <span className={`${data.name === "Document Generation" ? "" : "hidden"}
+                    <span className={`${data.name === "Document Generation" ? "" : ""}`}>{data.name}
+                      {/* <span className={`${data.name === "Document Generation" ? "" : "hidden"}
                       text-[10px] font-[400] text-Success`}>
-                      coming soon!
-                    </span>
+                        coming soon!
+                      </span> */}
                     </span>
                     <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
                       } mt-1 ml-1 h-2 w-2 rounded-full`}
