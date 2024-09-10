@@ -2,7 +2,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import "dotenv/config";
 import { GoogleTagManager } from '@next/third-parties/google';
-import { GoogleAnalytics } from '@next/third-parties/google';
 import Head from 'next/head';
 import Script from "next/script";
 import dynamic from 'next/dynamic';
@@ -12,10 +11,14 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
-// Dynamically import the Facebook Pixel component with SSR disabled
 const FacebookPixel = dynamic(() => import('@/libs/FBpixels'), {
   ssr: false,
 });
+
+const GoogleAnalytics = dynamic(() => import('@/libs/googleAnalytics'), {
+  ssr: false,
+});
+
 
 export const metadata = {
   metadataBase: new URL('https://www.homz.ng'),
@@ -48,18 +51,10 @@ export default function RootLayout({ children }) {
           />
         </noscript>
       </Head>
-
       <body className={plus_Jakarta_Sans.className}>
-        {/* Dynamically loaded Facebook Pixel */}
         <FacebookPixel />
-
-        {/* Google Analytics */}
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
-
-        {/* Google Tag Manager */}
+        <GoogleAnalytics />
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
-
-        {/* Tawk.to Live Chat Script */}
         <Script
           id="tawk-to"
           strategy="afterInteractive"
@@ -77,10 +72,10 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-
-        {/* Main Content */}
         {children}
       </body>
     </html>
   );
 }
+
+
