@@ -9,6 +9,15 @@ const NewDocument = ({ handlePageChangeThree, handlePageChange, setDocumentCreat
   const [hover, setHover] = useState(false);
   const [hoverII, setHoverII] = useState(false);
   let string = "> Name Your Document"
+  const [error, setError] = useState(null);
+
+  const handleNext = () => {
+    if (FormName) {
+      handlePageChangeThree()
+    } else {
+      setError('Enter the name of your Document.')
+    }
+  }
 
   return (
     <div>
@@ -28,10 +37,18 @@ const NewDocument = ({ handlePageChangeThree, handlePageChange, setDocumentCreat
         <input
           type='text'
           value={FormName}
-          onChange={(e) => setFormName(e.target.value)}
+          onChange={(e) => {
+            setFormName(e.target.value)
+            setError(null);
+          }}
           placeholder='e.g Tenant Agreement'
           className='pl-2 py-2 placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 border w-full border-GrayHomz2 rounded-[4px] outline-none'
         />
+        {
+          error && <span className='text-[12px] font-[400] italic text-error'>
+            {error}
+          </span>
+        }
       </div>
       <div className='flex items-center justify-between gap-4 md:gap-0 mt-4 text-[16px] font-[500]'>
         <div
@@ -51,7 +68,7 @@ const NewDocument = ({ handlePageChangeThree, handlePageChange, setDocumentCreat
             {hover ? <ArrowLeftBlueSmall className='#ffffff' /> : <ArrowLeftBlueSmall />}  Go Back
           </div>
           <div
-            onClick={handlePageChangeThree}
+            onClick={handleNext}
             onMouseEnter={() => setHoverII(true)}
             onMouseLeave={() => setHoverII(false)}
             className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = ({ label, type, placeholder, span, span2, onChange, value }) => {
+const Input = ({ label, type, placeholder, span, span2, onChange, value, autoComplete }) => {
   return (
     <div>
       <label className="text-[14px] font-[500]">
@@ -13,6 +13,7 @@ const Input = ({ label, type, placeholder, span, span2, onChange, value }) => {
         placeholder={placeholder}
         onChange={onChange}
         value={value}
+        autoComplete={autoComplete}
       />
     </div>
   );

@@ -1,16 +1,13 @@
-import useQuickNoticeFormStore from '@/store/document/useQuickNoticeFormStore';
-import Image from 'next/image';
+import Image from 'next/image'
 import React from 'react'
-import PrintableQuitNoticeData from './printableQuitNoticeData';
 
-const QuitNoticeData = ({ printableRef }) => {
-    const { formData } = useQuickNoticeFormStore();
+const PrintableQuitNoticeData = ({ printableRef, formData }) => {
     return (
-        <div className='mb-[60px]'>
-            <div className='h-[1050px] md:h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
+        <div ref={printableRef} className='mt-4'>
+            <div className='h-auto bg-white flex flex-col justify-center text-[13px] font-[400] text-BlackHomz gap-3.5 p-8'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
-                          src={formData?.image !== null ? URL.createObjectURL(formData?.image) : "/Frame 1278.png"}
+                        src={formData?.image !== null ? URL.createObjectURL(formData?.image) : "/Frame 1278.png"}
                         alt='avatar'
                         width={64}
                         height={64}
@@ -48,14 +45,8 @@ const QuitNoticeData = ({ printableRef }) => {
                     <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : "[Property Manager’s Name]"}</span>
                 </div>
             </div>
-            <div style={{ display: 'none' }}>
-                <PrintableQuitNoticeData
-                    printableRef={printableRef}
-                    formData={formData}
-                />
-            </div>
         </div>
     )
 }
 
-export default QuitNoticeData;
+export default PrintableQuitNoticeData

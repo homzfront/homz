@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Input from "@/pages/dashboard/enterprise/components/input";
 import DropDown from './dropDown';
 import ArrowLeftBlueSmall from '@/components/icons/arrowLeftBlueSmall';
@@ -6,27 +6,97 @@ import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
 import useReceiptFormStore from '@/store/document/useReceiptFormStore';
 import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
+import { z } from 'zod';
+import receiptSchema from '@/validation/receiptSchema'
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
     const { formData, setFormData } = useReceiptFormStore();
     const optionsII = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
+    const fileInputRef = useRef(null);
+    const [errors, setErrors] = useState({});
+
+    const normalizeFormData = (data) => {
+        return Object.keys(data).reduce((acc, key) => {
+            acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
+            return acc;
+        }, {});
+    };
+
+    // Function to validate form fields using Zod
+    const validateForm = () => {
+        const normalizedFormData = normalizeFormData(formData); // Normalize null values
+        try {
+            receiptSchema.parse(normalizedFormData);
+            setErrors({});
+            return true;
+        } catch (e) {
+            if (e instanceof z.ZodError) {
+                const fieldErrors = e.errors.reduce((acc, error) => {
+                    if (error.path.length) {
+                        acc[error.path[0]] = error.message;
+                    }
+                    return acc;
+                }, {});
+                setErrors(fieldErrors);
+            }
+            return false;
+        }
+    };
+
+    const handleGenerate = () => {
+        if (validateForm()) {
+            setShowPreview(true);
+        }
+    };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setFormData('image', file,);
+        }
+    };
+
+    const handleImageClick = () => {
+        if (formData?.image) {
+            setFormData('image', null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+        }
+        fileInputRef.current.click();
+    };
 
     return (
         <div className='mt-4 pr-2'>
             <div className='relative w-[80px] h-[80px] mb-2'>
                 <div>
                     <Image
-                        src={"/Ellipse 75.png"}
+                        src={formData?.image !== null ? URL.createObjectURL(formData?.image) : "/Ellipse 75.png"}
                         height={80}
                         width={80}
-                        alt='avatar'
+                        alt="avatar"
+                        className="rounded-full object-cover bg-center h-[80px] cursor-pointer"
+                        onClick={handleImageClick}
                     />
                 </div>
-                <div className='absolute top-1/3 right-1/3'>
+                <div
+                    onClick={handleImageClick}
+                    className={`${formData?.image !== null ? "hidden" : ""} absolute top-1/3 right-1/3 cursor-pointer`}
+                >
                     <BluePhoto />
                 </div>
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                />
+                {errors.image && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.image}
+                </span>}
             </div>
             <div className=''>
                 <Input
@@ -35,7 +105,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.propertyManagerCompanyName}
                     onChange={(e) => setFormData('propertyManagerCompanyName', e.target.value)}
+                    autoComplete={"propertyManagerCompanyName"}
                 />
+                {errors.propertyManagerCompanyName && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.propertyManagerCompanyName}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -44,7 +118,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.propertyManagerCompanyAddress}
                     onChange={(e) => setFormData('propertyManagerCompanyAddress', e.target.value)}
+                    autoComplete={"propertyManagerCompanyAddress"}
                 />
+                {errors.propertyManagerCompanyAddress && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.propertyManagerCompanyAddress}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -53,7 +131,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.propertyManagerCompanyEmail}
                     onChange={(e) => setFormData('propertyManagerCompanyEmail', e.target.value)}
+                    autoComplete={"propertyManagerCompanyEmail"}
                 />
+                {errors.propertyManagerCompanyEmail && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.propertyManagerCompanyEmail}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -62,7 +144,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"number"}
                     value={formData.propertyManagerCompanyPhoneNumber}
                     onChange={(e) => setFormData('propertyManagerCompanyPhoneNumber', e.target.value)}
+                    autoComplete={"propertyManagerCompanyPhoneNumber"}
                 />
+                {errors.propertyManagerCompanyPhoneNumber && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.propertyManagerCompanyPhoneNumber}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -71,7 +157,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.receiptDate}
                     onChange={(e) => setFormData('receiptDate', e.target.value)}
+                    autoComplete={"receiptDate"}
                 />
+                {errors.receiptDate && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.receiptDate}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -80,7 +170,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.tenantName}
                     onChange={(e) => setFormData('tenantName', e.target.value)}
+                    autoComplete={"tenantName"}
                 />
+                {errors.tenantName && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.tenantName}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -89,7 +183,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"number"}
                     value={formData.tenantPhoneNumber}
                     onChange={(e) => setFormData('tenantPhoneNumber', e.target.value)}
+                    autoComplete={"tenantPhoneNumber"}
                 />
+                {errors.tenantPhoneNumber && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.tenantPhoneNumber}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -98,7 +196,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.propertyAddress}
                     onChange={(e) => setFormData('propertyAddress', e.target.value)}
+                    autoComplete={"propertyAddress"}
                 />
+                {errors.propertyAddress && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.propertyAddress}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -107,7 +209,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.propertyDesc}
                     onChange={(e) => setFormData('propertyDesc', e.target.value)}
+                    autoComplete={"property-desc"}
                 />
+                {errors.propertyDesc && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.propertyDesc}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -116,7 +222,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.rentPaymentInWords}
                     onChange={(e) => setFormData('rentPaymentInWords', e.target.value)}
+                    autoComplete={"rentPaymentInWords"}
                 />
+                {errors.rentPaymentInWords && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.rentPaymentInWords}
+                </span>}
             </div>
             <div className='mt-2 w-full flex flex-col md:flex-row gap-2 md:gap-0 md:justify-between items-end'>
                 <div className='w-full md:w-[48%]'>
@@ -126,7 +236,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         type={"text"}
                         value={formData.rentPayment}
                         onChange={(e) => setFormData('rentPayment', e.target.value)}
+                        autoComplete={"rentPaymentInFigures"}
                     />
+                    {errors.rentPayment && <span className={`italic text-[12px] text-error font-[400]`}>
+                        {errors.rentPayment}
+                    </span>}
                 </div>
                 <div className='w-full md:w-[48%]'>
                     <DropDown
@@ -134,7 +248,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         options={optionsII}
                         onSelect={(option) => setFormData('selectedCurrency', option)}
                         className={"text-[14px] font-[500] text-GrayHomz2"}
+                        selectedCurrency={formData.selectedCurrency}
                     />
+                    {errors.selectedCurrency && <span className={`italic text-[12px] text-error font-[400]`}>
+                        {errors.selectedCurrency}
+                    </span>}
                 </div>
             </div>
             <div className='mt-2 w-full flex flex-col md:flex-row gap-2 md:gap-0 md:justify-between items-end'>
@@ -145,7 +263,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         type={"number"}
                         value={formData.tenancyPeriod}
                         onChange={(e) => setFormData('tenancyPeriod', e.target.value)}
+                        autoComplete={"tenancyPeriod"}
                     />
+                    {errors.tenancyPeriod && <span className={`italic text-[12px] text-error font-[400]`}>
+                        {errors.tenancyPeriod}
+                    </span>}
                 </div>
                 <div className='w-full mt-[-16px] md:w-[48%]'>
                     <Input
@@ -153,7 +275,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         type={"text"}
                         value={formData.tenancy}
                         onChange={(e) => setFormData('tenancy', e.target.value)}
+                        autoComplete={"tenancy"}
                     />
+                    {errors.tenancy && <span className={`italic text-[12px] text-error font-[400]`}>
+                        {errors.tenancy}
+                    </span>}
                 </div>
             </div>
             <div className='mt-2'>
@@ -163,7 +289,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.tenancyStartDate}
                     onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
+                    autoComplete={"tenancyStartDate"}
                 />
+                {errors.tenancyStartDate && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.tenancyStartDate}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -172,7 +302,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.tenancyEndDate}
                     onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
+                    autoComplete={"tenancyEndDate"}
                 />
+                {errors.tenancyEndDate && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.tenancyEndDate}
+                </span>}
             </div>
             <div className='mt-2'>
                 <Input
@@ -181,7 +315,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     type={"text"}
                     value={formData.modOfPayment}
                     onChange={(e) => setFormData('modOfPayment', e.target.value)}
+                    autoComplete={"modOfPayment"}
                 />
+                {errors.modOfPayment && <span className={`italic text-[12px] text-error font-[400]`}>
+                    {errors.modOfPayment}
+                </span>}
             </div>
             <div className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
                 <div
@@ -200,7 +338,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         {hover ? <ArrowLeftBlueSmall className='#ffffff' /> : <ArrowLeftBlueSmall />}  Go Back
                     </div>
                     <div
-                        onClick={() => setShowPreview(true)}
+                        onClick={handleGenerate}
                         onMouseEnter={() => setHoverII(true)}
                         onMouseLeave={() => setHoverII(false)}
                         className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>

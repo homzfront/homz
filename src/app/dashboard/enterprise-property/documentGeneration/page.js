@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dropdown from "@/pages/dashboard/enterprise/components/dropDownFilter";
 import Reset from "@/components/icons/reset";
 import PluswithoutCircle from "@/components/icons/pluswithoutCircle";
@@ -18,18 +18,22 @@ import Image from "next/image";
 import FilterMobile from "./components/filterMobile";
 import PopUp from "./components/popUp";
 import { useReactToPrint } from "react-to-print";
-// import html2pdf from "html2pdf.js";
-// import { pdf } from '@react-pdf/renderer';
-// import PrintablePreviewedData from "./components/printablePreviewedData";
-// import SavedPreviewedData from "./components/savedPreviewedData";
-// import useAgreementFormStore from "@/store/document/useAgreementFormStore";
-// import { saveAs } from 'file-saver';
+import html2pdf from 'html2pdf.js';
+import { pdf } from 'pdfjs';
+import useQuickNoticeFormStore from "@/store/document/useQuickNoticeFormStore";
+import useReceiptFormStore from "@/store/document/useReceiptFormStore";
+import useAgreementFormStore from "@/store/document/useAgreementFormStore";
+import DateDotNowInHomz from "@/utils/dateDotNowInHomz";
+
 
 
 const App = () => {
   const { setTab } = useTabForDocuGen();
-  const { DocType, FormName } = FormSelection();
+  const { DocType, FormName, setDocType, setFormName } = FormSelection();
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const { formData, setFormData, mergeFormData } = useAgreementFormStore();
+  const { formData: receiptData, setFormData: setReceiptData, mergeFormData: mergeReceiptData } = useReceiptFormStore();
+  const { formData: quitNoticeData, setFormData: setQuitNoticeData, mergeFormData: mergeQuitNoticeData } = useQuickNoticeFormStore();
   const option = ["PDF", "Word"];
   const [documentCreation, setDocumentCreation] = useState(false);
   const [selectFormat, setSelectedFormat] = useState(null);
@@ -42,9 +46,11 @@ const App = () => {
   const [documentType, setDocumentType] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
-  // const [pdfData, setPdfData] = useState(null);
-  // const { formData: DataForm } = useAgreementFormStore();
-  const printableRef = useRef();
+  const printableRefTenancy = useRef(null);
+  const printableRefQuitNotice = useRef(null);
+  const printableRefReceipt = useRef(null);
+  const [pdfData, setPdfData] = useState(null);
+  const [dataState, setDataState] = useState([]);
 
   const openDocumentCreation = () => {
     setSelectedFormat(false);
@@ -53,13 +59,14 @@ const App = () => {
       setShowPreview(false);
     }
     setDocumentCreation(true);
+    setTab(null);
   };
 
   const openDocumentPage = () => {
     if (documentCreation === true || documentCreation === false) {
       setDocumentCreation(false);
-      setShowPreview(false);
       setSelectedFormat(false);
+      setShowPreview(false);
     }
     setShowDocuments(true);
   };
@@ -76,53 +83,181 @@ const App = () => {
     setPopUpMenuVisible(!popUpMenuVisible);
   };
 
+  // Save the state to localStorage with a 2-hour expiration
+  const saveToLocalStorage = (data) => {
+    const expiryTime = new Date().getTime() + 2 * 60 * 60 * 1000; // 2 hours in ms
+    localStorage.setItem('myData', JSON.stringify(data));
+    localStorage.setItem('expiryTime', expiryTime);
+  };
+
+  // Load from localStorage on mount if not expired
+  useEffect(() => {
+    const savedData = localStorage.getItem('myData');
+    const expiryTime = localStorage.getItem('expiryTime');
+
+    if (savedData && expiryTime && new Date().getTime() < Number(expiryTime)) {
+      setDataState(JSON.parse(savedData));
+    }
+  }, []);
+
   const handlePrint = useReactToPrint({
-    content: () => printableRef.current,
-    documentTitle: `${FormName ? FormName : "Document"}`,
-    onAfterPrint: () => console.log("Document printed."),
+    content: () => {
+      if (DocType === "Tenancy Agreement") return printableRefTenancy.current;
+      if (DocType === "Quit Notice") return printableRefQuitNotice.current;
+      if (DocType === "Invoice and Receipt") return printableRefReceipt.current;
+    },
+    documentTitle: `${DocType}`,
+    onAfterPrint: () => console.log(`${DocType} printed.`),
   });
 
-  // const generatePdf = async () => {
-  //   const element = printableRef.current;
+  const handleGeneratePdf = async () => {
 
-  //   // Generate the PDF using html2pdf.js
-  //   const pdf = await html2pdf().from(element).outputPdf('dataurlstring');
+    // handlePrint()
+    let element;
 
-  //   // Save the PDF data to state
-  //   setPdfData(pdf);
+    switch (DocType) {
+      case "Tenancy Agreement":
+        element = printableRefTenancy.current;
+        break;
+      case "Quit Notice":
+        element = printableRefQuitNotice.current;
+        break;
+      case "Invoice and Receipt":
+        element = printableRefReceipt.current;
+        break;
+      default:
+        return;
+    }
 
-  //   // Optionally, trigger the print dialog after PDF generation
-  //   handlePrint();
-  // };
+    if (!element) return;
+
+    const html = element.innerHTML;
+
+    // Generate the PDF using html2pdf.js
+    const pdfOpts = {
+      margin: 1,
+      filename: `${FormName}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    await html2pdf().from(html).set(pdfOpts).save();
+
+    // Generate PDF and get the blob
+    const pdfBlob = await html2pdf().from(html).set(pdfOpts).outputPdf('blob');
+
+    // Create a Blob URL for downloading the PDF
+    const downloadUrl = window.URL.createObjectURL(pdfBlob);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `${FormName}.pdf`;
+
+    // Automatically trigger the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up and remove the link
+    document.body.removeChild(link);
+
+    // Store the generated PDF in state
+    setPdfData(pdfBlob);
+
+    if (formData?.tenantName && formData?.tenantName !== "") {
+      const updatedFormData = {
+        ...formData,
+        DocType,
+        FormName,
+        Date: DateDotNowInHomz(),
+        pdf: pdfOpts
+      };
 
 
-  // const handleSavePdf = async () => {
+      setDataState((prevState) => {
+        const updatedState = prevState.map((item) =>
+          item.id === formData.id ? updatedFormData : item
+        );
+  
+        // If the id doesn't exist, add the new formData
+        if (!updatedState.some(item => item.id === updatedFormData.id)) {
+          updatedState.push(updatedFormData);
+        }
+  
+        saveToLocalStorage(updatedState);
+        return updatedState;
+      });
+  
+      // Update dataState with the new formData
+      setDataState((prevState) => {
+        const updatedState = [...prevState, updatedFormData];
+        saveToLocalStorage(updatedState);  // Save to localStorage
+        return updatedState;
+      });
+    }
 
-  //   // Optionally, trigger the print dialog after PDF generation
-  //   handlePrint();
+    if (receiptData?.tenantName && receiptData?.tenantName !== "") {
+      const updatedFormData = {
+        ...receiptData,
+        DocType,
+        FormName,
+        Date: DateDotNowInHomz(),
+        pdf: pdfOpts
+        
+      };
 
-  //   const doc = <SavedPreviewedData formData={DataForm} />;
-  //   if (!doc) {
-  //     console.error('Printable content is not ready');
-  //     return;
-  //   }
+      // Update dataState with the new formData
+      setDataState((prevState) => {
+        const updatedState = [...prevState, updatedFormData];
+        saveToLocalStorage(updatedState);  // Save to localStorage
+        return updatedState;
+      });
+    }
 
-  //   // Render the PDF document into a Blob
-  //   const blob = await pdf(doc).toBlob();
-  //   console.log(blob);
+    if (quitNoticeData?.tenantName && quitNoticeData?.tenantName !== "") {
+      const updatedFormData = {
+        ...quitNoticeData,
+        DocType,
+        FormName,
+        Date: DateDotNowInHomz(),
+        pdf: pdfOpts
+      };
 
-  //   const formData = new FormData();
-  //   formData.append('file', blob, `${FormName ? `${FormName}.pdf` : "Document.pdf"}`);
-  //   console.log(formData);
-  //   setPdfData(formData);
+      // Update dataState with the new formData
+      setDataState((prevState) => {
+        const updatedState = [...prevState, updatedFormData];
+        saveToLocalStorage(updatedState);  // Save to localStorage
+        return updatedState;
+      });
+    }
+  };
 
-  //   // Save the PDF to the client side
-  //   // saveAs(blob, `${FormName ? `${FormName}.pdf` : "Document.pdf"}`);
+  console.log(pdfData);
+  console.log(dataState);
+  console.log(formData);
+  console.log(showDocuments);
 
-  // };
+  const handleRemoveData = (index) => {
+    setDataState((prevState) => {
+      const updatedState = prevState.filter((_, i) => i !== index);
+      saveToLocalStorage(updatedState);
+      return updatedState;
+    });
+  };
 
-  // console.log(pdfData);
 
+  const openPreview = (data) => {
+    setDocType(data.DocType);
+    setFormName(data.FormName)
+    if (data.DocType === "Tenancy Agreement") {
+      mergeFormData(data)
+    }
+    if (data.DocType === "Invoice and Receipt") {
+      mergeReceiptData(data)
+    }
+    if (data.DocType === "Quit Notice") {
+      mergeQuitNoticeData(data)
+    }
+    setShowPreview(true)
+  }
 
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
@@ -158,6 +293,7 @@ const App = () => {
                     onClick={() => {
                       setShowPreview(false)
                       setTab("customInfo")
+                      setDocumentCreation(true)
                     }}
                     className="px-6 flex justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[14px] text-BlueHomz hover:text-white hover:bg-BlueHomz border border-BlueHomz">
                     {hover ? <EditBlue /> : <EditBlue className="#006AFF" />}
@@ -169,7 +305,7 @@ const App = () => {
                     className={"text-[14px] font-[500]"}
                     width={"w-[190px] md:w-[240px]"}
                     show="false"
-                    handlePrint={handlePrint}
+                    handlePrint={handleGeneratePdf}
                   />
                 </div>
               </div>
@@ -177,13 +313,13 @@ const App = () => {
             <div className="w-full flex justify-center">
               <div className="w-[600px] h-[100vh] scrollbar-container overflow-hidden overflow-y-auto p-4 mb-8">
                 <div className={`${DocType === "Tenancy Agreement" ? "" : "hidden"}`}>
-                  <PreviewedData printableRef={printableRef} />
+                  <PreviewedData printableRef={printableRefTenancy} />
                 </div>
                 <div className={`${DocType === "Quit Notice" ? "" : "hidden"}`}>
-                  <QuitNoticeData />
+                  <QuitNoticeData printableRef={printableRefQuitNotice} />
                 </div>
                 <div className={`${DocType === "Invoice and Receipt" ? "" : "hidden"}`}>
-                  <ReceiptData />
+                  <ReceiptData printableRef={printableRefReceipt} />
                 </div>
               </div>
             </div>
@@ -280,7 +416,7 @@ const App = () => {
               </CustomizedModal>
             </div>
             {
-              showDocuments &&
+               dataState &&
               (
                 <div className="flex flex-col justify-between h-auto py-4">
                   <div className="w-full">
@@ -291,46 +427,51 @@ const App = () => {
                       <div className="w-[25%] hidden md:table-cell">Action</div>
                       <div className="w-[10px] md:hidden"></div>
                     </div>
-                    <div className="">
-                      <div
-                        className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
-                      >
-                        <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
-                          {DocType}
+                    <div>
+                      {dataState.map((item, index) => (
+                        <div
+                          key={index}
+                          className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
+                        >
+                          <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
+                            {item.DocType}
+                          </div>
+                          <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
+                            {item.FormName}
+                          </div>
+                          <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
+                            {item.Date}
+                          </div>
+                          <div className="hidden text-BlueHomz w-[25%] font-[500] text-[11px] text-start md:flex justify-center items-center gap-2">
+                            <span onClick={() => openPreview(item)} className="cursor-pointer">View</span>
+                            <DropDownBlue
+                              options={options}
+                              onSelect={(option) => setSelectedFormat(option)}
+                              className={"text-[14px] font-[500]"}
+                              show="true"
+                              width="w-[150px]"
+                              placeholder="Download"
+                              handlePrint={handleGeneratePdf}
+                              data={item}
+                              printableRefTenancy={printableRefTenancy}
+                              printableRefQuitNotice={printableRefQuitNotice}
+                              printableRefReceipt={printableRefReceipt}
+                            />
+                          </div>
+                          <div className="md:hidden relative">
+                            <Image
+                              src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                              alt=""
+                              height={21}
+                              width={19}
+                              onClick={handleToggleMenuClick}
+                              className="cursor-pointer"
+                              style={{ height: "auto", width: "auto" }}
+                            />
+                            {popUpMenuVisible && <PopUp />}
+                          </div>
                         </div>
-                        <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
-                          [Document Name]
-                        </div>
-                        <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
-                          [Date Generated]
-                        </div>
-                        <div className="hidden text-BlueHomz w-[25%] font-[500] text-[11px] text-start md:flex justify-center items-center gap-2">
-                          <span className="cursor-pointer"> View</span>
-                          <DropDownBlue
-                            options={options}
-                            onSelect={(option) => setSelectedFormat(option)}
-                            className={"text-[14px] font-[500]"}
-                            show="true"
-                            width="w-[150px]"
-                            placeholder="Download"
-                            handlePrint={handlePrint}
-                          />
-                        </div>
-                        <div className="md:hidden relative">
-                          <Image
-                            src={
-                              "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                            }
-                            alt=""
-                            height={21}
-                            width={19}
-                            onClick={handleToggleMenuClick}
-                            className="cursor-pointer"
-                            style={{ height: "auto", width: "auto" }}
-                          />
-                          {popUpMenuVisible && <PopUp />}
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>

@@ -1,11 +1,11 @@
 "use client"
 import React, { useState } from "react";
-import Image from "next/image";
+import html2pdf from 'html2pdf.js';
 import useClickOutside from "@/utils/clickOutside";
 import ArrowDownWhite from "@/components/icons/arrowDownWhite";
 import WhiteDoc from "@/components/icons/whiteDoc";
 
-const DropDownBlue = ({ handlePrint, options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
+const DropDownBlue = ({ printableRefTenancy, printableRefQuitNotice, printableRefReceipt, data, handlePrint, options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const dropdownRef = useClickOutside(() => setIsOpen(false));
@@ -16,12 +16,53 @@ const DropDownBlue = ({ handlePrint, options, onSelect, className, width = "w-[2
         setIsOpen((prevIsOpen) => !prevIsOpen);
     };
 
+    const handleGeneratePdfII = async (pdfOpts) => {
+
+        let element;
+
+        switch (data.DocType) {
+            case "Tenancy Agreement":
+                element = printableRefTenancy.current;
+                break;
+            case "Quit Notice":
+                element = printableRefQuitNotice.current;
+                break;
+            case "Invoice and Receipt":
+                element = printableRefReceipt.current;
+                break;
+            default:
+                return;
+        }
+
+        if (!element) return;
+
+        const html = element.innerHTML
+        console.log(pdfOpts)
+        const pdfBlob = await html2pdf().from(html).set(pdfOpts).outputPdf('blob');
+        const downloadUrl = window.URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = `${FormName}.pdf`;
+
+        // Automatically trigger the download
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up and remove the link
+        document.body.removeChild(link);
+    }
+
     const handleOptionClick = (option) => {
         setSelectedOption(option);
         onSelect(option);
         setIsOpen(false);
         handlePrint();
+        if (data?.pdf) {
+            handleGeneratePdfII(data?.pdf);
+        }
     };
+
+
 
     const filteredOptions = options?.filter((option) =>
         option?.toLowerCase()
