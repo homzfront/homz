@@ -168,37 +168,37 @@ const Header = () => {
             Home
           </Link>
           <Link
-            href={"/landingPage-PropertyOwner"}
-            className={`hover:text-blue-400   ${pathname === "/landingPage-PropertyOwner" ? "text-BlueHomz" : ""}`}
+            href={"/landlord"}
+            className={`hover:text-blue-400   ${pathname === "/landlord" ? "text-BlueHomz" : ""}`}
             onClick={() => setOpen(false)}
           >
             Management
           </Link>
           <div className="relative hover:text-blue-400 flex items-center gap-1">
             <Link
-              href={"/landing-page-property"}
+              href={"/enterprise"}
               // href={""}
-              className={` ${pathname === "/landing-page-property" || pathname === "/document-gene" ? "text-BlueHomz" : ""}`}
+              className={` ${pathname === "/enterprise" || pathname === "/document-generation" ? "text-BlueHomz" : ""}`}
               onClick={() => setOpen(false)}
             >
               Enterprise
             </Link>
-            <div onClick={toggleSubMenu} className={`cursor-pointer ${subMenuOpen ? "rotate-180" : ""} flex`}>
+            <div onClick={toggleSubMenu} className={`mt-0.5 cursor-pointer ${subMenuOpen ? "rotate-180" : ""} flex`}>
               <Down />
             </div>
             {subMenuOpen &&
               <Link
-                href={"/document-gene"}
-                className={`absolute w-[220px] md:w-[160px] px-3 top-5 md:top-7 py-2 flex items-center justify-center rounded-md bg-inputBg text-[12px] md:text-[14px] text-BlackHomz hover:bg-BlueHomz4 hover:text-white `}
+                href={"/document-generation"}
+                className={`absolute w-[160px] px-3 top-5 md:top-7 py-2 flex items-center justify-center rounded-md bg-inputBg text-[12px] md:text-[14px] text-BlackHomz hover:bg-BlueHomz4 hover:text-white `}
               >
-                Property Document Generation
+                Document Generation
               </Link>
             }
           </div>
           <Link
-            href={"/landing-page-tenant"}
+            href={"/tenant"}
             // href={""}
-            className={`hover:text-blue-400 ${pathname === "/landing-page-tenant" ? "text-BlueHomz" : ""}`}
+            className={`hover:text-blue-400 ${pathname === "/tenant" ? "text-BlueHomz" : ""}`}
             onClick={() => setOpen(false)}
           >
             Tenant

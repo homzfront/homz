@@ -5,8 +5,13 @@ import Plus from "@/components/icons/Plus";
 import Link from "next/link";
 import DocFaqDoc from "@/components/icons/docFaqDoc";
 import DocFaqDocII from "@/components/icons/docFaqDocII";
+import useProfileStore from '@/store/profile';
+import determineRoute from '@/utils/determineRoute';
 
 const FAQs = () => {
+    const { profile } = useProfileStore();
+    const manager = "/dashboard/enterprise-property/dashboard"
+    const page = determineRoute(profile, manager);
     const [expandedFAQs, setExpandedFAQs] = useState({});
     const toggleFAQ = (id) => {
         setExpandedFAQs((prevState) => ({
@@ -87,7 +92,7 @@ const FAQs = () => {
                         <p className="md:text-[18px] text-center md:text-start text-[16px] font-[400] text-walletBg">
                             Get started today and experience the ease of automated document generation.
                         </p>
-                        <Link href={"/contact-page"}>
+                        <Link href={profile ? page : "/register"}>
                             <button className="text-BlueHomz mt-4 p-3 rounded-md bg-white hover:bg-transparent hover:border hover:border-white  hover:text-white">
                                 Start Free Trial Now
                             </button>

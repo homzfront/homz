@@ -27,7 +27,7 @@ const Section = (routeTo, profile) => {
             Get Started
           </Link>
           <Link 
-          href={"/document-gene"}
+          href={"/document-generation"}
           className="h-[48px] w-full md:w-auto text-[16px] md:mt-10 rounded-md font-[500] px-4 flex  justify-center items-center text-BlueHomz border border-BlueHomz hover:border-none hover:bg-BlueHomz4 hover:text-white"
           >
             Generate Property Documents

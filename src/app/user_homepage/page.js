@@ -755,7 +755,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <Link
-                    href="/landingPage-PropertyOwner"
+                    href="/landlord"
                     className="text-[14px] md:text-[16px] text-[#006AFF] flex gap-1"
                   >
                     <span>learn more</span>
@@ -814,7 +814,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <Link
-                    href="/landing-page-property"
+                    href="/enterprise"
                     className="text-[14px] md:text-[16px] text-[#006AFF] flex gap-1"
                   >
                     <span>learn more</span>
@@ -873,7 +873,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <Link
-                    href="/landing-page-tenant"
+                    href="/tenant"
                     className="text-[14px] md:text-[16px] text-[#006AFF] flex gap-1"
                   >
                     <span>learn more</span>
