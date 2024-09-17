@@ -50,7 +50,7 @@ const Tenants = ({rentData, rentLoading, fetchRentData}) => {
           money={addCommasToNumber(data?.rentExpectedNextMonth)}
         />
       </div>
-      <div className="mt-6">
+      <div className={`mt-6 ${rentData?.length > 0 ? "" : "hidden"}`}>
         <TenantData data={rentData} RevData={fetchData} fetchRentData={fetchRentData}/>
       </div>
     </div>

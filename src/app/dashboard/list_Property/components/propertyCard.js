@@ -247,16 +247,16 @@ const PropertyCard = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-[17px] sm:gap-[64px] mt-6 sm:justify-center sm:items-center h-fit">
+    <div className="w-full flex flex-col gap-[17px] md:gap-[64px] mt-6 md:justify-center md:items-center h-fit">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
         {currentProperties &&
           currentProperties.map((property, index) => (
             <div
-              className=" relative flex flex-col h-fit w-full md:w-[234px] max-sm:h-[313px] rounded-[12px] shadow-md"
+              className="border h-fit relative flex flex-col  w-full md:w-[234px] md:max-md:h-[313px] rounded-[12px] shadow-md"
               key={index}
             >
-              <div className="cursor-pointer w-full md:w-[234px] h-[212px] sm:h-[168px] rounded-[10px] ">
-                <div className=" relative h-[212px] sm:h-[168px] md:h-full w-full">
+              <div className="cursor-pointer w-full md:w-[234px] md:h-[168px] rounded-[10px] ">
+                <div className=" relative h-[212px] md:h-full w-full">
                   <Link
                     className="cursor-pointer text-[14px] h-full"
                     href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
@@ -274,7 +274,7 @@ const PropertyCard = ({
                     />
                   </Link>
 
-                  {/* <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] sm:left-[205px] flex items-center justify-center top-[14px] ">
+                  {/* <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] md:left-[205px] flex items-center justify-center top-[14px] ">
                   <Image
                     src="/static/images/green_verify.svg"
                     alt=""
@@ -283,14 +283,14 @@ const PropertyCard = ({
                   />
                 </p> */}
                   {property?.is_published && (
-                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[75%] sm:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
+                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[75%] md:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                       Published
                     </p>
                   )}
 
                   {/* <p className="bg-[#DC6803] text-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[96px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Undergoing Review</p> */}
-                  {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] sm:left-[165px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
-                  {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] sm:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
+                  {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] md:left-[165px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
+                  {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] md:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
                 </div>
               </div>
               <div className="flex flex-col px-2 py-5 md:pt-2 gap-[5px] md:gap-[2px]">
@@ -367,13 +367,13 @@ const PropertyCard = ({
                   </p>
                 </div>
                 <p
-                  className={`text-[13px] sm:text-[11px]  leading-16.5px] ${
+                  className={`text-[13px] md:text-[11px]  leading-16.5px] ${
                     property?.is_promoted || property?.is_promoted === null
                       ? "mt-1"
                       : "mt-6"
-                  } mb- `}
+                  }  `}
                 >
-                  <span className="text-[#A9A9A9] font-[400]">
+                  <span className=" text-[#A9A9A9] font-[400]">
                     {"Added: " + formatDate(property?.createdAt)}
                   </span>
                 </p>
@@ -405,8 +405,8 @@ const PropertyCard = ({
                     width={10}
                     height={10}
                   />
-                  <span className="sm:inline-block hidden" >Promotion in review</span>
-                  <span className=" sm:hidden" >In review</span>
+                  <span className="md:inline-block hidden" >Promotion in review</span>
+                  <span className=" md:hidden" >In review</span>
                 </p> */}
               </div>
               {promoteOptions && (

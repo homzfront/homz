@@ -62,8 +62,8 @@ const RevCard = ({ id }) => {
 
 
   return (
-    <div className="border w-[120%] rounded-[12px] ">
-      <div className="flex justify-between items-center px-6 pt-6 pb-3">
+    <div className="border md:w-[120%] rounded-[12px] ">
+      <div className="flex justify-between h-[100px] items-center px-6 pt-6 pb-3">
         <h1 className="text-BlueHomz font-[500] text-[14px]">Revenue</h1>
         <Link href={"/dashboard/enterprise-property/payments"} className="flex gap-1">
           <span className="text-[11px] font-[400] ">View all payments</span>

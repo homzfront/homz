@@ -111,9 +111,12 @@ const TenantData = ({ data, RevData, fetchRentData }) => {
                     <td
                       className={`text-GrayHomz py-[15px] pr-4 font-[500]  text-[11px] w-24`}
                     >
-                      <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
-                        {capitalizeFirstLetter(data?.status)}
-                      </div>
+                      {data?.status === "PENDING_AUTHORIZATION" ? <div className="bg-warningBg text-warning rounded-md py-1 w-[95px] flex items-center justify-center">
+                        Pending
+                      </div> :
+                        <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
+                          {capitalizeFirstLetter(data?.status)}
+                        </div>}
                     </td>
                     <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {data?.estateId?.name}

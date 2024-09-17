@@ -59,7 +59,7 @@ const HomeCard = ({ revData }) => {
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
-      <div className="flex justify-between ">
+      <div className="flex justify-between h-[100px]">
         <h1 className="text-BlueHomz px-6 pt-6 pb-3 font-[500] text-[14px]">
           Homes
         </h1>

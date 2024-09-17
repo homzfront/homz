@@ -7,19 +7,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const Maintenance = ({ data, maintData }) => {
-  // console.log(data);
-  // console.log(maintData);
+const Maintenance = ({ maintData }) => {
   const ids = maintData?.tenants?.map((data) => data)
   const [maintenanceData, setMaintenanceData] = useState({});
-// console.log(ids);
 
   useEffect(() => {
     if (ids === undefined) {
       setMaintenanceData({})
     } else {
       const fetchDataForId = async (id) => {
-        // console.log(id);
         try {
           if (id !== undefined) {
             const response = await maintenanceRequestForATenantEnterprise(id);
@@ -38,13 +34,12 @@ const Maintenance = ({ data, maintData }) => {
       });
     }
 
-  }, []); // Empty dependency array ensures this effect runs only once on component mount
-// console.log(maintenanceData);
+  }, [maintData]); // Empty dependency array ensures this effect runs only once on component mount
+
   const Data = Object.values(maintenanceData)
     .filter(array => array.length > 0) // Filter out empty arrays
     .flat();
 
-    // console.log(Data);
   return (
     <div className="rounded-[12px] border w-full md:w-[45%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between items-center p-6">

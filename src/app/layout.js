@@ -5,6 +5,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import Head from 'next/head';
 import Script from "next/script";
 import dynamic from 'next/dynamic';
+import GoogleAnalytics from "@/utils/googleAnalytics";
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -14,11 +15,6 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 const FacebookPixel = dynamic(() => import('@/libs/FBpixels'), {
   ssr: false,
 });
-
-const GoogleAnalytics = dynamic(() => import('@/libs/googleAnalytics'), {
-  ssr: false,
-});
-
 
 export const metadata = {
   metadataBase: new URL('https://www.homz.ng'),
@@ -53,7 +49,7 @@ export default function RootLayout({ children }) {
       </Head>
       <body className={plus_Jakarta_Sans.className}>
         <FacebookPixel />
-        <GoogleAnalytics />
+        <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
         <Script
           id="tawk-to"
@@ -77,5 +73,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
 

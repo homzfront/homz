@@ -203,7 +203,7 @@ const HomePage = () => {
   };
 
   const sliderSettings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
@@ -215,11 +215,10 @@ const HomePage = () => {
     autoplaySpeed: 3000,
     prevArrow: null,
     nextArrow: null,
-    appendDots: dots => <div style={{ marginTop: '40px' }}>{dots}</div>,
   };
 
   const sliderSettingsII = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToScroll: 1,
@@ -922,22 +921,22 @@ const HomePage = () => {
                 <Slider {...sliderSettingsII}>
                   {featuredData?.map((property, idx) => (
                     <div className="w-full" key={idx}>
-                      <div className="w-[300px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
+                      <div className="w-[280px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
                         <div className="cursor-pointer w-[373px] h-[252px]">
                           <Carousel
                             slide={false}
                             theme={customTheme}
-                            className="w-[300px] sm:w-[373px] h-[252px]"
+                            className="w-[280px] sm:w-[373px] h-[252px]"
                           >
                             {property?.property?.photos &&
                               property?.property?.photos.map((img, index) => (
-                                <div key={index} className="w-[300px] sm:w-[373px] h-[252px]">
+                                <div key={index} className="w-[280px] sm:w-[373px] h-[252px]">
                                   <Image
                                     src={img?.url}
                                     alt=""
                                     width={373}
                                     height={252}
-                                    className="w-[300px] sm:w-[373px] h-[252px] rounded-lg object-cover"
+                                    className="w-[280px] sm:w-[373px] h-[252px] rounded-lg object-cover"
                                   />
                                 </div>
                               ))}
@@ -1045,22 +1044,22 @@ const HomePage = () => {
                 <Slider {...sliderSettings}>
                   {featuredData?.map((property, idx) => (
                     <div className="w-full mb-8" key={idx}>
-                      <div className="w-[300px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
+                      <div className="w-[280px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
                         <div className="cursor-pointer w-[373px] h-[252px]">
                           <Carousel
                             slide={false}
                             theme={customTheme}
-                            className="w-[300px] sm:w-[373px] h-[252px]"
+                            className="w-[280px] sm:w-[373px] h-[252px]"
                           >
                             {property?.property?.photos &&
                               property?.property?.photos.map((img, index) => (
-                                <div key={index} className="w-[300px] sm:w-[373px] h-[252px]">
+                                <div key={index} className="w-[280px] sm:w-[373px] h-[252px]">
                                   <Image
                                     src={img?.url}
                                     alt=""
                                     width={373}
                                     height={252}
-                                    className="w-[300px] sm:w-[373px] h-[252px] rounded-lg object-cover"
+                                    className="w-[280px] sm:w-[373px] h-[252px] rounded-lg object-cover"
                                   />
                                 </div>
                               ))}
@@ -1171,7 +1170,7 @@ const HomePage = () => {
         <Link
           href="user_homepage/PropertyListing"
         >
-          <button className="md:hidden mt-10 mb-8 border border-white px-4 py-2 rounded text-[14px] font-[500] flex gap-1 items-center">
+          <button className="md:hidden mb-8 border border-white px-4 py-2 rounded text-[14px] font-[500] flex gap-1 items-center">
             <span>View All</span>
             <Image
               src="/static/images/white-right-arrow.svg"
