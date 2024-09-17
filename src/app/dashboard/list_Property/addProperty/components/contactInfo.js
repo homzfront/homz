@@ -16,7 +16,7 @@ const ContactInfo = ({
   const [error2, setError2] = useState(null);
   const [isFocus, setFocus] = useState(false);
   const [isValid, setIsValid] = useState(false);
-
+  
   const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
 
   const onSubmit = () => {

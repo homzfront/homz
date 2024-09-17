@@ -41,16 +41,33 @@ const DisplayHousePic = (
       return;
     } else {
       if (setPropertyPhotos) {
-        setPropertyPhotos((prev) => [...prev, file]);
+        setPropertyPhotos((prev) => {
+          const newPropertyPhotos = [...prev];
+          newPropertyPhotos[index] = file; 
+          return newPropertyPhotos;
+        });
       }
-      setImagesFiles((prev) => [...prev, file]);
+      // Update the image at the specified index if it exists
+      if (imagesFiles[index]) {
+        setImagesFiles((prev) => {
+          const newImagesFiles = [...prev];
+          newImagesFiles[index] = file; // Replace the file at the given index
+          return newImagesFiles;
+        });
+      } else {
+        // If no file exists at the index, append it
+        setImagesFiles((prev) => [...prev, file]);
+      }
+    
       const newErrorMsg = [...errorMsg];
       newErrorMsg[index] = "";
       setErrorMsg(newErrorMsg);
+    
       const newImages = [...houses];
-      newImages[index] = URL.createObjectURL(file);
+      newImages[index] = URL.createObjectURL(file); // Update the image preview
       setHouses(newImages);
     }
+    
   }
 };
 

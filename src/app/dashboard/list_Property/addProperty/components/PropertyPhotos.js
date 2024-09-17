@@ -48,7 +48,7 @@ const PropertyPhoto = ({
     setCoverPicture(null);
     setFileUpload(false);
   };
-  // console.log(imagesFiles);
+  
   const submitData = () => {
     setVideoLinksData(videoLinks);
     setUploadedOtherPhotos(imagesFiles);
