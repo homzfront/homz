@@ -78,6 +78,7 @@
     "uuid": "^9.0.1",
     "yet-another-react-lightbox": "^3.17.2",
     "yup": "^1.4.0",
+    "zod": "^3.23.8",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

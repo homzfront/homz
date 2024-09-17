@@ -12,7 +12,7 @@ import quitNoticeSchema from '@/validation/quitNoticeSchema'
 const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
-    const { formData, setFormData } = useQuickNoticeFormStore();
+    const { formData, setFormData, mergeFormData } = useQuickNoticeFormStore();
     const options = ["Monthly", "Quarterly", "Annually"];
     const fileInputRef = useRef(null);
     const [errors, setErrors] = useState({});
@@ -23,9 +23,6 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             return acc;
         }, {});
     };
-
-    console.log(formData)
-
     // Function to validate form fields using Zod
     const validateForm = () => {
         const normalizedFormData = normalizeFormData(formData); // Normalize null values
@@ -47,8 +44,20 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
         }
     };
 
+    const generateUniqueId = () => {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+    };
+
     const handleGenerate = () => {
+        const existingId = formData.id;
         if (validateForm()) {
+            if (existingId) {
+                // ID exists, update existing data
+                mergeFormData(formData);
+            } else {
+                // ID does not exist, generate new ID and create new entry
+                setFormData('id', generateUniqueId());
+            }
             setShowPreview(true);
         } else if
             (
@@ -67,10 +76,18 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             formData?.propertyManagerCompanyWebsite !== '' &&
             formData?.image !== null
         ) {
+            if (existingId) {
+                // ID exists, update existing data
+                mergeFormData(formData);
+            } else {
+                // ID does not exist, generate new ID and create new entry
+                setFormData('id', generateUniqueId());
+            }
             setShowPreview(true);
         }
         else {
             return;
+
         }
     };
 
@@ -96,7 +113,8 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             <div className="relative w-[80px] h-[80px] mb-2">
                 <div>
                     <Image
-                        src={formData?.image !== null ? URL.createObjectURL(formData?.image) : "/Ellipse 75.png"}
+                        src={formData?.image && formData.image instanceof File
+                            ? URL.createObjectURL(formData.image) : "/Ellipse 75.png"}
                         height={80}
                         width={80}
                         alt="avatar"

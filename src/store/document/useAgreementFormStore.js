@@ -16,12 +16,14 @@ const useAgreementFormStore = create((set) => ({
     selectedCurrency: null,
     id: null,
   },
+  
   setFormData: (field, value) => set((state) => ({
     formData: {
       ...state.formData,
       [field]: value,
     },
   })),
+
   mergeFormData: (propertyData) => set((state) => ({
     formData: {
       ...state.formData, // retain existing formData fields
@@ -38,6 +40,24 @@ const useAgreementFormStore = create((set) => ({
       tenancyEndDate: propertyData.tenancyEndDate ?? state.formData.tenancyEndDate,
       selectedCurrency: propertyData.selectedCurrency ?? state.formData.selectedCurrency,
       id: propertyData.id ?? state.formData.id
+    },
+  })),
+
+  resetAgreementFormData: () => set(() => ({
+    formData: {
+      propDesc: null,
+      propAddress: null,
+      landlordName: null,
+      landlordAddress: null,
+      tenantName: null,
+      tenantAddress: null,
+      tenancyStartDate: null,
+      agreementDate: null,
+      rentPayment: null,
+      rentPaymentInWords: null,
+      tenancyEndDate: null,
+      selectedCurrency: null,
+      id: null,
     },
   })),
 }));

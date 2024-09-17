@@ -74,11 +74,13 @@ const Dashboard = ({ id }) => {
             </div>
           </div>
         </div>
-        <div className="mt-8 w-full md:w-[784px] justify-between flex gap-5">
+        <div className="mt-8 w-full md:w-[784px] justify-between flex flex-col md:flex-row gap-5">
           <div className="w-[100%] md:w-[50%]">
             <HomeCard revData={datas} />
           </div>
-          {/* <RevCard id={id}/> */}
+          <div className="w-[100%] md:w-[50%]">
+            <RevCard id={id} />
+          </div>
         </div>
         <div className="mt-8 flex flex-col md:flex-row gap-5">
           <TenantsCard data={data} />

@@ -10,7 +10,7 @@ import agreementSchema from '@/validation/agreementSchema'
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
-    const { formData, setFormData } = useAgreementFormStore();
+    const { formData, setFormData, mergeFormData } = useAgreementFormStore();
     const options = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
     const [errors, setErrors] = useState({});
 
@@ -47,12 +47,21 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
-    const handleGenerate = () => {
-        if (validateForm()) {
-            setShowPreview(true);
-            setFormData('id', generateUniqueId())
+
+
+const handleGenerate = () => {
+    if (validateForm()) {
+        const existingId = formData.id;
+        if (existingId) {
+            // ID exists, update existing data
+            mergeFormData(formData);
+        } else {
+            // ID does not exist, generate new ID and create new entry
+            setFormData('id', generateUniqueId());
         }
+        setShowPreview(true);
     }
+};
 
 
     return (

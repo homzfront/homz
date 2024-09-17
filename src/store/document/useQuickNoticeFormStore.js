@@ -2,19 +2,19 @@ import { create } from 'zustand';
 
 const useQuickNoticeFormStore = create((set) => ({
   formData: {
-    noticePeriod: '',
-    noticeStartDate: '',
-    propertyDesc: '',
-    propertyAddress: '',
-    landlordName: '',
-    tenantName: '',
-    tenantAddress: '',
+    noticePeriod: null,
+    noticeStartDate: null,
+    propertyDesc: null,
+    propertyAddress: null,
+    landlordName: null,
+    tenantName: null,
+    tenantAddress: null,
     duration: null,
-    propertyManagerName: '',
-    propertyManagerCompanyName: '',
-    propertyManagerCompanyEmail: '',
-    propertyManagerCompanyAddress: '',
-    propertyManagerCompanyWebsite: '',
+    propertyManagerName: null,
+    propertyManagerCompanyName: null,
+    propertyManagerCompanyEmail: null,
+    propertyManagerCompanyAddress: null,
+    propertyManagerCompanyWebsite: null,
     image: null
   },
 
@@ -42,6 +42,25 @@ const useQuickNoticeFormStore = create((set) => ({
       propertyManagerCompanyAddress: propertyData.propertyManagerCompanyAddress ?? state.formData.propertyManagerCompanyAddress,
       propertyManagerCompanyWebsite: propertyData.propertyManagerCompanyWebsite ?? state.formData.propertyManagerCompanyWebsite,
       image: propertyData.image ?? state.formData.image,
+    },
+  })),
+
+  resetQuitNoticeFormData: () => set(() => ({
+    formData: {
+      noticePeriod: null,
+      noticeStartDate: null,
+      propertyDesc: null,
+      propertyAddress: null,
+      landlordName: null,
+      tenantName: null,
+      tenantAddress: null,
+      duration: null,
+      propertyManagerName: null,
+      propertyManagerCompanyName: null,
+      propertyManagerCompanyEmail: null,
+      propertyManagerCompanyAddress: null,
+      propertyManagerCompanyWebsite: null,
+      image: null
     },
   })),
 }));
