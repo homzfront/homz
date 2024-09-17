@@ -84,7 +84,7 @@ const Dashboard = ({ id }) => {
         </div>
         <div className="mt-8 flex flex-col md:flex-row gap-5">
           <TenantsCard data={data} />
-          <Maintenance data={data} maintData={datas} />
+          <Maintenance maintData={datas} />
         </div>
       </div>
     </div>

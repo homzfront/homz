@@ -28,7 +28,6 @@ const ListedProperties = ({
   setStatusName,
   // subsciptionStatus,
 }) => {
-  
   // console.log(property)
   const ITEMS_PER_PAGE = 8;
   const [filteredData, setFilteredData] = useState([]);
@@ -69,7 +68,7 @@ const ListedProperties = ({
       setFilteredData(property?.data?.results?.[0].data);
     }
   }, [property]);
-  
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -77,7 +76,6 @@ const ListedProperties = ({
     setTabName(propertyStatus || "all");
     setCurrentPage(page ? parseInt(page, 10) : 1); // Default to page 1 if no page param is found
   }, []);
-
 
   useEffect(() => {
     const handleRouteChangeStart = () => {
@@ -258,7 +256,7 @@ const ListedProperties = ({
   };
 
   return (
-    <div className=" mb-10 px-4 ">
+    <div className=" mb-10 md:px-4">
       {/* {isLoading2 && <Loading />} */}
 
       {openModalForBusi && (
@@ -286,7 +284,7 @@ const ListedProperties = ({
           </div>
         </div>
       )}
-      <div className="flex justify-between md:hidden w-full">
+      <div className="flex justify-between md:hidden w-full ">
         <div className="relative w-[86%] rounded-[4px]">
           <input
             type="text"
@@ -304,7 +302,7 @@ const ListedProperties = ({
             width={16}
           />
         </div>
-        <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
+        <div className="border rounded-[4px] p-[10px] flex justify-center items-center border-BlueHomz ">
           <button onClick={openMobileModal}>
             <Image
               src="/static/images/filter.svg"
@@ -315,13 +313,13 @@ const ListedProperties = ({
           </button>
         </div>
       </div>
-      <div className="dashboard flex sm:justify-between w-full mt-6 sm:mt-0 ">
-        <div className="flex w-full flex-wrap sm:gap-[8px] gap-[8px]">
+      <div className="dashboard flex md:justify-between w-fit md:w-full mt-6 md:mt-0 ">
+        <div className="flex w-full flex-wrap md:gap-[8px] gap-[8px]">
           <button
-            className={`py-[8px] px-[12px] rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] w-fit sm:leading-[21px] font-[500] ${
+            className={`py-[8px] px-[12px] rounded-[4px] h-[37px] md:text-[14px] text-[11px] leading-[13.86px] w-fit md:leading-[21px] font-[500] ${
               tabName === "all"
                 ? "bg-BlueHomz text-white"
-                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+                : "md:bg-inherit bg-[#EEF5FF] text-BlueHomz md:text-[#4E4E4E]"
             }`}
             // onClick={() => {
             //   setTabName("All");
@@ -332,20 +330,20 @@ const ListedProperties = ({
             All
           </button>
           <button
-            className={`py-[8px] px-[12px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] w-fit ${
+            className={`py-[8px] px-[12px] md:text-[14px] text-[11px] leading-[13.86px] md:leading-[21px] w-fit ${
               tabName === "published"
                 ? "bg-BlueHomz text-white"
-                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+                : "md:bg-inherit bg-[#EEF5FF] text-BlueHomz md:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] font-[500]`}
             onClick={() => handlePropertyStatus("published")}
           >
             Published
           </button>
           <button
-            className={`py-[8px] px-[12px] sm:text-[14px] text-[11px] w-fit leading-[13.86px] sm:leading-[21px] ${
+            className={`py-[8px] px-[12px] md:text-[14px] text-[11px] w-fit leading-[13.86px] md:leading-[21px] ${
               tabName === "promoted"
                 ? "bg-BlueHomz text-white"
-                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
+                : "md:bg-inherit bg-[#EEF5FF] text-BlueHomz md:text-[#4E4E4E]"
             } rounded-[4px] h-[37px] font-[500]`}
             onClick={() => handlePropertyStatus("promoted")}
           >
@@ -355,8 +353,8 @@ const ListedProperties = ({
             className={`flex items-center justify-center py-[8px] px-[12px] w-fit ${
               tabName === "unpublished"
                 ? "bg-BlueHomz text-white"
-                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
-            } rounded-[4px] h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] font-[500]`}
+                : "md:bg-inherit bg-[#EEF5FF] text-BlueHomz md:text-[#4E4E4E]"
+            } rounded-[4px] h-[37px] md:text-[14px] text-[11px] leading-[13.86px] md:leading-[21px] font-[500]`}
             onClick={() => handlePropertyStatus("unpublished")}
           >
             Unpublished
@@ -365,14 +363,14 @@ const ListedProperties = ({
             className={`py-[8px] px-[12px] rounded-[4px] w-fit ${
               tabName === "Drafts"
                 ? "bg-BlueHomz text-white"
-                : "sm:bg-inherit bg-[#EEF5FF] text-BlueHomz sm:text-[#4E4E4E]"
-            } h-[37px] sm:text-[14px] text-[11px] leading-[13.86px] sm:leading-[21px] font-[500]`}
+                : "md:bg-inherit bg-[#EEF5FF] text-BlueHomz md:text-[#4E4E4E]"
+            } h-[37px] md:text-[14px] text-[11px] leading-[13.86px] md:leading-[21px] font-[500]`}
             onClick={() => setTabName("Drafts")}
           >
             Drafts
           </button> */}
         </div>
-        <div className="hidden sm:flex gap-1 filter">
+        <div className="hidden md:flex gap-1 filter">
           <p className="text-[#4E4E4E]  text-[14px] leading-[21px] font-[500] mb-2 pt-2 mr-2"></p>
 
           <button
@@ -442,7 +440,7 @@ const ListedProperties = ({
                 onSelect={(option) => setSelectedState(option)}
                 selectOption={selectedState === null ? "State" : selectedState}
                 className={
-                  "text-[14px] font-[500] text-GrayHomz2 w-[100%] sm:w-[155px]"
+                  "text-[14px] font-[500] text-GrayHomz2 w-[100%] md:w-[155px]"
                 }
               />
 
@@ -451,7 +449,7 @@ const ListedProperties = ({
                 onSelect={(option) => setSelectedArea(option)}
                 selectOption={selectedArea === null ? "Area" : selectedArea}
                 className={
-                  "w-[100%] sm:w-[155px] text-[14px] font-[500] text-GrayHomz2"
+                  "w-[100%] md:w-[155px] text-[14px] font-[500] text-GrayHomz2"
                 }
               />
             </div>
@@ -463,11 +461,11 @@ const ListedProperties = ({
                   selectedProperty === null ? "Property Type" : selectedProperty
                 }
                 className={
-                  "w-[100%] sm:w-[155px] text-[14px] font-[500] text-GrayHomz2"
+                  "w-[100%] md:w-[155px] text-[14px] font-[500] text-GrayHomz2"
                 }
               />
               {/* </div> */}
-              {/* <div className="w-[100%] sm:w-[155px]"> */}
+              {/* <div className="w-[100%] md:w-[155px]"> */}
               <Dropdown
                 options={options4}
                 onSelect={(option) => setSelectedRooms(option)}
@@ -479,7 +477,7 @@ const ListedProperties = ({
                     : `${selectedRooms} Bedrooms`
                 }
                 className={
-                  "w-[100%] sm:w-[155px]  text-[14px] font-[500] text-GrayHomz2"
+                  "w-[100%] md:w-[155px]  text-[14px] font-[500] text-GrayHomz2"
                 }
               />
             </div>
