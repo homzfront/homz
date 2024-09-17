@@ -44,7 +44,7 @@ const ImageModal = ({
   
 
   return (
-    <div className="text-white absolute  z-20 h-screen sm:max-w-[1440px]  m-auto  inset-0  bg-black flex justify-center items-center">
+    <div className="text-white absolute  z-50 h-screen sm:max-w-[1440px]  m-auto  inset-0  bg-black flex justify-center items-center">
       <div className="h-screen flex justify-between py-4 flex-col">
         <div className="flex w-full justify-between h-[5%] px-2 sm:px-0">
           <span className="text-[14px] font-[400]">{`${
