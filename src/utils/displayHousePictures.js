@@ -1,12 +1,12 @@
 const DisplayHousePic = (
   e,
   index,
-  imagesFiles,
-  setImagesFiles,
   errorMsg,
   setErrorMsg,
   houses,
   setHouses,
+  setHousesFiles,
+  housesFiles,
   setPropertyPhotos
 ) => {
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
@@ -15,8 +15,8 @@ const DisplayHousePic = (
   if (file) {
     // Check for duplicate file
     if (
-      imagesFiles.some(
-        (house) => house.name === file.name && house.size === file.size
+      housesFiles.some(
+        (house) => house && house.name === file.name && house.size === file.size
       )
     ) {
       const newErrorMsg = [...errorMsg];
@@ -24,6 +24,7 @@ const DisplayHousePic = (
       setErrorMsg(newErrorMsg);
       return;
     }
+    
 
     // Validate file type
     if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
@@ -48,15 +49,16 @@ const DisplayHousePic = (
         });
       }
       // Update the image at the specified index if it exists
-      if (imagesFiles[index]) {
-        setImagesFiles((prev) => {
+      if (housesFiles[index] ) {
+        setHousesFiles((prev) => {
           const newImagesFiles = [...prev];
           newImagesFiles[index] = file; // Replace the file at the given index
           return newImagesFiles;
         });
       } else {
-        // If no file exists at the index, append it
-        setImagesFiles((prev) => [...prev, file]);
+        const newImagesFiles = [...housesFiles];
+        newImagesFiles[index] = file; 
+        setHousesFiles(newImagesFiles);
       }
     
       const newErrorMsg = [...errorMsg];

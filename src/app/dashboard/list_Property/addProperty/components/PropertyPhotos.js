@@ -7,7 +7,7 @@ import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 import displayHousePictures from "@/utils/displayHousePictures";
 import { validateUrl } from "@/utils/validateUrl";
 
-// (e, index,imagesFiles,setImagesFiles,errorMsg, setErrorMsg,houses,setHouses)
+
 const PropertyPhoto = ({
   BackToRentalsInfo,
   handlePagePropertyPhoto,
@@ -18,16 +18,13 @@ const PropertyPhoto = ({
 }) => {
   const [ImageSrc, setImageScr] = useState(pic);
   const fileUpload = useRef(null);
-  // const fileUpload2 = useRef(null);
   const [coverPhoto, setCoverPicture] = useState(null);
   const [fileUploaded, setFileUpload] = useState(false);
-  // const [fileUploaded2, setFileUpload2] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
   const [houses, setHouses] = useState(Array(10).fill(null));
-  const [numberOfHouses, setNumberOfHouses] = useState(Array(10).fill(null));
+  const [housesFiles, setHousesFiles] = useState(Array(10).fill(null));
   const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
-  const [imagesFiles, setImagesFiles] = useState([]);
   const [error1, setError1] = useState("");
   const [error2, setError2] = useState("");
   const [videoLinks, setVideoLinks] = useState({
@@ -37,24 +34,26 @@ const PropertyPhoto = ({
 
   const deleteFile = (index) => {
     const updatedData = [...houses];
-    const updatedFile = [...imagesFiles];
-    updatedFile.splice(index, 1);
+    const updatedHouseFile = [...housesFiles];
     updatedData[index] = null;
+    updatedHouseFile[index] = null;
     setHouses(updatedData);
-    setImagesFiles(updatedFile);
+    setHousesFiles(updatedHouseFile);
   };
   const deleteCoverPhoto = () => {
     setImageScr(null);
     setCoverPicture(null);
     setFileUpload(false);
   };
-  
+   
   const submitData = () => {
+    const validHousesFiles = housesFiles.filter((file) => file !== null);
     setVideoLinksData(videoLinks);
-    setUploadedOtherPhotos(imagesFiles);
+    setUploadedOtherPhotos(validHousesFiles);
     setUploadedCoverPhoto(coverPhoto);
     handlePagePropertyPhoto();
   };
+  
   const fileUploads = useRef([]);
 
   const uploadCoverPhoto = (e) => {
@@ -90,12 +89,12 @@ const PropertyPhoto = ({
     displayHousePictures(
       e,
       index,
-      imagesFiles,
-      setImagesFiles,
       errorMsg,
       setErrorMsg,
       houses,
-      setHouses
+      setHouses,
+      setHousesFiles,
+      housesFiles
     );
   };
 
@@ -332,11 +331,11 @@ const PropertyPhoto = ({
               setVideoLinks({ ...videoLinks, instagramUrl: e.target.value })
             }
           />
-            {error2 && (
-                <div className="italic text-error text-[11px] font-[400]">
-                  {error2}
-                </div>
-              )}
+          {error2 && (
+            <div className="italic text-error text-[11px] font-[400]">
+              {error2}
+            </div>
+          )}
         </div>
       </section>
       <div className="flex mb-0 flex-row justify-between sm:mt-20 mt-10  md:px-0 paginate">
