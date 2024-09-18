@@ -1,22 +1,13 @@
-# Allow all bots to access everything
+# *
 User-agent: *
-Disallow:
+Allow: /
 
-# Block all bots from accessing the admin section
-User-agent: *
-Disallow: /admin/
-
-# Block a specific bot from accessing the site
+# BadBot
 User-agent: BadBot
 Disallow: /
 
-# Block bots from accessing certain file types
-User-agent: *
-Disallow: /*.pdf$
-Disallow: /*.doc$
+# Host
+Host: http://www.homz.ng
 
-# Allow only Googlebot to access the site
-User-agent: Googlebot
-Disallow:
-User-agent: *
-Disallow: /
+# Sitemaps
+Sitemap: http://www.homz.ng/sitemap.xml
