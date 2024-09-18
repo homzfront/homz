@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image';
 import useReceiptFormStore from '@/store/document/useReceiptFormStore';
 import PrintableReceiptData from './printableReceiptData';
+import formatDate from '@/utils/formatDate';
 
 const ReceiptData = ({ printableRef }) => {
     const { formData } = useReceiptFormStore();
@@ -18,7 +19,7 @@ const ReceiptData = ({ printableRef }) => {
                         className='rounded-full object-cover bg-center h-[64px]'
                     />
                     <p className='text-[13px] font-[600] text-GrayHomz'>
-                        {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : "[Property Manager’s Company]"}
+                        {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}
                     </p>
                 </div>
                 <div className='flex justify-between'>
@@ -30,7 +31,7 @@ const ReceiptData = ({ printableRef }) => {
                             Date
                         </p>
                         <p className='text-[11px] font-[400] text-GrayHomz'>
-                            {formData?.receiptDate ? formData?.receiptDate : "[Date]"}
+                            {formData?.receiptDate ? formatDate(formData?.receiptDate) : ""}
                         </p>
                     </div>
                 </div>
@@ -47,7 +48,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.propertyAddress ? formData?.propertyAddress : "[Property Address]"}
+                                    {formData?.propertyAddress ? formData?.propertyAddress : ""}
                                 </p>
                             </div>
                         </div>
@@ -59,7 +60,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.propertyDesc ? formData?.propertyDesc : "[Property - Description]"}
+                                    {formData?.propertyDesc ? formData?.propertyDesc : ""}
                                 </p>
                             </div>
                         </div>
@@ -78,7 +79,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : "[Property Manager’s Company Name]"}
+                                    {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}
                                 </p>
                             </div>
                         </div>
@@ -90,7 +91,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : "[Property Manager’s Company Address]"}
+                                    {formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}
                                 </p>
                             </div>
                         </div>
@@ -102,7 +103,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.propertyManagerCompanyPhoneNumber ? formData?.propertyManagerCompanyPhoneNumber : "[Property Manager’s Company Phone Number]"}
+                                    {formData?.propertyManagerCompanyPhoneNumber ? formData?.propertyManagerCompanyPhoneNumber : ""}
                                 </p>
                             </div>
                         </div>
@@ -121,7 +122,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenantName ? formData?.tenantName : "[Tenant’s Name]"}
+                                    {formData?.tenantName ? formData?.tenantName : ""}
                                 </p>
                             </div>
                         </div>
@@ -133,7 +134,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenantPhoneNumber ? formData?.tenantPhoneNumber : "[Tenant’s Phone Number]"}
+                                    {formData?.tenantPhoneNumber ? formData?.tenantPhoneNumber : ""}
                                 </p>
                             </div>
                         </div>
@@ -145,7 +146,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenancy ? formData?.tenancy : "[Tenancy period] (Month/Year)"}
+                                    {formData?.tenancy ? formData?.tenancy : ""}
                                 </p>
                             </div>
                         </div>
@@ -154,7 +155,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenancyStartDate && formData?.tenancyEndDate ? `${formData?.tenancyStartDate} - ${formData?.tenancyEndDate}` : "[Tenancy start date] - [Tenancy end date]"}
+                                    {formData?.tenancyStartDate && formData?.tenancyEndDate ? `${formatDate(formData?.tenancyStartDate)} - ${formatDate(formData?.tenancyEndDate)}` : ""}
                                 </p>
                             </div>
                         </div>
@@ -173,7 +174,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.rentPaymentInWords ? formData?.rentPaymentInWords : "[Amount in words]"}
+                                    {formData?.rentPaymentInWords ? formData?.rentPaymentInWords : ""}
                                 </p>
                             </div>
                         </div>
@@ -185,7 +186,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.rentPayment ? formData?.rentPayment : "[Currency] [Amount in figures]"}
+                                    {formData?.rentPayment ? formData?.rentPayment : ""}
                                 </p>
                             </div>
                         </div>
@@ -197,7 +198,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.modOfPayment ? formData?.modOfPayment : "[Mode of payment]"}
+                                    {formData?.modOfPayment ? formData?.modOfPayment : ""}
                                 </p>
                             </div>
                         </div>
@@ -209,7 +210,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenancyEndDate ? formData?.tenancyEndDate : "[Tenancy end date]"}
+                                    {formData?.tenancyEndDate ? formatDate(formData?.tenancyEndDate) : ""}
                                 </p>
                             </div>
                         </div>

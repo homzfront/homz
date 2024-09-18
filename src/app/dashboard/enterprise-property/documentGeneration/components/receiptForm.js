@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Input from "@/pages/dashboard/enterprise/components/input";
 import DropDown from './dropDown';
 import ArrowLeftBlueSmall from '@/components/icons/arrowLeftBlueSmall';
@@ -8,6 +8,8 @@ import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
 import { z } from 'zod';
 import receiptSchema from '@/validation/receiptSchema'
+import { usePathname, useRouter } from 'next/navigation';
+import useProfileStore from '@/store/profile';
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -16,41 +18,63 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const optionsII = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
     const fileInputRef = useRef(null);
     const [errors, setErrors] = useState({});
+    const router = useRouter();
+    const path = usePathname();
+    const [hasPropertyManager, setHasPropertyManager] = useState(false);
+    const { profile } = useProfileStore();
+    function hasPropertyManagerAccount(profile) {
+        return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
+    }
 
-    const normalizeFormData = (data) => {
-        return Object.keys(data).reduce((acc, key) => {
-            acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
-            return acc;
-        }, {});
-    };
+    useEffect(() => {
+        if (profile) {
+            setHasPropertyManager(hasPropertyManagerAccount(profile));
+        }
+    }, [profile]);
+
+    const url = !profile ? "/register" : hasPropertyManager
+        ? "/dashboard/enterprise-property/documentGeneration"
+        : "/switch-profile";
+
+
+    // const normalizeFormData = (data) => {
+    //     return Object.keys(data).reduce((acc, key) => {
+    //         acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
+    //         return acc;
+    //     }, {});
+    // };
 
     // Function to validate form fields using Zod
-    const validateForm = () => {
-        const normalizedFormData = normalizeFormData(formData); // Normalize null values
-        try {
-            receiptSchema.parse(normalizedFormData);
-            setErrors({});
-            return true;
-        } catch (e) {
-            if (e instanceof z.ZodError) {
-                const fieldErrors = e.errors.reduce((acc, error) => {
-                    if (error.path.length) {
-                        acc[error.path[0]] = error.message;
-                    }
-                    return acc;
-                }, {});
-                setErrors(fieldErrors);
-            }
-            return false;
-        }
-    };
+    // const validateForm = () => {
+    //     const normalizedFormData = normalizeFormData(formData); // Normalize null values
+    //     try {
+    //         receiptSchema.parse(normalizedFormData);
+    //         setErrors({});
+    //         return true;
+    //     } catch (e) {
+    //         if (e instanceof z.ZodError) {
+    //             const fieldErrors = e.errors.reduce((acc, error) => {
+    //                 if (error.path.length) {
+    //                     acc[error.path[0]] = error.message;
+    //                 }
+    //                 return acc;
+    //             }, {});
+    //             setErrors(fieldErrors);
+    //         }
+    //         return false;
+    //     }
+    // };
 
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
 
     const handleGenerate = () => {
-        if (validateForm()) {
+        if (path !== "/dashboard/enterprise-property/documentGeneration") {
+            router.push(url);
+
+        } else {
+            // if (validateForm()) {
             const existingId = formData.id;
             if (existingId) {
                 // ID exists, update existing data
@@ -167,7 +191,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 <Input
                     label={"Date"}
                     placeholder={"e.g 1 July, 2026"}
-                    type={"text"}
+                    type={"data"}
                     value={formData.receiptDate}
                     onChange={(e) => setFormData('receiptDate', e.target.value)}
                     autoComplete={"receiptDate"}
@@ -299,7 +323,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 <Input
                     label={"Tenancy Start Date"}
                     placeholder={"e.g 1 July, 2024"}
-                    type={"text"}
+                    type={"date"}
                     value={formData.tenancyStartDate}
                     onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
                     autoComplete={"tenancyStartDate"}
@@ -312,7 +336,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 <Input
                     label={"Tenancy End Date"}
                     placeholder={"e.g 31, 2025"}
-                    type={"text"}
+                    type={"date"}
                     value={formData.tenancyEndDate}
                     onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
                     autoComplete={"tenancyEndDate"}

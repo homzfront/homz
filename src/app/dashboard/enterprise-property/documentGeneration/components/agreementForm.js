@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from "@/pages/dashboard/enterprise/components/input";
 import DropDown from './dropDown';
 import ArrowLeftBlueSmall from '@/components/icons/arrowLeftBlueSmall';
@@ -6,6 +6,8 @@ import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
 import useAgreementFormStore from '@/store/document/useAgreementFormStore';
 import { z } from 'zod';
 import agreementSchema from '@/validation/agreementSchema'
+import useProfileStore from '@/store/profile';
+import { usePathname, useRouter } from 'next/navigation';
 
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -13,56 +15,77 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     const { formData, setFormData, mergeFormData } = useAgreementFormStore();
     const options = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
     const [errors, setErrors] = useState({});
+    const router = useRouter();
+    const path = usePathname();
+    const [hasPropertyManager, setHasPropertyManager] = useState(false);
+    const { profile } = useProfileStore();
+    function hasPropertyManagerAccount(profile) {
+        return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
+    }
 
-
-    const normalizeFormData = (data) => {
-        return Object.keys(data).reduce((acc, key) => {
-            acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
-            return acc;
-        }, {});
-    };
-
-
-    // Function to validate form fields using Zod
-    const validateForm = () => {
-        const normalizedFormData = normalizeFormData(formData); // Normalize null values
-        try {
-            agreementSchema.parse(normalizedFormData);
-            setErrors({});
-            return true;
-        } catch (e) {
-            if (e instanceof z.ZodError) {
-                const fieldErrors = e.errors.reduce((acc, error) => {
-                    if (error.path.length) {
-                        acc[error.path[0]] = error.message;
-                    }
-                    return acc;
-                }, {});
-                setErrors(fieldErrors);
-            }
-            return false;
+    useEffect(() => {
+        if (profile) {
+            setHasPropertyManager(hasPropertyManagerAccount(profile));
         }
-    };
+    }, [profile]);
+
+    const url = !profile ? "/register" : hasPropertyManager
+        ? "/dashboard/enterprise-property/documentGeneration"
+        : "/switch-profile";
+
+
+    // const normalizeFormData = (data) => {
+    //     return Object.keys(data).reduce((acc, key) => {
+    //         acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
+    //         return acc;
+    //     }, {});
+    // };
+
+
+    // // Function to validate form fields using Zod
+    // const validateForm = () => {
+    //     const normalizedFormData = normalizeFormData(formData); // Normalize null values
+    //     try {
+    //         agreementSchema.parse(normalizedFormData);
+    //         setErrors({});
+    //         return true;
+    //     } catch (e) {
+    //         if (e instanceof z.ZodError) {
+    //             const fieldErrors = e.errors.reduce((acc, error) => {
+    //                 if (error.path.length) {
+    //                     acc[error.path[0]] = error.message;
+    //                 }
+    //                 return acc;
+    //             }, {});
+    //             setErrors(fieldErrors);
+    //         }
+    //         return false;
+    //     }
+    // };
 
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
 
 
-const handleGenerate = () => {
-    if (validateForm()) {
-        const existingId = formData.id;
-        if (existingId) {
-            // ID exists, update existing data
-            mergeFormData(formData);
+    const handleGenerate = () => {
+        if (path !== "/dashboard/enterprise-property/documentGeneration") {
+            router.push(url);
+            
         } else {
-            // ID does not exist, generate new ID and create new entry
-            setFormData('id', generateUniqueId());
+            // if (validateForm()) {
+            const existingId = formData.id;
+            if (existingId) {
+                // ID exists, update existing data
+                mergeFormData(formData);
+            } else {
+                // ID does not exist, generate new ID and create new entry
+                setFormData('id', generateUniqueId());
+            }
+            setShowPreview(true);
+            // }
         }
-        setShowPreview(true);
-    }
-};
-
+    };
 
     return (
         <div className='mt-4 pr-2'>
@@ -148,7 +171,7 @@ const handleGenerate = () => {
                 <Input
                     label={"Tenancy Commencement Date"}
                     placeholder={"e.g 1 July, 2024"}
-                    type={"text"}
+                    type={"date"}
                     value={formData.tenancyStartDate}
                     onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
                     autoComplete={"tenantCommencementDate"}
@@ -161,7 +184,7 @@ const handleGenerate = () => {
                 <Input
                     label={"Tenancy Ending Date"}
                     placeholder={"e.g 31 June, 2025"}
-                    type={"text"}
+                    type={"date"}
                     value={formData.tenancyEndDate}
                     onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
                     autoComplete={"tenancyEndDate"}
@@ -214,7 +237,7 @@ const handleGenerate = () => {
                 <Input
                     label={"Agreement Preparation Date"}
                     placeholder={"e.g 30 June, 2024"}
-                    type={"text"}
+                    type={"date"}
                     value={formData.agreementDate}
                     onChange={(e) => setFormData('agreementDate', e.target.value)}
                     autoComplete={"agreementDate"}

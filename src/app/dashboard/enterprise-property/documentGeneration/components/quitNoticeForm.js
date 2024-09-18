@@ -49,33 +49,12 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
     };
 
     const handleGenerate = () => {
+        if (path !== "/dashboard/enterprise-property/documentGeneration") {
+            router.push(url);
+            
+        } else {
         const existingId = formData.id;
-        if (validateForm()) {
-            if (existingId) {
-                // ID exists, update existing data
-                mergeFormData(formData);
-            } else {
-                // ID does not exist, generate new ID and create new entry
-                setFormData('id', generateUniqueId());
-            }
-            setShowPreview(true);
-        } else if
-            (
-            formData?.noticePeriod !== '' &&
-            formData?.noticeStartDate !== '' &&
-            formData?.propertyDesc !== '' &&
-            formData?.propertyAddress !== '' &&
-            formData?.landlordName !== '' &&
-            formData?.tenantName !== '' &&
-            formData?.tenantAddress !== '' &&
-            formData?.duration !== null &&
-            formData?.propertyManagerName !== '' &&
-            formData?.propertyManagerCompanyName !== '' &&
-            formData?.propertyManagerCompanyEmail !== '' &&
-            formData?.propertyManagerCompanyAddress !== '' &&
-            formData?.propertyManagerCompanyWebsite !== '' &&
-            formData?.image !== null
-        ) {
+        // if (validateForm()) {
             if (existingId) {
                 // ID exists, update existing data
                 mergeFormData(formData);
@@ -85,10 +64,36 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             }
             setShowPreview(true);
         }
-        else {
-            return;
+        // } else if
+        //     (
+        //     formData?.noticePeriod !== '' &&
+        //     formData?.noticeStartDate !== '' &&
+        //     formData?.propertyDesc !== '' &&
+        //     formData?.propertyAddress !== '' &&
+        //     formData?.landlordName !== '' &&
+        //     formData?.tenantName !== '' &&
+        //     formData?.tenantAddress !== '' &&
+        //     formData?.duration !== null &&
+        //     formData?.propertyManagerName !== '' &&
+        //     formData?.propertyManagerCompanyName !== '' &&
+        //     formData?.propertyManagerCompanyEmail !== '' &&
+        //     formData?.propertyManagerCompanyAddress !== '' &&
+        //     formData?.propertyManagerCompanyWebsite !== '' &&
+        //     formData?.image !== null
+        // ) {
+        //     if (existingId) {
+        //         // ID exists, update existing data
+        //         mergeFormData(formData);
+        //     } else {
+        //         // ID does not exist, generate new ID and create new entry
+        //         setFormData('id', generateUniqueId());
+        //     }
+        //     setShowPreview(true);
+        // }
+        // else {
+        //     return;
 
-        }
+        // }
     };
 
     const handleFileChange = (event) => {
@@ -142,7 +147,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             <div className=''>
                 <Input
                     label={"Notice Period (Months)"}
-                    placeholder={"e.g 6"}
+                    placeholder={"e.g 6 months"}
                     type={"text"}
                     value={formData.noticePeriod}
                     onChange={(e) => setFormData('noticePeriod', e.target.value)}
@@ -156,7 +161,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                 <Input
                     label={"Notice Commencement Date"}
                     placeholder={"e.g 1 July, 2024"}
-                    type={"text"}
+                    type={"date"}
                     value={formData.noticeStartDate}
                     onChange={(e) => setFormData('noticeStartDate', e.target.value)}
                     autoComplete={"noticeStartDate"}
