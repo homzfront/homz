@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import MiniPropertyListings from "./miniPropertyListings";
 import timeAgo from "@/utils/timeAgo";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { fetchSinglePropertyPublic } from "@/api/propertyService";
+// import { fetchSinglePropertyPublic } from "@/api/propertyService";
 import api from "@/utils/api";
 import LoadingII from "@/components/mainmenu/loadingII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";

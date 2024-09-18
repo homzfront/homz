@@ -140,12 +140,6 @@ const PropertyForms = ({ propertyData }) => {
     setSaveModalIsOpen(true);
     setFormData(data);
   };
-  // const updatePropertyPictures = (e, data) => {
-  //   e.preventDefault();
-  //   setSaveModalIsOpen(true);
-  //   setFormData(data);
-  // };
-
   const handlePropertyInfoActive = () => {
     if (savePaymentUpdate || savePhotosUpdate || saveContactUpdate) {
       setSaveModalIsOpen(true);

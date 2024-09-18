@@ -1,12 +1,12 @@
 const DisplayHousePic = (
   e,
   index,
-  imagesFiles,
-  setImagesFiles,
   errorMsg,
   setErrorMsg,
   houses,
   setHouses,
+  setHousesFiles,
+  housesFiles,
   setPropertyPhotos
 ) => {
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
@@ -15,8 +15,8 @@ const DisplayHousePic = (
   if (file) {
     // Check for duplicate file
     if (
-      imagesFiles.some(
-        (house) => house.name === file.name && house.size === file.size
+      housesFiles.some(
+        (house) => house && house.name === file.name && house.size === file.size
       )
     ) {
       const newErrorMsg = [...errorMsg];
@@ -24,6 +24,7 @@ const DisplayHousePic = (
       setErrorMsg(newErrorMsg);
       return;
     }
+    
 
     // Validate file type
     if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
@@ -41,16 +42,34 @@ const DisplayHousePic = (
       return;
     } else {
       if (setPropertyPhotos) {
-        setPropertyPhotos((prev) => [...prev, file]);
+        setPropertyPhotos((prev) => {
+          const newPropertyPhotos = [...prev];
+          newPropertyPhotos[index] = file; 
+          return newPropertyPhotos;
+        });
       }
-      setImagesFiles((prev) => [...prev, file]);
+      // Update the image at the specified index if it exists
+      if (housesFiles[index] ) {
+        setHousesFiles((prev) => {
+          const newImagesFiles = [...prev];
+          newImagesFiles[index] = file; // Replace the file at the given index
+          return newImagesFiles;
+        });
+      } else {
+        const newImagesFiles = [...housesFiles];
+        newImagesFiles[index] = file; 
+        setHousesFiles(newImagesFiles);
+      }
+    
       const newErrorMsg = [...errorMsg];
       newErrorMsg[index] = "";
       setErrorMsg(newErrorMsg);
+    
       const newImages = [...houses];
-      newImages[index] = URL.createObjectURL(file);
+      newImages[index] = URL.createObjectURL(file); // Update the image preview
       setHouses(newImages);
     }
+    
   }
 };
 

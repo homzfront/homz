@@ -134,7 +134,7 @@ const PropertyForms = () => {
       initialPayment,
       installmentPayment,
     };
-    // console.log(payload)
+    // console.log(payload);
 
     for (const [key, value] of Object.entries(payload)) {
       if (value) {
@@ -146,7 +146,7 @@ const PropertyForms = () => {
           });
         }
       }
-    }    
+    }
     // /:id/property-detail
     try {
       const response = await api.post(
@@ -247,7 +247,7 @@ const PropertyForms = () => {
 
   return (
     <div className=" dashboard md:pt-4">
-      <ToastContainer
+      {/* <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -259,7 +259,7 @@ const PropertyForms = () => {
         draggable
         pauseOnHover
         theme="dark"
-      />
+      /> */}
       <div
         onClick={goBack}
         className="flex items-center gap-2 cursor-pointer w-fit"

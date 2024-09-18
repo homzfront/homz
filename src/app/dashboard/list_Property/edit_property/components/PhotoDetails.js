@@ -27,11 +27,7 @@ const PropertyPhoto = ({
   setPropertyPhotos,
   setPropertyPhotosPublicId,
 }) => {
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [uploadedImage2, setUploadedImage2] = useState(null);
-  const [uploadedImage3, setUploadedImage3] = useState(null);
-  const [uploadedImage4, setUploadedImage4] = useState(null);
-  const [uploadedImage5, setUploadedImage5] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   const fileUpload = useRef(null);
@@ -41,14 +37,14 @@ const PropertyPhoto = ({
   const [youTubeClicked, setYouTubeClicked] = useState(false);
   const [instagramClicked, setInstagramClicked] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
-  const [errorMsg, setErrorMsg] = useState(Array(10).fill(""));
+  const [errorMsg, setErrorMsg] = useState(Array(7).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
   const [error1, setError1] = useState("");
   const [error2, setError2] = useState("");
   const [imagesFiles, setImagesFiles] = useState([]);
   const fileUploads = useRef([]);
   const [coverPhoto, setCoverPhoto] = useState("");
-  const initialHouses = Array(10).fill(null);
+  const initialHouses = Array(7).fill(null);
   const [houses, setHouses] = useState(initialHouses);
   const [videoLinks, setVideoLinks] = useState({
     youtubeUrl: "",
