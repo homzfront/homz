@@ -28,16 +28,16 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate, setDat
     }
   }, [property]);
 
-
-  useEffect(() => {
-  
+useEffect(() => {
     const relevantFields = ['phoneNumber', 'email', 'whatsapp'];
-
-    // Extract the subset of fields from formData and originalFormData
-    const filteredFormData = _.pick(formData, relevantFields);
-    const filteredOriginalData = _.pick(originalFormData.current.contacts, relevantFields);
+    const removeUndefinedValues = (obj) => {
+        return Object.fromEntries(
+            Object.entries(obj).filter(([key, value]) => value !== undefined)
+        );
+    };
+    const filteredFormData = removeUndefinedValues(_.pick(formData, relevantFields));
+    const filteredOriginalData = removeUndefinedValues(_.pick(originalFormData.current.contacts, relevantFields));
     const isFormDataChanged = !_.isEqual(filteredFormData, filteredOriginalData);
-
     setSaveUpdate(isFormDataChanged);
 
     if (isFormDataChanged) {
@@ -47,6 +47,7 @@ const ContactInfo = ({ property, handleUpdate, setSaveUpdate, saveUpdate, setDat
         setWhatsAppClicked(false);
     }
 }, [formData, setSaveUpdate]);
+
 
 
   // Handle input changes and update fields in formData directly
