@@ -74,14 +74,7 @@ const ViewProperty = ({ PropertyID }) => {
     }
   }, [propertyData]);
 
-  useEffect(() => {
-    // Update remainder state when combinedData length changes
-    if (combinedData.length === 8) {
-      setRemainder(combinedData.length - 7);
-    }
-  }, [combinedData]);
-
-  const [open, setOpen] = useState(false);
+ 
 
   useEffect(() => {
     const property = Properties.find(({ _id }) => _id === parseInt(PropertyID));
