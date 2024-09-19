@@ -10,7 +10,7 @@ import ImageModal from "@/components/mainmenu/imageModal";
 import useBodyScroll from "@/utils/useBodyScroll";
 import { useRouter } from "next/navigation";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
-import GoogleMap from "@/utils/googleMap";
+// import GoogleMap from "@/utils/googleMap";
 import OwnersCard from "./ownersCard";
 import Amenities from "@/components/mainmenu/amenities";
 import ExtraDetails from "@/components/mainmenu/extraDetails";
@@ -74,14 +74,14 @@ const ViewProperty = ({ PropertyID }) => {
     }
   }, [propertyData]);
 
-  useEffect(() => {
-    // Update remainder state when combinedData length changes
-    if (combinedData.length === 8) {
-      setRemainder(combinedData.length - 7);
-    }
-  }, [combinedData]);
+  // useEffect(() => {
+  //   // Update remainder state when combinedData length changes
+  //   if (combinedData.length === 8) {
+  //     setRemainder(combinedData.length - 7);
+  //   }
+  // }, [combinedData]);
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const property = Properties.find(({ _id }) => _id === parseInt(PropertyID));
