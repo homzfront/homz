@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import TenantsTwo from "./tenantsTwo";
 import Modal from "../components/modal";
@@ -13,6 +13,8 @@ import lowerCaseData from "@/utils/lowerCaseData";
 import Add from "@/components/icons/add";
 import AddBigBlue from "@/components/icons/addBigBlue";
 import FilterMobile from "../../components/filterMobile";
+import { useReactToPrint } from "react-to-print";
+import Document from "@/components/icons/document";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -24,6 +26,7 @@ const Tenants = () => {
   const [filterModal, setFilterModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isMasterChecked, setIsMasterChecked] = useState(false);
+  const printableRef = useRef();
 
   const clear = () => {
     setSelectedProperty(null);
@@ -70,6 +73,12 @@ const Tenants = () => {
   const closeMobileFilterModal = () => {
     setFilterModal(false)
   }
+
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: `${"Tenants Data"}`,
+    onAfterPrint: () => console.log("Document printed."),
+  });
 
 
   return (
@@ -241,6 +250,13 @@ const Tenants = () => {
                     </button>
                   </div>
                 </div>
+                <button
+                  onClick={handlePrint}
+                  className="w-full md:w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
+                >
+                  <Document className='#006AFF' />
+                  Download Page
+                </button>
               </div>
               <TenantsTwo
                 Data={filteredData}
@@ -249,6 +265,7 @@ const Tenants = () => {
                 fetchDataAgain={fetchData}
                 isMasterChecked={isMasterChecked}
                 setIsMasterChecked={setIsMasterChecked}
+                printableRef={printableRef}
               />
             </div>
           )}

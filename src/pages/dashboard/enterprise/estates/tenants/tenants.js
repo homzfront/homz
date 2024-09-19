@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TenantsTwo from "./components/tenantsTwo";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +12,8 @@ import MobileBackButton from "@/components/icons/mobileBackButton";
 import { useRouter } from "next/navigation";
 import FilterMobile from "../../components/filterMobile";
 import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
+import Document from "@/components/icons/document";
+import { useReactToPrint } from "react-to-print";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
@@ -37,6 +39,7 @@ const Tenants = ({ id }) => {
   const [searchQuery, setSearchQuery] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const printableRef = useRef();
 
   const clear = () => {
     setSelectedDate(null);
@@ -85,6 +88,12 @@ const Tenants = ({ id }) => {
     setFilterModal(false)
   }
 
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: `${"Tenants Data"}`,
+    onAfterPrint: () => console.log("Document printed."),
+  });
+
   return (
     <div className="w-full  p-8">
       {filterModal &&
@@ -110,15 +119,42 @@ const Tenants = ({ id }) => {
       ) : (
         <div>
           <div className="mb-4">
-            <div className='flex w-full md:hidden gap-4 items-center'>
-              <div onClick={goBack} className='cursor-pointer'>
-                <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
-                  <MobileBackButton />
+            <div className="flex justify-between items-center">
+              <div className='flex w-full md:hidden gap-4 items-center'>
+                <div onClick={goBack} className='cursor-pointer'>
+                  <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
+                    <MobileBackButton />
+                  </div>
+                </div>
+                <div className="w-[90%] flex items-center">
+                  <Link
+                    href={"/dashboard/property-owner/estates"}
+                    className="text-[16px] truncate font-[400] text-GrayHomz"
+                  >
+                    {datas?.name ? datas?.name : "Property Name"}<> </>/
+                  </Link>
+                  <div className="text-[20px] font-[500] text-GrayHomz">
+                    Tenants
+                  </div>
                 </div>
               </div>
-              <div className="w-[90%] flex items-center">
+              <div className="hidden w-[475px] md:flex gap-2 items-center">
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                  }
+                  alt=""
+                  height={16}
+                  width={16}
+                />
                 <Link
-                  href={"/dashboard/property-owner/estates"}
+                  href={"/dashboard/enterprise-property/estates"}
+                  className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
+                >
+                  Go Back
+                </Link>
+                <Link
+                  href={"/dashboard/enterprise-property/estates"}
                   className="text-[16px] truncate font-[400] text-GrayHomz"
                 >
                   {datas?.name ? datas?.name : "Property Name"}<> </>/
@@ -127,31 +163,13 @@ const Tenants = ({ id }) => {
                   Tenants
                 </div>
               </div>
-            </div>
-            <div className="hidden w-[475px] md:flex gap-2 items-center">
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-              />
-              <Link
-                href={"/dashboard/enterprise-property/estates"}
-                className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
+              <button
+                onClick={handlePrint}
+                className="w-full md:w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
               >
-                Go Back
-              </Link>
-              <Link
-                href={"/dashboard/enterprise-property/estates"}
-                className="text-[16px] truncate font-[400] text-GrayHomz"
-              >
-                {datas?.name ? datas?.name : "Property Name"}<> </>/
-              </Link>
-              <div className="text-[20px] font-[500] text-GrayHomz">
-                Tenants
-              </div>
+                <Document className='#006AFF' />
+                Download Page
+              </button>
             </div>
           </div>
           <div className="hidden md:flex justify-between items-center">
@@ -251,7 +269,7 @@ const Tenants = ({ id }) => {
             </div>
           </div>
           <div className="h-[734px] mb-4">
-            <TenantsTwo Data={filteredData} />
+            <TenantsTwo Data={filteredData} printableRef={printableRef} />
           </div>
         </div>
       )}

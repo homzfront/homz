@@ -14,8 +14,9 @@ import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import truncateText from "@/utils/truncateText";
+import PrintableTenantsTwo from "./printableTenantsTwo";
 
-const TenantsTwo = ({ Data }) => {
+const TenantsTwo = ({ Data, printableRef }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -193,6 +194,12 @@ const TenantsTwo = ({ Data }) => {
           handleNext={handleNext}
           handlePageClick={handlePageClick}
           handlePrev={handlePrev}
+        />
+      </div>
+      <div style={{ display: 'none' }}>
+        <PrintableTenantsTwo
+          printableRef={printableRef}
+          Data={currentData}
         />
       </div>
     </div>

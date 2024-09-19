@@ -14,14 +14,15 @@ import useClickOutside from "@/utils/clickOutside";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import truncateText from "@/utils/truncateText";
+import PrintableTenantdData from "./printableTenantdData";
 
-const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMasterChecked, setIsMasterChecked }) => {
+const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selectedRows, isMasterChecked, setIsMasterChecked }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [selectedStatus, setSelectedStatus] = useState({});
   const [loadingRows, setLoadingRows] = useState({});
-  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false)); 
+  const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
   const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
   const [hoveredRow, setHoveredRow] = useState(null);
 
@@ -260,6 +261,16 @@ const TenantsTwo = ({ Data, fetchDataAgain, setSelectedRows, selectedRows, isMas
           handleNext={handleNext}
           handlePageClick={handlePageClick}
           handlePrev={handlePrev}
+        />
+      </div>
+      <div style={{ display: 'none' }}>
+        <PrintableTenantdData
+          printableRef={printableRef}
+          Data={currentData}
+          fetchDataAgain={fetchDataAgain}
+          setSelectedRows={setSelectedRows}
+          selectedRows={selectedRows}
+          setIsMasterChecked={setIsMasterChecked}
         />
       </div>
     </div>
