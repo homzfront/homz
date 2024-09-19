@@ -57,7 +57,7 @@ const AddPhotos = ({
       </div>
       <div className="flex flex-col md:flex-row gap-4 mt-4">
         <div className="">
-          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo <span className="text-red-500 font-[10px]">*</span></p>
+          <p className=" text-[13px] font-[500] text-GrayHomz">Cover photo</p>
           <div className="mt-4 w-[235px] flex justify-start">
             <ImageUpload
               onImageRemove={setUploadedImage}
@@ -68,7 +68,7 @@ const AddPhotos = ({
           </div>
         </div>
         <div>
-          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos <span className="text-red-500 font-[10px]">*</span></p>
+          <p className=" text-[13px] font-[500] text-GrayHomz">Other photos</p>
           <div className="flex flex-col md:flex-row">
             <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-0">
               <div className="w-[235px] flex justify-start">
@@ -110,41 +110,22 @@ const AddPhotos = ({
             Previous
           </button>
         </div>
-        {uploadedImage !== null && uploadedImage2 !== null ? (
-          <div className="">
-            <button
-              onClick={handlePageChangeThree}
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
-                }
-                alt=""
-                height={16}
-                width={16}
-              />
-            </button>
-          </div>
-        ) : (
-          <div className="">
-            <button
-              disabled
-              className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-GrayHomz border bg-GrayHomz5"
-            >
-              Next
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-                }
-                alt=""
-                height={17}
-                width={16}
-              />
-            </button>
-          </div>
-        )}
+        <div className="">
+          <button
+            onClick={handlePageChangeThree}
+            className="flex w-[100px] justify-center items-center text-[14px] font-[500] p-4 rounded-md text-white border bg-BlueHomz"
+          >
+            Next
+            <Image
+              src={
+                "/static/dashboard/enterprisemanager/dashboard/arrow-right-white.png"
+              }
+              alt=""
+              height={16}
+              width={16}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

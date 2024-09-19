@@ -30,21 +30,18 @@ const Card = ({
           style={{ position: "relative" }}
           className=" h-[130px] md:h-[168px] w-full rounded-lg overflow-hidden relative"
         >
-          {value1 && (
-            <Image
-              src={value1}
-              height={168}
-              width={264}
-              alt=""
-              layout="full" // Specify the desired height
-              objectFit="cover"
-              objectPosition="center"
-              className="object-cover bg-center h-[130px]  md:h-[168px] rounded-[8px]"
-              priority
-            />
-          )}
+          <Image
+            src={value1 ? value1 : "/static/images/comingSoonImage.svg"}
+            height={168}
+            width={264}
+            alt=""
+            layout="full" // Specify the desired height
+            objectFit="cover"
+            objectPosition="center"
+            className="object-cover bg-center h-[130px]  md:h-[168px] rounded-[8px]"
+            priority
+          />
         </div>
-
         <div className="p-4 flex gap-3 h-full flex-col">
           <div ref={dropdownRef} className="relative flex justify-between items-center">
             <p className="font-[700] truncate text-[14px] md:text-[16px] text-BlueHomz">{value2}</p>
