@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect } from 'react'
 import Box from '../../components/box'
-import TenantData from "../components/tenantData";
+import Widget from "./widget";
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 import addCommasToNumber from '@/utils/addCommasToNumber';
 
@@ -51,7 +51,7 @@ const Tenants = ({rentData, rentLoading, fetchRentData}) => {
         />
       </div>
       <div className={`mt-6 ${rentData?.length > 0 ? "" : "hidden"}`}>
-        <TenantData data={rentData} RevData={fetchData} fetchRentData={fetchRentData}/>
+        <Widget />
       </div>
     </div>
   )
