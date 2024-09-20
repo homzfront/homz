@@ -18,7 +18,7 @@ const SubscriptionInfo = () => {
 
   const getCurrentSubscriptionPlan = async () => {
     const response = await PromotionHooks.checkCurrentSubscription();
-    // console.log(response?.data?.data);
+    console.log(response?.data?.data);
     setCurrentPlanData(response?.data?.data);
   };
 
