@@ -14,6 +14,8 @@ import {
 } from "@/api/listingServices";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import SubscriptionInfo from "./components/SubscriptionInfo";
+
 
 const Profile = () => {
   const urlParams = useSearchParams();
@@ -23,6 +25,7 @@ const Profile = () => {
     tab ? tab === "personal" : true
   );
   const [businessActive, setActiveTwo] = useState(tab === "business");
+  const [subscription, setSubscription] = useState(tab === "subscription");
   const [changePwdActive, setActiveFour] = useState(tab === "password");
   const [loading, setLoading] = useState(false);
   const [personalInfo, setPersonalInfo] = useState([]);
@@ -35,7 +38,9 @@ const Profile = () => {
   const router = useRouter();
 
   // console.log(typeOfAction)
+ 
   useEffect(() => {
+    
     fetchData();
   }, [fetchData]);
 
@@ -104,6 +109,7 @@ const Profile = () => {
 
   const handlePersonalActive = () => {
     setActiveTwo(false);
+    setSubscription(false);
     setActiveFour(false);
     setPersonalActive(true);
     tabManagement("personal")
@@ -112,13 +118,23 @@ const Profile = () => {
     setActiveTwo(true);
     setPersonalActive(false);
     setActiveFour(false);
+    setSubscription(false);
     tabManagement("business")
+    
+  };
+  const handleSubscription = () => {
+    setActiveTwo(false);
+    setSubscription(true);
+    setPersonalActive(false);
+    setActiveFour(false);
+    tabManagement("subscription")
     
   };
 
   const handleContactInfo = () => {
     setActiveTwo(false);
     setActiveFour(true);
+    setSubscription(false);
     setPersonalActive(false);
     tabManagement("password")
 
@@ -164,6 +180,16 @@ const Profile = () => {
             >
               Business Information
             </button>
+            <button
+              onClick={handleSubscription}
+              className={`py-[8px] sm:px-[12px] px-[8px] rounded-[4px]  md:text-[14px] text-[11px] ${
+                subscription
+                  ? "inline-block shadow-md bg-[#006AFF] text-white "
+                  : "bg-[#EEF5FF] text-[#006AFF] md:text-[#4E4E4E]  md:bg-inherit"
+              }`}
+            >
+              Subscription
+            </button>
 
             <button
               onClick={handleContactInfo}
@@ -184,7 +210,7 @@ const Profile = () => {
             borderWidth: "0",
             background: "#E6E6E6", // Adjust the opacity here (0.5 for 50% opacity)
           }}
-          className="mt-5 md:hidden"
+          className="mt-5"
         />
         <div className=" md:mt-7 mb-7 w-full rounded-[12px] ">
           <div className={`${personalActive ? "block" : "hidden"}`}>
@@ -195,6 +221,10 @@ const Profile = () => {
               Business_Info={data}
               handleUpdate={handleUpdateDetails}
               mainSavedButton={setMainSavedModalIsOpen}
+            />
+          </div>
+          <div className={`${subscription ? "block" : "hidden"}`}>
+            <SubscriptionInfo            
             />
           </div>
 
