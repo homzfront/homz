@@ -10,8 +10,7 @@ import PopUpMenuTwo from "./popMenuToTenantProfile";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import paymentData from "./payementData";
-import PopUpMenu from "./popUpMenu";
-import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import PrintableAll from "./printableAll";
 
 const TenantData = ({ data, printRef }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -44,12 +43,15 @@ const TenantData = ({ data, printRef }) => {
   const handleToggleMenu = (id) => {
     setPopUpMenuTwo(!popUpMenuTwo);
     setSelectedDataId(id);
-  };
+    if (popUpMenu) {
+        setPopUpMenu(false);
+    }
+};
 
-  const handleDataToggle = (id) => {
+const handleDataToggle = (id) => {
     setSelectedDataId(id);
     setPopUpMenu(!popUpMenu);
-  };
+};
 
   // Use reduce to generate an array of the first three pages
   const firstThreePages = Array.from(
@@ -59,7 +61,7 @@ const TenantData = ({ data, printRef }) => {
 
 
   return (
-    <div ref={printRef} className="mt-6 w-full mx-auto">
+    <div className="mt-6 w-full mx-auto">
       <div className="border overflow-x-auto scrollbar-container">
         <div className="w-[500%] md:w-[150%]">
           <table border="1" className="w-full">
@@ -81,9 +83,8 @@ const TenantData = ({ data, printRef }) => {
               {currentData &&
                 currentData?.map((data) => (
                   <tr
-                    onClick={() => handleDataToggle(data.id)}
                     key={data?.id}
-                    className=" w-2 border-t-[1px] items-center cursor-pointer"
+                    className=" w-2 border-t-[1px] items-center"
                   >
                     <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
                       {!data?.image ? (
@@ -121,7 +122,7 @@ const TenantData = ({ data, printRef }) => {
                     <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.rentDuration}</td>
                     <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
                     <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentDate}</td>
-                    <td className=" relative py-[15px] pr-4">
+                    <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
                       <button onClick={() => handleToggleMenu(data.id)}>
                         <Image
                           src={
@@ -134,12 +135,7 @@ const TenantData = ({ data, printRef }) => {
                         />
                       </button>
                       {popUpMenuTwo && selectedDataId === data.id && (
-                        <PopUpMenuTwo data={data} dropdownRef={dropdownRef} />
-                      )}
-                      {popUpMenu && selectedDataId === data.id && (
-                        <CustomizedModal isOpen={popUpMenu}>
-                          <PopUpMenu data={data} setPopUpMenu={setPopUpMenu} />
-                        </CustomizedModal>
+                       <PopUpMenuTwo data={data} handleDataToggle={handleDataToggle} setPopUpMenu={setPopUpMenu} popUpMenu={popUpMenu} dropdownRef={dropdownRef} />
                       )}
                     </td>
                   </tr>
@@ -233,6 +229,12 @@ const TenantData = ({ data, printRef }) => {
         handlePageClick={handlePageClick}
         handlePrev={handlePrev}
       />
+       <div style={{ display: 'none' }}>
+                <PrintableAll
+                    printRef={printRef}
+                    data={currentData}
+                />
+            </div>
     </div>
   );
 };

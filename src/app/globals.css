@@ -17,9 +17,9 @@ body::-webkit-scrollbar-thumb {
   background-color: #006aff; 
 }
 
- /* .scrollbar-container {
-  scrollbar-width: thin; 
-}  */
+.rotate-180 {
+  transform: rotate(90deg);
+}
 
 /* Add this to your existing styles or create a separate stylesheet */
 .scrollbar-container::-webkit-scrollbar {

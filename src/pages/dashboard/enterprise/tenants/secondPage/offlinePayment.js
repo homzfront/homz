@@ -2,26 +2,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "../../components/button";
-import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import addCommasToNumber from "@/utils/addCommasToNumber";
-import addYearsToValues from "@/utils/addYearsToNumber";
-import useClickOutside from "@/utils/clickOutside";
-import PopUpMenuTwo from "./popMenuToTenantProfile";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
-import paymentData from "./payementData";
-import PrintableAll from "./printableAll";
 
 
-const WalletPayement = ({ data, printRef }) => {
-    const [selectedDataId, setSelectedDataId] = useState(null);
-    const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-    const [popUpMenu, setPopUpMenu] = useState(false);
-    const [openDropdowns, setOpenDropdowns] = useState({});
-    const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
-    const ITEMS_PER_PAGE = 6;
+const OfflinePayment = ({ data }) => {
+    const ITEMS_PER_PAGE = 3;
 
-    const walletData = data.filter(dat => dat.paymentMethod === "Wallet");
+    const walletData = data.filter(dat => dat.paymentMethod !== "Wallet");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,19 +33,6 @@ const WalletPayement = ({ data, printRef }) => {
         setCurrentPage(page);
     };
 
-    const handleToggleMenu = (id) => {
-        setPopUpMenuTwo(!popUpMenuTwo);
-        setSelectedDataId(id);
-        if (popUpMenu) {
-            setPopUpMenu(false);
-        }
-    };
-
-    const handleDataToggle = (id) => {
-        setSelectedDataId(id);
-        setPopUpMenu(!popUpMenu);
-    };
-
     // Use reduce to generate an array of the first three pages
     const firstThreePages = Array.from(
         { length: Math.min(totalPages, 3) },
@@ -67,7 +43,7 @@ const WalletPayement = ({ data, printRef }) => {
     return (
         <div className="mt-6 w-full mx-auto">
             <div className="border overflow-x-auto scrollbar-container">
-                <div className="w-[500%] md:w-[150%]">
+                <div className="w-[500%] md:w-[200%]">
                     <table border="1" className="w-full">
                         <thead>
                             <tr className="bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz">
@@ -80,7 +56,6 @@ const WalletPayement = ({ data, printRef }) => {
                                 <th className="text-left" style={{ width: "120px" }}>Rent Duration</th>
                                 <th className="text-left" style={{ width: "120px" }}>Payment Method</th>
                                 <th className="text-left" style={{ width: "120px" }}>Payment Date</th>
-                                <th style={{ width: "50px" }}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,22 +101,6 @@ const WalletPayement = ({ data, printRef }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.rentDuration}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentDate}</td>
-                                        <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
-                                            <button onClick={() => handleToggleMenu(data.id)}>
-                                                <Image
-                                                    src={
-                                                        "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                                    }
-                                                    alt=""
-                                                    height={21}
-                                                    width={20}
-                                                    style={{ height: "auto", width: "auto" }}
-                                                />
-                                            </button>
-                                            {popUpMenuTwo && selectedDataId === data.id && (
-                                                <PopUpMenuTwo data={data} handleDataToggle={handleDataToggle} setPopUpMenu={setPopUpMenu} popUpMenu={popUpMenu} dropdownRef={dropdownRef} />
-                                            )}
-                                        </td>
                                     </tr>
                                 ))}
                         </tbody>
@@ -156,14 +115,8 @@ const WalletPayement = ({ data, printRef }) => {
                 handlePageClick={handlePageClick}
                 handlePrev={handlePrev}
             />
-            <div style={{ display: 'none' }}>
-                <PrintableAll
-                    printRef={printRef}
-                    data={currentData}
-                />
-            </div>
         </div>
     );
 }
 
-export default WalletPayement
+export default OfflinePayment

@@ -10,6 +10,10 @@ import PopUpMenuTwo from "./popMenuToTenantProfile";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import paymentData from "./payementData";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import PopUpMenu from "./popUpMenu";
+import PrintableAll from "./printableAll";
+
 
 const OfflinePayment = ({ data, printRef }) => {
     const [selectedDataId, setSelectedDataId] = useState(null);
@@ -19,17 +23,16 @@ const OfflinePayment = ({ data, printRef }) => {
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
     const ITEMS_PER_PAGE = 6;
 
-    const DataTwo = paymentData
-    console.log(DataTwo);
+    const walletData = data.filter(dat => dat.paymentMethod !== "Wallet");
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const totalPages = Math.ceil(data?.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(walletData?.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const currentData = data?.slice(startIndex, endIndex);
+    const currentData = walletData?.slice(startIndex, endIndex);
 
     const handleNext = () => {
         setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -46,6 +49,9 @@ const OfflinePayment = ({ data, printRef }) => {
     const handleToggleMenu = (id) => {
         setPopUpMenuTwo(!popUpMenuTwo);
         setSelectedDataId(id);
+        if (popUpMenu) {
+            setPopUpMenu(false);
+        }
     };
 
     const handleDataToggle = (id) => {
@@ -61,7 +67,7 @@ const OfflinePayment = ({ data, printRef }) => {
 
 
     return (
-        <div ref={printRef} className="mt-6 w-full mx-auto">
+        <div className="mt-6 w-full mx-auto">
             <div className="border overflow-x-auto scrollbar-container">
                 <div className="w-[500%] md:w-[150%]">
                     <table border="1" className="w-full">
@@ -83,9 +89,8 @@ const OfflinePayment = ({ data, printRef }) => {
                             {currentData &&
                                 currentData?.map((data) => (
                                     <tr
-                                        onClick={() => handleDataToggle(data.id)}
                                         key={data?.id}
-                                        className={`${data?.paymentMethod === "Wallet" ? "hidden" : ""} w-2 border-t-[1px] items-center cursor-pointer`}
+                                        className={`w-2 border-t-[1px] items-center`}
                                     >
                                         <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
                                             {!data?.image ? (
@@ -123,7 +128,7 @@ const OfflinePayment = ({ data, printRef }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.rentDuration}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentDate}</td>
-                                        <td className=" relative py-[15px] pr-4">
+                                        <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
                                             <button onClick={() => handleToggleMenu(data.id)}>
                                                 <Image
                                                     src={
@@ -136,12 +141,7 @@ const OfflinePayment = ({ data, printRef }) => {
                                                 />
                                             </button>
                                             {popUpMenuTwo && selectedDataId === data.id && (
-                                                <PopUpMenuTwo data={data} dropdownRef={dropdownRef} />
-                                            )}
-                                            {popUpMenu && selectedDataId === data.id && (
-                                                <CustomizedModal isOpen={popUpMenu}>
-                                                    <PopUpMenu data={data} setPopUpMenu={setPopUpMenu} />
-                                                </CustomizedModal>
+                                                <PopUpMenuTwo data={data} handleDataToggle={handleDataToggle} setPopUpMenu={setPopUpMenu} popUpMenu={popUpMenu} dropdownRef={dropdownRef} />
                                             )}
                                         </td>
                                     </tr>
@@ -158,6 +158,12 @@ const OfflinePayment = ({ data, printRef }) => {
                 handlePageClick={handlePageClick}
                 handlePrev={handlePrev}
             />
+            <div style={{ display: 'none' }}>
+                <PrintableAll
+                    printRef={printRef}
+                    data={currentData}
+                />
+            </div>
         </div>
     );
 }

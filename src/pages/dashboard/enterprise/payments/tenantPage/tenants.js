@@ -22,9 +22,9 @@ const Tenants = ({ rentData, rentLoading, fetchRentData }) => {
           textColor2={"text-successBg"}
           type={"Total Renenue"}
           money={addCommasToNumber(data?.totalRevenue)}
-          width='md:w-[210px]'
+          width='md:w-[200px]'
         />
-        <div className="flex items-center justify-between w-[78%]">
+        <div className="flex items-center justify-between w-[78.5%]">
           <Box
             bgColor={"successBg"}
             border={"border-Success"}
@@ -32,7 +32,7 @@ const Tenants = ({ rentData, rentLoading, fetchRentData }) => {
             textColor2={"text-BlackHomz"}
             type={"Total Rent Collected"}
             money={addCommasToNumber(data?.rentCollected)}
-            width='md:w-[265px]'
+            width='md:w-[261.5px]'
           />
           <Box
             bgColor={"warningBg"}
@@ -41,7 +41,7 @@ const Tenants = ({ rentData, rentLoading, fetchRentData }) => {
             textColor2={"text-BlackHomz"}
             type={"Pending Rent"}
             money={addCommasToNumber(data?.pendingRent)}
-            width='md:w-[265px]'
+            width='md:w-[261.5px]'
           />
           <Box
             bgColor={"white"}
@@ -52,7 +52,7 @@ const Tenants = ({ rentData, rentLoading, fetchRentData }) => {
             textColor3={"text-BlueHomz"}
             type={"Expected Rent Next Month"}
             money={addCommasToNumber(data?.rentExpectedNextMonth)}
-            width='md:w-[265px]'
+            width='md:w-[261.5px]'
           />
         </div>
       </div>

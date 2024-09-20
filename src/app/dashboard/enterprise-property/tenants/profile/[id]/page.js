@@ -4,7 +4,7 @@ import TenantProfile from '@/pages/dashboard/enterprise/tenants/secondPage/tenan
 const App = ({params}) => {
   const { id } = params;
   return (
-    <div className='overflow-y-auto h-screen scrollbar-container'>
+    <div className='overflow-y-auto h-[900vh] scrollbar-container'>
         <TenantProfile  id={id}/>
     </div>
   )

@@ -1,4 +1,4 @@
-const paymentData = Array.from({ length: 20 }, (_, index) => ({
+const paymentData = Array.from({ length: 60 }, (_, index) => ({
     id: index + 1,
     tenantName: `Tenant ${index + 1}`,
     // Randomly select an image from three different URLs
