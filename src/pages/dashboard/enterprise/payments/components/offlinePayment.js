@@ -14,6 +14,7 @@ import paymentData from "./payementData";
 const OfflinePayment = ({ data, printRef }) => {
     const [selectedDataId, setSelectedDataId] = useState(null);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
+    const [popUpMenu, setPopUpMenu] = useState(false);
     const [openDropdowns, setOpenDropdowns] = useState({});
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
     const ITEMS_PER_PAGE = 6;
@@ -47,6 +48,11 @@ const OfflinePayment = ({ data, printRef }) => {
         setSelectedDataId(id);
     };
 
+    const handleDataToggle = (id) => {
+        setSelectedDataId(id);
+        setPopUpMenu(!popUpMenu);
+    };
+
     // Use reduce to generate an array of the first three pages
     const firstThreePages = Array.from(
         { length: Math.min(totalPages, 3) },
@@ -55,9 +61,9 @@ const OfflinePayment = ({ data, printRef }) => {
 
 
     return (
-        <div ref={printRef} className="mt-6 w-full">
-            <div className="border overflow-x-auto scrollbar-container md:w-[1000px]">
-                <div className="md:w-[1440px] w-full">
+        <div ref={printRef} className="mt-6 w-full mx-auto">
+            <div className="border overflow-x-auto scrollbar-container">
+                <div className="w-[500%] md:w-[150%]">
                     <table border="1" className="w-full">
                         <thead>
                             <tr className="bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz">
@@ -77,8 +83,9 @@ const OfflinePayment = ({ data, printRef }) => {
                             {currentData &&
                                 currentData?.map((data) => (
                                     <tr
+                                        onClick={() => handleDataToggle(data.id)}
                                         key={data?.id}
-                                        className={`${data?.paymentMethod === "Wallet" ? "hidden" : ""} w-2 border-t-[1px] items-center`}
+                                        className={`${data?.paymentMethod === "Wallet" ? "hidden" : ""} w-2 border-t-[1px] items-center cursor-pointer`}
                                     >
                                         <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
                                             {!data?.image ? (
@@ -130,6 +137,11 @@ const OfflinePayment = ({ data, printRef }) => {
                                             </button>
                                             {popUpMenuTwo && selectedDataId === data.id && (
                                                 <PopUpMenuTwo data={data} dropdownRef={dropdownRef} />
+                                            )}
+                                            {popUpMenu && selectedDataId === data.id && (
+                                                <CustomizedModal isOpen={popUpMenu}>
+                                                    <PopUpMenu data={data} setPopUpMenu={setPopUpMenu} />
+                                                </CustomizedModal>
                                             )}
                                         </td>
                                     </tr>

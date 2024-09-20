@@ -50,7 +50,7 @@ const Widget = ({ Data }) => {
     return (
         <div>
             <div className="w-full h-auto py-4">
-                <div className="mt-5 flex flex-col-reverse md:flex-row items-end md:items-center justify-between">
+                <div className="mt-5 flex flex-row items-end md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
@@ -82,7 +82,7 @@ const Widget = ({ Data }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-1 items-center">
+                    <div className="flex flex-col md:flex-row gap-1 items-center">
                         <button
                             className="hidden md:flex w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
                         >

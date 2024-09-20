@@ -48,7 +48,7 @@ const Widget = ({rentData, rentLoading, fetchRentData}) => {
             </div>
           </div>
         </div>
-        <div className=" my-5  rounded-[12px]">
+        <div className=" my-5 rounded-[12px]">
           <div className={`${active ? "inline" : "hidden"}`}>
             <Tenants fetchRentData={fetchRentData} rentData={rentData} rentLoading={rentLoading}/>
           </div>

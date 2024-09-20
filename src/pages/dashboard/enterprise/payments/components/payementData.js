@@ -17,7 +17,7 @@ const paymentData = Array.from({ length: 20 }, (_, index) => ({
 
     // Randomly choose between two payment methods
     paymentMethod: Math.random() > 0.5 ? "Offline (Transfer)" : "Wallet",
-
+    estateName: `Estate ${index + 1}`,
     paymentDate: `${Math.floor(Math.random() * 28) + 1}th ${["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][Math.floor(Math.random() * 12)]}, 2024`,
 }));
 
