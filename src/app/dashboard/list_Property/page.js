@@ -176,7 +176,7 @@ const List_Property = () => {
 
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-
+      // console.log(response)
       const { status, subscription_code } = response?.data?.data || {};
       const errorMessage = response?.message;
 
@@ -220,10 +220,10 @@ const List_Property = () => {
         promotionPlan,
         selectedProperty
       );
-      console.log(results);
+      // console.log(results);
       setLoader(false);
 
-      if (results?.data?.status === "active") {
+      if (results?.status) {
         setPromotePropertrySuccess(true);
         router.prefetch("/dashboard/list_Property");
         status = true;
