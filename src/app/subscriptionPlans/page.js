@@ -5,15 +5,15 @@ import React, { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 
 const SubscriptionPage = () => {
-  const [token, setToken] = useState(null); // Store token state
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const jwtToken = localStorage.getItem("jwt");
       if (!jwtToken) {
-        redirect("/login"); // Redirect to login if no token
+        redirect("/login");
       } else {
-        setToken(jwtToken); // Set token if found
+        setToken(jwtToken);
       }
     }
   }, []);
