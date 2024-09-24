@@ -106,8 +106,9 @@ const PropertyCard = ({
     };
   }, [isMenuOpen]);
 
-  const handleCheckboxChange = (property, is_promoted, is_published) => {
+  const handleCheckboxChange = (propertyId, is_promoted, is_published) => {
     if (!is_published) {
+      setSelectedDataId(propertyId)
       setNotPublished(true);
       return;
     }
@@ -116,9 +117,9 @@ const PropertyCard = ({
       return;
     }
     setSelectedProperty((prevSelected) =>
-      prevSelected.includes(property)
-        ? prevSelected.filter((item) => item !== property)
-        : [...prevSelected, property]
+      prevSelected.includes(propertyId)
+        ? prevSelected.filter((item) => item !== propertyId)
+        : [...prevSelected, propertyId]
     );
   };
   const handleDeleteProperty = () => {
@@ -140,8 +141,10 @@ const PropertyCard = ({
     setLoader(true);
     publishAndRepublishProperty(selectedDataId)
       .then((result) => {
+
         dispatch({ type: result.message });
         setPublisProperty(false);
+        setNotPublished(false)
         setLoader(false);
       })
       .catch((error) => {
@@ -486,10 +489,19 @@ const PropertyCard = ({
         title="This property is already promoted"
         handleEvent={() => setActivePromoted(false)}
       />
-      <SuccessModal
+      {/* <SuccessModal
         isOpen={notPublished}
         title="This property must be published first"
         handleEvent={() => setNotPublished(false)}
+      /> */}
+      <Confirm
+        title="This property must be published to promote."
+        description="Publish the property to promote it. Would you like to proceed?"
+        action1={handlePublishedUnpublishProperty}
+        action2={() => setNotPublished(false)}
+        isOpen={notPublished}
+        loader={isLoading}
+        action1Title="Proceed"
       />
 
       {/* Unpublish a property */}
