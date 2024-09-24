@@ -489,11 +489,7 @@ const PropertyCard = ({
         title="This property is already promoted"
         handleEvent={() => setActivePromoted(false)}
       />
-      {/* <SuccessModal
-        isOpen={notPublished}
-        title="This property must be published first"
-        handleEvent={() => setNotPublished(false)}
-      /> */}
+    
       <Confirm
         title="This property must be published to promote."
         description="Publish the property to promote it. Would you like to proceed?"
