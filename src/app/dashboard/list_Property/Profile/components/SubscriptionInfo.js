@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState,useLayoutEffect, useTransition } from "react";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import PromotionHooks from "@/utils/promoteProperty";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter } from "next/navigation";
+// import { useLayoutEffect } from "react";
 
 const SubscriptionInfo = () => {
   const [isLoading, setLoader] = useState(false);
@@ -22,7 +23,7 @@ const SubscriptionInfo = () => {
     setCurrentPlanData(response?.data?.data);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getCurrentSubscriptionPlan();
   }, []);
 
@@ -72,11 +73,11 @@ const SubscriptionInfo = () => {
     setPlanCancelledModal(true);
   };
 
-  const handleCancelOrUpgradePlan = (status) => {
-    status === "active"
-      ? setCancelPlan(true)
-      : router.push("/subscriptionPlans?upgrade=true");
-  };
+  // const handleCancelOrUpgradePlan = (status) => {
+  //   status === "active"
+  //     ? setCancelPlan(true)
+  //     : router.push("/subscriptionPlans?upgrade=true");
+  // };
   const closeSuccessModal = () => {
     setPlanCancelledModal(false);
     setRestartPlanModal(false);
@@ -113,23 +114,14 @@ const SubscriptionInfo = () => {
               )
             }
           >
-            {isLoading2 ? (
-              <ThreeDotsLoader color="#ffffff" />
-            ) : currentPlanData?.status &&
-              currentPlanData?.status !== "active" ? (
-              "Restart Plan"
-            ) : (
-              "Upgrade Plan"
-            )}
+            {isLoading2 ? <ThreeDotsLoader color="#ffffff" /> : "Upgrade Plan"}
           </button>
           {currentPlanData?.subscription_code && (
             <button
               className="text-[#006AFF] bg-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-fit  justify-center border-[1px] border-[#006AFF]"
-              onClick={() => handleCancelOrUpgradePlan(currentPlanData?.status)}
+              onClick={() => setCancelPlan(true)}
             >
-              {currentPlanData?.status === "active"
-                ? "Cancel subscription"
-                : "Upgrade subscription"}
+              Cancel subscription
             </button>
           )}
         </div>
