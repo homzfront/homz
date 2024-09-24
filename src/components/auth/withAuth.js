@@ -2,6 +2,8 @@ import { useLayoutEffect, useState, useCallback } from 'react';
 import useAuthStore from '@/store/useAuth/authStore';
 import { useRouter, usePathname } from 'next/navigation';
 import keepTwo from '@/utils/keepTwo';
+import { redirect } from 'next/navigation';
+
 
 const withAuth = (WrappedComponent) => {
     const WithAuthComponent = (props) => {

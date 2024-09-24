@@ -194,7 +194,6 @@ const List_Property = () => {
         setLoader2(false);
         setErrorModal(true);
       } else if (!status) {
-        console.log("No active subscription");
         setLoader2(false);
         setOpenPlanModal(true);
       }
