@@ -21,7 +21,7 @@ const Plans = ({
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
-  // console.log(upgradePlan)
+  // console.log(profile)
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
@@ -137,8 +137,8 @@ const Plans = ({
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
-                profile?.plan?.name === plan.title &&
-                profile?.plan?.interval === "monthly"
+                profile?.data?.plan?.name === plan.title &&
+                profile?.data?.plan?.interval === "monthly"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
@@ -147,8 +147,8 @@ const Plans = ({
                 <ThreeDots color="#ffffff" />
               ) : (
                 <>
-                  {profile?.plan?.name === plan.title &&
-                  profile?.plan?.interval === "monthly"
+                  {profile?.data?.plan?.name === plan.title &&
+                  profile?.data?.plan?.interval === "monthly"
                     ? "Active"
                     : "Select Plan"}
                 </>

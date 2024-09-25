@@ -143,8 +143,8 @@ const Plans = ({
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
-                profile?.plan?.name === plan.title &&
-                profile?.plan?.interval === "weekly"
+                profile?.data?.plan?.name === plan.title &&
+                profile?.data?.plan?.interval === "weekly"
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
@@ -153,8 +153,8 @@ const Plans = ({
                 <ThreeDots color="#ffffff" />
               ) : (
                 <>
-                  {profile?.plan?.name === plan.title &&
-                  profile?.plan?.interval === "weekly"
+                  {profile?.data?.plan?.name === plan.title &&
+                  profile?.data?.plan?.interval === "weekly"
                     ? "Active"
                     : "Select Plan"}
                 </>

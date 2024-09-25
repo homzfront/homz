@@ -106,8 +106,9 @@ const PropertyCard = ({
     };
   }, [isMenuOpen]);
 
-  const handleCheckboxChange = (property, is_promoted, is_published) => {
+  const handleCheckboxChange = (propertyId, is_promoted, is_published) => {
     if (!is_published) {
+      setSelectedDataId(propertyId)
       setNotPublished(true);
       return;
     }
@@ -116,9 +117,9 @@ const PropertyCard = ({
       return;
     }
     setSelectedProperty((prevSelected) =>
-      prevSelected.includes(property)
-        ? prevSelected.filter((item) => item !== property)
-        : [...prevSelected, property]
+      prevSelected.includes(propertyId)
+        ? prevSelected.filter((item) => item !== propertyId)
+        : [...prevSelected, propertyId]
     );
   };
   const handleDeleteProperty = () => {
@@ -140,8 +141,10 @@ const PropertyCard = ({
     setLoader(true);
     publishAndRepublishProperty(selectedDataId)
       .then((result) => {
+
         dispatch({ type: result.message });
         setPublisProperty(false);
+        setNotPublished(false)
         setLoader(false);
       })
       .catch((error) => {
@@ -252,13 +255,13 @@ const PropertyCard = ({
         {currentProperties &&
           currentProperties.map((property, index) => (
             <div
-              className="border h-fit relative flex flex-col  w-full md:w-[234px] md:max-md:h-[313px] rounded-[12px] shadow-md"
+              className=" relative flex flex-col h-[361px] w-full md:w-[234px] sm:h-[317px] rounded-[12px] shadow-md"
               key={index}
             >
-              <div className="cursor-pointer w-full md:w-[234px] md:h-[168px] rounded-[10px] ">
-                <div className=" relative h-[212px] md:h-full w-full">
+              <div className="cursor-pointer w-full md:w-[234px] h-[212px] sm:h-[168px] rounded-[12p] ">
+                <div className=" relative h-[212px] sm:h-[168px] md:h-full w-full">
                   <Link
-                    className="cursor-pointer text-[14px] h-full"
+                    className="cursor-pointer text-[14px] h-full w-full"
                     href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
                   >
                     <Image
@@ -293,7 +296,7 @@ const PropertyCard = ({
                   {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] md:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
                 </div>
               </div>
-              <div className="flex flex-col px-2 py-5 md:pt-2 gap-[5px] md:gap-[2px] h-fit">
+              <div className="flex flex-col px-2 py-5 md:pt-2 gap-[5px] md:gap-[2px] h-fit rounded-b-[12px]">
                 <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
                   <Link
                     href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
@@ -486,10 +489,15 @@ const PropertyCard = ({
         title="This property is already promoted"
         handleEvent={() => setActivePromoted(false)}
       />
-      <SuccessModal
+    
+      <Confirm
+        title="This property must be published to promote."
+        description="Publish the property to promote it. Would you like to proceed?"
+        action1={handlePublishedUnpublishProperty}
+        action2={() => setNotPublished(false)}
         isOpen={notPublished}
-        title="This property must be published first"
-        handleEvent={() => setNotPublished(false)}
+        loader={isLoading}
+        action1Title="Proceed"
       />
 
       {/* Unpublish a property */}
