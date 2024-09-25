@@ -7,12 +7,13 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 
 const PrintableAll = ({ data, printRef }) => {
+    
     return (
         <div
             ref={printRef}
-            className="mt-[480px] mr-[180px] mx-auto w-[1200px]"
+            className="printableContent mt-[320px] ml-[-110px] mx-auto w-auto"
         >
-            <div className="border w-full rotate-180">
+            <div className="border w-[1000px] rotate-180">
                 <div className="w-full">
                     <table border="1" className="w-full">
                         <thead>

@@ -1,16 +1,67 @@
 import Close from '@/components/icons/Close'
 import React, { useState } from 'react'
 import Dropdown from './dropDown'
+import api from '@/utils/api';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
 
-const SetOfflineData = ({ setOfflinepay, successfullModal }) => {
+const SetOfflineData = ({ setOfflinepay, successfullModal, id }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
+    const [displayValue, setDisplayValue] = useState('');
     const [inputDateValue, setDateInputValue] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleInputChange = (e) => {
-        setInputValue(e.target.value);
+        const rawValue = e.target.value.replace(/,/g, '');
+        if (/^\d*\.?\d*$/.test(rawValue)) {
+            setInputValue(rawValue);
+            setDisplayValue(rawValue);
+        }
     };
+
+    const handleBlur = () => {
+        if (inputValue) {
+            const formattedValue = Number(inputValue).toLocaleString();
+            setDisplayValue(formattedValue);
+        }
+    };
+
+    const handleFocus = () => {
+        setDisplayValue(inputValue);
+    };
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+            const response = await api.post(`/offlinePayment/enterprise/rent/tenant/${id}`, {
+                "description": selectedStatusTwo?.label === "Part-Payment" ? "part payment" : "full payment",
+                "amountPaid": inputValue,
+                "modeOfTransaction": selectedStatus?.label === "Cheque" ? "check" : selectedStatus?.label?.toLowerCase(),
+                "dateOfTransaction": inputDateValue
+            })
+            console.log(response);
+            if (response?.data?.success === true) {
+                successfullModal();
+                setOfflinepay(false)
+            } else {
+                setError(response?.data?.message);
+            }
+        } catch (error) {
+            if (error && error?.response?.data?.error?.errors) {
+                setError(error?.response?.data?.error?.errors)
+            }
+            else if (error && error?.response?.data?.message) {
+                setError(error?.response?.data?.message)
+            } else {
+                throw error
+            }
+        }
+        finally {
+            setLoading(false);
+        }
+    }
 
     const optionOne = [
         { id: 1, label: "Cash" },
@@ -48,7 +99,10 @@ const SetOfflineData = ({ setOfflinepay, successfullModal }) => {
                             value={inputDateValue}
                             type='date'
                             className='w-full h-[45px] p-3 rounded-md bg-white text-BlackHomz cursor-pointer'
-                            onChange={(e) => setDateInputValue(e.target.value)}
+                            onChange={(e) => {
+                                setDateInputValue(e.target.value)
+                                setError(null)
+                            }}
                         />
                     </div>
                 </div>
@@ -71,13 +125,21 @@ const SetOfflineData = ({ setOfflinepay, successfullModal }) => {
                     <div className='text-BlackHomz font-[400] w-[35%]'>
                         Amount Paid
                     </div>
-                    <div className='w-[55%]'>
+                    <div className='w-[55%] relative'>
+                        <span
+                            className={`pt-[0.5px] absolute left-3 top-0 bottom-0 flex items-center text-[13px] md:text-[14px] font-[500]  placeholder:text-[13px] ${inputValue[0]?.length > 0 ? "text-BlackHomz" : "text-GrayHomz2"
+                                }`}
+                        >
+                            ₦
+                        </span>
                         <input
+                            value={displayValue}
                             onChange={handleInputChange}
-                            value={inputValue}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
                             type='text'
-                            placeholder='₦0.00'
-                            className='w-full h-[45px] p-3 rounded-md bg-white placeholder:text-GrayHomz2 text-BlackHomz'
+                            placeholder='0.00'
+                            className='w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 text-BlackHomz'
                         />
                     </div>
                 </div>
@@ -95,13 +157,14 @@ const SetOfflineData = ({ setOfflinepay, successfullModal }) => {
                     </div>
                 </div>
             </div>
+            {error && <span className='text-[11px] font-[400] text-error italic'>{error}</span>}
             <div className='mt-4 text-[12px] md:text-[14px]'>
                 {
-                    selectedStatus && inputValue && inputDateValue && selectedStatusTwo
+                    selectedStatus && inputValue[0]?.length > 0 && inputDateValue && selectedStatusTwo
                         ? <button
-                            onClick={successfullModal}
-                            className='h-[48px] w-full bg-BlueHomz rounded-[4px] text-white hover:text-BlueHomz hover:bg-transparent hover:border hover:border-BlueHomz'>
-                            Confirm Transaction
+                            onClick={() => handleSubmit()}
+                            className={`h-[48px] w-full bg-BlueHomz rounded-[4px] text-white hover:text-BlueHomz hover:bg-transparent hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
+                            {loading ? <LoadingFormII /> : "Confirm Transaction"}
                         </button> :
                         <button disabled className='h-[48px] w-full bg-GrayHomz6 rounded-[4px] text-GrayHomz5 '>
                             Confirm Transaction

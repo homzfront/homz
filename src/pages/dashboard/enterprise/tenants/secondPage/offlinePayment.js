@@ -5,12 +5,13 @@ import Button from "../../components/button";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 
-const OfflinePayment = ({ data }) => {
+const OfflinePayment = ({ TenantData, PaymentData }) => {
     const ITEMS_PER_PAGE = 3;
 
-    const walletData = data.filter(dat => dat.paymentMethod !== "Wallet");
+    const walletData = PaymentData.filter(dat => dat.paymentMethod === "offline");
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -62,17 +63,17 @@ const OfflinePayment = ({ data }) => {
                             {currentData &&
                                 currentData?.map((data) => (
                                     <tr
-                                        key={data?.id}
+                                        key={data?._id}
                                         className={`w-2 border-t-[1px] items-center`}
                                     >
                                         <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
-                                            {!data?.image ? (
+                                            {!TenantData?.data?.coverPhoto ? (
                                                 <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                                     <EmptyAvatar />
                                                 </div>
                                             ) : (
                                                 <Image
-                                                    src={data?.image}
+                                                    src={TenantData?.data?.coverPhoto?.url}
                                                     alt=""
                                                     width={40}
                                                     height={40}
@@ -83,24 +84,25 @@ const OfflinePayment = ({ data }) => {
                                                     priority
                                                 />
                                             )}
-                                            <span className="">{data?.tenantName}</span>
+                                            <span className="">{TenantData?.data?.fullName}</span>
                                         </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.rentAmount)}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.dueDate}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.rent)}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{changeBackendDateFormat(data?.dueDate)}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {data?.paymentStatus === "Unpaid" ?
-                                                <div className="bg-warningBg text-warning rounded-md py-1 w-[95px] flex items-center justify-center">
-                                                    Pending
-                                                </div> :
+                                            {data?.status === "success" ?
                                                 <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
-                                                    {capitalizeFirstLetter(data?.paymentStatus)}
-                                                </div>}
+                                                    {capitalizeFirstLetter(data?.status)}
+                                                </div>
+                                                : <div className="bg-warningBg text-warning rounded-md py-1 w-[95px] flex items-center justify-center">
+                                                    Pending
+                                                </div>
+                                            }
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.rentDuration}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentDate}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{changeBackendDateFormat(data?.paymentDate)}</td>
                                     </tr>
                                 ))}
                         </tbody>

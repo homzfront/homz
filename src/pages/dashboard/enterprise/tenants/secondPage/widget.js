@@ -5,7 +5,7 @@ import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
 
-const Widget = ({ data, rentInformation }) => {
+const Widget = ({ data, rentInformation, id }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -70,7 +70,7 @@ const Widget = ({ data, rentInformation }) => {
             <RentInfo profile={data} rentInformation={rentInformation}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <PaymentHis tenantData={data}/>
+            <PaymentHis id={id} tenantData={data}/>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <Maintenance  data={data}/>

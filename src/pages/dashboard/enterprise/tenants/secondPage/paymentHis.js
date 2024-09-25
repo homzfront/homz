@@ -8,7 +8,7 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
 import Widget from "./paymentWidget";
 
-const PaymentHis = ({ tenantData }) => {
+const PaymentHis = ({ tenantData, id }) => {
   const tenantId = tenantData?.data?._id
   const {
     data: paymentData,
@@ -19,6 +19,11 @@ const PaymentHis = ({ tenantData }) => {
   useEffect(() => {
     fetchData(tenantId)
   }, [tenantData])
+
+
+  const fetchDataAgain = () => {
+    fetchData(tenantId)
+  }
 
   const allData = paymentData?.data ? paymentData?.data : []
 
@@ -55,7 +60,7 @@ const PaymentHis = ({ tenantData }) => {
       money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent)}`,
       dueDate: `Due date: ${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
     }
-  ]
+  ];
 
   return (
     <div>
@@ -72,7 +77,7 @@ const PaymentHis = ({ tenantData }) => {
       }
       </div>
       <div>
-        <Widget />
+        <Widget fetchDataAgain={fetchDataAgain} PaymentData={allData} Data={tenantData} id={id}/>
         {/* <Table tenantData={tenantData} /> */}
       </div>
     </div>

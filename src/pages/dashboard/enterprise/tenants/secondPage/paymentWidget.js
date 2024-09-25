@@ -10,7 +10,7 @@ import SetOfflineData from "./setOfflineData";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmModal from "../../components/confirmModal";
 
-const Widget = ({ Data }) => {
+const Widget = ({ Data, id, PaymentData, fetchDataAgain }) => {
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -42,7 +42,7 @@ const Widget = ({ Data }) => {
     const successfullModal = () => {
         setOpenModel(!openModel);
         setOfflinepay(false);
-
+        fetchDataAgain();
     }
 
     const DataTwo = paymentData
@@ -91,23 +91,23 @@ const Widget = ({ Data }) => {
                 </div>
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <AllData data={DataTwo} />
+                        <AllData TenantData={Data} PaymentData={PaymentData} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <WalletPayement data={DataTwo} />
+                        <WalletPayement TenantData={Data} PaymentData={PaymentData} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment data={DataTwo} />
+                        <OfflinePayment TenantData={Data} PaymentData={PaymentData} />
                     </div>
                 </div>
             </div>
             <CustomizedModal isOpen={offlinepay}>
-                <SetOfflineData setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
+                <SetOfflineData id={id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
             </CustomizedModal>
             <CustomizedModal isOpen={openModel}>
                 <ConfirmModal
                     header={"Offline Payment Added Successfully"}
-                    body={"You have successfully added an offline payment record for [Tenant’s Name]"}
+                    body={`You have successfully added an offline payment record for ${Data?.data?.fullName}`}
                     button={"Close"}
                     returnHome={successfullModal}
                 />
