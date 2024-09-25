@@ -102,7 +102,7 @@ const Widget = ({ Data, id, PaymentData, fetchDataAgain }) => {
                 </div>
             </div>
             <CustomizedModal isOpen={offlinepay}>
-                <SetOfflineData id={id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
+                <SetOfflineData tenant={Data?.data?.fullName} id={id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
             </CustomizedModal>
             <CustomizedModal isOpen={openModel}>
                 <ConfirmModal

@@ -4,7 +4,7 @@ import Dropdown from './dropDown'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 
-const SetOfflineData = ({ setOfflinepay, successfullModal, id }) => {
+const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -38,7 +38,7 @@ const SetOfflineData = ({ setOfflinepay, successfullModal, id }) => {
             const response = await api.post(`/offlinePayment/enterprise/rent/tenant/${id}`, {
                 "description": selectedStatusTwo?.label === "Part-Payment" ? "part payment" : "full payment",
                 "amountPaid": inputValue,
-                "modeOfTransaction": selectedStatus?.label === "Cheque" ? "check" : selectedStatus?.label?.toLowerCase(),
+                "modeOfTransaction": selectedStatus?.label?.toLowerCase(),
                 "dateOfTransaction": inputDateValue
             })
             console.log(response);
@@ -82,7 +82,7 @@ const SetOfflineData = ({ setOfflinepay, successfullModal, id }) => {
                         Offline Payment Record
                     </p>
                     <p className='text-GrayHomz font-[400] text-[12px] md:text-[13px]'>
-                        Fill in the details  for [Tenant’s Name]’s offline payment
+                        {`Fill in the details for ${tenant} offline payment`}
                     </p>
                 </div>
                 <div onClick={() => setOfflinepay(false)} className='cursor-pointer border border-BlackHomz rounded-[8px] h-[30px] w-[30px] flex justify-center items-center'>
