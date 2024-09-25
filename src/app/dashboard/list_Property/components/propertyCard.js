@@ -108,7 +108,7 @@ const PropertyCard = ({
 
   const handleCheckboxChange = (propertyId, is_promoted, is_published) => {
     if (!is_published) {
-      setSelectedDataId(propertyId);
+      setSelectedDataId(propertyId)
       setNotPublished(true);
       return;
     }
@@ -141,9 +141,10 @@ const PropertyCard = ({
     setLoader(true);
     publishAndRepublishProperty(selectedDataId)
       .then((result) => {
+
         dispatch({ type: result.message });
         setPublisProperty(false);
-        setNotPublished(false);
+        setNotPublished(false)
         setLoader(false);
       })
       .catch((error) => {
@@ -248,7 +249,6 @@ const PropertyCard = ({
     return text.length > length ? text.substring(0, length) + "..." : text;
   };
 
-  console.log(currentProperties);
   return (
     <div className="w-full flex flex-col gap-[17px] sm:gap-[64px] mt-6 sm:justify-center sm:items-center h-fit">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
@@ -268,8 +268,6 @@ const PropertyCard = ({
                       src={
                         property?.coverPhoto?.url
                           ? property?.coverPhoto.url
-                          : property?.photos
-                          ? property?.photos[0].url
                           : "/static/images/comingSoonImage.svg"
                       }
                       alt=""
@@ -491,7 +489,7 @@ const PropertyCard = ({
         title="This property is already promoted"
         handleEvent={() => setActivePromoted(false)}
       />
-
+    
       <Confirm
         title="This property must be published to promote."
         description="Publish the property to promote it. Would you like to proceed?"
