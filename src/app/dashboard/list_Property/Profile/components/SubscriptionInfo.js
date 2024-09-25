@@ -132,13 +132,7 @@ const SubscriptionInfo = () => {
         buttonColor={true}
         handleEvent={closeSuccessModal}
       />
-      {/* <SuccessModal
-        isOpen={restartPlanModal}
-        title="Subscription Restarted Successfully"
-        successText={`Your ${currentPlanData?.plan?.name} ${currentPlanData?.plan?.interval} Subscription is now active.`}
-        buttonColor={true}
-        handleEvent={closeSuccessModal}
-      /> */}
+    
     </div>
   );
 };
