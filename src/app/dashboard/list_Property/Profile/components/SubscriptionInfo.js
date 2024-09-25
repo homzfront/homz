@@ -1,9 +1,15 @@
-import React, { useEffect, useState,useLayoutEffect, useTransition } from "react";
+import React, {
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useTransition,
+} from "react";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import PromotionHooks from "@/utils/promoteProperty";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 // import { useLayoutEffect } from "react";
 
 const SubscriptionInfo = () => {
@@ -11,7 +17,7 @@ const SubscriptionInfo = () => {
   const [isLoading2, setLoader2] = useState(false);
   const [cancelPlan, setCancelPlan] = useState(false);
   const [planCancelledModal, setPlanCancelledModal] = useState(false);
-  const [restartPlanModal, setRestartPlanModal] = useState(false);
+  // const [restartPlanModal, setRestartPlanModal] = useState(false);
   const [currentPlanData, setCurrentPlanData] = useState();
   const [isPending, startTransition] = useTransition();
 
@@ -42,27 +48,7 @@ const SubscriptionInfo = () => {
     return formattedDate;
   };
 
-  const handleSubscriptionPlan = (currentPlan, status) => {
-    const url = currentPlan
-      ? "/subscriptionPlans?upgrade=true"
-      : "/subscriptionPlans";
-
-    if (status && status !== "active") {
-      setRestartPlanModal(true);
-    } else {
-      try {
-        startTransition(() => {
-          router.push(url);
-        });
-      } catch (error) {
-        const errorMessage = error.response?.data || {
-          message: "An unexpected error occurred.",
-        };
-        console.error("Error", errorMessage);
-        return errorMessage;
-      }
-    }
-  };
+ 
 
   const handleCancelPlan = async () => {
     // setTimeout(() => {
@@ -80,7 +66,7 @@ const SubscriptionInfo = () => {
   // };
   const closeSuccessModal = () => {
     setPlanCancelledModal(false);
-    setRestartPlanModal(false);
+    // setRestartPlanModal(false);
   };
   return (
     <div className="space-y-2 leading-[21px] font-[500] text-[14px]  pt-5 md:pt-0">
@@ -105,17 +91,16 @@ const SubscriptionInfo = () => {
           )}
         </div>
         <div className="flex gap-[12px] flex-wrap w-full sm:w-fit">
-          <button
-            className="bg-[#006AFF] text-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-[115px]  justify-center"
-            onClick={() =>
-              handleSubscriptionPlan(
-                currentPlanData?.subscription_code,
-                currentPlanData?.status
-              )
+          <Link
+            href={
+              currentPlanData?.subscription_code
+                ? "/subscriptionPlans?upgrade=true"
+                : "/subscriptionPlans"
             }
+            className="bg-[#006AFF] text-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-[115px]  justify-center"
           >
-            {isLoading2 ? <ThreeDotsLoader color="#ffffff" /> : "Upgrade Plan"}
-          </button>
+            Upgrade Plan
+          </Link>
           {currentPlanData?.subscription_code && (
             <button
               className="text-[#006AFF] bg-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-fit  justify-center border-[1px] border-[#006AFF]"
@@ -147,13 +132,13 @@ const SubscriptionInfo = () => {
         buttonColor={true}
         handleEvent={closeSuccessModal}
       />
-      <SuccessModal
+      {/* <SuccessModal
         isOpen={restartPlanModal}
         title="Subscription Restarted Successfully"
         successText={`Your ${currentPlanData?.plan?.name} ${currentPlanData?.plan?.interval} Subscription is now active.`}
         buttonColor={true}
         handleEvent={closeSuccessModal}
-      />
+      /> */}
     </div>
   );
 };

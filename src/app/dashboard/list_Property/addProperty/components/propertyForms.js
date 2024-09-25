@@ -29,7 +29,6 @@ const PropertyForms = () => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
   const [propertyDetails, setPropertyDetails] = useState([]);
-  const [loadingForm, setLoadingForm] = useState(false);
   const [saveToDraft, setSaveToDraft] = useState(false);
   const [savedToDraftSuccess, setSavedToDraftSuccess] = useState(false);
   const [videoLinks, setVideoLinksData] = useState();
@@ -52,103 +51,105 @@ const PropertyForms = () => {
     setSavedToDraftSuccess(true);
   };
   const handleSaved = async () => {
-    // setLoadingForm(!loadingForm);
     setLoading(true);
-
-    const formData = new FormData();
-    var filteredDetail = {};
-
-    propertyDetails.forEach((detail, index) => {
-      Object.entries(detail).forEach(([key, value]) => {
-        // Check if the value is not empty or null
-        if (value !== "" && value !== null) {
-          filteredDetail[key] = value;
+  
+    try {
+      // Filter out empty values from propertyDetails
+      const filteredDetail = propertyDetails.reduce((acc, detail) => {
+        Object.entries(detail).forEach(([key, value]) => {
+          if (value !== "" && value !== null) {
+            acc[key] = value;
+          }
+        });
+        return acc;
+      }, {});
+  
+      const {
+        title,
+        installmentPayment,
+        agencyFee,
+        amenities,
+        state,
+        area,
+        street,
+        email,
+        phoneNumber,
+        whatsapp,
+        description,
+        duration,
+        furnishStatus,
+        frequency,
+        initialPayment,
+        listingType,
+        maintenanceFee,
+        newly,
+        squareMeter,
+        numberOfBathrooms,
+        numberOfRooms,
+        numberOfToilets,
+        paymentType,
+        price,
+        propertyType,
+        serviced,
+        subType,
+        totalFee,
+        units,
+        youtubeUrl,
+        instagramUrl,
+      } = filteredDetail;
+  
+      const formData = new FormData();
+  
+      // Append cover photo and other images
+      formData.append("coverPhoto", coverPhoto);
+      photos.forEach((photo) => formData.append("photos", photo));
+  
+      // Payload fields to append
+      const payload = {
+        title,
+        squareMeter,
+        propertyType,
+        listingType,
+        subType,
+        units,
+        price,
+        paymentType,
+        state,
+        area,
+        street,
+        numberOfRooms,
+        numberOfBathrooms,
+        numberOfToilets,
+        description,
+        maintenanceFee,
+        totalFee,
+        agencyFee,
+        email,
+        phoneNumber,
+        whatsapp,
+        frequency,
+        youtubeUrl,
+        instagramUrl,
+        duration,
+        newlyBuilt: newly,
+        serviced,
+        initialPayment,
+        installmentPayment,
+      };
+  
+      // Append each field to formData
+      Object.entries(payload).forEach(([key, value]) => {
+        if (value) {
+          formData.append(key, value);
         }
       });
-    });
-    const {
-      title,
-      installmentPayment,
-      agencyFee,
-      amenities,
-      state,
-      area,
-      street,
-      email,
-      phoneNumber,
-      whatsapp,
-      description,
-      duration,
-      furnishStatus,
-      frequency,
-      initialPayment,
-      listingType,
-      maintenanceFee,
-      newly,
-      squareMeter,
-      numberOfBathrooms,
-      numberOfRooms,
-      numberOfToilets,
-      paymentType,
-      price,
-      propertyType,
-      serviced,
-      subType,
-      totalFee,
-      units,
-      youtubeUrl,
-      instagramUrl,
-    } = filteredDetail;
-
-    formData.append("coverPhoto", coverPhoto);
-    photos.forEach((photo) => formData.append("photos", photo));
-    const payload = {
-      title,
-      squareMeter,
-      propertyType,
-      listingType,
-      subType,
-      units,
-      price,
-      paymentType,
-      state,
-      area,
-      street,
-      numberOfRooms,
-      numberOfBathrooms,
-      numberOfToilets,
-      amenities,
-      description,
-      maintenanceFee,
-      totalFee,
-      agencyFee,
-      email,
-      phoneNumber,
-      whatsapp,
-      frequency,
-      youtubeUrl,
-      instagramUrl,
-      duration,
-      newlyBuilt: newly,
-      serviced,
-      initialPayment,
-      installmentPayment,
-    };
-    // console.log(payload);
-
-    for (const [key, value] of Object.entries(payload)) {
-      if (value) {
-        if (key !== "amenities") {
-          formData.append(key, value);
-        } else {
-          value.forEach((amenity, index) => {
-            formData.append(`amenities[${index}]`, amenity);
-          });
-        }
-      }
-    }
-    // /:id/property-detail
-    try {
+  
+      // Append amenities
+      amenities?.forEach((amenity, index) => {
+        formData.append(`amenities[${index}]`, amenity);
+      });
+  
+      // Send API request
       const response = await api.post(
         "/properties/create/listing-property",
         formData,
@@ -158,35 +159,26 @@ const PropertyForms = () => {
           },
         }
       );
-      // console.log(response);
+  
+      // Handle success
       if (response.data.success) {
         setSuccessModalIsOpen(true);
         setSaveModalIsOpen(false);
-        // setLoadingForm(false);
-        setLoading(false);
       }
     } catch (error) {
-      // setLoadingForm(false);
-      console.log(error);
-
+      // Error handling
+      const errorMessage =
+        error?.response?.data?.error?.errors?.[0] ||
+        error?.response?.data?.message ||
+        "An error occurred";
+  
+      console.error(errorMessage);
+      toast.error(errorMessage);
+    } finally {
       setLoading(false);
-      if (
-        error?.response?.data?.error?.errors &&
-        error.response.data.error.errors.length > 0
-      ) {
-        const errorMessage = error.response.data.error.errors[0];
-        console.log(errorMessage);
-        toast.error(errorMessage);
-      } else if (error?.response?.data?.message) {
-        const errorMessage = error.response.data.message;
-        toast.error(errorMessage);
-        console.log(errorMessage);
-      }
-      // else {
-      //   // toast.error("Update failed");
-      // }
     }
   };
+  
 
   const handleSubmit = (contactInfo) => {
     // setContactInfo(contactInfo);
