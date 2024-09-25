@@ -5,11 +5,11 @@ import WalletPayement from "../components/walletPayement";
 import OfflinePayment from "../components/offlinePayment";
 import Document from "@/components/icons/document";
 import Send from "@/components/icons/send";
-import paymentData from "../components/payementData";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 const Widget = ({ Data }) => {
     const printRefAll = useRef();
@@ -48,20 +48,21 @@ const Widget = ({ Data }) => {
         onAfterPrint: () => console.log("Document printed."),
     });
 
-    const DataTwo = paymentData;
+    const DataTwo = Data;
 
     const handleExportToExcel = () => {
         const data = DataTwo.map((item) => ({
-            Tenant: item?.tenantName,
-            "Rent Amount": addCommasToNumber(item?.rentAmount),
-            "Due Date": item?.dueDate,
-            "Payment Status": item?.paymentStatus,
-            "Amount Paid": addCommasToNumber(item?.amountPaid),
-            Description: item?.description,
-            "Rent Duration": item?.rentDuration,
-            "Payment Method": item?.paymentMethod,
-            "Payment Date": item?.paymentDate,
+            Tenant: item.tenantId?.fullName,
+            "Rent Amount": addCommasToNumber(item.rent),
+            "Due Date": changeBackendDateFormat(item.dueDate),
+            "Payment Status": item.status,
+            "Amount Paid": addCommasToNumber(item.amountPaid),
+            Description: item.description,
+            "Rent Duration": item.duration === 1 ? `${item.duration} year` : `${item.duration} years`,
+            "Payment Method": item.paymentMethod,
+            "Payment Date": changeBackendDateFormat(item.paymentDate),
         }));
+
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Rent Details");
@@ -69,6 +70,7 @@ const Widget = ({ Data }) => {
         const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
         saveAs(blob, "Tenant_Rent_Payment_Report.xlsx");
     };
+
 
     return (
         <div>

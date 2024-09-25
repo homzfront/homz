@@ -14,11 +14,15 @@ import Link from 'next/link'
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
 import Switch from '@/components/icons/dashboardMobile/switch'
+import Notification from '@/components/icons/notification'
+import notificationsData from '../notification/components/notificationsData'
 
 const SidebarMobile = ({ setOpen, user }) => {
   const path = usePathname();
   const pathname = keepThree(path);
   const { logout } = useProfileStore();
+
+  const unseen = notificationsData?.filter((data) => data?.status === "unread")
 
   return (
     <div className="h-[2000px] px-8 flex flex-col w-[100%] m-auto text-white">
@@ -174,8 +178,36 @@ const SidebarMobile = ({ setOpen, user }) => {
           <p className=''> Switch</p>
         </Link>
       </div>
-
-      <div className='p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px]'>
+      <Link
+        onClick={() => setOpen(false)}
+        href={"/dashboard/tenant/notificationPage"}
+        className='p-4 flex items-center gap-5 mt-4 h-auto bg-inputBg rounded-[8px]'>
+        <div
+          className={`w-full h-[45px] rounded-[4px] items-center flex gap-1 justify-start px-4 
+          ${pathname === "/dashboard/tenant/notificationPage" ? "bg-white text-BlueHomz"
+              : "text-GrayHomz"} hover:text-BlueHomz`}
+        >
+          <div>
+            {
+              pathname === "/dashboard/tenant/notificationPage"
+                ?
+                <div>
+                  <Notification className='text-BlueHomz fill-BlueHomz' />
+                </div>
+                :
+                <div>
+                  <Notification />
+                </div>
+            }
+          </div>
+          <p className=''> Notifications</p>
+        </div>
+        <p
+          className={` ${unseen?.length >= 1 ? "bg-error" : "bg-transparent"
+            } h-2 w-2 rounded-full`}
+        ></p>
+      </Link>
+      <div className='p-4 flex flex-col gap-5 mt-4 h-auto bg-inputBg rounded-[8px]'>
         <div onClick={() => logout(logout)} className='hover:bg-white cursor-pointer w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4'>
           <Logout />
           <p className='text-red-500'>Logout</p>

@@ -9,7 +9,7 @@ import useClickOutside from "@/utils/clickOutside";
 import PopUpMenuTwo from "./popMenuToTenantProfile";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
-import paymentData from "./payementData";
+import paymentData from "../../../../../utils/paymentData";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import PopUpMenu from "./popUpMenu";
 import PrintableAll from "./printableAll";
@@ -65,7 +65,6 @@ const OfflinePayment = ({ data, printRef }) => {
         (_, index) => index + 1
     );
 
-
     return (
         <div className="mt-6 w-full mx-auto">
             <div className="border overflow-x-auto scrollbar-container">
@@ -87,61 +86,81 @@ const OfflinePayment = ({ data, printRef }) => {
                         </thead>
                         <tbody>
                             {currentData &&
-                                currentData?.map((data) => (
+                                currentData.map((data) => (
                                     <tr
-                                        key={data?.id}
-                                        className={`w-2 border-t-[1px] items-center`}
+                                        key={data?._id}
+                                        className="w-2 border-t-[1px] items-center"
                                     >
                                         <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
-                                            {!data?.image ? (
+                                            {!data?.tenantId?.coverPhoto?.url ? (
                                                 <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                                     <EmptyAvatar />
                                                 </div>
                                             ) : (
                                                 <Image
-                                                    src={data?.image}
-                                                    alt=""
+                                                    src={data?.tenantId?.coverPhoto?.url}
+                                                    alt="Tenant Image"
                                                     width={40}
                                                     height={40}
-                                                    layout="full" // Specify the desired height
+                                                    layout="full"
                                                     objectFit="cover"
                                                     objectPosition="center"
                                                     className="object-cover bg-center h-[40px] rounded-full"
                                                     priority
                                                 />
                                             )}
-                                            <span className="">{data?.tenantName}</span>
+                                            <span>{data?.tenantId?.fullName || "N/A"}</span>
                                         </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.rentAmount)}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.dueDate}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {data?.paymentStatus === "Unpaid" ?
+                                            {addCommasToNumber(data?.rent)}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {changeBackendDateFormat(data?.dueDate)}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.status !== "success" ? (
                                                 <div className="bg-warningBg text-warning rounded-md py-1 w-[95px] flex items-center justify-center">
                                                     Pending
-                                                </div> :
+                                                </div>
+                                            ) : (
                                                 <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
-                                                    {capitalizeFirstLetter(data?.paymentStatus)}
-                                                </div>}
+                                                    {capitalizeFirstLetter(data?.status)}
+                                                </div>
+                                            )}
                                         </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.rentDuration}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentDate}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {addCommasToNumber(data?.amountPaid)}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.description || "N/A"}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.paymentMethod || "N/A"}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {changeBackendDateFormat(data?.paymentDate)}
+                                        </td>
                                         <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
-                                            <button onClick={() => handleToggleMenu(data.id)}>
+                                            <button onClick={() => handleToggleMenu(data._id)}>
                                                 <Image
-                                                    src={
-                                                        "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                                    }
-                                                    alt=""
+                                                    src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                                    alt="Options"
                                                     height={21}
                                                     width={20}
                                                     style={{ height: "auto", width: "auto" }}
                                                 />
                                             </button>
-                                            {popUpMenuTwo && selectedDataId === data.id && (
-                                                <PopUpMenuTwo data={data} handleDataToggle={handleDataToggle} setPopUpMenu={setPopUpMenu} popUpMenu={popUpMenu} dropdownRef={dropdownRef} />
+                                            {popUpMenuTwo && selectedDataId === data._id && (
+                                                <PopUpMenuTwo
+                                                    data={data}
+                                                    handleDataToggle={handleDataToggle}
+                                                    setPopUpMenu={setPopUpMenu}
+                                                    popUpMenu={popUpMenu}
+                                                    dropdownRef={dropdownRef}
+                                                />
                                             )}
                                         </td>
                                     </tr>

@@ -1,5 +1,6 @@
 import timeAgo from '@/utils/timeAgo';
 import Image from 'next/image'
+import Link from 'next/link';
 import React from 'react'
 
 const PopNotification = ({ selectedId, closeMenu }) => {
@@ -9,16 +10,15 @@ const PopNotification = ({ selectedId, closeMenu }) => {
   }
   // Ensure Data is defined before use
   const data = selectedId || []; // Assign an empty array if Data is undefined
-
+  
   return (
     <div>
-      <div className="absolute top-0 z-50 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30 px-4 md:px-0">
-        <div className="md:h-[410px] md:w-[816px] bg-white rounded-lg pt-2 md:pt-0">
-          <div className="border-b flex justify-between md:items-center pt-4 md:pt-8 pb-4 md:pb-8">
-            <div className="md:px-8 px-4">
-              <div className="flex md:gap-8 md:items-center">
-                <div className="rounded-full w-[30%] md:shadow-md md:p-2 md:w-auto">
-                  {
+      <div className="md:h-[410px] w-[350px] md:w-[816px] bg-white rounded-lg pt-2 md:pt-0">
+        <div className="border-b flex justify-between md:items-center pt-4 md:pt-8 pb-4 md:pb-8">
+          <div className="md:px-8 px-4">
+            <div className="flex md:gap-8 md:items-center">
+              <div className="w-[30%] md:p-2 md:w-auto">
+                {/* {
 
                     data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ?
                      <Image
@@ -34,39 +34,39 @@ const PopNotification = ({ selectedId, closeMenu }) => {
                       priority />
                       :
                       <Image src="/static/dashboard/enterprisemanager/notification/AvatarEmpty.png" alt="" height={40} width={40} />
-                  }
-                </div>
-                <div className='w-[70%] md:w-auto'>
-                  <p className="text-[16px] font-[600] text-BlackHomz">
-                    {data?.subject}
-                  </p>
-                  <p className="text-[13px] font-[400] text-GrayHomz">
-                    {timeAgo(data?.createdAt)}
-                  </p>
-                </div>
+                  } */}
+                {data?.image}
               </div>
-            </div>
-            <div className="px-8">
-              <div
-                onClick={(e) => { closeMenu(e); e.stopPropagation(); }}
-
-                className="cursor-pointer bg-GrayHomz6 h-8 w-8 rounded-md flex items-center justify-center"
-              >
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/notification/Icon.png"
-                  }
-                  alt=""
-                  height={12}
-                  width={12}
-                />
+              <div className='w-[70%]  md:w-auto'>
+                <p className="text-[14px] md:text-[16px] font-[600] text-BlackHomz">
+                  {data?.subject}
+                </p>
+                <p className="text-[12px] md:text-[13px] font-[400] text-GrayHomz">
+                  {timeAgo(data?.createdAt)}
+                </p>
               </div>
             </div>
           </div>
-          <p className="text-[16px] text-justify font-[400] text-GrayHomz mb-1 md:mb-0 p-4 md:p-8">
-            {data?.message}
-          </p>
+          <div className="px-8">
+            <div
+              onClick={(e) => { closeMenu(e); e.stopPropagation(); }}
+
+              className="cursor-pointer bg-GrayHomz6 h-8 w-8 rounded-md flex items-center justify-center"
+            >
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/notification/Icon.png"
+                }
+                alt=""
+                height={12}
+                width={12}
+              />
+            </div>
+          </div>
         </div>
+        <p className="text-[14px] md:text-[16px] text-justify font-[400] text-GrayHomz mb-1 md:mb-0 p-4 md:p-8">
+          {data?.message} {data?.action !== null && data?.action === "Review details" ? <Link className="text-BlueHomz underline" href={"/dashboard/tenant/profile"}>Review details</Link> : <Link className="text-BlueHomz underline" href={"/dashboard/tenant/estateInformation"}>Review payment details.</Link>}
+        </p>
       </div>
     </div>
   )

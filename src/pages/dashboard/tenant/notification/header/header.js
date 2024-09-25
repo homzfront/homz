@@ -1,15 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const NotificationHeader = ({
   searchQuery,
   setSearchQuery
 }) => {
+  const route = useRouter()
+  const goBack = () => {
+    route.back();
+  };
+
   return (
-    <div className="border-b">
+    <div className="md:block hidden border-b">
       <div className="flex justify-between items-center py-8 md:px-10 px-4">
-        <Link href={"/dashboard/tenant/dashboard"} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
+        <div onClick={goBack} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             alt=""
@@ -22,7 +28,7 @@ const NotificationHeader = ({
           <div className="md:hidden">
             Back
           </div>
-        </Link>
+        </div>
         <div className="relative">
           <input
             type="text"

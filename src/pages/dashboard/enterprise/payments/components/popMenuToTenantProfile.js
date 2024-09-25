@@ -44,7 +44,7 @@ function PopUpMenuTwo({ data, handleDataToggle, setPopUpMenu, popUpMenu, handleD
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full ">
         <button className="w-full">
           {activeTwo ?
-            <div onClick={() => handleDataToggle(data.id)} className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+            <div onClick={() => handleDataToggle(data._id)} className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
               <Details className='#006AFF' />
               <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
                 View All Details

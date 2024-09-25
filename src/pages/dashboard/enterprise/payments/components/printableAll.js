@@ -33,45 +33,61 @@ const PrintableAll = ({ data, printRef }) => {
                             {data &&
                                 data?.map((data) => (
                                     <tr
-                                        key={data?.id}
-                                        className={`w-2 border-t-[1px] items-center`}
+                                        key={data?._id}
+                                        className="w-2 border-t-[1px] items-center"
                                     >
                                         <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
-                                            {!data?.image ? (
+                                            {!data?.tenantId?.coverPhoto?.url ? (
                                                 <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                                     <EmptyAvatar />
                                                 </div>
                                             ) : (
                                                 <Image
-                                                    src={data?.image}
-                                                    alt=""
+                                                    src={data?.tenantId?.coverPhoto?.url}
+                                                    alt="Tenant Image"
                                                     width={40}
                                                     height={40}
-                                                    layout="full" // Specify the desired height
+                                                    layout="full"
                                                     objectFit="cover"
                                                     objectPosition="center"
                                                     className="object-cover bg-center h-[40px] rounded-full"
                                                     priority
                                                 />
                                             )}
-                                            <span className="">{data?.tenantName}</span>
+                                            <span>{data?.tenantId?.fullName || "N/A"}</span>
                                         </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.rentAmount)}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.dueDate}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {data?.paymentStatus === "Unpaid" ?
+                                            {addCommasToNumber(data?.rent)}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.dueDate ? new Date(data?.dueDate).toLocaleDateString() : "N/A"}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.status !== "success" ? (
                                                 <div className="bg-warningBg text-warning rounded-md py-1 w-[95px] flex items-center justify-center">
                                                     Pending
-                                                </div> :
+                                                </div>
+                                            ) : (
                                                 <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
-                                                    {capitalizeFirstLetter(data?.paymentStatus)}
-                                                </div>}
+                                                    {capitalizeFirstLetter(data?.status)}
+                                                </div>
+                                            )}
                                         </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.rentDuration}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentDate}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {addCommasToNumber(data?.amountPaid)}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.description || "N/A"}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.duration ? `${data?.duration} year(s)` : "N/A"}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.paymentMethod || "N/A"}
+                                        </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                            {data?.paymentDate ? new Date(data?.paymentDate).toLocaleDateString() : "N/A"}
+                                        </td>
                                     </tr>
                                 ))}
                         </tbody>

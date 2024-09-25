@@ -100,7 +100,7 @@ const Tenants = ({ rentData, rentLoading, fetchRentData }) => {
         </div>
       </div>
       <div className={`md:mt-6 ${rentData?.length > 0 ? "" : "hidden"}`}>
-        <Widget />
+        <Widget Data={rentData}/>
       </div>
     </div>
   )

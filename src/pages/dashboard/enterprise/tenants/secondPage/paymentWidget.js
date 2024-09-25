@@ -4,7 +4,7 @@ import AddBlueSmall from "@/components/icons/addBlueSmall";
 import WalletPayement from "./walletPayement";
 import OfflinePayment from "./offlinePayment";
 import AllData from "./allData";
-import paymentData from "../../payments/components/payementData";
+import paymentData from "../../../../../utils/paymentData";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import SetOfflineData from "./setOfflineData";
 import AcAndRejModel from "../../components/acAndRejModel";

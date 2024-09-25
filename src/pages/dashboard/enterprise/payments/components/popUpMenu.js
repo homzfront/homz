@@ -1,5 +1,6 @@
 import Close from '@/components/icons/Close'
 import addCommasToNumber from '@/utils/addCommasToNumber'
+import changeBackendDateFormat from '@/utils/changeBackendDateFormat'
 import React from 'react'
 
 const PopUpMenu = ({ data, setPopUpMenu }) => {
@@ -20,7 +21,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Property
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {data?.estateName}
+                            {data?.estateId?.name}
                         </p>
                     </div>
                 </div>
@@ -30,7 +31,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Rent Amount
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {addCommasToNumber(data?.rentAmount)}
+                            {addCommasToNumber(data?.totalRent)}
                         </p>
                     </div>
                 </div>
@@ -40,7 +41,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Due Date
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {data?.dueDate}
+                            {changeBackendDateFormat(data?.dueDate)}
                         </p>
                     </div>
                 </div>
@@ -50,7 +51,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Payment Status
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {data?.paymentStatus}
+                            {data?.status}
                         </p>
                     </div>
                 </div>
@@ -90,7 +91,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Rent Duration
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {data?.rentDuration}
+                            {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
                         </p>
                     </div>
                 </div>
@@ -100,7 +101,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Payment Date
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {data?.paymentDate}
+                            {changeBackendDateFormat(data?.paymentDate)}
                         </p>
                     </div>
                 </div>

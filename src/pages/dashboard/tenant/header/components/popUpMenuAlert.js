@@ -13,7 +13,7 @@ const PopUpMenuAlert = ({ selectedData, Data, dropdownRef }) => {
 
   return (
     <div ref={dropdownRef}>
-      <div className="absolute right-[120px] top-[60px] w-[400px] h-auto rounded-lg bg-white shadow-md p-4 z-20">
+      <div className={`${Data?.length > 0 ? "" : "hidden"} absolute right-[120px] top-[60px] w-[400px] h-auto rounded-lg bg-white shadow-md p-4 z-20`}>
         <div className="flex justify-between items-center">
           <p className="text-[13px] font-[500] text-BlackHomz">Notifications</p>
           <Link href={"/dashboard/tenant/notificationPage"} className="flex items-center gap-1">
