@@ -180,7 +180,7 @@ const List_Property = () => {
       const { status, subscription_code } = response?.data?.data || {};
       const errorMessage = response?.message;
 
-      if (status === "active" && subscription_code) {
+      if (subscription_code) {
         // console.log("Subscription is active");
         setLoader2(false);
 
