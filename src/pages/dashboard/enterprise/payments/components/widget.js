@@ -4,7 +4,7 @@ import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
 import { useSearchParams } from "next/navigation.js";
 
-const Widget = ({rentData, rentLoading, fetchRentData}) => {
+const Widget = ({selectedProperty, selectedDate, data}) => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab")
 
@@ -50,7 +50,7 @@ const Widget = ({rentData, rentLoading, fetchRentData}) => {
         </div>
         <div className=" my-5 rounded-[12px]">
           <div className={`${active ? "inline" : "hidden"}`}>
-            <Tenants fetchRentData={fetchRentData} rentData={rentData} rentLoading={rentLoading}/>
+            <Tenants exportData={data} selectedProperty={selectedProperty} selectedDate={selectedDate}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

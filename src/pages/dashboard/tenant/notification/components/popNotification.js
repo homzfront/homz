@@ -4,13 +4,7 @@ import Link from 'next/link';
 import React from 'react'
 
 const PopNotification = ({ selectedId, closeMenu }) => {
-  // Ensure that Data is defined and not null
-  if (!selectedId) {
-    return null; // or handle accordingly, e.g., return a loading state
-  }
-  // Ensure Data is defined before use
-  const data = selectedId || []; // Assign an empty array if Data is undefined
-  
+
   return (
     <div>
       <div className="md:h-[410px] w-[350px] md:w-[816px] bg-white rounded-lg pt-2 md:pt-0">
@@ -20,9 +14,9 @@ const PopNotification = ({ selectedId, closeMenu }) => {
               <div className="w-[30%] md:p-2 md:w-auto">
                 {/* {
 
-                    data?.sender?.businessLogo?.url || data?.sender?.coverPhoto?.url ?
+                    selectedId?.sender?.businessLogo?.url || selectedId?.sender?.coverPhoto?.url ?
                      <Image
-                      src={data?.sender?.coverPhoto?.url || data?.sender?.businessLogo?.url}
+                      src={selectedId?.sender?.coverPhoto?.url || selectedId?.sender?.businessLogo?.url}
                       alt=""
                       height={40}
                       width={40}
@@ -35,14 +29,14 @@ const PopNotification = ({ selectedId, closeMenu }) => {
                       :
                       <Image src="/static/dashboard/enterprisemanager/notification/AvatarEmpty.png" alt="" height={40} width={40} />
                   } */}
-                {data?.image}
+                {selectedId?.image}
               </div>
-              <div className='w-[70%]  md:w-auto'>
+              <div className='w-[70%] md:w-auto'>
                 <p className="text-[14px] md:text-[16px] font-[600] text-BlackHomz">
-                  {data?.subject}
+                  {selectedId?.subject}
                 </p>
                 <p className="text-[12px] md:text-[13px] font-[400] text-GrayHomz">
-                  {timeAgo(data?.createdAt)}
+                  {timeAgo(selectedId?.createdAt)}
                 </p>
               </div>
             </div>
@@ -65,7 +59,7 @@ const PopNotification = ({ selectedId, closeMenu }) => {
           </div>
         </div>
         <p className="text-[14px] md:text-[16px] text-justify font-[400] text-GrayHomz mb-1 md:mb-0 p-4 md:p-8">
-          {data?.message} {data?.action !== null && data?.action === "Review details" ? <Link className="text-BlueHomz underline" href={"/dashboard/tenant/profile"}>Review details</Link> : <Link className="text-BlueHomz underline" href={"/dashboard/tenant/estateInformation"}>Review payment details.</Link>}
+          {selectedId?.message} {selectedId?.action !== null && selectedId?.action === "Review details" ? <Link className="text-BlueHomz underline" href={"/dashboard/tenant/profile"}>Review details</Link> : <Link className="text-BlueHomz underline" href={"/dashboard/tenant/estateInformation"}>Review payment details.</Link>}
         </p>
       </div>
     </div>

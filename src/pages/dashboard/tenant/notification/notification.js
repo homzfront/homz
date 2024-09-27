@@ -32,7 +32,7 @@ const Notification = () => {
 
   const NotiData = notificationsData
 
-  const options = ["Read", "UnRead"];
+  const options = ["Read", "Unread"];
 
   // const filteredData = noti?.filter(
   //   (data) => {

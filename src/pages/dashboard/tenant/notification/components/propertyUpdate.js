@@ -4,18 +4,19 @@ import timeAgo from "@/utils/timeAgo";
 import sortDataByStatusAndDate from "@/utils/sortByStatusAndDate";
 import Link from "next/link";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import NotificationStore from "@/store/tenantStore/notificationStore";
 
 const PropertyUpdate = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
-  const [selectedId, setSelectedId] = useState([]);
-  
+  const { noti, setNoti } = NotificationStore();
+
   if (!Data) {
-    return null; 
+    return null;
   }
 
   const data = Data.filter((data) => data.type === "Property Updates")
 
   const selectedData = (data) => {
-    setSelectedId(data);
+    setNoti(data)
     setOpenAndClose(!openAndClose);
   };
 
@@ -66,10 +67,10 @@ const PropertyUpdate = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
             </div>
           </div>
         ))}
-      <CustomizedModal isOpen={openAndClose}>
-        <PopNotification selectedId={selectedId} closeMenu={closeMenu} />
-      </CustomizedModal>
       </div>
+      <CustomizedModal isOpen={openAndClose}>
+        <PopNotification selectedId={noti} closeMenu={closeMenu} />
+      </CustomizedModal>
     </div>
   );
 };

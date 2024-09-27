@@ -4,9 +4,6 @@ import Dropdown from "../../components/dropDownFilter";
 
 const Header = ({
   options,
-  options2,
-  selectedStatus,
-  setSelectedStatus,
   setSelectedDate,
   setSelectedProperty,
   selectedProperty,
@@ -31,24 +28,12 @@ const Header = ({
                 className="mr-2"
               />
             </div>
-            <div className="w-[140px]">
-              <Dropdown
-                options={options2}
-                onSelect={(option) => setSelectedStatus(option)}
-                selectOption={
-                  selectedStatus === null ? "Status" : selectedStatus
-                }
-                className="mr-2"
-              />
-            </div>
           </div>
-
           <input
             type="date"
             onChange={(e) => setSelectedDate(e.target.value)}
             className="border px-4 h-[42px] w-[130px] text-GrayHomz2 border-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
           />
-
           <button
             onClick={clear}
             type="text"

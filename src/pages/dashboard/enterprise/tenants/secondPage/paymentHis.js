@@ -1,14 +1,12 @@
 "use client"
-import React, { useEffect } from "react";
-import Box from "../../components/box";
-import Table from "../components/table";
-import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
+import React, { useEffect, useState } from "react";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
 import Widget from "./paymentWidget";
 
 const PaymentHis = ({ tenantData, id }) => {
+  const [again, setAgain] = useState(false);
   const tenantId = tenantData?.data?._id
   const {
     data: paymentData,
@@ -23,15 +21,20 @@ const PaymentHis = ({ tenantData, id }) => {
 
   const fetchDataAgain = () => {
     fetchData(tenantId)
+    setAgain(false);
   }
 
-  const allData = paymentData?.data ? paymentData?.data : []
+  let allData = paymentData?.data ? paymentData?.data : []
 
+  if (!Array.isArray(allData)) {
+    allData = [];
+  }
   // Total rent for all entries
   let totalRent = 0;
   for (const entry of allData) {
     totalRent += entry.totalRent;
   }
+
   // Total rent for entries with "SUCCESS" status
   let successTotalRent = 0;
   for (const entry of allData) {
@@ -77,8 +80,7 @@ const PaymentHis = ({ tenantData, id }) => {
       }
       </div>
       <div>
-        <Widget fetchDataAgain={fetchDataAgain} PaymentData={allData} Data={tenantData} id={id}/>
-        {/* <Table tenantData={tenantData} /> */}
+        <Widget again={again} setAgain={setAgain} fetchDataAgain={fetchDataAgain} Data={tenantData} id={id} />
       </div>
     </div>
   );

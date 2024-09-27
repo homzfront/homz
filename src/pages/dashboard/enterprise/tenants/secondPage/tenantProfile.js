@@ -69,7 +69,7 @@ const TenantProfile = ({ id }) => {
               </div>
             </div>
             <div className="md:hidden">
-              <MobileProfile data={data} rentInformation={rentInformation} />
+              <MobileProfile id={id} data={data} rentInformation={rentInformation} />
             </div>
           </div>
       }

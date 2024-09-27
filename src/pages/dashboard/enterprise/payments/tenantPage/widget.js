@@ -1,24 +1,40 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TenantData from "../components/tenantData";
 import WalletPayement from "../components/walletPayement";
 import OfflinePayment from "../components/offlinePayment";
-import Document from "@/components/icons/document";
 import Send from "@/components/icons/send";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import DropDownBlue from "../components/dropDownBlue";
+import Papa from "papaparse";
+import PrintableAll from "../components/printableAll";
 
-const Widget = ({ Data }) => {
+const Widget = ({ selectedProperty, selectedDate, data }) => {
     const printRefAll = useRef();
-    const printRefWallet = useRef();
-    const printRefOffline = useRef();
-
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const options = [".CSV", ".XLSX", ".PDF"];
+
+    useEffect(() => {
+        if (selectedOption === ".CSV") {
+            handleExportToCSV();
+        }
+        if (selectedOption === ".XLSX") {
+            handleExportToExcel();
+        }
+        if (selectedOption === ".PDF") {
+            handlePrint();
+        }
+        setSelectedOption(null);
+    }, [selectedOption])
 
     const handlePageChange = () => {
         setActive(true);
@@ -39,28 +55,24 @@ const Widget = ({ Data }) => {
     };
 
     const handlePrint = useReactToPrint({
-        content: () => {
-            if (active) return printRefAll.current;
-            if (activeTwo) return printRefWallet.current;
-            if (activeThree) return printRefOffline.current;
-        },
-        documentTitle: "Tenants Data",
+        content: () => printRefAll.current,
+        documentTitle: "Tenants_Rent_Payments",
         onAfterPrint: () => console.log("Document printed."),
     });
 
-    const DataTwo = Data;
+    const DataTwo = data?.data;
 
     const handleExportToExcel = () => {
         const data = DataTwo.map((item) => ({
-            Tenant: item.tenantId?.fullName,
+            "Tenant": item.tenantId?.fullName,
             "Rent Amount": addCommasToNumber(item.rent),
             "Due Date": changeBackendDateFormat(item.dueDate),
-            "Payment Status": item.status,
+            "Payment Status": item.status === "success" ? "Paid" : "Pending",
             "Amount Paid": addCommasToNumber(item.amountPaid),
-            Description: item.description,
+            "Description": item.description || "N/A",
             "Rent Duration": item.duration === 1 ? `${item.duration} year` : `${item.duration} years`,
-            "Payment Method": item.paymentMethod,
-            "Payment Date": changeBackendDateFormat(item.paymentDate),
+            "Payment Method": item?.paymentMethod || "N/A",
+            "Payment Date": item?.paidAt ? changeBackendDateFormat(item?.paidAt) : "N/A",
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(data);
@@ -71,10 +83,34 @@ const Widget = ({ Data }) => {
         saveAs(blob, "Tenant_Rent_Payment_Report.xlsx");
     };
 
+    const handleExportToCSV = () => {
+        const data = DataTwo.map((item) => ({
+            "Tenant": item.tenantId?.fullName,
+            "Rent Amount": addCommasToNumberTwo(item.rent),
+            "Due Date": changeBackendDateFormat(item.dueDate),
+            "Payment Status": item.status === "success" ? "Paid" : "Pending",
+            "Amount Paid": addCommasToNumberTwo(item.amountPaid),
+            "Description": item.description || "N/A",
+            "Rent Duration": item.duration === 1 ? `${item.duration} year` : `${item.duration} years`,
+            "Payment Method": item?.paymentMethod || "N/A",
+            "Payment Date": item?.paidAt ? changeBackendDateFormat(item?.paidAt) : "N/A",
+        }));
+
+        const csv = Papa.unparse(data);
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Tenant_Rent_Payment_Report.csv");
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     return (
         <div>
-            <div className="w-full h-auto py-4">
+            {DataTwo && <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
@@ -105,7 +141,7 @@ const Widget = ({ Data }) => {
                     </div>
                     <div className="flex flex-col md:flex-row gap-1 items-center">
                         <button
-                            className="hidden md:flex w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
+                            className="hidden md:flex w-auto items-center text-[11px] md:text-[14px] font-[500] gap-1 px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
                         >
                             <Send />
                             <span className="">Share Page</span>
@@ -115,35 +151,32 @@ const Widget = ({ Data }) => {
                         >
                             <Send />
                         </button>
-                        <button
-                            onClick={handlePrint}
-                            className="hidden border border-BlueHomz w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 md:flex px-[10px] h-[42px] text-BlueHomz  hover:bg-whiteblue rounded cursor-pointer"
-                        >
-                            <Document className="#006AFF" />
-                            <span className="">Download Page</span>
-                        </button>
-                        <button
-                            onClick={handlePrint}
-                            className="md:hidden flex items-center justify-center h-[36px] w-[36px] bg-whiteblue rounded-md cursor-pointer"
-                        >
-                            <Document className="#006AFF" />
-                        </button>
-                        <button onClick={handleExportToExcel} className="btn btn-export">
-                            Export to Excel
-                        </button>
+                        <DropDownBlue
+                            options={options}
+                            onSelect={(option) => setSelectedOption(option)}
+                            className={"text-[14px] font-[500]"}
+                            width={"w-auto"}
+                        />
                     </div>
                 </div>
                 <div className="my-5 rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <TenantData data={DataTwo} printRef={printRefAll} />
+                        <TenantData selectedProperty={selectedProperty} selectedDate={selectedDate} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <WalletPayement data={DataTwo} printRef={printRefWallet} />
+                        <WalletPayement selectedProperty={selectedProperty} selectedDate={selectedDate} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment data={DataTwo} printRef={printRefOffline} />
+                        <OfflinePayment selectedProperty={selectedProperty} selectedDate={selectedDate} />
                     </div>
                 </div>
+            </div>
+            }
+            <div style={{ display: 'none' }}>
+                <PrintableAll
+                    printRef={printRefAll}
+                    data={DataTwo}
+                />
             </div>
         </div>
     );

@@ -6,9 +6,10 @@ import sortDataByStatusAndDate from "@/utils/sortByStatusAndDate";
 import { updateTenantNoti } from "@/api/notification";
 import Link from "next/link";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import NotificationStore from "@/store/tenantStore/notificationStore";
 
 const Notifications = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
-  const [selectedId, setSelectedId] = useState([]);
+  const { noti, setNoti } = NotificationStore();
 
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -20,7 +21,7 @@ const Notifications = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
   const selectedData = (data) => {
     // updateTenantNoti(data?._id);
     // fetchData();
-    setSelectedId(data);
+    setNoti(data)
     setOpenAndClose(!openAndClose);
   };
 
@@ -91,10 +92,10 @@ const Notifications = ({ Data, openAndClose, setOpenAndClose, fetchData }) => {
             </div>
           </div>
         ))}
-      <CustomizedModal isOpen={openAndClose}>
-        <PopNotification selectedId={selectedId} closeMenu={closeMenu} />
-      </CustomizedModal>
       </div>
+      <CustomizedModal isOpen={openAndClose}>
+        <PopNotification selectedId={noti} closeMenu={closeMenu} />
+      </CustomizedModal>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 
 
-const PrintableAll = ({ data, printRef }) => {
+const PrintableAll = ({ Data, data, printRef }) => {
     return (
         <div
             ref={printRef}
@@ -36,13 +36,13 @@ const PrintableAll = ({ data, printRef }) => {
                                         className="w-2 border-t-[1px] items-center"
                                     >
                                         <td className="flex items-center gap-1 pr-2 py-[15px] pl-4 text-GrayHomz4 font-[500] text-[11px]">
-                                            {!data?.tenantId?.coverPhoto?.url ? (
+                                            {!Data?.coverPhoto?.url ? (
                                                 <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                                     <EmptyAvatar />
                                                 </div>
                                             ) : (
                                                 <Image
-                                                    src={data?.tenantId?.coverPhoto?.url}
+                                                    src={Data?.coverPhoto?.url}
                                                     alt="Tenant Image"
                                                     width={40}
                                                     height={40}
@@ -53,7 +53,7 @@ const PrintableAll = ({ data, printRef }) => {
                                                     priority
                                                 />
                                             )}
-                                            <span>{data?.tenantId?.fullName || "N/A"}</span>
+                                            <span>{Data?.fullName || "N/A"}</span>
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {addCommasToNumber(data?.rent)}

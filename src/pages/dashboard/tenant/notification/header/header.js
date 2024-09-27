@@ -15,7 +15,7 @@ const NotificationHeader = ({
   return (
     <div className="md:block hidden border-b">
       <div className="flex justify-between items-center py-8 md:px-10 px-4">
-        <div onClick={goBack} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2">
+        <div onClick={goBack} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2 cursor-pointer">
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             alt=""

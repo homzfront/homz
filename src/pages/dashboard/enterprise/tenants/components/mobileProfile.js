@@ -8,7 +8,7 @@ import PaymentHis from '../secondPage/paymentHis';
 import RentInfo from '../secondPage/rentInfo';
 import Maintenance from '../secondPage/maintenance';
 
-const MobileProfile = ({ data, rentInformation }) => {
+const MobileProfile = ({ id, data, rentInformation }) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
     const [showWidget, setShowWidget] = useState(false);
@@ -106,7 +106,7 @@ const MobileProfile = ({ data, rentInformation }) => {
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHis
-                                tenantData={data}
+                               id={id} tenantData={data}
                             />
                         </div>
                         <div className={`${activeThree ? "inline" : "hidden"} w-full`}>
@@ -127,7 +127,7 @@ const MobileProfile = ({ data, rentInformation }) => {
                                         height={198}
                                         width={198}
                                         alt=""
-                                        layout="full" // Specify the desired height
+                                        layout="full" 
                                         objectFit="cover"
                                         objectPosition="center"
                                         className="object-cover bg-center h-[198px] rounded-full"

@@ -4,7 +4,7 @@ import Dropdown from './dropDown'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 
-const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant }) => {
+const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant, setAgain }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -41,10 +41,10 @@ const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant }) => {
                 "modeOfTransaction": selectedStatus?.label?.toLowerCase(),
                 "dateOfTransaction": inputDateValue
             })
-            console.log(response);
             if (response?.data?.success === true) {
                 successfullModal();
-                setOfflinepay(false)
+                setOfflinepay(false);
+                setAgain(true);
             } else {
                 setError(response?.data?.message);
             }

@@ -1,45 +1,54 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Button from "../../components/button";
 import addCommasToNumber from "@/utils/addCommasToNumber";
-import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import Pagination from "@/components/general/pagination";
+import SkeletonLoader from "./skeletonLoader";
+import api from "@/utils/api";
 
 
-const OfflinePayment = ({ TenantData, PaymentData }) => {
-    const ITEMS_PER_PAGE = 3;
-
-    const walletData = PaymentData.filter(dat => dat.paymentMethod === "offline");
-
+const OfflinePayment = ({ TenantId, TenantData, again }) => {
+    const [currentData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
 
-    const totalPages = Math.ceil(walletData?.length / ITEMS_PER_PAGE);
-
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-
-    const currentData = walletData?.slice(startIndex, endIndex);
-
-    const handleNext = () => {
-        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-    };
-
-    const handlePrev = () => {
-        setCurrentPage((prev) => Math.max(prev - 1, 1));
-    };
+    useEffect(() => {
+        const fetchData = async (page) => {
+            setLoading(true);
+            try {
+                const response = await api.get(`/rentPayment/enterprise/tenant/${TenantId}?limit=3&page=${page}&paymentMethod=offline`);
+                const result = response?.data;
+                setData(result?.data?.results);
+                setTotalPages(result?.data?.totalPages);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+            }
+        };
+        fetchData(currentPage);
+    }, [currentPage, again]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
     };
 
-    // Use reduce to generate an array of the first three pages
-    const firstThreePages = Array.from(
-        { length: Math.min(totalPages, 3) },
-        (_, index) => index + 1
-    );
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const firstThreePages = [1, 2, 3];
+    const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
 
     return (
         <div className="mt-6 w-full mx-auto">
@@ -60,7 +69,7 @@ const OfflinePayment = ({ TenantData, PaymentData }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentData &&
+                            {currentData !== null && currentData &&
                                 currentData?.map((data) => (
                                     <tr
                                         key={data?._id}
@@ -77,7 +86,7 @@ const OfflinePayment = ({ TenantData, PaymentData }) => {
                                                     alt=""
                                                     width={40}
                                                     height={40}
-                                                    layout="full" // Specify the desired height
+                                                    layout="full"
                                                     objectFit="cover"
                                                     objectPosition="center"
                                                     className="object-cover bg-center h-[40px] rounded-full"
@@ -91,7 +100,7 @@ const OfflinePayment = ({ TenantData, PaymentData }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.status === "success" ?
                                                 <div className="bg-successBg text-Success rounded-md py-1 w-[95px] flex items-center justify-center">
-                                                    {capitalizeFirstLetter(data?.status)}
+                                                    Paid
                                                 </div>
                                                 : <div className="bg-warningBg text-warning rounded-md py-1 w-[95px] flex items-center justify-center">
                                                     Pending
@@ -102,21 +111,24 @@ const OfflinePayment = ({ TenantData, PaymentData }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{changeBackendDateFormat(data?.paymentDate)}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}</td>
                                     </tr>
                                 ))}
                         </tbody>
                     </table>
                 </div>
             </div>
-            <Button
-                firstThreePages={firstThreePages}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handleNext={handleNext}
-                handlePageClick={handlePageClick}
-                handlePrev={handlePrev}
-            />
+            {currentData && currentData.length >= 1 && <div className="mt-6">
+                <Pagination
+                    firstThreePages={firstThreePages}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handleNext={handleNext}
+                    handlePageClick={handlePageClick}
+                    handlePrev={handlePrev}
+                    lastThreePages={lastThreePages}
+                />
+            </div>}
         </div>
     );
 }
