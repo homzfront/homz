@@ -32,6 +32,10 @@ const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
         fetchData(id);
     }, []);
 
+    const fetchExprtAgain = () => {
+        fetchData(id);
+    }
+
     const options = [".CSV", ".XLSX", ".PDF"];
 
     useEffect(() => {
@@ -73,6 +77,7 @@ const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
         setOpenModel(!openModel);
         setOfflinepay(false);
         fetchDataAgain();
+        fetchExprtAgain();
     };
 
     const handlePrint = useReactToPrint({
@@ -181,13 +186,13 @@ const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
                 </div>
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <AllData again={again} TenantId={id} TenantData={Data} />
+                        <AllData fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
                         <WalletPayement again={again} TenantId={id} TenantData={Data} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment again={again} TenantId={id} TenantData={Data} />
+                        <OfflinePayment fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
                     </div>
                 </div>
             </div>

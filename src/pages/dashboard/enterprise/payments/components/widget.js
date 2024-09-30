@@ -4,7 +4,7 @@ import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
 import { useSearchParams } from "next/navigation.js";
 
-const Widget = ({selectedProperty, selectedDate, data}) => {
+const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab")
 
@@ -27,9 +27,8 @@ const Widget = ({selectedProperty, selectedDate, data}) => {
         <div className=" flex mt-5 gap-4 md:w-[571px] cursor-pointer">
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-                active ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChange}
               justify-center
             >
@@ -39,9 +38,8 @@ const Widget = ({selectedProperty, selectedDate, data}) => {
 
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChangeTwo}
             >
               <p className="text-[14px] font-500">Wallet</p>
@@ -50,7 +48,7 @@ const Widget = ({selectedProperty, selectedDate, data}) => {
         </div>
         <div className=" my-5 rounded-[12px]">
           <div className={`${active ? "inline" : "hidden"}`}>
-            <Tenants exportData={data} selectedProperty={selectedProperty} selectedDate={selectedDate}/>
+            <Tenants refetchExport={refetchExport} exportData={data} selectedProperty={selectedProperty} selectedDate={selectedDate} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

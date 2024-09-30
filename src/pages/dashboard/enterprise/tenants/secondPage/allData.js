@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
@@ -7,13 +7,58 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Pagination from "@/components/general/pagination";
 import SkeletonLoader from "./skeletonLoader";
 import api from "@/utils/api";
+import PopUpMenuData from "./popUpMenu";
+import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
 
 
-const AllData = ({ TenantId, TenantData, again }) => {
+const AllData = ({fetchExprtAgain, TenantId, TenantData, again }) => {
     const [currentData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [selectedDataId, setSelectedDataId] = useState(null);
+    const [popUpMenu, setPopUpMenu] = useState(false);
+    const [updateForm, setUpdateForm] = useState(false);
+    const [fetchDataAgain, setFetchDataAgain] = useState(false);
+    const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const dropdownRef = useRef(null);
+    const { Refetch } = PaymentRefetchTenant();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!deleteModal && !updateForm && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setPopUpMenu(false);
+            }
+        };
+        if (!deleteModal && !updateForm) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [updateForm, deleteModal]);
+
+    const handleToggleMenu = (id) => {
+        setPopUpMenu(!popUpMenu);
+        setSelectedDataId(id);
+        if (updateForm) {
+            setUpdateForm(false);
+        }
+        if (deleteModal) {
+            setDeleteModal(false);
+        }
+    };
+
+    const handleUpdateForm = (id) => {
+        setSelectedDataId(id);
+        setUpdateForm(!updateForm);
+    }
+
+    const handleDelete = (id) => {
+        setSelectedDataId(id);
+        setDeleteModal(!deleteModal)
+    }
 
     useEffect(() => {
         const fetchData = async (page) => {
@@ -29,7 +74,7 @@ const AllData = ({ TenantId, TenantData, again }) => {
             }
         };
         fetchData(currentPage);
-    }, [currentPage, again]);
+    }, [currentPage, again, fetchDataAgain, Refetch]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
@@ -66,6 +111,7 @@ const AllData = ({ TenantId, TenantData, again }) => {
                                 <th className="text-left" style={{ width: "120px" }}>Rent Duration</th>
                                 <th className="text-left" style={{ width: "120px" }}>Payment Method</th>
                                 <th className="text-left" style={{ width: "120px" }}>Payment Date</th>
+                                <th style={{ width: "50px" }}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,6 +158,33 @@ const AllData = ({ TenantId, TenantData, again }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}</td>
+                                        <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
+                                            <button onClick={() => handleToggleMenu(data._id)}>
+                                                <Image
+                                                    src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                                    alt="Options"
+                                                    height={21}
+                                                    width={20}
+                                                    style={{ height: "auto", width: "auto" }}
+                                                />
+                                            </button>
+                                            {popUpMenu && selectedDataId === data._id && (
+                                                <PopUpMenuData
+                                                    data={data}
+                                                    dropdownRef={dropdownRef}
+                                                    handleUpdateForm={handleUpdateForm}
+                                                    setUpdateForm={setUpdateForm}
+                                                    updateForm={updateForm}
+                                                    setFetchDataAgain={setFetchDataAgain}
+                                                    setDeleteModal={setDeleteModal}
+                                                    deleteModal={deleteModal}
+                                                    setDeleteSuccessModal={setDeleteSuccessModal}
+                                                    deleteSuccessModal={deleteSuccessModal}
+                                                    handleDelete={handleDelete}
+                                                    fetchExprtAgain={fetchExprtAgain}
+                                                />
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                         </tbody>

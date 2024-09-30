@@ -14,7 +14,7 @@ import DropDownBlue from "../components/dropDownBlue";
 import Papa from "papaparse";
 import PrintableAll from "../components/printableAll";
 
-const Widget = ({ selectedProperty, selectedDate, data }) => {
+const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
     const printRefAll = useRef();
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
@@ -161,13 +161,13 @@ const Widget = ({ selectedProperty, selectedDate, data }) => {
                 </div>
                 <div className="my-5 rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <TenantData selectedProperty={selectedProperty} selectedDate={selectedDate} />
+                        <TenantData refetchExport={refetchExport} selectedProperty={selectedProperty} selectedDate={selectedDate} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
                         <WalletPayement selectedProperty={selectedProperty} selectedDate={selectedDate} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment selectedProperty={selectedProperty} selectedDate={selectedDate} />
+                        <OfflinePayment refetchExport={refetchExport} selectedProperty={selectedProperty} selectedDate={selectedDate} />
                     </div>
                 </div>
             </div>

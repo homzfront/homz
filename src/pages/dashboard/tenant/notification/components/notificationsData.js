@@ -1,5 +1,6 @@
 const { default: NotiTenant } = require("@/components/icons/notiTenant");
 
+
 const notificationsData = [
   {
     id: 1,

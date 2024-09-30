@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import addCommasToNumber from "@/utils/addCommasToNumber";
@@ -8,9 +8,10 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Pagination from "@/components/general/pagination";
 import api from "@/utils/api";
 import useClickOutside from "@/utils/clickOutside";
+import RefetchPayment from "@/store/enterpriseStore/paymentRefetch";
 
 
-const OfflinePayment = ({ selectedProperty, selectedDate }) => {
+const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
     const [currentData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -18,7 +19,26 @@ const OfflinePayment = ({ selectedProperty, selectedDate }) => {
     const [selectedDataId, setSelectedDataId] = useState(null);
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
-    const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
+    const [updateForm, setUpdateForm] = useState(false);
+    const [fetchDataAgain, setFetchDataAgain] = useState(false);
+    const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const dropdownRef = useRef(null);
+    const { Refetch } = RefetchPayment();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!deleteModal && !popUpMenu && !updateForm && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setPopUpMenuTwo(false);
+            }
+        };
+        if (!deleteModal && !popUpMenu && !updateForm) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [popUpMenu, updateForm, deleteModal]);
 
     const handleToggleMenu = (id) => {
         setPopUpMenuTwo(!popUpMenuTwo);
@@ -26,12 +46,28 @@ const OfflinePayment = ({ selectedProperty, selectedDate }) => {
         if (popUpMenu) {
             setPopUpMenu(false);
         }
+        if (updateForm) {
+            setUpdateForm(false);
+        }
+        if (deleteModal) {
+            setDeleteModal(false);
+        }
     };
 
     const handleDataToggle = (id) => {
         setSelectedDataId(id);
         setPopUpMenu(!popUpMenu);
     };
+
+    const handleUpdateForm = (id) => {
+        setSelectedDataId(id);
+        setUpdateForm(!updateForm);
+    }
+
+    const handleDelete = (id) => {
+        setSelectedDataId(id);
+        setDeleteModal(!deleteModal)
+    }
 
     useEffect(() => {
         const fetchData = async (page) => {
@@ -55,7 +91,7 @@ const OfflinePayment = ({ selectedProperty, selectedDate }) => {
             }
         };
         fetchData(currentPage);
-    }, [currentPage, selectedProperty, selectedDate]);
+    }, [currentPage, selectedProperty, selectedDate, fetchDataAgain, Refetch]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
@@ -166,11 +202,21 @@ const OfflinePayment = ({ selectedProperty, selectedDate }) => {
                                             </button>
                                             {popUpMenuTwo && selectedDataId === data._id && (
                                                 <PopUpMenuTwo
+                                                    refetchExport={refetchExport}
                                                     data={data}
                                                     handleDataToggle={handleDataToggle}
                                                     setPopUpMenu={setPopUpMenu}
                                                     popUpMenu={popUpMenu}
                                                     dropdownRef={dropdownRef}
+                                                    handleUpdateForm={handleUpdateForm}
+                                                    setUpdateForm={setUpdateForm}
+                                                    updateForm={updateForm}
+                                                    setFetchDataAgain={setFetchDataAgain}
+                                                    setDeleteModal={setDeleteModal}
+                                                    deleteModal={deleteModal}
+                                                    setDeleteSuccessModal={setDeleteSuccessModal}
+                                                    deleteSuccessModal={deleteSuccessModal}
+                                                    handleDelete={handleDelete}
                                                 />
                                             )}
                                         </td>

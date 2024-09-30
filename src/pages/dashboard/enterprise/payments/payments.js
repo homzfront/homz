@@ -18,6 +18,10 @@ const Payment = () => {
     fetchData();
   }, []);
 
+  const refetchExport = () => {
+    fetchData();
+  }
+
   const clear = () => {
     setSelectedProperty(null);
     setSelectedDate(null);
@@ -84,7 +88,7 @@ const Payment = () => {
           selectedProperty={selectedProperty}
           clear={clear}
         />
-        <Widget data={data} selectedProperty={selectedProperty} selectedDate={selectedDate} />
+        <Widget refetchExport={refetchExport} data={data} selectedProperty={selectedProperty} selectedDate={selectedDate} />
       </div>
     </Suspense>
   );

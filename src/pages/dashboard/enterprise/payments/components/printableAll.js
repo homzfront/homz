@@ -22,8 +22,8 @@ const PrintableAll = ({ data, printRef }) => {
                                 <th className="text-left" style={{ width: "120px" }}>Due Date</th>
                                 <th className="text-left" style={{ width: "120px" }}>Payment Status</th>
                                 <th className="text-left" style={{ width: "120px" }}>Amount Paid</th>
-                                <th className="text-left" style={{ width: "130px" }}>Description</th>
-                                <th className="text-left" style={{ width: "130px" }}>Rent Duration</th>
+                                {/* <th className="text-left" style={{ width: "130px" }}>Description</th> */}
+                                {/* <th className="text-left" style={{ width: "130px" }}>Rent Duration</th> */}
                                 <th className="text-left" style={{ width: "130px" }}>Payment Method</th>
                                 <th className="text-left" style={{ width: "130px" }}>Payment Date</th>
                             </tr>
@@ -75,12 +75,12 @@ const PrintableAll = ({ data, printRef }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {addCommasToNumber(data?.amountPaid)}
                                         </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                        {/* <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.description || "N/A"}
-                                        </td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
+                                        </td> */}
+                                        {/* <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
-                                        </td>
+                                        </td> */}
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.paymentMethod || "N/A"}
                                         </td>
