@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
 import Switch from '@/components/icons/dashboardMobile/switch'
 import Notification from '@/components/icons/notification'
-import notificationsData from '../notification/components/notificationsData'
+import notificationsData from '../../../../libs/notificationsData'
 
 const SidebarMobile = ({ setOpen, user }) => {
   const path = usePathname();

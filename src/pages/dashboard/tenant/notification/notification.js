@@ -7,7 +7,7 @@ import Image from "next/image";
 import tenantNotiReceive from "@/store/tenantStore/tenantNotiReceive";
 import formatDateII from "@/utils/formatDateII";
 import lowerCaseData from "@/utils/lowerCaseData";
-const notificationsData = require('./components/notificationsData');
+const notificationsData = require('../../../../libs/notificationsData');
 import HeaderMobile from "./header/headerMobile";
 import Widget from "./components/widget";
 
