@@ -91,7 +91,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Rent Duration
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
+                            {data?.duration === 1 ? `${data?.duration} year` : `${data?.duration} years`}
                         </p>
                     </div>
                 </div>
