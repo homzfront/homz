@@ -64,7 +64,7 @@ const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain
         const tenantId = data?.tenantId?._id
         try {
             const response = await api.patch(`/offlinePayment/enterprise/rent/tenant/${tenantId}/update/${paymentId}`, {
-                "description": selectedStatusTwo?.label === "Part-Payment" ? "part payment" : "full payment",
+                "description": selectedStatusTwo?.label === "Part Payment" ? "part payment" : "full payment",
                 "amountPaid": inputValue,
                 "modeOfTransaction": selectedStatus?.label?.toLowerCase(),
                 "dateOfTransaction": inputDateValue,
