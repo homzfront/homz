@@ -23,10 +23,6 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
   const [loading, setLoading] = useState(false);
   const { setRefetch } = RefetchPayment();
 
-  // Conditional rendering after hooks
-  if (!data) {
-    return null;
-  }
 
   const deletePayment = async () => {
     setLoading(true);
@@ -78,7 +74,7 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
         onMouseEnter={() => setActiveTwo(true)}
         onMouseLeave={() => setActiveTwo(false)}
         className="md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full ">
-        <button className="w-full" onClick={() => handleDataToggle(data._id)}>
+        <button className="w-full" onClick={() => handleDataToggle(data?._id)}>
           <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
             <Details className={activeTwo ? '#006AFF' : undefined} />
             <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
@@ -95,7 +91,7 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
         className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
         <button className="w-full" onClick={() => {
           setRefetch(false)
-          handleUpdateForm(data._id)
+          handleUpdateForm(data?._id)
         }}>
           <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
             <Update className={activeThree ? '#006AFF' : undefined} />
@@ -111,7 +107,7 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
         onMouseEnter={() => setActiveFour(true)}
         onMouseLeave={() => setActiveFour(false)}
         className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-[#D92D20] w-full`}>
-        <button className="w-full" onClick={() => handleDelete(data._id)}>
+        <button className="w-full" onClick={() => handleDelete(data?._id)}>
           <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
             <Delete className={activeFour ? '#D92D20' : undefined} classNameTwo={activeFour ? '#D92D20' : undefined} />
             <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
