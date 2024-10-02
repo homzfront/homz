@@ -87,6 +87,7 @@ function PopUpMenu({fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSu
             setUpdateForm={setUpdateForm}
             setFetchDataAgain={setFetchDataAgain}
             setSuccessfulModal={setSuccessfulModal}
+            fetchExprtAgain={fetchExprtAgain}
           />
         </CustomizedModal>
       )}

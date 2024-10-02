@@ -4,7 +4,7 @@ import Dropdown from './updateDropDown.js'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 
-const PopUpUpdateMenu = ({ setUpdateForm, data, setFetchDataAgain, setSuccessfulModal }) => {
+const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAgain, setSuccessfulModal }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -74,6 +74,7 @@ const PopUpUpdateMenu = ({ setUpdateForm, data, setFetchDataAgain, setSuccessful
                 setSuccessfulModal(true);
                 setUpdateForm(false);
                 setFetchDataAgain(true);
+                fetchExprtAgain();
             } else {
                 setError(response?.data?.message);
             }
