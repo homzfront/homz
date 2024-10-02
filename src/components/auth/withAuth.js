@@ -3,6 +3,7 @@ import useAuthStore from '@/store/useAuth/authStore';
 import { useRouter, usePathname } from 'next/navigation';
 import keepTwo from '@/utils/keepTwo';
 
+
 const withAuth = (WrappedComponent) => {
     const WithAuthComponent = (props) => {
         const [loading, setLoading] = useState(true);
