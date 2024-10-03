@@ -25,13 +25,14 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
 
 
   const deletePayment = async () => {
+    setRefetch(false);
     setLoading(true);
     const paymentId = data?._id
     const tenantId = data?.tenantId?._id
     try {
       const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
       if (response?.data?.success === true) {
-        setRefetch(false);
+        setRefetch(true);
         setDeleteSuccessModal(true);
         refetchExport()
       } else {

@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import Dropdown from './updateDropDown.js'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant.js';
 
-const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAgain, setSuccessfulModal }) => {
+const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAgain, setSuccessfulModal, DataAgain }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -12,6 +13,7 @@ const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAga
     const [inputDateValue, setDateInputValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { setRefetch } = PaymentRefetchTenant();
 
     const optionOne = [
         { id: 1, label: "Cash" },
@@ -59,6 +61,8 @@ const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAga
     };
 
     const handleSubmit = async () => {
+        setRefetch(false)
+        setFetchDataAgain(false);
         setLoading(true);
         const paymentId = data?._id
         const tenantId = data?.tenantId?._id
@@ -68,13 +72,15 @@ const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAga
                 "amountPaid": inputValue,
                 "modeOfTransaction": selectedStatus?.label?.toLowerCase(),
                 "dateOfTransaction": inputDateValue,
-                "reference" : data?.reference
+                "reference": data?.reference
             })
             if (response?.data?.success === true) {
                 setSuccessfulModal(true);
                 setUpdateForm(false);
                 setFetchDataAgain(true);
                 fetchExprtAgain();
+                DataAgain()
+                setRefetch(true);
             } else {
                 setError(response?.data?.message);
             }

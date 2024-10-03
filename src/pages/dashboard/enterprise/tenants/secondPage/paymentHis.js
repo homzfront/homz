@@ -4,6 +4,7 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
 import Widget from "./paymentWidget";
+import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 
 const PaymentHis = ({ tenantData, id }) => {
   const [again, setAgain] = useState(false);
@@ -12,35 +13,15 @@ const PaymentHis = ({ tenantData, id }) => {
     data: paymentData,
     loading,
     fetchData
-  } = useTenantRentEnterprise();
+  } = useRentSummaryTenant();
 
   useEffect(() => {
     fetchData(tenantId)
-  }, [tenantData])
-
+  }, [tenantData]);
 
   const fetchDataAgain = () => {
     fetchData(tenantId)
     setAgain(false);
-  }
-
-  let allData = paymentData?.data ? paymentData?.data : []
-
-  if (!Array.isArray(allData)) {
-    allData = [];
-  }
-  // Total rent for all entries
-  let totalRent = 0;
-  for (const entry of allData) {
-    totalRent += entry.totalRent;
-  }
-
-  // Total rent for entries with "SUCCESS" status
-  let successTotalRent = 0;
-  for (const entry of allData) {
-    if (entry.status === "SUCCESS") {
-      successTotalRent += entry.totalRent;
-    }
   }
 
   const boxes = [
@@ -51,7 +32,7 @@ const PaymentHis = ({ tenantData, id }) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      money: `${addCommasToNumber(totalRent)}`,
+      money: `${addCommasToNumber(paymentData?.data?.totalAmountPaid)}`,
     },
     {
       id: 2,
@@ -60,8 +41,8 @@ const PaymentHis = ({ tenantData, id }) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent)}`,
-      dueDate: `Due date: ${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
+      money: `${paymentData?.data?.pendingRent === null ? "₦ 0" : addCommasToNumber(paymentData?.data?.pendingRent?.totalRent)}`,
+      dueDate: `${paymentData?.data?.pendingRent === null ? "" : `Due date: ${changeBackendDateFormat(paymentData?.data?.pendingRent?.dueDate)}`}`
     }
   ];
 

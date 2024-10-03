@@ -11,7 +11,7 @@ import PopUpMenuData from "./popUpMenu";
 import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
 
 
-const OfflinePayment = ({ fetchExprtAgain,TenantId, TenantData, again }) => {
+const OfflinePayment = ({ fetchExprtAgain, TenantId, TenantData, again, DataAgain }) => {
     const [currentData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -23,7 +23,7 @@ const OfflinePayment = ({ fetchExprtAgain,TenantId, TenantData, again }) => {
     const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const dropdownRef = useRef(null);
-    const { Refetch } = PaymentRefetchTenant();
+    const { Refetch, setRefetch } = PaymentRefetchTenant();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -170,6 +170,7 @@ const OfflinePayment = ({ fetchExprtAgain,TenantId, TenantData, again }) => {
                                             </button>
                                             {popUpMenu && selectedDataId === data._id && (
                                                 <PopUpMenuData
+                                                    DataAgain={DataAgain}
                                                     data={data}
                                                     dropdownRef={dropdownRef}
                                                     handleUpdateForm={handleUpdateForm}

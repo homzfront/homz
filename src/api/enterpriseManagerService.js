@@ -272,6 +272,14 @@ export const fetchSpecificTenantRentEnterprise = async (id) => {
   }
 };
 
+export const fetchSpecificTenantRentSummary = async (id) => {
+  try {
+    const response = await api.get(`/rentPayment/enterprise/tenant/${id}/summary`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const enterpriseTenantForAnEstate = async (id) => {
   try {

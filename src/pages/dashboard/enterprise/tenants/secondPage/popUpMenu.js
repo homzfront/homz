@@ -9,7 +9,7 @@ import DeleteModel from '../../components/deleteModal';
 import api from '@/utils/api';
 import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant';
 
-function PopUpMenu({fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
+function PopUpMenu({ DataAgain, fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
   // Move all hooks to the top
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
@@ -23,15 +23,17 @@ function PopUpMenu({fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSu
   }
 
   const deletePayment = async () => {
+    setRefetch(false);
     setLoading(true);
     const paymentId = data?._id
     const tenantId = data?.tenantId?._id
     try {
       const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
       if (response?.data?.success === true) {
-        setRefetch(false);
+        setRefetch(true);
         setDeleteSuccessModal(true);
         fetchExprtAgain();
+        DataAgain();
       } else {
       }
     } catch (error) {
@@ -88,6 +90,7 @@ function PopUpMenu({fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSu
             setFetchDataAgain={setFetchDataAgain}
             setSuccessfulModal={setSuccessfulModal}
             fetchExprtAgain={fetchExprtAgain}
+            DataAgain={DataAgain}
           />
         </CustomizedModal>
       )}
@@ -97,7 +100,9 @@ function PopUpMenu({fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSu
             header={"Offline Payment Updated Successfully"}
             body={`You have successfully updated offline payment record for ${data?.tenantId?.fullName}`}
             button={"Close"}
-            returnHome={() => setSuccessfulModal(false)}
+            returnHome={() => {
+              setSuccessfulModal(false)
+            }}
           />
         </CustomizedModal>
       )}

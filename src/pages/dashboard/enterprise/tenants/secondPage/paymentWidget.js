@@ -186,13 +186,13 @@ const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
                 </div>
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <AllData fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
+                        <AllData DataAgain={fetchDataAgain} fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
                         <WalletPayement again={again} TenantId={id} TenantData={Data} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
+                        <OfflinePayment DataAgain={fetchDataAgain} fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
                     </div>
                 </div>
             </div>

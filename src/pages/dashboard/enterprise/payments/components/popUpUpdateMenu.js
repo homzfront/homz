@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Dropdown from './updateDropDown'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
 
 const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain, setSuccessfulModal }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
@@ -12,6 +13,7 @@ const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain
     const [inputDateValue, setDateInputValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { setRefetch } = RefetchPayment();
 
     const optionOne = [
         { id: 1, label: "Cash" },
@@ -59,6 +61,7 @@ const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain
     };
 
     const handleSubmit = async () => {
+        setRefetch(false);
         setLoading(true);
         const paymentId = data?._id
         const tenantId = data?.tenantId?._id
@@ -75,6 +78,7 @@ const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain
                 setUpdateForm(false);
                 setFetchDataAgain(true);
                 refetchExport();
+                setRefetch(true);
             } else {
                 setError(response?.data?.message);
             }
