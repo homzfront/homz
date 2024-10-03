@@ -42,6 +42,7 @@ const PropertyPhoto = ({
   const [error1, setError1] = useState("");
   const [error2, setError2] = useState("");
   const [imagesFiles, setImagesFiles] = useState([]);
+  const [housesFiles, setHousesFiles] = useState(Array(7).fill(null));
   const fileUploads = useRef([]);
   const [coverPhoto, setCoverPhoto] = useState("");
   const initialHouses = Array(7).fill(null);
@@ -147,16 +148,28 @@ const PropertyPhoto = ({
 
   const displayHousePic = (e, index, id) => {
     setPropertyPhotosPublicId((prevId) => [...prevId, id]);
+    // displayHousePictures(
+    //   e,
+    //   index,
+    //   imagesFiles,
+    //   setImagesFiles,
+    //   errorMsg,
+    //   setErrorMsg,
+    //   houses,
+    //   setHouses,
+    //   setPropertyPhotos
+    // );
     displayHousePictures(
       e,
       index,
-      imagesFiles,
-      setImagesFiles,
       errorMsg,
       setErrorMsg,
       houses,
       setHouses,
+      setHousesFiles,
+      housesFiles,
       setPropertyPhotos
+
     );
   };
 

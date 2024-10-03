@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Widget from "./widget";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,7 +28,7 @@ const PricingPlan = () => {
  
   const { data: profile, loading, fetchData } = useProfileListingMe();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchData();
   }, [fetchData]);
 

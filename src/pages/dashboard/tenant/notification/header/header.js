@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -10,12 +9,12 @@ const NotificationHeader = ({
   const route = useRouter()
   const goBack = () => {
     route.back();
-  };
-
+  }; 
+  
   return (
-    <div className="md:block hidden border-b">
+    <div className="border-b">
       <div className="flex justify-between items-center py-8 md:px-10 px-4">
-        <div onClick={goBack} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2 cursor-pointer">
+      <div onClick={goBack} className="flex gap-1 text-[14px] font-[400] text-GrayHomz2 cursor-pointer">
           <Image
             src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
             alt=""

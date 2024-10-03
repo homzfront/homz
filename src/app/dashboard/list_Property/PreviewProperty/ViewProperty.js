@@ -10,7 +10,7 @@ import ImageModal from "@/components/mainmenu/imageModal";
 import useBodyScroll from "@/utils/useBodyScroll";
 import { useRouter } from "next/navigation";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
-import GoogleMap from "@/utils/googleMap";
+// import GoogleMap from "@/utils/googleMap";
 import OwnersCard from "./ownersCard";
 import Amenities from "@/components/mainmenu/amenities";
 import ExtraDetails from "@/components/mainmenu/extraDetails";
@@ -73,6 +73,8 @@ const ViewProperty = ({ PropertyID }) => {
       // console.error("Invalid or missing data structure.");
     }
   }, [propertyData]);
+
+ 
 
   useEffect(() => {
     const property = Properties.find(({ _id }) => _id === parseInt(PropertyID));

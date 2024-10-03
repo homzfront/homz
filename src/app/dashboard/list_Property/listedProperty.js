@@ -21,7 +21,6 @@ const ListedProperties = ({
   cancelSelectedOption,
   handlePageNumber,
   refreshData,
-  filterData,
   setOpenPlanModal,
   setPromotePropertry,
   setErrorModal,

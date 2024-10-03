@@ -176,11 +176,11 @@ const List_Property = () => {
 
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-
+      // console.log(response)
       const { status, subscription_code } = response?.data?.data || {};
       const errorMessage = response?.message;
 
-      if (status === "active" && subscription_code) {
+      if (subscription_code) {
         // console.log("Subscription is active");
         setLoader2(false);
 
@@ -194,7 +194,6 @@ const List_Property = () => {
         setLoader2(false);
         setErrorModal(true);
       } else if (!status) {
-        // console.log("No active subscription");
         setLoader2(false);
         setOpenPlanModal(true);
       }
@@ -223,7 +222,7 @@ const List_Property = () => {
       // console.log(results);
       setLoader(false);
 
-      if (results?.data?.status === "active") {
+      if (results?.status) {
         setPromotePropertrySuccess(true);
         router.prefetch("/dashboard/list_Property");
         status = true;

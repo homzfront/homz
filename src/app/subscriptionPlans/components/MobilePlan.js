@@ -92,7 +92,7 @@ const MobilePlan = ({
               className={`h-[48px] rounded-lg text-[16px] w-full mt-1 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
-                profile?.planName === plan.title && profile?.interval === period
+                profile?.data?.plan?.name === plan.title && profile?.data?.plan?.interval === period
                   ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none"
                   : "bg-BlueHomz hover:bg-blue-400 text-white"
               }`}
@@ -101,8 +101,8 @@ const MobilePlan = ({
                 <ThreeDotsLoader color="#ffffff" />
               ) : (
                 <>
-                  {profile?.planName === plan.title &&
-                  profile?.interval === period
+                  {profile?.data?.plan?.name === plan.title &&
+                    profile?.data?.plan?.interval === period
                     ? "Active"
                     : "Select Plan"}
                 </>
