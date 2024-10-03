@@ -23,7 +23,7 @@ const FilterMobile = ({ defaultName, selectedStatus, options, reset, closeMobile
                         </button>
                     </div>
                 </div>
-                <div className="w-full">
+                {/* <div className="w-full">
                     <div className="w-[100%]">
                         <Dropdown
                             options={options}
@@ -32,7 +32,7 @@ const FilterMobile = ({ defaultName, selectedStatus, options, reset, closeMobile
                             className={"text-[14px] font-[500] text-GrayHomz2"}
                         />
                     </div>
-                </div>
+                </div> */}
                 <div className="flex justify-between">
                     <input
                         type="date"

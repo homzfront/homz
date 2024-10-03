@@ -4,7 +4,7 @@ import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
 import { useSearchParams } from "next/navigation.js";
 
-const Widget = ({rentData, rentLoading, fetchRentData}) => {
+const Widget = () => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab")
 
@@ -27,9 +27,8 @@ const Widget = ({rentData, rentLoading, fetchRentData}) => {
         <div className=" flex mt-5 gap-4 md:w-[571px] cursor-pointer">
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-                active ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChange}
               justify-center
             >
@@ -39,18 +38,17 @@ const Widget = ({rentData, rentLoading, fetchRentData}) => {
 
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={handlePageChangeTwo}
             >
               <p className="text-[14px] font-500">Wallet</p>
             </div>
           </div>
         </div>
-        <div className=" my-5  rounded-[12px]">
+        <div className=" my-5 rounded-[12px]">
           <div className={`${active ? "inline" : "hidden"}`}>
-            <Tenants fetchRentData={fetchRentData} rentData={rentData} rentLoading={rentLoading}/>
+            <Tenants />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

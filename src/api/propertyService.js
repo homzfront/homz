@@ -131,7 +131,7 @@ export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
       const error = response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -165,14 +165,14 @@ export const updatePropertyOtherPhoto = async (
       formData,
       { headers }
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedImage: response };
     } else {
       const error = response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return { success: false, error: error?.response.data.message };
   }
 };
@@ -204,7 +204,7 @@ export const publishAndRepublishProperty = async (propertyId) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };
@@ -213,7 +213,7 @@ export const removeProperty = async (propertyId) => {
     const response = await api.delete(`/properties/${propertyId}/property`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };

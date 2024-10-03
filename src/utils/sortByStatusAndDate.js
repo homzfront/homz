@@ -1,10 +1,10 @@
 export default function sortDataByStatusAndDate (data) {
     return data?.slice().sort((a, b) => {
       // Sort by status first (unseen first)
-      if (a.status === 'unseen' && b.status !== 'unseen') {
+      if (a.status === 'unread' && b.status !== 'unread') {
         return -1;
       }
-      if (a.status !== 'unseen' && b.status === 'unseen') {
+      if (a.status !== 'unread' && b.status === 'unread') {
         return 1;
       }
   

@@ -15,6 +15,7 @@ import AddBigBlue from "@/components/icons/addBigBlue";
 import FilterMobile from "../../components/filterMobile";
 import { useReactToPrint } from "react-to-print";
 import Document from "@/components/icons/document";
+import Send from "@/components/icons/send";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -250,13 +251,15 @@ const Tenants = () => {
                     </button>
                   </div>
                 </div>
-                <button
-                  onClick={handlePrint}
-                  className="w-full md:w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
-                >
-                  <Document className='#006AFF' />
-                  Download Page
-                </button>
+                <div className="mt-4 md:mt-0 flex gap-1 items-center">
+                  <button
+                    onClick={handlePrint}
+                    className="border border-BlueHomz w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] text-BlueHomz  hover:bg-whiteblue rounded cursor-pointer"
+                  >
+                    <Document className='#006AFF' />
+                    Download Page
+                  </button>
+                </div>
               </div>
               <TenantsTwo
                 Data={filteredData}

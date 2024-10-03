@@ -4,9 +4,6 @@ import Dropdown from "../../components/dropDownFilter";
 
 const Header = ({
   options,
-  options2,
-  selectedStatus,
-  setSelectedStatus,
   setSelectedDate,
   setSelectedProperty,
   selectedProperty,
@@ -15,7 +12,7 @@ const Header = ({
   return (
     <div>
       <div className="hidden md:flex justify-between items-center">
-        <div className="text-[20px] font-[500]">Payment</div>
+        <div className="text-[20px] font-[500]">Payment Record</div>
         <div className="flex gap-2 items-center">
           <p className="text-[16px] font-[400] pr-2">Filter by:</p>
           <div className="flex items-center gap-2 mb-1">
@@ -31,24 +28,12 @@ const Header = ({
                 className="mr-2"
               />
             </div>
-            <div className="w-[140px]">
-              <Dropdown
-                options={options2}
-                onSelect={(option) => setSelectedStatus(option)}
-                selectOption={
-                  selectedStatus === null ? "Status" : selectedStatus
-                }
-                className="mr-2"
-              />
-            </div>
           </div>
-
           <input
             type="date"
             onChange={(e) => setSelectedDate(e.target.value)}
             className="border px-4 h-[42px] w-[130px] text-GrayHomz2 border-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
           />
-
           <button
             onClick={clear}
             type="text"

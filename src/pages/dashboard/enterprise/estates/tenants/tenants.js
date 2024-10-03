@@ -14,6 +14,8 @@ import FilterMobile from "../../components/filterMobile";
 import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
 import Document from "@/components/icons/document";
 import { useReactToPrint } from "react-to-print";
+import MoneySend from "@/components/icons/moneySend";
+import Send from "@/components/icons/send";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
@@ -119,7 +121,7 @@ const Tenants = ({ id }) => {
       ) : (
         <div>
           <div className="mb-4">
-            <div className="flex justify-between items-center">
+            <div className="flex gap-1 md:gap-0 justify-between items-center">
               <div className='flex w-full md:hidden gap-4 items-center'>
                 <div onClick={goBack} className='cursor-pointer'>
                   <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
@@ -163,13 +165,32 @@ const Tenants = ({ id }) => {
                   Tenants
                 </div>
               </div>
-              <button
-                onClick={handlePrint}
-                className="w-full md:w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
-              >
-                <Document className='#006AFF' />
-                Download Page
-              </button>
+              <div className="flex gap-1 items-center">
+                <button
+                  className="hidden md:flex w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
+                >
+                  <Send />
+                  <span className="">Share Page</span>
+                </button>
+                <button
+                  className="md:hidden flex items-center justify-center h-[36px] w-[36px] bg-whiteblue rounded-md cursor-pointer"
+                >
+                  <Send />
+                </button>
+                <button
+                  onClick={handlePrint}
+                  className="hidden border border-BlueHomz w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 md:flex px-[10px] h-[42px] text-BlueHomz  hover:bg-whiteblue rounded cursor-pointer"
+                >
+                  <Document className='#006AFF' />
+                  <span className="">Download Page</span>
+                </button>
+                <button
+                  onClick={handlePrint}
+                  className="md:hidden flex items-center justify-center h-[36px] w-[36px] bg-whiteblue rounded-md cursor-pointer"
+                >
+                  <Document className='#006AFF' />
+                </button>
+              </div>
             </div>
           </div>
           <div className="hidden md:flex justify-between items-center">

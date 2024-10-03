@@ -64,12 +64,12 @@ const TenantProfile = ({ id }) => {
                   <ProfileCard data={data} />
                 </div>
                 <div className="w-[65%]">
-                  <Widget data={data} rentInformation={rentInformation} />
+                  <Widget id={id} data={data} rentInformation={rentInformation} />
                 </div>
               </div>
             </div>
             <div className="md:hidden">
-              <MobileProfile data={data} rentInformation={rentInformation} />
+              <MobileProfile id={id} data={data} rentInformation={rentInformation} />
             </div>
           </div>
       }

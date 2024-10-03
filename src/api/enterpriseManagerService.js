@@ -245,6 +245,24 @@ export const enterpriseRentPayemntInfo = async () => {
   }
 };
 
+export const exportEnterpriseRentPayment = async () => {
+  try {
+    const response = await api.get(`/rentPayment/enterprise/export`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const exportEnterpriseTenantRentPayment = async (id) => {
+  try {
+    const response = await api.get(`/rentPayment/enterprise/tenant/${id}/export`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchSpecificTenantRentEnterprise = async (id) => {
   try {
     const response = await api.get(`/rentPayment/enterprise/tenant/${id}`);
@@ -254,6 +272,14 @@ export const fetchSpecificTenantRentEnterprise = async (id) => {
   }
 };
 
+export const fetchSpecificTenantRentSummary = async (id) => {
+  try {
+    const response = await api.get(`/rentPayment/enterprise/tenant/${id}/summary`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const enterpriseTenantForAnEstate = async (id) => {
   try {

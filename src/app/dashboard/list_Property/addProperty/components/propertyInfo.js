@@ -37,7 +37,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
       const res = await api.get("/state");
       setAllStates(res.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -46,7 +46,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
       const Areas = await api.post("/state/area", { state: stateSelected });
       setAreas(Areas?.data?.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

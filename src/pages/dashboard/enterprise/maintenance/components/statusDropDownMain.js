@@ -9,7 +9,6 @@ const StatusDropDownMain = ({
   toggleDropdown,
   loading,
 }) => {
-  console.log(data);
 
   const [selectedStatus, setSelectedStatus] = useState(data?.status);
 

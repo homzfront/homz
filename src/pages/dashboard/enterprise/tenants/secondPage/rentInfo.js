@@ -14,8 +14,10 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import lowerCaseData from "@/utils/lowerCaseData";
 import processNumber from "@/utils/processNumber";
+import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
+import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
 
-const RentInfo = ({ profile, rentInformation }) => {
+const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [data, setData] = useState([]);
   const [propertyType, setPropertyType] = useState("");
   const [apartmentNumber, setApartmentNumber] = useState("");
@@ -30,7 +32,19 @@ const RentInfo = ({ profile, rentInformation }) => {
   const [showUpdate, setShowUpdate] = useState(false);
 
   const [confirm, setConfirm] = useState(false);
+  const {
+    fetchData
+  } = useRentSummaryTenant();
+  const {
+    fetchData: fetchWalletPayment,
+  } = useWalletPaymentStore();
 
+  useEffect(() => {
+    if (tenantId) {
+      fetchData(tenantId)
+      fetchWalletPayment(tenantId)
+    }
+  }, [loading])
 
   function addYearsToValues(integers) {
     if (integers === "" || integers === null || integers === undefined) {
@@ -124,7 +138,7 @@ const RentInfo = ({ profile, rentInformation }) => {
         apartmentNumber: parseInt(apartmentNumber),
         rent: processNumber(rent),
         duration: parseInt(duration),
-        startDate, 
+        startDate,
         dueDate,
         paymentStatus: lowerCaseData(selectedValue),
         property,

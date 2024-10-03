@@ -134,7 +134,7 @@ const PropertyCard = ({
         setLoader(false);
         setDeleteProperty(false);
         setErrorModal(true);
-        console.log(error);
+        // console.log(error);
       });
   };
   const handlePublishedUnpublishProperty = async () => {

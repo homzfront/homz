@@ -53,7 +53,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       setProperties(dataResult);
       return dataResult;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setProperties([]);
     } finally {
       setLoading(false);
@@ -68,7 +68,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
         setData(results?.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         return error;
       });
   };

@@ -1,38 +1,21 @@
 "use client"
-import React, { useEffect } from "react";
-import Box from "../../components/box";
-import Table from "../components/table";
-import useRentPaymentStore from "@/store/enterpriseStore/rentPaymentInfo";
+import React, { useEffect, useState } from "react";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
+import Widget from "./paymentWidget";
+import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 
-const PaymentHis = ({ tenantData }) => {
-  const tenantId = tenantData?.data?._id
+const PaymentHis = ({ tenantData, id }) => {
   const {
     data: paymentData,
     loading,
     fetchData
-  } = useTenantRentEnterprise();
+  } = useRentSummaryTenant();
 
   useEffect(() => {
-    fetchData(tenantId)
-  }, [tenantData])
-
-  const allData = paymentData?.data ? paymentData?.data : []
-
-  // Total rent for all entries
-  let totalRent = 0;
-  for (const entry of allData) {
-    totalRent += entry.totalRent;
-  }
-  // Total rent for entries with "SUCCESS" status
-  let successTotalRent = 0;
-  for (const entry of allData) {
-    if (entry.status === "SUCCESS") {
-      successTotalRent += entry.totalRent;
-    }
-  }
+    fetchData(id)
+  }, [tenantData]);
 
   const boxes = [
     {
@@ -42,7 +25,7 @@ const PaymentHis = ({ tenantData }) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Total Payment",
-      money: `${addCommasToNumber(totalRent)}`,
+      money: `${addCommasToNumber(paymentData?.data?.totalAmountPaid)}`,
     },
     {
       id: 2,
@@ -51,26 +34,17 @@ const PaymentHis = ({ tenantData }) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent) }`,
-      dueDate: `${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
-    },
-    {
-      id: 3,
-      bgColor: "whiteblue",
-      textColor: "text-BlueHomz",
-      textColor2: "text-BlackHomz",
-      border: "border-white",
-      type: "Maintenance",
-      money: `${tenantData?.data?.maintenanceRequests?.length ? tenantData?.data?.maintenanceRequests?.length : "0"} Active Requests`,
+      money: `${paymentData?.data?.pendingRent === null ? "₦ 0" : addCommasToNumber(paymentData?.data?.pendingRent?.totalRent)}`,
+      dueDate: `${paymentData?.data?.pendingRent === null ? "" : `Due date: ${changeBackendDateFormat(paymentData?.data?.pendingRent?.dueDate)}`}`
     }
-  ]
+  ];
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row gap-4">{
+      <div className="flex flex-row gap-4 md:gap-2 md:justify-between">{
         boxes.map((data) => (
           <div key={data.id} className="w-full">
-            <div className={`${data?.type === "Maintenance" ? "hidden md:block" : ""}  h-[80px] min-w-[180px] max-w-[220px] py-2 flex flex-col justify-around border ${data?.border}  rounded-md px-[12px] bg-${data?.bgColor}`}>
+            <div className={`${data?.type === "Maintenance" ? "hidden md:block" : ""}  h-[85px] w-full md:max-w-[320px] py-2 flex flex-col justify-around border ${data?.border}  rounded-md px-[12px] bg-${data?.bgColor}`}>
               <div className={`${data?.textColor} text-[13px] font-[600] `}>{data?.type}</div>
               <div className={`text-[14px] font-[500] ${data?.textColor2}`}>{data?.money}</div>
               <div className="text-[10px] font-[400] text-BlackHomz">{data?.dueDate} </div>
@@ -80,7 +54,7 @@ const PaymentHis = ({ tenantData }) => {
       }
       </div>
       <div>
-        <Table tenantData={tenantData} />
+        <Widget  Data={tenantData} id={id} />
       </div>
     </div>
   );

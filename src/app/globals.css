@@ -7,38 +7,61 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
+@media print {
+  @page {
+    size: portrait; /* This ensures the document prints in portrait mode */
+  }
+
+  /* Additional styles to control layout during print */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Any specific styles for the printable content */
+  .printableContent {
+    width: 100%; /* Ensure the content fits the width in portrait mode */
+  }
+}
+
 body::-webkit-scrollbar {
   width: 10px;
+  max-width: 1440px;
   background-color: #d1e4ff;
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #4E4E4E; 
+  background-color: #006aff;
+}
+
+.rotate-180 {
+  transform: rotate(90deg);
 }
 
 /* Add this to your existing styles or create a separate stylesheet */
 .scrollbar-container::-webkit-scrollbar {
   width: 6px;
   background-color: #d1e4ff;
-  border-top-right-radius: 30px;
+  /* border-top-right-radius: 30px; */
+  scrollbar-width: thin;
   /* Set the width of the scrollbar track */
 }
 
 .scrollbar-container::-webkit-scrollbar-thumb {
   background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
   padding-top: 10px;
-  border-top-right-radius: 30px;
+  /* border-top-right-radius: 30px; */
 }
 
 /* Hide the scrollbar but still allow scrolling */
 .scrollbar-containerII {
   overflow-y: auto;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .scrollbar-containerII::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, and Opera */
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 .ListProperty {
@@ -53,7 +76,6 @@ body::-webkit-scrollbar-thumb {
   margin: auto;
   display: flex;
   flex-direction: row;
-  
 }
 
 .header {
@@ -62,7 +84,6 @@ body::-webkit-scrollbar-thumb {
 
 .sidebar {
   min-width: 278px;
-
 }
 
 .dashboard {
@@ -79,7 +100,6 @@ body::-webkit-scrollbar-thumb {
     flex-direction: column;
   }
 }
-
 
 .custom-dropdown {
   appearance: none;
@@ -149,22 +169,33 @@ body::-webkit-scrollbar-thumb {
   stroke: white; /* Change the color of the third circle to white */
 }
 
-
 .container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: calc(100vh - 20px); /* Adjust 20px as per your need for padding/margin */
+  max-height: calc(
+    100vh - 20px
+  ); /* Adjust 20px as per your need for padding/margin */
   overflow-y: auto;
 }
 
 .image-clip {
-  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 70%); /* Adjust percentages as needed */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 70%,
+    0 70%
+  ); /* Adjust percentages as needed */
 }
 
 .image-clipII {
-  clip-path: polygon(10% 0, 100% 0, 100% 95%, 10% 95%); /* Adjust percentages as needed */
+  clip-path: polygon(
+    10% 0,
+    100% 0,
+    100% 95%,
+    10% 95%
+  ); /* Adjust percentages as needed */
 }
 
 /* Custom Select Wrapper */
@@ -210,15 +241,13 @@ body::-webkit-scrollbar-thumb {
 
 /* Adjust the default arrow placement */
 .custom-select {
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KICAgIDxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik01IDZMMCAwbDYgNkwxMiAwek0wIDEybDYtNi02IDZ6Ii8+Cjwvc3ZnPg=='); /* Use a custom arrow icon as a background image */
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KICAgIDxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik01IDZMMCAwbDYgNkwxMiAwek0wIDEybDYtNi02IDZ6Ii8+Cjwvc3ZnPg=="); /* Use a custom arrow icon as a background image */
   background-repeat: no-repeat;
   background-position: right 15px center; /* Adjust the position of the arrow */
 }
 
-
-
-.custom-editor  {
-  border: #4E4E4E solid 0.1px;
+.custom-editor {
+  border: #4e4e4e solid 0.1px;
   border-radius: 4px;
 }
 /* .ql-container {

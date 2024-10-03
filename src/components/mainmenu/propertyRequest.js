@@ -70,7 +70,7 @@ const PropertyRequest = ({
       return true;
     } else {
       // Perform the necessary actions when all fields are valid
-      console.log("All fields are valid");
+      // console.log("All fields are valid");
     }
   };
   const resetFields = () => {
@@ -108,7 +108,7 @@ const PropertyRequest = ({
       // console.log(res);
       setAllStates(res.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const fetchAreas = async (stateSelected) => {
@@ -116,7 +116,7 @@ const PropertyRequest = ({
       const Areas = await api.post("/state/area", { state: stateSelected });
       setAreas(Areas?.data?.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const cancel = () => {

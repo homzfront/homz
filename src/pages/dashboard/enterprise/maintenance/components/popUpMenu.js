@@ -6,7 +6,6 @@ function PopUpMenu({ data }) {
   if (!data) {
     return null;
   }
-console.log(data);
   return (
     <div className="drop-down absolute top-5 text-GrayHomz font-[500] text-[13px] right-[25px] border rounded-md bg-white flex flex-col items-center justify-around">
       <Link href={`/dashboard/enterprise-property/tenants/profile/${data?.tenant._id}`}>

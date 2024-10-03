@@ -67,5 +67,5 @@ export default function formatEmailContent (emailContent) {
   `;
   
   const formattedEmail = formatEmailContent(emailContent);
-  console.log(formattedEmail);
+  // console.log(formattedEmail);
   
