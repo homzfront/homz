@@ -8,9 +8,10 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Pagination from "@/components/general/pagination";
 import api from "@/utils/api";
 import useClickOutside from "@/utils/clickOutside";
+import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 
 
-const WalletPayement = ({ selectedProperty, selectedDate }) => {
+const WalletPayement = () => {
     const [currentData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -19,6 +20,10 @@ const WalletPayement = ({ selectedProperty, selectedDate }) => {
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
+    const {
+        selectedProperty,
+        selectedDate
+      } = usePaymentFilterStore();
 
     const handleToggleMenu = (id) => {
         setPopUpMenuTwo(!popUpMenuTwo);
@@ -85,6 +90,7 @@ const WalletPayement = ({ selectedProperty, selectedDate }) => {
                         <thead>
                             <tr className="bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz">
                                 <th className="text-left pl-4" style={{ width: "120px" }}>Tenant</th>
+                                <th className="text-left" style={{ width: "100px" }}>Property</th>
                                 <th className="text-left" style={{ width: "100px" }}>Rent Amount</th>
                                 <th className="text-left" style={{ width: "110px" }}>Due Date</th>
                                 <th className="text-left" style={{ width: "110px" }}>Payment Status</th>
@@ -123,6 +129,7 @@ const WalletPayement = ({ selectedProperty, selectedDate }) => {
                                             )}
                                             <span>{data?.tenantId?.fullName || "N/A"}</span>
                                         </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.estateId?.name}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {addCommasToNumber(data?.rent)}
                                         </td>
@@ -150,7 +157,7 @@ const WalletPayement = ({ selectedProperty, selectedDate }) => {
                                             {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {data?.paymentMethod || "N/A"}
+                                            {data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}

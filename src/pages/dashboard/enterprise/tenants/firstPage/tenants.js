@@ -253,12 +253,6 @@ const Tenants = () => {
                 </div>
                 <div className="mt-4 md:mt-0 flex gap-1 items-center">
                   <button
-                    className="w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
-                  >
-                    <Send />
-                    Share Page
-                  </button>
-                  <button
                     onClick={handlePrint}
                     className="border border-BlueHomz w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] text-BlueHomz  hover:bg-whiteblue rounded cursor-pointer"
                   >

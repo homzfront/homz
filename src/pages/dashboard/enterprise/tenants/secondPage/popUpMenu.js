@@ -8,14 +8,20 @@ import ConfirmModal from '../../components/confirmModal';
 import DeleteModel from '../../components/deleteModal';
 import api from '@/utils/api';
 import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant';
+import useRentSummaryTenant from '@/store/enterpriseStore/rentSummaryTenant.js';
+import useExportEnterpriseSingleTenant from '@/store/enterpriseStore/exportEnterpriseSingleTenant.js';
 
-function PopUpMenu({ DataAgain, fetchExprtAgain, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
+function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setRefetch } = PaymentRefetchTenant();
+  const {
+    fetchData
+  } = useRentSummaryTenant();
+  const { fetchData: exportFetch } = useExportEnterpriseSingleTenant();
 
   // Conditional rendering after hooks
   if (!data) {
@@ -32,8 +38,8 @@ function PopUpMenu({ DataAgain, fetchExprtAgain, data, setDeleteModal, deleteMod
       if (response?.data?.success === true) {
         setRefetch(true);
         setDeleteSuccessModal(true);
-        fetchExprtAgain();
-        DataAgain();
+        exportFetch(tenantId)
+        fetchData(tenantId)
       } else {
       }
     } catch (error) {
@@ -87,10 +93,7 @@ function PopUpMenu({ DataAgain, fetchExprtAgain, data, setDeleteModal, deleteMod
           <PopUpUpdateMenu
             data={data}
             setUpdateForm={setUpdateForm}
-            setFetchDataAgain={setFetchDataAgain}
             setSuccessfulModal={setSuccessfulModal}
-            fetchExprtAgain={fetchExprtAgain}
-            DataAgain={DataAgain}
           />
         </CustomizedModal>
       )}

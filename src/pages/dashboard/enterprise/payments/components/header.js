@@ -12,7 +12,7 @@ const Header = ({
   return (
     <div>
       <div className="hidden md:flex justify-between items-center">
-        <div className="text-[20px] font-[500]">Payment</div>
+        <div className="text-[20px] font-[500]">Payment Record</div>
         <div className="flex gap-2 items-center">
           <p className="text-[16px] font-[400] pr-2">Filter by:</p>
           <div className="flex items-center gap-2 mb-1">

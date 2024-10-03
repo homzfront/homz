@@ -374,7 +374,7 @@ export const uploadNINTenantKYC = async (uploadedImage, NIN) => {
     if (response.data.statuscode === 201 || 200) {
       return { success: true, updatedPassport: response };
     } else {
-      console.log(response)
+      // console.log(response)
       const error = response.data.message;
     }
   } catch (error) {

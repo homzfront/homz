@@ -4,7 +4,7 @@ import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
 import { useSearchParams } from "next/navigation.js";
 
-const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
+const Widget = () => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab")
 
@@ -48,7 +48,7 @@ const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
         </div>
         <div className=" my-5 rounded-[12px]">
           <div className={`${active ? "inline" : "hidden"}`}>
-            <Tenants refetchExport={refetchExport} exportData={data} selectedProperty={selectedProperty} selectedDate={selectedDate} />
+            <Tenants />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

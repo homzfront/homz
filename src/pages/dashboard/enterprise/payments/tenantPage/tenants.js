@@ -5,7 +5,7 @@ import Widget from "./widget";
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 import addCommasToNumber from '@/utils/addCommasToNumber';
 
-const Tenants = ({ refetchExport, selectedProperty, selectedDate, exportData }) => {
+const Tenants = () => {
   const { data, fetchData } = useEnterpriseRevenueStore();
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const Tenants = ({ refetchExport, selectedProperty, selectedDate, exportData }) 
             border={"border-BlueHomz"}
             textColor={"text-BlueHomz"}
             textColor2={"text-BlackHomz"}
-            payDate={"January,2024"}
+            // payDate={"January,2024"}
             textColor3={"text-BlueHomz"}
             type={"Expected Rent Next Month"}
             money={addCommasToNumber(data?.rentExpectedNextMonth)}
@@ -99,7 +99,7 @@ const Tenants = ({ refetchExport, selectedProperty, selectedDate, exportData }) 
         </div>
       </div>
       <div className={`md:mt-6`}>
-        <Widget refetchExport={refetchExport} data={exportData} selectedProperty={selectedProperty} selectedDate={selectedDate} />
+        <Widget />
       </div>
     </div>
   )

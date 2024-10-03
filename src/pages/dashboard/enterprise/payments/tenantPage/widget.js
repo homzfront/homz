@@ -13,13 +13,19 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import DropDownBlue from "../components/dropDownBlue";
 import Papa from "papaparse";
 import PrintableAll from "../components/printableAll";
+import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
 
-const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
+const Widget = () => {
     const printRefAll = useRef();
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
+    const { data, fetchData } = useExportRentPayment();
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const options = [".CSV", ".XLSX", ".PDF"];
 
@@ -140,17 +146,6 @@ const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row gap-1 items-center">
-                        <button
-                            className="hidden md:flex w-auto items-center text-[11px] md:text-[14px] font-[500] gap-1 px-[10px] h-[42px] hover:bg-white text-BlueHomz hover:border hover:border-BlueHomz  hover:rounded cursor-pointer"
-                        >
-                            <Send />
-                            <span className="">Share Page</span>
-                        </button>
-                        <button
-                            className="md:hidden flex items-center justify-center h-[36px] w-[36px] bg-whiteblue rounded-md cursor-pointer"
-                        >
-                            <Send />
-                        </button>
                         <DropDownBlue
                             options={options}
                             onSelect={(option) => setSelectedOption(option)}
@@ -161,13 +156,13 @@ const Widget = ({ refetchExport, selectedProperty, selectedDate, data }) => {
                 </div>
                 <div className="my-5 rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <TenantData refetchExport={refetchExport} selectedProperty={selectedProperty} selectedDate={selectedDate} />
+                        <TenantData />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <WalletPayement selectedProperty={selectedProperty} selectedDate={selectedDate} />
+                        <WalletPayement />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment refetchExport={refetchExport} selectedProperty={selectedProperty} selectedDate={selectedDate} />
+                        <OfflinePayment />
                     </div>
                 </div>
             </div>

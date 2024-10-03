@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 import Dropdown from './dropDown'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import useRentSummaryTenant from '@/store/enterpriseStore/rentSummaryTenant';
+import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant';
+import useExportEnterpriseSingleTenant from '@/store/enterpriseStore/exportEnterpriseSingleTenant';
 
-const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant, setAgain }) => {
+const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -12,6 +15,11 @@ const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant, setAgain 
     const [inputDateValue, setDateInputValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const {
+        fetchData
+    } = useRentSummaryTenant();
+    const { setRefetch } = PaymentRefetchTenant();
+    const { fetchData: exportFetch } = useExportEnterpriseSingleTenant();
 
     const handleInputChange = (e) => {
         const rawValue = e.target.value.replace(/,/g, '');
@@ -34,6 +42,7 @@ const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant, setAgain 
 
     const handleSubmit = async () => {
         setLoading(true);
+        setRefetch(false);
         try {
             const response = await api.post(`/offlinePayment/enterprise/rent/tenant/${id}`, {
                 "description": selectedStatusTwo?.label === "Part-Payment" ? "part payment" : "full payment",
@@ -44,7 +53,9 @@ const SetOfflineData = ({ setOfflinepay, successfullModal, id, tenant, setAgain 
             if (response?.data?.success === true) {
                 successfullModal();
                 setOfflinepay(false);
-                setAgain(true);
+                fetchData(id);
+                setRefetch(true)
+                exportFetch(id)
             } else {
                 setError(response?.data?.message);
             }

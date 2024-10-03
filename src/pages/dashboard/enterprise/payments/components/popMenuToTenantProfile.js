@@ -12,8 +12,10 @@ import ConfirmModal from '../../components/confirmModal';
 import DeleteModel from '../../components/deleteModal';
 import api from '@/utils/api';
 import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
+import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
+import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 
-function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
+function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
   // Move all hooks to the top
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -22,6 +24,8 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setRefetch } = RefetchPayment();
+  const { fetchData } = useExportRentPayment();
+  const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
 
 
   const deletePayment = async () => {
@@ -34,7 +38,8 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
       if (response?.data?.success === true) {
         setRefetch(true);
         setDeleteSuccessModal(true);
-        refetchExport()
+        fetchData();
+        fetchRevData();
       } else {
       }
     } catch (error) {
@@ -50,7 +55,7 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
     }
   };
 
-  
+
   return (
     <div
       ref={dropdownRef}
@@ -129,9 +134,7 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
         <CustomizedModal isOpen={updateForm}>
           <PopUpUpdateMenu
             data={data}
-            refetchExport={refetchExport}
             setUpdateForm={setUpdateForm}
-            setFetchDataAgain={setFetchDataAgain}
             setSuccessfulModal={setSuccessfulModal}
           />
         </CustomizedModal>
@@ -156,7 +159,6 @@ function PopUpMenuTwo({ refetchExport, data, setDeleteModal, deleteModal, delete
                 returnHome={() => {
                   setDeleteModal(false)
                   setDeleteSuccessModal(false)
-                  setRefetch(true)
                 }}
               />
               :

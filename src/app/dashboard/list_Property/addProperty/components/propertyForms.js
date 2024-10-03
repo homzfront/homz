@@ -167,7 +167,7 @@ const PropertyForms = () => {
       }
     } catch (error) {
       // setLoadingForm(false);
-      console.log(error);
+      // console.log(error);
 
       setLoading(false);
       if (
@@ -175,12 +175,12 @@ const PropertyForms = () => {
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        console.log(errorMessage);
+        // console.log(errorMessage);
         toast.error(errorMessage);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
-        console.log(errorMessage);
+        // console.log(errorMessage);
       }
       // else {
       //   // toast.error("Update failed");

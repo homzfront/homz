@@ -7,28 +7,23 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Pagination from "@/components/general/pagination";
 import SkeletonLoader from "./skeletonLoader";
 import api from "@/utils/api";
+import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
 
-const WalletPayement = ({ TenantId, TenantData, again }) => {
-    const [currentData, setData] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [loading, setLoading] = useState(false);
+const WalletPayement = ({ TenantId, TenantData }) => {
+    const {
+        data: currentData,
+        loading,
+        currentPage,
+        totalPages,
+        fetchData,
+        setCurrentPage,
+    } = useWalletPaymentStore();
 
     useEffect(() => {
-        const fetchData = async (page) => {
-            setLoading(true);
-            try {
-                const response = await api.get(`/rentPayment/enterprise/tenant/${TenantId}?limit=3&page=${page}&paymentMethod=wallet`);
-                const result = response?.data;
-                setData(result?.data?.results);
-                setTotalPages(result?.data?.totalPages);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-            }
-        };
-        fetchData(currentPage);
-    }, [currentPage, again]);
+        if (TenantId) {
+            fetchData(TenantId, currentPage);
+        }
+    }, [TenantId, currentPage, fetchData]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
@@ -109,7 +104,7 @@ const WalletPayement = ({ TenantId, TenantData, again }) => {
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}</td>
                                     </tr>
                                 ))}

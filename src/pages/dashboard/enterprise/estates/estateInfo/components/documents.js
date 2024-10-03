@@ -220,7 +220,7 @@ const Documents = ({ id }) => {
                   style={{ display: "none" }}
                   onChange={(e) => {
                     // Handle file selection logic if needed
-                    console.log(e.target.files[0]);
+                    // console.log(e.target.files[0]);
                     setDocument(e.target.files[0]);
                     // Close the modal or perform any other actions
                     openProceed();

@@ -107,7 +107,6 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
             }
         } catch (error) {
             setNationalPassportLoading(false);
-            console.log(error);
             if (
                 error?.response?.data?.error?.errors &&
                 error.response.data.error.errors.length > 0

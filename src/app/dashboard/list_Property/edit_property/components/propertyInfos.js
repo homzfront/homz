@@ -82,7 +82,7 @@ const PropertyInfo = ({
       const res = await api.get("/state");
       setAllStates(res.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {
@@ -135,7 +135,7 @@ const PropertyInfo = ({
       // console.log(Areas.data.data);
       setAreas(Areas.data.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

@@ -37,7 +37,7 @@ const OwnersCard = ({ data }) => {
 
       try {
         window.open(url, "_blank", "noopener,noreferrer");
-        console.log(url);
+        // console.log(url);
       } catch (error) {
         console.error("Failed to open the link:", error);
       }

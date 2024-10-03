@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import Widget from "./components/widget";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,19 +8,20 @@ import LoadingII from "@/components/mainmenu/loadingII";
 import Dropdown from "../components/dropDownFilter";
 import Header from "./components/header";
 import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
+import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 
 const Payment = () => {
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const { data, loading, fetchData } = useExportRentPayment();
+  const {
+    selectedProperty,
+    setSelectedDate,
+    setSelectedProperty,
+  } = usePaymentFilterStore();
+
+  const { data, fetchData } = useExportRentPayment();
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  const refetchExport = () => {
-    fetchData();
-  }
 
   const clear = () => {
     setSelectedProperty(null);
@@ -88,7 +89,7 @@ const Payment = () => {
           selectedProperty={selectedProperty}
           clear={clear}
         />
-        <Widget refetchExport={refetchExport} data={data} selectedProperty={selectedProperty} selectedDate={selectedDate} />
+        <Widget />
       </div>
     </Suspense>
   );

@@ -9,9 +9,10 @@ import Pagination from "@/components/general/pagination";
 import api from "@/utils/api";
 import useClickOutside from "@/utils/clickOutside";
 import RefetchPayment from "@/store/enterpriseStore/paymentRefetch";
+import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 
 
-const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
+const OfflinePayment = () => {
     const [currentData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -20,11 +21,14 @@ const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
-    const [fetchDataAgain, setFetchDataAgain] = useState(false);
     const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const dropdownRef = useRef(null);
     const { Refetch } = RefetchPayment();
+    const {
+        selectedProperty,
+        selectedDate
+      } = usePaymentFilterStore();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -91,7 +95,7 @@ const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
             }
         };
         fetchData(currentPage);
-    }, [currentPage, selectedProperty, selectedDate, fetchDataAgain, Refetch]);
+    }, [currentPage, selectedProperty, selectedDate, Refetch]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
@@ -120,6 +124,7 @@ const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
                         <thead>
                             <tr className="bg-whiteblue h-[50px] text-[13px] font-[500] text-BlackHomz">
                                 <th className="text-left pl-4" style={{ width: "120px" }}>Tenant</th>
+                                <th className="text-left" style={{ width: "100px" }}>Property</th>
                                 <th className="text-left" style={{ width: "100px" }}>Rent Amount</th>
                                 <th className="text-left" style={{ width: "110px" }}>Due Date</th>
                                 <th className="text-left" style={{ width: "110px" }}>Payment Status</th>
@@ -158,6 +163,7 @@ const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
                                             )}
                                             <span>{data?.tenantId?.fullName || "N/A"}</span>
                                         </td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.estateId?.name}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {addCommasToNumber(data?.rent)}
                                         </td>
@@ -185,7 +191,7 @@ const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
                                             {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {data?.paymentMethod || "N/A"}
+                                            {data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}
@@ -211,7 +217,6 @@ const OfflinePayment = ({ refetchExport, selectedProperty, selectedDate }) => {
                                                     handleUpdateForm={handleUpdateForm}
                                                     setUpdateForm={setUpdateForm}
                                                     updateForm={updateForm}
-                                                    setFetchDataAgain={setFetchDataAgain}
                                                     setDeleteModal={setDeleteModal}
                                                     deleteModal={deleteModal}
                                                     setDeleteSuccessModal={setDeleteSuccessModal}

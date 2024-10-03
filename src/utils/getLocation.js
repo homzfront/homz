@@ -22,7 +22,7 @@ const GetLocation = ({ street, area, state }) => {
 
   useEffect(() => {
     if (!area || !state) {
-      console.log("Missing location parameters");
+      // console.log("Missing location parameters");
       return;
     }
     

@@ -4,8 +4,10 @@ import Dropdown from './updateDropDown'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
+import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
+import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 
-const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain, setSuccessfulModal }) => {
+const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -14,6 +16,9 @@ const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { setRefetch } = RefetchPayment();
+    const { fetchData } = useExportRentPayment();
+    const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
+
 
     const optionOne = [
         { id: 1, label: "Cash" },
@@ -71,14 +76,14 @@ const PopUpUpdateMenu = ({ refetchExport, setUpdateForm, data, setFetchDataAgain
                 "amountPaid": inputValue,
                 "modeOfTransaction": selectedStatus?.label?.toLowerCase(),
                 "dateOfTransaction": inputDateValue,
-                "reference" : data?.reference
+                "reference": data?.reference
             })
             if (response?.data?.success === true) {
                 setSuccessfulModal(true);
                 setUpdateForm(false);
-                setFetchDataAgain(true);
-                refetchExport();
+                fetchData();
                 setRefetch(true);
+                fetchRevData();
             } else {
                 setError(response?.data?.message);
             }

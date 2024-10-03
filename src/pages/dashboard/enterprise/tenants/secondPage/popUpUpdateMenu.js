@@ -4,8 +4,10 @@ import Dropdown from './updateDropDown.js'
 import api from '@/utils/api';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant.js';
+import useRentSummaryTenant from '@/store/enterpriseStore/rentSummaryTenant.js';
+import useExportEnterpriseSingleTenant from '@/store/enterpriseStore/exportEnterpriseSingleTenant.js';
 
-const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAgain, setSuccessfulModal, DataAgain }) => {
+const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [selectedStatusTwo, setSelectedStatusTwo] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -14,6 +16,10 @@ const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAga
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { setRefetch } = PaymentRefetchTenant();
+    const {
+        fetchData
+    } = useRentSummaryTenant();
+    const { fetchData: exportFetch } = useExportEnterpriseSingleTenant();
 
     const optionOne = [
         { id: 1, label: "Cash" },
@@ -62,7 +68,6 @@ const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAga
 
     const handleSubmit = async () => {
         setRefetch(false)
-        setFetchDataAgain(false);
         setLoading(true);
         const paymentId = data?._id
         const tenantId = data?.tenantId?._id
@@ -77,9 +82,8 @@ const PopUpUpdateMenu = ({ fetchExprtAgain, setUpdateForm, data, setFetchDataAga
             if (response?.data?.success === true) {
                 setSuccessfulModal(true);
                 setUpdateForm(false);
-                setFetchDataAgain(true);
-                fetchExprtAgain();
-                DataAgain()
+                exportFetch(tenantId)
+                fetchData(tenantId)
                 setRefetch(true);
             } else {
                 setError(response?.data?.message);

@@ -7,8 +7,6 @@ import Widget from "./paymentWidget";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 
 const PaymentHis = ({ tenantData, id }) => {
-  const [again, setAgain] = useState(false);
-  const tenantId = tenantData?.data?._id
   const {
     data: paymentData,
     loading,
@@ -16,13 +14,8 @@ const PaymentHis = ({ tenantData, id }) => {
   } = useRentSummaryTenant();
 
   useEffect(() => {
-    fetchData(tenantId)
+    fetchData(id)
   }, [tenantData]);
-
-  const fetchDataAgain = () => {
-    fetchData(tenantId)
-    setAgain(false);
-  }
 
   const boxes = [
     {
@@ -61,7 +54,7 @@ const PaymentHis = ({ tenantData, id }) => {
       }
       </div>
       <div>
-        <Widget again={again} setAgain={setAgain} fetchDataAgain={fetchDataAgain} Data={tenantData} id={id} />
+        <Widget  Data={tenantData} id={id} />
       </div>
     </div>
   );

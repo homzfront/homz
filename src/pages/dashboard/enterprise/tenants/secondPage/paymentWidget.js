@@ -18,7 +18,7 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useExportEnterpriseSingleTenant from "@/store/enterpriseStore/exportEnterpriseSingleTenant";
 import PrintableAll from "./printableAll";
 
-const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
+const Widget = ({ id, Data  }) => {
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -76,8 +76,6 @@ const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
     const successfullModal = () => {
         setOpenModel(!openModel);
         setOfflinepay(false);
-        fetchDataAgain();
-        fetchExprtAgain();
     };
 
     const handlePrint = useReactToPrint({
@@ -186,18 +184,18 @@ const Widget = ({ id, fetchDataAgain, Data, again, setAgain }) => {
                 </div>
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <AllData DataAgain={fetchDataAgain} fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
+                        <AllData TenantId={id} TenantData={Data} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <WalletPayement again={again} TenantId={id} TenantData={Data} />
+                        <WalletPayement TenantId={id} TenantData={Data} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment DataAgain={fetchDataAgain} fetchExprtAgain={fetchExprtAgain} again={again} TenantId={id} TenantData={Data} />
+                        <OfflinePayment TenantId={id} TenantData={Data} />
                     </div>
                 </div>
             </div>
             <CustomizedModal isOpen={offlinepay}>
-                <SetOfflineData setAgain={setAgain} tenant={Data?.data?.fullName} id={id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
+                <SetOfflineData tenant={Data?.data?.fullName} id={id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
             </CustomizedModal>
             <CustomizedModal isOpen={openModel}>
                 <ConfirmModal

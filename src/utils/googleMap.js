@@ -34,7 +34,7 @@ let address="ikeja lagos"
             addressData
           )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}`
         );
-        console.log(geocodeResponse)
+        // console.log(geocodeResponse)
         const location = geocodeResponse.data.results[0].geometry.location;
         // setCenter({ lat: location.lat, lng: location.lng });
       } catch (error) {

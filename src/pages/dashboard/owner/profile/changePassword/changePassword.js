@@ -58,7 +58,7 @@ const ChangePassword = () => {
       const { success, upDateddata, error } = await updatePassword(updatedData);
 
       if (success) {
-        console.log("Form successfully updated", upDateddata);
+        // console.log("Form successfully updated", upDateddata);
         setPassword("");
         setNewPassword("");
         setReEnterPassword("");

@@ -13,9 +13,9 @@ const Dropdown = ({ options, onSelect, selectOption, className }) => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  console.log(options)
-  console.log(onSelect)
-  console.log(selectOption)
+  // console.log(options)
+  // console.log(onSelect)
+  // console.log(selectOption)
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);

@@ -10,8 +10,8 @@ const ProfileContext = createContext({
 
 const ProfileProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  console.log(user)
-  console.log(setUser)
+  // console.log(user)
+  // console.log(setUser)
 
   return (
     <ProfileContext.Provider value={{ user, setUser }}>

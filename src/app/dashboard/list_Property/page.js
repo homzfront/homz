@@ -194,7 +194,7 @@ const List_Property = () => {
         setLoader2(false);
         setErrorModal(true);
       } else if (!status) {
-        console.log("No active subscription");
+        // console.log("No active subscription");
         setLoader2(false);
         setOpenPlanModal(true);
       }
@@ -220,7 +220,7 @@ const List_Property = () => {
         promotionPlan,
         selectedProperty
       );
-      console.log(results);
+      // console.log(results);
       setLoader(false);
 
       if (results?.data?.status === "active") {

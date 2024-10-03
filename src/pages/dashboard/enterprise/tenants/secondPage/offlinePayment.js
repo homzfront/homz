@@ -9,21 +9,25 @@ import SkeletonLoader from "./skeletonLoader";
 import api from "@/utils/api";
 import PopUpMenuData from "./popUpMenu";
 import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
+import useOfflinePaymentStore from "@/store/enterpriseStore/useOfflinePaymentStore";
 
 
-const OfflinePayment = ({ fetchExprtAgain, TenantId, TenantData, again, DataAgain }) => {
-    const [currentData, setData] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [loading, setLoading] = useState(false);
+const OfflinePayment = ({ TenantId, TenantData }) => {
+    const {
+        data: currentData,
+        loading,
+        currentPage,
+        totalPages,
+        fetchData,
+        setCurrentPage,
+    } = useOfflinePaymentStore();
     const [selectedDataId, setSelectedDataId] = useState(null);
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
-    const [fetchDataAgain, setFetchDataAgain] = useState(false);
     const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const dropdownRef = useRef(null);
-    const { Refetch, setRefetch } = PaymentRefetchTenant();
+    const { Refetch } = PaymentRefetchTenant();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -61,20 +65,10 @@ const OfflinePayment = ({ fetchExprtAgain, TenantId, TenantData, again, DataAgai
     }
 
     useEffect(() => {
-        const fetchData = async (page) => {
-            setLoading(true);
-            try {
-                const response = await api.get(`/rentPayment/enterprise/tenant/${TenantId}?limit=3&page=${page}&paymentMethod=offline`);
-                const result = response?.data;
-                setData(result?.data?.results);
-                setTotalPages(result?.data?.totalPages);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-            }
-        };
-        fetchData(currentPage);
-    }, [currentPage, again, fetchDataAgain, Refetch]);
+        if (TenantId) {
+            fetchData(TenantId, currentPage);
+        }
+    }, [TenantId, currentPage, fetchData, Refetch]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
@@ -156,7 +150,7 @@ const OfflinePayment = ({ fetchExprtAgain, TenantId, TenantData, again, DataAgai
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}</td>
                                         <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
                                             <button onClick={() => handleToggleMenu(data._id)}>
@@ -170,19 +164,16 @@ const OfflinePayment = ({ fetchExprtAgain, TenantId, TenantData, again, DataAgai
                                             </button>
                                             {popUpMenu && selectedDataId === data._id && (
                                                 <PopUpMenuData
-                                                    DataAgain={DataAgain}
                                                     data={data}
                                                     dropdownRef={dropdownRef}
                                                     handleUpdateForm={handleUpdateForm}
                                                     setUpdateForm={setUpdateForm}
                                                     updateForm={updateForm}
-                                                    setFetchDataAgain={setFetchDataAgain}
                                                     setDeleteModal={setDeleteModal}
                                                     deleteModal={deleteModal}
                                                     setDeleteSuccessModal={setDeleteSuccessModal}
                                                     deleteSuccessModal={deleteSuccessModal}
                                                     handleDelete={handleDelete}
-                                                    fetchExprtAgain={fetchExprtAgain}
                                                 />
                                             )}
                                         </td>

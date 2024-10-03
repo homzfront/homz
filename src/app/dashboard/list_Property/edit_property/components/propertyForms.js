@@ -114,7 +114,7 @@ const PropertyForms = ({ propertyData }) => {
   };
 
   const handleErrors = (error) => {
-    console.log(error);
+    // console.log(error);
     const errorMessage =
       error?.response?.data?.error?.errors?.[0] ||
       error?.response?.data?.message ||
