@@ -25,7 +25,9 @@ body {
 }
 
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and Opera */
+  width: 10px;
+  max-width: 1440px;
+  background-color: #d1e4ff;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -39,7 +41,7 @@ body::-webkit-scrollbar-thumb {
 /* Add this to your existing styles or create a separate stylesheet */
 .scrollbar-container::-webkit-scrollbar {
   width: 6px;
-  background-color: #FFFFFF;
+  background-color: #d1e4ff;
   /* border-top-right-radius: 30px; */
   scrollbar-width: thin;
   /* Set the width of the scrollbar track */
