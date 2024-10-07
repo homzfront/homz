@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Link from "next/link";
 import Profile from '@/components/icons/profile';
 import Details from '@/components/icons/details';
@@ -15,7 +15,7 @@ import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
 import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 
-function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
+function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -26,6 +26,40 @@ function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, s
   const { setRefetch } = RefetchPayment();
   const { fetchData } = useExportRentPayment();
   const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
+
+  // Validate data
+  if (!data?.tenantId || !data?.tenantId._id) {
+    // console.error('Invalid tenant data:', data);
+    return null; // Or render a fallback UI
+  }
+
+  const tenantId = data?.tenantId._id;
+
+  const handleViewProfile = useCallback(
+    (event) => {
+      // Optional: Prevent default behavior if you're handling navigation programmatically
+      // event.preventDefault();
+
+      // Validate tenantId before navigation
+      if (!tenantId) {
+        // console.error('Cannot view profile: tenantId is undefined.');
+        // Optionally, display a user-facing error message
+        alert('Unable to view profile. Tenant information is missing.');
+        return;
+      }
+
+      // Additional logic can be added here
+      // console.log(`Viewing profile for Tenant ID: ${tenantId}`);
+
+      // Optional: Implement analytics tracking
+      // analytics.track('ViewProfile', { tenantId });
+
+      // Programmatically navigate to the profile page
+      // Uncomment the following lines if you prefer programmatic navigation over Link
+      // router.push(`/dashboard/enterprise-property/tenants/profile/${tenantId}`);
+    },
+    [tenantId] // Add router to dependencies if using it
+  );
 
 
   const deletePayment = async () => {
@@ -66,8 +100,8 @@ function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, s
         onMouseEnter={() => setActive(true)}
         onMouseLeave={() => setActive(false)}
         className="md:h-[30px] h-auto rounded-md flex gap-1 items-center text-GrayHomz hover:text-BlueHomz py-1 px-2 w-full ">
-        <Link className="w-full" href={`/dashboard/enterprise-property/tenants/profile/${data?.tenantId?._id}`}>
-          <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+        <Link className="w-full" href={`/dashboard/enterprise-property/tenants/profile/${tenantId}`} passHref>
+          <div onClick={handleViewProfile} className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
             <Profile className={active ? '#006AFF' : undefined} />
             <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2">
               View Profile
