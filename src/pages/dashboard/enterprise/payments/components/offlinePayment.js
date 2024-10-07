@@ -7,10 +7,8 @@ import PopUpMenuTwo from "./popMenuToTenantProfile";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Pagination from "@/components/general/pagination";
 import api from "@/utils/api";
-import useClickOutside from "@/utils/clickOutside";
 import RefetchPayment from "@/store/enterpriseStore/paymentRefetch";
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
-
 
 const OfflinePayment = () => {
     const [currentData, setData] = useState(null);
@@ -28,7 +26,8 @@ const OfflinePayment = () => {
     const {
         selectedProperty,
         selectedDate
-      } = usePaymentFilterStore();
+    } = usePaymentFilterStore();
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -208,7 +207,6 @@ const OfflinePayment = () => {
                                             </button>
                                             {popUpMenuTwo && selectedDataId === data._id && (
                                                 <PopUpMenuTwo
-                                                    refetchExport={refetchExport}
                                                     data={data}
                                                     handleDataToggle={handleDataToggle}
                                                     setPopUpMenu={setPopUpMenu}

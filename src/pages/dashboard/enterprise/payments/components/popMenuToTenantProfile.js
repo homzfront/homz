@@ -15,7 +15,7 @@ import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
 import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 
-function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm, setFetchDataAgain }) {
+function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -26,6 +26,14 @@ function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, s
   const { setRefetch } = RefetchPayment();
   const { fetchData } = useExportRentPayment();
   const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
+
+  // Validate data
+  if (!data?.tenantId || !data?.tenantId._id) {
+    // console.error('Invalid tenant data:', data);
+    return null; // Or render a fallback UI
+  }
+
+  const tenantId = data?.tenantId._id;
 
 
   const deletePayment = async () => {
@@ -66,8 +74,8 @@ function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, s
         onMouseEnter={() => setActive(true)}
         onMouseLeave={() => setActive(false)}
         className="md:h-[30px] h-auto rounded-md flex gap-1 items-center text-GrayHomz hover:text-BlueHomz py-1 px-2 w-full ">
-        <Link className="w-full" href={`/dashboard/enterprise-property/tenants/profile/${data?.tenantId?._id}`}>
-          <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+        <Link className="w-full" href={`/dashboard/enterprise-property/tenants/profile/${tenantId}`}>
+          <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
             <Profile className={active ? '#006AFF' : undefined} />
             <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2">
               View Profile
