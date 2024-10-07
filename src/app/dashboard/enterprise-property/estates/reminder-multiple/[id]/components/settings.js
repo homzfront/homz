@@ -201,7 +201,7 @@ const Settings = ({ data, fetchDataAgain }) => {
                                     </div>
                                 </div>
                                 <button
-                                    // disabled
+                                    disabled
                                     onClick={() => setModalCustom(true)}
                                     className=' mt-4 text-[14px] font-[500] w-[155px] bg-BlueHomz text-white py-2 rounded-[4px]'>
                                     Customize settings 
