@@ -16,6 +16,8 @@ import lowerCaseData from "@/utils/lowerCaseData";
 import processNumber from "@/utils/processNumber";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
+import { sub, add } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 
 const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [data, setData] = useState([]);
@@ -39,6 +41,57 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     fetchData: fetchWalletPayment,
   } = useWalletPaymentStore();
 
+  const handleDurationChange = (e) => {
+    setDuration(e.target.value);
+    setError("")
+  };
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    setError("")
+  };
+
+
+  function addDurationToDate() {
+    // Assuming duration and startDate are available in the current scope
+    if (!duration || !startDate) return;
+  
+    // Convert the start date string into a Date object
+    const selectedDate = new Date(startDate);
+    
+    // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "6 months")
+    const [amount, unit] = duration.split(' ');
+    const numericAmount = parseInt(amount, 10); // Convert the amount to a number
+    
+    // Adjust the date based on the unit ('years' or 'months')
+    if (unit?.includes('year')) {
+      selectedDate.setFullYear(selectedDate.getFullYear() + numericAmount);
+    } else if (unit?.includes('month')) {
+      selectedDate.setMonth(selectedDate.getMonth() + numericAmount);
+    }
+    
+    // Subtract one day from the selected date
+    selectedDate.setDate(selectedDate.getDate() - 1);
+  
+    // Extract the year, month, and day in the correct format (YYYY-MM-DD)
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    
+    // Create the final date string in YYYY-MM-DD format
+    const newDate = `${year}-${month}-${day}`;
+    
+    // Set the due date (assuming setDueDate is a state setter function available in the scope)
+    setDueDate(newDate);
+  };
+
+  useEffect(()=> {
+    addDurationToDate()
+  },[duration, startDate])
+  
+  
+
+console.log(dueDate)
   useEffect(() => {
     if (tenantId) {
       fetchData(tenantId)
@@ -241,12 +294,9 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
           />
           <Input
             label={"Duration"}
-            onChange={(e) => {
-              setDuration(e.target.value)
-              setError("")
-            }}
+            onChange={handleDurationChange}
             value={duration}
-            type={"type"}
+            type={"text"}
             placeholder={"1 Year"}
             span={"*"}
           />
@@ -266,10 +316,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             label={"Start Date"}
             type={"date"}
             value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value)
-              setError("")
-            }}
+            onChange={handleStartDateChange}
             placeholder={"4th January, 2023"}
             span={"*"}
           />
@@ -287,13 +334,10 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
           <Input
             label={"Due Date"}
             value={dueDate}
-            onChange={(e) => {
-              setDueDate(e.target.value)
-              setError("")
-            }}
             type={"date"}
             placeholder={"4th January, 2024"}
             span={"*"}
+            disabled
           />
           <Input
             label={"Rent"}
