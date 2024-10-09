@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import Image from "next/image";
 import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import AcAndRejModel from "../../components/acAndRejModel";
 import ConfirmEstateListing from "../components/confirmEstateListing";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
+
 
 const ContactInfo = ({
   handlePageChangeTwo,
@@ -28,9 +31,36 @@ const ContactInfo = ({
   name
 }) => {
   useBodyScroll([loading, showConfirm, yesOrNoModal]);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
+
+
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
 
   return (
     <div className="p-8">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       {loading && <Loading />}
       {showConfirm && (
         <ConfirmEstateListing

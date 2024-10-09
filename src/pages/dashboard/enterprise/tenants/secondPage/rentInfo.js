@@ -16,8 +16,10 @@ import lowerCaseData from "@/utils/lowerCaseData";
 import processNumber from "@/utils/processNumber";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
-import { sub, add } from 'date-fns';
-import { format, toZonedTime } from 'date-fns-tz';
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
+
+ 
 
 const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [data, setData] = useState([]);
@@ -32,6 +34,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const [confirm, setConfirm] = useState(false);
   const {
@@ -55,43 +58,40 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
   function addDurationToDate() {
     // Assuming duration and startDate are available in the current scope
     if (!duration || !startDate) return;
-  
+
     // Convert the start date string into a Date object
     const selectedDate = new Date(startDate);
-    
+
     // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "6 months")
     const [amount, unit] = duration.split(' ');
     const numericAmount = parseInt(amount, 10); // Convert the amount to a number
-    
+
     // Adjust the date based on the unit ('years' or 'months')
     if (unit?.includes('year')) {
       selectedDate.setFullYear(selectedDate.getFullYear() + numericAmount);
     } else if (unit?.includes('month')) {
       selectedDate.setMonth(selectedDate.getMonth() + numericAmount);
     }
-    
+
     // Subtract one day from the selected date
     selectedDate.setDate(selectedDate.getDate() - 1);
-  
+
     // Extract the year, month, and day in the correct format (YYYY-MM-DD)
     const year = selectedDate.getFullYear();
     const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
     const day = String(selectedDate.getDate()).padStart(2, '0');
-    
+
     // Create the final date string in YYYY-MM-DD format
     const newDate = `${year}-${month}-${day}`;
-    
+
     // Set the due date (assuming setDueDate is a state setter function available in the scope)
     setDueDate(newDate);
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     addDurationToDate()
-  },[duration, startDate])
-  
-  
+  }, [duration, startDate])
 
-console.log(dueDate)
   useEffect(() => {
     if (tenantId) {
       fetchData(tenantId)
@@ -277,8 +277,32 @@ console.log(dueDate)
     return `${year}-${month}-${day}`;
   }
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
   return (
     <div>
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <div className={`h-[430px] ${loading ? "pointer-events-none" : ""}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
@@ -337,7 +361,7 @@ console.log(dueDate)
             type={"date"}
             placeholder={"4th January, 2024"}
             span={"*"}
-            disabled
+            disabled={true}
           />
           <Input
             label={"Rent"}

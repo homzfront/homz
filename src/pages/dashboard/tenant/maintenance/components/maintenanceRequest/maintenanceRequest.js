@@ -8,6 +8,9 @@ import ConfirmModal from "../../../components/confirmModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useBodyScroll from "@/utils/useBodyScroll";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
+
 
 const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
   const [subject, setSubject] = useState("");
@@ -15,6 +18,7 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
   const [openAccept, setOpenAccept] = useState(false);
   const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const accept = () => {
     setOpenAccept(!openAccept);
@@ -60,8 +64,33 @@ const MaintenanceRequest = ({ closeMaintenanceForm, data, fetchData }) => {
   };
   useBodyScroll([loading, confirm, openAccept]);
 
+
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
   return (
     <div className="p-8">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <ToastContainer
         position="top-center"
         autoClose={2000}

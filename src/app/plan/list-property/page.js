@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import useBodyScroll from "@/utils/useBodyScroll";
 import { useRouter } from "next/navigation";
 import useProfileStore from "@/store/profile";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const ListProperty = () => {
     const router = useRouter();
@@ -35,6 +36,7 @@ const ListProperty = () => {
     const [removeCertificate, setRemoveCertificate] = useState(false);
     const [formError, setFormError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
     useEffect(() => {
         if (!profile) {
@@ -201,9 +203,33 @@ const ListProperty = () => {
         router.back();
     };
 
+    useEffect(() => {
+        let timer;
+
+        if (loading) {
+            // Set a timer to show the long loading message after 3 seconds
+            timer = setTimeout(() => {
+                setShowLongLoadingMessage(true);
+            }, 20000); // 20 seconds
+        } else {
+            // Reset when loading is false
+            setShowLongLoadingMessage(false);
+        }
+
+        // Cleanup the timer on component unmount or when loading changes
+        return () => clearTimeout(timer);
+    }, [loading]);
+
+    const closeModalDelay = () => {
+        setShowLongLoadingMessage(false);
+    };
+
     return (
         <div className="pt-[64px] max-w-[1156px] m-auto">
             {loading && <Loading />}
+            <CustomizedModal isOpen={showLongLoadingMessage}>
+                <LoadingProlonged closeModal={closeModalDelay} />
+            </CustomizedModal>
             <CustomizedModal isOpen={isSubmitConfirmationVisible}>
                 <div className="bg-white p-8 rounded-md">
                     <Image

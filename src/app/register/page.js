@@ -2,7 +2,7 @@
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,8 @@ import SliderAuth from "@/components/auth/slider";
 import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import ReCaptcha from "@/components/auth/reCaptcha";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const Register = () => {
   const router = useRouter();
@@ -24,6 +26,7 @@ const Register = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const handleCaptchaChange = () => {
     setVerified(true);
@@ -97,6 +100,27 @@ const Register = () => {
 
   useBodyScroll([loading])
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
 
   return (
     <div className="">
@@ -113,7 +137,9 @@ const Register = () => {
         pauseOnHover
         theme="dark"
       />
-
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <div className="flex m-auto max-w-[100%] sm:max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
@@ -160,7 +186,7 @@ const Register = () => {
                         handleInputChange("password", e.target.value)
                       }}
                       placeholder="Create a password"
-                      autoComplete="new-password" 
+                      autoComplete="new-password"
                     />
                     <div className="absolute top-11 right-8" onClick={Visible}>
                       {visible ? (
@@ -207,12 +233,12 @@ const Register = () => {
                 </div>
                 <ReCaptcha onChange={handleCaptchaChange} />
                 {
-                    <button
-                      className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
-                      type="Submit"
-                    >
-                      {loading ? <LoadingFormII /> : "Get Started"}
-                    </button>
+                  <button
+                    className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
+                    type="Submit"
+                  >
+                    {loading ? <LoadingFormII /> : "Get Started"}
+                  </button>
                 }
                 {/* <div className="">
                   <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">

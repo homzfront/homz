@@ -11,6 +11,9 @@ import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import useProfileStore from "@/store/profile";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
+
 
 const VerifyEmail = () => {
   const router = useRouter();
@@ -25,6 +28,7 @@ const VerifyEmail = () => {
   const [resend, setResend] = useState(false);
   const [seconds, setSeconds] = useState(60);
   const { profile } = useProfileStore();
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const startTimer = () => {
     setSeconds(60)
@@ -150,6 +154,27 @@ const VerifyEmail = () => {
 
   const isOTPComplete = otp.every((digit) => /^\d$/.test(digit));
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
   return (
     <div className="">
       <ToastContainer
@@ -165,6 +190,9 @@ const VerifyEmail = () => {
         pauseOnHover
         theme="dark"
       />
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <div className="flex m-auto max-w-[1440px] h-[1024px]">
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
