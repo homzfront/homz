@@ -21,6 +21,7 @@ const TenantManagement = () => {
   const [houseAddress, setHouseAddress] = useState("");
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [estatesData, setEstatesData] = useState([])
