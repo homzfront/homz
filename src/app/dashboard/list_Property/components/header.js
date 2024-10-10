@@ -6,11 +6,14 @@ import Image from "next/image";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import useClickOutside from "@/utils/clickOutside";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const AdminHeader = () => {
-  const dropdownRef = useClickOutside(() => setPopUpMenu(false)); 
+  const dropdownRef = useClickOutside(() => setPopUpMenu(false));
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const handleToggleMenu = () => {
     setPopUpMenu(!popUpMenu);
@@ -28,13 +31,35 @@ const AdminHeader = () => {
 
   const user = data;
 
+  useEffect(() => {
+    let timer;
 
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
 
   return (
     <div
       className={
         `hidden md:block header mb-3 w-full sm:h-[85px]`}
     >
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <div className="sm:flex h-full  sm:items-center sm:justify-between px-4 sm:pt-0 pt-10">
         <div className="relative hidden sm:block">
           {/* <input

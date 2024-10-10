@@ -14,6 +14,8 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useHeaderStore from "@/store/useHeaderStore";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -21,6 +23,7 @@ const Header = () => {
   const headerOpenedOnce = useHeaderStore((state) => state.headerOpenedOnce);
   const setPopUpMenuTwo = useHeaderStore((state) => state.setPopUpMenuTwo);
   const setHeaderOpenedOnce = useHeaderStore((state) => state.setHeaderOpenedOnce);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const dropdownRef = useClickOutside(() => setPopUpMenu(false));
   const [open, setOpen] = useState(false);
@@ -72,8 +75,32 @@ const Header = () => {
   const trialEndDate = user?.trialEndDate;
   const daysLeft = calculateDaysLeft(trialEndDate);
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
   return (
     <div className="header relative">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       {user?.trialEndDate && user?.PlanStatus !== "paid" && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
       {open && (
         <div className="">

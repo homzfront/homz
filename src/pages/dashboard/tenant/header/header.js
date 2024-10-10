@@ -18,6 +18,8 @@ import Notification from "@/components/icons/notification";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import useHeaderStore from "@/store/useHeaderStore";
 import ReminderNoti from "./components/reminderNoti";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const Header = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -31,7 +33,7 @@ const Header = () => {
   const headerOpenedOnce = useHeaderStore((state) => state.headerOpenedOnce);
   const setPopUpMenuThree = useHeaderStore((state) => state.setPopUpMenuTwo);
   const setHeaderOpenedOnce = useHeaderStore((state) => state.setHeaderOpenedOnce);
-
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const selectedData = (data) => {
     if (data) {
@@ -113,8 +115,32 @@ const Header = () => {
     setPopUpMenuThree(false);
   }
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
   return (
     <div className="header relative">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       {noti && popUpMenuThree && <ReminderNoti closeMenu={closeMenuN} noti={noti} />}
       {openAndClose && (
         <PopNotification selectedId={selectedId} closeMenu={closeMenu} />
