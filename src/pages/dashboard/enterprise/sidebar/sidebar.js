@@ -129,7 +129,7 @@ const Sidebar = () => {
       image2: <DocumentInformation className='text-BlueHomz fill-white' />,
       link: "/dashboard/enterprise-property/documentGeneration",
       name: "Document Generation",
-      coming: true,
+      coming: null,
       active: false,
     },
     {
