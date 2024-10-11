@@ -55,7 +55,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     ? " bg-white rounded-full  w-1 h-1 shadow-md "
                                     : "h-1 w-1"
                                     }`}
-                                onClick={handlePageChange}
+                                // onClick={handlePageChange}
                             >
                                 <div
                                     className={`${!active ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
@@ -69,7 +69,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     ? " bg-white rounded-full  w-1 h-1 shadow-md "
                                     : "h-1 w-1"
                                     }`}
-                                onClick={handlePageChangeTwo}
+                                // onClick={handlePageChangeTwo}
                             >
                                 <div
                                     className={`${activeTwo ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
@@ -83,7 +83,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     ? " bg-white rounded-full  w-1 h-1 shadow-md "
                                     : "h-1 w-1"
                                     }`}
-                                onClick={handlePageChangeThree}
+                                // onClick={handlePageChangeThree}
                             >
                                 <div
                                     className={`${activeThree ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}
@@ -97,7 +97,7 @@ const Widget = ({ setDocumentCreation, setShowPreview }) => {
                                     ? " bg-white rounded-full  w-1 h-1 shadow-md "
                                     : "h-1 w-1"
                                     }`}
-                                onClick={handlePageChangeFour}
+                                // onClick={handlePageChangeFour}
                             >
                                 <div
                                     className={`${activeFour ? "bg-BlueHomz" : "w-[1px] h-[1px] border border-BlueHomz bg-white"} rounded-full w-[1px] h-[1px] cursor-pointer p-1 text-[14px] font-[500] text-center`}

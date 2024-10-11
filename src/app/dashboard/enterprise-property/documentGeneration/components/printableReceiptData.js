@@ -1,15 +1,11 @@
+import formatDate from '@/utils/formatDate'
+import Image from 'next/image'
 import React from 'react'
-import Image from 'next/image';
-import useReceiptFormStore from '@/store/document/useReceiptFormStore';
-import PrintableReceiptData from './printableReceiptData';
-import formatDate from '@/utils/formatDate';
 
-const ReceiptData = ({ printableRef }) => {
-    const { formData } = useReceiptFormStore();
-
+const PrintableReceiptData = ({ printableRef, formData }) => {
     return (
-        <div className='mb-[60px]'>
-            <div className='md:h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
+        <div ref={printableRef} className='mt-4'>
+            <div className='h-auto bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-8'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={formData?.image && formData.image instanceof File
@@ -41,7 +37,7 @@ const ReceiptData = ({ printableRef }) => {
                         <p className='text-[12px] font-[400]'>Property  Information</p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Property Address
@@ -53,7 +49,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Property Description
@@ -72,7 +68,7 @@ const ReceiptData = ({ printableRef }) => {
                         <p className='text-[12px] font-[400]'>Property Manager’s Information </p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Company Name
@@ -84,7 +80,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Company Address
@@ -96,7 +92,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Company Phone Number
@@ -115,7 +111,7 @@ const ReceiptData = ({ printableRef }) => {
                         <p className='text-[12px] font-[400]'>Tenant Information </p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Name
@@ -127,7 +123,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Phone Number
@@ -139,7 +135,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Tenancy Period
@@ -151,7 +147,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full flex justify-between pl-2'>
                             <div className='w-[30%]'>
                             </div>
                             <div className='w-[60%]'>
@@ -167,7 +163,7 @@ const ReceiptData = ({ printableRef }) => {
                         <p className='text-[12px] font-[400]'> Payment Information</p>
                     </div>
                     <div className="w-full flex flex-col gap-1 mt-1">
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Amount in words
@@ -179,7 +175,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Amount in figures
@@ -187,11 +183,11 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.rentPayment ? `${formData?.selectedCurrency} ${formData?.rentPayment}` : ""}
+                                    {formData?.rentPayment ? formData?.rentPayment : ""}
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Mode of payment
@@ -203,7 +199,7 @@ const ReceiptData = ({ printableRef }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className='py-2 md:py-0 md:h-min-[21px] w-full border-b flex justify-between pl-2'>
+                        <div className='py-2 md:py-0 md:h-[21px] w-full border-b flex justify-between pl-2'>
                             <div className='w-[30%]'>
                                 <p className='text-[11px] font-[500] text-BlackHomz'>
                                     Tenancy End Date
@@ -218,14 +214,8 @@ const ReceiptData = ({ printableRef }) => {
                     </div>
                 </div>
             </div>
-            <div style={{ display: 'none' }}>
-                <PrintableReceiptData
-                    printableRef={printableRef}
-                    formData={formData}
-                />
-            </div>
         </div>
     )
 }
 
-export default ReceiptData
+export default PrintableReceiptData
