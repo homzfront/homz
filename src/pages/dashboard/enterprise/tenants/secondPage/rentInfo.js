@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
+import InputTwo from "./input";
 import ConfirmModal from "../../components/confirmModal";
 import Dropdown from "../../components/dropDownTwo";
 import useBodyScroll from "@/utils/useBodyScroll";
@@ -62,8 +63,8 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     const selectedDate = new Date(startDate);
 
     // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "18 months")
-    const [amountStr, unit] = duration.split(' ');
-    let numericAmount = parseInt(amountStr, 10); // Convert the amount to a number
+    // const [amountStr, unit] = duration.split(' ');
+    let numericAmount = parseInt(duration, 10); // Convert the amount to a number
 
     if (isNaN(numericAmount)) {
       console.error('Invalid duration amount:', amountStr);
@@ -74,18 +75,9 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     let yearsToAdd = 0;
     let monthsToAdd = 0;
 
-    if (unit?.toLowerCase().includes('year')) {
-      // If the unit is years, add directly
-      yearsToAdd = numericAmount;
-    } else if (unit?.toLowerCase().includes('month')) {
-      // If the unit is months, convert to years and months
-      yearsToAdd = Math.floor(numericAmount / 12);
-      monthsToAdd = numericAmount % 12;
-    } else {
-      console.error('Invalid duration unit:', unit);
-      return;
-    }
-
+    yearsToAdd = Math.floor(numericAmount / 12);
+    monthsToAdd = numericAmount % 12;
+    
     // Adjust the date by adding years
     if (yearsToAdd > 0) {
       selectedDate.setFullYear(selectedDate.getFullYear() + yearsToAdd);
@@ -165,7 +157,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       setPropertyType(data?.upDateddata?.propertyType || "");
       setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || "");
       setRent(data?.upDateddata?.rent || "");
-      setDuration(addMonthsToValues(data?.upDateddata?.duration) || "");
+      setDuration(data?.upDateddata?.duration || "");
       setStartDate(formatDateII(data?.upDateddata?.startDate) || "");
       setDueDate(formatDateII(data?.upDateddata?.dueDate) || "")
       setSelectedValue(
@@ -330,7 +322,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       </CustomizedModal>
       <div className={`h-[auto] ${loading ? "pointer-events-none" : ""}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
+          <InputTwo
             label={"Property Type"}
             type={"type"}
             value={propertyType}
@@ -341,15 +333,29 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
               setError("")
             }}
           />
-          <Input
-            label={"Rent Duration"}
-            span2={"Enter tenant's rent duration in months"}
-            onChange={handleDurationChange}
-            value={duration}
-            type={"text"}
-            placeholder={"e.g 18 months"}
-            span={"*"}
-          />
+          <div className="relative">
+            <div className="md:h-[40px] text-[14px] font-[500] flex flex-col">
+              <label className="">
+                Rent Duration <span className="text-error">{"*"}</span>{" "}
+              </label>
+              <span className={`text-[12px] font-[400] text-GrayHomz2`}>Enter tenant's rent duration in months</span>
+            </div>
+            <input
+              className={`px-4 border mt-2 rounded-md pl-3 flex justify-center items-center h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]`}
+              type={'number'}
+              placeholder="e.g 18"
+              onChange={handleDurationChange}
+              value={duration}
+            />
+            <div className="absolute top-[42px] right-[5px]">
+              <input
+                className={` ${duration ? "text-BlackHomz" : "text-GrayHomz2"} px-4 mt-2 w-[100px] flex justify-center items-center h-[38px] placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]`}
+                type='text'
+                placeholder="months"
+                value="months"
+              />
+            </div>
+          </div>
           <Input
             label={"Property"}
             // onChange={(e) => {
@@ -389,7 +395,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             span={"*"}
             disabled={true}
           />
-          <Input
+          <InputTwo
             label={"Rent"}
             value={rent}
             onChange={(e) => {
@@ -402,7 +408,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             span={"*"}
           />
           <div className="flex flex-col gap-[10px]">
-            <label className="text-[14px] font-[500]">Payment Status <span className="text-error">*</span></label>
+            <label className="md:h-[38px] text-[14px] font-[500]">Payment Status <span className="text-error">*</span></label>
             <Dropdown
               options={options}
               selectOption={`${data?.upDateddata?.paymentStatus === undefined
