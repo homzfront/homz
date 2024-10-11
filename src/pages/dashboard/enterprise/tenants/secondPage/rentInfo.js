@@ -19,7 +19,7 @@ import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 
- 
+
 
 const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [data, setData] = useState([]);
@@ -54,7 +54,6 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     setError("")
   };
 
-
   function addDurationToDate() {
     // Assuming duration and startDate are available in the current scope
     if (!duration || !startDate) return;
@@ -62,15 +61,39 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     // Convert the start date string into a Date object
     const selectedDate = new Date(startDate);
 
-    // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "6 months")
-    const [amount, unit] = duration.split(' ');
-    const numericAmount = parseInt(amount, 10); // Convert the amount to a number
+    // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "18 months")
+    const [amountStr, unit] = duration.split(' ');
+    let numericAmount = parseInt(amountStr, 10); // Convert the amount to a number
 
-    // Adjust the date based on the unit ('years' or 'months')
-    if (unit?.includes('year')) {
-      selectedDate.setFullYear(selectedDate.getFullYear() + numericAmount);
-    } else if (unit?.includes('month')) {
-      selectedDate.setMonth(selectedDate.getMonth() + numericAmount);
+    if (isNaN(numericAmount)) {
+      console.error('Invalid duration amount:', amountStr);
+      return;
+    }
+
+    // Initialize variables for years and months
+    let yearsToAdd = 0;
+    let monthsToAdd = 0;
+
+    if (unit?.toLowerCase().includes('year')) {
+      // If the unit is years, add directly
+      yearsToAdd = numericAmount;
+    } else if (unit?.toLowerCase().includes('month')) {
+      // If the unit is months, convert to years and months
+      yearsToAdd = Math.floor(numericAmount / 12);
+      monthsToAdd = numericAmount % 12;
+    } else {
+      console.error('Invalid duration unit:', unit);
+      return;
+    }
+
+    // Adjust the date by adding years
+    if (yearsToAdd > 0) {
+      selectedDate.setFullYear(selectedDate.getFullYear() + yearsToAdd);
+    }
+
+    // Adjust the date by adding months
+    if (monthsToAdd > 0) {
+      selectedDate.setMonth(selectedDate.getMonth() + monthsToAdd);
     }
 
     // Subtract one day from the selected date
@@ -86,7 +109,8 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
 
     // Set the due date (assuming setDueDate is a state setter function available in the scope)
     setDueDate(newDate);
-  };
+  }
+
 
   useEffect(() => {
     addDurationToDate()
@@ -99,12 +123,12 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     }
   }, [loading])
 
-  function addYearsToValues(integers) {
+  function addMonthsToValues(integers) {
     if (integers === "" || integers === null || integers === undefined) {
       return ""; // Render the actual name if it exists
     } else {
       const plural = integers !== 1 ? "s" : ""; // Add 's' for values other than 1
-      return `${integers} year${plural}`;
+      return `${integers} month${plural}`;
     }
   }
 
@@ -141,7 +165,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       setPropertyType(data?.upDateddata?.propertyType || "");
       setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || "");
       setRent(data?.upDateddata?.rent || "");
-      setDuration(addYearsToValues(data?.upDateddata?.duration) || "");
+      setDuration(addMonthsToValues(data?.upDateddata?.duration) || "");
       setStartDate(formatDateII(data?.upDateddata?.startDate) || "");
       setDueDate(formatDateII(data?.upDateddata?.dueDate) || "")
       setSelectedValue(
@@ -244,6 +268,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       const id = profile?.data?.rentInfo._id;
       const { success, upDateddata, error } =
         await updateSpecificTenantRentInfo(id, updatedData);
+      console.log(upDateddata)
 
       if (success) {
         setLoading(false);
@@ -303,7 +328,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       <CustomizedModal isOpen={showLongLoadingMessage}>
         <LoadingProlonged closeModal={closeModal} />
       </CustomizedModal>
-      <div className={`h-[430px] ${loading ? "pointer-events-none" : ""}`}>
+      <div className={`h-[auto] ${loading ? "pointer-events-none" : ""}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             label={"Property Type"}
@@ -317,11 +342,12 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             }}
           />
           <Input
-            label={"Duration"}
+            label={"Rent Duration"}
+            span2={"Enter tenant's rent duration in months"}
             onChange={handleDurationChange}
             value={duration}
             type={"text"}
-            placeholder={"1 Year"}
+            placeholder={"e.g 18 months"}
             span={"*"}
           />
           <Input
@@ -372,7 +398,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             }}
             type={"text"}
             placeholder={"750000"}
-            span2={"Entered value should be annual rent"}
+            span2={"Entered value should be monthly rent"}
             span={"*"}
           />
           <div className="flex flex-col gap-[10px]">
