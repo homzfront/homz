@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import PromotionHooks from "@/utils/promoteProperty";
 
 
@@ -7,7 +7,7 @@ const useStorePropertyPromotion = create((set) => ({
   singleId: "",
   propertyPlanType: "",
   errorModal: false,
-  subsciptionStatus:null,
+  subsciptionStatus: null,
 
   getSubscription: async () => {
     try {

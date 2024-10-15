@@ -16,14 +16,18 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import useTabForDocuGen from "@/store/document/useTabForDocuGen";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [popUpMenu, setPopUpMenu] = useState(false);
   const popUpMenuTwo = useHeaderStore((state) => state.popUpMenuTwo);
   const headerOpenedOnce = useHeaderStore((state) => state.headerOpenedOnce);
   const setPopUpMenuTwo = useHeaderStore((state) => state.setPopUpMenuTwo);
   const setHeaderOpenedOnce = useHeaderStore((state) => state.setHeaderOpenedOnce);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
+  const { homepage } = useTabForDocuGen();
 
   const dropdownRef = useClickOutside(() => setPopUpMenu(false));
   const [open, setOpen] = useState(false);
@@ -51,6 +55,9 @@ const Header = () => {
 
   useEffect(() => {
     fetchData();
+    if (homepage) {
+      router.push("/dashboard/enterprise-property/documentGeneration")
+    }
   }, []);
 
   useEffect(() => {

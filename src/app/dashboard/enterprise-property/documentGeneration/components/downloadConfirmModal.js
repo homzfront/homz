@@ -27,14 +27,14 @@ const DownloadConfirmModal = ({ header, body, button, returnHome, buttonTwo, ret
                     <div className="flex gap-2 items-center w-full">
                         <button
                             onClick={returnHome}
-                            className="hover:bg-BlueHomz2 px-4 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[8px] md:text-[14px] font-[500] flex items-center justify-center gap-1"
+                            className="cursor-pointer hover:bg-BlueHomz2 px-4 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[8px] md:text-[14px] font-[500] flex items-center justify-center gap-1"
                         >
                             <Flask />
                             {button}
                         </button>
                         <button
                             onClick={returnHomeTwo}
-                            className="hover:bg-whiteblue px-4 h-[48px] rounded-md w-full text-BlueHomz border border-BlueHomz text-[8px] md:text-[14px] font-[500] flex items-center justify-center gap-1"
+                            className="cursor-pointer hover:bg-whiteblue px-4 h-[48px] rounded-md w-full text-BlueHomz border border-BlueHomz text-[8px] md:text-[14px] font-[500] flex items-center justify-center gap-1"
                         >
                             <AddBlueSmall />
                             {buttonTwo}

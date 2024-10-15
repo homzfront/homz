@@ -6,22 +6,22 @@ import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
 import useQuickNoticeFormStore from '@/store/document/useQuickNoticeFormStore';
 import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
-import { z } from 'zod';
-import quitNoticeSchema from '@/validation/quitNoticeSchema'
 import useProfileStore from '@/store/profile';
 import { usePathname, useRouter } from 'next/navigation';
+import useTabForDocuGen from '@/store/document/useTabForDocuGen';
 
 const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
     const [hoverII, setHoverII] = useState(false);
+    const fileInputRef = useRef(null);
     const { formData, setFormData, mergeFormData } = useQuickNoticeFormStore();
     const options = ["Monthly", "Quarterly", "Annually"];
-    const fileInputRef = useRef(null);
     const [errors, setErrors] = useState({});
     const router = useRouter();
     const path = usePathname();
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
     const { profile } = useProfileStore();
+    const { setHomePage } = useTabForDocuGen();
 
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
@@ -37,84 +37,28 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
 
-
-    const normalizeFormData = (data) => {
-        return Object.keys(data).reduce((acc, key) => {
-            acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
-            return acc;
-        }, {});
-    };
-    // Function to validate form fields using Zod
-    const validateForm = () => {
-        const normalizedFormData = normalizeFormData(formData); // Normalize null values
-        try {
-            quitNoticeSchema.parse(normalizedFormData);
-            setErrors({});
-            return true;
-        } catch (e) {
-            if (e instanceof z.ZodError) {
-                const fieldErrors = e.errors.reduce((acc, error) => {
-                    if (error.path.length) {
-                        acc[error.path[0]] = error.message;
-                    }
-                    return acc;
-                }, {});
-                setErrors(fieldErrors);
-            }
-            return false;
-        }
-    };
-
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
 
     const handleGenerate = () => {
-        if (path !== "/dashboard/enterprise-property/documentGeneration") {
-            router.push(url);
-            
-        } else {
         const existingId = formData.id;
-        // if (validateForm()) {
-            if (existingId) {
-                // ID exists, update existing data
-                mergeFormData(formData);
-            } else {
-                // ID does not exist, generate new ID and create new entry
-                setFormData('id', generateUniqueId());
-            }
+        if (existingId) {
+            // ID exists, update existing data
+            mergeFormData(formData);
+        } else {
+            // ID does not exist, generate new ID and create new entry
+            const newId = generateUniqueId();
+            setFormData('id', newId);
+            mergeFormData({ ...formData, id: newId });
+        }
+        // Determine navigation based on the current path
+        if (path !== "/dashboard/enterprise-property/documentGeneration") {
+            setHomePage(true);
+            router.push(url);
+        } else {
             setShowPreview(true);
         }
-        // } else if
-        //     (
-        //     formData?.noticePeriod !== '' &&
-        //     formData?.noticeStartDate !== '' &&
-        //     formData?.propertyDesc !== '' &&
-        //     formData?.propertyAddress !== '' &&
-        //     formData?.landlordName !== '' &&
-        //     formData?.tenantName !== '' &&
-        //     formData?.tenantAddress !== '' &&
-        //     formData?.duration !== null &&
-        //     formData?.propertyManagerName !== '' &&
-        //     formData?.propertyManagerCompanyName !== '' &&
-        //     formData?.propertyManagerCompanyEmail !== '' &&
-        //     formData?.propertyManagerCompanyAddress !== '' &&
-        //     formData?.propertyManagerCompanyWebsite !== '' &&
-        //     formData?.image !== null
-        // ) {
-        //     if (existingId) {
-        //         // ID exists, update existing data
-        //         mergeFormData(formData);
-        //     } else {
-        //         // ID does not exist, generate new ID and create new entry
-        //         setFormData('id', generateUniqueId());
-        //     }
-        //     setShowPreview(true);
-        // }
-        // else {
-        //     return;
-
-        // }
     };
 
     const handleFileChange = (event) => {

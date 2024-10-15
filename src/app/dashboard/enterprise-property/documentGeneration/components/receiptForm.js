@@ -6,10 +6,9 @@ import ArrowRightWhiteSmall from '@/components/icons/arrowRightWhiteSmall';
 import useReceiptFormStore from '@/store/document/useReceiptFormStore';
 import BluePhoto from '@/components/icons/bluePhoto';
 import Image from 'next/image';
-import { z } from 'zod';
-import receiptSchema from '@/validation/receiptSchema'
 import { usePathname, useRouter } from 'next/navigation';
 import useProfileStore from '@/store/profile';
+import useTabForDocuGen from '@/store/document/useTabForDocuGen';
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -22,6 +21,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const path = usePathname();
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
     const { profile } = useProfileStore();
+    const { setHomePage } = useTabForDocuGen();
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
     }
@@ -36,53 +36,26 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
 
-
-    // const normalizeFormData = (data) => {
-    //     return Object.keys(data).reduce((acc, key) => {
-    //         acc[key] = data[key] === null ? '' : data[key]; // Convert null to empty string
-    //         return acc;
-    //     }, {});
-    // };
-
-    // Function to validate form fields using Zod
-    // const validateForm = () => {
-    //     const normalizedFormData = normalizeFormData(formData); // Normalize null values
-    //     try {
-    //         receiptSchema.parse(normalizedFormData);
-    //         setErrors({});
-    //         return true;
-    //     } catch (e) {
-    //         if (e instanceof z.ZodError) {
-    //             const fieldErrors = e.errors.reduce((acc, error) => {
-    //                 if (error.path.length) {
-    //                     acc[error.path[0]] = error.message;
-    //                 }
-    //                 return acc;
-    //             }, {});
-    //             setErrors(fieldErrors);
-    //         }
-    //         return false;
-    //     }
-    // };
-
     const generateUniqueId = () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
 
     const handleGenerate = () => {
-        if (path !== "/dashboard/enterprise-property/documentGeneration") {
-            router.push(url);
-
+        const existingId = formData.id;
+        if (existingId) {
+            // ID exists, update existing data
+            mergeFormData(formData);
         } else {
-            // if (validateForm()) {
-            const existingId = formData.id;
-            if (existingId) {
-                // ID exists, update existing data
-                mergeFormData(formData);
-            } else {
-                // ID does not exist, generate new ID and create new entry
-                setFormData('id', generateUniqueId());
-            }
+            // ID does not exist, generate new ID and create new entry
+            const newId = generateUniqueId();
+            setFormData('id', newId);
+            mergeFormData({ ...formData, id: newId });
+        }
+        // Determine navigation based on the current path
+        if (path !== "/dashboard/enterprise-property/documentGeneration") {
+            setHomePage(true);
+            router.push(url);
+        } else {
             setShowPreview(true);
         }
     };
