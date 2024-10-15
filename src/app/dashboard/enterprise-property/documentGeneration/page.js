@@ -133,7 +133,6 @@ const App = () => {
     }
   }, [homePage, documentCreation, setHomePage]);
 
-
   const getDataToUpdate = useCallback(() => {
     switch (DocType) {
       case "Tenancy Agreement":
