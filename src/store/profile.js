@@ -34,7 +34,7 @@ const useProfileStore = create((set) => ({
         }, 86400000); // 24 hours in milliseconds
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      // console.error('Error fetching profile:', error);
       set({ loading: false });
     }
   },
@@ -52,7 +52,7 @@ const useProfileStore = create((set) => ({
       
       window.location.href = '/';
     } catch (error) {
-      console.error('Error logging out:', error);
+      // console.error('Error logging out:', error);
     }
   },
 

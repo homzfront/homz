@@ -3,20 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
-import PopUpMenuAlert from "./components/popUpMenuAlert";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import useClickOutside from "@/utils/clickOutside";
 import SidebarMobile from "../sidebarMobile/sidebarHeader";
 import Menu from "@/components/icons/Menu";
 import TrialWarning from "./components/trialWarning";
 import calculateDaysLeft from "@/utils/trailEndDays";
-import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useHeaderStore from "@/store/useHeaderStore";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
-import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
@@ -27,7 +24,6 @@ const Header = () => {
   const setPopUpMenuTwo = useHeaderStore((state) => state.setPopUpMenuTwo);
   const setHeaderOpenedOnce = useHeaderStore((state) => state.setHeaderOpenedOnce);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
-  const { homepage } = useTabForDocuGen();
 
   const dropdownRef = useClickOutside(() => setPopUpMenu(false));
   const [open, setOpen] = useState(false);
@@ -52,13 +48,6 @@ const Header = () => {
   };
 
   const { data, loading, fetchData } = useProfileEnterpriseMe();
-
-  useEffect(() => {
-    fetchData();
-    if (homepage) {
-      router.push("/dashboard/enterprise-property/documentGeneration")
-    }
-  }, []);
 
   useEffect(() => {
     if (!headerOpenedOnce) {
