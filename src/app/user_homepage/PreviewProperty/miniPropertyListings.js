@@ -36,11 +36,11 @@ const MiniPropertyListings = ({
       <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px] my-4 sm:w-[235px] w-full">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <div
-            className={`flex flex-col sm:w-[245px] h-fit rounded-[12px] shadow-md w-full`}
+            className={`flex flex-col sm:w-[231px] h-fit rounded-[12px] shadow-md w-full`}
             key={index}
           >
             <div
-              className={`cursor-pointer sm:w-[245px] sm:h-[181.77px] rounded-[10px] w-full`}
+              className={`cursor-pointer sm:w-[231px] sm:h-[181.77px] rounded-[12px] w-full`}
             >
               {property?.photos.length > 0 ? (
                 <Carousel
@@ -57,7 +57,7 @@ const MiniPropertyListings = ({
                       <Image
                         src={img?.url}
                         alt=""
-                        width={383}
+                        width={373}
                         height={181.77}
                         className="w-full h-[181.77px]   sm:object-cover retive z-0"
                       />

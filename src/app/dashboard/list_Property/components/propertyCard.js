@@ -4,8 +4,7 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useReducer,
-  useTransition,
+  useReducer
 } from "react";
 import PromotionHooks from "@/utils/promoteProperty";
 import { useRouter } from "next/navigation";

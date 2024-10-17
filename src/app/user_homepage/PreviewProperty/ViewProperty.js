@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import MiniPropertyListings from "./miniPropertyListings";
 import timeAgo from "@/utils/timeAgo";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,8 @@ import OwnersCard from "./ownersCard";
 // import RequestCard from "./requestCard";
 import FeaturedCard from "./featuredCard";
 import TipsFrame from "./tipsFrame";
+import VideoFrame from "./videoFrame";
+import InstagramFrame from "./instagramView";
 import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 // import { property } from "lodash";
@@ -76,9 +78,7 @@ const ViewProperty = ({ PropertyID }) => {
   useEffect(() => {
     const propertyData = async () => {
       const response = await fetchSinglePropertyPublic(PropertyID);
-      // console.log(response?.data);
-      const property = await response;
-      setPropertyData(property?.data);
+      setPropertyData(response?.data);
       setLoading(false);
     };
     propertyData();
@@ -100,13 +100,6 @@ const ViewProperty = ({ PropertyID }) => {
       // console.error("Invalid or missing data structure.");
     }
   }, [propertyData]);
-
-  useEffect(() => {
-    // Update remainder state when combinedData length changes
-    if (combinedData.length === 8) {
-      setRemainder(combinedData.length - 7);
-    }
-  }, [combinedData]);
 
   const [properties, setProperties] = useState(null);
   useEffect(() => {
@@ -221,7 +214,7 @@ const ViewProperty = ({ PropertyID }) => {
                     {combinedData &&
                       slicedData.map((item, index) => (
                         <div
-                          key={item.id}
+                          key={index}
                           className="relative"
                           onClick={() => openImageModal(index, item)}
                         >
@@ -542,6 +535,15 @@ const ViewProperty = ({ PropertyID }) => {
                       )}
                     </div>
                   </div>
+                  {propertyData?.videoLinks?.youtubeUrl && (
+                    <Suspense fallback={<p>Loading video...</p>}>
+                      <VideoFrame url={propertyData?.videoLinks?.youtubeUrl} />
+                    </Suspense>
+                  )}
+
+                  {propertyData?.videoLinks?.instagramUrl && (
+                   <InstagramFrame url={propertyData?.videoLinks?.instagramUrl}/>
+                  )}
 
                   <ContactCard
                     contactData={propertyData}

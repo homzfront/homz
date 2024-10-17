@@ -19,7 +19,7 @@ const OwnersCard = ({ propertyData }) => {
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%] mt-4 sm:mt-0"
       id="contactOwner"
     >
-      <p cclassName="text-[16px] leading-[24px] font-[500] text-[#202020]">
+      <p className="text-[16px] leading-[24px] font-[500] text-[#202020]">
         Marketer
       </p>
       <div className="flex gap-2 items-center border-b pb-3">
