@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 import PropertyInfo from "./propertyInfo";
@@ -12,6 +12,7 @@ import api from "@/utils/api";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 
 const PropertyForms = () => {
@@ -25,7 +26,7 @@ const PropertyForms = () => {
   const [rentalInfo, setRentalInfo] = useState([]);
   const [coverPhoto, setUploadedCoverPhoto] = useState(null);
   const [photos, setUploadedOtherPhotos] = useState([]);
-  // const [contactInfo, setContactInfo] = useState({});
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
   const [propertyDetails, setPropertyDetails] = useState([]);
@@ -236,6 +237,28 @@ const PropertyForms = () => {
   const goBack = () => {
     router.back();
   };
+
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+const closeModalDelay = () => {
+  setShowLongLoadingMessage(false);
+};
+
 
   return (
     <div className=" dashboard md:pt-4">
@@ -485,6 +508,9 @@ const PropertyForms = () => {
             No, go back
           </button>
         </div>
+      </CustomizedModal>
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModalDelay} />
       </CustomizedModal>
       <CustomizedModal
         isOpen={successModalIsOpen}

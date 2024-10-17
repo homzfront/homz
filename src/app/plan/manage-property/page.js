@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "@/utils/api";
 import SelectState from "@/pages/selectStateAndArea/selectState";
 import SelectArea from "@/pages/selectStateAndArea/selectArea";
@@ -10,6 +10,7 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const ManageProperty = () => {
   const [formError, setFormError] = useState("");
@@ -21,6 +22,8 @@ const ManageProperty = () => {
   const [estateAddress, setEstateAddress] = useState("");
   const [selectedState, setSelectedState] = useState('')
   const [selectedArea, setSelectedArea] = useState('')
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
+
   const router = useRouter();
 
   const goBack = () => {
@@ -78,10 +81,32 @@ const ManageProperty = () => {
     }
   }
 
- 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+const closeModal = () => {
+  setShowLongLoadingMessage(false);
+};
 
   return (
     <div className="pt-[100px] md:pt-[64px] relative">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <CustomizedModal isOpen={isSubmitConfirmationVisible}>
         <div className="bg-white p-8 rounded-md">
           <Image

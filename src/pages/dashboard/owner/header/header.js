@@ -11,6 +11,8 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import Link from "next/link";
 import LandLordInactiveStore from "@/store/landLordInactiveStore/landLordInactiveStore";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 
 const Header = () => {
@@ -19,6 +21,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useClickOutside(() => setPopUpMenu(false)); // Use the custom hook
   const dropdownRefII = useClickOutside(() => setPopUpMenuTwo(false));
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const handleToggleMenuTwo = () => {
     setPopUpMenuTwo(prevState => !prevState);
@@ -41,9 +44,32 @@ const Header = () => {
 
   const { showKindlyWait } = LandLordInactiveStore();
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
 
   return (
     <div className="header">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       {open && (
         <div className="">
           <div className="absolute bg-white h-auto z-50 w-[100%]">

@@ -27,7 +27,7 @@ body {
 body::-webkit-scrollbar {
   width: 10px;
   max-width: 1440px;
-  background-color: #d1e4ff;
+  background-color: #ffffff;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -41,14 +41,14 @@ body::-webkit-scrollbar-thumb {
 /* Add this to your existing styles or create a separate stylesheet */
 .scrollbar-container::-webkit-scrollbar {
   width: 6px;
-  background-color: #d1e4ff;
+  background-color: #ffffff;
   /* border-top-right-radius: 30px; */
   scrollbar-width: thin;
   /* Set the width of the scrollbar track */
 }
 
 .scrollbar-container::-webkit-scrollbar-thumb {
-  background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
+  background-color: #eef5ff; /* Make the scrollbar thumb transparent to hide it */
   padding-top: 10px;
   /* border-top-right-radius: 30px; */
 }

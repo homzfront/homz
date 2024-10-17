@@ -12,6 +12,8 @@ import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import useClickOutside from "@/utils/clickOutside";
 import BusinessAlert from "../icons/businessAlert";
 import Down from "../icons/Down";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const Header = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
@@ -24,6 +26,7 @@ const Header = () => {
   const pathname = keepThree(path);
   const [isLoading, setIsLoading] = useState(false); // Internal loading state
   const [hasListProperty, setHasListProperty] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
@@ -124,9 +127,33 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
 
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       {
         openModalForBusi &&
         <div

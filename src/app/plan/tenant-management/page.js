@@ -9,7 +9,8 @@ import React, { useEffect, useState } from "react";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { useRouter } from "next/navigation";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
-import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal"
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const TenantManagement = () => {
   const [formError, setFormError] = useState("");
@@ -20,6 +21,7 @@ const TenantManagement = () => {
   const [houseAddress, setHouseAddress] = useState("");
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [estatesData, setEstatesData] = useState([])
@@ -88,10 +90,33 @@ const TenantManagement = () => {
   // useEffect to handle scrolling
   useBodyScroll([loading]);
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
 
 
   return (
     <div className="pt-[100px] md:pt-[64px] relative">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <CustomizedModal isOpen={isSubmitConfirmationVisible}>
         <div className="bg-white p-8 rounded-md">
           <Image

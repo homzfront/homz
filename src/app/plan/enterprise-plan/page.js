@@ -3,17 +3,19 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import api from "@/utils/api";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingForm from "@/components/mainmenu/loadingForm";
 import { useRouter } from "next/navigation";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 
 const EnterprisePlan = () => {
   const [formError, setFormError] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
   const [isSubmitConfirmationVisible, setSubmitConfirmationVisible] =
     useState(false);
   const [loading, setLoading] = useState(false); // Loading state;
@@ -87,10 +89,32 @@ const EnterprisePlan = () => {
     }
   }
 
+  useEffect(() => {
+    let timer;
 
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+const closeModal = () => {
+  setShowLongLoadingMessage(false);
+};
 
   return (
     <div className="pt-[64px] relative">
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
       <CustomizedModal isOpen={isSubmitConfirmationVisible}>
         <div className="bg-white p-8 rounded-md">
           <Image

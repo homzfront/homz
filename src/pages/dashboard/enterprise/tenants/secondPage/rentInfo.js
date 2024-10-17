@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
+import InputTwo from "./input";
 import ConfirmModal from "../../components/confirmModal";
 import Dropdown from "../../components/dropDownTwo";
 import useBodyScroll from "@/utils/useBodyScroll";
@@ -16,6 +17,10 @@ import lowerCaseData from "@/utils/lowerCaseData";
 import processNumber from "@/utils/processNumber";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
+
+
 
 const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [data, setData] = useState([]);
@@ -30,6 +35,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const [confirm, setConfirm] = useState(false);
   const {
@@ -39,6 +45,69 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     fetchData: fetchWalletPayment,
   } = useWalletPaymentStore();
 
+  const handleDurationChange = (e) => {
+    setDuration(e.target.value);
+    setError("")
+  };
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    setError("")
+  };
+
+  function addDurationToDate() {
+    // Assuming duration and startDate are available in the current scope
+    if (!duration || !startDate) return;
+
+    // Convert the start date string into a Date object
+    const selectedDate = new Date(startDate);
+
+    // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "18 months")
+    // const [amountStr, unit] = duration.split(' ');
+    let numericAmount = parseInt(duration, 10); // Convert the amount to a number
+
+    if (isNaN(numericAmount)) {
+      console.error('Invalid duration amount:', amountStr);
+      return;
+    }
+
+    // Initialize variables for years and months
+    let yearsToAdd = 0;
+    let monthsToAdd = 0;
+
+    yearsToAdd = Math.floor(numericAmount / 12);
+    monthsToAdd = numericAmount % 12;
+    
+    // Adjust the date by adding years
+    if (yearsToAdd > 0) {
+      selectedDate.setFullYear(selectedDate.getFullYear() + yearsToAdd);
+    }
+
+    // Adjust the date by adding months
+    if (monthsToAdd > 0) {
+      selectedDate.setMonth(selectedDate.getMonth() + monthsToAdd);
+    }
+
+    // Subtract one day from the selected date
+    selectedDate.setDate(selectedDate.getDate() - 1);
+
+    // Extract the year, month, and day in the correct format (YYYY-MM-DD)
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+
+    // Create the final date string in YYYY-MM-DD format
+    const newDate = `${year}-${month}-${day}`;
+
+    // Set the due date (assuming setDueDate is a state setter function available in the scope)
+    setDueDate(newDate);
+  }
+
+
+  useEffect(() => {
+    addDurationToDate()
+  }, [duration, startDate])
+
   useEffect(() => {
     if (tenantId) {
       fetchData(tenantId)
@@ -46,12 +115,12 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     }
   }, [loading])
 
-  function addYearsToValues(integers) {
+  function addMonthsToValues(integers) {
     if (integers === "" || integers === null || integers === undefined) {
       return ""; // Render the actual name if it exists
     } else {
       const plural = integers !== 1 ? "s" : ""; // Add 's' for values other than 1
-      return `${integers} year${plural}`;
+      return `${integers} month${plural}`;
     }
   }
 
@@ -88,7 +157,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       setPropertyType(data?.upDateddata?.propertyType || "");
       setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || "");
       setRent(data?.upDateddata?.rent || "");
-      setDuration(addYearsToValues(data?.upDateddata?.duration) || "");
+      setDuration(data?.upDateddata?.duration || "");
       setStartDate(formatDateII(data?.upDateddata?.startDate) || "");
       setDueDate(formatDateII(data?.upDateddata?.dueDate) || "")
       setSelectedValue(
@@ -191,6 +260,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       const id = profile?.data?.rentInfo._id;
       const { success, upDateddata, error } =
         await updateSpecificTenantRentInfo(id, updatedData);
+      console.log(upDateddata)
 
       if (success) {
         setLoading(false);
@@ -224,11 +294,35 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     return `${year}-${month}-${day}`;
   }
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
+
   return (
     <div>
-      <div className={`h-[430px] ${loading ? "pointer-events-none" : ""}`}>
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
+      <div className={`h-[auto] ${loading ? "pointer-events-none" : ""}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
+          <InputTwo
             label={"Property Type"}
             type={"type"}
             value={propertyType}
@@ -239,17 +333,29 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
               setError("")
             }}
           />
-          <Input
-            label={"Duration"}
-            onChange={(e) => {
-              setDuration(e.target.value)
-              setError("")
-            }}
-            value={duration}
-            type={"type"}
-            placeholder={"1 Year"}
-            span={"*"}
-          />
+          <div className="relative">
+            <div className="md:h-[40px] text-[14px] font-[500] flex flex-col">
+              <label className="">
+                Rent Duration <span className="text-error">{"*"}</span>{" "}
+              </label>
+              <span className={`text-[12px] font-[400] text-GrayHomz2`}>Enter tenant's rent duration in months</span>
+            </div>
+            <input
+              className={`px-4 border mt-2 rounded-md pl-3 flex justify-center items-center h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]`}
+              type={'number'}
+              placeholder="e.g 18"
+              onChange={handleDurationChange}
+              value={duration}
+            />
+            <div className="absolute top-[42px] right-[5px]">
+              <input
+                className={` ${duration ? "text-BlackHomz" : "text-GrayHomz2"} px-4 mt-2 w-[100px] flex justify-center items-center h-[38px] placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]`}
+                type='text'
+                placeholder="months"
+                value="months"
+              />
+            </div>
+          </div>
           <Input
             label={"Property"}
             // onChange={(e) => {
@@ -266,10 +372,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             label={"Start Date"}
             type={"date"}
             value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value)
-              setError("")
-            }}
+            onChange={handleStartDateChange}
             placeholder={"4th January, 2023"}
             span={"*"}
           />
@@ -287,15 +390,12 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
           <Input
             label={"Due Date"}
             value={dueDate}
-            onChange={(e) => {
-              setDueDate(e.target.value)
-              setError("")
-            }}
             type={"date"}
             placeholder={"4th January, 2024"}
             span={"*"}
+            disabled={true}
           />
-          <Input
+          <InputTwo
             label={"Rent"}
             value={rent}
             onChange={(e) => {
@@ -304,11 +404,11 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             }}
             type={"text"}
             placeholder={"750000"}
-            span2={"Entered value should be annual rent"}
+            span2={"Entered value should be monthly rent"}
             span={"*"}
           />
           <div className="flex flex-col gap-[10px]">
-            <label className="text-[14px] font-[500]">Payment Status <span className="text-error">*</span></label>
+            <label className="md:h-[38px] text-[14px] font-[500]">Payment Status <span className="text-error">*</span></label>
             <Dropdown
               options={options}
               selectOption={`${data?.upDateddata?.paymentStatus === undefined

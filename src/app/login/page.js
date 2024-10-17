@@ -3,7 +3,7 @@ import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useProfileStore from "@/store/profile";
@@ -16,6 +16,8 @@ import SliderAuth from "@/components/auth/slider";
 import determineUserDashboard from "@/utils/determineUserDashboard";
 import Cookies from "js-cookie";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import LoadingProlonged from "@/components/general/loadingProlonged";
 // import { signIn } from 'next-auth/react';
 
 const Login = () => {
@@ -24,6 +26,7 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(true);
   const router = useRouter();
   useBodyScroll([loading])
 
@@ -31,10 +34,29 @@ const Login = () => {
   //   signIn('google');
   // };
 
+  useEffect(() => {
+    let timer;
+
+    if (loading) {
+      // Set a timer to show the long loading message after 3 seconds
+      timer = setTimeout(() => {
+        setShowLongLoadingMessage(true);
+      }, 20000); // 20 seconds
+    } else {
+      // Reset when loading is false
+      setShowLongLoadingMessage(false);
+    }
+
+    // Cleanup the timer on component unmount or when loading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
-  
+
     setLoading(true);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,14 +75,14 @@ const Login = () => {
       setLoading(false);
       return;
     }
-  
+
     try {
       const response = await api.post("/auth/login", {
         email,
         password,
       });
-  
-      if (response.status === 201) { 
+
+      if (response.status === 201) {
         const data = response.data.data.token;
         localStorage.setItem('jwt', data)
 
@@ -76,14 +98,14 @@ const Login = () => {
             } else {
               router.push("/");
             }
-    
+
             useProfileStore.setState({
               user: data,
               profile: profileData,
               isLoggedIn: true,
               loading: false,
             });
-    
+
             setTimeout(() => {
               setEmail("");
               setPassword("");
@@ -98,21 +120,23 @@ const Login = () => {
             localStorage.setItem("email", response?.data?.data?.email);
           }
         }
-  
+
       } else {
         setLoginError(response.data.message);
       }
     } catch (error) {
       setLoginError(error.response?.data?.message);
       setLoading(false);
-    } 
+    }
   };
-  
+
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
 
   const Visible = () => {
     setVisible(!visible);
   };
-
 
   return (
     <div className="">
@@ -129,6 +153,10 @@ const Login = () => {
         pauseOnHover
         theme="dark"
       />
+      <CustomizedModal isOpen={showLongLoadingMessage}>
+        <LoadingProlonged closeModal={closeModal} />
+      </CustomizedModal>
+
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">
 
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
@@ -158,7 +186,7 @@ const Login = () => {
                         setLoginError("")
                       }}
                       placeholder="Enter your email"
-                      autoComplete="email" 
+                      autoComplete="email"
                     />
 
                   </div>
@@ -175,7 +203,7 @@ const Login = () => {
                         setLoginError("")
                       }}
                       placeholder="Enter your password"
-                      autoComplete="current-password" 
+                      autoComplete="current-password"
                     />
                     <div className="absolute top-11 right-4" onClick={Visible}>
                       {visible ? (
