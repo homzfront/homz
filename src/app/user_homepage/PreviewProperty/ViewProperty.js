@@ -128,11 +128,11 @@ const ViewProperty = ({ PropertyID }) => {
     router.push("/user_homepage/PropertyListing");
   };
 
-  const viewFile = (url) => {
-    if (url) {
-      window.open(url);
-    }
-  };
+  // const viewFile = (url) => {
+  //   if (url) {
+  //     window.open(url);
+  //   }
+  // };
   const handleSharePage = async () => {
     const shareData = {
       title: document.title,
