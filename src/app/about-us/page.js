@@ -12,7 +12,7 @@ const AboutUs = () => {
       <Hero />
       <Meet />
     </div>
-  )
-}
+  );
+};
 
 export default AboutUs;
