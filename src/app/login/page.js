@@ -1,26 +1,23 @@
 "use client";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import useProfileStore from "@/store/profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
-import Loading from "@/components/mainmenu/loading";
 import useBodyScroll from "@/utils/useBodyScroll";
 import SliderAuth from "@/components/auth/slider";
 import determineUserDashboard from "@/utils/determineUserDashboard";
-import Cookies from "js-cookie";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
-// import { signIn } from 'next-auth/react';
+import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 
 const Login = () => {
+  const { homePage } = useTabForDocuGen();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
@@ -93,7 +90,10 @@ const Login = () => {
 
             // Navigation logic based on user roles and account status
             const navigateTo = determineUserDashboard(profileData);
-            if (navigateTo) {
+            if (homePage) {
+              router.push("/dashboard/enterprise-property/documentGeneration")
+            }
+            else if (!homePage && navigateTo) {
               router.push(navigateTo);
             } else {
               router.push("/");

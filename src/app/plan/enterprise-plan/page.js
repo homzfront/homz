@@ -9,8 +9,11 @@ import { useRouter } from "next/navigation";
 import ArrowLeftBlue from "@/components/icons/arrowLeftBlue";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import useTabForDocuGen from "@/store/document/useTabForDocuGen";
+
 
 const EnterprisePlan = () => {
+  const { homePage } = useTabForDocuGen();
   const [formError, setFormError] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
@@ -106,9 +109,9 @@ const EnterprisePlan = () => {
     return () => clearTimeout(timer);
   }, [loading]);
 
-const closeModal = () => {
-  setShowLongLoadingMessage(false);
-};
+  const closeModal = () => {
+    setShowLongLoadingMessage(false);
+  };
 
   return (
     <div className="pt-[64px] relative">
@@ -130,7 +133,7 @@ const closeModal = () => {
           <p className="text-center text-[14px] sm:text-[16px] text-BlackHomz mb-8">
             Your account has been successfully created.
           </p>
-          <Link href="/dashboard/enterprise-property/dashboard">
+          <Link href={homePage ? "/dashboard/enterprise-property/documentGeneration" : "/dashboard/enterprise-property/dashboard"}>
             <button className="w-full h-[48px] border rounded-md text-white bg-BlueHomz hover:bg-white hover:text-BlueHomz hover:border-BlueHomz">
               Go to Dashboard
             </button>

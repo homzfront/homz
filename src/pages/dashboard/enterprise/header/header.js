@@ -3,21 +3,21 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PopUpMenu from "./components/popUpMenu";
-import PopUpMenuAlert from "./components/popUpMenuAlert";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import useClickOutside from "@/utils/clickOutside";
 import SidebarMobile from "../sidebarMobile/sidebarHeader";
 import Menu from "@/components/icons/Menu";
 import TrialWarning from "./components/trialWarning";
 import calculateDaysLeft from "@/utils/trailEndDays";
-import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useHeaderStore from "@/store/useHeaderStore";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [popUpMenu, setPopUpMenu] = useState(false);
   const popUpMenuTwo = useHeaderStore((state) => state.popUpMenuTwo);
   const headerOpenedOnce = useHeaderStore((state) => state.headerOpenedOnce);
@@ -48,10 +48,6 @@ const Header = () => {
   };
 
   const { data, loading, fetchData } = useProfileEnterpriseMe();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (!headerOpenedOnce) {

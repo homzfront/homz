@@ -101,14 +101,14 @@ const DocumentGene = () => {
 
     return (
         <div className='w-full flex flex-col items-center'>
-            {/* {
+            {
                 <CustomizedModal isOpen={documentCreation}>
                     <DocumentCreation setDocumentCreation={setDocumentCreation}
                     // setShowPreview={setShowPreview}
                     />
                 </CustomizedModal>
-            } */}
-            {
+            }
+            {/* {
                 <CustomizedModal isOpen={documentCreation}>
                     <div className="w-full sm:w-[42%] h-[315px] bg-white border p-[24px] rounded-[12px]">
                         <div className='w-full flex justify-between items-center'>
@@ -136,7 +136,7 @@ const DocumentGene = () => {
                         </div>
                     </div>
                 </CustomizedModal>
-            }
+            } */}
             <div className='max-w-[1160px] w-full px-6'>
                 <div className='w-full'>
                     <div className='lg:h-[550px] relative flex flex-col md:flex-row justify-center lg:justify-between w-[100%]'>

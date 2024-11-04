@@ -341,7 +341,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
               <span className={`text-[12px] font-[400] text-GrayHomz2`}>Enter tenant's rent duration in months</span>
             </div>
             <input
-              className={`px-4 border mt-2 rounded-md pl-3 flex justify-center items-center h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]`}
+              className={`px-4 border mt-2 rounded-md h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]`}
               type={'number'}
               placeholder="e.g 18"
               onChange={handleDurationChange}
