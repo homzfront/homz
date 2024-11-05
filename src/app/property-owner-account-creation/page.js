@@ -1,4 +1,4 @@
-import Accept from '@/pages/ownerAccount/accept'
+import Accept from '@/app/property-owner-account-creation/(ownerAccount)/accept'
 import React from 'react'
 
 const App = () => {

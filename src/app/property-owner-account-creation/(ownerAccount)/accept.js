@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import OwnerLoginForm from "./form/ownerLoginForm";
+import OwnerLoginForm from "./(form)/ownerLoginForm";
 import useProfileStore from "@/store/profile";
 import Login from "./login";
 import { acceptInvitation } from "@/api/acceptProManInvitation";
@@ -41,9 +41,15 @@ const Accept = () => {
 
   useEffect(() => {
     if (isHomzEnterprise === "true") {
-      if (!user) {
+      if (user) {
         setShowLogin(true);
         setLoading(false);
+        setData({
+          email,
+          role,
+          invitation,
+          isHomzEnterprise
+        })
       } else {
         setLoading(false);
       }
@@ -58,16 +64,6 @@ const Accept = () => {
       setLoading(false);
     }
   }, [isHomzEnterprise, user]);
-
-  useEffect(() => {
-    if (!user) {
-      setShowLogin(!showLogin);
-      setLoading(false);
-    }
-    else {
-      setLoading(false);
-    }
-  }, [user]);
 
   const handleSubmit = async () => {
     setLoadingII(true);
@@ -139,8 +135,8 @@ const Accept = () => {
           </div>
         </div>
       ) : showLogin ? (
-        <div className="mt-20 flex justify-center items-center">
-          <Login setShowLogin={setShowLogin} />
+        <div className="w-full">
+          <Login data={data} setShowLogin={setShowLogin} />
         </div>
       ) : (
         <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">
