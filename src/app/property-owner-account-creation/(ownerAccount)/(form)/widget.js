@@ -99,10 +99,10 @@ const Widget = ({ data }) => {
       </CustomizedModal>
       <div className="sm:w-full w-[360px] h-auto">
         <div className="h-auto  flex justify-center">
-          <div className="z-0 absolute w-[360px] sm:w-[440px] pr-[92px] pl-[96px] py-[27px]">
+          <div className="z-0 absolute w-[360px] sm:w-[540px] pr-[92px] pl-[96px] py-[27px]">
             <div className="border-[1px]"></div>
           </div>
-          <div className="z-1 relative flex mt-5 gap-4 justify-between items-center px-8  w-[360px] sm:w-[440px]">
+          <div className="z-1 relative flex mt-5 gap-4 justify-between items-center px-8  w-[360px] sm:w-[540px]">
             <div className="flex flex-col items-center gap-2 justify-center">
               <div
                 className={`flex flex-col items-center p-2 justify-center ${!active

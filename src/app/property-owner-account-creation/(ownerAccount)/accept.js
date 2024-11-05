@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import OwnerLoginForm from "./form/ownerLoginForm";
+import OwnerLoginForm from "./(form)/ownerLoginForm";
 import useProfileStore from "@/store/profile";
 import Login from "./login";
 import { acceptInvitation } from "@/api/acceptProManInvitation";
@@ -138,8 +138,8 @@ const Accept = () => {
             </div>
           </div>
         </div>
-      ) : showLogin ? (
-        <div className="mt-20 flex justify-center items-center">
+      ) : !showLogin ? (
+        <div className="w-full">
           <Login setShowLogin={setShowLogin} />
         </div>
       ) : (

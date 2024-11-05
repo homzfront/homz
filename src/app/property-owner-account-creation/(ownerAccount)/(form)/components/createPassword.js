@@ -25,7 +25,7 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
       <div className="h-[634px] px-6 W-[320px] sm:w-full py-4">
         <div className="flex flex-col gap-6 m-auto  max-w-[450px]">
           <h1 className="text-center w-full  text-[23px] font-[700] text-BlackHomz">
-            Create An Account As A Property Owner
+            Create An Account As A Landlord
           </h1>
           <p className=" text-center w-full mt-[-15px] text-[18px] font-[400] text-GrayHomz">
             Create a password to secure your account
@@ -37,7 +37,7 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
             <div className="flex flex-col gap-4">
               <div className="relative flex flex-col gap-2 items-start">
                 <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                  Password*
+                  Password<span className="text-red-600">*</span>
                 </label>
                 <input
                   className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
@@ -60,7 +60,7 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
               </div>
               <div className="relative flex flex-col gap-2 items-start">
                 <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                  Re-enter Password*
+                  Re-enter Password<span className="text-red-600">*</span>
                 </label>
                 <input
                   className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
