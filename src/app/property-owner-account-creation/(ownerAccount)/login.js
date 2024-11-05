@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = ({ urlParams, setShowLogin, data }) => {
+const Login = ({ setShowLogin, data }) => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -67,7 +67,7 @@ const Login = ({ urlParams, setShowLogin, data }) => {
   };
 
   return (
-    <div className="max-w-[1440px]">
+    <div className="max-w-[1440px] mx-auto">
       <div className="flex w-full h-[1024px]">
         <ToastContainer
           position="top-center"
