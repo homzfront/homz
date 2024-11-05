@@ -38,12 +38,13 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
           >
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2 items-start">
-                <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                  Email<span className="text-red-600">*</span>
+                <label className="text-center text-[14px] font-[500] text-GrayHomz2">
+                  Email<span className="text-GrayHomz2">*</span>
                 </label>
                 <input
-                  className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
+                  className="border border-GrayHomz2 text-GrayHomz2 w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                   type="email"
+                  disabled
                   value={data?.email}
                   placeholder="CVictor@gmail.com"
                 />
@@ -89,7 +90,7 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
             {
               !name || !phonenumber ?
                 <button
-                  // disabled
+                  disabled
                   className="text-GrayHomz border bg-GrayHomz5 font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz pointer-events-none"
                   type="Submit"
                 >

@@ -41,9 +41,15 @@ const Accept = () => {
 
   useEffect(() => {
     if (isHomzEnterprise === "true") {
-      if (!user) {
+      if (user) {
         setShowLogin(true);
         setLoading(false);
+        setData({
+          email,
+          role,
+          invitation,
+          isHomzEnterprise
+        })
       } else {
         setLoading(false);
       }
@@ -58,16 +64,6 @@ const Accept = () => {
       setLoading(false);
     }
   }, [isHomzEnterprise, user]);
-
-  useEffect(() => {
-    if (!user) {
-      setShowLogin(!showLogin);
-      setLoading(false);
-    }
-    else {
-      setLoading(false);
-    }
-  }, [user]);
 
   const handleSubmit = async () => {
     setLoadingII(true);
@@ -138,9 +134,9 @@ const Accept = () => {
             </div>
           </div>
         </div>
-      ) : !showLogin ? (
+      ) : showLogin ? (
         <div className="w-full">
-          <Login setShowLogin={setShowLogin} />
+          <Login data={data} setShowLogin={setShowLogin} />
         </div>
       ) : (
         <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">

@@ -9,13 +9,11 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = ({ setShowLogin }) => {
-  const [email, setEmail] = useState("");
+const Login = ({ urlParams, setShowLogin, data }) => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const Visible = () => {
     setVisible(!visible);
   };
@@ -26,13 +24,13 @@ const Login = ({ setShowLogin }) => {
     setLoading(true); // Set loading to true when submitting the form
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(data.email)) {
       // Invalid email format
       alert("Please enter a valid email address.");
       return;
     }
 
-    if (!password || !email) {
+    if (!password || !data.email) {
       setLoginError("Please fill in all fields.");
       setLoading(false);
       return;
@@ -47,7 +45,7 @@ const Login = ({ setShowLogin }) => {
 
     try {
       const response = await api.post("/auth/login", {
-        email: email,
+        email: data.email,
         password: password,
       });
 
@@ -95,24 +93,21 @@ const Login = ({ setShowLogin }) => {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2 items-start">
-                <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                  Email*
+                <label className="text-center text-[14px] font-[500] text-GrayHomz2">
+                  Email<span className="text-GrayHomz2">*</span>
                 </label>
                 <input
-                  className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
+                  className="border border-GrayHomz2 text-GrayHomz2 w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                   type="text"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                    setLoginError("")
-                  }}
+                  disabled
+                  value={data?.email}
                   placeholder="Enter your email"
                   autoComplete="email"
                 />
               </div>
               <div className="relative flex flex-col gap-2 items-start">
                 <label className="text-center text-[14px] font-[500] text-BlackHomz">
-                  Password*
+                  Password<span className="text-red-600">*</span>
                 </label>
                 <input
                   className="border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
@@ -133,12 +128,6 @@ const Login = ({ setShowLogin }) => {
                   )}
                 </div>
               </div>
-              <Link
-                href={"/forgetpassword"}
-                className="font-[700] text-BlueHomz text-[13px]"
-              >
-                Forgot Password
-              </Link>
               {loginError && (
                 <span className="mt-[-10px] font[400] text-[13px] text-red-500">
                   {loginError}
