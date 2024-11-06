@@ -15,6 +15,7 @@ const App = () => {
   const [loadingII, setLoadingII] = useState(false);
   const [dashboard, setDashboard] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
   let urlParams;
   if (typeof window !== 'undefined') {
@@ -29,18 +30,22 @@ const App = () => {
   const invitation = urlParams.get("invitation");
   const isHomzEnterprise = urlParams.get("isHomzEnterprise");
 
-  const { user } = useProfileStore();
+  const { profile } = useProfileStore();
 
   useEffect(() => {
-    if (!user) {
-      setShowLogin(true);
-      setLoading(false)
-    } else {
-      setTimeout(() => {
+    const waitForProfile = setInterval(() => {
+      clearInterval(waitForProfile);
+      setData({ email, role, invitation, isHomzEnterprise });
+      if (profile === null) {
+        setShowLogin(true);
+        setLoading(false)
+      } else {
         setLoading(false);
-      }, 5000);
-    }
-  }, [isHomzEnterprise, user]);
+      }
+    }, 500); // Poll every 500ms until profile is loaded
+
+    return () => clearInterval(waitForProfile);
+  }, [isHomzEnterprise, profile]);
 
   const handleSubmit = async (e) => {
     if (isHomzEnterprise === "false") {
@@ -133,8 +138,8 @@ const App = () => {
             </div>
           ) :
             showLogin ? (
-              <div className="mt-20 flex justify-center items-center">
-                <Login setShowLogin={setShowLogin} />
+              <div className="w-full">
+                <Login data={data} setShowLogin={setShowLogin} />
               </div>
             ) : (
               <div className="w-full mt-20 sm:mt-0 sm:h-screen flex justify-center items-center">

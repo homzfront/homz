@@ -37,29 +37,26 @@ const Accept = () => {
     setOpenForm(false);
   };
 
-  const { user } = useProfileStore();
+
+  const { profile } = useProfileStore();
+
 
   useEffect(() => {
-    if (isHomzEnterprise === "true" && user) {
-      setShowLogin(true);
+    setData({ email, role, invitation, isHomzEnterprise });
+
+    const waitForProfile = setInterval(() => {
+      clearInterval(waitForProfile);
       setLoading(false);
-      setData({
-        email,
-        role,
-        invitation,
-        isHomzEnterprise
-      })
-    } else if (isHomzEnterprise === "false") {
-      setOpenForm(true);
-      setData({
-        email,
-        role,
-        invitation,
-        isHomzEnterprise
-      })
-      setLoading(false);
-    }
-  }, [isHomzEnterprise, user]);
+
+      if (isHomzEnterprise === "true" && !profile) {
+        setShowLogin(true);
+      } else if (isHomzEnterprise === "false") {
+        setOpenForm(true);
+      }
+    }, 500); // Poll every 500ms until profile is loaded
+
+    return () => clearInterval(waitForProfile);
+  }, [isHomzEnterprise, profile]);
 
   const handleSubmit = async () => {
     setLoadingII(true);
