@@ -11,8 +11,8 @@ const OwnerLoginForm = ({ closeForm, data }) => {
         <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
           <SliderAuth />
         </div>
-        <div className=" sm:w-[794px] w-full px-6 flex flex-col mt-6 gap-1 items-center">
-          <div className="w-full sm:block hidden">
+        <div className=" sm:w-[794px] w-full px-6 flex flex-col mt-10 items-center">
+          {/* <div className="w-full sm:block hidden">
             <button className=" cursor-pointer" onClick={closeForm}>
               <Image
                 src={"/static/images/Link.png"}
@@ -31,7 +31,7 @@ const OwnerLoginForm = ({ closeForm, data }) => {
                 height={28}
               />
             </button>
-          </div>
+          </div> */}
           <Widget data={data}/>
         </div>
       </div>

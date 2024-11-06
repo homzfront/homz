@@ -2,7 +2,7 @@
 import { acceptSecondInvitation, acceptSecondInvitationHomz } from '@/api/acceptProManInvitation';
 import Loading from '@/components/mainmenu/loading';
 import LoadingII from '@/components/mainmenu/loadingII';
-import Login from '@/pages/ownerAccount/login'
+import Login from '@/app/property-owner-account-creation/(ownerAccount)/login';
 import useProfileStore from '@/store/profile';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -36,7 +36,9 @@ const App = () => {
       setShowLogin(true);
       setLoading(false)
     } else {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000);
     }
   }, [isHomzEnterprise, user]);
 
