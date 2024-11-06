@@ -40,20 +40,16 @@ const Accept = () => {
   const { user } = useProfileStore();
 
   useEffect(() => {
-    if (isHomzEnterprise === "true") {
-      if (user) {
-        setShowLogin(true);
-        setLoading(false);
-        setData({
-          email,
-          role,
-          invitation,
-          isHomzEnterprise
-        })
-      } else {
-        setLoading(false);
-      }
-    } else {
+    if (isHomzEnterprise === "true" && user) {
+      setShowLogin(true);
+      setLoading(false);
+      setData({
+        email,
+        role,
+        invitation,
+        isHomzEnterprise
+      })
+    } else if (isHomzEnterprise === "false") {
       setOpenForm(true);
       setData({
         email,
