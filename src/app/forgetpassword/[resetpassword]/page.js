@@ -11,12 +11,16 @@ import axios from "axios";
 import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
+import useLandlordLogin from "@/store/landlordLogin/landlordLogin";
+import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const token = urlParams.get("token");
-
+  const router = useRouter();
   const [formData, setFormData] = useState({
     password: "",
     repassword: "",
@@ -26,7 +30,7 @@ const ResetPassword = () => {
   const [passwordError, setPasswordError] = useState("");
   const [succPass, setSuccPass] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { routeTo } = useLandlordLogin();
   const isValidPassword = (password) => {
     return password.length >= 8;
   };
@@ -77,25 +81,51 @@ const ResetPassword = () => {
           },
         }
       );
+      if (routeTo && response.data.message) {
+        // Remove `url` from `routeTo` and convert to query string
+        const { url, ...queryParams } = routeTo; // Destructure to remove `url`
+        const urlParams = new URLSearchParams(queryParams).toString();
+        // Redirect using the specified URL path and query parameters
+        router.push(`/${url}?${urlParams}`);
 
-      setSuccPass(true);
-      setLoading(false);
+        toast.success("Password changed. Redirecting to complete landlord's invitation.");
+        useLandlordLogin.getState().clearRouteTo()
+      } else {
+        setLoading(false);
+        setSuccPass(true);
+      }
     } catch (error) {
       setPasswordError("error", error.response?.data?.message);
       setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
-  
+
+
 
   return (
     <div className="">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {
-        loading && <Loading/>
+        loading && <Loading />
       }
       <div className="flex m-auto  max-w-[1440px] h-[1024px]">
-      <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz"> 
-        <SliderAuth/>
-      </div>
+        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
+          <SliderAuth />
+        </div>
         <div className="sm:w-[794px] w-full px-3 flex flex-col justify-around items-center">
           <div className="m-auto mt-16 sm:mt-32 ">
             <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
@@ -114,9 +144,8 @@ const ResetPassword = () => {
                         Password
                       </label>
                       <input
-                        className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${
-                          passwordError ? "border-red-500" : ""
-                        }`}
+                        className={`border w-full sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError ? "border-red-500" : ""
+                          }`}
                         type={visible ? "text" : "password"}
                         value={formData.password}
                         onChange={(e) =>
@@ -139,9 +168,8 @@ const ResetPassword = () => {
                           Re-enter password
                         </label>
                         <input
-                          className={`border w-[270px] sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${
-                            passwordError ? "border-red-500" : ""
-                          }`}
+                          className={`border w-[270px] sm:w-[360px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px] ${passwordError ? "border-red-500" : ""
+                            }`}
                           type={visibleTwo ? "text" : "password"}
                           value={formData.repassword}
                           onChange={(e) =>

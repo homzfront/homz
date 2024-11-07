@@ -37,12 +37,10 @@ const Accept = () => {
     setOpenForm(false);
   };
 
-
   const { profile } = useProfileStore();
 
-
   useEffect(() => {
-    setData({ email, role, invitation, isHomzEnterprise });
+    setData({ url: "property-owner-account-creation", email, role, invitation, isHomzEnterprise });
 
     const waitForProfile = setInterval(() => {
       clearInterval(waitForProfile);

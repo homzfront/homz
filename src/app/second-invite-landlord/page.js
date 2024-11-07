@@ -35,7 +35,7 @@ const App = () => {
   useEffect(() => {
     const waitForProfile = setInterval(() => {
       clearInterval(waitForProfile);
-      setData({ email, role, invitation, isHomzEnterprise });
+      setData({ url: "second-invite-landlord", email, role, invitation, isHomzEnterprise });
       if (profile === null) {
         setShowLogin(true);
         setLoading(false)

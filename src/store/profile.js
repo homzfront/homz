@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import api from '@/utils/api';
+import useLandlordLogin from './landlordLogin/landlordLogin';
 
 let logoutTimer; // Declare logoutTimer globally for session tracking
 
@@ -48,6 +49,7 @@ const useProfileStore = create((set) => ({
       if (typeof window !== 'undefined') {
         localStorage.clear();
         sessionStorage.clear();
+        useLandlordLogin.getState().clearRouteTo()
       }
       
       window.location.href = '/';

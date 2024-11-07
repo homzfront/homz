@@ -3,6 +3,7 @@ import SliderAuth from "@/components/auth/slider";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
 import LoadingForm from "@/components/mainmenu/loadingForm";
+import useLandlordLogin from "@/store/landlordLogin/landlordLogin";
 import api from "@/utils/api";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -14,6 +15,8 @@ const Login = ({ setShowLogin, data }) => {
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { setRouteTo } = useLandlordLogin();
+
   const Visible = () => {
     setVisible(!visible);
   };
@@ -66,6 +69,9 @@ const Login = ({ setShowLogin, data }) => {
     }
   };
 
+  const setDataForLogin = () => {
+    setRouteTo(data);
+  }
   return (
     <div className="max-w-[1440px] mx-auto">
       <div className="flex w-full h-[1024px]">
@@ -133,6 +139,13 @@ const Login = ({ setShowLogin, data }) => {
                   {loginError}
                 </span>
               )}
+              <Link
+              onClick={setDataForLogin}
+                href={"/forgetpassword"}
+                className="font-[700] text-BlueHomz text-[13px]"
+              >
+                Forgot Password
+              </Link>
             </div>
             <button
               className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz`}
