@@ -32,12 +32,15 @@ const Accept = () => {
   const role = urlParams.get("role");
   const invitation = urlParams.get("invitation");
   const isHomzEnterprise = urlParams.get("isHomzEnterprise");
+  const userExists = urlParams.get("userExists");
 
   const closeForm = () => {
     setOpenForm(false);
   };
 
   const { profile } = useProfileStore();
+  const validUser = profile?.email === email
+
 
   useEffect(() => {
     setData({ url: "property-owner-account-creation", email, role, invitation, isHomzEnterprise });
@@ -46,9 +49,13 @@ const Accept = () => {
       clearInterval(waitForProfile);
       setLoading(false);
 
-      if (isHomzEnterprise === "true" && !profile) {
+      if (isHomzEnterprise === "true" && validUser === false && userExists === "true") {
         setShowLogin(true);
-      } else if (isHomzEnterprise === "false") {
+      } else if (isHomzEnterprise === "true" && userExists === "false") {
+        setOpenForm(true);
+      } else if (isHomzEnterprise === "false" && validUser === false && userExists === "true") {
+        setShowLogin(true);
+      } else if (isHomzEnterprise === "false" && userExists === "false") {
         setOpenForm(true);
       }
     }, 500); // Poll every 500ms until profile is loaded
