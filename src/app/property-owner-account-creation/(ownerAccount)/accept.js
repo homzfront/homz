@@ -43,7 +43,7 @@ const Accept = () => {
 
 
   useEffect(() => {
-    setData({ url: "property-owner-account-creation", email, role, invitation, isHomzEnterprise });
+    setData({ url: "property-owner-account-creation", email, role, invitation, isHomzEnterprise, userExists });
 
     const waitForProfile = setInterval(() => {
       clearInterval(waitForProfile);

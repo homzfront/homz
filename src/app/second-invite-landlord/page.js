@@ -29,14 +29,15 @@ const App = () => {
   const role = urlParams.get("role");
   const invitation = urlParams.get("invitation");
   const isHomzEnterprise = urlParams.get("isHomzEnterprise");
+  const userExists = urlParams.get("userExists");
 
   const { profile } = useProfileStore();
-
+  const validUser = profile?.email === email
   useEffect(() => {
     const waitForProfile = setInterval(() => {
       clearInterval(waitForProfile);
-      setData({ url: "second-invite-landlord", email, role, invitation, isHomzEnterprise });
-      if (profile === null) {
+      setData({ url: "second-invite-landlord", email, role, invitation, isHomzEnterprise, userExists });
+      if (validUser === false) {
         setShowLogin(true);
         setLoading(false)
       } else {
