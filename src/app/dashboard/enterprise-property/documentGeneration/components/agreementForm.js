@@ -7,6 +7,9 @@ import useAgreementFormStore from '@/store/document/useAgreementFormStore';
 import useProfileStore from '@/store/profile';
 import { usePathname, useRouter } from 'next/navigation';
 import useTabForDocuGen from '@/store/document/useTabForDocuGen';
+import { toast } from "react-hot-toast";
+import api from '@/utils/api';
+import FormSelection from '@/store/document/FormSelection';
 
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -23,6 +26,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
     }
 
+    const { DocType, FormName } = FormSelection();
     useEffect(() => {
         if (profile) {
             setHasPropertyManager(hasPropertyManagerAccount(profile));
@@ -37,8 +41,37 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         const existingId = formData.id;
+        if (formData) {
+            try {
+                const payload = {};
+                if (formData.propDesc) payload.propertyDesc = formData.propDesc;
+                if (formData.propAddress) payload.propertyAddress = formData.propAddress;
+                if (formData.landlordName) payload.landlordName = formData.landlordName;
+                if (formData.landlordAddress) payload.landlordAddress = formData.landlordAddress;
+                if (formData.tenantName) payload.tenantName = formData.tenantName;
+                if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
+                if (formData.tenancyStartDate) payload.tenancyStartDate = formData.tenancyStartDate;
+                if (formData.agreementDate) payload.agreementDate = formData.agreementDate;
+                if (formData.rentPayment) payload.rentPayment = formData.rentPayment;
+                if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
+                if (formData.tenancyEndDate) payload.tenancyEndDate = formData.tenancyEndDate;
+                if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
+                if (DocType) payload.DocType = DocType;
+                if (FormName) payload.FormName = FormName;
+                const response = await api.post('/enterprise/document/create/AgreementFormDocument', payload);
+                if (response?.data?.success) {
+                    toast.success(`${response?.data?.message}`)
+                }
+            } catch (error) {
+                if (error?.response?.data?.error?.errors) {
+                    toast.error(error?.response?.data?.error?.errors?.[0])
+                } else if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                }
+            }
+        }
         if (existingId) {
             // ID exists, update existing data
             mergeFormData(formData);
