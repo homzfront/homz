@@ -3,6 +3,7 @@ import Image from 'next/image';
 import useReceiptFormStore from '@/store/document/useReceiptFormStore';
 import PrintableReceiptData from './printableReceiptData';
 import formatDate from '@/utils/formatDate';
+import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
 
 const ReceiptData = ({ printableRef }) => {
     const { formData } = useReceiptFormStore();
@@ -147,7 +148,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenancy ? formData?.tenancy : ""}
+                                    {formData?.tenancy ? `${formData.tenancyPeriod} ${formData?.tenancy}` : ""}
                                 </p>
                             </div>
                         </div>
@@ -187,7 +188,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.rentPayment ? `${formData?.selectedCurrency} ${formData?.rentPayment}` : ""}
+                                    {formData?.rentPayment ? `${formData?.selectedCurrency} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
                                 </p>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN'
 import formatDate from '@/utils/formatDate'
 import Image from 'next/image'
 import React from 'react'
@@ -143,7 +144,7 @@ const PrintableReceiptData = ({ printableRef, formData }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.tenancy ? formData?.tenancy : ""}
+                                {formData?.tenancy ? `${formData.tenancyPeriod} ${formData?.tenancy}` : ""}
                                 </p>
                             </div>
                         </div>
@@ -183,7 +184,7 @@ const PrintableReceiptData = ({ printableRef, formData }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.rentPayment ? formData?.rentPayment : ""}
+                                {formData?.rentPayment ? `${formData?.selectedCurrency} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
                                 </p>
                             </div>
                         </div>

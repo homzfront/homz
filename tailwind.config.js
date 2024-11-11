@@ -52,7 +52,8 @@ module.exports = {
         logoutRed: "#D92D20",
         GrayHomzDash: "#006AFF",
         HomePageBg: "#EDF3FB",
-        HomzIndigo: "#5856D6"
+        HomzIndigo: "#5856D6",
+        bgRed:"#FDF2F2"
       },
       // screens: {
       //   'sm': '640px',

@@ -10,6 +10,7 @@ import useTabForDocuGen from '@/store/document/useTabForDocuGen';
 import { toast } from "react-hot-toast";
 import api from '@/utils/api';
 import FormSelection from '@/store/document/FormSelection';
+import useGetAllDocument from '@/store/document/getAllDocument';
 
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -22,11 +23,15 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
+    const { DocType, FormName } = FormSelection();
+    const { fetchData } = useGetAllDocument();
+
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
     }
 
-    const { DocType, FormName } = FormSelection();
+    // console.log(formData)
+
     useEffect(() => {
         if (profile) {
             setHasPropertyManager(hasPropertyManagerAccount(profile));
@@ -42,8 +47,24 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     };
 
     const handleGenerate = async () => {
-        const existingId = formData.id;
-        if (formData) {
+        // const existingId = formData?._id
+        //  if (existingId) {
+        //     // ID exists, update existing data
+        //     mergeFormData(formData);
+        // } else {
+        //     // ID does not exist, generate new ID and create new entry
+        //     const newId = generateUniqueId();
+        //     setFormData('id', newId);
+        //     mergeFormData({ ...formData, id: newId });
+        // }
+        // Determine navigation based on the current path
+        if (path !== "/dashboard/enterprise-property/documentGeneration") {
+            setHomePage(true);
+            router.push(url);
+        } else {
+            setShowPreview(true);
+        }
+        if (!formData?._id) {
             try {
                 const payload = {};
                 if (formData.propDesc) payload.propertyDesc = formData.propDesc;
@@ -70,24 +91,48 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 } else if (error?.response?.data?.message) {
                     toast.error(error?.response?.data?.message)
                 }
+            } finally {
+                fetchData()
+            }
+        } else {
+            try {
+                const payload = {};
+                if (formData.propDesc) payload.propertyDesc = formData.propDesc;
+                if (formData.propAddress) payload.propertyAddress = formData.propAddress;
+                if (formData.landlordName) payload.landlordName = formData.landlordName;
+                if (formData.landlordAddress) payload.landlordAddress = formData.landlordAddress;
+                if (formData.tenantName) payload.tenantName = formData.tenantName;
+                if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
+                if (formData.tenancyStartDate) payload.tenancyStartDate = formData.tenancyStartDate;
+                if (formData.agreementDate) payload.agreementDate = formData.agreementDate;
+                if (formData.rentPayment) payload.rentPayment = formData.rentPayment;
+                if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
+                if (formData.tenancyEndDate) payload.tenancyEndDate = formData.tenancyEndDate;
+                if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
+                if (DocType) payload.DocType = DocType;
+                if (FormName) payload.FormName = FormName;
+                const response = await api.patch(`/enterprise/document/update/agreementFormDocument/${formData?._id}`, payload);
+                if (response?.data?.success) {
+                    toast.success(`${response?.data?.message}`)
+                }
+            } catch (error) {
+                if (error?.response?.data?.error?.errors) {
+                    toast.error(error?.response?.data?.error?.errors?.[0])
+                } else if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                }
+            } finally {
+                fetchData()
             }
         }
-        if (existingId) {
-            // ID exists, update existing data
-            mergeFormData(formData);
-        } else {
-            // ID does not exist, generate new ID and create new entry
-            const newId = generateUniqueId();
-            setFormData('id', newId);
-            mergeFormData({ ...formData, id: newId });
-        }
-        // Determine navigation based on the current path
-        if (path !== "/dashboard/enterprise-property/documentGeneration") {
-            setHomePage(true);
-            router.push(url);
-        } else {
-            setShowPreview(true);
-        }
+    };
+
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     return (
@@ -175,7 +220,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     label={"Tenancy Commencement Date"}
                     placeholder={"e.g 1 July, 2024"}
                     type={"date"}
-                    value={formData.tenancyStartDate}
+                    value={formatDate(formData.tenancyStartDate)}
                     onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
                     autoComplete={"tenantCommencementDate"}
                 />
@@ -188,7 +233,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     label={"Tenancy Ending Date"}
                     placeholder={"e.g 31 June, 2025"}
                     type={"date"}
-                    value={formData.tenancyEndDate}
+                    value={formatDate(formData.tenancyEndDate)}
                     onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
                     autoComplete={"tenancyEndDate"}
                 />
@@ -241,7 +286,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     label={"Agreement Preparation Date"}
                     placeholder={"e.g 30 June, 2024"}
                     type={"date"}
-                    value={formData.agreementDate}
+                    value={formatDate(formData.agreementDate)}
                     onChange={(e) => setFormData('agreementDate', e.target.value)}
                     autoComplete={"agreementDate"}
                 />

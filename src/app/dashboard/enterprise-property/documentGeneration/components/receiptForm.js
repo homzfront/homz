@@ -9,6 +9,10 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import useProfileStore from '@/store/profile';
 import useTabForDocuGen from '@/store/document/useTabForDocuGen';
+import FormSelection from '@/store/document/FormSelection';
+import api from '@/utils/api';
+import useGetAllDocument from '@/store/document/getAllDocument';
+import { f } from 'html2pdf.js';
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -22,6 +26,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
+    const { DocType, FormName } = FormSelection();
+    const { fetchData } = useGetAllDocument();
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
     }
@@ -40,17 +46,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
     };
 
-    const handleGenerate = () => {
-        const existingId = formData.id;
-        if (existingId) {
-            // ID exists, update existing data
-            mergeFormData(formData);
-        } else {
-            // ID does not exist, generate new ID and create new entry
-            const newId = generateUniqueId();
-            setFormData('id', newId);
-            mergeFormData({ ...formData, id: newId });
-        }
+    const handleGenerate = async () => {
         // Determine navigation based on the current path
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
             setHomePage(true);
@@ -58,8 +54,96 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         } else {
             setShowPreview(true);
         }
-    };
+        if (!formData?._id) {
+            try {
+                const formDatas = new FormData();
 
+                // Append only fields with values to FormData object
+                if (formData.propertyManagerCompanyName) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
+                if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
+                if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
+                if (formData.propertyManagerCompanyPhoneNumber) formDatas.append('propertyManagerCompanyPhoneNumber', formData.propertyManagerCompanyPhoneNumber);
+                if (formData.receiptDate) formDatas.append('receiptDate', formData?.receiptDate);
+                if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
+                if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
+                if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
+                if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
+                if (formData.rentPayment) formDatas.append('rentPayment', formData?.rentPayment);
+                if (formData.rentPaymentInWords) formDatas.append('rentPaymentInWords', formData?.rentPaymentInWords);
+                if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
+                if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
+                if (formData.tenancyPeriod) formDatas.append('tenancyPeriod', formData?.tenancyPeriod);
+                if (formData.tenancyStartDate) formDatas.append('tenancyStartDate', formData?.tenancyStartDate);
+                if (formData.tenancyEndDate) formDatas.append('tenancyEndDate', formData?.tenancyEndDate);
+                if (formData.modOfPayment) formDatas.append('modOfPayment', formData?.modOfPayment);
+                if (FormName) formDatas.append('FormName', FormName);
+                if (DocType) formDatas.append('DocType', DocType);
+
+                // Append image if it exists
+                if (formData?.image && formData.image instanceof File) {
+                    formDatas.append('image', formData.image);
+                }
+
+
+                const response = await api.post('/enterprise/document/create/receiptFormDocument', formDatas);
+                if (response?.data?.success) {
+                    toast.success(`${response?.data?.message}`)
+                }
+            } catch (error) {
+                if (error?.response?.data?.error?.errors) {
+                    toast.error(error?.response?.data?.error?.errors?.[0])
+                } else if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                }
+            } finally {
+                fetchData();
+            }
+        } else {
+            try {
+                const formDatas = new FormData();
+
+                // Append only fields with values to FormData object
+                if (formData.propertyManagerCompanyName) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
+                if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
+                if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
+                if (formData.propertyManagerCompanyPhoneNumber) formDatas.append('propertyManagerCompanyPhoneNumber', formData.propertyManagerCompanyPhoneNumber);
+                if (formData.receiptDate) formDatas.append('receiptDate', formData?.receiptDate);
+                if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
+                if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
+                if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
+                if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
+                if (formData.rentPayment) formDatas.append('rentPayment', formData?.rentPayment);
+                if (formData.rentPaymentInWords) formDatas.append('rentPaymentInWords', formData?.rentPaymentInWords);
+                if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
+                if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
+                if (formData.tenancyPeriod) formDatas.append('tenancyPeriod', formData?.tenancyPeriod);
+                if (formData.tenancyStartDate) formDatas.append('tenancyStartDate', formData?.tenancyStartDate);
+                if (formData.tenancyEndDate) formDatas.append('tenancyEndDate', formData?.tenancyEndDate);
+                if (formData.modOfPayment) formDatas.append('modOfPayment', formData?.modOfPayment);
+                if (FormName) formDatas.append('FormName', FormName);
+                if (DocType) formDatas.append('DocType', DocType);
+
+                // Append image if it exists
+                if (formData?.image && formData.image instanceof File) {
+                    formDatas.append('image', formData.image);
+                }
+
+
+                const response = await api.post(`/enterprise/document/update/receiptFormDocument/${formData?._id}`, formDatas);
+                if (response?.data?.success) {
+                    toast.success(`${response?.data?.message}`)
+                }
+            } catch (error) {
+                if (error?.response?.data?.error?.errors) {
+                    toast.error(error?.response?.data?.error?.errors?.[0])
+                } else if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                }
+            } finally {
+                fetchData();
+            }
+        }
+    }
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -77,6 +161,15 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         fileInputRef.current.click();
     };
 
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    // console.log(formData)
     return (
         <div className='mt-4 pr-2'>
             <div className='relative w-[80px] h-[80px] mb-2'>
@@ -164,8 +257,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 <Input
                     label={"Date"}
                     placeholder={"e.g 1 July, 2026"}
-                    type={"data"}
-                    value={formData.receiptDate}
+                    type={"date"}
+                    value={formatDate(formData.receiptDate)}
                     onChange={(e) => setFormData('receiptDate', e.target.value)}
                     autoComplete={"receiptDate"}
                 />
@@ -297,7 +390,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Tenancy Start Date"}
                     placeholder={"e.g 1 July, 2024"}
                     type={"date"}
-                    value={formData.tenancyStartDate}
+                    value={formatDate(formData.tenancyStartDate)}
                     onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
                     autoComplete={"tenancyStartDate"}
                 />
@@ -310,7 +403,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     label={"Tenancy End Date"}
                     placeholder={"e.g 31, 2025"}
                     type={"date"}
-                    value={formData.tenancyEndDate}
+                    value={formatDate(formData.tenancyEndDate)}
                     onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
                     autoComplete={"tenancyEndDate"}
                 />

@@ -26,6 +26,10 @@ import { saveAs } from 'file-saver';
 import PrintablePreviewedData from "./components/printablePreviewedData";
 import PrintableReceiptData from "./components/printableReceiptData";
 import PrintableQuitNoticeData from "./components/printableQuitNoticeData";
+import useGetAllDocument from "@/store/document/getAllDocument";
+import Pagination from "@/components/general/pagination";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import ArrowLeft from "@/components/icons/arrowLeft";
 
 const App = () => {
   const { setTab, homePage, setHomePage } = useTabForDocuGen();
@@ -46,12 +50,67 @@ const App = () => {
   const [documentType, setDocumentType] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState(false);
   const printableRefTenancy = useRef(null);
   const printableRefQuitNotice = useRef(null);
   const printableRefReceipt = useRef(null);
   const [dataState, setDataState] = useState([]);
   const [pdfData, setPdfData] = useState(null);
 
+  const {
+    page,
+    limit,
+    search,
+    setPage,
+    setSearchParams,
+    totalCounts,
+    data,
+    loading,
+    resetSearch,
+    totalPages,
+    currentPage,
+  } = useGetAllDocument(state => ({
+    page: state.page,
+    limit: state.limit,
+    search: state.search,
+    totalPages: state.totalPages,
+    setPage: state.setPage,
+    setSearchParams: state.setSearchParams,
+    data: state.data,
+    resetSearch: state.resetSearch,
+    loading: state.loading,
+    totalCounts: state.totalCounts,
+    currentPage: state.currentPage,
+  }));
+
+  useEffect(() => {
+    // Manually trigger data fetch
+    useGetAllDocument.getState().fetchData();
+  }, [page, FormName, DocType, limit, search]);
+
+  const handlePageClick = () => {
+    setPage(page);
+  };
+
+  const handleNext = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const firstThreePages = [1, 2, 3];
+  const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+
+
+  const reset = () => {
+    resetSearch();
+  }
   const openDocumentCreation = () => {
     resetAgreementFormData();
     resetReceiptFormData();
@@ -95,7 +154,9 @@ const App = () => {
     setFilterModal(!filterModal)
   };
 
-  const handleToggleMenuClick = () => {
+  const handleToggleMenuClick = (value) => {
+    // handleToggleMenu(data?._id);
+    setSelectedId(value?._id)
     setPopUpMenuVisible(!popUpMenuVisible);
   };
 
@@ -286,6 +347,13 @@ const App = () => {
     setDocTypeForDownload(data)
   }
 
+  const GoBack = () => {
+    if (formData?._id || receiptData?._id) {
+      setShowPreview(false)
+      setDocumentCreation(false);
+    }
+  }
+
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
       {
@@ -304,7 +372,11 @@ const App = () => {
         showPreview ?
           <div className="mx-4 px-4 py-4 my-2 bg-inputBg m-auto">
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-0 justify-between border-b-[1px] pb-4">
-              <div className="md:w-[25%] flex gap-4 items-center">
+              <div className="md:w-[45%] flex flex-wrap gap-4 items-center">
+                <p onClick={GoBack} className={`cursor-pointer font-[400] text-[14px] text-GrayHomz2 flex items-center gap-1 ${formData?._id || receiptData?._id ? "" : "hidden"}`}>
+                  <ArrowLeft />
+                  Go Back
+                </p>
                 <p className="text-[18px] font-[400] text-BlackHomz">
                   Document Preview
                 </p>
@@ -313,7 +385,7 @@ const App = () => {
                 </p>
               </div>
               <div>
-                <div className="md:w-[55%] flex gap-4 items-center">
+                <div className="md:w-[45%] flex gap-4 items-center">
                   <button
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
@@ -354,15 +426,25 @@ const App = () => {
           <div className="p-8">
             <div className="hidden md:flex items-center justify-between">
               <div className="w-[30%] flex gap-4 items-center">
-                <div className="w-[60%]">
-                  <Dropdown
-                    options={option}
-                    onSelect={(option) => setSelectedStatus(option)}
-                    selectOption={selectedStatus === null ? "Document Type" : selectedStatus}
-                    className={"text-[14px] font-[500] text-GrayHomz2"}
+                <div className="w-[60%] relative">
+                  <input
+                    type="text"
+                    className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
+                    id="search"
+                    value={search}
+                    onChange={(e) => setSearchParams(e.target.value)}
+                    placeholder="Search"
+                  />
+                  <Image
+                    src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                    alt=""
+                    className="absolute top-3 left-3"
+                    height={16}
+                    width={16}
                   />
                 </div>
                 <button
+                  onClick={reset}
                   className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer"
                 >
                   <span>
@@ -379,6 +461,10 @@ const App = () => {
                     setDocumentCreation(!documentCreation)
                     setTab(null);
                     clearFormForNewUpload();
+                    resetReceiptFormData();
+                    resetAgreementFormData();
+                    setDocType(null);
+                    setFormName(null);
                   }}
                   className="w-full flex px-4 justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[16px] text-white bg-BlueHomz">
                   <PluswithoutCircle />
@@ -406,8 +492,8 @@ const App = () => {
                     type="text"
                     className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
                     id="search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={search}
+                    onChange={(e) => setSearchParams(e.target.value)}
                     placeholder="Search"
                   />
                   <Image
@@ -420,14 +506,9 @@ const App = () => {
                 </div>
                 <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
                   <button
-                    onClick={openMobileFilterModal}
+                    onClick={reset}
                   >
-                    <Image
-                      src="/static/images/filter.svg"
-                      alt=""
-                      width={16}
-                      height={16}
-                    />
+                    <Reset className="#006AFF" />
                   </button>
                 </div>
               </div>
@@ -442,9 +523,9 @@ const App = () => {
               </CustomizedModal>
             </div>
             {
-              dataState &&
+              data &&
               (
-                <div className="flex flex-col justify-between h-auto py-4">
+                <div className="flex flex-col gap-4 h-auto py-4">
                   <div className="w-full">
                     <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz px-4">
                       <div className="w-[45%] md:w-[25%]">Document Type</div>
@@ -454,9 +535,9 @@ const App = () => {
                       <div className="w-[10px] md:hidden"></div>
                     </div>
                     <div>
-                      {dataState?.map((item, index) => (
+                      {data?.map((item) => (
                         <div
-                          key={index}
+                          key={item?._id}
                           className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
                         >
                           <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
@@ -466,37 +547,48 @@ const App = () => {
                             {item?.FormName}
                           </div>
                           <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
-                            {item?.Date}
+                            {changeBackendDateFormat(item?.createdAt)}
                           </div>
-                          <div className="hidden text-BlueHomz w-[25%] font-[500] text-[11px] text-start md:flex justify-center items-center gap-2">
-                            <span onClick={() => openPreview(item)} className="cursor-pointer">View</span>
+                          <div className="hidden text-BlueHomz w-[25%] font-[500] text-[11px] text-start md:flex gap-2">
+                            {/* <span onClick={() => openPreview(item)} className="cursor-pointer">View</span> */}
                             <div onClick={() => TypeForDownload(item?.DocType, item)}>
                               <DropDownBlue
                                 options={options}
                                 onSelect={(option) => handleDownload(option)}
                                 className={"text-[14px] font-[500]"}
                                 show="true"
-                                width="w-[150px]"
-                                placeholder="Download"
+                                width="w-[170px]"
+                                placeholder="Download as..."
                               />
                             </div>
                           </div>
-                          <div className="md:hidden relative">
+                          <div className="relative">
                             <Image
                               src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                               alt=""
                               height={21}
                               width={19}
-                              onClick={handleToggleMenuClick}
-                              className="cursor-pointer"
+                              onClick={() => handleToggleMenuClick(item)}
+                              className="cursor-pointer mr-8"
                               style={{ height: "auto", width: "auto" }}
                             />
-                            {popUpMenuVisible && <PopUp />}
+                            {popUpMenuVisible && selectedId === item?._id && <PopUp item={item} openPreview={openPreview} />}
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
+                  {data && data.length >= 1 && (
+                    <Pagination
+                      firstThreePages={firstThreePages}
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      handleNext={handleNext}
+                      handlePrev={handlePrev}
+                      handlePageClick={handlePageClick}
+                      lastThreePages={lastThreePages}
+                    />
+                  )}
                 </div>
               )
             }
