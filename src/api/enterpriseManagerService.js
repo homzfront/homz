@@ -454,3 +454,28 @@ export const addBankPropertyEnterprise = async (details) => {
     return { success: false, error: error?.response.data };
   }
 };
+
+
+// Helper function to build query parameters
+const buildQueryParams = (params) => {
+  const query = new URLSearchParams();
+  
+  // Add parameters only if they are defined
+  if (params.FormName) query.append('FormName', params.FormName);
+  if (params.DocType) query.append('DocType', params.DocType);
+  if (params.page) query.append('page', params.page);
+  if (params.limit) query.append('limit', params.limit);
+  if (params.search) query.append('search', params.search);
+
+  return query.toString();
+};
+
+export const getAllDocu = async (params) => {
+  try {
+    const queryString = buildQueryParams(params);
+    const response = await api.get(`/enterprise/document/all?${queryString}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

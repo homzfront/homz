@@ -50,6 +50,7 @@ const useReceiptFormStore = create((set) => ({
       tenancyEndDate: propertyData.tenancyEndDate ?? state.formData.tenancyEndDate,
       modOfPayment: propertyData.modOfPayment ?? state.formData.modOfPayment,
       image: propertyData.image ?? state.formData.image,
+      _id: propertyData?._id ?? state.formData_?.id
     },
   })),
 

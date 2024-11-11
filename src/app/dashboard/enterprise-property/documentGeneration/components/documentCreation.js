@@ -1,6 +1,5 @@
 import React from 'react'
 import Widget from './widget';
-
 const DocumentCreation = ({ setDocumentCreation, setShowPreview }) => {
     return (
         <div>
