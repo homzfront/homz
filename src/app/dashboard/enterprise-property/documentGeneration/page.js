@@ -275,36 +275,36 @@ const App = () => {
   });
 
   // Function to handle saving as Word
-  const handleSaveAsWord = useCallback(async () => {
-    if (typeof window === 'undefined') return; // Ensure client-side
+  // const handleSaveAsWord = useCallback(async () => {
+  //   if (typeof window === 'undefined') return; // Ensure client-side
 
-    const htmlDocx = await import('html-docx-js/dist/html-docx');
-    let selectedRef;
+  //   const htmlDocx = await import('html-docx-js/dist/html-docx');
+  //   let selectedRef;
 
-    // Select the appropriate reference based on DocType
-    if (DocType === "Tenancy Agreement") {
-      selectedRef = printableRefTenancy;
-    } else if (DocType === "Quit Notice") {
-      selectedRef = printableRefQuitNotice;
-    } else if (DocType === "Invoice and Receipt") {
-      selectedRef = printableRefReceipt;
-    }
+  //   // Select the appropriate reference based on DocType
+  //   if (DocType === "Tenancy Agreement") {
+  //     selectedRef = printableRefTenancy;
+  //   } else if (DocType === "Quit Notice") {
+  //     selectedRef = printableRefQuitNotice;
+  //   } else if (DocType === "Invoice and Receipt") {
+  //     selectedRef = printableRefReceipt;
+  //   }
 
-    // Check if the reference is valid
-    if (!selectedRef?.current) {
-      console.error("No valid reference found for the selected document type.");
-      return;
-    }
+  //   // Check if the reference is valid
+  //   if (!selectedRef?.current) {
+  //     console.error("No valid reference found for the selected document type.");
+  //     return;
+  //   }
 
-    // Get the HTML content from the selected reference
-    const contentHTML = selectedRef.current.innerHTML;
+  //   // Get the HTML content from the selected reference
+  //   const contentHTML = selectedRef.current.innerHTML;
 
-    // Convert the HTML content to a .docx file using html-docx-js
-    const convertedDocx = htmlDocx.asBlob(contentHTML);
+  //   // Convert the HTML content to a .docx file using html-docx-js
+  //   const convertedDocx = htmlDocx.asBlob(contentHTML);
 
-    // Use js-file-download to download the generated .docx file
-    saveAs(convertedDocx, `${DocType}.docx`);
-  }, [DocType]);
+  //   // Use js-file-download to download the generated .docx file
+  //   saveAs(convertedDocx, `${DocType}.docx`);
+  // }, [DocType]);
 
 
   const openPreview = (data) => {
@@ -326,7 +326,7 @@ const App = () => {
     if (format === "PDF") {
       handlePrint();
     } else if (format === "Word") {
-      handleSaveAsWord();
+      // handleSaveAsWord();
     }
     handleGeneratePdf();
     setSelectedFormat(format);
