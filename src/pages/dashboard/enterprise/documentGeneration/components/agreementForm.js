@@ -11,6 +11,7 @@ import { toast } from "react-hot-toast";
 import api from '@/utils/api';
 import FormSelection from '@/store/document/FormSelection';
 import useGetAllDocument from '@/store/document/getAllDocument';
+import extractNumber from '@/utils/removeCommasFromString';
 
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -45,10 +46,9 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
             setHomePage(true);
             router.push(url);
-        } else {
-            setShowPreview(true);
+            return;
         }
-        if (!formData?._id) {
+        else if (!formData?._id) {
             try {
                 const payload = {};
                 if (formData.propDesc) payload.propertyDesc = formData.propDesc;
@@ -59,7 +59,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
                 if (formData.tenancyStartDate) payload.tenancyStartDate = formData.tenancyStartDate;
                 if (formData.agreementDate) payload.agreementDate = formData.agreementDate;
-                if (formData.rentPayment) payload.rentPayment = formData.rentPayment;
+                if (formData.rentPayment) payload.rentPayment = extractNumber(formData.rentPayment);
                 if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
                 if (formData.tenancyEndDate) payload.tenancyEndDate = formData.tenancyEndDate;
                 if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
@@ -69,6 +69,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 if (response?.data?.success) {
                     toast.success(`${response?.data?.message}`)
                 }
+                setShowPreview(true);
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -89,7 +90,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
                 if (formData.tenancyStartDate) payload.tenancyStartDate = formData.tenancyStartDate;
                 if (formData.agreementDate) payload.agreementDate = formData.agreementDate;
-                if (formData.rentPayment) payload.rentPayment = formData.rentPayment;
+                if (formData.rentPayment) payload.rentPayment = extractNumber(formData.rentPayment);
                 if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
                 if (formData.tenancyEndDate) payload.tenancyEndDate = formData.tenancyEndDate;
                 if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
@@ -99,6 +100,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 if (response?.data?.success) {
                     toast.success(`${response?.data?.message}`)
                 }
+                setShowPreview(true);
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -112,10 +114,13 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     };
 
     const formatDate = (isoDate) => {
-        const date = new Date(isoDate);
+        // Use current date if isoDate is not provided or is undefined
+        const date = isoDate ? new Date(isoDate) : new Date();
+        
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
         const day = String(date.getDate()).padStart(2, '0');
+        
         return `${year}-${month}-${day}`;
     };
 

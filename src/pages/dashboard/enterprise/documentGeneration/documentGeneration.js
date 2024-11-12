@@ -86,7 +86,7 @@ const DocumentGeneration = () => {
   useEffect(() => {
     // Manually trigger data fetch
     useGetAllDocument.getState().fetchData();
-  }, [page, FormName, DocType, limit, search]);
+  }, [page, search]);
 
   const handlePageClick = () => {
     setPage(page);

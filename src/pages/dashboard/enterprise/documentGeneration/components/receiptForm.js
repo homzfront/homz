@@ -13,6 +13,7 @@ import FormSelection from '@/store/document/FormSelection';
 import api from '@/utils/api';
 import useGetAllDocument from '@/store/document/getAllDocument';
 import { toast } from "react-hot-toast";
+import extractNumber from '@/utils/removeCommasFromString';
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -47,10 +48,9 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
             setHomePage(true);
             router.push(url);
-        } else {
-            setShowPreview(true);
-        }
-        if (!formData?._id) {
+            return;
+        } 
+        else if (!formData?._id) {
             try {
                 const formDatas = new FormData();
 
@@ -64,7 +64,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
                 if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
                 if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
-                if (formData.rentPayment) formDatas.append('rentPayment', formData?.rentPayment);
+                if (formData.rentPayment) formDatas.append('rentPayment', extractNumber(formData?.rentPayment));
                 if (formData.rentPaymentInWords) formDatas.append('rentPaymentInWords', formData?.rentPaymentInWords);
                 if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
                 if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
@@ -85,6 +85,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (response?.data?.success) {
                     toast.success(`${response?.data?.message}`)
                 }
+                setShowPreview(true);
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -108,7 +109,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
                 if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
                 if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
-                if (formData.rentPayment) formDatas.append('rentPayment', formData?.rentPayment);
+                if (formData.rentPayment) formDatas.append('rentPayment', extractNumber(formData?.rentPayment));
                 if (formData.rentPaymentInWords) formDatas.append('rentPaymentInWords', formData?.rentPaymentInWords);
                 if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
                 if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
@@ -129,6 +130,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (response?.data?.success) {
                     toast.success(`${response?.data?.message}`)
                 }
+                setShowPreview(true);
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
