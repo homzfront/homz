@@ -14,7 +14,7 @@ const ReceiptData = ({ printableRef }) => {
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : "/Frame 1278.png"}
+                            ? URL.createObjectURL(formData.image) :formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
                         alt='avatar'
                         width={64}
                         height={64}

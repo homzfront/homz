@@ -17,13 +17,13 @@ import DocFunnel from '@/components/icons/docFunnel';
 import ArrowWhiteBig from '@/components/icons/arrowWhiteBig';
 import FormSelection from '@/store/document/FormSelection';
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import DocumentCreation from '../dashboard/enterprise-property/documentGeneration/components/documentCreation';
 import useTabForDocuGen from '@/store/document/useTabForDocuGen';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderTwo from './components/sliderTwo';
 import Close from '@/components/icons/Close';
+import DocumentCreation from '@/pages/dashboard/enterprise/documentGeneration/components/documentCreation';
 
 const DocSolution = [
     {
@@ -104,7 +104,7 @@ const DocumentGene = () => {
             {
                 <CustomizedModal isOpen={documentCreation}>
                     <DocumentCreation setDocumentCreation={setDocumentCreation}
-                    // setShowPreview={setShowPreview}
+                //    setShowPreview={setShowPreview}
                     />
                 </CustomizedModal>
             }

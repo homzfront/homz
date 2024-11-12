@@ -12,7 +12,7 @@ import useTabForDocuGen from '@/store/document/useTabForDocuGen';
 import FormSelection from '@/store/document/FormSelection';
 import api from '@/utils/api';
 import useGetAllDocument from '@/store/document/getAllDocument';
-import { f } from 'html2pdf.js';
+import { toast } from "react-hot-toast";
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -41,10 +41,6 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const url = !profile ? "/register" : hasPropertyManager
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
-
-    const generateUniqueId = () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
-    };
 
     const handleGenerate = async () => {
         // Determine navigation based on the current path
@@ -162,21 +158,23 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     };
 
     const formatDate = (isoDate) => {
-        const date = new Date(isoDate);
+        // Use current date if isoDate is not provided or is undefined
+        const date = isoDate ? new Date(isoDate) : new Date();
+        
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
         const day = String(date.getDate()).padStart(2, '0');
+        
         return `${year}-${month}-${day}`;
     };
-
-    // console.log(formData)
+    
     return (
         <div className='mt-4 pr-2'>
             <div className='relative w-[80px] h-[80px] mb-2'>
                 <div>
                     <Image
                         src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : "/Ellipse 75.png"}
+                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
                         height={80}
                         width={80}
                         alt="avatar"

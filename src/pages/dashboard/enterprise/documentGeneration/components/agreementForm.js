@@ -30,8 +30,6 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
     }
 
-    // console.log(formData)
-
     useEffect(() => {
         if (profile) {
             setHasPropertyManager(hasPropertyManagerAccount(profile));
@@ -42,21 +40,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
 
-    const generateUniqueId = () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
-    };
-
     const handleGenerate = async () => {
-        // const existingId = formData?._id
-        //  if (existingId) {
-        //     // ID exists, update existing data
-        //     mergeFormData(formData);
-        // } else {
-        //     // ID does not exist, generate new ID and create new entry
-        //     const newId = generateUniqueId();
-        //     setFormData('id', newId);
-        //     mergeFormData({ ...formData, id: newId });
-        // }
         // Determine navigation based on the current path
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
             setHomePage(true);
