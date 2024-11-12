@@ -1,4 +1,5 @@
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN'
+import extractCurrencySymbol from '@/utils/extractCurrencySymbol'
 import formatDate from '@/utils/formatDate'
 import Image from 'next/image'
 import React from 'react'
@@ -184,7 +185,7 @@ const PrintableReceiptData = ({ printableRef, formData }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                {formData?.rentPayment ? `${formData?.selectedCurrency} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
+                                {formData?.rentPayment ? `${extractCurrencySymbol(formData?.selectedCurrency)} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
                                 </p>
                             </div>
                         </div>

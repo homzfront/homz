@@ -12,6 +12,8 @@ import api from '@/utils/api';
 import FormSelection from '@/store/document/FormSelection';
 import useGetAllDocument from '@/store/document/getAllDocument';
 import extractNumber from '@/utils/removeCommasFromString';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import formatDate from '@/utils/formatDateForDocu';
 
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -26,6 +28,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
     const { fetchData } = useGetAllDocument();
+    const [loading, setLoading] = useState(false);
 
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
@@ -49,6 +52,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
             return;
         }
         else if (!formData?._id) {
+            setLoading(true);
             try {
                 const payload = {};
                 if (formData.propDesc) payload.propertyDesc = formData.propDesc;
@@ -57,11 +61,11 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 if (formData.landlordAddress) payload.landlordAddress = formData.landlordAddress;
                 if (formData.tenantName) payload.tenantName = formData.tenantName;
                 if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
-                if (formData.tenancyStartDate) payload.tenancyStartDate = formData.tenancyStartDate;
-                if (formData.agreementDate) payload.agreementDate = formData.agreementDate;
+                payload.tenancyStartDate = formatDate(formData.tenancyStartDate);
+                payload.agreementDate = formatDate(formData.agreementDate);
                 if (formData.rentPayment) payload.rentPayment = extractNumber(formData.rentPayment);
                 if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
-                if (formData.tenancyEndDate) payload.tenancyEndDate = formData.tenancyEndDate;
+                payload.tenancyEndDate = formatDate(formData.tenancyEndDate);
                 if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
                 if (DocType) payload.DocType = DocType;
                 if (FormName) payload.FormName = FormName;
@@ -70,6 +74,8 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     toast.success(`${response?.data?.message}`)
                 }
                 setShowPreview(true);
+                fetchData()
+                mergeFormData(response?.data?.data)
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -77,10 +83,11 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     toast.error(error?.response?.data?.message)
                 }
             } finally {
-                fetchData()
+                setLoading(false);
             }
         } else {
             try {
+                setLoading(true);
                 const payload = {};
                 if (formData.propDesc) payload.propertyDesc = formData.propDesc;
                 if (formData.propAddress) payload.propertyAddress = formData.propAddress;
@@ -88,11 +95,11 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 if (formData.landlordAddress) payload.landlordAddress = formData.landlordAddress;
                 if (formData.tenantName) payload.tenantName = formData.tenantName;
                 if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
-                if (formData.tenancyStartDate) payload.tenancyStartDate = formData.tenancyStartDate;
-                if (formData.agreementDate) payload.agreementDate = formData.agreementDate;
+                payload.tenancyStartDate = formatDate(formData.tenancyStartDate);
+                payload.agreementDate = formatDate(formData.agreementDate);
                 if (formData.rentPayment) payload.rentPayment = extractNumber(formData.rentPayment);
                 if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
-                if (formData.tenancyEndDate) payload.tenancyEndDate = formData.tenancyEndDate;
+                payload.tenancyEndDate = formatDate(formData.tenancyEndDate);
                 if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
                 if (DocType) payload.DocType = DocType;
                 if (FormName) payload.FormName = FormName;
@@ -101,6 +108,8 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     toast.success(`${response?.data?.message}`)
                 }
                 setShowPreview(true);
+                fetchData()
+                mergeFormData(response?.data?.data)
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -108,20 +117,9 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     toast.error(error?.response?.data?.message)
                 }
             } finally {
-                fetchData()
+                setLoading(false);
             }
         }
-    };
-
-    const formatDate = (isoDate) => {
-        // Use current date if isoDate is not provided or is undefined
-        const date = isoDate ? new Date(isoDate) : new Date();
-        
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-        const day = String(date.getDate()).padStart(2, '0');
-        
-        return `${year}-${month}-${day}`;
     };
 
     return (
@@ -262,7 +260,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                         label={"Currency"}
                         options={options}
                         onSelect={(option) => setFormData('selectedCurrency', option)}
-                        className={"text-[14px] font-[500] text-GrayHomz2"}
+                        className={"text-[14px] font-[500] text-BlackHomz"}
                         selectedCurrency={formData.selectedCurrency}
                     />
                     {errors.selectedCurrency && <span className={`italic text-[12px] text-error font-[400]`}>
@@ -284,15 +282,15 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 </span>}
             </div>
             <div
-                className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
+                className={`${loading ? "pointer-events-none" : ""} flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]`}>
                 <div
                     onClick={() => setDocumentCreation(false)}
-                    className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
+                    className='h-[48px] border border-BlueHomz w-[60%] md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
                     <p>
                         Close
                     </p>
                 </div>
-                <div className='flex justify-between w-full md:w-[45%]'>
+                <div className='flex gap-4 w-full md:w-[50%]'>
                     <div
                         onClick={handlePageChangeTwo}
                         onMouseEnter={() => setHover(true)}
@@ -304,8 +302,19 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                         onClick={handleGenerate}
                         onMouseEnter={() => setHoverII(true)}
                         onMouseLeave={() => setHoverII(false)}
-                        className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
-                        Generate {hoverII ? <ArrowRightWhiteSmall /> : <ArrowRightWhiteSmall className='#ffffff' />}
+                        className={`${loading ? "pointer-events-none w-full flex justify-center" : ""} h-[48px] hover:border hover:border-BlueHomz w-full md:w-[60%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue`}>
+                        {loading ? (
+                            <LoadingFormII />
+                        ) : (
+                            <>
+                                {"Save & Generate"}
+                                {hoverII ? (
+                                    <ArrowRightWhiteSmall />
+                                ) : (
+                                    <ArrowRightWhiteSmall className="#ffffff" />
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

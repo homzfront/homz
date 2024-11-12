@@ -2,6 +2,8 @@ import useAgreementFormStore from '@/store/document/useAgreementFormStore';
 import React from 'react'
 import PrintablePreviewedData from './printablePreviewedData';
 import formatDate from '@/utils/formatDate';
+import extractCurrencySymbol from '@/utils/extractCurrencySymbol';
+import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
 
 const PreviewedData = ({ printableRef }) => {
     const { formData } = useAgreementFormStore();
@@ -39,7 +41,7 @@ const PreviewedData = ({ printableRef }) => {
 
                 <span>BETWEEN</span>
 
-                <p><span className='text-error font-[600]'>{formData?.landlordName ? formData?.landlordName : ""}</span>, of <span className='text-error font-[600]'>{formData?.landlordAddress ? formData?.landlordAddress : ""}</span>, (Hereinafter referred to as "THE LANDLORD" which expression shall where the context so admits include his heir(s), executors, administrators and assigns) of the one part.</p>
+                <p><span className='text-BlueHomz font-[600]'>{formData?.landlordName ? formData?.landlordName : ""}</span>, of <span className='text-BlueHomz font-[600]'>{formData?.landlordAddress ? formData?.landlordAddress : ""}</span>, (Hereinafter referred to as "THE LANDLORD" which expression shall where the context so admits include his heir(s), executors, administrators and assigns) of the one part.</p>
 
                 <p>AND</p>
 
@@ -48,8 +50,8 @@ const PreviewedData = ({ printableRef }) => {
                 <p>The Landlord and the tenant are together hereinafter referred to as the "Parties" and individually as a <span className='font-[600]'>"Party”</span>.</p>
                 <p>WHEREAS</p>
                 <div>
-                    <p>1. The Landlord is a beneficial owner of the property situate at  <span className='font-[600] text-warning2'>{formData?.propAddress ? formData?.propAddress : ""} </span>, herein regarded as  <span className='font-[600]'>“The Demised Premises”</span>.</p>
-                    <p>2. The Landlord has agreed to rent out all the  <span className='font-[600] text-warning2'> {formData?.propDesc ? formData?.propDesc : ""}</span> with all appurtenances to the Tenant and the tenant has agreed to take same.</p>
+                    <p>1. The Landlord is a beneficial owner of the property situate at  <span className='font-[600] text-BlueHomz'>{formData?.propAddress ? formData?.propAddress : ""} </span>, herein regarded as  <span className='font-[600]'>“The Demised Premises”</span>.</p>
+                    <p>2. The Landlord has agreed to rent out all the  <span className='font-[600] text-BlueHomz'> {formData?.propDesc ? formData?.propDesc : ""}</span> with all appurtenances to the Tenant and the tenant has agreed to take same.</p>
                     <p>3. The Parties have agreed to enter into this Tenancy Agreement on(a) the foregoing basis and subject to the terms and conditions hereinafter set out.</p>
                 </div>
                 <p><span className='font-[600]'>IN CONSIDERATION</span> of their mutual promises, assurances, guarantees and undertakings, the Parties agree as follows:</p>
@@ -58,7 +60,7 @@ const PreviewedData = ({ printableRef }) => {
                 <p> 1.1	In pursuance of the agreement recited above and in consideration of the rent herein reserved and of the covenants stated herein to be observed by the <span className='font-[600]'>tenant</span>, the <span className='font-[600]'>Landlord</span> hereby grants unto the tenant,</p>
             </div>
             <div className='h-[1300px] md:h-[750px] bg-white flex flex-col text-[13px] font-[400] text-BlackHomz text-justify justify-between p-4'>
-                <p><span className='font-[600]'>all of the</span> Demised Premises  <span className='font-[600]'>together with</span> all rights of way and easements necessary for the full enjoyment of the Demised Premises and together with all fittings, fixtures and appurtenances attached and or appropriated thereto, <span className='font-[600]'>to hold</span> the same unto the <span className='font-[600]'>tenant</span> for a term of One (1) year certain. Hence, the tenancy hereby commences on the <span className='text-Success font-[600]'>{formData?.tenancyStartDate ? formatDate(formData?.tenancyStartDate) : ""} </span > and would terminate on the <span className='text-error font-[600]'>{formData?.tenancyEndDate ? formatDate(formData?.tenancyEndDate) : ""} </span>.</p>
+                <p><span className='font-[600]'>all of the</span> Demised Premises  <span className='font-[600]'>together with</span> all rights of way and easements necessary for the full enjoyment of the Demised Premises and together with all fittings, fixtures and appurtenances attached and or appropriated thereto, <span className='font-[600]'>to hold</span> the same unto the <span className='font-[600]'>tenant</span> for a term of One (1) year certain. Hence, the tenancy hereby commences on the <span className='text-BlueHomz font-[600]'>{formData?.tenancyStartDate ? formatDate(formData?.tenancyStartDate) : ""} </span > and would terminate on the <span className='text-BlueHomz font-[600]'>{formData?.tenancyEndDate ? formatDate(formData?.tenancyEndDate) : ""} </span>.</p>
 
                 <p>1.2 Where the <span className='font-[600]'>tenant</span> has not breached any of its covenants and obligations herein specified or any other term of this Agreement the <span className='font-[600]'>Landlord</span> may, upon the written request of the tenant made at least three (3) months before the expiration of the term hereby created, grant to the <span className='font-[600]'>tenant</span> a further term on such terms and conditions and at such rent as the Parties may at the time agree.  In the absence of such request, and subject to Clauses 1.3 and 3.3 below, the tenancy hereby created shall determine at the expiration of the term indicated in Clause 1.1 above, without any obligation on the <span className='font-[600]'>Landlord</span> to issue a Notice to Quit or causing same to be issued.</p>
 
@@ -66,7 +68,7 @@ const PreviewedData = ({ printableRef }) => {
 
                 <p className='font-[600]'>2.	CONSIDERATION</p>
 
-                <p>2.1	In consideration for the grant by the <span className='font-[600]'>Landlord</span>, of a tenancy in respect of the <span className='font-[600]'>Demised Premises</span> for the term reserved herein, the <span className='font-[600]'>tenant</span> shall pay to the <span className='font-[600]'>Landlord</span>, upon execution of this agreement the sum of <span className='font-[600] text-HomzIndigo'>{formData?.rentPaymentInWords ? formData?.rentPaymentInWords : "[Rent Paid(in words)]"}, ({formData?.rentPayment ? formData?.rentPayment : ""} {formData?.selectedCurrency ? formData?.selectedCurrency : ""})</span> per annum (g) net of all taxes, levies, all fully paid in advance, the receipt whereof the Landlord hereby acknowledges.</p>
+                <p>2.1	In consideration for the grant by the <span className='font-[600]'>Landlord</span>, of a tenancy in respect of the <span className='font-[600]'>Demised Premises</span> for the term reserved herein, the <span className='font-[600]'>tenant</span> shall pay to the <span className='font-[600]'>Landlord</span>, upon execution of this agreement the sum of <span className='font-[600] text-BlueHomz'>{formData?.rentPaymentInWords ? formData?.rentPaymentInWords : "[Rent Paid(in words)]"}, ( {formData?.selectedCurrency ? extractCurrencySymbol(formData?.selectedCurrency) : ""} {formData?.rentPayment ? addCommasToNumberWithoutN(formData?.rentPayment) : ""})</span> per annum (g) net of all taxes, levies, all fully paid in advance, the receipt whereof the Landlord hereby acknowledges.</p>
 
                 <p>In addition to the rent reserved in 2.1 above, the lessee shall pay other fees as applicable and speculated in the preceding offer letter as dully acknowledged.</p>
 

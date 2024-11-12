@@ -4,6 +4,7 @@ import useReceiptFormStore from '@/store/document/useReceiptFormStore';
 import PrintableReceiptData from './printableReceiptData';
 import formatDate from '@/utils/formatDate';
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
+import extractCurrencySymbol from '@/utils/extractCurrencySymbol';
 
 const ReceiptData = ({ printableRef }) => {
     const { formData } = useReceiptFormStore();
@@ -188,7 +189,7 @@ const ReceiptData = ({ printableRef }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                    {formData?.rentPayment ? `${formData?.selectedCurrency} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
+                                    {formData?.rentPayment ? `${extractCurrencySymbol(formData?.selectedCurrency)} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
                                 </p>
                             </div>
                         </div>

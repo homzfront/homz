@@ -30,6 +30,7 @@ import useGetAllDocument from "@/store/document/getAllDocument";
 import Pagination from "@/components/general/pagination";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import ArrowLeft from "@/components/icons/arrowLeft";
+import useClickOutside from "@/utils/clickOutside";
 
 const DocumentGeneration = () => {
   const { setTab, homePage, setHomePage } = useTabForDocuGen();
@@ -56,6 +57,7 @@ const DocumentGeneration = () => {
   const printableRefReceipt = useRef(null);
   const [dataState, setDataState] = useState([]);
   const [pdfData, setPdfData] = useState(null);
+  const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false));
 
   const {
     page,
@@ -82,15 +84,10 @@ const DocumentGeneration = () => {
     totalCounts: state.totalCounts,
     currentPage: state.currentPage,
   }));
-
   useEffect(() => {
     // Manually trigger data fetch
     useGetAllDocument.getState().fetchData();
   }, [page, search]);
-
-  const handlePageClick = () => {
-    setPage(page);
-  };
 
   const handleNext = () => {
     if (page < totalPages) {
@@ -155,7 +152,6 @@ const DocumentGeneration = () => {
   };
 
   const handleToggleMenuClick = (value) => {
-    // handleToggleMenu(data?._id);
     setSelectedId(value?._id)
     setPopUpMenuVisible(!popUpMenuVisible);
   };
@@ -456,76 +452,81 @@ const DocumentGeneration = () => {
             {
               data &&
               (
-                <div className="flex flex-col gap-4 h-auto py-4">
-                  <div className="w-full">
-                    <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz px-4">
-                      <div className="w-[45%] md:w-[25%]">Document Type</div>
-                      <div className="w-[45%] md:w-[25%]">Document Name</div>
-                      <div className="w-[25%] hidden md:table-cell">Date Generated</div>
-                      <div className="w-[25%] hidden md:table-cell">Action</div>
-                      <div className="w-[10px] md:hidden"></div>
-                    </div>
-                    <div>
-                      {loading ? (
-                        // Skeleton loader: Render this while loading is true
-                        Array(5)
-                          .fill(0)
-                          .map((_, index) => (
-                            <div
-                              key={index}
-                              className="animate-pulse border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
-                            >
-                              <div className="bg-gray-300 w-[45%] md:w-[25%] h-[10px] rounded-md"></div>
-                              <div className="bg-gray-300 w-[45%] md:w-[25%] h-[10px] rounded-md"></div>
-                              <div className="hidden md:table-cell bg-gray-300 w-[25%] h-[10px] rounded-md"></div>
-                              <div className="hidden md:flex bg-gray-300 w-[25%] h-[10px] rounded-md"></div>
-                            </div>
-                          ))
-                      ) : (
-                        // Actual data display once loading is false
-                        data.map((item) => (
-                          <div
-                            key={item?._id}
-                            className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
-                          >
-                            <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
-                              {item?.DocType}
-                            </div>
-                            <div className="text-GrayHomz w-[45%] md:w-[25%] font-[500] text-[11px] text-start">
-                              {item?.FormName}
-                            </div>
-                            <div className="hidden md:table-cell text-GrayHomz w-[25%] font-[500] text-[11px] text-start">
-                              {changeBackendDateFormat(item?.createdAt)}
-                            </div>
-                            <div className="hidden text-BlueHomz w-[25%] font-[500] text-[11px] text-start md:flex gap-2">
-                              <div onClick={() => TypeForDownload(item?.DocType, item)}>
-                                <DropDownBlue
-                                  options={options}
-                                  onSelect={(option) => handleDownload(option)}
-                                  className={"text-[14px] font-[500]"}
-                                  show="true"
-                                  width="w-[170px]"
-                                  placeholder="Download as..."
-                                />
+                <div className="w-full">
+                  <div className="overflow-x-auto scrollbar-container">
+                    <div className="w-[250%] md:w-full">
+                      <div className="flex flex-col gap-4 h-auto py-4">
+                        <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz px-4">
+                          <div className="w-[23%]">Document Type</div>
+                          <div className="w-[23%]">Document Name</div>
+                          <div className="w-[23%]">Date Generated</div>
+                          <div className="w-[23%]">Action</div>
+                          <div className="w-[8%]"></div>
+                        </div>
+                        <div>
+                          {loading ? (
+                            // Skeleton loader: Render this while loading is true
+                            Array(5)
+                              .fill(0)
+                              .map((_, index) => (
+                                <div
+                                  key={index}
+                                  className="animate-pulse border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
+                                >
+                                  <div className="bg-gray-300 w-[23%] h-[10px] rounded-md"></div>
+                                  <div className="bg-gray-300 w-[23%] h-[10px] rounded-md"></div>
+                                  <div className="bg-gray-300 w-[23%] h-[10px] rounded-md"></div>
+                                  <div className="flex bg-gray-300 w-[23%] h-[10px] rounded-md"></div>
+                                  <div className="bg-gray-300 w-[8%]"></div>
+                                </div>
+                              ))
+                          ) : (
+                            // Actual data display once loading is false
+                            data.map((item) => (
+                              <div
+                                key={item?._id}
+                                className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
+                              >
+                                <div className="text-GrayHomz w-[23%] font-[500] text-[11px] text-start">
+                                  {item?.DocType}
+                                </div>
+                                <div className="text-GrayHomz w-[23%] font-[500] text-[11px] text-start">
+                                  {item?.FormName}
+                                </div>
+                                <div className=" text-GrayHomz w-[23%] font-[500] text-[11px] text-start">
+                                  {changeBackendDateFormat(item?.createdAt)}
+                                </div>
+                                <div className=" text-BlueHomz w-[23%] font-[500] text-[11px] text-start md:flex gap-2">
+                                  <div onClick={() => TypeForDownload(item?.DocType, item)}>
+                                    <DropDownBlue
+                                      options={options}
+                                      onSelect={(option) => handleDownload(option)}
+                                      className={"text-[14px] font-[500]"}
+                                      show="true"
+                                      width="w-[170px]"
+                                      placeholder="Download as..."
+                                    />
+                                  </div>
+                                </div>
+                                <div className="relative w-[8%]">
+                                  <Image
+                                    src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                    alt=""
+                                    height={21}
+                                    width={19}
+                                    onClick={() => handleToggleMenuClick(item)}
+                                    className="cursor-pointer mr-8"
+                                    style={{ height: "auto", width: "auto" }}
+                                  />
+                                  {popUpMenuVisible && selectedId === item?._id && (
+                                    <PopUp dropdownRef={dropdownRef} item={item} openPreview={openPreview} />
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                            <div className="relative">
-                              <Image
-                                src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                alt=""
-                                height={21}
-                                width={19}
-                                onClick={() => handleToggleMenuClick(item)}
-                                className="cursor-pointer mr-8"
-                                style={{ height: "auto", width: "auto" }}
-                              />
-                              {popUpMenuVisible && selectedId === item?._id && (
-                                <PopUp item={item} openPreview={openPreview} />
-                              )}
-                            </div>
-                          </div>
-                        ))
-                      )}
+                            ))
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   {data && data.length >= 1 && (
@@ -535,7 +536,7 @@ const DocumentGeneration = () => {
                       totalPages={totalPages}
                       handleNext={handleNext}
                       handlePrev={handlePrev}
-                      handlePageClick={handlePageClick}
+                      handlePageClick={(page) => setPage(page)}
                       lastThreePages={lastThreePages}
                     />
                   )}

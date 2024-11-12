@@ -14,6 +14,8 @@ import api from '@/utils/api';
 import useGetAllDocument from '@/store/document/getAllDocument';
 import { toast } from "react-hot-toast";
 import extractNumber from '@/utils/removeCommasFromString';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import formatDate from '@/utils/formatDateForDocu';
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -29,6 +31,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
     const { fetchData } = useGetAllDocument();
+    const [loading, setLoading] = useState(false);
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
     }
@@ -42,15 +45,16 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const url = !profile ? "/register" : hasPropertyManager
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
-
+        
     const handleGenerate = async () => {
         // Determine navigation based on the current path
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
             setHomePage(true);
             router.push(url);
             return;
-        } 
+        }
         else if (!formData?._id) {
+            setLoading(true);
             try {
                 const formDatas = new FormData();
 
@@ -59,7 +63,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
                 if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
                 if (formData.propertyManagerCompanyPhoneNumber) formDatas.append('propertyManagerCompanyPhoneNumber', formData.propertyManagerCompanyPhoneNumber);
-                if (formData.receiptDate) formDatas.append('receiptDate', formData?.receiptDate);
+                formDatas.append('receiptDate', formatDate(formData?.receiptDate));
                 if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
                 if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
                 if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
@@ -69,8 +73,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
                 if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
                 if (formData.tenancyPeriod) formDatas.append('tenancyPeriod', formData?.tenancyPeriod);
-                if (formData.tenancyStartDate) formDatas.append('tenancyStartDate', formData?.tenancyStartDate);
-                if (formData.tenancyEndDate) formDatas.append('tenancyEndDate', formData?.tenancyEndDate);
+                formDatas.append('tenancyStartDate', formatDate(formData?.tenancyStartDate));
+                formDatas.append('tenancyEndDate', formatDate(formData?.tenancyEndDate));
                 if (formData.modOfPayment) formDatas.append('modOfPayment', formData?.modOfPayment);
                 if (FormName) formDatas.append('FormName', FormName);
                 if (DocType) formDatas.append('DocType', DocType);
@@ -86,6 +90,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     toast.success(`${response?.data?.message}`)
                 }
                 setShowPreview(true);
+                mergeFormData(response?.data?.data)
+                fetchData();
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -93,10 +99,11 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     toast.error(error?.response?.data?.message)
                 }
             } finally {
-                fetchData();
+                setLoading(false);
             }
         } else {
             try {
+                setLoading(true);
                 const formDatas = new FormData();
 
                 // Append only fields with values to FormData object
@@ -104,7 +111,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
                 if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
                 if (formData.propertyManagerCompanyPhoneNumber) formDatas.append('propertyManagerCompanyPhoneNumber', formData.propertyManagerCompanyPhoneNumber);
-                if (formData.receiptDate) formDatas.append('receiptDate', formData?.receiptDate);
+                formDatas.append('receiptDate', formatDate(formData?.receiptDate));
                 if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
                 if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
                 if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
@@ -114,8 +121,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
                 if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
                 if (formData.tenancyPeriod) formDatas.append('tenancyPeriod', formData?.tenancyPeriod);
-                if (formData.tenancyStartDate) formDatas.append('tenancyStartDate', formData?.tenancyStartDate);
-                if (formData.tenancyEndDate) formDatas.append('tenancyEndDate', formData?.tenancyEndDate);
+                formDatas.append('tenancyStartDate', formatDate(formData?.tenancyStartDate));
+                formDatas.append('tenancyEndDate', formatDate(formData?.tenancyEndDate));
                 if (formData.modOfPayment) formDatas.append('modOfPayment', formData?.modOfPayment);
                 if (FormName) formDatas.append('FormName', FormName);
                 if (DocType) formDatas.append('DocType', DocType);
@@ -124,13 +131,15 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 if (formData?.image && formData.image instanceof File) {
                     formDatas.append('image', formData.image);
                 }
+                // /enterprise/document/update/receiptFormDocument/
 
-
-                const response = await api.post(`/enterprise/document/update/receiptFormDocument/${formData?._id}`, formDatas);
+                const response = await api.patch(`/enterprise/document/update/receiptFormDocument/${formData?._id}`, formDatas);
                 if (response?.data?.success) {
                     toast.success(`${response?.data?.message}`)
                 }
                 setShowPreview(true);
+                mergeFormData(response?.data?.data)
+                fetchData();
             } catch (error) {
                 if (error?.response?.data?.error?.errors) {
                     toast.error(error?.response?.data?.error?.errors?.[0])
@@ -138,7 +147,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     toast.error(error?.response?.data?.message)
                 }
             } finally {
-                fetchData();
+                setLoading(false);
             }
         }
     }
@@ -159,17 +168,6 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         fileInputRef.current.click();
     };
 
-    const formatDate = (isoDate) => {
-        // Use current date if isoDate is not provided or is undefined
-        const date = isoDate ? new Date(isoDate) : new Date();
-        
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-        const day = String(date.getDate()).padStart(2, '0');
-        
-        return `${year}-${month}-${day}`;
-    };
-    
     return (
         <div className='mt-4 pr-2'>
             <div className='relative w-[80px] h-[80px] mb-2'>
@@ -424,15 +422,15 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     {errors.modOfPayment}
                 </span>}
             </div>
-            <div className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
+            <div className={`${loading ? "pointer-events-none" : ""} flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]`}>
                 <div
                     onClick={() => setDocumentCreation(false)}
-                    className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
+                    className='h-[48px] border border-BlueHomz w-[60%] md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
                     <p>
                         Close
                     </p>
                 </div>
-                <div className='flex justify-between w-full md:w-[45%]'>
+                <div className='flex gap-4 w-full md:w-[50%]'>
                     <div
                         onClick={handlePageChangeTwo}
                         onMouseEnter={() => setHover(true)}
@@ -441,11 +439,28 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                         {hover ? <ArrowLeftBlueSmall className='#ffffff' /> : <ArrowLeftBlueSmall />}  Go Back
                     </div>
                     <div
-                        onClick={handleGenerate}
+                        onClick={() => {
+                            if (formData?.propertyManagerCompanyEmail && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.propertyManagerCompanyEmail)) {
+                                // If the email format is invalid, return early or handle the error
+                                return toast.error("Invalid email format");
+                            }
+                            handleGenerate()
+                        }}
                         onMouseEnter={() => setHoverII(true)}
                         onMouseLeave={() => setHoverII(false)}
-                        className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
-                        Generate {hoverII ? <ArrowRightWhiteSmall /> : <ArrowRightWhiteSmall className='#ffffff' />}
+                        className={`${loading ? "pointer-events-none w-full flex justify-center" : ""} h-[48px] hover:border hover:border-BlueHomz w-full md:w-[60%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue`}>
+                        {loading ? (
+                            <LoadingFormII />
+                        ) : (
+                            <>
+                                {"Save & Generate"}
+                                {hoverII ? (
+                                    <ArrowRightWhiteSmall />
+                                ) : (
+                                    <ArrowRightWhiteSmall className="#ffffff" />
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

@@ -2,9 +2,9 @@ import ArrowLeft from "@/components/icons/arrowLeft";
 import DeleteRed from "@/components/icons/deleteRed";
 import DownloadGray from "@/components/icons/downloadGray";
 
-const PopUp = ({ item, openPreview }) => {
+const PopUp = ({ dropdownRef, item, openPreview }) => {
     return (
-        <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-[18px] right-8 border h-auto w-[150px] md:w-[180px] rounded-lg bg-white flex flex-col items-center justify-around">
+        <div ref={dropdownRef} className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-[18px] right-8 border h-auto w-[150px] md:w-[180px] rounded-lg bg-white flex flex-col items-center justify-around">
             <div className="cursor-pointer h-[30px] rounded-md flex gap-1 items-center  px-2 w-full ">
                 <div onClick={() => openPreview(item)} className="    text-GrayHomz hover:text-BlueHomz hover:bg-whiteblue flex items-center h-full w-full rounded-md">
                     <ArrowLeft />

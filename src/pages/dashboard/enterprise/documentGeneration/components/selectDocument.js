@@ -45,7 +45,7 @@ const SelectDocument = ({ handlePageChangeTwo }) => {
             >
               <div className='flex justify-start gap-2 items-center text-[16px] font-[400]'>
                 <div className='h-[45px] w-[45px] bg-white flex justify-center items-center rounded-full'>{data.image}</div>
-                {data.text}
+                {data.text === "Invoice and Receipt" ? "Receipt" : data.text}
               </div>
             </div>
           ))

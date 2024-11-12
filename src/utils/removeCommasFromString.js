@@ -1,5 +1,8 @@
 export default function extractNumber(text) {
-  // console.log(text)
+   // If the input is already a number, return it directly
+   if (typeof text === "number") {
+    return text;
+  }
   // Ensure text is a string before attempting operations
   if (typeof text !== "string") {
     return Number.NaN; // Handle invalid input type
