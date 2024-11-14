@@ -30,7 +30,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
-    const { fetchData } = useGetAllDocument();
+    const {fetchData} = useGetAllDocument(state => ({fetchData: state.fetchData}));
     const [loading, setLoading] = useState(false);
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
@@ -175,10 +175,10 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     <Image
                         src={formData?.image && formData.image instanceof File
                             ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
-                        height={80}
-                        width={80}
+                            width={172}
+                            height={60}
                         alt="avatar"
-                        className="rounded-full object-cover bg-center h-[80px] cursor-pointer"
+                        className="object-cover bg-center h-[60px] cursor-pointer"
                         onClick={handleImageClick}
                     />
                 </div>

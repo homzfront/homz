@@ -27,7 +27,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
-    const { fetchData } = useGetAllDocument();
+    const {fetchData} = useGetAllDocument(state => ({fetchData: state.fetchData}));
     const [loading, setLoading] = useState(false);
 
     function hasPropertyManagerAccount(profile) {
