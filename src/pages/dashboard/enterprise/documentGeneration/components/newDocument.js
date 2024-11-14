@@ -41,7 +41,7 @@ const NewDocument = ({ handlePageChangeThree, handlePageChange, setDocumentCreat
             setFormName(e.target.value)
             setError(null);
           }}
-          placeholder='e.g Tenant Agreement'
+          placeholder={`e.g ${DocType === "Invoice and Receipt" ? "Receipt" : DocType === "Tenancy Agreement"  ? "Tenant Agreement" : "Quit Notice"} `}
           className='pl-2 py-2 placeholder:text-[14px] placeholder:font-[500] placeholder:text-GrayHomz2 border w-full border-GrayHomz2 rounded-[4px] outline-none'
         />
         {

@@ -43,7 +43,6 @@ const RichTextEditorSMS = ({ charLimit, text, editorHtml, setEditorHtml }) => {
     "[PROPERTY DESCRIPTION]",
     "[PROPERTY ADDRESS]",
     "[Rent Amount in Figures]",
-    "[Tenant Rent amount in Figures]"
   ];
 
   const handleChange = (html) => {

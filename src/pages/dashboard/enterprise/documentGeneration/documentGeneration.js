@@ -31,6 +31,8 @@ import Pagination from "@/components/general/pagination";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import ArrowLeft from "@/components/icons/arrowLeft";
 import useClickOutside from "@/utils/clickOutside";
+import api from "@/utils/api";
+import toast from "react-hot-toast";
 
 const DocumentGeneration = () => {
   const { setTab, homePage, setHomePage } = useTabForDocuGen();
@@ -41,7 +43,7 @@ const DocumentGeneration = () => {
   const option = ["PDF", "Word"];
   const [documentCreation, setDocumentCreation] = useState(false);
   const [selectFormat, setSelectedFormat] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [hover, setHover] = useState(false);
   const [typeForDownload, setDocTypeForDownload] = useState(null)
@@ -71,6 +73,7 @@ const DocumentGeneration = () => {
     resetSearch,
     totalPages,
     currentPage,
+    fetchData,
   } = useGetAllDocument(state => ({
     page: state.page,
     limit: state.limit,
@@ -83,6 +86,7 @@ const DocumentGeneration = () => {
     loading: state.loading,
     totalCounts: state.totalCounts,
     currentPage: state.currentPage,
+    fetchData: state.fetchData
   }));
   useEffect(() => {
     // Manually trigger data fetch
@@ -171,7 +175,7 @@ const DocumentGeneration = () => {
     }
   }, [homePage, documentCreation, setHomePage]);
 
-  
+
   const openPreview = (data) => {
     setDocType(data.DocType);
     setFormName(data.FormName)
@@ -260,6 +264,26 @@ const DocumentGeneration = () => {
     if (formData?._id || receiptData?._id) {
       setShowPreview(false)
       setDocumentCreation(false);
+    }
+  }
+
+  const deleteItem = async (_id) => {
+    setDeleteLoading(true);
+    try {
+      const response = await api.delete(`/enterprise/document/${_id}`);
+      if (response?.data?.success) {
+        toast.success(`${response?.data?.message}`)
+        fetchData()
+      }
+    }
+    catch (error) {
+      if (error?.response?.data?.error?.errors) {
+        toast.error(error?.response?.data?.error?.errors?.[0])
+      } else if (error?.response?.data?.message) {
+        toast.error(error?.response?.data?.message)
+      }
+    } finally {
+      setDeleteLoading(false);
     }
   }
 
@@ -447,7 +471,7 @@ const DocumentGeneration = () => {
                           <div className="w-[8%]"></div>
                         </div>
                         <div>
-                          {loading ? (
+                          {loading || deleteLoading ? (
                             // Skeleton loader: Render this while loading is true
                             Array(5)
                               .fill(0)
@@ -503,7 +527,7 @@ const DocumentGeneration = () => {
                                     style={{ height: "auto", width: "auto" }}
                                   />
                                   {popUpMenuVisible && selectedId === item?._id && (
-                                    <PopUp dropdownRef={dropdownRef} item={item} openPreview={openPreview} />
+                                    <PopUp dropdownRef={dropdownRef} deleteItem={deleteItem} item={item} openPreview={openPreview} />
                                   )}
                                 </div>
                               </div>

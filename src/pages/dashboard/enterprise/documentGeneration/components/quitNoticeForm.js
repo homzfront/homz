@@ -350,7 +350,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             <div className='mt-2'>
                 <Input
                     label={"Property Manager’s Company Website"}
-                    placeholder={"e.g www.RealEstateCo.com"}
+                    placeholder={"e.g http://www.RealEstateCo.com"}
                     type={"text"}
                     value={formData.propertyManagerCompanyWebsite}
                     onChange={(e) => setFormData('propertyManagerCompanyWebsite', e.target.value)}

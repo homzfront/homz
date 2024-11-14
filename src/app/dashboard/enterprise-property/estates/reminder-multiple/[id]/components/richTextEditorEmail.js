@@ -42,8 +42,7 @@ const RichTextEditorEmail = ({ charLimit, text, setEditorHtml, editorHtml }) => 
     "[Property Description]",
     "[PROPERTY DESCRIPTION]",
     "[PROPERTY ADDRESS]",
-    "[Rent Amount in Figures]",
-    "[Tenant Rent amount in Figures]"
+    "[Rent Amount in Figures]"
   ];
 
   const handleChange = (html) => {
