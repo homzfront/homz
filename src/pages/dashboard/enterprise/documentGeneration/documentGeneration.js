@@ -306,7 +306,7 @@ const DocumentGeneration = () => {
           <div className="mx-4 px-4 py-4 my-2 bg-inputBg m-auto">
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-0 justify-between border-b-[1px] pb-4">
               <div className="md:w-[45%] flex flex-wrap gap-4 items-center">
-                <p onClick={GoBack} className={`cursor-pointer font-[400] text-[14px] text-GrayHomz2 flex items-center gap-1 ${formData?._id || receiptData?._id ? "" : "hidden"}`}>
+                <p onClick={GoBack} className={`cursor-pointer font-[400] text-[14px] text-GrayHomz2 flex items-center gap-1`}>
                   <ArrowLeft />
                   Go Back
                 </p>
