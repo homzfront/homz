@@ -11,7 +11,7 @@ const PrintableReceiptData = ({ printableRef, formData }) => {
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={formData?.image && formData?.image instanceof File
-                            ? URL.createObjectURL(formData?.image) : "/Frame 1278.png"}
+                            ? URL.createObjectURL(formData?.image) : formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
                         alt='avatar'
                         width={64}
                         height={64}
@@ -145,7 +145,7 @@ const PrintableReceiptData = ({ printableRef, formData }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                {formData?.tenancy ? `${formData?.tenancyPeriod} ${formData?.tenancy}` : ""}
+                                    {formData?.tenancy ? `${formData?.tenancyPeriod} ${formData?.tenancy}` : ""}
                                 </p>
                             </div>
                         </div>
@@ -185,7 +185,7 @@ const PrintableReceiptData = ({ printableRef, formData }) => {
                             </div>
                             <div className='w-[60%]'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
-                                {formData?.rentPayment ? `${extractCurrencySymbol(formData?.selectedCurrency)} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
+                                    {formData?.rentPayment ? `${extractCurrencySymbol(formData?.selectedCurrency)} ${addCommasToNumberWithoutN(formData?.rentPayment)}` : ""}
                                 </p>
                             </div>
                         </div>

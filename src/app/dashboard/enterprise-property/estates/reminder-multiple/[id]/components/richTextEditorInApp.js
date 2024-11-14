@@ -41,7 +41,9 @@ const RichTextEditorInApp = ({ charLimit, text, editorHtml, setEditorHtml }) => 
     "[Property Manager’s Business Phone Number]", 
     "[Property Description]",
     "[PROPERTY DESCRIPTION]", 
-    "[PROPERTY ADDRESS]"
+    "[PROPERTY ADDRESS]",
+    "[Rent Amount in Figures]",
+    "[Tenant Rent amount in Figures]"
       ];
       
   const handleChange = (html) => {

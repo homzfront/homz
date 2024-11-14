@@ -42,6 +42,7 @@ const useQuickNoticeFormStore = create((set) => ({
       propertyManagerCompanyAddress: propertyData.propertyManagerCompanyAddress ?? state.formData.propertyManagerCompanyAddress,
       propertyManagerCompanyWebsite: propertyData.propertyManagerCompanyWebsite ?? state.formData.propertyManagerCompanyWebsite,
       image: propertyData.image ?? state.formData.image,
+      _id: propertyData?._id ?? state.formData_?.id
     },
   })),
 

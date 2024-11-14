@@ -12,7 +12,7 @@ const QuitNoticeData = ({ printableRef }) => {
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : "/Frame 1278.png"}
+                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
                         alt='avatar'
                         width={64}
                         height={64}
@@ -29,11 +29,11 @@ const QuitNoticeData = ({ printableRef }) => {
                 </div>
                 <div>Dear <span className='font-[600]'>{formData?.tenantName ? formData?.tenantName : ""}</span>, </div>
 
-                <div>NOTICE TO QUIT - <span className='font-[600]'>{formData?.noticePeriod ? formData?.noticePeriod : ""}</span></div>
+                <div>NOTICE TO QUIT - <span className='font-[600]'>{formData?.noticePeriod ? `${formData.noticePeriod} ${formData.noticePeriod === 1 ? "month" : "months"}` : ""}</span></div>
 
                 <div>I, <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>, the Property Manager to the Estate of <span className='font-[600]'>{formData?.landlordName ? formData?.landlordName : ""}</span> (hereinafter referred to as “Our Client”), Your landlord on whose instruction we write. </div>
 
-                <div>You are by this notice required to deliver up possession of the <span className='font-[600]'>{formData?.propertyDesc ? formData?.propertyDesc : ""}</span>, situated at, <span className='font-[600]'>{formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}</span>, which you hold as a yearly tenant be given to us on the expiration of your current tenancy period; <span className='font-[600]'>{formData?.noticePeriod ? formData?.noticePeriod : ""}</span> from the date of your receipt or service of this notice.</div>
+                <div>You are by this notice required to deliver up possession of the <span className='font-[600]'>{formData?.propertyDesc ? formData?.propertyDesc : ""}</span>, situated at, <span className='font-[600]'>{formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}</span>, which you hold as a yearly tenant be given to us on the expiration of your current tenancy period; <span className='font-[600]'>{formData?.noticePeriod ? `${formData.noticePeriod} ${formData.noticePeriod === 1 ? "month" : "months"}` : ""}</span> from the date of your receipt or service of this notice.</div>
 
                 <div>Furthermore, you are requested to settle all your outstanding rent, rates, electricity bills, Levies and keep the apartment in a tenantable condition before your departure.</div>
 

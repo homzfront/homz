@@ -27,22 +27,24 @@ const RichTextEditorEmail = ({ charLimit, text, setEditorHtml, editorHtml }) => 
     "[Tenant’s First Name]",
     "[Tenant’s Full Name]",
     "[Tenant’s Address]",
-    "[Due Date]", 
+    "[Due Date]",
     "[New Due Date]",
-    "[New Start Date]", 
+    "[New Start Date]",
     "[Property Manager’s Name]",
-    "[Bank Name]", 
-    "[Bank Account Number]", 
+    "[Bank Name]",
+    "[Bank Account Number]",
     "[Bank Account Name]",
     "[Property Manager’s Business Name]",
-    "[Property Manager’s Business Email]", 
-    "[Property Manager’s Business Address]", 
+    "[Property Manager’s Business Email]",
+    "[Property Manager’s Business Address]",
     "[Property Manager’s Business Logo]",
-    "[Property Manager’s Business Phone Number]", 
+    "[Property Manager’s Business Phone Number]",
     "[Property Description]",
-    "[PROPERTY DESCRIPTION]", 
-    "[PROPERTY ADDRESS]"
-      ];
+    "[PROPERTY DESCRIPTION]",
+    "[PROPERTY ADDRESS]",
+    "[Rent Amount in Figures]",
+    "[Tenant Rent amount in Figures]"
+  ];
 
   const handleChange = (html) => {
     const text = html.replace(/<[^>]+>/g, '');
@@ -54,7 +56,7 @@ const RichTextEditorEmail = ({ charLimit, text, setEditorHtml, editorHtml }) => 
   };
 
   const handleKeyDown = (event) => {
-    const plainText = editorHtml.replace(/<[^>]+>/g, ''); 
+    const plainText = editorHtml.replace(/<[^>]+>/g, '');
     if (plainText.length >= charLimit && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
       event.preventDefault();
     }

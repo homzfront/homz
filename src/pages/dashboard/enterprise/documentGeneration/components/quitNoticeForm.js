@@ -9,6 +9,12 @@ import Image from 'next/image';
 import useProfileStore from '@/store/profile';
 import { usePathname, useRouter } from 'next/navigation';
 import useTabForDocuGen from '@/store/document/useTabForDocuGen';
+import useGetAllDocument from '@/store/document/getAllDocument';
+import FormSelection from '@/store/document/FormSelection';
+import formatDate from '@/utils/formatDateForDocu';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import toast from 'react-hot-toast';
+import api from '@/utils/api';
 
 const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -22,6 +28,9 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
+    const { DocType, FormName } = FormSelection();
+    const { fetchData } = useGetAllDocument();
+    const [loading, setLoading] = useState(false);
 
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
@@ -37,27 +46,100 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
 
-    const generateUniqueId = () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
-    };
-
-    const handleGenerate = () => {
-        const existingId = formData.id;
-        if (existingId) {
-            // ID exists, update existing data
-            mergeFormData(formData);
-        } else {
-            // ID does not exist, generate new ID and create new entry
-            const newId = generateUniqueId();
-            setFormData('id', newId);
-            mergeFormData({ ...formData, id: newId });
-        }
+    const handleGenerate = async () => {
         // Determine navigation based on the current path
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
             setHomePage(true);
             router.push(url);
+            return;
+        }
+        else if (!formData?._id) {
+            setLoading(true);
+            try {
+                const formDatas = new FormData();
+
+                // Append only fields with values to FormData object
+                if (formData.propertyManagerName) formDatas.append('propertyManagerName', formData?.propertyManagerName);
+                if (formData.propertyManagerCompanyName) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
+                if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
+                if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
+                if (formData.propertyManagerCompanyWebsite) formDatas.append('propertyManagerCompanyWebsite', formData.propertyManagerCompanyWebsite);
+                formDatas.append('noticeStartDate', formatDate(formData?.noticeStartDate));
+                if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
+                if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
+                if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
+                if (formData.duration) formDatas.append('duration', formData?.duration);
+                if (formData.noticePeriod) formDatas.append('noticePeriod', formData?.noticePeriod);
+                if (formData.tenantAddress) formDatas.append('tenantAddress', formData?.tenantAddress);
+                if (formData.landlordName) formDatas.append('landlordName', formData?.landlordName);
+                if (FormName) formDatas.append('FormName', FormName);
+                if (DocType) formDatas.append('DocType', DocType);
+
+                // Append image if it exists
+                if (formData?.image && formData.image instanceof File) {
+                    formDatas.append('image', formData.image);
+                }
+
+
+                const response = await api.post('/enterprise/document/create/QuickNoticeFormDocument', formDatas);
+                if (response?.data?.success) {
+                    toast.success(`${response?.data?.message}`)
+                }
+                setShowPreview(true);
+                mergeFormData(response?.data?.data)
+                fetchData();
+            } catch (error) {
+                if (error?.response?.data?.error?.errors) {
+                    toast.error(error?.response?.data?.error?.errors?.[0])
+                } else if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                }
+            } finally {
+                setLoading(false);
+            }
         } else {
-            setShowPreview(true);
+            try {
+                setLoading(true);
+                const formDatas = new FormData();
+
+                // Append only fields with values to FormData object
+                if (formData.propertyManagerName) formDatas.append('propertyManagerName', formData?.propertyManagerName);
+                if (formData.propertyManagerCompanyName) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
+                if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
+                if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
+                if (formData.propertyManagerCompanyWebsite) formDatas.append('propertyManagerCompanyWebsite', formData.propertyManagerCompanyWebsite);
+                formDatas.append('noticeStartDate', formatDate(formData?.noticeStartDate));
+                if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
+                if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
+                if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
+                if (formData.duration) formDatas.append('duration', formData?.duration);
+                if (formData.noticePeriod) formDatas.append('noticePeriod', formData?.noticePeriod);
+                if (formData.tenantAddress) formDatas.append('tenantAddress', formData?.tenantAddress);
+                if (formData.landlordName) formDatas.append('landlordName', formData?.landlordName);
+                if (FormName) formDatas.append('FormName', FormName);
+                if (DocType) formDatas.append('DocType', DocType);
+
+                // Append image if it exists
+                if (formData?.image && formData.image instanceof File) {
+                    formDatas.append('image', formData.image);
+                }
+
+                const response = await api.patch(`/enterprise/document/update/QuickNoticeFormDocument/${formData?._id}`, formDatas);
+                if (response?.data?.success) {
+                    toast.success(`${response?.data?.message}`)
+                }
+                setShowPreview(true);
+                mergeFormData(response?.data?.data)
+                fetchData();
+            } catch (error) {
+                if (error?.response?.data?.error?.errors) {
+                    toast.error(error?.response?.data?.error?.errors?.[0])
+                } else if (error?.response?.data?.message) {
+                    toast.error(error?.response?.data?.message)
+                }
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
@@ -84,7 +166,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                 <div>
                     <Image
                         src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : "/Ellipse 75.png"}
+                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Ellipse 75.png"}
                         height={80}
                         width={80}
                         alt="avatar"
@@ -112,7 +194,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             <div className=''>
                 <Input
                     label={"Notice Period (Months)"}
-                    placeholder={"e.g 6 months"}
+                    placeholder={"e.g 6"}
                     type={"text"}
                     value={formData.noticePeriod}
                     onChange={(e) => setFormData('noticePeriod', e.target.value)}
@@ -127,7 +209,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     label={"Notice Commencement Date"}
                     placeholder={"e.g 1 July, 2024"}
                     type={"date"}
-                    value={formData.noticeStartDate}
+                    value={formatDate(formData.noticeStartDate)}
                     onChange={(e) => setFormData('noticeStartDate', e.target.value)}
                     autoComplete={"noticeStartDate"}
                 />
@@ -278,15 +360,15 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     {errors.propertyManagerCompanyWebsite}
                 </span>}
             </div>
-            <div className='flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]'>
+            <div className={`${loading ? "pointer-events-none" : ""} flex items-center justify-between gap-4 md:gap-0 mt-10 mb-4 text-[16px] font-[500]`}>
                 <div
                     onClick={() => setDocumentCreation(false)}
-                    className='h-[48px] border border-BlueHomz w-full md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
+                    className='h-[48px] border border-BlueHomz w-[60%] md:w-[20%] rounded-[4px] text-BlueHomz hover:text-white flex justify-center items-center cursor-pointer hover:bg-BlueHomz'>
                     <p>
                         Close
                     </p>
                 </div>
-                <div className='flex justify-between w-full md:w-[45%]'>
+                <div className='flex gap-4 w-full md:w-[50%]'>
                     <div
                         onClick={handlePageChangeTwo}
                         onMouseEnter={() => setHover(true)}
@@ -295,11 +377,28 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                         {hover ? <ArrowLeftBlueSmall className='#ffffff' /> : <ArrowLeftBlueSmall />}  Go Back
                     </div>
                     <div
-                        onClick={handleGenerate}
+                        onClick={() => {
+                            if (formData?.propertyManagerCompanyEmail && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.propertyManagerCompanyEmail)) {
+                                // If the email format is invalid, return early or handle the error
+                                return toast.error("Invalid email format");
+                            }
+                            handleGenerate()
+                        }}
                         onMouseEnter={() => setHoverII(true)}
                         onMouseLeave={() => setHoverII(false)}
-                        className='h-[48px] hover:border hover:border-BlueHomz w-full md:w-[45%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue'>
-                        Generate {hoverII ? <ArrowRightWhiteSmall /> : <ArrowRightWhiteSmall className='#ffffff' />}
+                        className={`${loading ? "pointer-events-none w-full flex justify-center" : ""} h-[48px] hover:border hover:border-BlueHomz w-full md:w-[60%] rounded-[4px] flex gap-1 justify-center items-center cursor-pointer text-white hover:text-BlueHomz bg-BlueHomz hover:bg-whiteblue`}>
+                        {loading ? (
+                            <LoadingFormII />
+                        ) : (
+                            <>
+                                {"Save & Generate"}
+                                {hoverII ? (
+                                    <ArrowRightWhiteSmall />
+                                ) : (
+                                    <ArrowRightWhiteSmall className="#ffffff" />
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

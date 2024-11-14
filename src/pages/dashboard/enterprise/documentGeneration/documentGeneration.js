@@ -156,27 +156,7 @@ const DocumentGeneration = () => {
     setPopUpMenuVisible(!popUpMenuVisible);
   };
 
-
-  // Helper function to save data to localStorage with expiration
-  const saveToLocalStorage = useCallback((data) => {
-    if (typeof window !== 'undefined') {
-      const expiryTime = new Date().getTime() + 2 * 60 * 60 * 1000; // 2-hour expiration
-      localStorage.setItem("myData", JSON.stringify(data));
-      localStorage.setItem("expiryTime", expiryTime);
-    }
-  }, []);
-
-  // Load data from localStorage on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedData = localStorage.getItem("myData");
-      const expiryTime = localStorage.getItem("expiryTime");
-
-      if (savedData && expiryTime && new Date().getTime() < Number(expiryTime)) {
-        setDataState(JSON.parse(savedData));
-      }
-    }
-
     if (homePage) {
       if (documentCreation === true || documentCreation === false) {
         setDocumentCreation(true);
@@ -190,6 +170,48 @@ const DocumentGeneration = () => {
       return () => clearTimeout(timeoutId);
     }
   }, [homePage, documentCreation, setHomePage]);
+
+  
+  const openPreview = (data) => {
+    setDocType(data.DocType);
+    setFormName(data.FormName)
+    if (data.DocType === "Tenancy Agreement") {
+      mergeFormData(data)
+    }
+    if (data.DocType === "Invoice and Receipt") {
+      mergeReceiptData(data)
+    }
+    if (data.DocType === "Quit Notice") {
+      mergeQuitNoticeData(data)
+    }
+    setShowPreview(true)
+  }
+
+
+  const TypeForDownload = (data, item) => {
+    setDocType(item.DocType);
+    setFormName(item.FormName)
+    if (item.DocType === "Tenancy Agreement") {
+      mergeFormData(item)
+    }
+    if (item.DocType === "Invoice and Receipt") {
+      mergeReceiptData(item)
+    }
+    if (item.DocType === "Quit Notice") {
+      mergeQuitNoticeData(item)
+    }
+    setDocTypeForDownload(data)
+  }
+
+  const handleDownload = (format) => {
+    if (format === "PDF") {
+      handlePrint();
+    } else if (format === "Word") {
+      handleSaveAsWord();
+    }
+    // handleGeneratePdf();
+    setSelectedFormat(format);
+  };
 
   // Function to handle printing
   const handlePrint = useReactToPrint({
@@ -234,46 +256,6 @@ const DocumentGeneration = () => {
     saveAs(convertedDocx, `${DocType}.docx`);
   }, [DocType]);
 
-  const openPreview = (data) => {
-    setDocType(data.DocType);
-    setFormName(data.FormName)
-    if (data.DocType === "Tenancy Agreement") {
-      mergeFormData(data)
-    }
-    if (data.DocType === "Invoice and Receipt") {
-      mergeReceiptData(data)
-    }
-    if (data.DocType === "Quit Notice") {
-      mergeQuitNoticeData(data)
-    }
-    setShowPreview(true)
-  }
-
-  const handleDownload = (format) => {
-    if (format === "PDF") {
-      handlePrint();
-    } else if (format === "Word") {
-      handleSaveAsWord();
-    }
-    // handleGeneratePdf();
-    setSelectedFormat(format);
-  };
-
-  const TypeForDownload = (data, item) => {
-    setDocType(item.DocType);
-    setFormName(item.FormName)
-    if (item.DocType === "Tenancy Agreement") {
-      mergeFormData(item)
-    }
-    if (item.DocType === "Invoice and Receipt") {
-      mergeReceiptData(item)
-    }
-    if (item.DocType === "Quit Notice") {
-      mergeQuitNoticeData(item)
-    }
-    setDocTypeForDownload(data)
-  }
-
   const GoBack = () => {
     if (formData?._id || receiptData?._id) {
       setShowPreview(false)
@@ -287,7 +269,7 @@ const DocumentGeneration = () => {
         < CustomizedModal isOpen={selectFormat} >
           <DownloadConfirmModal
             header={"Download Successful"}
-            body={`Your ${typeForDownload ? typeForDownload : "[Document Type]"} has successfully been downloaded to your device`}
+            body={`Your ${typeForDownload === "Invoice and Receipt" ? "Receipt" : typeForDownload} has successfully been downloaded to your device`}
             button={"My documents"}
             buttonTwo={"Generate New Doc"}
             returnHome={openDocumentPage}
@@ -331,6 +313,7 @@ const DocumentGeneration = () => {
                     className={"text-[14px] font-[500]"}
                     width={"w-[190px] md:w-[240px]"}
                     show="false"
+                    DocType={DocType}
                   />
                 </div>
               </div>
@@ -505,6 +488,7 @@ const DocumentGeneration = () => {
                                       show="true"
                                       width="w-[170px]"
                                       placeholder="Download as..."
+                                      item={item?.DocType}
                                     />
                                   </div>
                                 </div>
