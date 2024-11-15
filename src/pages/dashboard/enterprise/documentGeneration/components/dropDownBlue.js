@@ -1,9 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import useClickOutside from "@/utils/clickOutside";
 import ArrowDownWhite from "@/components/icons/arrowDownWhite";
 import WhiteDoc from "@/components/icons/whiteDoc";
+import PrintablePreviewedData from "./printablePreviewedData";
+import PrintableReceiptData from "./printableReceiptData";
+import PrintableQuitNoticeData from "./printableQuitNoticeData";
+import { useReactToPrint } from "react-to-print";
+import { saveAs } from 'file-saver';
 
-const DropDownBlue = ({ DocType, options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
+const DropDownBlue = ({ item, DocType, options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
+    const printableRefTenancy = useRef(null);
+    const printableRefQuitNotice = useRef(null);
+    const printableRefReceipt = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [hover, setHover] = useState(false);
@@ -20,7 +28,11 @@ const DropDownBlue = ({ DocType, options, onSelect, className, width = "w-[240px
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
-        onSelect(option);
+        if (typeof onSelect === "function") {
+            onSelect(option);
+        } else {
+            handleDownload(option);
+        }
         setIsOpen(false);
     };
     // Adjust dropdown position based on available space
@@ -37,6 +49,60 @@ const DropDownBlue = ({ DocType, options, onSelect, className, width = "w-[240px
     }, [isOpen]);
 
     const filteredOptions = options?.filter((option) => option?.toLowerCase());
+
+    const handleDownload = (format) => {
+        if (format === "PDF") {
+          handlePrint();
+        } else if (format === "Word") {
+          handleSaveAsWord();
+        }
+        // handleGeneratePdf();
+        // setSelectedFormat(format);
+      };
+    
+      // Function to handle printing
+      const handlePrint = useReactToPrint({
+        content: () => {
+          if (DocType === "Tenancy Agreement") return printableRefTenancy.current;
+          if (DocType === "Quit Notice") return printableRefQuitNotice.current;
+          if (DocType === "Invoice and Receipt") return printableRefReceipt.current;
+        },
+        documentTitle: `${DocType}`,
+        onAfterPrint: () => console.log(`${DocType} printed.`),
+      });
+    
+      // Function to handle saving as Word
+      const handleSaveAsWord = useCallback(async () => {
+        if (typeof window === 'undefined') return; // Ensure client-side
+    
+        const htmlDocx = await import('html-docx-js/dist/html-docx');
+        let selectedRef;
+    
+        // Select the appropriate reference based on DocType
+        if (DocType === "Tenancy Agreement") {
+          selectedRef = printableRefTenancy;
+        } else if (DocType === "Quit Notice") {
+          selectedRef = printableRefQuitNotice;
+        } else if (DocType === "Invoice and Receipt") {
+          selectedRef = printableRefReceipt;
+        }
+    
+        // Check if the reference is valid
+        if (!selectedRef?.current) {
+          console.error("No valid reference found for the selected document type.");
+          return;
+        }
+    
+        // Get the HTML content from the selected reference
+        const contentHTML = selectedRef.current.innerHTML;
+    
+        // Convert the HTML content to a .docx file using html-docx-js
+        const convertedDocx = htmlDocx.asBlob(contentHTML);
+    
+        // Use js-file-download to download the generated .docx file
+        saveAs(convertedDocx, `${DocType}.docx`);
+      }, [DocType]);
+    
 
     return (
         <div className={`relative inline-block w-full ${className}`} ref={dropdownRef}>
@@ -80,6 +146,24 @@ const DropDownBlue = ({ DocType, options, onSelect, className, width = "w-[240px
                     ))}
                 </div>
             )}
+            <div style={{ display: 'none' }}>
+                <PrintablePreviewedData
+                    printableRef={printableRefTenancy}
+                    formData={item}
+                />
+            </div>
+            <div style={{ display: 'none' }}>
+                <PrintableReceiptData
+                    printableRef={printableRefReceipt}
+                    formData={item}
+                />
+            </div>
+            <div style={{ display: 'none' }}>
+                <PrintableQuitNoticeData
+                    printableRef={printableRefQuitNotice}
+                    formData={item}
+                />
+            </div>
         </div>
     );
 };

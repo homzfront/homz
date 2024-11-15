@@ -29,7 +29,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
-    const {fetchData} = useGetAllDocument(state => ({fetchData: state.fetchData}));
+    const { fetchData } = useGetAllDocument(state => ({ fetchData: state.fetchData }));
     const [loading, setLoading] = useState(false);
 
     function hasPropertyManagerAccount(profile) {
@@ -166,17 +166,17 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                 <div>
                     <Image
                         src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Ellipse 75.png"}
-                        height={80}
-                        width={80}
+                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/DocumentEmptyImage.png"}
+                        width={172}
+                        height={60}
                         alt="avatar"
-                        className="rounded-full object-cover bg-center h-[80px] cursor-pointer"
+                        className="object-cover bg-center h-[60px] cursor-pointer"
                         onClick={handleImageClick}
                     />
                 </div>
                 <div
                     onClick={handleImageClick}
-                    className={`${formData?.image !== null ? "hidden" : ""} absolute top-1/3 right-1/3 cursor-pointer`}
+                    className={`${formData?.image !== null ? "hidden" : ""} absolute top-1/4 right-1/3 cursor-pointer`}
                 >
                     <BluePhoto />
                 </div>
@@ -195,7 +195,7 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                 <Input
                     label={"Notice Period (Months)"}
                     placeholder={"e.g 6"}
-                    type={"text"}
+                    type={"number"}
                     value={formData.noticePeriod}
                     onChange={(e) => setFormData('noticePeriod', e.target.value)}
                     autoComplete={"noticePeriod"}
@@ -350,10 +350,19 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
             <div className='mt-2'>
                 <Input
                     label={"Property Manager’s Company Website"}
-                    placeholder={"e.g http://www.RealEstateCo.com"}
+                    placeholder={"e.g https://www.RealEstateCo.com"}
                     type={"text"}
                     value={formData.propertyManagerCompanyWebsite}
-                    onChange={(e) => setFormData('propertyManagerCompanyWebsite', e.target.value)}
+                    onChange={(e) => {
+                        let value = e.target.value;
+
+                        // Check if it doesn't start with http or https and add https:// if missing
+                        if (value && !/^https?:\/\//i.test(value)) {
+                            value = `https://${value}`;
+                        }
+
+                        setFormData('propertyManagerCompanyWebsite', value);
+                    }}
                     autoComplete={"propertyManagerCompanyWebsite"}
                 />
                 {errors.propertyManagerCompanyWebsite && <span className={`italic text-[12px] text-error font-[400]`}>

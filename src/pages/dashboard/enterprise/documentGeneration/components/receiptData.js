@@ -11,11 +11,11 @@ const ReceiptData = ({ printableRef }) => {
 
     return (
         <div className='mb-[60px]'>
-            <div className='md:h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
+            <div className=' bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 px-4 py-6'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={formData?.image && formData?.image instanceof File
-                            ? URL.createObjectURL(formData?.image) : formData?.image?.scaledImage ? formData?.image?.scaledImage : "/Frame 1278.png"}
+                            ? URL.createObjectURL(formData?.image) : formData?.image?.scaledImage ? formData?.image?.scaledImage : "/DocumentEmptyImage.png"}
                         alt='avatar'
                         width={172}
                         height={60}
@@ -156,7 +156,7 @@ const ReceiptData = ({ printableRef }) => {
                         <div className='py-2 md:py-0 md:h-min-[21px] w-full flex justify-between pl-2'>
                             <div className='w-[30%]'>
                             </div>
-                            <div className='w-[60%]'>
+                            <div className='w-[60%] border-b pb-0.5'>
                                 <p className='text-[11px] font-[400] text-GrayHomz'>
                                     {formData?.tenancyStartDate && formData?.tenancyEndDate ? `${formatDate(formData?.tenancyStartDate)} - ${formatDate(formData?.tenancyEndDate)}` : ""}
                                 </p>

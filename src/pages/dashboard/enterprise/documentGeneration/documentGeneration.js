@@ -261,10 +261,10 @@ const DocumentGeneration = () => {
   }, [DocType]);
 
   const GoBack = () => {
-    if (formData?._id || receiptData?._id) {
+    // if (formData?._id || receiptData?._id) {
       setShowPreview(false)
       setDocumentCreation(false);
-    }
+    // }
   }
 
   const deleteItem = async (_id) => {
@@ -285,7 +285,7 @@ const DocumentGeneration = () => {
     } finally {
       setDeleteLoading(false);
     }
-  }
+  };
 
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
@@ -343,7 +343,7 @@ const DocumentGeneration = () => {
               </div>
             </div>
             <div className="w-full flex justify-center">
-              <div className="w-[600px] h-[100vh] scrollbar-container overflow-hidden overflow-y-auto p-4 mb-8">
+              <div className="w-[620px] h-[100vh] scrollbar-container overflow-hidden overflow-y-auto p-4 mb-8">
                 <div className={`${DocType === "Tenancy Agreement" ? "" : "hidden"}`}>
                   <PreviewedData printableRef={printableRefTenancy} />
                 </div>
@@ -507,12 +507,13 @@ const DocumentGeneration = () => {
                                   <div onClick={() => TypeForDownload(item?.DocType, item)}>
                                     <DropDownBlue
                                       options={options}
-                                      onSelect={(option) => handleDownload(option)}
+                                      // onSelect={(option) => handleDownload(option)}
                                       className={"text-[14px] font-[500]"}
                                       show="true"
                                       width="w-[170px]"
                                       placeholder="Download as..."
-                                      item={item?.DocType}
+                                      DocType={item?.DocType}
+                                      item={item}
                                     />
                                   </div>
                                 </div>

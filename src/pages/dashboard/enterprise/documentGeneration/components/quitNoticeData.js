@@ -8,15 +8,15 @@ const QuitNoticeData = ({ printableRef }) => {
     const { formData } = useQuickNoticeFormStore();
     return (
         <div className='mb-[60px]'>
-            <div className='h-[1050px] md:h-[700px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
+            <div className='h-[1150px] md:h-[800px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
-                        src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
+                        src={formData?.image && formData?.image instanceof File
+                            ? URL.createObjectURL(formData?.image) : formData?.image?.scaledImage ? formData?.image?.scaledImage : "/DocumentEmptyImage.png"}
                         alt='avatar'
-                        width={64}
-                        height={64}
-                        className='rounded-full object-cover bg-center h-[64px]'
+                        width={172}
+                        height={60}
+                        className='h-[60px] w-[172px]'
                     />
                     <p className='text-[13px] font-[600] text-GrayHomz'>
                         {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}
@@ -48,6 +48,32 @@ const QuitNoticeData = ({ printableRef }) => {
                 <div className='flex gap-1'>
                     <span>Signed</span>
                     <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>
+                </div>
+                <div className="mt-8 border-t w-full py-2 flex flex-wrap justify-center gap-2 items-center">
+                    <div className='text-[10px]'>
+                        <span className='font-[700]'>
+                            Address:
+                        </span>
+                        <span>
+                            {formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}
+                        </span>
+                    </div>
+                    <div className='text-[10px]'>
+                        <span className='font-[700]'>
+                            Email:
+                        </span>
+                        <span>
+                            {formData?.propertyManagerCompanyEmail ? formData?.propertyManagerCompanyEmail : ""}
+                        </span>
+                    </div>
+                    <div className='text-[10px]'>
+                        <span className='font-[700]'>
+                            Website:
+                        </span>
+                        <span>
+                            {formData?.propertyManagerCompanyWebsite ? formData?.propertyManagerCompanyWebsite : ""}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div style={{ display: 'none' }}>

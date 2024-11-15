@@ -174,7 +174,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 <div>
                     <Image
                         src={formData?.image && formData.image instanceof File
-                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/Frame 1278.png"}
+                            ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/DocumentEmptyImage.png"}
                             width={172}
                             height={60}
                         alt="avatar"
@@ -184,7 +184,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 </div>
                 <div
                     onClick={handleImageClick}
-                    className={`${formData?.image !== null ? "hidden" : ""} absolute top-1/3 right-1/3 cursor-pointer`}
+                    className={`${formData?.image !== null ? "hidden" : ""} absolute top-1/4 right-1/3 cursor-pointer`}
                 >
                     <BluePhoto />
                 </div>
