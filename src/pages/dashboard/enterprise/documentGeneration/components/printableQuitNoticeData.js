@@ -46,7 +46,7 @@ const PrintableQuitNoticeData = ({ printableRef, formData }) => {
                     <span>Signed</span>
                     <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>
                 </div>
-                <div className="mt-8 border-t w-full py-2 flex flex-wrap justify-start gap-2 items-center">
+                <div className="mt-8 border-t w-full py-2 flex flex-wrap justify-center gap-2 items-center">
                     <div className='text-[10px]'>
                         <span className='font-[700]'>
                             Address:

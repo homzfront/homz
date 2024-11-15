@@ -23,14 +23,16 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const { formData, setFormData, mergeFormData } = useReceiptFormStore();
     const optionsII = ["Naira (₦)", "Dollar ($)", "Pound (￡)", "Euro (€)"];
     const fileInputRef = useRef(null);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({
+        propertyManagerCompanyEmail: "",
+    });
     const router = useRouter();
     const path = usePathname();
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
-    const {fetchData} = useGetAllDocument(state => ({fetchData: state.fetchData}));
+    const { fetchData } = useGetAllDocument(state => ({ fetchData: state.fetchData }));
     const [loading, setLoading] = useState(false);
     function hasPropertyManagerAccount(profile) {
         return profile?.accounts?.some(account => account.name === 'ENTERPRISE_PLAN');
@@ -45,7 +47,7 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
     const url = !profile ? "/register" : hasPropertyManager
         ? "/dashboard/enterprise-property/documentGeneration"
         : "/switch-profile";
-        
+
     const handleGenerate = async () => {
         // Determine navigation based on the current path
         if (path !== "/dashboard/enterprise-property/documentGeneration") {
@@ -168,6 +170,13 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
         fileInputRef.current.click();
     };
 
+    const handleSetErrors = (field, message) => {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: message,
+        }));
+    };
+
     return (
         <div className='mt-4 pr-2'>
             <div className='relative w-[80px] h-[80px] mb-2'>
@@ -175,8 +184,8 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     <Image
                         src={formData?.image && formData.image instanceof File
                             ? URL.createObjectURL(formData.image) : formData?.image?.url ? formData?.image?.url : "/DocumentEmptyImage.png"}
-                            width={172}
-                            height={60}
+                        width={172}
+                        height={60}
                         alt="avatar"
                         className="object-cover bg-center h-[60px] cursor-pointer"
                         onClick={handleImageClick}
@@ -231,7 +240,22 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                     placeholder={"e.g RealEstateCompany@gmail.com"}
                     type={"text"}
                     value={formData.propertyManagerCompanyEmail}
-                    onChange={(e) => setFormData('propertyManagerCompanyEmail', e.target.value)}
+                    onChange={(e) => {
+                        setFormData('propertyManagerCompanyEmail', e.target.value)
+                        if (errors.propertyManagerCompanyEmail) {
+                            setErrors({ ...errors, propertyManagerCompanyEmail: '' });
+                        }
+                    }}
+                    onBlur={() => {
+                        // Validate email when input field loses focus
+                        const email = formData.propertyManagerCompanyEmail;
+                        if (email && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                            handleSetErrors(
+                                'propertyManagerCompanyEmail',
+                                'Invalid email format'
+                            );
+                        }
+                    }}
                     autoComplete={"propertyManagerCompanyEmail"}
                 />
                 {errors.propertyManagerCompanyEmail && <span className={`italic text-[12px] text-error font-[400]`}>

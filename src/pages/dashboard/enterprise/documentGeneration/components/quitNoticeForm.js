@@ -22,7 +22,9 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
     const fileInputRef = useRef(null);
     const { formData, setFormData, mergeFormData } = useQuickNoticeFormStore();
     const options = ["Monthly", "Quarterly", "Annually"];
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({
+        propertyManagerCompanyEmail: "",
+    });
     const router = useRouter();
     const path = usePathname();
     const [hasPropertyManager, setHasPropertyManager] = useState(false);
@@ -159,6 +161,14 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
         }
         fileInputRef.current.click();
     };
+
+    const handleSetErrors = (field, message) => {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: message,
+        }));
+    };
+
 
     return (
         <div className='mt-4 pr-2'>
@@ -327,7 +337,22 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     placeholder={"e.g RealEstateCompany@gmail.com"}
                     type={"text"}
                     value={formData.propertyManagerCompanyEmail}
-                    onChange={(e) => setFormData('propertyManagerCompanyEmail', e.target.value)}
+                    onChange={(e) => {
+                        setFormData('propertyManagerCompanyEmail', e.target.value)
+                        if (errors.propertyManagerCompanyEmail) {
+                            setErrors({ ...errors, propertyManagerCompanyEmail: '' });
+                        }
+                    }}
+                    onBlur={() => {
+                        // Validate email when input field loses focus
+                        const email = formData.propertyManagerCompanyEmail;
+                        if (email && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                            handleSetErrors(
+                                'propertyManagerCompanyEmail',
+                                'Invalid email format'
+                            );
+                        }
+                    }}
                     autoComplete={"propertyManagerCompanyEmail"}
                 />
                 {errors.propertyManagerCompanyEmail && <span className={`italic text-[12px] text-error font-[400]`}>
