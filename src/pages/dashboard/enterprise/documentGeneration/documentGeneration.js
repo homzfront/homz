@@ -33,6 +33,8 @@ import ArrowLeft from "@/components/icons/arrowLeft";
 import useClickOutside from "@/utils/clickOutside";
 import api from "@/utils/api";
 import toast from "react-hot-toast";
+import { handleDownloadDocx } from "./components/word";
+import { handleDownloadAgreementDocx } from "./components/wordAgreement";
 
 const DocumentGeneration = () => {
   const { setTab, homePage, setHomePage } = useTabForDocuGen();
@@ -208,10 +210,25 @@ const DocumentGeneration = () => {
   }
 
   const handleDownload = (format) => {
+    let dataToDownload;
+
+    if (formData?._id) {
+      dataToDownload = formData;
+    } else if (receiptData?._id
+    ) {
+      dataToDownload = receiptData;
+    } else if (quitNoticeData?._id) {
+      dataToDownload = quitNoticeData;
+    }
     if (format === "PDF") {
       handlePrint();
     } else if (format === "Word") {
-      handleSaveAsWord();
+      // handleSaveAsWord();
+      if (DocType === "Quit Notice") {
+        handleDownloadDocx(dataToDownload)
+      } else {
+        handleDownloadAgreementDocx(dataToDownload)
+      }
     }
     // handleGeneratePdf();
     setSelectedFormat(format);
@@ -262,8 +279,8 @@ const DocumentGeneration = () => {
 
   const GoBack = () => {
     // if (formData?._id || receiptData?._id) {
-      setShowPreview(false)
-      setDocumentCreation(false);
+    setShowPreview(false)
+    setDocumentCreation(false);
     // }
   }
 
@@ -286,7 +303,6 @@ const DocumentGeneration = () => {
       setDeleteLoading(false);
     }
   };
-
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
       {
