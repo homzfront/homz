@@ -1,29 +1,10 @@
-import useQuickNoticeFormStore from "@/store/document/useQuickNoticeFormStore";
-import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun } from "docx";
-import { Buffer } from 'buffer';
+import { Document, Packer, Paragraph, TextRun } from "docx";
+import formatDate from "@/utils/formatDate";
 
-// Helper function to format date
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-};
-const fetchImageAsBuffer = async (imageUrl) => {
-  const response = await fetch(imageUrl);
-  const arrayBuffer = await response.arrayBuffer();
-  return Buffer.from(arrayBuffer);
-};
-
-export const handleDownloadDocx = async (formData) => {
-
-
-  console.log(formData)
-
-  const imageBuffer = await fetchImageAsBuffer(formData?.image); // Get the image as a buffer
-
+const Word = (formData) => {
+  if (!formData) {
+    throw new Error("Missing required data for quit notice generation.");
+  }
   // Create the document content
   const doc = new Document({
     sections: [
@@ -303,3 +284,6 @@ export const handleDownloadDocx = async (formData) => {
     window.URL.revokeObjectURL(url);
   });
 };
+
+
+export default Word;

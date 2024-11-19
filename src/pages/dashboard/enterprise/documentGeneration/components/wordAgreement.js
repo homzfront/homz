@@ -3,7 +3,10 @@ import formatDate from "@/utils/formatDate";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import extractCurrencySymbol from "@/utils/extractCurrencySymbol";
 
-export const handleDownloadAgreementDocx = (formData) => {
+const WordAgreement = (formData) => {
+    if (!formData) {
+        throw new Error("Missing required data for agreement generation.");
+      }
     const doc = new Document({
         sections: [
             {
@@ -1215,8 +1218,11 @@ export const handleDownloadAgreementDocx = (formData) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "QuitNotice.docx";
+        link.download = "Tenancy Agreement.docx";
         link.click();
         window.URL.revokeObjectURL(url);
     });
 };
+
+
+export default WordAgreement;

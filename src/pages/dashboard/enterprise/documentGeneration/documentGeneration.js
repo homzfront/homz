@@ -33,8 +33,8 @@ import ArrowLeft from "@/components/icons/arrowLeft";
 import useClickOutside from "@/utils/clickOutside";
 import api from "@/utils/api";
 import toast from "react-hot-toast";
-import { handleDownloadDocx } from "./components/word";
-import { handleDownloadAgreementDocx } from "./components/wordAgreement";
+import Word from "./components/word";
+import WordAgreement from "./components/wordAgreement";
 
 const DocumentGeneration = () => {
   const { setTab, homePage, setHomePage } = useTabForDocuGen();
@@ -225,9 +225,9 @@ const DocumentGeneration = () => {
     } else if (format === "Word") {
       // handleSaveAsWord();
       if (DocType === "Quit Notice") {
-        handleDownloadDocx(dataToDownload)
+        Word(dataToDownload)
       } else {
-        handleDownloadAgreementDocx(dataToDownload)
+        WordAgreement(dataToDownload)
       }
     }
     // handleGeneratePdf();

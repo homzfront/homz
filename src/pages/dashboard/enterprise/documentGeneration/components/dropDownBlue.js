@@ -7,8 +7,8 @@ import PrintableReceiptData from "./printableReceiptData";
 import PrintableQuitNoticeData from "./printableQuitNoticeData";
 import { useReactToPrint } from "react-to-print";
 import { saveAs } from 'file-saver';
-import { handleDownloadDocx } from "./word";
-import { handleDownloadAgreementDocx } from "./wordAgreement";
+import  Word from "./word";
+import  WordAgreement  from "./wordAgreement";
 
 const DropDownBlue = ({ item, DocType, options, onSelect, className, width = "w-[240px]", placeholder = "Download document as...", show = "false" }) => {
     const printableRefTenancy = useRef(null);
@@ -58,9 +58,9 @@ const DropDownBlue = ({ item, DocType, options, onSelect, className, width = "w-
         } else if (format === "Word") {
         //   handleSaveAsWord();
           if (DocType === "Quit Notice") {
-              handleDownloadDocx(item)
+              Word(item)
           } else {
-              handleDownloadAgreementDocx(item)
+              WordAgreement(item)
           }
         }
         // handleGeneratePdf();
