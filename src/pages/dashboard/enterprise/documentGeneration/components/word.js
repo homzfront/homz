@@ -229,41 +229,62 @@ const Word = (formData) => {
               }),
             ]
           }),
-          new Paragraph({
-          }),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
+          new Paragraph({}),
           // Footer with Contact Information
           new Paragraph({
             children: [
               new TextRun({
-                text: "Address: ",
+                text:  `${formData?.propertyManagerCompanyAddress ? `Address: `: ""}`,
                 font: "Times New Roman",
                 size: 16,
                 bold: true
               }),
               new TextRun({
-                text: `${formData?.propertyManagerCompanyAddress || ""}`,
+                text: `${formData?.propertyManagerCompanyAddress ? `${formData?.propertyManagerCompanyAddress}, ` : ""}`,
                 font: "Times New Roman",
                 size: 16,
               }),
               new TextRun({
-                text: ", Email: ",
-                font: "Times New Roman",
-                size: 16,
-                bold: true
-              }),
-              new TextRun({
-                text: `${formData?.propertyManagerCompanyEmail || ""}`,
-                font: "Times New Roman",
-                size: 16,
-              }),
-              new TextRun({
-                text: ", Website: ",
+                text:  `${formData?.propertyManagerCompanyEmail ? `Email: `: "" }`,
                 font: "Times New Roman",
                 size: 16,
                 bold: true
               }),
               new TextRun({
-                text: `${formData?.propertyManagerCompanyWebsite || ""}`,
+                text: `${formData?.propertyManagerCompanyEmail ? `${formData?.propertyManagerCompanyEmail}, ` : ""}`,
+                font: "Times New Roman",
+                size: 16,
+              }),
+              new TextRun({
+                text:  `${formData?.propertyManagerCompanyWebsite ? `Website: ` : ""}`,
+                font: "Times New Roman",
+                size: 16,
+                bold: true
+              }),
+              new TextRun({
+                text: `${formData?.propertyManagerCompanyWebsite ? `${formData?.propertyManagerCompanyWebsite}` : ""}`,
                 font: "Times New Roman",
                 size: 16,
               }),

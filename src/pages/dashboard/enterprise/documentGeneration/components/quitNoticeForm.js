@@ -105,19 +105,19 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                 const formDatas = new FormData();
 
                 // Append only fields with values to FormData object
-                if (formData.propertyManagerName) formDatas.append('propertyManagerName', formData?.propertyManagerName);
-                if (formData.propertyManagerCompanyName) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
-                if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
-                if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
-                if (formData.propertyManagerCompanyWebsite) formDatas.append('propertyManagerCompanyWebsite', formData.propertyManagerCompanyWebsite);
+                if (formData.propertyManagerName !== null) formDatas.append('propertyManagerName', formData?.propertyManagerName);
+                if (formData.propertyManagerCompanyName !== null) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
+                if (formData.propertyManagerCompanyEmail !== null) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
+                if (formData.propertyManagerCompanyAddress !== null) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
+                if (formData.propertyManagerCompanyWebsite !== null) formDatas.append('propertyManagerCompanyWebsite', formData.propertyManagerCompanyWebsite);
                 formDatas.append('noticeStartDate', formatDate(formData?.noticeStartDate));
-                if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
-                if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
-                if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
-                if (formData.duration) formDatas.append('duration', formData?.duration);
-                if (formData.noticePeriod) formDatas.append('noticePeriod', formData?.noticePeriod);
-                if (formData.tenantAddress) formDatas.append('tenantAddress', formData?.tenantAddress);
-                if (formData.landlordName) formDatas.append('landlordName', formData?.landlordName);
+                if (formData.tenantName !== null) formDatas.append('tenantName', formData?.tenantName);
+                if (formData.propertyAddress !== null) formDatas.append('propertyAddress', formData?.propertyAddress);
+                if (formData.propertyDesc !== null) formDatas.append('propertyDesc', formData?.propertyDesc);
+                if (formData.duration !== null) formDatas.append('duration', formData?.duration);
+                if (formData.noticePeriod !== null) formDatas.append('noticePeriod', formData?.noticePeriod);
+                if (formData.tenantAddress !== null) formDatas.append('tenantAddress', formData?.tenantAddress);
+                if (formData.landlordName !== null) formDatas.append('landlordName', formData?.landlordName);
                 if (FormName) formDatas.append('FormName', FormName);
                 if (DocType) formDatas.append('DocType', DocType);
 
@@ -379,14 +379,16 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                     type={"text"}
                     value={formData.propertyManagerCompanyWebsite}
                     onChange={(e) => {
+                        const value = e.target.value;
+                        setFormData('propertyManagerCompanyWebsite', value); // Update value directly
+                    }}
+                    onBlur={(e) => {
                         let value = e.target.value;
-
-                        // Check if it doesn't start with http or https and add https:// if missing
+                        // Add https:// only if the input is not empty and doesn't start with http or https
                         if (value && !/^https?:\/\//i.test(value)) {
                             value = `https://${value}`;
+                            setFormData('propertyManagerCompanyWebsite', value);
                         }
-
-                        setFormData('propertyManagerCompanyWebsite', value);
                     }}
                     autoComplete={"propertyManagerCompanyWebsite"}
                 />

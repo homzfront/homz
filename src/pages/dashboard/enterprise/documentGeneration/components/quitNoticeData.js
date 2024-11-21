@@ -8,49 +8,51 @@ const QuitNoticeData = ({ printableRef }) => {
     const { formData } = useQuickNoticeFormStore();
     return (
         <div className='mb-[60px]'>
-            <div className='h-[1150px] md:h-[800px] bg-white flex flex-col justify-center  text-[13px] font-[400] text-BlackHomz gap-3.5 p-4'>
-                <div className=' flex items-center gap-4 border-b pb-4 w-full'>
-                    <Image
-                        src={formData?.image && formData?.image instanceof File
-                            ? URL.createObjectURL(formData?.image) : formData?.image?.scaledImage ? formData?.image?.scaledImage : "/DocumentEmptyImage.png"}
-                        alt='avatar'
-                        width={172}
-                        height={60}
-                        className='h-[60px] w-[172px]'
-                    />
-                    <p className='text-[13px] font-[600] text-GrayHomz'>
-                        {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}
-                    </p>
-                </div>
-                <div className='font-[600]'>{formData?.noticeStartDate ? formatDate(formData?.noticeStartDate) : ""} </div>
-                <div className='font-[600] flex flex-col'>
-                    <span>{formData?.tenantName ? formData?.tenantName : ""}</span>
-                    <span>{formData?.tenantAddress ? formData?.tenantAddress : ""}</span>
-                </div>
-                <div>Dear <span className='font-[600]'>{formData?.tenantName ? formData?.tenantName : ""}</span>, </div>
+            <div className='flex flex-col justify-between min-h-[1150px] md:min-h-[800px] bg-white text-BlackHomz px-4 py-6'>
+                <div className='h-auto flex flex-col justify-center text-[13px] font-[400] gap-3.5'>
+                    <div className=' flex items-center gap-4 border-b pb-4 w-full'>
+                        <Image
+                            src={formData?.image && formData?.image instanceof File
+                                ? URL.createObjectURL(formData?.image) : formData?.image?.scaledImage ? formData?.image?.scaledImage : "/DocumentEmptyImage.png"}
+                            alt='avatar'
+                            width={172}
+                            height={60}
+                            className='h-[60px] w-[172px]'
+                        />
+                        <p className='text-[13px] font-[600] text-GrayHomz'>
+                            {formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}
+                        </p>
+                    </div>
+                    <div className='font-[600]'>{formData?.noticeStartDate ? formatDate(formData?.noticeStartDate) : ""} </div>
+                    <div className='font-[600] flex flex-col'>
+                        <span>{formData?.tenantName ? formData?.tenantName : ""}</span>
+                        <span>{formData?.tenantAddress ? formData?.tenantAddress : ""}</span>
+                    </div>
+                    <div>Dear <span className='font-[600]'>{formData?.tenantName ? formData?.tenantName : ""}</span>, </div>
 
-                <div>NOTICE TO QUIT - <span className='font-[600]'>{formData?.noticePeriod ? `${formData.noticePeriod} ${formData.noticePeriod === 1 ? "month" : "months"}` : ""}</span></div>
+                    <div>NOTICE TO QUIT - <span className='font-[600]'>{formData?.noticePeriod ? `${formData.noticePeriod} ${formData.noticePeriod === 1 ? "month" : "months"}` : ""}</span></div>
 
-                <div>I, <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>, the Property Manager to the Estate of <span className='font-[600]'>{formData?.landlordName ? formData?.landlordName : ""}</span> (hereinafter referred to as “Our Client”), Your landlord on whose instruction we write. </div>
+                    <div>I, <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>, the Property Manager to the Estate of <span className='font-[600]'>{formData?.landlordName ? formData?.landlordName : ""}</span> (hereinafter referred to as “Our Client”), Your landlord on whose instruction we write. </div>
 
-                <div>You are by this notice required to deliver up possession of the <span className='font-[600]'>{formData?.propertyDesc ? formData?.propertyDesc : ""}</span>, situated at, <span className='font-[600]'>{formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}</span>, which you hold as a yearly tenant be given to us on the expiration of your current tenancy period; <span className='font-[600]'>{formData?.noticePeriod ? `${formData.noticePeriod} ${formData.noticePeriod === 1 ? "month" : "months"}` : ""}</span> from the date of your receipt or service of this notice.</div>
+                    <div>You are by this notice required to deliver up possession of the <span className='font-[600]'>{formData?.propertyDesc ? formData?.propertyDesc : ""}</span>, situated at, <span className='font-[600]'>{formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}</span>, which you hold as a yearly tenant be given to us on the expiration of your current tenancy period; <span className='font-[600]'>{formData?.noticePeriod ? `${formData.noticePeriod} ${formData.noticePeriod === 1 ? "month" : "months"}` : ""}</span> from the date of your receipt or service of this notice.</div>
 
-                <div>Furthermore, you are requested to settle all your outstanding rent, rates, electricity bills, Levies and keep the apartment in a tenantable condition before your departure.</div>
+                    <div>Furthermore, you are requested to settle all your outstanding rent, rates, electricity bills, Levies and keep the apartment in a tenantable condition before your departure.</div>
 
-                <div>Take Notice that in the event of your refusal to comply with the notice, we have the instruction of our client to apply to court for issuance of warrant directing an appropriate person to enter and take possession of the said premises and to eject any person there from. Thanks.</div>
+                    <div>Take Notice that in the event of your refusal to comply with the notice, we have the instruction of our client to apply to court for issuance of warrant directing an appropriate person to enter and take possession of the said premises and to eject any person there from. Thanks.</div>
 
-                <div>Dated this <span className='font-[600]'>{formData?.noticeStartDate ? formatDate(formData?.noticeStartDate) : ""}</span></div>
-                <div className='flex flex-col'>
-                    <span>Yours faithfully,</span>
-                    <span>For and On Behalf Of;</span>
-                    <span className='font-[600]'>{formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}</span>
-                </div>
-                <div className='flex gap-1'>
-                    <span>Signed</span>
-                    <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>
+                    <div>Dated this <span className='font-[600]'>{formData?.noticeStartDate ? formatDate(formData?.noticeStartDate) : ""}</span></div>
+                    <div className='flex flex-col'>
+                        <span>Yours faithfully,</span>
+                        <span>For and On Behalf Of;</span>
+                        <span className='font-[600]'>{formData?.propertyManagerCompanyName ? formData?.propertyManagerCompanyName : ""}</span>
+                    </div>
+                    <div className='flex gap-1'>
+                        <span>Signed</span>
+                        <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>
+                    </div>
                 </div>
                 <div className="mt-8 border-t w-full py-2 flex flex-wrap justify-center gap-2 items-center">
-                    <div className='text-[10px]'>
+                    <div className={`${formData?.propertyManagerCompanyAddress ? "" : "hidden"} text-[10px]`}>
                         <span className='font-[700]'>
                             Address:
                         </span>
@@ -58,7 +60,7 @@ const QuitNoticeData = ({ printableRef }) => {
                             {formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}
                         </span>
                     </div>
-                    <div className='text-[10px]'>
+                    <div className={`${formData?.propertyManagerCompanyEmail ? "" : "hidden"} text-[10px]`}>
                         <span className='font-[700]'>
                             Email:
                         </span>
@@ -66,7 +68,7 @@ const QuitNoticeData = ({ printableRef }) => {
                             {formData?.propertyManagerCompanyEmail ? formData?.propertyManagerCompanyEmail : ""}
                         </span>
                     </div>
-                    <div className='text-[10px]'>
+                    <div className={`${formData?.propertyManagerCompanyWebsite ? "" : "hidden"} text-[10px]`}>
                         <span className='font-[700]'>
                             Website:
                         </span>

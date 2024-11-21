@@ -111,6 +111,7 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
     }
   };
 
+
   return (
     <div className="mt-6">
       <ToastContainer
@@ -198,8 +199,8 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
                     {data?.phoneNumber}
                   </div>
                   <div className="hidden md:table-cell text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
-                    {`${data?.rentInfo?.totalRent
-                      ? addCommasToNumber(data?.rentInfo?.totalRent)
+                    {`${data?.rentInfo?.rent
+                      ? addCommasToNumber(data?.rentInfo?.rent)
                       : "______"
                       }`}
                   </div>

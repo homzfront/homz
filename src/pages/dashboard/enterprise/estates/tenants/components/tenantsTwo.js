@@ -141,7 +141,7 @@ const TenantsTwo = ({ Data, printableRef }) => {
                     {data?.phoneNumber || "______"}
                   </td>
                   <td className="hidden md:table-cell text-GrayHomz text-[11px] text-left pl-1">
-                    {data?.rentInfo?.totalRent ? addCommasToNumber(data?.rentInfo?.totalRent) : "______"}
+                    {data?.rentInfo?.totalRent ? addCommasToNumber(data?.rentInfo?.rent) : "______"}
                   </td>
                   <td className="text-GrayHomz w-[40%] md:w-[15%] text-[11px] text-left pl-1">
                     {data?.rentInfo?.paymentStatus ? (

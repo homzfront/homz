@@ -4,8 +4,8 @@ import React from 'react'
 
 const PrintableQuitNoticeData = ({ printableRef, formData }) => {
     return (
-        <div ref={printableRef} className='mt-4'>
-            <div className='h-auto bg-white flex flex-col justify-center text-[13px] font-[400] text-BlackHomz gap-3.5 p-8'>
+        <div ref={printableRef} className='flex flex-col h-screen border justify-between text-BlackHomz p-8'>
+            <div className='h-auto bg-white flex flex-col justify-center text-[13px] font-[400] gap-3.5'>
                 <div className=' flex items-center gap-4 border-b pb-4 w-full'>
                     <Image
                         src={formData?.image && formData?.image instanceof File
@@ -46,31 +46,32 @@ const PrintableQuitNoticeData = ({ printableRef, formData }) => {
                     <span>Signed</span>
                     <span className='font-[600]'>{formData?.propertyManagerName ? formData?.propertyManagerName : ""}</span>
                 </div>
-                <div className="mt-8 border-t w-full py-2 flex flex-wrap justify-center gap-2 items-center">
-                    <div className='text-[10px]'>
-                        <span className='font-[700]'>
-                            Address:
-                        </span>
-                        <span>
-                            {formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}
-                        </span>
-                    </div>
-                    <div className='text-[10px]'>
-                        <span className='font-[700]'>
-                            Email:
-                        </span>
-                        <span>
-                            {formData?.propertyManagerCompanyEmail ? formData?.propertyManagerCompanyEmail : ""}
-                        </span>
-                    </div>
-                    <div className='text-[10px]'>
-                        <span className='font-[700]'>
-                            Website:
-                        </span>
-                        <span>
-                            {formData?.propertyManagerCompanyWebsite ? formData?.propertyManagerCompanyWebsite : ""}
-                        </span>
-                    </div>
+            </div>
+            {/* footer */}
+            <div className="border-t w-full py-2 flex flex-wrap justify-center gap-2 items-center">
+                <div className={`${formData?.propertyManagerCompanyAddress ? "" : "hidden"} text-[10px]`}>
+                    <span className='font-[700]'>
+                        Address:
+                    </span>
+                    <span>
+                        {formData?.propertyManagerCompanyAddress ? formData?.propertyManagerCompanyAddress : ""}
+                    </span>
+                </div>
+                <div className={`${formData?.propertyManagerCompanyEmail ? "" : "hidden"} text-[10px]`}>
+                    <span className='font-[700]'>
+                        Email:
+                    </span>
+                    <span>
+                        {formData?.propertyManagerCompanyEmail ? formData?.propertyManagerCompanyEmail : ""}
+                    </span>
+                </div>
+                <div className={`${formData?.propertyManagerCompanyWebsite ? "" : "hidden"} text-[10px]`}>
+                    <span className='font-[700]'>
+                        Website:
+                    </span>
+                    <span>
+                        {formData?.propertyManagerCompanyWebsite ? formData?.propertyManagerCompanyWebsite : ""}
+                    </span>
                 </div>
             </div>
         </div>

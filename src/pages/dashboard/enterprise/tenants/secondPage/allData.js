@@ -89,6 +89,7 @@ const AllData = ({ TenantId, TenantData }) => {
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
 
+
     return (
         <div className="mt-6 w-full mx-auto">
             <div className="border overflow-x-auto scrollbar-container">
@@ -149,7 +150,7 @@ const AllData = ({ TenantId, TenantData }) => {
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Month" : `${data?.duration} Months`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}</td>
                                         <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">

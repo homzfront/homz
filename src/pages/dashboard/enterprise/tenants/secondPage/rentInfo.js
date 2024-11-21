@@ -396,7 +396,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             disabled={true}
           />
           <InputTwo
-            label={"Rent"}
+            label={"Rent Amount"}
             value={rent}
             onChange={(e) => {
               setRent(e.target.value)
@@ -404,7 +404,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             }}
             type={"text"}
             placeholder={"750000"}
-            span2={"Entered value should be monthly rent"}
+            span2={"Entered value should match rent duration"}
             span={"*"}
           />
           <div className="flex flex-col gap-[10px]">
