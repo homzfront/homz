@@ -55,11 +55,9 @@ const schema = z.object({
 });
 
 
-const SetOfflineData = ({ rentInfo, rentInfoId, setOfflinepay, successfullModal, id, tenant }) => {
+const SetOfflineData = ({ reFetchData, rentInfoId, setOfflinepay, successfullModal, id, tenant }) => {
     const [data, setData] = React.useState(null)
     const [loading, setLoading] = React.useState(true)
-
-    console.log(rentInfo)
 
     const {
         control,
@@ -115,6 +113,7 @@ const SetOfflineData = ({ rentInfo, rentInfoId, setOfflinepay, successfullModal,
                 setOfflinepay(false);
                 fetchData(id);
                 setRefetch(true);
+                reFetchData();
                 exportFetch(id);
             } else {
                 throw new Error(response?.data?.message || 'Failed to submit data');
@@ -144,38 +143,25 @@ const SetOfflineData = ({ rentInfo, rentInfoId, setOfflinepay, successfullModal,
 
     React.useEffect(() => {
         if (data) {
-            // Set default rent value when data is available
+            // Set initial values
             setValue("rent", data.rent || "");
-
-            // Set default duration value when data is available
+            setValue("startDate", new Date(data.startDate));
+            setValue("dueDate", new Date(data.dueDate));
             setValue("duration", data.duration || "");
-
-            // Set default startDate and dueDate to a 2-month interval from the current date
-            const currentDate = new Date();
-            const defaultStartDate = currentDate;
-            const defaultDueDate = new Date();
-            defaultDueDate.setMonth(currentDate.getMonth() + data.duration); // Add 2 months
-            // Deduct one day from due date
-            defaultDueDate.setDate(defaultDueDate.getDate() - 1);
-            setValue("startDate", defaultStartDate);
-            setValue("dueDate", defaultDueDate);
         }
     }, [data, setValue]);
 
-    // Watch for changes to the duration and update startDate and dueDate accordingly
     React.useEffect(() => {
         const duration = watch("duration");
-        if (duration) {
-            const currentDate = new Date();
-            const newStartDate = rentInfo?.startDate;
-            const newDueDate = new Date();
-            newDueDate.setMonth(currentDate.getMonth() + duration);
-            // Deduct one day from due date
-            newDueDate.setDate(newDueDate.getDate() - 1);
-            setValue("startDate", newStartDate);
-            setValue("dueDate", newDueDate);
+        const startDate = watch("startDate");
+
+        if (duration && startDate) {
+            const newDueDate = new Date(startDate);
+            newDueDate.setMonth(newDueDate.getMonth() + duration); // Add duration months
+            newDueDate.setDate(newDueDate.getDate() - 1); // Deduct one day
+            setValue("dueDate", newDueDate); // Update dueDate
         }
-    }, [watch("duration"), setValue]);
+    }, [watch("duration"), watch("startDate"), setValue]);
 
 
     return (

@@ -18,7 +18,7 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useExportEnterpriseSingleTenant from "@/store/enterpriseStore/exportEnterpriseSingleTenant";
 import PrintableAll from "./printableAll";
 
-const Widget = ({ id, Data  }) => {
+const Widget = ({ id, Data, reFetchData  }) => {
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -195,7 +195,7 @@ const Widget = ({ id, Data  }) => {
                 </div>
             </div>
             <CustomizedModal isOpen={offlinepay}>
-                <SetOfflineData tenant={Data?.data?.fullName} id={id} rentInfo={Data?.data} rentInfoId={Data?.data?.rentInfo?._id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
+                <SetOfflineData tenant={Data?.data?.fullName} id={id} reFetchData={reFetchData} rentInfoId={Data?.data?.rentInfo?._id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
             </CustomizedModal>
             <CustomizedModal isOpen={openModel}>
                 <ConfirmModal

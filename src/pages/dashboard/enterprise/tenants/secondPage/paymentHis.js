@@ -36,6 +36,10 @@ const PaymentHis = ({ tenantData, id }) => {
     fetchData(id, data?.upDateddata?.startDate, data?.upDateddata?.dueDate, data?.upDateddata?.rent)
   }, [data]);
 
+  const reFetchData = () => {
+    fetchData(id, data?.upDateddata?.startDate, data?.upDateddata?.dueDate, data?.upDateddata?.rent)
+  }
+
   const boxes = [
     {
       id: 1,
@@ -73,7 +77,7 @@ const PaymentHis = ({ tenantData, id }) => {
       }
       </div>
       <div>
-        <Widget Data={tenantData} id={id} />
+        <Widget Data={tenantData} id={id} reFetchData={reFetchData}/>
       </div>
     </div>
   );
