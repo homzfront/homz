@@ -109,23 +109,23 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 const formDatas = new FormData();
 
                 // Append only fields with values to FormData object
-                if (formData.propertyManagerCompanyName) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
-                if (formData.propertyManagerCompanyEmail) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
-                if (formData.propertyManagerCompanyAddress) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
-                if (formData.propertyManagerCompanyPhoneNumber) formDatas.append('propertyManagerCompanyPhoneNumber', formData.propertyManagerCompanyPhoneNumber);
+                if (formData.propertyManagerCompanyName !== null) formDatas.append('propertyManagerCompanyName', formData?.propertyManagerCompanyName);
+                if (formData.propertyManagerCompanyEmail !== null) formDatas.append('propertyManagerCompanyEmail', formData?.propertyManagerCompanyEmail);
+                if (formData.propertyManagerCompanyAddress !== null) formDatas.append('propertyManagerCompanyAddress', formData?.propertyManagerCompanyAddress);
+                if (formData.propertyManagerCompanyPhoneNumber !== null) formDatas.append('propertyManagerCompanyPhoneNumber', formData.propertyManagerCompanyPhoneNumber);
                 formDatas.append('receiptDate', formatDate(formData?.receiptDate));
-                if (formData.tenantName) formDatas.append('tenantName', formData?.tenantName);
-                if (formData.tenantPhoneNumber) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
-                if (formData.propertyAddress) formDatas.append('propertyAddress', formData?.propertyAddress);
-                if (formData.propertyDesc) formDatas.append('propertyDesc', formData?.propertyDesc);
-                if (formData.rentPayment) formDatas.append('rentPayment', extractNumber(formData?.rentPayment));
-                if (formData.rentPaymentInWords) formDatas.append('rentPaymentInWords', formData?.rentPaymentInWords);
-                if (formData.selectedCurrency) formDatas.append('selectedCurrency', formData?.selectedCurrency);
-                if (formData.tenancy) formDatas.append('tenancy', formData?.tenancy);
-                if (formData.tenancyPeriod) formDatas.append('tenancyPeriod', formData?.tenancyPeriod);
+                if (formData.tenantName !== null) formDatas.append('tenantName', formData?.tenantName);
+                if (formData.tenantPhoneNumber !== null) formDatas.append('tenantPhoneNumber', formData?.tenantPhoneNumber);
+                if (formData.propertyAddress !== null) formDatas.append('propertyAddress', formData?.propertyAddress);
+                if (formData.propertyDesc !== null) formDatas.append('propertyDesc', formData?.propertyDesc);
+                if (formData.rentPayment !== null) formDatas.append('rentPayment', extractNumber(formData?.rentPayment));
+                if (formData.rentPaymentInWords !== null) formDatas.append('rentPaymentInWords', formData?.rentPaymentInWords);
+                if (formData.selectedCurrency !== null) formDatas.append('selectedCurrency', formData?.selectedCurrency);
+                if (formData.tenancy !== null) formDatas.append('tenancy', formData?.tenancy);
+                if (formData.tenancyPeriod !== null) formDatas.append('tenancyPeriod', formData?.tenancyPeriod);
                 formDatas.append('tenancyStartDate', formatDate(formData?.tenancyStartDate));
                 formDatas.append('tenancyEndDate', formatDate(formData?.tenancyEndDate));
-                if (formData.modOfPayment) formDatas.append('modOfPayment', formData?.modOfPayment);
+                if (formData.modOfPayment !== null) formDatas.append('modOfPayment', formData?.modOfPayment);
                 if (FormName) formDatas.append('FormName', FormName);
                 if (DocType) formDatas.append('DocType', DocType);
 

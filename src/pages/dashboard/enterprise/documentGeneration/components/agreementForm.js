@@ -89,18 +89,18 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
             try {
                 setLoading(true);
                 const payload = {};
-                if (formData.propDesc) payload.propertyDesc = formData.propDesc;
-                if (formData.propAddress) payload.propertyAddress = formData.propAddress;
-                if (formData.landlordName) payload.landlordName = formData.landlordName;
-                if (formData.landlordAddress) payload.landlordAddress = formData.landlordAddress;
-                if (formData.tenantName) payload.tenantName = formData.tenantName;
-                if (formData.tenantAddress) payload.tenantAddress = formData.tenantAddress;
+                if (formData.propDesc !== null) payload.propertyDesc = formData.propDesc;
+                if (formData.propAddress !== null) payload.propertyAddress = formData.propAddress;
+                if (formData.landlordName !== null) payload.landlordName = formData.landlordName;
+                if (formData.landlordAddress !== null) payload.landlordAddress = formData.landlordAddress;
+                if (formData.tenantName !== null) payload.tenantName = formData.tenantName;
+                if (formData.tenantAddress !== null) payload.tenantAddress = formData.tenantAddress;
                 payload.tenancyStartDate = formatDate(formData.tenancyStartDate);
                 payload.agreementDate = formatDate(formData.agreementDate);
-                if (formData.rentPayment) payload.rentPayment = extractNumber(formData.rentPayment);
-                if (formData.rentPaymentInWords) payload.rentPaymentInWords = formData.rentPaymentInWords;
+                if (formData.rentPayment !== null) payload.rentPayment = extractNumber(formData.rentPayment);
+                if (formData.rentPaymentInWords !== null) payload.rentPaymentInWords = formData.rentPaymentInWords;
                 payload.tenancyEndDate = formatDate(formData.tenancyEndDate);
-                if (formData.selectedCurrency) payload.selectedCurrency = formData.selectedCurrency;
+                if (formData.selectedCurrency !== null) payload.selectedCurrency = formData.selectedCurrency;
                 if (DocType) payload.DocType = DocType;
                 if (FormName) payload.FormName = FormName;
                 const response = await api.patch(`/enterprise/document/update/agreementFormDocument/${formData?._id}`, payload);
