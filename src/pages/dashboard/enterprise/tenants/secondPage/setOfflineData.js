@@ -55,9 +55,11 @@ const schema = z.object({
 });
 
 
-const SetOfflineData = ({ rentInfoId, setOfflinepay, successfullModal, id, tenant }) => {
+const SetOfflineData = ({ rentInfo, rentInfoId, setOfflinepay, successfullModal, id, tenant }) => {
     const [data, setData] = React.useState(null)
     const [loading, setLoading] = React.useState(true)
+
+    console.log(rentInfo)
 
     const {
         control,
@@ -165,7 +167,7 @@ const SetOfflineData = ({ rentInfoId, setOfflinepay, successfullModal, id, tenan
         const duration = watch("duration");
         if (duration) {
             const currentDate = new Date();
-            const newStartDate = currentDate;
+            const newStartDate = rentInfo?.startDate;
             const newDueDate = new Date();
             newDueDate.setMonth(currentDate.getMonth() + duration);
             // Deduct one day from due date

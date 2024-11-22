@@ -5,17 +5,36 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useTenantRentEnterprise from "@/store/enterpriseStore/rentPaymentEnterprise";
 import Widget from "./paymentWidget";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
+import { getSpecificTenantRentInfo } from "@/api/tenantSevice";
 
 const PaymentHis = ({ tenantData, id }) => {
+  const [data, setData] = useState(null)
   const {
     data: paymentData,
     loading,
     fetchData
   } = useRentSummaryTenant();
 
+  const rentInformation = async () => {
+    try {
+      const response = await getSpecificTenantRentInfo(
+        `${tenantData.data.rentInfo._id}`
+      );
+      const rentInfo = response;
+      setData(rentInfo);
+    } catch (error) {
+    }
+  };
+
   useEffect(() => {
-    fetchData(id)
-  }, [tenantData]);
+    if (tenantData) {
+      rentInformation()
+    }
+  }, [tenantData])
+
+  useEffect(() => {
+    fetchData(id, data?.upDateddata?.startDate, data?.upDateddata?.dueDate, data?.upDateddata?.rent)
+  }, [data]);
 
   const boxes = [
     {
@@ -34,8 +53,8 @@ const PaymentHis = ({ tenantData, id }) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: `${paymentData?.data?.pendingRent === null ? "₦ 0" : addCommasToNumber(paymentData?.data?.pendingRent?.totalRent)}`,
-      dueDate: `${paymentData?.data?.pendingRent === null ? "" : `Due date: ${changeBackendDateFormat(paymentData?.data?.pendingRent?.dueDate)}`}`
+      money: `${paymentData?.data?.pendingRent === null ? "₦ 0" : addCommasToNumber(paymentData?.data?.pendingRent)}`,
+      dueDate: `${paymentData?.data?.pendingRent === null ? "" : `Due date: ${changeBackendDateFormat(paymentData?.data?.dueDate)}`}`
     }
   ];
 
@@ -54,7 +73,7 @@ const PaymentHis = ({ tenantData, id }) => {
       }
       </div>
       <div>
-        <Widget  Data={tenantData} id={id} />
+        <Widget Data={tenantData} id={id} />
       </div>
     </div>
   );

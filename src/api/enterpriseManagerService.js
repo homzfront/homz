@@ -138,7 +138,7 @@ export const ReceiptEnterpriseToOwner = async (id) => {
     const response = await api.get(`/wallet/transfer/enterprise/property-owner/receipt/${id}`);
     return { success: true, upDateddata: response };
   } catch (error) {
-    return { success: false, error }; 
+    return { success: false, error };
   }
 }
 
@@ -159,7 +159,7 @@ export const sendMoneyEnterpriseToOwner = async (details) => {
     });
     return { success: true, upDateddata: response };
   } catch (error) {
-    return { success: false, error }; 
+    return { success: false, error };
   }
 };
 
@@ -272,9 +272,9 @@ export const fetchSpecificTenantRentEnterprise = async (id) => {
   }
 };
 
-export const fetchSpecificTenantRentSummary = async (id) => {
+export const fetchSpecificTenantRentSummary = async (id, startDate, dueDate, rent) => {
   try {
-    const response = await api.get(`/rentPayment/enterprise/tenant/${id}/summary`);
+    const response = await api.get(`/rentPayment/enterprise/tenant/${id}/summary?startDate=${startDate}&dueDate=${dueDate}&rent=${rent}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -459,7 +459,7 @@ export const addBankPropertyEnterprise = async (details) => {
 // Helper function to build query parameters
 const buildQueryParams = (params) => {
   const query = new URLSearchParams();
-  
+
   // Add parameters only if they are defined
   if (params.FormName) query.append('FormName', params.FormName);
   if (params.DocType) query.append('DocType', params.DocType);

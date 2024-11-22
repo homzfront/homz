@@ -5,9 +5,9 @@ import { fetchSpecificTenantRentSummary } from '@/api/enterpriseManagerService';
 const useRentSummaryTenant = create((set) => ({
     data: [],
     loading: true,
-    fetchData: async (id) => {
+    fetchData: async (id, startDate, dueDate, rent) => {
         try {
-            const response = await fetchSpecificTenantRentSummary(id);
+            const response = await fetchSpecificTenantRentSummary(id, startDate, dueDate, rent);
             // console.log(response)
             const rentPayemnt = await response;
             set({ data: rentPayemnt, loading: false });

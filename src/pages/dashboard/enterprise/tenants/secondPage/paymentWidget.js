@@ -195,7 +195,7 @@ const Widget = ({ id, Data  }) => {
                 </div>
             </div>
             <CustomizedModal isOpen={offlinepay}>
-                <SetOfflineData tenant={Data?.data?.fullName} id={id} rentInfoId={Data?.data?.rentInfo?._id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
+                <SetOfflineData tenant={Data?.data?.fullName} id={id} rentInfo={Data?.data} rentInfoId={Data?.data?.rentInfo?._id} setOfflinepay={setOfflinepay} successfullModal={successfullModal} />
             </CustomizedModal>
             <CustomizedModal isOpen={openModel}>
                 <ConfirmModal
