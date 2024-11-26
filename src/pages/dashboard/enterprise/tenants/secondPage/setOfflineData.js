@@ -131,13 +131,13 @@ const SetOfflineData = ({
         if (rentInfo?.upDateddata) {
             setFormData({
                 ...formData,
-                rent: new Intl.NumberFormat().format(rentInfo.upDateddata.rent) || "",
-                startDate: new Date(rentInfo.upDateddata.startDate),
-                dueDate: new Date(rentInfo.upDateddata.dueDate),
-                duration: rentInfo.upDateddata.duration || "",
+                rent: new Intl.NumberFormat().format(rentInfo?.upDateddata.rent) || "",
+                startDate: new Date(rentInfo?.upDateddata.startDate),
+                dueDate: new Date(rentInfo?.upDateddata.dueDate),
+                duration: rentInfo?.upDateddata.duration || "",
             });
         }
-    }, [rentInfo.upDateddata]);
+    }, [rentInfo?.upDateddata]);
 
     useEffect(() => {
         if (formData.duration && formData.startDate) {
