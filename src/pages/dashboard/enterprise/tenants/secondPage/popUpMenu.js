@@ -35,13 +35,10 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setD
     const tenantId = data?.tenantId?._id
     try {
       const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
-      if (response?.data?.success === true) {
-        setRefetch(true);
-        setDeleteSuccessModal(true);
-        exportFetch(tenantId)
-        fetchData(tenantId)
-      } else {
-      }
+      setRefetch(true);
+      setDeleteSuccessModal(true);
+      exportFetch(tenantId)
+      fetchData(tenantId, data.startDate, data.dueDate)
     } catch (error) {
       if (error && error?.response?.data?.error?.errors) {
       }
@@ -119,7 +116,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setD
                 returnHome={() => {
                   setDeleteModal(false)
                   setDeleteSuccessModal(false)
-                  setRefetch(true)
+                  setRefetch(false)
                 }}
               />
               :

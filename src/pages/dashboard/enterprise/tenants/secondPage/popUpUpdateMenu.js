@@ -81,7 +81,6 @@ const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         // if (!validateForm()) return;
-        console.log('data is here', formData)
         setRefetch(false)
         setIsLoadingForm(true)
         const paymentId = data?._id
@@ -102,8 +101,8 @@ const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
                 setSuccessfulModal(true);
                 setErrors(null)
                 setUpdateForm(false);
-                exportFetch(tenantId)
-                fetchData(tenantId)
+                exportFetch( data?.tenantId?._id)
+                fetchData( data?.tenantId?._id, data.startDate, data.dueDate)
                 setRefetch(true);
             } else {
                 setErrors(response?.data?.message);

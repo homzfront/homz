@@ -23,8 +23,6 @@ const TenantProfile = ({ id }) => {
     }
   }
 
-  console.log(data)
-
 
   useEffect(() => {
     rentInformation();
