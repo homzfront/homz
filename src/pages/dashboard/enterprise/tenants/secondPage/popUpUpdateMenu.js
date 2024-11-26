@@ -6,11 +6,15 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import DateIcon from '@/components/icons/date';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
-import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant.js';
-import useRentSummaryTenant from '@/store/enterpriseStore/rentSummaryTenant.js';
 import useExportEnterpriseSingleTenant from '@/store/enterpriseStore/exportEnterpriseSingleTenant.js';
+import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant.js';
 
-const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
+const PopUpUpdateMenu = ({
+    setUpdateForm,
+    data,
+    reFetchSummaryData,
+    setSuccessfulModal
+}) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
     const [formData, setFormData] = useState({
         dateOfTransaction: null,
@@ -23,10 +27,8 @@ const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
         duration: '',
     });
     const [errors, setErrors] = useState(null);
+
     const { setRefetch } = PaymentRefetchTenant();
-    const {
-        fetchData
-    } = useRentSummaryTenant();
     const { fetchData: exportFetch } = useExportEnterpriseSingleTenant();
 
     useEffect(() => {
@@ -81,7 +83,7 @@ const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         // if (!validateForm()) return;
-        setRefetch(false)
+        setRefetch(false);
         setIsLoadingForm(true)
         const paymentId = data?._id
         const tenantId = data?.tenantId?._id
@@ -101,8 +103,8 @@ const PopUpUpdateMenu = ({ setUpdateForm, data, setSuccessfulModal }) => {
                 setSuccessfulModal(true);
                 setErrors(null)
                 setUpdateForm(false);
-                exportFetch( data?.tenantId?._id)
-                fetchData( data?.tenantId?._id, data.startDate, data.dueDate)
+                exportFetch(data?.tenantId?._id)
+                reFetchSummaryData()
                 setRefetch(true);
             } else {
                 setErrors(response?.data?.message);

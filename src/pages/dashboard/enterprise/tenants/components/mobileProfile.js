@@ -8,7 +8,15 @@ import PaymentHis from '../secondPage/paymentHis';
 import RentInfo from '../secondPage/rentInfo';
 import Maintenance from '../secondPage/maintenance';
 
-const MobileProfile = ({ id, data, rentInformation }) => {
+const MobileProfile = ({ 
+    tenantId,
+    rentInfo,
+    tenantData,
+    fetchTenantData,
+    fetchRentInformation,
+    reFetchSummaryData,
+    paymentData
+}) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
     const [showWidget, setShowWidget] = useState(false);
@@ -92,7 +100,7 @@ const MobileProfile = ({ id, data, rentInformation }) => {
                                         : "text-white bg-BlueHomz"
                                         }`}
                                 >
-                                    {data?.data?.maintenanceRequests ? data?.data?.maintenanceRequests?.length : "0"}
+                                    {tenantData?.data?.maintenanceRequests ? tenantData?.data?.maintenanceRequests?.length : "0"}
                                 </span>
                             </button>
                         </div>
@@ -100,18 +108,27 @@ const MobileProfile = ({ id, data, rentInformation }) => {
                     <div className="my-7 rounded-[12px] w-full">
                         <div className={`${active ? "inline" : "hidden"}`}>
                             <RentInfo
-                                profile={data}
-                                rentInformation={rentInformation}
+                                profile={tenantData}
+                                fetchTenantData={fetchTenantData}
+                                tenantId={tenantId}
+                                rentInfo={rentInfo}
+                                fetchRentInformation= {fetchRentInformation}
+                                reFetchSummaryData={reFetchSummaryData}
                             />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHis
-                               id={id} tenantData={data}
+                                tenantId={tenantId} 
+                                tenantData={tenantData}
+                                rentInfo={rentInfo}
+                                fetchRentInformation ={fetchRentInformation}
+                                reFetchSummaryData={reFetchSummaryData}
+                                paymentData={paymentData}
                             />
                         </div>
                         <div className={`${activeThree ? "inline" : "hidden"} w-full`}>
                             <Maintenance
-                                data={data}
+                                tenantData={tenantData}
                             />
                         </div>
                     </div>
@@ -121,13 +138,13 @@ const MobileProfile = ({ id, data, rentInformation }) => {
                     <div className='mt-4 bg-inputBg rounded-[12px] px-4 py-6'>
                         <div className='flex flex-col justify-center items-center'>
                             <div className="">
-                                {data?.data?.coverPhoto?.url ? (
+                                {tenantData?.data?.coverPhoto?.url ? (
                                     <Image
-                                        src={data?.data?.coverPhoto?.url}
+                                        src={tenantData?.data?.coverPhoto?.url}
                                         height={198}
                                         width={198}
                                         alt=""
-                                        layout="full" 
+                                        layout="full"
                                         objectFit="cover"
                                         objectPosition="center"
                                         className="object-cover bg-center h-[198px] rounded-full"
@@ -146,26 +163,26 @@ const MobileProfile = ({ id, data, rentInformation }) => {
                                 )}
                             </div>
                             <h1 className="font-[700] my-2 text-[20px] text-GrayHomz">
-                                {data?.data?.fullName}
+                                {tenantData?.data?.fullName}
                             </h1>
                         </div>
                         <div className="mt-2 flex flex-col gap-2">
                             <div className="flex justify-between gap-3">
                                 <p className="text-[13px] font-[400] text-GrayHomz">Phone No</p>
                                 <p className="text-[13px] font-[500] text-end text-BlackHomz w-[62%]">
-                                    {data?.data?.phoneNumber}
+                                    {tenantData?.data?.phoneNumber}
                                 </p>
                             </div>
                             <div className="flex justify-between gap-3">
                                 <p className="text-[13px] font-[400] text-GrayHomz">Email</p>
                                 <p className="text-[13px] font-[500] text-end break-words text-BlackHomz w-[62%]">
-                                    {data?.data?.user?.email}
+                                    {tenantData?.data?.user?.email}
                                 </p>
                             </div>
                             <div className="flex justify-between gap-3">
                                 <p className="text-[13px] font-[400] text-GrayHomz">Home Address</p>
                                 <p className="text-[13px] font-[500] text-end text-BlackHomz break-words w-[62%]">
-                                    {data?.data?.houseAddress}
+                                    {tenantData?.data?.houseAddress}
                                 </p>
                             </div>
                         </div>

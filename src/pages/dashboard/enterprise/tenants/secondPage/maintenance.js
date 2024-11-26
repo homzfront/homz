@@ -4,24 +4,20 @@ import React, { useState } from "react";
 import Button from "../../components/button.js";
 import { updateMaintenanceReqestByTenant } from "@/api/maintenanceService";
 import { toast } from "react-toastify";
-import LoadingTable from "../../../../../components/mainmenu/loadingTable.js";
 import StatusDropDownMain from "../components/statusDropDownMain.js";
-import EmptyAvatar from "@/components/icons/emptyAvatar.js";
 import truncateText from "@/utils/truncateText.js";
-const Maintenance = ({ data }) => {
+const Maintenance = ({ tenantData }) => {
   const [loadingRows, setLoadingRows] = useState({});
 
-  const MaintenanceRequests = data?.data?.maintenanceRequests;
-
   // Create a new array with each element containing maintenance request and user information
-  const newDataArray = data?.data?.maintenanceRequests.map(
+  const newDataArray = tenantData?.data?.maintenanceRequests.map(
     (maintenanceRequest) => {
       return {
         _id: maintenanceRequest?._id,
         maintenanceRequest,
         user: {
-          fullName: data?.data?.fullName,
-          coverPhoto: data?.data?.coverPhoto,
+          fullName: tenantData?.data?.fullName,
+          coverPhoto: tenantData?.data?.coverPhoto,
         },
       };
     }

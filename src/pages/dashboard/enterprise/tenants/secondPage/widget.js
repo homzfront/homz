@@ -5,11 +5,19 @@ import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
 
-const Widget = ({ data, rentInformation, id }) => {
+const Widget = ({
+  tenantId,
+  tenantData,
+  fetchTenantData,
+  rentInfo,
+  fetchRentInformation,
+  reFetchSummaryData,
+  paymentData
+}) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  
+
   const handlePageChange = () => {
     setActive(false);
     setActiveTwo(false);
@@ -32,48 +40,59 @@ const Widget = ({ data, rentInformation, id }) => {
       <div className=" inline-block min-w-[620px] w-[100%] h-auto p-4  shadow-md bg-white rounded-[12px]">
         <div className="flex mt-5 gap-4 cursor-pointer w-full">
           <div
-            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${
-              !active ? "bg-BlueHomz text-white " : ""
-            }`}
+            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${!active ? "bg-BlueHomz text-white " : ""
+              }`}
             onClick={handlePageChange}
           >
             <p>Rent Information</p>
           </div>
           <div
-            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${
-              activeTwo ? "bg-BlueHomz text-white " : ""
-            }`}
+            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${activeTwo ? "bg-BlueHomz text-white " : ""
+              }`}
             onClick={handlePageChangeTwo}
           >
             <p>Payment History</p>
           </div>
           <div
-            className={`rounded-md h-[37px] flex flex-row gap-1 w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${
-              activeThree ? "bg-BlueHomz text-white " : ""
-            }`}
+            className={`rounded-md h-[37px] flex flex-row gap-1 w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${activeThree ? "bg-BlueHomz text-white " : ""
+              }`}
             onClick={handlePageChangeThree}
           >
             <p>Maintenance Request</p>
             <span
-              className={` rounded-[40%] w-[30px] ${
-                activeThree
-                  ? "bg-white text-GrayHomz"
-                  : "bg-whiteblue text-BlueHomz "
-              }`}
+              className={` rounded-[40%] w-[30px] ${activeThree
+                ? "bg-white text-GrayHomz"
+                : "bg-whiteblue text-BlueHomz "
+                }`}
             >
-              {data?.data?.maintenanceRequests?.length}
+              {tenantData?.data?.maintenanceRequests?.length}
             </span>
           </div>
         </div>
         <div className="mt-5 rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <RentInfo tenantId={id} profile={data} rentInformation={rentInformation}/>
+            <RentInfo
+              tenantId={tenantId}
+              profile={tenantData}
+              fetchTenantData={fetchTenantData}
+              rentInfo={rentInfo}
+              fetchRentInformation={fetchRentInformation}
+              reFetchSummaryData={reFetchSummaryData}
+            />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <PaymentHis id={id} tenantData={data}/>
+            <PaymentHis
+              tenantId={tenantId}
+              tenantData={tenantData}
+              fetchTenantDataData={fetchTenantData}
+              rentInfo={rentInfo}
+              fetchRentInformation={fetchRentInformation}
+              reFetchSummaryData={reFetchSummaryData}
+              paymentData={paymentData}
+            />
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <Maintenance  data={data}/>
+            <Maintenance tenantData={tenantData} />
           </div>
         </div>
       </div>

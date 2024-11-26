@@ -9,7 +9,7 @@ import SkeletonLoader from "./skeletonLoader";
 import api from "@/utils/api";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
 
-const WalletPayement = ({ TenantId, TenantData }) => {
+const WalletPayement = ({ TenantId, TenantData, reFetchSummaryData }) => {
     const {
         data: currentData,
         loading,

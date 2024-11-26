@@ -12,7 +12,7 @@ import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
 import useOfflinePaymentStore from "@/store/enterpriseStore/useOfflinePaymentStore";
 
 
-const OfflinePayment = ({ TenantId, TenantData }) => {
+const OfflinePayment = ({ TenantId, TenantData, reFetchSummaryData }) => {
     const {
         data: currentData,
         loading,
@@ -165,6 +165,7 @@ const OfflinePayment = ({ TenantId, TenantData }) => {
                                             {popUpMenu && selectedDataId === data._id && (
                                                 <PopUpMenuData
                                                     data={data}
+                                                    reFetchSummaryData={reFetchSummaryData}
                                                     dropdownRef={dropdownRef}
                                                     handleUpdateForm={handleUpdateForm}
                                                     setUpdateForm={setUpdateForm}

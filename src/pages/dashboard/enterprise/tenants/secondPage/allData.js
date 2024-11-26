@@ -12,7 +12,7 @@ import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
 import useAllPaymentStore from "@/store/enterpriseStore/useAllPaymentStore";
 
 
-const AllData = ({ TenantId, TenantData }) => {
+const AllData = ({ TenantId, TenantData, reFetchSummaryData }) => {
     const {
         data: currentData,
         loading,
@@ -166,6 +166,7 @@ const AllData = ({ TenantId, TenantData }) => {
                                             {popUpMenu && selectedDataId === data._id && (
                                                 <PopUpMenuData
                                                     data={data}
+                                                    reFetchSummaryData={reFetchSummaryData}
                                                     dropdownRef={dropdownRef}
                                                     handleUpdateForm={handleUpdateForm}
                                                     setUpdateForm={setUpdateForm}
