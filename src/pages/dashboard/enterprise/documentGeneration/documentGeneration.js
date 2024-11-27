@@ -35,8 +35,14 @@ import api from "@/utils/api";
 import toast from "react-hot-toast";
 import Word from "./components/word";
 import WordAgreement from "./components/wordAgreement";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import { useRouter } from "next/navigation";
+import ExpiredPlanModal from "../components/expiredPlanModal";
 
 const DocumentGeneration = () => {
+  const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
+  const router = useRouter();
+  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const { setTab, homePage, setHomePage } = useTabForDocuGen();
   const { DocType, FormName, setDocType, setFormName } = FormSelection();
   const { formData, mergeFormData, resetAgreementFormData } = useAgreementFormStore();
@@ -303,6 +309,16 @@ const DocumentGeneration = () => {
       setDeleteLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchProfileData()
+  }, []);
+
+  const goToplan = () => {
+    router.push("/plans")
+  }
+
+
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
       {
@@ -316,6 +332,20 @@ const DocumentGeneration = () => {
             returnHomeTwo={openDocumentCreation}
           />
         </CustomizedModal>
+      }
+      {
+        openPurchasePlan && (
+          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <ExpiredPlanModal
+              header={"Your Trial Has Ended"}
+              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+              button={"Buy Plan"}
+              buttonTwo={"close"}
+              returnHome={goToplan}
+              returnHomeTwo={() => setOpenPurchasePlan(false)}
+            />
+          </div>
+        )
       }
       {
         showPreview ?
@@ -408,13 +438,17 @@ const DocumentGeneration = () => {
               <div className="w-[30%] max-w-[280px]">
                 <button
                   onClick={() => {
-                    setDocumentCreation(!documentCreation)
-                    setTab(null);
-                    clearFormForNewUpload();
-                    resetReceiptFormData();
-                    resetAgreementFormData();
-                    setDocType(null);
-                    setFormName(null);
+                    if (user?.trialEndDate && user?.PlanStatus !== "paid") {
+                      setOpenPurchasePlan(!openPurchasePlan)
+                    } else {
+                      setDocumentCreation(!documentCreation)
+                      setTab(null);
+                      clearFormForNewUpload();
+                      resetReceiptFormData();
+                      resetAgreementFormData();
+                      setDocType(null);
+                      setFormName(null);
+                    }
                   }}
                   className="w-full flex px-4 justify-center items-center rounded-[4px] h-[48px] gap-1 font-[500] text-[16px] text-white bg-BlueHomz">
                   <PluswithoutCircle />

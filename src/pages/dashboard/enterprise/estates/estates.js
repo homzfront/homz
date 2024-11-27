@@ -9,16 +9,23 @@ import estateStore from "@/store/enterpriseStore/estates";
 import formatDateII from "@/utils/formatDateII";
 import useClickOutside from "@/utils/clickOutside";
 import useTabForAddProperty from "@/store/document/useTabForAddProperty";
+import { useRouter } from "next/navigation";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import ExpiredPlanModal from "../components/expiredPlanModal";
 
 const Estate = () => {
   const { tab, setTab } = useTabForAddProperty();
   const { data, loading, fetchData } = estateStore();
+  const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
+  const router = useRouter();
 
   useEffect(() => {
     fetchData();
+    fetchProfileData()
   }, []);
 
   const estates = data;
+  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,7 +69,11 @@ const Estate = () => {
   });
 
   const openRegistrationForm = () => {
-    setRegistrationForm(true);
+    if (user?.trialEndDate && user?.PlanStatus !== "paid") {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
+      setRegistrationForm(true);
+    }
   };
 
   const returnToStartRegistration = () => {
@@ -71,7 +82,11 @@ const Estate = () => {
   };
 
   const addNewEstate = () => {
+    if (user?.trialEndDate && user?.PlanStatus !== "paid") {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
     setRegistrationForm(true);
+    }
   };
 
   const openMobileFilterModal = () => {
@@ -81,6 +96,13 @@ const Estate = () => {
   const closeMobileFilterModal = () => {
     setFilterModal(false);
   };
+
+
+  const goToplan = () => {
+    router.push("/plans")
+  }
+
+  console.log(user)
 
   return (
     <div className="w-full">
@@ -120,6 +142,9 @@ const Estate = () => {
           closeMobileFilterModal={closeMobileFilterModal}
           openMobileFilterModal={openMobileFilterModal}
           filterModal={filterModal}
+          openPurchasePlan={openPurchasePlan}
+          setOpenPurchasePlan={setOpenPurchasePlan}
+          user={user}
         />
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
@@ -168,6 +193,20 @@ const Estate = () => {
           </div>
         </div>
       )}
+      {
+        openPurchasePlan && (
+          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <ExpiredPlanModal
+              header={"Your Trial Has Ended"}
+              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+              button={"Buy Plan"}
+              buttonTwo={"close"}
+              returnHome={goToplan}
+              returnHomeTwo={() => setOpenPurchasePlan(false)}
+            />
+          </div>
+        )
+      }
     </div>
   );
 };

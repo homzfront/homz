@@ -20,6 +20,8 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import Popup from "@/pages/tenantManagementPlan/popUp";
 import useTabForAddProperty from "@/store/document/useTabForAddProperty";
+import { useRouter } from "next/navigation";
+import ExpiredPlanModal from "../../components/expiredPlanModal";
 
 const ManageUsers = () => {
   const { setTab } = useTabForAddProperty();
@@ -33,24 +35,30 @@ const ManageUsers = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectOp, setSelectedOp] = useState([]);
   const [dataEmail, setDataEmail] = useState([]);
+  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
+  const router = useRouter();
+  const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
 
   // console.log(slog); 
 
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
+    fetchProfile();
   }, []);
 
   useBodyScroll([openModal, loadingII, showPopup])
   const handleDropdownToggle = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
+    if (profileData?.trialEndDate && profileData?.PlanStatus !== "paid") {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
+      setIsOpen((prevIsOpen) => !prevIsOpen);
+    }
   };
 
-  const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  const goToplan = () => {
+    router.push("/plans")
+  }
 
 
   // console.log(profileData);
@@ -183,6 +191,20 @@ const ManageUsers = () => {
 
   return (
     <div>
+        {
+        openPurchasePlan && (
+          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={()=>setOpenPurchasePlan(false)}
+            />
+          </div>
+        )
+      }
       {loadingII && <Loading />}
       <div className="border-t p-8 ">
         <div className="bg-inputBg rounded-[12px] p-6">
@@ -307,7 +329,7 @@ const ManageUsers = () => {
           </div>
         )} */}
         <div className="mt-8">
-          <TableUser estateData={data} profileData={profileData} />
+          <TableUser estateData={data} profileData={profileData} openPurchasePlan={openPurchasePlan} setOpenPurchasePlan={setOpenPurchasePlan}/>
         </div>
       </div>
       {/* <Invites /> */}

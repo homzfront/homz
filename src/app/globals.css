@@ -259,3 +259,30 @@ body::-webkit-scrollbar-thumb {
 .page-break {
   page-break-before: always; /* or 'page-break-after' depending on where you want the break */
 }
+
+
+.teste {
+  background:  blue; 
+
+  .mySwiper {
+    background: red; 
+
+    .swiper {
+      background: yellow; 
+    }
+
+    .swiper-slide {
+      display: none;
+    }
+
+  }
+}
+
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}

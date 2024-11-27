@@ -16,9 +16,13 @@ import FilterMobile from "../../components/filterMobile";
 import { useReactToPrint } from "react-to-print";
 import Document from "@/components/icons/document";
 import Send from "@/components/icons/send";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import ExpiredPlanModal from "../../components/expiredPlanModal";
+import { useRouter } from "next/navigation";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
+  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -28,7 +32,8 @@ const Tenants = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isMasterChecked, setIsMasterChecked] = useState(false);
   const printableRef = useRef();
-
+  const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
+  const router = useRouter();
   const clear = () => {
     setSelectedProperty(null);
     setSelectedStatus(null);
@@ -37,7 +42,11 @@ const Tenants = () => {
   };
 
   const toggleInvite = () => {
-    setInviteTenant(true);
+    if (user?.trialEndDate && user?.PlanStatus !== "paid") {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
+      setInviteTenant(true);
+    }
   };
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant]);
@@ -46,10 +55,10 @@ const Tenants = () => {
 
   useEffect(() => {
     fetchData(); // Fetch data on component mount
+    fetchProfileData()
   }, []);
 
   const tenantData = data
-
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
 
 
@@ -81,6 +90,10 @@ const Tenants = () => {
     onAfterPrint: () => console.log("Document printed."),
   });
 
+  const goToplan = () => {
+    router.push("/plans")
+  }
+
 
   return (
     <div className=" w-full p-8 mb-8">
@@ -102,6 +115,20 @@ const Tenants = () => {
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
+      {
+        openPurchasePlan && (
+          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <ExpiredPlanModal 
+            header={"Your Trial Has Ended"}
+            body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={()=>setOpenPurchasePlan(false)}
+            />
+          </div>
+        )
+      }
       {loading ? (
         <LoadingII />
       ) : (
@@ -161,7 +188,7 @@ const Tenants = () => {
                       {filteredData?.length}
                     </span>
                   </span>
-                  <div className="md:hidden" onClick={() => setInviteTenant(true)}>
+                  <div className="md:hidden" onClick={toggleInvite}>
                     <Add />
                   </div>
                   <button

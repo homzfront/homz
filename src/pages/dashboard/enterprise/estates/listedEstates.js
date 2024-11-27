@@ -10,6 +10,9 @@ import Dropdown from "../components/dropDownFilter";
 import FilterMobile from "../components/filterMobile";
 import Add from "@/components/icons/add";
 import AddBigBlue from "@/components/icons/addBigBlue";
+import { useRouter } from "next/navigation";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import ExpiredPlanModal from "../components/expiredPlanModal";
 
 
 
@@ -45,6 +48,9 @@ const ListedEstates = ({
   setSearchQuery,
   closeMobileFilterModal,
   filterModal,
+  openPurchasePlan, 
+  setOpenPurchasePlan,
+  user
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -82,9 +88,12 @@ const ListedEstates = ({
   };
 
   const toggleInvite = () => {
-    setInviteTenant(true);
+    if (user?.trialEndDate && user?.PlanStatus !== "paid") {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
+      setInviteTenant(true);
+    }
   };
-
 
 
 
@@ -276,6 +285,7 @@ const ListedEstates = ({
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"?tab=addProperty"} openRegistrationForm={openRegistrationForm} />
         </div>
       )}
+      
     </div>
   );
 };
