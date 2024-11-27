@@ -11,16 +11,13 @@ import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant';
 import useRentSummaryTenant from '@/store/enterpriseStore/rentSummaryTenant.js';
 import useExportEnterpriseSingleTenant from '@/store/enterpriseStore/exportEnterpriseSingleTenant.js';
 
-function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
+function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFetchSummaryData, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setRefetch } = PaymentRefetchTenant();
-  const {
-    fetchData
-  } = useRentSummaryTenant();
   const { fetchData: exportFetch } = useExportEnterpriseSingleTenant();
 
   // Conditional rendering after hooks
@@ -35,13 +32,11 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setD
     const tenantId = data?.tenantId?._id
     try {
       const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
-      if (response?.data?.success === true) {
-        setRefetch(true);
-        setDeleteSuccessModal(true);
-        exportFetch(tenantId)
-        fetchData(tenantId)
-      } else {
-      }
+      setRefetch(true);
+      setDeleteSuccessModal(true);
+      exportFetch(tenantId)
+      reFetchSummaryData();
+
     } catch (error) {
       if (error && error?.response?.data?.error?.errors) {
       }
@@ -94,6 +89,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setD
             data={data}
             setUpdateForm={setUpdateForm}
             setSuccessfulModal={setSuccessfulModal}
+            reFetchSummaryData={reFetchSummaryData}
           />
         </CustomizedModal>
       )}
@@ -119,7 +115,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, setD
                 returnHome={() => {
                   setDeleteModal(false)
                   setDeleteSuccessModal(false)
-                  setRefetch(true)
+                  setRefetch(false)
                 }}
               />
               :

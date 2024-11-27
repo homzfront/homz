@@ -22,8 +22,7 @@ import LoadingProlonged from "@/components/general/loadingProlonged";
 
 
 
-const RentInfo = ({ profile, rentInformation, tenantId }) => {
-  const [data, setData] = useState([]);
+const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInformation, reFetchSummaryData }) => {
   const [propertyType, setPropertyType] = useState("");
   const [apartmentNumber, setApartmentNumber] = useState("");
   const [rent, setRent] = useState("");
@@ -77,7 +76,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
 
     yearsToAdd = Math.floor(numericAmount / 12);
     monthsToAdd = numericAmount % 12;
-    
+
     // Adjust the date by adding years
     if (yearsToAdd > 0) {
       selectedDate.setFullYear(selectedDate.getFullYear() + yearsToAdd);
@@ -115,31 +114,9 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
     }
   }, [loading])
 
-  function addMonthsToValues(integers) {
-    if (integers === "" || integers === null || integers === undefined) {
-      return ""; // Render the actual name if it exists
-    } else {
-      const plural = integers !== 1 ? "s" : ""; // Add 's' for values other than 1
-      return `${integers} month${plural}`;
-    }
-  }
-
-  const rentInformationII = async () => {
-    try {
-      const response = await getSpecificTenantRentInfo(
-        `${profile.data.rentInfo._id}`
-      );
-      const rentInfo = response;
-      setData(rentInfo);
-    } catch (error) {
-      // console.error("Error fetching rent information", error);
-      // Handle the error as needed
-    }
-  };
-
   useEffect(() => {
     if (!profile?.data?.rentInfo?._id) {
-      rentInformation();
+      fetchTenantData();
     }
 
   }, [showUpdate]);
@@ -147,25 +124,25 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
   useEffect(() => {
     if (profile) {
       setProperty(profile?.data?.estateId?.name || "");
-      rentInformationII();
+      fetchRentInformation();
     }
   }, [profile])
 
   useEffect(() => {
     // Check if data and required properties are available
-    if (data) {
-      setPropertyType(data?.upDateddata?.propertyType || "");
-      setApartmentNumber(parseInt(data?.upDateddata?.apartmentNumber) || "");
-      setRent(data?.upDateddata?.rent || "");
-      setDuration(data?.upDateddata?.duration || "");
-      setStartDate(formatDateII(data?.upDateddata?.startDate) || "");
-      setDueDate(formatDateII(data?.upDateddata?.dueDate) || "")
+    if (rentInfo) {
+      setPropertyType(rentInfo?.upDateddata?.propertyType || "");
+      setApartmentNumber(parseInt(rentInfo?.upDateddata?.apartmentNumber) || "");
+      setRent(rentInfo?.upDateddata?.rent || "");
+      setDuration(rentInfo?.upDateddata?.duration || "");
+      setStartDate(formatDateII(rentInfo?.upDateddata?.startDate) || "");
+      setDueDate(formatDateII(rentInfo?.upDateddata?.dueDate) || "")
       setSelectedValue(
-        capitalizeFirstLetter(data?.upDateddata?.paymentStatus) || ""
+        capitalizeFirstLetter(rentInfo?.upDateddata?.paymentStatus) || ""
       );
       setLoading(false); // Set loading to false once data is available
     }
-  }, [data]);
+  }, [rentInfo]);
 
   const handleSelect = (option) => {
     // Handle the selected value as needed
@@ -221,6 +198,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
         setShowUpdate(!showUpdate)
         setConfirm(!confirm);
         setError(null)
+        reFetchSummaryData();
       } else {
         toast.error(error?.msg);
         setLoading(false);
@@ -260,12 +238,12 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
       const id = profile?.data?.rentInfo._id;
       const { success, upDateddata, error } =
         await updateSpecificTenantRentInfo(id, updatedData);
-      console.log(upDateddata)
 
       if (success) {
         setLoading(false);
         toast.success("Update successful");
         setError(null);
+        reFetchSummaryData();
       } else {
         toast.error(error);
         setLoading(false);
@@ -281,7 +259,8 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
   };
 
   const returnHome = () => {
-    rentInformation()
+    fetchTenantData()
+    fetchRentInformation();
     setConfirm(false);
   };
 
@@ -396,7 +375,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             disabled={true}
           />
           <InputTwo
-            label={"Rent"}
+            label={"Rent Amount"}
             value={rent}
             onChange={(e) => {
               setRent(e.target.value)
@@ -404,14 +383,14 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
             }}
             type={"text"}
             placeholder={"750000"}
-            span2={"Entered value should be monthly rent"}
+            span2={"Entered value should match rent duration"}
             span={"*"}
           />
           <div className="flex flex-col gap-[10px]">
             <label className="md:h-[38px] text-[14px] font-[500]">Payment Status <span className="text-error">*</span></label>
             <Dropdown
               options={options}
-              selectOption={`${data?.upDateddata?.paymentStatus === undefined
+              selectOption={`${rentInfo?.upDateddata?.paymentStatus === undefined
                 ? "Select an option"
                 : ` ${capitalizeFirstLetter(selectedValue)}`
                 }`}
@@ -426,7 +405,7 @@ const RentInfo = ({ profile, rentInformation, tenantId }) => {
         </div>
 
         <div className="mt-6">
-          {showUpdate || data?.upDateddata?.rent ? (
+          {showUpdate || rentInfo?.upDateddata?.rent ? (
             <button
               onClick={handleConfirm}
               className={` ${loading ? "pointer-events-none" : ""

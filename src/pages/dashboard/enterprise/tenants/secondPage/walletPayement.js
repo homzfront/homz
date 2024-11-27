@@ -9,7 +9,7 @@ import SkeletonLoader from "./skeletonLoader";
 import api from "@/utils/api";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
 
-const WalletPayement = ({ TenantId, TenantData }) => {
+const WalletPayement = ({ TenantId, TenantData, reFetchSummaryData }) => {
     const {
         data: currentData,
         loading,
@@ -103,7 +103,7 @@ const WalletPayement = ({ TenantId, TenantData }) => {
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{addCommasToNumber(data?.amountPaid)}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.description}</td>
-                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Year" : `${data?.duration} Years`}</td>
+                                        <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.duration === 1 ? "1 Month" : `${data?.duration} Months`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}</td>
                                     </tr>

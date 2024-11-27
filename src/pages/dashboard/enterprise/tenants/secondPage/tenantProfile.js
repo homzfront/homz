@@ -3,31 +3,59 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
-import { fetchSpecificTenant } from "@/api/tenantSevice.js";
+import { fetchSpecificTenant, getSpecificTenantRentInfo } from "@/api/tenantSevice.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingII from "@/components/mainmenu/loadingII.js";
 import MobileProfile from "../components/mobileProfile.js";
-
+import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant.js";
 
 const TenantProfile = ({ id }) => {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true);
+  const [tenantData, setData] = useState([]);
+  const [loadingTenant, setLoading] = useState(true);
+  const [rentInfo, setRentInfo] = useState(null);
 
-  const rentInformation = async () => {
-    const response = await fetchSpecificTenant(`${id}`)
+  const fetchTenantData = async () => {
+    const response = await fetchSpecificTenant(`${id}`);
     const rentInfo = response;
-    setData(rentInfo)
+    setData(rentInfo);
     if (rentInfo) {
       setLoading(false);
     }
-  }
-
+  };
 
   useEffect(() => {
-    rentInformation();
-  }, [])
+    fetchTenantData();
+  }, []);
 
+  const fetchRentInformation = async () => {
+    try {
+      const response = await getSpecificTenantRentInfo(
+        `${tenantData.data.rentInfo._id}`
+      );
+      const rentInfo = response;
+      setRentInfo(rentInfo);
+    } catch (error) {
+    }
+  };
+
+  const {
+    data: paymentData,
+    loading,
+    fetchData
+  } = useRentSummaryTenant();
+
+  useEffect(() => {
+    fetchData(id, rentInfo?.upDateddata?.startDate, rentInfo?.upDateddata?.dueDate, rentInfo?.upDateddata?.rent)
+  }, [rentInfo]);
+
+  const reFetchSummaryData = () => {
+    fetchData(id, rentInfo?.upDateddata?.startDate, rentInfo?.upDateddata?.dueDate, rentInfo?.upDateddata?.rent)
+  }
+
+  useEffect(() => {
+    fetchRentInformation();
+  }, [tenantData?.data]);
 
   return (
     <div className="max-w-full">
@@ -44,35 +72,51 @@ const TenantProfile = ({ id }) => {
         pauseOnHover
         theme="dark"
       />
-      {
-        loading ? <LoadingII /> :
-          <div className="w-full">
-            <div className="hidden md:block">
-              <div className="w-full">
-                <Image
-                  alt=""
-                  src={"/static/dashboard/enterprisemanager/tenants/Header.png"}
-                  height={204}
-                  width={1172}
-                  layout="responsive"
-                  style={{ height: 'auto', width: 'auto' }}
-
+      {loading || loadingTenant ? (
+        <LoadingII />
+      ) : (
+        <div className="w-full">
+          <div className="hidden md:block">
+            <div className="w-full">
+              <Image
+                alt=""
+                src={"/static/dashboard/enterprisemanager/tenants/Header.png"}
+                height={204}
+                width={1172}
+                layout="responsive"
+                style={{ height: "auto", width: "auto" }}
+              />
+            </div>
+            <div className="w-full flex gap-6 mt-[-20px] px-8">
+              <div className="w-[35%]">
+                <ProfileCard tenantData={tenantData} />
+              </div>
+              <div className="w-[65%]">
+                <Widget
+                  tenantId={id}
+                  rentInfo={rentInfo}
+                  tenantData={tenantData}
+                  fetchTenantData={fetchTenantData}
+                  fetchRentInformation={fetchRentInformation}
+                  reFetchSummaryData={reFetchSummaryData}
+                  paymentData={paymentData}
                 />
               </div>
-              <div className="w-full flex gap-6 mt-[-20px] px-8">
-                <div className="w-[35%]">
-                  <ProfileCard data={data} />
-                </div>
-                <div className="w-[65%]">
-                  <Widget id={id} data={data} rentInformation={rentInformation} />
-                </div>
-              </div>
-            </div>
-            <div className="md:hidden">
-              <MobileProfile id={id} data={data} rentInformation={rentInformation} />
             </div>
           </div>
-      }
+          <div className="md:hidden">
+            <MobileProfile
+              tenantId={id}
+              rentInfo={rentInfo}
+              tenantData={tenantData}
+              fetchTenantData={fetchTenantData}
+              fetchRentInformation={fetchRentInformation}
+              reFetchSummaryData={reFetchSummaryData}
+              paymentData={paymentData}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
