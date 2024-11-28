@@ -17,6 +17,10 @@ import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useExportEnterpriseSingleTenant from "@/store/enterpriseStore/exportEnterpriseSingleTenant";
 import PrintableAll from "./printableAll";
+import { isTrialExpired } from "@/utils/compareTrialTime";
+import ExpiredPlanModal from "../../components/expiredPlanModal";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import { useRouter } from "next/navigation";
 
 const Widget = ({
     tenantId,
@@ -26,16 +30,20 @@ const Widget = ({
     reFetchSummaryData
 }) => {
     const [active, setActive] = useState(true);
+    const router = useRouter()
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
     const [offlinepay, setOfflinepay] = useState(false);
     const [openModel, setOpenModel] = useState(false);
     const printRefAll = useRef();
     const [selectedOption, setSelectedOption] = useState(null);
+    const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
     const { data, loading, fetchData } = useExportEnterpriseSingleTenant();
+    const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
 
     useEffect(() => {
         fetchData(tenantId);
+        fetchProfileData()
     }, []);
 
     const options = [".CSV", ".XLSX", ".PDF"];
@@ -72,7 +80,11 @@ const Widget = ({
     };
 
     const openAddOfflinePayment = () => {
-        setOfflinepay(true);
+        if (isTrialExpired(user?.trialEndDate)) {
+            setOpenPurchasePlan(!openPurchasePlan)
+        } else {
+            setOfflinepay(true);
+        }
     };
 
     const successfullModal = () => {
@@ -150,16 +162,34 @@ const Widget = ({
         document.body.removeChild(link);
     };
 
+    const goToplan = () => {
+        router.push("/plans")
+      }
+
     return (
         <div>
+            {
+                openPurchasePlan && (
+                    <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                        <ExpiredPlanModal
+                            header={"Your Trial Has Ended"}
+                            body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+                            button={"Buy Plan"}
+                            buttonTwo={"close"}
+                            returnHome={goToplan}
+                            returnHomeTwo={() => setOpenPurchasePlan(false)}
+                        />
+                    </div>
+                )
+            }
             <div className="w-full h-auto">
                 <div className="mt-5 flex flex-col-reverse md:flex-row items-start md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
                                 className={`flex flex-col items-center py-2 px-4 justify-center hover:text-BlueHomz ${active
-                                        ? "border-b-[2px] border-BlueHomz text-BlueHomz"
-                                        : "text-BlackHomz "
+                                    ? "border-b-[2px] border-BlueHomz text-BlueHomz"
+                                    : "text-BlackHomz "
                                     }`}
                                 onClick={handlePageChange}
                                 justify-center
@@ -171,8 +201,8 @@ const Widget = ({
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
                                 className={`flex flex-col py-2 px-4 items-center justify-center hover:text-BlueHomz ${activeTwo
-                                        ? "border-b-[2px] border-BlueHomz text-BlueHomz"
-                                        : "text-BlackHomz "
+                                    ? "border-b-[2px] border-BlueHomz text-BlueHomz"
+                                    : "text-BlackHomz "
                                     }`}
                                 onClick={handlePageChangeTwo}
                             >
@@ -184,8 +214,8 @@ const Widget = ({
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
                                 className={`flex flex-col py-2 px-4 items-center justify-center hover:text-BlueHomz ${activeThree
-                                        ? "border-b-[2px] border-BlueHomz text-BlueHomz"
-                                        : "text-BlackHomz "
+                                    ? "border-b-[2px] border-BlueHomz text-BlueHomz"
+                                    : "text-BlackHomz "
                                     }`}
                                 onClick={handlePageChangeThree}
                             >

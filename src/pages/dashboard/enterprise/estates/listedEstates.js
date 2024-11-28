@@ -10,6 +10,10 @@ import Dropdown from "../components/dropDownFilter";
 import FilterMobile from "../components/filterMobile";
 import Add from "@/components/icons/add";
 import AddBigBlue from "@/components/icons/addBigBlue";
+import { useRouter } from "next/navigation";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import ExpiredPlanModal from "../components/expiredPlanModal";
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
 
 
@@ -39,12 +43,16 @@ const ListedEstates = ({
   clear,
   fetchData,
   dropdownRef,
-  openRegistrationForm,
   openMobileFilterModal,
   searchQuery,
   setSearchQuery,
   closeMobileFilterModal,
   filterModal,
+  openPurchasePlan, 
+  setOpenPurchasePlan,
+  user,
+  reachedLimit,
+  openRegistrationForm
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -82,9 +90,15 @@ const ListedEstates = ({
   };
 
   const toggleInvite = () => {
-    setInviteTenant(true);
+    if(reachedLimit?.reachedMaxTenants) {
+      setOpenPurchasePlan(!openPurchasePlan)
+    }
+    else if (isTrialExpired(user?.trialEndDate)) {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
+      setInviteTenant(true);
+    }
   };
-
 
 
 
@@ -273,9 +287,10 @@ const ListedEstates = ({
 
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} link_Url={"?tab=addProperty"} openRegistrationForm={openRegistrationForm} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} property={reachedLimit?.reachedMaxEstates} openRegistrationForm={openRegistrationForm} link_Url={"?tab=addProperty"} />
         </div>
       )}
+      
     </div>
   );
 };

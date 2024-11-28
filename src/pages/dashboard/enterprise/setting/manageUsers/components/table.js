@@ -6,8 +6,9 @@ import PropertyAccess from "./propertyAccess";
 import useBodyScroll from "@/utils/useBodyScroll";
 import AcAndRejModel from "../../../components/acAndRejModel";
 import ConfirmModal from "../../../components/confirmModal";
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
-const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, profileData }) => {
+const Table = ({ setOpenPurchasePlan, openPurchasePlan, estateData, openRevoke, setOpenRevoke, fetchData, roleData, profileData }) => {
   const [selectedRoles, setSelectedRoles] = useState(Array(10)?.fill(null)); // Array to store selected values for each dropdown
 
   const handleRoleSelect = (index, option) => {
@@ -63,8 +64,12 @@ const Table = ({ estateData, openRevoke, setOpenRevoke, fetchData, roleData, pro
   };
 
   const handleToggleMenu = (id) => {
-    setPopUpMenuTwo(!popUpMenuTwo);
-    setSelectedDataId(id);
+    if (isTrialExpired(profileData?.trialEndDate)) {
+      setOpenPurchasePlan(!openPurchasePlan)
+    } else {
+      setPopUpMenuTwo(!popUpMenuTwo);
+      setSelectedDataId(id);
+    }
   };
 
   const closeMenu = () => {
