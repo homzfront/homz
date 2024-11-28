@@ -10,7 +10,7 @@ import api from "@/utils/api";
 import estateStore from "@/store/enterpriseStore/estates";
 import useTabForAddProperty from "@/store/document/useTabForAddProperty";
 
-const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm }) => {
+const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property }) => {
   const { setTab } = useTabForAddProperty()
   const [dropdowns, setDropdowns] = useState({
     estateOptions: false,
@@ -197,7 +197,7 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm }) => {
                   setInviteTenant(false);
                   setTab("addProperty")
                 }}
-                className="text-BlueHomz text-[12px] md:text-[14px]  font-[700]">
+                className={`${property ? "hidden" : ""} text-BlueHomz text-[12px] md:text-[14px]  font-[700]`}>
                 Add New Property
               </Link>
             </div>

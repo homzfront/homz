@@ -38,6 +38,7 @@ import WordAgreement from "./components/wordAgreement";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import { useRouter } from "next/navigation";
 import ExpiredPlanModal from "../components/expiredPlanModal";
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
 const DocumentGeneration = () => {
   const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
@@ -438,7 +439,7 @@ const DocumentGeneration = () => {
               <div className="w-[30%] max-w-[280px]">
                 <button
                   onClick={() => {
-                    if (user?.trialEndDate && user?.PlanStatus !== "paid") {
+                    if (isTrialExpired(user?.trialEndDate)) {
                       setOpenPurchasePlan(!openPurchasePlan)
                     } else {
                       setDocumentCreation(!documentCreation)

@@ -245,6 +245,16 @@ export const enterpriseRentPayemntInfo = async () => {
   }
 };
 
+
+export const enterprisePlans = async () => {
+  try {
+    const response = await api.get(`/enterprise/plans`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const exportEnterpriseRentPayment = async () => {
   try {
     const response = await api.get(`/rentPayment/enterprise/export`);

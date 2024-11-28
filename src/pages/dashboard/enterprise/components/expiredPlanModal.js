@@ -37,7 +37,7 @@ const ExpiredPlanModal = ({
                             onClick={
                                 returnHomeTwo
                             }
-                            className="mt-4 h-[48px] rounded-md w-full hover:border hover:border-BlueHomz text-BlueHomz text-[16px] font-[500]"
+                            className="mt-2 h-[48px] rounded-md w-full hover:border hover:border-BlueHomz text-BlueHomz text-[16px] font-[500]"
                         >
                             {buttonTwo}
                         </button>

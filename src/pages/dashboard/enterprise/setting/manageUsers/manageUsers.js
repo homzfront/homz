@@ -22,6 +22,9 @@ import Popup from "@/pages/tenantManagementPlan/popUp";
 import useTabForAddProperty from "@/store/document/useTabForAddProperty";
 import { useRouter } from "next/navigation";
 import ExpiredPlanModal from "../../components/expiredPlanModal";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
 const ManageUsers = () => {
   const { setTab } = useTabForAddProperty();
@@ -31,6 +34,7 @@ const ManageUsers = () => {
   const [openModal, setOpenModal] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
   // const [selectedEstate, setSelectedEstate] = useState(null);
+  const [reachedLimit, setReachedLimit] = useState(null)
   const [showPopup, setShowPopup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectOp, setSelectedOp] = useState([]);
@@ -38,18 +42,27 @@ const ManageUsers = () => {
   const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const router = useRouter();
   const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
-
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } = useEnterprisePlans();
   // console.log(slog); 
 
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
     fetchProfile();
+    fetchEnterprisePlans()
   }, []);
+
+  useEffect(() => {
+    const values = checkPlanLimits(enterprisePlans, profileData?.planName, data?.length, profileData?.propertyOwners?.length, profileData?.tenants?.length)
+    setReachedLimit(values)
+  }, [enterprisePlans, profileData, data])
 
   useBodyScroll([openModal, loadingII, showPopup])
   const handleDropdownToggle = () => {
-    if (profileData?.trialEndDate && profileData?.PlanStatus !== "paid") {
+    if (reachedLimit?.reachedMaxUsers) {
+      setOpenPurchasePlan(!openPurchasePlan)
+    }
+    else if (isTrialExpired(profileData?.trialEndDate)) {
       setOpenPurchasePlan(!openPurchasePlan)
     } else {
       setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -191,16 +204,30 @@ const ManageUsers = () => {
 
   return (
     <div>
-        {
-        openPurchasePlan && (
+      {
+        reachedLimit?.reachedMaxUsers && openPurchasePlan && (
           <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
             <ExpiredPlanModal
-            header={"Your Trial Has Ended"}
-            body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-            button={"Buy Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={()=>setOpenPurchasePlan(false)}
+              header={"Landlord Limit Exceeded"}
+              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+              button={"Upgrade Plan"}
+              buttonTwo={"close"}
+              returnHome={goToplan}
+              returnHomeTwo={() => setOpenPurchasePlan(false)}
+            />
+          </div>
+        )
+      }
+      {
+        openPurchasePlan  && isTrialExpired(profileData?.trialEndDate)&& (
+          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <ExpiredPlanModal
+              header={"Your Trial Has Ended"}
+              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+              button={"Buy Plan"}
+              buttonTwo={"close"}
+              returnHome={goToplan}
+              returnHomeTwo={() => setOpenPurchasePlan(false)}
             />
           </div>
         )
@@ -277,7 +304,7 @@ const ManageUsers = () => {
                 Invite
               </button>
             </div>
-            <div className="w-full md:w-auto mt-4 flex md:gap-1">
+            <div className={`w-full md:w-auto mt-4 flex md:gap-1 ${reachedLimit?.reachedMaxEstates ? "hidden" : ""}`}>
               <p className="w-full md:w-auto text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?
               </p>
@@ -329,7 +356,7 @@ const ManageUsers = () => {
           </div>
         )} */}
         <div className="mt-8">
-          <TableUser estateData={data} profileData={profileData} openPurchasePlan={openPurchasePlan} setOpenPurchasePlan={setOpenPurchasePlan}/>
+          <TableUser estateData={data} profileData={profileData} openPurchasePlan={openPurchasePlan} setOpenPurchasePlan={setOpenPurchasePlan} />
         </div>
       </div>
       {/* <Invites /> */}
