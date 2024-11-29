@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Card = ({data}) => {
+const Card = ({data, openAddProperty}) => {
 
   return (
     <div className="border w-full rounded-[12px] p-6 md:w-[30%] flex flex-col gap-8">
@@ -36,8 +36,8 @@ const Card = ({data}) => {
             {data?.totalEstates ? `${data?.totalEstates}` : "0"}
           </h1>
         </div>
-        <div>
-          <Link href={"/dashboard/enterprise-property/estates?tab=addProperty"}>
+        <div className="cursor-pointer" onClick={openAddProperty}> 
+          <div>
             <Image
               alt=""
               height={40}
@@ -46,7 +46,7 @@ const Card = ({data}) => {
                 "/static/dashboard/enterprisemanager/dashboard/add-square-blue.png"
               }
             />
-          </Link>
+          </div>
           <h3 className="text-[11px] font-[400] text-BlackHomz">
             Add New Property
           </h3>

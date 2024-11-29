@@ -25,6 +25,7 @@ const Estate = () => {
   const router = useRouter();
   const estates = data;
   const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
+  const [openPurchasePlanTenant, setOpenPurchasePlanTenant] = useState(false);
   const [selectedDataId, setSelectedDataId] = useState(null);
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -156,6 +157,8 @@ const Estate = () => {
           user={user}
           reachedLimit={reachedLimit}
           openRegistrationForm={openRegistrationForm}
+          openPurchasePlanTenant={openPurchasePlanTenant}
+          setOpenPurchasePlanTenant={setOpenPurchasePlanTenant}
         />
       ) : registrationForm ? (
         <EstateForm returnToStartRegistration={returnToStartRegistration} fetchData={fetchData} />
@@ -205,30 +208,31 @@ const Estate = () => {
         </div>
       )}
       {
-        openPurchasePlan && isTrialExpired(user?.trialEndDate) ? (
+        openPurchasePlan && isTrialExpired(user?.trialEndDate) &&
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      }
+      {
+        openPurchasePlanTenant && (reachedLimit?.reachedMaxTenants && (
           <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-        <ExpiredPlanModal
-              header={"Your Trial Has Ended"}
+            <ExpiredPlanModal
+              header={"Tenant Limit Reached"}
               body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-              button={"Buy Plan"}
+              button={"Upgrade Plan"}
               buttonTwo={"close"}
               returnHome={goToplan}
-              returnHomeTwo={() => setOpenPurchasePlan(false)}
+              returnHomeTwo={() => setOpenPurchasePlanTenant(false)}
             />
           </div>
-        ) :
-          openPurchasePlan && (reachedLimit?.reachedMaxTenants && (
-            <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-              <ExpiredPlanModal
-                header={"Tenant Limit Reached"}
-                body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-                button={"Upgrade Plan"}
-                buttonTwo={"close"}
-                returnHome={goToplan}
-                returnHomeTwo={() => setOpenPurchasePlan(false)}
-              />
-            </div>
-          ))
+        ))
       }
       {
         openPurchasePlan &&
