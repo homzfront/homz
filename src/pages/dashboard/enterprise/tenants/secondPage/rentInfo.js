@@ -19,6 +19,8 @@ import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import DatePicker from "react-datepicker";
+import DateIcon from "@/components/icons/date";
 
 
 
@@ -347,14 +349,27 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
             span={"*"}
             readOnly
           />
-          <Input
-            label={"Start Date"}
-            type={"date"}
-            value={startDate}
-            onChange={handleStartDateChange}
-            placeholder={"4th January, 2023"}
-            span={"*"}
-          />
+          <div className="flex flex-col gap-3">
+            <label className="text-[14px] font-[500]">
+              Start Date <span className="text-error">*</span>
+            </label>
+            <div className="w-full rounded-md border">
+              <div className="relative w-full">
+                <DatePicker
+                  selected={startDate} // Bind to formData
+                  onChange={(date) =>
+                    setStartDate(date)
+                  } // Update using handleInputChange
+                  dateFormat="d MMMM, yyyy" // Display format
+                  placeholderText="Select Date"
+                  className={`w-[100%] h-[41px] px-4 py-2 `}
+                />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <DateIcon />
+              </div>
+              </div>
+            </div>
+          </div>
           <Input
             label={"Apartment Number"}
             value={apartmentNumber}
@@ -366,14 +381,24 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
             placeholder={"Apartment Number"}
             span={"*"}
           />
-          <Input
-            label={"Due Date"}
-            value={dueDate}
-            type={"date"}
-            placeholder={"4th January, 2024"}
-            span={"*"}
-            disabled={true}
-          />
+          <div className="flex flex-col gap-3">
+            <label className="text-[14px] font-[500]">
+              Due Date <span className="text-error">*</span>
+            </label>
+            <div className="pointer-events-none relative rounded-md border w-full">
+              <div className="w-full">
+                <DatePicker
+                  selected={dueDate}
+                  dateFormat="d MMMM, yyyy" // Display format
+                  placeholderText="Select Date"
+                  className={`w-full h-[41px] px-4 py-2 `}
+                />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <DateIcon />
+              </div>
+              </div>
+            </div>
+          </div>
           <InputTwo
             label={"Rent Amount"}
             value={rent}

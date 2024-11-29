@@ -39,6 +39,8 @@ import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterprise
 import { useRouter } from "next/navigation";
 import ExpiredPlanModal from "../components/expiredPlanModal";
 import { isTrialExpired } from "@/utils/compareTrialTime";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
 
 const DocumentGeneration = () => {
   const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
@@ -69,6 +71,9 @@ const DocumentGeneration = () => {
   const [dataState, setDataState] = useState([]);
   const [pdfData, setPdfData] = useState(null);
   const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false));
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+    useEnterprisePlans();
+  const [reachedLimit, setReachedLimit] = useState(null);
 
   const {
     page,
@@ -101,6 +106,18 @@ const DocumentGeneration = () => {
     // Manually trigger data fetch
     useGetAllDocument.getState().fetchData();
   }, [page, search]);
+
+  useEffect(() => {
+    const values = checkPlanLimits(
+      enterprisePlans,
+      user?.planName,
+      user?.estates?.length,
+      user?.propertyOwners?.length,
+      user?.tenants?.length,
+      user?.IsExpired
+    );
+    setReachedLimit(values);
+  }, [enterprisePlans, user]);
 
   const handleNext = () => {
     if (page < totalPages) {
@@ -313,6 +330,7 @@ const DocumentGeneration = () => {
 
   useEffect(() => {
     fetchProfileData()
+    fetchEnterprisePlans()
   }, []);
 
   const goToplan = () => {
@@ -335,7 +353,7 @@ const DocumentGeneration = () => {
         </CustomizedModal>
       }
       {
-        openPurchasePlan && (
+        openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
           <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
             <ExpiredPlanModal
               header={"Your Trial Has Ended"}
@@ -348,6 +366,18 @@ const DocumentGeneration = () => {
           </div>
         )
       }
+      {openPurchasePlan && reachedLimit?.expiredPlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
       {
         showPreview ?
           <div className="mx-4 px-4 py-4 my-2 bg-inputBg m-auto">
@@ -440,6 +470,8 @@ const DocumentGeneration = () => {
                 <button
                   onClick={() => {
                     if (isTrialExpired(user?.trialEndDate)) {
+                      setOpenPurchasePlan(!openPurchasePlan)
+                    } else if (reachedLimit?.expiredPlan) {
                       setOpenPurchasePlan(!openPurchasePlan)
                     } else {
                       setDocumentCreation(!documentCreation)
