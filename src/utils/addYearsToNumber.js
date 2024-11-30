@@ -3,7 +3,7 @@ function addYearsToValues(integers) {
       return "_______"; // Render the actual name if it exists
     } else {
       const plural = integers !== 1 ? "s" : ""; // Add 's' for values other than 1
-      return `${integers} ${plural}`;
+      return `${integers} month${plural}`;
     }
   }
 
