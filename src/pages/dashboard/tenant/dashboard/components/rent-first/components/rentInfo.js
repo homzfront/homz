@@ -114,10 +114,10 @@ const RentInfo = ({ data = null }) => {
         ) : (
           <div>
             <div className="hidden sm:flex gap-4 mt-8">
-              <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
+              <div className="min-h-[68px] px-2 py-3 min-w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
                 <p className="text-[11px] font-[400] text-white mb-2">Amount</p>
                 <p className={`text-[15px] font-[500] text-white`}>
-                  {addCommasToNumber(data?.totalRent)}
+                  {addCommasToNumber(data?.rent)}
                 </p>
               </div>
               <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
