@@ -35,15 +35,20 @@ const Tenants = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isMasterChecked, setIsMasterChecked] = useState(false);
   const printableRef = useRef();
-  const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
+  const {
+    data: user,
+    fetchData: fetchProfileData,
+    loadingProfile,
+  } = useProfileEnterpriseMe();
   const router = useRouter();
-  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } = useEnterprisePlans();
-  const [reachedLimit, setReachedLimit] = useState(null)
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+    useEnterprisePlans();
+  const [reachedLimit, setReachedLimit] = useState(null);
   const clear = () => {
     setSelectedProperty(null);
     setSelectedStatus(null);
-    setSelectedDate(null)
-    setSearchQuery(null)
+    setSelectedDate(null);
+    setSearchQuery(null);
   };
 
   // useEffect to handle scrolling
@@ -53,41 +58,48 @@ const Tenants = () => {
 
   useEffect(() => {
     fetchData(); // Fetch data on component mount
-    fetchProfileData()
+    fetchProfileData();
     fetchEnterprisePlans();
   }, []);
 
   useEffect(() => {
-    const currentEstates = 0
-    const values = checkPlanLimits(enterprisePlans, user?.planName, user?.estates?.length, user?.propertyOwners?.length, data?.length)
-    setReachedLimit(values)
-  }, [enterprisePlans, user, data])
+    const values = checkPlanLimits(
+      enterprisePlans,
+      user?.planName,
+      user?.estates?.length,
+      user?.propertyOwners?.length,
+      data?.length,
+      user?.IsExpired
+    );
+    setReachedLimit(values);
+  }, [enterprisePlans, user, data]);
 
-  const tenantData = data
+  const tenantData = data;
   const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
 
-
   const options2 = ["Pending", "Paid", "Over due"];
-  const filteredData = tenantData?.filter(
-    (data) => {
-      const matchesSearchQuery = !searchQuery ||
-        data?.fullName.toLowerCase().includes(searchQuery.toLowerCase());
-      const selectedDateTimestamp = Date.parse(selectedDate);
-      const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
-      return (
-        (!selectedProperty || data?.estateId.name === selectedProperty) &&
-        (!selectedStatus || data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
-        (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) && matchesSearchQuery
-      );
-    });
+  const filteredData = tenantData?.filter((data) => {
+    const matchesSearchQuery =
+      !searchQuery ||
+      data?.fullName.toLowerCase().includes(searchQuery.toLowerCase());
+    const selectedDateTimestamp = Date.parse(selectedDate);
+    const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
+    return (
+      (!selectedProperty || data?.estateId.name === selectedProperty) &&
+      (!selectedStatus ||
+        data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
+      (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) &&
+      matchesSearchQuery
+    );
+  });
 
   const openMobileFilterModal = () => {
-    setFilterModal(!filterModal)
-  }
+    setFilterModal(!filterModal);
+  };
 
   const closeMobileFilterModal = () => {
-    setFilterModal(false)
-  }
+    setFilterModal(false);
+  };
 
   const handlePrint = useReactToPrint({
     content: () => printableRef.current,
@@ -97,24 +109,23 @@ const Tenants = () => {
 
   const toggleInvite = () => {
     if (isTrialExpired(user?.trialEndDate)) {
-      setOpenPurchasePlan(!openPurchasePlan)
-    }
-    else if (reachedLimit?.reachedMaxTenants) {
-      setOpenPurchasePlan(!openPurchasePlan)
-    }
-    else {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.reachedMaxTenants) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.expiredPlan) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else {
       setInviteTenant(true);
     }
   };
 
   const goToplan = () => {
-    router.push("/plans")
-  }
-
+    router.push("/plans");
+  };
 
   return (
     <div className=" w-full p-8 mb-8">
-      {filterModal &&
+      {filterModal && (
         <div>
           <FilterMobile
             reset={clear}
@@ -126,40 +137,56 @@ const Tenants = () => {
             defaultName={"Status"}
           />
         </div>
-      }
+      )}
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} property={reachedLimit?.reachedMaxEstates} setInviteTenant={setInviteTenant} />
+          <Modal
+            dropdownRef={dropdownRef}
+            property={reachedLimit?.reachedMaxEstates}
+            setInviteTenant={setInviteTenant}
+          />
         </div>
       )}
-      {
-        reachedLimit?.reachedMaxTenants && openPurchasePlan && (
-          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-            <ExpiredPlanModal
-              header={"Plan Tenant Limit Reached"}
-              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-              button={"Upgrade Plan"}
-              buttonTwo={"close"}
-              returnHome={goToplan}
-              returnHomeTwo={() => setOpenPurchasePlan(false)}
-            />
-          </div>
-        )
-      }
-      {
-        openPurchasePlan && isTrialExpired(user?.trialEndDate) && (
-          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-            <ExpiredPlanModal
-              header={"Your Trial Has Ended"}
-              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-              button={"Buy Plan"}
-              buttonTwo={"close"}
-              returnHome={goToplan}
-              returnHomeTwo={() => setOpenPurchasePlan(false)}
-            />
-          </div>
-        )
-      }
+      {reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Tenant Limit Reached"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.expiredPlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
       {loading ? (
         <LoadingII />
       ) : (
@@ -222,10 +249,7 @@ const Tenants = () => {
                   <div className="md:hidden" onClick={toggleInvite}>
                     <Add />
                   </div>
-                  <button
-                    className="hidden md:block"
-                    onClick={toggleInvite}
-                  >
+                  <button className="hidden md:block" onClick={toggleInvite}>
                     <AddBigBlue />
                   </button>
                 </div>
@@ -289,7 +313,9 @@ const Tenants = () => {
                       placeholder="Search by name"
                     />
                     <Image
-                      src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+                      src={
+                        "/static/dashboard/enterprisemanager/header/search-normal.png"
+                      }
                       alt=""
                       className="absolute top-3 left-3"
                       height={16}
@@ -297,9 +323,7 @@ const Tenants = () => {
                     />
                   </div>
                   <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
-                    <button
-                      onClick={openMobileFilterModal}
-                    >
+                    <button onClick={openMobileFilterModal}>
                       <Image
                         src="/static/images/filter.svg"
                         alt=""
@@ -314,7 +338,7 @@ const Tenants = () => {
                     onClick={handlePrint}
                     className="border border-BlueHomz w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] text-BlueHomz  hover:bg-whiteblue rounded cursor-pointer"
                   >
-                    <Document className='#006AFF' />
+                    <Document className="#006AFF" />
                     Download Page
                   </button>
                 </div>

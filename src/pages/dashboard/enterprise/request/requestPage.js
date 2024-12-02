@@ -10,6 +10,12 @@ import useRequestEnterprise from "@/store/enterpriseStore/useRequestEnterprise";
 import { Result } from "postcss";
 import Loading from "@/components/mainmenu/loading";
 import useClickOutside from "@/utils/clickOutside";
+import ExpiredPlanModal from "../components/expiredPlanModal";
+import { isTrialExpired } from "@/utils/compareTrialTime";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import { useRouter } from "next/navigation";
 
 const RequestPage = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -21,7 +27,9 @@ const RequestPage = () => {
   const [loadingII, setLoadingII] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
-
+  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
+  const [reachedLimit, setReachedLimit] = useState(null);
+  const router = useRouter();
   const clear = () => {
     setSelectedProperty(null);
   };
@@ -29,10 +37,31 @@ const RequestPage = () => {
   useBodyScroll([inviteTenant, popUpMenu, popUpMenuTwo, inviteTenant]);
 
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+    useEnterprisePlans();
+  const {
+    data: user,
+    fetchData: fetchProfileData,
+    loadingProfile,
+  } = useProfileEnterpriseMe();
 
   useEffect(() => {
     fetchData();
+    fetchEnterprisePlans();
+    fetchProfileData()
   }, []);
+
+  useEffect(() => {
+    const values = checkPlanLimits(
+      enterprisePlans,
+      user?.planName,
+      user?.estates?.length,
+      user?.propertyOwners?.length,
+      user?.tenants?.length,
+      user?.IsExpired
+    );
+    setReachedLimit(values);
+  }, [enterprisePlans, user]);
 
   const data = request;
 
@@ -44,7 +73,15 @@ const RequestPage = () => {
   );
 
   const toggleInvite = () => {
-    setInviteTenant(true);
+    if (isTrialExpired(user?.trialEndDate)) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.reachedMaxTenants) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.expiredPlan) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else {
+      setInviteTenant(true);
+    }
   };
 
   const returnToPage = async () => {
@@ -93,6 +130,10 @@ const RequestPage = () => {
   const returnHomeTwo = () => {
     setPopUpMenu(false);
     setPopUpMenuTwo(false);
+  };
+
+  const goToplan = () => {
+    router.push("/plans");
   };
 
   return (
@@ -167,6 +208,46 @@ const RequestPage = () => {
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
+        </div>
+      )}
+      {reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Tenant Limit Reached"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.expiredPlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
         </div>
       )}
     </div>

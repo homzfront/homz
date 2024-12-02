@@ -10,7 +10,10 @@ import Link from "next/link";
 import useEstateStore from "@/store/enterpriseStore/estates";
 import estateStore from "@/store/enterpriseStore/estates";
 import { toast } from "react-toastify";
-import { enterpriseplanRoleInvite, enterpriseplanRoleInviteHomz } from "@/api/enterpriseManagerService";
+import {
+  enterpriseplanRoleInvite,
+  enterpriseplanRoleInviteHomz,
+} from "@/api/enterpriseManagerService";
 import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
 import TableUser from "./components/tableUser";
@@ -29,50 +32,63 @@ import { isTrialExpired } from "@/utils/compareTrialTime";
 const ManageUsers = () => {
   const { setTab } = useTabForAddProperty();
   const { data, loading, fetchData } = estateStore();
-  const [slog, setSlog] = useState(null)
+  const [slog, setSlog] = useState(null);
   const [email, setEmail] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
   // const [selectedEstate, setSelectedEstate] = useState(null);
-  const [reachedLimit, setReachedLimit] = useState(null)
+  const [reachedLimit, setReachedLimit] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectOp, setSelectedOp] = useState([]);
   const [dataEmail, setDataEmail] = useState([]);
   const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const router = useRouter();
-  const { data: profileData, loading: profileLoading, fetchData: fetchProfile } = useProfileEnterpriseMe();
-  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } = useEnterprisePlans();
-  // console.log(slog); 
+  const {
+    data: profileData,
+    loading: profileLoading,
+    fetchData: fetchProfile,
+  } = useProfileEnterpriseMe();
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+    useEnterprisePlans();
+  // console.log(slog);
 
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
     fetchProfile();
-    fetchEnterprisePlans()
+    fetchEnterprisePlans();
   }, []);
 
   useEffect(() => {
-    const values = checkPlanLimits(enterprisePlans, profileData?.planName, data?.length, profileData?.propertyOwners?.length, profileData?.tenants?.length)
-    setReachedLimit(values)
-  }, [enterprisePlans, profileData, data])
+    const values = checkPlanLimits(
+      enterprisePlans,
+      profileData?.planName,
+      data?.length,
+      profileData?.propertyOwners?.length,
+      profileData?.tenants?.length,
+      profileData?.IsExpired
+    );
+    setReachedLimit(values);
+  }, [enterprisePlans, profileData, data]);
 
-  useBodyScroll([openModal, loadingII, showPopup])
+  useBodyScroll([openModal, loadingII, showPopup]);
   const handleDropdownToggle = () => {
     if (reachedLimit?.reachedMaxUsers) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (isTrialExpired(profileData?.trialEndDate)) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan)
     }
-    else if (isTrialExpired(profileData?.trialEndDate)) {
-      setOpenPurchasePlan(!openPurchasePlan)
-    } else {
+    else {
       setIsOpen((prevIsOpen) => !prevIsOpen);
     }
   };
 
   const goToplan = () => {
-    router.push("/plans")
-  }
-
+    router.push("/plans");
+  };
 
   // console.log(profileData);
   // const options = [
@@ -88,7 +104,6 @@ const ManageUsers = () => {
   // const handleToggle = () => {
   //   setIsOpen(!isOpen);
   // };
-
 
   // const [selectedRoleTwo, setSelectedRoleTwo] = useState(null);
   // const [pickedEstate, setPickedEstate] = useState([]);
@@ -121,15 +136,15 @@ const ManageUsers = () => {
     // setOpenModal(!openModal);
     // Do something with the collected data, e.g., send it to the server
 
-
     setLoadingII(true);
     if (profileData && profileData?.planName === "Enterprise Unlimited Homz") {
       try {
-        const { success, upDateddata, error } = await enterpriseplanRoleInviteHomz({
-          email,
-          estateName: slog?.name,
-          slug: slog?.slug
-        });
+        const { success, upDateddata, error } =
+          await enterpriseplanRoleInviteHomz({
+            email,
+            estateName: slog?.name,
+            slug: slog?.slug,
+          });
 
         if (success) {
           // console.log(upDateddata);
@@ -161,7 +176,7 @@ const ManageUsers = () => {
         const { success, upDateddata, error } = await enterpriseplanRoleInvite({
           email,
           estateName: slog?.name,
-          slug: slog?.slug
+          slug: slog?.slug,
         });
 
         if (success) {
@@ -190,7 +205,6 @@ const ManageUsers = () => {
         }
       }
     }
-
   };
 
   const returnHome = () => {
@@ -204,34 +218,46 @@ const ManageUsers = () => {
 
   return (
     <div>
-      {
-        reachedLimit?.reachedMaxUsers && openPurchasePlan && (
-          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-            <ExpiredPlanModal
-              header={"Landlord Limit Exceeded"}
-              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-              button={"Upgrade Plan"}
-              buttonTwo={"close"}
-              returnHome={goToplan}
-              returnHomeTwo={() => setOpenPurchasePlan(false)}
-            />
-          </div>
-        )
-      }
-      {
-        openPurchasePlan  && isTrialExpired(profileData?.trialEndDate)&& (
-          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-            <ExpiredPlanModal
-              header={"Your Trial Has Ended"}
-              body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
-              button={"Buy Plan"}
-              buttonTwo={"close"}
-              returnHome={goToplan}
-              returnHomeTwo={() => setOpenPurchasePlan(false)}
-            />
-          </div>
-        )
-      }
+      {reachedLimit?.reachedMaxUsers && openPurchasePlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Landlord Limit Exceeded"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(profileData?.trialEndDate) && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.expiredPlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
       {loadingII && <Loading />}
       <div className="border-t p-8 ">
         <div className="bg-inputBg rounded-[12px] p-6">
@@ -251,10 +277,7 @@ const ManageUsers = () => {
               />
             </div>
           </div>
-          <div
-            className={`mt-4  ${isOpen ? "block" : "hidden"
-              }`}
-          >
+          <div className={`mt-4  ${isOpen ? "block" : "hidden"}`}>
             <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-center md:px-5 pb-2 md:h-[95px] w-full">
               <div className="w-full md:w-[360px]">
                 <input
@@ -304,17 +327,20 @@ const ManageUsers = () => {
                 Invite
               </button>
             </div>
-            <div className={`w-full md:w-auto mt-4 flex md:gap-1 ${reachedLimit?.reachedMaxEstates ? "hidden" : ""}`}>
+            <div
+              className={`w-full md:w-auto mt-4 flex md:gap-1 ${reachedLimit?.reachedMaxEstates ? "hidden" : ""
+                }`}
+            >
               <p className="w-full md:w-auto text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?
               </p>
               <div
-                onClick={() => { setTab("addProperty") }}
+                onClick={() => {
+                  setTab("addProperty");
+                }}
                 className="cursor-pointer w-full md:w-auto text-[12px] md:text-[14px] font-[700] text-BlueHomz"
               >
-                <Link
-                  href={"/dashboard/enterprise-property/estates"}
-                >
+                <Link href={"/dashboard/enterprise-property/estates"}>
                   Add New Property
                 </Link>
               </div>
@@ -356,7 +382,12 @@ const ManageUsers = () => {
           </div>
         )} */}
         <div className="mt-8">
-          <TableUser estateData={data} profileData={profileData} openPurchasePlan={openPurchasePlan} setOpenPurchasePlan={setOpenPurchasePlan} />
+          <TableUser
+            estateData={data}
+            profileData={profileData}
+            openPurchasePlan={openPurchasePlan}
+            setOpenPurchasePlan={setOpenPurchasePlan}
+          />
         </div>
       </div>
       {/* <Invites /> */}
@@ -371,7 +402,9 @@ const ManageUsers = () => {
               height={48}
               width={48}
             />
-            <h1 className="text-BlackHomz font-[700] text-[20px]">Invite Sent Successfully</h1>
+            <h1 className="text-BlackHomz font-[700] text-[20px]">
+              Invite Sent Successfully
+            </h1>
             <p className="text-[16px] font-[400] text-GrayHomz text-center">{`Your invite link has successfully been sent to ${email}`}</p>
             <button
               onClick={returnHome}
