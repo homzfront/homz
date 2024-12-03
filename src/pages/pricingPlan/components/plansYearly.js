@@ -13,7 +13,7 @@ const PlansYearly = ({ profile }) => {
 
   const pricingPlans = [
     {
-      price: "N95,000",
+      price: "₦95,000",
       title: "Enterprise Starter",
       billing: "Billed Annually",
       features: [
@@ -34,7 +34,7 @@ const PlansYearly = ({ profile }) => {
       interval: "annually"
     },
     {
-      price: "N190,000",
+      price: "₦190,000",
       title: "Enterprise Plus",
       billing: "Billed Annually",
       features: [
@@ -55,7 +55,7 @@ const PlansYearly = ({ profile }) => {
       interval: "annually"
     },
     {
-      price: "N500,000",
+      price: "₦500,000",
       title: "Enterprise Premium",
       billing: "Billed Annually",
       features: [
