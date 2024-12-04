@@ -3,7 +3,8 @@ export function checkPlanLimits(
     planName,
     currentEstates,
     currentUsers, 
-    currentTenant
+    currentTenant,
+    expired
 ) {
     const resolvedPlanName = planName === "Enterprise Trial" ? "Enterprise Free" : planName;
 
@@ -22,6 +23,9 @@ export function checkPlanLimits(
     const reachedMaxEstates = currentEstates === maxEstatesLimit;
     const reachedMaxUsers = currentUsers === maxUsersLimit;
     const reachedMaxTenants = currentTenant === maxTenantLimit
+    const interval = plan?.interval
+    const enterprisePlanName = plan?.plan_name
+    const expiredPlan = expired
 
-    return { reachedMaxEstates, reachedMaxUsers, reachedMaxTenants };
+    return { reachedMaxEstates, reachedMaxUsers, reachedMaxTenants, interval, enterprisePlanName, expiredPlan };
 }

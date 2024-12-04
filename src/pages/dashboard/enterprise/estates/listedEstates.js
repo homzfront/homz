@@ -48,11 +48,13 @@ const ListedEstates = ({
   setSearchQuery,
   closeMobileFilterModal,
   filterModal,
-  openPurchasePlan, 
-  setOpenPurchasePlan,
   user,
   reachedLimit,
-  openRegistrationForm
+  openRegistrationForm,
+  openPurchasePlanTenant, 
+  setOpenPurchasePlanTenant,
+  setOpenPurchasePlan,
+  openPurchasePlan
 }) => {
   // Ensure that Data is defined and not null
   if (!Data) {
@@ -91,7 +93,7 @@ const ListedEstates = ({
 
   const toggleInvite = () => {
     if(reachedLimit?.reachedMaxTenants) {
-      setOpenPurchasePlan(!openPurchasePlan)
+      setOpenPurchasePlanTenant(!openPurchasePlanTenant)
     }
     else if (isTrialExpired(user?.trialEndDate)) {
       setOpenPurchasePlan(!openPurchasePlan)
