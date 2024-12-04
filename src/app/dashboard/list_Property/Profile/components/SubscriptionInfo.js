@@ -74,11 +74,11 @@ const SubscriptionInfo = () => {
       <div className="flex items-center justify-between flex-wrap h-fit py-[16px] px-[20px] sm:gap-[32px] gap-[20px] bg-[#F6F6F6] rounded-[8px]">
         <div className="space-y-1">
           <p className="">{`You’re currently on the ${
-            currentPlanData?.plan?.name
+            currentPlanData?.plan?.name && !currentPlanData?.IsExpired && currentPlanData?.status !="cancelled"
               ? currentPlanData?.plan?.name
               : "Free Plan"
           }`}</p>
-          {currentPlanData?.subscription_code && (
+          {currentPlanData?.subscription_code && !currentPlanData?.IsExpired && currentPlanData?.status !="cancelled" (
             <p className="flex gap-2 flex-wrap text-[#4E4E4E]">
               <span className="">{`${currentPlanData?.plan?.interval} subscription`}</span>
               <span className="sm:inline-block hidden">|</span>
@@ -101,7 +101,8 @@ const SubscriptionInfo = () => {
           >
             Upgrade Plan
           </Link>
-          {currentPlanData?.subscription_code && (
+          {/* {currentPlanData?.subscription_code && !currentPlanData?.IsExpired && currentPlanData?.status !="cancelled" ( */}
+          {!currentPlanData?.IsExpired && currentPlanData?.status !="cancelled" (
             <button
               className="text-[#006AFF] bg-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-fit  justify-center border-[1px] border-[#006AFF]"
               onClick={() => setCancelPlan(true)}
