@@ -8,17 +8,39 @@ import { toast } from "react-toastify";
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+
 
 const Plans = ({ profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter();
 
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft -= 300; // Adjust scroll distance as needed
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft += 300; // Adjust scroll distance as needed
+    }
+  };
+
+  const handleCardClick = (index) => {
+    setLastClickedIndex(index);
+    // Perform other actions on click if needed
+  };
+
   const pricingPlans = [
     {
-      price: '₦5,500',
+      price: '5,500',
       title: 'Enterprise Basic',
-      billing: "Billed monthly",
+      billing: "Billed Monthly",
       features: [
         "Documents (receipts)",
         "Up to 10 Properties",
@@ -37,9 +59,9 @@ const Plans = ({ profile }) => {
       interval: "monthly"
     },
     {
-      price: "₦9,500",
+      price: "9,500",
       title: "Enterprise Starter",
-      billing: "Billed monthly",
+      billing: "Billed Monthly",
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
@@ -58,9 +80,9 @@ const Plans = ({ profile }) => {
       interval: "monthly"
     },
     {
-      price: "₦19,000",
+      price: "19,000",
       title: "Enterprise Plus",
-      billing: "Billed monthly",
+      billing: "Billed Monthly",
       features: [
         "Up to 30 properties",
         "Up to 5 users",
@@ -79,9 +101,9 @@ const Plans = ({ profile }) => {
       interval: "monthly"
     },
     {
-      price: "₦50,000",
+      price: "50,000",
       title: "Enterprise Premium",
-      billing: "Billed monthly",
+      billing: "Billed Monthly",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -102,7 +124,7 @@ const Plans = ({ profile }) => {
     {
       price: "Contact Sales",
       title: "Premium Plan",
-      billing: "Billed monthly",
+      billing: "Billed Monthly",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -132,7 +154,7 @@ const Plans = ({ profile }) => {
     setLoadingCard(planTitle);
     try {
       let response;
-      if (profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
+      if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
         profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
         response = await updateEnterPriseSub({
           planName: planTitle,
@@ -169,7 +191,7 @@ const Plans = ({ profile }) => {
     slidesToShow: 4, // Display 4 cards at a time
     slidesToScroll: 1, // Scroll one card at a time
     autoplay: true,
-    cssEase: "linear",
+    // cssEase: "linear",
     autoplaySpeed: 3000,
     arrows: true, // Show navigation buttons
     responsive: [
@@ -201,14 +223,30 @@ const Plans = ({ profile }) => {
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px] w-full">
       <div className="text-GrayHomz w-full">
-        <Slider {...settings}>
+        {/* <Slider {...settings}> */}
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={10}
+          slidesPerView={1}
+          autoplay={{
+            delay: 3000, // Delay in milliseconds
+            disableOnInteraction: false, // Keeps autoplay running even after interaction
+          }}
+          navigation
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 }
+          }}
+        >
           {pricingPlans.map((plan, index) => (
-            <div   key={index}>
+            <SwiperSlide key={index}>
               <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] md:w-[280px]  lg:w-[295px] h-[860px] border shadow-lg rounded-2xl"
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
               >
                 <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
-                  {plan.price}
+                <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
                 <h1 className="text-[20px] text-center font-[500]">{plan.title}</h1>
                 <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
@@ -233,10 +271,10 @@ const Plans = ({ profile }) => {
                     } 
                 ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
                 ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
-                ${profile?.planName === plan.title && profile?.interval === "monthly" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly"
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -274,9 +312,10 @@ const Plans = ({ profile }) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </Slider>
+          {/* </Slider> */}
+        </Swiper>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const Widget = ({ routeTo }) => {
   };
 
   return (
-    <div>
+    <div className="w-full max-w-[1440px]">
       <ToastContainer
         position="top-center"
         autoClose={2000}

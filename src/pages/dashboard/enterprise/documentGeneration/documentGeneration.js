@@ -187,7 +187,14 @@ const DocumentGeneration = () => {
   };
 
   useEffect(() => {
-    if (homePage) {
+    if (isTrialExpired(user?.trialEndDate)) {
+      setOpenPurchasePlan(!openPurchasePlan)
+      return;
+    } else if (reachedLimit?.expiredPlan) {
+      setOpenPurchasePlan(!openPurchasePlan)
+      return;
+    }
+    else if (homePage) {
       if (documentCreation === true || documentCreation === false) {
         setDocumentCreation(true);
         setShowPreview(false);

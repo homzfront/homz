@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const Plans = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
@@ -13,9 +17,30 @@ const Plans = ({ routeTo, profile }) => {
 
   const pricingPlans = [
     {
-      price: "N9,500",
+      price: '5,500',
+      title: 'Enterprise Basic',
+      billing: "Billed sonthly",
+      features: [
+        "Documents (receipts)",
+        "Up to 10 Properties",
+        "Up to 2 users",
+        "Accounts & reporting",
+        "Whitelabels",
+        "Maintenance management",
+        "Property information",
+        "Tenant Management",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
+      ],
+      status: false,
+      interval: "monthly"
+    },
+    {
+      price: "9,500",
       title: "Enterprise Starter",
-      billing: "Billed monthly",
+      billing: "Billed sonthly",
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
@@ -34,9 +59,9 @@ const Plans = ({ routeTo, profile }) => {
       interval: "monthly"
     },
     {
-      price: "N19,000",
+      price: "19,000",
       title: "Enterprise Plus",
-      billing: "Billed monthly",
+      billing: "Billed sonthly",
       features: [
         "Up to 30 properties",
         "Up to 5 users",
@@ -55,9 +80,9 @@ const Plans = ({ routeTo, profile }) => {
       interval: "monthly"
     },
     {
-      price: "N50,000",
+      price: "50,000",
       title: "Enterprise Premium",
-      billing: "Billed monthly",
+      billing: "Billed sonthly",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -78,7 +103,7 @@ const Plans = ({ routeTo, profile }) => {
     {
       price: "Contact Sales",
       title: "Premium Plan",
-      billing: "Billed monthly",
+      billing: "Billed sonthly",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -109,7 +134,7 @@ const Plans = ({ routeTo, profile }) => {
       setLoadingCard(planTitle);
       try {
         let response;
-        if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" ||
+        if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" || profile?.planName === "Enterprise Basic" ||
           profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
           response = await updateEnterPriseSub({
             planName: planTitle,
@@ -132,6 +157,7 @@ const Plans = ({ routeTo, profile }) => {
           }
         }
       } catch (error) {
+        console.log(error)
         toast.error(error.response?.data?.message || error.response?.data?.error);
       } finally {
         setLoading(false);
@@ -143,15 +169,31 @@ const Plans = ({ routeTo, profile }) => {
   }
 
   return (
-    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 text-GrayHomz">
-        {pricingPlans.map((plan, index) => (
-          <div
-            key={index}
-            className="flex flex-col justify-around p-6 text-[16px] font-[400] w-[265px] h-[860px] border shadow-lg rounded-2xl"
-          >
+    <div className="mt-[60px] h-[800px] w-full m-auto px-6 flex flex-col items-center gap-[60px]">
+       <div className="text-GrayHomz w-full">
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={10}
+          slidesPerView={1}
+          autoplay={{
+            delay: 3000, // Delay in milliseconds
+            disableOnInteraction: false, // Keeps autoplay running even after interaction
+          }}
+          navigation
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 }
+          }}
+        >
+          {pricingPlans.map((plan, index) => (
+            <SwiperSlide key={index}>
+              <div
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
+              >
             <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
-              {plan.price}
+              <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
             </h1>
             <h1 className="text-[20px] text-center font-[500]">{plan.title}</h1>
             <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
@@ -176,10 +218,10 @@ const Plans = ({ routeTo, profile }) => {
                 } 
                 ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
                 ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-                ${profile?.planName === plan.title && profile?.interval === "annually" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
             >
-              {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually"
+              {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
                 ? "Active"
                 : "Get Started"}
             </button>
@@ -187,6 +229,7 @@ const Plans = ({ routeTo, profile }) => {
               <div key={i} className="flex flex-row items-center gap-2">
                 <div
                   className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                     (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                     (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                     || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -203,6 +246,7 @@ const Plans = ({ routeTo, profile }) => {
                 </div>
                 <p
                   className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                    (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                     (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                     (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                     || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -214,10 +258,12 @@ const Plans = ({ routeTo, profile }) => {
                 </p>
               </div>
             ))}
-          </div>
+            </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
+  </div>
   );
 };
 
