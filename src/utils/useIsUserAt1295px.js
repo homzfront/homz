@@ -1,19 +1,25 @@
 import { useState, useEffect } from 'react';
 
 function useIsUserAt1295px() {
-  const [isAt1295px, setIsAt1295px] = useState(window.innerWidth >= 1295);
+  const [isAt1295px, setIsAt1295px] = useState(false); // Initial state for SSR.
 
   useEffect(() => {
-    const handleResize = () => {
+    if (typeof window !== 'undefined') {
+      // Update state based on initial window size.
       setIsAt1295px(window.innerWidth >= 1295);
-    };
 
-    window.addEventListener('resize', handleResize);
+      const handleResize = () => {
+        setIsAt1295px(window.innerWidth >= 1295);
+      };
 
-    // Clean up listener on unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+      // Add event listener for window resize.
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup event listener on unmount.
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
   }, []);
 
   return isAt1295px;
