@@ -15,7 +15,7 @@ const SubscriptionInfo = () => {
   // const [isLoading2, setLoader2] = useState(false);
   const [cancelPlan, setCancelPlan] = useState(false);
   const [planCancelledModal, setPlanCancelledModal] = useState(false);
-  // const [restartPlanModal, setRestartPlanModal] = useState(false);
+  const [restartPlanModal, setRestartPlanModal] = useState(true);
   const [currentPlanData, setCurrentPlanData] = useState();
   // const [isPending, startTransition] = useTransition();
 
@@ -64,7 +64,7 @@ const SubscriptionInfo = () => {
   // };
   const closeSuccessModal = () => {
     setPlanCancelledModal(false);
-    // setRestartPlanModal(false);
+    setRestartPlanModal(false);
   };
   return (
     <div className="space-y-2 leading-[21px] font-[500] text-[14px] pt-5 md:pt-0">
@@ -106,7 +106,7 @@ const SubscriptionInfo = () => {
           </Link>
   
           {!currentPlanData?.IsExpired &&
-            currentPlanData?.status === "active" && (
+            currentPlanData?.status === "active" && restartPlanModal (
               <button
                 className="text-[#006AFF] bg-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-fit justify-center border-[1px] border-[#006AFF]"
                 onClick={() => setCancelPlan(true)}
