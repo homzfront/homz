@@ -106,7 +106,7 @@ const SubscriptionInfo = () => {
           </Link>
   
           {!currentPlanData?.IsExpired &&
-            currentPlanData?.status === "active" && restartPlanModal (
+            currentPlanData?.status === "active" && restartPlanModal && (
               <button
                 className="text-[#006AFF] bg-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-fit justify-center border-[1px] border-[#006AFF]"
                 onClick={() => setCancelPlan(true)}
