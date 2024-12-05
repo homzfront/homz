@@ -9,11 +9,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 
 const PlansYearly = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
+  const isAt1295px = useIsUserAt1295px();
 
   const pricingPlans = [
     {
@@ -169,14 +171,14 @@ const PlansYearly = ({ routeTo, profile }) => {
 
   return (
     <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
-      <div className="text-GrayHomz w-full">
+      <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
           spaceBetween={10}
           slidesPerView={1}
           autoplay={{
-            delay: 3000, // Delay in milliseconds
-            disableOnInteraction: false, // Keeps autoplay running even after interaction
+            delay: 3000,
+            disableOnInteraction: false,
           }}
           navigation
           breakpoints={{
@@ -192,10 +194,10 @@ const PlansYearly = ({ routeTo, profile }) => {
                 className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
               >
                 <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
-                <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
+                  <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
                 <h1 className="text-[20px] text-center font-[500]">{plan.title}</h1>
-                <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
+                <p className="text-[14px] mt-[-10px] text-center font-[500] text-BlueHomz">
                   {plan.billing}
                 </p>
                 <Link href={"/contact-page"}
@@ -261,6 +263,84 @@ const PlansYearly = ({ routeTo, profile }) => {
             </SwiperSlide>
           ))}
         </Swiper>
+      </div>
+      <div className={`text-GrayHomz w-full ${isAt1295px ? "" : "hidden"}`}>
+        <div className="grid grid-cols-5">
+          {pricingPlans.map((plan, index) => (
+            <div key={index}>
+              <div
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[236px] h-[860px] border shadow-lg rounded-2xl"
+              >
+                <h1 className="text-[20px] text-center font-[700] text-BlackHomz">
+                  <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
+                </h1>
+                <h1 className="text-[17px] text-center font-[500]">{plan.title}</h1>
+                <p className="text-[12px] mt-[-10px] text-center font-[500] text-BlueHomz">
+                  {plan.billing}
+                </p>
+                <Link href={"/contact-page"}
+                  className={`h-[48px] rounded-lg text-[14px] w-full flex justify-center items-center ${plan.status === true
+                    ? "bg-BlueHomz hover:bg-blue-400 text-white"
+                    : " hidden"
+                    }
+              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+              `}
+                >
+                  Contact Sales
+                </Link>
+                <button
+                  onClick={() => { handleSubmit(plan.interval, plan.title) }}
+                  disabled={loading}
+                  className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
+                    ? " hidden"
+                    : ""
+                    } 
+              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+              ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
+              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+              `}
+                >
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                    ? "Active"
+                    : "Get Started"}
+                </button>
+                {plan.features.map((feature, i) => (
+                  <div key={i} className="text-[14px] flex flex-row items-center gap-2">
+                    <div
+                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                        ? "opacity-[20%]"
+                        : "bg-green-200"
+                        } flex justify-center border rounded-full`}
+                    >
+                      <Image
+                        height={10.5}
+                        width={12}
+                        alt="img"
+                        src={"/static/images/IconMark.png"}
+                      />
+                    </div>
+                    <p
+                      className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                        ? "text-GrayHomz5"
+                        : ""
+                        }`}
+                    >
+                      {feature}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

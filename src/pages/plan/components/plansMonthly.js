@@ -11,13 +11,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 
 const Plans = ({ data, setLoadProfile }) => {
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState();
   const router = useRouter()
   useBodyScroll([loading])
-
+  const isAt1295px = useIsUserAt1295px();
 
   const pricingPlans = [
     {
@@ -191,7 +192,7 @@ const Plans = ({ data, setLoadProfile }) => {
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
       {
         loading && <Loading />}
-      <div className="text-GrayHomz w-full">
+      <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
           spaceBetween={10}
@@ -217,7 +218,7 @@ const Plans = ({ data, setLoadProfile }) => {
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
                 <h1 className="text-[20px] text-center font-[500]">{plan.title}</h1>
-                <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
+                <p className="text-[14px] mt-[-10px] text-center font-[500] text-BlueHomz">
                   {plan.billing}
                 </p>
                 <Link href={"/contact-page"}
@@ -275,6 +276,76 @@ const Plans = ({ data, setLoadProfile }) => {
             </SwiperSlide>
           ))}
         </Swiper>
+      </div>
+      <div className={`text-GrayHomz w-full ${isAt1295px ? "" : "hidden"}`}>
+        <div className="grid grid-cols-5">
+          {pricingPlans.map((plan, index) => (
+            <div key={index}>
+              <div
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[236px] h-[860px] border shadow-lg rounded-2xl"
+              >
+                <h1 className="text-[20px] text-center font-[700] text-BlackHomz">
+                  <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
+                </h1>
+                <h1 className="text-[17px] text-center font-[500]">{plan.title}</h1>
+                <p className="text-[12px] mt-[-10px] text-center font-[500] text-BlueHomz">
+                  {plan.billing}
+                </p>
+                <Link href={"/contact-page"}
+                  className={`h-[48px] rounded-lg text-[14px] w-full flex justify-center items-center ${plan.status === true
+                    ? "bg-BlueHomz hover:bg-blue-400 text-white"
+                    : " hidden"
+                    }`}
+                >
+                  Contact Sales
+                </Link>
+                <button
+                  onClick={() => {
+                    handleSubmit(plan.interval, plan.title)
+                  }}
+                  className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
+                    ? " hidden"
+                    : "bg-BlueHomz hover:bg-blue-400 text-white "
+                    }`}
+                >
+                  Get Started
+                </button>
+                {plan.features.map((feature, i) => (
+                  <div key={i} className="flex text-[14px] flex-row items-center gap-2">
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                      || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                      ? "opacity-[20%]" // Apply a different color class here
+                      : "bg-green-200"
+                      } flex justify-center border rounded-full`}
+                    >
+                      <Image
+                        height={10.5}
+                        width={12}
+                        alt="img"
+                        src={"/static/images/IconMark.png"}
+                      />
+                    </div>
+                    <p
+                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                        ? "text-GrayHomz5"
+                        : ""
+                        }`}
+                    >
+                      {feature}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
