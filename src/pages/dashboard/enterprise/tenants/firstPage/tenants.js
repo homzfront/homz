@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { isTrialExpired } from "@/utils/compareTrialTime";
 import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import Widget from "../components/widget";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -343,7 +344,7 @@ const Tenants = () => {
                   </button>
                 </div>
               </div>
-              <TenantsTwo
+              <Widget
                 Data={filteredData}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
