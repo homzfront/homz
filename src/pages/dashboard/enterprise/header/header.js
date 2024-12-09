@@ -130,7 +130,7 @@ const Header = () => {
           <div onClick={handleToggleMenuTwo} className={`cursor-pointer relative ${user?.trialEndDate && user?.PlanStatus !== "paid" ? "" : "hidden"}`}>
             <Notification />
             <p
-              className={`absolute top-0 right-[2px] ${user?.trialEndDate ? "bg-error" : "bg-transparent"
+              className={`absolute top-0 right-[2px] ${user?.trialEndDate && (user?.PlanStatus !== "active" || user?.PlanStatus !== "paid") && (user?.planName === "Enterprise Free" || user?.planName === "Enterprise Trial") ? "bg-error" : "bg-transparent"
                 } h-2 w-2 rounded-full`}
             ></p>
           </div>
