@@ -30,6 +30,7 @@ const Payment = ({ data: userProfile }) => {
   const [isLoadingCancelSub, setIsLoadingCancelSub] = useState(false);
   const [openCompleteModalForCancelSub, setOpenCompleteModalForCancelSub] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
+  const [hideCancel, setHideCancel] = useState(false);
 
   useBodyScroll([verified, verifyDelete, removeCard]);
 
@@ -115,6 +116,7 @@ const Payment = ({ data: userProfile }) => {
         );
         if (success) {
           setOpenCompleteModalForCancelSub(true)
+          setHideCancel(true)
           fetchData()
         }
         if (error) {
@@ -190,7 +192,7 @@ const Payment = ({ data: userProfile }) => {
           </Link>
           <button
             onClick={() => SetOpenCancelSub(!openCancelSub)}
-            className={`font-[500] text-[12px] md:text-[14px] px-4 h-[37px] flex justify-center items-center rounded-md text-BlueHomz border border-BlueHomz  ${userProfile?.planName === "Enterprise Free" ? "hidden" : ""}`}
+            className={`${(userProfile?.cancellationRequested === true || hideCancel) ? "hidden" : ""} font-[500] text-[12px] md:text-[14px] px-4 h-[37px] flex justify-center items-center rounded-md text-BlueHomz border border-BlueHomz  ${userProfile?.planName === "Enterprise Free" ? "hidden" : ""}`}
           >
             Cancel subscription
           </button>
