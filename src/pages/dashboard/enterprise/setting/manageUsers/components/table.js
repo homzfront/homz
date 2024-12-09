@@ -64,7 +64,7 @@ const Table = ({ setOpenPurchasePlan, openPurchasePlan, estateData, openRevoke, 
   };
 
   const handleToggleMenu = (id) => {
-    if (isTrialExpired(profileData?.trialEndDate) && ((profileData?.enterprisePlanName === "Enterprise Free") || (profileData?.enterprisePlanName === "Enterprise Trial"))) {
+    if (isTrialExpired(profileData?.trialEndDate) && ((profileData?.planName === "Enterprise Free") || (profileData?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan)
     } else {
       setPopUpMenuTwo(!popUpMenuTwo);

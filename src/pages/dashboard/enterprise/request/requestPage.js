@@ -73,7 +73,7 @@ const RequestPage = () => {
   );
 
   const toggleInvite = () => {
-    if (isTrialExpired(user?.trialEndDate) && ((user?.enterprisePlanName === "Enterprise Free") || (user?.enterprisePlanName === "Enterprise Trial"))) {
+    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlan(!openPurchasePlan);

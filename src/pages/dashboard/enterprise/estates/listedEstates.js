@@ -95,7 +95,7 @@ const ListedEstates = ({
     if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlanTenant(!openPurchasePlanTenant)
     }
-    else if (isTrialExpired(user?.trialEndDate) && ((user?.enterprisePlanName === "Enterprise Free") || (user?.enterprisePlanName === "Enterprise Trial"))) {
+    else if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan)
     } else {
       setInviteTenant(true);
