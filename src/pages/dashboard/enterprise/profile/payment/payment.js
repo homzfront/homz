@@ -8,9 +8,13 @@ import YesNOModal from "../../tenants/components/yesNOModal";
 import useBodyScroll from "@/utils/useBodyScroll";
 import { calculateSubDate } from "@/utils/calculateSubDate";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import { cancelEnterprisePlanSub } from "@/api/tenantSevice";
+import FailedModal from "../../components/failedModal";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 
 const Payment = ({ data: userProfile }) => {
   const [fillCard, setFillCard] = useState(false);
+  const {fetchData} = useProfileEnterpriseMe()
   const [data, setData] = useState([]);
   const [cvv, setCvv] = useState("");
   const [expireDate, setExpireDate] = useState("");
@@ -21,6 +25,9 @@ const Payment = ({ data: userProfile }) => {
   const [verify, setVerify] = useState(false);
   const [verifyII, setVerifyII] = useState(false);
   const [openCancelSub, SetOpenCancelSub] = useState(false);
+  const [openFailedModal, setOpenFailedModal] = useState(false);
+  const [subError, setSubError] = useState(null);
+  const [isLoadingCancelSub, setIsLoadingCancelSub] = useState(false);
   const [openCompleteModalForCancelSub, setOpenCompleteModalForCancelSub] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
 
@@ -98,6 +105,29 @@ const Payment = ({ data: userProfile }) => {
     return data[data.length - 1];
   };
 
+  const handleCancelSub = async () => {
+    setIsLoadingCancelSub(true);
+    try {
+      if (userProfile?.subscriptionCode && userProfile?.email_token) {
+        const { success, data, error } = await cancelEnterprisePlanSub(
+          userProfile?.email_token,
+          userProfile?.subscriptionCode,
+        );
+        if (success) {
+          setOpenCompleteModalForCancelSub(true)
+          fetchData()
+        }
+        if (error) {
+          setSubError(error)
+          setOpenFailedModal(true)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoadingCancelSub(false);
+    }
+  }
 
   return (
     <div>
@@ -108,8 +138,23 @@ const Payment = ({ data: userProfile }) => {
             body={`You’re about to cancel your ${userProfile?.planName} Plan Subscription`}
             button={"Proceed"}
             buttonTwo={"Close"}
-            returnHome={() => setOpenCompleteModalForCancelSub(true)}
+            returnHome={handleCancelSub}
+            loading={isLoadingCancelSub}
             returnHomeTwo={() => SetOpenCancelSub(false)}
+          />
+        </CustomizedModal>
+      }
+      {openFailedModal &&
+        <CustomizedModal isOpen={openFailedModal}>
+          <FailedModal
+            header={"Subscription Cancellation Failed"}
+            // body={`We encountered an issue while attempting to cancel your ${userProfile?.planName} Plan Subscription. Please try again or contact support for assistance.`}
+            body={subError}
+            button={"Close"}
+            returnHome={() => {
+              setOpenFailedModal(false)
+              // SetOpenCancelSub(false)
+            }}
           />
         </CustomizedModal>
       }
@@ -132,7 +177,7 @@ const Payment = ({ data: userProfile }) => {
           <p className="font-[400] text-[13px] md:text-[16px] text-BlackHomz">
             You’re currently on the {userProfile?.planName === "" ? "free trial" : userProfile?.planName} plan
           </p>
-          <p className="font-[400] text-[12px] md:text-[14px] text-GrayHomz">
+          <p className={`font-[400] text-[12px] md:text-[14px] text-GrayHomz ${userProfile?.planName === "Enterprise Free" ? "hidden" : ""}`}>
             {userProfile?.interval === "annually" ? "[Yearly subscription]" : "[Monthly subscription]"} |  [{calculateSubDate(userProfile?.next_payment_date)}]
           </p>
         </div>
@@ -141,11 +186,11 @@ const Payment = ({ data: userProfile }) => {
             href={"/plans"}
             className="font-[500] text-[12px] md:text-[14px] text-white w-[150px] md:w-[135px] h-[37px] flex justify-center items-center rounded-md bg-BlueHomz border"
           >
-            Upgrade Plan
+            {userProfile?.planName === "Enterprise Free" ? "Buy Plan" : "Upgrade Plan"}
           </Link>
           <button
             onClick={() => SetOpenCancelSub(!openCancelSub)}
-            className="font-[500] text-[12px] md:text-[14px] px-4 h-[37px] flex justify-center items-center rounded-md text-BlueHomz border border-BlueHomz"
+            className={`font-[500] text-[12px] md:text-[14px] px-4 h-[37px] flex justify-center items-center rounded-md text-BlueHomz border border-BlueHomz  ${userProfile?.planName === "Enterprise Free" ? "hidden" : ""}`}
           >
             Cancel subscription
           </button>

@@ -97,7 +97,7 @@ const Header = () => {
       <CustomizedModal isOpen={showLongLoadingMessage}>
         <LoadingProlonged closeModal={closeModal} />
       </CustomizedModal>
-      {user?.trialEndDate && user?.PlanStatus !== "paid" && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
+      {user?.trialEndDate && user?.PlanStatus !== "active" && (user?.planName === "Enterprise Free" || user?.planName === "Enterprise Trial") && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
       {open && (
         <div className="">
           <div className="absolute bg-white h-auto z-50 w-[100%]">

@@ -46,6 +46,18 @@ export const tenantEnterprise = async () => {
   }
 };
 
+export const cancelEnterprisePlanSub = async (emailToken, subscriptionCode) => {
+  try {
+    const response = await api.post("/enterprisePlan/disable/subscription", {
+      emailToken,
+      subscriptionCode
+    });
+    return { success: true, data: response.data.data };
+  } catch (error) {
+    return { success: false, error: error?.response.data.message };
+  }
+};
+
 export const tenantOwner = async () => {
   try {
     const response = await api.get("/tenants/property-owner");
@@ -286,7 +298,7 @@ export const ReceiptTenant = async (id) => {
     const response = await api.get(`/wallet/transfer/tenant/pay-rent/receipt/${id}`);
     return { success: true, upDateddata: response };
   } catch (error) {
-    return { success: false, error }; 
+    return { success: false, error };
   }
 }
 

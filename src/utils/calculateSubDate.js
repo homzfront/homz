@@ -9,7 +9,7 @@ export function calculateSubDate(nextPaymentDate) {
   
     // Calculate end date: 1 day before the next payment date
     const endDate = new Date(nextPayment);
-    endDate.setDate(nextPayment.getDate() - 1);
+    endDate.setDate(nextPayment.getDate());
   
     // Calculate start date: exactly 1 month before the end date
     const startDate = new Date(endDate);
