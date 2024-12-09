@@ -51,7 +51,7 @@ const ListedEstates = ({
   user,
   reachedLimit,
   openRegistrationForm,
-  openPurchasePlanTenant, 
+  openPurchasePlanTenant,
   setOpenPurchasePlanTenant,
   setOpenPurchasePlan,
   openPurchasePlan
@@ -92,10 +92,10 @@ const ListedEstates = ({
   };
 
   const toggleInvite = () => {
-    if(reachedLimit?.reachedMaxTenants) {
+    if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlanTenant(!openPurchasePlanTenant)
     }
-    else if (isTrialExpired(user?.trialEndDate)) {
+    else if (isTrialExpired(user?.trialEndDate) && ((user?.enterprisePlanName === "Enterprise Free") || (user?.enterprisePlanName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan)
     } else {
       setInviteTenant(true);
@@ -292,7 +292,7 @@ const ListedEstates = ({
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} property={reachedLimit?.reachedMaxEstates} openRegistrationForm={openRegistrationForm} link_Url={"?tab=addProperty"} />
         </div>
       )}
-      
+
     </div>
   );
 };

@@ -187,7 +187,7 @@ const DocumentGeneration = () => {
   };
 
   useEffect(() => {
-    if (isTrialExpired(user?.trialEndDate)) {
+    if (isTrialExpired(user?.trialEndDate) && ((user?.enterprisePlanName === "Enterprise Free") || (user?.enterprisePlanName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan)
       return;
     } else if (reachedLimit?.expiredPlan) {
@@ -476,7 +476,7 @@ const DocumentGeneration = () => {
               <div className="w-[30%] max-w-[280px]">
                 <button
                   onClick={() => {
-                    if (isTrialExpired(user?.trialEndDate)) {
+                    if (isTrialExpired(user?.trialEndDate) && ((user?.enterprisePlanName === "Enterprise Free") || (user?.enterprisePlanName === "Enterprise Trial"))) {
                       setOpenPurchasePlan(!openPurchasePlan)
                     } else if (reachedLimit?.expiredPlan) {
                       setOpenPurchasePlan(!openPurchasePlan)
