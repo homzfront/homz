@@ -140,7 +140,7 @@ const Plans = ({ profile }) => {
     try {
       let response;
       if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
-        profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+        profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
         response = await updateEnterPriseSub({
           planName: planTitle,
           interval
