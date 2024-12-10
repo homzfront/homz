@@ -129,7 +129,7 @@ const Payment = ({ data: userProfile }) => {
     } finally {
       setIsLoadingCancelSub(false);
     }
-  }
+  };
 
   return (
     <div>

@@ -69,7 +69,7 @@ const Tenants = () => {
       user?.planName,
       user?.estates?.length,
       user?.propertyOwners?.length,
-      data?.length,
+      user?.tenants?.length,
       user?.IsExpired
     );
     setReachedLimit(values);
