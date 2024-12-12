@@ -60,7 +60,6 @@ const FAQs = () => {
           Everything you need to know about our management solution.
         </p>
       </div>
-
       <div>
         {FAQsData.map((data) => (
           <div

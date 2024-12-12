@@ -50,15 +50,17 @@ export const updateEnterPriseSub = async (planNames) => {
       planName,
       interval,
     });
-    return { success: true, updatedData: response }; // Corrected typo 'upDateddata' to 'updatedData'
+    return { success: true, updatedData: response }; 
   } catch (error) {
     const errors = error.response?.data?.error
-    // Handle "you have already created a enterprise Plan account" error
-    if (errors === 'you  have already created a enterprise Plan  account') {
-      return { success: false, error: 'You already have an Enterprise Plan account. Please log in or contact support for assistance.' };
-    } else {
-      // Handle other errors (generic or more specific)
+    if (errors) {
+      return { success: false, error: errors };
+    } else if (error.response?.data?.message) {
+      return {success: false, error: error.response?.data?.message}
+    }
+    else {
       return { success: false, error: 'An error occurred. Please try again later or contact support for assistance.' };
+
     }
   }
 };

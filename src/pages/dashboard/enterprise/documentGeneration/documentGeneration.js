@@ -187,7 +187,14 @@ const DocumentGeneration = () => {
   };
 
   useEffect(() => {
-    if (homePage) {
+    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+      setOpenPurchasePlan(!openPurchasePlan)
+      return;
+    } else if (reachedLimit?.expiredPlan) {
+      setOpenPurchasePlan(!openPurchasePlan)
+      return;
+    }
+    else if (homePage) {
       if (documentCreation === true || documentCreation === false) {
         setDocumentCreation(true);
         setShowPreview(false);
@@ -469,7 +476,7 @@ const DocumentGeneration = () => {
               <div className="w-[30%] max-w-[280px]">
                 <button
                   onClick={() => {
-                    if (isTrialExpired(user?.trialEndDate)) {
+                    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
                       setOpenPurchasePlan(!openPurchasePlan)
                     } else if (reachedLimit?.expiredPlan) {
                       setOpenPurchasePlan(!openPurchasePlan)

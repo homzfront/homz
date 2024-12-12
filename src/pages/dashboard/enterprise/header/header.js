@@ -97,7 +97,7 @@ const Header = () => {
       <CustomizedModal isOpen={showLongLoadingMessage}>
         <LoadingProlonged closeModal={closeModal} />
       </CustomizedModal>
-      {user?.trialEndDate && user?.PlanStatus !== "paid" && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
+      {user?.trialEndDate && (user?.PlanStatus !== "active" || user?.PlanStatus !== "paid") && (user?.planName === "Enterprise Free" || user?.planName === "Enterprise Trial") && popUpMenuTwo && <TrialWarning closeMenu={closeMenu} user={user} />}
       {open && (
         <div className="">
           <div className="absolute bg-white h-auto z-50 w-[100%]">
@@ -130,7 +130,7 @@ const Header = () => {
           <div onClick={handleToggleMenuTwo} className={`cursor-pointer relative ${user?.trialEndDate && user?.PlanStatus !== "paid" ? "" : "hidden"}`}>
             <Notification />
             <p
-              className={`absolute top-0 right-[2px] ${user?.trialEndDate ? "bg-error" : "bg-transparent"
+              className={`absolute top-0 right-[2px] ${user?.trialEndDate && (user?.PlanStatus !== "active" || user?.PlanStatus !== "paid") && (user?.planName === "Enterprise Free" || user?.planName === "Enterprise Trial") ? "bg-error" : "bg-transparent"
                 } h-2 w-2 rounded-full`}
             ></p>
           </div>

@@ -113,7 +113,7 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
 
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 w-full mx-auto">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -127,143 +127,145 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
         pauseOnHover
         theme="dark"
       />
-      <div className="flex flex-col justify-between max-h-[900px]">
-        <div className=" border w-full rounded-t-[12px]">
-          <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
-            <div className="w-[50%] md:w-[18%] ">Tenant</div>
-            <div className="w-[10%] hidden md:table-cell">Property</div>
-            <div className="w-[11%] hidden md:table-cell">Apartment No</div>
-            <div className="w-[11%] hidden md:table-cell">Address</div>
-            <div className="w-[15%] hidden md:table-cell">Email</div>
-            <div className="w-[10%] pl-1 hidden md:table-cell">Phone No</div>
-            <div className="w-[7%] pl-1 hidden md:table-cell">Rent</div>
-            <div className="w-[41%] md:w-[13%] pl-1">Status</div>
-            <div className="w-[7%] hidden md:table-cell">Due Date</div>
-            <div className="w-[5%] md:w-[2%] "></div>
-          </div>
+      <div className="overflow-x-auto scrollbar-container">
+        <div className="w-[500%] md:w-[180%]">
+          <div className="w-full border rounded-t-[12px]">
+            <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-2 rounded-t-[12px]">
+              <div className="w-[15%]">Tenant</div>
+              <div className="w-[10%]">Property</div>
+              <div className="w-[6%]">Apartment No</div>
+              <div className="w-[15%]">Address</div>
+              <div className="w-[15%]">Email</div>
+              <div className="w-[5%]">Phone No</div>
+              <div className="w-[8%]">Rent</div>
+              <div className="w-[7%]">Status</div>
+              <div className="w-[7%]">Due Date</div>
+              <div className="w-[5%]"></div>
+            </div>
 
-          <div className="">
-            {currentData &&
-              currentData.map((data) => (
-                <div
-                  key={data?._id}
-                  className="border-b-[1px] items-center flex justify-center w-full gap-2 px-4 h-[60px]"
-                >
-                  <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[50%] md:w-[18%]">
-                    {!data?.coverPhoto?.url ? (
-                      <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
-                        <EmptyAvatar />
-                      </div>
-                    ) : (
-                      <Image
-                        src={data?.coverPhoto?.url}
-                        alt=""
-                        width={40}
-                        height={40}
-                        layout="full" // Specify the desired height
-                        objectFit="cover"
-                        objectPosition="center"
-                        className="object-cover bg-center h-[40px] rounded-full"
-                        priority
-                      />
-                    )}
-                    <span className="w-[60%] md:w-auto">{data?.fullName}</span>
-                  </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                    {data?.estateId?.name}
-                  </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                    {`${data?.rentInfo?.apartmentNumber
-                      ? data?.rentInfo?.apartmentNumber
-                      : "______"
-                      }`}
-                  </div>
+            <div className="">
+              {currentData &&
+                currentData.map((data) => (
                   <div
-                    className="hidden md:table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                    <div
-                      onMouseEnter={() => handleMouseEnter(data?._id)}
-                      onMouseLeave={handleMouseLeave}
-                      className="max-w-[100px] relative">
-                      {truncateText(data?.estateId?.address, 30)}
-                      {hoveredRow === data?._id && (
-                        <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
-                          {data?.estateId?.address}
-                        </span>
+                    key={data?._id}
+                    className="border-b-[1px] items-center flex justify-center w-full gap-2 px-2 h-[60px]"
+                  >
+                    <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
+                      {!data?.coverPhoto?.url ? (
+                        <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                          <EmptyAvatar />
+                        </div>
+                      ) : (
+                        <Image
+                          src={data?.coverPhoto?.url}
+                          alt=""
+                          width={40}
+                          height={40}
+                          layout="full" // Specify the desired height
+                          objectFit="cover"
+                          objectPosition="center"
+                          className="object-cover bg-center h-[40px] rounded-full"
+                          priority
+                        />
                       )}
+                    <span className="w-[60%] md:w-auto">{data?.fullName}</span>
+                       </div>
+                    <div className=" text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
+                    {data?.estateId?.name}
                     </div>
-                  </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[15%] font-[500] text-[11px] text-start pl-1 pr-2">
-                    <span className="break-words">{truncateText(data?.user?.email, 35)}</span>
-                  </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[10%] font-[500] text-[11px] text-start ">
-                    {data?.phoneNumber}
-                  </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[7%] font-[500] text-[11px] text-start ">
+                    <div className=" text-GrayHomz w-[6%] font-[500] text-[11px] text-start">
+                      {`${data?.rentInfo?.apartmentNumber
+                        ? `Apartment ${data?.rentInfo?.apartmentNumber}`
+                        : "______"
+                        }`}
+                    </div>
+                    <div
+                      className=" text-GrayHomz w-[15%] font-[500] text-[11px] text-start">
+                      <div
+                        onMouseEnter={() => handleMouseEnter(data?._id)}
+                        onMouseLeave={handleMouseLeave}
+                        className="w-full relative">
+                        {truncateText(data?.estateId?.address, 45)}
+                        {hoveredRow === data?._id && (
+                          <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
+                           {data?.estateId?.address}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className=" text-GrayHomz w-[15%] font-[500] text-[11px] text-start pl-1 pr-2">
+                      <span className="break-words">{truncateText(data?.user?.email, 45)}</span>
+                    </div>
+                    <div className=" text-GrayHomz w-[5%] font-[500] text-[11px] text-start ">
+                      {data?.phoneNumber}
+                    </div>
+                    <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start ">
                     {`${data?.rentInfo?.rent
                       ? addCommasToNumber(data?.rentInfo?.rent)
                       : "______"
                       }`}
+                    </div>
+                    <div
+                      className={`text-GrayHomz w-[7%] font-[500] text-[11px] text-start`}
+                    >
+                      {data?.rentInfo?.paymentStatus ? (
+                        <StatusDropdown
+                          setSelectedStatus={(status) =>
+                            setSelectedStatus((prev) => ({
+                              ...prev,
+                              [data._id]: status,
+                            }))
+                          }
+                          value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                          selectedStatus={selectedStatus[data._id] || null}
+                          handleStatusChange={(status) =>
+                            handleStatusChange(status, data._id, data?.rentInfo?._id)
+                          }
+                          isOpen={openDropdowns[data?._id] || false}
+                          toggleDropdown={() => toggleDropdown(data?._id)}
+                          loading={loadingRows[data?._id] || false}
+                          dropdownRef={dropdownRefII}
+                        />
+                      ) : (
+                        "______"
+                      )}
+                    </div>
+                    <div className=" text-GrayHomz w-[7%] font-[500] text-[11px] text-start">
+                      {`${data?.rentInfo?.dueDate
+                        ? changeBackendDateFormat(data?.rentInfo?.dueDate)
+                        : "______"
+                        }`}
+                    </div>
+                    <div className="sticky right-[-24px] md:right-0 bg-white w-[5%] pl-8">
+                      <button onClick={() => handleToggleMenu(data?._id)}>
+                        <Image
+                          src={
+                            "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                          }
+                          alt=""
+                          height={21}
+                          width={20}
+                          style={{ height: "auto", width: "auto" }}
+                        />
+                      </button>
+                      {popUpMenuTwo && selectedDataId === data?._id && (
+                        <PopUpMenuTwo dropdownRef={dropdownRef} data={data?._id} />
+                      )}
+                    </div>
                   </div>
-                  <div
-                    className={`text-GrayHomz w-[41%] md:w-[13%] font-[500] text-[11px] text-start`}
-                  >
-                    {data?.rentInfo?.paymentStatus ? (
-                      <StatusDropdown
-                        setSelectedStatus={(status) =>
-                          setSelectedStatus((prev) => ({
-                            ...prev,
-                            [data._id]: status,
-                          }))
-                        }
-                        value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
-                        selectedStatus={selectedStatus[data._id] || null}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id, data?.rentInfo?._id)
-                        }
-                        isOpen={openDropdowns[data?._id] || false}
-                        toggleDropdown={() => toggleDropdown(data?._id)}
-                        loading={loadingRows[data?._id] || false}
-                        dropdownRef={dropdownRefII}
-                      />
-                    ) : (
-                      "______"
-                    )}
-                  </div>
-                  <div className="hidden md:table-cell text-GrayHomz w-[7%] font-[500] text-[11px] text-start">
-                    {`${data?.rentInfo?.dueDate
-                      ? changeBackendDateFormat(data?.rentInfo?.dueDate)
-                      : "______"
-                      }`}
-                  </div>
-                  <div className="relative w-[5%] md:w-[2%]">
-                    <button onClick={() => handleToggleMenu(data?._id)}>
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                        }
-                        alt=""
-                        height={21}
-                        width={20}
-                        style={{ height: "auto", width: "auto" }}
-                      />
-                    </button>
-                    {popUpMenuTwo && selectedDataId === data?._id && (
-                      <PopUpMenuTwo dropdownRef={dropdownRef} data={data?._id} />
-                    )}
-                  </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
         </div>
-        <Button
-          firstThreePages={firstThreePages}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          handleNext={handleNext}
-          handlePageClick={handlePageClick}
-          handlePrev={handlePrev}
-        />
       </div>
+      <Button
+        firstThreePages={firstThreePages}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handleNext={handleNext}
+        handlePageClick={handlePageClick}
+        handlePrev={handlePrev}
+      />
       <div style={{ display: 'none' }}>
         <PrintableTenantdData
           printableRef={printableRef}

@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { isTrialExpired } from "@/utils/compareTrialTime";
 import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import Widget from "../components/widget";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -68,7 +69,7 @@ const Tenants = () => {
       user?.planName,
       user?.estates?.length,
       user?.propertyOwners?.length,
-      data?.length,
+      user?.tenants?.length,
       user?.IsExpired
     );
     setReachedLimit(values);
@@ -108,7 +109,7 @@ const Tenants = () => {
   });
 
   const toggleInvite = () => {
-    if (isTrialExpired(user?.trialEndDate)) {
+    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlan(!openPurchasePlan);
@@ -343,7 +344,7 @@ const Tenants = () => {
                   </button>
                 </div>
               </div>
-              <TenantsTwo
+              <Widget
                 Data={filteredData}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}

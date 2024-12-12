@@ -9,7 +9,7 @@ import DocDocu from '@/components/icons/docDocu';
 import DocReceipt from '@/components/icons/docReceipt';
 import DocSettings from '@/components/icons/DocSettings';
 import QuickNotice from '@/components/icons/quickNotice';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import FAQs from './components/FAQs';
 import Image from 'next/image';
 import DocFlash from '@/components/icons/docFlash';
@@ -24,6 +24,13 @@ import "slick-carousel/slick/slick-theme.css";
 import SliderTwo from './components/sliderTwo';
 import Close from '@/components/icons/Close';
 import DocumentCreation from '@/pages/dashboard/enterprise/documentGeneration/components/documentCreation';
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import { useRouter } from "next/navigation";
+import { isTrialExpired } from "@/utils/compareTrialTime";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import ExpiredPlanModal from '@/pages/dashboard/enterprise/components/expiredPlanModal';
+
 
 const DocSolution = [
     {
@@ -65,6 +72,13 @@ const DocSolutionII = [
 ]
 
 const DocumentGene = () => {
+    const { data: user, fetchData: fetchProfileData, loadingProfile } = useProfileEnterpriseMe();
+    const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+        useEnterprisePlans();
+    const router = useRouter();
+    const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
+    const [reachedLimit, setReachedLimit] = useState(null);
+
     const docSolutionRef = useRef(null);
     const [hover, setHover] = useState(null);
     const { setDocType } = FormSelection();
@@ -78,7 +92,14 @@ const DocumentGene = () => {
     };
 
     const handleSelectDocument = (docType) => {
-        if (docType === "Receipts") {
+        if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+            setOpenPurchasePlan(!openPurchasePlan)
+            return;
+        } else if (reachedLimit?.expiredPlan) {
+            setOpenPurchasePlan(!openPurchasePlan)
+            return;
+        }
+        else if (docType === "Receipts") {
             setDocType("Invoice and Receipt")
         } else {
             setDocType(docType);
@@ -99,15 +120,61 @@ const DocumentGene = () => {
         pauseOnHover: false,
     };
 
+    useEffect(() => {
+        fetchProfileData()
+        fetchEnterprisePlans()
+    }, []);
+
+    const goToplan = () => {
+        router.push("/plans")
+    }
+
+    useEffect(() => {
+        const values = checkPlanLimits(
+            enterprisePlans,
+            user?.planName,
+            user?.estates?.length,
+            user?.propertyOwners?.length,
+            user?.tenants?.length,
+            user?.IsExpired
+        );
+        setReachedLimit(values);
+    }, [enterprisePlans, user]);
+
     return (
         <div className='w-full flex flex-col items-center'>
             {
                 <CustomizedModal isOpen={documentCreation}>
                     <DocumentCreation setDocumentCreation={setDocumentCreation}
-                //    setShowPreview={setShowPreview}
+                    //    setShowPreview={setShowPreview}
                     />
                 </CustomizedModal>
             }
+
+            {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
+                <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
+                    <ExpiredPlanModal
+                        header={"Your Trial Has Ended"}
+                        body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+                        button={"Buy Plan"}
+                        buttonTwo={"close"}
+                        returnHome={goToplan}
+                        returnHomeTwo={() => setOpenPurchasePlan(false)}
+                    />
+                </CustomizedModal>
+            )}
+            {openPurchasePlan && reachedLimit?.expiredPlan && (
+                <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
+                    <ExpiredPlanModal
+                        header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+                        body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+                        button={"Upgrade Plan"}
+                        buttonTwo={"close"}
+                        returnHome={goToplan}
+                        returnHomeTwo={() => setOpenPurchasePlan(false)}
+                    />
+                </CustomizedModal>
+            )}
             {/* {
                 <CustomizedModal isOpen={documentCreation}>
                     <div className="w-full sm:w-[42%] h-[315px] bg-white border p-[24px] rounded-[12px]">

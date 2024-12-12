@@ -68,12 +68,14 @@ const Dashboard = () => {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan);
-    } else if (isTrialExpired(profileData?.trialEndDate)) {
+    } else if (isTrialExpired(profileData?.trialEndDate) && ((profileData?.planName === "Enterprise Free") || (profileData?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else {
       router.push("/dashboard/enterprise-property/estates?tab=addProperty");
     }
   };
+
+  console.log(reachedLimit)
 
   return (
     <div className="dashboard h-[300px] [100%] flex flex-col">

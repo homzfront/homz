@@ -1,3 +1,4 @@
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import React from "react";
 
 const AcAndRejModel = ({
@@ -7,6 +8,7 @@ const AcAndRejModel = ({
   returnHomeTwo,
   button,
   buttonTwo,
+  loading
 }) => {
   return (
     <div>
@@ -22,15 +24,15 @@ const AcAndRejModel = ({
             <button
               onClick={
                 returnHome}
-              className="mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500]"
+              className={`mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500] ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}
             >
-              {button}
+              {loading ? <LoadingFormII /> : `${button}`}
             </button>
             <button
               onClick={
                 returnHomeTwo
               }
-              className="mt-4 h-[48px] rounded-md w-full border border-BlueHomz text-BlueHomz text-[16px] font-[500]"
+              className={`mt-4 h-[48px] rounded-md w-full border border-BlueHomz text-BlueHomz text-[16px] font-[500] ${loading ? "pointer-events-none" : ""}`}
             >
               {buttonTwo}
             </button>

@@ -23,7 +23,7 @@ export function checkPlanLimits(
     const reachedMaxEstates = currentEstates === maxEstatesLimit;
     const reachedMaxUsers = currentUsers === maxUsersLimit;
     const reachedMaxTenants = currentTenant === maxTenantLimit
-    const interval = plan?.interval
+    const interval = plan?.interval === "annually" ? "annual" : plan?.interval
     const enterprisePlanName = plan?.plan_name
     const expiredPlan = expired
 

@@ -76,7 +76,7 @@ const ManageUsers = () => {
   const handleDropdownToggle = () => {
     if (reachedLimit?.reachedMaxUsers) {
       setOpenPurchasePlan(!openPurchasePlan);
-    } else if (isTrialExpired(profileData?.trialEndDate)) {
+    } else if (isTrialExpired(profileData?.trialEndDate) && ((profileData?.planName === "Enterprise Free") || (profileData?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan)
