@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import TenantsTwo from "../firstPage/tenantsTwo";
+import "react-toastify/dist/ReactToastify.css";
+import TenantsTwoDueDate from "../firstPage/tenantsTwoDueDate";
 import TableFilter from "@/store/enterpriseStore/tableFilter";
+import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
 
 const Widget = ({
     Data,
@@ -12,52 +13,100 @@ const Widget = ({
     fetchDataAgain,
     isMasterChecked,
     setIsMasterChecked,
-    printableRef }) => {
-    const { active: activeTab, setActive: setActiveTab, Data: KeptData, setData } = TableFilter();
+    totalPages,
+    setCurrentPage,
+    currentPage,
+    printableRef,
+    loading
+}) => {
+    const {
+        active: activeTab,
+        setActive: setActiveTab,
+        Data: KeptData,
+        setData,
+    } = TableFilter();
+    const { setDueDatePage } = useEnterpriseTenantStore();
 
     useEffect(() => {
-        setData(Data)
-    }, [])
+        setData(Data);
+    }, [Data]);
 
-    const RefinedData = activeTab ? Data?.sort((a, b) => {
-        // Prioritize overdue payments
-        if (a.rentInfo.paymentStatus === "over due" && b.rentInfo.paymentStatus !== "over due") return -1;
-        if (a.rentInfo.paymentStatus !== "over due" && b.rentInfo.paymentStatus === "over due") return 1;
+    console.log(KeptData);
 
-        // For same status, prioritize older due dates
-        if (a.rentInfo.paymentStatus === b.rentInfo.paymentStatus) {
-            return new Date(a.rentInfo.dueDate) - new Date(b.rentInfo.dueDate);
-        }
+    const RefinedData = activeTab
+        ? Data?.sort((a, b) => {
+            // Prioritize overdue payments
+            if (
+                a.rentInfo.paymentStatus === "over due" &&
+                b.rentInfo.paymentStatus !== "over due"
+            )
+                return -1;
+            if (
+                a.rentInfo.paymentStatus !== "over due" &&
+                b.rentInfo.paymentStatus === "over due"
+            )
+                return 1;
 
-        // Default order: pending after overDue
-        if (a.rentInfo.paymentStatus === "pending" && b.rentInfo.paymentStatus !== "pending") return 1;
-        if (a.rentInfo.paymentStatus !== "pending" && b.rentInfo.paymentStatus === "pending") return -1;
-        return 0;
-    }) : KeptData
+            // For same status, prioritize older due dates
+            if (a.rentInfo.paymentStatus === b.rentInfo.paymentStatus) {
+                return new Date(a.rentInfo.dueDate) - new Date(b.rentInfo.dueDate);
+            }
+
+            // Default order: pending after overDue
+            if (
+                a.rentInfo.paymentStatus === "pending" &&
+                b.rentInfo.paymentStatus !== "pending"
+            )
+                return 1;
+            if (
+                a.rentInfo.paymentStatus !== "pending" &&
+                b.rentInfo.paymentStatus === "pending"
+            )
+                return -1;
+            return 0;
+        })
+        : KeptData;
+
+    console.log(RefinedData);
 
     const pages = [
         {
-            id: 1, name: "All", component: <TenantsTwo
-                Data={RefinedData}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                fetchDataAgain={fetchDataAgain}
-                isMasterChecked={isMasterChecked}
-                setIsMasterChecked={setIsMasterChecked}
-                printableRef={printableRef}
-
-            />
+            id: 1,
+            name: "All",
+            component: (
+                <TenantsTwoDueDate
+                    Data={RefinedData}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    fetchDataAgain={fetchDataAgain}
+                    isMasterChecked={isMasterChecked}
+                    setIsMasterChecked={setIsMasterChecked}
+                    printableRef={printableRef}
+                    totalPages={totalPages}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                    loading={loading}
+                />
+            ),
         },
         {
-            id: 2, name: "Due Date", component: <TenantsTwo
-                Data={RefinedData}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                fetchDataAgain={fetchDataAgain}
-                isMasterChecked={isMasterChecked}
-                setIsMasterChecked={setIsMasterChecked}
-                printableRef={printableRef}
-            />
+            id: 2,
+            name: "Due Date",
+            component: (
+                <TenantsTwoDueDate
+                    Data={RefinedData}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    fetchDataAgain={fetchDataAgain}
+                    isMasterChecked={isMasterChecked}
+                    setIsMasterChecked={setIsMasterChecked}
+                    printableRef={printableRef}
+                    totalPages={totalPages}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                    loading={loading}
+                />
+            ),
         },
     ];
     const [active, setActive] = useState(pages[0].id);
@@ -86,15 +135,19 @@ const Widget = ({
                     {pages.map((page) => (
                         <div
                             key={page.id}
-                            className={`flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
+                            className={`flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id
+                                    ? "bg-BlueHomz text-white"
+                                    : "bg-whiteblue text-BlueHomz "
                                 }`}
                             onClick={() => {
                                 if (page.id === 2) {
-                                    setActiveTab(true)
+                                    setActiveTab(true);
+                                    setDueDatePage(true);
                                 } else {
-                                    setActiveTab(false)
+                                    setActiveTab(false);
+                                    setDueDatePage(false);
                                 }
-                                handlePageChange(page.id)
+                                handlePageChange(page.id);
                             }}
                         >
                             <p className={`text-[14px] font-500`}>{page.name}</p>
