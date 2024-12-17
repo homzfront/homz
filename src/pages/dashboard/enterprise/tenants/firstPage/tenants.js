@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-// import TenantsTwo from "./tenantsTwo";
+// import TenantsTwoDueDate from "./tenantsTwoDueDate";
 import Modal from "../components/modal";
 import useBodyScroll from "@/utils/useBodyScroll";
 import tenantsDataForLoggedInEnterprise from "@/store/enterpriseStore/tenantData";
@@ -23,6 +23,7 @@ import { isTrialExpired } from "@/utils/compareTrialTime";
 import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import Widget from "../components/widget";
+import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -54,14 +55,44 @@ const Tenants = () => {
 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant]);
+  const [loading, setLoading] = useState(true)
 
-  const { data, loading, fetchData } = tenantsDataForLoggedInEnterprise();
+  const {
+    data,
+    loading: loadingTable,
+    totalCount,
+    currentPage,
+    totalPages,
+    dueDatePage,
+    fetchData,
+    setCurrentPage,
+  } = useEnterpriseTenantStore();
+
+  console.log(currentPage)
 
   useEffect(() => {
-    fetchData(); // Fetch data on component mount
+    // fetchData(); // Fetch data on component mount
     fetchProfileData();
     fetchEnterprisePlans();
+    // setLoading(false)
   }, []);
+
+  useEffect(() => {
+    if (dueDatePage) {
+      console.log("HI")
+      fetchData(currentPage, new Date().toISOString());
+    } else {
+      console.log("HI2")
+      fetchData(currentPage);
+    }
+  }, [currentPage, dueDatePage]);
+
+  useEffect(() => {
+    if (data) {
+      setLoading(false)
+    }
+  }, [data])
+  console.log(data)
 
   useEffect(() => {
     const values = checkPlanLimits(
@@ -75,8 +106,9 @@ const Tenants = () => {
     setReachedLimit(values);
   }, [enterprisePlans, user, data]);
 
-  const tenantData = data;
-  const options = [...new Set(tenantData?.map((item) => item?.estateId.name))];
+  const tenantData = data?.[0]?.data;
+  console.log(tenantData)
+  const options = [...new Set(tenantData?.map((item) => item?.estateId?.name))];
 
   const options2 = ["Pending", "Paid", "Over due"];
   const filteredData = tenantData?.filter((data) => {
@@ -244,7 +276,8 @@ const Tenants = () => {
                   <p className="text-[20px] font-[500]">Tenants</p>
                   <span className="bg-whiteblue h-[35px] px-[10px] flex justify-center items-center rounded-[8px]">
                     <span className="text-BlueHomz text-[18px] font-[400]">
-                      {filteredData?.length}
+                      {totalCount}
+                      {/* {filteredData?.length} */}
                     </span>
                   </span>
                   <div className="md:hidden" onClick={toggleInvite}>
@@ -352,6 +385,10 @@ const Tenants = () => {
                 isMasterChecked={isMasterChecked}
                 setIsMasterChecked={setIsMasterChecked}
                 printableRef={printableRef}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+              loading={loadingTable}
               />
             </div>
           )}
