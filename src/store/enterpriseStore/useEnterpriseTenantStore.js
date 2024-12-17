@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 
 const useEnterpriseTenantStore = create((set, get) => ({
-    data: [],
+    data: null,
     loading: true,
     totalPages: 0,
     currentPage: 1,
@@ -12,18 +12,13 @@ const useEnterpriseTenantStore = create((set, get) => ({
     setDueDatePage: (value) => set({ dueDatePage: value }),
     setCurrentPage: (page) => set({ currentPage: page }),
     fetchData: async (page = 1, dueDate) => {
-        console.log("HHI")
         set({ loading: true });
-        console.log(dueDate)
-        console.log(page)
         try {
             const { dueDatePage } = get();
-
-            console.log(dueDatePage)
             const queryParams = new URLSearchParams({
                 limit: 8,
                 page,
-                ...(dueDatePage && dueDate && { dueDate }),
+                ...(dueDatePage && dueDate && { isDueDateRecent: true }),
             });
 
             const response = await api.get(`/tenants/enterprise?${queryParams.toString()}`);

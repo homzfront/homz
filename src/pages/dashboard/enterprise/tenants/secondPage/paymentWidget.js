@@ -102,6 +102,8 @@ const Widget = ({
             setOpenPurchasePlan(!openPurchasePlan)
         } else if (reachedLimit?.expiredPlan) {
             setOpenPurchasePlan(!openPurchasePlan)
+        } else if (reachedLimit?.enterprisePlanName === "Enterprise Basic") {
+            setOpenPurchasePlan(!openPurchasePlan) 
         } else {
             setOfflinepay(true);
         }
@@ -205,6 +207,18 @@ const Widget = ({
                     <ExpiredPlanModal
                         header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
                         body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+                        button={"Upgrade Plan"}
+                        buttonTwo={"close"}
+                        returnHome={goToplan}
+                        returnHomeTwo={() => setOpenPurchasePlan(false)}
+                    />
+                </div>
+            )}
+            {openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.enterprisePlanName === "Enterprise Basic" && (
+                <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                    <ExpiredPlanModal
+                        header={"Upgrade Your Plan"}
+                        body={"Kindly upgrade your plan now to unlock access to this feature."}
                         button={"Upgrade Plan"}
                         buttonTwo={"close"}
                         returnHome={goToplan}

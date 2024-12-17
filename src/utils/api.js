@@ -1,12 +1,10 @@
 import axios from 'axios';
-import "dotenv/config"
-// import Cookies from 'js-cookie';
+import "dotenv/config";
 
 // Create an instance of Axios with custom configuration
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
-  withCredentials: false,
-  // credentials: 'include'
+  withCredentials: false, // Set to true if cookies are needed for cross-origin requests
 });
 
 // Add an interceptor to include the JWT token in headers for every request

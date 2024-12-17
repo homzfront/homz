@@ -31,43 +31,9 @@ const Widget = ({
         setData(Data);
     }, [Data]);
 
-    console.log(KeptData);
-
     const RefinedData = activeTab
-        ? Data?.sort((a, b) => {
-            // Prioritize overdue payments
-            if (
-                a.rentInfo.paymentStatus === "over due" &&
-                b.rentInfo.paymentStatus !== "over due"
-            )
-                return -1;
-            if (
-                a.rentInfo.paymentStatus !== "over due" &&
-                b.rentInfo.paymentStatus === "over due"
-            )
-                return 1;
-
-            // For same status, prioritize older due dates
-            if (a.rentInfo.paymentStatus === b.rentInfo.paymentStatus) {
-                return new Date(a.rentInfo.dueDate) - new Date(b.rentInfo.dueDate);
-            }
-
-            // Default order: pending after overDue
-            if (
-                a.rentInfo.paymentStatus === "pending" &&
-                b.rentInfo.paymentStatus !== "pending"
-            )
-                return 1;
-            if (
-                a.rentInfo.paymentStatus !== "pending" &&
-                b.rentInfo.paymentStatus === "pending"
-            )
-                return -1;
-            return 0;
-        })
+        ? Data
         : KeptData;
-
-    console.log(RefinedData);
 
     const pages = [
         {
