@@ -8,13 +8,13 @@ import ArrowProfile from '@/components/icons/arrowProfile';
 
 function PopUpMenuTwo({
   data,
-  handleDelete,
+  // handleDelete,
   dropdownRef,
 }) {
     const [active, setActive] = useState(false);
-    const [activeTwo, setActiveTwo] = useState(false);
-    const [activeThree, setActiveThree] = useState(false);
-    const [activeFour, setActiveFour] = useState(false);
+    // const [activeTwo, setActiveTwo] = useState(false);
+    // const [activeThree, setActiveThree] = useState(false);
+    // const [activeFour, setActiveFour] = useState(false);
 
   if (!data) {
     return null;

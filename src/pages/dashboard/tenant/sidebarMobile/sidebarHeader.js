@@ -102,6 +102,28 @@ const SidebarMobile = ({ setOpen, user }) => {
         </Link>
         <Link
           onClick={() => setOpen(false)}
+          href="/dashboard/tenant/accessControl"
+          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          ${pathname === "/dashboard/tenant/accessControl" ? "bg-white text-BlueHomz"
+              : "text-GrayHomz"} hover:text-BlueHomz`}
+        >
+          <div>
+            {
+              pathname === "/dashboard/tenant/accessControl"
+                ?
+                <div>
+                  <Payment className='text-BlueHomz fill-BlueHomz' />
+                </div>
+                :
+                <div>
+                  <Payment />
+                </div>
+            }
+          </div>
+          <p className=''>Access Control</p>
+        </Link>
+        <Link
+          onClick={() => setOpen(false)}
           href={"/dashboard/tenant/finance"}
           className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/tenant/finance" ? "bg-white text-BlueHomz"

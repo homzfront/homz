@@ -46,6 +46,10 @@ body::-webkit-scrollbar-thumb {
   scrollbar-width: thin;
   /* Set the width of the scrollbar track */
 }
+.scrollbar-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-bg) var(--scrollbar-thumb);
+}
 
 .scrollbar-container::-webkit-scrollbar-thumb {
   background-color: #eef5ff; /* Make the scrollbar thumb transparent to hide it */

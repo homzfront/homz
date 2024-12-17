@@ -2,7 +2,7 @@ export const VisitorData = [
   {
     id: 1,
     TenantName: "Isaiah Gorge",
-    VisitorName: "John Dare",
+    VisitorName: "John Dare James John",
     Phone_Number: "000 0000 000",
     PurposeOfVisit: "Social visit",
     AccessStatus: "Pending",
@@ -18,7 +18,7 @@ export const VisitorData = [
   {
     id: 2,
     TenantName: "Chinyere Chioma",
-    VisitorName: "John Dare",
+    VisitorName: "John Dare Chioma Erra",
     Phone_Number: "000 0000 000",
     PurposeOfVisit: "Social visit",
     AccessStatus: "Pending",

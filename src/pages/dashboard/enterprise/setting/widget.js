@@ -1,12 +1,13 @@
 "use client"
 import React, { useState } from "react";
 import ManageUsers from "./manageUsers/manageUsers.js";
-import Estate from "./estates/estates.js";
-import Tenants from "./tenants/tenants.js";
-import Notifications from "./notifications/notifications.js";
+// import Estate from "./estates/estates.js";
+// import Tenants from "./tenants/tenants.js";
+// import Notifications from "./notifications/notifications.js";
 
 const pages = [
-  { id: 1, name: "Manage Users", component: <ManageUsers /> },
+  { id: 1, name: "Manage Landlords", component: <ManageUsers typeOfUser="landlords"/> },
+  { id: 2, name: "Manage Security Personnel", component: <ManageUsers/> },
   // { id: 2, name: "Properties", component: <Estate /> },
   // { id: 3, name: "Tenants", component: <Tenants /> },
   // { id: 4, name: "Notifications", component: <Notifications /> },
@@ -22,7 +23,7 @@ const Widget = () => {
   return (
     <div>
       <div className="w-full h-auto py-4">
-        <div className="flex mt-5 gap-2 justify-between w-full md:w-[520px] px-8 cursor-pointer">
+        <div className="flex mt-5 gap-3 justify-betwee w-full md:w-[520px] px-8 cursor-pointer">
           {pages.map((page) => (
             <div
               key={page.id}

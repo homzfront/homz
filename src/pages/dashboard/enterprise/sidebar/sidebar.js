@@ -12,7 +12,7 @@ import Dashboard from '@/components/icons/dashboard/dashboard'
 import Logout from '@/components/icons/dashboard/logoutMain'
 import Maintenance from '@/components/icons/dashboard/maintenance '
 import Payment from '@/components/icons/dashboard/payment'
-import PropertyListing from '@/components/icons/dashboard/propertyListing'
+// import PropertyListing from '@/components/icons/dashboard/propertyListing'
 import PropertyManagement from '@/components/icons/dashboard/propertyManagement'
 import Requests from '@/components/icons/dashboard/requests'
 import Settings from '@/components/icons/dashboard/settings'
@@ -100,8 +100,8 @@ const Sidebar = () => {
         },
         {
           title: "Access Control",
-          // link: "/dashboard/enterprise-property/tenants/access-records",
-          link: "",
+          link: "/dashboard/enterprise-property/tenants/access-records",
+          // link: "",
           image: <AccessRecord />,
           image2: <AccessRecord className="#006AFF" />,
         },
@@ -262,7 +262,7 @@ const Sidebar = () => {
                                 }`}
                             >
                               <div className={`flex flex-row items-center gap-[12px] 
-                                ${subItem.link === "/dashboard/enterprise-property/tenants" ? "" : "pointer-events-none opacity-50"
+                                ${subItem.link === "" && "pointer-events-none opacity-50"
                                 }`}>
                                 {subItem.link === pathname2 ? (
                                   <>
@@ -275,7 +275,7 @@ const Sidebar = () => {
                                 }
                                 <span className=" text-[13px] font-[500] leading-[20px] text-left">
                                   {subItem.title} <br />
-                                  <span className={` ${subItem.link === "/dashboard/enterprise-property/tenants" ? "hidden" : "pointer-events-none opacity-50"
+                                  <span className={` ${subItem.link === "" ? "pointer-events-none opacity-50" : "hidden"
                                     }
                                 text-[10px] font-[400] text-Success`}>
                                     coming soon!

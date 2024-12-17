@@ -22,3 +22,4 @@ const Payment = ({ className = "text-GrayHomz fill-GrayHomz" }) => {
 }
 
 export default Payment
+

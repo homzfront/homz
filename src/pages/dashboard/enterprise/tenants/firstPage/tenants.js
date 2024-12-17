@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import TenantsTwo from "./tenantsTwo";
+// import TenantsTwo from "./tenantsTwo";
 import Modal from "../components/modal";
 import useBodyScroll from "@/utils/useBodyScroll";
 import tenantsDataForLoggedInEnterprise from "@/store/enterpriseStore/tenantData";
@@ -15,7 +15,7 @@ import AddBigBlue from "@/components/icons/addBigBlue";
 import FilterMobile from "../../components/filterMobile";
 import { useReactToPrint } from "react-to-print";
 import Document from "@/components/icons/document";
-import Send from "@/components/icons/send";
+// import Send from "@/components/icons/send";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import ExpiredPlanModal from "../../components/expiredPlanModal";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,7 @@ const Tenants = () => {
   const {
     data: user,
     fetchData: fetchProfileData,
-    loadingProfile,
+    // loadingProfile,
   } = useProfileEnterpriseMe();
   const router = useRouter();
   const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
