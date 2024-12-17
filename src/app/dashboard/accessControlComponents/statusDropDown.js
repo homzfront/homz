@@ -9,11 +9,9 @@ const StatusDropdown = ({
   toggleDropdown,
 }) => {
   const dropdownRef = useRef(null);
-  
+
   // Ensure that Data is defined and not null
-  if (!data) {
-    return null; // or handle accordingly, e.g., return a loading state
-  }
+
   //  console.log(isOpen)
 
   // Close dropdown when clicking outside
@@ -30,6 +28,9 @@ const StatusDropdown = ({
     };
   }, [toggleDropdown]);
 
+  if (!data) {
+    return null; // or handle accordingly, e.g., return a loading state
+  }
   return (
     <div className="dropdown" ref={dropdownRef}>
       <button
