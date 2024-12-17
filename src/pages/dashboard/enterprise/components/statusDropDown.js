@@ -26,7 +26,7 @@ const StatusDropDownMain = ({
       ) : (
         <div>
           <button
-         className={` rounded-md py-1 w-[95px] flex items-center justify-center ${
+         className={` relative rounded-md py-1 w-[95px] flex items-center justify-center ${
           selectedStatus === "Pending" ? "bg-warningBg text-warning2" :
           selectedStatus === "Paid" ? "bg-successBg text-Success" :
           selectedStatus === "Over due" ? "bg-error text-white" :
@@ -48,9 +48,9 @@ const StatusDropDownMain = ({
                 />
               </div>
             </div>
-          </button>
+          
           <ul
-            className={`dropdown-menu absolute z-[50] mt-2 w-[95px] h-[80px] flex flex-col items-start justify-around px-2 py-1 bg-white shadow-md rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none ${
+            className={`dropdown-menu absolute top-[17px] left-0 z-50 mt-2 w-[95px] h-[80px] flex flex-col items-start justify-around px-2 py-1 bg-white shadow-md rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none ${
               isOpen ? "block" : "hidden"
             }`}
           >
@@ -87,7 +87,8 @@ const StatusDropDownMain = ({
                 Over ue
               </button>
             </li>
-          </ul>{" "}
+          </ul>
+          </button>
         </div>
       )}
     </div>

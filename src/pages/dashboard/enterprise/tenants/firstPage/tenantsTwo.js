@@ -91,25 +91,25 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
 
-  const handleCheckboxChange = (event, id, selectedName) => {
-    const checked = event.target.checked;
-    if (checked) {
-      setSelectedRows([...selectedRows, id]);
-    } else {
-      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
-    }
-  };
+  // const handleCheckboxChange = (event, id, selectedName) => {
+  //   const checked = event.target.checked;
+  //   if (checked) {
+  //     setSelectedRows([...selectedRows, id]);
+  //   } else {
+  //     setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
+  //   }
+  // };
 
-  const handleMasterCheckboxChange = (event) => {
-    const checked = event.target.checked;
-    setIsMasterChecked(checked);
-    if (checked) {
-      const allIds = currentData.map((data) => data._id);
-      setSelectedRows(allIds);
-    } else {
-      setSelectedRows([]);
-    }
-  };
+  // const handleMasterCheckboxChange = (event) => {
+  //   const checked = event.target.checked;
+  //   setIsMasterChecked(checked);
+  //   if (checked) {
+  //     const allIds = currentData.map((data) => data._id);
+  //     setSelectedRows(allIds);
+  //   } else {
+  //     setSelectedRows([]);
+  //   }
+  // };
 
 
   return (

@@ -3,7 +3,7 @@ import Tenants from "@/pages/dashboard/enterprise/tenants/firstPage/tenants";
 
 const App = () => {
   return (
-    <div className="overflow-y-auto h-auto scrollbar-container">
+    <div className="overflow-y-auto h-screen scrollbar-container">
       <Tenants />
     </div>
   );

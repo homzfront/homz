@@ -8,7 +8,7 @@ import AcAndRejModel from "../../../components/acAndRejModel";
 import ConfirmModal from "../../../components/confirmModal";
 import { isTrialExpired } from "@/utils/compareTrialTime";
 
-const Table = ({ setOpenPurchasePlan, openPurchasePlan, estateData, openRevoke, setOpenRevoke, fetchData, roleData, profileData }) => {
+const Table = ({ setOpenPurchasePlan, openPurchasePlan, estateData, openRevoke, setOpenRevoke, fetchData, roleData, profileData, typeOfUser }) => {
   const [selectedRoles, setSelectedRoles] = useState(Array(10)?.fill(null)); // Array to store selected values for each dropdown
 
   const handleRoleSelect = (index, option) => {
@@ -100,12 +100,14 @@ const Table = ({ setOpenPurchasePlan, openPurchasePlan, estateData, openRevoke, 
     <div className="mt-6">
       <div>
         <div className="border w-full rounded-t-[12px]">
-          <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-center gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
+          <div className="bg-whiteblue h-[60px] text-[13px] flex items-center justify-between gap-2 font-[500] text-BlackHomz  px-4 rounded-t-[12px]">
             <div className="w-[5%] hidden md:block"></div>
             <div className="w-[33.3%] md:w-[25%]">Name</div>
             <div className="w-[33.3%] md:w-[25%]">Email Address</div>
             <div className="w-[33.3%] md:w-[25%]">Properties</div>
-            <div className="hidden md:block w-[20%] ">Action</div>
+            {typeOfUser === "landlords" &&
+            <div className="hidden md:block w-[20%] "> Action</div>
+            }
           </div>
           <div>
             {currentData &&
@@ -175,7 +177,7 @@ const Table = ({ setOpenPurchasePlan, openPurchasePlan, estateData, openRevoke, 
                       </div>
                     </div>
                   </div>
-                  {popUpMenuTwo && selectedDataId === data?._id && (
+                  { typeOfUser === "landlords" && popUpMenuTwo && selectedDataId === data?._id && (
                     <PropertyAccess
                       data={data}
                       estateData={estateData}

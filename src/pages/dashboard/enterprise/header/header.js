@@ -14,10 +14,10 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Notification from "@/components/icons/notification";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [popUpMenu, setPopUpMenu] = useState(false);
   const popUpMenuTwo = useHeaderStore((state) => state.popUpMenuTwo);
   const headerOpenedOnce = useHeaderStore((state) => state.headerOpenedOnce);

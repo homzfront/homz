@@ -15,6 +15,7 @@ import Settings from '@/components/icons/dashboard/settings'
 import Support from '@/components/icons/dashboard/support'
 import Switch from '@/components/icons/dashboard/switch'
 import Profile from "@/components/icons/dashboard/profile";
+import TenantAccessControl from "@/components/icons/dashboard/tenantAccessControl";
 
 const Data = [
   {
@@ -37,6 +38,15 @@ const Data = [
   },
   {
     id: 3,
+    image: <TenantAccessControl height="16" width="16"/>,
+    image2: <TenantAccessControl className='text-white fill-white' height="16" width="16"/>,
+    link: "/dashboard/tenant/accessControl",
+    name: "Access Control",
+    coming: null,
+    active: false,
+  },
+  {
+    id: 4,
     image: <Payment height="16" width="16"/>,
     image2: <Payment className='text-BlueHomz fill-white' height="16" width="16"/>,
     link: "/dashboard/tenant/finance",
@@ -45,7 +55,7 @@ const Data = [
     active: false,
   },
   {
-    id: 4,
+    id: 5,
     image: <Maintenance height="16" width="16"/>,
     image2: <Maintenance className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/tenant/maintenance",
@@ -54,7 +64,7 @@ const Data = [
     active: false,
   },
   {
-    id: 5,
+    id: 6,
     image: <Support height="16" width="16"/>,
     image2: <Support className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/tenant/support",
@@ -63,7 +73,7 @@ const Data = [
     active: false,
   },
   {
-    id: 6,
+    id: 7,
     image: <Profile height="16" width="16"/>,
     image2: <Profile className='text-white fill-white' height="16" width="16"/>,
     link: "/dashboard/tenant/profile",

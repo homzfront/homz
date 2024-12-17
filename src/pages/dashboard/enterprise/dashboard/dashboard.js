@@ -75,7 +75,7 @@ const Dashboard = () => {
     }
   };
 
-  console.log(reachedLimit)
+  // console.log(reachedLimit)
 
   return (
     <div className="dashboard h-[300px] [100%] flex flex-col">

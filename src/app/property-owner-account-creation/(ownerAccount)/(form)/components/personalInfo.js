@@ -4,18 +4,28 @@ import Eye from "@/components/icons/Eye";
 import Image from "next/image";
 import Link from "next/link";
 
-
-
-
-const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handlePageChangeTwo }) => {
+const PersonalInfo = ({
+  data,
+  name,
+  setName,
+  phonenumber,
+  setPhoneNumber,
+  handlePageChangeTwo
+}) => {
   const [loginError, setLoginError] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     // Validate name and phone number
     if (!name) {
       setLoginError("Please enter your full name.");
-    } else if (!phonenumber || phonenumber.length < 11 || !/^\d+$/.test(phonenumber)) {
-      setLoginError("Please enter a valid phone number with at least 11 digits.");
+    } else if (
+      !phonenumber ||
+      phonenumber.length < 11 ||
+      !/^\d+$/.test(phonenumber)
+    ) {
+      setLoginError(
+        "Please enter a valid phone number with at least 11 digits."
+      );
     } else {
       // Continue with form submission
       handlePageChangeTwo();
@@ -27,15 +37,14 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
       <div className="h-[634px] px-6  sm:W-[320px] sm:w-full py-4">
         <div className="flex flex-col gap-6 m-auto  max-w-[450px]">
           <h1 className="text-center w-full  text-[23px] font-[700] text-BlackHomz">
-            Create An Account As A Landlord
+            {data?.role === "Property_Owner"
+              ? "Create An Account As A Landlord"
+              : "Create an Account as a Security Personnel"}
           </h1>
           <p className=" text-center w-full mt-[-15px] text-[18px] font-[400] text-GrayHomz">
             Enter your correct information to create your account
           </p>
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2 items-start">
                 <label className="text-center text-[14px] font-[500] text-GrayHomz2">
@@ -58,8 +67,8 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
                   type="text"
                   value={name}
                   onChange={(e) => {
-                    setName(e.target.value)
-                    setLoginError(null)
+                    setName(e.target.value);
+                    setLoginError(null);
                   }}
                   placeholder="Enter your full name"
                 />
@@ -74,8 +83,8 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
                   type="number"
                   value={phonenumber}
                   onChange={(e) => {
-                    setPhoneNumber(e.target.value)
-                    setLoginError(null)
+                    setPhoneNumber(e.target.value);
+                    setLoginError(null);
                   }}
                   placeholder="Enter your phone number"
                 />
@@ -85,25 +94,23 @@ const PersonalInfo = ({ data, name, setName, phonenumber, setPhoneNumber, handle
                   {loginError}
                 </span>
               )}
-
             </div>
-            {
-              !name || !phonenumber ?
-                <button
-                  disabled
-                  className="text-GrayHomz border bg-GrayHomz5 font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz pointer-events-none"
-                  type="Submit"
-                >
-                  Continue
-                </button>
-                :
-                <button
-                  className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
-                  type="Submit"
-                >
-                  Continue
-                </button>
-            }
+            {!name || !phonenumber ? (
+              <button
+                disabled
+                className="text-GrayHomz border bg-GrayHomz5 font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz pointer-events-none"
+                type="Submit"
+              >
+                Continue
+              </button>
+            ) : (
+              <button
+                className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+                type="Submit"
+              >
+                Continue
+              </button>
+            )}
           </form>
         </div>
       </div>

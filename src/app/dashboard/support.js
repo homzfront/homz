@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import Input from "../components/input";
-import SectionOne from "./components/sectionOne";
+import Input from "../../pages/dashboard/enterprise/components/input";
+import SectionOne from "../../pages/dashboard/enterprise/support/components/sectionOne";
 import useBodyScroll from "@/utils/useBodyScroll";
-import ConfirmModal from "../components/confirmModal";
+import ConfirmModal from "../../pages/dashboard/enterprise/components/confirmModal";
 import api from "@/utils/api";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
@@ -63,7 +63,7 @@ const Support = () => {
   useBodyScroll([, doneDialogue, loading]);
 
   return (
-    <div className=" w-full p-8">
+    <div className=" w-full p-7">
       <h1 className="text-[20px] font-[500] mb-4 text-BlackHomz">Support</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         <SectionOne />

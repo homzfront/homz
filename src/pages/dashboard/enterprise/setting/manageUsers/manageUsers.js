@@ -29,7 +29,7 @@ import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import { isTrialExpired } from "@/utils/compareTrialTime";
 
-const ManageUsers = () => {
+const ManageUsers = ({ typeOfUser }) => {
   const { setTab } = useTabForAddProperty();
   const { data, loading, fetchData } = estateStore();
   const [slog, setSlog] = useState(null);
@@ -73,6 +73,7 @@ const ManageUsers = () => {
   }, [enterprisePlans, profileData, data]);
 
   useBodyScroll([openModal, loadingII, showPopup]);
+
   const handleDropdownToggle = () => {
     if (reachedLimit?.reachedMaxUsers) {
       setOpenPurchasePlan(!openPurchasePlan);
@@ -84,6 +85,7 @@ const ManageUsers = () => {
     else {
       setIsOpen((prevIsOpen) => !prevIsOpen);
     }
+    
   };
 
   const goToplan = () => {
@@ -230,20 +232,23 @@ const ManageUsers = () => {
           />
         </div>
       )}
-      {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(profileData?.trialEndDate) && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={"Your Trial Has Ended"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
-            button={"Buy Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
+      {openPurchasePlan &&
+        reachedLimit?.enterprisePlanName === "Enterprise Free" &&
+        !reachedLimit?.expiredPlan &&
+        isTrialExpired(profileData?.trialEndDate) && (
+          <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+            <ExpiredPlanModal
+              header={"Your Trial Has Ended"}
+              body={
+                "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+              }
+              button={"Buy Plan"}
+              buttonTwo={"close"}
+              returnHome={goToplan}
+              returnHomeTwo={() => setOpenPurchasePlan(false)}
+            />
+          </div>
+        )}
       {openPurchasePlan && reachedLimit?.expiredPlan && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <ExpiredPlanModal
@@ -263,9 +268,11 @@ const ManageUsers = () => {
             onClick={handleDropdownToggle}
             className="flex w-full justify-between items-center cursor-pointer"
           >
-            <div className="text-[14px] font-[400] text-GrayHomz">
-              Add landlord to view and monitor properties
-            </div>
+            <p className="text-[14px] font-[400] text-GrayHomz">
+              {typeOfUser === "landlords"
+                ? "Add landlord to view and monitor properties"
+                : "Add security personnel to manage visitor access records"}
+            </p>
             <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
               <Image
                 src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
@@ -275,8 +282,8 @@ const ManageUsers = () => {
               />
             </div>
           </div>
-          <div className={`mt-4  ${isOpen ? "block" : "hidden"}`}>
-            <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-center md:px-5 pb-2 md:h-[95px] w-full">
+          <div className={`mt-1  ${isOpen ? "block" : "hidden"}`}>
+            <div className="flex flex-col md:flex-row gap-2 md:gap-[12px] items-center md:px-5 pb-2 md:h-[95px] w-full">
               <div className="w-full md:w-[360px]">
                 <input
                   className="border mt-2 rounded-md p-3 h-[45px] w-full placeholder:text-GrayHomz2 placeholder:text-[14px] placeholder:font-[500]"
@@ -288,16 +295,24 @@ const ManageUsers = () => {
               </div>
               <div
                 onClick={() => setShowPopup(true)}
-                className="md:w-[360px] w-full flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
+                className={` ${!slog?.name  ?"border-[#A9A9A9] text-GrayHomz2":"border-[#4E4E4E] text-black"} md:w-[360px] w-full flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md `}
               >
-                <div className="text-GrayHomz2 text-[13px] font-[400]">
-                  {slog?.name
-                    ? slog?.name
-                    : "Select property you want Landlord to view"}
+                <div className=" text-[13px] font-[400]">
+                  {slog?.name ? (
+                    slog.name
+                  ) : (
+                    <>
+                      Select property
+                      {typeOfUser === "landlords" &&
+                        " you want Landlord to view"}
+                    </>
+                  )}
                 </div>
+
                 <div
-                  className={`w-5 h-5 p-1 ${showPopup ? "transform rotate-180" : ""
-                    }`}
+                  className={`w-5 h-5 p-1 ${
+                    showPopup ? "transform rotate-180" : ""
+                  }`}
                 >
                   <Image
                     src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
@@ -316,18 +331,20 @@ const ManageUsers = () => {
               )}
               <button
                 onClick={handleSubmit}
-                className={`w-full md:w-auto h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
-                  ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
-                  : "bg-BlueHomz text-white"
-                  }`}
-              // disabled={isButtonDisabled}
+                className={`w-full md:w-fit h-[45px] mt-2 text-[16px] font-[700]  px-[12px] rounded-md ${
+                  isButtonDisabled
+                    ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
+                    : "bg-BlueHomz text-white"
+                }`}
+                // disabled={isButtonDisabled}
               >
                 Invite
               </button>
             </div>
             <div
-              className={`w-full md:w-auto mt-4 flex md:gap-1 ${reachedLimit?.reachedMaxEstates ? "hidden" : ""
-                }`}
+              className={`w-full md:w-auto mt-4 flex md:gap-1 ${
+                reachedLimit?.reachedMaxEstates ? "hidden" : ""
+              }`}
             >
               <p className="w-full md:w-auto text-[12px] md:text-[14px] font-[400] text-GrayHomz">
                 Yet to add a property?
@@ -385,6 +402,7 @@ const ManageUsers = () => {
             profileData={profileData}
             openPurchasePlan={openPurchasePlan}
             setOpenPurchasePlan={setOpenPurchasePlan}
+            typeOfUser={typeOfUser}
           />
         </div>
       </div>
