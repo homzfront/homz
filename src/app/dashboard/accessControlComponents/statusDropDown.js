@@ -8,12 +8,13 @@ const StatusDropdown = ({
   isOpen,
   toggleDropdown,
 }) => {
+  const dropdownRef = useRef(null);
+  
   // Ensure that Data is defined and not null
   if (!data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
   //  console.log(isOpen)
-  const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {

@@ -28,9 +28,9 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
     setModalOpen(true);
   };
 
-  useEffect(() => {
-    console.log(openDropdowns);
-  }, [openDropdowns]);
+  // useEffect(() => {
+  //   console.log(openDropdowns);
+  // }, [openDropdowns]);
 
   const ITEMS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
