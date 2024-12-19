@@ -1,12 +1,22 @@
 import { useLayoutEffect, useState, useCallback } from 'react';
 import useAuthStore from '@/store/useAuth/authStore';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import keepTwo from '@/utils/keepTwo';
 import { redirect } from 'next/navigation';
+import useOpenDueDate from '@/store/enterpriseStore/useOpenDueDate';
 
 
 const withAuth = (WrappedComponent) => {
     const WithAuthComponent = (props) => {
+        // set Tab for duedate on tenant page for enterprise user 
+        const urlParams = useSearchParams();
+        const { setTab } = useOpenDueDate();
+
+        useLayoutEffect(() => {
+            if (urlParams && urlParams.get("dueDate")) {
+                setTab("dueDate")
+            }
+        }, [urlParams]);
         const [loading, setLoading] = useState(true);
         const fetchUserProfile = useAuthStore((state) => state.fetchUserProfile);
         const user = useAuthStore((state) => state.user);
@@ -28,7 +38,7 @@ const withAuth = (WrappedComponent) => {
                 if (loading) return;
 
                 const userAccounts = user?.accounts.map((account) => account.name) || [];
-                
+
                 if (user) {
                     if (path === '/login' || path === '/register') {
                         route.push('/');

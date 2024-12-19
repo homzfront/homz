@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import TenantsTwoDueDate from "../firstPage/tenantsTwoDueDate";
 import TableFilter from "@/store/enterpriseStore/tableFilter";
 import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
+import { useSearchParams } from "next/navigation";
+import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 
 const Widget = ({
     Data,
@@ -26,6 +28,17 @@ const Widget = ({
         setData,
     } = TableFilter();
     const { setDueDatePage } = useEnterpriseTenantStore();
+    const { tab } = useOpenDueDate();
+
+    // Switch to the "Due Date" page (2) when the tab is "dueDate"
+    useEffect(() => {
+        if (tab === "dueDate") {
+            setActive(2);
+            setActiveTab(true);
+            setDueDatePage(true);
+        }
+    }, [tab, setActiveTab, setDueDatePage]);
+
 
     useEffect(() => {
         setData(Data);
@@ -102,8 +115,8 @@ const Widget = ({
                         <div
                             key={page.id}
                             className={`flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id
-                                    ? "bg-BlueHomz text-white"
-                                    : "bg-whiteblue text-BlueHomz "
+                                ? "bg-BlueHomz text-white"
+                                : "bg-whiteblue text-BlueHomz "
                                 }`}
                             onClick={() => {
                                 if (page.id === 2) {

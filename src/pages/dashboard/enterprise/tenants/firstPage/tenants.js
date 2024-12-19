@@ -24,6 +24,7 @@ import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import Widget from "../components/widget";
 import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
+import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -36,6 +37,7 @@ const Tenants = () => {
   const [filterModal, setFilterModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isMasterChecked, setIsMasterChecked] = useState(false);
+  const { setTab } = useOpenDueDate();
   const printableRef = useRef();
   const {
     data: user,
@@ -78,6 +80,7 @@ const Tenants = () => {
   useEffect(() => {
     if (dueDatePage) {
       fetchData(currentPage, new Date().toISOString());
+      setTab(null)
     } else {
       fetchData(currentPage);
     }

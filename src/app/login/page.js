@@ -15,6 +15,7 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import useTabForDocuGen from "@/store/document/useTabForDocuGen";
+import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 
 const Login = () => {
   const { homePage } = useTabForDocuGen();
@@ -25,6 +26,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(true);
   const router = useRouter();
+  const { tab } = useOpenDueDate();
+
   useBodyScroll([loading])
 
   // const handleGoogleSignIn = () => {
@@ -92,6 +95,8 @@ const Login = () => {
             const navigateTo = determineUserDashboard(profileData);
             if (homePage) {
               router.push("/dashboard/enterprise-property/documentGeneration")
+            } else if (tab === "dueDate") {
+              router.push("/dashboard/enterprise-property/tenants?dueDate=true")
             }
             else if (!homePage && navigateTo) {
               router.push(navigateTo);
