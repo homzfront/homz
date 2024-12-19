@@ -1,10 +1,10 @@
-import { useLayoutEffect, useState, useCallback } from 'react';
+import { useLayoutEffect, useState, useCallback, Suspense } from 'react';
 import useAuthStore from '@/store/useAuth/authStore';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import keepTwo from '@/utils/keepTwo';
 import { redirect } from 'next/navigation';
 import useOpenDueDate from '@/store/enterpriseStore/useOpenDueDate';
-
+import LoadingII from '../mainmenu/loadingII';
 
 const withAuth = (WrappedComponent) => {
     const WithAuthComponent = (props) => {
@@ -60,8 +60,11 @@ const withAuth = (WrappedComponent) => {
 
         if (loading) {
             return <div />;
-        } else {
-            return <WrappedComponent {...props} />;
+        } else { return (
+            <Suspense fallback={<LoadingII />}>
+                <WrappedComponent {...props} />
+            </Suspense>
+        );
         }
     };
 
