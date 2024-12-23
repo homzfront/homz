@@ -1,6 +1,7 @@
 import React from "react";
 import CustomizedModal from "./CustomizedModal";
 import ThreeDotsLoader from "./ThreeDotsLoader";
+import Image from "next/image";
 
 const ConfirmationModal = ({
   isOpen,
@@ -12,10 +13,20 @@ const ConfirmationModal = ({
   optionText2,
   color,
   isLoading,
+  image,
 }) => {
   return (
     <CustomizedModal isOpen={isOpen}>
       <div className="bg-white border w-[333px] flex flex-col sm:w-[464px] py-[24px] px-[16px] sm:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
+        {image && (
+          <Image
+            src="/static/images/Featured_icon.svg"
+            height={48}
+            width={48}
+            alt=""
+          />
+        )}
+
         <p
           className={` text-[14px] leading-[19.5px] sm:text-[20px] font-[700] sm:leading-[25.2px] text-center ${
             color && color

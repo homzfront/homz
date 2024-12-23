@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Property from "./listedProperty";
 import PromotionHooks from "@/utils/promoteProperty";
-import usePropertyStore from "@/store/propertyForMeStore";
+// import usePropertyStore from "@/store/propertyForMeStore";
 import usePropertyPromotionsData from "@/store/propertyPromotions";
 import LoadingII from "./components/loading";
 import useClickOutside from "@/utils/clickOutside";
@@ -15,7 +15,7 @@ import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/actionModal";
-import { propertyForMe } from "@/api/propertyService";
+// import { propertyForMe } from "@/api/propertyService";
 import api from "@/utils/api";
 
 const List_Property = () => {
@@ -27,7 +27,6 @@ const List_Property = () => {
   const [openPromoModal, setOpenPromoModal] = useState(false);
   const [openPlanModal, setOpenPlanModal] = useState(false);
   const [selectedProperty, setSelectedProperties] = useState([]);
-  const [proStatus, setProStatus] = useState("");
   const [isLoading, setLoader] = useState(false);
   const [loadingSecondPromo, setLoaderSecondPromo] = useState(false);
   const [statusName, setTabName] = useState(null);

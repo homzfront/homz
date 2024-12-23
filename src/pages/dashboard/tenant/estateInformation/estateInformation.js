@@ -27,7 +27,6 @@ const EstateInformation = () => {
   useEffect(() => {
     fetchData(); // Fetch data on component mount
   }, []);
-
   const openAvailableEstate = () => {
     setOpenEstate(!openEstate);
   };

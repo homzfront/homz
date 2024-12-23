@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import ConfirmModalI from "../components/confirmModalI";
 import useProfileStore from "@/store/profile";
 import { usePathname } from "next/navigation";
@@ -11,11 +11,12 @@ import Dashboard from '@/components/icons/dashboard/dashboard'
 import Maintenance from '@/components/icons/dashboard/maintenance '
 import Payment from '@/components/icons/dashboard/payment'
 import PropertyManagement from '@/components/icons/dashboard/propertyManagement'
-import Settings from '@/components/icons/dashboard/settings'
+// import Settings from '@/components/icons/dashboard/settings'
 import Support from '@/components/icons/dashboard/support'
 import Switch from '@/components/icons/dashboard/switch'
 import Profile from "@/components/icons/dashboard/profile";
 import TenantAccessControl from "@/components/icons/dashboard/tenantAccessControl";
+import tenantProfile from "@/store/tenantStore/tenantProfile";
 
 const Data = [
   {
@@ -83,16 +84,16 @@ const Data = [
   },
 ];
 
-const Data2 = [
+// const Data2 = [
 
-  // {
-  //   id: 2,
-  //   image: <Settings />,
-  // image2: <Settings className='text-white' />,
-  //   link: "/dashboard/tenant/setting",
-  //   name: "Setting",
-  // },
-];
+//   // {
+//   //   id: 2,
+//   //   image: <Settings />,
+//   // image2: <Settings className='text-white' />,
+//   //   link: "/dashboard/tenant/setting",
+//   //   name: "Setting",
+//   // },
+// ];
 
 const Data3 = [
   {
@@ -107,7 +108,13 @@ const Sidebar = () => {
   const path = usePathname();
   const pathname = keepThree(path);
   const [logoutModal, setLogoutModal] = useState(false);
+  const { data, fetchData } = tenantProfile();
 
+  useEffect(() => {
+    fetchData(); // Fetch data on component mount
+  }, []);
+
+  // console.log(data?.enterPriseId);
   const logoutII = () => {
     setLogoutModal(!logoutModal);
   };
@@ -134,35 +141,35 @@ const Sidebar = () => {
         </div>
         <div className="w-full h-[1024px] px-6 flex flex-col gap-8 mt-14">
           <div className="grid gap-3 ">
-            {Data.map((data) => (
+            {Data.map((datas) => (
               <Link
-                key={data.id}
-                href={data.link}
-                className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
+                key={datas.id}
+                href={datas.link}
+                className={` ${datas.link ==="/dashboard/tenant/accessControl" && !data?.enterPriseId  && "hidden"} h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === datas.link
                   ? "bg-BlueHomz text-white"
                   : " hover:bg-blue-100"
-                  } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
+                  } ${datas.coming === null ? "" : "opacity-50 pointer-events-none"
                   } `}
               >
-                {pathname === data.link ? (
+                {pathname === datas.link ? (
                   <div>
-                    {data.image2}
+                    {datas.image2}
                   </div>
                 ) : (
                   <div>
-                    {data.image}
+                    {datas.image}
                   </div>
                 )}
                 <div className="flex items-center w-full justify-between">
-                  <span className="">{data.name}</span>
-                  <p className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
+                  <span className="">{datas.name}</span>
+                  <p className={`${datas?.active === "true" ? "bg-error" : "bg-transparent"
                     } mt-1 h-2 w-2 rounded-full`}
                   ></p>
                 </div>
               </Link>
             ))}
           </div>{" "}
-          <div className="grid gap-3 ">
+          {/* <div className="grid gap-3 ">
             {Data2.map((data) => (
               <Link
                 key={data.id}
@@ -185,7 +192,7 @@ const Sidebar = () => {
                 <span className="">{data.name}</span>
               </Link>
             ))}
-          </div>
+          </div> */}
           <div className="grid gap-3 ">
             {Data3.map((data) => (
               <Link

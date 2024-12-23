@@ -1,101 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Image from "next/image";
-import { useEffect } from "react";
 
 const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
   const closeModal = () => {
     setOpenModal(!modalIsOpen);
   };
+
   return (
-    // <CustomizedModal isOpen={modalIsOpen}>
-    //   <div className="bg-white border flex flex-col w-[350px] h-fit p-[28px] rounded-[12px] gap-[18px]">
-    //     <div className=" flex items-center justify-between">
-    //       <p className="text-BlueHomz text-[14px] leading-[21px] font-[500] mb-2 pt-2">
-    //         Tenant Information
-    //       </p>
-
-    //       <div>
-    //         <button onClick={closeModal} className="cursor-pointer">
-    //           <Image
-    //             src="/static/images/close-square.svg"
-    //             height={24}
-    //             width={24}
-    //             alt=""
-    //           />
-    //         </button>
-    //       </div>
-    //     </div>
-    //     <div className="w-full h-full py-[28px]  px-[50px] grid grid-cols-2 rounded-[12px] bg-[#F6F6F6] ">
-    //       <div className="bg-[#F6F6F6] h-full grid grid-rows gap-[16px] font-[500] text-BlackHomz text-[13px] px-2 rounded-t-[12px] pt-4">
-    //         <div className="text-center">Visitor's Name</div>
-    //         <div className="text-center">Phone Number</div>
-    //         <div className="text-center">Purpose of visit</div>
-    //         <div className="text-center">No of persons</div>
-    //         <div className="text-center">Date of visit</div>
-    //         <div className="text-center">Access Code</div>
-    //         <div className="text-center">Access Status</div>
-    //         <div className="text-center">Time in</div>
-    //         <div className="text-center">Time out</div>
-    //       </div>
-
-    //       <div>
-
-    //             <div
-
-    //               className="grid grid-rows gap-[16px] items-center border-b-[1px] px-2 h-full"
-    //             >
-    //               <div className="sm:text-GrayHomz4 text-[#006AFF] sm:no-underline underline underline-offset-0 font-[500] text-[11px] text-center sm:cursor-default cursor-pointer">
-    //                 <span className="text-[12px]">{Data?.VisitorName}</span>
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center ">
-    //                 {Data?.Phone_Number}
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center ">
-    //                 {Data?.PurposeOfVisit}
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center ">
-    //                 {Data?.No_Of_Persons}
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center ">
-    //                 {Data?.DateOfVisit}
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center">
-    //                 {Data?.AccessCode}
-    //               </div>
-    //               <div
-    //                 className={`font-[400] text-[11px] text-center  ${
-    //                   Data?.AccessStatus === "Signed In"
-    //                     ? "text-green-500"
-    //                     : Data?.AccessStatus === "Pending"
-    //                     ? "text-[#DC6803]"
-    //                     : "text-[#D92D20]"
-    //                 }`}
-    //               >
-    //                 <span
-    //                   className={` sm:rounded-[8px] sm:py-[4px] sm:px-[8px] py-[8px] px-[12px] sm:h-[25px] h-[44px] ${
-    //                     Data?.AccessStatus === "Signed In"
-    //                       ? "bg-[#CDEADD]"
-    //                       : Data?.AccessStatus === "Pending"
-    //                       ? "bg-[#FCF3EB]"
-    //                       : "bg-[#FDF2F2]"
-    //                   }`}
-    //                 >
-    //                   {Data?.AccessStatus}
-    //                 </span>
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center ">
-    //                 {Data?.TimeIn}
-    //               </div>
-    //               <div className="text-GrayHomz font-[500] text-[11px] text-center ">
-    //                 {Data?.Time_Out}
-    //               </div>
-    //             </div>
-
-    //       </div>
-    //     </div>
-    //   </div>
-    // </CustomizedModal>
+  
     <CustomizedModal isOpen={modalIsOpen}>
     <div className="sm:hidden bg-white border grid w-[360px] py-[24px] px-[16px] rounded-[12px] gap-[18px]">
       {/* Header */}
@@ -121,7 +34,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Visitor’s Name</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data?.VisitorName}
+            {Data?.visitorName}
           </p>
         </div>
   
@@ -129,7 +42,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Phone Number</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data?.Phone_Number}
+            {Data?.visitorPhoneNumber}
           </p>
         </div>
   
@@ -137,7 +50,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Purpose</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data?.PurposeOfVisit}
+            {Data?.purposeOfVisit}
           </p>
         </div>
   
@@ -145,7 +58,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">No of visitors</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data?.No_Of_Persons}
+            {Data?.noOfPersons}
           </p>
         </div>
   
@@ -153,7 +66,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Date of visit</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data?.DateOfVisit}
+            {Data?.dateOfVisit || "----"}
           </p>
         </div>
   
@@ -161,7 +74,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Access Code</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data?.AccessCode}
+            {Data?.accessCode || "N/A"}
           </p>
         </div>
   
@@ -170,23 +83,23 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
           <p className="text-[11px] leading-[13.86px] font-[400]">Access Status</p>
           <span
             className={`font-[400] text-[11px] ${
-              Data?.AccessStatus === "Signed In"
+              Data?.accessStatus === "Signed In"
                 ? "text-green-500"
-                : Data?.AccessStatus === "Pending"
+                : Data?.accessStatus === "Pending"
                 ? "text-[#DC6803]"
                 : "text-[#D92D20]"
             }`}
           >
             <span
               className={`sm:rounded-[8px] sm:py-[4px] sm:px-[8px] py-[8px] px-[12px] sm:h-[25px] h-[44px] ${
-                Data?.AccessStatus === "Signed In"
+                Data?.accessStatus === "Signed In"
                   ? "bg-[#CDEADD]"
-                  : Data?.AccessStatus === "Pending"
+                  : Data?.accessStatus === "Pending"
                   ? "bg-[#FCF3EB]"
                   : "bg-[#FDF2F2]"
               }`}
             >
-              {Data?.AccessStatus}
+              {Data?.accessStatus}
             </span>
           </span>
         </div>
@@ -195,7 +108,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Time In</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data.TimeIn}
+            {Data?.timeIn || "----"}
           </p>
         </div>
   
@@ -203,7 +116,7 @@ const VisitorInfo = ({ Data, modalIsOpen, setOpenModal }) => {
         <div className="grid grid-cols-2 items-center">
           <p className="text-[11px] leading-[13.86px] font-[400]">Time Out</p>
           <p className="text-[11px] leading-[13.86px] font-[400] text-left">
-            {Data.Time_Out}
+            {Data?.timeOut || "----"}
           </p>
         </div>
       </div>

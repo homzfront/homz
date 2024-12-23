@@ -1,38 +1,42 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 
 const StatusDropdown = ({
   data = null || [],
   handleStatusChange,
   isOpen,
   toggleDropdown,
+  status,
 }) => {
-  const dropdownRef = useRef(null);
+  // const dropdownRef = useRef(null);
 
   // Ensure that Data is defined and not null
 
-  //  console.log(isOpen)
+  // console.log(status);
 
   // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        toggleDropdown(false);
-      }
-    };
-    document.addEventListener("click", handleOutsideClick);
+  // useEffect(() => {
+  //   const handleOutsideClick = (event) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       toggleDropdown(false);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [toggleDropdown]);
+  //   return () => {
+  //     document.removeEventListener("click", handleOutsideClick);
+  //   };
+  // }, [toggleDropdown]);
 
   if (!data) {
     return null; // or handle accordingly, e.g., return a loading state
   }
   return (
-    <div className="dropdown" ref={dropdownRef}>
+    <div
+      className="dropdown"
+      // ref={dropdownRef}
+    >
       <button
         className={`relative text-[11px] leading-[16.5px] ${
           data.AccessStatus === "Signed In" ? "bg-successBg text-Success" : ""
@@ -44,18 +48,20 @@ const StatusDropdown = ({
         onClick={() => toggleDropdown(!isOpen)}
       >
         <span className="">{data.AccessStatus}</span>
-        <div className={`w-5 h-5  ${isOpen ? "transform rotate-180" : ""}`}>
-          <Image
-            src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
-            height={16}
-            width={16}
-            alt=""
-          />
-        </div>
+        {data.AccessStatus != "Signed Out" && (
+          <div className={`w-5 h-5  ${isOpen ? "transform rotate-180" : ""}`}>
+            <Image
+              src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
+              height={16}
+              width={16}
+              alt=""
+            />
+          </div>
+        )}
 
         <ul
           className={`dropdown-menu absolute top-[30px] left-0 m-auto z-50 w-[100px] flex flex-col items-start justify-around gap-3 px-2 mt-1 py-2 bg-white shadow-md rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none ${
-            isOpen ? "block" : "hidden"
+            isOpen && data.AccessStatus != "Signed Out" ? "block" : "hidden"
           }`}
         >
           <li>

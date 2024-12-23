@@ -3,19 +3,38 @@ import React, { useState } from "react";
 import Button from "../../../components/button";
 import Image from "next/image";
 import VisitorInfo from "./visitorInfo";
-// import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
-const VisitorsTable = ({ Data, openModal }) => {
-  const [visitorData, setVisitorData] = useState(Data || []);
+
+const VisitorsTable = ({ data, openModal ,date, setDate, refetch}) => {
+  const [visitorData, setVisitorData] = useState(data || []);
   const [openMiniModal, setOpenModal] = useState(false);
 
   const ITEMS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(Data.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = Data && Data.slice(startIndex, endIndex);
 
+
+
+    const currentData = data?.results && data?.results.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(data && data?.totalCount / ITEMS_PER_PAGE);
+  
+  // function pageManagement(num) {
+
+  //   // Create a URL object to manage query parameters
+  //   const url = new URL(window.location.href);
+  //   // Set or update the 'page, email and profile type if they are not empty' query parameter
+  //   url.searchParams.set("page", num);
+  //   if (email) {
+  //     url.searchParams.set("email", email);
+  //   }
+  //   if (profileType) {
+  //     url.searchParams.set("profileType", profileType);
+  //   }
+
+  //   // Push the new URL without reloading the page and without scrolling
+  //   router.replace(url.toString(), { scroll: false, shallow: true });
+  // }
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
@@ -27,7 +46,6 @@ const VisitorsTable = ({ Data, openModal }) => {
   const handlePageClick = (page) => {
     setCurrentPage(page);
   };
-
 
   const handleRowClick = (Property) => {
     setVisitorData(Property);
@@ -46,6 +64,7 @@ const VisitorsTable = ({ Data, openModal }) => {
     (_, index) => lastThreePagesStart + index
   );
 
+
   return (
     <div className="flex flex-col space-y-7 pb-9">
       {/* <div className={`${property && "hidden"}`}> */}
@@ -55,7 +74,7 @@ const VisitorsTable = ({ Data, openModal }) => {
             <p className="font-[500]">Visitors</p>
             <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
               <span className="text-BlueHomz text-[18px] font-[400]">
-                {Data.length}
+                {data?.totalCount || 0}
               </span>
             </span>
           </div>
@@ -83,8 +102,10 @@ const VisitorsTable = ({ Data, openModal }) => {
               id="date"
               name="date"
               placeholder="Date"
+              value={date} 
+              onChange={(e)=> setDate(e.target.value)}
             />
-            <button className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer">
+            <button className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer" onClick={refetch}>
               <span>
                 <Image
                   src={
@@ -123,17 +144,15 @@ const VisitorsTable = ({ Data, openModal }) => {
           <div className="border rounded-t-[12px]">
             {/* Header Section */}
             <div className="bg-whiteblue h-[60px] grid sm:grid-cols-9 grid-cols-3 gap-2 font-[500] text-BlackHomz text-[13px] px-2 rounded-t-[12px] pt-4">
-              <div className="text-center">Visitor's Name</div>
-              <div className="text-center sm:block hidden">Phone Number</div>
-              <div className="text-center sm:block hidden">
-                Purpose of visit
-              </div>
-              <div className="text-center sm:block hidden">No of persons</div>
-              <div className="text-center sm:block hidden">Date of visit</div>
-              <div className="text-center">Access Code</div>
-              <div className="text-center">Access Status</div>
-              <div className="text-center sm:block hidden">Time in</div>
-              <div className="text-center sm:block hidden">Time out</div>
+              <div className="text-left pl-2">Visitor's Name</div>
+              <div className="text-left sm:block hidden">Phone Number</div>
+              <div className="text-left sm:block hidden">Purpose of visit</div>
+              <div className="text-left sm:block hidden">No of persons</div>
+              <div className="text-left sm:block hidden">Date of visit</div>
+              <div className="text-left">Access Code</div>
+              <div className="text-left">Access Status</div>
+              <div className="text-left sm:block hidden">Time in</div>
+              <div className="text-left sm:block hidden">Time out</div>
             </div>
 
             {/* Body Section */}
@@ -145,52 +164,52 @@ const VisitorsTable = ({ Data, openModal }) => {
                     className="grid sm:grid-cols-9  grid-cols-3 gap-2 items-center border-b-[1px] px-2 h-[60px]"
                   >
                     <div
-                      className="sm:text-GrayHomz4 text-[#006AFF] sm:no-underline underline underline-offset-0 font-[500] text-[11px] text-center sm:cursor-default cursor-pointer"
+                      className="sm:text-GrayHomz4 text-[#006AFF] sm:no-underline underline underline-offset-0 font-[500] text-[11px] text-left sm:cursor-default cursor-pointer pl-2"
                       onClick={() => handleRowClick(data)}
                     >
-                      <span className="text-[12px]">{data.VisitorName}</span>
+                      <span className="text-[12px]">{data?.visitorName}</span>
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center sm:block hidden">
-                      {data.Phone_Number}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
+                      {data?.visitorPhoneNumber}
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center sm:block hidden">
-                      {data.PurposeOfVisit}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
+                      {data?.purposeOfVisit}
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center sm:block hidden">
-                      {data.No_Of_Persons}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
+                      {data?.noOfPersons}
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center sm:block hidden">
-                      {data.DateOfVisit}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
+                      {data?.dateOfVisit || "----"}
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center">
-                      {data.AccessCode}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left">
+                      {data?.accessCode}
                     </div>
                     <div
-                      className={`font-[400] text-[11px] text-center  ${
-                        data.AccessStatus === "Signed In"
+                      className={`font-[400] text-[11px] text-left  ${
+                        data?.accessStatus === "Signed In"
                           ? "text-green-500"
-                          : data.AccessStatus === "Pending"
+                          : data?.accessStatus === "Pending"
                           ? "text-[#DC6803]"
                           : "text-[#D92D20]"
                       }`}
                     >
                       <span
                         className={` sm:rounded-[8px] sm:py-[4px] sm:px-[8px] py-[8px] px-[12px] sm:h-[25px] h-[44px] ${
-                          data.AccessStatus === "Signed In"
+                          data?.accessStatus === "Signed In"
                             ? "bg-[#CDEADD]"
-                            : data.AccessStatus === "Pending"
+                            : data?.accessStatus === "Pending"
                             ? "bg-[#FCF3EB]"
                             : "bg-[#FDF2F2]"
                         }`}
                       >
-                        {data.AccessStatus}
+                        {data?.accessStatus}
                       </span>
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center sm:block hidden">
-                      {data.TimeIn}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
+                      {data?.timeIn || "----"}
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-center sm:block hidden">
-                      {data.Time_Out}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
+                      {data?.timeOut || "----"}
                     </div>
                   </div>
                 ))}
@@ -207,8 +226,11 @@ const VisitorsTable = ({ Data, openModal }) => {
         handlePageClick={handlePageClick}
         handlePrev={handlePrev}
       />
-      <VisitorInfo Data={visitorData} modalIsOpen={openMiniModal} setOpenModal={setOpenModal} />
-      
+      <VisitorInfo
+        Data={visitorData}
+        modalIsOpen={openMiniModal}
+        setOpenModal={setOpenModal}
+      />
     </div>
   );
 };
