@@ -6,17 +6,50 @@ import SuccessModal from "@/app/dashboard/components/SuccessModal";
 import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import { useForm } from "react-hook-form";
-// import Link from "next/link";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import api from "@/utils/api";
+import Loading from "@/components/mainmenu/loading";
+
+
 import { useRouter } from "next/navigation";
+import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
+import { set } from "lodash";
+// import tenantProfile from "@/store/tenantStore/tenantProfile";
 
 const AccessControl = () => {
-  const [data, setData] = useState(VisitorData || {});
+  const [isLoading, setLoader2] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [miniModalIsOpen, setMiniModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [accessCode, setAccessCode] = useState(null);
   const [regBtnAppear, setRegBtnAppear] = useState(false);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [date, setDate]= useState("")
+
+  const fetchData = async (page, date) => {
+    // Construct the query based on pagination and filters
+    let query = `/visitor/accesscontrol/tenant/get?page=${page}`;
+    if (date) {
+      // setEnabled(true);
+      query += `&dateFiliter=${date}`;
+      setPage(page || 1);
+      // pageManagement(page || 1);
+    }
+    return await api.get(query);
+  };
+  const { isPending, refetch, data } =
+    useQuery({
+      queryKey: ["users", page, date],
+      queryFn: async () => {
+        return await fetchData(page, date);
+      },
+      placeholderData: keepPreviousData,
+      select: (users) => {
+        return users.data.data;
+      },
+      // enabled: enable,
+    });
 
   const router = useRouter();
   const back = () => {
@@ -45,12 +78,32 @@ const AccessControl = () => {
     criteriaMode: "all",
   });
 
-  const onSubmit = (data) => {
-    // console.log(data);
-    setAccessCode(() => generateAccessCode(20));
-    reset();
-    setModalIsOpen(false);
-    openMiniModal();
+  const onSubmit = async (data) => {
+    if (!data) return;
+
+    setLoader2(true);
+
+    const { visitorName, purposeOfVisit, visitorPhoneNumber, noOfPersons } =
+      data;
+
+    try {
+      const response = await api.post("/visitor/accesscontrol/tenant/create", {
+        visitorName,
+        purposeOfVisit,
+        visitorPhoneNumber,
+        noOfPersons,
+      });
+
+      setAccessCode(response?.data?.data?.accessCode);
+      reset();
+      setModalIsOpen(false);
+      openMiniModal();
+      refetch();
+    } catch (error) {
+      console.error("Error creating access control:", error);
+    } finally {
+      setLoader2(false);
+    }
   };
 
   const copyToClipboard = () => {
@@ -66,15 +119,7 @@ const AccessControl = () => {
         console.error("Failed to copy access code to clipboard:", error);
       });
   };
-  function generateAccessCode(length) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let registrationNumber = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      registrationNumber += characters.charAt(randomIndex);
-    }
-    return registrationNumber;
-  }
+
   const closeModal = () => {
     setModalIsOpen(false);
     setRegBtnAppear(false);
@@ -86,6 +131,13 @@ const AccessControl = () => {
   const closeSuccessModal = () => {
     setSuccessModalIsOpen(false);
   };
+
+  const handleReset=()=>{
+    setDate("")
+   }
+  if (isPending) {
+    return <Loading />;
+  }
 
   // console.log(VisitorData)
   return (
@@ -106,7 +158,7 @@ const AccessControl = () => {
           <p className="font-[500]">Visitors</p>
           <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
             <span className="text-BlueHomz text-[18px] font-[400]">
-              {data.length}
+              {VisitorData.length}
             </span>
           </span>
         </div>
@@ -135,8 +187,8 @@ const AccessControl = () => {
           </button>
         </div>
       </div>
-      {data.length > 0 ? (
-        <VistorTable Data={VisitorData} openModal={openModal} />
+      {VisitorData.length > 0 ? (
+        <VistorTable data={data} openModal={openModal} date={date} setDate={setDate} refetch={handleReset} />
       ) : (
         <>
           <div className="">
@@ -276,7 +328,7 @@ const AccessControl = () => {
             </div>
             <div className="flex flex-col gap-2 flex-1">
               <label
-                htmlFor="numberOfPersons"
+                htmlFor="noOfPersons"
                 className="font-[500] text-[13px] leading-[19.5px]"
               >
                 Number of Persons <span className="text-red-500">*</span>
@@ -284,7 +336,7 @@ const AccessControl = () => {
               <>
                 <input
                   type="number"
-                  {...register("numberOfPersons", {
+                  {...register("noOfPersons", {
                     required: "This field is required",
                     pattern: {
                       value: /^[1-9]\d*$/,
@@ -295,9 +347,9 @@ const AccessControl = () => {
                   placeholder="Enter the total number of expected persons"
                 />
 
-                {errors.numberOfPersons && (
+                {errors.noOfPersons && (
                   <span className="text-red-500 text-xs">
-                    {errors.numberOfPersons.message}
+                    {errors.noOfPersons.message}
                   </span>
                 )}
               </>
@@ -306,7 +358,11 @@ const AccessControl = () => {
               type="submit"
               className="bg-BlueHomz2 mt-2 text-white flex items-center p-[12px] justify-center rounded-[4px] h-[48px]  w-full"
             >
-              Generate Access Code
+              {isLoading ? (
+                <ThreeDotsLoader color="#ffffff" />
+              ) : (
+                <span>Generate Access Code</span>
+              )}
             </button>
           </form>
         </div>

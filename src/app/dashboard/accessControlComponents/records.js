@@ -5,9 +5,11 @@ import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import DropDown from "./dropDown";
 import StatusDropdown from "./statusDropDown";
+import MobileDropDown from "./mobileDropDown";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import VisitorAccessInfo from "./visitorAccessInfo";
+import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 
 const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
   // console.log(searchValue);
@@ -22,15 +24,15 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [detailsModalIsOpen, setDetailsModalIsOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState("all");
-  // const [modalOpen, setModalOpen] = useState(false);
+  const [confirmStatusModal, setConfirmStatusModal] = useState(false);
+  const [status, setStatus] = useState({
+    status: "",
+    Id: "",
+  });
 
   const openNewRecordModal = () => {
     setModalOpen(true);
   };
-
-  // useEffect(() => {
-  //   console.log(openDropdowns);
-  // }, [openDropdowns]);
 
   const ITEMS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,9 +64,13 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
     setMobileModalIsOpen(true);
     // setTenant(data);
   };
-  // const closeMobileModal = () => {
-  //   setMobileModalIsOpen(false);
-  // };
+  const accessStatus = () => {
+    setConfirmStatusModal(false);
+    handleAccessStatus(status.status, status.Id);
+  };
+  const closeMobileModal = () => {
+    setMobileModalIsOpen(false);
+  };
   const openDetailsMobileModal = (data) => {
     // console.log("data details", data);
     setDetailsModalIsOpen(true);
@@ -89,9 +95,7 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
-
-  const handleStatusChange = (status, dataId) => {
-    // console.log(dataId)
+  const handleAccessStatus = (status, dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
 
     const dataIndex = data.findIndex((item) => item.id === dataId);
@@ -101,6 +105,18 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
       updatedData[dataIndex].AccessStatus = status;
 
       setData(updatedData);
+    }
+  };
+
+  const handleStatusChange = (status, dataId) => {
+    if (status === "Signed Out") {
+      setConfirmStatusModal(true);
+      setStatus({
+        status: status,
+        Id: dataId,
+      });
+    } else {
+      handleAccessStatus(status, dataId);
     }
   };
 
@@ -248,7 +264,7 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
             {/* Header Section */}
 
             <div className="bg-whiteblue h-[60px] grid sm:grid-cols-[15px_repeat(10,1fr)] grid-cols-[5px_repeat(3,1fr)] sm:gap-x-10 gap-x-4 font-[500] text-BlackHomz text-[13px] px-2 rounded-t-[12px] pt-4">
-              <div className="items-left"></div>
+              <div className="items-left pl-2"></div>
               <div className="flex items-start justify-start">
                 {" "}
                 Tenant's Info
@@ -275,7 +291,7 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
                     className="grid sm:grid-cols-[15px_repeat(10,1fr)]  grid-cols-[5px_repeat(3,1fr)] sm:gap-x-10 gap-x-4  items-center border-b-[1px] px-2 h-[60px]"
                   >
                     <div
-                      className="font-[500] text-[11px] text-left "
+                      className="font-[500] text-[11px] text-left pl-2"
                       // onClick={() => handleRowClick(data)}
                     >
                       {data.AccessStatus == "Pending" && (
@@ -448,6 +464,60 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
         isOpen={openDropdowns[tenant.id] || false}
         toggleDropdown={() => toggleDropdown(tenant.id)}
       />
+
+      <ConfirmationModal
+        isOpen={confirmStatusModal}
+        title="Confirm Status Change"
+        confirmatoryText="Are you sure you want to change the access status to 
+        'Sign Out'? Once changed, this action cannot be undone."
+        handleEvent={accessStatus}
+        cancel={() => {
+          setConfirmStatusModal(false);
+        }}
+        optionText="Yes, change status"
+        optionText2="Cancel"
+        image={true}
+        // color="text-[#D92D20]"
+      />
+
+      <CustomizedModal
+        isOpen={mobileModalIsOpen}
+        onRequestClose={closeMobileModal}
+      >
+        <div className="bg-white border flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+          <div className=" flex items-center justify-between">
+            <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
+              Filter by
+            </p>
+
+            <div>
+              <button onClick={closeMobileModal} className="cursor-pointer">
+                <Image
+                  src="/static/images/close-square.svg"
+                  height={24}
+                  width={24}
+                  alt=""
+                />
+              </button>
+            </div>
+          </div>
+
+          <MobileDropDown />
+
+          <button className="border w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-3">
+            <Image
+              src={"/static/images/white_repeat.svg"}
+              alt=""
+              height={17}
+              width={16}
+            />
+
+            <span className="text-[14px] leading-[17.64px] text-[700] text-white">
+              Reset
+            </span>
+          </button>
+        </div>
+      </CustomizedModal>
     </div>
   );
 };
