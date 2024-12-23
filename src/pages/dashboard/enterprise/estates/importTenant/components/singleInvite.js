@@ -165,7 +165,6 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
         return Object.keys(newErrors).length === 0;
     };
 
-
     // Update `isValid` whenever `formData` changes
     useEffect(() => {
         const allFieldsValid = validateSpecificFields()
