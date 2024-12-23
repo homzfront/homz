@@ -79,6 +79,11 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
   };
 
+  const handleToggleMenu = (id) => {
+    setPopUpMenuTwo(!popUpMenuTwo);
+    setSelectedDataId(id);
+  };
+
   // const handleCheckboxChange = (event, id, selectedName) => {
   //   const checked = event.target.checked;
   //   if (checked) {

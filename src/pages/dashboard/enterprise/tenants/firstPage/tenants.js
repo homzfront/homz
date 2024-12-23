@@ -24,6 +24,7 @@ import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import Widget from "../components/widget";
 import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
+import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
@@ -36,6 +37,7 @@ const Tenants = () => {
   const [filterModal, setFilterModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isMasterChecked, setIsMasterChecked] = useState(false);
+  const { setTab } = useOpenDueDate();
   const printableRef = useRef();
   const {
     data: user,
@@ -68,8 +70,6 @@ const Tenants = () => {
     setCurrentPage,
   } = useEnterpriseTenantStore();
 
-  console.log(currentPage)
-
   useEffect(() => {
     // fetchData(); // Fetch data on component mount
     fetchProfileData();
@@ -79,20 +79,25 @@ const Tenants = () => {
 
   useEffect(() => {
     if (dueDatePage) {
-      console.log("HI")
       fetchData(currentPage, new Date().toISOString());
+      setTab(null)
     } else {
-      console.log("HI2")
       fetchData(currentPage);
     }
   }, [currentPage, dueDatePage]);
 
   useEffect(() => {
-    if (data) {
-      setLoading(false)
+    let timeout;
+
+    if (data !== null) {
+      setLoading(false);
+    } else {
+      timeout = setTimeout(() => {
+        setLoading(false);
+      }, 20000);
     }
-  }, [data])
-  console.log(data)
+    return () => clearTimeout(timeout);
+  }, [data]);
 
   useEffect(() => {
     const values = checkPlanLimits(
@@ -107,7 +112,6 @@ const Tenants = () => {
   }, [enterprisePlans, user, data]);
 
   const tenantData = data?.[0]?.data;
-  console.log(tenantData)
   const options = [...new Set(tenantData?.map((item) => item?.estateId?.name))];
 
   const options2 = ["Pending", "Paid", "Over due"];
@@ -183,10 +187,8 @@ const Tenants = () => {
       {reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <ExpiredPlanModal
-            header={"Tenant Limit Reached"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
+            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
             button={"Upgrade Plan"}
             buttonTwo={"close"}
             returnHome={goToplan}
@@ -387,8 +389,8 @@ const Tenants = () => {
                 printableRef={printableRef}
                 totalPages={totalPages}
                 setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-              loading={loadingTable}
+                currentPage={currentPage}
+                loading={loadingTable}
               />
             </div>
           )}

@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import TenantsTwoDueDate from "../firstPage/tenantsTwoDueDate";
 import TableFilter from "@/store/enterpriseStore/tableFilter";
 import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
+import { useSearchParams } from "next/navigation";
+import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 
 const Widget = ({
     Data,
@@ -26,48 +28,25 @@ const Widget = ({
         setData,
     } = TableFilter();
     const { setDueDatePage } = useEnterpriseTenantStore();
+    const { tab } = useOpenDueDate();
+
+    // Switch to the "Due Date" page (2) when the tab is "dueDate"
+    useEffect(() => {
+        if (tab === "dueDate") {
+            setActive(2);
+            setActiveTab(true);
+            setDueDatePage(true);
+        }
+    }, [tab, setActiveTab, setDueDatePage]);
+
 
     useEffect(() => {
         setData(Data);
     }, [Data]);
 
-    console.log(KeptData);
-
     const RefinedData = activeTab
-        ? Data?.sort((a, b) => {
-            // Prioritize overdue payments
-            if (
-                a.rentInfo.paymentStatus === "over due" &&
-                b.rentInfo.paymentStatus !== "over due"
-            )
-                return -1;
-            if (
-                a.rentInfo.paymentStatus !== "over due" &&
-                b.rentInfo.paymentStatus === "over due"
-            )
-                return 1;
-
-            // For same status, prioritize older due dates
-            if (a.rentInfo.paymentStatus === b.rentInfo.paymentStatus) {
-                return new Date(a.rentInfo.dueDate) - new Date(b.rentInfo.dueDate);
-            }
-
-            // Default order: pending after overDue
-            if (
-                a.rentInfo.paymentStatus === "pending" &&
-                b.rentInfo.paymentStatus !== "pending"
-            )
-                return 1;
-            if (
-                a.rentInfo.paymentStatus !== "pending" &&
-                b.rentInfo.paymentStatus === "pending"
-            )
-                return -1;
-            return 0;
-        })
+        ? Data
         : KeptData;
-
-    console.log(RefinedData);
 
     const pages = [
         {
@@ -136,8 +115,8 @@ const Widget = ({
                         <div
                             key={page.id}
                             className={`flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id
-                                    ? "bg-BlueHomz text-white"
-                                    : "bg-whiteblue text-BlueHomz "
+                                ? "bg-BlueHomz text-white"
+                                : "bg-whiteblue text-BlueHomz "
                                 }`}
                             onClick={() => {
                                 if (page.id === 2) {

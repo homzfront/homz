@@ -250,10 +250,8 @@ const Estate = () => {
       {openPurchasePlanTenant && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxTenants && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <ExpiredPlanModal
-            header={"Tenant Limit Reached"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
+            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
             button={"Upgrade Plan"}
             buttonTwo={"close"}
             returnHome={goToplan}
@@ -264,10 +262,8 @@ const Estate = () => {
       {openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxEstates && (
         <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <ExpiredPlanModal
-            header={"Property Limit Exceeded"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
+            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add up to 20 properties or more."}
             button={"Upgrade Plan"}
             buttonTwo={"close"}
             returnHome={goToplan}

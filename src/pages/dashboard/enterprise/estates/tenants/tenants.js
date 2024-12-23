@@ -16,17 +16,51 @@ import Document from "@/components/icons/document";
 import { useReactToPrint } from "react-to-print";
 import MoneySend from "@/components/icons/moneySend";
 import Send from "@/components/icons/send";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import ExpiredPlanModal from "../../components/expiredPlanModal";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
 const Tenants = ({ id }) => {
   const { data: tenantData, loading, fetchData } = useTenantOfAnEstate();
   const { data: datas, fetchData: Fetch } = useEstateForOneStore();
 
   const route = useRouter()
+  const {
+    data: user,
+    fetchData: fetchProfileData,
+  } = useProfileEnterpriseMe();
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+    useEnterprisePlans();
+  const [reachedLimit, setReachedLimit] = useState(null);
+  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
+    const [openPurchasePlanTenant, setOpenPurchasePlanTenant] = useState(false);
+
+  useEffect(() => {
+    fetchProfileData();
+    fetchEnterprisePlans();
+  }, []);
+
+  useEffect(() => {
+    const values = checkPlanLimits(
+      enterprisePlans,
+      user?.planName,
+      user?.estates?.length,
+      user?.propertyOwners?.length,
+      user?.tenants?.length,
+      user?.IsExpired
+    );
+    setReachedLimit(values);
+  }, [enterprisePlans, user]);
 
   const goBack = () => {
     route.back();
   };
 
+  const goToplan = () => {
+    route.push("/plans");
+  };
 
   useEffect(() => {
     fetchData(id);
@@ -70,11 +104,27 @@ const Tenants = ({ id }) => {
     });
 
   const openInvite = () => {
-    setInviteTenant(!inviteTenant);
+     if (reachedLimit?.reachedMaxTenants) {
+      setOpenPurchasePlanTenant(!openPurchasePlanTenant);
+    } else if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.expiredPlan) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else {
+      setInviteTenant(!inviteTenant);
+    }
   };
 
   const openAddNewProperty = () => {
-    setAddNewProperty(!addNewProperty);
+    if (reachedLimit?.reachedMaxEstates) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.expiredPlan) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else {
+      setAddNewProperty(!addNewProperty);
+    }
   };
 
   const closeProperty = () => {
@@ -111,6 +161,56 @@ const Tenants = ({ id }) => {
           />
         </div>
       }
+       {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={
+              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+            }
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlanTenant && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxTenants && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlanTenant(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxEstates && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add up to 20 properties or more."}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
+      {openPurchasePlan && reachedLimit?.expiredPlan && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <ExpiredPlanModal
+            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </div>
+      )}
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
           <Modal dropdownRef={dropdownRef} />
