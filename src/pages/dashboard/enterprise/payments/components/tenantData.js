@@ -72,27 +72,28 @@ const TenantData = () => {
     setDeleteModal(!deleteModal)
   }
 
-  useEffect(() => {
-    const fetchData = async (page) => {
-      setLoading(true);
-      try {
-        let query = `rentPayment/enterprise?limit=6&page=${page}`;
-        if (selectedProperty) {
-          query += `&property=${selectedProperty}`;
-        }
-        if (selectedDate) {
-          query += `&date=${selectedDate}`;
-        }
-        const response = await api.get(query);
-        const result = response?.data;
-        setData(result?.data?.results);
-        setTotalPages(result?.data?.totalPages);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching data:", error);
+  const fetchData = async (page) => {
+    setLoading(true);
+    try {
+      let query = `rentPayment/enterprise?limit=6&page=${page}`;
+      if (selectedProperty) {
+        query += `&property=${selectedProperty}`;
       }
-    };
+      if (selectedDate) {
+        query += `&date=${selectedDate}`;
+      }
+      const response = await api.get(query);
+      const result = response?.data;
+      setData(result?.data?.results);
+      setTotalPages(result?.data?.totalPages);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchData(currentPage);
   }, [currentPage, selectedProperty, selectedDate, Refetch]);
 
@@ -220,6 +221,7 @@ const TenantData = () => {
                           setDeleteSuccessModal={setDeleteSuccessModal}
                           deleteSuccessModal={deleteSuccessModal}
                           handleDelete={handleDelete}
+                          fetchData={fetchData}
                         />
                       )}
                     </td>

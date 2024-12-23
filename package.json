@@ -60,6 +60,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-datepicker": "^7.5.0",
+    "react-day-picker": "^9.4.4",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-dropzone-uploader": "^2.11.0",
