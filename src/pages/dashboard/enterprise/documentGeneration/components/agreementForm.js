@@ -14,6 +14,11 @@ import useGetAllDocument from '@/store/document/getAllDocument';
 import extractNumber from '@/utils/removeCommasFromString';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import formatDate from '@/utils/formatDateForDocu';
+import DateIcon from '@/components/icons/date';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 
 const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -27,7 +32,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     const { profile } = useProfileStore();
     const { setHomePage } = useTabForDocuGen();
     const { DocType, FormName } = FormSelection();
-    const {fetchData} = useGetAllDocument(state => ({fetchData: state.fetchData}));
+    const { fetchData } = useGetAllDocument(state => ({ fetchData: state.fetchData }));
     const [loading, setLoading] = useState(false);
 
     function hasPropertyManagerAccount(profile) {
@@ -123,7 +128,7 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
     };
 
     return (
-        <div className='mt-4 pr-2'>
+        <div className='mt-4 pr-2 w-full'>
             <div className=''>
                 <Input
                     label={"Property Description"}
@@ -202,28 +207,50 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                     {errors.tenantAddress}
                 </span>}
             </div>
-            <div className='mt-2'>
-                <Input
-                    label={"Tenancy Commencement Date"}
-                    placeholder={"e.g 1 July, 2024"}
-                    type={"date"}
-                    value={formatDate(formData.tenancyStartDate)}
-                    onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
-                    autoComplete={"tenantCommencementDate"}
-                />
+            <div className='mt-2 w-full'>
+                <label className="text-[14px] font-[500]">
+                    Tenancy Start Date
+                </label>
+                <div className="mt-2 relative w-full">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.tenancyStartDate} // Bind to formData
+                            onChange={(date) =>
+                                setFormData('tenancyStartDate', date)
+                            } // Update using handleInputChange
+                            dateFormat="d MMMM, yyyy"
+                            placeholderText="e.g 1 July, 2024"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.tenancyStartDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.tenancyStartDate}
                 </span>}
             </div>
-            <div className='mt-2'>
-                <Input
-                    label={"Tenancy Ending Date"}
-                    placeholder={"e.g 31 June, 2025"}
-                    type={"date"}
-                    value={formatDate(formData.tenancyEndDate)}
-                    onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
-                    autoComplete={"tenancyEndDate"}
-                />
+            <div className='mt-2 w-full'>
+                <label className="text-[14px] font-[500]">
+                    Tenancy Ending Date
+                </label>
+                <div className="mt-2 relative w-full">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.tenancyEndDate} // Bind to formData
+                            onChange={(date) =>
+                                setFormData('tenancyEndDate', date)
+                            } // Update using handleInputChange
+                            dateFormat="d MMMM, yyyy" // Display format
+                            placeholderText="e.g 31 June, 2025"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.tenancyEndDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.tenancyEndDate}
                 </span>}
@@ -269,14 +296,25 @@ const AgreementForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreatio
                 </div>
             </div>
             <div className='mt-2'>
-                <Input
-                    label={"Agreement Preparation Date"}
-                    placeholder={"e.g 30 June, 2024"}
-                    type={"date"}
-                    value={formatDate(formData.agreementDate)}
-                    onChange={(e) => setFormData('agreementDate', e.target.value)}
-                    autoComplete={"agreementDate"}
-                />
+                <label className="text-[14px] font-[500]">
+                    Agreement Preparation Date
+                </label>
+                <div className="mt-2 relative">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.agreementDate} // Bind to formData
+                            onChange={(date) =>
+                                setFormData('agreementDate', date)
+                            } // Update using handleInputChange
+                            dateFormat="d MMMM, yyyy" // Display format
+                            placeholderText="e.g 30 June, 2024"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.agreementDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.agreementDate}
                 </span>}

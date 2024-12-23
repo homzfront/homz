@@ -16,6 +16,9 @@ import { toast } from "react-hot-toast";
 import extractNumber from '@/utils/removeCommasFromString';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import formatDate from '@/utils/formatDateForDocu';
+import DateIcon from '@/components/icons/date';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -276,14 +279,25 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 </span>}
             </div>
             <div className='mt-2'>
-                <Input
-                    label={"Date"}
-                    placeholder={"e.g 1 July, 2026"}
-                    type={"date"}
-                    value={formatDate(formData.receiptDate)}
-                    onChange={(e) => setFormData('receiptDate', e.target.value)}
-                    autoComplete={"receiptDate"}
-                />
+                <label className="text-[14px] font-[500]">
+                    Date
+                </label>
+                <div className="mt-2 relative">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.receiptDate}
+                            onChange={(date) =>
+                                setFormData('receiptDate', date)
+                            }
+                            dateFormat="d MMMM, yyyy"
+                            placeholderText="e.g 1 July, 2026"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.receiptDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.receiptDate}
                 </span>}
@@ -408,27 +422,49 @@ const ReceiptForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation 
                 </div>
             </div>
             <div className='mt-2'>
-                <Input
-                    label={"Tenancy Start Date"}
-                    placeholder={"e.g 1 July, 2024"}
-                    type={"date"}
-                    value={formatDate(formData.tenancyStartDate)}
-                    onChange={(e) => setFormData('tenancyStartDate', e.target.value)}
-                    autoComplete={"tenancyStartDate"}
-                />
+                <label className="text-[14px] font-[500]">
+                    Tenancy Start Date
+                </label>
+                <div className="mt-2 relative">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.tenancyStartDate}
+                            onChange={(date) =>
+                                setFormData('tenancyStartDate', date)
+                            }
+                            dateFormat="d MMMM, yyyy"
+                            placeholderText="e.g 1 July, 2024"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.tenancyStartDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.tenancyStartDate}
                 </span>}
             </div>
             <div className='mt-2'>
-                <Input
-                    label={"Tenancy End Date"}
-                    placeholder={"e.g 31, 2025"}
-                    type={"date"}
-                    value={formatDate(formData.tenancyEndDate)}
-                    onChange={(e) => setFormData('tenancyEndDate', e.target.value)}
-                    autoComplete={"tenancyEndDate"}
-                />
+                <label className="text-[14px] font-[500]">
+                    Tenancy End Date
+                </label>
+                <div className="mt-2 relative">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.tenancyEndDate}
+                            onChange={(date) =>
+                                setFormData('tenancyEndDate', date)
+                            }
+                            dateFormat="d MMMM, yyyy"
+                            placeholderText="e.g 31, 2025"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.tenancyEndDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.tenancyEndDate}
                 </span>}

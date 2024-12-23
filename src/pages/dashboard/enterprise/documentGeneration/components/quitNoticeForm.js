@@ -15,6 +15,9 @@ import formatDate from '@/utils/formatDateForDocu';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import toast from 'react-hot-toast';
 import api from '@/utils/api';
+import DateIcon from '@/components/icons/date';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreation }) => {
     const [hover, setHover] = useState(false);
@@ -215,14 +218,25 @@ const QuitNoticeForm = ({ handlePageChangeTwo, setShowPreview, setDocumentCreati
                 </span>}
             </div>
             <div className='mt-2'>
-                <Input
-                    label={"Notice Commencement Date"}
-                    placeholder={"e.g 1 July, 2024"}
-                    type={"date"}
-                    value={formatDate(formData.noticeStartDate)}
-                    onChange={(e) => setFormData('noticeStartDate', e.target.value)}
-                    autoComplete={"noticeStartDate"}
-                />
+                <label className="text-[14px] font-[500]">
+                Notice Commencement Date
+                </label>
+                <div className="mt-2 relative">
+                    <div className="w-full">
+                        <DatePicker
+                            selected={formData.noticeStartDate}
+                            onChange={(date) =>
+                                setFormData('noticeStartDate', date)
+                            }
+                            dateFormat="d MMMM, yyyy"
+                            placeholderText="e.g 1 July, 2024"
+                            className={`w-[290px] md:w-[640px] h-[45px] px-4 py-2 rounded-md border`}
+                        />
+                    </div>
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <DateIcon />
+                    </div>
+                </div>
                 {errors.noticeStartDate && <span className={`italic text-[12px] text-error font-[400]`}>
                     {errors.noticeStartDate}
                 </span>}
