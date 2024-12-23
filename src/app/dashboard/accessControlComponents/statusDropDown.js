@@ -9,25 +9,7 @@ const StatusDropdown = ({
   toggleDropdown,
   status,
 }) => {
-  // const dropdownRef = useRef(null);
 
-  // Ensure that Data is defined and not null
-
-  // console.log(status);
-
-  // Close dropdown when clicking outside
-  // useEffect(() => {
-  //   const handleOutsideClick = (event) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-  //       toggleDropdown(false);
-  //     }
-  //   };
-  //   document.addEventListener("click", handleOutsideClick);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleOutsideClick);
-  //   };
-  // }, [toggleDropdown]);
 
   if (!data) {
     return null; // or handle accordingly, e.g., return a loading state
