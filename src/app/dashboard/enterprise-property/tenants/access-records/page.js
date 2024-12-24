@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import VisitorRecords from "../../../accessControlComponents/records";
 import AddVisitor from "../../../accessControlComponents/addVisitor";
