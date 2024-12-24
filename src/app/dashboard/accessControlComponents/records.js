@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "../components/button";
 import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
@@ -7,17 +7,25 @@ import DropDown from "./dropDown";
 import StatusDropdown from "./statusDropDown";
 import MobileDropDown from "./mobileDropDown";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import VisitorAccessInfo from "./visitorAccessInfo";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
-
-const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import formatTime from "@/utils/formatTime";
+import truncateText from "@/utils/trucateWord";
+const VisitorsTable = ({
+  Data,
+  setModalOpen,
+  typeOfUser,
+  reSet,
+  getStatus,
+  currentPage,
+  setPage,
+}) => {
   // console.log(searchValue);
-
-  const tenantId = "6744607a7276c599d24bd0dc";
+  const dropDownMenu = useRef();
   const [isMobile, setIsMobile] = useState(false);
-  const [data, setData] = useState(Data || {});
-  // const [addNewVisitor, setAddNewVisitor] = useState(false);
+  // const [data, setData] = useState(Data?.results || {});
   const [tenant, setTenant] = useState({});
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -34,17 +42,13 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
     setModalOpen(true);
   };
 
-  const ITEMS_PER_PAGE = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = data.slice(startIndex, endIndex);
+  const ITEMS_PER_PAGE = 12;
+   const currentData = Data?.results ;
+  const totalPages = Math.ceil(Data && Data?.totalCount / ITEMS_PER_PAGE);
 
   const checkIsMobile = () => {
     setIsMobile(window.innerWidth < 768);
   };
-  const router = useRouter();
 
   useEffect(() => {
     checkIsMobile();
@@ -82,15 +86,18 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
   };
 
   const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    const nextPageNumber = parseInt(currentPage) + 1;
+    setPage(nextPageNumber);
   };
 
   const handlePrev = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    const prevPageNumber = Math.max(parseInt(currentPage) - 1, 1);
+    setPage(prevPageNumber);
+ 
   };
 
   const handlePageClick = (page) => {
-    setCurrentPage(page);
+    setPage(page);
   };
   const toggleDropdown = (dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
@@ -98,18 +105,18 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
   const handleAccessStatus = (status, dataId) => {
     setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
 
-    const dataIndex = data.findIndex((item) => item.id === dataId);
+    const dataIndex = currentData.findIndex((item) => item._id === dataId);
 
     if (dataIndex !== -1) {
-      const updatedData = [...data];
-      updatedData[dataIndex].AccessStatus = status;
+      const updatedData = [...currentData];
+      updatedData[dataIndex].accessStatus = status;
 
-      setData(updatedData);
+      // setData(updatedData);
     }
   };
 
   const handleStatusChange = (status, dataId) => {
-    if (status === "Signed Out") {
+    if (status === "signed out") {
       setConfirmStatusModal(true);
       setStatus({
         status: status,
@@ -120,11 +127,15 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
     }
   };
 
-  // route to the tenant profile page
-  const viewTenantProfile = (tenant_Id) => {
-    router.push(`/dashboard/enterprise-property/tenants/profile/${tenant_Id}`);
+
+  const handleResetFilter = () => {
+    if (dropDownMenu.current) {
+      dropDownMenu.current.reset(); // Call the reset method of the child
+    }
+    reSet()
   };
 
+ 
   // Use reduce to generate an array of the first three pages
   const firstThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
@@ -209,9 +220,9 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
           </div>
           <div className="flex items-center gap-2">
             <div className="pt-[5px]">
-              <DropDown />
+              <DropDown setStatus={getStatus} ref={dropDownMenu} />
             </div>
-            <button className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer">
+            <button className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer" onClick={handleResetFilter}>
               <span>
                 <Image
                   src={
@@ -258,7 +269,7 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto scrollbar-container">
+      <div className="overflow-x-auto scrollbar-container h-fit">
         <div className="w-[100%] md:w-[180%]">
           <div className="border rounded-t-[12px]">
             {/* Header Section */}
@@ -284,17 +295,17 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
 
             {/* Body Section */}
             <div>
-              {currentData &&
+              {Data &&
                 currentData.map((data) => (
                   <div
-                    key={data?.id}
+                    key={data?._id}
                     className="grid sm:grid-cols-[15px_repeat(10,1fr)]  grid-cols-[5px_repeat(3,1fr)] sm:gap-x-10 gap-x-4  items-center border-b-[1px] px-2 h-[60px]"
                   >
                     <div
                       className="font-[500] text-[11px] text-left pl-2"
                       // onClick={() => handleRowClick(data)}
                     >
-                      {data.AccessStatus == "Pending" && (
+                      {data?.accessStatus === "pending" && (
                         <Image
                           src="/static/images/RedEllipse.svg"
                           alt=""
@@ -312,12 +323,12 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
                             openDetailsMobileModal(data);
                           }}
                         >
-                          {data.TenantName}
+                          {data?.tenant?.fullName}
                         </button>
                       ) : (
                         <>
                           <span className="text-[11px] leading-[16.5px] text-[#006AFF]">
-                            {data.TenantName}
+                            {data?.tenant?.fullName}
                           </span>
                           <button
                             onClick={(e) => {
@@ -340,39 +351,40 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
                       // onClick={() => handleRowClick(data)}
                     >
                       <span className="text-[11px] leading-[16.5px]">
-                        {data.VisitorName}
+                        {data?.visitorName}
                       </span>
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
-                      {data.Phone_Number}
+                      {data?.visitorPhoneNumber}
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
-                      {data.PurposeOfVisit}
+                      {data?.purposeOfVisit}
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
-                      {data.No_Of_Persons}
+                      {data?.noOfPersons}
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
-                      {data.DateOfVisit}
+                      {changeBackendDateFormat(data?.dateOfVisit) || "------"}
                     </div>
-                    <div className="text-GrayHomz font-[500] text-[11px] text-left">
-                      {data.AccessCode}
+                    <div className="text-GrayHomz font-[500] text-[11px] text-left break-words leading-[16.5px]">
+                      {/* {data.accessCode} */}
+                      {truncateText(data.accessCode, 15)}
                     </div>
                     <div className={`font-[400] text-[11px] text-left  `}>
                       <StatusDropdown
                         data={data}
                         handleStatusChange={(status) =>
-                          handleStatusChange(status, data.id)
+                          handleStatusChange(status, data._id)
                         }
-                        isOpen={openDropdowns[data.id] || false}
-                        toggleDropdown={() => toggleDropdown(data.id)}
+                        isOpen={openDropdowns[data._id] || false}
+                        toggleDropdown={() => toggleDropdown(data._id)}
                       />
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
-                      {data.TimeIn}
+                      {formatTime(data?.timeIn) || "-----"}
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
-                      {data.Time_Out}
+                      {formatTime(data?.timeOut) || "-----"}
                     </div>
                   </div>
                 ))}
@@ -409,39 +421,43 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
             </div>
           </div>
           <div className="w-[494px] h-[224px] py-[28px] px-[50px] flex flex-col rounded-[12px] bg-[#F6F6F6] space-y-6">
-            <div className="flex items-center justify-between">
-              <p className="text-[14px] leading-[21px] font-[500]">
+            <div className="flex gap-[50px]">
+              <p className="text-[14px] leading-[21px] font-[500] w-[140px]">
                 Tenant’s Name
               </p>
-              <p className="text-[14px] leading-[21px] font-[500]">
-                {tenant.TenantName}
+              <p className="text-[14px] leading-[21px] font-[500] text-left">
+                {tenant?.tenant?.fullName}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <p className="text-[14px] leading-[21px] font-[500]">Property</p>
-              <p className="text-[14px] leading-[21px] font-[500]">
-                {tenant.Property}
+            <div className="flex gap-[50px]">
+              <p className="text-[14px] leading-[21px] font-[500] w-[140px]">
+                Property
+              </p>
+              <p className="text-[14px] leading-[21px] font-[500] text-left">
+                {tenant?.estateId?.name}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <p className="text-[14px] leading-[21px] font-[500]">
+            <div className="flex gap-[50px]">
+              <p className="text-[14px] leading-[21px] font-[500] w-[140px]">
                 Apartment Number
               </p>
-              <p className="text-[14px] leading-[21px] font-[500]">
-                {tenant.ApartmentNo}
+              <p className="text-[14px] leading-[21px] font-[500] text-left">
+                {tenant.ApartmentNo || "----"}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <p className="text-[14px] leading-[21px] font-[500]">Address</p>
-              <p className="text-[14px] leading-[21px] font-[500]">
-                {tenant.Address}
+            <div className="flex gap-[50px]">
+              <p className="text-[14px] leading-[21px] font-[500] w-[140px]">
+                Address
+              </p>
+              <p className="text-[14px] leading-[21px] font-[500] text-left">
+                {tenant?.tenant?.houseAddress}
               </p>
             </div>
           </div>
           {typeOfUser != "security" && (
-            <button
+            <Link
               className="bg-[#006AFF] text-[#FFFFFF] text-[14px] font-[500] leading-[17.64px] flex items-center justify-center gap-[10px] rounded-[4px] h-[42px] p-[12px]"
-              onClick={() => viewTenantProfile(tenantId)}
+              href={`/dashboard/enterprise-property/tenants/profile/${tenant?.tenant?._id}`}
             >
               <Image
                 src="/static/images/new_user.svg"
@@ -450,7 +466,7 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
                 alt=""
               />
               <span>View tenant’s profile</span>
-            </button>
+            </Link>
           )}
         </div>
       </CustomizedModal>
@@ -460,9 +476,11 @@ const VisitorsTable = ({ Data, searchValue, setModalOpen, typeOfUser }) => {
         typeOfUser={typeOfUser}
         detailsModalIsOpen={detailsModalIsOpen}
         closeDetailsMobileModal={closeDetailsMobileModal}
-        handleStatusChange={(status) => handleStatusChange(status, tenant.id)}
-        isOpen={openDropdowns[tenant.id] || false}
-        toggleDropdown={() => toggleDropdown(tenant.id)}
+        handleStatusChange={(status) =>
+          handleStatusChange(status, tenant?.tenant?._id)
+        }
+        isOpen={openDropdowns[tenant?.tenant?._id] || false}
+        toggleDropdown={() => toggleDropdown(tenant?.tenant?._id)}
       />
 
       <ConfirmationModal

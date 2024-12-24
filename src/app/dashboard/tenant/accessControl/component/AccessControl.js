@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { VisitorData } from "@/app/dashboard/accessControlComponents/VisitorData";
 import VistorTable from "./visitorsTable";
 import SuccessModal from "@/app/dashboard/components/SuccessModal";
 import Image from "next/image";
@@ -13,7 +12,7 @@ import Loading from "@/components/mainmenu/loading";
 
 import { useRouter } from "next/navigation";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
-import { set } from "lodash";
+// import { set } from "lodash";
 // import tenantProfile from "@/store/tenantStore/tenantProfile";
 
 const AccessControl = () => {
@@ -27,7 +26,7 @@ const AccessControl = () => {
   const [page, setPage] = useState(1);
   const [date, setDate]= useState("")
 
-  const fetchData = async (page, date) => {
+  const fetchData = async () => {
     // Construct the query based on pagination and filters
     let query = `/visitor/accesscontrol/tenant/get?page=${page}`;
     if (date) {
@@ -42,7 +41,7 @@ const AccessControl = () => {
     useQuery({
       queryKey: ["users", page, date],
       queryFn: async () => {
-        return await fetchData(page, date);
+        return await fetchData();
       },
       placeholderData: keepPreviousData,
       select: (users) => {
@@ -139,7 +138,6 @@ const AccessControl = () => {
     return <Loading />;
   }
 
-  // console.log(VisitorData)
   return (
     <div className="flex flex-col sm:space-y-7 space-y-2 p-6">
       <div className="flex items-center  md:hidden  justify-between">
@@ -158,7 +156,7 @@ const AccessControl = () => {
           <p className="font-[500]">Visitors</p>
           <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
             <span className="text-BlueHomz text-[18px] font-[400]">
-              {VisitorData.length}
+              {data?.length}
             </span>
           </span>
         </div>
@@ -187,7 +185,7 @@ const AccessControl = () => {
           </button>
         </div>
       </div>
-      {VisitorData.length > 0 ? (
+      {data  ? (
         <VistorTable data={data} openModal={openModal} date={date} setDate={setDate} refetch={handleReset} />
       ) : (
         <>

@@ -19,22 +19,7 @@ const VisitorsTable = ({ data, openModal ,date, setDate, refetch}) => {
     const currentData = data?.results && data?.results.slice(startIndex, endIndex);
     const totalPages = Math.ceil(data && data?.totalCount / ITEMS_PER_PAGE);
   
-  // function pageManagement(num) {
 
-  //   // Create a URL object to manage query parameters
-  //   const url = new URL(window.location.href);
-  //   // Set or update the 'page, email and profile type if they are not empty' query parameter
-  //   url.searchParams.set("page", num);
-  //   if (email) {
-  //     url.searchParams.set("email", email);
-  //   }
-  //   if (profileType) {
-  //     url.searchParams.set("profileType", profileType);
-  //   }
-
-  //   // Push the new URL without reloading the page and without scrolling
-  //   router.replace(url.toString(), { scroll: false, shallow: true });
-  // }
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
