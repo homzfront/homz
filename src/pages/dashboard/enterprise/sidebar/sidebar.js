@@ -12,7 +12,6 @@ import Dashboard from "@/components/icons/dashboard/dashboard";
 import Logout from "@/components/icons/dashboard/logoutMain";
 import Maintenance from "@/components/icons/dashboard/maintenance ";
 import Payment from "@/components/icons/dashboard/payment";
-// import PropertyListing from '@/components/icons/dashboard/propertyListing'
 import PropertyManagement from "@/components/icons/dashboard/propertyManagement";
 import Requests from "@/components/icons/dashboard/requests";
 import Settings from "@/components/icons/dashboard/settings";
