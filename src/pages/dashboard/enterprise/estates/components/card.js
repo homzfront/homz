@@ -16,6 +16,7 @@ const Card = ({
   handleToggleMenu,
 }) => {
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
+  const [openTenantInvite, setOpenTenantInvite] = useState(false);
   const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false)); // Use the custom hook
 
   const handleToggleMenuClick = () => {
@@ -43,7 +44,8 @@ const Card = ({
           />
         </div>
         <div className="p-4 flex gap-3 h-full flex-col">
-          <div ref={dropdownRef} className="relative flex justify-between items-center">
+          <div ref={!openTenantInvite ? dropdownRef : null}
+            className="relative flex justify-between items-center">
             <p className="font-[700] truncate text-[14px] md:text-[16px] text-BlueHomz">{value2}</p>
             <Image
               src={
@@ -57,7 +59,11 @@ const Card = ({
               style={{ height: "auto", width: "auto" }}
             />
 
-            {popUpMenuVisible && <PopUpMenu data={data} />}
+            {popUpMenuVisible && <PopUpMenu
+              openTenantInvite={openTenantInvite}
+              setOpenTenantInvite={setOpenTenantInvite}
+              data={data}
+            />}
           </div>
           <div className="flex items-center gap-2">
             <Image

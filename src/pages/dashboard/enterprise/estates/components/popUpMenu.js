@@ -1,6 +1,7 @@
 import BankDetails from "@/components/icons/bankDetails";
 import Dashboard from "@/components/icons/dashboard";
 import Document from "@/components/icons/document";
+import ImportIcon from "@/components/icons/importIcon";
 import Info from "@/components/icons/info";
 import PeopleTenant from "@/components/icons/people-tenant";
 import PropertyInfo from "@/components/icons/propertyInfo";
@@ -9,8 +10,11 @@ import useEditPropertyTab from "@/store/enterpriseStore/useEditPropertyTab";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import InviteTenant from "../importTenant/inviteTenant";
+import SingleInvite from "../importTenant/components/singleInvite";
 
-const PopUpMenu = ({ data }) => {
+const PopUpMenu = ({ data, openTenantInvite, setOpenTenantInvite }) => {
   const { setTab } = useEditPropertyTab();
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -18,6 +22,8 @@ const PopUpMenu = ({ data }) => {
   const [activeFour, setActiveFour] = useState(false);
   const [activeFive, setActiveFive] = useState(false);
   const [activeSix, setActiveSix] = useState(false);
+  const [activeSeven, setActiveSeven] = useState(false);
+  const [openSingleInvite, setOpenSingleInvite] = useState(false);
 
   return (
     <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-5 md:top-8 right-1 md:right-2 border h-auto w-[150px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
@@ -63,6 +69,34 @@ const PopUpMenu = ({ data }) => {
           }
         </Link>
       </div>
+      <div
+        onMouseEnter={() => setActiveSeven(true)}
+        onMouseLeave={() => setActiveSeven(false)}
+        className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full cursor-pointer">
+        <div className="w-full" onClick={() => setOpenTenantInvite(true)}>
+          {activeSeven ?
+            <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+              <ImportIcon className='#006AFF' />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                Import Tenants
+              </p>
+            </div> :
+            <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+              <ImportIcon />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                Import Tenants
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+      {
+        <CustomizedModal isOpen={openTenantInvite}>
+          {openSingleInvite ? <SingleInvite setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} /> :
+            <InviteTenant id={data} setOpenTenantInvite={setOpenTenantInvite} openSingleInvite={openSingleInvite} setOpenSingleInvite={setOpenSingleInvite} />
+          }
+        </CustomizedModal>
+      }
       <div
         onMouseEnter={() => setActiveThree(true)}
         onMouseLeave={() => setActiveThree(false)}
@@ -184,7 +218,7 @@ const PopUpMenu = ({ data }) => {
                 setTab(null)
               }}
               className="px-2 hover:bg-whiteblue flex items-center gap-1 h-full w-full rounded-md">
-              <PropertyInfo className="#006AFF"/>
+              <PropertyInfo className="#006AFF" />
               <p className="text-[11px] md:text-[13px] truncate font-[500] py-1 px-2 ">
                 Manage Property Info..
               </p>
