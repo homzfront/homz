@@ -106,5 +106,6 @@ const DropDown = forwardRef(({ setStatus }, ref) => {
     </div>
   );
 });
+DropDown.displayName = "DropDown";
 
 export default DropDown;
