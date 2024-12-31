@@ -63,6 +63,7 @@ const Card = ({
               openTenantInvite={openTenantInvite}
               setOpenTenantInvite={setOpenTenantInvite}
               data={data}
+              estateName={value2}
             />}
           </div>
           <div className="flex items-center gap-2">

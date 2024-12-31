@@ -8,9 +8,11 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import useExportEnterpriseSingleTenant from "@/store/enterpriseStore/exportEnterpriseSingleTenant";
 import DateIcon from "@/components/icons/date";
 import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import ArrowLeft from "@/components/icons/arrowLeft";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
 
-const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
+const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantInvite, estateName }) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
     const [arrowColor, setArrowColor] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -25,6 +27,7 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
         startDate: null,
     });
     const [errors, setErrors] = useState({});
+ 
 
     console.log(formData)
 
@@ -59,7 +62,7 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
         // setRefetch(false)
         if (!validateForm()) return;
         // setIsLoadingForm(true);
-        successfullModal();
+        setSuccessfulModal(true)
         try {
             // const response = await api.post(
             //     `/offlinePayment/enterprise/rent/tenant/${tenantId}`,
@@ -192,22 +195,22 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                     </div>
                 </div>
                 <form
-                    onSubmit={onSubmit}
+
                     className={`space-y-4 mt-3 ${isLoadingForm ? "pointer-events-none" : ""
                         }`}
                 >
                     <div className="bg-inputBg py-4 px-6 rounded-[8px] flex flex-col items-center justify-between">
                         {/* Tenant Name */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Tenant’s Name <span className="text-red-600">*</span>
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <input
                                     type="text"
                                     value={formData.tenantName}
                                     onChange={(e) => handleInputChange("tenantName", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2"
+                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                     placeholder="e.g Femi Jegede"
                                 />
                                 {errors.tenantName && (
@@ -218,16 +221,16 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                             </div>
                         </div>
                         {/* Email */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[42%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Email <span className="text-red-600">*</span>
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <input
                                     type="email"
                                     value={formData.email}
                                     onChange={(e) => handleInputChange("email", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2"
+                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                     placeholder="e.g FemiJegede@gmail.com"
                                 />
                                 {errors.email && (
@@ -240,16 +243,16 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                     </div>
                     <div className="bg-inputBg py-4 px-6 rounded-[8px] flex flex-col items-center justify-between">
                         {/* Apartment Number */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Apartment No
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <input
                                     type="text"
                                     value={formData.apartmentNumber}
                                     onChange={(e) => handleInputChange("apartmentNumber", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2"
+                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                     placeholder="e.g Apartment 46"
                                 />
                                 {errors.apartmentNumber && (
@@ -260,16 +263,16 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                             </div>
                         </div>
                         {/* Address */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Address
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <input
                                     type="text"
                                     value={formData.address}
                                     onChange={(e) => handleInputChange("address", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2"
+                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                     placeholder="e.g Plot 22, Alapere Street, Alagomeji Area, Yaba, Lagos"
                                 />
                                 {errors.address && (
@@ -280,16 +283,16 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                             </div>
                         </div>
                         {/* Phone Number */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Phone No
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <input
                                     type="text"
                                     value={formData.PhoneNUmber}
                                     onChange={(e) => handleInputChange("PhoneNUmber", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2"
+                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                     placeholder="e.g 0701 234 5678"
                                 />
                                 {errors.PhoneNUmber && (
@@ -302,13 +305,13 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                     </div>
                     <div className="bg-inputBg py-4 px-6 rounded-[8px] flex flex-col items-center justify-between">
                         {/*Rent Amount */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Rent Amount <span className="text-red-600">*</span>
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <div className="relative">
-                                    <span className={` absolute left-3 top-[1px] bottom-0 flex items-center text-[13px] md:text-[14px] font-[500] ${formData?.rentAmount === null ? "text-GrayHomz2" : ""} `}>
+                                    <span className={` absolute left-3 top-[4px] md:top-[1px] bottom-0 flex items-center text-[12px] md:text-[14px] font-[500] ${formData?.rentAmount === null ? "text-GrayHomz2 hidden" : ""} `}>
                                         ₦
                                     </span>
                                     <input
@@ -327,7 +330,7 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                                                 rawValue ? new Intl.NumberFormat().format(rawValue) : ""
                                             );
                                         }}
-                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2"
+                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                         placeholder="e.g ₦1,600,000"
                                     />
                                     {errors.rentAmount && (
@@ -339,20 +342,20 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                             </div>
                         </div>
                         {/* Rent Duration */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Rent Duration <span className="text-red-600">*</span>
                             </label>
-                            <div className="w-[52%]">
+                            <div className="w-full md:w-[52%] mt-2">
                                 <div className="relative">
                                     <input
                                         type="text"
                                         value={formData.rentDuration}
                                         onChange={(e) => handleInputChange("rentDuration", e.target.value)}
-                                        className="w-full h-[45px] py-3 pl-6 pr-[40px] rounded-md bg-white placeholder:text-GrayHomz2"
+                                        className="w-full h-[45px] py-3 pl-6 pr-[40px] rounded-md bg-white placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px]"
                                         placeholder="e.g 36"
                                     />
-                                    <p className={`absolute right-6 top-1/2 transform -translate-y-1/2 pointer-events-none ${formData?.rentDuration === null ? "text-GrayHomz2" : ""}`}>Months</p>
+                                    <p className={`absolute right-6 top-1/2 transform -translate-y-1/2 pointer-events-none text-[12px] md:text-[14px] ${formData?.rentDuration === null ? "text-GrayHomz2" : ""}`}>Months</p>
                                 </div>
                                 {errors.rentDuration && (
                                     <span className="text-error text-[11px] italic">
@@ -362,18 +365,18 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
                             </div>
                         </div>
                         {/* Start Date */}
-                        <div className="w-full py-4 px-2 flex items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-[40%]">
+                        <div className="w-full py-4 px-2 flex gap-2 md:gap-0 flex-col md:flex-row items-center justify-between">
+                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
                                 Start Date <span className="text-red-600">*</span>
                             </label>
-                            <div className="w-[52%] relative">
+                            <div className="w-[100%] md:w-[52%] mt-2 relative">
                                 <div className="w-full">
                                     <DatePicker
                                         selected={formData.startDate}
                                         onChange={(date) => handleInputChange("startDate", date)} // Update with Date object
                                         dateFormat="d MMMM, yyyy" // Format displayed in UI
                                         placeholderText="Select Start Date"
-                                        className="w-full h-[45px] px-4 py-2 rounded-md border"
+                                        className=" w-[240px] md:w-full h-[45px] px-4 py-2 rounded-md border placeholder:text-[12px] md:placeholder:text-[14px]"
                                     />
                                 </div>
                                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
@@ -395,7 +398,8 @@ const SingleInvite = ({ setOpenSingleInvite, setOpenTenantInvite }) => {
 
                     {/* Submit Button */}
                     <button
-                        type="submit"
+                        type="button"
+                        onClick={onSubmit}
                         className={`h-[48px] w-full 
                                  ${isValid
                                 ? "bg-BlueHomz"
