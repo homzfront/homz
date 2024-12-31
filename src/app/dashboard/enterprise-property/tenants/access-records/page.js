@@ -2,18 +2,63 @@
 import React, { useState, useContext } from "react";
 import Image from "next/image";
 import VisitorRecords from "../../../accessControlComponents/records";
-import { VisitorData } from "../../../accessControlComponents/VisitorData.js";
 import AddVisitor from "../../../accessControlComponents/addVisitor";
 import Link from "next/link";
+import api from "@/utils/api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import Loading from "@/components/mainmenu/loading";
 
 const AccessRecords = ({ params }) => {
-  const [data, setData] = useState(VisitorData || {});
+  
   // console.log(params.search);
   const [modalOpen, setModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  // const [date, setDate] = useState("");
+  const [status, setStatus] = useState("");
+  const [property, setProperty] = useState("");
+
 
   const openModal = () => {
     setModalOpen(true);
   };
+  const fetchData = async (page, status, property) => {
+    // Construct the query based on pagination and filters
+    let query = `/visitor/accesscontrol/enterprise/get?page=${page}`;
+    if ( status || property) {
+      // setEnabled(true);
+      query += `&accessStatus=${status}&property=${property}`;
+      // query += `&dateFiliter=${date}&accessStatus=${status}&property=${property}`;
+
+      setPage(page || 1);
+    }
+    return await api.get(query);
+  };
+  const {
+    isPending,
+    // refetch,
+    data
+  } = useQuery({
+    queryKey: ["users", page, status, property],
+    queryFn: async () => {
+      return await fetchData(page, status, property);
+    },
+    placeholderData: keepPreviousData,
+    select: (users) => {
+      return users.data.data;
+    },
+    // enabled: enable,
+  });
+  
+  const handleReset=()=>{
+    // setDate("")
+    setStatus("")
+    setProperty("")
+   }
+
+  if (isPending) {
+    return <Loading />;
+  }
+// console.log(data)
   return (
     <div className="mb-10 pt-9 flex flex-col space-y-7 px-8 md:px-8 md:pt-3">
       <div className="flex items-center md:items-start space-x-10 md:hidden md:pl-2">
@@ -41,12 +86,16 @@ const AccessRecords = ({ params }) => {
           />
         </button>
       </div>
-      {data.length > 1 ? (
+      {data ? (
         <>
           <VisitorRecords
             Data={data}
-            searchValue={params.search}
+            // searchValue={params.search}
             setModalOpen={setModalOpen}
+            reSet={handleReset}
+            getStatus={setStatus}
+            setPage={setPage}
+            currentPage={page}
           />
         </>
       ) : (

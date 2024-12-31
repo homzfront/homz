@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 import Image from "next/image";
 
-const DropDown = () => {
+const DropDown = forwardRef(({ setStatus }, ref) => {
   const [dropdowns, setDropdowns] = useState({
     property: false,
-    "Access Status": false
+    "Access Status": false,
   });
 
   const [selectedOptions, setSelectedOptions] = useState({
     property: null,
-    "Access Status": null
+    "Access Status": null,
   });
 
   const options = {
@@ -26,14 +26,31 @@ const DropDown = () => {
     ],
   };
 
+  const handleReset = () => {
+    setSelectedOptions({
+      property: null,
+      "Access Status": null,
+    });
+  };
+
+  useImperativeHandle(ref, () => ({
+    reset: handleReset,
+  }));
+
   const toggleDropdown = (dropdown) => {
-    setDropdowns((prevDropdowns) => ({ ...prevDropdowns, [dropdown]: !prevDropdowns[dropdown] }));
+    setDropdowns((prevDropdowns) => ({
+      ...prevDropdowns,
+      [dropdown]: !prevDropdowns[dropdown],
+    }));
   };
 
   const handleOptionClick = (option, dropdown) => {
-    setSelectedOptions((prevOptions) => ({ ...prevOptions, [dropdown]: option }));
+    setSelectedOptions((prevOptions) => ({
+      ...prevOptions,
+      [dropdown]: option,
+    }));
     toggleDropdown(dropdown);
-    // Do something with the selected option, e.g., trigger an action or update state
+    setStatus(option.label.toLowerCase());
   };
 
   return (
@@ -41,27 +58,38 @@ const DropDown = () => {
       {Object.keys(dropdowns).map((dropdown) => (
         <div key={dropdown} className="relative">
           <div
-            className={`text-BlackHomz px-4  border flex items-center text-center  mb-1 p-2 h-[33px] rounded cursor-pointer  ${
+            className={`text-BlackHomz px-4 border flex items-center text-center mb-1 p-2 h-[33px] rounded cursor-pointer ${
               dropdowns[dropdown] ? "border" : ""
             }`}
             onClick={() => toggleDropdown(dropdown)}
           >
             <div className="flex text-[14px] font-[500] text-GrayHomz2 justify-between items-center">
               <span className="mr-2">
-                {selectedOptions[dropdown] ? selectedOptions[dropdown].label : dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}
+                {selectedOptions[dropdown]
+                  ? selectedOptions[dropdown].label
+                  : dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}
               </span>
               <div
                 className={`w-5 h-5 flex items-center text-center ${
-                  dropdowns[dropdown] ? "transform rotate-180 transition duration-300 ease-in-out" : ""
+                  dropdowns[dropdown]
+                    ? "transform rotate-180 transition duration-300 ease-in-out"
+                    : ""
                 }`}
               >
-                <Image src={"/static/dashboard/enterprisemanager/dashboard/arrow-down.png"} height={16} width={16} alt="" />
+                <Image
+                  src={
+                    "/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
+                  }
+                  height={16}
+                  width={16}
+                  alt=""
+                />
               </div>
             </div>
           </div>
 
           {dropdowns[dropdown] && (
-            <div className="absolute text-[14px] font-[500] text-GrayHomz2 mt-2 w-full bg-white rounded-md shadow-md">
+            <div className="absolute text-[14px] font-[500] z-50 text-GrayHomz2 mt-2 w-full bg-white rounded-md shadow-md">
               {options[dropdown].map((option) => (
                 <div
                   key={option.id}
@@ -77,6 +105,6 @@ const DropDown = () => {
       ))}
     </div>
   );
-};
+});
 
 export default DropDown;

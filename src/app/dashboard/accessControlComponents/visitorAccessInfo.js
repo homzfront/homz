@@ -2,6 +2,10 @@ import React from "react";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Image from "next/image";
 import StatusDropdown from "./statusDropDown";
+import formatTime from "@/utils/formatTime";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import Link from "next/link";
+
 
 const VisitorAccessInfo = ({
   tenant,
@@ -36,10 +40,10 @@ const VisitorAccessInfo = ({
         {/* Tenant Information */}
         <div className="w-full p-4 grid grid-cols-2 gap-y-4 gap-x-4 rounded-[12px] bg-[#F6F6F6]">
           {[
-            { label: "Tenant’s Name", value: tenant.TenantName },
-            { label: "Property", value: tenant.Property },
-            { label: "Apartment Number", value: tenant.ApartmentNo },
-            { label: "Address", value: tenant.Address },
+            { label: "Tenant’s Name", value: tenant?.tenant?.fullName },
+            { label: "Property", value: tenant?.estateId?.name },
+            { label: "Apartment Number", value: tenant?.apartmentNo },
+            { label: "Address", value: tenant?.tenant?.houseAddress },
           ].map((item, index) => (
             <React.Fragment key={index}>
               <p className="text-[12px] text-gray-500 font-medium">
@@ -55,12 +59,12 @@ const VisitorAccessInfo = ({
         {/* Visitor Information */}
         <div className="w-full p-4 grid grid-cols-2 gap-y-4 gap-x-4 rounded-[12px] bg-[#F6F6F6]">
           {[
-            { label: "Visitor’s Name", value: tenant.VisitorName },
-            { label: "Phone Number", value: tenant.Phone_Number },
-            { label: "Purpose", value: tenant.PurposeOfVisit },
-            { label: "No of visitors", value: tenant.No_Of_Persons },
-            { label: "Date of visit", value: tenant.DateOfVisit },
-            { label: "Access Code", value: tenant.AccessCode },
+            { label: "Visitor’s Name", value: tenant?.visitorName },
+            { label: "Phone Number", value: tenant?.visitorPhoneNumber },
+            { label: "Purpose", value: tenant?.purposeOfVisit },
+            { label: "No of visitors", value: tenant?.noOfPersons },
+            { label: "Date of visit", value: changeBackendDateFormat(tenant?.dateOfVisit) },
+            { label: "Access Code", value: tenant?.accessCode },
             {
               label: "Access Status",
               value: (
@@ -72,9 +76,9 @@ const VisitorAccessInfo = ({
                 />
               ),
             },
-            { label: "Tenant’s Name", value: tenant.TenantName },
-            { label: "Time In", value: tenant.TimeIn },
-            { label: "Time Out", value: tenant.Time_Out },
+            { label: "Tenant’s Name", value: tenant?.tenant?.fullName },
+            { label: "Time In", value: formatTime(tenant?.timeIn) },
+            { label: "Time Out", value: formatTime(tenant?.timeOut) },
           ].map((item, index) => (
             <React.Fragment key={index}>
               <p className="text-[12px] text-gray-500 font-medium">
@@ -89,9 +93,9 @@ const VisitorAccessInfo = ({
 
         {/* View Tenant Profile Button */}
         {typeOfUser !== "security" && (
-          <button
+          <Link
             className="bg-[#006AFF] text-white text-[14px] font-medium flex items-center justify-center gap-2 rounded-md h-[42px] py-2"
-            onClick={() => viewTenantProfile(tenantId)}
+            href={`/dashboard/enterprise-property/tenants/profile/${tenant?.tenant?._id}`}
           >
             <Image
               src="/static/images/new_user.svg"
@@ -100,7 +104,7 @@ const VisitorAccessInfo = ({
               alt="View tenant"
             />
             <span>View tenant’s profile</span>
-          </button>
+          </Link>
         )}
       </div>
     </CustomizedModal>
