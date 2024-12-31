@@ -152,10 +152,8 @@ const Tenants = () => {
       )}
       <CustomizedModal isOpen={reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan}>
         <ExpiredPlanModal
-          header={"Tenant Limit Reached"}
-          body={
-            "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-          }
+         header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+         body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
           button={"Upgrade Plan"}
           buttonTwo={"close"}
           returnHome={goToplan}
