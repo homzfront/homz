@@ -15,7 +15,7 @@ import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
 import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 
-function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
+function PopUpMenuTwo({ fetchData: fetchTableData, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -144,6 +144,7 @@ function PopUpMenuTwo({ data, setDeleteModal, deleteModal, deleteSuccessModal, s
             data={data}
             setUpdateForm={setUpdateForm}
             setSuccessfulModal={setSuccessfulModal}
+            reFetchSummaryData={fetchTableData}
           />
         </CustomizedModal>
       )}

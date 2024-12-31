@@ -16,6 +16,8 @@ import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import { useRouter } from "next/navigation";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+
 
 const RequestPage = () => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -210,46 +212,40 @@ const RequestPage = () => {
           <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} />
         </div>
       )}
-      {reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={"Tenant Limit Reached"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
-            button={"Upgrade Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
-      {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={"Your Trial Has Ended"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
-            button={"Buy Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
-      {openPurchasePlan && reachedLimit?.expiredPlan && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
-            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
-            button={"Upgrade Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
+      <CustomizedModal isOpen={reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan}>
+        <ExpiredPlanModal
+          header={"Tenant Limit Reached"}
+          body={
+            "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+          }
+          button={"Upgrade Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlan(false)}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
+        <ExpiredPlanModal
+          header={"Your Trial Has Ended"}
+          body={
+            "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+          }
+          button={"Buy Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlan(false)}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
+        <ExpiredPlanModal
+          header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+          body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+          button={"Upgrade Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlan(false)}
+        />
+      </CustomizedModal>
     </div>
   );
 };

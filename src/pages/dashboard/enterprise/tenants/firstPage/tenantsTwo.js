@@ -67,13 +67,13 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
     (_, index) => index + 1
   );
 
-  const handleStatusChange = async (status, dataId, id) => {
+  const handleStatusChange = async (status, dataId, id, duration) => {
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
-
     try {
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
+        duration
       });
       toast.success("status updated successfully");
       // Close the corresponding dropdown
@@ -168,10 +168,10 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
                           priority
                         />
                       )}
-                    <span className="w-[60%] md:w-auto">{data?.fullName}</span>
-                       </div>
+                      <span className="w-[60%] md:w-auto">{data?.fullName}</span>
+                    </div>
                     <div className=" text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                    {data?.estateId?.name}
+                      {data?.estateId?.name}
                     </div>
                     <div className=" text-GrayHomz w-[6%] font-[500] text-[11px] text-start">
                       {`${data?.rentInfo?.apartmentNumber
@@ -188,7 +188,7 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
                         {truncateText(data?.estateId?.address, 45)}
                         {hoveredRow === data?._id && (
                           <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
-                           {data?.estateId?.address}
+                            {data?.estateId?.address}
                           </span>
                         )}
                       </div>
@@ -200,10 +200,10 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
                       {data?.phoneNumber}
                     </div>
                     <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start ">
-                    {`${data?.rentInfo?.rent
-                      ? addCommasToNumber(data?.rentInfo?.rent)
-                      : "______"
-                      }`}
+                      {`${data?.rentInfo?.rent
+                        ? addCommasToNumber(data?.rentInfo?.rent)
+                        : "______"
+                        }`}
                     </div>
                     <div
                       className={`text-GrayHomz w-[7%] font-[500] text-[11px] text-start`}
@@ -219,7 +219,7 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
                           value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
                           selectedStatus={selectedStatus[data._id] || null}
                           handleStatusChange={(status) =>
-                            handleStatusChange(status, data._id, data?.rentInfo?._id)
+                            handleStatusChange(status, data._id, data?.rentInfo?._id, data?.rentInfo?.duration)
                           }
                           isOpen={openDropdowns[data?._id] || false}
                           toggleDropdown={() => toggleDropdown(data?._id)}
