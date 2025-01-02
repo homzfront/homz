@@ -1,8 +1,11 @@
-"use client"
+// "use client"
 import React from "react";
 import Header from "@/pages/dashboard/tenant/header/header";
 import Sidebar from "@/pages/dashboard/tenant/sidebar/sidebar";
 const Layout = ({ children }) => {
+  export const metadata = {
+    title: "Tenant",
+  };
   return (
     <div className="dashboard_main">
       <Sidebar />
