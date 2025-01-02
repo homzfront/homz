@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Button from "../components/button";
 import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-// import DropDown from "./dropDown";
 import StatusDropdown from "./statusDropDown";
 import MobileDropDown from "./mobileDropDown";
 import Link from "next/link";
