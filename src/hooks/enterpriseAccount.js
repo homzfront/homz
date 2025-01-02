@@ -1,6 +1,6 @@
 // enterpriseAccountInfo.js
 import api from '@/utils/api';
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const getEnterpiseAccountInfo = async () => {
   const response = await api.get('/enterprisePlan/me');
@@ -28,12 +28,12 @@ const EnterpriseAccountInfo = () => {
 };
 
 // Wrap your component with QueryClientProvider
-// const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
-// const WrappedEnterpriseAccountInfo = () => (
-//   <QueryClientProvider client={queryClient}>
-//     <EnterpriseAccountInfo />
-//   </QueryClientProvider>
-// );
+const WrappedEnterpriseAccountInfo = () => (
+  <QueryClientProvider client={queryClient}>
+    <EnterpriseAccountInfo />
+  </QueryClientProvider>
+);
 
-// export default WrappedEnterpriseAccountInfo;
+export default WrappedEnterpriseAccountInfo;
