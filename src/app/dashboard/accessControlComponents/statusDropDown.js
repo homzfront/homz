@@ -31,7 +31,7 @@ const StatusDropdown = ({
       >
         <span className="">{capitalizeFirstLetter(data?.accessStatus)}</span>
         {data?.accessStatus != "signed out" && (
-          <div className={`w-5 h-5  ${isOpen ? "transform rotate-180" : ""}`}>
+          <div className={`w-5 h-5  ${isOpen ? "rotate-180" : "rotate-0"} transform transition duration-300 ease-in-out`}>
             <Image
               src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
               height={16}

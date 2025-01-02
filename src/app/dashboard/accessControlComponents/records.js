@@ -1,12 +1,13 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../components/button";
 import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import DropDown from "./dropDown";
+// import DropDown from "./dropDown";
 import StatusDropdown from "./statusDropDown";
 import MobileDropDown from "./mobileDropDown";
 import Link from "next/link";
+import DesktopMenu from "../components/desktopMenu";
 
 import VisitorAccessInfo from "./visitorAccessInfo";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
@@ -21,10 +22,11 @@ const VisitorsTable = ({
   getStatus,
   currentPage,
   setPage,
+  setSearchValue,
+  handleInputChange,
 }) => {
-  // console.log(searchValue);
-  const dropDownMenu = useRef();
   const [isMobile, setIsMobile] = useState(false);
+  const [openDesktopFilter, setOpenDesktopFilter] = useState(false);
   // const [data, setData] = useState(Data?.results || {});
   const [tenant, setTenant] = useState({});
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -43,7 +45,7 @@ const VisitorsTable = ({
   };
 
   const ITEMS_PER_PAGE = 12;
-   const currentData = Data?.results ;
+  const currentData = Data?.results;
   const totalPages = Math.ceil(Data && Data?.totalCount / ITEMS_PER_PAGE);
 
   const checkIsMobile = () => {
@@ -93,7 +95,6 @@ const VisitorsTable = ({
   const handlePrev = () => {
     const prevPageNumber = Math.max(parseInt(currentPage) - 1, 1);
     setPage(prevPageNumber);
- 
   };
 
   const handlePageClick = (page) => {
@@ -127,15 +128,9 @@ const VisitorsTable = ({
     }
   };
 
-
-  const handleResetFilter = () => {
-    if (dropDownMenu.current) {
-      dropDownMenu.current.reset(); // Call the reset method of the child
-    }
-    reSet()
+  const openDesktopMenu = () => {
+    setOpenDesktopFilter(!openDesktopFilter);
   };
-
- 
   // Use reduce to generate an array of the first three pages
   const firstThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
@@ -219,10 +214,66 @@ const VisitorsTable = ({
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <div className="pt-[5px]">
-              <DropDown setStatus={getStatus} ref={dropDownMenu} />
+            {/* <DropDown setStatus={getStatus} ref={dropDownMenu} /> */}
+            <div className="searchPane relative w-[345px] rounded-[4px] h-[37px]">
+              <input
+                type="text"
+                className="border h-[37px] pl-8 rounded-[4px] w-full "
+                id="search"
+                placeholder="Property, access code, tenant"
+                onChange={handleInputChange}
+                // onChange= {e=>{setSearchValue(e.target.value)}}
+              />
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/header/search-normal.png"
+                }
+                alt=""
+                className="absolute top-3 left-2"
+                height={16}
+                width={16}
+              />
             </div>
-            <button className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer" onClick={handleResetFilter}>
+
+            <button
+  onClick={openDesktopMenu}
+  className="relative flex items-center gap-[10px] rounded-[4px] py-[8px] px-[12px] border-[2px] border-[#006AFF] h-[37px]"
+>
+  <Image
+    src="/static/images/blue-filter.svg"
+    alt=""
+    width={16}
+    height={16}
+  />
+  <Image
+    src="/static/images/arrow-up.svg"
+    alt=""
+    width={16}
+    height={16}
+    className={`${
+      openDesktopFilter ? "rotate-0" : "-rotate-180"
+    } transform transition duration-300 ease-in-out`}
+  />
+  {/* DesktopMenu */}
+  {openDesktopFilter && (
+    <div
+      className="absolute z-50 mt-[5px] right-0 w-auto shadow-lg bg-white rounded-lg"
+      style={{ top: "calc(100% + 10px)" }} // Adjust this value for vertical positioning
+    >
+      <DesktopMenu
+        open={openDesktopFilter}
+        setStatus={getStatus}
+        reSet={reSet}
+      />
+    </div>
+  )}
+</button>
+
+            {/*          
+            <button
+              className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer"
+              onClick={handleResetFilter}
+            >
               <span>
                 <Image
                   src={
@@ -234,7 +285,8 @@ const VisitorsTable = ({
                 />
               </span>
               Reset
-            </button>
+            </button> */}
+          
           </div>
         </div>
       </div>
@@ -502,27 +554,25 @@ const VisitorsTable = ({
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px] sm:absolute">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
             </p>
 
-            <div>
-              <button onClick={closeMobileModal} className="cursor-pointer">
-                <Image
-                  src="/static/images/close-square.svg"
-                  height={24}
-                  width={24}
-                  alt=""
-                />
-              </button>
-            </div>
+            <button onClick={closeMobileModal} className="cursor-pointer">
+              <Image
+                src="/static/images/close-square.svg"
+                height={24}
+                width={24}
+                alt=""
+              />
+            </button>
           </div>
 
           <MobileDropDown />
 
-          <button className="border w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-3">
+          <button className="border w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer">
             <Image
               src={"/static/images/white_repeat.svg"}
               alt=""
