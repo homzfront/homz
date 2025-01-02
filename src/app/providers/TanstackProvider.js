@@ -13,7 +13,7 @@ export const TanstackProvider = ({ children }) => {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient} contextSharing={true}>
       {children}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
