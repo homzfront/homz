@@ -26,7 +26,6 @@ const VisitorsTable = ({
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [openDesktopFilter, setOpenDesktopFilter] = useState(false);
-  // const [data, setData] = useState(Data?.results || {});
   const [tenant, setTenant] = useState({});
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -63,11 +62,9 @@ const VisitorsTable = ({
   };
   const closeModal = () => {
     setModalIsOpen(false);
-    // console.log(openDropdowns);
   };
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-    // setTenant(data);
   };
   const accessStatus = () => {
     setConfirmStatusModal(false);
@@ -77,13 +74,11 @@ const VisitorsTable = ({
     setMobileModalIsOpen(false);
   };
   const openDetailsMobileModal = (data) => {
-    // console.log("data details", data);
     setDetailsModalIsOpen(true);
     setTenant(data);
   };
   const closeDetailsMobileModal = () => {
     setDetailsModalIsOpen(false);
-    // console.log(openDropdowns);
   };
 
   const handleNext = () => {
@@ -110,8 +105,6 @@ const VisitorsTable = ({
     if (dataIndex !== -1) {
       const updatedData = [...currentData];
       updatedData[dataIndex].accessStatus = status;
-
-      // setData(updatedData);
     }
   };
 
@@ -221,7 +214,6 @@ const VisitorsTable = ({
                 id="search"
                 placeholder="Property, access code, tenant"
                 onChange={handleInputChange}
-                // onChange= {e=>{setSearchValue(e.target.value)}}
               />
               <Image
                 src={
@@ -257,7 +249,7 @@ const VisitorsTable = ({
   {openDesktopFilter && (
     <div
       className="absolute z-50 mt-[5px] right-0 w-auto shadow-lg bg-white rounded-lg"
-      style={{ top: "calc(100% + 10px)" }} // Adjust this value for vertical positioning
+      style={{ top: "calc(100% + 10px)" }}
     >
       <DesktopMenu
         open={openDesktopFilter}
