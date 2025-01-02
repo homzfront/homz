@@ -1,3 +1,4 @@
+"use client"
 import HomeTenant from "@/components/icons/homeTenant";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";

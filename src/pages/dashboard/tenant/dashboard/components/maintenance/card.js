@@ -3,7 +3,7 @@ import Add from "@/components/icons/add";
 import useMaintenanceTenantStore from "@/store/tenantStore/useMaintenanceTenantStore";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import lowerCaseData from "@/utils/lowerCaseData";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 

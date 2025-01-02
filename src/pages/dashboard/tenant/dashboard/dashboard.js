@@ -47,7 +47,7 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="flex flex-col gap-8">
-          <RentFirst data={data} />
+          <RentFirst />
           <RentSecond />
         </div>
       </div>
