@@ -1,4 +1,4 @@
-"use client",
+"use client";
 import Dashboard from "@/pages/dashboard/tenant/dashboard/dashboard";
 import React from "react";
 
