@@ -2,10 +2,11 @@
 import React from "react";
 import Header from "@/pages/dashboard/tenant/header/header";
 import Sidebar from "@/pages/dashboard/tenant/sidebar/sidebar";
+
+export const metadata = {
+  title: "Tenant",
+};
 const Layout = ({ children }) => {
-  export const metadata = {
-    title: "Tenant",
-  };
   return (
     <div className="dashboard_main">
       <Sidebar />
