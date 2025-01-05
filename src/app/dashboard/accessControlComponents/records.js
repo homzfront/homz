@@ -225,40 +225,42 @@ const VisitorsTable = ({
                 width={16}
               />
             </div>
+            <div className="relative">
 
             <button
-  onClick={openDesktopMenu}
-  className="relative flex items-center gap-[10px] rounded-[4px] py-[8px] px-[12px] border-[2px] border-[#006AFF] h-[37px]"
->
-  <Image
-    src="/static/images/blue-filter.svg"
-    alt=""
-    width={16}
-    height={16}
-  />
-  <Image
-    src="/static/images/arrow-up.svg"
-    alt=""
-    width={16}
-    height={16}
-    className={`${
-      openDesktopFilter ? "rotate-0" : "-rotate-180"
-    } transform transition duration-300 ease-in-out`}
-  />
-  {/* DesktopMenu */}
-  {openDesktopFilter && (
-    <div
-      className="absolute z-50 mt-[5px] right-0 w-auto shadow-lg bg-white rounded-lg"
-      style={{ top: "calc(100% + 10px)" }}
-    >
-      <DesktopMenu
-        open={openDesktopFilter}
-        setStatus={getStatus}
-        reSet={reSet}
-      />
-    </div>
-  )}
-</button>
+              onClick={openDesktopMenu}
+              className=" flex items-center gap-[10px] rounded-[4px] py-[8px] px-[12px] border-[2px] border-[#006AFF] h-[37px]"
+            >
+              <Image
+                src="/static/images/blue-filter.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
+              <Image
+                src="/static/images/arrow-up.svg"
+                alt=""
+                width={16}
+                height={16}
+                className={`${
+                  openDesktopFilter ? "rotate-0" : "-rotate-180"
+                } transform transition duration-300 ease-in-out`}
+              />
+              {/* DesktopMenu */}
+            </button>
+              {openDesktopFilter && (
+                <div
+                  className="absolute z-50 mt-[5px] right-0 w-auto shadow-lg bg-white rounded-lg"
+                  style={{ top: "calc(100% + 1px)" }}
+                >
+                  <DesktopMenu
+                    open={openDesktopFilter}
+                    setStatus={getStatus}
+                    reSet={reSet}
+                  />
+                </div>
+              )}
+            </div>
 
             {/*          
             <button
@@ -277,7 +279,6 @@ const VisitorsTable = ({
               </span>
               Reset
             </button> */}
-          
           </div>
         </div>
       </div>

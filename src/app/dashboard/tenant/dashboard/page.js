@@ -1,5 +1,5 @@
 "use client";
-import Dashboard from "@/pages/dashboard/tenant/dashboard/dashboard";
+import Dashboard from "./component/dashboard";
 import React from "react";
 
 

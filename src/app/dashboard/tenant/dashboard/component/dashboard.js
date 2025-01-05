@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import Maintenance from "./components/maintenance/card";
-import RentFirst from "./components/rent-first/rentFirst";
-import RentSecond from "./components/rent-second/rentSecond";
-import BillPayment from "./components/billPayment/billPayment";
+import Maintenance from "./maintenance/card";
+import RentFirst from "./rent-first/rentFirst";
+import RentSecond from "./rent-second/rentSecond";
+import BillPayment from "./billPayment/billPayment";
 // import tenantProfile from "@/store/tenantStore/tenantProfile";
 import extractFirstName from "@/utils/extractFirstName";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
@@ -12,10 +12,11 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import api from "@/utils/api";
 
 const Dashboard = () => {
+ 
   const {
-    isPending,
+    // isPending,
     // refetch,
-    data,
+    data
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -28,6 +29,17 @@ const Dashboard = () => {
     // enabled: enable,
   });
 
+  const { isPending, data:rentData } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      return await api.get(`/rentInformation/tenant`);
+    },
+    placeholderData: keepPreviousData,
+    select: (users) => {
+      return users.data.data;
+    },
+    // enabled: enable,
+  });
   if (isPending) {
     return <Loading />;
   }
@@ -47,7 +59,7 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="flex flex-col gap-8">
-          <RentFirst />
+          <RentFirst data={rentData} />
           <RentSecond />
         </div>
       </div>
