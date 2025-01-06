@@ -13,6 +13,7 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import formatTime from "@/utils/formatTime";
 import truncateText from "@/utils/trucateWord";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 const VisitorsTable = ({
   Data,
   setModalOpen,
@@ -226,28 +227,27 @@ const VisitorsTable = ({
               />
             </div>
             <div className="relative">
-
-            <button
-              onClick={openDesktopMenu}
-              className=" flex items-center gap-[10px] rounded-[4px] py-[8px] px-[12px] border-[2px] border-[#006AFF] h-[37px]"
-            >
-              <Image
-                src="/static/images/blue-filter.svg"
-                alt=""
-                width={16}
-                height={16}
-              />
-              <Image
-                src="/static/images/arrow-up.svg"
-                alt=""
-                width={16}
-                height={16}
-                className={`${
-                  openDesktopFilter ? "rotate-0" : "-rotate-180"
-                } transform transition duration-300 ease-in-out`}
-              />
-              {/* DesktopMenu */}
-            </button>
+              <button
+                onClick={openDesktopMenu}
+                className=" flex items-center gap-[10px] rounded-[4px] py-[8px] px-[12px] border-[2px] border-[#006AFF] h-[37px]"
+              >
+                <Image
+                  src="/static/images/blue-filter.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                <Image
+                  src="/static/images/arrow-up.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className={`${
+                    openDesktopFilter ? "rotate-0" : "-rotate-180"
+                  } transform transition duration-300 ease-in-out`}
+                />
+                {/* DesktopMenu */}
+              </button>
               {openDesktopFilter && (
                 <div
                   className="absolute z-50 mt-[5px] right-0 w-auto shadow-lg bg-white rounded-lg"
@@ -339,7 +339,7 @@ const VisitorsTable = ({
 
             {/* Body Section */}
             <div>
-              {Data &&
+              {currentData &&
                 currentData.map((data) => (
                   <div
                     key={data?._id}
@@ -414,16 +414,48 @@ const VisitorsTable = ({
                       {/* {data.accessCode} */}
                       {truncateText(data.accessCode, 15)}
                     </div>
-                    <div className={`font-[400] text-[11px] text-left  `}>
-                      <StatusDropdown
-                        data={data}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id)
-                        }
-                        isOpen={openDropdowns[data._id] || false}
-                        toggleDropdown={() => toggleDropdown(data._id)}
-                      />
-                    </div>
+                    {typeOfUser === "security" ? (
+                      <div className={`font-[400] text-[11px] text-left  `}>
+                        <StatusDropdown
+                          data={data}
+                          handleStatusChange={(status) =>
+                            handleStatusChange(status, data._id)
+                          }
+                          isOpen={openDropdowns[data._id] || false}
+                          toggleDropdown={() => toggleDropdown(data._id)}
+                          typeOfUser={typeOfUser}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`relative text-[11px] leading-[16.5px] text-center ${
+                          data?.accessStatus === "signed in"
+                            ? "bg-successBg text-Success"
+                            : ""
+                        } ${
+                          data?.accessStatus === "pending"
+                            ? "bg-warningBg text-warning2"
+                            : ""
+                        } ${
+                          data?.accessStatus === "signed out"
+                            ? "bg-error text-white"
+                            : ""
+                        } flex items-center w-[105px]  h-[33px] rounded-[4px]  justify-between px-[12px] py-[8px]`}
+                      >
+                        <span
+                          className={` sm:rounded-[8px] sm:py-[4px] sm:px-[8px] py-[8px] px-[12px] sm:h-[25px] h-[44px] ${
+                            data?.accessStatus === "signed in"
+                              ? "bg-successBg text-Success"
+                              : data?.accessStatus === "pending"
+                              ? "bg-warningBg text-warning2"
+                              : "bg-error text-white"
+                          }`}
+                        >
+                          {capitalizeFirstLetter(data?.accessStatus)}
+                        </span>
+                      </div>
+                    )}
+
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
                       {formatTime(data?.timeIn) || "-----"}
                     </div>
