@@ -12,7 +12,7 @@ const StatusDropdown = ({
 
 
   if (!data) {
-    return null; // or handle accordingly, e.g., return a loading state
+    return null;
   }
   return (
     <div

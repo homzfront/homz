@@ -411,7 +411,6 @@ const VisitorsTable = ({
                       {changeBackendDateFormat(data?.dateOfVisit) || "------"}
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left break-words leading-[16.5px]">
-                      {/* {data.accessCode} */}
                       {truncateText(data.accessCode, 15)}
                     </div>
                     {typeOfUser === "security" ? (
