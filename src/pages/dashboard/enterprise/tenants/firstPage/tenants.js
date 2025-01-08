@@ -25,6 +25,7 @@ import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import Widget from "../components/widget";
 import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const Tenants = () => {
   const [inviteTenant, setInviteTenant] = useState(false);
