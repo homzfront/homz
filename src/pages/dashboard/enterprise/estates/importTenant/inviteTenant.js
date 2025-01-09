@@ -4,9 +4,9 @@ import { BulkUpload } from '@/components/icons/bulkUpload';
 import React, { useState } from 'react'
 import { Toaster } from 'react-hot-toast';
 
-const InviteTenant = ({ id, setOpenTenantInvite, setOpenSingleInvite, setOpenBulkInvite   }) => {
+const InviteTenant = ({ id, setOpenTenantInvite, setOpenSingleInvite, setOpenBulkInvite }) => {
     return (
-        <div className="w-full p-8 max-w-[620px] bg-white rounded-[12px] flex gap-4 flex-col items-center">
+        <div className="md:w-full w-[340px] p-8 max-w-[620px] bg-white rounded-[12px] flex gap-4 flex-col items-center">
             <Toaster />
             <div>
                 <h1 className='font-medium text-[16px] md:text-[18px] text-BlackHomz'>

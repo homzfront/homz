@@ -7,7 +7,7 @@ import UploadYourFile from "./uploadYourFile";
 import DataMapping from "./dataMapping";
 import Close from "@/components/icons/Close";
 
-const WidgetBulk = ({ setOpenBulkInvite }) => {
+const WidgetBulk = ({ setOpenBulkInvite, setImportData }) => {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [dashboard, setDashboard] = useState(false);
@@ -22,16 +22,15 @@ const WidgetBulk = ({ setOpenBulkInvite }) => {
         setActive(true);
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
     };
 
     return (
-        <div className="w-full">
+        <div className="w-[360px] sm:w-full">
             <CustomizedModal isOpen={dashboard}>
                 <div className="w-full m-auto bg-white h-[260px] rounded-md shadow-lg">
-                    <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
+                    <div className="mt-[-10px] lg:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
                         <Image
                             src={
                                 "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
@@ -55,13 +54,13 @@ const WidgetBulk = ({ setOpenBulkInvite }) => {
                     </div>
                 </div>
             </CustomizedModal>
-            <div className="sm:w-full w-[360px] h-auto">
+            <div className="sm:w-full w-[360px] px-4 sm:px-0 h-auto">
                 <div className="flex w-full justify-between items-center">
                     <div className="h-auto flex justify-center">
-                        <div className="z-0 absolute w-[415px] sm:w-[915px] pr-[92px] pl-[96px] py-[29px]">
+                        <div className="z-0 absolute w-[182px] lg:w-[915px] lg:pr-[92px] lg:pl-[96px] py-[29px]">
                             <div className="border-[1px] border-GrayHomz2"></div>
                         </div>
-                        <div className="z-1 relative flex mt-5 gap-4 justify-between items-center w-[320px] sm:w-[830px]">
+                        <div className="z-1 relative flex mt-5 gap-4 justify-between items-center w-[257px] lg:w-[830px]">
                             <div className="flex flex-col items-center gap-2 justify-center">
                                 <div
                                     className={`cursor-pointer flex flex-col items-center p-[6px] justify-center shadow-lg ${!active
@@ -95,7 +94,7 @@ const WidgetBulk = ({ setOpenBulkInvite }) => {
                     </div>
                     <div
                         onClick={() => setOpenBulkInvite(false)}
-                        className="hidden cursor-pointer border border-BlackHomz rounded-[8px] h-[30px] w-[30px] md:flex justify-center items-center"
+                        className="z-20  cursor-pointer border border-BlackHomz rounded-[8px] h-[30px] w-[30px] flex justify-center items-center"
                     >
                         <Close />
                     </div>
@@ -103,10 +102,13 @@ const WidgetBulk = ({ setOpenBulkInvite }) => {
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${!active ? "inline" : "hidden"}`}>
                         <UploadYourFile
+                            handlePageChangeTwo={handlePageChangeTwo}
                         />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
                         <DataMapping
+                            handlePageChange={handlePageChange}
+                            setImportData={setImportData}
                         />
                     </div>
                 </div>

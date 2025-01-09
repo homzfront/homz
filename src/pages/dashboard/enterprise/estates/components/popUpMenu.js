@@ -16,6 +16,7 @@ import SingleInvite from "../importTenant/components/singleInvite";
 import useClickOutside from "@/utils/clickOutside";
 import BulkInvite from "../importTenant/components/bulkInvite";
 import ConfirmModal from "../../components/confirmModal";
+import useCSVFileStore from "@/store/document/useCSVFileStore";
 
 const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) => {
   const { setTab } = useEditPropertyTab();
@@ -30,6 +31,8 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
   const [openBulkInvite, setOpenBulkInvite] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenTenantInvite(false));
   const [successfulModal, setSuccessfulModal] = useState(false);
+  const [importData, setImportData] = useState(false);
+  const { setCSVFile, CSVFile } = useCSVFileStore();
 
 
   return (
@@ -107,16 +110,36 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
                     setSuccessfulModal(false)
                     setOpenTenantInvite(false)
                     setOpenSingleInvite(false)
+                    setCSVFile(null);
+                    setImportData(false)
+                    setOpenBulkInvite(false)
                   }}
                   button={"Close"}
                   header={"Tenant Added Successfully!"}
-                  body={`An invitation link to join ${estateName} has been sent to ${
-                    ""} mail.`}
+                  body={`An invitation link to join ${estateName} has been sent to ${""} mail.`}
                 />
                 :
-                openSingleInvite ? <SingleInvite setSuccessfulModal={setSuccessfulModal} setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} estateName={estateName} /> :
-                  openBulkInvite ? <BulkInvite setOpenBulkInvite={setOpenBulkInvite} /> :
-                    <InviteTenant setOpenBulkInvite={setOpenBulkInvite} id={data} setOpenTenantInvite={setOpenTenantInvite} openSingleInvite={openSingleInvite} setOpenSingleInvite={setOpenSingleInvite} />
+                importData ?
+                  <ConfirmModal
+                    returnHome={() => {
+                      setSuccessfulModal(false)
+                      setOpenTenantInvite(false)
+                      setOpenSingleInvite(false)
+                      setCSVFile(null);
+                      setImportData(false)
+                      setOpenBulkInvite(false)
+                    }}
+                    button={"Close"}
+                    header={`${CSVFile ? [CSVFile?.length] : 0} Tenant(s) Imported Successfully!
+                      `}
+                    body={`
+                    Invitation links to join ${estateName} been sent to the mails of all imported tenants with an email attribute.
+                    `}
+                  />
+                  :
+                  openSingleInvite ? <SingleInvite setSuccessfulModal={setSuccessfulModal} setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} estateName={estateName} /> :
+                    openBulkInvite ? <BulkInvite setOpenBulkInvite={setOpenBulkInvite} setImportData={setImportData} /> :
+                      <InviteTenant setOpenBulkInvite={setOpenBulkInvite} id={data} setOpenTenantInvite={setOpenTenantInvite} openSingleInvite={openSingleInvite} setOpenSingleInvite={setOpenSingleInvite} />
             }
           </div>
         </CustomizedModal>
