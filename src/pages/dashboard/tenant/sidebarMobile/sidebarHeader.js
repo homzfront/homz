@@ -105,7 +105,7 @@ const SidebarMobile = ({ setOpen, user }) => {
           </div>
           <p className=""> Property Information</p>
         </Link>
-        {data?.enterPriseId && (
+        {/* {data?.enterPriseId && (
           <Link
             onClick={() => setOpen(false)}
             href="/dashboard/tenant/accessControl"
@@ -129,7 +129,7 @@ const SidebarMobile = ({ setOpen, user }) => {
             </div>
             <p className="">Access Control</p>
           </Link>
-        )}
+        )} */}
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/tenant/finance"}

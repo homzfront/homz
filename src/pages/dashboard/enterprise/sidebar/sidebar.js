@@ -101,8 +101,8 @@ const Sidebar = () => {
         },
         {
           title: "Access Control",
-          link: "/dashboard/enterprise-property/tenants/access-records",
-          // link: "",
+          // link: "/dashboard/enterprise-property/tenants/access-records",
+          link: "",
           image: <AccessRecord />,
           image2: <AccessRecord className="#006AFF" />,
         },
