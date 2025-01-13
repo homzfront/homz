@@ -27,7 +27,7 @@ const ManageUserRoles = () => {
   // const [selectedEstate, setSelectedEstate] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectOp, setSelectedOp] = useState([]);
+  // const [selectOp, setSelectedOp] = useState([]);
   const [dataEmail, setDataEmail] = useState([]);
   const [userRole, setUserRole] = useState(null);
 
