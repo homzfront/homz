@@ -22,7 +22,6 @@ const AddVisitor = ({ modalIsOpen, closeModal }) => {
     criteriaMode: "all",
   });
   const onSubmit = (data) => {
-    // console.log(data);
     reset();
     closeModal(false);
     setSuccessModalIsOpen(true);
