@@ -142,8 +142,6 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
         }
     };
 
-    console.log(errors)
-
     const validateSecondFields = () => {
         // Check specific fields are filled
         const requiredFields = ["rentAmount", "rentDuration", "startDate", "dueDate", "propertyType", "apartmentNumber"];
