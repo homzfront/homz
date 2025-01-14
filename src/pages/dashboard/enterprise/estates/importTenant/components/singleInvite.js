@@ -8,11 +8,13 @@ import ArrowLeft from "@/components/icons/arrowLeft";
 import ArrowUp from "@/components/icons/arrowUp";
 import ArrowDown from "@/components/icons/arrowDown";
 import CloseSmall from "@/components/icons/closeSmall";
+import useTenantForInvite from "@/store/enterpriseStore/useTenantForInvite";
 
-const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantInvite, estateName }) => {
+const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOpenTenantInvite, estateName }) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [arrowColor, setArrowColor] = useState(false);
+    const { setTenantData } = useTenantForInvite()
     const [isValid, setIsValid] = useState(false);
     const [formData, setFormData] = useState({
         firstName: null,
@@ -36,27 +38,6 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantIn
 
     console.log(formData)
 
-    // const { setRefetch } = PaymentRefetchTenant();
-    // const { fetchData: exportFetch } = useExportEnterpriseSingleTenant();
-
-    const validateForm = () => {
-        const newErrors = {};
-        if (!formData.firstName)
-            newErrors.firstName = "First Name is required.";
-        if (!formData.lastName)
-            newErrors.lastName = "Last Name is required.";
-        if (!formData.email)
-            newErrors.email = "Email is required.";
-        if (!formData.rentAmount)
-            newErrors.rentAmount = "Rent amount is required.";
-        if (!formData.rentDuration)
-            newErrors.rentDuration = "Rent duration is required.";
-        if (!formData.startDate)
-            newErrors.startDate = "Start date is required.";
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
     const handleInputChange = (field, value) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
         if (errors[field]) {
@@ -65,32 +46,71 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantIn
     };
 
     const onSubmit = async (e) => {
-        // e.preventDefault();
-        // setRefetch(false)
-        if (!validateForm()) return;
-        // setIsLoadingForm(true);
-        setSuccessfulModal(true)
-        try {
-            // const response = await api.post(
-            //     `/offlinePayment/enterprise/rent/tenant/${tenantId}`,
-            //     {
-            //         description: formData.description?.label.toLowerCase(),
-            //         rent: formData.rent.replace(/,/g, ""),
-            //         amountPaid: formData.amountPaid.replace(/,/g, ""),
-            //         modeOfTransaction: formData.modeOfTransaction?.label.toLowerCase(),
-            //         dateOfTransaction: formData.dateOfTransaction.toISOString(),
-            //         duration: formData.duration,
-            //         startDate: formData.startDate.toISOString(),
-            //         dueDate: formData.dueDate.toISOString(),
-            //     }
-            // );
+        e.preventDefault();
+        console.log("Hi")
+        const newErrors = {};
+        if (!formData.firstName)
+            newErrors.firstName = "First Name is required.";
+        if (!formData.lastName)
+            newErrors.lastName = "Last Name is required.";
+        if (!formData.email)
+            newErrors.email = "Email is required.";
+        if (!formData.rentAmount && isDropdownOpen)
+            newErrors.rentAmount = "Rent amount is required.";
+        if (!formData.rentDuration && isDropdownOpen)
+            newErrors.rentDuration = "Rent duration is required.";
+        if (!formData.startDate && isDropdownOpen)
+            newErrors.startDate = "Start date is required.";
+        if (!formData.dueDate && isDropdownOpen)
+            newErrors.dueDate = "Due date is required.";
+        if (!formData.propertyType && isDropdownOpen)
+            newErrors.propertyType = "Property type is required.";
+        if (!formData.apartmentNumber && isDropdownOpen)
+            newErrors.startDate = "Apartment number is required.";
+        if (newErrors?.length > 0) {
 
-            // if (response?.data?.success) {
-            //     setOpenSingleInvite(false);
-            //     reFetchSummaryData();
-            //     exportFetch(tenantId);
-            //     setRefetch(true);
-            // }
+            setErrors(newErrors);
+            return Object.keys(newErrors).length === 0;
+        }
+        setIsLoadingForm(true);
+
+        const formDataSubmit = isDropdownOpen ? {
+            tenantName: `${formData.firstName} ${formData?.lastName}`,
+            email: formData.email,
+            houseAddress: formData?.address,
+            phoneNumber: formData?.PhoneNUmber,
+            rentInfo: {
+                rentAmount: formData.rentAmount.replace(/,/g, ""),
+                apartmentNo: formData.apartmentNumber,
+                propertyType: formData.propertyType,
+                rentDuration: formData?.rentDuration,
+                startDate: formData.startDate.toISOString(),
+                dueDate: formData.dueDate.toISOString(),
+            }
+        } : {
+            tenantName: `${formData.firstName} ${formData?.lastName}`,
+            email: formData.email,
+            houseAddress: formData?.address,
+            phoneNumber: formData?.PhoneNUmber,
+        }
+
+        const cleanFormData = Object.fromEntries(
+            Object.entries(formDataSubmit).filter(([_, value]) => value !== null)
+        );
+        try {
+            const response = await api.post(
+                `/tenants/invitation/estate/${estateId}/single-tenant-upload`,
+                {
+                    ...cleanFormData
+                }
+            );
+            if (response?.data?.success) {
+                setSuccessfulModal(true)
+                setTenantData({
+                    name: `${formData.firstName} ${formData?.lastName}`,
+                    email: formData.email,
+                });
+            }
             // Clear all errors
             setErrors((prevErrors) => {
                 const clearedErrors = Object.keys(prevErrors).reduce((acc, key) => {
@@ -100,6 +120,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantIn
                 return clearedErrors;
             });
         } catch (error) {
+            console.log(error?.response?.data?.message)
             if (error && error?.response?.data?.error?.errors) {
                 // Assign backend errors to state
                 setErrors((prevErrors) => ({
@@ -121,43 +142,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantIn
         }
     };
 
-    // useEffect(() => {
-    //     if (rentInfo?.upDateddata) {
-    //         setFormData({
-    //             ...formData,
-    //             rent: new Intl.NumberFormat().format(rentInfo?.upDateddata.rent) || "",
-    //             startDate: new Date(rentInfo?.upDateddata.startDate),
-    //             dueDate: new Date(rentInfo?.upDateddata.dueDate),
-    //             duration: rentInfo?.upDateddata.duration || "",
-    //         });
-    //     }
-    // }, [rentInfo?.upDateddata]);
-
-    // useEffect(() => {
-    //     if (formData.duration && formData.startDate) {
-    //         const newDueDate = new Date(formData.startDate);
-    //         newDueDate.setMonth(
-    //             newDueDate.getMonth() + parseInt(formData.duration, 10)
-    //         );
-    //         newDueDate.setDate(newDueDate.getDate() - 1);
-    //         handleInputChange("dueDate", newDueDate);
-    //     }
-    // }, [formData.duration, formData.startDate]);
-
-    // const isValid = Object.values(formData).every((value) => {
-    //     // Check for null, undefined, or empty strings
-    //     if (value === null || value === undefined || value === "") {
-    //         return false;
-    //     }
-
-    //     // Additional check for arrays (if any field is an array)
-    //     if (Array.isArray(value) && value.length === 0) {
-    //         return false;
-    //     }
-
-    //     return true;
-    // });
-
+    console.log(errors)
 
     const validateSecondFields = () => {
         // Check specific fields are filled
@@ -550,7 +535,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, setOpenTenantIn
                     }
                     {errors.backend && (
                         <span className="text-red-500 text-xs mt-1">
-                            {errors.backend?.[0]}
+                            {errors.backend}
                         </span>
                     )}
 

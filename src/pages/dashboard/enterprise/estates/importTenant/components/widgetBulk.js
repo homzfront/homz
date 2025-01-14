@@ -57,7 +57,7 @@ const WidgetBulk = ({ setOpenBulkInvite, setImportData }) => {
             <div className="sm:w-full w-[360px] px-4 sm:px-0 h-auto">
                 <div className="flex w-full justify-between items-center">
                     <div className="h-auto flex justify-center">
-                        <div className="z-0 absolute w-[182px] lg:w-[915px] lg:pr-[92px] lg:pl-[96px] py-[29px]">
+                        <div className="z-0 absolute w-[172px] lg:w-[915px] lg:pr-[92px] lg:pl-[96px] py-[29px]">
                             <div className="border-[1px] border-GrayHomz2"></div>
                         </div>
                         <div className="z-1 relative flex mt-5 gap-4 justify-between items-center w-[257px] lg:w-[830px]">

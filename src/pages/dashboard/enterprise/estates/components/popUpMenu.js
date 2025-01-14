@@ -17,6 +17,7 @@ import useClickOutside from "@/utils/clickOutside";
 import BulkInvite from "../importTenant/components/bulkInvite";
 import ConfirmModal from "../../components/confirmModal";
 import useCSVFileStore from "@/store/document/useCSVFileStore";
+import useTenantForInvite from "@/store/enterpriseStore/useTenantForInvite";
 
 const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) => {
   const { setTab } = useEditPropertyTab();
@@ -33,7 +34,9 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [importData, setImportData] = useState(false);
   const { setCSVFile, CSVFile } = useCSVFileStore();
+  const { tenantData } = useTenantForInvite()
 
+  console.log(data)
 
   return (
     <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-5 md:top-8 right-1 md:right-2 border h-auto w-[150px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
@@ -115,8 +118,8 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
                     setOpenBulkInvite(false)
                   }}
                   button={"Close"}
-                  header={"Tenant Added Successfully!"}
-                  body={`An invitation link to join ${estateName} has been sent to ${""} mail.`}
+                  header={`${tenantData ? tenantData?.name : "Tenant"} Added Successfully!`}
+                  body={`An invitation link to join ${estateName} has been sent to ${tenantData ? tenantData?.email : ""} mail.`}
                 />
                 :
                 importData ?
@@ -137,7 +140,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
                     `}
                   />
                   :
-                  openSingleInvite ? <SingleInvite setSuccessfulModal={setSuccessfulModal} setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} estateName={estateName} /> :
+                  openSingleInvite ? <SingleInvite setSuccessfulModal={setSuccessfulModal} setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} estateName={estateName} estateId={data} /> :
                     openBulkInvite ? <BulkInvite setOpenBulkInvite={setOpenBulkInvite} setImportData={setImportData} /> :
                       <InviteTenant setOpenBulkInvite={setOpenBulkInvite} id={data} setOpenTenantInvite={setOpenTenantInvite} openSingleInvite={openSingleInvite} setOpenSingleInvite={setOpenSingleInvite} />
             }
