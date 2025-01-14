@@ -1,9 +1,8 @@
-import Dashboard from "@/pages/dashboard/tenant/dashboard/dashboard";
+"use client";
+import Dashboard from "./component/dashboard";
 import React from "react";
 
-export const metadata = {
-  title: "Tenant"
-}
+
 
 const App = () => {
   return (

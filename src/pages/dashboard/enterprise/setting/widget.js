@@ -7,7 +7,7 @@ import ManageUsers from "./manageUsers/manageUsers.js";
 
 const pages = [
   { id: 1, name: "Manage Landlords", component: <ManageUsers typeOfUser="landlords"/> },
-  { id: 2, name: "Manage Security Personnel", component: <ManageUsers/> },
+  // { id: 2, name: "Manage Security Personnel", component: <ManageUsers/> },
   // { id: 2, name: "Properties", component: <Estate /> },
   // { id: 3, name: "Tenants", component: <Tenants /> },
   // { id: 4, name: "Notifications", component: <Notifications /> },

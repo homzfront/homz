@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DropDown from "../components/threeDropDown";
+// import DropDown from "../components/threeDropDown";
 import Image from "next/image";
 import TenantsTwo from "./tenantsTwo";
-import Modal from "../components/modal";
-import useBodyScroll from "@/utils/useBodyScroll";
+// import Modal from "../components/modal";
+// import useBodyScroll from "@/utils/useBodyScroll";
 import tenantsDataForLoggedInOwner from "@/store/propertyOwnerStore/tenantsDataForLoggedInOwner";
 import formatDateII from "@/utils/formatDateII";
 import lowerCaseData from "@/utils/lowerCaseData";
@@ -12,7 +12,7 @@ import Dropdown from "../../components/dropDownFilter";
 import FilterMobile from "../../components/filterMobile";
 
 const Tenants = () => {
-  const [inviteTenant, setInviteTenant] = useState(false);
+  // const [inviteTenant, setInviteTenant] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);

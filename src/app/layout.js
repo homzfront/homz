@@ -1,13 +1,11 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import "dotenv/config";
+import dynamic from "next/dynamic";
+import { TanstackProvider } from "./providers/TanstackProvider";
+import GoogleAnalytics from "@/utils/googleAnalytics";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Head from "next/head";
 import Script from "next/script";
-import dynamic from "next/dynamic";
-import GoogleAnalytics from "@/utils/googleAnalytics";
-import { TanstackProvider } from "./providers/TanstackProvider";
-
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -48,35 +46,41 @@ export default function RootLayout({ children }) {
           <img
             height="1"
             width="1"
-            style="display:none"
+            style={{ display: "none" }}
             src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_PIXEL_ID}&ev=PageView&noscript=1`}
-            alt={"facebook pixel no script image"}
+            alt="Facebook pixel tracking"
           />
         </noscript>
       </Head>
       <body className={plus_Jakarta_Sans.className}>
+        {/* Third-Party Integrations */}
         <FacebookPixel />
         <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
+
+        {/* Tawk.to Script */}
         <Script
           id="tawk-to"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-          var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-          (function(){
-          var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-          s1.async=true;
-          s1.src='https://embed.tawk.to/66506bcd9a809f19fb3480b0/1hul2a7ij';
-          s1.charset='UTF-8';
-          s1.setAttribute('crossorigin','*');
-          s0.parentNode.insertBefore(s1,s0);
-          })();
+              var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+              (function(){
+                var s1 = document.createElement("script"),
+                    s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/66506bcd9a809f19fb3480b0/1hul2a7ij';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+              })();
             `,
           }}
         />
+
+        {/* Tanstack Query Client */}
         <TanstackProvider>
-          <div>{children}</div>
+          <main>{children}</main>
         </TanstackProvider>
       </body>
     </html>

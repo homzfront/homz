@@ -1,6 +1,6 @@
 // enterpriseAccountInfo.js
 import api from '@/utils/api';
-import { useQuery, useMutation, QueryClient, QueryClientProvider } from 'react-query';
+import { useQuery, useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const getEnterpiseAccountInfo = async () => {
   const response = await api.get('/enterprisePlan/me');

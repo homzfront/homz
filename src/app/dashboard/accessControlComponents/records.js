@@ -1,18 +1,19 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../components/button";
 import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import DropDown from "./dropDown";
 import StatusDropdown from "./statusDropDown";
 import MobileDropDown from "./mobileDropDown";
 import Link from "next/link";
+import DesktopMenu from "../components/desktopMenu";
 
 import VisitorAccessInfo from "./visitorAccessInfo";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import formatTime from "@/utils/formatTime";
 import truncateText from "@/utils/trucateWord";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 const VisitorsTable = ({
   Data,
   setModalOpen,
@@ -21,11 +22,11 @@ const VisitorsTable = ({
   getStatus,
   currentPage,
   setPage,
+  setSearchValue,
+  handleInputChange,
 }) => {
-  // console.log(searchValue);
-  const dropDownMenu = useRef();
   const [isMobile, setIsMobile] = useState(false);
-  // const [data, setData] = useState(Data?.results || {});
+  const [openDesktopFilter, setOpenDesktopFilter] = useState(false);
   const [tenant, setTenant] = useState({});
   const [openDropdowns, setOpenDropdowns] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -43,7 +44,7 @@ const VisitorsTable = ({
   };
 
   const ITEMS_PER_PAGE = 12;
-   const currentData = Data?.results ;
+  const currentData = Data?.results;
   const totalPages = Math.ceil(Data && Data?.totalCount / ITEMS_PER_PAGE);
 
   const checkIsMobile = () => {
@@ -62,11 +63,9 @@ const VisitorsTable = ({
   };
   const closeModal = () => {
     setModalIsOpen(false);
-    // console.log(openDropdowns);
   };
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-    // setTenant(data);
   };
   const accessStatus = () => {
     setConfirmStatusModal(false);
@@ -76,13 +75,11 @@ const VisitorsTable = ({
     setMobileModalIsOpen(false);
   };
   const openDetailsMobileModal = (data) => {
-    // console.log("data details", data);
     setDetailsModalIsOpen(true);
     setTenant(data);
   };
   const closeDetailsMobileModal = () => {
     setDetailsModalIsOpen(false);
-    // console.log(openDropdowns);
   };
 
   const handleNext = () => {
@@ -93,7 +90,6 @@ const VisitorsTable = ({
   const handlePrev = () => {
     const prevPageNumber = Math.max(parseInt(currentPage) - 1, 1);
     setPage(prevPageNumber);
- 
   };
 
   const handlePageClick = (page) => {
@@ -110,8 +106,6 @@ const VisitorsTable = ({
     if (dataIndex !== -1) {
       const updatedData = [...currentData];
       updatedData[dataIndex].accessStatus = status;
-
-      // setData(updatedData);
     }
   };
 
@@ -127,15 +121,9 @@ const VisitorsTable = ({
     }
   };
 
-
-  const handleResetFilter = () => {
-    if (dropDownMenu.current) {
-      dropDownMenu.current.reset(); // Call the reset method of the child
-    }
-    reSet()
+  const openDesktopMenu = () => {
+    setOpenDesktopFilter(!openDesktopFilter);
   };
-
- 
   // Use reduce to generate an array of the first three pages
   const firstThreePages = Array.from(
     { length: Math.min(totalPages, 3) },
@@ -219,10 +207,66 @@ const VisitorsTable = ({
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <div className="pt-[5px]">
-              <DropDown setStatus={getStatus} ref={dropDownMenu} />
+            {/* <DropDown setStatus={getStatus} ref={dropDownMenu} /> */}
+            <div className="searchPane relative w-[345px] rounded-[4px] h-[37px]">
+              <input
+                type="text"
+                className="border h-[37px] pl-8 rounded-[4px] w-full "
+                id="search"
+                placeholder="Property, access code, tenant"
+                onChange={handleInputChange}
+              />
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/header/search-normal.png"
+                }
+                alt=""
+                className="absolute top-3 left-2"
+                height={16}
+                width={16}
+              />
             </div>
-            <button className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer" onClick={handleResetFilter}>
+            <div className="relative">
+              <button
+                onClick={openDesktopMenu}
+                className=" flex items-center gap-[10px] rounded-[4px] py-[8px] px-[12px] border-[2px] border-[#006AFF] h-[37px]"
+              >
+                <Image
+                  src="/static/images/blue-filter.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                <Image
+                  src="/static/images/arrow-up.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className={`${
+                    openDesktopFilter ? "rotate-0" : "-rotate-180"
+                  } transform transition duration-300 ease-in-out`}
+                />
+                {/* DesktopMenu */}
+              </button>
+              {openDesktopFilter && (
+                <div
+                  className="absolute z-50 mt-[5px] right-0 w-auto shadow-lg bg-white rounded-lg"
+                  style={{ top: "calc(100% + 1px)" }}
+                >
+                  <DesktopMenu
+                    open={openDesktopFilter}
+                    setStatus={getStatus}
+                    reSet={reSet}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/*          
+            <button
+              className="border border-BlueHomz items-center text-[14px] font-[500] flex text-BlueHomz px-[10px] p-1 rounded cursor-pointer"
+              onClick={handleResetFilter}
+            >
               <span>
                 <Image
                   src={
@@ -234,7 +278,7 @@ const VisitorsTable = ({
                 />
               </span>
               Reset
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -295,7 +339,7 @@ const VisitorsTable = ({
 
             {/* Body Section */}
             <div>
-              {Data &&
+              {currentData &&
                 currentData.map((data) => (
                   <div
                     key={data?._id}
@@ -367,19 +411,50 @@ const VisitorsTable = ({
                       {changeBackendDateFormat(data?.dateOfVisit) || "------"}
                     </div>
                     <div className="text-GrayHomz font-[500] text-[11px] text-left break-words leading-[16.5px]">
-                      {/* {data.accessCode} */}
                       {truncateText(data.accessCode, 15)}
                     </div>
-                    <div className={`font-[400] text-[11px] text-left  `}>
-                      <StatusDropdown
-                        data={data}
-                        handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id)
-                        }
-                        isOpen={openDropdowns[data._id] || false}
-                        toggleDropdown={() => toggleDropdown(data._id)}
-                      />
-                    </div>
+                    {typeOfUser === "security" ? (
+                      <div className={`font-[400] text-[11px] text-left  `}>
+                        <StatusDropdown
+                          data={data}
+                          handleStatusChange={(status) =>
+                            handleStatusChange(status, data._id)
+                          }
+                          isOpen={openDropdowns[data._id] || false}
+                          toggleDropdown={() => toggleDropdown(data._id)}
+                          typeOfUser={typeOfUser}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`relative text-[11px] leading-[16.5px] text-center ${
+                          data?.accessStatus === "signed in"
+                            ? "bg-successBg text-Success"
+                            : ""
+                        } ${
+                          data?.accessStatus === "pending"
+                            ? "bg-warningBg text-warning2"
+                            : ""
+                        } ${
+                          data?.accessStatus === "signed out"
+                            ? "bg-error text-white"
+                            : ""
+                        } flex items-center w-[105px]  h-[33px] rounded-[4px]  justify-between px-[12px] py-[8px]`}
+                      >
+                        <span
+                          className={` sm:rounded-[8px] sm:py-[4px] sm:px-[8px] py-[8px] px-[12px] sm:h-[25px] h-[44px] ${
+                            data?.accessStatus === "signed in"
+                              ? "bg-successBg text-Success"
+                              : data?.accessStatus === "pending"
+                              ? "bg-warningBg text-warning2"
+                              : "bg-error text-white"
+                          }`}
+                        >
+                          {capitalizeFirstLetter(data?.accessStatus)}
+                        </span>
+                      </div>
+                    )}
+
                     <div className="text-GrayHomz font-[500] text-[11px] text-left sm:block hidden">
                       {formatTime(data?.timeIn) || "-----"}
                     </div>
@@ -502,27 +577,25 @@ const VisitorsTable = ({
         isOpen={mobileModalIsOpen}
         onRequestClose={closeMobileModal}
       >
-        <div className="bg-white border flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px]">
+        <div className="bg-white border flex flex-col w-[350px]  py-[24px] px-[16px] rounded-[12px] gap-[18px] sm:absolute">
           <div className=" flex items-center justify-between">
             <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
               Filter by
             </p>
 
-            <div>
-              <button onClick={closeMobileModal} className="cursor-pointer">
-                <Image
-                  src="/static/images/close-square.svg"
-                  height={24}
-                  width={24}
-                  alt=""
-                />
-              </button>
-            </div>
+            <button onClick={closeMobileModal} className="cursor-pointer">
+              <Image
+                src="/static/images/close-square.svg"
+                height={24}
+                width={24}
+                alt=""
+              />
+            </button>
           </div>
 
           <MobileDropDown />
 
-          <button className="border w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer mt-3">
+          <button className="border w-[318px] h-[42px] p-[12px] border-[#006AFF] bg-[#006AFF] items-center text-[14px] font-[500] flex justify-center  rounded-[4px] cursor-pointer">
             <Image
               src={"/static/images/white_repeat.svg"}
               alt=""
