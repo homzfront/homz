@@ -1,36 +1,13 @@
-import React, { useState } from "react";
-import BashedEye from "@/components/icons/BashedEye";
-import Eye from "@/components/icons/Eye";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
 
 const PersonalInfo = ({
   data,
-  name,
-  setName,
-  phonenumber,
-  setPhoneNumber,
   handlePageChangeTwo
 }) => {
-  const [loginError, setLoginError] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validate name and phone number
-    // if (!name) {
-    //   setLoginError("Please enter your full name.");
-    // } else if (
-    //   !phonenumber ||
-    //   phonenumber.length < 11 ||
-    //   !/^\d+$/.test(phonenumber)
-    // ) {
-    //   setLoginError(
-    //     "Please enter a valid phone number with at least 11 digits."
-    //   );
-    // } else 
-    {
-      // Continue with form submission
-      handlePageChangeTwo();
-    }
+    handlePageChangeTwo();
   };
 
   return (
@@ -45,15 +22,15 @@ const PersonalInfo = ({
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2 items-start">
-            <label className="text-center text-[14px] font-[500] text-BlackHomz">
+              <div className="flex flex-col gap-2 items-start">
+                <label className="text-center text-[14px] font-[500] text-BlackHomz">
                   Email<span className="text-red-600">*</span>
                 </label>
                 <input
                   className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                   type="email"
                   disabled
-                  value={data?.email}
+                  value={data?.tenantEmail}
                   placeholder="CVictor@gmail.com"
                 />
               </div>
@@ -65,15 +42,10 @@ const PersonalInfo = ({
                   className="border w-full sm:w-[450px] rounded-[4px] h-[47px] px-2 placeholder:text-[14px]"
                   type="text"
                   disabled
-                  // value={data?.fullName}
+                  value={data?.tenantFullName}
                   placeholder="Enter your full name"
                 />
               </div>
-              {loginError && (
-                <span className="mt-[-10px] font[400] text-[13px] text-red-500">
-                  {loginError}
-                </span>
-              )}
             </div>
             <button
               className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"

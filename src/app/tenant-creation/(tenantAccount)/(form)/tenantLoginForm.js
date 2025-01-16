@@ -2,9 +2,8 @@
 import React, { useState } from "react";
 import SliderAuth from "@/components/auth/slider";
 import Widget from "./widget";
-import Image from "next/image";
 
-const OwnerLoginForm = ({ closeForm, data }) => {
+const OwnerLoginForm = ({ data }) => {
   return (
     <div className="relative">
       <div className="flex m-auto max-w-full sm:max-w-[1440px] h-[1024px]">

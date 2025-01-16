@@ -472,3 +472,21 @@ export const addBankTenant = async (details) => {
     return { success: false, error: error?.response.data };
   }
 };
+
+export const acceptTenantInvitation = async (tenantEmail, tenantFullName, invitation, password, rePassword) => {
+  try {
+    const response = await api.post(`/tenants/invitation/estate/accept-single-tenant-invitation?tenantEmail=${tenantEmail}&tenantFullName=${tenantFullName}&invitation=${invitation}`, {
+      newPassword: password,
+      confirmPassword: rePassword
+    });
+    return { success: true, upDateddata: response.data };
+  } catch (error) {
+    let errors
+    if (error?.response?.data?.error?.errors) {
+      errors = error?.response?.data?.error?.errors?.[0]
+    } else if (error?.response?.data?.message) {
+      errors = error?.response?.data?.message
+    } else errors = error
+    return { success: false, error: errors };
+  }
+};

@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import PersonalInfo from "./components/personalInfo";
 import CreatePassword from "./components/createPassword";
-import { acceptEnterpriseInvitation } from "@/api/acceptProManInvitation";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import Image from "next/image";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import { acceptTenantInvitation } from "@/api/tenantSevice";
 
 const Widget = ({ data }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [loginError, setLoginError] = useState(false);
-  const [name, setName] = useState('');
-  const [phonenumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('')
   const [rePassword, setRepassword] = useState('')
-  const [loading, setLoading] = useState(false);
   const [dashboard, setDashboard] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handlePageChange = () => {
     setActive(false);
@@ -28,45 +26,39 @@ const Widget = ({ data }) => {
     setActive(true);
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // Password validation
-    // if (password.length < 8) {
-    //   setLoginError("Password must be at least 8 characters long.");
-    // } else if (password !== rePassword) {
-    //   setLoginError("Passwords do not match.");
-    // } else {
-    //   setLoading(true);
-    //   const { email, role, invitation, isHomzEnterprise } = data;
-    //   try {
-    //     const { success, upDateddata, error } = await acceptEnterpriseInvitation(
-    //       email,
-    //       role,
-    //       invitation,
-    //       isHomzEnterprise,
-    //       name,
-    //       phonenumber,
-    //       password,
-    //       rePassword
-    //     );
+    if (password.length < 8) {
+      setLoginError("Password must be at least 8 characters long.");
+    } else if (password !== rePassword) {
+      setLoginError("Passwords do not match.");
+    } else {
+      setLoading(true);
+      const { tenantEmail, tenantFullName, invitation } = data;
+      try {
+        const { success, upDateddata, error } = await acceptTenantInvitation(
+          tenantEmail,
+          tenantFullName,
+          invitation,
+          password,
+          rePassword
+        );
 
-        // if (success) {
-        //   const data = upDateddata?.data?.token;
-        //   localStorage.setItem('jwt', data)
-        //   setLoading(false);
+        if (success) {
+          const data = upDateddata?.data?.token;
+          localStorage.setItem('jwt', data)
+          setLoading(false);
           setDashboard(true);
-          // toast.success(upDateddata?.message);
-    //     } else {
-    //       setLoading(false);
-    //       toast.error(error);
-    //     }
-    //   } catch (error) {
-    //     toast.error("Update error", error);
-    //     setLoading(false);
-    //   }
-    // }
+        } else {
+          setLoading(false);
+          setLoginError(error);
+        }
+      } catch (error) {
+        toast.error("Update error", error);
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -138,13 +130,7 @@ const Widget = ({ data }) => {
           <div className={`${!active ? "inline" : "hidden"}`}>
             <PersonalInfo
               data={data}
-              name={name}
-              setName={setName}
-              phonenumber={phonenumber}
-              setPhoneNumber={setPhoneNumber}
               handlePageChangeTwo={handlePageChangeTwo}
-      
-
             />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>

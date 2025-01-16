@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
-import Loading from "@/components/mainmenu/loading";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 
 const CreatePassword = ({ password, setPassword, rePassword, setRepassword, handleSubmit, setLoginError, loginError, loading }) => {
@@ -19,9 +19,6 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
 
   return (
     <div>
-      {
-        loading && <Loading />
-      }
       <div className="h-[634px] px-6 W-[320px] sm:w-full py-4">
         <div className="flex flex-col gap-6 m-auto  max-w-[450px]">
           <h1 className="text-center w-full  text-[23px] font-[700] text-BlackHomz">
@@ -32,7 +29,8 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
           </p>
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4"
+            className={`flex flex-col gap-4 ${loading && "pointer-events-none"}`}
+
           >
             <div className="flex flex-col gap-4">
               <div className="relative flex flex-col gap-2 items-start">
@@ -88,10 +86,10 @@ const CreatePassword = ({ password, setPassword, rePassword, setRepassword, hand
               )}
             </div>
             <button
-              className="bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+              className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[450px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}
               type="Submit"
             >
-              Create Account
+              {loading ? <LoadingFormII /> : "Create Account"}
             </button>
           </form>
         </div>
