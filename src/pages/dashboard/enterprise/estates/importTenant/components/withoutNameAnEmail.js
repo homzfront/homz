@@ -5,7 +5,6 @@ import React from 'react'
 
 const WithoutNameAnEmail = ({ setUnimportedTenantModal }) => {
     const { withoutNameAEmail } = useCSVFileStore();
-    console.log(withoutNameAEmail)
     return (
         <div className='w-full'>
             <div className='flex justify-between items-start'>

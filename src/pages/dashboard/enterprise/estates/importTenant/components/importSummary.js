@@ -3,7 +3,7 @@ import ArrowRightLine from '@/components/icons/arrowRightLine';
 import Warning from '@/components/icons/warning';
 import useCSVFileStore from '@/store/document/useCSVFileStore';
 import React from 'react'
-import WithoutNameAnEmail from './WithoutNameAnEmail';
+import WithoutNameAnEmail from './withoutNameAnEmail';
 import WithoutRentInfo from './withoutRentInfo';
 
 const ImportSummary = ({ setShowMappingSummaryModal, unimportedTenantRentModal, setUnimportedTenantRentModal, unimportedTenantModal, setUnimportedTenantModal, setSuccessfulModal }) => {
