@@ -11,14 +11,25 @@ import WidgetMobile from "./widgetMobile";
 import { useEstateForOneStore } from "@/store/enterpriseStore/useEstateForOne";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useCSVFileStore from "@/store/document/useCSVFileStore";
+import useReturnToBulk from "@/store/document/returnToBulkInvite";
 
 const EstateInfo = ({ id }) => {
   const { data, fetchData } = useEstateForOneStore();
   const route = useRouter()
+  const { estateId } = useCSVFileStore();
+  const { setReturnToBulk } = useReturnToBulk();
 
   const goBack = () => {
     route.back();
   };
+
+  const goBackTwo = () => {
+    route.push("/dashboard/enterprise-property/estates")
+    if (estateId) {
+      setReturnToBulk(true);
+    }
+  }
 
   useEffect(() => {
     fetchData(id);
@@ -69,19 +80,20 @@ const EstateInfo = ({ id }) => {
               height={16}
               width={16}
             />
-            <Link
-              href={"/dashboard/enterprise-property/estates"}
-              className="text-[14px] w-[90px] font-[400] text-GrayHomz2"
+            <div
+              onClick={goBackTwo}
+              href={""}
+              className="text-[14px] w-[90px] font-[400] text-GrayHomz2 cursor-pointer"
             >
               Go Back
-            </Link>
-            <Link
-              href={"/dashboard/enterprise-property/estates"}
-              className="text-[16px] truncate font-[400] text-GrayHomz"
+            </div>
+            <div
+              onClick={goBackTwo}
+              className="text-[16px] truncate font-[400] text-GrayHomz cursor-pointer"
             >
               {data?.name ? data?.name : "Property Name"}<> </>/
 
-            </Link>
+            </div>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Property Information
             </div>

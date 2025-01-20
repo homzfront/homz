@@ -7,7 +7,7 @@ import UploadYourFile from "./uploadYourFile";
 import DataMapping from "./dataMapping";
 import Close from "@/components/icons/Close";
 
-const WidgetBulk = ({ setOpenBulkInvite, setImportData }) => {
+const WidgetBulk = ({ setOpenBulkInvite, setImportData, estateData, setShowMappingSummaryModal, setShowNumberOfHouseModal }) => {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [dashboard, setDashboard] = useState(false);
@@ -103,12 +103,15 @@ const WidgetBulk = ({ setOpenBulkInvite, setImportData }) => {
                     <div className={`${!active ? "inline" : "hidden"}`}>
                         <UploadYourFile
                             handlePageChangeTwo={handlePageChangeTwo}
+                            estateData={estateData}
+                            setShowNumberOfHouseModal={setShowNumberOfHouseModal}
                         />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
                         <DataMapping
                             handlePageChange={handlePageChange}
                             setImportData={setImportData}
+                            setShowMappingSummaryModal={setShowMappingSummaryModal}
                         />
                     </div>
                 </div>

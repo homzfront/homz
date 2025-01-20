@@ -8,12 +8,14 @@ import useCSVFileStore from "@/store/document/useCSVFileStore";
 import { transformKeys } from "@/utils/transformKeys";
 import BulkUploadMobile from "@/components/icons/bulkUploadMobile";
 
-const UploadYourFile = ({ handlePageChangeTwo }) => {
+
+const UploadYourFile = ({ handlePageChangeTwo, estateData, setShowNumberOfHouseModal }) => {
     const [uploadedCsv, setUploadedCsv] = useState(null);
     const [progress, setProgress] = useState(0); // Upload progress state
     const [uploading, setUploading] = useState(false); // Uploading state
     const inputRef = useRef(null);
-    const { CSVFile, setCSVFile } = useCSVFileStore();
+    const { CSVFile, setCSVFile, setEstateId } = useCSVFileStore();
+
 
     // Parse CSV content using papaparse
     const parseCsv = (csvString) => {
@@ -49,6 +51,7 @@ const UploadYourFile = ({ handlePageChangeTwo }) => {
                 const csvContent = event.target.result;
                 const parsedData = parseCsv(csvContent); // Parse CSV into object format
                 setCSVFile(parsedData);
+                setEstateId(estateData?._id)
                 // console.log("Parsed CSV Data:", parsedData);
             };
             reader.readAsText(file); // Read file as text
@@ -66,6 +69,7 @@ const UploadYourFile = ({ handlePageChangeTwo }) => {
                 const csvContent = event.target.result;
                 const parsedData = parseCsv(csvContent); // Parse CSV into object format
                 setCSVFile(parsedData);
+                setEstateId(estateData?._id);
                 // console.log("Parsed CSV Data:", parsedData);
             };
             reader.readAsText(file); // Read file as text
@@ -86,6 +90,7 @@ const UploadYourFile = ({ handlePageChangeTwo }) => {
     const cancelUpload = () => {
         setUploadedCsv(null)
         setCSVFile(null)
+        setEstateId(null)
         setProgress(0)
         if (inputRef.current) {
             inputRef.current.value = ""; // Reset file input value
@@ -108,6 +113,16 @@ const UploadYourFile = ({ handlePageChangeTwo }) => {
         document.body.removeChild(link);
     };
 
+
+    const handlePageTwo = () => {
+        if (CSVFile?.length > estateData?.numberOfHouses) {
+            setShowNumberOfHouseModal(true);
+        }
+        handlePageChangeTwo()
+    }
+
+    console.log(CSVFile?.length)
+    console.log(estateData?.numberOfHouses)
     return (
         <div className='overflow-y-auto'>
             <div className={`flex flex-col lg:flex-row gap-4 lg:gap-0 items-center w-full justify-between ${(uploading || uploadedCsv || CSVFile) && "hidden"}`}>
@@ -247,7 +262,7 @@ const UploadYourFile = ({ handlePageChangeTwo }) => {
                     </div>
                     <div className="flex w-full justify-end mt-4">
                         <button
-                            onClick={handlePageChangeTwo}
+                            onClick={handlePageTwo}
                             className="bg-BlueHomz text-white rounded-[4px] px-3 py-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[14px]">
                             Proceed
                         </button>

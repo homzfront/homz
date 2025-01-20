@@ -10,6 +10,7 @@ const EstateCard = ({ Data, handleToggleMenu, popUpMenu, selectedDataId }) => {
           value4={data.numberOfHouses}
           value3={data.address}
           value2={data.name}
+          estateData={data}
           value1={data?.coverPhoto?.url}
           data={data._id} handleToggleMenu={handleToggleMenu}  popUpMenu={popUpMenu} selectedDataId={selectedDataId}
           Image1={"/static/dashboard/enterprisemanager/estate/location.png"}

@@ -14,13 +14,15 @@ const Card = ({
   Image3,
   data,
   handleToggleMenu,
+  estateData,
+  popUpMenu
 }) => {
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
   const [openTenantInvite, setOpenTenantInvite] = useState(false);
   const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false)); // Use the custom hook
 
   const handleToggleMenuClick = () => {
-    handleToggleMenu(data?.id);
+    handleToggleMenu(data);
     setPopUpMenuVisible(!popUpMenuVisible);
   };
 
@@ -64,6 +66,7 @@ const Card = ({
               setOpenTenantInvite={setOpenTenantInvite}
               data={data}
               estateName={value2}
+              estateData={estateData}
             />}
           </div>
           <div className="flex items-center gap-2">

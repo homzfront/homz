@@ -43,7 +43,7 @@ const DropDown = ({ fileheader, options, onSelect, className, label, width }) =>
                 </div>
             </div>
             {isOpen && (
-                <div className="w-full absolute z-80 top-[74px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
+                <div className="w-full absolute z-[999999] top-[74px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
                     {options.map((data) => (
                         <div
                             key={data.id}

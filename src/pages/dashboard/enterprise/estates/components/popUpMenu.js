@@ -18,8 +18,10 @@ import BulkInvite from "../importTenant/components/bulkInvite";
 import ConfirmModal from "../../components/confirmModal";
 import useCSVFileStore from "@/store/document/useCSVFileStore";
 import useTenantForInvite from "@/store/enterpriseStore/useTenantForInvite";
+import ExceedTenant from "../importTenant/components/ExceedTenant";
+import ImportSummary from "../importTenant/components/importSummary";
 
-const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) => {
+const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const { setTab } = useEditPropertyTab();
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -33,10 +35,16 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
   const dropdownRef = useClickOutside(() => setOpenTenantInvite(false));
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [importData, setImportData] = useState(false);
-  const { setCSVFile, CSVFile } = useCSVFileStore();
+  const { setCSVFile, CSVFile, setEstateId } = useCSVFileStore();
   const { tenantData } = useTenantForInvite()
+  const [showNumberOfHouseModal, setShowNumberOfHouseModal] = useState(false);
+  const [unimportedTenantModal, setUnimportedTenantModal] = useState(false);
+  const [showMappingSummaryModal, setShowMappingSummaryModal] = useState(false);
+  const [unimportedTenantRentModal, setUnimportedTenantRentModal] = useState(false);
 
-  console.log(data)
+  console.log(showNumberOfHouseModal)
+  console.log(estateData)
+  console.log(CSVFile)
 
   return (
     <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-5 md:top-8 right-1 md:right-2 border h-auto w-[150px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
@@ -44,7 +52,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
         onMouseEnter={() => setActive(true)}
         onMouseLeave={() => setActive(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center text-GrayHomz hover:text-BlueHomz px-2 w-full ">
-        <Link className="w-full" href={`/dashboard/enterprise-property/estates/dashboard/${data}`}>
+        <Link className="w-full" href={`/dashboard/enterprise-property/estates/dashboard/${estateData?._id}`}>
           {active ?
             <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
               <Dashboard className='#006AFF' classNameTwo="#006AFF" />
@@ -65,7 +73,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
         onMouseEnter={() => setActiveTwo(true)}
         onMouseLeave={() => setActiveTwo(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full ">
-        <Link className="w-full" href={`/dashboard/enterprise-property/estates/tenants/${data}`}>
+        <Link className="w-full" href={`/dashboard/enterprise-property/estates/tenants/${estateData?._id}`}>
           {activeTwo ?
             <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
               <PeopleTenant className='#006AFF' />
@@ -106,43 +114,66 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
       {
         <CustomizedModal isOpen={openTenantInvite} onRequestClose={() => setOpenTenantInvite(false)}>
           <div ref={dropdownRef}>
-            {
-              successfulModal ?
-                <ConfirmModal
-                  returnHome={() => {
-                    setSuccessfulModal(false)
-                    setOpenTenantInvite(false)
-                    setOpenSingleInvite(false)
-                    setCSVFile(null);
-                    setImportData(false)
-                    setOpenBulkInvite(false)
-                  }}
-                  button={"Close"}
-                  header={`${tenantData ? tenantData?.name : "Tenant"} Added Successfully!`}
-                  body={`An invitation link to join ${estateName} has been sent to ${tenantData ? tenantData?.email : ""} mail.`}
-                />
+            {showMappingSummaryModal ?
+              <ImportSummary
+                setShowMappingSummaryModal={setShowMappingSummaryModal}
+                unimportedTenantModal={unimportedTenantModal}
+                setUnimportedTenantModal={setUnimportedTenantModal}
+                unimportedTenantRentModal={unimportedTenantRentModal}
+                setUnimportedTenantRentModal={setUnimportedTenantRentModal}
+                setSuccessfulModal={setSuccessfulModal}
+              /> :
+              showNumberOfHouseModal ?
+                <ExceedTenant estateData={estateData} setShowNumberOfHouseModal={setShowNumberOfHouseModal} />
                 :
-                importData ?
+                successfulModal ?
                   <ConfirmModal
                     returnHome={() => {
                       setSuccessfulModal(false)
                       setOpenTenantInvite(false)
                       setOpenSingleInvite(false)
                       setCSVFile(null);
+                      setEstateId(null);
                       setImportData(false)
                       setOpenBulkInvite(false)
+                      setShowNumberOfHouseModal(false);
+                      setUnimportedTenantModal(false);
+                      setShowMappingSummaryModal(false);
+                      setUnimportedTenantRentModal(false);
                     }}
                     button={"Close"}
-                    header={`${CSVFile ? [CSVFile?.length] : 0} Tenant(s) Imported Successfully!
-                      `}
-                    body={`
-                    Invitation links to join ${estateName} been sent to the mails of all imported tenants with an email attribute.
-                    `}
+                    header={`${tenantData ? tenantData?.name : "Tenant(s)"} Added Successfully!`}
+                    body={`An invitation link to join ${estateData?.name} has been sent to ${tenantData ? tenantData?.email : ""} mail.`}
                   />
                   :
-                  openSingleInvite ? <SingleInvite setSuccessfulModal={setSuccessfulModal} setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} estateName={estateName} estateId={data} /> :
-                    openBulkInvite ? <BulkInvite setOpenBulkInvite={setOpenBulkInvite} setImportData={setImportData} /> :
-                      <InviteTenant setOpenBulkInvite={setOpenBulkInvite} id={data} setOpenTenantInvite={setOpenTenantInvite} openSingleInvite={openSingleInvite} setOpenSingleInvite={setOpenSingleInvite} />
+                  importData ?
+                    <ConfirmModal
+                      returnHome={() => {
+                        setSuccessfulModal(false)
+                        setOpenTenantInvite(false)
+                        setOpenSingleInvite(false)
+                        setCSVFile(null);
+                        setEstateId(null);
+                        setImportData(false)
+                        setOpenBulkInvite(false)
+                      }}
+                      button={"Close"}
+                      header={`${CSVFile ? [CSVFile?.length] : 0} Tenant(s) Imported Successfully!
+                      `}
+                      body={`
+                    Invitation links to join ${estateData?.name} been sent to the mails of all imported tenants with an email attribute.
+                    `}
+                    />
+                    :
+                    openSingleInvite ? <SingleInvite setSuccessfulModal={setSuccessfulModal} setOpenSingleInvite={setOpenSingleInvite} setOpenTenantInvite={setOpenTenantInvite} estateName={estateData?.name} estateId={estateData?._id} /> :
+                      openBulkInvite ? <BulkInvite
+                        showNumberOfHouseModal={showNumberOfHouseModal}
+                        setShowNumberOfHouseModal={setShowNumberOfHouseModal}
+                        setOpenBulkInvite={setOpenBulkInvite} estateData={estateData}
+                        setImportData={setImportData}
+                        setShowMappingSummaryModal={setShowMappingSummaryModal}
+                      /> :
+                        <InviteTenant setOpenBulkInvite={setOpenBulkInvite} id={estateData?._id} setOpenTenantInvite={setOpenTenantInvite} openSingleInvite={openSingleInvite} setOpenSingleInvite={setOpenSingleInvite} />
             }
           </div>
         </CustomizedModal>
@@ -152,7 +183,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
         onMouseLeave={() => setActiveThree(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full ">
         <Link
-          className="w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${data}`}>
+          className="w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${estateData?._id}`}>
           {activeThree ?
             <div
               onClick={() => {
@@ -184,7 +215,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
         onMouseLeave={() => setActiveFour(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full ">
         <Link
-          className="w-full" href={`/dashboard/enterprise-property/estates/reminder-multiple/${data}`}>
+          className="w-full" href={`/dashboard/enterprise-property/estates/reminder-multiple/${estateData?._id}`}>
           {activeFour ?
             <div className="hover:bg-whiteblue flex items-center h-full w-full rounded-md">
               <div className="text-[11px] md:text-[13px] font-[500] py-1 px-2 flex items-center gap-2.5">
@@ -206,7 +237,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
         onMouseLeave={() => setActiveFive(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full ">
         <Link
-          className="w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${data}`}>
+          className="w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${estateData?._id}`}>
           {activeFive ?
             <div
               onClick={() => {
@@ -237,7 +268,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
         onMouseEnter={() => setActiveSix(true)}
         onMouseLeave={() => setActiveSix(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center text-GrayHomz hover:text-BlueHomz px-2 w-full ">
-        <Link className="hidden md:block w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${data}`}>
+        <Link className="hidden md:block w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${estateData?._id}`}>
           {activeSix ?
             <div
               onClick={() => {
@@ -261,7 +292,7 @@ const PopUpMenu = ({ estateName, data, openTenantInvite, setOpenTenantInvite }) 
             </div>
           }
         </Link>
-        <Link className="md:hidden w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${data}`}>
+        <Link className="md:hidden w-full" href={`/dashboard/enterprise-property/estates/estateInfo/${estateData?._id}`}>
           {activeSix ?
             <div
               onClick={() => {
