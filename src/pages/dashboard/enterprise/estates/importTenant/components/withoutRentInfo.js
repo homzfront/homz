@@ -6,7 +6,7 @@ import Import from '@/components/icons/import';
 import useCSVFileStore from '@/store/document/useCSVFileStore';
 
 const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
-    const { withoutRentInfo: CSVFile } = useCSVFileStore();
+    const { CSVFile, withoutRentInformation } = useCSVFileStore();
     const [data, setData] = React.useState(null);
     const [selectedAttributes, setSelectedAttributes] = React.useState(null);
     const { mappedData, setMappedData } = useCSVFileStore();
@@ -28,8 +28,9 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
 
     //Re Arrange Data
     const rearrangeData = (data) => {
+        if (!data) return;
         // Extract all unique keys from the data
-        const allKeys = Array.from(new Set(data?.flatMap(Object.keys)));
+        const allKeys = Array?.from(new Set(data?.flatMap(Object.keys)));
 
         // Map over the keys and collect all values for each key
         return allKeys.map((key) => ({
@@ -37,16 +38,23 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
             "data": data.map((item) => item[key] || null) // Collect all values for the key, use null if missing
         }));
     };
+    
+    const filterMappedDataToBeWitRentInfo = mappedData?.filter(item =>
+        withoutRentInformation.some(
+            secondItem => secondItem === item
+        )
+    );
+
 
     React.useEffect(() => {
-        if (CSVFile) {
-            setData(rearrangeData(CSVFile))
+        if (filterMappedDataToBeWitRentInfo) {
+            setData(rearrangeData(filterMappedDataToBeWitRentInfo))
         }
-    }, [CSVFile])
+    }, [])
 
     React.useEffect(() => {
-        if (selectedAttributes) {
-            const updatedData = CSVFile.map(item => {
+        if (selectedAttributes && CSVFile) {
+            const updatedData = CSVFile?.map(item => {
                 const newItem = {};
                 Object.keys(item).forEach(key => {
                     const newKey = selectedAttributes[key];
@@ -62,7 +70,10 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
         }
     }, [selectedAttributes])
 
+    console.log(filterMappedDataToBeWitRentInfo)
+
     console.log(mappedData)
+    console.log(withoutRentInformation)
 
     const attributes = [
         { id: 1, option: "Do not import" },
@@ -74,18 +85,23 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
         { id: 7, option: "Rent Amount" },
         { id: 8, option: "Rent Duration" },
         { id: 9, option: "Start Date" },
-        { id: 10, option: "Due Date" },
         { id: 11, option: "Property Type" }
     ];
 
-    console.log(data)
-    const filteredAttributes = attributes.filter(attribute => {
+    console.log(data);
+    console.log(CSVFile)
+    const filteredAttributes = attributes?.filter(attribute => {
         if (!selectedAttributes) {
             return attribute;
         }
         // Always include "Do not import" and exclude selected attributes
         return attribute.option === "Do not import" || !Object?.values(selectedAttributes).includes(attribute.option);
     });
+
+    const isValid = !filteredAttributes?.some(item =>
+        (item.id === 2 && item.option === "Tenant Name") ||
+        (item.id === 5 && item.option === "Email")
+    );
     return (
         <div className='w-full lg:w-[700px]'>
             <div className='flex justify-between items-start'>
@@ -135,7 +151,7 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
                                         : data?.data.slice(0, 3)
                                     ).map((subItem, subIndex) => (
                                         <div
-                                            className="text-GrayHomz font-[500] mt-1 text-[13px] text-start"
+                                            className="text-GrayHomz font-[500] mt-1 text-[13px] text-start break-words w-full"
                                             key={subIndex}
                                         >
                                             {subItem}
@@ -186,7 +202,7 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
                                     ? data?.data
                                     : data?.data.slice(0, 3)
                                 ).map((subItem, subIndex) => (
-                                    <div className="text-GrayHomz font-[500] mt-1 text-[13px] text-start"
+                                    <div className="text-GrayHomz font-[500] mt-1 text-[13px] text-start break-words"
                                         key={subIndex}
                                     >
                                         {subItem}
@@ -259,12 +275,12 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
                         onClick={() => setUnimportedTenantRentModal(false)}
                         onMouseEnter={() => setActive(true)}
                         onMouseLeave={() => setActive(false)}
-                        className={`${selectedAttributes ? " bg-BlueHomz text-white" : "bg-GrayHomz6 text-GrayHomz5 pointer-events-none"} rounded-[4px]  px-4 py-3 lg:px-3 lg:py-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[14px] flex justify-center  items-center gap-1`}>
+                        className={`${isValid ? " bg-BlueHomz text-white" : "bg-GrayHomz6 text-GrayHomz5 pointer-events-none"} rounded-[4px]  px-4 py-3 lg:px-3 lg:py-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[14px] flex justify-center  items-center gap-1`}>
                         {active ?
-                            selectedAttributes ?
+                            isValid ?
                                 <Import className='#006aff' /> :
                                 <Import className='#d5d5d5' />
-                            : selectedAttributes ?
+                            : isValid ?
                                 <Import className='#ffffff' /> :
                                 <Import className='#d5d5d5' />
                         }

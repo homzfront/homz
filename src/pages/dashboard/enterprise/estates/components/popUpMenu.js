@@ -35,7 +35,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const dropdownRef = useClickOutside(() => setOpenTenantInvite(false));
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [importData, setImportData] = useState(false);
-  const { setCSVFile, CSVFile, setEstateId } = useCSVFileStore();
+  const { setCSVFile, CSVFile, setEstateId, response } = useCSVFileStore();
   const { tenantData } = useTenantForInvite()
   const [showNumberOfHouseModal, setShowNumberOfHouseModal] = useState(false);
   const [unimportedTenantModal, setUnimportedTenantModal] = useState(false);
@@ -44,7 +44,8 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
 
   console.log(showNumberOfHouseModal)
   console.log(estateData)
-  console.log(CSVFile)
+  console.log(CSVFile);
+  console.log(response?.data?.successfulUploads)
 
   return (
     <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-5 md:top-8 right-1 md:right-2 border h-auto w-[150px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
@@ -122,6 +123,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
                 unimportedTenantRentModal={unimportedTenantRentModal}
                 setUnimportedTenantRentModal={setUnimportedTenantRentModal}
                 setSuccessfulModal={setSuccessfulModal}
+                estateId={estateData?._id}
               /> :
               showNumberOfHouseModal ?
                 <ExceedTenant estateData={estateData} setShowNumberOfHouseModal={setShowNumberOfHouseModal} />
@@ -142,8 +144,12 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
                       setUnimportedTenantRentModal(false);
                     }}
                     button={"Close"}
-                    header={`${tenantData ? tenantData?.name : "Tenant(s)"} Added Successfully!`}
-                    body={`An invitation link to join ${estateData?.name} has been sent to ${tenantData ? tenantData?.email : ""} mail.`}
+                    header={`${response ? "Tenant(s)" : "Tenant"} Added Successfully!`}
+                    body={
+                      response
+                        ? `${response?.data?.successfulUploads} ${response?.data?.successfulUploads === 1 ? "tenant was" : "tenants were"} imported, and ${response?.data?.successfulUploads === 1 ? "has" : "have"} received invitation links in their mails.`
+                        : `An invitation link to join ${estateData?.name} has been sent to ${tenantData ? tenantData?.email : ""} mail.`
+                    }
                   />
                   :
                   importData ?

@@ -206,56 +206,40 @@ const UploadYourFile = ({ handlePageChangeTwo, estateData, setShowNumberOfHouseM
                         <div className="w-[500%] lg:w-[180%] max-h-[calc(100vh-60vh)]">
                             <div className="w-full border rounded-t-[12px]">
                                 <div className="bg-BlueHomz h-[50px] text-[13px] flex items-center justify-center gap-2 font-[500] text-[#ffffff]  px-2 rounded-t-[12px]">
-                                    <div className="w-[15%]">Tenant</div>
-                                    <div className="w-[7%]">Apartment No</div>
-                                    <div className="w-[15%]">Address</div>
-                                    <div className="w-[15%]">Email</div>
-                                    <div className="w-[8%]">Phone No</div>
-                                    <div className="w-[8%]">Rent Amount</div>
-                                    <div className="w-[8%]">Rent Duration</div>
-                                    <div className="w-[8%]">Start Date</div>
-                                    <div className="w-[8%]">Due Date</div>
-                                    <div className="w-[8%]">Property Type</div>
+                                    {Object.keys(CSVFile[0])
+                                        .slice(0, 10) // Limit headers to the first 10 keys
+                                        .map((key, index) => (
+                                            <div
+                                                key={index}
+                                                className="w-[10%]"
+                                            >
+                                                {key}
+                                            </div>
+                                        ))}
                                 </div>
                                 <div className="">
                                     {CSVFile &&
-                                        transformKeys(CSVFile).map((data, index) => (
-                                            <div
-                                                key={index}
-                                                className="border-b-[1px] items-center flex justify-center w-full gap-2 px-2 h-[60px]"
-                                            >
-                                                <div className=" text-GrayHomz w-[15%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.tenant}</span>
+                                        CSVFile.map((data, index) => {
+                                            // Get the keys of the current row
+                                            const keys = Object.keys(data).slice(0, 10); // Limit to first 10 keys
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className="border-b-[1px] items-center flex justify-center w-full gap-2 px-2 h-[60px]"
+                                                >
+                                                    {keys.map((key, keyIndex) => (
+                                                        <div
+                                                            key={keyIndex}
+                                                            className="text-GrayHomz w-[10%] font-[500] text-[11px] text-start"
+                                                        >
+                                                            <span className="break-words">{data[key]}</span>
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                                <div className=" text-GrayHomz w-[7%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.apartmentNo}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[15%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.address}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[15%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.email}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.phoneNumber}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.rentAmount}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.rentDuration}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.startDate}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.dueDate}</span>
-                                                </div>
-                                                <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
-                                                    <span className="break-words"> {data?.propertyType}</span>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })
+                                    }
+
                                 </div>
                             </div>
                         </div>

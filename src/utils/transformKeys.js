@@ -1,6 +1,7 @@
 // change the headers
 export function transformKeys(data) {
-    return data.map(item => {
+    if (!data) return;
+    return data?.map(item => {
         const transformedItem = {};
 
         Object.keys(item).forEach(key => {

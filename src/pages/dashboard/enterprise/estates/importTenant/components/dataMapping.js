@@ -72,9 +72,9 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
         { id: 7, option: "Rent Amount" },
         { id: 8, option: "Rent Duration" },
         { id: 9, option: "Start Date" },
-        { id: 10, option: "Due Date" },
         { id: 11, option: "Property Type" }
     ];
+
 
     const filteredAttributes = attributes.filter(attribute => {
         if (!selectedAttributes) {
@@ -83,7 +83,16 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
         // Always include "Do not import" and exclude selected attributes
         return attribute.option === "Do not import" || !Object?.values(selectedAttributes).includes(attribute.option);
     });
-    console.log(mappedData)
+
+    const isValid = !filteredAttributes?.some(item =>
+        (item.id === 2 && item.option === "Tenant Name") ||
+        (item.id === 5 && item.option === "Email")
+    );
+
+    console.log(isValid)
+    console.log(transformKeys(mappedData?.[0]?.tenantName));
+    console.log(selectedAttributes)
+    console.log(filteredAttributes)
     console.log(CSVFile)
     return (
         <div className='w-full'>
@@ -244,12 +253,12 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
                         onClick={() => setShowMappingSummaryModal(true)}
                         onMouseEnter={() => setActive(true)}
                         onMouseLeave={() => setActive(false)}
-                        className={`${selectedAttributes ? " bg-BlueHomz text-white" : "bg-GrayHomz6 text-GrayHomz5 pointer-events-none"} rounded-[4px]  px-4 py-3 lg:px-3 lg:py-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[14px] flex justify-center  items-center gap-1`}>
+                        className={`${isValid ? " bg-BlueHomz text-white" : "bg-GrayHomz6 text-GrayHomz5 pointer-events-none"} rounded-[4px]  px-4 py-3 lg:px-3 lg:py-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[14px] flex justify-center  items-center gap-1`}>
                         {active ?
-                            selectedAttributes ?
+                            isValid ?
                                 <Import className='#006aff' /> :
                                 <Import className='#d5d5d5' />
-                            : selectedAttributes ?
+                            : isValid ?
                                 <Import className='#ffffff' /> :
                                 <Import className='#d5d5d5' />
                         }

@@ -5,11 +5,25 @@ import useCSVFileStore from '@/store/document/useCSVFileStore';
 import React from 'react'
 import WithoutNameAnEmail from './withoutNameAnEmail';
 import WithoutRentInfo from './withoutRentInfo';
+import { transformData } from '@/utils/transformData';
+import api from '@/utils/api';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
 
-const ImportSummary = ({ setShowMappingSummaryModal, unimportedTenantRentModal, setUnimportedTenantRentModal, unimportedTenantModal, setUnimportedTenantModal, setSuccessfulModal }) => {
-    const { mappedData, setWithoutNameAEmail, setWithoutRentInfo, withoutNameAEmail, withoutRentInfo } = useCSVFileStore();
+const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantRentModal, setUnimportedTenantRentModal, unimportedTenantModal, setUnimportedTenantModal, setSuccessfulModal }) => {
+    const {
+        mappedData,
+        setWithoutNameAEmail,
+        setWithoutRentInfo,
+        withoutNameAEmail,
+        withoutRentInformation,
+        response,
+        setResponse,
+    } = useCSVFileStore();
     const [arrowColor, setArrowColor] = React.useState(false);
     const [arrowColorII, setArrowColorII] = React.useState(false);
+    const [finalData, setFinalData] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+    const [errors, setErrors] = React.useState(null);
 
     // Function to validate email
     const isValidEmail = (email) => {
@@ -51,13 +65,52 @@ const ImportSummary = ({ setShowMappingSummaryModal, unimportedTenantRentModal, 
             setWithoutNameAEmail(withoutEmailName)
         }
     }, [mappedData])
+
+    React.useEffect(() => {
+        setFinalData(transformData(mappedData))
+    }, [mappedData])
+
+
+
+    const submitData = async () => {
+        setLoading(true)
+        try {
+            const response = await api.post(
+                `/tenants/invitation/estate/${estateId}/bulk-tenant-upload`,
+                { "tenantsData": finalData });
+            if (response?.data?.success) {
+                setSuccessfulModal(true)
+                setShowMappingSummaryModal(false)
+                setResponse(response?.data)
+            }
+
+            console.log(response);
+        } catch (error) {
+            if (error && error?.response?.data?.error?.errors) {
+                // Assign backend errors to state
+                setErrors(error?.response?.data?.error?.errors);
+            } else if (error && error?.response?.data?.message) {
+                // If there's a general message
+                setErrors(error?.response?.data?.message);
+            } else {
+                // If the error is not in the expected format, rethrow it
+                throw error;
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    console.log(errors)
+    console.log(finalData);
     console.log(unimportedTenantRentModal)
     console.log(mappedData);
     console.log(withoutNameAEmail);
-    console.log(withoutRentInfo);
+    console.log(withoutRentInformation);
+    console.log(response);
     return (
         <div>
-            <div className='rounded-md p-7 bg-white'>
+            <div className={`rounded-md p-7 bg-white ${loading && 'pointer-events-none'}`}>
                 {unimportedTenantModal ?
                     <WithoutNameAnEmail setUnimportedTenantModal={setUnimportedTenantModal} /> :
                     unimportedTenantRentModal ?
@@ -76,7 +129,7 @@ const ImportSummary = ({ setShowMappingSummaryModal, unimportedTenantRentModal, 
                                     <span onClick={() => setUnimportedTenantModal(true)} className='text-BlueHomz text-[13px] cursor-pointer'>View tenants</span>
                                 </div>
                                 <div className="flex flex-col gap-2 bg-[#F6F6F6] px-6 py-3 rounded-[8px]">
-                                    <span className='text-BlackHomz text-[16px]'>Rent information is incomplete/unmapped for [{withoutRentInfo?.length}] tenants.</span>
+                                    <span className='text-BlackHomz text-[16px]'>Rent information is incomplete/unmapped for [{withoutRentInformation?.length}] tenants.</span>
                                     <span className="text-GrayHomz text-[14px]">These tenants will be imported without rent details unless all rent fields are filled and mapped.</span>
                                     <span onClick={() => setUnimportedTenantRentModal(true)} className='text-BlueHomz text-[13px] cursor-pointer'>View tenants</span>
                                 </div>
@@ -113,22 +166,33 @@ const ImportSummary = ({ setShowMappingSummaryModal, unimportedTenantRentModal, 
                                     </span>
                                 </div>
                             </div>
+                            {
+                                errors && <div className='text-[12px] italic text-red-600 font-normal'>
+                                    {errors}
+                                </div>
+                            }
                             <div className="w-full flex flex-col gap-1">
                                 <button
-                                    onClick={() => {
-                                        setSuccessfulModal(true)
-                                        setShowMappingSummaryModal(false)
-                                    }}
+                                    onClick={submitData}
+                                    type='button'
                                     onMouseEnter={() => setArrowColorII(true)}
                                     onMouseLeave={() => setArrowColorII(false)}
-                                    className="bg-BlueHomz w-full text-white rounded-[4px] flex justify-center items-center gap-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[16px] h-[48px]">
-                                    Proceed {arrowColorII ? <ArrowRightLine className="#006aff" /> : <ArrowRightLine />}
+                                    className={` bg-BlueHomz w-full text-white rounded-[4px] hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[16px] h-[48px] ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}>
+                                    {loading ? (
+                                        <LoadingFormII />
+                                    ) : (
+                                        <div className='flex justify-center items-center gap-2'>
+                                            Proceed {arrowColorII ? <ArrowRightLine className="#006aff" /> : <ArrowRightLine />}
+                                        </div>
+                                    )}
+
                                 </button>
                                 <div className="text-[12px] md:text-[14px]">
                                     <button
                                         onClick={() =>
                                             setShowMappingSummaryModal(false)
                                         }
+
                                         onMouseEnter={() => setArrowColor(true)}
                                         onMouseLeave={() => setArrowColor(false)}
                                         className="h-[48px] w-full hover:rounded-[4px] hover:text-BlueHomz text-GrayHomz hover:border hover:border-BlueHomz"

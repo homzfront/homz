@@ -9,6 +9,7 @@ import ArrowUp from "@/components/icons/arrowUp";
 import ArrowDown from "@/components/icons/arrowDown";
 import CloseSmall from "@/components/icons/closeSmall";
 import useTenantForInvite from "@/store/enterpriseStore/useTenantForInvite";
+import { formatDateIII } from "@/utils/formatDateIII";
 
 const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOpenTenantInvite, estateName }) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
@@ -35,8 +36,6 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
-
-    console.log(formData)
 
     const handleInputChange = (field, value) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
@@ -85,7 +84,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                 propertyType: formData.propertyType,
                 rentDuration: formData?.rentDuration,
                 startDate: formData.startDate.toISOString(),
-                dueDate: formData.dueDate.toISOString(),
+                dueDate: formatDateIII(formData.dueDate),
             }
         } : {
             tenantName: `${formData.firstName} ${formData?.lastName}`,
