@@ -6,7 +6,7 @@ import ArrowLeft from '@/components/icons/arrowLeft';
 import Import from '@/components/icons/import';
 
 const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryModal }) => {
-    const { CSVFile } = useCSVFileStore();
+    const { CSVFile, setOpenMapping } = useCSVFileStore();
     const [data, setData] = React.useState(null);
     const [selectedAttributes, setSelectedAttributes] = React.useState(null);
     const { mappedData, setMappedData } = useCSVFileStore();
@@ -89,11 +89,6 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
         (item.id === 5 && item.option === "Email")
     );
 
-    console.log(isValid)
-    console.log(transformKeys(mappedData?.[0]?.tenantName));
-    console.log(selectedAttributes)
-    console.log(filteredAttributes)
-    console.log(CSVFile)
     return (
         <div className='w-full'>
             <div className='w-full lg:w-[60%] flex flex-col gap-2'>
@@ -150,7 +145,7 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
                                     className=" px-2 h-[60px] w-[40%]"
                                 >
                                     <DropDown
-                                        options={filteredAttributes}
+                                        options={attributes}
                                         fileheader={data?.fileHeader}
                                         onSelect={handleSelect}
                                     />
@@ -199,7 +194,7 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
                                     className="h-[60px] w-full"
                                 >
                                     <DropDown
-                                        options={filteredAttributes}
+                                        options={attributes}
                                         fileheader={data?.fileHeader}
                                         onSelect={handleSelect}
                                     />
@@ -250,7 +245,10 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
                             Back </span>
                     </button>
                     <button
-                        onClick={() => setShowMappingSummaryModal(true)}
+                        onClick={() => {
+                            setShowMappingSummaryModal(true)
+                            setOpenMapping(false)
+                        }}
                         onMouseEnter={() => setActive(true)}
                         onMouseLeave={() => setActive(false)}
                         className={`${isValid ? " bg-BlueHomz text-white" : "bg-GrayHomz6 text-GrayHomz5 pointer-events-none"} rounded-[4px]  px-4 py-3 lg:px-3 lg:py-2 hover:text-BlueHomz hover:border hover:border-BlueHomz hover:bg-white font-[500] text-[14px] flex justify-center  items-center gap-1`}>

@@ -44,7 +44,6 @@ const Widget = ({ data }) => {
           password,
           rePassword
         );
-
         if (success) {
           const data = upDateddata?.data?.token;
           localStorage.setItem('jwt', data)

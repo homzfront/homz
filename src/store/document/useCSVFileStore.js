@@ -6,6 +6,7 @@ const useCSVFileStore = create((set) => ({
   mappedData: null,
   estateId: null,
   withoutNameAEmail: null,
+  openMapping: null,
   withoutRentInformation: null,
   setEstateId: (data) => set({ estateId: data }),
   setCSVFile: (data) => set({ CSVFile: data }),
@@ -13,6 +14,7 @@ const useCSVFileStore = create((set) => ({
   setWithoutNameAEmail: (data) => set({ withoutNameAEmail: data }),
   setWithoutRentInfo: (data) => set({ withoutRentInformation: data }),
   setResponse: (data) => set({ response: data }),
+  setOpenMapping:(data) => set({openMapping: data})
 }));
 
 export default useCSVFileStore;

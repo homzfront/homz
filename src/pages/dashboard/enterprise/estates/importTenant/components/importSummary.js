@@ -18,12 +18,14 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
         withoutRentInformation,
         response,
         setResponse,
+        setOpenMapping
     } = useCSVFileStore();
     const [arrowColor, setArrowColor] = React.useState(false);
     const [arrowColorII, setArrowColorII] = React.useState(false);
     const [finalData, setFinalData] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [errors, setErrors] = React.useState(null);
+
 
     // Function to validate email
     const isValidEmail = (email) => {
@@ -43,9 +45,6 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
         const hasValidEmail = item.Email && isValidEmail(item.Email);
         return hasName && hasValidEmail;
     });
-
-    console.log(remainingData)
-
 
     // Fliter the data without rent information
     const withoutRentInf = mappedData?.filter(item => {
@@ -70,8 +69,6 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
         setFinalData(transformData(mappedData))
     }, [mappedData])
 
-// console.log(finalData)
-
     const submitData = async () => {
         setLoading(true)
         try {
@@ -80,11 +77,9 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
                 { "tenantsData": finalData });
             if (response?.data?.success) {
                 setSuccessfulModal(true)
-                setShowMappingSummaryModal(false)
-                setResponse(response?.data)
+                setShowMappingSummaryModal(false);
+                setResponse(response?.data);
             }
-
-            console.log(response);
         } catch (error) {
             if (error && error?.response?.data?.error?.errors) {
                 // Assign backend errors to state
@@ -101,13 +96,6 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
         }
     }
 
-    console.log(errors)
-    console.log(finalData);
-    console.log(unimportedTenantRentModal)
-    console.log(mappedData);
-    console.log(withoutNameAEmail);
-    console.log(withoutRentInformation);
-    console.log(response);
     return (
         <div>
             <div className={`rounded-md p-7 bg-white ${loading && 'pointer-events-none'}`}>
@@ -131,7 +119,10 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
                                 <div className={`flex flex-col gap-2 bg-[#F6F6F6] px-6 py-3 rounded-[8px] ${withoutRentInformation?.length === 0 && "hidden"}`}>
                                     <span className='text-BlackHomz text-[16px]'>Rent information is incomplete/unmapped for [{withoutRentInformation?.length}] tenants.</span>
                                     <span className="text-GrayHomz text-[14px]">Tenants without rent details will be imported, but their rent information will not be added. Please remap the data to include all required rent details or upload a new CSV file containing the complete rent information.</span>
-                                    <span onClick={() =>setShowMappingSummaryModal(false)} className='text-BlueHomz text-[13px] cursor-pointer'>Re-map data</span>
+                                    <span onClick={() =>{
+                                        setShowMappingSummaryModal(false)
+                                        setOpenMapping(true)
+                                        }} className='text-BlueHomz text-[13px] cursor-pointer'>Re-map data</span>
                                 </div>
                             </div>
                             <div className='text-start'>

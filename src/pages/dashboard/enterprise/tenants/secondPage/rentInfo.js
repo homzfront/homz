@@ -21,6 +21,7 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import DatePicker from "react-datepicker";
 import DateIcon from "@/components/icons/date";
+import moment from 'moment-timezone';
 
 
 
@@ -56,12 +57,19 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
     setError("")
   };
 
+  function convertToNigeriaTime(utcDate) {
+    const nigeriaTimeZone = 'Africa/Lagos';
+    const zonedDate = moment.utc(utcDate).tz(nigeriaTimeZone); 
+    return zonedDate.format('YYYY-MM-DD');
+  }
+
   function addDurationToDate() {
     // Assuming duration and startDate are available in the current scope
     if (!duration || !startDate) return;
 
     // Convert the start date string into a Date object
-    const selectedDate = new Date(startDate);
+    const selectedDate = new Date(convertToNigeriaTime(startDate));
+
 
     // Extract the numeric value and time unit from the duration string (e.g., "2 years" or "18 months")
     // const [amountStr, unit] = duration.split(' ');
@@ -186,7 +194,7 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
         apartmentNumber: parseInt(apartmentNumber),
         rent: processNumber(rent),
         duration: parseInt(duration),
-        startDate,
+        startDate: convertToNigeriaTime(startDate),
         dueDate,
         paymentStatus: lowerCaseData(selectedValue),
         property,
@@ -232,7 +240,7 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
         apartmentNumber: parseInt(apartmentNumber),
         rent: processNumber(rent),
         duration: parseInt(duration),
-        startDate,
+        startDate: convertToNigeriaTime(startDate),
         dueDate,
         paymentStatus: lowerCaseData(selectedValue),
         property,
@@ -364,9 +372,9 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
                   placeholderText="Select Date"
                   className={`w-[100%] h-[41px] px-4 py-2 `}
                 />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                <DateIcon />
-              </div>
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <DateIcon />
+                </div>
               </div>
             </div>
           </div>
@@ -393,9 +401,9 @@ const RentInfo = ({ profile, fetchTenantData, tenantId, rentInfo, fetchRentInfor
                   placeholderText="Select Date"
                   className={`w-full h-[41px] px-4 py-2 `}
                 />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                <DateIcon />
-              </div>
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <DateIcon />
+                </div>
               </div>
             </div>
           </div>

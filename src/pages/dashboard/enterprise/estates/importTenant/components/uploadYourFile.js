@@ -121,8 +121,6 @@ const UploadYourFile = ({ handlePageChangeTwo, estateData, setShowNumberOfHouseM
         handlePageChangeTwo()
     }
 
-    console.log(CSVFile?.length)
-    console.log(estateData?.numberOfHouses)
     return (
         <div className='overflow-y-auto'>
             <div className={`flex flex-col lg:flex-row gap-4 lg:gap-0 items-center w-full justify-between ${(uploading || uploadedCsv || CSVFile) && "hidden"}`}>

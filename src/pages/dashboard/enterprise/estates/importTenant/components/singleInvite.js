@@ -46,7 +46,6 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("Hi")
         const newErrors = {};
         if (!formData.firstName)
             newErrors.firstName = "First Name is required.";

@@ -22,6 +22,7 @@ import ExceedTenant from "../importTenant/components/ExceedTenant";
 import ImportSummary from "../importTenant/components/importSummary";
 
 const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
+ const { setOpenMapping} = useCSVFileStore();
   const { setTab } = useEditPropertyTab();
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -32,7 +33,9 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const [activeSeven, setActiveSeven] = useState(false);
   const [openSingleInvite, setOpenSingleInvite] = useState(false);
   const [openBulkInvite, setOpenBulkInvite] = useState(false);
-  const dropdownRef = useClickOutside(() => setOpenTenantInvite(false));
+  const dropdownRef = useClickOutside(() => {
+    setOpenMapping(false)
+    setOpenTenantInvite(false)});
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [importData, setImportData] = useState(false);
   const { setCSVFile, CSVFile, setEstateId, response } = useCSVFileStore();

@@ -32,19 +32,13 @@ export const transformData = (mappedData) => {
         if (item["Start Date"]) {
             try {
                 const dateParts = item["Start Date"].trim().split(" ");
-                console.log(dateParts[0].replace(/\D/g, ""))
-                console.log(capitalize(dateParts[1]));
-                console.log((dateParts[2]))
                 const day = parseInt(dateParts[0].replace(/\D/g, "")); // Remove suffix (e.g., "5th" -> "5")
                 const month = capitalize(dateParts[1]); // Convert month to title case
                 const year = parseInt(dateParts[2]);
 
                 if (day && month && year && month) {
                     const formattedDate = `${month} ${day}, ${year}`;
-                    console.log(formattedDate)
-
                     startDate = new Date(formattedDate).toISOString().split("T")[0];
-                    console.log(startDate)
                     // Calculate due date
                     if (rentDuration) {
                         const newDueDate = new Date(formattedDate);
@@ -60,20 +54,39 @@ export const transformData = (mappedData) => {
             }
         }
 
-        // Transform data
-        return {
+        // Create the base object
+        const transformedItem = {
             tenantName: item["Tenant Name"] || "N/A",
             email: item["Email"] || "N/A",
             phoneNumber: item["Phone No"] || "N/A",
             houseAddress: item["Address"] || "N/A",
-            rentInfo: {
-                rentAmount: rentAmount,
-                rentDuration: rentDuration,
-                startDate: startDate || "",
-                dueDate: dueDate || "",
-                propertyType: item["Property Type"] || "N/A",
-                apartmentNo: parseInt(item["Apartment No"]?.match(/\d+/)?.[0]) || null,
-            },
         };
+
+        // Create the rentInfo object
+        const rentInfo = {
+            rentAmount: rentAmount,
+            rentDuration: rentDuration,
+            startDate: startDate || "",
+            dueDate: dueDate || "",
+            propertyType: item["Property Type"] || "N/A",
+            apartmentNo: parseInt(item["Apartment No"]?.match(/\d+/)?.[0]) || null,
+        };
+
+        // Remove null or empty fields from rentInfo
+        const cleanedRentInfo = Object.fromEntries(
+            Object.entries(rentInfo).filter(([_, value]) => value !== null && value !== "" && value !== "N/A")
+        );
+
+        // Only add rentInfo if it has any valid fields
+        if (Object.keys(cleanedRentInfo).length > 0) {
+            transformedItem.rentInfo = cleanedRentInfo;
+        }
+
+        // Remove null or empty fields from the main object
+        const cleanedTransformedItem = Object.fromEntries(
+            Object.entries(transformedItem).filter(([_, value]) => value !== null && value !== "" && value !== "N/A")
+        );
+
+        return cleanedTransformedItem;
     });
 };

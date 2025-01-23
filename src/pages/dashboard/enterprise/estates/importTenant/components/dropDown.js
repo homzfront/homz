@@ -44,7 +44,7 @@ const DropDown = ({ selectedValue, fileheader, options, onSelect, className, lab
             </div>
             {isOpen && (
                 <div className="w-full absolute z-[999999] top-[74px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
-                    {options.map((data) => (
+                    {options?.map((data) => (
                         <div
                             key={data.id}
                             className={`p-2 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md ${data?.option === "Do not import" ? "bg-[#FDF2F2] text-[#D92D20]" : ""}`}

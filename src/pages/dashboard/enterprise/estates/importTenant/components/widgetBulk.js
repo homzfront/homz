@@ -6,11 +6,13 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import UploadYourFile from "./uploadYourFile";
 import DataMapping from "./dataMapping";
 import Close from "@/components/icons/Close";
+import useCSVFileStore from "@/store/document/useCSVFileStore";
 
 const WidgetBulk = ({ setOpenBulkInvite, setImportData, estateData, setShowMappingSummaryModal, setShowNumberOfHouseModal }) => {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [dashboard, setDashboard] = useState(false);
+    const { openMapping, setOpenMapping } = useCSVFileStore()
 
     const handlePageChange = () => {
         setActive(false);
@@ -25,6 +27,14 @@ const WidgetBulk = ({ setOpenBulkInvite, setImportData, estateData, setShowMappi
     const handleSubmit = async (e) => {
         e.preventDefault();
     };
+
+
+    React.useEffect(() => {
+        if (openMapping) {
+            handlePageChangeTwo()
+        }
+    }, [openMapping])
+
 
     return (
         <div className="w-[360px] sm:w-full">
@@ -93,7 +103,10 @@ const WidgetBulk = ({ setOpenBulkInvite, setImportData, estateData, setShowMappi
                         </div>
                     </div>
                     <div
-                        onClick={() => setOpenBulkInvite(false)}
+                        onClick={() => {
+                            setOpenBulkInvite(false)
+                            setOpenMapping(false)
+                        }}
                         className="z-20  cursor-pointer border border-BlackHomz rounded-[8px] h-[30px] w-[30px] flex justify-center items-center"
                     >
                         <Close />

@@ -68,12 +68,7 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
             });
             setMappedData(updatedData);
         }
-    }, [selectedAttributes])
-
-    console.log(filterMappedDataToBeWitRentInfo)
-
-    console.log(mappedData)
-    console.log(withoutRentInformation)
+    }, [selectedAttributes]);
 
     const attributes = [
         { id: 1, option: "Do not import" },
@@ -88,8 +83,6 @@ const WithoutRentInfo = ({ setUnimportedTenantRentModal }) => {
         { id: 11, option: "Property Type" }
     ];
 
-    console.log(data);
-    console.log(CSVFile)
     const filteredAttributes = attributes?.filter(attribute => {
         if (!selectedAttributes) {
             return attribute;
