@@ -21,7 +21,7 @@ export const transformData = (mappedData) => {
 
     return mappedData.map((item) => {
         // Parse rent amount (strip currency and commas)
-        const rentAmount = parseFloat(item["Rent Amount"]?.replace(/[₦,]/g, "")) || null;
+        const rentAmount = parseFloat(item["Rent Amount"]?.replace(/[^\d.]/g, "")) || null;
 
         // Convert rent duration to months (if it's specified in years)
         const rentDuration = parseInt(item["Rent Duration"]?.split(" ")[0]) * 12 || null;

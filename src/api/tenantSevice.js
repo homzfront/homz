@@ -475,7 +475,7 @@ export const addBankTenant = async (details) => {
 
 export const acceptTenantInvitation = async (tenantEmail, tenantFullName, invitation, password, rePassword) => {
   try {
-    const response = await api.post(`/tenants/invitation/estate/accept-single-tenant-invitation?tenantEmail=${tenantEmail}&tenantFullName=${tenantFullName}&invitation=${invitation}`, {
+    const response = await api.post(`/public-invitation/estate/accept-single-tenant-invitation?tenantEmail=${tenantEmail}&tenantFullName=${tenantFullName}&invitation=${invitation}`, {
       newPassword: password,
       confirmPassword: rePassword
     });

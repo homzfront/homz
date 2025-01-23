@@ -28,7 +28,7 @@ export const acceptSecondInvitationHomz = async (email, role, invitation, isHomz
 
 export const acceptEnterpriseInvitation = async (email, role, invitation, isHomzEnterprise, fullName, phoneNumber, password, confirmPasswword) => {
     try {
-      const response = await api.post(`/accept-invitation/property-owner?email=${email}&role=${role}&invitation=${invitation}&isHomzEnterprise=${isHomzEnterprise}`, {
+      const response = await api.post(`/public-invitation/estate/accept-invitation-property-owner?email=${email}&role=${role}&invitation=${invitation}&isHomzEnterprise=${isHomzEnterprise}`, {
         fullName,
         phoneNumber,
         password,

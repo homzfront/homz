@@ -5,7 +5,7 @@ import useClickOutside from "@/utils/clickOutside";
 import ArrowDown from "@/components/icons/arrowDown";
 import ArrowUp from "@/components/icons/arrowUp";
 
-const DropDown = ({ fileheader, options, onSelect, className, label, width }) => {
+const DropDown = ({ selectedValue, fileheader, options, onSelect, className, label, width }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const dropdownRef = useClickOutside(() => setIsOpen(false));
@@ -28,8 +28,8 @@ const DropDown = ({ fileheader, options, onSelect, className, label, width }) =>
                 onClick={handleDropdownToggle}
             >
                 <div className="flex w-full justify-between items-center">
-                    <div className={`font-[500] text-[14px] w-full ${selectedOption ? "text-BlackHomz" : "text-GrayHomz2"}`}>
-                        {selectedOption ? selectedOption : "Select attribute"}
+                    <div className={`font-[500] text-[14px] w-full ${selectedOption || selectedValue ? "text-BlackHomz" : "text-GrayHomz2"}`}>
+                        {selectedOption ||selectedValue ? selectedOption || selectedValue : "Select attribute"}
                     </div>
                     <div className={``}>
                         {

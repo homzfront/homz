@@ -147,7 +147,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
                     header={`${response ? "Tenant(s)" : "Tenant"} Added Successfully!`}
                     body={
                       response
-                        ? `${response?.data?.successfulUploads} ${response?.data?.successfulUploads === 1 ? "tenant was" : "tenants were"} imported, and ${response?.data?.successfulUploads === 1 ? "has" : "have"} received invitation links in their mails.`
+                        ? `Tenants have been imported and have received invitation links via email.`
                         : `An invitation link to join ${estateData?.name} has been sent to ${tenantData ? tenantData?.email : ""} mail.`
                     }
                   />

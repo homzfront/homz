@@ -70,7 +70,7 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
         setFinalData(transformData(mappedData))
     }, [mappedData])
 
-
+// console.log(finalData)
 
     const submitData = async () => {
         setLoading(true)
@@ -123,15 +123,15 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
                                 </p>
                             </div>
                             <div className='font-normal flex flex-col gap-2'>
-                                <div className="flex flex-col gap-2 bg-[#F6F6F6] px-6 py-3 rounded-[8px]">
+                                <div className={`flex flex-col gap-2 bg-[#F6F6F6] px-6 py-3 rounded-[8px] ${withoutEmailName?.length === 0 && "hidden"}`}>
                                     <span className='text-BlackHomz text-[16px]'>Tenant Name and Email are missing for [{withoutEmailName?.length}] tenants.</span>
                                     <span className="text-GrayHomz text-[14px]">These tenants will not be imported and will not receive invitation mails until the required fields are filled and mapped.</span>
                                     <span onClick={() => setUnimportedTenantModal(true)} className='text-BlueHomz text-[13px] cursor-pointer'>View tenants</span>
                                 </div>
-                                <div className="flex flex-col gap-2 bg-[#F6F6F6] px-6 py-3 rounded-[8px]">
+                                <div className={`flex flex-col gap-2 bg-[#F6F6F6] px-6 py-3 rounded-[8px] ${withoutRentInformation?.length === 0 && "hidden"}`}>
                                     <span className='text-BlackHomz text-[16px]'>Rent information is incomplete/unmapped for [{withoutRentInformation?.length}] tenants.</span>
-                                    <span className="text-GrayHomz text-[14px]">These tenants will be imported without rent details unless all rent fields are filled and mapped.</span>
-                                    <span onClick={() => setUnimportedTenantRentModal(true)} className='text-BlueHomz text-[13px] cursor-pointer'>View tenants</span>
+                                    <span className="text-GrayHomz text-[14px]">Tenants without rent details will be imported, but their rent information will not be added. Please remap the data to include all required rent details or upload a new CSV file containing the complete rent information.</span>
+                                    <span onClick={() =>setShowMappingSummaryModal(false)} className='text-BlueHomz text-[13px] cursor-pointer'>Re-map data</span>
                                 </div>
                             </div>
                             <div className='text-start'>

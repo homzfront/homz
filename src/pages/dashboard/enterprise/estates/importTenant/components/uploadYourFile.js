@@ -205,7 +205,7 @@ const UploadYourFile = ({ handlePageChangeTwo, estateData, setShowNumberOfHouseM
                     <div className="overflow-x-auto scrollbar-containerII mt-4 overflow-y-auto pr-1 pb-1">
                         <div className="w-[500%] lg:w-[180%] max-h-[calc(100vh-60vh)]">
                             <div className="w-full border rounded-t-[12px]">
-                                <div className="bg-BlueHomz h-[50px] text-[13px] flex items-center justify-center gap-2 font-[500] text-[#ffffff]  px-2 rounded-t-[12px]">
+                                <div className="bg-BlueHomz h-[50px] text-[13px] flex items-center justify-start gap-2 font-[500] text-[#ffffff]  px-2 rounded-t-[12px]">
                                     {Object.keys(CSVFile[0])
                                         .slice(0, 10) // Limit headers to the first 10 keys
                                         .map((key, index) => (
@@ -225,7 +225,7 @@ const UploadYourFile = ({ handlePageChangeTwo, estateData, setShowNumberOfHouseM
                                             return (
                                                 <div
                                                     key={index}
-                                                    className="border-b-[1px] items-center flex justify-center w-full gap-2 px-2 h-[60px]"
+                                                    className="border-b-[1px] items-center flex justify-start w-full gap-2 px-2 h-[60px]"
                                                 >
                                                     {keys.map((key, keyIndex) => (
                                                         <div
