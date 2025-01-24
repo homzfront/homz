@@ -12,19 +12,19 @@ import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "../state/useOpenPaymentType";
 
-const PlansYearly = ({ routeTo, profile }) => {
+const PlanPayBiAnnually = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
-  const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+  const { setIsOpenModal, isBiAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
 
 
   const pricingPlans = [
     {
-      price: '55,000',
+      price: '25,000',
       title: 'Enterprise Basic',
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
         "Documents (receipts)",
         "Up to 10 Properties",
@@ -40,35 +40,35 @@ const PlansYearly = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "annually"
+      interval: "monthly"
+    },
+    {
+      price: "47,500",
+      title: "Enterprise Starter",
+      billing: "Billed Bi-Annually.",
+      features: [
+        "Up to 10 Properties",
+        "Up to 2 users",
+        "Accounts & reporting",
+        "Whitelabels",
+        "Maintenance management",
+        "Property information",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
+      ],
+      status: false,
+      interval: "monthly"
     },
     {
       price: "95,000",
-      title: "Enterprise Starter",
-      billing: "Billed Annually",
-      features: [
-        "Up to 10 Properties",
-        "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
-        "Maintenance management",
-        "Property information",
-        "Tenant Management",
-        "Documents (receipts)",
-        "Manage tenant applications",
-        "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
-      ],
-      status: false,
-      interval: "annually"
-    },
-    {
-      price: "190,000",
       title: "Enterprise Plus",
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
-        "Up to 30 Properties",
+        "Up to 30 properties",
         "Up to 5 users",
         "Accounts & reporting",
         "Whitelabels",
@@ -82,12 +82,12 @@ const PlansYearly = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "annually"
+      interval: "monthly"
     },
     {
-      price: "500,000",
+      price: "250,000",
       title: "Enterprise Premium",
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -103,12 +103,12 @@ const PlansYearly = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "annually"
+      interval: "monthly"
     },
     {
       price: "Contact Sales",
       title: "Premium Plan",
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -124,7 +124,7 @@ const PlansYearly = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: true,
-      interval: "annually"
+      interval: "monthly"
     },
   ];
 
@@ -163,6 +163,7 @@ const PlansYearly = ({ routeTo, profile }) => {
           }
         }
       } catch (error) {
+        console.log(error)
         toast.error(error.response?.data?.message || error.response?.data?.error);
       } finally {
         setLoading(false);
@@ -177,14 +178,14 @@ const PlansYearly = ({ routeTo, profile }) => {
     }
   }
 
-    React.useEffect(() => {
-      if (isAnnaullyData) {
-        handleSubmit(isAnnaullyData.planInterval, isAnnaullyData.planName)
-      }
-    }, [openCardPayment])
+  React.useEffect(() => {
+    if (isBiAnnaullyData) {
+      handleSubmit(isBiAnnaullyData.planInterval, isBiAnnaullyData.planName)
+    }
+  }, [openCardPayment])
 
   return (
-    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
+    <div className="mt-[60px] h-[800px] w-full m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
@@ -211,7 +212,7 @@ const PlansYearly = ({ routeTo, profile }) => {
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
                 <h1 className="text-[20px] text-center font-[500]">{plan.title}</h1>
-                <p className="text-[14px] mt-[-10px] text-center font-[500] text-BlueHomz">
+                <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
                   {plan.billing}
                 </p>
                 <Link href={"/contact-page"}
@@ -219,30 +220,30 @@ const PlansYearly = ({ routeTo, profile }) => {
                     ? "bg-BlueHomz hover:bg-blue-400 text-white"
                     : " hidden"
                     }
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                `}
                 >
                   Contact Sales
                 </Link>
                 <button
-                onClick={() => {
-                  setIsAnnaullyData({
-                    planName: plan.title,
-                    planInterval: plan.interval
-                  })
-                  setIsOpenModal(true)
-                }}
+                  onClick={() => {
+                    setIsBiAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
                     : ""
                     } 
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
+                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -267,8 +268,8 @@ const PlansYearly = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -303,30 +304,30 @@ const PlansYearly = ({ routeTo, profile }) => {
                     ? "bg-BlueHomz hover:bg-blue-400 text-white"
                     : " hidden"
                     }
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                `}
                 >
                   Contact Sales
                 </Link>
                 <button
-                 onClick={() => {
-                  setIsAnnaullyData({
-                    planName: plan.title,
-                    planInterval: plan.interval
-                  })
-                  setIsOpenModal(true)
-                }}
+                  onClick={() => {
+                    setIsBiAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"
                     : ""
                     } 
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
+                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -351,8 +352,8 @@ const PlansYearly = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -372,4 +373,4 @@ const PlansYearly = ({ routeTo, profile }) => {
   );
 };
 
-export default PlansYearly;
+export default PlanPayBiAnnually;

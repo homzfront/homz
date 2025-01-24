@@ -205,13 +205,13 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
             </div>
             <div className='w-full mt-4 text-[16px] font-[500] text-GrayHomz flex flex-col lg:flex-row gap-2 lg:gap-0 lg:items-center justify-between'>
                 <div className='hidden lg:block'>
-                    [{selectedAttributes ? Object.keys(selectedAttributes)?.length : 0}] Columns
+                    {selectedAttributes ? Object.keys(selectedAttributes)?.length : 0} Columns
                     <span className='font-[400] pl-0.5 pr-1'>
                         to be imported
                     </span>
                     |
                     <span className='text-[#D92D20] pr-0.5 pl-1'>
-                        [ {data ? data?.length - (selectedAttributes ? Object.keys(selectedAttributes)?.length : 0) : 0}] Columns
+                        {data ? data?.length - (selectedAttributes ? Object.keys(selectedAttributes)?.length : 0) : 0} Columns
                         <span className='text-[#DF5045] font-[400] pl-0.5'>
                             not mapped
                         </span>
@@ -219,7 +219,7 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
                 </div>
                 <div className='lg:hidden'>
                     <span>
-                        [{selectedAttributes ? Object.keys(selectedAttributes)?.length : 0}] Columns
+                        {selectedAttributes ? Object.keys(selectedAttributes)?.length : 0} Columns
                         <span className='font-[400] pl-0.5'>
                             to be imported
                         </span>
@@ -227,7 +227,7 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
                     <br />
                     <span>
                         <span className='text-[#D92D20]'>
-                            [ {data ? data?.length - (selectedAttributes ? Object.keys(selectedAttributes)?.length : 0) : 0}] Columns
+                            {data ? data?.length - (selectedAttributes ? Object.keys(selectedAttributes)?.length : 0) : 0} Columns
                             <span className='text-[#DF5045] font-[400] pl-0.5 mt-1'>
                                 not mapped
                             </span>

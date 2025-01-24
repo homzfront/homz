@@ -1,0 +1,12 @@
+import React from 'react'
+
+const SendTwo = () => {
+  return (
+    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.14969 6.32015L16.6397 3.49015C20.4497 2.22015 22.5197 4.30015 21.2597 8.11015L18.4297 16.6002C16.5297 22.3102 13.4097 22.3102 11.5097 16.6002L10.6697 14.0802L8.14969 13.2402C2.43969 11.3402 2.43969 8.23015 8.14969 6.32015Z" stroke="#EEF5FF" strokeWidth="1.93834" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10.8594 13.6447L14.4394 10.0547" stroke="#EEF5FF" strokeWidth="1.93834" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>    
+  )
+}
+
+export default SendTwo

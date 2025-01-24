@@ -5,9 +5,14 @@ import PlansYearly from "./plansYearly.js";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe.js";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import PlanPayBiAnnually from "./planPayBiAnnually.js";
+import useOpenPaymentType from "../state/useOpenPaymentType.js";
+import PopUpPayment from "./popUpPayment.js";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const Widget = ({ routeTo }) => {
   const { data, fetchData } = useProfileEnterpriseMe();
+  const { isOpenModal, setIsOpenModal } = useOpenPaymentType();
 
   useEffect(() => {
     fetchData();
@@ -15,14 +20,22 @@ const Widget = ({ routeTo }) => {
 
 
   useEffect(() => {
+    if (!data) return;
     if (data?.interval === "annually") {
-      setActive(2);
+      setActive(3);
+    }
+    else if (data?.interval === "monthly") {
+      setActive(1)
+    }
+    else {
+      setActive(2)
     }
   }, [data]);
 
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly routeTo={routeTo} profile={data} /> },
-    { id: 2, name: "Pay Yearly", component: <PlansYearly routeTo={routeTo} profile={data} /> },
+    { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually routeTo={routeTo} profile={data} /> },
+    { id: 3, name: "Pay Yearly", component: <PlansYearly routeTo={routeTo} profile={data} /> },
   ];
 
   const [active, setActive] = useState(pages[0].id);
@@ -33,6 +46,9 @@ const Widget = ({ routeTo }) => {
 
   return (
     <div className="w-full max-w-[1440px]">
+      <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
+        <PopUpPayment />
+      </CustomizedModal>
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -47,7 +63,7 @@ const Widget = ({ routeTo }) => {
         theme="dark"
       />
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[280px] cursor-pointer m-auto">
+        <div className="flex flex-wrap mt-1 gap-1 sm:gap-2 justify-between w-[420px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}
