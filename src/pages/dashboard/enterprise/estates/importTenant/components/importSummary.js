@@ -127,13 +127,13 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
                             </div>
                             <div className='text-start'>
                                 <div className='hidden lg:block'>
-                                    [{mappedData ? mappedData?.length - withoutEmailName?.length : 0}]
+                                    {mappedData ? mappedData?.length - withoutEmailName?.length : 0}
                                     <span className='font-[400] pl-0.5 pr-1'>
                                         Tenants to be imported
                                     </span>
                                     |
                                     <span className='text-[#D92D20] pr-0.5 pl-1'>
-                                        [ {withoutEmailName ? withoutEmailName?.length : 0}]
+                                        {withoutEmailName ? withoutEmailName?.length : 0}
                                         <span className='text-[#DF5045] font-[400] pl-0.5'>
                                             Tenants to be skipped
                                         </span>
@@ -141,7 +141,7 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
                                 </div>
                                 <div className='lg:hidden'>
                                     <span>
-                                        [{mappedData ? mappedData?.length - withoutEmailName?.length : 0}]
+                                        {mappedData ? mappedData?.length - withoutEmailName?.length : 0}
                                         <span className='font-[400] pl-0.5'>
                                             Tenants to be imported
                                         </span>
@@ -149,7 +149,7 @@ const ImportSummary = ({ setShowMappingSummaryModal, estateId, unimportedTenantR
                                     <br />
                                     <span>
                                         <span className='text-[#D92D20]'>
-                                            [ {withoutEmailName ? withoutEmailName?.length : 0}]
+                                            {withoutEmailName ? withoutEmailName?.length : 0}
                                             <span className='text-[#DF5045] font-[400] pl-0.5 mt-1'>
                                                 Tenants to be skipped
                                             </span>
