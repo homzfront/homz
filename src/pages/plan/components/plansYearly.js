@@ -11,6 +11,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
+import useOpenPaymentType from "../state/useOpenPaymentType";
 
 const PlansYearly = ({ data, setLoadProfile }) => {
 
@@ -19,6 +20,8 @@ const PlansYearly = ({ data, setLoadProfile }) => {
   const router = useRouter()
   useBodyScroll([loading])
   const isAt1295px = useIsUserAt1295px();
+  const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+
 
   const pricingPlans = [
     {
@@ -137,7 +140,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
   async function handleSubmit(interval, plans) {
 
     setLoading(true);
-
+    setIsOpenModal(false);
     if (!interval || !plans) {
       setFormError('Please select an interval and plan.');
       setLoading(false);
@@ -184,10 +187,21 @@ const PlansYearly = ({ data, setLoadProfile }) => {
       setLoading(false);
       setLoadProfile(true)
     }
+    finally {
+      setLoading(false);
+      setIsMonthlyData(null)
+      setOpenCardPayment(false)
+      setIsBiAnnaullyData(null)
+      setIsAnnaullyData(null)
+    }
 
   }
 
-
+  React.useEffect(() => {
+    if (isAnnaullyData) {
+      handleSubmit(isAnnaullyData.planInterval, isAnnaullyData.planName)
+    }
+  }, [openCardPayment])
 
 
   return (
@@ -233,8 +247,13 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                 </Link>
                 <button
                   onClick={() => {
-                    handleSubmit(plan.interval, plan.title)
+                    setIsAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
                   }}
+                  disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
                     : "bg-BlueHomz hover:bg-blue-400 text-white "
@@ -304,8 +323,13 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                 </Link>
                 <button
                   onClick={() => {
-                    handleSubmit(plan.interval, plan.title)
+                    setIsAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
                   }}
+                  disabled={loading}
                   className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"
                     : "bg-BlueHomz hover:bg-blue-400 text-white "

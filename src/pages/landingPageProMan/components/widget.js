@@ -24,11 +24,11 @@ const Widget = ({ routeTo }) => {
     if (data?.interval === "annually") {
       setActive(3);
     }
-    else if (data?.interval === "monthly") {
-      setActive(1)
+    else if (data?.interval === "bi-annually") {
+      setActive(2)
     }
     else {
-      setActive(2)
+      setActive(1)
     }
   }, [data]);
 

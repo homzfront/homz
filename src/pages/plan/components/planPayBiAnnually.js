@@ -1,6 +1,7 @@
-import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
+import { updateEnterPriseSub } from "@/api/planEnterprise";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Image from "next/image";
+import useBodyScroll from "@/utils/useBodyScroll";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -12,19 +13,20 @@ import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "../state/useOpenPaymentType";
 
-const PlansYearly = ({ profile }) => {
+const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
   const [loading, setLoading] = useState(false);
-  const [loadingCard, setLoadingCard] = useState(null);
+  const [formError, setFormError] = useState();
   const router = useRouter()
+  useBodyScroll([loading])
   const isAt1295px = useIsUserAt1295px();
-  const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+  const { setIsOpenModal, isBiAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
 
 
   const pricingPlans = [
     {
-      price: '55,000',
+      price: '27,500',
       title: 'Enterprise Basic',
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
         "Documents (receipts)",
         "Up to 10 Properties",
@@ -40,35 +42,35 @@ const PlansYearly = ({ profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "annually"
+      interval: "bi-annually"
+    },
+    {
+      price: "47,500",
+      title: "Enterprise Starter",
+      billing: "Billed Bi-Annually.",
+      features: [
+        "Up to 10 Properties",
+        "Up to 2 users",
+        "Accounts & reporting",
+        "Whitelabels",
+        "Maintenance management",
+        "Property information",
+        "Tenant Management",
+        "Documents (receipts)",
+        "Manage tenant applications",
+        "Advertise vacant properties",
+        "Early rent incentives for renters",
+        "Training & data migration"
+      ],
+      status: false,
+      interval: "bi-annually"
     },
     {
       price: "95,000",
-      title: "Enterprise Starter",
-      billing: "Billed Annually",
-      features: [
-        "Up to 10 Properties",
-        "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
-        "Maintenance management",
-        "Property information",
-        "Tenant Management",
-        "Documents (receipts)",
-        "Manage tenant applications",
-        "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
-      ],
-      status: false,
-      interval: "annually"
-    },
-    {
-      price: "190,000",
       title: "Enterprise Plus",
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
-        "Up to 30 Properties",
+        "Up to 30 properties",
         "Up to 5 users",
         "Accounts & reporting",
         "Whitelabels",
@@ -82,12 +84,12 @@ const PlansYearly = ({ profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "annually"
+      interval: "bi-annually"
     },
     {
-      price: "500,000",
+      price: "250,000",
       title: "Enterprise Premium",
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
         "Up to 100 properties",
         "Unlimited",
@@ -103,12 +105,12 @@ const PlansYearly = ({ profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "annually"
+      interval: "bi-annually"
     },
     {
       price: "Contact Sales",
       title: "Premium Plan",
-      billing: "Billed Annually",
+      billing: "Billed Bi-Annually.",
       features: [
         "Unlimited Properties",
         "Unlimited Users",
@@ -124,7 +126,7 @@ const PlansYearly = ({ profile }) => {
         "Training & data migration"
       ],
       status: true,
-      interval: "annually"
+      interval: "bi-annually"
     },
   ];
 
@@ -133,54 +135,75 @@ const PlansYearly = ({ profile }) => {
     return regex.test(url);
   }
 
-  async function handleSubmit(interval, planTitle) {
-    setLoading(true);
-    setLoadingCard(planTitle);
-    setIsOpenModal(false);
-    try {
-      let response;
-      if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" || profile?.planName === "Enterprise Basic" ||
-        profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
-        response = await updateEnterPriseSub({
-          planName: planTitle,
-          interval
-        })
-      }
-      if (response.success) {
-        const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
-        toast.success(successMessage);
-        const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
-        const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
-        if (isValidUrl(authorizationUrl)) {
-          router.push(authorizationUrl);
-        } else if (isValidUrl(paystackAuthorizationUrl)) {
-          router.push(paystackAuthorizationUrl);
+  async function handleSubmit(interval, plans) {
+     setLoading(true);
+     setIsOpenModal(false);
+        if (!interval || !plans) {
+          setFormError('Please select an interval and plan.');
+          setLoading(false);
+          return; // Early exit if required fields are missing
         }
-      } else {
-        if (response.error) {
-          toast.error(response.error);
+    
+        const planDetails = {
+          fullName: data?.fullName,
+          businessName: data?.businessName,
+          phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
+          planName: plans,
+          interval,
+        };
+    
+        try {
+          let response;
+          response = await planEnterPriseSub(planDetails);
+          if (response.success) {
+            setLoading(false);
+            const successMessage = response?.updatedData?.data?.message || 'Enterprise Plan account created successfully'; // Use response.data?.message if available, otherwise default message
+            toast.success(successMessage);
+            const authorizationUrl = response?.updatedData?.data?.data?.data?.authorization_url;
+            const paystackAuthorizationUrl = response?.updatedData?.data?.data?.paystackResponse?.data?.authorization_url;
+    
+            if (isValidUrl(authorizationUrl)) {
+              router.push(authorizationUrl);
+            } else if (isValidUrl(paystackAuthorizationUrl)) {
+              router.push(paystackAuthorizationUrl);
+            } else {
+              // console.warn('Invalid or missing authorization URL in response.');
+            }
+          }
+          else {
+            if (response.error) {
+              setFormError(response.error || 'An error occurred.'); // Default error message
+              setLoading(false);
+              toast.error(response.error);
+              setLoadProfile(true)
+            } // Use the specific error message from response.error
+          }
+        } catch (error) {
+          toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
+          // console.log(error.response?.data?.error)
+          setFormError(error.response?.data?.message || error.response?.data?.error); // Log the original error
+          setLoading(false);
+          setLoadProfile(true)
+        }
+        finally {
+          setLoading(false);
+          setIsMonthlyData(null)
+          setOpenCardPayment(false)
+          setIsBiAnnaullyData(null)
+          setIsAnnaullyData(null)
         }
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || error.response?.data?.error);
-    } finally {
-      setLoading(false);
-      setLoadingCard(null);
-      setIsMonthlyData(null)
-      setOpenCardPayment(false)
-      setIsBiAnnaullyData(null)
-      setIsAnnaullyData(null)
-    }
-  }
 
   React.useEffect(() => {
-    if (isAnnaullyData) {
-      handleSubmit(isAnnaullyData.planInterval, isAnnaullyData.planName)
+    if (isBiAnnaullyData) {
+      handleSubmit(isBiAnnaullyData.planInterval, isBiAnnaullyData.planName)
     }
   }, [openCardPayment])
 
   return (
-    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
+    <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
+      {
+        loading && <Loading />}
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
@@ -214,15 +237,13 @@ const PlansYearly = ({ profile }) => {
                   className={`h-[48px] rounded-lg text-[16px] w-full flex justify-center items-center ${plan.status === true
                     ? "bg-BlueHomz hover:bg-blue-400 text-white"
                     : " hidden"
-                    }
-                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-                `}
+                    }`}
                 >
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => {
-                    setIsAnnaullyData({
+                   onClick={() => {
+                    setIsMonthlyData({
                       planName: plan.title,
                       planInterval: plan.interval
                     })
@@ -231,28 +252,21 @@ const PlansYearly = ({ profile }) => {
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
-                    : ""
-                    } 
-                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-                ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
-                `}
+                    : "bg-BlueHomz hover:bg-blue-400 text-white "
+                    }`}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
-                    ? "Active"
-                    : "Get Started"}
+                  Get Started
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
-                    <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
-                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
-                        ? "opacity-[20%]"
-                        : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                      || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                      ? "opacity-[20%]" // Apply a different color class here
+                      : "bg-green-200"
+                      } flex justify-center border rounded-full`}
                     >
                       <Image
                         height={10.5}
@@ -262,7 +276,7 @@ const PlansYearly = ({ profile }) => {
                       />
                     </div>
                     <p
-                      className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -298,45 +312,36 @@ const PlansYearly = ({ profile }) => {
                   className={`h-[48px] rounded-lg text-[14px] w-full flex justify-center items-center ${plan.status === true
                     ? "bg-BlueHomz hover:bg-blue-400 text-white"
                     : " hidden"
-                    }
-                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-                `}
+                    }`}
                 >
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => {
-                    setIsAnnaullyData({
-                      planName: plan.title,
-                      planInterval: plan.interval
-                    })
-                    setIsOpenModal(true)
-                  }}
-                  disabled={loading}
-                  className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
+                     onClick={() => {
+                      setIsMonthlyData({
+                        planName: plan.title,
+                        planInterval: plan.interval
+                      })
+                      setIsOpenModal(true)
+                    }}
+                    disabled={loading}
+                  className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"
-                    : ""
-                    } 
-                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-                ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
-                `}
+                    : "bg-BlueHomz hover:bg-blue-400 text-white "
+                    }`}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
-                    ? "Active"
-                    : "Get Started"}
+                  Get Started
                 </button>
                 {plan.features.map((feature, i) => (
-                  <div key={i} className="text-[14px] flex flex-row items-center gap-2">
-                    <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
-                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
-                        ? "opacity-[20%]"
-                        : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                  <div key={i} className="flex text-[14px] flex-row items-center gap-2">
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                      || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                      ? "opacity-[20%]" // Apply a different color class here
+                      : "bg-green-200"
+                      } flex justify-center border rounded-full`}
                     >
                       <Image
                         height={10.5}
@@ -346,7 +351,7 @@ const PlansYearly = ({ profile }) => {
                       />
                     </div>
                     <p
-                      className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -368,4 +373,4 @@ const PlansYearly = ({ profile }) => {
   );
 };
 
-export default PlansYearly;
+export default PlanPayBiAnnually;

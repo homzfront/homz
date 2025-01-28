@@ -32,9 +32,9 @@ const Pricing = ({routeTo, profile}) => {
                 Get started
               </button>
             </Link>
-            <Link href={"/contact-page"}>
+            <Link href={""}>
               <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
-                Contact us
+              Book Demo
               </button>
             </Link>
           </div>

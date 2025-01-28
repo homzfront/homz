@@ -22,7 +22,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
 
   const pricingPlans = [
     {
-      price: '25,000',
+      price: '27,500',
       title: 'Enterprise Basic',
       billing: "Billed Bi-Annually.",
       features: [
@@ -40,7 +40,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "monthly"
+      interval: "bi-annually"
     },
     {
       price: "47,500",
@@ -61,7 +61,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "monthly"
+      interval: "bi-annually"
     },
     {
       price: "95,000",
@@ -82,7 +82,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "monthly"
+      interval: "bi-annually"
     },
     {
       price: "250,000",
@@ -103,7 +103,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: false,
-      interval: "monthly"
+      interval: "bi-annually"
     },
     {
       price: "Contact Sales",
@@ -124,7 +124,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
         "Training & data migration"
       ],
       status: true,
-      interval: "monthly"
+      interval: "bi-annually"
     },
   ];
 
