@@ -140,8 +140,8 @@ const Features = ({routeTo, profile}) => {
             <Link href={profile ? routeTo : "/register"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-BlueHomz hover:border  flex items-center justify-center hover:text-white rounded-md font-[700]  text-BlueHomz  bg-white  px-2 py-1">
               Get started
             </Link>
-            <Link href={"/contact-page"} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  flex items-center justify-center hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
-              Contact us
+            <Link href={""} className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  flex items-center justify-center hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
+            Book Demo
             </Link>
           </div>
         </div>

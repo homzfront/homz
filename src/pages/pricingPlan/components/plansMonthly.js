@@ -13,6 +13,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
+import useOpenPaymentType from "../state/useOpenPaymentType";
 
 
 const Plans = ({ profile }) => {
@@ -20,6 +21,9 @@ const Plans = ({ profile }) => {
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter();
   const isAt1295px = useIsUserAt1295px();
+  const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+
+
 
   const pricingPlans = [
     {
@@ -137,6 +141,7 @@ const Plans = ({ profile }) => {
   const handleSubmit = async (interval, planTitle) => {
     setLoading(true);
     setLoadingCard(planTitle);
+    setIsOpenModal(false);
     try {
       let response;
       if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
@@ -166,8 +171,18 @@ const Plans = ({ profile }) => {
     } finally {
       setLoading(false);
       setLoadingCard(null);
+      setIsMonthlyData(null)
+      setOpenCardPayment(false)
+      setIsBiAnnaullyData(null)
+      setIsAnnaullyData(null)
     }
   };
+
+  React.useEffect(() => {
+    if (isMonthlyData) {
+      handleSubmit(isMonthlyData.planInterval, isMonthlyData.planName)
+    }
+  }, [openCardPayment])
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px] w-full">
@@ -211,7 +226,13 @@ const Plans = ({ profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => handleSubmit(plan.interval, plan.title)}
+                  onClick={() => {
+                    setIsMonthlyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
@@ -289,7 +310,13 @@ const Plans = ({ profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => handleSubmit(plan.interval, plan.title)}
+                  onClick={() => {
+                    setIsMonthlyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"

@@ -2,18 +2,31 @@
 import React, { useState } from "react";
 import PlansMonthly from "./components/plansMonthly.js";
 import PlansYearly from "./components/plansYearly.js";
+import PlanPayBiAnnually from "./components/planPayBiAnnually.js";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import useOpenPaymentType from "./state/useOpenPaymentType.js";
+import PopUpPayment from "./components/popUpPayment.js";
 
 
 const Widget = ({ data, profile }) => {
+  const { isOpenModal, setIsOpenModal } = useOpenPaymentType();
 
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly /> },
-    { id: 2, name: "Pay Yearly", component: <PlansYearly /> },
+    { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually /> },
+    { id: 3, name: "Pay Yearly", component: <PlansYearly /> },
   ];
 
   React.useEffect(() => {
+    if (!profile) return;
     if (profile?.interval === "annually") {
-      setActive(2);
+      setActive(3);
+    }
+    else if (profile?.interval === "bi-annually") {
+      setActive(2)
+    }
+    else {
+      setActive(1)
     }
   }, [profile]);
 
@@ -26,7 +39,10 @@ const Widget = ({ data, profile }) => {
   return (
     <div>
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[280px] cursor-pointer m-auto">
+      <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
+        <PopUpPayment />
+      </CustomizedModal>
+        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[450px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}

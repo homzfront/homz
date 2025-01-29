@@ -2,16 +2,21 @@
 import React, { useState } from "react";
 import PlansMonthly from "./components/plansMonthly.js";
 import PlansYearly from "./components/plansYearly.js";
-
+import PlanPayBiAnnually from "./components/planPayBiAnnually.js";
+import useOpenPaymentType from "./state/useOpenPaymentType.js";
+import PopUpPayment from "./components/popUpPayment.js";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const Widget = ({ data, setLoadProfile }) => {
 
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly /> },
-    { id: 2, name: "Pay Yearly", component: <PlansYearly /> },
+    { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually /> },
+    { id: 3, name: "Pay Yearly", component: <PlansYearly /> },
   ];
 
   const [active, setActive] = useState(pages[0].id);
+  const { isOpenModal, setIsOpenModal } = useOpenPaymentType();
 
   const handlePageChange = (id) => {
     setActive(id);
@@ -20,7 +25,10 @@ const Widget = ({ data, setLoadProfile }) => {
   return (
     <div>
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[280px] cursor-pointer m-auto">
+      <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
+        <PopUpPayment />
+      </CustomizedModal>
+        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[480px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}
