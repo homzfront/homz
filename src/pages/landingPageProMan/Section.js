@@ -8,13 +8,14 @@ import "slick-carousel/slick/slick-theme.css";
 const Section = (routeTo, profile) => {
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 6000,
+    cssEase: 'linear', 
   };
 
   const cards = [
@@ -31,19 +32,19 @@ const Section = (routeTo, profile) => {
         priority
       />
     },
-    // {
-    //   id: 2, image: <Image
-    //     src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713182738/public/images/Dashboard_z0cmqx.png"}
-    //     alt="img"
-    //     width={2880}
-    //     height={2048}
-    //     layout="responsive"
-    //     objectFit="cover"
-    //     objectPosition="center"
-    //     className="object-top bg-top h-[504px] image-clip border-t-4 border-l-4 border-r-4 sm:border-t-8 sm:border-l-8 sm:border-r-8 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
-    //     priority
-    //   />
-    // },
+    {
+      id: 2, image: <Image
+        src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1738144268/public/Enterprise/imageTwo_zrreek.png"}
+        alt="img"
+        width={2880}
+        height={2048}
+        layout="responsive"
+        objectFit="cover"
+        objectPosition="center"
+        className="object-top bg-top h-[504px] image-clip border-t-4 border-l-4 border-r-4 sm:border-t-8 sm:border-l-8 sm:border-r-8 border-BlueHomz rounded-[12px]" // Add the '.image-clip' class
+        priority
+      />
+    },
     {
       id: 3, image: <Image
         src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1738077824/public/Enterprise/thirdImage_r28fq0.png"}
@@ -129,12 +130,12 @@ const Section = (routeTo, profile) => {
         </div>
       </div>
       <div>
-      <div className="mt-2 w-full">
+      <div className="mt-2 w-full px-4">
         <Slider {...settings}>
           {cards.map((card, index) => (
             <div
               key={index}
-              className="w-full"
+              className="w-full px-4"
             >
               {
                 card.image
