@@ -7,10 +7,10 @@ import ReceiptModal from "../../components/receiptModal";
 import Receipt from "../../components/receipt";
 import { enterpriseMePropertyOwner, ReceiptEnterpriseToOwner, sendMoneyEnterpriseToOwner } from "@/api/enterpriseManagerService";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import addCommasToNumber from "@/utils/addCommasToNumber";
 import Eye from "@/components/icons/Eye";
 import BashedEye from "@/components/icons/BashedEye";
 import ConfirmModal from "../../../components/confirmModal";
+import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 
 const TransferDetails = ({
   illuminateWallet,
@@ -167,7 +167,7 @@ const TransferDetails = ({
       </CustomizedModal>
       <CustomizedModal isOpen={successfulTansferModal}>
         <ReceiptModal
-          body={`You have successfully sent ${addCommasToNumber(
+          body={`You have successfully sent ${addCommasToNumberTwo(
             transfer?.amount
           )} to ${transfer?.recipientName}.`}
           header={"Transaction Complete"}
@@ -191,7 +191,7 @@ const TransferDetails = ({
       <CustomizedModal isOpen={transferToggleModal}>
         <AcAndRejModel
           header={"Confirm Transaction"}
-          body={`You’re sending ${addCommasToNumber(
+          body={`You’re sending ${addCommasToNumberTwo(
             amount
           )} to ${selectedLandlord?.fullName}`}
           button={"Yes, Send"}

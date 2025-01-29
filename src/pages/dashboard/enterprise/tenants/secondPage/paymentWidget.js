@@ -12,7 +12,6 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import Papa from "papaparse";
 import DropDownBlue from "./dropDownBlue";
-import addCommasToNumber from "@/utils/addCommasToNumber";
 import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import useExportEnterpriseSingleTenant from "@/store/enterpriseStore/exportEnterpriseSingleTenant";
@@ -125,10 +124,10 @@ const Widget = ({
     const handleExportToExcel = () => {
         const data = DataTwo.map((item) => ({
             Tenant: tenantData?.data?.fullName,
-            "Rent Amount": addCommasToNumber(item.rent),
+            "Rent Amount": addCommasToNumberTwo(item.rent),
             "Due Date": changeBackendDateFormat(item.dueDate),
             "Payment Status": item.status === "success" ? "Paid" : "Pending",
-            "Amount Paid": addCommasToNumber(item.amountPaid),
+            "Amount Paid": addCommasToNumberTwo(item.amountPaid),
             Description: item.description || "N/A",
             "Rent Duration":
                 item.duration === 1

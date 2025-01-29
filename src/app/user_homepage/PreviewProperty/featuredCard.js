@@ -106,7 +106,7 @@ const FeaturedCard = () => {
                   )}
                   {property?.property?.price && (
                     <p className=" text-BlackHomz text-[11.54px] sm:text-[16px] font-[700] w-fit">
-                      ₦ {Number(property?.property?.price).toLocaleString()}
+                     <span style={{ fontFamily: "Arial", }}>₦</span> {Number(property?.property?.price).toLocaleString()}
                     </p>
                   )}
                   <p className="flex gap-1 items-center sm:text-[14px] text-[10.1px] font-[500] text-BlackHomz  w-fit">

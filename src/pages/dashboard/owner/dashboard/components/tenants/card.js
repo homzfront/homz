@@ -81,7 +81,10 @@ const TenantsCard = () => {
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden md:table-cell">
                   {`${data?.rentInfo?.totalRent
-                      ? addCommasToNumber(data?.rentInfo?.rent)
+                      ? 
+                      <>
+                     <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
+                      </>
                       : "______"
                     }`}
                 </td>

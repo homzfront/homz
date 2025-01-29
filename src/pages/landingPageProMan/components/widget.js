@@ -5,6 +5,7 @@ import PlansYearly from "./plansYearly.js";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe.js";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import PlanPayBiAnnually from "./planPayBiAnnually.js";
 
 const Widget = ({ routeTo }) => {
   const { data, fetchData } = useProfileEnterpriseMe();
@@ -15,14 +16,22 @@ const Widget = ({ routeTo }) => {
 
 
   useEffect(() => {
+    if (!data) return;
     if (data?.interval === "annually") {
-      setActive(2);
+      setActive(3);
+    }
+    else if (data?.interval === "bi-annually") {
+      setActive(2)
+    }
+    else {
+      setActive(1)
     }
   }, [data]);
 
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly routeTo={routeTo} profile={data} /> },
-    { id: 2, name: "Pay Yearly", component: <PlansYearly routeTo={routeTo} profile={data} /> },
+    { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually routeTo={routeTo} profile={data} /> },
+    { id: 3, name: "Pay Yearly", component: <PlansYearly routeTo={routeTo} profile={data} /> },
   ];
 
   const [active, setActive] = useState(pages[0].id);
@@ -47,11 +56,11 @@ const Widget = ({ routeTo }) => {
         theme="dark"
       />
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[280px] cursor-pointer m-auto">
+        <div className="flex flex-wrap sm:flex-nowrap gap-1 sm:gap-3 w-full sm:w-[550px] justify-center cursor-pointer m-auto px-6">
           {pages.map((page) => (
             <div
               key={page.id}
-              className={`${page.name === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
+              className={`mt-2 sm:mt-0 ${page.name === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
                 }`}
               onClick={() => handlePageChange(page.id)}
             >

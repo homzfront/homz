@@ -91,7 +91,7 @@ const RevCard = ({ id }) => {
                 Total Revenue
               </h3>
               <h3 className="text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.totalRevenue)}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(revData?.totalRevenue)}
               </h3>
             </div>
           </div>
@@ -104,7 +104,7 @@ const RevCard = ({ id }) => {
                 Rent Collected
               </h3>
               <h3 className="text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.rentCollected)}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(revData?.rentCollected)}
               </h3>
             </div>
           </div>
@@ -117,7 +117,7 @@ const RevCard = ({ id }) => {
                 Pending Rent
               </h3>
               <h3 className="text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.pendingRent)}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(revData?.pendingRent)}
               </h3>
             </div>
           </div>
@@ -133,7 +133,7 @@ const RevCard = ({ id }) => {
                 {data?.date}
               </span> */}
               <h3 className="text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.rentExpectedNextMonth)}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(revData?.rentExpectedNextMonth)}
               </h3>
             </div>
           </div>

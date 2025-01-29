@@ -142,7 +142,7 @@ const Withdraw = ({
               width={48}
             />
             <h1 className="text-BlackHomz text-center font-[700] text-[20px]">Withdrawal Processing</h1>
-            <p className="text-GrayHomz text-center font-[400] text-[16px]">Your withdrawal of {addCommasToNumber(amount)} will be credited into your account in 24 hours</p>
+            <p className="text-GrayHomz text-center font-[400] text-[16px]">Your withdrawal of <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(amount)} will be credited into your account in 24 hours</p>
             <button
               onClick={() => {
                 setSuccessModal(false)

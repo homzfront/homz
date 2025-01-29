@@ -84,7 +84,7 @@ const Table = ({ tenantData, datas }) => {
                     {changeBackendDateFormat(data?.dueDate)}
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
-                    {addCommasToNumber(data?.totalRent)}
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.totalRent)}
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
                     {data?.propertyType}
