@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useCallback, } from 'react';
+import { useLayoutEffect, useState, useCallback } from 'react';
 import useAuthStore from '@/store/useAuth/authStore';
 import { useRouter, usePathname } from 'next/navigation';
 import keepTwo from '@/utils/keepTwo';
@@ -7,19 +7,19 @@ import useOpenDueDate from '@/store/enterpriseStore/useOpenDueDate';
 const withAuth = (WrappedComponent) => {
     const WithAuthComponent = (props) => {
         const { setTab } = useOpenDueDate();
-        let dueDate = null
+        let dueDate = null;
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             dueDate = params.get('dueDate');
         }
         useLayoutEffect(() => {
             if (dueDate) {
-                setTab("dueDate")
+                setTab("dueDate");
             }
         }, [dueDate]);
 
         const [loading, setLoading] = useState(true);
-        const fetchUserProfile = useAuthStore((state) => state.fetchUserProfile);
+        const { fetchUserProfile } = useAuthStore();
         const user = useAuthStore((state) => state.user);
         const route = useRouter();
         const path = usePathname();
@@ -37,6 +37,11 @@ const withAuth = (WrappedComponent) => {
         useLayoutEffect(() => {
             const checkAuth = async () => {
                 if (loading) return;
+
+                // Introduce a delay if the path is 'dashboard/tenant/dashboard'
+                if (path === '/dashboard/tenant/dashboard') {
+                    await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay
+                }
 
                 const userAccounts = user?.accounts.map((account) => account.name) || [];
 

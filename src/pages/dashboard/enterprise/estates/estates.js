@@ -15,6 +15,7 @@ import ExpiredPlanModal from "../components/expiredPlanModal";
 import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import { isTrialExpired } from "@/utils/compareTrialTime";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const Estate = () => {
   const { tab, setTab } = useTabForAddProperty();
@@ -233,56 +234,48 @@ const Estate = () => {
           </div>
         </div>
       )}
-      {openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate) && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={"Your Trial Has Ended"}
-            body={
-              "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-            }
-            button={"Buy Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
-      {openPurchasePlanTenant && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxTenants && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
-            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
-            button={"Upgrade Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlanTenant(false)}
-          />
-        </div>
-      )}
-      {openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxEstates && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
-            body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add up to 20 properties or more."}
-            button={"Upgrade Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
-      {openPurchasePlan && reachedLimit?.expiredPlan && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <ExpiredPlanModal
-            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
-            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
-            button={"Upgrade Plan"}
-            buttonTwo={"close"}
-            returnHome={goToplan}
-            returnHomeTwo={() => setOpenPurchasePlan(false)}
-          />
-        </div>
-      )}
+      <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
+        <ExpiredPlanModal
+          header={"Your Trial Has Ended"}
+          body={
+            "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
+          }
+          button={"Buy Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlan(false)}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={openPurchasePlanTenant && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxTenants}>
+        <ExpiredPlanModal
+          header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+          body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
+          button={"Upgrade Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlanTenant(false)}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.reachedMaxEstates}>
+        <ExpiredPlanModal
+          header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
+          body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add up to 20 properties or more."}
+          button={"Upgrade Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlan(false)}
+        />
+      </CustomizedModal>
+      <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
+        <ExpiredPlanModal
+          header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+          body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+          button={"Upgrade Plan"}
+          buttonTwo={"close"}
+          returnHome={goToplan}
+          returnHomeTwo={() => setOpenPurchasePlan(false)}
+        />
+      </CustomizedModal>
     </div>
   );
 };

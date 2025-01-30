@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import Widget from "./components/widget";
 
-const Pricing = ({routeTo, profile}) => {
+const Pricing = ({ routeTo, profile }) => {
   return (
     <div className="mt-[120px]  w-full m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className="max-w-[897px] flex flex-col items-center gap-3">
@@ -20,7 +20,7 @@ const Pricing = ({routeTo, profile}) => {
           managers.
         </p>
       </div>
-      <Widget routeTo={routeTo}/>
+      <Widget routeTo={routeTo} />
       <div className="mt-4 max-w-[1160px]">
         <div className="flex flex-col justify-around items-center py-[60px] px-8 bg-[url('/Background_image.png')] text-white rounded-[20px] shadow-2xl bg-cover bg-center bg-black max-w-full sm:w-[670px]  md:w-[786px] lg:w-[824px] xl:w-[1159px] h-[253px]">
           <h1 className="font-[700] text-center text-[20px] md:text-[36px]">
@@ -32,9 +32,9 @@ const Pricing = ({routeTo, profile}) => {
                 Get started
               </button>
             </Link>
-            <Link href={"/contact-page"}>
+            <Link href={"https://cal.com/homzng/"}>
               <button className="w-full sm:w-[116px] h-[48px] text-[16px] hover:bg-white  hover:text-BlueHomz rounded-md font-normal  text-white border bg-transparent px-2 py-1">
-                Contact us
+                Book Demo
               </button>
             </Link>
           </div>

@@ -17,6 +17,8 @@ const Plans = ({ routeTo, profile }) => {
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
 
+  console.log(routeTo)
+
   const pricingPlans = [
     {
       price: '5,500',
@@ -136,8 +138,8 @@ const Plans = ({ routeTo, profile }) => {
       setLoadingCard(planTitle);
       try {
         let response;
-        if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" || profile?.planName === "Enterprise Basic" ||
-          profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+        if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
+          profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
           response = await updateEnterPriseSub({
             planName: planTitle,
             interval
@@ -212,7 +214,7 @@ const Plans = ({ routeTo, profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => { handleSubmit(plan.interval, plan.title) }}
+                  onClick={() => {handleSubmit(plan.interval, plan.title)}}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"

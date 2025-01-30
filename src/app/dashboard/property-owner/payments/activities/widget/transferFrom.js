@@ -83,7 +83,7 @@ const TransferFrom = () => {
                     </div>
                     <div className="flex flex-col">
                       <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
-                        {data?.sender?.fullName} transferred {addCommasToNumber(data?.amount)} to You
+                        {data?.sender?.fullName} transferred <span style={{ fontFamily: "Arial"}}>₦</span>{addCommasToNumber(data?.amount)} to You
                       </p>
                       <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
                         {changeBackendDateFormat(data?.transactionDate)}
@@ -92,7 +92,7 @@ const TransferFrom = () => {
                   </div>
                 </div>
                 <div className="text-[9px] md:text-[14px] font-[400] text-Success w-[20%]">
-                  {addCommasToNumber(data?.amount)}
+                <span style={{ fontFamily: "Arial"}}>₦</span>{addCommasToNumber(data?.amount)}
                 </div>
               </div>
             </div>

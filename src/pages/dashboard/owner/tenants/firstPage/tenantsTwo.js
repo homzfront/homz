@@ -128,7 +128,7 @@ const TenantsTwo = ({ data }) => {
                   {data?.phoneNumber}
                 </div>
                 <div className="text-GrayHomz w-[7%] font-[500] text-[11px] text-start  hidden md:table-cell">
-                  {addCommasToNumber(data?.rentInfo?.rent)}
+                <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
                 </div>
                 <div
                   className={`text-GrayHomz w-[50%] md:w-[13%] font-[500] text-[11px] text-start`}

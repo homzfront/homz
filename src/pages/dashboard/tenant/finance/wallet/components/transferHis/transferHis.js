@@ -96,7 +96,7 @@ const TransferHis = ({ illuminateWallet, data, tenantData }) => {
                     className=" w-2 border-b-[1px] items-center"
                   >
                     <td className="pl-2 md:pl-6 text-GrayHomz4 font-[500] text-[11px]">
-                      {addCommasToNumber(data?.totalRent)}
+                    <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.totalRent)}
                     </td>
                     <td className="text-GrayHomz pl-2 md:pl-4 py-[15px] font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}

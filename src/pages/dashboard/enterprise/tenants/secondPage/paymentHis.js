@@ -30,7 +30,7 @@ const PaymentHis = ({
       border: "border-white",
       type: "Pending Rent",
       money: `${paymentData?.data?.pendingRent === null
-          ? "₦ 0"
+          ? "0"
           : addCommasToNumber(paymentData?.data?.pendingRent)
         }`,
       dueDate: `${paymentData?.data?.pendingRent === null
@@ -54,7 +54,7 @@ const PaymentHis = ({
                 {data?.type}
               </div>
               <div className={`text-[14px] font-[500] ${data?.textColor2}`}>
-                {data?.money}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{data?.money}
               </div>
               <div className="text-[10px] font-[400] text-BlackHomz">
                 {data?.dueDate}{" "}

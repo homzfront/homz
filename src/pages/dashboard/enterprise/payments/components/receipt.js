@@ -78,7 +78,10 @@ const Receipt = ({ closeReceipt, data }) => {
                 Amount
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[50%]">
-                {data ? addCommasToNumber(data.amount) : <Skeleton width={100} />}
+                {data ?
+                  <><span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data.amount)}
+                  </>
+                  : <Skeleton width={100} />}
               </p>
             </div>
             <div className="w-full flex gap-3">

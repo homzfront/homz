@@ -155,7 +155,12 @@ const WalletBalance = ({
             Wallet Balance
           </p>
           {walletBalance ?
-            `${addCommasToNumber(walletBalance)}` : "₦ 0"
+            <><span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(walletBalance)}
+            </>
+             : 
+             <>
+             <span style={{ fontFamily: "Arial", }}>₦</span>0
+             </>
           }
         </div>
       </div>

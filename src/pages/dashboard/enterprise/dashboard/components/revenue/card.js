@@ -8,7 +8,7 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 
 
 const RevCard = ({ revData }) => {
-  
+
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const totalHomes = () => {
@@ -69,7 +69,7 @@ const RevCard = ({ revData }) => {
         </Link>
       </div>
       <div className="flex flex-col md:flex-row gap-4 md:justify-between md:gap-1  px-3 pb-6">
-       <div className="h-[98px]">
+        <div className="h-[98px]">
           <Doughnut data={data} options={options} plugins={[]} />
         </div>
         <div className="grid grid-cols-2 px-2 md:px-0">
@@ -82,7 +82,7 @@ const RevCard = ({ revData }) => {
                 Total Revenue
               </h3>
               <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.totalRevenue)}
+                <span style={{ fontFamily: "Arial" }}>₦</span>{addCommasToNumber(revData?.totalRevenue)}
               </h3>
             </div>
           </div>
@@ -95,7 +95,7 @@ const RevCard = ({ revData }) => {
                 Rent Collected
               </h3>
               <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.rentCollected)}
+                <span style={{ fontFamily: "Arial" }}>₦</span>{addCommasToNumber(revData?.rentCollected)}
               </h3>
             </div>
           </div>
@@ -108,7 +108,7 @@ const RevCard = ({ revData }) => {
                 Pending Rent
               </h3>
               <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.pendingRent)}
+                <span style={{ fontFamily: "Arial" }}>₦</span>{addCommasToNumber(revData?.pendingRent)}
               </h3>
             </div>
           </div>
@@ -124,7 +124,7 @@ const RevCard = ({ revData }) => {
                 {data?.date}
               </span> */}
               <h3 className="text-[11px] md:text-[14px] font-[700] text-BlackHomz">
-                {addCommasToNumber(revData?.rentExpectedNextMonth)}
+                <span style={{ fontFamily: "Arial" }}>₦</span>{addCommasToNumber(revData?.rentExpectedNextMonth)}
               </h3>
             </div>
           </div>

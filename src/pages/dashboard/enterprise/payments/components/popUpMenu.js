@@ -31,7 +31,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Rent Amount
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {addCommasToNumber(data?.totalRent)}
+                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.totalRent)}
                         </p>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ const PopUpMenu = ({ data, setPopUpMenu }) => {
                             Amount Paid
                         </p>
                         <p className='text-GrayHomz font-[400] text-[12px] md:text-[14px] w-[45%]'>
-                            {addCommasToNumber(data?.amountPaid)}
+                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amountPaid)}
                         </p>
                     </div>
                 </div>

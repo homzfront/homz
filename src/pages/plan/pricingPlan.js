@@ -23,6 +23,7 @@ const PricingPlan = () => {
       const storedData = localStorage.getItem('enterData');
       setData(JSON.parse(storedData));
     }
+    fetchData()
   }, []);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const PricingPlan = () => {
   }, [loadProfile, triggerFetch]);
 
   useEffect(() => {
-    if (shouldFetch) {
+    if (shouldFetch || profile) {
       fetchData().then(() => {
         if (profile) {
           router.push('/dashboard/enterprise-property/dashboard');
