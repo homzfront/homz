@@ -14,9 +14,14 @@ import BusinessAlert from "../icons/businessAlert";
 import Down from "../icons/Down";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import EnterpriseDoc from "../icons/enterpriseDoc";
+import EnterpriseBag from "../icons/enterpriseBag";
+import ArrowUpII from "../icons/arrowUpII";
 
 const Header = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [active, setActive] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
@@ -32,9 +37,15 @@ const Header = () => {
     setOpenModalForBusi(true);
   };
 
-  const toggleSubMenu = () => {
-    setSubMenuOpen(!subMenuOpen);
+  const [activeItem, setActiveItem] = useState("/enterprise");
+
+  const toggleSubMenu = () => setSubMenuOpen(!subMenuOpen);
+
+  const handleSelect = (path) => {
+    setActiveItem(path);
+    setSubMenuOpen(false);
   };
+
 
   useEffect(() => {
     fetchData();
@@ -201,25 +212,68 @@ const Header = () => {
           >
             Management
           </Link>
-          <div className="relative hover:text-blue-400 flex items-center gap-1">
-            <Link
-              href={"/enterprise"}
+          <div className="relative flex items-center gap-1">
+            <div
               // href={""}
-              className={` ${pathname === "/enterprise" || pathname === "/document-generation" ? "text-BlueHomz" : ""}`}
-              onClick={() => setOpen(false)}
+              className={` `}
+              onClick={() => setOpen(!open)}
             >
-              Enterprise
-            </Link>
-            <div onClick={toggleSubMenu} className={`mt-0.5 cursor-pointer ${subMenuOpen ? "rotate-180" : ""} flex`}>
-              <Down />
+              {
+                pathname === "/document-generation" ? "Document Generation" : pathname === "/enterprise" ?
+                  "Enterprise" : "Enterprise"}
+            </div>
+            <div onClick={toggleSubMenu} className={`mt-0.5 cursor-pointer flex`}>
+              {subMenuOpen ? <ArrowUpII /> : <Down />}
             </div>
             {subMenuOpen &&
-              <Link
-                href={"/document-generation"}
-                className={`absolute w-[160px] px-3 top-5 md:top-7 py-2 flex items-center justify-center rounded-md bg-inputBg text-[12px] md:text-[14px] text-BlackHomz hover:bg-BlueHomz4 hover:text-white `}
+              <div
+                className={`absolute px-3 top-5 md:top-7 py-3 flex  flex-col gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
+    w-[210px]  sm:w-[240px] border z-[99999] bg-white
+                `}
               >
-                Document Generation
-              </Link>
+                <Link
+                  onMouseEnter={() => setActive(true)}
+                  onMouseLeave={() => setActive(false)}
+                  href={"/enterprise"}
+                  className="w-full"
+                >
+                  {active ?
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <EnterpriseBag className='#006AFF' />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
+                        Enterprise
+                      </p>
+                    </div> :
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <EnterpriseBag />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                        Enterprise
+                      </p>
+                    </div>
+                  }
+                </Link>
+                <Link
+                  onMouseEnter={() => setActiveTwo(true)}
+                  onMouseLeave={() => setActiveTwo(false)}
+                  href={"/document-generation"}
+                  className="w-full"
+                >
+                  {activeTwo ?
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <EnterpriseDoc className='#006AFF' />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
+                        Document Generation
+                      </p>
+                    </div> :
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <EnterpriseDoc />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                        Document Generation
+                      </p>
+                    </div>
+                  }
+                </Link>
+              </div>
             }
           </div>
           <Link

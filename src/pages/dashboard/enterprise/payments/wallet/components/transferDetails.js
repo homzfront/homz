@@ -258,7 +258,7 @@ const TransferDetails = ({
               className={`text-[13px] font-[500] ${illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
                 }`}
             >
-              Amount (N)
+              Amount <span style={{ fontFamily: "Arial", }}>(₦)</span>
             </label>
             <input
               type="number"
