@@ -61,7 +61,9 @@ const PrintableTenantsTwo = ({ Data, printableRef }) => {
                   </div>
                   <div className="w-[14%] text-GrayHomz text-[11px] break-words">
                     {data?.rentInfo?.totalRent
-                      ? addCommasToNumber(data?.rentInfo?.totalRent)
+                      ?<>
+                      <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.totalRent)}
+                      </>
                       : "______"}
                   </div>
                   <div className="w-[14%] text-GrayHomz text-[11px]">

@@ -9,7 +9,7 @@ function addCommasToNumber(number) {
       /\B(?=(\d{3})+(?!\d))/g,
       ","
     );
-    return `₦ ${formattedNumber}`;
+    return `${formattedNumber}`;
   }
 }
 

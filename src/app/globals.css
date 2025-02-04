@@ -323,3 +323,6 @@ body::-webkit-scrollbar-thumb {
   color: #fff;
 }
 
+.currency {
+  font-family: "Arial", sans-serif;
+}

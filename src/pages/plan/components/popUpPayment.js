@@ -4,11 +4,11 @@ import PlanCard from '@/components/icons/planCard'
 import SendTwo from '@/components/icons/sendTwo'
 import Warning from '@/components/icons/warning'
 import React from 'react'
-import useOpenPaymentType from '../state/useOpenPaymentType'
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 const PopUpPayment = () => {
     const [openProcess, setOpenProcess] = React.useState(false);
-    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment } = useOpenPaymentType();
     return (
         <div className='w-full sm:w-[450px] rounded-[12px] bg-white p-4'>
             {openProcess ?
@@ -26,6 +26,7 @@ const PopUpPayment = () => {
                                 setOpenProcess(false)
                                 setOpenCardPayment(false)
                                 setIsMonthlyData(null)
+                                setOpenTransferPayment(false)
                                 setIsBiAnnaullyData(null)
                                 setIsAnnaullyData(null)
                             }}
@@ -49,6 +50,7 @@ const PopUpPayment = () => {
                             onClick={() => {
                                 setIsOpenModal(false)
                                 setOpenProcess(false)
+                                setOpenTransferPayment(false)
                                 setOpenCardPayment(false)
                                 setIsMonthlyData(null)
                                 setIsBiAnnaullyData(null)
@@ -92,7 +94,7 @@ const PopUpPayment = () => {
                                     </p>
                                 </div>
                             </div>
-                            <div className='cursor-pointer' onClick={() => setOpenProcess(true)}>
+                            <div className='cursor-pointer' onClick={() => setOpenTransferPayment(true)}>
                                 <BlueThickArrow />
                             </div>
                         </div>

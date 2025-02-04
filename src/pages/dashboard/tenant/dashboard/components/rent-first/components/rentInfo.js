@@ -106,7 +106,7 @@ const RentInfo = ({data}) => {
               <div className="h-[68px] px-2 py-3 w-[140px] bg-lightblue rounded-lg flex justify-between flex-col">
                 <p className="text-[11px] font-[400] text-white mb-2">Amount</p>
                 <p className={`text-[11px] font-[500] text-white`}>
-                  {addCommasToNumber(data?.rentInfo?.totalRent)}
+                <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.totalRent)}
                 </p>
               </div>
               <div className="h-[68px] px-2 py-3 w-[134px] bg-lightblue rounded-lg flex justify-between flex-col">
@@ -154,7 +154,7 @@ const RentInfo = ({data}) => {
                 <div className="bg-BlueHomz4 rounded-[8px] px-2 py-1">
                   <p className="text-[8px] font-[400] text-BlueHomz2">Amount</p>
                   <p className={`text-[9px] font-[500] text-white`}>
-                    {addCommasToNumber(data?.rentInfo?.totalRent)}
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.totalRent)}
                   </p>
                 </div>
               </div>

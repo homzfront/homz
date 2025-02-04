@@ -235,18 +235,19 @@ const Tenants = ({ id }) => {
                 </div>
               </div>
               <div className="hidden w-[475px] md:flex gap-2 items-center">
-                <Image
-                  src={
-                    "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-                  }
-                  alt=""
-                  height={16}
-                  width={16}
-                />
                 <Link
                   href={"/dashboard/enterprise-property/estates"}
-                  className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
+                  className="text-[14px] font-[400] text-GrayHomz2 md:flex gap-2"
                 >
+                  <Image
+                    src={
+                      "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                    }
+                    alt=""
+                    height={16}
+                    width={16}
+                    className="w-4"
+                  />
                   Go Back
                 </Link>
                 <Link

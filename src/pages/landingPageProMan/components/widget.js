@@ -6,7 +6,7 @@ import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterprise
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import PlanPayBiAnnually from "./planPayBiAnnually.js";
-import useOpenPaymentType from "../state/useOpenPaymentType.js";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 import PopUpPayment from "./popUpPayment.js";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
@@ -24,14 +24,15 @@ const Widget = ({ routeTo }) => {
     if (data?.interval === "annually") {
       setActive(3);
     }
-    else if (data?.interval === "bi-annually") {
+    else if (data?.interval === "biannually") {
       setActive(2)
     }
     else {
       setActive(1)
+
     }
   }, [data]);
-
+  
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly routeTo={routeTo} profile={data} /> },
     { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually routeTo={routeTo} profile={data} /> },
@@ -47,7 +48,7 @@ const Widget = ({ routeTo }) => {
   return (
     <div className="w-full max-w-[1440px]">
       <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
-        <PopUpPayment />
+        <PopUpPayment profile={data} />
       </CustomizedModal>
       <ToastContainer
         position="top-center"
@@ -63,11 +64,11 @@ const Widget = ({ routeTo }) => {
         theme="dark"
       />
       <div className="w-auto h-auto py-4">
-        <div className="flex flex-wrap mt-1 gap-1 sm:gap-2 justify-between w-[420px] cursor-pointer m-auto">
+        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[450px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}
-              className={`${page.name === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
+              className={`mt-2 sm:mt-0 ${page.name === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
                 }`}
               onClick={() => handlePageChange(page.id)}
             >

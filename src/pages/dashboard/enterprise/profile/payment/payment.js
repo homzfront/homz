@@ -174,7 +174,7 @@ const Payment = ({ data: userProfile }) => {
         </CustomizedModal>
       }
       <p className="font-[700] text-[14px] text-GrayHomz">Enterprise Plan</p>
-      <div className=" flex justify-between h-[69px] items-center rounded-lg bg-inputBg px-4 mt-2">
+      <div className=" flex justify-between py-2 sm:py-0 sm:h-[69px] items-center rounded-lg bg-inputBg px-4 mt-2">
         <div>
           <p className="font-[400] text-[13px] md:text-[16px] text-BlackHomz">
             You’re currently on the {userProfile?.planName === "" ? "free trial" : userProfile?.planName} plan
@@ -183,7 +183,7 @@ const Payment = ({ data: userProfile }) => {
             {userProfile?.interval === "annually" ? "[Yearly subscription]" : "[Monthly subscription]"} |  [{calculateSubDate(userProfile?.next_payment_date)}]
           </p>
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-col sm:flex-row gap-2 items-center">
           <Link
             href={"/plans"}
             className="font-[500] text-[12px] md:text-[14px] text-white w-[150px] md:w-[135px] h-[37px] flex justify-center items-center rounded-md bg-BlueHomz border"

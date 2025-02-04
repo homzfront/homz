@@ -53,8 +53,8 @@ const Widget = ({ data }) => {
         );
 
         if (success) {
-          const data = upDateddata?.data?.token;
-          localStorage.setItem('jwt', data)
+          // const data = upDateddata?.data?.token;
+          // localStorage.setItem('jwt', data)
           setLoading(false);
           setDashboard(true);
           // toast.success(upDateddata?.message);
@@ -89,10 +89,10 @@ const Widget = ({ data }) => {
               Your account has successfully been created.
             </p>
             <Link
-              href={"/dashboard/property-owner/dashboard"}
+              href={"/login"}
               className="h-[48px] rounded-md w-full bg-BlueHomz flex justify-center items-center text-white text-[16px] font-[700]"
             >
-              Go to dashboard
+              Login
             </Link>
           </div>
         </div>
@@ -143,7 +143,7 @@ const Widget = ({ data }) => {
               phonenumber={phonenumber}
               setPhoneNumber={setPhoneNumber}
               handlePageChangeTwo={handlePageChangeTwo}
-      
+
 
             />
           </div>

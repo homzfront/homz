@@ -3,8 +3,8 @@ import Input from "../../../components/input";
 import { getSpecificTenantRentInfoOwner } from "@/api/tenantSevice";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
-import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 
 const RentInformation = ({ profile }) => {
 
@@ -74,7 +74,7 @@ const RentInformation = ({ profile }) => {
         label={"Total Rent"}
          type={"type"} 
         placeholder={"N750,000"} 
-        value={addCommasToNumber(data?.upDateddata?.totalRent)}
+        value={addCommasToNumberTwo(data?.upDateddata?.totalRent)}
         />
         <div className="">
         <Input 

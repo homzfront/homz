@@ -1,6 +1,4 @@
-import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
-import Loading from "@/components/mainmenu/loading";
-import api from "@/utils/api";
+import { planEnterPriseSub } from "@/api/planEnterprise";
 import useBodyScroll from "@/utils/useBodyScroll";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,15 +10,17 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
-import useOpenPaymentType from "../state/useOpenPaymentType";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const Plans = ({ data, setLoadProfile }) => {
   const [loading, setLoading] = useState(false);
-  const [formError, setFormError] = useState();
+  const [formError, setFormError] = useState("");
+  const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
   useBodyScroll([loading])
   const isAt1295px = useIsUserAt1295px();
-  const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+  const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
 
 
   const pricingPlans = [
@@ -139,6 +139,7 @@ const Plans = ({ data, setLoadProfile }) => {
 
   async function handleSubmit(interval, plans) {
     setLoading(true);
+    setLoadingCard(plans);
     setIsOpenModal(false);
     if (!interval || !plans) {
       setFormError('Please select an interval and plan.');
@@ -152,6 +153,7 @@ const Plans = ({ data, setLoadProfile }) => {
       phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
       planName: plans,
       interval,
+      subscriptionType: openTransferPayment ? "one-time" : "recurring"
     };
 
     try {
@@ -191,7 +193,9 @@ const Plans = ({ data, setLoadProfile }) => {
       setLoading(false);
       setIsMonthlyData(null)
       setOpenCardPayment(false)
+      setLoadingCard(null);
       setIsBiAnnaullyData(null)
+      setOpenTransferPayment(false);
       setIsAnnaullyData(null)
     }
   }
@@ -201,12 +205,11 @@ const Plans = ({ data, setLoadProfile }) => {
     if (isMonthlyData) {
       handleSubmit(isMonthlyData.planInterval, isMonthlyData.planName)
     }
-  }, [openCardPayment])
+  }, [openCardPayment, openTransferPayment])
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
-      {
-        loading && <Loading />}
+      
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
@@ -245,7 +248,7 @@ const Plans = ({ data, setLoadProfile }) => {
                   Contact Sales
                 </Link>
                 <button
-                   onClick={() => {
+                  onClick={() => {
                     setIsMonthlyData({
                       planName: plan.title,
                       planInterval: plan.interval
@@ -253,12 +256,15 @@ const Plans = ({ data, setLoadProfile }) => {
                     setIsOpenModal(true)
                   }}
                   disabled={loading}
-                  className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
-                    ? " hidden"
-                    : "bg-BlueHomz hover:bg-blue-400 text-white "
+                  className={`h-[48px] rounded-lg text-[16px] w-full
+                    ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+           ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
+               ${plan.status === true
+                      ? " hidden"
+                      : "bg-BlueHomz hover:bg-blue-400 text-white "
                     }`}
                 >
-                  Get Started
+                  {loadingCard === plan.title ? <LoadingFormII /> : "Get Started"}
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
@@ -320,20 +326,23 @@ const Plans = ({ data, setLoadProfile }) => {
                   Contact Sales
                 </Link>
                 <button
-                     onClick={() => {
-                      setIsMonthlyData({
-                        planName: plan.title,
-                        planInterval: plan.interval
-                      })
-                      setIsOpenModal(true)
-                    }}
-                    disabled={loading}
-                  className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
-                    ? " hidden"
-                    : "bg-BlueHomz hover:bg-blue-400 text-white "
+                  onClick={() => {
+                    setIsMonthlyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
+                  disabled={loading}
+                  className={`h-[48px] rounded-lg text-[16px] w-full
+                    ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+           ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
+               ${plan.status === true
+                      ? " hidden"
+                      : "bg-BlueHomz hover:bg-blue-400 text-white "
                     }`}
                 >
-                  Get Started
+                  {loadingCard === plan.title ? <LoadingFormII /> : "Get Started"}
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex text-[14px] flex-row items-center gap-2">

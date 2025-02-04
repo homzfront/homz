@@ -19,7 +19,7 @@ const withAuth = (WrappedComponent) => {
         }, [dueDate]);
 
         const [loading, setLoading] = useState(true);
-        const fetchUserProfile = useAuthStore((state) => state.fetchUserProfile);
+        const { fetchUserProfile } = useAuthStore();
         const user = useAuthStore((state) => state.user);
         const route = useRouter();
         const path = usePathname();

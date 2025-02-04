@@ -38,11 +38,11 @@ const TenantsCard = ({ data }) => {
         <table border="1" className="w-full ">
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
-            <th className="text-left pl-6">Tenant</th>
-            <th className="text-left hidden md:table-cell">Property</th>
-            <th className="text-left hidden md:table-cell">Rent</th>
-            <th className="text-left ">Status</th>
-            <th className="text-left pr-6 hidden md:table-cell">Due Date</th>
+              <th className="text-left pl-6">Tenant</th>
+              <th className="text-left hidden md:table-cell">Property</th>
+              <th className="text-left hidden md:table-cell">Rent</th>
+              <th className="text-left ">Status</th>
+              <th className="text-left pr-6 hidden md:table-cell">Due Date</th>
             </tr>
           </thead>
           <tbody className="">
@@ -73,7 +73,9 @@ const TenantsCard = ({ data }) => {
                 </td>
                 <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                   {`${data?.rentInfo?.totalRent
-                    ? addCommasToNumber(data?.rentInfo?.rent)
+                    ? <>
+                      <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
+                    </>
                     : "______"
                     }`}
                 </td>

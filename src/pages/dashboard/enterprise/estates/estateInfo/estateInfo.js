@@ -73,17 +73,19 @@ const EstateInfo = ({ id }) => {
           </div>
           <div className="w-[575px] hidden md:flex gap-2 items-center">
             <Image
+              onClick={goBackTwo}
               src={
                 "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
               }
               alt=""
               height={16}
               width={16}
+              className="w-4"
             />
             <div
               onClick={goBackTwo}
               href={""}
-              className="text-[14px] w-[90px] font-[400] text-GrayHomz2 cursor-pointer"
+              className="text-[14px] font-[400] text-GrayHomz2 cursor-pointer"
             >
               Go Back
             </div>

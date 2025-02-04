@@ -10,15 +10,14 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
-import useOpenPaymentType from "../state/useOpenPaymentType";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 const Plans = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
-  const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
-
+  const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
 
   const pricingPlans = [
     {
@@ -140,11 +139,12 @@ const Plans = ({ routeTo, profile }) => {
       setIsOpenModal(false);
       try {
         let response;
-        if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" || profile?.planName === "Enterprise Basic" ||
-          profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+        if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
+          profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
           response = await updateEnterPriseSub({
             planName: planTitle,
-            interval
+            interval,
+            subscriptionType: openTransferPayment ? "one-time" : "recurring"
           })
         }
         if (response.success) {
@@ -170,6 +170,7 @@ const Plans = ({ routeTo, profile }) => {
         setLoadingCard(null);
         setIsMonthlyData(null)
         setOpenCardPayment(false)
+        setOpenTransferPayment (false);
         setIsBiAnnaullyData(null)
         setIsAnnaullyData(null)
       }
@@ -182,7 +183,7 @@ const Plans = ({ routeTo, profile }) => {
     if (isMonthlyData) {
       handleSubmit(isMonthlyData.planInterval, isMonthlyData.planName)
     }
-  }, [openCardPayment])
+  }, [openCardPayment, openTransferPayment])
 
   return (
     <div className="mt-[60px] h-[800px] w-full m-auto px-6 flex flex-col items-center gap-[60px]">
@@ -240,10 +241,10 @@ const Plans = ({ routeTo, profile }) => {
                     } 
                 ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
                 ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                ${profile?.planName === plan.title && profile?.interval === "monthly"  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" 
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -324,10 +325,10 @@ const Plans = ({ routeTo, profile }) => {
                     } 
                 ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
                 ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                ${profile?.planName === plan.title && profile?.interval === "monthly"  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" 
                     ? "Active"
                     : "Get Started"}
                 </button>

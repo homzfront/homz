@@ -4,11 +4,22 @@ import PlanCard from '@/components/icons/planCard'
 import SendTwo from '@/components/icons/sendTwo'
 import Warning from '@/components/icons/warning'
 import React from 'react'
-import useOpenPaymentType from '../state/useOpenPaymentType'
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
+import CloseSmall from '@/components/icons/closeSmall'
+import GreenActive from '@/components/icons/greenActive'
 
-const PopUpPayment = () => {
+const PopUpPayment = ({ profile }) => {
     const [openProcess, setOpenProcess] = React.useState(false);
-    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+    const [isOpen, setIsOpen] = React.useState(true);
+    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment } = useOpenPaymentType();
+    const active = (
+        <div className='ml-2 h-[28px] w-[72px] bg-[#ABDDC6] flex justify-center items-center font-medium text-[13px] text-[#039855] gap-0.5 rounded-[4px]'>
+            <p>Active</p>
+            <div className=''>
+                <GreenActive />
+            </div>
+        </div>
+    )
     return (
         <div className='w-full sm:w-[450px] rounded-[12px] bg-white p-4'>
             {openProcess ?
@@ -26,6 +37,7 @@ const PopUpPayment = () => {
                                 setOpenProcess(false)
                                 setOpenCardPayment(false)
                                 setIsMonthlyData(null)
+                                setOpenTransferPayment(false)
                                 setIsBiAnnaullyData(null)
                                 setIsAnnaullyData(null)
                             }}
@@ -49,6 +61,7 @@ const PopUpPayment = () => {
                             onClick={() => {
                                 setIsOpenModal(false)
                                 setOpenProcess(false)
+                                setOpenTransferPayment(false)
                                 setOpenCardPayment(false)
                                 setIsMonthlyData(null)
                                 setIsBiAnnaullyData(null)
@@ -66,8 +79,8 @@ const PopUpPayment = () => {
                                     <PlanCard />
                                 </div>
                                 <div>
-                                    <p className='text-BlueHomz text-[14px] sm:text-[16px] font-[500]'>
-                                        Pay with Card
+                                    <p className='text-BlueHomz text-[14px] sm:text-[16px] font-[500] flex items-centers'>
+                                        Pay with Card {profile?.subscriptionType === "recurring" && active}
                                     </p>
                                     <p className='text-GrayHomz text-[12px] sm:text-[14px] font-normal'>
                                         Pay via your debit/credit card
@@ -78,21 +91,30 @@ const PopUpPayment = () => {
                                 <BlueThickArrow />
                             </div>
                         </div>
+                        {
+                            isOpen && profile?.subscriptionType && profile?.subscriptionType !== "free_trial" &&
+                            <div className='p-2 rounded-[4px] bg-[#F6F6F6] text-GrayHomz font-normal text-[13px] flex w-full justify-between items-center'>
+                                Your subscription is running with {profile.subscriptionType === "recurring" ? "card payment" : "transfer payment"}
+                                <span className='cursor-pointer' onClick={() => setIsOpen(false)}>
+                                    <CloseSmall />
+                                </span>
+                            </div>
+                        }
                         <div className='bg-whiteblue p-2 rounded-[4px] flex justify-between items-start'>
                             <div className='flex items-center gap-2'>
                                 <div className='bg-BlueHomz rounded-md w-[49.5px] h-[49.5px] flex justify-center items-center min-w-[49.5px] min-h-[49.5px]'>
                                     <SendTwo />
                                 </div>
                                 <div>
-                                    <p className='text-BlueHomz text-[14px] sm:text-[16px] font-[500]'>
-                                        Pay with Bank Transfer
+                                    <p className='text-BlueHomz text-[14px] sm:text-[16px] font-[500] flex items-centers'>
+                                        Pay with Bank Transfer {profile?.subscriptionType === "one-time" && active}
                                     </p>
                                     <p className='text-GrayHomz text-[12px] sm:text-[14px] font-normal'>
                                         Transfer from your local bank account
                                     </p>
                                 </div>
                             </div>
-                            <div className='cursor-pointer' onClick={() => setOpenProcess(true)}>
+                            <div className='cursor-pointer' onClick={() => setOpenTransferPayment(true)}>
                                 <BlueThickArrow />
                             </div>
                         </div>

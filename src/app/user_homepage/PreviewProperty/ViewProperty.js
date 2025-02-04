@@ -344,7 +344,7 @@ const ViewProperty = ({ PropertyID }) => {
                       </span>
                       <span className="sm:pl-1  leading-[20.16px] flex gap-[24px] sm:justify-between items-center">
                         <span className="font-[700]">
-                          ₦ {Number(propertyData?.price).toLocaleString()}{" "}
+                        <span style={{ fontFamily: "Arial", }}>₦</span> {Number(propertyData?.price).toLocaleString()}{" "}
                           <span className="font-[400]  sm:hidden text-[#4E4E4E]">
                             per year
                           </span>

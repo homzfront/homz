@@ -11,16 +11,17 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
-import useOpenPaymentType from "../state/useOpenPaymentType";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
 const PlansYearly = ({ data, setLoadProfile }) => {
-
+  const [loadingCard, setLoadingCard] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [formError, setFormError] = useState();
+  const [formError, setFormError] = useState("");
   const router = useRouter()
   useBodyScroll([loading])
   const isAt1295px = useIsUserAt1295px();
-  const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData } = useOpenPaymentType();
+  const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
 
 
   const pricingPlans = [
@@ -138,7 +139,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
   }
 
   async function handleSubmit(interval, plans) {
-
+    setLoadingCard(plans);
     setLoading(true);
     setIsOpenModal(false);
     if (!interval || !plans) {
@@ -153,6 +154,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
       phoneNumber: String(data?.phoneNumber), // Ensure phone number is a string
       planName: plans,
       interval,
+      subscriptionType: openTransferPayment ? "one-time" : "recurring"
     };
 
     try {
@@ -190,7 +192,9 @@ const PlansYearly = ({ data, setLoadProfile }) => {
     finally {
       setLoading(false);
       setIsMonthlyData(null)
+      setLoadingCard(null);
       setOpenCardPayment(false)
+      setOpenTransferPayment(false);
       setIsBiAnnaullyData(null)
       setIsAnnaullyData(null)
     }
@@ -201,13 +205,12 @@ const PlansYearly = ({ data, setLoadProfile }) => {
     if (isAnnaullyData) {
       handleSubmit(isAnnaullyData.planInterval, isAnnaullyData.planName)
     }
-  }, [openCardPayment])
+  }, [openCardPayment, openTransferPayment])
 
 
   return (
     <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
-      {
-        loading && <Loading />}
+    
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
@@ -254,13 +257,16 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                     setIsOpenModal(true)
                   }}
                   disabled={loading}
-                  className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
-                    ? " hidden"
-                    : "bg-BlueHomz hover:bg-blue-400 text-white "
-                    }`}
-                >
-                  Get Started
-                </button>
+                  className={`h-[48px] rounded-lg text-[16px] w-full
+                    ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+           ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
+               ${plan.status === true
+                 ? " hidden"
+                 : "bg-BlueHomz hover:bg-blue-400 text-white "
+               }`}
+           >
+             {loadingCard === plan.title ? <LoadingFormII /> : "Get Started"}
+           </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
@@ -330,13 +336,16 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                     setIsOpenModal(true)
                   }}
                   disabled={loading}
-                  className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
-                    ? " hidden"
-                    : "bg-BlueHomz hover:bg-blue-400 text-white "
-                    }`}
-                >
-                  Get Started
-                </button>
+                  className={`h-[48px] rounded-lg text-[16px] w-full
+                    ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+           ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
+               ${plan.status === true
+                 ? " hidden"
+                 : "bg-BlueHomz hover:bg-blue-400 text-white "
+               }`}
+           >
+             {loadingCard === plan.title ? <LoadingFormII /> : "Get Started"}
+           </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2 text-[14px]">
                     <div

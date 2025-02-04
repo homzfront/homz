@@ -4,8 +4,8 @@ import PlansMonthly from "./components/plansMonthly.js";
 import PlansYearly from "./components/plansYearly.js";
 import PlanPayBiAnnually from "./components/planPayBiAnnually.js";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import useOpenPaymentType from "./state/useOpenPaymentType.js";
 import PopUpPayment from "./components/popUpPayment.js";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 
 const Widget = ({ data, profile }) => {
@@ -22,7 +22,7 @@ const Widget = ({ data, profile }) => {
     if (profile?.interval === "annually") {
       setActive(3);
     }
-    else if (profile?.interval === "bi-annually") {
+    else if (profile?.interval === "biannually") {
       setActive(2)
     }
     else {
@@ -39,10 +39,10 @@ const Widget = ({ data, profile }) => {
   return (
     <div>
       <div className="w-auto h-auto py-4">
-      <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
-        <PopUpPayment />
-      </CustomizedModal>
-        <div className="flex mt-1 gap-1 sm:gap-2 justify-between w-[450px] cursor-pointer m-auto">
+        <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
+          <PopUpPayment profile={profile} />
+        </CustomizedModal>
+        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[450px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}

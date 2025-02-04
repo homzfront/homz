@@ -81,7 +81,7 @@ const TransferTo = () => {
                     </div>
                     <div className="flex flex-col">
                       <p className="text-[11px] md:text-[14px] font-[500] text-GrayHomz break-words">
-                        You transferred {addCommasToNumber(data?.amount)} to {data?.receiver?.fullName}
+                        You transferred <span style={{ fontFamily: "Arial"}}>₦</span>{addCommasToNumber(data?.amount)} to {data?.receiver?.fullName}
                       </p>
                       <span className="text-[10px] md:text-[13px] font-[400] text-GrayHomz2">
                         {changeBackendDateFormat(data?.transactionDate)}
@@ -90,7 +90,7 @@ const TransferTo = () => {
                   </div>
                 </div>
                 <div className="text-[9px] md:text-[14px] font-[400] text-[#d92d20] w-[20%]">
-                  {addCommasToNumber(data?.amount)}
+                <span style={{ fontFamily: "Arial"}}>₦</span>{addCommasToNumber(data?.amount)}
                 </div>
               </div>
             </div>

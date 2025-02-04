@@ -61,7 +61,7 @@ const RentSecond = () => {
             alt=""
           />
         </Link >
-        <p className="text-[16px] font-[500] text-BlackHomz">{addCommasToNumber(walletBalance?.data?.balance?.availableBalance)}</p>
+        <p className="text-[16px] font-[500] text-BlackHomz"><span style={{ fontFamily: "Arial"}}>₦</span>{addCommasToNumber(walletBalance?.data?.balance?.availableBalance)}</p>
       </div>
     </div>
   );

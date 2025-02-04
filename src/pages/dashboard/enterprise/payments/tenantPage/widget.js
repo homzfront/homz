@@ -7,7 +7,6 @@ import Send from "@/components/icons/send";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import addCommasToNumber from "@/utils/addCommasToNumber";
 import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import DropDownBlue from "../components/dropDownBlue";
@@ -71,10 +70,10 @@ const Widget = () => {
     const handleExportToExcel = () => {
         const data = DataTwo.map((item) => ({
             "Tenant": item.tenantId?.fullName,
-            "Rent Amount": addCommasToNumber(item.rent),
+            "Rent Amount": addCommasToNumberTwo(item.rent),
             "Due Date": changeBackendDateFormat(item.dueDate),
             "Payment Status": item.status === "success" ? "Paid" : "Pending",
-            "Amount Paid": addCommasToNumber(item.amountPaid),
+            "Amount Paid": addCommasToNumberTwo(item.amountPaid),
             "Description": item.description || "N/A",
             "Rent Duration": item.duration === 1 ? `${item.duration} year` : `${item.duration} years`,
             "Payment Method": item?.paymentMethod || "N/A",

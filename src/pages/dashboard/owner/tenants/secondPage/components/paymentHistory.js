@@ -50,7 +50,7 @@ const PaymentHistory = (data) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "N 0" : addCommasToNumber(successTotalRent) }`,
+      money: `${paymentData?.data?.[0]?.status === "SUCCESS" ? "0" : addCommasToNumber(successTotalRent)}`,
       dueDate: `${changeBackendDateFormat(paymentData?.data?.[0]?.dueDate)}`
     },
     {
@@ -71,7 +71,7 @@ const PaymentHistory = (data) => {
           <div key={data.id} className="w-full">
             <div className={`${data?.type === "Maintenance" ? "hidden md:block" : ""} h-[80px] min-w-[180px] max-w-[220px] py-2 flex flex-col justify-around border ${data?.border}  rounded-md px-[12px] bg-${data?.bgColor}`}>
               <div className={`${data?.textColor} text-[13px] font-[600] `}>{data?.type}</div>
-              <div className={`text-[14px] font-[500] ${data?.textColor2}`}>{data?.money}</div>
+              <div className={`text-[14px] font-[500] ${data?.textColor2}`}><span className={`${data.type === " Maintenance" && "hidden"}`} style={{ fontFamily: "Arial", }}>₦</span>{data?.money}</div>
               <div className="text-[10px] font-[400] text-BlackHomz">{data?.dueDate} </div>
             </div>
           </div>
@@ -79,7 +79,7 @@ const PaymentHistory = (data) => {
       }
       </div>
       <div>
-        <Table tenantData={data} datas={paymentData}/>
+        <Table tenantData={data} datas={paymentData} />
       </div>
     </div>
   );

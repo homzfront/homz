@@ -12,6 +12,7 @@ import FailedModal from "../../components/failedModal";
 import Eye from "@/components/icons/Eye";
 import BashedEye from "@/components/icons/BashedEye";
 import ConfirmModal from "../../components/confirmModal";
+import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 
 const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
   const [proceed, setProceed] = useState(false);
@@ -197,7 +198,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
                   returnHomeTwo={closeProceeding}
                   returnHome={openConfirm}
                   header={"Proceed To Pay Rent?"}
-                  body={`${addCommasToNumber(RentValue)} will be deducted from your wallet balance`}
+                  body={`${addCommasToNumberTwo(RentValue)} will be deducted from your wallet balance`}
                   button={"Yes"}
                   buttonTwo={"Cancel"}
                   loading={loading}
@@ -267,7 +268,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
                         Rent
                       </p>
                       <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                        {addCommasToNumber(rentData?.data?.rent)}
+                      <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(rentData?.data?.rent)}
                       </p>
                     </div>
                   </div>
@@ -295,7 +296,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
                       Total Rent
                     </p>
                     <p className="text-GrayHomz text-[14px] font-[500] w-[60%]">
-                      {addCommasToNumber(RentValue)}
+                    <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(RentValue)}
                     </p>
                   </div>
                   <div className="w-full flex gap-4">
@@ -338,7 +339,7 @@ const RentInformation = ({ closeRentPay, rentData, fetchDataAgain }) => {
                   onClick={proceeding}
                   className="w-full h-[48px] bg-BlueHomz rounded-md text-white text-[16px] font-[700]"
                 >
-                  {addCommasToNumber(RentValue)}
+                 <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(RentValue)}
                 </button> : <button
                   className="pointer-events-none w-full h-[48px] bg-GrayHomz5 rounded-md text-GrayHomz6 text-[16px] font-[700]"
                 >

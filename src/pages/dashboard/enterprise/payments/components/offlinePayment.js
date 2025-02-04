@@ -164,7 +164,7 @@ const OfflinePayment = () => {
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.estateId?.name}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {addCommasToNumber(data?.rent)}
+                                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rent)}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {changeBackendDateFormat(data?.dueDate)}
@@ -181,7 +181,7 @@ const OfflinePayment = () => {
                                             )}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                            {addCommasToNumber(data?.amountPaid)}
+                                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amountPaid)}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.description || "N/A"}
