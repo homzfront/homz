@@ -13,6 +13,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 
 const Plans = ({ profile }) => {
@@ -20,6 +21,9 @@ const Plans = ({ profile }) => {
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter();
   const isAt1295px = useIsUserAt1295px();
+  const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
+
+
 
   const pricingPlans = [
     {
@@ -137,13 +141,15 @@ const Plans = ({ profile }) => {
   const handleSubmit = async (interval, planTitle) => {
     setLoading(true);
     setLoadingCard(planTitle);
+    setIsOpenModal(false);
     try {
       let response;
       if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
         profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
         response = await updateEnterPriseSub({
           planName: planTitle,
-          interval
+          interval,
+          subscriptionType: openTransferPayment ? "one-time" : "recurring"
         });
       }
       if (response.success) {
@@ -166,8 +172,19 @@ const Plans = ({ profile }) => {
     } finally {
       setLoading(false);
       setLoadingCard(null);
+      setIsMonthlyData(null)
+      setOpenCardPayment(false)
+      setOpenTransferPayment(false);
+      setIsBiAnnaullyData(null)
+      setIsAnnaullyData(null)
     }
   };
+
+  React.useEffect(() => {
+    if (isMonthlyData) {
+      handleSubmit(isMonthlyData.planInterval, isMonthlyData.planName)
+    }
+  }, [openCardPayment, openTransferPayment])
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px] w-full">
@@ -211,7 +228,13 @@ const Plans = ({ profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => handleSubmit(plan.interval, plan.title)}
+                  onClick={() => {
+                    setIsMonthlyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
@@ -219,10 +242,10 @@ const Plans = ({ profile }) => {
                     } 
                 ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
                 ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
-                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                ${profile?.planName === plan.title && profile?.interval === "monthly" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly"
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -289,7 +312,13 @@ const Plans = ({ profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => handleSubmit(plan.interval, plan.title)}
+                  onClick={() => {
+                    setIsMonthlyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"
@@ -297,10 +326,10 @@ const Plans = ({ profile }) => {
                     } 
                 ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
                 ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
-                ${profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                ${profile?.planName === plan.title && profile?.interval === "monthly" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
                 `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "monthly"
                     ? "Active"
                     : "Get Started"}
                 </button>

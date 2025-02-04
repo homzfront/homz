@@ -6,9 +6,13 @@ import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterprise
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import PlanPayBiAnnually from "./planPayBiAnnually.js";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
+import PopUpPayment from "./popUpPayment.js";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 
 const Widget = ({ routeTo }) => {
   const { data, fetchData } = useProfileEnterpriseMe();
+  const { isOpenModal, setIsOpenModal } = useOpenPaymentType();
 
   useEffect(() => {
     fetchData();
@@ -20,14 +24,15 @@ const Widget = ({ routeTo }) => {
     if (data?.interval === "annually") {
       setActive(3);
     }
-    else if (data?.interval === "bi-annually") {
+    else if (data?.interval === "biannually") {
       setActive(2)
     }
     else {
       setActive(1)
+
     }
   }, [data]);
-
+  
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly routeTo={routeTo} profile={data} /> },
     { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually routeTo={routeTo} profile={data} /> },
@@ -42,6 +47,9 @@ const Widget = ({ routeTo }) => {
 
   return (
     <div className="w-full max-w-[1440px]">
+      <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
+        <PopUpPayment profile={data} />
+      </CustomizedModal>
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -56,7 +64,7 @@ const Widget = ({ routeTo }) => {
         theme="dark"
       />
       <div className="w-auto h-auto py-4">
-        <div className="flex flex-wrap sm:flex-nowrap gap-1 sm:gap-3 w-full sm:w-[550px] justify-center cursor-pointer m-auto px-6">
+        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[450px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}

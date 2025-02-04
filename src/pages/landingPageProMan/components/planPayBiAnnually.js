@@ -10,12 +10,15 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 const PlanPayBiAnnually = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
+  const { setIsOpenModal, isBiAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
+
 
   const pricingPlans = [
     {
@@ -134,13 +137,15 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
     if (routeTo === "/dashboard/enterprise-property/dashboard") {
       setLoading(true);
       setLoadingCard(planTitle);
+      setIsOpenModal(false);
       try {
         let response;
         if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
           profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
           response = await updateEnterPriseSub({
             planName: planTitle,
-            interval
+            interval,
+            subscriptionType: openTransferPayment ? "one-time" : "recurring"
           })
         }
         if (response.success) {
@@ -159,18 +164,30 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
           }
         }
       } catch (error) {
+        // console.log(error)
         toast.error(error.response?.data?.message || error.response?.data?.error);
       } finally {
         setLoading(false);
         setLoadingCard(null);
+        setIsMonthlyData(null)
+        setOpenCardPayment(false)
+        setIsBiAnnaullyData(null)
+        setOpenTransferPayment(false);
+        setIsAnnaullyData(null)
       }
     } else {
       router.push(routeTo);
     }
   }
 
+  React.useEffect(() => {
+    if (isBiAnnaullyData) {
+      handleSubmit(isBiAnnaullyData.planInterval, isBiAnnaullyData.planName)
+    }
+  }, [openCardPayment, openTransferPayment])
+
   return (
-    <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
+    <div className="mt-[60px] h-[800px] w-full m-auto px-6 flex flex-col items-center gap-[60px]">
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
         <Swiper
           modules={[Navigation]}
@@ -191,13 +208,13 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
           {pricingPlans.map((plan, index) => (
             <SwiperSlide key={index}>
               <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl hover:border hover:border-BlueHomz hover:bg-whiteblue"
               >
                 <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
                 <h1 className="text-[20px] text-center font-[500]">{plan.title}</h1>
-                <p className="text-[14px] mt-[-10px] text-center font-[500] text-BlueHomz">
+                <p className="text-[14px] mt-[-20px] text-center font-[500] text-BlueHomz">
                   {plan.billing}
                 </p>
                 <Link href={"/contact-page"}
@@ -205,24 +222,30 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
                     ? "bg-BlueHomz hover:bg-blue-400 text-white"
                     : " hidden"
                     }
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                `}
                 >
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => { handleSubmit(plan.interval, plan.title) }}
+                  onClick={() => {
+                    setIsBiAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
                     : ""
                     } 
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
+                ${profile?.planName === plan.title && profile?.interval === "biannually" && profile.paymentStatus === "active" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "biannually" && profile.paymentStatus === "active"
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -247,8 +270,8 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -269,7 +292,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
           {pricingPlans.map((plan, index) => (
             <div key={index}>
               <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[236px] h-[860px] border shadow-lg rounded-2xl"
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[236px] h-[860px] border shadow-lg rounded-2xl hover:border hover:border-BlueHomz hover:bg-whiteblue"
               >
                 <h1 className="text-[20px] text-center font-[700] text-BlackHomz">
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
@@ -283,24 +306,30 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
                     ? "bg-BlueHomz hover:bg-blue-400 text-white"
                     : " hidden"
                     }
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                `}
                 >
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => { handleSubmit(plan.interval, plan.title) }}
+                  onClick={() => {
+                    setIsBiAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"
                     : ""
                     } 
-              ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
-              ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
-              `}
+                ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
+                ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
+                ${profile?.planName === plan.title && profile?.interval === "biannually" && profile.paymentStatus === "active" ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+                `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "biannually" && profile.paymentStatus === "active"
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -325,8 +354,8 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -345,6 +374,5 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
     </div>
   );
 };
-
 
 export default PlanPayBiAnnually;

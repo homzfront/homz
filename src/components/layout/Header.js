@@ -215,8 +215,8 @@ const Header = () => {
           <div className="relative flex items-center gap-1">
             <div
               // href={""}
-              className={` `}
-              onClick={() => setOpen(!open)}
+              className={`${pathname === "/document-generation" || pathname === "/enterprise" ? "text-BlueHomz" : ""} hover:text-blue-400`}
+              onClick={() => setOpen(false)}
             >
               {
                 pathname === "/document-generation" ? "Document Generation" : pathname === "/enterprise" ?
