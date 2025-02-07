@@ -102,7 +102,7 @@ const TenantData = ({ data }) => {
                       {changeBackendDateFormat(data?.dueDate)}
                     </td>
                     <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                      {addCommasToNumber(data?.rent)}
+                    <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rent)}
                     </td>
                     <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                       {addYearsToValues(data?.duration)}  rents

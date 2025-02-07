@@ -106,7 +106,7 @@ const MiniPropertyListings = ({
                  `}
               >
                 <span className="pl-1">
-                  ₦{" "}
+                <span style={{ fontFamily: "Arial", }}>₦</span>
                   {property?.price
                     ? Number(property?.price).toLocaleString()
                     : ""}

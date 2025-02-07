@@ -338,6 +338,7 @@ const PopUpUpdateMenu = ({
 
                     {/* Submit Button */}
                     <button
+                        disabled={isLoadingForm}
                         type="submit"
                         className={`h-[48px] w-full 
                                  ${isValid ? 'bg-BlueHomz' : 'pointer-events-none bg-GrayHomz6'}
@@ -348,6 +349,7 @@ const PopUpUpdateMenu = ({
                 </form>
                 <div className='mt-4 text-[12px] md:text-[14px]'>
                     <button
+                        disabled={isLoadingForm}
                         onClick={() => setUpdateForm(false)}
                         className='h-[48px] w-full hover:rounded-[4px] hover:text-BlueHomz text-GrayHomz hover:border hover:border-BlueHomz'>
                         Close

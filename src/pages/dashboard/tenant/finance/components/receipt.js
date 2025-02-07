@@ -78,7 +78,7 @@ const Receipt = ({ closeReceipt, rentData, receiptData }) => {
                 Amount
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-                {addCommasToNumber(receiptData?.totalRent)}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(receiptData?.totalRent)}
               </p>
             </div>
             <div className="w-full flex gap-4">

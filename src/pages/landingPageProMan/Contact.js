@@ -12,8 +12,8 @@ const Contact = ({ routeTo, profile }) => {
         </p>
       </div>
       <div className="hidden md:flex p-4 gap-4">
-        <Link href={"/contact-page"} className="  w-[109px] h-[48px] text-[16px] hover:w-[146px] flex items-center justify-center hover:h-[54px] rounded-md font-normal  bg-BlueHomz  text-white  px-2 py-1 hover:text-[18px] ">
-          Contact us
+        <Link href={"https://cal.com/homzng/"} className="  w-[109px] h-[48px] text-[16px] hover:w-[146px] flex items-center justify-center hover:h-[54px] rounded-md font-normal  bg-BlueHomz  text-white  px-2 py-1 hover:text-[18px] ">
+        Book Demo
         </Link>
         <Link href={profile ? routeTo : "/register"} className=" w-[109px] h-[48px] text-[16px] hover:w-[146px] flex items-center justify-center hover:h-[54px] rounded-md font-normal  text-GrayHomz border bg-transparent px-2 py-1 hover:text-[18px]">
           Get started

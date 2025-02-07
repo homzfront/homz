@@ -1,3 +1,4 @@
+import addCommasToNumber from "@/utils/addCommasToNumber";
 import React from "react";
 
 const RentInformation = ({ data }) => {
@@ -10,20 +11,6 @@ const RentInformation = ({ data }) => {
     }
   }
 
-  function addCommasToNumber(number) {
-    if (number === "" || number === null || number === undefined) {
-      return "_______"; // Render the actual name if it exists
-    } else {
-      // Convert the number to a string
-      const numberString = number?.toString();
-      // Use regular expression to add commas
-      const formattedNumber = numberString?.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        ","
-      );
-      return `N ${formattedNumber}`;
-    }
-  }
 
   function formatDate(inputDate) {
     if (inputDate === "" || inputDate === null || inputDate === undefined) {
@@ -138,7 +125,7 @@ const RentInformation = ({ data }) => {
             Total Rent
           </p>
           <p className="text-GrayHomz text-[16px] font-[500] w-[60%]">
-         {addCommasToNumber(data?.rentInfo?.totalRent)}
+          <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.totalRent)}
           </p>
         </div>
         <div className="w-full flex gap-4 mt-2">

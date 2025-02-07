@@ -144,9 +144,9 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
                     className="border-b-[1px] items-center flex justify-center w-full gap-2 px-2 h-[60px]"
                   >
                     <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
-                    {loading ? (
-                          <div className=" max-w-[40%] h-[40px] w-[40px] rounded-full bg-gray-200 animate-pulse"></div> // Skeleton loader
-                        ) : !data?.coverPhoto?.url ? (
+                      {loading ? (
+                        <div className=" max-w-[40%] h-[40px] w-[40px] rounded-full bg-gray-200 animate-pulse"></div> // Skeleton loader
+                      ) : !data?.coverPhoto?.url ? (
                         <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                           <EmptyAvatar />
                         </div>
@@ -163,18 +163,18 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
                           priority
                         />
                       )}
-                    <span className="w-[60%] md:w-auto">{loading ? 
-                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.fullName}</span>
-                       </div>
+                      <span className="w-[60%] md:w-auto">{loading ?
+                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.fullName}</span>
+                    </div>
                     <div className=" text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
-                    {loading ? 
-                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.estateId?.name}
+                      {loading ?
+                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.estateId?.name}
                     </div>
                     <div className=" text-GrayHomz w-[6%] font-[500] text-[11px] text-start">
-                      {loading ? 
-                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : `${data?.rentInfo?.apartmentNumber
-                        ? `Apartment ${data?.rentInfo?.apartmentNumber}`
-                        : "______"
+                      {loading ?
+                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : `${data?.rentInfo?.apartmentNumber
+                          ? `Apartment ${data?.rentInfo?.apartmentNumber}`
+                          : "______"
                         }`}
                     </div>
                     <div
@@ -183,61 +183,67 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
                         onMouseEnter={() => handleMouseEnter(data?._id)}
                         onMouseLeave={handleMouseLeave}
                         className="w-full relative">
-                       {loading ? 
+                        {loading ?
                           <div className="w-[70px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : truncateText(data?.estateId?.address, 45)}
                         {hoveredRow === data?._id && (
                           <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
-                           {data?.estateId?.address}
+                            {data?.estateId?.address}
                           </span>
                         )}
                       </div>
                     </div>
                     <div className=" text-GrayHomz w-[15%] font-[500] text-[11px] text-start pl-1 pr-2">
-                      <span className="break-words"> {loading ? 
-                          <div className="w-[70px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : truncateText(data?.user?.email, 45)}</span>
+                      <span className="break-words"> {loading ?
+                        <div className="w-[70px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : truncateText(data?.user?.email, 45)}</span>
                     </div>
                     <div className=" text-GrayHomz w-[5%] font-[500] text-[11px] text-start ">
-                    {loading ? 
-                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.phoneNumber}
+                      {loading ?
+                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.phoneNumber}
                     </div>
-                    <div className=" text-GrayHomz w-[8%] font-[500] text-[11px] text-start ">
-                     {loading ? 
-                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : `${data?.rentInfo?.rent
-                      ? addCommasToNumber(data?.rentInfo?.rent)
-                      : "______"
-                      }`}
-                    </div>
-                    <div
-                      className={`relative text-GrayHomz w-[7%] font-[500] text-[11px] text-start`}
-                    >
-                       {loading ? 
-                          <div className="w-[40px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.rentInfo?.paymentStatus ? (
-                        <StatusDropdown
-                          setSelectedStatus={(status) =>
-                            setSelectedStatus((prev) => ({
-                              ...prev,
-                              [data._id]: status,
-                            }))
-                          }
-                          value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
-                          selectedStatus={selectedStatus[data._id] || null}
-                          handleStatusChange={(status) =>
-                            handleStatusChange(status, data._id, data?.rentInfo?._id, data?.rentInfo?.duration)
-                          }
-                          isOpen={openDropdowns[data?._id] || false}
-                          toggleDropdown={() => toggleDropdown(data?._id)}
-                          loading={loadingRows[data?._id] || false}
-                          dropdownRef={dropdownRefII}
-                        />
+                    <div className="text-GrayHomz w-[8%] font-[500] text-[11px] text-start">
+                      {loading ? (
+                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div>
+                      ) : data?.rentInfo?.rent ? (
+                        <>
+                          <span style={{ fontFamily: "Arial" }}>₦</span>
+                          {addCommasToNumber(data?.rentInfo?.rent)}
+                        </>
                       ) : (
                         "______"
                       )}
                     </div>
+
+                    <div
+                      className={`relative text-GrayHomz w-[7%] font-[500] text-[11px] text-start`}
+                    >
+                      {loading ?
+                        <div className="w-[40px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.rentInfo?.paymentStatus ? (
+                          <StatusDropdown
+                            setSelectedStatus={(status) =>
+                              setSelectedStatus((prev) => ({
+                                ...prev,
+                                [data._id]: status,
+                              }))
+                            }
+                            value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
+                            selectedStatus={selectedStatus[data._id] || null}
+                            handleStatusChange={(status) =>
+                              handleStatusChange(status, data._id, data?.rentInfo?._id, data?.rentInfo?.duration)
+                            }
+                            isOpen={openDropdowns[data?._id] || false}
+                            toggleDropdown={() => toggleDropdown(data?._id)}
+                            loading={loadingRows[data?._id] || false}
+                            dropdownRef={dropdownRefII}
+                          />
+                        ) : (
+                          "______"
+                        )}
+                    </div>
                     <div className=" text-GrayHomz w-[7%] font-[500] text-[11px] text-start">
-                      {loading ? 
-                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : `${data?.rentInfo?.dueDate
-                        ? changeBackendDateFormat(data?.rentInfo?.dueDate)
-                        : "______"
+                      {loading ?
+                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : `${data?.rentInfo?.dueDate
+                          ? changeBackendDateFormat(data?.rentInfo?.dueDate)
+                          : "______"
                         }`}
                     </div>
                     <div className="sticky right-[-24px] md:right-0 bg-white w-[5%] pl-8">
@@ -273,7 +279,7 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
           lastThreePages={lastThreePages}
         />
       )}
-      
+
       <div style={{ display: 'none' }}>
         <PrintableTenantdData
           printableRef={printableRef}

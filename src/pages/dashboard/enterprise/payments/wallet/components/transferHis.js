@@ -107,7 +107,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                     </div>
                   </div>
                   <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                    {addCommasToNumber(data?.amount)}
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)}
                   </div>
                 </div>
               )
@@ -134,7 +134,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                           </div>
                           <div className="flex flex-col">
                             <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                              You withdrew {addCommasToNumber(data?.amount)} to your bank account
+                              You withdrew <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)} to your bank account
                             </p>
                             <span className="text-[10px]  font-[400] text-GrayHomz2">
                               {changeBackendDateFormat(data?.transactionDate)}
@@ -143,7 +143,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                         </div>
                       </div>
                       <div className="text-[9px]  font-[500] md:font-[400] text-[#d92d20] w-[20%]">
-                        {addCommasToNumber(data?.amount)}
+                      <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)}
                       </div>
                     </div>
                   ) :
@@ -170,7 +170,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                             </div>
                             <div className="flex flex-col">
                               <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                You deposited {addCommasToNumber(data?.amount)} into your wallet
+                                You deposited <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)} into your wallet
                               </p>
                               <span className="text-[10px]  font-[400] text-GrayHomz2">
                                 {changeBackendDateFormat(data?.transactionDate)}
@@ -179,7 +179,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                           </div>
                         </div>
                         <div className="text-[9px]  font-[400] text-Success w-[20%]">
-                          {addCommasToNumber(data?.amount)}
+                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)}
                         </div>
                       </div>
                     )
@@ -205,7 +205,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                             </div>
                             <div className="flex flex-col">
                               <p className="text-[11px]  font-[500] text-GrayHomz break-words">
-                                You transferred {addCommasToNumber(data?.amount)} to {data?.receiver?.fullName}
+                                You transferred <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)} to {data?.receiver?.fullName}
                               </p>
                               <span className="text-[10px]  font-[400] text-GrayHomz2">
                                 {changeBackendDateFormat(data?.transactionDate)}
@@ -214,7 +214,7 @@ const TransferHis = ({ illuminateWallet, walletActivities }) => {
                           </div>
                         </div>
                         <div className="text-[9px]  font-[400] text-[#d92d20] w-[20%]">
-                          {addCommasToNumber(data?.amount)}
+                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)}
                         </div>
                       </div>
                     )}

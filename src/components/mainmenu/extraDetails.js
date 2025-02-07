@@ -78,7 +78,10 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
             </span>
             <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               {propertyData?.price
-                ? "₦" + Number(propertyData?.price).toLocaleString()
+                ?
+                <>
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{`${Number(propertyData?.price).toLocaleString()}`}
+                </>
                 : "---"}
             </span>
           </p>
@@ -88,7 +91,10 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
             </span>
             <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               {propertyData?.maintenanceFee
-                ? "₦" + Number(propertyData?.maintenanceFee).toLocaleString()
+                ?
+                <>
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{`${Number(propertyData?.maintenanceFee).toLocaleString()}`}
+                </>
                 : "---"}
             </span>
           </p>
@@ -98,7 +104,9 @@ const ExtraDetails = ({ propertyData, additionalDetails }) => {
             </span>
             <span className="text-[#202020] text-[14px] leading-[21px] font-[400]">
               {propertyData?.agencyFee
-                ? "₦" + Number(propertyData?.agencyFee).toLocaleString()
+                ? <>
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{`${Number(propertyData?.agencyFee).toLocaleString()}`}
+                </>
                 : "---"}
             </span>
           </p>

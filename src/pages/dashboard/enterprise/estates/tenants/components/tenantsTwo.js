@@ -57,12 +57,13 @@ const TenantsTwo = ({ Data, printableRef }) => {
     (_, index) => index + 1
   );
 
-  const handleStatusChange = async (status, dataId, id) => {
+  const handleStatusChange = async (status, dataId, id, duration) => {
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
     try {
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
+        duration
       });
       toast.success("status updated successfully");
       setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
@@ -141,7 +142,11 @@ const TenantsTwo = ({ Data, printableRef }) => {
                     {data?.phoneNumber || "______"}
                   </td>
                   <td className="hidden md:table-cell text-GrayHomz text-[11px] text-left pl-1">
-                    {data?.rentInfo?.totalRent ? addCommasToNumber(data?.rentInfo?.rent) : "______"}
+                    {data?.rentInfo?.totalRent ?
+                      <>
+                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
+                      </>
+                      : "______"}
                   </td>
                   <td className="text-GrayHomz w-[40%] md:w-[15%] text-[11px] text-left pl-1">
                     {data?.rentInfo?.paymentStatus ? (
@@ -155,7 +160,7 @@ const TenantsTwo = ({ Data, printableRef }) => {
                         value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
                         selectedStatus={selectedStatus[data._id] || null}
                         handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id, data?.rentInfo?._id)
+                          handleStatusChange(status, data._id, data?.rentInfo?._id, data?.rentInfo?.duration)
                         }
                         isOpen={openDropdowns[data?._id] || false}
                         toggleDropdown={() => toggleDropdown(data?._id)}

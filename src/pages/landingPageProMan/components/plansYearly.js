@@ -10,12 +10,15 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
+import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 const PlansYearly = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
+  const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
+
 
   const pricingPlans = [
     {
@@ -134,13 +137,15 @@ const PlansYearly = ({ routeTo, profile }) => {
     if (routeTo === "/dashboard/enterprise-property/dashboard") {
       setLoading(true);
       setLoadingCard(planTitle);
+      setIsOpenModal(false);
       try {
         let response;
-        if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" || profile?.planName === "Enterprise Basic" ||
-          profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+        if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
+          profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
           response = await updateEnterPriseSub({
             planName: planTitle,
-            interval
+            interval,
+            subscriptionType: openTransferPayment ? "one-time" : "recurring"
           })
         }
         if (response.success) {
@@ -163,11 +168,22 @@ const PlansYearly = ({ routeTo, profile }) => {
       } finally {
         setLoading(false);
         setLoadingCard(null);
+        setIsMonthlyData(null)
+        setOpenCardPayment(false);
+        setOpenTransferPayment(false);
+        setIsBiAnnaullyData(null)
+        setIsAnnaullyData(null)
       }
     } else {
       router.push(routeTo);
     }
   }
+
+  React.useEffect(() => {
+    if (isAnnaullyData) {
+      handleSubmit(isAnnaullyData.planInterval, isAnnaullyData.planName)
+    }
+  }, [openCardPayment, openTransferPayment])
 
   return (
     <div className="mt-[60px]  m-auto px-6 flex flex-col items-center gap-[60px]">
@@ -191,7 +207,7 @@ const PlansYearly = ({ routeTo, profile }) => {
           {pricingPlans.map((plan, index) => (
             <SwiperSlide key={index}>
               <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl hover:border hover:border-BlueHomz hover:bg-whiteblue"
               >
                 <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
@@ -211,7 +227,13 @@ const PlansYearly = ({ routeTo, profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => { handleSubmit(plan.interval, plan.title) }}
+                  onClick={() => {
+                    setIsAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[16px] w-full ${plan.status === true
                     ? " hidden"
@@ -219,10 +241,10 @@ const PlansYearly = ({ routeTo, profile }) => {
                     } 
               ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
               ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+              ${profile?.planName === plan.title && profile?.interval === "annually"  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
               `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" 
                     ? "Active"
                     : "Get Started"}
                 </button>
@@ -269,7 +291,7 @@ const PlansYearly = ({ routeTo, profile }) => {
           {pricingPlans.map((plan, index) => (
             <div key={index}>
               <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[236px] h-[860px] border shadow-lg rounded-2xl"
+                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[236px] h-[860px] border shadow-lg rounded-2xl hover:border hover:border-BlueHomz hover:bg-whiteblue"
               >
                 <h1 className="text-[20px] text-center font-[700] text-BlackHomz">
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
@@ -289,7 +311,13 @@ const PlansYearly = ({ routeTo, profile }) => {
                   Contact Sales
                 </Link>
                 <button
-                  onClick={() => { handleSubmit(plan.interval, plan.title) }}
+                  onClick={() => {
+                    setIsAnnaullyData({
+                      planName: plan.title,
+                      planInterval: plan.interval
+                    })
+                    setIsOpenModal(true)
+                  }}
                   disabled={loading}
                   className={`h-[48px] rounded-lg text-[14px] w-full ${plan.status === true
                     ? " hidden"
@@ -297,10 +325,10 @@ const PlansYearly = ({ routeTo, profile }) => {
                     } 
               ${loading && loadingCard !== plan.title ? "pointer-events-none" : ""}
               ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""} 
-              ${profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
+              ${profile?.planName === plan.title && profile?.interval === "annually"  ? "bg-walletBg text-BlueHomz4 border border-BlueHomz4 hover:text-white pointer-events-none" : "bg-BlueHomz hover:bg-blue-400 text-white"}
               `}
                 >
-                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" && profile?.IsExpired === false
+                  {loadingCard === plan.title ? <LoadingFormII /> : profile?.planName === plan.title && profile?.interval === "annually" 
                     ? "Active"
                     : "Get Started"}
                 </button>

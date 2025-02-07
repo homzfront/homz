@@ -46,7 +46,7 @@ const PrintableReceipt = React.forwardRef(({ data }, ref) => (
               Amount
             </p>
             <p className="text-GrayHomz text-[14px] font-[400] w-[50%]">
-              {addCommasToNumber(data?.amount)}
+            <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amount)}
             </p>
           </div>
           <div className="w-full flex gap-3">

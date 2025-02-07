@@ -67,13 +67,13 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
     (_, index) => index + 1
   );
 
-  const handleStatusChange = async (status, dataId, id) => {
+  const handleStatusChange = async (status, dataId, id, duration) => {
     setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
-
     try {
       const data = await updatePaymentStatusTenant({
         id,
         status: lowerCaseData(status),
+        duration
       });
       toast.success("status updated successfully");
       // Close the corresponding dropdown
@@ -218,7 +218,7 @@ const TenantsTwo = ({ printableRef, Data, fetchDataAgain, setSelectedRows, selec
                         value={capitalizeFirstLetter(data?.rentInfo?.paymentStatus)}
                         selectedStatus={selectedStatus[data._id] || null}
                         handleStatusChange={(status) =>
-                          handleStatusChange(status, data._id, data?.rentInfo?._id)
+                          handleStatusChange(status, data._id, data?.rentInfo?._id, data?.rentInfo?.duration)
                         }
                         isOpen={openDropdowns[data?._id] || false}
                         toggleDropdown={() => toggleDropdown(data?._id)}
