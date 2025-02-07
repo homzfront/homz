@@ -49,7 +49,6 @@ async function checkCurrentSubscription() {
   }
 }
 async function createSubscription(planName, interval, amount, upgradePlan) {
-  // console.log(upgradePlan)
   try {
     const results = await api.post(
       `/subscribe/listingProperty/${upgradePlan ? "update" : "new"}`,
@@ -57,6 +56,7 @@ async function createSubscription(planName, interval, amount, upgradePlan) {
         planName: planName,
         interval: interval,
         amount: amount,
+        subscriptionType:"recurring"
       }
     );
     // console.log(results?.data?.data);

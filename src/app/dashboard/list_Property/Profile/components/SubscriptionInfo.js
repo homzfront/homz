@@ -1,14 +1,13 @@
-import React, {
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useLayoutEffect } from "react";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import PromotionHooks from "@/utils/promoteProperty";
 // import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 // import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import api from "@/utils/api";
 
+import Link from "next/link";
 
 const SubscriptionInfo = () => {
   const [isLoading, setLoader] = useState(false);
@@ -16,27 +15,22 @@ const SubscriptionInfo = () => {
   const [cancelPlan, setCancelPlan] = useState(false);
   const [planCancelledModal, setPlanCancelledModal] = useState(false);
   const [restartPlanModal, setRestartPlanModal] = useState(true);
-  const [currentPlanData, setCurrentPlanData] = useState();
-  // const [isPending, startTransition] = useTransition();
 
-  // const router = useRouter();
+  const { isPending, refetch, data } = useQuery({
+    queryKey: ["plans"],
+    queryFn: async () => {
+      return await api.get(
+        "/subscribe/listingProperty/current-subscription-Detail"
+      );
+    },
+    placeholderData: keepPreviousData,
+    select: (plans) => {
+      return plans.data.data;
+    },
+    // enabled: enable,
+  });
 
-  const getCurrentSubscriptionPlan = async () => {
-    const response = await PromotionHooks.checkCurrentSubscription();
-    // console.log(response?.data?.data);
-    setCurrentPlanData(response?.data?.data);
-  };
-
-  useLayoutEffect(() => {
-    getCurrentSubscriptionPlan();
-  }, []);
-
-  // useEffect(() => {
-  //   if (isPending) {
-  //     return setLoader2(true);
-  //   }
-  //   setLoader2(false);
-  // }, [isPending]);
+  console.log(data);
 
   const formatDateFunction = (dateString) => {
     const date = new Date(dateString);
@@ -46,13 +40,24 @@ const SubscriptionInfo = () => {
     return formattedDate;
   };
 
- 
-
   const handleCancelPlan = async () => {
     // setTimeout(() => {
     //   setLoader(true);
     // }, 2000);
-
+    try {
+      const results = await api.post(
+        `/subscribe/listingProperty/disable`,
+        {
+          token: "r1mg46l8t83s6cb",
+          code: "SUB_as4m0hgua8lt1hj",
+        }
+      );
+      // console.log(results?.data?.data);
+      return results?.data?.data?.paystackResponse;
+    } catch (error) {
+      console.error("Error", error.response?.data || error.message);
+      return error;
+    }
     setCancelPlan(false);
     setPlanCancelledModal(true);
   };
@@ -72,31 +77,29 @@ const SubscriptionInfo = () => {
       <div className="flex items-center justify-between flex-wrap h-fit py-[16px] px-[20px] sm:gap-[32px] gap-[20px] bg-[#F6F6F6] rounded-[8px]">
         <div className="space-y-1">
           <p className="">{`You’re currently on the ${
-            currentPlanData?.plan?.name &&
-            !currentPlanData?.IsExpired &&
-            currentPlanData?.status === "active"
-              ? currentPlanData?.plan?.name
+            data?.plan?.name &&
+            !data?.IsExpired &&
+            (data?.status === "success" || data?.status === "active")
+              ? data?.plan?.name
               : "Free Plan"
           }`}</p>
-  
-          {currentPlanData?.subscription_code &&
-          !currentPlanData?.IsExpired &&
-          currentPlanData?.status === "active" && (
-            <p className="flex gap-2 flex-wrap text-[#4E4E4E]">
-              <span className="">{`${currentPlanData?.plan?.interval} subscription`}</span>
-              <span className="sm:inline-block hidden">|</span>
-              <span className="">{`${formatDateFunction(
-                currentPlanData?.createdAt
-              )} - ${formatDateFunction(
-                currentPlanData?.next_payment_date
-              )}`}</span>
-            </p>
-          )}
+
+          {data?.plan?.plan_code &&
+            !data?.IsExpired &&
+            (data?.status === "success" || data?.status === "active") && (
+              <p className="flex gap-2 flex-wrap text-[#4E4E4E]">
+                <span className="">{`${data?.plan?.interval} subscription`}</span>
+                <span className="sm:inline-block hidden">|</span>
+                <span className="">{`${formatDateFunction(
+                  data?.paid_at
+                )} - ${formatDateFunction(data?.next_payment_date)}`}</span>
+              </p>
+            )}
         </div>
         <div className="flex gap-[12px] flex-wrap w-full sm:w-fit">
           <Link
             href={
-              currentPlanData?.subscription_code
+              data?.subscription_code
                 ? "/subscriptionPlans?upgrade=true"
                 : "/subscriptionPlans"
             }
@@ -104,9 +107,10 @@ const SubscriptionInfo = () => {
           >
             Upgrade Plan
           </Link>
-  
-          {!currentPlanData?.IsExpired &&
-            currentPlanData?.status === "active" && restartPlanModal && (
+
+          {!data?.IsExpired && data?.subscription_code &&
+            (data?.status === "success" || data?.status === "active") &&
+            restartPlanModal && (
               <button
                 className="text-[#006AFF] bg-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-fit justify-center border-[1px] border-[#006AFF]"
                 onClick={() => setCancelPlan(true)}
@@ -116,7 +120,7 @@ const SubscriptionInfo = () => {
             )}
         </div>
       </div>
-  
+
       <ConfirmationModal
         isOpen={cancelPlan}
         title="Cancel Subscription?"
@@ -133,11 +137,11 @@ const SubscriptionInfo = () => {
       <SuccessModal
         isOpen={planCancelledModal}
         title="Subscription Cancelled Successfully"
-        successText={`Your ${currentPlanData?.plan?.name} Subscription has successfully been cancelled.`}
+        successText={`Your ${data?.plan?.name} Subscription has successfully been cancelled.`}
         buttonColor={true}
         handleEvent={closeSuccessModal}
       />
     </div>
   );
-}  
+};
 export default SubscriptionInfo;
