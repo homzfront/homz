@@ -1,6 +1,3 @@
-// import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
-// import Link from "next/link";
-// import promoteProperty from "@/utils/promoteProperty";
 import { useRouter } from "next/navigation";
 import handleSelectPlans from "@/utils/promotionPlan";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
@@ -10,7 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
-
+// import PopUpPayment from "./popUpPayment";
 const Plans = ({
   data,
   profile,
@@ -21,7 +18,8 @@ const Plans = ({
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
-  // console.log(profile)
+ 
+  console.log(profile)
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
@@ -46,7 +44,9 @@ const Plans = ({
       startTransition
     );
   };
-
+// const openPaymentModal=()=>{
+// <PopUpPayment profile={profile} />
+// }
   return (
     <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
       {/* {loading && <Loading />} */}
