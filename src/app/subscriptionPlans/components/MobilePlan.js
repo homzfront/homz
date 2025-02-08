@@ -10,6 +10,8 @@ const MobilePlan = ({
   profile,
   loadingStates,
   period,
+  setPlanDetails,
+  setIsOpen
 }) => {
   // console.log(profile);
   return (
@@ -86,9 +88,15 @@ const MobilePlan = ({
 
             <button
               key={index}
-              onClick={() =>
-                handleSelectPlan(index, plan.title, plan.interval, plan.price)
-              }
+              onClick={() => {
+                setPlanDetails({
+                  type: plan.title,
+                  interval: plan.interval,
+                  price: plan.price,
+                  index: index,
+                });
+                setIsOpen(true);
+              }}
               className={`h-[48px] rounded-lg text-[16px] w-full mt-1 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${

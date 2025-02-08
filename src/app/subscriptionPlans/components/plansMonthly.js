@@ -2,14 +2,13 @@ import { useRouter } from "next/navigation";
 import handleSelectPlans from "@/utils/promotionPlan";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import Image from "next/image";
-import React, { useState, useRef, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
-// import PopUpPayment from "./popUpPayment";
+import PayMentModal from "./PayMentModal";
 const Plans = ({
-  data,
   profile,
   setSuccessModalIsOpen,
   upgradePlan,
@@ -18,19 +17,24 @@ const Plans = ({
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
- 
-  console.log(profile)
+  const [isOpen, setIsOpen] = useState(false);
+  const [planDetails, setPlanDetails] = useState({
+    type: "",
+    price: 0,
+    interval: "",
+    index: "",
+  });
+  const router = useRouter();
+
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
   }, [isPending, ind]);
-  const router = useRouter();
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
-
     await handleSelectPlans.handleSelectPlan(
       index,
       planType,
@@ -44,19 +48,18 @@ const Plans = ({
       startTransition
     );
   };
-// const openPaymentModal=()=>{
-// <PopUpPayment profile={profile} />
-// }
+
   return (
     <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
-      {/* {loading && <Loading />} */}
       <div className="sm:hidden">
-        <MobilePlan
+      <MobilePlan
           handleSelectPlan={handleSelectPlan}
           pricingPlans={pricingPlans}
           profile={profile}
           loadingStates={loadingStates}
           period="monthly"
+          setIsOpen={setIsOpen}
+          setPlanDetails={setPlanDetails}
         />
       </div>
 
@@ -73,8 +76,8 @@ const Plans = ({
               <p className="text-[14px] text-center font-[500] text-[#559CFF] mb-3">
                 {plan.billing}
               </p>
-              <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {plan?.price && "N" + Number(plan.price).toLocaleString()}
+              <p className="text-[23px] text-center font-[700] text-BlackHomz font-sans">
+                {plan?.price && "₦" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 
@@ -131,9 +134,15 @@ const Plans = ({
 
             <button
               key={index}
-              onClick={() =>
-                handleSelectPlan(index, plan.title, plan.interval, plan.price)
-              }
+              onClick={() => {
+                setPlanDetails({
+                  type: plan.title,
+                  interval: plan.interval,
+                  price: plan.price,
+                  index: index,
+                });
+                setIsOpen(true);
+              }}
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
@@ -157,6 +166,15 @@ const Plans = ({
           </div>
         ))}
       </div>
+      <PayMentModal
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        planDetails={planDetails}
+        profile={profile?.data}
+        handleCardPayment={() => {
+          handleSelectPlan(planDetails.index, planDetails.type, planDetails.interval, planDetails.price);
+        }}
+      />
     </div>
   );
 };

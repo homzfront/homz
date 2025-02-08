@@ -22,7 +22,7 @@ const PopUpPayment = ({ profile }) => {
         </div>
     )
     return (
-        <div className='w-full sm:w-[450px] rounded-[12px] bg-white p-4'>
+        <div className='w-full sm:w-[450px] rounded-[12px] bg-white p-4 border'>
             {openProcess ?
                 <div className='w-full font-normal text-GrayHomz flex flex-col gap-4'>
                     <div className="flex flex-col gap-4 justify-center items-center text-center">

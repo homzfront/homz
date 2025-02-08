@@ -30,7 +30,6 @@ const SubscriptionInfo = () => {
     // enabled: enable,
   });
 
-  console.log(data);
 
   const formatDateFunction = (dateString) => {
     const date = new Date(dateString);
@@ -55,7 +54,6 @@ const SubscriptionInfo = () => {
   const handleCancelPlan = () => {
     mutate(null, {
       onSuccess: (response) => {
-        console.log("Plan canceled successfully:", response);
         setCancelPlan(false);
         setPlanCancelledModal(true);
       },
