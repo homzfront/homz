@@ -1,7 +1,7 @@
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import handleSelectPlans from "@/utils/promotionPlan";
 import Image from "next/image";
-import React, { useState, useRef, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
