@@ -9,11 +9,8 @@ import { useRouter } from "next/navigation";
 import PayMentModal from "./PayMentModal";
 
 const Plans = ({
-  data,
   profile,
-  setSuccessModalIsOpen,
-  upgradePlan,
-  setModalIsOpen,
+  upgradePlan
 }) => {
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
@@ -44,8 +41,6 @@ const Plans = ({
       setLoadingStates,
       amount,
       upgradePlan,
-      setModalIsOpen,
-      setSuccessModalIsOpen,
       router,
       startTransition
     );

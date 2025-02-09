@@ -8,12 +8,7 @@ import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
 import PayMentModal from "./PayMentModal";
-const Plans = ({
-  profile,
-  setSuccessModalIsOpen,
-  upgradePlan,
-  setModalIsOpen,
-}) => {
+const Plans = ({ profile, upgradePlan }) => {
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
@@ -42,8 +37,6 @@ const Plans = ({
       setLoadingStates,
       amount,
       upgradePlan,
-      setModalIsOpen,
-      setSuccessModalIsOpen,
       router,
       startTransition
     );
@@ -52,7 +45,7 @@ const Plans = ({
   return (
     <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
       <div className="sm:hidden">
-      <MobilePlan
+        <MobilePlan
           handleSelectPlan={handleSelectPlan}
           pricingPlans={pricingPlans}
           profile={profile}
@@ -172,7 +165,12 @@ const Plans = ({
         planDetails={planDetails}
         profile={profile?.data}
         handleCardPayment={() => {
-          handleSelectPlan(planDetails.index, planDetails.type, planDetails.interval, planDetails.price);
+          handleSelectPlan(
+            planDetails.index,
+            planDetails.type,
+            planDetails.interval,
+            planDetails.price
+          );
         }}
       />
     </div>

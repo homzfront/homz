@@ -1,7 +1,3 @@
-// import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
-// import Link from "next/link";
-// import { toast } from "react-toastify";
-// import Loading from "@/components/mainmenu/loading";
 import { useRouter } from "next/navigation";
 import handleSelectPlans from "@/utils/promotionPlan";
 import Image from "next/image";
@@ -16,9 +12,7 @@ import PayMentModal from "./PayMentModal";
 
 const Plans = ({
   profile,
-  setSuccessModalIsOpen,
   upgradePlan,
-  setModalIsOpen,
 }) => {
 
   const [loadingStates, setLoadingStates] = useState({});
@@ -31,8 +25,7 @@ const Plans = ({
     interval: "",
     index: "",
   });
-  const router = useRouter();
-
+  
   useEffect(() => {
     setLoadingStates((prev) => ({
       ...prev,
@@ -40,6 +33,7 @@ const Plans = ({
     }));
   }, [isPending, ind]);
   
+  const router = useRouter();
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
@@ -51,8 +45,6 @@ const Plans = ({
       setLoadingStates,
       amount,
       upgradePlan,
-      setModalIsOpen,
-      setSuccessModalIsOpen,
       router,
       startTransition
     );

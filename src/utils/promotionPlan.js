@@ -17,8 +17,7 @@ async function handleSelectPlan(
     if (results.status === true) {
       setLoadingStates((prev) => ({ ...prev, [index]: false }));
       let url = results?.data?.authorization_url;
-      
-      startTransition(() => {
+     startTransition(() => {
         router.push(url);
       });
     } else {
