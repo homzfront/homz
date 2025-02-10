@@ -83,7 +83,7 @@ const PayMentModal = ({
         },
       });
     }
-    sessionStorage.setItem("selectedPlan", planDetails.type); 
+    // sessionStorage.setItem("selectedPlan", planDetails.type); 
   };
 
   const active = (
