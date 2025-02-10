@@ -8,6 +8,7 @@ import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
 import PayMentModal from "./PayMentModal";
+
 const Plans = ({ profile, upgradePlan }) => {
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
@@ -21,12 +22,17 @@ const Plans = ({ profile, upgradePlan }) => {
   });
   const router = useRouter();
 
+
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
   }, [isPending, ind]);
+
+
+ 
+  
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
@@ -173,6 +179,7 @@ const Plans = ({ profile, upgradePlan }) => {
           );
         }}
       />
+    
     </div>
   );
 };

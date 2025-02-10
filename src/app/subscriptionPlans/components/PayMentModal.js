@@ -4,7 +4,6 @@ import BlueThickArrow from "@/components/icons/blueThickArrow";
 import Close from "@/components/icons/Close";
 import PlanCard from "@/components/icons/planCard";
 import SendTwo from "@/components/icons/sendTwo";
-import Warning from "@/components/icons/warning";
 import GreenActive from "@/components/icons/greenActive";
 import CloseSmall from "@/components/icons/closeSmall";
 import React, { useState } from "react";
@@ -84,6 +83,7 @@ const PayMentModal = ({
         },
       });
     }
+    sessionStorage.setItem("selectedPlan", planDetails.type); 
   };
 
   const active = (

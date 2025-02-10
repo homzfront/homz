@@ -8,23 +8,44 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 import useStorePropertyPromotionData from "@/store/propertyPromotions.js";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRouter } from "next/navigation";
+import ConfirmPaymentModal from "./components/confirmPaymentModal.js";
 
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  // const [type, setType] = useState("");
+  const [isConfirmPayOpen, setIsConfirmOpenModal] = useState(false);
   const [upgradePlan, setUpgradePlan] = useState("");
 
   const router = useRouter();
-  const resetPropertyIds = useStorePropertyPromotionData((state) => state.resetPropertyIds);
+  const resetPropertyIds = useStorePropertyPromotionData(
+    (state) => state.resetPropertyIds
+  );
   // console.log(propertyIds)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const upgrade= urlParams.get("upgrade");
+    const upgrade = urlParams.get("upgrade");
     // console.log(upgrade);
     setUpgradePlan(upgrade);
   }, [upgradePlan]);
+
+  useEffect(() => {
+    if (!profile?.data?.paid_at || !profile?.data?.status) return; // Ensure both exist before proceeding
+
+    const paidAt = new Date(profile.data.paid_at);
+    const today = new Date();
+
+    const formatDate = (date) => date.toISOString().split("T")[0];
+
+    const isSameDate = formatDate(paidAt) === formatDate(today);
+    const isValidStatus = ["success", "non-renewing"].includes(
+      profile.data.status
+    );
+
+    if (isSameDate && isValidStatus) {
+      setIsConfirmOpenModal(true);
+    }
+  }, [profile?.data?.paid_at, profile?.data?.status]);
 
   const pages = [
     {
@@ -46,7 +67,6 @@ const Widget = ({ data, profile }) => {
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
           upgradePlan={upgradePlan}
-
         />
       ),
     },
@@ -58,7 +78,6 @@ const Widget = ({ data, profile }) => {
           setSuccessModalIsOpen={setSuccessModalIsOpen}
           setModalIsOpen={setModalIsOpen}
           upgradePlan={upgradePlan}
-
         />
       ),
     },
@@ -116,6 +135,11 @@ const Widget = ({ data, profile }) => {
         title="Promotion is Active"
         handleEvent={() => setModalIsOpen(false)}
         successText={`Your ${"[Monthly]"} promotion is currently running for this property`}
+      />
+
+      <ConfirmPaymentModal
+        isOpen={isConfirmPayOpen}
+        setIsOpenModal={setIsConfirmOpenModal}
       />
     </div>
   );
