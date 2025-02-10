@@ -7,8 +7,6 @@ async function handleSelectPlan(
   setLoadingStates,
   amount,
   upgradePlan,
-  setModalIsOpen,
-  setSuccessModalIsOpen,
   router,
   startTransition
 ) {
@@ -16,12 +14,10 @@ async function handleSelectPlan(
   
   try {
     const results = await PromotionHooks.createSubscription(planType, interval, amount, upgradePlan);
-    // console.log(results);
     if (results.status === true) {
       setLoadingStates((prev) => ({ ...prev, [index]: false }));
       let url = results?.data?.authorization_url;
-      
-      startTransition(() => {
+     startTransition(() => {
         router.push(url);
       });
     } else {

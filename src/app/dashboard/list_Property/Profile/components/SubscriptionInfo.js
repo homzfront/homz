@@ -4,7 +4,7 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 import PromotionHooks from "@/utils/promoteProperty";
 // import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 // import { useRouter } from "next/navigation";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import api from "@/utils/api";
 
 import Link from "next/link";
@@ -30,7 +30,6 @@ const SubscriptionInfo = () => {
     // enabled: enable,
   });
 
-  console.log(data);
 
   const formatDateFunction = (dateString) => {
     const date = new Date(dateString);
@@ -40,33 +39,31 @@ const SubscriptionInfo = () => {
     return formattedDate;
   };
 
-  const handleCancelPlan = async () => {
-    // setTimeout(() => {
-    //   setLoader(true);
-    // }, 2000);
-    try {
-      const results = await api.post(
-        `/subscribe/listingProperty/disable`,
-        {
-          token: "r1mg46l8t83s6cb",
-          code: "SUB_as4m0hgua8lt1hj",
-        }
-      );
-      // console.log(results?.data?.data);
-      return results?.data?.data?.paystackResponse;
-    } catch (error) {
-      console.error("Error", error.response?.data || error.message);
-      return error;
-    }
-    setCancelPlan(false);
-    setPlanCancelledModal(true);
-  };
+  const {
+    isIdle,
+    mutate,
+  } = useMutation({
+    mutationKey: ["cancelPlan"],
+    mutationFn: async () =>
+      api.post(`/subscribe/listingProperty/disable`, {
+        token: data?.email_token,
+        code: data?.subscription_code,
+      }),
+  });
 
-  // const handleCancelOrUpgradePlan = (status) => {
-  //   status === "active"
-  //     ? setCancelPlan(true)
-  //     : router.push("/subscriptionPlans?upgrade=true");
-  // };
+  const handleCancelPlan = () => {
+    mutate(null, {
+      onSuccess: (response) => {
+        setCancelPlan(false);
+        setPlanCancelledModal(true);
+      },
+      onError: (error) => {
+        console.error("Error canceling plan:", error);
+      },
+    });
+  };
+  
+ 
   const closeSuccessModal = () => {
     setPlanCancelledModal(false);
     setRestartPlanModal(false);
@@ -79,14 +76,18 @@ const SubscriptionInfo = () => {
           <p className="">{`You’re currently on the ${
             data?.plan?.name &&
             !data?.IsExpired &&
-            (data?.status === "success" || data?.status === "active")
+            (data?.status === "success" ||
+              data?.status === "active" ||
+              data?.status === "non-renewing")
               ? data?.plan?.name
               : "Free Plan"
           }`}</p>
 
           {data?.plan?.plan_code &&
             !data?.IsExpired &&
-            (data?.status === "success" || data?.status === "active") && (
+            (data?.status === "success" ||
+              data?.status === "active" ||
+              data?.status === "non-renewing") && (
               <p className="flex gap-2 flex-wrap text-[#4E4E4E]">
                 <span className="">{`${data?.plan?.interval} subscription`}</span>
                 <span className="sm:inline-block hidden">|</span>
@@ -108,7 +109,8 @@ const SubscriptionInfo = () => {
             Upgrade Plan
           </Link>
 
-          {!data?.IsExpired && data?.subscription_code &&
+          {!data?.IsExpired &&
+            data?.subscription_code &&
             (data?.status === "success" || data?.status === "active") &&
             restartPlanModal && (
               <button
@@ -132,7 +134,7 @@ const SubscriptionInfo = () => {
         }}
         optionText="Proceed"
         optionText2="Cancel"
-        isLoading={isLoading}
+        isLoading={!isIdle}
       />
       <SuccessModal
         isOpen={planCancelledModal}
