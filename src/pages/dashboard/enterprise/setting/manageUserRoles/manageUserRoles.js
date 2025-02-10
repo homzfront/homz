@@ -1,26 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Dropdown from "./components/dropDownManageUsers";
-import Invites from "./components/invites";
-import Input from "../../components/input";
 import ConfirmModal from "../../components/confirmModal";
-import ToggleButton from "../../components/toggle";
-import DropDown from "@/pages/dashboard/enterprise/components/dropDownTwo";
 import Link from "next/link";
-import useEstateStore from "@/store/enterpriseStore/estates";
 import estateStore from "@/store/enterpriseStore/estates";
 import { toast } from "react-toastify";
 import { enterpriseplanRoleInvite } from "@/api/enterpriseManagerService";
 import Loading from "@/components/mainmenu/loading";
 import Image from "next/image";
-import Popup from "./components/popUp";
 import TableUser from "./components/tableUser";
 import useBodyScroll from "@/utils/useBodyScroll";
-import LoadingII from "@/components/mainmenu/loadingII";
 
 const ManageUserRoles = () => {
   const { data, loading, fetchData } = estateStore();
-  const [slog, setSlog] = useState(null)
+  const [slog, setSlog] = useState(null);
   const [email, setEmail] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [loadingII, setLoadingII] = useState(false);
@@ -31,24 +23,23 @@ const ManageUserRoles = () => {
   const [dataEmail, setDataEmail] = useState([]);
   const [userRole, setUserRole] = useState(null);
 
-  // console.log(slog); 
+  // console.log(slog);
 
   useEffect(() => {
     // Fetch data when the component mounts
     fetchData();
   }, []);
 
-  useBodyScroll([openModal, loadingII])
+  useBodyScroll([openModal, loadingII]);
 
   const handleDropdownToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-
   const handleOptionClick = (user) => {
     setUserRole(user);
     setShowPopup(false);
-  }
+  };
   // const options = [
   //   { id: 1, label: "Can View" },
   //   { id: 2, label: "Can Edit" },
@@ -62,7 +53,6 @@ const ManageUserRoles = () => {
   // const handleToggle = () => {
   //   setIsOpen(!isOpen);
   // };
-
 
   // const [selectedRoleTwo, setSelectedRoleTwo] = useState(null);
   // const [pickedEstate, setPickedEstate] = useState([]);
@@ -95,13 +85,12 @@ const ManageUserRoles = () => {
     // setOpenModal(!openModal);
     // Do something with the collected data, e.g., send it to the server
 
-
     setLoadingII(true);
     try {
       const { success, upDateddata, error } = await enterpriseplanRoleInvite({
         email,
         estateName: slog?.name,
-        slug: slog?.slug
+        slug: slog?.slug,
       });
 
       if (success) {
@@ -146,7 +135,7 @@ const ManageUserRoles = () => {
       id: 2,
       label: "Security",
     },
-  ]
+  ];
 
   // Determine if the button should be disabled based on the email input value
   const isButtonDisabled = !email || userRole === null;
@@ -172,10 +161,7 @@ const ManageUserRoles = () => {
               />
             </div>
           </div>
-          <div
-            className={`mt-4  ${isOpen ? "block" : "hidden"
-              }`}
-          >
+          <div className={`mt-4  ${isOpen ? "block" : "hidden"}`}>
             <div className="flex gap-6 items-center px-5 pb-2 h-[95px] w-full">
               <div className="w-[360px]">
                 <input
@@ -191,13 +177,12 @@ const ManageUserRoles = () => {
                 className="relative w-[360px] flex justify-between items-center cursor-pointer border mt-2 px-4 h-[45px] rounded-md"
               >
                 <div className="text-GrayHomz2 text-[13px] font-[400]">
-                  {userRole
-                    ? userRole
-                    : "Select User Role"}
+                  {userRole ? userRole : "Select User Role"}
                 </div>
                 <div
-                  className={`w-5 h-5 p-1 ${showPopup ? "transform rotate-180" : ""
-                    }`}
+                  className={`w-5 h-5 p-1 ${
+                    showPopup ? "transform rotate-180" : ""
+                  }`}
                 >
                   <Image
                     src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
@@ -223,11 +208,12 @@ const ManageUserRoles = () => {
               </div>
               <button
                 onClick={handleSubmit}
-                className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${isButtonDisabled
-                  ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
-                  : "bg-BlueHomz text-white"
-                  }`}
-              // disabled={isButtonDisabled}
+                className={` h-[45px] mt-2 text-[16px] font-[700]  px-[15px] rounded-md ${
+                  isButtonDisabled
+                    ? "pointer-events-none bg-GrayHomz6 text-GrayHomz5"
+                    : "bg-BlueHomz text-white"
+                }`}
+                // disabled={isButtonDisabled}
               >
                 Invite
               </button>
