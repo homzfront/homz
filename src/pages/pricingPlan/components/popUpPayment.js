@@ -74,7 +74,7 @@ const PopUpPayment = ({ profile }) => {
                         </div>
                     </div>
                     <div className='mt-4 flex flex-col gap-2'>
-                        <div className='bg-whiteblue p-2 rounded-[4px] flex justify-between items-start'>
+                        <div onClick={() => setOpenCardPayment(true)} className='cursor-pointer bg-whiteblue p-2 rounded-[4px] flex justify-between items-start'>
                             <div className='flex items-center gap-2'>
                                 <div className='bg-BlueHomz rounded-md w-[49.5px] h-[49.5px] flex justify-center items-center min-w-[49.5px] min-h-[49.5px]'>
                                     <PlanCard />
@@ -88,7 +88,7 @@ const PopUpPayment = ({ profile }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className='cursor-pointer' onClick={() => setOpenCardPayment(true)}>
+                            <div className=''>
                                 <BlueThickArrow />
                             </div>
                         </div>
@@ -101,7 +101,7 @@ const PopUpPayment = ({ profile }) => {
                                 </span>
                             </div>
                         }
-                        <div className='bg-whiteblue p-2 rounded-[4px] flex justify-between items-start'>
+                        <div onClick={() => setOpenTransferPayment(true)} className='cursor-pointer bg-whiteblue p-2 rounded-[4px] flex justify-between items-start'>
                             <div className='flex items-center gap-2'>
                                 <div className='bg-BlueHomz rounded-md w-[49.5px] h-[49.5px] flex justify-center items-center min-w-[49.5px] min-h-[49.5px]'>
                                     <SendTwo />
@@ -115,7 +115,7 @@ const PopUpPayment = ({ profile }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className='cursor-pointer' onClick={() => setOpenTransferPayment(true)}>
+                            <div className=''>
                                 <BlueThickArrow />
                             </div>
                         </div>

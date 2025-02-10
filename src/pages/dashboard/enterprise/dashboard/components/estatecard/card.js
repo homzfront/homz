@@ -1,31 +1,35 @@
+import VideoModal from "@/components/general/videoModal";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Card = ({data, openAddProperty}) => {
+const Card = ({ data, openAddProperty }) => {
+  const videoUrl = "https://www.youtube.com/watch?v=fgd0aj8xrAA"
 
   return (
     <div className="border w-full rounded-[12px] p-6 md:w-[30%] flex flex-col gap-8">
       <div className="flex justify-between">
         <h3 className="font-[500] text-[14px] text-BlueHomz">Properties</h3>
-        <Link
-          href={"/dashboard/enterprise-property/estates"}
-          className="flex items-center"
-        >
-          <h3 className=" text-[11px] font-[400] text-BlackHomz">
-            view all properties
-          </h3>
-          <span>
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
-              }
-              alt=""
-              height={17}
-              width={16}
-            />
-          </span>
-        </Link>
+        {data?.totalEstates ?
+          <Link
+            href={"/dashboard/enterprise-property/estates"}
+            className="flex items-center"
+          >
+            <h3 className=" text-[11px] font-[400] text-BlackHomz">
+              view all properties
+            </h3>
+            <span>
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-right.png"
+                }
+                alt=""
+                height={17}
+                width={16}
+              />
+            </span>
+          </Link>
+          : <VideoModal videoUrl={videoUrl} />}
       </div>
       <div className="flex justify-between items-center">
         <div>
@@ -36,7 +40,7 @@ const Card = ({data, openAddProperty}) => {
             {data?.totalEstates ? `${data?.totalEstates}` : "0"}
           </h1>
         </div>
-        <div className="cursor-pointer" onClick={openAddProperty}> 
+        <div className="cursor-pointer" onClick={openAddProperty}>
           <div>
             <Image
               alt=""

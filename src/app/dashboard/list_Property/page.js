@@ -17,6 +17,7 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 import Confirm from "@/components/mainmenu/actionModal";
 // import { propertyForMe } from "@/api/propertyService";
 import api from "@/utils/api";
+import VideoModal from "@/components/general/videoModal";
 
 const List_Property = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
@@ -37,6 +38,7 @@ const List_Property = () => {
   const router = useRouter();
   const [errorModal, setErrorModal] = useState(false);
   const [loader, setLoading] = useState(true);
+  const videoUrl = "https://www.youtube.com/watch?v=Ft01SCmpWxg"
   const setPropertyIds = usePropertyPromotionsData(
     (state) => state.setPropertyIds
   );
@@ -340,15 +342,15 @@ const List_Property = () => {
                 />
                 <span>List Properties</span>
               </Link>
+              <VideoModal videoUrl={videoUrl} />
             </div>
           </div>
         </>
       ) : (
         <>
           <div
-            className={` ${
-              property?.data?.totalCount === 0 ? "hidden" : ""
-            } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
+            className={` ${property?.data?.totalCount === 0 ? "hidden" : ""
+              } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
             <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] sm:px-4">
               <p>
@@ -360,7 +362,7 @@ const List_Property = () => {
                   {property?.data?.totalCount || 0}
                 </span>
               </p>
-              <div className="flex items-center gap-[12px] ">
+              <div className="flex items-start gap-[12px] ">
                 {options && (
                   <button
                     className="w-fit flex gap-1 sm:h-[37px] p-[4px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px]  border border-[#D92D20] sm:border-0 text-[#D92D20] hover:border hover:border-[#D92D20] flex-shrink-0 "
@@ -376,94 +378,109 @@ const List_Property = () => {
                     <span className="hidden sm:inline-block">Cancel</span>
                   </button>
                 )}
-                {property?.data?.totalCount > 1 && (
-                  <button
-                    onClick={handlePromoteOptions}
-                    className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 sm:w-[180px]"
-                  >
-                    {!isLoading2 ? (
-                      <>
-                        <Image
-                          src="/static/images/orange-send.svg"
-                          alt=""
-                          height={16}
-                          width={16}
-                          className="hidden sm:inline-block"
-                        />
-                        <Image
-                          src="/static/images/promoteOrangeBtn.svg"
-                          alt=""
-                          height={28}
-                          width={28}
-                          className="sm:hidden p-[4px]"
-                        />
-                        <span className="hidden sm:inline-block">
-                          {options ? "Promotion options" : "Promote properties"}
-                        </span>
-                      </>
-                    ) : (
-                      <ThreeDotsLoader color="#ffffff" />
+                <div className="">
+                  <div className="flex items-center md:items-start gap-2">
+                    {property?.data?.totalCount > 1 && (
+                      <button
+                        onClick={handlePromoteOptions}
+                        className="w-fit flex gap-1  sm:h-[37px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#DC6803] flex-shrink-0 sm:w-[180px]"
+                      >
+                        {!isLoading2 ? (
+                          <>
+                            <Image
+                              src="/static/images/orange-send.svg"
+                              alt=""
+                              height={16}
+                              width={16}
+                              className="hidden sm:inline-block"
+                            />
+                            <Image
+                              src="/static/images/promoteOrangeBtn.svg"
+                              alt=""
+                              height={28}
+                              width={28}
+                              className="sm:hidden p-[4px]"
+                            />
+                            <span className="hidden sm:inline-block">
+                              {options ? "Promotion options" : "Promote properties"}
+                            </span>
+                          </>
+                        ) : (
+                          <ThreeDotsLoader color="#ffffff" />
+                        )}
+                      </button>
                     )}
-                  </button>
-                )}
-                <>
-                  {property?.data?.totalCount > 0 &&
-                  (profile?.businessInfo?.isVerified === "unverified" ||
-                    profile?.businessInfo?.isVerified === "pending" ||
-                    profile?.businessInfo?.isVerified === "rejected") ? (
-                    <div
-                      onClick={() => setOpenModalForBusi(true)}
-                      className="w-full cursor-pointer flex gap-1 sm:w-[166px] sm:h-[42px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white sm:bg-[#006AFF] ml-3"
-                    >
-                      <Image
-                        src="/static/images/white-add.svg"
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="hidden sm:inline-block"
-                      />
-                      <Image
-                        src="/static/images/addbtn2.svg"
-                        alt=""
-                        height={28}
-                        width={28}
-                        className="sm:hidden rounded-[8px]"
-                      />
-                      <span className="hidden sm:inline-block">
-                        List New property
-                      </span>
-                    </div>
-                  ) : (
-                    <Link
-                      href="/dashboard/list_Property/addProperty"
-                      className=" w-fit flex gap-1 md:w-[166px] sm:h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 "
-                    >
-                      <Image
-                        src="/static/images/white-add.svg"
-                        alt=""
-                        height={16}
-                        width={16}
-                        className="hidden sm:inline-block"
-                      />
-                      <Image
-                        src="/static/images/addbtn2.svg"
-                        alt=""
-                        height={28}
-                        width={28}
-                        className="sm:hidden rounded-[8px]"
-                      />
-                      <span className="hidden sm:inline-block">
-                        List New property
-                      </span>
-                    </Link>
-                  )}
-                </>
+                    {property?.data?.totalCount > 0 &&
+                      (profile?.businessInfo?.isVerified === "unverified" ||
+                        profile?.businessInfo?.isVerified === "pending" ||
+                        profile?.businessInfo?.isVerified === "rejected") ? (
+                      <div>
+                        <div
+                          onClick={() => setOpenModalForBusi(true)}
+                          className="w-full cursor-pointer flex gap-1 sm:w-[166px] sm:h-[42px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white sm:bg-[#006AFF] ml-3"
+                        >
+                          <Image
+                            src="/static/images/white-add.svg"
+                            alt=""
+                            height={16}
+                            width={16}
+                            className="hidden sm:inline-block"
+                          />
+                          <Image
+                            src="/static/images/addbtn2.svg"
+                            alt=""
+                            height={28}
+                            width={28}
+                            className="sm:hidden rounded-[8px]"
+                          />
+                          <span className="hidden sm:inline-block">
+                            List New property
+                          </span>
+                        </div>
+                        <div className="md:block hidden">
+                          <VideoModal videoUrl={videoUrl} />
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <Link
+                          href="/dashboard/list_Property/addProperty"
+                          className="md:mb-1 w-fit flex gap-1 md:w-[166px] sm:h-[37px] md:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white bg-[#006AFF] flex-shrink-0 "
+                        >
+                          <Image
+                            src="/static/images/white-add.svg"
+                            alt=""
+                            height={16}
+                            width={16}
+                            className="hidden sm:inline-block"
+                          />
+                          <Image
+                            src="/static/images/addbtn2.svg"
+                            alt=""
+                            height={28}
+                            width={28}
+                            className="sm:hidden rounded-[8px]"
+                          />
+                          <span className="hidden sm:inline-block">
+                            List New property
+                          </span>
+                        </Link>
+                        <div className="md:block hidden">
+                          <VideoModal videoUrl={videoUrl} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="md:hidden mt-1">
+                    <VideoModal videoUrl={videoUrl} />
+                  </div>
+                </div>
               </div>
             </div>
             {property?.data?.totalCount > 0 &&
-            (profile?.businessInfo?.isVerified === "unverified" ||
-              profile?.businessInfo?.isVerified === "pending" ||
-              profile?.businessInfo?.isVerified === "rejected") ? (
+              (profile?.businessInfo?.isVerified === "unverified" ||
+                profile?.businessInfo?.isVerified === "pending" ||
+                profile?.businessInfo?.isVerified === "rejected") ? (
               <div>
                 <Image
                   src="/static/images/addButton.svg"
@@ -486,7 +503,7 @@ const List_Property = () => {
               </Link>
             )}
           </div>
-          
+
 
           <Property
             property={property}
@@ -504,7 +521,7 @@ const List_Property = () => {
             setErrorModal={setErrorModal}
             setStatusName={setTabName}
           />
-  
+
         </>
 
       )}
@@ -521,7 +538,7 @@ const List_Property = () => {
         optionText="Proceed to subscribe?"
         optionText2="Cancel"
         isLoading={isLoading}
-        // color="text-[#D92D20]"
+      // color="text-[#D92D20]"
       />
       {/* promotion property */}
       <ConfirmationModal
@@ -536,7 +553,7 @@ const List_Property = () => {
         optionText="Proceed"
         optionText2="Cancel"
         isLoading={isLoading}
-        // color="text-[#D92D20]"
+      // color="text-[#D92D20]"
       />
 
       <SuccessModal
@@ -544,7 +561,7 @@ const List_Property = () => {
         title="Promotion is Active"
         handleEvent={closePromotionModal}
         successText="Your promotion is currently running for this property"
-        // optionalText="View listed properties"
+      // optionalText="View listed properties"
       />
       <SuccessModal
         isOpen={errorModal}
