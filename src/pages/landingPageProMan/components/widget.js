@@ -9,11 +9,14 @@ import PlanPayBiAnnually from "./planPayBiAnnually.js";
 import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 import PopUpPayment from "./popUpPayment.js";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import AcceptAndRejectModel from "@/pages/dashboard/enterprise/request/components/acceptAndRejectModel.js";
 
 const Widget = ({ routeTo }) => {
   const { data, fetchData } = useProfileEnterpriseMe();
-  const { isOpenModal, setIsOpenModal } = useOpenPaymentType();
-
+  const { isOpenModal } = useOpenPaymentType();
+  const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError } = useOpenPaymentType();
+  // console.log(isOpenModal)
+  // console.log(error)
   useEffect(() => {
     fetchData();
   }, []);
@@ -32,7 +35,7 @@ const Widget = ({ routeTo }) => {
 
     }
   }, [data]);
-  
+
   const pages = [
     { id: 1, name: "Pay Monthly", component: <PlansMonthly routeTo={routeTo} profile={data} /> },
     { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually routeTo={routeTo} profile={data} /> },
@@ -50,6 +53,7 @@ const Widget = ({ routeTo }) => {
       <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
         <PopUpPayment profile={data} />
       </CustomizedModal>
+
       <ToastContainer
         position="top-center"
         autoClose={2000}

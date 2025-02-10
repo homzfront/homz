@@ -4,8 +4,17 @@ import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
 import { toast } from "react-toastify";
 import { updatePersonalInformation } from "@/api/tenantSevice";
+import { useForm } from "react-hook-form";
+import PersonalInfoma from "./components/personalInfoma";
+import SpouseNextKin from "./components/spouseNextKin";
+import OccupantDetails from "./components/occupantDetails";
+import Guarantors from "./components/guarantors";
+import TenantVerification from "./components/tenantVerification";
 
 const PersonalInfo = ({ data }) => {
+  const [step, setStep] = React.useState(0);
+  const [formData, setFormData] = React.useState(null);
+  const { register, handleSubmit } = useForm();
   const [fullName, setFullName] = useState("");
   const [houseAddress, setHouseAddress] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
@@ -53,47 +62,57 @@ const PersonalInfo = ({ data }) => {
       toast.error("Update failed");
     }
   };
+  const steps = [
+    "Personal Information",
+    "Spouse/Kin Information",
+    "Occupant Details",
+    "Guarantors",
+    "Tenant Verification (KYC)",
+  ];
+  const onSubmit = (data) => console.log(data);
 
   return (
-    <div className="mt-8">
-      <div className="md:w-[498px] flex flex-col gap-4">
-        <Input
-          label={"Full Name"}
-          placeholder={"Victor Simon"}
-          type={"text"}
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
-        <Input
-          label={"Phone Number"}
-          placeholder={"0000 - 000 - 0000"}
-          type={"text"}
-          value={phoneNo}
-          onChange={(e) => setPhoneNo(e.target.value)}
-        />
-        <Input
-          label={"Email"}
-          placeholder={"Victor@gmail.com"}
-          readOnly
-          value={data?.user?.email}
-          type={"text"}
-        />
-        <Input
-          label={"House Address"}
-          placeholder={"House Address"}
-          type={"text"}
-          value={houseAddress}
-          onChange={(e) => setHouseAddress(e.target.value)}
-        />
+    <div className="">
+      <div className="px-4">
+        <div className="h-auto flex justify-center">
+          <div className="z-1 flex flex-wrap my-4 gap-4 md:gap-0 md:justify-between items-start w-full">
+            {steps.map((stepTitle, index) => (
+              <div
+                onClick={() => {
+                  setStep(index)
+                }}
+                key={index} className={`cursor-pointer`}>
+                <p className={`${step === index ? "text-BlueHomz" :  "text-GrayHomz"} text-[12px] lg:text-[14px] font-normal flex flex-col gap-2`}>{stepTitle} <span>{step === index && <div className="p-0.5 bg-BlueHomz"></div>}</span></p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} >
+          {step === 0 && (
+            <PersonalInfoma register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+          )}
+          {step === 1 && (
+            <SpouseNextKin register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+          )}
+          {step === 2 && (
+            <OccupantDetails register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+          )}
+          {step === 3 && (
+            <Guarantors register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+          )}
+          {step === 4 && (
+            <TenantVerification register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+          )}
+          <div className="flex justify-end mt-4">
+            {/* {step === steps.length - 1 ? (
+          <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
+            Submit
+          </button>
+        ) : null} */}
+          </div>
+        </form>
       </div>
-      <UpdateButton
-        updateDone={updateDone}
-        doneUpdate={doneUpdate}
-        setDoneUpdate={setDoneUpdate}
-        loading={loading}
-        showDialogue={showDialogue}
-        setShowDialogue={setShowDialogue}
-      />
+
     </div>
   );
 };

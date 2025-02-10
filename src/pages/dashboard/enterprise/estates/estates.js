@@ -7,7 +7,6 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import LoadingII from "@/components/mainmenu/loadingII";
 import estateStore from "@/store/enterpriseStore/estates";
 import formatDateII from "@/utils/formatDateII";
-import useClickOutside from "@/utils/clickOutside";
 import useTabForAddProperty from "@/store/document/useTabForAddProperty";
 import { useRouter } from "next/navigation";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
@@ -16,6 +15,8 @@ import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import { isTrialExpired } from "@/utils/compareTrialTime";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import VideoModal from "@/components/general/videoModal";
+import useClickOutside from "@/utils/clickOutside";
 
 const Estate = () => {
   const { tab, setTab } = useTabForAddProperty();
@@ -46,6 +47,9 @@ const Estate = () => {
   const dropdownRef = useClickOutside(() => setInviteTenant(false));
   const [searchQuery, setSearchQuery] = useState(null);
   const [filterModal, setFilterModal] = useState(false);
+
+  const videoLink = "https://www.youtube.com/watch?v=fgd0aj8xrAA&ab_channel=HomzNG";
+
 
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
@@ -231,6 +235,9 @@ const Estate = () => {
               />
               Add New Property
             </button>
+            <VideoModal
+              videoUrl={videoLink}
+            />
           </div>
         </div>
       )}
