@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import { isTrialExpired } from "@/utils/compareTrialTime";
+import ExpiredPlanModal from "../../components/expiredPlanModal";
 
 const ManageUsers = ({ typeOfUser }) => {
   const { setTab } = useTabForAddProperty();
