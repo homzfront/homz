@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React from "react";
 import PlansMonthly from "./components/plansMonthly.js";
 import PlansYearly from "./components/plansYearly.js";
 import PlanPayBiAnnually from "./components/planPayBiAnnually.js";
@@ -10,31 +10,27 @@ import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 
 const Widget = ({ data, profile }) => {
   const { isOpenModal, setIsOpenModal } = useOpenPaymentType();
+  const [active, setActive] = React.useState(0);
 
   const pages = [
-    { id: 1, name: "Pay Monthly", component: <PlansMonthly /> },
-    { id: 2, name: "Pay bi-annually", component: <PlanPayBiAnnually /> },
-    { id: 3, name: "Pay Yearly", component: <PlansYearly /> },
+    "Pay Monthly",
+    "Pay bi-annually",
+    "Pay Yearly",
   ];
 
   React.useEffect(() => {
     if (!profile) return;
     if (profile?.interval === "annually") {
-      setActive(3);
+      setActive(2);
     }
     else if (profile?.interval === "biannually") {
-      setActive(2)
+      setActive(1)
     }
     else {
-      setActive(1)
+      setActive(0)
     }
   }, [profile]);
 
-  const [active, setActive] = useState(pages[0].id);
-
-  const handlePageChange = (id) => {
-    setActive(id);
-  };
 
   return (
     <div>
@@ -43,23 +39,29 @@ const Widget = ({ data, profile }) => {
           <PopUpPayment profile={profile} />
         </CustomizedModal>
         <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[450px] cursor-pointer m-auto">
-          {pages.map((page) => (
+          {pages.map((page, index)=> (
             <div
-              key={page.id}
-              className={`${page.name === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
+              key={index}
+              className={`${page === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === index ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
                 }`}
-              onClick={() => handlePageChange(page.id)}
+              onClick={() => {
+                setActive(index)
+              }}
             >
-              <p className={`text-[14px] font-500 ${page.name === "Pay Yearly" ? "flex items-center gap-1" : ""}`}>{page.name} <span className={`${page.name === "Pay Yearly" ? " bg-BlueHomz  py-1 px-2 rounded-md  font-normal text-[11px]" : "hidden"} ${active === page.id ? "bg-white text-BlueHomz" : "text-white"}`}>Save 20%</span></p>
+              <p className={`text-[14px] font-500 ${page === "Pay Yearly" ? "flex items-center gap-1" : ""}`}>{page} <span className={`${page === "Pay Yearly" ? " bg-BlueHomz  py-1 px-2 rounded-md  font-normal text-[11px]" : "hidden"} ${active === index ? "bg-white text-BlueHomz" : "text-white"}`}>Save 20%</span></p>
             </div>
           ))}
         </div>
         <div className="my-5 rounded-[12px] ">
-          {pages.map((page) => (
-            <div key={page.id} className={active === page.id ? "inline" : "hidden"}>
-              {React.cloneElement(page.component, { data, profile })}
-            </div>
-          ))}
+          {active === 0 && (
+            <PlansMonthly data={data} profile={profile} />
+          )}
+          {active === 1 && (
+            <PlanPayBiAnnually data={data} profile={profile} />
+          )}
+          {active === 2 && (
+            <PlansYearly data={data} profile={profile} />
+          )}
         </div>
       </div>
     </div>

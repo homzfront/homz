@@ -11,7 +11,7 @@ import GreenActive from '@/components/icons/greenActive'
 const PopUpPayment = ({ profile }) => {
     const [openProcess, setOpenProcess] = React.useState(false);
     const [isOpen, setIsOpen] = React.useState(true);
-    const { openCardPayment, isMonthlyData, openTransferPayment, setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError,  setOpenErrorAgain,openAgain, setOpenAgain,  openErrorAgain } = useOpenPaymentType();
+    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError,  setOpenErrorAgain,openAgain, setOpenAgain,  openErrorAgain } = useOpenPaymentType();
     const active = (
         <div className='ml-2 h-[28px] w-[72px] bg-[#ABDDC6] flex justify-center items-center font-medium text-[13px] text-[#039855] gap-0.5 rounded-[4px]'>
             <p>Active</p>
@@ -20,10 +20,7 @@ const PopUpPayment = ({ profile }) => {
             </div>
         </div>
     )
-
-    // console.log(openTransferPayment)
-    // console.log(isMonthlyData)
-    // console.log(openCardPayment)
+    
     return (
         <div className='w-full sm:w-[450px] rounded-[12px] bg-white p-4'>
             {error ?

@@ -19,7 +19,7 @@ const Plans = ({ routeTo, profile }) => {
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
   const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment, error, setError, openErrorAgain, setOpenErrorAgain, setOpenAgain, openAgain } = useOpenPaymentType();
-  // console.log(profile)
+
   const pricingPlans = [
     {
       price: '5,500',
@@ -179,8 +179,8 @@ const Plans = ({ routeTo, profile }) => {
                 planInterval: interval
               })
               setOpenTransferPayment(false)
+              // toast.error(response.error);
               return;
-              toast.error(response.error);
             }
           }
         }
@@ -211,8 +211,6 @@ const Plans = ({ routeTo, profile }) => {
       handleSubmit(openErrorAgain.planInterval, openErrorAgain.planName)
     }
   }, [openAgain])
-
-  console.log(openErrorAgain)
 
   return (
     <div className="mt-[60px] h-[800px] w-full m-auto px-6 flex flex-col items-center gap-[60px]">
