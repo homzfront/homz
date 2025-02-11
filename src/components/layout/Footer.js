@@ -6,6 +6,7 @@ import InstaWhite from "../icons/instaWhite";
 import FacebookWhite from "../icons/facebookWhite";
 import LinkedInWhite from "../icons/linkedInWhite";
 import TwitterWhite from "../icons/twitterWhite";
+import DateFooter from "../auth/dateFooter";
 
 const Footer = () => {
   return (
@@ -135,7 +136,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-10 m-auto lg:max-w-full max-w-[338px] md:text-sm lg:text-center">
-          &copy; 2024 Homz.ng. All rights reserved
+          <DateFooter />
         </div>
       </div>
     </div>

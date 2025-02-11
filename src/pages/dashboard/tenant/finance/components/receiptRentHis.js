@@ -11,6 +11,7 @@ import EmailReceipt from "@/components/icons/emailReceipt";
 import PhoneReceipt from "@/components/icons/phoneReceipt";
 import AddressReceipt from "@/components/icons/addressReceipt";
 import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
+import DateFooter from "@/components/auth/dateFooter";
 
 const ReceiptRentHis = ({ closeReceipt, rentData, tenantData }) => {
   const [copiedState, setCopiedState] = useState({ copied: false });
@@ -211,7 +212,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData, tenantData }) => {
           </div>
         </div>
         <p className="m-4 text-[11px] font-[400] text-GrayHomz text-center">
-          Copyright 2024 Homz.ng. All Rights Reserved
+          <DateFooter />
         </p>
       </div>
       <div style={{ display: 'none' }}>

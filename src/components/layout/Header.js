@@ -213,22 +213,22 @@ const Header = () => {
             Management
           </Link>
           <div className="relative flex items-center gap-1">
-            <div
-              // href={""}
+            <Link
+              href={`${(pathname !== "/enterprise" || pathname !== "/document-generation") ? "/enterprise" : ""}`}
               className={`${pathname === "/document-generation" || pathname === "/enterprise" ? "text-BlueHomz" : ""} hover:text-blue-400`}
               onClick={() => setOpen(false)}
             >
               {
                 pathname === "/document-generation" ? "Document Generation" : pathname === "/enterprise" ?
                   "Enterprise" : "Enterprise"}
-            </div>
+            </Link>
             <div onClick={toggleSubMenu} className={`mt-0.5 cursor-pointer flex`}>
               {subMenuOpen ? <ArrowUpII /> : <Down />}
             </div>
             {subMenuOpen &&
               <div
                 className={`absolute px-3 top-5 md:top-7 py-3 flex  flex-col gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
-    w-[210px]  sm:w-[240px] border z-[99999] bg-white
+                   w-[210px]  sm:w-[240px] border z-[99999] bg-white
                 `}
               >
                 <Link

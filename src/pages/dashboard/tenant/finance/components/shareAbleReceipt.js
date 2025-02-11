@@ -1,4 +1,5 @@
 "use client";
+import DateFooter from "@/components/auth/dateFooter";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
@@ -16,11 +17,11 @@ const ShareAbleReceipt = ({ closeShareAbleReceipt, rentData }) => {
         setReceiptData(parsedData);
       }
     }
-  }, []); 
+  }, []);
 
   return (
     <div className="absolute top-0 z-30 h-screen w-full inset-0 flex items-center justify-center shadow-lg bg-black bg-opacity-30">
-      <div  id="receipt-content" className=" h-[680px] w-[530px] bg-white rounded-lg p-8">
+      <div id="receipt-content" className=" h-[680px] w-[530px] bg-white rounded-lg p-8">
         <div className="flex flex-col gap-4">
           <div className="">
             <div className="flex gap-4 items-center">
@@ -47,7 +48,7 @@ const ShareAbleReceipt = ({ closeShareAbleReceipt, rentData }) => {
                 Amount
               </p>
               <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(receiptData?.totalRent)}
+                <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(receiptData?.totalRent)}
               </p>
             </div>
             <div className="w-full flex gap-4">
@@ -170,7 +171,7 @@ const ShareAbleReceipt = ({ closeShareAbleReceipt, rentData }) => {
             </div>
           </div>
           <p className="mt-2 text-[11px] font-[400] text-GrayHomz text-center">
-            &copy; Copyright 2022 Homz.ng. All Rights Reserved
+            <DateFooter />
           </p>
         </div>
       </div>
