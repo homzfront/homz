@@ -5,6 +5,7 @@ import formatPaidAtDate from "@/utils/formatPaidAtDate";
 import PhoneReceipt from "@/components/icons/phoneReceipt";
 import EmailReceipt from "@/components/icons/emailReceipt";
 import AddressReceipt from "@/components/icons/addressReceipt";
+import DateFooter from "@/components/auth/dateFooter";
 
 const PrintableReceipt = React.forwardRef(({ data }, ref) => (
   <div
@@ -115,7 +116,7 @@ const PrintableReceipt = React.forwardRef(({ data }, ref) => (
           </div>
         </div>
         <p className="text-[11px] font-[400] text-GrayHomz text-center w-full">
-          &copy; Copyright 2024 Homz.ng. All Rights Reserved
+          <DateFooter />
         </p>
       </div>
     </div>

@@ -9,7 +9,7 @@ const Card = ({ data, openAddProperty }) => {
     <div className="border w-full rounded-[12px] p-6 md:w-[30%] flex flex-col gap-8">
       <div className="flex justify-between">
         <h3 className="font-[500] text-[14px] text-BlueHomz">Properties</h3>
-        {data?.totalEstates ?
+        {/* {data?.totalEstates ? */}
           <Link
             href={"/dashboard/enterprise-property/estates"}
             className="flex items-center"
@@ -28,7 +28,7 @@ const Card = ({ data, openAddProperty }) => {
               />
             </span>
           </Link>
-          : <VideoModal videoUrl={videoUrl} />}
+          {/* : <VideoModal videoUrl={videoUrl} />} */}
       </div>
       <div className="flex justify-between items-center">
         <div>
