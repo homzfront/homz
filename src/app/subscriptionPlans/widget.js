@@ -8,7 +8,7 @@ import SuccessModal from "@/components/mainmenu/SuccessModal";
 import useStorePropertyPromotionData from "@/store/propertyPromotions.js";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRouter } from "next/navigation";
-// import ConfirmPaymentModal from "./components/confirmPaymentModal.js";
+
 
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
@@ -29,23 +29,7 @@ const Widget = ({ data, profile }) => {
   }, [upgradePlan]);
 
 
-  // useEffect(() => {
-  //   if (!profile?.data?.paid_at || !profile?.data?.status) return; // Ensure both exist before proceeding
-
-  //   const paidAt = new Date(profile.data.paid_at);
-  //   const today = new Date();
-
-  //   const formatDate = (date) => date.toISOString().split("T")[0];
-
-  //   const isSameDate = formatDate(paidAt) === formatDate(today);
-  //   const isValidStatus = ["success", "non-renewing"].includes(
-  //     profile.data.status
-  //   );
-
-  //   if (isSameDate && isValidStatus) {
-  //     setIsConfirmOpenModal(true);
-  //   }
-  // }, [profile?.data?.paid_at, profile?.data?.status]);
+ 
 
   const pages = [
     {
