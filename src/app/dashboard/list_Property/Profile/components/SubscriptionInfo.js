@@ -2,11 +2,8 @@ import React, { useState, useLayoutEffect } from "react";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import PromotionHooks from "@/utils/promoteProperty";
-// import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
-// import { useRouter } from "next/navigation";
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import api from "@/utils/api";
-
 import Link from "next/link";
 
 const SubscriptionInfo = () => {
