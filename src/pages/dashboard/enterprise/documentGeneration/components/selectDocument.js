@@ -46,20 +46,19 @@ const SelectDocument = ({ handlePageChangeTwo }) => {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
         {
           data.map((data) => (
-            <div   key={data.id}> 
-            <div className='w-full bg-whiteblue rounded-[8px] h-[80px] flex items-center px-8 text-BlackHomz hover:text-white hover:bg-BlueHomz cursor-pointer'
-              onClick={() => handleSelectDocument(data.text)}
-            
-            >
-              <div className='flex justify-start gap-2 items-center text-[16px] font-[400]'>
-                <div className='h-[45px] w-[45px] bg-white flex justify-center items-center rounded-full'>{data.image}</div>
-                {data.text === "Invoice and Receipt" ? "Receipt" : data.text}
+            <div key={data.id}>
+              <div className='w-full bg-whiteblue rounded-[8px] h-[80px] flex items-center px-8 text-BlackHomz hover:text-white hover:bg-BlueHomz cursor-pointer'
+                onClick={() => handleSelectDocument(data.text)}
+              >
+                <div className='flex justify-start gap-2 items-center text-[16px] font-[400]'>
+                  <div className='h-[45px] w-[45px] bg-white flex justify-center items-center rounded-full'>{data.image}</div>
+                  {data.text === "Invoice and Receipt" ? "Receipt" : data.text}
+                </div>
               </div>
-            </div>
-            <div className='bg-[#F6F6F6] rounded-[4px] mt-2 py-2 px-8'>
-              {
-                <VideoModal videoUrl={data.video} />
-              }
+              <div className='bg-[#F6F6F6] rounded-[4px] mt-2 py-2 px-8'>
+                {
+                  <VideoModal videoUrl={data.video} />
+                }
               </div>
             </div>
           ))
