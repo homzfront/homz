@@ -10,6 +10,7 @@ import PrintableReceipt from "./printableReceipt";
 import EmailReceipt from "@/components/icons/emailReceipt";
 import PhoneReceipt from "@/components/icons/phoneReceipt";
 import AddressReceipt from "@/components/icons/addressReceipt";
+import DateFooter from "@/components/auth/dateFooter";
 
 const Receipt = ({ closeReceipt, data }) => {
   const [copiedState, setCopiedState] = useState({ copied: false });
@@ -186,7 +187,7 @@ const Receipt = ({ closeReceipt, data }) => {
             </div>
           </div>
         </div>
-        <p className="text-[11px] mt-2 font-[400] text-GrayHomz text-center w-full">&copy; Copyright  2024  Homz.ng. All Rights Reserved</p>
+        <p className="text-[11px] mt-2 font-[400] text-GrayHomz text-center w-full"><DateFooter /></p>
       </div>
       <div style={{ display: 'none' }}>
         <PrintableReceipt

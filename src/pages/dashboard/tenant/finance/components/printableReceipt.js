@@ -7,6 +7,7 @@ import EmailReceipt from "@/components/icons/emailReceipt";
 import PhoneReceipt from "@/components/icons/phoneReceipt";
 import AddressReceipt from "@/components/icons/addressReceipt";
 import changeBackendDateFormatII from "@/utils/changeBackendDateFormatII";
+import DateFooter from "@/components/auth/dateFooter";
 
 const PrintableReceipt = React.forwardRef(({ rentData, receiptData }, ref) => (
   <div
@@ -49,7 +50,7 @@ const PrintableReceipt = React.forwardRef(({ rentData, receiptData }, ref) => (
               Amount
             </p>
             <p className="text-GrayHomz text-[14px] font-[400] w-[60%]">
-            <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(receiptData?.totalRent)}
+              <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(receiptData?.totalRent)}
             </p>
           </div>
           <div className="w-full flex gap-4">
@@ -151,7 +152,7 @@ const PrintableReceipt = React.forwardRef(({ rentData, receiptData }, ref) => (
         </div>
       </div>
       <p className="m-4 text-[11px] font-[400] text-GrayHomz text-center">
-        &copy; Copyright 2024 Homz.ng. All Rights Reserved
+        <DateFooter />
       </p>
     </div>
   </div>
