@@ -20,7 +20,6 @@ const Widget = ({ data, profile }) => {
   const resetPropertyIds = useStorePropertyPromotionData(
     (state) => state.resetPropertyIds
   );
-  // console.log(propertyIds)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
