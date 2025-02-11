@@ -5,7 +5,6 @@ import React from "react";
 
 const Card = ({ data, openAddProperty }) => {
   const videoUrl = "https://www.youtube.com/watch?v=fgd0aj8xrAA"
-
   return (
     <div className="border w-full rounded-[12px] p-6 md:w-[30%] flex flex-col gap-8">
       <div className="flex justify-between">
