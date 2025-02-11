@@ -11,13 +11,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
+import { cancelEnterprisePlanSub } from "@/api/tenantSevice";
 
 const PlanPayBiAnnually = ({ profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
-  const { setIsOpenModal, isBiAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment } = useOpenPaymentType();
+  const { setIsOpenModal, isBiAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment, error, setError, openErrorAgain, setOpenErrorAgain, setOpenAgain, openAgain } = useOpenPaymentType();
 
 
   const pricingPlans = [
@@ -137,6 +138,15 @@ const PlanPayBiAnnually = ({ profile }) => {
     setLoading(true);
     setLoadingCard(planTitle);
     setIsOpenModal(false);
+    if (error === "you need to disable you active recurring subscribetion before procedding for a one time payment" && openErrorAgain && openAgain) {
+      setIsOpenModal(false);
+      setError(null)
+      setOpenTransferPayment(false)
+      const { success, data, error } = await cancelEnterprisePlanSub(
+        profile?.email_token,
+        profile?.subscriptionCode,
+      );
+    }
     try {
       let response;
       if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
@@ -159,7 +169,19 @@ const PlanPayBiAnnually = ({ profile }) => {
         }
       } else {
         if (response.error) {
-          toast.error(response.error);
+          // console.log(response.error)
+          if (response.error === "you need to disable you active recurring subscribetion before procedding for a one time payment") {
+            setError(response.error)
+            setIsOpenModal(true)
+            setOpenErrorAgain({
+              planName: planTitle,
+              planInterval: interval
+            })
+            setOpenTransferPayment(false)
+            return;
+          } else {
+            toast.error(response.error);
+          }
         }
       }
     } catch (error) {
@@ -182,6 +204,12 @@ const PlanPayBiAnnually = ({ profile }) => {
       handleSubmit(isBiAnnaullyData.planInterval, isBiAnnaullyData.planName)
     }
   }, [openCardPayment, openTransferPayment])
+
+  React.useEffect(() => {
+    if (openErrorAgain) {
+      handleSubmit(openErrorAgain.planInterval, openErrorAgain.planName)
+    }
+  }, [openAgain])
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px] w-full">
