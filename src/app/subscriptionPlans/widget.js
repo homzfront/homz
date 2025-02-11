@@ -30,23 +30,7 @@ const Widget = ({ data, profile }) => {
   }, [upgradePlan]);
 
 
-  // useEffect(() => {
-  //   if (!profile?.data?.paid_at || !profile?.data?.status) return; // Ensure both exist before proceeding
 
-  //   const paidAt = new Date(profile.data.paid_at);
-  //   const today = new Date();
-
-  //   const formatDate = (date) => date.toISOString().split("T")[0];
-
-  //   const isSameDate = formatDate(paidAt) === formatDate(today);
-  //   const isValidStatus = ["success", "non-renewing"].includes(
-  //     profile.data.status
-  //   );
-
-  //   if (isSameDate && isValidStatus) {
-  //     setIsConfirmOpenModal(true);
-  //   }
-  // }, [profile?.data?.paid_at, profile?.data?.status]);
 
   const pages = [
     {
