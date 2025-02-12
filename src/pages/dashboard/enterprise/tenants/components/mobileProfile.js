@@ -8,14 +8,16 @@ import PaymentHis from '../secondPage/paymentHis';
 import RentInfo from '../secondPage/rentInfo';
 import Maintenance from '../secondPage/maintenance';
 
-const MobileProfile = ({ 
+const MobileProfile = ({
     tenantId,
     rentInfo,
     tenantData,
     fetchTenantData,
     fetchRentInformation,
     reFetchSummaryData,
-    paymentData
+    paymentData,
+    openKYC,
+    setOpenKYC
 }) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
@@ -23,6 +25,7 @@ const MobileProfile = ({
     const [active, setActive] = useState(tab ? tab === 'rentInfo' : true);
     const [activeTwo, setActiveTwo] = useState(tab === 'paymentHis');
     const [activeThree, setActiveThree] = useState(tab === 'maintenance');
+
     const route = useRouter()
 
     const goBack = () => {
@@ -112,16 +115,16 @@ const MobileProfile = ({
                                 fetchTenantData={fetchTenantData}
                                 tenantId={tenantId}
                                 rentInfo={rentInfo}
-                                fetchRentInformation= {fetchRentInformation}
+                                fetchRentInformation={fetchRentInformation}
                                 reFetchSummaryData={reFetchSummaryData}
                             />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHis
-                                tenantId={tenantId} 
+                                tenantId={tenantId}
                                 tenantData={tenantData}
                                 rentInfo={rentInfo}
-                                fetchRentInformation ={fetchRentInformation}
+                                fetchRentInformation={fetchRentInformation}
                                 reFetchSummaryData={reFetchSummaryData}
                                 paymentData={paymentData}
                             />
@@ -186,6 +189,9 @@ const MobileProfile = ({
                                 </p>
                             </div>
                         </div>
+                        <button onClick={() => setOpenKYC(true)} className="mt-6 w-full h-[45px] rounded-[4px] border border-BlueHomz hover:bg-inputBg text-BlueHomz text-sm font-normal">
+                            View Personal Information
+                        </button>
                     </div>
                     <div className='mt-6 w-full bg-GrayHomz6 rounded-[12px] text-[14px] font-[500] text-BlackHomz'>
                         <div className='px-4 h-[60px] flex items-center justify-between border-GrayHomz2 border-b-[1px] w-full'>

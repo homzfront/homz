@@ -8,12 +8,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingII from "@/components/mainmenu/loadingII.js";
 import MobileProfile from "../components/mobileProfile.js";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant.js";
+import WidgetKYC from "./widgetKYC.js";
 
 const TenantProfile = ({ id }) => {
   const [tenantData, setData] = useState([]);
   const [loadingTenant, setLoading] = useState(true);
   const [rentInfo, setRentInfo] = useState(null);
+  const [openKYC, setOpenKYC] = useState(false)
 
   const fetchTenantData = async () => {
     const response = await fetchSpecificTenant(`${id}`);
@@ -76,6 +79,12 @@ const TenantProfile = ({ id }) => {
         <LoadingII />
       ) : (
         <div className="w-full">
+          {
+            openKYC &&
+            <CustomizedModal isOpen={openKYC} onRequestClose={() => setOpenKYC(false)}>
+              <WidgetKYC setOpenKYC={setOpenKYC}/>
+            </CustomizedModal>
+          }
           <div className="hidden md:block">
             <div className="w-full">
               <Image
@@ -89,7 +98,7 @@ const TenantProfile = ({ id }) => {
             </div>
             <div className="w-full flex gap-6 mt-[-20px] px-8">
               <div className="w-[35%]">
-                <ProfileCard tenantData={tenantData} />
+                <ProfileCard tenantData={tenantData} openKYC={openKYC} setOpenKYC={setOpenKYC} />
               </div>
               <div className="w-[65%]">
                 <Widget
@@ -113,6 +122,8 @@ const TenantProfile = ({ id }) => {
               fetchRentInformation={fetchRentInformation}
               reFetchSummaryData={reFetchSummaryData}
               paymentData={paymentData}
+              openKYC={openKYC}
+              setOpenKYC={setOpenKYC}
             />
           </div>
         </div>

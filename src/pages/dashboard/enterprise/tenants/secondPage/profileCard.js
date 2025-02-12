@@ -1,11 +1,11 @@
 import Image from "next/image";
 import React from "react";
 
-const ProfileCard = ({ tenantData }) => {
+const ProfileCard = ({ tenantData, openKYC, setOpenKYC }) => {
   return (
     <div className="w-[350px] h-auto py-4 px-6 shadow-md bg-white rounded-[12px]">
       <div className="w-full ">
-        {tenantData?.data?.coverPhoto?.url? (
+        {tenantData?.data?.coverPhoto?.url ? (
           <Image
             src={tenantData?.data?.coverPhoto?.url}
             height={198}
@@ -20,13 +20,13 @@ const ProfileCard = ({ tenantData }) => {
           />
         ) : (
           <div className="w-[198px] h-[198px] bg-GrayHomz5 rounded-full flex items-center justify-center">
-          <Image
-            src="/static/dashboard/enterprisemanager/profile/user.png"
-            height={52}
-            width={52}
-            alt="img"
-          />
-        </div>
+            <Image
+              src="/static/dashboard/enterprisemanager/profile/user.png"
+              height={52}
+              width={52}
+              alt="img"
+            />
+          </div>
         )}
       </div>
       <h1 className="font-[700] my-4 text-[20px] text-GrayHomz">
@@ -52,6 +52,9 @@ const ProfileCard = ({ tenantData }) => {
           </p>
         </div>
       </div>
+      <button onClick={() => setOpenKYC(true)} className="mt-6 w-full h-[45px] rounded-[4px] bg-BlueHomz text-white text-sm font-normal">
+        View Personal Information
+      </button>
     </div>
   );
 };

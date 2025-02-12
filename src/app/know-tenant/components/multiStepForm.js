@@ -23,9 +23,6 @@ export default function MultiStepForm() {
   const [formData, setFormData] = React.useState(null);
   const { register, handleSubmit } = useForm();
 
-  console.log(formData)
-  console.log(step)
-
   const onSubmit = (data) => console.log(data);
 
   return (
@@ -63,7 +60,6 @@ export default function MultiStepForm() {
                   className={`flex flex-col items-center p-2 justify-center ${step === index ? "bg-white rounded-full w-4 h-4 shadow-md" : "h-4 w-4"}`}
                   onClick={() => {
                     setStep(index)
-                    console.log(index, stepTitle)
                   }}
                 >
                   <div
@@ -91,13 +87,6 @@ export default function MultiStepForm() {
           {step === 4 && (
             <TenantVerification register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
           )}
-          <div className="flex justify-end mt-4">
-            {/* {step === steps.length - 1 ? (
-              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
-                Submit
-              </button>
-            ) : null} */}
-          </div>
         </form>
       </div>
     </div>

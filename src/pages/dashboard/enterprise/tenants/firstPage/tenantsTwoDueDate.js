@@ -16,6 +16,7 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 import truncateText from "@/utils/truncateText";
 import PrintableTenantdData from "./printableTenantdData";
 import Pagination from "@/components/general/pagination";
+import Verified from "@/components/icons/verified";
 
 const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, printableRef, Data, fetchDataAgain, setSelectedRows, selectedRows, isMasterChecked, setIsMasterChecked }) => {
   const [selectedDataId, setSelectedDataId] = useState(null);
@@ -143,28 +144,36 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
                     key={data?._id}
                     className="border-b-[1px] items-center flex justify-center w-full gap-2 px-2 h-[60px]"
                   >
-                    <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px] w-[15%]">
-                      {loading ? (
-                        <div className=" max-w-[40%] h-[40px] w-[40px] rounded-full bg-gray-200 animate-pulse"></div> // Skeleton loader
-                      ) : !data?.coverPhoto?.url ? (
-                        <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
-                          <EmptyAvatar />
-                        </div>
-                      ) : (
-                        <Image
-                          src={data?.coverPhoto?.url}
-                          alt=""
-                          width={40}
-                          height={40}
-                          layout="full" // Specify the desired height
-                          objectFit="cover"
-                          objectPosition="center"
-                          className="object-cover bg-center h-[40px] rounded-full"
-                          priority
-                        />
-                      )}
-                      <span className="w-[60%] md:w-auto">{loading ?
-                        <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.fullName}</span>
+                    <div className="w-[15%] flex items-center justify-between">
+                      <div className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px]">
+                        {loading ? (
+                          <div className=" max-w-[40%] h-[40px] w-[40px] rounded-full bg-gray-200 animate-pulse"></div> // Skeleton loader
+                        ) : !data?.coverPhoto?.url ? (
+                          <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                            <EmptyAvatar />
+                          </div>
+                        ) : (
+                          <Image
+                            src={data?.coverPhoto?.url}
+                            alt=""
+                            width={40}
+                            height={40}
+                            layout="full" // Specify the desired height
+                            objectFit="cover"
+                            objectPosition="center"
+                            className="object-cover bg-center h-[40px] rounded-full"
+                            priority
+                          />
+                        )}
+                        <span className="w-[60%] md:w-auto">{loading ?
+                          <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div> : data?.fullName}
+                        </span>
+                      </div>
+                      <div className="mr-2">
+                        <span className="w-[16px]">{loading ?
+                          <div className="w-[16px] h-[16px] rounded bg-gray-200 animate-pulse"></div> : <Verified />}
+                        </span>
+                      </div>
                     </div>
                     <div className=" text-GrayHomz w-[10%] font-[500] text-[11px] text-start">
                       {loading ?
