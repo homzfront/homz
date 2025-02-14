@@ -30,26 +30,33 @@ import { isTrialExpired } from "@/utils/compareTrialTime";
 import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import ExpiredPlanModal from '@/pages/dashboard/enterprise/components/expiredPlanModal';
+import VideoModal from '@/components/general/videoModal'
 
+const videoUrl = "https://youtu.be/biBbcYaJboQ?si=KVIXlliYFGPHpdap"
+const videoUrl2 = "https://youtu.be/bITV-yk-l1M?si=q2KPHzw-3GN9Kugs"
+const videoUrl3 = "https://youtu.be/ZiELgNXtz4Y?si=9n5wEQpNmMxjfoxJ"
 
 const DocSolution = [
     {
         id: 1,
         title: "Tenancy Agreement",
         body: "Generate comprehensive  and customizable tenancy agreements.",
-        image: < DocDocu />
+        image: < DocDocu />,
+        video: <VideoModal videoUrl={videoUrl} />
     },
     {
         id: 2,
         title: "Receipts",
         body: "Create and send professional rent invoices and receipts.",
-        image: < DocReceipt />
+        image: < DocReceipt />,
+        video: <VideoModal videoUrl={videoUrl2} />
     },
     {
         id: 3,
         title: "Quit Notice",
         body: "Handle tenant eviction processes with legally compliant notices.",
-        image: < QuickNotice />
+        image: < QuickNotice />,
+        video: <VideoModal videoUrl={videoUrl3} />
     }
 ]
 
@@ -90,6 +97,9 @@ const DocumentGene = () => {
             docSolutionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
+
+
 
     const handleSelectDocument = (docType) => {
         if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
@@ -365,37 +375,41 @@ const DocumentGene = () => {
                 <div className='w-full px-8'>
                     <div className="hidden md:flex flex-wrap gap-4 mt-10 justify-center">
                         {DocSolution.map((data) => (
-                            <div
-                                onClick={() => handleSelectDocument(data.title)}
-                                onMouseEnter={() => { setHover(data.id) }}
-                                onMouseLeave={() => { setHover(null) }}
-                                className={`cursor-pointer bg-whiteblue hover:bg-BlueHomz group rounded-[12px] p-8 flex flex-col justify-between items-center h-[260px] w-[360px]`}
-                                key={data.id}
-                            >
-                                <div className='flex flex-col gap-1 w-full justify-center items-center'>
-                                    <div className='w-[45px] h-[45px] rounded-full bg-white flex justify-center items-center'>
-                                        {data.image}
+                            <div key={data.id}>
+                                <div
+                                    onClick={() => handleSelectDocument(data.title)}
+                                    onMouseEnter={() => { setHover(data.id) }}
+                                    onMouseLeave={() => { setHover(null) }}
+                                    className={`cursor-pointer bg-whiteblue hover:bg-BlueHomz group rounded-[12px] p-8 flex flex-col justify-between items-center h-[260px] w-[360px]`}
+                                >
+                                    <div className='flex flex-col gap-1 w-full justify-center items-center'>
+                                        <div className='w-[45px] h-[45px] rounded-full bg-white flex justify-center items-center'>
+                                            {data.image}
+                                        </div>
+                                        <p className='text-[20px] font-[600] text-BlackHomz group-hover:text-white text-center'>
+                                            {data.title}
+                                        </p>
+                                        <p className='text-[18px] font-[400] text-GrayHomz group-hover:text-white text-center'>
+                                            {data.body}
+                                        </p>
                                     </div>
-                                    <p className='text-[20px] font-[600] text-BlackHomz group-hover:text-white text-center'>
-                                        {data.title}
-                                    </p>
-                                    <p className='text-[18px] font-[400] text-GrayHomz group-hover:text-white text-center'>
-                                        {data.body}
-                                    </p>
+                                    {
+                                        hover && hover === data.id ?
+                                            <div>
+                                                <ArrowWhiteBig />
+                                            </div>
+                                            :
+                                            <div className='flex items-center gap-1'>
+                                                <p className='text-[16px] font-[500] text-BlueHomz group-hover:text-white'>
+                                                    Generate
+                                                </p>
+                                                <ArrowRightBlue />
+                                            </div>
+                                    }
                                 </div>
-                                {
-                                    hover && hover === data.id ?
-                                        <div>
-                                            <ArrowWhiteBig />
-                                        </div>
-                                        :
-                                        <div className='flex items-center gap-1'>
-                                            <p className='text-[16px] font-[500] text-BlueHomz group-hover:text-white'>
-                                                Generate
-                                            </p>
-                                            <ArrowRightBlue />
-                                        </div>
-                                }
+                                <div className='mt-4 w-full flex justify-center items-center'>
+                                    {data.video}
+                                </div>
                             </div>
                         ))}
                     </div>

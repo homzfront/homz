@@ -42,6 +42,9 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE}
         />
+        <meta name="facebook-domain-verification"
+          content={process.env.NEXT_PUBLIC_FACEBOOK_META}
+        />
         <noscript>
           <img
             height="1"
