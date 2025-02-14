@@ -38,7 +38,7 @@ const List_Property = () => {
   const router = useRouter();
   const [errorModal, setErrorModal] = useState(false);
   const [loader, setLoading] = useState(true);
-  const videoUrl = "https://www.youtube.com/watch?v=Ft01SCmpWxg"
+  const videoUrl = "https://youtube.com/shorts/RDNSb6OAEko?feature=share"
   const setPropertyIds = usePropertyPromotionsData(
     (state) => state.setPropertyIds
   );
@@ -417,7 +417,7 @@ const List_Property = () => {
                       <div>
                         <div
                           onClick={() => setOpenModalForBusi(true)}
-                          className="w-full cursor-pointer flex gap-1 sm:w-[166px] sm:h-[42px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white sm:bg-[#006AFF] ml-3"
+                          className="w-full cursor-pointer flex gap-1 sm:w-[166px] sm:h-[42px] sm:px-[12px] text-[14px] items-center justify-center rounded-[4px] text-white sm:bg-[#006AFF]"
                         >
                           <Image
                             src="/static/images/white-add.svg"
@@ -437,7 +437,7 @@ const List_Property = () => {
                             List New property
                           </span>
                         </div>
-                        <div className="md:block hidden">
+                        <div className="md:block hidden mt-1">
                           <VideoModal videoUrl={videoUrl} />
                         </div>
                       </div>
@@ -471,9 +471,6 @@ const List_Property = () => {
                       </div>
                     )}
                   </div>
-                  <div className="md:hidden mt-1">
-                    <VideoModal videoUrl={videoUrl} />
-                  </div>
                 </div>
               </div>
             </div>
@@ -487,7 +484,7 @@ const List_Property = () => {
                   alt=""
                   height={28}
                   width={28}
-                  className="md:hidden rounded-[8px]"
+                  className="md:hidden rounded-[8px] flex h-full justify-center items-center ml-0.5"
                   onClick={handleOpenModal}
                 />
               </div>
@@ -502,6 +499,9 @@ const List_Property = () => {
                 />
               </Link>
             )}
+            <div className="md:hidden mt-2 ml-1">
+              <VideoModal videoUrl={videoUrl} />
+            </div>
           </div>
 
 
