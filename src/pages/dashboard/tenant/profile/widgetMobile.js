@@ -5,6 +5,10 @@ import ChangePassword from './changePassword/changePassword';
 import RentInformation from './rentInformation/rentInformation';
 import { useSearchParams } from 'next/navigation';
 import AccountInfo from './accountInfo/accountInfo';
+import PendingCard from './personalInfo/components/pendingCard';
+import RejectedCard from './personalInfo/components/rejectedCard';
+import useTenantActiveKYC from '@/store/tenantKYC/useTenantActiveKYC';
+import SuccessCard from './personalInfo/components/successCard';
 
 const WidgetMobile = ({ data }) => {
     const urlParams = useSearchParams();
@@ -15,6 +19,7 @@ const WidgetMobile = ({ data }) => {
     const [activeThree, setActiveThree] = useState(false);
     const [activeFour, setActiveFour] = useState(tab === 'acctInfo');
     const [activeFive, setActiveFive] = useState(false);
+    const { approve, rejected } = useTenantActiveKYC()
 
     const handlePageChange = () => {
         setActive(false);
@@ -112,7 +117,8 @@ const WidgetMobile = ({ data }) => {
                 <div className={`${!active ? "inline" : "hidden"}`}>
                     <RentInformation data={data} />
                 </div>
-                <div className={`${activeTwo ? "inline" : "hidden"}`}>
+                <div className={`h-auto ${activeTwo ? "inline" : "hidden"}`}>
+                    {approve ? <SuccessCard /> : !rejected ? <PendingCard /> : <RejectedCard />}
                     <PersonalInfo data={data} />
                 </div>
                 <div className={`${activeThree ? "inline" : "hidden"}`}>

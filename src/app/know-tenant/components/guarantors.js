@@ -5,10 +5,11 @@ import DoneUpload from '@/components/icons/doneUpload';
 import DoneUploadTwo from '@/components/icons/doneUploadTwo';
 import Upload from '@/components/icons/upload';
 import UploadTwo from '@/components/icons/uploadTwo';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-const Guarantors = ({ setStep, register, setFormData, formData }) => {
+const Guarantors = ({ loading, setOpenSaveModal, onSubmit, setStep, register, setFormData, formData }) => {
     const [active, setActive] = React.useState(false);
     const [firstGuarantorFile, setFirstGuarantorFile] = React.useState(null);
     const [secondGuarantorFile, setSecondGuarantorFile] = React.useState(null);
@@ -19,7 +20,14 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
     const [firstIdCard, setFirstIdCard] = React.useState(null);
     const [secondIdCard, setSecondIdCard] = React.useState(null);
 
-    const handleFileUpload = (file, setFile) => {
+    const resetFileInput = (inputId) => {
+        const fileInput = document.getElementById(inputId);
+        if (fileInput) {
+            fileInput.value = '';
+        }
+    };
+
+    const handleFileUpload = (file, setFile, key) => {
         if (!file) return;
 
         const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
@@ -34,13 +42,20 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
         }
 
         setFile(file);
+        setFormData((prev) => ({
+            ...prev,
+            [key]: file,
+        }));
         toast.success('File uploaded successfully!');
+
+        // Reset the file input value
+        resetFileInput(key);
     };
 
-    const handleDrop = (event, setFile) => {
+    const handleDrop = (event, setFile, key) => {
         event.preventDefault();
         const file = event.dataTransfer.files[0];
-        handleFileUpload(file, setFile);
+        handleFileUpload(file, setFile, key);
     };
 
     const handleDragOver = (event) => {
@@ -85,6 +100,21 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
         }
     }, [firstGuarantorIdCard, secondGuarantorIdCard])
 
+    React.useEffect(() => {
+        if (firstGuarantorFile === null && formData?.firstGuarantorUpload) {
+            setFirstGuarantorFile(formData?.firstGuarantorUpload)
+        }
+        if (secondGuarantorFile === null && formData?.secondGuarantorUpload) {
+            setSecondGuarantorFile(formData?.secondGuarantorUpload)
+        }
+        if (firstGuarantorIdCard === null && formData?.firstGuarantorIdUpload) {
+            setFirstGuarantorIdCard(formData?.firstGuarantorIdUpload)
+        }
+        if (secondGuarantorIdCard === null && formData?.secondGuarantorIdUpload) {
+            setSecondGuarantorIdCard(formData?.secondGuarantorIdUpload)
+        }
+    },[formData])
+
     return (
         <div className='mt-4'>
             <div className='border border-[#D5D5D5] rounded-[12px] p-4'>
@@ -106,7 +136,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div
                             className='w-full bg-white rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setFirstGuarantorFile)}
+                            onDrop={(e) => handleDrop(e, setFirstGuarantorFile, "firstGuarantorUpload")}
                             onDragOver={handleDragOver}
                         >
                             {firstGuarantorFile
@@ -114,7 +144,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 <div>
                                     <label htmlFor="firstGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUpload />
-                                        <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
+                                        <p className='text-center text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
                                                 {firstFile?.name}
                                             </span>
@@ -131,7 +161,16 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setFirstGuarantorFile(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setFirstGuarantorFile(null)
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.firstGuarantorUpload;
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
@@ -155,12 +194,14 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorFile)}
+                                onChange={(e) => {
+                                    handleFileUpload(e.target.files[0], setFirstGuarantorFile, "firstGuarantorUpload")
+                                }}
                             />
                         </div>
                         <div
                             className='w-full border border-dashed border-[#D5D5D5] rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setFirstGuarantorIdCard)}
+                            onDrop={(e) => handleDrop(e, setFirstGuarantorIdCard, "firstGuarantorIdUpload")}
                             onDragOver={handleDragOver}
                         >
                             {firstGuarantorIdCard
@@ -168,7 +209,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 <div>
                                     <label htmlFor="firstGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUploadTwo />
-                                        <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
+                                        <p className='text-center text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
                                                 {firstIdCard?.name}
                                             </span>
@@ -185,7 +226,14 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setFirstGuarantorIdCard(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button onClick={() => {
+                                                setFirstGuarantorIdCard(null)
+                                                setFormData((prev) => {
+                                                    const updatedData = { ...prev };
+                                                    delete updatedData.firstGuarantorIdUpload;
+                                                    return updatedData;
+                                                });
+                                            }} className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
@@ -209,7 +257,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorIdCard)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorIdCard, "firstGuarantorIdUpload")}
                             />
                         </div>
                     </div>
@@ -219,7 +267,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div
                             className='w-full bg-white rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setSecondGuarantorFile)}
+                            onDrop={(e) => handleDrop(e, setSecondGuarantorFile, "secondGuarantorUpload")}
                             onDragOver={handleDragOver}
                         >
                             {secondGuarantorFile
@@ -227,7 +275,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 <div>
                                     <label htmlFor="secondGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUpload />
-                                        <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
+                                        <p className='text-center text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
                                                 {secondFile?.name}
                                             </span>
@@ -244,7 +292,16 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setSecondGuarantorFile(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setSecondGuarantorFile(null)
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.secondGuarantorUpload;
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
@@ -268,12 +325,12 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorFile)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorFile, "secondGuarantorUpload")}
                             />
                         </div>
                         <div
                             className='w-full border border-dashed border-[#D5D5D5] rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setSecondGuarantorIdCard)}
+                            onDrop={(e) => handleDrop(e, setSecondGuarantorIdCard, "secondGuarantorIdUpload")}
                             onDragOver={handleDragOver}
                         >
                             {secondGuarantorIdCard
@@ -281,7 +338,7 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 <div>
                                     <label htmlFor="secondGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUploadTwo />
-                                        <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
+                                        <p className='text-center text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
                                                 {secondIdCard?.name}
                                             </span>
@@ -298,7 +355,16 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setSecondGuarantorIdCard(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setSecondGuarantorIdCard(null)
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.secondGuarantorIdUpload;
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
@@ -322,24 +388,36 @@ const Guarantors = ({ setStep, register, setFormData, formData }) => {
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorIdCard)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorIdCard, "secondGuarantorIdUpload")}
                             />
                         </div>
                     </div>
                 </div>
             </div>
             <div className='flex flex-col-reverse md:flex-row gap-2 md:gap-0 justify-center md:justify-between md:items-center mt-6 mb-[60px]'>
-                <p className='cursor-pointer text-[16px] text-BlueHomz font-medium text-center md:text-start'>Save & skip to dashboard</p>
-                <div className='flex items-center gap-4 md:gap-3 w-full md:w-auto'>
+                <p />
+                <div className={`flex items-center gap-4 md:gap-3 w-full md:w-auto ${loading && "pointer-events-none"}`}>
                     <button onClick={() => setStep(2)} onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)} className={`${active ? "text-white bg-[#4bb2e5]" : "text-BlueHomz"} w-[50%] md:w-auto border border-BlueHomz md:border-none rounded-[4px] p-3 flex justify-center items-center gap-1`}>
                         {active ? <ArrowLeftBlueSmall className='#FFFFFF' /> : <ArrowLeftBlueSmall />}
                         Back
                     </button>
-                    <button onClick={() => setStep(4)} className={`${formData ? "border border-BlueHomz text-BlueHomz hover:bg-whiteblue" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"} p-3 rounded-[4px] hidden md:flex items-center gap-1`}>
-                        Next {formData ? <ArrowRightSmall className='#006aff' /> : <ArrowRightSmall className='#d5d5d5' />}
+                    <button onClick={() => onSubmit()} className={`${formData ? "border border-BlueHomz text-BlueHomz hover:bg-whiteblue" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"} p-3 rounded-[4px] hidden md:flex items-center gap-1 ${loading ? "w-full flex justify-center" : ""}`}>
+                        {loading ? (
+                            <LoadingFormII className="#006aff" />
+                        ) : (
+                            <span className='flex gap-1 items-center'>
+                                Continue {formData ? <ArrowRightSmall className="#006aff" /> : <ArrowRightSmall className="#d5d5d5" />}
+                            </span>
+                        )}
                     </button>
-                    <button onClick={() => setStep(4)} className={`${formData ? "bg-BlueHomz text-white hover:bg-blue-400" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"} w-[50%] p-3 rounded-[4px] flex md:hidden justify-center items-center gap-1`}>
-                        Next {formData ? <ArrowRightSmall className='#ffffff' /> : <ArrowRightSmall className='#d5d5d5' />}
+                    <button onClick={() => onSubmit()} className={`${formData ? "bg-BlueHomz text-white hover:bg-blue-400" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"} w-[50%] p-3 rounded-[4px] flex md:hidden justify-center items-center gap-1 ${loading ? "w-full flex justify-center" : ""}`}>
+                        {loading ? (
+                            <LoadingFormII />
+                        ) : (
+                            <span className='flex gap-1 items-center'>
+                                Continue {formData ? <ArrowRightSmall className="#ffffff" /> : <ArrowRightSmall className="#d5d5d5" />}
+                            </span>
+                        )}
                     </button>
                 </div>
             </div>

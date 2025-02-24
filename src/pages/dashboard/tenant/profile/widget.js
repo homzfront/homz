@@ -6,6 +6,10 @@ import ProfilePicture from "./profilePicture/profilePicture.js";
 import RentInformation from "./rentInformation/rentInformation.js";
 import AccountInfo from "./accountInfo/accountInfo.js";
 import { useSearchParams } from "next/navigation.js";
+import useTenantActiveKYC from "@/store/tenantKYC/useTenantActiveKYC.js";
+import PendingCard from "./personalInfo/components/pendingCard.js";
+import RejectedCard from "./personalInfo/components/rejectedCard.js";
+import SuccessCard from "./personalInfo/components/successCard.js";
 
 
 const Widget = ({ data }) => {
@@ -13,10 +17,11 @@ const Widget = ({ data }) => {
   const tab = urlParams.get("tab")
 
   const [active, setActive] = useState(tab ? tab !== 'personal' : false);
-  const [activeTwo, setActiveTwo] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(tab === "personalInfo");
   const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(tab === 'acctInfo'); 
-  const [activeFive, setActiveFive] = useState(false); 
+  const [activeFour, setActiveFour] = useState(tab === 'acctInfo');
+  const [activeFive, setActiveFive] = useState(false);
+  const { approve, rejected } = useTenantActiveKYC()
 
 
   const handlePageChange = (e) => {
@@ -25,7 +30,7 @@ const Widget = ({ data }) => {
     setActiveTwo(false);
     setActiveThree(false);
     setActiveFour(false);
-    setActiveFive(false); 
+    setActiveFive(false);
   };
 
   const handlePageChangeTwo = (e) => {
@@ -43,7 +48,7 @@ const Widget = ({ data }) => {
     setActiveTwo(false);
     setActive(true);
     setActiveFour(false);
-    setActiveFive(false); 
+    setActiveFive(false);
   };
 
   const handlePageChangeFour = (e) => {
@@ -70,9 +75,8 @@ const Widget = ({ data }) => {
       <div className="w-full h-auto py-4">
         <div className=" flex mt-5 gap-4 justify-between w-[650px] cursor-pointer">
           <div
-            className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
-              !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
-            }`}
+            className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${!active ? "bg-BlueHomz text-white" : "text-BlackHomz "
+              }`}
             onClick={(e) => handlePageChange(e)}
             justify-center
           >
@@ -81,9 +85,8 @@ const Widget = ({ data }) => {
 
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeTwo ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={(e) => handlePageChangeTwo(e)}
             >
               <p className="text-[14px] font-500">Personal Information</p>
@@ -91,9 +94,8 @@ const Widget = ({ data }) => {
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeThree ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={(e) => handlePageChangeThree(e)}
             >
               <p className="text-[14px] font-500">Profile Picture</p>
@@ -111,9 +113,8 @@ const Widget = ({ data }) => {
           </div> */}
           <div className="flex flex-col items-center gap-2 justify-center">
             <div
-              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
-                activeFive ? "bg-BlueHomz text-white" : "text-BlackHomz "
-              }`}
+              className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeFive ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
               onClick={(e) => handlePageChangeFive(e)}
             >
               <p className="text-[14px] font-500">Change Password</p>
@@ -126,7 +127,10 @@ const Widget = ({ data }) => {
             <RentInformation data={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <PersonalInfo data={data} />
+            <div>
+              {approve ? <SuccessCard /> : !rejected ? <PendingCard /> : <RejectedCard />}
+              <PersonalInfo data={data} />
+            </div>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <ProfilePicture data={data} />

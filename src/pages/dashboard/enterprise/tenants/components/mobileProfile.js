@@ -7,6 +7,8 @@ import { useSearchParams } from "next/navigation";
 import PaymentHis from '../secondPage/paymentHis';
 import RentInfo from '../secondPage/rentInfo';
 import Maintenance from '../secondPage/maintenance';
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import AcAndRejModel from "../../components/acAndRejModel";
 
 const MobileProfile = ({
     tenantId,
@@ -20,6 +22,8 @@ const MobileProfile = ({
     setOpenKYC
 }) => {
     const urlParams = useSearchParams();
+    const [openCancel, setOpenCancel] = React.useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
     const tab = urlParams.get("tab")
     const [showWidget, setShowWidget] = useState(false);
     const [active, setActive] = useState(tab ? tab === 'rentInfo' : true);
@@ -56,6 +60,39 @@ const MobileProfile = ({
 
     return (
         <div className='p-8 flex flex-col gap-2'>
+            <CustomizedModal isOpen={openCancel} onRequestClose={() => setOpenCancel(false)}>
+                <div className="bg-white p-6 rounded-[12px] max-w-[600px] w-full">
+                    <div className="">
+                        <p className="text-sm font-medium text-BlackHomz">
+                            Provide a reason for rejection
+                        </p>
+                        <textarea
+                            className="mt-2 placeholder:text-GrayHomz2 p-2 h-[65px] w-full border"
+                            placeholder="E.g. The uploaded guarantor ID is unclear. Please upload a valid ID"
+                        />
+                    </div>
+                    <div className="flex mt-2 w-full justify-end">
+                        <div className="flex gap-2 w-[40%]">
+                            <button onClick={() => setOpenCancel(false)} className="p-2 text-GrayHomz">
+                                Cancel
+                            </button>
+                            <button onClick={() => setOpenCancel(false)} className="p-2 rounded-[6px] bg-[#D92D20] text-[#FDF2F2]">
+                                Send Rejection
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </CustomizedModal>
+            <CustomizedModal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+                <AcAndRejModel
+                    header={"Confirm Rejection"}
+                    body={"Are you sure you want to reject this tenant's submission? This action is final and cannot be undone."}
+                    button={"Proceed"}
+                    buttonTwo={"Cancel"}
+                    returnHome={() => setIsOpen(false)}
+                    returnHomeTwo={() => setIsOpen(false)}
+                />
+            </CustomizedModal>
             <div className='flex gap-4 items-center'>
                 <div onClick={goBack} className='cursor-pointer'>
                     <div className='w-[28px] h-[28px] bg-walletBg rounded-[8px] flex justify-center items-center'>
@@ -189,9 +226,29 @@ const MobileProfile = ({
                                 </p>
                             </div>
                         </div>
-                        <button onClick={() => setOpenKYC(true)} className="mt-6 w-full h-[45px] rounded-[4px] border border-BlueHomz hover:bg-inputBg text-BlueHomz text-sm font-normal">
-                            View Personal Information
-                        </button>
+                        <div className="bg-[#F6F6F6] rounded-[8px] mt-2 p-4 text-sm font-normal">
+                            <p className="text-[13px] text-BlackHomz pb-2">
+                                Tenant KYC
+                            </p>
+                            <div className="flex gap-2 bg-white rounded-[4px] p-2 w-full">
+                                <button className="w-[60%] h-[45px] rounded-[4px] text-warning2 flex justify-center items-center gap-2">
+                                    <WarningIcon />
+                                    Pending Review
+                                </button>
+                                <button onClick={() => setOpenKYC(true)} className="w-[40%] h-[45px] rounded-[4px] bg-whiteblue text-BlueHomz flex justify-center items-center gap-2">
+                                    View KYC
+                                    <ArrowRightSmall className="#006AFF" />
+                                </button>
+                            </div>
+                            <div className="flex gap-2 mt-2 w-full">
+                                <button onClick={() => setIsOpen(true)} className="w-[50%] rounded-[4px] h-[40px] bg-Success text-successBg">
+                                    Approve
+                                </button>
+                                <button onClick={() => setOpenCancel(true)} className="w-[50%] rounded-[4px] h-[40px] border border-error text-error">
+                                    Reject with reason
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div className='mt-6 w-full bg-GrayHomz6 rounded-[12px] text-[14px] font-[500] text-BlackHomz'>
                         <div className='px-4 h-[60px] flex items-center justify-between border-GrayHomz2 border-b-[1px] w-full'>

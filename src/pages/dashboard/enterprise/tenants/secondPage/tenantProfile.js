@@ -60,6 +60,7 @@ const TenantProfile = ({ id }) => {
     fetchRentInformation();
   }, [tenantData?.data]);
 
+  console.log(tenantData)
   return (
     <div className="max-w-full">
       <ToastContainer
@@ -82,7 +83,7 @@ const TenantProfile = ({ id }) => {
           {
             openKYC &&
             <CustomizedModal isOpen={openKYC} onRequestClose={() => setOpenKYC(false)}>
-              <WidgetKYC setOpenKYC={setOpenKYC}/>
+              <WidgetKYC setOpenKYC={setOpenKYC} data={tenantData?.data}/>
             </CustomizedModal>
           }
           <div className="hidden md:block">

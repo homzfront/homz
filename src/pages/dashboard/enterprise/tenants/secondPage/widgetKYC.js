@@ -6,7 +6,7 @@ import OccupationDetailsKYC from './occupationDetailsKYC';
 import GuarantorsKYC from './guarantorsKYC';
 import TenantVerificationKYC from './tenantVerificationKYC';
 
-const WidgetKYC = ({ setOpenKYC }) => {
+const WidgetKYC = ({ data, setOpenKYC }) => {
     const [step, setStep] = React.useState(0);
     const steps = [
         "Personal Information",
@@ -41,16 +41,16 @@ const WidgetKYC = ({ setOpenKYC }) => {
                 </div>
                 <div>
                     {step === 0 && (
-                        <PersonalKYC />
+                        <PersonalKYC data={data}/>
                     )}
                     {step === 1 && (
-                        <SpouseNextKYC />
+                        <SpouseNextKYC data={data}/>
                     )}
                     {step === 2 && (
-                        <OccupationDetailsKYC />
+                        <OccupationDetailsKYC data={data}/>
                     )}
                     {step === 3 && (
-                        <GuarantorsKYC />
+                        <GuarantorsKYC data={data}/>
                     )}
                     {step === 4 && (
                         <TenantVerificationKYC />

@@ -6,9 +6,10 @@ import { toast } from 'react-toastify';
 import UpdateButton from '../../components/updateButton';
 import UploadTwo from '@/components/icons/uploadTwo';
 import DoneUploadTwo from '@/components/icons/doneUploadTwo';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 
-const Guarantors = ({ register, setFormData, formData }) => {
-    const [active, setActive] = React.useState(false);
+const Guarantors = ({ setStep, loading, handleUpdate, data, setShowDialogue, showDialogue, success, setSuccess, updateDone, register, setFormData, formData }) => {
     const [firstGuarantorFile, setFirstGuarantorFile] = React.useState(null);
     const [secondGuarantorFile, setSecondGuarantorFile] = React.useState(null);
     const [firstGuarantorIdCard, setFirstGuarantorIdCard] = React.useState(null);
@@ -18,7 +19,14 @@ const Guarantors = ({ register, setFormData, formData }) => {
     const [firstIdCard, setFirstIdCard] = React.useState(null);
     const [secondIdCard, setSecondIdCard] = React.useState(null);
 
-    const handleFileUpload = (file, setFile) => {
+    const resetFileInput = (inputId) => {
+        const fileInput = document.getElementById(inputId);
+        if (fileInput) {
+            fileInput.value = '';
+        }
+    };
+
+    const handleFileUpload = (file, setFile, key, inputId) => {
         if (!file) return;
 
         const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
@@ -33,13 +41,20 @@ const Guarantors = ({ register, setFormData, formData }) => {
         }
 
         setFile(file);
+        setFormData((prev) => ({
+            ...prev,
+            [key]: file,
+        }));
         toast.success('File uploaded successfully!');
+
+        // Reset the file input value
+        resetFileInput(inputId);
     };
 
-    const handleDrop = (event, setFile) => {
+    const handleDrop = (event, setFile, key, inputId) => {
         event.preventDefault();
         const file = event.dataTransfer.files[0];
-        handleFileUpload(file, setFile);
+        handleFileUpload(file, setFile, key, inputId);
     };
 
     const handleDragOver = (event) => {
@@ -82,8 +97,48 @@ const Guarantors = ({ register, setFormData, formData }) => {
             }
             setSecondIdCard(secondFileData)
         }
-    }, [firstGuarantorIdCard, secondGuarantorIdCard])
+    }, [firstGuarantorIdCard, secondGuarantorIdCard]);
 
+    const savedData = ({ name, data, elementId }) => {
+        return (
+            <div>
+                <label htmlFor={`${elementId}`} className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                    <DoneUpload />
+                    <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
+                        <span>
+                            {name}
+                        </span>
+                        <span>
+                            {data?.format}
+                        </span>
+                        <span>
+                            {(data?.bytes / 1024).toFixed(2) + ' KB'}
+                        </span>
+                    </p>
+                    <div className='text-[14px] font-normal flex justify-center gap-2 items-center'>
+                        <button
+                            onClick={() => document.getElementById(`${elementId}`).click()}
+                            className='text-BlueHomz hover:text-blue-400'>
+                            Click to change
+                        </button>
+                        <button
+                            onClick={() => {
+                                const link = document.createElement("a");
+                                link.href = data.url;
+                                link.download = name;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }}
+                            className='text-[#D92D20] hover:text-red-400'
+                        >
+                            Download
+                        </button>
+                    </div>
+                </label>
+            </div >
+        )
+    }
 
     return (
         <div className=''>
@@ -106,13 +161,13 @@ const Guarantors = ({ register, setFormData, formData }) => {
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div
                             className='w-full bg-white border rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setFirstGuarantorFile)}
+                            onDrop={(e) => handleDrop(e, setFirstGuarantorFile, "firstGuarantorForm", "firstGuarantorUpload")}
                             onDragOver={handleDragOver}
                         >
                             {firstGuarantorFile
                                 ?
                                 <div>
-                                    <label htmlFor="firstGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                    <label htmlFor="firstGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUpload />
                                         <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
@@ -131,42 +186,60 @@ const Guarantors = ({ register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setFirstGuarantorFile(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setFirstGuarantorFile(null);
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.firstGuarantorForm;
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
                                     </label>
                                 </div>
                                 :
-                                <div>
-                                    <label htmlFor="firstGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
-                                        <Upload />
-                                        <p className='text-sm font-normal text-BlueHomz text-center'>
-                                            Click to upload first guarantor’s form <span className='text-GrayHomz'>or drag and drop</span>
-                                        </p>
-                                        <p className='text-[11px] font-normal text-GrayHomz'>
-                                            PDF, JPG or PNG (max. 5mb)
-                                        </p>
-                                    </label>
-                                </div>
+                                data?.guarantors?.firstGuarantor?.form ?
+                                    <div>
+                                        {savedData({
+                                            name: "First Guarantor Form",
+                                            data: data?.guarantors.firstGuarantor.form,
+                                            elementId: "firstGuarantorUpload"
+                                        })}
+                                    </div>
+                                    :
+                                    <div>
+                                        <label htmlFor="firstGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                            <Upload />
+                                            <p className='text-sm font-normal text-BlueHomz text-center'>
+                                                Click to upload first guarantor’s form <span className='text-GrayHomz'>or drag and drop</span>
+                                            </p>
+                                            <p className='text-[11px] font-normal text-GrayHomz'>
+                                                PDF, JPG or PNG (max. 5mb)
+                                            </p>
+                                        </label>
+                                    </div>
                             }
                             <input
                                 id="firstGuarantorUpload"
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorFile)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorFile, "firstGuarantorForm", "firstGuarantorUpload")}
                             />
                         </div>
                         <div
                             className='w-full border border-dashed border-[#D5D5D5] rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setFirstGuarantorIdCard)}
+                            onDrop={(e) => handleDrop(e, setFirstGuarantorIdCard, "firstGuarantorIdCard", "firstGuarantorIdUpload")}
                             onDragOver={handleDragOver}
                         >
                             {firstGuarantorIdCard
                                 ?
                                 <div>
-                                    <label htmlFor="firstGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                    <label htmlFor="firstGuarantorIdUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUploadTwo />
                                         <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
@@ -185,31 +258,49 @@ const Guarantors = ({ register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setFirstGuarantorIdCard(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setFirstGuarantorIdCard(null);
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.firstGuarantorIdCard;
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
                                     </label>
                                 </div>
                                 :
-                                <div>
-                                    <label htmlFor="firstGuarantorIdUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
-                                        <UploadTwo />
-                                        <p className='text-sm font-normal text-BlueHomz text-center'>
-                                            Click to upload first guarantor’s ID card <span className='text-GrayHomz'>or drag and drop</span>
-                                        </p>
-                                        <p className='text-[11px] font-normal text-GrayHomz'>
-                                            PDF, JPG or PNG (max. 5mb)
-                                        </p>
-                                    </label>
-                                </div>
+                                data?.guarantors?.firstGuarantor?.idCard ?
+                                    <div>
+                                        {savedData({
+                                            name: "First Guarantor Id-Card",
+                                            data: data?.guarantors.firstGuarantor.idCard,
+                                            elementId: "firstGuarantorIdUpload"
+                                        })}
+                                    </div>
+                                    :
+                                    <div>
+                                        <label htmlFor="firstGuarantorIdUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                            <UploadTwo />
+                                            <p className='text-sm font-normal text-BlueHomz text-center'>
+                                                Click to upload first guarantor’s ID card <span className='text-GrayHomz'>or drag and drop</span>
+                                            </p>
+                                            <p className='text-[11px] font-normal text-GrayHomz'>
+                                                PDF, JPG or PNG (max. 5mb)
+                                            </p>
+                                        </label>
+                                    </div>
                             }
                             <input
                                 id="firstGuarantorIdUpload"
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorIdCard)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setFirstGuarantorIdCard, "firstGuarantorIdCard", "firstGuarantorIdUpload")}
                             />
                         </div>
                     </div>
@@ -219,13 +310,13 @@ const Guarantors = ({ register, setFormData, formData }) => {
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div
                             className='w-full bg-white border rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setSecondGuarantorFile)}
+                            onDrop={(e) => handleDrop(e, setSecondGuarantorFile, "secondGuarantorForm", "secondGuarantorUpload")}
                             onDragOver={handleDragOver}
                         >
                             {secondGuarantorFile
                                 ?
                                 <div>
-                                    <label htmlFor="secondGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                    <label htmlFor="secondGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUpload />
                                         <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
@@ -244,42 +335,60 @@ const Guarantors = ({ register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setSecondGuarantorFile(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setSecondGuarantorFile(null)
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.secondGuarantorForm
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
                                     </label>
                                 </div>
                                 :
-                                <div>
-                                    <label htmlFor="secondGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
-                                        <Upload />
-                                        <p className='text-sm font-normal text-BlueHomz text-center'>
-                                            Click to upload second guarantor’s form <span className='text-GrayHomz'>or drag and drop</span>
-                                        </p>
-                                        <p className='text-[11px] font-normal text-GrayHomz'>
-                                            PDF, JPG or PNG (max. 5mb)
-                                        </p>
-                                    </label>
-                                </div>
+                                data?.guarantors?.secondGuarantor?.form ?
+                                    <div>
+                                        {savedData({
+                                            name: "Second Guarantor Form",
+                                            data: data?.guarantors.secondGuarantor.form,
+                                            elementId: "secondGuarantorUpload"
+                                        })}
+                                    </div>
+                                    :
+                                    <div>
+                                        <label htmlFor="secondGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                            <Upload />
+                                            <p className='text-sm font-normal text-BlueHomz text-center'>
+                                                Click to upload second guarantor’s form <span className='text-GrayHomz'>or drag and drop</span>
+                                            </p>
+                                            <p className='text-[11px] font-normal text-GrayHomz'>
+                                                PDF, JPG or PNG (max. 5mb)
+                                            </p>
+                                        </label>
+                                    </div>
                             }
                             <input
                                 id="secondGuarantorUpload"
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorFile)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorFile, "secondGuarantorForm", "secondGuarantorUpload")}
                             />
                         </div>
                         <div
                             className='w-full border border-dashed border-[#D5D5D5] rounded-[12px] px-4 py-8'
-                            onDrop={(e) => handleDrop(e, setSecondGuarantorIdCard)}
+                            onDrop={(e) => handleDrop(e, setSecondGuarantorIdCard, "secondGuarantorIdCard", "secondGuarantorIdUpload")}
                             onDragOver={handleDragOver}
                         >
                             {secondGuarantorIdCard
                                 ?
                                 <div>
-                                    <label htmlFor="secondGuarantorUploaded" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                    <label htmlFor="secondGuarantorIdUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
                                         <DoneUploadTwo />
                                         <p className='text-sm font-normal text-GrayHomz flex flex-wrap justify-center items-center gap-1'>
                                             <span>
@@ -298,37 +407,80 @@ const Guarantors = ({ register, setFormData, formData }) => {
                                                 className='text-BlueHomz hover:text-blue-400'>
                                                 Click to change
                                             </button>
-                                            <button onClick={() => setSecondGuarantorIdCard(null)} className='text-[#D92D20] hover:text-red-400'>
+                                            <button
+                                                onClick={() => {
+                                                    setSecondGuarantorIdCard(null)
+                                                    setFormData((prev) => {
+                                                        const updatedData = { ...prev };
+                                                        delete updatedData.secondGuarantorIdCard;
+                                                        return updatedData;
+                                                    });
+                                                }}
+                                                className='text-[#D92D20] hover:text-red-400'>
                                                 Delete
                                             </button>
                                         </div>
                                     </label>
                                 </div>
                                 :
-                                <div>
-                                    <label htmlFor="secondGuarantorIdUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
-                                        <UploadTwo />
-                                        <p className='text-sm font-normal text-BlueHomz text-center'>
-                                            Click to upload second guarantor’s ID card <span className='text-GrayHomz'>or drag and drop</span>
-                                        </p>
-                                        <p className='text-[11px] font-normal text-GrayHomz'>
-                                            PDF, JPG or PNG (max. 5mb)
-                                        </p>
-                                    </label>
-                                </div>
+                                data?.guarantors?.secondGuarantor?.idCard ?
+                                    <div>
+                                        {savedData({
+                                            name: "Second Guarantor Id-Card",
+                                            data: data?.guarantors.secondGuarantor.idCard,
+                                            elementId: "secondGuarantorIdUpload"
+                                        })}
+                                    </div>
+                                    :
+                                    <div>
+                                        <label htmlFor="secondGuarantorIdUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
+                                            <UploadTwo />
+                                            <p className='text-sm font-normal text-BlueHomz text-center'>
+                                                Click to upload second guarantor’s ID card <span className='text-GrayHomz'>or drag and drop</span>
+                                            </p>
+                                            <p className='text-[11px] font-normal text-GrayHomz'>
+                                                PDF, JPG or PNG (max. 5mb)
+                                            </p>
+                                        </label>
+                                    </div>
                             }
                             <input
                                 id="secondGuarantorIdUpload"
                                 type="file"
                                 accept=".pdf,.jpg,.png"
                                 style={{ display: 'none' }}
-                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorIdCard)}
+                                onChange={(e) => handleFileUpload(e.target.files[0], setSecondGuarantorIdCard, "secondGuarantorIdCard", "secondGuarantorIdUpload")}
                             />
                         </div>
                     </div>
                 </div>
             </div>
-            <UpdateButton />
+            <div className='flex w-full justify-end mt-4'>
+                <button
+                    onClick={() => {
+                        setStep(2)
+                    }}
+                    className={`w-[140px] h-[45px] rounded-[4px] hover:bg-whiteblue text-BlueHomz ${loading ? "pointer-events-none flex justify-center" : ""}`}>
+                    Back
+                </button>
+                <button
+                    onClick={async (e) => {
+                        try {
+                            await handleUpdate(e);
+                            setStep(4);
+                        } catch (error) {
+                            console.error("Update failed:", error);
+                        }
+                    }}
+                    className={`w-[140px] h-[45px] rounded-[4px] hover:bg-whiteblue border border-BlueHomz text-BlueHomz ${loading ? "pointer-events-none flex justify-center" : ""}`}
+                >
+                    {loading ? <LoadingFormII className='#006aff' /> :
+                        <span className='flex justify-center items-center gap-2'>
+                            Next   <ArrowRightSmall className="#006AFF" />
+                        </span>
+                    }
+                </button>
+            </div>
         </div>
     );
 };

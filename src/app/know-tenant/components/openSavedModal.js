@@ -1,7 +1,7 @@
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import React from "react";
 
-const AcAndRejModel = ({
+const OpenSavedModal = ({
   header,
   body,
   returnHome,
@@ -13,12 +13,12 @@ const AcAndRejModel = ({
   return (
     <div>
       <div className="absolute px-8 md:px-0 top-0 z-20 h-screen w-full  inset-0 flex items-center  bg-black bg-opacity-30">
-        <div className="max-w-[464px] p-2 m-auto bg-white h-auto rounded-md">
+        <div className="max-w-[500px] p-2 m-auto bg-white rounded-md">
           <div className="flex flex-col justify-around items-center h-full p-6">
-            <h1 className="text-BlackHomz font-[500] text-[20px] text-center">
+            <h1 className="text-BlackHomz font-[700] text-[20px] text-center">
               {header}
             </h1>
-            <p className="text-[16px] font-[500] text-GrayHomz text-center">
+            <p className="my-1 text-[16px] font-[400] text-GrayHomz text-center">
               {body}
             </p>
             <button
@@ -43,4 +43,4 @@ const AcAndRejModel = ({
   );
 };
 
-export default AcAndRejModel;
+export default OpenSavedModal;

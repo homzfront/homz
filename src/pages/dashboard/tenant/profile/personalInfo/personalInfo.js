@@ -3,56 +3,75 @@ import React, { useEffect, useState } from "react";
 import Input from "../../components/input";
 import UpdateButton from "../components/updateButton";
 import { toast } from "react-toastify";
-import { updatePersonalInformation } from "@/api/tenantSevice";
+import { tenantInformationKYC, updatePersonalInformation } from "@/api/tenantSevice";
 import { useForm } from "react-hook-form";
 import PersonalInfoma from "./components/personalInfoma";
 import SpouseNextKin from "./components/spouseNextKin";
 import OccupantDetails from "./components/occupantDetails";
 import Guarantors from "./components/guarantors";
 import TenantVerification from "./components/tenantVerification";
+import { formatDateIII } from "@/utils/formatDateIII";
+import formatDateII from "@/utils/formatDateII";
+import useTenantActiveKYC from "@/store/tenantKYC/useTenantActiveKYC";
 
 const PersonalInfo = ({ data }) => {
-  const [step, setStep] = React.useState(0);
+  const { step, setStep } = useTenantActiveKYC()
   const [formData, setFormData] = React.useState(null);
   const { register, handleSubmit } = useForm();
-  const [fullName, setFullName] = useState("");
-  const [houseAddress, setHouseAddress] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
-  const [doneUpdate, setDoneUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = React.useState(false);
   const [showDialogue, setShowDialogue] = useState(false);
 
   useEffect(() => {
-    // Check if data and required properties are available
     if (data) {
-      setFullName(data?.fullName || "");
-      setHouseAddress(data?.houseAddress || "");
-      setPhoneNo(parseInt(data?.phoneNumber) || 0);
-      setLoading(false); // Set loading to false once data is available
+      const cleanedFormData = Object.fromEntries(
+        Object.entries({
+          fullName: data?.fullName,
+          apartmentAddress: data?.houseAddress,
+          phoneNumber: data?.phoneNumber,
+          gender: data?.personalDetails?.gender,
+          maritalStatus: data?.personalDetails?.maritalStatus,
+          officeAddress: data?.addressDetails?.officeAddress,
+          permanentContactAddress: data?.addressDetails?.permanentContactAddress,
+          nationality: data?.personalDetails?.nationality,
+          stateOfOrigin: data?.personalDetails?.stateOfOrigin,
+          rentPurpose: data?.accommodation?.rentPurpose,
+          religion: data?.personalDetails?.religion,
+          accommodationType: data?.accommodation?.accommodationType,
+          moveInDate: data?.moveInDetails?.moveInDate ? formatDateII(data?.moveInDetails?.moveInDate) : null,
+          email: data?.user?.email,
+          spouseOccupation: data?.spouseDetails?.spouseOccupation,
+          spouseOfficeAddress: data?.spouseDetails?.spouseOfficeAddress,
+          occupantName: data?.occupantDetails?.occupantName,
+          occupantAge: data?.occupantDetails?.occupantAge,
+          occupantOccupation: data?.occupantDetails?.occupantOccupation,
+          numberOfCars: data?.occupantDetails?.numberOfCars
+        }).filter(([_, value]) => value != null && value !== "")
+      );
+
+      setFormData(cleanedFormData);
+      setLoading(false);
     }
   }, [data]);
 
   const updateDone = async (e) => {
     e.preventDefault();
-    if (loading) return; // Do nothing if already loading
-
-    setLoading(true); // Set loading to true when submitting the form
-
+    if (loading) return;
+    setLoading(true);
     try {
-      const updatedData = {
-        fullName,
-        houseAddress,
-        phoneNumber: parseInt(phoneNo),
-      };
-      const { success, upDateddata, error } = await updatePersonalInformation(
-        updatedData
+      const formDataToSubmit = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          formDataToSubmit.append(key, value);
+        }
+      });
+      const { success, error } = await tenantInformationKYC(
+        formDataToSubmit
       );
-
       if (success) {
         setLoading(false);
-        setDoneUpdate(true);
-        setShowDialogue(false);
-        // toast.success("Update successful");
+        setShowDialogue(false)
+        toast.success("personal information updated");
       } else {
         toast.error(error);
         setLoading(false);
@@ -62,6 +81,7 @@ const PersonalInfo = ({ data }) => {
       toast.error("Update failed");
     }
   };
+
   const steps = [
     "Personal Information",
     "Spouse/Kin Information",
@@ -69,7 +89,6 @@ const PersonalInfo = ({ data }) => {
     "Guarantors",
     "Tenant Verification (KYC)",
   ];
-  const onSubmit = (data) => console.log(data);
 
   return (
     <div className="">
@@ -82,37 +101,29 @@ const PersonalInfo = ({ data }) => {
                   setStep(index)
                 }}
                 key={index} className={`cursor-pointer`}>
-                <p className={`${step === index ? "text-BlueHomz" :  "text-GrayHomz"} text-[12px] lg:text-[14px] font-normal flex flex-col gap-2`}>{stepTitle} <span>{step === index && <div className="p-0.5 bg-BlueHomz"></div>}</span></p>
+                <p className={`${step === index ? "text-BlueHomz" : "text-GrayHomz"} text-[12px] lg:text-[14px] font-normal flex flex-col gap-2`}>{stepTitle} <span>{step === index && <div className="p-0.5 bg-BlueHomz"></div>}</span></p>
               </div>
             ))}
           </div>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <div>
           {step === 0 && (
-            <PersonalInfoma register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+            <PersonalInfoma loading={loading} setStep={setStep} handleUpdate={updateDone} setShowDialogue={setShowDialogue} showDialogue={showDialogue} setSuccess={setSuccess} success={success} updateDone={updateDone} data={data} register={register} setFormData={setFormData} formData={formData} />
           )}
           {step === 1 && (
-            <SpouseNextKin register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+            <SpouseNextKin loading={loading} setStep={setStep} handleUpdate={updateDone} setShowDialogue={setShowDialogue} showDialogue={showDialogue} setSuccess={setSuccess} success={success} updateDone={updateDone} register={register} setFormData={setFormData} formData={formData} />
           )}
           {step === 2 && (
-            <OccupantDetails register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+            <OccupantDetails loading={loading} setStep={setStep} handleUpdate={updateDone} setShowDialogue={setShowDialogue} showDialogue={showDialogue} setSuccess={setSuccess} success={success} updateDone={updateDone} register={register} setFormData={setFormData} formData={formData} />
           )}
           {step === 3 && (
-            <Guarantors register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+            <Guarantors loading={loading} setStep={setStep} handleUpdate={updateDone} data={data} setShowDialogue={setShowDialogue} showDialogue={showDialogue} setSuccess={setSuccess} success={success} updateDone={updateDone} register={register} setFormData={setFormData} formData={formData} />
           )}
           {step === 4 && (
-            <TenantVerification register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
+            <TenantVerification setShowDialogue={setShowDialogue} showDialogue={showDialogue} register={register} setFormData={setFormData} formData={formData} setStep={setStep} />
           )}
-          <div className="flex justify-end mt-4">
-            {/* {step === steps.length - 1 ? (
-          <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded">
-            Submit
-          </button>
-        ) : null} */}
-          </div>
-        </form>
+        </div>
       </div>
-
     </div>
   );
 };

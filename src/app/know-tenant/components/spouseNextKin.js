@@ -3,18 +3,18 @@ import React from 'react'
 import InputField from './inputField'
 import ArrowRightSmall from '@/components/icons/arrowRightSmall'
 
-const SpouseNextKin = ({ setStep, register, setFormData, formData }) => {
+const SpouseNextKin = ({ setOpenSaveModal, onSubmit, setStep, register, setFormData, formData }) => {
     const [active, setActive] = React.useState(false)
     return (
         <div className='mt-4'>
             <div className='border border-[#D5D5D5] rounded-[12px] p-4'>
                 <div className='flex flex-col gap-3 md:w-[50%]'>
-                    <InputField label={"Spouse/Kin’s Occupation"} register={register} placeholder={"e.g Banker"} formData={formData} setFormData={setFormData} />
-                    <InputField label={"Spouse/Kin’s Office Address"} register={register} placeholder={"e.g No 17, Sungbola Street, Isale Eko, Lagos State"} formData={formData} setFormData={setFormData} />
+                    <InputField name={"spouseOccupation"} label={"Spouse/Kin’s Occupation"} register={register} placeholder={"e.g Banker"} formData={formData} setFormData={setFormData} />
+                    <InputField name={"spouseOfficeAddress"} label={"Spouse/Kin’s Office Address"} register={register} placeholder={"e.g No 17, Sungbola Street, Isale Eko, Lagos State"} formData={formData} setFormData={setFormData} />
                 </div>
             </div>
             <div className='flex flex-col-reverse md:flex-row gap-2 md:gap-0 justify-center md:justify-between md:items-center mt-6 mb-[60px]'>
-                <p className='cursor-pointer text-[16px] text-BlueHomz font-medium text-center md:text-start'>Save & skip to dashboard</p>
+                <p onClick={() => setOpenSaveModal(true)} className='cursor-pointer text-[16px] text-BlueHomz font-medium text-center md:text-start'>Save & skip to dashboard</p>
                 <div className='flex items-center gap-4 md:gap-3 w-full md:w-auto'>
                     <button onClick={() => setStep(0)} onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)} className={`${active ? "text-white bg-[#4bb2e5]" : "text-BlueHomz"} w-[50%] md:w-auto border border-BlueHomz md:border-none rounded-[4px] p-3 flex justify-center items-center gap-1`}>
                         {active ? <ArrowLeftBlueSmall className='#FFFFFF' /> : <ArrowLeftBlueSmall />}

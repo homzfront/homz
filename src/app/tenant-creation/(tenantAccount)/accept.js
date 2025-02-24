@@ -21,7 +21,6 @@ const Accept = () => {
   const tenantFullName = urlParams.get("tenantFullName");
   const invitation = urlParams.get("invitation");
 
-
   useEffect(() => {
     if (invitation) {
       setData({ tenantEmail, tenantFullName, invitation });
@@ -29,6 +28,12 @@ const Accept = () => {
     setLoading(false);
 
   }, [invitation]);
+
+  useEffect(() => {
+    if (tenantEmail) {
+      localStorage.setItem("tenantEmail", tenantEmail);
+    }
+  }, [tenantEmail])
 
 
   return (

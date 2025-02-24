@@ -45,8 +45,8 @@ const Widget = ({ data }) => {
           rePassword
         );
         if (success) {
-          // const data = upDateddata?.data?.token;
-          // localStorage.setItem('jwt', data)
+          const data = upDateddata?.data?.token;
+          localStorage.setItem('jwt', data)
           setLoading(false);
           setDashboard(true);
         } else {
@@ -63,7 +63,7 @@ const Widget = ({ data }) => {
   return (
     <div>
       <CustomizedModal isOpen={dashboard}>
-        <div className="max-w-[464px] m-auto bg-white h-[260px] rounded-md shadow-lg">
+        <div className="max-w-[464px] m-auto bg-white h-auto rounded-md shadow-lg">
           <div className="mt-[-10px] md:w-[464px] flex flex-col justify-around p-8 items-center gap-3">
             <Image
               src={
@@ -80,10 +80,16 @@ const Widget = ({ data }) => {
               Your account has successfully been created.
             </p>
             <Link
-              href={"/login"}
+              href={"/know-tenant"}
               className="h-[48px] rounded-md w-full bg-BlueHomz flex justify-center items-center text-white text-[16px] font-[700]"
             >
-              Login
+              Proceed to complete registration
+            </Link>
+            <Link
+              href={"/dashboard/tenant/dashboard"}
+              className="h-[48px] rounded-md w-full  text-BlueHomz flex justify-center items-center text-[16px] font-[700]"
+            >
+              Skin for now, complete later
             </Link>
           </div>
         </div>
