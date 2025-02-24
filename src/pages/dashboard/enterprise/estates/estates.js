@@ -124,7 +124,9 @@ const Estate = () => {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlan(!openPurchasePlan);
-    } else if (isTrialExpired(user?.trialEndDate)) {
+    } else if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+      setOpenPurchasePlan(!openPurchasePlan);
+    } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else {
       setRegistrationForm(true);
