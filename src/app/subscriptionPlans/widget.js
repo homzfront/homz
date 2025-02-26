@@ -12,17 +12,15 @@ import { useRouter } from "next/navigation";
 const Widget = ({ data, profile }) => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  // const [type, setType] = useState("");
   const [upgradePlan, setUpgradePlan] = useState("");
 
   const router = useRouter();
   const resetPropertyIds = useStorePropertyPromotionData((state) => state.resetPropertyIds);
-  // console.log(propertyIds)
+ 
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const upgrade= urlParams.get("upgrade");
-    // console.log(upgrade);
     setUpgradePlan(upgrade);
   }, [upgradePlan]);
 
