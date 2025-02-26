@@ -50,6 +50,7 @@ const Estate = () => {
 
   const videoLink = "https://www.youtube.com/watch?v=fgd0aj8xrAA&ab_channel=HomzNG";
 
+
   // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
 
@@ -62,11 +63,11 @@ const Estate = () => {
   useEffect(() => {
     const values = checkPlanLimits(
       enterprisePlans,
-      mrAbeyData?.planName,
+      user?.planName,
       data?.length,
-      mrAbeyData?.propertyOwners?.length,
-      mrAbeyData?.tenants?.length,
-      mrAbeyData?.IsExpired
+      user?.propertyOwners?.length,
+      user?.tenants?.length,
+      user?.IsExpired
     );
     setReachedLimit(values);
   }, [enterprisePlans, user, data]);
@@ -104,7 +105,7 @@ const Estate = () => {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlan(!openPurchasePlan);
-    } else if (isTrialExpired(mrAbeyData?.trialEndDate) && ((mrAbeyData?.planName === "Enterprise Free") || (mrAbeyData?.planName === "Enterprise Trial"))) {
+    } else if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan);
@@ -118,13 +119,12 @@ const Estate = () => {
     setRegistrationForm(false);
   };
 
-
   const addNewEstate = () => {
     if (reachedLimit?.reachedMaxEstates) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.reachedMaxTenants) {
       setOpenPurchasePlan(!openPurchasePlan);
-    } else if (isTrialExpired(mrAbeyData?.trialEndDate) && ((mrAbeyData?.planName === "Enterprise Free") || (mrAbeyData?.planName === "Enterprise Trial"))) {
+    } else if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan);

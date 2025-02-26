@@ -22,13 +22,15 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
     const [openCompleteModal, setOpenCompleteModal] = React.useState(false)
 
     React.useEffect(() => {
-        fetchDataP()
+        // fetchDataP()
         fetchData()
     }, []);
 
     const closeModal = () => {
         setOpenCompleteModal(false)
     }
+
+    console.log(dataTwo)
 
     return (
         <div className='mt-4'>
@@ -88,7 +90,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                         </div>
                         <div>
                             <NationalIdentityNumber nationalProfile={dataTwo} />
-                            <div className={`${dataTwo?.face_data?.status === true ? "" : "hidden"} `}>
+                            <div className={`${dataTwo?.nin_data?.firstname ? "" : "hidden"} `}>
                                 <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
                                     <TickSuccess />
                                     <div>

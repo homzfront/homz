@@ -84,19 +84,36 @@ export default function MultiStepForm() {
         moveInDate: formData?.moveInDate ? formatDateIII(formData?.moveInDate) : formData?.whenDoYouIntendToMoveIn,
         spouseOccupation: formData?.spouseOccupation,
         spouseOfficeAddress: formData?.spouseOfficeAddress,
-        occupantName: formData?.OccupantNameI,
-        occupantAge: formData?.OccupantAgeI,
-        occupantOccupation: formData?.OccupantOccupationI,
         numberOfCars: formData?.NoOfCars,
         isOnBaordingFormComplete: isFormComplete,
+      };
+      
+      // Extract occupant details dynamically
+      const occupantDetails = [];
+      Object.keys(formData).forEach((key) => {
+        if (key.startsWith("OccupantName")) {
+          const index = key.replace("OccupantName", "");
+          occupantDetails.push({
+            occupantName: formData[`OccupantName${index}`],
+            occupantAge: parseInt(formData[`OccupantAge${index}`]) || null,
+            occupantOccupation: formData[`OccupantOccupation${index}`],
+          });
+        }
+      });
+      console.log(occupantDetails)
+      // Convert occupantDetails array to a JSON string and append it
+      if (occupantDetails.length > 0) {
+        formDataToSubmit.append("occupantDetails", JSON.stringify(occupantDetails));
       }
-
+      
+      // Append other form fields
       Object.entries(data).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== "") {
           formDataToSubmit.append(key, value);
         }
       });
-
+      
+      // Append file uploads if available
       if (formData?.firstGuarantorUpload) {
         formDataToSubmit.append("firstGuarantorForm", formData.firstGuarantorUpload);
       }

@@ -9,6 +9,8 @@ import RentInfo from '../secondPage/rentInfo';
 import Maintenance from '../secondPage/maintenance';
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import AcAndRejModel from "../../components/acAndRejModel";
+import WarningIcon from '@/components/icons/warningIcon';
+import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 
 const MobileProfile = ({
     tenantId,

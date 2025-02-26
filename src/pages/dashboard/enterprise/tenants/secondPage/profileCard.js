@@ -18,16 +18,16 @@ const ProfileCard = ({ tenantData, openKYC, setOpenKYC }) => {
               Provide a reason for rejection
             </p>
             <textarea
-              className="mt-2 placeholder:text-GrayHomz2 p-2 h-[65px] w-full border"
+              className="mt-2 placeholder:text-GrayHomz2 placeholder:text-[11px] sm:placeholder:text-[13px] p-2 h-[65px] w-full border"
               placeholder="E.g. The uploaded guarantor ID is unclear. Please upload a valid ID"
             />
           </div>
-          <div className="flex mt-2 w-full justify-end">
-            <div className="flex gap-2 w-[40%]">
-              <button onClick={() => setOpenCancel(false)} className="p-2 text-GrayHomz">
+          <div className="flex mt-2 w-full sm:justify-end">
+            <div className="flex gap-2 w-full sm:w-[50%] justify-end">
+              <button onClick={() => setOpenCancel(false)} className="w-full sm:w-auto p-2 text-GrayHomz">
                 Cancel
               </button>
-              <button onClick={() => setOpenCancel(false)} className="p-2 rounded-[6px] bg-[#D92D20] text-[#FDF2F2]">
+              <button onClick={() => setOpenCancel(false)} className="w-full sm:w-auto sm:min-w-[140px] p-2 rounded-[6px] bg-[#D92D20] text-[#FDF2F2]">
                 Send Rejection
               </button>
             </div>

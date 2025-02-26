@@ -14,6 +14,8 @@ const OccupantDetails = ({ setOpenSaveModal, onSubmit, setStep, register, setFor
             setOccupants([...occupants, { id: occupants.length + 1 }]);
         }
     };
+    [{"key":"occupantDetails","value":"[{\"occupantName\":\"John Doe\",\"occupantAge\":50,\"occupantOccupation\":\"Engineer\"},{\"occupantName\":\"Jane Doe\",\"occupantAge\":28,\"occupantOccupation\":\"Nurse\"},{\"occupantName\":\"ola Doe\",\"occupantAge\":19,\"occupantOccupation\":\"software developer\"},{\"occupantName\":\"kola Doe\",\"occupantAge\":120,\"occupantOccupation\":\"software developer\"}]","description":"","type":"text","enabled":true}]
+
     return (
         <div className='mt-4'>
             <div className='bg-[#F6F6F6] py-4 px-6 rounded-[8px] mt-2 mb-4 font-medium text-[16px] text-GrayHomz'>

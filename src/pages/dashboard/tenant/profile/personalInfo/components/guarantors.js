@@ -467,7 +467,6 @@ const Guarantors = ({ setStep, loading, handleUpdate, data, setShowDialogue, sho
                     onClick={async (e) => {
                         try {
                             await handleUpdate(e);
-                            setStep(4);
                         } catch (error) {
                             console.error("Update failed:", error);
                         }

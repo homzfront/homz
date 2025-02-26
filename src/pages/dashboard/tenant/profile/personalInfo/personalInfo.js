@@ -42,17 +42,29 @@ const PersonalInfo = ({ data }) => {
           email: data?.user?.email,
           spouseOccupation: data?.spouseDetails?.spouseOccupation,
           spouseOfficeAddress: data?.spouseDetails?.spouseOfficeAddress,
-          occupantName: data?.occupantDetails?.occupantName,
-          occupantAge: data?.occupantDetails?.occupantAge,
-          occupantOccupation: data?.occupantDetails?.occupantOccupation,
-          numberOfCars: data?.occupantDetails?.numberOfCars
+          numberOfCars: data?.occupantDetails?.numberOfCars,
         }).filter(([_, value]) => value != null && value !== "")
       );
+
+      // Map occupantDetails properly
+      const occupants = data?.occupantDetails?.map((occupant, index) => ({
+        [`occupantName${index}`]: occupant.occupantName,
+        [`occupantAge${index}`]: occupant.occupantAge,
+        [`occupantOccupation${index}`]: occupant.occupantOccupation,
+        is_deleted: occupant.is_deleted,
+        _id: occupant._id,
+        index: index, // Include the index
+      })) || [];
+
+      cleanedFormData.occupantDetails = occupants; // Add occupants array to formData
 
       setFormData(cleanedFormData);
       setLoading(false);
     }
   }, [data]);
+
+
+  console.log(data)
 
   const updateDone = async (e) => {
     e.preventDefault();
@@ -60,6 +72,23 @@ const PersonalInfo = ({ data }) => {
     setLoading(true);
     try {
       const formDataToSubmit = new FormData();
+      // Extract occupant details dynamically
+      const occupantDetails = [];
+      Object.keys(formData).forEach((key) => {
+        if (key.startsWith("occupantName")) {
+          const index = key.replace("occupantName", "");
+          occupantDetails.push({
+            occupantName: formData[`occupantName${index}`],
+            occupantAge: parseInt(formData[`occupantAge${index}`]) || null,
+            occupantOccupation: formData[`occupantOccupation${index}`],
+          });
+        }
+      });
+      console.log(occupantDetails)
+      if (occupantDetails.length > 0) {
+        formDataToSubmit.append("occupantDetails", JSON.stringify(occupantDetails));
+      }
+
       Object.entries(formData).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== "") {
           formDataToSubmit.append(key, value);
@@ -72,6 +101,7 @@ const PersonalInfo = ({ data }) => {
         setLoading(false);
         setShowDialogue(false)
         toast.success("personal information updated");
+        if (step < 4) setStep(step + 1)
       } else {
         toast.error(error);
         setLoading(false);
@@ -89,6 +119,8 @@ const PersonalInfo = ({ data }) => {
     "Guarantors",
     "Tenant Verification (KYC)",
   ];
+
+  console.log(formData)
 
   return (
     <div className="">

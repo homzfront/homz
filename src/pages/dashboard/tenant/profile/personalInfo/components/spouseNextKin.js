@@ -26,7 +26,6 @@ const SpouseNextKin = ({ setStep, handleUpdate, setShowDialogue, showDialogue, s
                     onClick={async (e) => {
                         try {
                             await handleUpdate(e);
-                            setStep(2);
                         } catch (error) {
                             console.error("Update failed:", error);
                         }

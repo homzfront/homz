@@ -116,7 +116,6 @@ const PersonalInfoma = ({ setStep, loading, handleUpdate, setShowDialogue, showD
                     onClick={async (e) => {
                         try {
                             await handleUpdate(e);
-                            setStep(1);
                         } catch (error) {
                             console.error("Update failed:", error);
                         }
