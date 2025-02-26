@@ -14,8 +14,6 @@ import api from "@/utils/api";
 const Dashboard = () => {
  
   const {
-    // isPending,
-    // refetch,
     data
   } = useQuery({
     queryKey: ["users"],
