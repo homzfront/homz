@@ -112,7 +112,7 @@ const ProfileCard = ({ tenantData, openKYC, setOpenKYC }) => {
             Approve
           </button>
           <button onClick={() => setOpenCancel(true)} className="w-[50%] rounded-[4px] h-[40px] border border-error text-error">
-            Reject with reason
+            Reject
           </button>
         </div>
       </div>
