@@ -63,45 +63,53 @@ const PersonalInfo = ({ data }) => {
     }
   }, [data]);
 
-
-  console.log(data)
-
   const updateDone = async (e) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
+  
     try {
       const formDataToSubmit = new FormData();
-      // Extract occupant details dynamically
-      const occupantDetails = [];
-      Object.keys(formData).forEach((key) => {
-        if (key.startsWith("occupantName")) {
-          const index = key.replace("occupantName", "");
-          occupantDetails.push({
-            occupantName: formData[`occupantName${index}`],
-            occupantAge: parseInt(formData[`occupantAge${index}`]) || null,
-            occupantOccupation: formData[`occupantOccupation${index}`],
-          });
-        }
+  
+      // Extract and clean occupant details
+      const occupantDetails = formData.occupantDetails.map((occupant) => {
+        const cleaned = {};
+  
+        Object.entries(occupant).forEach(([key, value]) => {
+          // Remove "index", "_id", and "is_deleted"
+          if (key === "index" || key === "_id" || key === "is_deleted") return;
+  
+          // Remove trailing digits from keys like "occupantName0" → "occupantName"
+          const newKey = key.replace(/\d+$/, "");
+          cleaned[newKey] = value;
+        });
+  
+        return cleaned;
       });
-      console.log(occupantDetails)
+  
+      // console.log("Cleaned Occupant Details:", occupantDetails);
+  
+      // Append occupantDetails separately to avoid duplication
       if (occupantDetails.length > 0) {
         formDataToSubmit.append("occupantDetails", JSON.stringify(occupantDetails));
       }
-
+  
+      // Append other form fields, but **skip** occupantDetails to avoid duplication
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== "") {
+        if (key !== "occupantDetails" && value !== undefined && value !== null && value !== "") {
           formDataToSubmit.append(key, value);
         }
       });
-      const { success, error } = await tenantInformationKYC(
-        formDataToSubmit
-      );
+  
+      // console.log("Final Form Data:", Object.fromEntries(formDataToSubmit.entries()));
+  
+      const { success, error } = await tenantInformationKYC(formDataToSubmit);
+  
       if (success) {
         setLoading(false);
-        setShowDialogue(false)
-        toast.success("personal information updated");
-        if (step < 4) setStep(step + 1)
+        setShowDialogue(false);
+        toast.success("Personal information updated");
+        if (step < 4) setStep(step + 1);
       } else {
         toast.error(error);
         setLoading(false);
@@ -111,6 +119,7 @@ const PersonalInfo = ({ data }) => {
       toast.error("Update failed");
     }
   };
+  
 
   const steps = [
     "Personal Information",
@@ -119,8 +128,6 @@ const PersonalInfo = ({ data }) => {
     "Guarantors",
     "Tenant Verification (KYC)",
   ];
-
-  console.log(formData)
 
   return (
     <div className="">

@@ -468,7 +468,7 @@ const Guarantors = ({ setStep, loading, handleUpdate, data, setShowDialogue, sho
                         try {
                             await handleUpdate(e);
                         } catch (error) {
-                            console.error("Update failed:", error);
+                            // console.error("Update failed:", error);
                         }
                     }}
                     className={`w-[140px] h-[45px] rounded-[4px] hover:bg-whiteblue border border-BlueHomz text-BlueHomz ${loading ? "pointer-events-none flex justify-center" : ""}`}

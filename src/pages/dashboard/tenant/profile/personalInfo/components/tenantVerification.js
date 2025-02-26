@@ -29,9 +29,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
     const closeModal = () => {
         setOpenCompleteModal(false)
     }
-
-    console.log(dataTwo)
-
+    
     return (
         <div className='mt-4'>
             {openCompleteModal &&

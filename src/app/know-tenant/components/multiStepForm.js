@@ -100,7 +100,7 @@ export default function MultiStepForm() {
           });
         }
       });
-      console.log(occupantDetails)
+      
       // Convert occupantDetails array to a JSON string and append it
       if (occupantDetails.length > 0) {
         formDataToSubmit.append("occupantDetails", JSON.stringify(occupantDetails));

@@ -40,8 +40,6 @@ const OccupantDetails = ({ setStep, loading, handleUpdate, register, setFormData
         }
     };
 
-    console.log(formData)
-
     return (
         <div>
             <div className='bg-[#F6F6F6] py-4 px-6 rounded-[8px] mt-2 mb-4 font-medium text-[16px] text-GrayHomz'>
@@ -129,7 +127,7 @@ const OccupantDetails = ({ setStep, loading, handleUpdate, register, setFormData
                         try {
                             await handleUpdate(e);
                         } catch (error) {
-                            console.error("Update failed:", error);
+                            // console.error("Update failed:", error);
                         }
                     }}
                     className={`w-[140px] h-[45px] rounded-[4px] hover:bg-whiteblue border border-BlueHomz text-BlueHomz ${loading ? "pointer-events-none flex justify-center" : ""}`}
