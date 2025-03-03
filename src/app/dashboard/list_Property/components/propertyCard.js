@@ -276,14 +276,7 @@ const PropertyCard = ({
                     />
                   </Link>
 
-                  {/* <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] md:left-[205px] flex items-center justify-center top-[14px] ">
-                  <Image
-                    src="/static/images/green_verify.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                  />
-                </p> */}
+       
                   {property?.is_published && (
                     <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[75%] md:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
                       Published
