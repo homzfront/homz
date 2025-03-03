@@ -118,7 +118,7 @@ const WidgetMobile = ({ data }) => {
                     <RentInformation data={data} />
                 </div>
                 <div className={`h-auto ${activeTwo ? "inline" : "hidden"}`}>
-                    {approve ? <SuccessCard /> : !rejected ? <PendingCard /> : <RejectedCard />}
+                    {data?.verification?.status === 'approved' ? <SuccessCard /> : data?.verification?.status === 'pending' ? <PendingCard /> : data?.verification?.status === 'rejected' ? <RejectedCard text={data?.verification?.rejectionReason} /> : null}
                     <PersonalInfo data={data} />
                 </div>
                 <div className={`${activeThree ? "inline" : "hidden"}`}>

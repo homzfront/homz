@@ -128,7 +128,7 @@ const Widget = ({ data }) => {
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <div>
-              {approve ? <SuccessCard /> : !rejected ? <PendingCard /> : <RejectedCard />}
+              {data?.verification?.status === 'approved' ? <SuccessCard /> : data?.verification?.status === 'pending' ? <PendingCard /> : data?.verification?.status === 'rejected' ? <RejectedCard text={data?.verification?.rejectionReason} /> : null}
               <PersonalInfo data={data} />
             </div>
           </div>

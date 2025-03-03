@@ -9,17 +9,23 @@ import InternationalPassport from '@/pages/dashboard/tenant/profile/accountInfo/
 import NationalIdentityNumber from '@/pages/dashboard/tenant/profile/accountInfo/components/nationalIdentityNumber';
 import { useRouter } from 'next/navigation';
 import UpdateButton from '../../components/updateButton';
+import { toast } from "react-toastify";
 import SelectedValue from '@/components/icons/selectedValue';
 import Image from "next/image";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import { tenantOnboardingConfirmation } from "@/api/tenantSevice";
+import tenantProfile from "@/store/tenantStore/tenantProfile";
 
 const TenantVerification = ({ setStep, register, setFormData, formData }) => {
     const router = useRouter()
-    const [active, setActive] = React.useState(false)
-    const [toggle, setToggle] = React.useState(false)
-    const [toggleTwo, setToggleTwo] = React.useState(false)
-    const { data, loading: loadingP, fetchData: fetchDataP } = usePassportProfileStore()
-    const { data: dataTwo, loading, fetchData } = useNINProfileStore()
-    const [openCompleteModal, setOpenCompleteModal] = React.useState(false)
+    const [active, setActive] = React.useState(false);
+    const [toggle, setToggle] = React.useState(false);
+    const [toggleTwo, setToggleTwo] = React.useState(false);
+    const { data, loading: loadingP, fetchData: fetchDataP } = usePassportProfileStore();
+    const { data: dataTwo, loading, fetchData } = useNINProfileStore();
+    const [openCompleteModal, setOpenCompleteModal] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const { fetchData: fetchTenantProfile, data: tenantData } = tenantProfile();
 
     React.useEffect(() => {
         // fetchDataP()
@@ -28,8 +34,36 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
 
     const closeModal = () => {
         setOpenCompleteModal(false)
-    }
-    
+    };
+
+    const handlVerifty = async () => {
+        if (isLoading) return;
+        setIsLoading(true);
+
+        try {
+            const payload = {
+                confirmation: {
+                    isInformationAccurate: toggleTwo,
+                    isConsentGiven: toggle,
+                    isConfirmationSent: true
+                },
+            }
+            const { success, error } = await tenantOnboardingConfirmation(payload);
+
+            if (success) {
+                setIsLoading(false);
+                setOpenCompleteModal(true);
+                fetchTenantProfile()
+            } else {
+                toast.error(error);
+                setIsLoading(false);
+            }
+        } catch (error) {
+            setIsLoading(false);
+            toast.error("Failed");
+        }
+    };
+
     return (
         <div className='mt-4'>
             {openCompleteModal &&
@@ -104,7 +138,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                     </div>
                 </div>
             </div>
-            <div className='bg-inputBg mt-4 p-6 rounded-[12px] text-sm font-normal text-GrayHomz flex flex-col gap-4'>
+            <div className={`bg-inputBg mt-4 p-6 rounded-[12px] text-sm font-normal text-GrayHomz flex flex-col gap-4 ${tenantData?.verification?.status === "approved" || tenantData?.verification?.status === "pending" && "hidden"}`}>
                 <div className='flex gap-4 items-center'>
                     <div onClick={() => setToggle(!toggle)} className='cursor-pointer'>
                         {toggle ?
@@ -132,9 +166,9 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                     </p>
                 </div>
             </div>
-            <div className='w-full flex justify-end mt-8'>
-                <button onClick={() => setOpenCompleteModal(true)} className={`font-medium text-[16px] rounded-[4px] p-3 ${toggleTwo && toggle ? "bg-BlueHomz text-white hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"}`}>
-                    Submit for Approval
+            <div className={`w-full flex justify-end mt-8 ${tenantData?.verification?.status === "approved" || tenantData?.verification?.status === "pending" && "hidden"}`}>
+                <button onClick={() => handlVerifty()} className={`min-w-[150px] font-medium text-[16px] rounded-[4px] p-3 ${toggleTwo && toggle ? "bg-BlueHomz text-white hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"} ${isLoading ? "pointer-events-none flex justify-center" : ""}`}>
+                    {isLoading ? <LoadingFormII /> : "Submit for Approval"}
                 </button>
             </div>
         </div>

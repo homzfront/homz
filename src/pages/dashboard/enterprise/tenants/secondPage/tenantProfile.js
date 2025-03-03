@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
@@ -11,12 +11,16 @@ import MobileProfile from "../components/mobileProfile.js";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import useRentSummaryTenant from "@/store/enterpriseStore/rentSummaryTenant.js";
 import WidgetKYC from "./widgetKYC.js";
+import DownloadData from "./downloadData.js";
+import { useReactToPrint } from "react-to-print";
 
 const TenantProfile = ({ id }) => {
   const [tenantData, setData] = useState([]);
   const [loadingTenant, setLoading] = useState(true);
   const [rentInfo, setRentInfo] = useState(null);
   const [openKYC, setOpenKYC] = useState(false)
+  const printableRef = useRef();
+
 
   const fetchTenantData = async () => {
     const response = await fetchSpecificTenant(`${id}`);
@@ -60,7 +64,13 @@ const TenantProfile = ({ id }) => {
     fetchRentInformation();
   }, [tenantData?.data]);
 
-  console.log(tenantData)
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: `${tenantData?.data?.fullName}-KYC`,
+    onAfterPrint: () => console.log("KYC printed."),
+  });
+
+  
   return (
     <div className="max-w-full">
       <ToastContainer
@@ -83,7 +93,7 @@ const TenantProfile = ({ id }) => {
           {
             openKYC &&
             <CustomizedModal isOpen={openKYC} onRequestClose={() => setOpenKYC(false)}>
-              <WidgetKYC setOpenKYC={setOpenKYC} data={tenantData?.data}/>
+              <WidgetKYC setOpenKYC={setOpenKYC} handlePrint={handlePrint} data={tenantData?.data} />
             </CustomizedModal>
           }
           <div className="hidden md:block">
@@ -99,7 +109,7 @@ const TenantProfile = ({ id }) => {
             </div>
             <div className="w-full flex gap-6 mt-[-20px] px-8">
               <div className="w-[35%]">
-                <ProfileCard tenantData={tenantData} openKYC={openKYC} setOpenKYC={setOpenKYC} />
+                <ProfileCard tenantData={tenantData} openKYC={openKYC} setOpenKYC={setOpenKYC} fetchTenantData={fetchTenantData} />
               </div>
               <div className="w-[65%]">
                 <Widget
@@ -129,6 +139,12 @@ const TenantProfile = ({ id }) => {
           </div>
         </div>
       )}
+      <div style={{ display: 'none' }}>
+        <DownloadData
+          ref={printableRef}
+          data={tenantData?.data}
+        />
+      </div>
     </div>
   );
 };

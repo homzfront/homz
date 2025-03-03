@@ -1,12 +1,19 @@
-import DownloadDocuMini from '@/components/icons/downloadDocuMini'
 import formatDateII from '@/utils/formatDateII'
 import React from 'react'
 
-const PersonalKYC = ({handlePrint, data }) => {
-    return (
-        <div className='mb-4'>
+const DownloadData = React.forwardRef(({ data }, ref) => (
+    <div
+    id="download-KYC"
+    ref={ref}
+    >
+        <div className="bg-white w-full min-w-[350px] max-w-[800px] p-4 rounded-[12px]">
+            <div className='h-[44px] flex justify-center items-center bg-BlueHomz rounded-[8px]'>
+                <p className='text-sm font-medium text-white'>
+                    KYC - {data?.fullName}
+                </p>
+            </div>
             <div className='bg-[#FCFCFC] rounded-[12px] py-4 px-4 md:px-8 mt-4 text-[12px] md:text-[14px] font-medium text-GrayHomz'>
-                <p className='text-[14px] md:text-[16px] font-normal text-BlackHomz'>Personal Information</p>
+                <p className='text-[14px] md:text-[16px] font-medium text-BlackHomz'>Personal Information</p>
                 <div className='mt-2'>
                     <div className='mt-4 grid grid-cols-2 md:grid-cols-3 w-full gap-4'>
                         <div>
@@ -26,7 +33,7 @@ const PersonalKYC = ({handlePrint, data }) => {
                             <p>{data?.user?.email ?? "[Email]"}</p>
                         </div>
                         <div>
-                            <p className='truncate text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Marital Status</p>
+                            <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Marital Status</p>
                             <p>{data?.personalDetails?.maritalStatus ?? "[Marital Status]"}</p>
                         </div>
                         <div>
@@ -66,13 +73,53 @@ const PersonalKYC = ({handlePrint, data }) => {
                     <p>{formatDateII(data?.moveInDetails?.moveInDate) ?? "[Date to move in]"}</p>
                 </div>
             </div>
-            <div onClick={()=> handlePrint()} className='flex justify-end w-full mt-4'>
-                <button className='h-[48px] rounded-[4px] text-BlueHomz hover:bg-whiteblue border border-BlueHomz text-[16px] font-medium w-full md:w-[170px] flex gap-2 items-center justify-center'>
-                    <DownloadDocuMini /> Download
-                </button>
+            <div className={`py-4 px-4 md:px-8 bg-[#FCFCFC] mt-4 w-full rounded-[12px] text-[12px] md:text-[14px] font-medium text-GrayHomz ${!data?.spouseDetails && "hidden"}`}>
+                <p className='text-[14px] md:text-[16px] font-medium text-BlackHomz'>Spouse/Kin Information</p>
+                <div className='mt-2 grid grid-cols-2 w-full gap-4 '>
+                    <div>
+                        <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Spouse/Kin’s Occupation</p>
+                        <p>{data?.spouseDetails?.spouseOccupation ?? "[Spouse/Kin’s Occupation]"}</p>
+                    </div>
+                    <div>
+                        <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Spouse/Kin’s Address</p>
+                        <p>{data?.spouseDetails?.spouseOfficeAddress ?? "[Spouse/Kin’s Address]"}</p>
+                    </div>
+                </div>
+            </div>
+            <div className={`bg-[#FCFCFC] rounded-[12px] py-4 px-4 md:px-8 mt-4 text-[12px] md:text-[14px] font-medium text-GrayHomz ${!data?.occupantDetails && "hidden"}`}>
+                <p className='text-[14px] md:text-[16px] font-medium text-BlackHomz'>Occupant Details</p>
+                <div className='mt-2'>
+                    <div className='flex flex-col gap-2'>
+                        {data?.occupantDetails?.map((occupant, index) => (
+                            <div key={index} className='py-4 border-b border-[#E6E6E6] flex flex-wrap md:flex-nowrap justify-between w-full gap-4'>
+                                <div>
+                                    <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Name</p>
+                                    <p>{occupant?.occupantAge ?? "[Name]"}</p>
+                                </div>
+                                <div>
+                                    <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Age (years)</p>
+                                    <p>{occupant?.occupantName ?? "[Age]"}</p>
+                                </div>
+                                <div>
+                                    <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Occupation</p>
+                                    <p> {occupant?.occupantOccupation ?? "[Occupation]"}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div className={`bg-[#FCFCFC] rounded-[12px] py-4 px-4 md:px-8 mt-4 text-[12px] md:text-[14px] font-medium text-GrayHomz ${!data?.numberOfCars && "hidden"}`}>
+                <div className='pt-4 flex flex-wrap md:flex-nowrap justify-between w-full gap-4'>
+                    <div>
+                        <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>No. of cars</p>
+                        <p>{data?.numberOfCars ?? "[No. of cars]"}</p>
+                    </div>
+                </div>
             </div>
         </div>
-    )
-}
+    </div>
+));
 
-export default PersonalKYC
+DownloadData.displayName = "DownloadData";
+export default DownloadData

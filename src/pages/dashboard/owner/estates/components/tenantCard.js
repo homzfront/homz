@@ -74,13 +74,13 @@ const TenantsCard = ({ tenants }) => {
                   {data?.estateId?.name}
                 </td>
                 <td className=" hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                  {`${data?.rentInfo?.totalRent
+                  {data?.rentInfo?.totalRent
                     ?
                     <>
                       <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
                     </>
                     : "______"
-                    }`}
+                    }
                 </td>
                 <td
                   className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] `}

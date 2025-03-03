@@ -13,6 +13,7 @@ import TenantVerification from "./components/tenantVerification";
 import { formatDateIII } from "@/utils/formatDateIII";
 import formatDateII from "@/utils/formatDateII";
 import useTenantActiveKYC from "@/store/tenantKYC/useTenantActiveKYC";
+import tenantProfile from "@/store/tenantStore/tenantProfile";
 
 const PersonalInfo = ({ data }) => {
   const { step, setStep } = useTenantActiveKYC()
@@ -21,6 +22,7 @@ const PersonalInfo = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = React.useState(false);
   const [showDialogue, setShowDialogue] = useState(false);
+  const { fetchData } = tenantProfile();
 
   useEffect(() => {
     if (data) {
@@ -109,6 +111,7 @@ const PersonalInfo = ({ data }) => {
         setLoading(false);
         setShowDialogue(false);
         toast.success("Personal information updated");
+        fetchData()
         if (step < 4) setStep(step + 1);
       } else {
         toast.error(error);

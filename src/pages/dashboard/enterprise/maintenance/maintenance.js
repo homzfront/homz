@@ -150,6 +150,7 @@ const Maintenance = () => {
               textColor={"text-BlueHomz"}
               textColor2={"text-BlueHomz"}
               bgColor={"whiteblue"}
+              fromMaintain={true}
             />
             <Box
               type={"Pending Request"}
@@ -158,6 +159,7 @@ const Maintenance = () => {
               textColor={"text-warning2"}
               textColor2={"text-BlackHomz"}
               bgColor={"warningBg"}
+              fromMaintain={true}
             />
             <Box
               type={"Resolved Requests"}
@@ -166,6 +168,7 @@ const Maintenance = () => {
               textColor={"text-Success"}
               textColor2={"text-BlackHomz"}
               bgColor={"successBg"}
+              fromMaintain={true}
             />
           </div>
           <div className="md:hidden w-full mt-[32px]">
@@ -176,6 +179,7 @@ const Maintenance = () => {
               textColor={"text-BlueHomz"}
               textColor2={"text-BlueHomz"}
               bgColor={"whiteblue"}
+              fromMaintain={true}
             />
             <div className="flex mt-4 gap-4">
               <Box
@@ -185,6 +189,7 @@ const Maintenance = () => {
                 textColor={"text-warning2"}
                 textColor2={"text-BlackHomz"}
                 bgColor={"warningBg"}
+                fromMaintain={true}
               />
               <Box
                 type={"Resolved Requests"}
@@ -193,6 +198,7 @@ const Maintenance = () => {
                 textColor={"text-Success"}
                 textColor2={"text-BlackHomz"}
                 bgColor={"successBg"}
+                fromMaintain={true}
               />
             </div>
           </div>

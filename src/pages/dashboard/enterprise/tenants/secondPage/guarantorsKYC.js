@@ -77,11 +77,6 @@ const GuarantorsKYC = ({ data }) => {
                     </div>
                 ))}
             </div>
-            <div className='flex justify-end w-full mt-4'>
-                <button className='h-[48px] rounded-[4px] text-BlueHomz hover:bg-whiteblue border border-BlueHomz text-[16px] font-medium w-full md:w-[170px] flex gap-2 items-center justify-center'>
-                    <DownloadDocuMini /> Download
-                </button>
-            </div>
         </div>
     );
 };

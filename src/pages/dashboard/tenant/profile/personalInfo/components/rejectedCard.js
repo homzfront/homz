@@ -1,7 +1,7 @@
 import WarningIcon from '@/components/icons/warningIcon'
 import React from 'react'
 
-const RejectedCard = () => {
+const RejectedCard = ({ text }) => {
     return (
         <div className='w-full p-6 rounded-[12px] bg-[#FDF2F2] font-normal text-sm h-auto'>
             <div className='flex gap-4 items-start md:items-center'>
@@ -11,7 +11,7 @@ const RejectedCard = () => {
                 </p>
             </div>
             <div className='mt-3 rounded-[8px] w-full bg-white py-3 px-6 text-GrayHomz'>
-                [The ID document for your guarantor, John Doe, is unclear. Please upload a clear and valid government-issued ID to proceed.]
+                {text}
             </div>
         </div>
     )
