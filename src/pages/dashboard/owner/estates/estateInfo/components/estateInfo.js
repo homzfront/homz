@@ -12,7 +12,7 @@ const PropertyInfo = ({ data }) => {
       <p className="md:hidden font-[700] text-[16px] text-BlueHomz">
         Property Information
       </p>
-      <div className="mt-4 md:mt-8 rounded-[12px] text-[13px] md:text-[16px] font-[400] text-GrayHomz h-auto w-full md:bg-inputBg flex flex-col gap-2 md:p-8 justify-between">
+      <div className="mt-4 md:mt-8 rounded-[12px] text-[13px] md:text-[16px] font-[400] text-GrayHomz h-auto w-full md:bg-inputBg flex flex-col gap-2 md:p-8 justify-between md:min-w-[800px]">
         <div className="flex gap-2 py-2 md:py-0 border-b md:border-none items-center w-full">
           <p className="w-[40%]">Property Name</p>
           <p className="w-[55%] font-[500] text-BlackHomz">{data?.name ? data?.name : "[Property Name]"}</p>

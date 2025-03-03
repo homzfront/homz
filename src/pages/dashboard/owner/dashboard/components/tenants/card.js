@@ -17,6 +17,8 @@ const TenantsCard = () => {
 
   const Data = data
 
+  console.log(Data)
+
   return (
     <div className="rounded-[12px] border md:w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
@@ -80,13 +82,13 @@ const TenantsCard = () => {
                   {data?.estateId?.name}
                 </td>
                 <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] hidden md:table-cell">
-                  {`${data?.rentInfo?.totalRent
+                  {data?.rentInfo?.totalRent
                       ? 
                       <>
                      <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
                       </>
                       : "______"
-                    }`}
+                    }
                 </td>
                 <td
                   className={`text-GrayHomz py-[15px] font-[500]  text-[11px] md:pr-2`}
