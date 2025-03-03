@@ -167,7 +167,7 @@ export default Plans;
 
 const pricingPlans = [
   {
-    price: "", // You might want to provide an actual price for the premium plan
+    price: "",
     title: "Free",
     billing: "",
     features: [
