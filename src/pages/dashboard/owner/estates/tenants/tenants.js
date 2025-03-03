@@ -31,12 +31,12 @@ const Tenants = ({ id }) => {
     setSearchQuery(null);
     setSelectedStatus(null);
   };
-  
+
 
   const filteredData = tenants?.filter(
     (data) => {
       const matchesSearchQuery = !searchQuery ||
-      data?.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+        data?.fullName.toLowerCase().includes(searchQuery.toLowerCase())
       const selectedDateTimestamp = Date.parse(selectedDate);
       const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
       return (
@@ -47,17 +47,17 @@ const Tenants = ({ id }) => {
       );
     });
 
-    const openMobileFilterModal = () => {
-      setFilterModal(!filterModal)
-    }
-  
-    const closeMobileFilterModal = () => {
-      setFilterModal(false)
-    }
+  const openMobileFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const closeMobileFilterModal = () => {
+    setFilterModal(false)
+  }
 
   return (
     <div className="w-full  p-8">
-            {filterModal &&
+      {filterModal &&
         <div>
           <FilterMobile
             reset={clear}
@@ -72,16 +72,16 @@ const Tenants = ({ id }) => {
       }
       <div className="mb-4">
         <div className="hidden w-[475px] md:flex gap-2 items-center">
-          <Image
-            src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
-            alt=""
-            height={16}
-            width={16}
-          />
           <Link
             href={"/dashboard/property-owner/estates"}
-            className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
+            className="text-[14px] w-[80px] font-[400] text-GrayHomz2 flex gap-1 items-center"
           >
+            <Image
+              src={"/static/dashboard/enterprisemanager/dashboard/arrow-left.png"}
+              alt=""
+              height={16}
+              width={16}
+            />
             Go Back
           </Link>
           <Link
@@ -103,8 +103,8 @@ const Tenants = ({ id }) => {
               href={"/dashboard/property-owner/estates"}
               className="text-[16px] truncate font-[400] text-GrayHomz"
             >
-               {tenants?.[0]?.estateId?.name ? tenants?.[0]?.estateId?.name : "Property Name"}<> </>/
-           </Link>
+              {tenants?.[0]?.estateId?.name ? tenants?.[0]?.estateId?.name : "Property Name"}<> </>/
+            </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Tenants
             </div>
@@ -124,6 +124,7 @@ const Tenants = ({ id }) => {
           </p>
           <input
             type="date"
+            value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="border px-4 h-[42px] w-[130px] text-GrayHomz2 mb-1 p-2 rounded cursor-pointer"
           />
@@ -162,7 +163,7 @@ const Tenants = ({ id }) => {
         </div>
         <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
           <button
-                 onClick={openMobileFilterModal}
+            onClick={openMobileFilterModal}
           >
             <Image
               src="/static/images/filter.svg"

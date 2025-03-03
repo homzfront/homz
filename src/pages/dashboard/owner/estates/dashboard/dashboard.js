@@ -47,18 +47,18 @@ const Dashboard = ({ id }) => {
             </div>
           </div>
           <div className="hidden w-[475px] md:flex gap-2 items-center">
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
             <Link
               href={"/dashboard/property-owner/estates"}
-              className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
+              className="text-[14px] w-[80px] font-[400] text-GrayHomz2 flex items-center gap-1"
             >
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
               Go Back
             </Link>
             <Link

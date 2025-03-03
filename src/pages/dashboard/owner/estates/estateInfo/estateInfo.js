@@ -43,18 +43,18 @@ const EstateInfo = ({ id }) => {
             </div>
           </div>
           <div className="w-[475px] hidden md:flex gap-2 items-center">
-            <Image
-              src={
-                "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
-              }
-              alt=""
-              height={16}
-              width={16}
-            />
             <Link
               href={"/dashboard/property-owner/estates"}
-              className="text-[14px] w-[80px] font-[400] text-GrayHomz2"
+              className="text-[14px] w-[80px] font-[400] text-GrayHomz2 flex gap-1 items-center"
             >
+              <Image
+                src={
+                  "/static/dashboard/enterprisemanager/dashboard/arrow-left.png"
+                }
+                alt=""
+                height={16}
+                width={16}
+              />
               Go Back
             </Link>
             <Link
@@ -72,7 +72,7 @@ const EstateInfo = ({ id }) => {
           <Widget data={data} />
         </div>
         <div className="md:hidden">
-          <WidgetMobile data={data}/>
+          <WidgetMobile data={data} />
         </div>
       </div>
     </div>
