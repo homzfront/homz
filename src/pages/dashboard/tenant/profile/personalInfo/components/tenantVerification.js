@@ -149,7 +149,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                         <div>
                             <NationalIdentityNumber nationalProfile={dataTwo} />
                             <div className={`${dataTwo?.nin_data?.firstname ? "" : "hidden"} `}>
-                                <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                                <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex gap-1 flex-row items-center">
                                     <TickSuccess />
                                     <div>
                                         Your national identity card has successfully been verified. You can now <></>
