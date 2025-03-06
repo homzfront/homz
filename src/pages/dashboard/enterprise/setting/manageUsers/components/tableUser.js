@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Dropdown from "./dropDown";
-import Image from "next/image";
+// import Dropdown from "./dropDown";
+// import Image from "next/image";
 import Table from "./table";
-import DeleteRed from "@/components/icons/deleteRed";
+// import DeleteRed from "@/components/icons/deleteRed";
 import landlordsUnderEnterprise from "@/store/enterpriseStore/landlordsUnderEnterprise";
 
 const TableUser = ({

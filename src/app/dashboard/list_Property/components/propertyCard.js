@@ -249,7 +249,7 @@ const PropertyCard = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-[17px] md:gap-[64px] mt-6 md:justify-center md:items-center h-fit">
+    <div className="w-full mt-6 md:justify-center md:items-center h-fit">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
         {currentProperties &&
           currentProperties.map((property, index) => (

@@ -1,30 +1,28 @@
-// import { planEnterPriseSub, updateEnterPriseSub } from "@/api/planEnterprise";
-// import Link from "next/link";
-// import Loading from "@/components/mainmenu/loading";
-// import { toast } from "react-toastify";
 import ThreeDots from "@/components/mainmenu/ThreeDotsLoader";
 import handleSelectPlans from "@/utils/promotionPlan";
 import Image from "next/image";
-import React, { useState, useRef, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import MobilePlan from "./MobilePlan";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
 import { useRouter } from "next/navigation";
+import PayMentModal from "./PayMentModal";
 
 const Plans = ({
-  data,
   profile,
-  setSuccessModalIsOpen,
-  upgradePlan,
-  setModalIsOpen,
+  upgradePlan
 }) => {
- 
-
-  // const [loading, setLoading] = useState(false);
-  // const [formError, setFormError] = useState();
   const [loadingStates, setLoadingStates] = useState({});
   const [isPending, startTransition] = useTransition();
   const [ind, setIndex] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+  const [planDetails, setPlanDetails] = useState({
+    type: "",
+    price: 0,
+    interval: "",
+    index: "",
+  });
+  const router = useRouter();
 
   useEffect(() => {
     if (isPending) {
@@ -32,7 +30,6 @@ const Plans = ({
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
   }, [isPending, ind]);
-  const router = useRouter();
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
@@ -44,8 +41,6 @@ const Plans = ({
       setLoadingStates,
       amount,
       upgradePlan,
-      setModalIsOpen,
-      setSuccessModalIsOpen,
       router,
       startTransition
     );
@@ -54,12 +49,14 @@ const Plans = ({
   return (
     <div className="mt-[60px] m-auto flex flex-col gap-[60px]">
       <div className="sm:hidden">
-        <MobilePlan
+      <MobilePlan
           handleSelectPlan={handleSelectPlan}
           pricingPlans={pricingPlans}
           profile={profile}
           loadingStates={loadingStates}
-          period="annually"
+          period="annually"         
+          setIsOpen={setIsOpen}
+          setPlanDetails={setPlanDetails}
         />
       </div>
       <div className="sm:grid hidden gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 text-GrayHomz">
@@ -75,8 +72,8 @@ const Plans = ({
               <p className="text-[14px] text-center font-[500] text-[#559CFF] mb-3">
                 {plan.billing}
               </p>
-              <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {plan?.price && "N" + Number(plan.price).toLocaleString()}
+              <p className="text-[23px] text-center font-[700] text-BlackHomz font-sans">
+                {plan?.price && "₦" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 
@@ -133,9 +130,15 @@ const Plans = ({
 
             <button
               key={index}
-              onClick={() =>
-                handleSelectPlan(index, plan.title, plan.interval, plan.price)
-              }
+              onClick={() => {
+                setPlanDetails({
+                  type: plan.title,
+                  interval: plan.interval,
+                  price: plan.price,
+                  index: index,
+                });
+                setIsOpen(true);
+              }}
               className={`h-[48px] rounded-lg text-[16px] w-full mt-6 flex items-center justify-center ${
                 plan.status === true || plan.title === "Free" ? "hidden" : ""
               } ${
@@ -159,6 +162,15 @@ const Plans = ({
           </div>
         ))}
       </div>
+      <PayMentModal
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        planDetails={planDetails}
+        profile={profile?.data}
+        handleCardPayment={() => {
+          handleSelectPlan(planDetails.index, planDetails.type, planDetails.interval, planDetails.price);
+        }}
+      />
     </div>
   );
 };

@@ -238,6 +238,7 @@ const ReceiptRentHis = ({ closeReceipt, rentData, tenantData }) => {
         </div>
         <p className="m-4 text-[11px] font-[400] text-GrayHomz text-center">
           <DateFooter />
+          <DateFooter />
         </p>
       </div>
       <div style={{ display: 'none' }}>

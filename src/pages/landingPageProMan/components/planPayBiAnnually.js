@@ -179,8 +179,9 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
                 planInterval: interval
               })
               setOpenTransferPayment(false)
-              // toast.error(response.error);
               return;
+            } else {
+              toast.error(response.error);
             }
           }
         }
@@ -207,11 +208,11 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
     }
   }, [openCardPayment, openTransferPayment])
 
-    React.useEffect(() => {
-      if (openErrorAgain) {
-        handleSubmit(openErrorAgain.planInterval, openErrorAgain.planName)
-      }
-    }, [openAgain])
+  React.useEffect(() => {
+    if (openErrorAgain) {
+      handleSubmit(openErrorAgain.planInterval, openErrorAgain.planName)
+    }
+  }, [openAgain])
 
   return (
     <div className="mt-[60px] h-[800px] w-full m-auto px-6 flex flex-col items-center gap-[60px]">

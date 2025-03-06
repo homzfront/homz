@@ -183,8 +183,9 @@ const Plans = ({ profile }) => {
               planInterval: interval
             })
             setOpenTransferPayment(false)
-            // toast.error(response.error);
             return;
+          } else {
+            toast.error(response.error);
           }
         }
       }
@@ -207,11 +208,11 @@ const Plans = ({ profile }) => {
     }
   }, [openCardPayment, openTransferPayment])
 
-    React.useEffect(() => {
-      if (openErrorAgain) {
-        handleSubmit(openErrorAgain.planInterval, openErrorAgain.planName)
-      }
-    }, [openAgain])
+  React.useEffect(() => {
+    if (openErrorAgain) {
+      handleSubmit(openErrorAgain.planInterval, openErrorAgain.planName)
+    }
+  }, [openAgain])
 
   return (
     <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px] w-full">

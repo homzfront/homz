@@ -139,15 +139,15 @@ const PlansYearly = ({ routeTo, profile }) => {
       setLoading(true);
       setLoadingCard(planTitle);
       setIsOpenModal(false);
-            if (error === "you need to disable you active recurring subscribetion before procedding for a one time payment" && openErrorAgain && openAgain) {
-              setIsOpenModal(false);
-              setError(null)
-              setOpenTransferPayment(false)
-              const { success, data, error } = await cancelEnterprisePlanSub(
-                profile?.email_token,
-                profile?.subscriptionCode,
-              );
-            }
+      if (error === "you need to disable you active recurring subscribetion before procedding for a one time payment" && openErrorAgain && openAgain) {
+        setIsOpenModal(false);
+        setError(null)
+        setOpenTransferPayment(false)
+        const { success, data, error } = await cancelEnterprisePlanSub(
+          profile?.email_token,
+          profile?.subscriptionCode,
+        );
+      }
       try {
         let response;
         if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
@@ -179,8 +179,9 @@ const PlansYearly = ({ routeTo, profile }) => {
                 planInterval: interval
               })
               setOpenTransferPayment(false)
-              // toast.error(response.error);
               return;
+            } else {
+              toast.error(response.error);
             }
           }
         }

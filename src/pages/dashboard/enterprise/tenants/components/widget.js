@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import TenantsTwoDueDate from "../firstPage/tenantsTwoDueDate";
 import TableFilter from "@/store/enterpriseStore/tableFilter";
 import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 
 const Widget = ({

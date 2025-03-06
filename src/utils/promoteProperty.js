@@ -11,10 +11,9 @@ async function promoteProperty(date, propertyId, plan, propertyIds) {
       plan === "single" ? { endDate: date } : { endDate: date, propertyIds };
 
     const response = await api.post(endpoint, payload);
-    // console.log(response);
     return response.data;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
 
     return error;
   }
@@ -25,7 +24,6 @@ async function stopSinglePromotion(propertyId) {
     const result = await api.put(
       `/property/promotion/promotion/stop/${propertyId}`
     );
-    // console.log(result.data)
     return result.data;
   } catch (error) {
     console.log(error);
@@ -41,7 +39,6 @@ async function checkCurrentSubscription() {
     const results = await api.get(
       "/subscribe/listingProperty/current-subscription-Detail"
     );
-    // console.log(results);
     return results;
   } catch (error) {
     console.error("Error", error.response?.data || error.message);
@@ -49,7 +46,6 @@ async function checkCurrentSubscription() {
   }
 }
 async function createSubscription(planName, interval, amount, upgradePlan) {
-  // console.log(upgradePlan)
   try {
     const results = await api.post(
       `/subscribe/listingProperty/${upgradePlan ? "update" : "new"}`,
@@ -57,10 +53,12 @@ async function createSubscription(planName, interval, amount, upgradePlan) {
         planName: planName,
         interval: interval,
         amount: amount,
+        subscriptionType: "recurring",
       }
     );
-    // console.log(results?.data?.data);
-    return results?.data?.data?.paystackResponse;
+    return upgradePlan
+      ? results?.data?.paystackResponse
+      : results?.data?.data?.paystackResponse;
   } catch (error) {
     console.error("Error", error.response?.data || error.message);
     return error;

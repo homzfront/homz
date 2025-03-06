@@ -178,8 +178,9 @@ const PlanPayBiAnnually = ({ profile }) => {
               planInterval: interval
             })
             setOpenTransferPayment(false)
-            // toast.error(response.error);
             return;
+          } else {
+            toast.error(response.error);
           }
         }
       }

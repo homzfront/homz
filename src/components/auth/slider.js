@@ -36,6 +36,16 @@ const images = [
 
 
 const SliderAuth = () => {
+  const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());
+
+  React.useEffect(() => {
+    // This effect is optional. It updates the year if the component ever re-renders in a new year.
+    const year = new Date().getFullYear();
+    if (year !== currentYear) {
+      setCurrentYear(year);
+    }
+  }, []);
+
   return (
     <div>
       <div className="flex flex-col  justify-around items-center">
