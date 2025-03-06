@@ -13,15 +13,7 @@ import Support from "@/components/icons/dashboard/support";
 
 
 const Data = [
-  // {
-  //   id: 1,
-  //   image: <Dashboard height="16" width="16" />,
-  //   image2: <Dashboard className='text-white fill-white' height="16" width="16" />,
-  //   link: "",
-  //   name: "Dashboard",
-  //   coming: null,
-  //   active: false,
-  // },
+
   {
     id: 2,
     name: "Visitor Access",
