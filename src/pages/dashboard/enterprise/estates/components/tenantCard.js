@@ -8,7 +8,6 @@ import Link from "next/link";
 import React from "react";
 
 const TenantsCard = ({ data }) => {
-  // console.log(data);
   return (
     <div className="rounded-[12px] border w-full md:w-[55%] h-[514px] overflow-auto scrollbar-container">
       <div className="flex justify-between  p-6">
@@ -72,12 +71,16 @@ const TenantsCard = ({ data }) => {
                   {data?.estateId?.name}
                 </td>
                 <td className="hidden md:table-cell text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
-                  {`${data?.rentInfo?.totalRent
-                    ? <>
-                      <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rentInfo?.rent)}
-                    </>
-                    : "______"
-                    }`}
+                  {
+                    data?.rentInfo?.rent
+                      ? (
+                        <div>
+                          <span style={{ fontFamily: "Arial" }}>₦</span>
+                          {addCommasToNumber(data?.rentInfo?.rent)}
+                        </div>
+                      )
+                      : ""
+                  }
                 </td>
                 <td
                   className={`text-GrayHomz py-[15px] pr-2 font-[500]  text-[11px] `}

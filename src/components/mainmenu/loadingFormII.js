@@ -1,14 +1,14 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 
-const LoadingFormII = () => {
+const LoadingFormII = ({ className = "#FFFFFF" }) => {
   return (
     <div className="custom-three-dots">
       <ThreeDots
         visible={true}
         height="40"
         width="40"
-        color="#FFFFFF"
+        color={className}
         radius="9"
         ariaLabel="three-dots-loading"
         wrapperStyle={{}}

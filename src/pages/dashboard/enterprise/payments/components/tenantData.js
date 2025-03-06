@@ -19,6 +19,7 @@ const TenantData = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
   const [updateForm, setUpdateForm] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
   const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const dropdownRef = useRef(null);
@@ -55,6 +56,9 @@ const TenantData = () => {
     if (deleteModal) {
       setDeleteModal(false);
     }
+    if(showReceipt){
+      setShowReceipt(false)
+    }
   };
 
   const handleDataToggle = (id) => {
@@ -65,6 +69,11 @@ const TenantData = () => {
   const handleUpdateForm = (id) => {
     setSelectedDataId(id);
     setUpdateForm(!updateForm);
+  }
+
+  const showReceiptOffline = (id) => {
+    setSelectedDataId(id);
+    setShowReceipt(true)
   }
 
   const handleDelete = (id) => {
@@ -222,6 +231,9 @@ const TenantData = () => {
                           deleteSuccessModal={deleteSuccessModal}
                           handleDelete={handleDelete}
                           fetchData={fetchData}
+                          setShowReceipt={setShowReceipt}
+                          showReceiptOffline={showReceiptOffline}
+                          showReceipt={showReceipt}
                         />
                       )}
                     </td>

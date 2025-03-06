@@ -19,6 +19,7 @@ const OfflinePayment = () => {
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
+      const [showReceipt, setShowReceipt] = useState(false);
     const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const dropdownRef = useRef(null);
@@ -71,28 +72,29 @@ const OfflinePayment = () => {
         setSelectedDataId(id);
         setDeleteModal(!deleteModal)
     }
-
-    useEffect(() => {
-        const fetchData = async (page) => {
-            setLoading(true);
-            try {
-                let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=offline`;
-                if (selectedProperty) {
-                    query += `&property=${selectedProperty}`;
-                }
-                if (selectedDate) {
-                    query += `&date=${selectedDate}`;
-                }
-                const response = await api.get(query);
-                const result = response?.data;
-                setData(result?.data?.results);
-                setTotalPages(result?.data?.totalPages);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-                console.error("Error fetching data:", error);
+    
+    const fetchData = async (page) => {
+        setLoading(true);
+        try {
+            let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=offline`;
+            if (selectedProperty) {
+                query += `&property=${selectedProperty}`;
             }
-        };
+            if (selectedDate) {
+                query += `&date=${selectedDate}`;
+            }
+            const response = await api.get(query);
+            const result = response?.data;
+            setData(result?.data?.results);
+            setTotalPages(result?.data?.totalPages);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.error("Error fetching data:", error);
+        }
+    };
+    
+    useEffect(() => {
         fetchData(currentPage);
     }, [currentPage, selectedProperty, selectedDate, Refetch]);
 
@@ -114,6 +116,12 @@ const OfflinePayment = () => {
 
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+
+    const showReceiptOffline = (id) => {
+    setSelectedDataId(id);
+    setShowReceipt(true)
+  }
+
 
     return (
         <div className="mt-6 w-full mx-auto">
@@ -220,6 +228,10 @@ const OfflinePayment = () => {
                                                     setDeleteSuccessModal={setDeleteSuccessModal}
                                                     deleteSuccessModal={deleteSuccessModal}
                                                     handleDelete={handleDelete}
+                                                    fetchData={fetchData}
+                                                    setShowReceipt={setShowReceipt}
+                                                    showReceiptOffline={showReceiptOffline}
+                                                    showReceipt={showReceipt}
                                                 />
                                             )}
                                         </td>

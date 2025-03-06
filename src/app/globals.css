@@ -52,7 +52,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .scrollbar-container::-webkit-scrollbar-thumb {
-  background-color: #eef5ff; /* Make the scrollbar thumb transparent to hide it */
+  background-color: #006aff; /* Make the scrollbar thumb transparent to hide it */
   padding-top: 10px;
   /* border-top-right-radius: 30px; */
 }
@@ -326,3 +326,4 @@ body::-webkit-scrollbar-thumb {
 .currency {
   font-family: "Arial", sans-serif;
 }
+

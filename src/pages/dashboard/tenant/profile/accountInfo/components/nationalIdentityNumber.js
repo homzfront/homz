@@ -73,7 +73,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
         }
 
         try {
-            const { success, updatedPassport, error } = await uploadNINTenantKYC(
+            const { success, upDateddata, error } = await uploadNINTenantKYC(
                 nationalPassport,
                 NIN
             );
@@ -100,7 +100,8 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                 }, 800);
                 fetchWallet();
             } else {
-                toast.error(error?.response?.data?.data?.detail);
+                toast.error(error);
+                console.log(error)
                 setNationalPassportLoading(false);
             }
         } catch (error) {
@@ -139,7 +140,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
             }
             <div className="bg-inputBg rounded-[12px] p-6">
                 {
-                    nationalProfile?.face_data?.status === true ?
+                    nationalProfile?.nin_data?.firstname ?
                         (<div className="flex flex-col gap-[4px] w-full">
                             <div className="w-full flex justify-between items-center mt-[10px]">
                                 <p className="text-[13px] md:text-[14px] font-[500] leading-[19.5px] md:leading-[21px] text-left text-BlueHomz">
@@ -147,7 +148,27 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                                 </p>
                                 <p
                                     className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px] cursor-pointer"
-                                    onClick={() => viewFileII(nationalProfile?.basic_nin?.NinImage?.url)}
+                                    onClick={() => {
+                                        const base64Image = nationalProfile?.nin_data?.photo;
+
+                                        if (base64Image) {
+                                            // Convert Base64 to a Data URL
+                                            const imageUrl = `data:image/jpeg;base64,${base64Image}`;
+
+                                            // Open the image in a new tab
+                                            const newTab = window.open();
+                                            newTab.document.write(`<img src="${imageUrl}" style="width:100%; height:auto;" />`);
+                                            newTab.document.close();
+
+                                            // Create a temporary link to download the image
+                                            const link = document.createElement("a");
+                                            link.href = imageUrl;
+                                            link.download = "nin_photo.jpg"; // Default filename
+                                            document.body.appendChild(link);
+                                            link.click();
+                                            document.body.removeChild(link);
+                                        }
+                                    }}
                                 >
                                     View
                                 </p>
@@ -236,8 +257,12 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                                     onClick={handleDropdownToggle}
                                     className="flex w-full justify-between items-center cursor-pointer"
                                 >
-                                    <div className="text-[16px] font-[400] text-GrayHomz">
-                                        National Identity Number (NIN)
+                                    <div className="text-[16px] font-[400] text-GrayHomz flex gap-3 items-center md:pr-0 pr-2">
+                                        <p className='hidden md:block'>National Identity Number (NIN)</p>
+                                        <p className='md:hidden'>NIN</p>
+                                        <span className='text-[14px] border border-BlueHomz px-4 py-1 rounded-[8px] text-BlueHomz flex items-center justify-center'>
+                                            Preferred
+                                        </span>
                                     </div>
                                     <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
                                         <Image

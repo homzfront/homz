@@ -10,7 +10,7 @@ const VideoModal = ({ videoUrl }) => {
 
     return (
         <div className="">
-            <button onClick={() => setIsOpen(true)} className="text-[12px] mdtext-[14px] font-normal text-GrayHomz flex items-center gap-1 underline">
+            <button onClick={() => setIsOpen(true)} className="text-[12px] md:text-[14px] font-normal text-GrayHomz flex items-center gap-1 underline">
                 <Watch />
                 Watch how it works
             </button>
@@ -23,6 +23,7 @@ const VideoModal = ({ videoUrl }) => {
                                 controls={true}
                                 width="960px"
                                 height="540px"
+                                // style={{ objectFit: "cover", minHeight: "500px" }} 
                             />
                         </div>
                         <div className="lg:hidden flex flex-row-reverse gap-2 justify-start items-start w-full">
@@ -31,6 +32,7 @@ const VideoModal = ({ videoUrl }) => {
                                 controls={true}
                                 width="100%"
                                 height="100%"
+                                // style={{ objectFit: "cover", minHeight: "500px" }} 
                             />
                         </div>
                     </div>

@@ -14,13 +14,16 @@ import api from '@/utils/api';
 import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
 import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
+import Document from '@/components/icons/document';
+import Receipt from './receipt';
 
-function PopUpMenuTwo({ fetchData: fetchTableData, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
+function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchData: fetchTableData, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
+  const [activeFive, setActiveFive] = useState(false);
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setRefetch } = RefetchPayment();
@@ -65,73 +68,94 @@ function PopUpMenuTwo({ fetchData: fetchTableData, data, setDeleteModal, deleteM
 
 
   return (
-    <div
-      ref={dropdownRef}
-      className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around">
+    <div>
 
-      {/* View Profile */}
+
       <div
-        onMouseEnter={() => setActive(true)}
-        onMouseLeave={() => setActive(false)}
-        className="md:h-[30px] h-auto rounded-md flex gap-1 items-center text-GrayHomz hover:text-BlueHomz py-1 px-2 w-full ">
-        <Link className="w-full" href={`/dashboard/enterprise-property/tenants/profile/${tenantId}`}>
-          <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-            <Profile className={active ? '#006AFF' : undefined} />
-            <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2">
-              View Profile
-            </p>
-          </div>
-        </Link>
-      </div>
+        // ref={dropdownRef}
+        className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around">
 
-      {/* View All Details */}
-      <div
-        onMouseEnter={() => setActiveTwo(true)}
-        onMouseLeave={() => setActiveTwo(false)}
-        className="md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full ">
-        <button className="w-full" onClick={() => handleDataToggle(data?._id)}>
-          <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
-            <Details className={activeTwo ? '#006AFF' : undefined} />
-            <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-              View All Details
-            </p>
-          </div>
-        </button>
-      </div>
+        {/* View Profile */}
+        <div
+          onMouseEnter={() => setActive(true)}
+          onMouseLeave={() => setActive(false)}
+          className="md:h-[30px] h-auto rounded-md flex gap-1 items-center text-GrayHomz hover:text-BlueHomz py-1 px-2 w-full ">
+          <Link className="w-full" href={`/dashboard/enterprise-property/tenants/profile/${tenantId}`}>
+            <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+              <Profile className={active ? '#006AFF' : undefined} />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2">
+                View Profile
+              </p>
+            </div>
+          </Link>
+        </div>
 
-      {/* Update Record */}
-      <div
-        onMouseEnter={() => setActiveThree(true)}
-        onMouseLeave={() => setActiveThree(false)}
-        className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
-        <button className="w-full" onClick={() => {
-          setRefetch(false)
-          handleUpdateForm(data?._id)
-        }}>
-          <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
-            <Update className={activeThree ? '#006AFF' : undefined} />
-            <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-              Update record
-            </p>
-          </div>
-        </button>
-      </div>
+        {/* View All Details */}
+        <div
+          onMouseEnter={() => setActiveTwo(true)}
+          onMouseLeave={() => setActiveTwo(false)}
+          className="md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full ">
+          <button className="w-full" onClick={() => handleDataToggle(data?._id)}>
+            <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+              <Details className={activeTwo ? '#006AFF' : undefined} />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                View All Details
+              </p>
+            </div>
+          </button>
+        </div>
 
-      {/* Delete */}
-      <div
-        onMouseEnter={() => setActiveFour(true)}
-        onMouseLeave={() => setActiveFour(false)}
-        className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-[#D92D20] w-full`}>
-        <button className="w-full" onClick={() => handleDelete(data?._id)}>
-          <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
-            <Delete className={activeFour ? '#D92D20' : undefined} classNameTwo={activeFour ? '#D92D20' : undefined} />
-            <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-              Delete
-            </p>
-          </div>
-        </button>
-      </div>
+        {/* Update Record */}
+        <div
+          onMouseEnter={() => setActiveThree(true)}
+          onMouseLeave={() => setActiveThree(false)}
+          className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
+          <button className="w-full" onClick={() => {
+            setRefetch(false)
+            handleUpdateForm(data?._id)
+          }}>
+            <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+              <Update className={activeThree ? '#006AFF' : undefined} />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                Update record
+              </p>
+            </div>
+          </button>
+        </div>
 
+
+        {/* View Receipt */}
+        <div
+          onMouseEnter={() => setActiveFour(true)}
+          onMouseLeave={() => setActiveFour(false)}
+          className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
+          <button className="w-full" onClick={() => showReceiptOffline(data._id)}>
+            <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+              <Document className={activeFour ? '#006AFF' : undefined} />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                View Receipt
+              </p>
+            </div>
+          </button>
+        </div>
+
+
+        {/* Delete */}
+        <div
+          onMouseEnter={() => setActiveFive(true)}
+          onMouseLeave={() => setActiveFive(false)}
+          className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-[#D92D20] w-full`}>
+          <button className="w-full" onClick={() => handleDelete(data?._id)}>
+            <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+              <Delete className={activeFive ? '#D92D20' : undefined} classNameTwo={activeFour ? '#D92D20' : undefined} />
+              <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                Delete
+              </p>
+            </div>
+          </button>
+        </div>
+
+      </div>
       {/* Customized Modals */}
       {popUpMenu && (
         <CustomizedModal isOpen={popUpMenu}>
@@ -148,6 +172,14 @@ function PopUpMenuTwo({ fetchData: fetchTableData, data, setDeleteModal, deleteM
           />
         </CustomizedModal>
       )}
+      {showReceipt &&
+        <CustomizedModal isOpen={showReceipt}>
+          <Receipt
+            data={data}
+            setShowReceipt={setShowReceipt}
+          />
+        </CustomizedModal>
+      }
       {successfulModal && (
         <CustomizedModal isOpen={successfulModal}>
           <ConfirmModal

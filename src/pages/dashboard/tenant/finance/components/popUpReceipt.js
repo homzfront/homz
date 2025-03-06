@@ -9,10 +9,12 @@ function PopUpReceipt({ data, openReceipt, dropdownRef }) {
     }
 
   return (
-    <div ref={dropdownRef}>
-      <div className="drop-down absolute top-10 z-30 text-GrayHomz font-[400] text-[11px] right-[18px] border p-2  rounded-[12px] bg-white flex flex-col items-center justify-around">
+    <div>
+      <div className="drop-down absolute right-14 top-10 z-20 text-GrayHomz font-[400] text-[11px] border p-2 rounded-[12px] bg-white flex flex-col items-center justify-around">
         <div
-          onClick={openReceipt}
+          onClick={()=>{
+            openReceipt()
+          }}
           className="hover:bg-whiteblue cursor-pointer hover:text-BlueHomz flex items-center  px-4 py-2 gap-1  rounded-md text-center w-[100px]"
         >
           View Receipt

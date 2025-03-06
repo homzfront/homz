@@ -130,6 +130,7 @@ export const tenantRentInfo = async () => {
   }
 };
 
+
 export const sendInviteProperty = async (estateInvitation) => {
   // console.log(estateInvitation);
   try {
@@ -302,14 +303,16 @@ export const ReceiptTenant = async (id) => {
   }
 }
 
-export const getRentHis = async () => {
+export const getRentHis = async (paymentMethod = null) => {
   try {
-    const response = await api.get(`/rentPayment/tenant`);
+    const query = paymentMethod ? `?paymentMethod=${paymentMethod}` : "";
+    const response = await api.get(`/rentPayment/tenant${query}`);
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error: error?.response.data };
+    return { success: false, error: error?.response?.data };
   }
 };
+
 
 
 export const tenantWalletBalance = async () => {
@@ -383,15 +386,21 @@ export const uploadNINTenantKYC = async (uploadedImage, NIN) => {
       formData,
       { headers }
     );
-
-    if (response.data.statuscode === 201 || 200) {
-      return { success: true, updatedPassport: response };
-    } else {
-      // console.log(response)
-      const error = response.data.message;
-    }
+    return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error };
+    const result = JSON.parse(error?.request?.response)
+
+    if (result?.data?.ResponseInfo) {
+      return { success: false, error: result?.data?.ResponseInfo?.Message }
+    }
+    if (error && error?.response?.data?.error?.message) {
+      return { success: false, error: error?.response?.data?.error?.message }
+    }
+    else if (error && error?.response?.data?.error?.errors) {
+      return { success: false, error: error?.response?.data?.error?.errors };
+    } else if (error && error?.response?.data?.message) {
+      return { success: false, error: error?.response.data.message };
+    }
   }
 };
 
@@ -490,3 +499,74 @@ export const acceptTenantInvitation = async (tenantEmail, tenantFullName, invita
     return { success: false, error: errors };
   }
 };
+
+
+export const tenantInformationKYC = async (tenantData) => {
+  try {
+    const response = await api.post(`/tenants/on-boarding-form`, tenantData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    if (error && error?.response?.data?.error?.message) {
+      return { success: false, error: error?.response?.data?.error?.message }
+    }
+    else if (error && error?.response?.data?.error?.errors) {
+      return { success: false, error: error?.response?.data?.error?.errors };
+    } else if (error && error?.response?.data?.message) {
+      return { success: false, error: error?.response.data.message };
+    }
+  }
+};
+
+
+export const tenantOnboardingConfirmation = async (payload) => {
+  try {
+    const response = await api.post(`/tenants/on-boarding-form/confirmation`, payload);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    if (error && error?.response?.data?.error?.message) {
+      return { success: false, error: error?.response?.data?.error?.message }
+    }
+    else if (error && error?.response?.data?.error?.errors) {
+      return { success: false, error: error?.response?.data?.error?.errors };
+    } else if (error && error?.response?.data?.message) {
+      return { success: false, error: error?.response.data.message };
+    }
+  }
+};
+
+export const tenantOnboardingAccept = async (tenantId) => {
+  try {
+    const response = await api.post(`/tenants/${tenantId}/enterprise/on-boarding-form/approve`);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    if (error && error?.response?.data?.error?.message) {
+      return { success: false, error: error?.response?.data?.error?.message }
+    }
+    else if (error && error?.response?.data?.error?.errors) {
+      return { success: false, error: error?.response?.data?.error?.errors };
+    } else if (error && error?.response?.data?.message) {
+      return { success: false, error: error?.response.data.message };
+    }
+  }
+};
+
+export const tenantOnboardingReject = async (tenantId, reason) => {
+  try {
+    const response = await api.post(`/tenants/${tenantId}/enterprise/on-boarding-form/rejection`, reason);
+    return { success: true, upDateddata: response.data.data };
+  } catch (error) {
+    if (error && error?.response?.data?.error?.message) {
+      return { success: false, error: error?.response?.data?.error?.message }
+    }
+    else if (error && error?.response?.data?.error?.errors) {
+      return { success: false, error: error?.response?.data?.error?.errors };
+    } else if (error && error?.response?.data?.message) {
+      return { success: false, error: error?.response.data.message };
+    }
+  }
+};
+
