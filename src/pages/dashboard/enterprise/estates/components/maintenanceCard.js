@@ -65,7 +65,7 @@ const Maintenance = ({ maintData }) => {
           <thead className="">
             <tr className="bg-whiteblue h-[30px] text-[13px] font-[500] text-BlackHomz">
               <th className="text-left pl-6">Tenant</th>
-              <th className="text-left w-[50%] md:w-[55%] hidden md:table-cell">Subject</th>
+              <th className="text-left w-[50%] md:w-[45%] hidden md:table-cell">Subject</th>
               <th className="text-left w-[40%] md:w-[27%] pr-6 md:pr-0">Status</th>
             </tr>
           </thead>
@@ -86,14 +86,14 @@ const Maintenance = ({ maintData }) => {
                       layout="full" // Specify the desired height
                       objectFit="cover"
                       objectPosition="center"
-                      className="object-cover bg-center h-[40px] rounded-full"
+                      className="object-cover bg-center min-w-[40px] h-[40px] rounded-full"
                       priority
                     />
                   )}
 
                   <span className="py-[15px]">{data?.tenant?.fullName}</span>
                 </td>
-                <td className="hidden md:table-cell w-full md:w-[55%] text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
+                <td className="hidden md:table-cell w-full md:w-[45%] text-GrayHomz py-[15px] pr-2 font-[500] text-[11px]">
                   {data?.subject}
                 </td>
                 <td
