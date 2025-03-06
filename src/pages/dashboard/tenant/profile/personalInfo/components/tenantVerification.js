@@ -66,21 +66,21 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
         }
     };
 
+    // const customerReference = tenantData?._id ?? "";
+    // const applicantData = {
+    //     firstname: tenantData.fullName ?? '',
+    //     lastname: tenantData?.lastname ?? '',
+    //     phone: tenantData?.phoneNumber ?? '',
+    //     email: tenantData?.user?.email ?? "",
+    // };
+
     const customerReference = tenantData?._id ?? "";
     const applicantData = {
-        firstname: tenantData.fullName ?? '',
-        lastname: tenantData?.lastname ?? '',
-        phone: tenantData?.phoneNumber ?? '',
-        email: tenantData?.user?.email ?? "",
+      firstname: '',
+      lastname: '',
+      phone: '',
+      email: "",
     };
-
-    // const customerReference = data?._id ?? "";
-    // const applicantData = {
-    //   firstname: 'Olawale',
-    //   lastname: 'Okunola',
-    //   phone: '07038524515',
-    //   email: "raywalex@gmail.com",
-    // };
 
     return (
         <div className='mt-4'>
@@ -124,7 +124,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                     </div>
                     <div className='flex flex-col-reverse gap-4'>
                         <div>
-                            <InternationalPassport passportProfile={data} />
+                            <InternationalPassport passportProfile={data}  />
                             {/* <div className={`${data?.verification?.status === "VERIFIED" ? "" : "hidden"} `}> */}
                             <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
                                 {/* <TickSuccess />
@@ -135,14 +135,14 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                                         </Link>{' '}
                                         on your dashboard
                                     </div> */}
-                                <div>
+                                {/* <div>
                                     <h1>Verify Passport</h1>
                                     <QoreIDIntegration />
                                     <QoreIDButton
                                         customerReference={customerReference}
                                         applicantData={applicantData}
                                     />
-                                </div>
+                                </div> */}
                             </div>
                             {/* </div> */}
                         </div>

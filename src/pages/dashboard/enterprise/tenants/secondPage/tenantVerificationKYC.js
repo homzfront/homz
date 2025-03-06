@@ -7,9 +7,10 @@ const TenantVerificationKYC = ({ data }) => {
     const documents = [
         { name: 'NIN', format: 'pdf' },
     ];
-    
+
     return (
         <div className='mb-4 w-full text-[14px] font-normal text-GrayHomz'>
+            {!data?.ninId?.nin_data && <div className='p-2'>No Document has been submitted</div>}
             <div className='mt-4 grid grid-cols-1 w-full gap-2 min-h-[30px]'>
                 {/* {documents.map((doc, index) => ( */}
                 <div className={`${!data?.ninId?.nin_data && "hidden"} flex gap-2 items-center p-3 rounded-[12px] bg-[#FCFCFC]`}>

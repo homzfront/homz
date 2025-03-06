@@ -256,8 +256,11 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                                     onClick={handleDropdownToggle}
                                     className="flex w-full justify-between items-center cursor-pointer"
                                 >
-                                    <div className="text-[16px] font-[400] text-GrayHomz flex flex-col md:flex-row md:items-center gap-2">
-                                        National Identity Number (NIN) <span className='bg-whiteblue border border-BlueHomz text-BlueHomz rounded-[8px] h-[30px] w-[96px] flex justify-center items-center text-sm font-normal'>Preferred</span>
+                                    <div className="text-[16px] font-[400] text-GrayHomz flex gap-3 items-center md:pr-0 pr-2">
+                                        <p>National Identity Number (NIN)</p>
+                                        <span className='text-[14px] border border-BlueHomz px-4 py-1 rounded-[8px] text-BlueHomz flex items-center justify-center'>
+                                            Preferred
+                                        </span>
                                     </div>
                                     <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
                                         <Image

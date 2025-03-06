@@ -6,9 +6,11 @@ import InterPassport from './interPassport';
 import { uploadTenantKYC } from '@/api/tenantSevice';
 import UseWalletStore from '@/store/tenantStore/useWalletStore';
 import TickSuccess from '@/components/icons/tickSuccess';
+import QoreIDIntegration from "@/hooks/QoreIDIntegration";
+import QoreIDButton from "@/hooks/QoreIDButton";
 
 
-const InternationalPassport = ({ passportProfile }) => {
+const InternationalPassport = ({ passportProfile, customerReference, applicantData }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [interPassport, setInterPassport] = useState(null);
     const [interPassportUploaded, setInterPassportUploaded] = useState(false);
@@ -216,20 +218,28 @@ const InternationalPassport = ({ passportProfile }) => {
                             )
                                 :
                                 <div
-                                    onClick={handleDropdownToggle}
+                                    // onClick={handleDropdownToggle}
                                     className="flex w-full justify-between items-center cursor-pointer"
                                 >
                                     <div className="text-[16px] font-[400] text-GrayHomz">
                                         International Passport
                                     </div>
-                                    <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
+                                    {/* <div className={` ${isOpen ? "transform rotate-180" : ""}`}>
                                         <Image
                                             src="/static/dashboard/enterprisemanager/dashboard/arrow-down.png"
                                             height={16}
                                             width={16}
                                             alt=""
                                         />
-                                    </div>
+                                    </div> */}
+                                    {/* <div>
+                                        <QoreIDIntegration />
+                                        <QoreIDButton
+                                            customerReference={customerReference}
+                                            applicantData={applicantData}
+                                        />
+                                    </div> */}
+                                    <div className='w-[160px] h-[45px] text-sm font-semibold border border-Success bg-successBg text-Success italic flex justify-center items-center'>Coming soon!</div>
                                 </div>
                 }
             </div>
