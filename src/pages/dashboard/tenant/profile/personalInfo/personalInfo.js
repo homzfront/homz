@@ -23,7 +23,7 @@ const PersonalInfo = ({ data }) => {
   const [success, setSuccess] = React.useState(false);
   const [showDialogue, setShowDialogue] = useState(false);
   const { fetchData } = tenantProfile();
-
+  
   useEffect(() => {
     if (data) {
       const cleanedFormData = Object.fromEntries(
@@ -44,7 +44,7 @@ const PersonalInfo = ({ data }) => {
           email: data?.user?.email,
           spouseOccupation: data?.spouseDetails?.spouseOccupation,
           spouseOfficeAddress: data?.spouseDetails?.spouseOfficeAddress,
-          numberOfCars: data?.occupantDetails?.numberOfCars,
+          numberOfCars: data?.numberOfCars,
         }).filter(([_, value]) => value != null && value !== "")
       );
 

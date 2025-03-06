@@ -47,7 +47,7 @@ const DownloadData = React.forwardRef(({ data }, ref) => (
                     </div>
                 </div>
             </div>
-            <div className='py-4 px-4 md:px-8 bg-[#FCFCFC] text-[12px] md:text-[14px] mt-4 grid grid-cols-2 md:grid-cols-3 w-full gap-4 rounded-[12px]'>
+            <div className='py-4 px-4 md:px-8 bg-[#FCFCFC] text-[12px] md:text-[14px] mt-4 grid grid-cols-2 md:grid-cols-3 w-full gap-4 rounded-[12px] text-GrayHomz'>
                 <div>
                     <p className='break-words text-[11px] md:text-[13px] mb-1 font-normal text-[#A9A9A9]'>Nationality</p>
                     <p>{data?.personalDetails?.nationality ?? "[Nationality]"}</p>

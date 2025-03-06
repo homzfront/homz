@@ -8,7 +8,7 @@ import OccupantInput from '@/app/know-tenant/components/occupantInput';
 
 const OccupantDetails = ({ setStep, loading, handleUpdate, register, setFormData, formData }) => {
     const maxOccupants = 10;
-
+    
     // Ensure occupantDetails is initialized
     const [occupants, setOccupants] = useState(() => formData?.occupantDetails || []);
 

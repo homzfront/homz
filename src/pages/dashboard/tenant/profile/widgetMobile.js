@@ -12,7 +12,7 @@ import SuccessCard from './personalInfo/components/successCard';
 
 const WidgetMobile = ({ data }) => {
     const urlParams = useSearchParams();
-    const tab = urlParams.get("tab")
+    const tab = urlParams.get("tab");
 
     const [active, setActive] = useState(tab ? tab !== 'personal' : false);
     const [activeTwo, setActiveTwo] = useState(false);
@@ -118,7 +118,7 @@ const WidgetMobile = ({ data }) => {
                     <RentInformation data={data} />
                 </div>
                 <div className={`h-auto ${activeTwo ? "inline" : "hidden"}`}>
-                    {data?.verification?.status === 'approved' ? <SuccessCard /> : data?.verification?.status === 'pending' ? <PendingCard /> : data?.verification?.status === 'rejected' ? <RejectedCard text={data?.verification?.rejectionReason} /> : null}
+                    {data?.verification?.status === 'approved' ? <SuccessCard data={data}/> : data?.verification?.status === 'pending' ? <PendingCard /> : data?.verification?.status === 'rejected' ? <RejectedCard text={data?.verification?.rejectionReason} /> : null}
                     <PersonalInfo data={data} />
                 </div>
                 <div className={`${activeThree ? "inline" : "hidden"}`}>

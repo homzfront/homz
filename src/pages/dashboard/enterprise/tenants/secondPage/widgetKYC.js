@@ -8,7 +8,7 @@ import TenantVerificationKYC from './tenantVerificationKYC';
 
 const WidgetKYC = ({ handlePrint, data, setOpenKYC }) => {
     const [step, setStep] = React.useState(0);
-
+    
     const steps = [
         "Personal Information",
         "Spouse/Kin Information",
@@ -54,7 +54,7 @@ const WidgetKYC = ({ handlePrint, data, setOpenKYC }) => {
                         <GuarantorsKYC data={data} />
                     )}
                     {step === 4 && (
-                        <TenantVerificationKYC />
+                        <TenantVerificationKYC data={data}/>
                     )}
                 </div>
             </div>

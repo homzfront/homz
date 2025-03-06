@@ -6,10 +6,16 @@ import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import DateIcon from '@/components/icons/date';
+import Select from 'react-select';
+
+const API_KEY = process.env.NEXT_PUBLIC_QOREID
 
 const PersonalInfo = ({ setOpenSaveModal, onSubmit, setStep, register, setFormData, formData }) => {
     const [state, setState] = React.useState(null);
     const [email, setEmail] = React.useState(null);
+    const [selectedState, setSelectedState] = React.useState(formData?.stateOfOrigin)
+    const [selectedCountry, setSelectedCountry] = React.useState(formData?.nationality);
+    const [countries, setCountries] = React.useState(null);
 
     const setFormValues = (value) => {
         setFormData((prev) => ({ ...prev, ["sex"]: value, }));
@@ -17,8 +23,13 @@ const PersonalInfo = ({ setOpenSaveModal, onSubmit, setStep, register, setFormDa
     const setFormValuesMari = (value) => {
         setFormData((prev) => ({ ...prev, ["maritalStatus"]: value, }));
     };
-    const setFormValuesState = (value) => {
-        setFormData((prev) => ({ ...prev, ["stateOfOrigin"]: value, }));
+    const setFormValuesState = (data) => {
+        setFormData((prev) => ({ ...prev, ["stateOfOrigin"]: data.value, }));
+        setSelectedState(data)
+    };
+    const setFormValuesCountry = (data) => {
+        setSelectedCountry(data)
+        setFormData((prev) => ({ ...prev, ["nationality"]: data.value, }));
     };
     const setFormValuesRentPo = (value) => {
         setFormData((prev) => ({ ...prev, ["rentPurpose"]: value, }));
@@ -27,15 +38,27 @@ const PersonalInfo = ({ setOpenSaveModal, onSubmit, setStep, register, setFormDa
         setFormData((prev) => ({ ...prev, ["accommodationType"]: value, }));
     };
 
+    // Fetch countries
     React.useEffect(() => {
-        const showState = async () => {
-            const result = await chooseState()
-            setState(result?.data)
-        }
-        showState()
-        const savedTenantEmail = localStorage.getItem("tenantEmail");
-        setEmail(savedTenantEmail)
+        fetch('https://api.countrystatecity.in/v1/countries', {
+            headers: { 'X-CSCAPI-KEY': API_KEY },
+        })
+            .then((response) => response.json())
+            .then((data) => setCountries(data))
+            .catch((error) => console.error('Error fetching countries:', error));
     }, []);
+
+    // Fetch states based on selected country
+    React.useEffect(() => {
+        if (selectedCountry?.iso2) {
+            fetch(`https://api.countrystatecity.in/v1/countries/${selectedCountry?.iso2}/states`, {
+                headers: { 'X-CSCAPI-KEY': API_KEY },
+            })
+                .then((response) => response.json())
+                .then((data) => setState(data))
+                .catch((error) => console.error('Error fetching states:', error));
+        }
+    }, [selectedCountry]);
 
     const genderType = [
         { id: 1, label: "male" },
@@ -62,6 +85,30 @@ const PersonalInfo = ({ setOpenSaveModal, onSubmit, setStep, register, setFormDa
             setStep(1)
         }
     }
+
+    const options = countries?.map((country) => ({
+        value: country?.name,
+        label: `${country?.name}`,
+        iso2: country.iso2
+    }));
+
+    const optionsCountries = state?.map((state, index) => ({
+        value: state?.name,
+        label: `${state?.name}`,
+        iso2: state.iso2,
+        id: index
+    }));
+
+
+    React.useEffect(() => {
+        if (!selectedCountry) {
+            setSelectedCountry(formData?.nationality);
+            setSelectedState(formData?.stateOfOrigin)
+        }
+    }, [formData])
+
+    console.log(formData)
+
     return (
         <div className='mt-4'>
             <div className='flex flex-col gap-4'>
@@ -86,8 +133,32 @@ const PersonalInfo = ({ setOpenSaveModal, onSubmit, setStep, register, setFormDa
                 </div>
                 <div className='border border-[#D5D5D5] rounded-[12px] p-4'>
                     <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
-                        <InputField label={"Nationality"} register={register} placeholder={"e.g Nigerian"} formData={formData} setFormData={setFormData} />
-                        <Dropdown className={`${!state && "pointer-events-none"}`} loadedData={formData?.stateOfOrigin} label={"State of Origin"} options={state} register={register} onSelect={setFormValuesState} emptyValue={"Select State"} />
+                        {/* <InputField label={"Nationality"} register={register} placeholder={"e.g Nigerian"} formData={formData} setFormData={setFormData} /> */}
+                        {/* <Dropdown className={`${!state && "pointer-events-none"}`} loadedData={formData?.stateOfOrigin} label={"State of Origin"} options={state} register={register} onSelect={setFormValuesState} emptyValue={"Select State"} /> */}
+                        <div className="">
+                            <label className="block text-GrayHomz text-sm font-medium mb-1">Nationality </label>
+                            <div className='h-[45px]'>
+                                <Select
+                                    value={selectedCountry}
+                                    onChange={setFormValuesCountry}
+                                    options={options}
+                                    placeholder={selectedCountry ? selectedCountry : `Search Country...`}
+                                    className='scrollbar-container'
+                                />
+                            </div>
+                        </div>
+                        <div className={`${!selectedCountry && "pointer-events-none"}`}>
+                            <label className="block text-GrayHomz text-sm font-medium mb-1">State of Origin</label>
+                            <div className='h-[45px]'>
+                                <Select
+                                    value={selectedState}
+                                    onChange={setFormValuesState}
+                                    options={optionsCountries}
+                                    placeholder={selectedState ? selectedState : "Search State..."}
+                                    className='scrollbar-container'
+                                />
+                            </div>
+                        </div>
                         <InputField label={"Religion"} register={register} placeholder={"e.g Christian"} formData={formData} setFormData={setFormData} />
                         <Dropdown label={"Rent Purpose"} loadedData={formData?.rentPurpose} options={rentPurpose} register={register} onSelect={setFormValuesRentPo} emptyValue={"Select purpose"} />
                         <Dropdown label={"Accommodation Type"} loadedData={formData?.accommodationType} options={accommodationType} register={register} onSelect={setFormValuesAccoType} emptyValue={"Select type"} />

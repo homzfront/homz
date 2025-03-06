@@ -15,6 +15,8 @@ import Image from "next/image";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { tenantOnboardingConfirmation } from "@/api/tenantSevice";
 import tenantProfile from "@/store/tenantStore/tenantProfile";
+import QoreIDIntegration from "@/hooks/QoreIDIntegration";
+import QoreIDButton from "@/hooks/QoreIDButton";
 
 const TenantVerification = ({ setStep, register, setFormData, formData }) => {
     const router = useRouter()
@@ -64,6 +66,22 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
         }
     };
 
+    const customerReference = tenantData?._id ?? "";
+    const applicantData = {
+        firstname: tenantData.fullName ?? '',
+        lastname: tenantData?.lastname ?? '',
+        phone: tenantData?.phoneNumber ?? '',
+        email: tenantData?.user?.email ?? "",
+    };
+
+    // const customerReference = data?._id ?? "";
+    // const applicantData = {
+    //   firstname: 'Olawale',
+    //   lastname: 'Okunola',
+    //   phone: '07038524515',
+    //   email: "raywalex@gmail.com",
+    // };
+
     return (
         <div className='mt-4'>
             {openCompleteModal &&
@@ -107,18 +125,26 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                     <div className='flex flex-col-reverse gap-4'>
                         <div>
                             <InternationalPassport passportProfile={data} />
-                            <div className={`${data?.verification?.status === "VERIFIED" ? "" : "hidden"} `}>
-                                <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
-                                    <TickSuccess />
+                            {/* <div className={`${data?.verification?.status === "VERIFIED" ? "" : "hidden"} `}> */}
+                            <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex flex-row items-center">
+                                {/* <TickSuccess />
                                     <div>
                                         Your international passport has successfully been verified. You can now <></>
                                         <Link href="/dashboard/tenant/finance" className="text-BlueHomz">
                                             create a wallet
                                         </Link>{' '}
                                         on your dashboard
-                                    </div>
+                                    </div> */}
+                                <div>
+                                    <h1>Verify Passport</h1>
+                                    <QoreIDIntegration />
+                                    <QoreIDButton
+                                        customerReference={customerReference}
+                                        applicantData={applicantData}
+                                    />
                                 </div>
                             </div>
+                            {/* </div> */}
                         </div>
                         <div>
                             <NationalIdentityNumber nationalProfile={dataTwo} />
@@ -138,7 +164,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                     </div>
                 </div>
             </div>
-            <div className={`bg-inputBg mt-4 p-6 rounded-[12px] text-sm font-normal text-GrayHomz flex flex-col gap-4 ${tenantData?.verification?.status === "approved" || tenantData?.verification?.status === "pending" && "hidden"}`}>
+            <div className={`bg-inputBg mt-4 p-6 rounded-[12px] text-sm font-normal text-GrayHomz flex flex-col gap-4 ${(tenantData?.verification?.status === "approved" || tenantData?.verification?.status === "pending") && "hidden"}`}>
                 <div className='flex gap-4 items-center'>
                     <div onClick={() => setToggle(!toggle)} className='cursor-pointer'>
                         {toggle ?
@@ -166,7 +192,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                     </p>
                 </div>
             </div>
-            <div className={`w-full flex justify-end mt-8 ${tenantData?.verification?.status === "approved" || tenantData?.verification?.status === "pending" && "hidden"}`}>
+            <div className={`w-full flex justify-end mt-8 ${(tenantData?.verification?.status === "approved" || tenantData?.verification?.status === "pending") && "hidden"}`}>
                 <button onClick={() => handlVerifty()} className={`min-w-[150px] font-medium text-[16px] rounded-[4px] p-3 ${toggleTwo && toggle ? "bg-BlueHomz text-white hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz" : "pointer-events-none bg-GrayHomz6 text-GrayHomz5"} ${isLoading ? "pointer-events-none flex justify-center" : ""}`}>
                     {isLoading ? <LoadingFormII /> : "Submit for Approval"}
                 </button>

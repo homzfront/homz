@@ -9,9 +9,13 @@ import DateIcon from '@/components/icons/date';
 import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 import LoadingII from '@/components/mainmenu/loadingII';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import Select from 'react-select';
 
 const PersonalInfoma = ({ setStep, loading, handleUpdate, setShowDialogue, showDialogue, success, setSuccess, updateDone, data, register, setFormData, formData }) => {
     const [state, setState] = React.useState(null);
+    const [selectedState, setSelectedState] = React.useState(formData?.stateOfOrigin)
+    const [selectedCountry, setSelectedCountry] = React.useState(formData?.nationality);
+    const [countries, setCountries] = React.useState(null);
     const setFormValues = (value) => {
         setFormData((prev) => ({ ...prev, ["gender"]: value, }));
     };
@@ -26,14 +30,8 @@ const PersonalInfoma = ({ setStep, loading, handleUpdate, setShowDialogue, showD
     };
     const setFormValuesAccoType = (value) => {
         setFormData((prev) => ({ ...prev, ["accommodationType"]: value, }));
-    };
-    React.useEffect(() => {
-        const showState = async () => {
-            const result = await chooseState()
-            setState(result?.data)
-        }
-        showState()
-    }, [])
+    }; 
+
     const genderType = [
         { id: 1, label: "male" },
         { id: 2, label: "female" }
@@ -55,6 +53,68 @@ const PersonalInfoma = ({ setStep, loading, handleUpdate, setShowDialogue, showD
         { id: 6, label: "others" },
     ]
 
+    const API_KEY = process.env.NEXT_PUBLIC_QOREID
+
+    // Fetch countries
+    React.useEffect(() => {
+        fetch('https://api.countrystatecity.in/v1/countries', {
+            headers: { 'X-CSCAPI-KEY': API_KEY },
+        })
+            .then((response) => response.json())
+            .then((data) => setCountries(data))
+            .catch((error) => console.error('Error fetching countries:', error));
+    }, []);
+
+    // Fetch states based on selected country
+    React.useEffect(() => {
+        if (selectedCountry?.iso2) {
+            fetch(`https://api.countrystatecity.in/v1/countries/${selectedCountry?.iso2}/states`, {
+                headers: { 'X-CSCAPI-KEY': API_KEY },
+            })
+                .then((response) => response.json())
+                .then((data) => setState(data))
+                .catch((error) => console.error('Error fetching states:', error));
+        }
+    }, [selectedCountry]);
+
+    const handleChange = (selectedOption) => {
+        setSelectedCountry(selectedOption)
+        setFormData((prev) => ({
+            ...prev,
+            ["nationality"]: selectedOption?.value,
+        }));
+
+    };
+
+    const handleChangeTwo = (selectedOption) => {
+        setSelectedState(selectedOption)
+        setFormData((prev) => ({
+            ...prev,
+            ["stateOfOrigin"]: selectedOption?.value,
+        }));
+    };
+
+
+    React.useEffect(() => {
+        if (!selectedCountry) {
+            setSelectedCountry(formData?.nationality);
+            setSelectedState(formData?.stateOfOrigin)
+        }
+    }, [formData])
+
+    const options = countries?.map((country) => ({
+        value: country?.name,
+        label: `${country?.name}`,
+        iso2: country.iso2
+    }));
+
+    const optionsCountries = state?.map((state, index) => ({
+        value: state?.name,
+        label: `${state?.name}`,
+        iso2: state.iso2,
+        id: index
+    }));
+
     return (
         <div className=''>
             <div className='flex flex-col gap-4'>
@@ -72,8 +132,32 @@ const PersonalInfoma = ({ setStep, loading, handleUpdate, setShowDialogue, showD
                 </div>
                 <div className='bg-[#FCFCFC] rounded-[12px] p-4'>
                     <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
-                        <InputField label={"Nationality"} register={register} placeholder={"e.g Nigerian"} formData={formData} setFormData={setFormData} />
-                        <Dropdown loadedData={formData?.stateOfOrigin} className={`${!state && "pointer-events-none"}`} label={"State of Origin"} options={state} register={register} onSelect={setFormValuesState} emptyValue={"Select State"} />
+                        {/* <InputField label={"Nationality"} register={register} placeholder={"e.g Nigerian"} formData={formData} setFormData={setFormData} /> */}
+                        <div className="">
+                            <label className="block text-GrayHomz text-sm font-medium mb-1">Nationality </label>
+                            <div className='h-[45px]'>
+                                <Select
+                                    value={selectedCountry}
+                                    onChange={handleChange}
+                                    options={options}
+                                    placeholder={selectedCountry ? selectedCountry : `Search Country...`}
+                                    className='scrollbar-container'
+                                />
+                            </div>
+                        </div>
+                        <div className={`${!selectedCountry && "pointer-events-none"}`}>
+                            <label className="block text-GrayHomz text-sm font-medium mb-1">State of Origin</label>
+                            <div className='h-[45px]'>
+                                <Select
+                                    value={selectedState}
+                                    onChange={handleChangeTwo}
+                                    options={optionsCountries}
+                                    placeholder={selectedState ? selectedState : "Search State..."}
+                                    className='scrollbar-container'
+                                />
+                            </div>
+                        </div>
+                        {/* <Dropdown loadedData={formData?.stateOfOrigin} className={`${!state && "pointer-events-none"}`} label={"State of Origin"} options={state} register={register} onSelect={setFormValuesState} emptyValue={"Select State"} /> */}
                         <InputField label={"Religion"} register={register} placeholder={"e.g Christian"} formData={formData} setFormData={setFormData} />
                         <Dropdown loadedData={formData?.rentPurpose} label={"Rent Purpose"} options={rentPurpose} register={register} onSelect={setFormValuesRentPo} emptyValue={"Select purpose"} />
                         <Dropdown loadedData={formData?.accommodationType} label={"Accommodation Type"} options={accommodationType} register={register} onSelect={setFormValuesAccoType} emptyValue={"Select type"} />

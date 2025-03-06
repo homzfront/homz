@@ -123,7 +123,7 @@ const WidgetMobile = ({ data, id }) => {
                     <Documents id={id} />
                 </div>
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
-                    <BankAccountDetails id={id} />
+                    <BankAccountDetails data={data} />
                 </div>
             </div>
         </div>

@@ -171,7 +171,7 @@ const TenantsTwoDueDate = ({ loading, totalPages, setCurrentPage, currentPage, p
                       </div>
                       <div className="mr-2">
                         <span className="w-[16px]">{loading ?
-                          <div className="w-[16px] h-[16px] rounded bg-gray-200 animate-pulse"></div> : <Verified />}
+                          <div className="w-[16px] h-[16px] rounded bg-gray-200 animate-pulse"></div> : <span className={`${data?.verification?.status === 'approved' ? "" : "hidden" }`}><Verified /></span>}
                         </span>
                       </div>
                     </div>
