@@ -386,15 +386,21 @@ export const uploadNINTenantKYC = async (uploadedImage, NIN) => {
       formData,
       { headers }
     );
-
-    if (response.data.statuscode === 201 || 200) {
-      return { success: true, updatedPassport: response };
-    } else {
-      // console.log(response)
-      const error = response.data.message;
-    }
+    return { success: true, upDateddata: response.data.data };
   } catch (error) {
-    return { success: false, error };
+    const result = JSON.parse(error?.request?.response)
+
+    if (result?.data?.ResponseInfo) {
+      return { success: false, error: result?.data?.ResponseInfo?.Message }
+    }
+    if (error && error?.response?.data?.error?.message) {
+      return { success: false, error: error?.response?.data?.error?.message }
+    }
+    else if (error && error?.response?.data?.error?.errors) {
+      return { success: false, error: error?.response?.data?.error?.errors };
+    } else if (error && error?.response?.data?.message) {
+      return { success: false, error: error?.response.data.message };
+    }
   }
 };
 
@@ -502,7 +508,6 @@ export const tenantInformationKYC = async (tenantData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response)
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
     if (error && error?.response?.data?.error?.message) {

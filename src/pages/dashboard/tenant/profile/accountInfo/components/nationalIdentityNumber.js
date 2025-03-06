@@ -73,7 +73,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
         }
 
         try {
-            const { success, updatedPassport, error } = await uploadNINTenantKYC(
+            const { success, upDateddata, error } = await uploadNINTenantKYC(
                 nationalPassport,
                 NIN
             );
@@ -100,7 +100,8 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                 }, 800);
                 fetchWallet();
             } else {
-                toast.error(error?.response?.data?.data?.detail);
+                toast.error(error);
+                console.log(error)
                 setNationalPassportLoading(false);
             }
         } catch (error) {
@@ -257,7 +258,8 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                                     className="flex w-full justify-between items-center cursor-pointer"
                                 >
                                     <div className="text-[16px] font-[400] text-GrayHomz flex gap-3 items-center md:pr-0 pr-2">
-                                        <p>National Identity Number (NIN)</p>
+                                        <p className='hidden md:block'>National Identity Number (NIN)</p>
+                                        <p className='md:hidden'>NIN</p>
                                         <span className='text-[14px] border border-BlueHomz px-4 py-1 rounded-[8px] text-BlueHomz flex items-center justify-center'>
                                             Preferred
                                         </span>

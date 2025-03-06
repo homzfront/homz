@@ -219,7 +219,7 @@ const InternationalPassport = ({ passportProfile, customerReference, applicantDa
                                 :
                                 <div
                                     // onClick={handleDropdownToggle}
-                                    className="flex w-full justify-between items-center cursor-pointer"
+                                    className="flex flex-col md:flex-row gap-1 md:gap-0 w-full justify-between md:items-center pointer-events-none"
                                 >
                                     <div className="text-[16px] font-[400] text-GrayHomz">
                                         International Passport
@@ -239,7 +239,7 @@ const InternationalPassport = ({ passportProfile, customerReference, applicantDa
                                             applicantData={applicantData}
                                         />
                                     </div> */}
-                                    <div className='w-[160px] h-[45px] text-sm font-semibold border border-Success bg-successBg text-Success italic flex justify-center items-center'>Coming soon!</div>
+                                    <div className='px-4 h-[40px] text-xs md:text-sm font-semibold  rounded-md bg-successBg text-Success italic flex justify-center items-center'>Coming soon!</div>
                                 </div>
                 }
             </div>
