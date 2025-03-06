@@ -73,7 +73,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
         }
 
         try {
-            const { success, updatedPassport, error } = await uploadNINTenantKYC(
+            const { success, upDateddata, error } = await uploadNINTenantKYC(
                 nationalPassport,
                 NIN
             );
@@ -100,7 +100,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                 }, 800);
                 fetchWallet();
             } else {
-                toast.error(error?.response?.data?.data?.detail);
+                toast.error(error);
                 setNationalPassportLoading(false);
             }
         } catch (error) {
