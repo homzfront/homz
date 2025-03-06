@@ -15,7 +15,7 @@ const WidgetMobile = ({ data }) => {
     const tab = urlParams.get("tab");
 
     const [active, setActive] = useState(tab ? tab !== 'personal' : false);
-    const [activeTwo, setActiveTwo] = useState(false);
+    const [activeTwo, setActiveTwo] = useState(tab === "personalInfo");
     const [activeThree, setActiveThree] = useState(false);
     const [activeFour, setActiveFour] = useState(tab === 'acctInfo');
     const [activeFive, setActiveFive] = useState(false);
