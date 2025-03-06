@@ -388,6 +388,11 @@ export const uploadNINTenantKYC = async (uploadedImage, NIN) => {
     );
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
+    const result = JSON.parse(error?.request?.response)
+
+    if (result?.data?.ResponseInfo) {
+      return { success: false, error: result?.data?.ResponseInfo?.Message }
+    }
     if (error && error?.response?.data?.error?.message) {
       return { success: false, error: error?.response?.data?.error?.message }
     }

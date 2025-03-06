@@ -101,6 +101,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                 fetchWallet();
             } else {
                 toast.error(error);
+                console.log(error)
                 setNationalPassportLoading(false);
             }
         } catch (error) {
