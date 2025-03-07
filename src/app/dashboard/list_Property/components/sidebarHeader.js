@@ -2,6 +2,7 @@
 import React from 'react'
 import Logout from '@/components/icons/dashboard/logout'
 import PropertyListing from '@/components/icons/dashboard/propertyListing'
+import Profile from "@/components/icons/dashboard/profile";
 import RightArrow from '@/components/icons/dashboard/rightArrow'
 import EmptyAvatar from '@/components/icons/emptyAvatar'
 import useProfileStore from '@/store/profile'
@@ -74,6 +75,28 @@ const SidebarMobile = ({ setOpen, user }) => {
             }
           </div>
           <p className=''> Property Listing</p>
+        </Link>
+        <Link
+          onClick={() => setOpen(false)}
+          href="/dashboard/list_Property/Profile"
+          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          ${pathname ==="/dashboard/list_Property/Profile" ? "bg-white text-BlueHomz"
+              : "text-GrayHomz"} hover:text-BlueHomz`}
+        >
+          <div>
+            {
+              pathname === "/dashboard/list_Property/Profile"
+                ?
+                <div>
+                  <Profile className='text-BlueHomz fill-BlueHomz' />
+                </div>
+                :
+                <div>
+                  <Profile />
+                </div>
+            }
+          </div>
+          <span className=''>Profile</span>
         </Link>
         <Link
           href={"/switch-profile"}
