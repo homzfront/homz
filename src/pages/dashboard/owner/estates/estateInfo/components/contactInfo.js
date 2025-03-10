@@ -4,7 +4,6 @@ import Input from "../../../components/input";
 import formatStringWithHyphens from "@/utils/formatStringWithHyphens";
 
 const ContactInfo = ({data}) => {
-
   return (
     <div className="">
       {/* <div>
@@ -20,26 +19,26 @@ const ContactInfo = ({data}) => {
           label={"Manager’s Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
-          value={data?.managerPhoneNumber ? (data?.managerPhoneNumber) : "-----"}
+          value={data?.managerPhoneNumber !== "NaN" && data?.managerPhoneNumber ? (data?.managerPhoneNumber) : ""}
         />
         <Input
           label={"Emergency Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
-          value={data?.emergencyPhoneNumber ? (data?.emergencyPhoneNumber) : "-----"}
+          value={data?.emergencyPhoneNumber !== "NaN" && data?.emergencyPhoneNumber ? (data?.emergencyPhoneNumber) : ""}
         />
         <Input
           label={"Utility Services Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
           span2={"(Dry cleaning, Waste disposal, etc)"}
-          value={data?.utilityServicePhoneNumber ? (data?.utilityServicePhoneNumber) : "-----"}
+          value={data?.utilityServicePhoneNumber !== "NaN" && data?.utilityServicePhoneNumber ? (data?.utilityServicePhoneNumber) : ""}
         />
         <Input
           label={"Security  Phone Number"}
           placeholder={"0000 - 000 - 0000"}
           type={"text"}
-          value={data?.securityPhoneNumber ? (data?.securityPhoneNumber) : "-----"}
+          value={data?.securityPhoneNumber !== "NaN" && data?.securityPhoneNumber ? (data?.securityPhoneNumber) : ""}
         />
       </div>
       {/* <div className="mt-[10%] flex justify-end">
