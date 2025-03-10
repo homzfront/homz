@@ -36,7 +36,7 @@ const SidebarMobile = ({ setOpen, user }) => {
                   alt=""
                   width={40}
                   height={40}
-                  layout="full" // Specify the desired height
+                  layout="full"
                   objectFit="cover"
                   objectPosition="center"
                   className=" object-cover bg-center h-[40px] rounded-full"
