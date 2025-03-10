@@ -10,6 +10,9 @@ import Maintenance from '../secondPage/maintenance';
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import AcAndRejModel from "../../components/acAndRejModel";
 import WarningIcon from '@/components/icons/warningIcon';
+import { toast } from "react-toastify";
+import { tenantOnboardingAccept, tenantOnboardingReject } from "@/api/tenantSevice";
+import TickSuccess from "@/components/icons/tickSuccess";
 import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 
 const MobileProfile = ({
@@ -21,7 +24,7 @@ const MobileProfile = ({
     reFetchSummaryData,
     paymentData,
     openKYC,
-    setOpenKYC
+    setOpenKYC,
 }) => {
     const urlParams = useSearchParams();
     const [openCancel, setOpenCancel] = React.useState(false);
@@ -31,6 +34,58 @@ const MobileProfile = ({
     const [active, setActive] = useState(tab ? tab === 'rentInfo' : true);
     const [activeTwo, setActiveTwo] = useState(tab === 'paymentHis');
     const [activeThree, setActiveThree] = useState(tab === 'maintenance');
+    const [isAccepting, setIsAccepting] = React.useState(false)
+    const [isRejecting, setIsRejecting] = React.useState(false)
+    const [reason, setReason] = React.useState("")
+    const [isOpenDeleteConfirmation, setIsOpenDeleteConfirmation] = React.useState(false)
+
+    const handleReject = async () => {
+        if (isRejecting) return;
+        setIsRejecting(true);
+        const payload = {
+            rejectionReason: reason,
+        }
+        try {
+            const { success, error } = await tenantOnboardingReject(tenantData?.data?._id, payload);
+
+            if (success) {
+                setIsRejecting(false);
+                setIsOpenDeleteConfirmation(false);
+                setOpenCancel(false)
+                toast.success("KYC rejected!")
+                fetchTenantData()
+            } else {
+                toast.error(error);
+                setIsRejecting(false);
+            }
+        } catch (error) {
+            setIsRejecting(false);
+            toast.error("Failed");
+        }
+    };
+
+
+
+    const handleAccept = async () => {
+        if (isAccepting) return;
+        setIsAccepting(true);
+        try {
+            const { success, error } = await tenantOnboardingAccept(tenantData?.data?._id);
+            if (success) {
+                setIsAccepting(false);
+                setIsOpen(false);
+                toast.success("KYC accepted!")
+                fetchTenantData()
+            } else {
+                toast.error(error);
+                setIsAccepting(false);
+            }
+        } catch (error) {
+            setIsAccepting(false);
+            toast.error("Failed");
+        }
+    };
+
 
     const route = useRouter()
 
@@ -69,29 +124,43 @@ const MobileProfile = ({
                             Provide a reason for rejection
                         </p>
                         <textarea
-                            className="mt-2 placeholder:text-GrayHomz2 p-2 h-[65px] w-full border"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            className="mt-2 placeholder:text-GrayHomz2 placeholder:text-[11px] sm:placeholder:text-[13px] p-2 h-[65px] w-full border"
                             placeholder="E.g. The uploaded guarantor ID is unclear. Please upload a valid ID"
                         />
                     </div>
-                    <div className="flex mt-2 w-full justify-end">
-                        <div className="flex gap-2 w-[40%]">
-                            <button onClick={() => setOpenCancel(false)} className="p-2 text-GrayHomz">
+                    <div className="flex mt-2 w-full sm:justify-end text-sm">
+                        <div className="flex gap-2 w-full sm:w-[50%] justify-end">
+                            <button onClick={() => setOpenCancel(false)} className="w-full sm:w-auto p-2 text-GrayHomz">
                                 Cancel
                             </button>
-                            <button onClick={() => setOpenCancel(false)} className="p-2 rounded-[6px] bg-[#D92D20] text-[#FDF2F2]">
-                                Send Rejection
+                            <button onClick={() => setIsOpenDeleteConfirmation(true)} className="w-full sm:w-auto sm:min-w-[140px] p-2 rounded-[6px] bg-[#D92D20] text-[#FDF2F2]">
+                                Send
                             </button>
                         </div>
                     </div>
                 </div>
             </CustomizedModal>
-            <CustomizedModal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+            <CustomizedModal isOpen={isOpenDeleteConfirmation} onRequestClose={() => setIsOpenDeleteConfirmation(false)}>
                 <AcAndRejModel
                     header={"Confirm Rejection"}
                     body={"Are you sure you want to reject this tenant's submission? This action is final and cannot be undone."}
                     button={"Proceed"}
                     buttonTwo={"Cancel"}
-                    returnHome={() => setIsOpen(false)}
+                    loading={isRejecting}
+                    returnHome={() => handleReject()}
+                    returnHomeTwo={() => setIsOpenDeleteConfirmation(false)}
+                />
+            </CustomizedModal>
+            <CustomizedModal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+                <AcAndRejModel
+                    header={"Confirm Approval"}
+                    body={"Are you sure you want to approve this tenant's submission? This action is final and cannot be undone."}
+                    button={"Proceed"}
+                    buttonTwo={"Cancel"}
+                    loading={isAccepting}
+                    returnHome={() => handleAccept()}
                     returnHomeTwo={() => setIsOpen(false)}
                 />
             </CustomizedModal>
@@ -228,11 +297,11 @@ const MobileProfile = ({
                                 </p>
                             </div>
                         </div>
-                        <div className="bg-[#F6F6F6] rounded-[8px] mt-2 p-4 text-sm font-normal">
+                        <div className={`bg-[#F6F6F6] rounded-[8px] mt-2 p-4 text-sm font-normal ${tenantData?.data?.verification?.status === "pending" ? "" : "hidden"}`}>
                             <p className="text-[13px] text-BlackHomz pb-2">
                                 Tenant KYC
                             </p>
-                            <div className="flex gap-2 bg-white rounded-[4px] p-2 w-full">
+                            <div className="flex gap-2 bg-white rounded-[4px] p-2 w-full text-xs">
                                 <button className="w-[60%] h-[45px] rounded-[4px] text-warning2 flex justify-center items-center gap-2">
                                     <WarningIcon />
                                     Pending Review
@@ -242,12 +311,27 @@ const MobileProfile = ({
                                     <ArrowRightSmall className="#006AFF" />
                                 </button>
                             </div>
-                            <div className="flex gap-2 mt-2 w-full">
+                            <div className="flex gap-2 mt-2 w-full text-xs">
                                 <button onClick={() => setIsOpen(true)} className="w-[50%] rounded-[4px] h-[40px] bg-Success text-successBg">
                                     Approve
                                 </button>
                                 <button onClick={() => setOpenCancel(true)} className="w-[50%] rounded-[4px] h-[40px] border border-error text-error">
                                     Reject with reason
+                                </button>
+                            </div>
+                        </div>
+                        <div className={`bg-[#F6F6F6] rounded-[8px] mt-2 p-4 text-xs font-normal ${tenantData?.data?.verification?.status === "approved" || tenantData?.data?.verification?.status === "rejected" ? "" : "hidden"}`}>
+                            <p className="text-[13px] text-BlackHomz pb-2">
+                                Tenant KYC
+                            </p>
+                            <div className="flex gap-2 bg-white rounded-[4px] p-2 w-full">
+                                <button className={`w-[60%] h-[45px] rounded-[4px] flex justify-start items-center gap-2 ${tenantData?.data?.verification?.status === "approved" ? "text-Success" : "text-error"}`}>
+                                    {tenantData?.data?.verification?.status === "approved" ? <TickSuccess /> : <WarningIcon className="#d92d20" />}
+                                    {tenantData?.data?.verification?.status === "approved" ? "Approved" : "Rejected"}
+                                </button>
+                                <button onClick={() => setOpenKYC(true)} className="w-[40%] h-[45px] rounded-[4px] bg-whiteblue text-BlueHomz flex justify-center items-center gap-2">
+                                    View KYC
+                                    <ArrowRightSmall className="#006AFF" />
                                 </button>
                             </div>
                         </div>

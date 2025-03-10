@@ -4,18 +4,17 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Image from "next/image";
 import Link from "next/link";
-import useEnterpriseRevenueForAnEstate from "@/store/enterpriseStore/useEnterpriseRevenueForAnEstate";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import useLandlordRevenueForAnEstate from "@/store/propertyOwnerStore/useLandlordRevenueForAnEstate";
 
 
 const RevCard = ({ id }) => {
 
-  const { data: revData, fetchData } = useEnterpriseRevenueForAnEstate();
+  const { data: revData, fetchData } = useLandlordRevenueForAnEstate();
 
   useEffect(() => {
     fetchData(id);
   }, []);
-
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 

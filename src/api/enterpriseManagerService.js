@@ -224,7 +224,7 @@ export const enterpriseRevenue = async () => {
 
 export const enterpriseRevenueForAnEstate = async (id) => {
   try {
-    const response = await api.get(`/estates/${id}/calculate-revenue`);
+    const response = await api.get(`/estates/me/enterprise/${id}/calculate-revenue`);
     return response.data.data;
   } catch (error) {
     if (error.response?.data?.error === "Estate does not have tenants") {
