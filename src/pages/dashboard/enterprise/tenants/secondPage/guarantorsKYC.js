@@ -37,16 +37,16 @@ const GuarantorsKYC = ({ data }) => {
     return (
         <div className='mb-4 w-full text-[14px] font-normal text-GrayHomz'>
             <div className='mt-4 grid grid-cols-1 md:grid-cols-2 w-full gap-2'>
-                {data && transformGuarantorsData(data?.guarantors)?.filter((doc) => doc.url !== undefined).map((doc, index) => (
+                {data && transformGuarantorsData(data?.guarantors)?.filter((doc) => doc?.url !== undefined)?.map((doc, index) => (
                     <div key={index} className='flex gap-2 items-center p-3 rounded-[12px] bg-[#FCFCFC]'>
                         <DocuDownload />
                         <div>
-                            <p className='text-[11px]'>{doc.name}.{doc.format}</p>
+                            <p className='text-[11px]'>{doc?.name}.{doc?.format}</p>
                             <div className='flex justify-center gap-2'>
                                 <button
                                     onClick={() => {
-                                        if (doc.url) {
-                                            window.open(doc.url, "_blank");
+                                        if (doc?.url) {
+                                            window.open(doc?.url, "_blank");
                                         } else {
                                             console.error("Document URL is missing");
                                         }
@@ -55,14 +55,14 @@ const GuarantorsKYC = ({ data }) => {
                                 <button
                                     onClick={async () => {
                                         try {
-                                            const response = await fetch(doc.url);
+                                            const response = await fetch(doc?.url);
                                             if (!response.ok) {
-                                                throw new Error(`Failed to fetch document: ${response.statusText}`);
+                                                throw new Error(`Failed to fetch document: ${response?.statusText}`);
                                             }
                                             const blob = await response.blob();
                                             const link = document.createElement("a");
                                             link.href = URL.createObjectURL(blob);
-                                            link.download = doc.name;
+                                            link.download = doc?.name;
                                             document.body.appendChild(link);
                                             link.click();
                                             document.body.removeChild(link);
