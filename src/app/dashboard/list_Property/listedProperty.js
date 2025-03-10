@@ -168,12 +168,12 @@ const ListedProperties = ({
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
     cancelSelectedOption();
-    // router.back()
+    
   };
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-    // setDataProperties(data);
+  
   };
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
