@@ -33,7 +33,7 @@ const Mobile_header = () => {
       // Set a timer to show the long loading message after 3 seconds
       timer = setTimeout(() => {
         setShowLongLoadingMessage(true);
-      }, 20000); // 20 seconds
+      }, 20000); 
     } else {
       // Reset when loading is false
       setShowLongLoadingMessage(false);

@@ -168,12 +168,12 @@ const ListedProperties = ({
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
     cancelSelectedOption();
-    // router.back()
+    
   };
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-    // setDataProperties(data);
+  
   };
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
@@ -222,7 +222,6 @@ const ListedProperties = ({
             );
           }
         );
-        // console.log(filteredData);
         setFilteredData(filteredData);
         setIsLoading(false);
       } catch (error) {
@@ -241,13 +240,11 @@ const ListedProperties = ({
     return filterParams;
   };
   const refetchData = (propertyStatus) => {
-    // console.log(propertyStatus)
     const filterParams = filterQueryParams(propertyStatus);
     refreshData(propertyStatus);
   };
 
   const handlePropertyStatus = (status) => {
-    // console.log(status);
     setStatusName(status);
     setTabName(status);
     pageManagement("", status);
