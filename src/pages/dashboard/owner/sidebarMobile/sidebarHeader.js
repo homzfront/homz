@@ -63,11 +63,11 @@ const SidebarMobile = ({ setOpen, user }) => {
           </Link>
         </div>
       </div>
-      <div className={` ${showKindlyWait ? "pointer-events-none" : ""} p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px] `}>
+      <div className={`p-4 flex flex-col gap-5 mt-8 h-auto bg-inputBg rounded-[8px] `}>
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/dashboard"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`${showKindlyWait ? "pointer-events-none" : ""} w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/property-owner/dashboard" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
@@ -89,7 +89,7 @@ const SidebarMobile = ({ setOpen, user }) => {
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/tenants"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`${showKindlyWait ? "pointer-events-none" : ""} w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/property-owner/tenants" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
@@ -111,7 +111,7 @@ const SidebarMobile = ({ setOpen, user }) => {
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/estates"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`${showKindlyWait ? "pointer-events-none" : ""} w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/property-owner/estates" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
@@ -155,7 +155,7 @@ const SidebarMobile = ({ setOpen, user }) => {
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/payments"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`${showKindlyWait ? "pointer-events-none" : ""} w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/property-owner/payments" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
@@ -177,7 +177,7 @@ const SidebarMobile = ({ setOpen, user }) => {
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/maintenance"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`${showKindlyWait ? "pointer-events-none" : ""} w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/property-owner/maintenance" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >
@@ -199,7 +199,7 @@ const SidebarMobile = ({ setOpen, user }) => {
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/property-owner/support"}
-          className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
+          className={`${showKindlyWait ? "pointer-events-none" : ""} w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
           ${pathname === "/dashboard/property-owner/support" ? "bg-white text-BlueHomz"
               : "text-GrayHomz"} hover:text-BlueHomz`}
         >

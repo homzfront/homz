@@ -194,7 +194,7 @@ const Sidebar = () => {
               </Link>
             ))}
           </div>
-          <div className={`flex flex-col gap-3 ${showKindlyWait ? "pointer-events-none" : ""}`}>
+          <div className={`flex flex-col gap-3`}>
           {Data3.map((data) => (
               <Link
                 key={data.id}
