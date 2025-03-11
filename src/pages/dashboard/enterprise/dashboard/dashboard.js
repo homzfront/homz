@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Card from "./components/estatecard/card";
 import HomesCard from "./components/homescard/card";
 import RevCard from "./components/revenue/card";
@@ -16,6 +16,14 @@ import { isTrialExpired } from "@/utils/compareTrialTime";
 import ExpiredPlanModal from "../components/expiredPlanModal";
 import { useRouter } from "next/navigation";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+import RightOrangeArrow from "@/components/icons/rightOrangeArrow";
+import AlermOrange from "@/components/icons/alermOrange";
+import Link from "next/link";
 
 
 
@@ -23,6 +31,19 @@ const Dashboard = () => {
   const [reachedLimit, setReachedLimit] = useState(null);
   const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const router = useRouter();
+  const swiperRef = useRef(null); // Create a ref to store the Swiper instance
+
+  const handleMouseEnter = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.autoplay.stop(); // Stop autoplay on mouse enter
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.autoplay.start(); // Resume autoplay on mouse leave
+    }
+  };
   const {
     data: profileData,
     loading: profileLoading,
@@ -81,6 +102,21 @@ const Dashboard = () => {
     }
   };
 
+  const features = [
+    {
+      title: "Generate your property documents instantly",
+      link: "/dashboard/enterprise-property/documentGeneration",
+    },
+    {
+      title: "Bulk Tenant Upload is here! Add multiple tenants at once.",
+      link: "/dashboard/enterprise-property/estates",
+    },
+    {
+      title: "Flexibility unlocked! Set multiple rent periods with ease.",
+      link: "/dashboard/enterprise-property/estates",
+    },
+  ];
+
   return (
     <div className="dashboard h-[300px] [100%] flex flex-col">
       <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(profileData?.trialEndDate)}>
@@ -116,6 +152,38 @@ const Dashboard = () => {
         />
       </CustomizedModal>
       <div className="p-8 w-full md:pr-6 gap-5 flex flex-col">
+        <div
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="w-full bg-[#DC8803] text-white p-4 rounded-xl overflow-hidden cursor-pointer">
+          <Swiper
+            ref={swiperRef}
+            modules={[Autoplay]}
+            spaceBetween={20}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+            }}
+            allowTouchMove={true}
+            speed={10000}
+          >
+            {features.map((feature, index) => (
+              <SwiperSlide key={index}>
+                <div className="flex justify-between items-center px-4">
+                  <p className="font-semibold text-lg flex items-center gap-1"><AlermOrange /> New Feature Alert: {feature.title}</p>
+                  <Link
+                    href={feature.link}
+                    className="bg-white text-[#DC8803] px-4 py-2 rounded-lg font-medium hover:bg-gray-100 flex items-center gap-1"
+                  >
+                    Explore now <span className="mt-1"><RightOrangeArrow /></span>
+                  </ Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
         <div className="">
           <h1 className="text-[14px] md:text-[23px] font-[700] text-BlackHomz">
             {profileData?.fullName
