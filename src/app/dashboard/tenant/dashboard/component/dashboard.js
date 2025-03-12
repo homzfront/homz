@@ -42,14 +42,11 @@ const Dashboard = () => {
     },
     // enabled: enable,
   });
-  if (isPending) {
-    return <Loading />;
-  }
 
   const result = checkMissingFields(data);
   
   return (
-    <div className="dashboard h-[300px] w-full flex flex-col">
+    <div className={`${isPending && "animate-pulse pointer-events-none"} dashboard h-[300px] w-full flex flex-col`}>
       <div className="p-8 w-full pr-6 gap-5 flex flex-col">
 
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 md:justify-between">
