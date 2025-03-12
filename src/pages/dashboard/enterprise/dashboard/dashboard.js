@@ -17,7 +17,7 @@ import ExpiredPlanModal from "../components/expiredPlanModal";
 import { useRouter } from "next/navigation";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
@@ -31,17 +31,17 @@ const Dashboard = () => {
   const [reachedLimit, setReachedLimit] = useState(null);
   const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const router = useRouter();
-  const swiperRef = useRef(null); // Create a ref to store the Swiper instance
+  const swiperRef = useRef(null); 
 
   const handleMouseEnter = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.autoplay.stop(); // Stop autoplay on mouse enter
+      swiperRef.current.swiper.autoplay.stop();
     }
   };
 
   const handleMouseLeave = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.autoplay.start(); // Resume autoplay on mouse leave
+      swiperRef.current.swiper.autoplay.start();
     }
   };
   const {
