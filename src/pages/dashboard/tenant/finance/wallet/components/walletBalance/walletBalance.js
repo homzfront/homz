@@ -10,6 +10,8 @@ import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
 import TopUPModal from "../../../components/topUPModal";
 import AddWallet from "@/components/icons/addWallet";
+import { useRouter } from "next/navigation";
+import useTenantActiveKYC from "@/store/tenantKYC/useTenantActiveKYC";
 
 
 const WalletBalance = ({
@@ -26,7 +28,8 @@ const WalletBalance = ({
   const [accountInfo, setAccountInfo] = useState(false);
   const dropdownRef = useClickOutside(() => setAccountInfo(false));
   const [showPayrent, setShowPayrent] = useState(false);
-
+  const router = useRouter()
+  const { setStep } = useTenantActiveKYC()
   const openWalletForm = () => {
     setOpenForm(!openForm);
   };
@@ -61,6 +64,11 @@ const WalletBalance = ({
     }
   }, [rentData]);
 
+  const openPage = () => {
+    router.push("/dashboard/tenant/profile?tab=personalInfo")
+    setStep(4)
+  }
+
   return (
     <div className="">
       <CustomizedModal isOpen={openForm}>
@@ -93,14 +101,14 @@ const WalletBalance = ({
             <p className="text-[16px] font-[400] text-GrayHomz text-center">
               Kindly verify your identity before proceeding
             </p>
-            <Link
-              href={"/dashboard/tenant/profile?tab=acctInfo"}
-              className="w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
+            <div
+              onClick={openPage}
+              className="cursor-pointer w-full h-[48px] bg-BlueHomz rounded-[4px] flex items-center justify-center"
             >
               <span className="text-white text-[16px] font-[700]">
                 Update KYC
               </span>
-            </Link>
+            </div>
           </div>
         </div>
       }
@@ -174,13 +182,13 @@ const WalletBalance = ({
               Wallet Balance
             </p>
             {walletBalance ?
-            <>
-            <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(walletBalance)}
-            </>
-            :
-            <>
-               <span style={{ fontFamily: "Arial", }}>₦</span> 0
-            </>
+              <>
+                <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(walletBalance)}
+              </>
+              :
+              <>
+                <span style={{ fontFamily: "Arial", }}>₦</span> 0
+              </>
             }
           </div>
           <div

@@ -12,8 +12,6 @@ const Widget = ({
     selectedDataId,
     openReceipt,
     dropdownRef,
-    data,
-    illuminateWallet
 }) => {
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
@@ -41,16 +39,15 @@ const Widget = ({
 
     return (
         <div>
-            <div className={`w-full h-auto ${!illuminateWallet && "pointer-events-none"}`}>
+            <div className={`w-full h-auto`}>
                 <div className="mt-1 px-4 flex flex-col-reverse md:flex-row items-start md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
-                                className={`flex flex-col items-center py-2 px-4 justify-center ${active
-                                    ? `border-b-[2px]  ${illuminateWallet ? "border-BlueHomz" : "border-GrayHomz6"}`
+                                className={`flex flex-col items-center py-2 px-4 justify-center  ${active
+                                    ? `border-b-[2px] border-BlueHomz text-BlueHomz hover:text-BlueHomz`
                                     : "text-BlackHomz "
                                     }
-                                    ${illuminateWallet ? "text-BlueHomz hover:text-BlueHomz" : "text-GrayHomz6 hover:text-GrayHomz6"}
                                     `}
                                 onClick={handlePageChange}
                                 justify-center
@@ -62,10 +59,9 @@ const Widget = ({
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
                                 className={`flex flex-col py-2 px-4 items-center justify-center ${activeTwo
-                                    ? "border-b-[2px] border-BlueHomz"
+                                    ? `border-b-[2px] border-BlueHomz text-BlueHomz hover:text-BlueHomz`
                                     : "text-BlackHomz "
                                     }
-                                    ${illuminateWallet ? "text-BlueHomz hover:text-BlueHomz" : "text-GrayHomz6 hover:text-GrayHomz6"}
                                     `}
                                 onClick={handlePageChangeTwo}
                             >
@@ -77,10 +73,9 @@ const Widget = ({
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
                                 className={`flex flex-col py-2 px-4 items-center justify-center ${activeThree
-                                    ? "border-b-[2px] border-BlueHomz"
+                                    ? `border-b-[2px] border-BlueHomz text-BlueHomz hover:text-BlueHomz`
                                     : "text-BlackHomz "
                                     }
-                                    ${illuminateWallet ? "text-BlueHomz hover:text-BlueHomz" : "text-GrayHomz6 hover:text-GrayHomz6"}
                                     `}
                                 onClick={handlePageChangeThree}
                             >
@@ -95,19 +90,16 @@ const Widget = ({
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
                         <AllData
-                            data={data}
                             handleToggleMenu={handleToggleMenu}
                             setReceiptdata={setReceiptdata}
                             popUpMenuTwo={popUpMenuTwo}
                             selectedDataId={selectedDataId}
                             openReceipt={openReceipt}
                             dropdownRef={dropdownRef}
-                            illuminateWallet={illuminateWallet}
                         />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
                         <WalletPayement
-                            data={data}
                             handleToggleMenu={handleToggleMenu}
                             setReceiptdata={setReceiptdata}
                             popUpMenuTwo={popUpMenuTwo}
@@ -118,7 +110,6 @@ const Widget = ({
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
                         <OfflinePayment
-                            data={data}
                             handleToggleMenu={handleToggleMenu}
                             setReceiptdata={setReceiptdata}
                             popUpMenuTwo={popUpMenuTwo}
