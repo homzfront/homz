@@ -23,7 +23,7 @@ const OfflinePayment = ({
     return (
         <div className="mt-6 w-full mx-auto">
             <div className="mt-6 w-full mx-auto">
-                <div className={`${illuminateWallet ? "block" : "hidden"}`}>
+                <div className={``}>
                     <div className="border overflow-x-auto scrollbar-container">
                         <div className="w-[400%] md:w-[250%]">
                             <table border="1" className="w-full">

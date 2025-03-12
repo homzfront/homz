@@ -5,20 +5,24 @@ import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import addYearsToValues from "@/utils/addYearsToNumber";
 import PopUpReceipt from "../../../../components/popUpReceipt";
+import UseWalletStore from "@/store/tenantStore/useWalletStore";
 
 const AllData = ({
-    data,
     handleToggleMenu,
     setReceiptdata,
     popUpMenuTwo,
     selectedDataId,
     openReceipt,
     dropdownRef,
-    illuminateWallet
 }) => {
+    const { rentHisOffline: data, illuminateWallet, rentHisLoading, fetchRentData } = UseWalletStore();
+
+    React.useEffect(() => {
+        fetchRentData()
+    }, [])
     return (
         <div className="mt-6 w-full mx-auto">
-            <div className={`${illuminateWallet ? "block" : "hidden"}`}>
+            <div className={``}>
                 <div className="border overflow-x-auto scrollbar-container">
                     <div className="w-[400%] md:w-[250%]">
                         <table border="1" className="w-full">

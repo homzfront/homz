@@ -8,7 +8,7 @@ import { uploadNINTenantKYC } from '@/api/tenantSevice';
 import UseWalletStore from '@/store/tenantStore/useWalletStore';
 import TickSuccess from '@/components/icons/tickSuccess';
 
-const NationalIdentityNumber = ({ nationalProfile }) => {
+const NationalIdentityNumber = ({ nationalProfile, fetchData }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [nationalPassport, setNationalPassport] = useState(null);
     const [nationalPassportUploaded, setNationalPassportUploaded] = useState(false);
@@ -98,6 +98,7 @@ const NationalIdentityNumber = ({ nationalProfile }) => {
                         setNationalPassportLoading(false);
                     }, 1000);
                 }, 800);
+                fetchData()
                 fetchWallet();
             } else {
                 toast.error(error);

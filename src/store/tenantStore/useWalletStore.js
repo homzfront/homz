@@ -25,9 +25,6 @@ const UseWalletStore = create((set) => ({
                 set({ walletActivities: activies?.data })
                 set({ illuminateWallet: true });
                 const rent = await tenantRentInfo();
-                const response = await getRentHis();
-                const rentHis = response?.upDateddata?.results;
-                set({ rentHis: rentHis, rentHisLoading: false });
                 set({ rentData: rent });
                 const timeoutId = setTimeout(async () => {
                     const balance = await tenantWalletBalance();
@@ -52,8 +49,10 @@ const UseWalletStore = create((set) => ({
             const rentHis = response?.upDateddata?.results;
             if (paymentMethod === "wallet") {
                 set({ rentHisWallet: rentHis, rentHisLoading: false });
-            } else  {
+            } else if (paymentMethod === "offline")  {
                 set({ rentHisOffline: rentHis, rentHisLoading: false });
+            } else {
+                set({ rentHis: rentHis, rentHisLoading: false });
             }
         } catch (error) {
             set({ rentHisLoading: false });
