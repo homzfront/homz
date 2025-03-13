@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import Widget from "./widget";
-import Link from "next/link";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
