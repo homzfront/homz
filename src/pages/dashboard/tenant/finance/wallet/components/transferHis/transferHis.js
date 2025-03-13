@@ -43,30 +43,22 @@ const TransferHis = ({ illuminateWallet, data, tenantData }) => {
       <div className="py-8 border rounded-[12px] h-[700px] max-w-[500px] w-full overflow-auto scrollbar-container">
         <div className="pb-4 px-4">
           <div className="flex items-center gap-2">
-            {illuminateWallet ? (
               <Image
                 src={"/static/dashboard/enterprisemanager/payment/received.png"}
                 width={20}
                 height={21}
                 alt=""
               />
-            ) : (
-              <Image
-                src={"/static/dashboard/tenant/finance/received.png"}
-                width={20}
-                height={21}
-                alt=""
-              />
-            )}
+            
             <p
-              className={`text-[14px] font-[500]  ${illuminateWallet ? "text-BlueHomz" : "text-GrayHomz6"
+              className={`text-[14px] font-[500] text-BlueHomz
                 } `}
             >
               Rent History
             </p>
           </div>
           <p
-            className={`mt-1 text-[13px] font-[400]  ${illuminateWallet ? "text-GrayHomz" : "text-GrayHomz6"
+            className={`mt-1 text-[13px] font-[400] text-GrayHomz
               }`}
           >
             All rent payments are displayed here

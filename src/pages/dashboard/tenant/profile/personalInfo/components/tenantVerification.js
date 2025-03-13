@@ -147,7 +147,7 @@ const TenantVerification = ({ setStep, register, setFormData, formData }) => {
                             {/* </div> */}
                         </div>
                         <div>
-                            <NationalIdentityNumber nationalProfile={dataTwo} />
+                            <NationalIdentityNumber nationalProfile={dataTwo} fetchData={fetchData}/>
                             <div className={`${dataTwo?.nin_data?.firstname ? "" : "hidden"} `}>
                                 <div className="mt-2 text-[11px] font-[400] leading-[16.5px] text-[#4E4E4E] flex gap-1 flex-row items-center">
                                     <TickSuccess />
