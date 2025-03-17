@@ -22,17 +22,12 @@ const Plans = ({ profile, upgradePlan }) => {
   });
   const router = useRouter();
 
-
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
   }, [isPending, ind]);
-
-
- 
-  
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
@@ -179,7 +174,6 @@ const Plans = ({ profile, upgradePlan }) => {
           );
         }}
       />
-    
     </div>
   );
 };
