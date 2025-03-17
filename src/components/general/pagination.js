@@ -11,6 +11,7 @@ const Pagination = ({
   handlePageClick,
   handlePrev,
   firstThreePages,
+  padding="px-14"
 }) => {
 
   const renderPageNumbers = () => {
@@ -43,7 +44,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex md:w-full gap-2 justify-between md:px-14 mt-4">
+    <div className={`flex md:w-full gap-2 justify-between mt-4 md:${padding}`}>
       <div>
       <button
           onClick={handlePrev}

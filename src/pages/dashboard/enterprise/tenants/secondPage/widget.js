@@ -4,6 +4,7 @@ import Link from "next/link";
 import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
+import RentPeriodForm from "./rentPeriodForm";
 
 const Widget = ({
   tenantId,
@@ -37,7 +38,7 @@ const Widget = ({
   };
   return (
     <div>
-      <div className=" inline-block min-w-[620px] w-[100%] h-auto p-4  shadow-md bg-white rounded-[12px]">
+      <div className=" inline-block min-w-[620px] w-[100%] h-auto p-4 shadow-md bg-white rounded-[12px]">
         <div className="flex mt-5 gap-4 cursor-pointer w-full">
           <div
             className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${!active ? "bg-BlueHomz text-white " : ""
@@ -71,14 +72,15 @@ const Widget = ({
         </div>
         <div className="mt-5 rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <RentInfo
+            {/* <RentInfo
               tenantId={tenantId}
               profile={tenantData}
               fetchTenantData={fetchTenantData}
               rentInfo={rentInfo}
               fetchRentInformation={fetchRentInformation}
               reFetchSummaryData={reFetchSummaryData}
-            />
+            /> */}
+            <RentPeriodForm />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <PaymentHis

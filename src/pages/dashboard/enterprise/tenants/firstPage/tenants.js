@@ -1,398 +1,562 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-// import TenantsTwoDueDate from "./tenantsTwoDueDate";
-import Modal from "../components/modal";
-import useBodyScroll from "@/utils/useBodyScroll";
-// import tenantsDataForLoggedInEnterprise from "@/store/enterpriseStore/tenantData";
-import LoadingII from "@/components/mainmenu/loadingII";
-import Dropdown from "../../components/dropDownFilter";
-import formatDateII from "@/utils/formatDateII";
-import useClickOutside from "@/utils/clickOutside";
-import lowerCaseData from "@/utils/lowerCaseData";
-import Add from "@/components/icons/add";
-import AddBigBlue from "@/components/icons/addBigBlue";
-import FilterMobile from "../../components/filterMobile";
-import { useReactToPrint } from "react-to-print";
-import Document from "@/components/icons/document";
-// import Send from "@/components/icons/send";
-import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
-import ExpiredPlanModal from "../../components/expiredPlanModal";
-import { useRouter } from "next/navigation";
-import { isTrialExpired } from "@/utils/compareTrialTime";
-import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
-import { checkPlanLimits } from "@/utils/checkPlanLimits";
-import Widget from "../components/widget";
-import useEnterpriseTenantStore from "@/store/enterpriseStore/useEnterpriseTenantStore";
-import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
-import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+"use client"
+import React from 'react'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Table from './table';
+import ArrowDownDashes from '@/components/icons/arrowDownDashes';
+import ArrowUpII from '@/components/icons/arrowUpII';
+import ArrowDown from '@/components/icons/arrowDown';
+import FilterIconBlue from '@/components/icons/filterIconBlue';
+import DateIconTwo from '@/components/icons/dateIconTwo';
+import Ticked from '@/components/icons/ticked';
+import UnTicked from '@/components/icons/unTicked';
+import { data } from 'alpinejs';
+import Reset from '@/components/icons/reset';
 
 const Tenants = () => {
-  const [inviteTenant, setInviteTenant] = useState(false);
-  const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const dropdownRef = useClickOutside(() => setInviteTenant(false));
-  const [searchQuery, setSearchQuery] = useState(null);
-  const [filterModal, setFilterModal] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [isMasterChecked, setIsMasterChecked] = useState(false);
-  const { setTab } = useOpenDueDate();
-  const printableRef = useRef();
-  const {
-    data: user,
-    fetchData: fetchProfileData,
-    // loadingProfile,
-  } = useProfileEnterpriseMe();
-  const router = useRouter();
-  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
-    useEnterprisePlans();
-  const [reachedLimit, setReachedLimit] = useState(null);
-  const clear = () => {
-    setSelectedProperty(null);
-    setSelectedStatus(null);
-    setSelectedDate(null);
-    setSearchQuery(null);
+  const tenantsData = [
+    {
+      id: 1,
+      profile: "/tableImgII.png",
+      name: "John Doe",
+      apartment: "Apartment A1",
+      address: "123 Main Street, Lagos",
+      phone: "+234 801 234 5678",
+      email: "john.doe@example.com",
+      moveInDate: "2024-01-01",
+      rentDuration: "12 months",
+      dueDate: "2025-01-01",
+      totalRent: 'N1,200,000',
+      paymentStatus: "Paid",
+      statusColor: "green",
+      rentPeriods: "1",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 2,
+      profile: "/tableImg.png",
+      name: "Jane Smith",
+      apartment: "Apartment B2",
+      address: "456 Victoria Island, Lagos",
+      phone: "+234 802 345 6789",
+      email: "jane.smith@example.com",
+      moveInDate: "2023-12-01",
+      rentDuration: "6 months",
+      dueDate: "2024-06-01",
+      totalRent: 'N8,000,000',
+      paymentStatus: "Unpaid",
+      statusColor: "red",
+      rentPeriods: "3",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
+      rentDurationRP2: "4 Years",
+      rentAmountRP2: "N80,000,000",
+      statusRP2: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 3,
+      profile: "/tableImgIII.png",
+      name: "Michael Johnson",
+      apartment: "Apartment C3",
+      address: "789 Ikeja, Lagos",
+      phone: "+234 803 456 7890",
+      email: "michael.johnson@example.com",
+      moveInDate: "2023-11-15",
+      rentDuration: "12 months",
+      dueDate: "2024-11-15",
+      totalRent: 'N1,000,000',
+      paymentStatus: "Partial",
+      statusColor: "yellow",
+      rentPeriods: "2",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N,20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N,14,000,000",
+      statusRP1: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 4,
+      profile: "/tableImgII.png",
+      name: "David Farm",
+      apartment: "Apartment Z1",
+      address: "123 Main Street, Lagos",
+      phone: "+234 801 234 5678",
+      email: "john.doe@example.com",
+      moveInDate: "2024-01-01",
+      rentDuration: "12 months",
+      dueDate: "2025-01-01",
+      totalRent: 'N1,200,000',
+      paymentStatus: "Paid",
+      statusColor: "green",
+      rentPeriods: "1",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 5,
+      profile: "/tableImg.png",
+      name: "Lo Smith",
+      apartment: "Apartment B9",
+      address: "456 Victoria Island, Lagos",
+      phone: "+234 802 345 6789",
+      email: "jane.smith@example.com",
+      moveInDate: "2023-12-01",
+      rentDuration: "6 months",
+      dueDate: "2024-06-01",
+      totalRent: 'N8,000,000',
+      paymentStatus: "Unpaid",
+      statusColor: "red",
+      rentPeriods: "3",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
+      rentDurationRP2: "4 Years",
+      rentAmountRP2: "N80,000,000",
+      statusRP2: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 6,
+      profile: "/tableImgIII.png",
+      name: "Eli Johnson",
+      apartment: "Apartment C1",
+      address: "789 Ikeja, Lagos",
+      phone: "+234 803 456 7890",
+      email: "michael.johnson@example.com",
+      moveInDate: "2023-11-15",
+      rentDuration: "12 months",
+      dueDate: "2024-11-15",
+      totalRent: 'N1,000,000',
+      paymentStatus: "Partial",
+      statusColor: "yellow",
+      rentPeriods: "2",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 7,
+      profile: "/tableImgII.png",
+      name: "Johnson Babel",
+      apartment: "Apartment A8",
+      address: "123 Main Street, Lagos",
+      phone: "+234 801 234 5678",
+      email: "john.doe@example.com",
+      moveInDate: "2024-01-01",
+      rentDuration: "12 months",
+      dueDate: "2025-01-01",
+      totalRent: 'N1,200,000',
+      paymentStatus: "Paid",
+      statusColor: "green",
+      rentPeriods: "1",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 8,
+      profile: "/tableImg.png",
+      name: "Tanner Hone",
+      apartment: "Apartment B6",
+      address: "456 Victoria Island, Lagos",
+      phone: "+234 802 345 6789",
+      email: "jane.smith@example.com",
+      moveInDate: "2023-12-01",
+      rentDuration: "6 months",
+      dueDate: "2024-06-01",
+      totalRent: 'N800,000',
+      paymentStatus: "Unpaid",
+      statusColor: "red",
+      rentPeriods: "3",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
+      rentDurationRP2: "4 Years",
+      rentAmountRP2: "N80,000,000",
+      statusRP2: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 9,
+      profile: "/tableImgIII.png",
+      name: "James Jude",
+      apartment: "Apartment W3",
+      address: "789 Ikeja, Lagos",
+      phone: "+234 803 456 7890",
+      email: "michael.johnson@example.com",
+      moveInDate: "2023-11-15",
+      rentDuration: "12 months",
+      dueDate: "2024-11-15",
+      totalRent: 'N1,000,000',
+      paymentStatus: "Partial",
+      statusColor: "yellow",
+      rentPeriods: "2",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 10,
+      profile: "/tableImgII.png",
+      name: "Dora Kim",
+      apartment: "Apartment L15",
+      address: "123 Main Street, Lagos",
+      phone: "+234 801 234 5678",
+      email: "john.doe@example.com",
+      moveInDate: "2024-01-01",
+      rentDuration: "12 months",
+      dueDate: "2025-01-01",
+      totalRent: 'N1,200,000',
+      paymentStatus: "Paid",
+      statusColor: "green",
+      rentPeriods: "1",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 11,
+      profile: "/tableImg.png",
+      name: "David Sanchez",
+      apartment: "Apartment P2",
+      address: "456 Victoria Island, Lagos",
+      phone: "+234 802 345 6789",
+      email: "jane.smith@example.com",
+      moveInDate: "2023-12-01",
+      rentDuration: "6 months",
+      dueDate: "2024-06-01",
+      totalRent: 'N8,000,000',
+      paymentStatus: "Unpaid",
+      statusColor: "red",
+      rentPeriods: "3",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
+      rentDurationRP2: "4 Years",
+      rentAmountRP2: "N80,000,000",
+      statusRP2: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    },
+    {
+      id: 12,
+      profile: "/tableImgIII.png",
+      name: "Tolu James",
+      apartment: "Apartment C8",
+      address: "789 Ikeja, Lagos",
+      phone: "+234 803 456 7890",
+      email: "michael.johnson@example.com",
+      moveInDate: "2023-11-15",
+      rentDuration: "12 months",
+      dueDate: "2024-11-15",
+      totalRent: 'N1,000,000',
+      paymentStatus: "Partial",
+      statusColor: "yellow",
+      rentPeriods: "2",
+      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
+      RentDurationCRP: "1 Year",
+      rentAmountCRP: "N20,000,000",
+      statusCRP: "paid",
+      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
+      rentDurationRP1: "2 Years",
+      rentAmountRP1: "N14,000,000",
+      statusRP1: "pending",
+      property: "Sunrise Dreamers Top Estate",
+    }
+  ];
+
+
+  // Extract all unique keys
+  const [widthRa, setWidth] = React.useState(window.innerWidth);
+  const allKeys = [...new Set(tenantsData.flatMap(Object.keys)), "Actions"];
+  const usedKeys = allKeys.filter((key) => key !== "id" && key !== "profile");
+
+  const dateInputRef = React.useRef(null);
+
+  const handleDateClick = () => {
+    if (dateInputRef.current) {
+      dateInputRef.current.showPicker(); // For modern browsers
+    }
   };
 
-  // useEffect to handle scrolling
-  useBodyScroll([inviteTenant]);
-  const [loading, setLoading] = useState(true)
+  const pages = [
+    {
+      id: 1,
+      name: "All",
+      component: (
+        <Table
+          tenantsData={tenantsData}
+          usedKeys={usedKeys}
+          widthRa={widthRa}
+        />
+      ),
+    },
+    {
+      id: 2,
+      name: "Due Date",
+      component: (
+        <Table
+          tenantsData={tenantsData}
+          usedKeys={usedKeys}
+          widthRa={widthRa}
+        />
+      ),
+    },
+  ];
+  const [active, setActive] = React.useState(pages[0].id);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpenI, setIsOpenI] = React.useState(false);
+  const [isOpenII, setIsOpenII] = React.useState(false);
+  const [openStatusFilter, setOpenStatusFilter] = React.useState(false);
+  const [openPeroid, setOpenPeriod] = React.useState(false);
+  const [openColumns, setOpenColumns] = React.useState(false);
 
-  const {
-    data,
-    loading: loadingTable,
-    totalCount,
-    currentPage,
-    totalPages,
-    dueDatePage,
-    fetchData,
-    setCurrentPage,
-  } = useEnterpriseTenantStore();
+  const handlePageChange = (id) => {
+    setActive(id);
+  };
 
-  useEffect(() => {
-    // fetchData(); // Fetch data on component mount
-    fetchProfileData();
-    fetchEnterprisePlans();
-    // setLoading(false)
+
+  React.useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (dueDatePage) {
-      fetchData(currentPage, new Date().toISOString());
-      setTab(null)
-    } else {
-      fetchData(currentPage);
-    }
-  }, [currentPage, dueDatePage]);
-
-  useEffect(() => {
-    let timeout;
-
-    if (data !== null) {
-      setLoading(false);
-    } else {
-      timeout = setTimeout(() => {
-        setLoading(false);
-      }, 20000);
-    }
-    return () => clearTimeout(timeout);
-  }, [data]);
-
-  useEffect(() => {
-    const values = checkPlanLimits(
-      enterprisePlans,
-      user?.planName,
-      user?.estates?.length,
-      user?.propertyOwners?.length,
-      user?.tenants?.length,
-      user?.IsExpired
-    );
-    setReachedLimit(values);
-  }, [enterprisePlans, user, data]);
-
-  const tenantData = data?.[0]?.data;
-  const options = [...new Set(tenantData?.map((item) => item?.estateId?.name))];
-
-  const options2 = ["Pending", "Paid", "Over due"];
-  const filteredData = tenantData?.filter((data) => {
-    const matchesSearchQuery =
-      !searchQuery ||
-      data?.fullName.toLowerCase().includes(searchQuery.toLowerCase());
-    const selectedDateTimestamp = Date.parse(selectedDate);
-    const dueDateTimestamp = Date.parse(formatDateII(data?.rentInfo?.dueDate));
-    return (
-      (!selectedProperty || data?.estateId.name === selectedProperty) &&
-      (!selectedStatus ||
-        data?.rentInfo?.paymentStatus === lowerCaseData(selectedStatus)) &&
-      (!selectedDate || selectedDateTimestamp <= dueDateTimestamp) &&
-      matchesSearchQuery
-    );
-  });
-
-  const openMobileFilterModal = () => {
-    setFilterModal(!filterModal);
-  };
-
-  const closeMobileFilterModal = () => {
-    setFilterModal(false);
-  };
-
-  const handlePrint = useReactToPrint({
-    content: () => printableRef.current,
-    documentTitle: `${"Tenants Data"}`,
-    onAfterPrint: () => console.log("Document printed."),
-  });
-
-  const toggleInvite = () => {
-    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
-      setOpenPurchasePlan(!openPurchasePlan);
-    } else if (reachedLimit?.reachedMaxTenants) {
-      setOpenPurchasePlan(!openPurchasePlan);
-    } else if (reachedLimit?.expiredPlan) {
-      setOpenPurchasePlan(!openPurchasePlan);
-    } else {
-      setInviteTenant(true);
-    }
-  };
-
-  const goToplan = () => {
-    router.push("/plans");
-  };
 
   return (
-    <div className=" w-full p-8 mb-8">
-      {filterModal && (
-        <div>
-          <FilterMobile
-            reset={clear}
-            closeMobileModal={closeMobileFilterModal}
-            setSelectedDate={setSelectedDate}
-            selectedStatus={selectedStatus}
-            setSelectedStatus={setSelectedStatus}
-            options={options2}
-            defaultName={"Status"}
-          />
-        </div>
-      )}
-      {inviteTenant && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal
-            dropdownRef={dropdownRef}
-            property={reachedLimit?.reachedMaxEstates}
-            setInviteTenant={setInviteTenant}
-          />
-        </div>
-      )}
-      <CustomizedModal isOpen={reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan}>
-        <ExpiredPlanModal
-          header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
-          body={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Kindly upgrade your plan now to unlock access to this feature." : "Upgrade your enterprise plan to add more tenants"}
-          button={"Upgrade Plan"}
-          buttonTwo={"close"}
-          returnHome={goToplan}
-          returnHomeTwo={() => setOpenPurchasePlan(false)}
-        />
-      </CustomizedModal>
-      <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
-        <ExpiredPlanModal
-          header={"Your Trial Has Ended"}
-          body={
-            "Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."
-          }
-          button={"Buy Plan"}
-          buttonTwo={"close"}
-          returnHome={goToplan}
-          returnHomeTwo={() => setOpenPurchasePlan(false)}
-        />
-      </CustomizedModal>
-      <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
-        <ExpiredPlanModal
-          header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
-          body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
-          button={"Upgrade Plan"}
-          buttonTwo={"close"}
-          returnHome={goToplan}
-          returnHomeTwo={() => setOpenPurchasePlan(false)}
-        />
-      </CustomizedModal>
-      {loading ? (
-        <LoadingII />
-      ) : (
-        <div className="">
-          {tenantData === null || tenantData === undefined || !tenantData ? (
-            <div className="h-screen ">
-              <div className="flex gap-2 items-center">
-                <p className="text-[20px] font-[500]">Tenants</p>
-                <span className="bg-whiteblue w-[30px] h-[35px] flex justify-center items-center rounded-[8px]">
-                  <span className="text-BlueHomz text-[18px] font-[400]">
-                    0
-                  </span>
-                </span>
+    <div className="mt-6 w-full flex flex-col justify-center items-center">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeButton={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <input
+        type='date'
+        ref={dateInputRef}
+        className="hidden"
+      />
+      <div className='w-full flex justify-start px-4 mb-2'>
+        <p className='font-medium text-[20px] text-GrayHomz flex gap-1 items-center'>Tenants <span className='px-2 py-0.5 bg-whiteblue rounded-[8px] text-BlueHomz'>{tenantsData?.length}</span></p>
+      </div>
+      <div className="w-auto h-auto px-4">
+        <div className='flex justify-between items-center'>
+          <div className="flex mt-1 gap-2 sm:gap-4 cursor-pointer">
+            {pages.map((page) => (
+              <div
+                key={page.id}
+                className={`flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === page.id
+                  ? "bg-BlueHomz text-white"
+                  : "bg-whiteblue text-BlueHomz "
+                  }`}
+                onClick={() => {
+                  handlePageChange(page.id);
+                }}
+              >
+                <p className={`text-[14px] font-500`}>{page.name}</p>
               </div>
-              <div className="flex flex-col h-[70%] gap-3 mt-5 justify-center items-center">
-                <div className="bg-whiteblue rounded-[100%] flex justify-center items-center h-[120px] w-[120px]">
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/tenants/profile-2user.png"
-                    }
-                    height={88}
-                    width={88}
-                    alt=""
-                    className="mt-1"
-                  />
-                </div>
-                <h1 className="text-[41px] leading-tight font-[700] text-BlueHomz">
-                  Get Started
-                </h1>
-                <p className="text-[18px] text-center font-[400] text-GrayHomz">
-                  Share your unique link to invite your tenants to your
-                  properties.{" "}
-                </p>
-                <button
-                  onClick={toggleInvite}
-                  className="mt-2 p-[12px] w-[143px] bg-BlueHomz text-white rounded-md flex items-center gap-1 text-[16px] font-[700]"
-                >
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/add-squareWhite.png"
-                    }
-                    alt=""
-                    width={16}
-                    height={16}
-                  />
-                  Invite Tenant
-                </button>
-              </div>
+            ))}
+          </div>
+          <div className='relative flex items-center gap-2'>
+            <div
+              onClick={() => {
+                setIsOpen(!isOpen)
+                setOpenColumns(false)
+              }}
+              className='cursor-pointer w-auto flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
+              <ArrowDownDashes className='#006AFF' />
+              {isOpen ?
+                <ArrowUpII className="#006AFF" /> :
+                <ArrowDown className="#006AFF" />
+              }
             </div>
-          ) : (
-            <div>
-              <div className="flex flex-col md:flex-row justify-between md:items-center">
-                <div className="flex gap-2 items-center">
-                  <p className="text-[20px] font-[500]">Tenants</p>
-                  <span className="bg-whiteblue h-[35px] px-[10px] flex justify-center items-center rounded-[8px]">
-                    <span className="text-BlueHomz text-[18px] font-[400]">
-                      {totalCount}
-                      {/* {filteredData?.length} */}
-                    </span>
-                  </span>
-                  <div className="md:hidden" onClick={toggleInvite}>
-                    <Add />
-                  </div>
-                  <button className="hidden md:block" onClick={toggleInvite}>
-                    <AddBigBlue />
-                  </button>
-                </div>
-                <div className="hidden md:flex items-center gap-2">
-                  <p className="text-[16px] font-[400] text-BlackHomz ">
-                    Filter by:
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <div className="w-[110px] xl:w-[128px]">
-                      <Dropdown
-                        options={options}
-                        onSelect={(option) => setSelectedProperty(option)}
-                        selectOption={
-                          selectedProperty === null
-                            ? "Property"
-                            : selectedProperty
-                        }
-                        className="mr-2"
-                      />
+            {
+              isOpenI &&
+              <div className='absolute z-50 top-10 right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
+                {
+                  openStatusFilter ?
+                    <div className='text-sm text-GrayHomz font-medium'>
+                      <div className='flex gap-2 items-center'>
+                        {openStatusFilter ? <Ticked /> : <UnTicked />}
+                        Pending
+                      </div>
+                      <div className='flex gap-2 mt-1.5 items-center'>
+                        {!openStatusFilter ? <Ticked /> : <UnTicked />}
+                        Paid
+                      </div>
+                      <div className='flex gap-2 mt-1.5 items-center'>
+                        {openStatusFilter ? <Ticked /> : <UnTicked />}
+                        Over due
+                      </div>
                     </div>
-                    <div className="w-[110px] xl:w-[128px]">
-                      <Dropdown
-                        options={options2}
-                        onSelect={(option) => setSelectedStatus(option)}
-                        selectOption={
-                          selectedStatus === null ? "Status" : selectedStatus
-                        }
-                        className="mr-2"
-                      />
-                    </div>
-                    <input
-                      type="date"
-                      onChange={(e) => setSelectedDate(e.target.value)}
-                      className="border px-4 h-[42px] w-[110px] xl:w-[128px] text-GrayHomz2 border-GrayHomz2 font-[500] text-[14px] rounded cursor-pointer"
-                    />
+                    : openPeroid ?
+                      <div className='text-sm text-GrayHomz font-medium'>
+                        <div className='flex gap-2 items-center'>
+                          {openPeroid ? <Ticked /> : <UnTicked />}
+                          All Rent Periods
+                        </div>
+                        <div className='flex gap-2 mt-1.5 items-center'>
+                          {!openPeroid ? <Ticked /> : <UnTicked />}
+                          Rent Period 1
+                        </div>
+                        <div className='flex gap-2 mt-1.5 items-center'>
+                          {!openPeroid ? <Ticked /> : <UnTicked />}
+                          Rent Period 2
+                        </div>
+                        <div className='flex gap-2 mt-1.5 items-center'>
+                          {!openPeroid ? <Ticked /> : <UnTicked />}
+                          Rent Period 3
+                        </div>
+                      </div> :
+                      <div>
+                        <p className='text-[13px] text-GrayHomz font-medium'>
+                          Filter by:
+                        </p>
+                        <button onClick={() => setOpenStatusFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                          Status    <ArrowDown className="#4E4E4E" />
+                        </button>
 
-                    <button
-                      onClick={clear}
-                      type="text"
-                      className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] rounded cursor-pointer"
-                    >
-                      <Image
-                        src={
-                          "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                        }
-                        alt=""
-                        height={17}
-                        width={16}
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-4 flex justify-between md:hidden w-full">
-                  <div className="relative w-[86%] rounded-[4px]">
-                    <input
-                      type="text"
-                      className="border placeholder:text-[13px] h-[40px] pl-8 rounded-[4px] w-full "
-                      id="search"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search by name"
-                    />
-                    <Image
-                      src={
-                        "/static/dashboard/enterprisemanager/header/search-normal.png"
-                      }
-                      alt=""
-                      className="absolute top-3 left-3"
-                      height={16}
-                      width={16}
-                    />
-                  </div>
-                  <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
-                    <button onClick={openMobileFilterModal}>
-                      <Image
-                        src="/static/images/filter.svg"
-                        alt=""
-                        width={16}
-                        height={16}
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-4 md:mt-0 flex gap-1 items-center">
-                  <button
-                    onClick={handlePrint}
-                    className="border border-BlueHomz w-auto mt-2 items-center text-[11px] md:text-[14px] font-[500] gap-1 flex px-[10px] h-[42px] text-BlueHomz  hover:bg-whiteblue rounded cursor-pointer"
-                  >
-                    <Document className="#006AFF" />
-                    Download Page
-                  </button>
-                </div>
+                        <button
+                          onClick={handleDateClick}
+                          className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'
+                        >
+                          Date    <DateIconTwo />
+                        </button>
+                        <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                          Rent Period    <ArrowDown className="#4E4E4E" />
+                        </button>
+                      </div>
+                }
               </div>
-              <Widget
-                Data={filteredData}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                fetchDataAgain={fetchData}
-                isMasterChecked={isMasterChecked}
-                setIsMasterChecked={setIsMasterChecked}
-                printableRef={printableRef}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                loading={loadingTable}
-              />
+
+            }
+            {
+              isOpen &&
+              <div className='absolute z-50 top-10 right-[175px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
+                {
+                  openColumns ?
+                    <div className='text-sm text-GrayHomz font-medium'>
+                      {usedKeys?.map((key, index) => (
+                        <div id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
+                          {openColumns ? <Ticked /> : <UnTicked />} {key}
+                        </div>
+                      ))}
+                    </div>
+                    :
+                    <div>
+                      <p className='text-[13px] text-GrayHomz font-medium'>
+                        Sort by:
+                      </p>
+                      <button
+                        onClick={() => setOpenColumns(true)}
+                        className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                        Columns    <ArrowDown className="#4E4E4E" />
+                      </button>
+                      <button
+                        onClick={() => setOpenColumns(true)}
+                        className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
+                        <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff'/></span>
+                      </button>
+                    </div>
+                }
+              </div>
+
+            }
+            <div
+              onClick={() => {
+                setIsOpenI(!isOpenI)
+                setOpenStatusFilter(false)
+                setOpenPeriod(false)
+                setOpenColumns(false)
+              }}
+              className='cursor-pointer w-auto flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
+              <FilterIconBlue />
+              {isOpenI ?
+                <ArrowUpII className="#006AFF" /> :
+                <ArrowDown className="#006AFF" />
+              }
             </div>
-          )}
+            <div className='cursor-pointer w-auto text-sm text-BlueHomz font-medium flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
+              Actions
+              {isOpenII ?
+                <ArrowUpII className="#006AFF" /> :
+                <ArrowDown className="#006AFF" />
+              }
+            </div>
+          </div>
         </div>
-      )}
+        <div className="my-5 rounded-[12px] ">
+          {pages.map((page) => (
+            <div
+              key={page.id}
+              className={active === page.id ? "inline" : "hidden"}
+            >
+              {page.component}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Tenants;
+export default Tenants

@@ -17,7 +17,7 @@ import ExpiredPlanModal from "../components/expiredPlanModal";
 import { useRouter } from "next/navigation";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper';
+import { Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
@@ -31,7 +31,7 @@ const Dashboard = () => {
   const [reachedLimit, setReachedLimit] = useState(null);
   const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
   const router = useRouter();
-  const swiperRef = useRef(null); 
+  const swiperRef = useRef(null);
 
   const handleMouseEnter = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -155,34 +155,74 @@ const Dashboard = () => {
         <div
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className="w-full bg-[#DC8803] text-white p-4 rounded-xl overflow-hidden cursor-pointer">
+          className="md:hidden w-full bg-[#DC6803] text-white p-4 rounded-xl overflow-hidden cursor-pointer">
           <Swiper
             ref={swiperRef}
             modules={[Autoplay]}
             spaceBetween={20}
-            slidesPerView={1}
+            slidesPerView="auto" 
             loop={true}
+            freeMode={true}
             autoplay={{
               delay: 0,
+              startDelay: 2000,
               disableOnInteraction: false,
             }}
+            speed={12000} 
             allowTouchMove={true}
-            speed={10000}
+            className="w-full overflow-hidden"
           >
             {features.map((feature, index) => (
               <SwiperSlide key={index}>
                 <div className="flex justify-between items-center px-4">
-                  <p className="font-semibold text-lg flex items-center gap-1"><AlermOrange /> New Feature Alert: {feature.title}</p>
+                  <p className="font-semibold text-lg flex items-center gap-2"><AlermOrange /> New Feature Alert: {feature.title}</p>
                   <Link
                     href={feature.link}
-                    className="bg-white text-[#DC8803] px-4 py-2 rounded-lg font-medium hover:bg-gray-100 flex items-center gap-1"
+                    className="ml-4 bg-white text-[#DC8803] px-4 py-2 rounded-lg font-medium hover:bg-gray-100 flex items-center gap-2"
                   >
-                    Explore now <span className="mt-1"><RightOrangeArrow /></span>
+                    Explore now <span className="mt-0.5"><RightOrangeArrow /></span>
                   </ Link>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
+        </div>
+        <div className="md:flex gap-2 items-center hidden">
+          <AlermOrange />
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="w-full bg-[#DC6803] text-white p-4 rounded-xl overflow-hidden cursor-pointer">
+            <Swiper
+              ref={swiperRef}
+              modules={[Autoplay]}
+              spaceBetween={20}
+              slidesPerView="auto"  
+              loop={false}
+              freeMode={false}
+              autoplay={{
+                delay: 0,
+                startDelay: 3000,
+                disableOnInteraction: false,
+              }}
+              speed={10000} 
+              allowTouchMove={false} 
+            >
+              {features.map((feature, index) => (
+                <SwiperSlide key={index}>
+                  <div className="flex justify-between items-center px-4">
+                    <p className="font-semibold text-lg flex items-center gap-1">New Feature Alert: {feature.title}</p>
+                    <Link
+                      href={feature.link}
+                      className="ml-4 bg-white text-[#DC8803] px-4 py-2 rounded-[2.82px] font-medium hover:bg-gray-100 flex items-center gap-2"
+                    >
+                      Explore now <span className="mt-0.5"><RightOrangeArrow /></span>
+                    </ Link>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
         <div className="">
           <h1 className="text-[14px] md:text-[23px] font-[700] text-BlackHomz">
