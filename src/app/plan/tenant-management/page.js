@@ -188,7 +188,7 @@ const TenantManagement = () => {
                   }}
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              {/* <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
                   Property
                 </label>
@@ -221,7 +221,7 @@ const TenantManagement = () => {
                     estateData={estatesData}
                   />
                 )}
-              </div>
+              </div> */}
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-[500] text-BlackHomz">
