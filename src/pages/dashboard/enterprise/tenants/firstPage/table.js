@@ -24,10 +24,10 @@ const Table = ({ widthRa, usedKeys, tenantsData }) => {
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
     return (
-        <div>
-            <div className={`${widthRa >= 1440 ? "max-w-[1130px] " : widthRa >= 1375 ? "max-w-[1080px] " : "max-w-[1045px]"}`}>
-                <div className={`overflow-x-auto scrollbar-container`}>
-                    <div className="w-[500%] md:w-[450%]">
+        <div className='w-full '>
+            <div className={`${widthRa >= 1440 ? "md:max-w-[1130px] " : widthRa >= 1375 ? "md:max-w-[1080px] " : "md:max-w-[1045px]"} max-w-[350px] w-full md:w-auto`}>
+                <div className={`w-full overflow-x-auto scrollbar-container`}>
+                    <div className="w-[800%] md:w-[450%]">
                         <div className="w-full border rounded-t-[12px]">
                             <div className="bg-whiteblue h-[60px] text-[11px] grid justify-center items-center font-[500] text-BlackHomz px-2 rounded-t-[12px]"
                                 style={{ gridTemplateColumns: `repeat(${usedKeys.length}, minmax(100px, 1fr))` }}

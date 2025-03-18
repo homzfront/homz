@@ -10,8 +10,15 @@ import FilterIconBlue from '@/components/icons/filterIconBlue';
 import DateIconTwo from '@/components/icons/dateIconTwo';
 import Ticked from '@/components/icons/ticked';
 import UnTicked from '@/components/icons/unTicked';
-import { data } from 'alpinejs';
 import Reset from '@/components/icons/reset';
+import Share from '@/components/icons/share';
+import ExportSmall from '@/components/icons/exportSmall';
+import AddNormal from '@/components/icons/addNormal';
+import Modal from "../components/modal";
+import BulkIcon from '@/components/icons/bulkIcon';
+import useClickOutside from '@/utils/clickOutside';
+import BulkInvite from '../../estates/importTenant/components/bulkInvite';
+import SingleInvite from '../../estates/importTenant/components/singleInvite';
 
 const Tenants = () => {
   const tenantsData = [
@@ -362,6 +369,19 @@ const Tenants = () => {
   const [openStatusFilter, setOpenStatusFilter] = React.useState(false);
   const [openPeroid, setOpenPeriod] = React.useState(false);
   const [openColumns, setOpenColumns] = React.useState(false);
+  const [reachedLimit, setReachedLimit] = React.useState(null);
+  const [inviteTenant, setInviteTenant] = React.useState(false);
+  const [bulkInvite, setBulkInvite] = React.useState(false);
+  const dropdownRef = useClickOutside(() => setInviteTenant(false));
+  const [showNumberOfHouseModal, setShowNumberOfHouseModal] = React.useState(false);
+  const [showMappingSummaryModal, setShowMappingSummaryModal] = React.useState(false);
+  const [openBulkInvite, setOpenBulkInvite] = React.useState(false);
+  const [importData, setImportData] = React.useState(false);
+  const [successfulModal, setSuccessfulModal] = React.useState(false);
+  const [openTenantInvite, setOpenTenantInvite] = React.useState(false);
+  const [openSingleInvite, setOpenSingleInvite] = React.useState(false);
+
+  const estateData = {}
 
   const handlePageChange = (id) => {
     setActive(id);
@@ -377,6 +397,26 @@ const Tenants = () => {
 
   return (
     <div className="mt-6 w-full flex flex-col justify-center items-center">
+      {inviteTenant && (
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <Modal
+            dropdownRef={dropdownRef}
+            property={reachedLimit?.reachedMaxEstates}
+            setInviteTenant={setInviteTenant}
+          />
+        </div>
+      )}
+      {bulkInvite &&
+        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <SingleInvite
+            setSuccessfulModal={setSuccessfulModal}
+            setOpenSingleInvite={setBulkInvite}
+            setOpenTenantInvite={setOpenTenantInvite}
+            estateName={estateData?.name}
+            estateId={estateData?._id} /> :
+
+        </div>
+      }
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -399,7 +439,7 @@ const Tenants = () => {
         <p className='font-medium text-[20px] text-GrayHomz flex gap-1 items-center'>Tenants <span className='px-2 py-0.5 bg-whiteblue rounded-[8px] text-BlueHomz'>{tenantsData?.length}</span></p>
       </div>
       <div className="w-auto h-auto px-4">
-        <div className='flex justify-between items-center'>
+        <div className='flex flex-col-reverse gap-2 md:gap-0 md:flex-row md:justify-between md:items-center'>
           <div className="flex mt-1 gap-2 sm:gap-4 cursor-pointer">
             {pages.map((page) => (
               <div
@@ -416,13 +456,13 @@ const Tenants = () => {
               </div>
             ))}
           </div>
-          <div className='relative flex items-center gap-2'>
+          <div className='relative flex justify-end md:justify-normal md:items-center gap-2'>
             <div
               onClick={() => {
                 setIsOpen(!isOpen)
                 setOpenColumns(false)
               }}
-              className='cursor-pointer w-auto flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
+              className='cursor-pointer w-auto hidden md:flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
               <ArrowDownDashes className='#006AFF' />
               {isOpen ?
                 <ArrowUpII className="#006AFF" /> :
@@ -430,61 +470,114 @@ const Tenants = () => {
               }
             </div>
             {
+              isOpenII &&
+              <div className='absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
+                <div className='text-sm text-GrayHomz font-medium flex flex-col gap-0'>
+                  <div onClick={() => setInviteTenant(true)} className='flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                    <span className='w-3'>
+                      <AddNormal />
+                    </span>
+                    <span className='min-w-[80%]'>
+                      Invite Tenant(s)
+                    </span>
+                  </div>
+                  <div onClick={() => setBulkInvite(true)} className='flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                    <span className='w-3'>
+                      <BulkIcon />
+                    </span>
+                    <span className='min-w-[80%]'>
+                      Manually add Tenant(s)
+                    </span>
+                  </div>
+                  <div className='flex gap-1 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                    <span className='w-3 mt-0.5 mr-1'>
+                      <Share />
+                    </span>
+                    <span className='min-w-[80%]'>
+                      Share Page
+                    </span>
+                  </div>
+                  <div className='flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                    <span className='w-3'>
+                      <ExportSmall />
+                    </span>
+                    <span className='min-w-[80%] flex items-center gap-1'>
+                      Export as
+                      <ArrowDown className="#4E4E4E" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
+            {
               isOpenI &&
               <div className='absolute z-50 top-10 right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
                 {
-                  openStatusFilter ?
+                  openColumns ?
                     <div className='text-sm text-GrayHomz font-medium'>
-                      <div className='flex gap-2 items-center'>
-                        {openStatusFilter ? <Ticked /> : <UnTicked />}
-                        Pending
-                      </div>
-                      <div className='flex gap-2 mt-1.5 items-center'>
-                        {!openStatusFilter ? <Ticked /> : <UnTicked />}
-                        Paid
-                      </div>
-                      <div className='flex gap-2 mt-1.5 items-center'>
-                        {openStatusFilter ? <Ticked /> : <UnTicked />}
-                        Over due
-                      </div>
-                    </div>
-                    : openPeroid ?
+                      {usedKeys?.map((key, index) => (
+                        <div id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
+                          {openColumns ? <Ticked /> : <UnTicked />} {key}
+                        </div>
+                      ))}
+                    </div> :
+                    openStatusFilter ?
                       <div className='text-sm text-GrayHomz font-medium'>
                         <div className='flex gap-2 items-center'>
-                          {openPeroid ? <Ticked /> : <UnTicked />}
-                          All Rent Periods
+                          {openStatusFilter ? <Ticked /> : <UnTicked />}
+                          Pending
                         </div>
                         <div className='flex gap-2 mt-1.5 items-center'>
-                          {!openPeroid ? <Ticked /> : <UnTicked />}
-                          Rent Period 1
+                          {!openStatusFilter ? <Ticked /> : <UnTicked />}
+                          Paid
                         </div>
                         <div className='flex gap-2 mt-1.5 items-center'>
-                          {!openPeroid ? <Ticked /> : <UnTicked />}
-                          Rent Period 2
+                          {openStatusFilter ? <Ticked /> : <UnTicked />}
+                          Over due
                         </div>
-                        <div className='flex gap-2 mt-1.5 items-center'>
-                          {!openPeroid ? <Ticked /> : <UnTicked />}
-                          Rent Period 3
-                        </div>
-                      </div> :
-                      <div>
-                        <p className='text-[13px] text-GrayHomz font-medium'>
-                          Filter by:
-                        </p>
-                        <button onClick={() => setOpenStatusFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                          Status    <ArrowDown className="#4E4E4E" />
-                        </button>
-
-                        <button
-                          onClick={handleDateClick}
-                          className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'
-                        >
-                          Date    <DateIconTwo />
-                        </button>
-                        <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                          Rent Period    <ArrowDown className="#4E4E4E" />
-                        </button>
                       </div>
+                      : openPeroid ?
+                        <div className='text-sm text-GrayHomz font-medium'>
+                          <div className='flex gap-2 items-center'>
+                            {openPeroid ? <Ticked /> : <UnTicked />}
+                            All Rent Periods
+                          </div>
+                          <div className='flex gap-2 mt-1.5 items-center'>
+                            {!openPeroid ? <Ticked /> : <UnTicked />}
+                            Rent Period 1
+                          </div>
+                          <div className='flex gap-2 mt-1.5 items-center'>
+                            {!openPeroid ? <Ticked /> : <UnTicked />}
+                            Rent Period 2
+                          </div>
+                          <div className='flex gap-2 mt-1.5 items-center'>
+                            {!openPeroid ? <Ticked /> : <UnTicked />}
+                            Rent Period 3
+                          </div>
+                        </div> :
+                        <div>
+                          <p className='text-[13px] text-GrayHomz font-medium'>
+                            Filter by:
+                          </p>
+                          <button onClick={() => setOpenStatusFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                            Status    <ArrowDown className="#4E4E4E" />
+                          </button>
+
+                          <button
+                            onClick={handleDateClick}
+                            className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'
+                          >
+                            Date    <DateIconTwo />
+                          </button>
+                          <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                            Rent Period    <ArrowDown className="#4E4E4E" />
+                          </button>
+                          <button
+                            onClick={() => setOpenColumns(true)}
+                            className='mt-1 text-sm font-normal text-GrayHomz md:hidden flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                            Columns    <ArrowDown className="#4E4E4E" />
+                          </button>
+                        </div>
                 }
               </div>
 
@@ -514,7 +607,7 @@ const Tenants = () => {
                       <button
                         onClick={() => setOpenColumns(true)}
                         className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
-                        <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff'/></span>
+                        <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
                       </button>
                     </div>
                 }
@@ -535,7 +628,11 @@ const Tenants = () => {
                 <ArrowDown className="#006AFF" />
               }
             </div>
-            <div className='cursor-pointer w-auto text-sm text-BlueHomz font-medium flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
+            <div
+              onClick={() => {
+                setIsOpenII(!isOpenII)
+              }}
+              className='cursor-pointer w-auto text-sm text-BlueHomz font-medium flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
               Actions
               {isOpenII ?
                 <ArrowUpII className="#006AFF" /> :
