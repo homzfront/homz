@@ -5,7 +5,6 @@ import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
 import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 const MobilePlan = ({
-  handleSelectPlan,
   pricingPlans,
   profile,
   loadingStates,
@@ -13,7 +12,7 @@ const MobilePlan = ({
   setPlanDetails,
   setIsOpen
 }) => {
-  // console.log(profile);
+ 
   return (
     <div className="cursor-pointer rounded-[10px] w-full sm:hidden h-[630px] mb-8">
       <Carousel slide={false} theme={parentTheme} className="h-full">
@@ -30,7 +29,7 @@ const MobilePlan = ({
                 {plan.billing}
               </p>
               <p className="text-[23px] text-center font-[700] text-BlackHomz">
-                {plan.price}
+              {plan?.price && "₦" + Number(plan.price).toLocaleString()}
               </p>
             </div>
 
@@ -59,9 +58,11 @@ const MobilePlan = ({
                         {feature.name}
                       </p>
                     </div>
-
+                      {
+                        feature.enable &&
+                      
                     <Tooltip
-                      title={feature.info}
+                     title={feature?.info && feature.info}
                       position="left"
                       trigger="click"
                       arrow={true}
@@ -81,6 +82,7 @@ const MobilePlan = ({
                         />
                       </button>
                     </Tooltip>
+                      }
                   </div>
                 </div>
               ))}
@@ -128,9 +130,9 @@ const parentTheme = {
   root: {
     base: "relative h-full w-full",
     leftControl:
-      "hidden md:inline-block absolute top-[rem] left-[-0.25rem] flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
+      "hidden md:inline-block absolute top-[1rem] left-[-0.25rem] flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
     rightControl:
-      "hidden md:inline-block absolute top-[rem] right-7 flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
+      "hidden md:inline-block absolute top-[1rem] right-7 flex h-[30px] w-[30px] items-center justify-center px-4 focus:outline-none transition-opacity duration-300",
     "&:hover $leftControl, &:hover $rightControl": {
       display: "inline-block",
     },

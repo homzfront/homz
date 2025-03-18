@@ -22,17 +22,12 @@ const Plans = ({ profile, upgradePlan }) => {
   });
   const router = useRouter();
 
-
   useEffect(() => {
     if (isPending) {
       return setLoadingStates((prev) => ({ ...prev, [ind]: true }));
     }
     setLoadingStates((prev) => ({ ...prev, [ind]: false }));
   }, [isPending, ind]);
-
-
- 
-  
 
   const handleSelectPlan = async (index, planType, interval, amount) => {
     setIndex(index);
@@ -106,7 +101,7 @@ const Plans = ({ profile, upgradePlan }) => {
                       </p>
                     </div>
                     <Tooltip
-                      title={feature.info}
+                      title={feature?.info && feature.info}
                       position="left"
                       trigger="click"
                       arrow={true}
@@ -179,7 +174,6 @@ const Plans = ({ profile, upgradePlan }) => {
           );
         }}
       />
-    
     </div>
   );
 };
@@ -473,68 +467,3 @@ const pricingPlans = [
     interval: "monthly",
   },
 ];
-// Optional URL validation function (consider using a more robust library)
-// function isValidUrl(url) {
-//   const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
-//   return regex.test(url);
-// }
-
-// async function handleSubmit(interval, plans) {
-//   setLoading(true);
-
-//   if (!interval || !plans) {
-//     setFormError("Please select an interval and plan.");
-//     setLoading(false);
-//     return; // Early exit if required fields are missing
-//   }
-
-//   try {
-//     let response;
-//     if (
-//       profile.PlanStatus === "free_trial" ||
-//       profile?.planName === "Enterprise Starter" ||
-//       profile?.planName === "Enterprise Plus" ||
-//       profile?.planName === "Enterprise Premium" ||
-//       profile.planName === "Enterprise Trial"
-//     ) {
-//       response = await updateEnterPriseSub({
-//         planName: plans,
-//         interval,
-//       });
-//     }
-//     if (response.success) {
-//       setLoading(false);
-//       const successMessage =
-//         response?.updatedData?.data?.message ||
-//         "Enterprise Plan account created successfully"; // Use response.data?.message if available, otherwise default message
-//       toast.success(successMessage);
-//       const authorizationUrl =
-//         response?.updatedData?.data?.data?.data?.authorization_url;
-//       const paystackAuthorizationUrl =
-//         response?.updatedData?.data?.data?.paystackResponse?.data
-//           ?.authorization_url;
-
-//       if (isValidUrl(authorizationUrl)) {
-//         router.push(authorizationUrl);
-//       } else if (isValidUrl(paystackAuthorizationUrl)) {
-//         router.push(paystackAuthorizationUrl);
-//       } else {
-//         // console.warn('Invalid or missing authorization URL in response.');
-//       }
-//     } else {
-//       if (response.error) {
-//         setFormError(response.error || "An error occurred."); // Default error message
-//         // console.error("Error creating profile:", response.error);
-//         setLoading(false);
-//         toast.error(response.error);
-//       } // Use the specific error message from response.error
-//     }
-//   } catch (error) {
-//     toast.error(error.response?.data?.message || error.response?.data?.error); // User-friendly error message
-//     // console.log(error.response?.data?.error)
-//     setFormError(
-//       error.response?.data?.message || error.response?.data?.error
-//     ); // Log the original error
-//     setLoading(false);
-//   }
-// }

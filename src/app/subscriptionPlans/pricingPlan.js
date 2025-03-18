@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import Widget from "./widget";
-import Link from "next/link";
 import Image from "next/image";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,13 +10,15 @@ import useStorePropertyPromotionData from "@/store/propertyPromotions";
 
 const PricingPlan = () => {
   const router = useRouter();
-  const resetPropertyIds = useStorePropertyPromotionData((state) => state.resetPropertyIds);
+  const resetPropertyIds = useStorePropertyPromotionData(
+    (state) => state.resetPropertyIds
+  );
 
   const goBack = () => {
     resetPropertyIds();
     router.back();
   };
-  
+
   const [data, setData] = useState(null);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -25,7 +26,7 @@ const PricingPlan = () => {
       setData(JSON.parse(storedData));
     }
   }, []);
- 
+
   const { data: profile, loading, fetchData } = useProfileListingMe();
 
   useLayoutEffect(() => {
@@ -33,7 +34,7 @@ const PricingPlan = () => {
   }, [fetchData]);
 
   return (
-    <div className=" w-full px-8 py-4 m-auto mt-3">
+    <div className="w-full max-w-[1440px] px-8 py-4 mx-auto mt-3">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -47,46 +48,40 @@ const PricingPlan = () => {
         pauseOnHover
         theme="dark"
       />
-      {/* <button onClick={goBack}>
-      <Image src={"/Link (1).png"} alt="Back" height={25} width={85} />
-    </button> */}
 
-      <div className=" m-aut mb-10 space-y-2 mt-2">
-        <div className="flex sm:flex-row flex-col ">
-          <div className="w-fit flex md:justify-between items-center gap-[4rem] md:gap-0 ">
+      <div className="mx-auto mb-10 space-y-2 mt-2">
+        <div className="flex flex-col sm:flex-row justify-center items-center">
+          <div className="flex items-center gap-16 md:gap-0">
             <div
               onClick={goBack}
               className="flex gap-1 items-center cursor-pointer"
             >
               <Image
-               src="/static/images/blue-arrow-left2.svg"
+                src="/static/images/blue-arrow-left2.svg"
                 height={16}
                 width={16}
                 alt=""
-                className=""
               />
-              <p className="text-[14px] font-[400]  text-[#559CFF]">
+              <p className="text-[0.875rem] font-normal text-[#559CFF]">
                 Go Back
               </p>
-            
             </div>
           </div>
-          <h2 className="  text-BlueHomz text-[18px]  text-center font-[500] mx-auto mt-3">
+          <h2 className="text-BlueHomz text-[1.125rem] text-center font-medium mx-auto mt-3">
             Subscription Plan
           </h2>
         </div>
-        <h1 className="text-[23px] sm:text-[36px] text-center font-[700]">
+        <h1 className="text-[1.5rem] sm:text-[2.25rem] text-center font-bold">
           Boost Your Property's Visibility Today!
         </h1>
-        <p className="text-[18px] sm:text-[20px] leading-[30px] text-center text-[#4E4E4E] font-[500]">
+        <p className="text-[1.125rem] sm:text-[1.25rem] leading-[1.875rem] text-center text-[#4E4E4E] font-medium">
           Choose the Perfect Promotion Plan to Attract More Buyers and Renters
         </p>
       </div>
 
       <div>
-        <Widget data={data} profile={profile}  />
+        <Widget data={data} profile={profile} />
       </div>
-    
     </div>
   );
 };
