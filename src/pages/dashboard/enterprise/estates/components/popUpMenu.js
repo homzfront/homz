@@ -45,11 +45,6 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const [showMappingSummaryModal, setShowMappingSummaryModal] = useState(false);
   const [unimportedTenantRentModal, setUnimportedTenantRentModal] = useState(false);
 
-  console.log(showNumberOfHouseModal)
-  console.log(estateData)
-  console.log(CSVFile);
-  console.log(response?.data?.successfulUploads)
-
   return (
     <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-5 md:top-8 right-1 md:right-2 border h-auto w-[150px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
       <div

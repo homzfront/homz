@@ -29,7 +29,7 @@ const Card = ({
       <div>
         <div
           style={{ position: "relative" }}
-          className="h-[120px] md:h-[168px] w-full rounded-lg overflow-hidden relative"
+          className="h-[150px] md:h-[168px] w-full rounded-lg overflow-hidden relative"
         >
           {value1 && (
             <Image
@@ -40,12 +40,12 @@ const Card = ({
               layout="full" // Specify the desired height
               objectFit="cover"
               objectPosition="center"
-              className="object-cover bg-center h-[120px] md:h-[168px] w-full rounded-[8px]"
+              className="object-cover bg-center h-[150px] md:h-[168px] w-full rounded-[8px]"
               priority
             />
           )}
         </div>
-        <div className="p-4 flex gap-1 md:gap-3 h-full flex-col">
+        <div className="p-4 flex gap-2 md:gap-3 h-full flex-col">
           <div ref={dropdownRef} className="relative flex justify-between items-center">
             <p className="font-[700] text-[13px] md:text-[16px] truncate text-BlueHomz">{value2}</p>
             <Image

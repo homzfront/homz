@@ -19,6 +19,7 @@ import BulkIcon from '@/components/icons/bulkIcon';
 import useClickOutside from '@/utils/clickOutside';
 import BulkInvite from '../../estates/importTenant/components/bulkInvite';
 import SingleInvite from '../../estates/importTenant/components/singleInvite';
+import BlueSearch from '@/components/icons/blueSearch';
 
 const Tenants = () => {
   const tenantsData = [
@@ -469,6 +470,14 @@ const Tenants = () => {
                 <ArrowDown className="#006AFF" />
               }
             </div>
+            <div className='md:hidden flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] px-3 py-2'>
+              <BlueSearch />
+              <input
+                type='text'
+                className='placeholder:text-[#A9A9A9] w-full outline-none'
+                placeholder='Search'
+              />
+            </div>
             {
               isOpenII &&
               <div className='absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
@@ -511,12 +520,20 @@ const Tenants = () => {
             }
             {
               isOpenI &&
-              <div className='absolute z-50 top-10 right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
+              <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
                 {
                   openColumns ?
                     <div className='text-sm text-GrayHomz font-medium'>
+                      <div className='mb-2 flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-4'>
+                        <BlueSearch />
+                        <input
+                          type='text'
+                          className='placeholder:text-[#A9A9A9] w-full outline-none'
+                          placeholder='Search'
+                        />
+                      </div>
                       {usedKeys?.map((key, index) => (
-                        <div id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
+                        <div key={index} id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
                           {openColumns ? <Ticked /> : <UnTicked />} {key}
                         </div>
                       ))}
@@ -588,8 +605,16 @@ const Tenants = () => {
                 {
                   openColumns ?
                     <div className='text-sm text-GrayHomz font-medium'>
+                      <div className='mb-2 flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-4'>
+                        <BlueSearch />
+                        <input
+                          type='text'
+                          className='placeholder:text-[#A9A9A9] w-full outline-none'
+                          placeholder='Search'
+                        />
+                      </div>
                       {usedKeys?.map((key, index) => (
-                        <div id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
+                        <div key={index} id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
                           {openColumns ? <Ticked /> : <UnTicked />} {key}
                         </div>
                       ))}
@@ -633,7 +658,9 @@ const Tenants = () => {
                 setIsOpenII(!isOpenII)
               }}
               className='cursor-pointer w-auto text-sm text-BlueHomz font-medium flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
-              Actions
+                       <span className='hidden md:block'>
+                Actions
+              </span>
               {isOpenII ?
                 <ArrowUpII className="#006AFF" /> :
                 <ArrowDown className="#006AFF" />

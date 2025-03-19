@@ -140,6 +140,12 @@ const ListedEstates = ({
               </button>
             </div>
           </div>
+          <div className="mt-4 flex gap-2 items-center md:hidden">
+            <p className="text-[16px] font-[500]">Properties</p>
+            <span className="bg-whiteblue py-1 px-2 flex justify-center items-center rounded-[8px]">
+              <span className="text-BlueHomz text-[16px] font-[400]">{data?.length}</span>
+            </span>
+          </div>
           <div className="mt-4 flex justify-between md:hidden w-full">
             <div className="relative w-[86%] rounded-[4px]">
               <input
@@ -160,7 +166,7 @@ const ListedEstates = ({
             </div>
             <div className="border rounded-[4px] flex justify-center items-center border-BlueHomz w-[12%]">
               <button
-                 onClick={openMobileFilterModal}
+                onClick={openMobileFilterModal}
               >
                 <Image
                   src="/static/images/filter.svg"
