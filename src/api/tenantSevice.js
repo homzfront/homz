@@ -158,6 +158,7 @@ export const getSpecificTenantRentInfo = async (id) => {
 export const getSpecificTenantRentInfoOwner = async (id) => {
   try {
     const response = await api.get(`/rentInformation/${id}/property-owner`);
+    console.log(response)
     return { success: true, upDateddata: response.data.data };
   } catch (error) {
     return { success: false, error: error?.response.data.message };

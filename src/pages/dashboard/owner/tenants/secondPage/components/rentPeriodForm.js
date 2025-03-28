@@ -4,9 +4,36 @@ import ArrowLeftBrown from "@/components/icons/arrowLeftBrown";
 import ArrowUpII from "@/components/icons/arrowUpII";
 import ArrowDown from "@/components/icons/arrowDown";
 import Tower from "@/components/icons/tower";
+import { getSpecificTenantRentInfoOwner } from "@/api/tenantSevice";
 
-export default function RentPeriodForm() {
-  const [showForm, setShowForm] = useState(false);
+export default function RentPeriodForm({ profile }) {
+
+  const [data, setData] = React.useState([]);
+
+  console.log(profile?.data?.rentInfo?._id)
+
+  React.useEffect(() => {
+    if (!profile?.data?.rentInfo?._id) {
+      return;
+    }
+
+    const rentInformation = async () => {
+      try {
+        const response = await getSpecificTenantRentInfoOwner(
+          `${profile.data.rentInfo._id}`
+        );
+        const rentInfo = response;
+        setData(rentInfo);
+      } catch (error) {
+        // Handle the error as needed
+      }
+    };
+
+    rentInformation();
+  }, [profile]);
+
+  console.log(data)
+  const [showForm, setShowForm] = React.useState(false);
   const [openIndex, setOpenIndex] = React.useState(null);
 
   const toggleDropdown = (index) => {
@@ -49,7 +76,7 @@ export default function RentPeriodForm() {
             <ArrowLeftBrown /> Back
           </div>
           <div className={`mt-4 mb-4 flex flex-col gap-2 text-GrayHomz bg-[#FCFCFC] rounded-[8px] p-4`}>
-          <h2 className="mb-2 text-GrayHomz font-medium text-sm">Rent Property Information</h2>
+            <h2 className="mb-2 text-GrayHomz font-medium text-sm">Rent Property Information</h2>
             <div className="w-full flex gap-4 mt-2">
               <p className="text-BlackHomz text-[14px] font-[400] w-[40%]">
                 Property

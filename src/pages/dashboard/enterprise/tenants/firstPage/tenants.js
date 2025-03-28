@@ -54,7 +54,7 @@ const Tenants = () => {
   React.useEffect(() => {
     setTenantsData(data?.[0].data ?? null)
   }, [data])
-  // Extract all unique keys
+  
   const [loading, setLoading] = React.useState(true)
   const [search, setSearch] = React.useState('');
   const [reachedLimit, setReachedLimit] = React.useState(null);

@@ -4,11 +4,13 @@ import React from "react";
 import PropertyInfo from "@/components/icons/propertyInfo";
 import Dashboard from "@/components/icons/dashboard";
 import PeopleTenant from "@/components/icons/people-tenant";
+import { usePropertyLandlordTenant } from "@/store/enterpriseStore/useEstateForOne";
 
 const PopUpMenu = ({ data }) => {
   const [active, setActive] = React.useState(false);
   const [activeTwo, setActiveTwo] = React.useState(false);
   const [activeThree, setActiveThree] = React.useState(false);
+  const { setEstateData } = usePropertyLandlordTenant()
 
   return (
     <div className="z-20 drop-down absolute text-GrayHomz font-[500] top-6 md:top-8 right-2 border py-2 w-[180px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
@@ -36,6 +38,7 @@ const PopUpMenu = ({ data }) => {
       <div
         onMouseEnter={() => setActiveTwo(true)}
         onMouseLeave={() => setActiveTwo(false)}
+        onClick={() => setEstateData(data)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full ">
         <Link className="w-full" href={`/dashboard/property-owner/estates/tenants/${data}`}>
           {activeTwo ?

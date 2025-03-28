@@ -65,7 +65,7 @@ const Widget = ({ data }) => {
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
             {/* <RentInfo profile={data} active={active} /> */}
-            <RentPeriodForm />
+            <RentPeriodForm profile={data}/>
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <PaymentHis data={data} />

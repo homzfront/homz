@@ -18,8 +18,6 @@ const useTenantOfAnEstate = create((set, get) => ({
     setSelectedDate: (date) => set({ selectedDate: date }),
     setActive: (date) => set({ active: date }),
     fetchData: async (page = 1, id) => {
-        console.log(page)
-        console.log(id)
         set({ loading: true });
         try {
             const { active, selectedStatus, selectedDate } = get();
@@ -30,7 +28,6 @@ const useTenantOfAnEstate = create((set, get) => ({
                 ...(selectedStatus && { paymentStatus: selectedStatus.toLowerCase() }),
                 ...(selectedDate && { currentRentStartDate: selectedDate }),
             });
-            console.log(`/estates/${id}/tenants/enterprise?${queryParams.toString()}`)
             const response = await api.get(`/estates/${id}/tenants/enterprise?${queryParams.toString()}`);
             const result = response?.data;
             set({

@@ -17,324 +17,143 @@ import AddNormal from '@/components/icons/addNormal';
 import BulkIcon from '@/components/icons/bulkIcon';
 import useClickOutside from '@/utils/clickOutside';
 import BlueSearch from '@/components/icons/blueSearch';
+import tenantsDataForLoggedInOwner from '@/store/propertyOwnerStore/tenantsDataForLoggedInOwner';
+import TableFilter from '@/store/enterpriseStore/tableFilter';
+import { useReactToPrint } from 'react-to-print';
 
 const Tenants = () => {
-  const tenantsData = [
-    {
-      id: 1,
-      profile: "/tableImgII.png",
-      name: "John Doe",
-      apartment: "Apartment A1",
-      address: "123 Main Street, Lagos",
-      phone: "+234 801 234 5678",
-      email: "john.doe@example.com",
-      moveInDate: "2024-01-01",
-      rentDuration: "12 months",
-      dueDate: "2025-01-01",
-      totalRent: 'N1,200,000',
-      paymentStatus: "Paid",
-      statusColor: "green",
-      rentPeriods: "1",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 2,
-      profile: "/tableImg.png",
-      name: "Jane Smith",
-      apartment: "Apartment B2",
-      address: "456 Victoria Island, Lagos",
-      phone: "+234 802 345 6789",
-      email: "jane.smith@example.com",
-      moveInDate: "2023-12-01",
-      rentDuration: "6 months",
-      dueDate: "2024-06-01",
-      totalRent: 'N8,000,000',
-      paymentStatus: "Unpaid",
-      statusColor: "red",
-      rentPeriods: "3",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
-      rentDurationRP2: "4 Years",
-      rentAmountRP2: "N80,000,000",
-      statusRP2: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 3,
-      profile: "/tableImgIII.png",
-      name: "Michael Johnson",
-      apartment: "Apartment C3",
-      address: "789 Ikeja, Lagos",
-      phone: "+234 803 456 7890",
-      email: "michael.johnson@example.com",
-      moveInDate: "2023-11-15",
-      rentDuration: "12 months",
-      dueDate: "2024-11-15",
-      totalRent: 'N1,000,000',
-      paymentStatus: "Partial",
-      statusColor: "yellow",
-      rentPeriods: "2",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N,20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N,14,000,000",
-      statusRP1: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 4,
-      profile: "/tableImgII.png",
-      name: "David Farm",
-      apartment: "Apartment Z1",
-      address: "123 Main Street, Lagos",
-      phone: "+234 801 234 5678",
-      email: "john.doe@example.com",
-      moveInDate: "2024-01-01",
-      rentDuration: "12 months",
-      dueDate: "2025-01-01",
-      totalRent: 'N1,200,000',
-      paymentStatus: "Paid",
-      statusColor: "green",
-      rentPeriods: "1",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 5,
-      profile: "/tableImg.png",
-      name: "Lo Smith",
-      apartment: "Apartment B9",
-      address: "456 Victoria Island, Lagos",
-      phone: "+234 802 345 6789",
-      email: "jane.smith@example.com",
-      moveInDate: "2023-12-01",
-      rentDuration: "6 months",
-      dueDate: "2024-06-01",
-      totalRent: 'N8,000,000',
-      paymentStatus: "Unpaid",
-      statusColor: "red",
-      rentPeriods: "3",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
-      rentDurationRP2: "4 Years",
-      rentAmountRP2: "N80,000,000",
-      statusRP2: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 6,
-      profile: "/tableImgIII.png",
-      name: "Eli Johnson",
-      apartment: "Apartment C1",
-      address: "789 Ikeja, Lagos",
-      phone: "+234 803 456 7890",
-      email: "michael.johnson@example.com",
-      moveInDate: "2023-11-15",
-      rentDuration: "12 months",
-      dueDate: "2024-11-15",
-      totalRent: 'N1,000,000',
-      paymentStatus: "Partial",
-      statusColor: "yellow",
-      rentPeriods: "2",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 7,
-      profile: "/tableImgII.png",
-      name: "Johnson Babel",
-      apartment: "Apartment A8",
-      address: "123 Main Street, Lagos",
-      phone: "+234 801 234 5678",
-      email: "john.doe@example.com",
-      moveInDate: "2024-01-01",
-      rentDuration: "12 months",
-      dueDate: "2025-01-01",
-      totalRent: 'N1,200,000',
-      paymentStatus: "Paid",
-      statusColor: "green",
-      rentPeriods: "1",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 8,
-      profile: "/tableImg.png",
-      name: "Tanner Hone",
-      apartment: "Apartment B6",
-      address: "456 Victoria Island, Lagos",
-      phone: "+234 802 345 6789",
-      email: "jane.smith@example.com",
-      moveInDate: "2023-12-01",
-      rentDuration: "6 months",
-      dueDate: "2024-06-01",
-      totalRent: 'N800,000',
-      paymentStatus: "Unpaid",
-      statusColor: "red",
-      rentPeriods: "3",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
-      rentDurationRP2: "4 Years",
-      rentAmountRP2: "N80,000,000",
-      statusRP2: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 9,
-      profile: "/tableImgIII.png",
-      name: "James Jude",
-      apartment: "Apartment W3",
-      address: "789 Ikeja, Lagos",
-      phone: "+234 803 456 7890",
-      email: "michael.johnson@example.com",
-      moveInDate: "2023-11-15",
-      rentDuration: "12 months",
-      dueDate: "2024-11-15",
-      totalRent: 'N1,000,000',
-      paymentStatus: "Partial",
-      statusColor: "yellow",
-      rentPeriods: "2",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 10,
-      profile: "/tableImgII.png",
-      name: "Dora Kim",
-      apartment: "Apartment L15",
-      address: "123 Main Street, Lagos",
-      phone: "+234 801 234 5678",
-      email: "john.doe@example.com",
-      moveInDate: "2024-01-01",
-      rentDuration: "12 months",
-      dueDate: "2025-01-01",
-      totalRent: 'N1,200,000',
-      paymentStatus: "Paid",
-      statusColor: "green",
-      rentPeriods: "1",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 11,
-      profile: "/tableImg.png",
-      name: "David Sanchez",
-      apartment: "Apartment P2",
-      address: "456 Victoria Island, Lagos",
-      phone: "+234 802 345 6789",
-      email: "jane.smith@example.com",
-      moveInDate: "2023-12-01",
-      rentDuration: "6 months",
-      dueDate: "2024-06-01",
-      totalRent: 'N8,000,000',
-      paymentStatus: "Unpaid",
-      statusColor: "red",
-      rentPeriods: "3",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      rentPeriod2: "14th Nov, 2023 - 13th Nov, 2027",
-      rentDurationRP2: "4 Years",
-      rentAmountRP2: "N80,000,000",
-      statusRP2: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    },
-    {
-      id: 12,
-      profile: "/tableImgIII.png",
-      name: "Tolu James",
-      apartment: "Apartment C8",
-      address: "789 Ikeja, Lagos",
-      phone: "+234 803 456 7890",
-      email: "michael.johnson@example.com",
-      moveInDate: "2023-11-15",
-      rentDuration: "12 months",
-      dueDate: "2024-11-15",
-      totalRent: 'N1,000,000',
-      paymentStatus: "Partial",
-      statusColor: "yellow",
-      rentPeriods: "2",
-      currentRentPeriod: "14th Nov, 2023 - 13th Nov, 2024",
-      RentDurationCRP: "1 Year",
-      rentAmountCRP: "N20,000,000",
-      statusCRP: "paid",
-      rentPeriod1: "14th Nov, 2023 - 13th Nov, 2025",
-      rentDurationRP1: "2 Years",
-      rentAmountRP1: "N14,000,000",
-      statusRP1: "pending",
-      property: "Sunrise Dreamers Top Estate",
-    }
-  ];
-
-
-  // Extract all unique keys
+  const {
+    data,
+    setActive,
+    active,
+    loading: loadingTable,
+    totalCount,
+    currentPage,
+    totalPages,
+    fetchData,
+    selectedDate,
+    setSelectedDate,
+    selectedStatus,
+    setSelectedStatus,
+    setCurrentPage,
+  } = tenantsDataForLoggedInOwner();
+  React.useEffect(() => {
+    setTenantsData(data?.[0].data ?? null)
+  }, [data])
+  const [loading, setLoading] = React.useState(true)
+  const [search, setSearch] = React.useState('');
+  const [reachedLimit, setReachedLimit] = React.useState(null);
+  const [visibleColumns, setVisibleColumns] = React.useState([]);
+  const [maxPeriods, setMaxPeriods] = React.useState(0);
+  const [tenantData, setTenantData] = React.useState(null);
+  const [tenantsData, setTenantsData] = React.useState(null);
   const [widthRa, setWidth] = React.useState(0);
-  const allKeys = [...new Set(tenantsData.flatMap(Object.keys)), "Actions"];
-  const usedKeys = allKeys.filter((key) => key !== "id" && key !== "profile");
+  const printableRef = React.useRef();
+  const {
+    active: activeTab,
+    setActive: setActiveTab,
+    Data: KeptData,
+    setData,
+  } = TableFilter();
 
-  const dateInputRef = React.useRef(null);
-
-  const handleDateClick = () => {
-    if (dateInputRef.current) {
-      dateInputRef.current.showPicker(); // For modern browsers
-    }
+  const removeActiveRentPeriods = (data) => {
+    return data?.map(tenant => {
+      if (tenant.rentInfo && tenant.rentInfo.periods) {
+        return {
+          ...tenant,
+          rentInfo: {
+            ...tenant.rentInfo,
+            periods: tenant.rentInfo.periods.filter(period => !period.isActive)
+          }
+        };
+      }
+      return tenant;
+    });
   };
+
+  React.useEffect(() => {
+    setTenantData(removeActiveRentPeriods(tenantsData))
+  }, [tenantsData])
+
+  // Determine the maximum number of rent periods in the data
+  React.useEffect(() => {
+    if (tenantData?.length > 0) {
+      const periodsCount = tenantData?.reduce((max, tenant) => {
+        const periods = tenant?.rentInfo?.periods?.length || 0;
+        return periods > max ? periods : max;
+      }, 0);
+      setMaxPeriods(periodsCount);
+    }
+  }, [tenantData]);
+
+  // Generate all possible column headers
+  const allColumns = React.useMemo(() => {
+    const baseColumns = [
+      "Tenant",
+      "Property",
+      "Apartment No",
+      "Address",
+      "Email",
+      "Phone No",
+      "Rent Periods",
+      "Current Rent Period",
+      "Rent Duration (CRP)",
+      "Rent Amount (CRP)",
+      "Status (CRP)"
+    ];
+
+    // Add dynamic rent period columns
+    const periodColumns = [];
+    for (let i = 1; i <= maxPeriods; i++) {
+      periodColumns.push(
+        `Rent Period ${i}`,
+        `Rent Duration (RP${i})`,
+        `Rent Amount (RP${i})`,
+        `Status (RP${i})`
+      );
+    }
+
+    return [...baseColumns, ...periodColumns, "Actions"];
+  }, [maxPeriods]);
+
+  React.useEffect(() => {
+    setVisibleColumns(allColumns);
+  }, [allColumns]);
+
+  const toggleColumnVisibility = (column) => {
+    setVisibleColumns((prev) => {
+      // Toggle column visibility
+      const newVisibleColumns = prev.includes(column)
+        ? prev.filter(c => c !== column)
+        : [...prev, column];
+
+      // Reorder based on allColumns, keeping "Actions" last
+      return [
+        ...allColumns.filter(col =>
+          col !== "Actions" && newVisibleColumns.includes(col)
+        ),
+        ...(newVisibleColumns.includes("Actions") ? ["Actions"] : [])
+      ];
+    });
+  };
+
+  const resetColumnVisibility = () => {
+    setVisibleColumns(allColumns); // Reset to all columns
+  };
+
+  const RefinedData = activeTab
+    ? tenantData
+    : KeptData;
+
+  React.useEffect(() => {
+    setData(tenantData);
+  }, [tenantData]);
+
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: `${"Tenants Data"}`,
+    onAfterPrint: () => console.log("Document printed."),
+  });
 
   const pages = [
     {
@@ -342,9 +161,15 @@ const Tenants = () => {
       name: "All",
       component: (
         <Table
-          tenantsData={tenantsData}
-          usedKeys={usedKeys}
+          tenantData={RefinedData}
           widthRa={widthRa}
+          fetchDataAgain={fetchData}
+          printableRef={printableRef}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          visibleColumns={visibleColumns}
+          loading={loadingTable}
         />
       ),
     },
@@ -353,71 +178,74 @@ const Tenants = () => {
       name: "Due Date",
       component: (
         <Table
-          tenantsData={tenantsData}
-          usedKeys={usedKeys}
+          tenantData={RefinedData}
           widthRa={widthRa}
+          fetchDataAgain={fetchData}
+          printableRef={printableRef}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+          visibleColumns={visibleColumns}
+          currentPage={currentPage}
+          loading={loadingTable}
         />
       ),
     },
   ];
-  const [active, setActive] = React.useState(pages[0].id);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isOpenI, setIsOpenI] = React.useState(false);
   const [isOpenII, setIsOpenII] = React.useState(false);
   const [openStatusFilter, setOpenStatusFilter] = React.useState(false);
   const [openPeroid, setOpenPeriod] = React.useState(false);
   const [openColumns, setOpenColumns] = React.useState(false);
-  const [reachedLimit, setReachedLimit] = React.useState(null);
-  const [inviteTenant, setInviteTenant] = React.useState(false);
-  const [bulkInvite, setBulkInvite] = React.useState(false);
-  const dropdownRef = useClickOutside(() => setInviteTenant(false));
-  const [showNumberOfHouseModal, setShowNumberOfHouseModal] = React.useState(false);
-  const [showMappingSummaryModal, setShowMappingSummaryModal] = React.useState(false);
-  const [openBulkInvite, setOpenBulkInvite] = React.useState(false);
-  const [importData, setImportData] = React.useState(false);
-  const [successfulModal, setSuccessfulModal] = React.useState(false);
-  const [openTenantInvite, setOpenTenantInvite] = React.useState(false);
-  const [openSingleInvite, setOpenSingleInvite] = React.useState(false);
+  const dropdownRefI = useClickOutside(() => setIsOpen(false));
+  const dropdownRefII = useClickOutside(() => setIsOpenI(false));
+  const dropdownRefIII = useClickOutside(() => setIsOpenII(false));
 
-  const estateData = {}
+  const statuses = ["Pending", "Paid", "Over due"];
 
   const handlePageChange = (id) => {
     setActive(id);
   };
 
+  const clear = () => {
+    setSelectedStatus(null);
+    setSelectedDate(null);
+    setSearch(null);
+  };
 
-React.useEffect(() => {
-  if (typeof window !== 'undefined') {
-    setWidth(window.innerWidth);
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }
-}, []);
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setWidth(window.innerWidth);
+      const handleResize = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage, selectedDate, selectedStatus, active]);
+
+  const filteredColumns = allColumns?.filter((column) =>
+    column?.toLowerCase()?.includes(search?.toLowerCase())
+  );
+
+  React.useEffect(() => {
+    let timeout;
+
+    if (data !== null) {
+      setLoading(false);
+    } else {
+      timeout = setTimeout(() => {
+        setLoading(false);
+      }, 20000);
+    }
+    return () => clearTimeout(timeout);
+  }, [data]);
 
   return (
     <div className="mt-6 w-full flex flex-col justify-center items-center">
-      {/* {inviteTenant && (
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal
-            dropdownRef={dropdownRef}
-            property={reachedLimit?.reachedMaxEstates}
-            setInviteTenant={setInviteTenant}
-          />
-        </div>
-      )} */}
-      {/* {bulkInvite &&
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <SingleInvite
-            setSuccessfulModal={setSuccessfulModal}
-            setOpenSingleInvite={setBulkInvite}
-            setOpenTenantInvite={setOpenTenantInvite}
-            estateName={estateData?.name}
-            estateId={estateData?._id} /> :
-
-        </div>
-      } */}
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -430,11 +258,6 @@ React.useEffect(() => {
         draggable
         pauseOnHover
         theme="dark"
-      />
-      <input
-        type='date'
-        ref={dateInputRef}
-        className="hidden"
       />
       <div className='w-full flex justify-start px-4 mb-2'>
         <p className='font-medium text-[20px] text-GrayHomz flex gap-1 items-center'>Tenants <span className='px-2 py-0.5 bg-whiteblue rounded-[8px] text-BlueHomz'>{tenantsData?.length}</span></p>
@@ -450,6 +273,11 @@ React.useEffect(() => {
                   : "bg-whiteblue text-BlueHomz "
                   }`}
                 onClick={() => {
+                  if (page.id === 2) {
+                    setActiveTab(true);
+                  } else {
+                    setActiveTab(false);
+                  }
                   handlePageChange(page.id);
                 }}
               >
@@ -482,24 +310,23 @@ React.useEffect(() => {
               isOpenII &&
               <div className='absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
                 <div className='text-sm text-GrayHomz font-medium flex flex-col gap-0'>
-
-                  <div className='flex gap-1 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                  <div onClick={handlePrint} className='flex gap-1 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
                     <span className='w-3 mt-0.5 mr-1'>
-                      <Share />
-                    </span>
-                    <span className='min-w-[80%]'>
-                      Share Page
-                    </span>
-                  </div>
-                  <div className='flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
-                    <span className='w-3'>
                       <ExportSmall />
                     </span>
-                    <span className='min-w-[80%] flex items-center gap-1'>
-                      Export as
-                      <ArrowDown className="#4E4E4E" />
+                    <span className='min-w-[80%]'>
+                      Download Page
                     </span>
                   </div>
+                  {/* <div className='flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                     <span className='w-3'>
+                       <ExportSmall />
+                     </span>
+                     <span className='min-w-[80%] flex items-center gap-1'>
+                       Export as
+                       <ArrowDown className="#4E4E4E" />
+                     </span>
+                   </div> */}
                 </div>
               </div>
             }
@@ -509,34 +336,41 @@ React.useEffect(() => {
                 {
                   openColumns ?
                     <div className='text-sm text-GrayHomz font-medium'>
+                      {/* Search Input */}
                       <div className='mb-2 flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-2'>
                         <BlueSearch />
                         <input
                           type='text'
                           className='placeholder:text-[#A9A9A9] w-full outline-none'
                           placeholder='Search'
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
                         />
                       </div>
-                      {usedKeys?.map((key, index) => (
-                        <div key={index} id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
-                          {openColumns ? <Ticked /> : <UnTicked />} {key}
+
+                      {/* Column Selection */}
+                      {filteredColumns.map((column, index) => (
+                        <div
+                          key={column}
+                          className={`flex gap-2 items-center cursor-pointer ${index === 0 ? 'mt-0' : 'mt-1.5'}`}
+                          onClick={() => toggleColumnVisibility(column)}
+                        >
+                          {visibleColumns.includes(column) ? <Ticked /> : <UnTicked />} {column}
                         </div>
                       ))}
                     </div> :
                     openStatusFilter ?
                       <div className='text-sm text-GrayHomz font-medium'>
-                        <div className='flex gap-2 items-center'>
-                          {openStatusFilter ? <Ticked /> : <UnTicked />}
-                          Pending
-                        </div>
-                        <div className='flex gap-2 mt-1.5 items-center'>
-                          {!openStatusFilter ? <Ticked /> : <UnTicked />}
-                          Paid
-                        </div>
-                        <div className='flex gap-2 mt-1.5 items-center'>
-                          {openStatusFilter ? <Ticked /> : <UnTicked />}
-                          Over due
-                        </div>
+                        {statuses.map((status) => (
+                          <div
+                            key={status}
+                            className='flex gap-2 mt-1.5 items-center cursor-pointer'
+                            onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
+                          >
+                            {selectedStatus === status ? <Ticked /> : <UnTicked />}
+                            {status}
+                          </div>
+                        ))}
                       </div>
                       : openPeroid ?
                         <div className='text-sm text-GrayHomz font-medium'>
@@ -566,18 +400,34 @@ React.useEffect(() => {
                           </button>
 
                           <button
-                            onClick={handleDateClick}
-                            className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'
+                            className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
                           >
-                            Date    <DateIconTwo />
+                            <input
+                              type='date'
+                              value={selectedDate}
+                              onChange={(e) => setSelectedDate(e.target.value)}
+                              className="w-full py-2 outline-none"
+                              placeholder='Date'
+                            />
                           </button>
-                          <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                            Rent Period    <ArrowDown className="#4E4E4E" />
-                          </button>
+
                           <button
                             onClick={() => setOpenColumns(true)}
                             className='mt-1 text-sm font-normal text-GrayHomz md:hidden flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                             Columns    <ArrowDown className="#4E4E4E" />
+                          </button>
+                          <button
+                            onClick={() => clear()}
+                            className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue hidden md:flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
+                            <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              clear()
+                              resetColumnVisibility()
+                            }}
+                            className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue md:hidden flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
+                            <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
                           </button>
                         </div>
                 }
@@ -596,11 +446,19 @@ React.useEffect(() => {
                           type='text'
                           className='placeholder:text-[#A9A9A9] w-full outline-none'
                           placeholder='Search'
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
                         />
                       </div>
-                      {usedKeys?.map((key, index) => (
-                        <div key={index} id={key} className={`${index === 0 ? "mt-0" : "mt-1.5"} flex gap-2 items-center`}>
-                          {openColumns ? <Ticked /> : <UnTicked />} {key}
+
+                      {/* Column Selection */}
+                      {filteredColumns.map((column, index) => (
+                        <div
+                          key={column}
+                          className={`flex gap-2 items-center cursor-pointer ${index === 0 ? 'mt-0' : 'mt-1.5'}`}
+                          onClick={() => toggleColumnVisibility(column)}
+                        >
+                          {visibleColumns.includes(column) ? <Ticked /> : <UnTicked />} {column}
                         </div>
                       ))}
                     </div>
@@ -615,7 +473,7 @@ React.useEffect(() => {
                         Columns    <ArrowDown className="#4E4E4E" />
                       </button>
                       <button
-                        onClick={() => setOpenColumns(true)}
+                        onClick={() => resetColumnVisibility()}
                         className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
                         <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
                       </button>
