@@ -64,11 +64,9 @@ const MarketerBusinessPage = ({ marketerId }) => {
   const fetchMarketerProfile = () => {
     listingMarketerProfile(marketerId)
       .then((results) => {
-        // console.log(results?.data);
         setData(results?.data);
       })
       .catch((error) => {
-        // console.log(error);
         return error;
       });
   };
