@@ -4,7 +4,7 @@ import useClickOutside from "@/utils/clickOutside";
 import ArrowUpII from "@/components/icons/arrowUpII";
 import ArrowDown from "@/components/icons/arrowDown";
 
-const Dropdown = ({ options, onSelect, selectOption, className, border }) => {
+const Dropdown = ({ value, options, onSelect, selectOption, className, border }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const dropdownRef = useClickOutside(() => setIsOpen(false)); // Use the custom hook
@@ -26,7 +26,7 @@ const Dropdown = ({ options, onSelect, selectOption, className, border }) => {
         onClick={handleDropdownToggle}
       >
         <div className="flex items-center justify-between">
-          <span className={`mr-2 ${selectedOption?.label ? "text-BlackHomz" : "text-GrayHomz2"}`}>{selectedOption?.label || selectOption}</span>
+          <span className={`mr-2 ${(selectedOption?.label || selectedOption) || value ? "text-BlackHomz" : "text-GrayHomz2"}`}>{(selectedOption?.label ? selectedOption.label : selectedOption ? selectedOption : value ? value : selectOption)}</span>
           <div className={`w-5 h-5`}>
             {isOpen ?
               <ArrowUpII className="#4E4E4E" /> :
@@ -38,13 +38,13 @@ const Dropdown = ({ options, onSelect, selectOption, className, border }) => {
 
       {isOpen && (
         <div className=" absolute z-20 top-14 w-full text-GrayHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
-          {options.map((option) => (
+          {options.map((option, index) => (
             <div
-              key={option.id}
+              key={index}
               className=" p-2 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
               onClick={() => handleOptionClick(option)}
             >
-              {option.label}
+              {option.label ?? option}
             </div>
           ))}
         </div>

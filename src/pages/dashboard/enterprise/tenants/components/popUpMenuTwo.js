@@ -22,16 +22,16 @@ function PopUpMenuTwo({
 
 
   return (
-    <div ref={dropdownRef} className="drop-down absolute top-5 md:top-6 z-40  text-GrayHomz font-[500] text-[13px] p-2 right-2 md:right-[8px] border rounded-md bg-white flex flex-col items-center justify-around">
+    <div ref={dropdownRef} className="drop-down absolute top-5 md:top-6 z-[999999] right-2 md:right-[85px]  text-GrayHomz font-[500] text-[13px] p-2 border rounded-md bg-white flex flex-col items-center justify-around">
       <Link
         onMouseEnter={() => setActive(true)}
         onMouseLeave={() => setActive(false)}
         href={`/dashboard/enterprise-property/tenants/profile/${data}`}>
-        {active ? <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[190px] text-center">
+        {active ? <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[140px] text-center">
           <ArrowProfile className='#006AFF' classNameTwo="#006AFF" />
           View Profile
         </div> :
-          <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[190px] text-center">
+          <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[140px] text-center">
             <ArrowProfile />
             View Profile
           </div>

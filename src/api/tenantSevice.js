@@ -166,56 +166,20 @@ export const getSpecificTenantRentInfoOwner = async (id) => {
 
 
 
-export const createSpecificTenantRentInfo = async (id, updatedData) => {
-  const {
-    propertyType,
-    apartmentNumber,
-    rent,
-    duration,
-    startDate,
-    dueDate,
-    paymentStatus,
-    property,
-  } = updatedData;
+export const createSpecificTenantRentInfo = async (id, payload) => {
   try {
-    const response = await api.post(`/rentInformation/${id}`, {
-      propertyType,
-      apartmentNumber,
-      rent,
-      duration,
-      startDate,
-      dueDate,
-      paymentStatus,
-      property,
-    });
+    const response = await api.post(`/rentInformation/${id}`, payload);
     return { success: true, upDateddata: response?.data.data };
   } catch (error) {
     return { success: false, error: error?.response?.data }; // Adjusted this line
   }
 };
 
-export const updateSpecificTenantRentInfo = async (id, updatedData) => {
-  const {
-    propertyType,
-    apartmentNumber,
-    rent,
-    duration,
-    startDate,
-    dueDate,
-    paymentStatus,
-    property,
-  } = updatedData;
+export const updateSpecificTenantRentInfo = async (id, payload) => {
+  console.log(id)
+  console.log(payload)
   try {
-    const response = await api.patch(`/rentInformation/${id}/enterprise`, {
-      propertyType,
-      apartmentNumber,
-      rent,
-      duration,
-      startDate,
-      dueDate,
-      paymentStatus,
-      property,
-    });
+    const response = await api.patch(`/rentInformation/${id}/enterprise`, payload);
     return { success: true, upDateddata: response?.data.data };
   } catch (error) {
     return { success: false, error: error?.response?.data }; // Adjusted this line

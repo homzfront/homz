@@ -8,10 +8,10 @@ const useAllPaymentStore = create((set) => ({
     totalPages: 0,
     currentPage: 1,
     setCurrentPage: (page) => set({ currentPage: page }),
-    fetchData: async (TenantId, page = 1) => {
+    fetchData: async (TenantId, page = 1, startDate, dueDate) => {
         set({ loading: true });
         try {
-            const response = await api.get(`/rentPayment/enterprise/tenant/${TenantId}?limit=3&page=${page}`);
+            const response = await api.get(`/rentPayment/enterprise/tenant/${TenantId}?limit=3&page=${page}&startDate=${startDate}&dueDate=${dueDate}`);
             const result = response?.data;
             set({
                 data: result?.data?.results,

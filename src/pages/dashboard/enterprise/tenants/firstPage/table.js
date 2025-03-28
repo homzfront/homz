@@ -2,10 +2,49 @@ import React from 'react'
 import Pagination from "@/components/general/pagination";
 import Image from 'next/image';
 import Verified from '@/components/icons/verified';
+import EmptyAvatar from '@/components/icons/emptyAvatar';
+import StatusDropdown from "../../components/statusDropDown";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import addCommasToNumber from "@/utils/addCommasToNumber";
+import { updatePaymentStatusTenant } from "@/api/tenantSevice";
+import lowerCaseData from "@/utils/lowerCaseData";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import useClickOutside from "@/utils/clickOutside";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import truncateText from "@/utils/truncateText";
+import PrintableTenantdData from "./printableTenantdData";
+import PopUpMenuTwo from '../components/popUpMenuTwo';
 
-const Table = ({ widthRa, usedKeys, tenantsData }) => {
-    const [currentPage, setCurrentPage] = React.useState(1);
-    let totalPages = 4;
+
+const Table = ({
+    widthRa,
+    tenantData,
+    loading,
+    totalPages,
+    setCurrentPage,
+    currentPage,
+    printableRef,
+    fetchDataAgain,
+    visibleColumns,
+}) => {
+    const [selectedDataId, setSelectedDataId] = React.useState(null);
+    const [popUpMenuTwo, setPopUpMenuTwo] = React.useState(false);
+    const [openDropdowns, setOpenDropdowns] = React.useState({});
+    const [selectedStatus, setSelectedStatus] = React.useState({});
+    const [loadingRows, setLoadingRows] = React.useState({});
+    const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
+    const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
+    const [hoveredRow, setHoveredRow] = React.useState(null);
+
+    const handleMouseEnter = (id) => {
+        setHoveredRow(id);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredRow(null);
+    };
+
     const handlePageClick = (page) => {
         setCurrentPage(page);
     };
@@ -21,67 +60,278 @@ const Table = ({ widthRa, usedKeys, tenantsData }) => {
             setCurrentPage(currentPage - 1);
         }
     };
+
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+
+    const handleStatusChange = async (status, dataId, id, duration) => {
+        setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
+
+
+        try {
+            const data = await updatePaymentStatusTenant({
+                id,
+                status: lowerCaseData(status),
+                duration
+            });
+            toast.success("status updated successfully");
+            // Close the corresponding dropdown
+            setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
+            fetchDataAgain();
+        } catch (error) {
+            toast.error(error);
+        }
+        finally {
+            setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
+        }
+    };
+
+    const toggleDropdown = (dataId) => {
+        setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
+    };
+
+    const handleToggleMenu = (id) => {
+        setPopUpMenuTwo(!popUpMenuTwo);
+        setSelectedDataId(id);
+    };
+
+    // Map header keys to data keys
+    const headerToDataKey = {
+        "Tenant": "fullName",
+        "Property": "estateId.name",
+        "Apartment No": "rentInfo.apartmentNumber",
+        "Address": "estateId.address",
+        "Email": "user.email",
+        "Phone No": "phoneNumber",
+        "Rent Periods": "rentInfo.periods.length",
+        "Current Rent Period": "1",
+        "Rent Duration (CRP)": "rentInfo.duration",
+        "Rent Amount (CRP)": "rentInfo.rent",
+        "Status (CRP)": "rentInfo.paymentStatus",
+        // Dynamic period columns will be handled separately
+    };
+
+    // Get nested property from object
+    const getNestedValue = (obj, path) => {
+        return path.split('.').reduce((o, p) => (o || {})[p], obj);
+    };
+
+    const renderCellContent = (header, row) => {
+        if (loading) {
+            return <div className="w-[50px] h-[15px] rounded bg-gray-200 animate-pulse"></div>;
+        }
+
+        // Handle dynamic rent period columns
+        const periodMatch = header?.match(/Rent Period (\d+)|Rent Duration \(RP(\d+)\)|Rent Amount \(RP(\d+)\)|Status \(RP(\d+)\)/);
+        if (periodMatch) {
+            const periodIndex = parseInt(periodMatch[1] || periodMatch[2] || periodMatch[3] || periodMatch[4]) - 1;
+            const period = row?.rentInfo?.periods?.[periodIndex];
+
+            if (!period) return "______";
+
+            if (header?.startsWith("Rent Period")) {
+                return `${changeBackendDateFormat(period?.startDate)} - ${changeBackendDateFormat(period?.dueDate)}`;
+            } else if (header.startsWith("Rent Duration")) {
+                return `${period.duration} ${period?.durationLength}`;
+            } else if (header.startsWith("Rent Amount")) {
+                return (
+                    <>
+                        <span style={{ fontFamily: "Arial" }}>₦</span>
+                        {addCommasToNumber(period?.rent)}
+                    </>
+                );
+            } else if (header.startsWith("Status")) {
+                return (
+                    <StatusDropdown
+                        setSelectedStatus={(status) =>
+                            setSelectedStatus((prev) => ({
+                                ...prev,
+                                [row._id]: status,
+                            }))
+                        }
+                        value={capitalizeFirstLetter(period?.paymentStatus)}
+                        selectedStatus={selectedStatus[row?._id] || null}
+                        handleStatusChange={(status) =>
+                            handleStatusChange(status, row?._id, row?.rentInfo?._id, period?.duration)
+                        }
+                        isOpen={openDropdowns[row?._id] || false}
+                        toggleDropdown={() => toggleDropdown(row?._id)}
+                        loading={loadingRows[row?._id] || false}
+                        dropdownRef={dropdownRefII}
+                    />
+                );
+            }
+        }
+
+        // Handle special cases
+        switch (header) {
+            case 'Tenant':
+                return (
+                    <div className="flex items-center gap-1 text-GrayHomz4 font-[500]">
+                        {!row?.coverPhoto?.url ? (
+                            <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
+                                <EmptyAvatar />
+                            </div>
+                        ) : (
+                            <Image
+                                src={row?.coverPhoto?.url}
+                                alt=""
+                                width={40}
+                                height={40}
+                                layout="full"
+                                objectFit="cover"
+                                objectPosition="center"
+                                className="object-cover bg-center h-[40px] rounded-full"
+                                priority
+                            />
+                        )}
+                        <span className="w-[60%] md:w-auto">{row?.fullName || "______"}</span>
+                    </div>
+                );
+
+            case 'Address':
+                return (
+                    <div onMouseEnter={() => handleMouseEnter(row?._id)}
+                        onMouseLeave={handleMouseLeave}
+                        className="w-full relative">
+                        {truncateText(row?.estateId?.address, 45)}
+                        {hoveredRow === row?._id && (
+                            <span className="absolute bg-black text-white text-[10px] rounded p-1 z-10 top-full left-0 max-w-xs w-max">
+                                {row?.estateId?.address}
+                            </span>
+                        )}
+                    </div>
+                );
+
+            case 'Apartment No':
+                return row?.rentInfo?.apartmentNumber ? `Apartment ${row?.rentInfo.apartmentNumber}` : "______";
+
+            case 'Current Rent Period':
+                const currentPeriod = row?.rentInfo?.startDate === undefined ? null : row?.rentInfo;
+                return currentPeriod
+                    ? `${changeBackendDateFormat(currentPeriod?.startDate)} - ${changeBackendDateFormat(currentPeriod?.dueDate)}`
+                    : "______";
+
+            case 'Rent Duration (CRP)':
+                const crp = row?.rentInfo?.duration === undefined ? null : row?.rentInfo?.duration
+                return crp > 0 ? `${crp} ${crp === 1 ? "month" : "months"}` : "______";
+
+            case 'Rent Amount (CRP)':
+                const activeRent = row?.rentInfo.rent === undefined ? null : row?.rentInfo.rent
+                return activeRent ? (
+                    <>
+                        <span style={{ fontFamily: "Arial" }}>₦</span>
+                        {addCommasToNumber(activeRent)}
+                    </>
+                ) : "______";
+
+            case 'Status (CRP)':
+                const activeStatus = row?.rentInfo?.paymentStatus === undefined ? null : row?.rentInfo?.paymentStatus
+                return activeStatus ? (
+                    <StatusDropdown
+                        setSelectedStatus={(status) =>
+                            setSelectedStatus((prev) => ({
+                                ...prev,
+                                [row._id]: status,
+                            }))
+                        }
+                        value={capitalizeFirstLetter(activeStatus)}
+                        selectedStatus={selectedStatus[row._id] || null}
+                        handleStatusChange={(status) =>
+                            handleStatusChange(status, row._id, row?.rentInfo?._id, activeStatus)
+                        }
+                        isOpen={openDropdowns[row?._id] || false}
+                        toggleDropdown={() => toggleDropdown(row?._id)}
+                        loading={loadingRows[row?._id] || false}
+                        dropdownRef={dropdownRefII}
+                    />
+                ) : "______";
+
+            case 'Actions':
+                return (
+                    <div className="relative bg-white w-[40%] pl-8">
+                        <button onClick={() => handleToggleMenu(row?._id)}>
+                            <Image
+                                src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                alt=""
+                                height={21}
+                                width={20}
+                                style={{ height: "auto", width: "auto" }}
+                                className='z-10 min-w-[10px]'
+                            />
+                        </button>
+                        {popUpMenuTwo && selectedDataId === row?._id && (
+                            <PopUpMenuTwo dropdownRef={dropdownRef} data={row?._id} />
+                        )}
+                    </div>
+                );
+
+            default:
+                // Handle other columns using the mapping
+                const dataKey = headerToDataKey[header];
+                if (dataKey) {
+                    const value = getNestedValue(row, dataKey);
+                    return value !== undefined && value !== null ? value?.toString() : "______";
+                }
+                return "______";
+        }
+    };
+
     return (
-        <div className='w-full '>
+        <div className='w-full'>
+            {/* Column visibility dropdown */}
+            {/* <div className="mb-4">
+                <label className="mr-2">Visible Columns:</label>
+                <select
+                    multiple
+                    className="border p-2 rounded"
+                    value={visibleColumns}
+                    onChange={(e) => {
+                        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                        selectedOptions.forEach((column) => toggleColumnVisibility(column));
+                    }}
+                >
+                    {allColumns.map((column) => (
+                        <option
+                            key={column}
+                            className={visibleColumns.includes(column) ? "bg-successBg" : "bg-whiteblue"}
+                            value={column}
+                        >
+                            {column}
+                        </option>
+                    ))}
+                </select>
+            </div> */}
+
+
+
             <div className={`${widthRa >= 1440 ? "md:max-w-[1130px] " : widthRa >= 1375 ? "md:max-w-[1080px] " : "md:max-w-[1045px]"} max-w-[350px] w-full md:w-auto`}>
                 <div className={`w-full overflow-x-auto scrollbar-container`}>
                     <div className="w-[800%] md:w-[450%]">
                         <div className="w-full border rounded-t-[12px]">
+                            {/* Table Headers */}
                             <div className="bg-whiteblue h-[60px] text-[11px] grid justify-center items-center font-[500] text-BlackHomz px-2 rounded-t-[12px]"
-                                style={{ gridTemplateColumns: `repeat(${usedKeys.length}, minmax(100px, 1fr))` }}
+                                style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                             >
-                                {/* Table Headers */}
-                                {usedKeys.map((key) => (
-                                    <div key={key} className="">
-                                        {key === "Actions" ? "" : key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                                {visibleColumns && visibleColumns?.map(header => (
+                                    <div key={header} className="">
+                                        {header === "Actions" ? "" : header}
                                     </div>
                                 ))}
                             </div>
 
+
                             {/* Table Body */}
                             <div className='text-[11px] font-normal text-GrayHomz'>
-                                {tenantsData.map((row, rowIndex) => (
-                                    <div key={rowIndex} className="relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
-                                        style={{ gridTemplateColumns: `repeat(${usedKeys.length}, minmax(100px, 1fr))` }}
+                                {tenantData && tenantData?.map((row, rowIndex) => (
+                                    <div
+                                        key={row?._id || rowIndex}
+                                        className="relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
+                                        style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                                     >
-                                        {usedKeys.map((key) => (
-                                            <div key={key} className="">
-                                                {key === "Actions" ? (
-                                                    <div className="sticky right-[-24px] md:right-0 bg-white w-[40%] pl-8">
-                                                        <button onClick={() => console.log("Action for", row.id)}>
-                                                            <Image
-                                                                src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                                                alt="Actions"
-                                                                height={21}
-                                                                width={20}
-                                                                className='z-50'
-                                                                style={{ height: "auto", width: "auto" }}
-                                                            />
-                                                        </button>
-                                                    </div>
-                                                ) : key === "name" ?
-                                                    (
-                                                        <div className='flex gap-2 items-center'>
-                                                            <Image
-                                                                src={row["profile"]}
-                                                                alt="profile-img"
-                                                                height={40}
-                                                                width={40}
-                                                            />
-                                                            {row[key]}
-                                                        </div>
-                                                    ) :
-                                                    key === "property" ? (
-                                                        <div className='flex items-center gap-2'>
-                                                            <Verified />
-                                                            {row[key]}
-                                                        </div>
-                                                    )
-                                                        : (
-                                                            row[key] && row[key] !== "" ? row[key] : "N/A"
-                                                        )}
+                                        {visibleColumns && visibleColumns?.map(header => (
+                                            <div key={`${row?._id}-${header}`} className="">
+                                                {renderCellContent(header, row)}
                                             </div>
                                         ))}
                                     </div>
@@ -91,7 +341,7 @@ const Table = ({ widthRa, usedKeys, tenantsData }) => {
                     </div>
                 </div>
                 <div className='w-full mt-2'>
-                    {tenantsData && tenantsData.length >= 1 && (
+                    {tenantData && tenantData?.length >= 1 && (
                         <Pagination
                             firstThreePages={firstThreePages}
                             currentPage={currentPage}
@@ -104,9 +354,15 @@ const Table = ({ widthRa, usedKeys, tenantsData }) => {
                         />
                     )}
                 </div>
+                      <div style={{ display: 'none' }}>
+                        <PrintableTenantdData
+                          printableRef={printableRef}
+                          Data={tenantData}
+                        />
+                      </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Table
+export default Table;

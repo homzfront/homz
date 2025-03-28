@@ -227,7 +227,7 @@ const MobileProfile = ({
                                 fetchRentInformation={fetchRentInformation}
                                 reFetchSummaryData={reFetchSummaryData}
                             /> */}
-                             <RentPeriodForm />
+                            <RentPeriodForm fetchRentInformation={fetchRentInformation} rentInfo={rentInfo} tenantData={tenantData} />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHis

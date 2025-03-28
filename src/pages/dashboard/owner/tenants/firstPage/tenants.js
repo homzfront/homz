@@ -324,7 +324,7 @@ const Tenants = () => {
 
 
   // Extract all unique keys
-  const [widthRa, setWidth] = React.useState(window.innerWidth);
+  const [widthRa, setWidth] = React.useState(0);
   const allKeys = [...new Set(tenantsData.flatMap(Object.keys)), "Actions"];
   const usedKeys = allKeys.filter((key) => key !== "id" && key !== "profile");
 
@@ -386,11 +386,14 @@ const Tenants = () => {
   };
 
 
-  React.useEffect(() => {
+React.useEffect(() => {
+  if (typeof window !== 'undefined') {
+    setWidth(window.innerWidth);
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }
+}, []);
 
 
   return (

@@ -12,7 +12,7 @@ import PaymentRefetchTenant from "@/store/enterpriseStore/paymentRefetchTenant";
 import useOfflinePaymentStore from "@/store/enterpriseStore/useOfflinePaymentStore";
 
 
-const OfflinePayment = ({ TenantId, TenantData, reFetchSummaryData }) => {
+const OfflinePayment = ({ TenantId, TenantData, reFetchSummaryData, selectedOption }) => {
     const {
         data: currentData,
         loading,
@@ -66,9 +66,9 @@ const OfflinePayment = ({ TenantId, TenantData, reFetchSummaryData }) => {
 
     useEffect(() => {
         if (TenantId) {
-            fetchData(TenantId, currentPage);
+            fetchData(TenantId, currentPage, selectedOption?.startDate, selectedOption?.dueDate);
         }
-    }, [TenantId, currentPage, fetchData, Refetch]);
+    }, [TenantId, currentPage, fetchData, Refetch, selectedOption]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
