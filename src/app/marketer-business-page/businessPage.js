@@ -75,8 +75,6 @@ const MarketerBusinessPage = ({ marketerId }) => {
     fetchMarketerProfile();
   }, []);
 
-  //  console.log(data);
-
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
@@ -107,7 +105,6 @@ const MarketerBusinessPage = ({ marketerId }) => {
 
     try {
       await navigator.share(shareData);
-      // console.log("Page shared successfully!");
     } catch (err) {
       console.error("Error sharing the page:", err);
     }
