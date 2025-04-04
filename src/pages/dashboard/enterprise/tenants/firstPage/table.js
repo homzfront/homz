@@ -27,6 +27,7 @@ const Table = ({
     printableRef,
     fetchDataAgain,
     visibleColumns,
+    mainTenantData
 }) => {
     const [selectedDataId, setSelectedDataId] = React.useState(null);
     const [popUpMenuTwo, setPopUpMenuTwo] = React.useState(false);
@@ -64,22 +65,22 @@ const Table = ({
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
 
-    const handleStatusChange = async (status, dataId, id, duration) => {
+    const handleStatusChange = async (status, dataId, id, duration, row) => {
         setLoadingRows((prev) => ({ ...prev, [dataId]: true }));
-
-
+        const mainValue = mainTenantData?.[0]?.data?.filter((data) => data._id === row?._id)
         try {
             const data = await updatePaymentStatusTenant({
                 id,
                 status: lowerCaseData(status),
-                duration
+                duration: row?.rentInfo?.duration,
+                periods: mainValue?.[0]?.rentInfo?.periods
             });
             toast.success("status updated successfully");
             // Close the corresponding dropdown
             setOpenDropdowns((prev) => ({ ...prev, [dataId]: false }));
             fetchDataAgain();
         } catch (error) {
-            toast.error(error);
+            toast.error(error?.response?.data?.error?.message)
         }
         finally {
             setLoadingRows((prev) => ({ ...prev, [dataId]: false }));
@@ -151,11 +152,8 @@ const Table = ({
                         }
                         value={capitalizeFirstLetter(period?.paymentStatus)}
                         selectedStatus={selectedStatus[row?._id] || null}
-                        handleStatusChange={(status) =>
-                            handleStatusChange(status, row?._id, row?.rentInfo?._id, period?.duration)
-                        }
                         isOpen={openDropdowns[row?._id] || false}
-                        toggleDropdown={() => toggleDropdown(row?._id)}
+                        toggleDropdown={() => { }}
                         loading={loadingRows[row?._id] || false}
                         dropdownRef={dropdownRefII}
                     />
@@ -238,7 +236,7 @@ const Table = ({
                         value={capitalizeFirstLetter(activeStatus)}
                         selectedStatus={selectedStatus[row._id] || null}
                         handleStatusChange={(status) =>
-                            handleStatusChange(status, row._id, row?.rentInfo?._id, activeStatus)
+                            handleStatusChange(status, row._id, row?.rentInfo?._id, activeStatus, row)
                         }
                         isOpen={openDropdowns[row?._id] || false}
                         toggleDropdown={() => toggleDropdown(row?._id)}
@@ -354,12 +352,12 @@ const Table = ({
                         />
                     )}
                 </div>
-                      <div style={{ display: 'none' }}>
-                        <PrintableTenantdData
-                          printableRef={printableRef}
-                          Data={tenantData}
-                        />
-                      </div>
+                <div style={{ display: 'none' }}>
+                    <PrintableTenantdData
+                        printableRef={printableRef}
+                        Data={tenantData}
+                    />
+                </div>
             </div>
         </div>
     );

@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import Widget from "./widget.js";
 import ProfileCard from "./profileCard.js";
 import Image from "next/image.js";
-import { fetchSpecificTenantOwner } from "@/api/tenantSevice.js";
+import { fetchSpecificTenantOwner, getSpecificTenantRentInfoOwner } from "@/api/tenantSevice.js";
 import MobileProfile from "./components/mobileProfile.js";
 import LoadingII from "@/components/mainmenu/loadingII.js";
 import WidgetKYC from "./components/widgetKYC.js";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import { useReactToPrint } from "react-to-print";
 
 const TenantProfile = ({ id }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rentInfo, setRentInfo] = useState(null);
   const [openKYC, setOpenKYC] = React.useState(false);
 
   useEffect(() => {
@@ -26,17 +28,33 @@ const TenantProfile = ({ id }) => {
     rentInformation();
   }, [])
 
-  const handlePrint = () => {
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+    documentTitle: `${data?.data?.fullName}-KYC`,
+    onAfterPrint: () => console.log("KYC printed."),
+  });
 
-  }
-  const tenantData = []
+  const fetchRentInformation = async () => {
+    try {
+      const response = await getSpecificTenantRentInfoOwner(
+        `${data?.data?.rentInfo?._id}`
+      );
+      const rentInfo = response;
+      setRentInfo(rentInfo);
+    } catch (error) {
+    }
+  };
+
+  useEffect(() => {
+    fetchRentInformation();
+  }, [data?.data]);
 
   return (
     <div className="max-w-full">
       {
         openKYC &&
         <CustomizedModal isOpen={openKYC} onRequestClose={() => setOpenKYC(false)}>
-          <WidgetKYC setOpenKYC={setOpenKYC} handlePrint={handlePrint} data={tenantData} />
+          <WidgetKYC setOpenKYC={setOpenKYC} handlePrint={handlePrint} data={data} />
         </CustomizedModal>
       }
       {
@@ -59,13 +77,14 @@ const TenantProfile = ({ id }) => {
                   <ProfileCard data={data} setOpenKYC={setOpenKYC} />
                 </div>
                 <div className="w-[65%]">
-                  <Widget data={data} />
+                  <Widget rentInfo={rentInfo} data={data} />
                 </div>
               </div>
             </div>
             <div className="md:hidden">
               <MobileProfile
                 data={data}
+                rentInfo={rentInfo}
                 setOpenKYC={setOpenKYC} />
             </div>
           </div>

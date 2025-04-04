@@ -13,7 +13,7 @@ import Verified from '@/components/icons/verified';
 import RentPeriodForm from './rentPeriodForm';
 import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 
-const MobileProfile = ({ data, setOpenKYC, }) => {
+const MobileProfile = ({ data, rentInfo, setOpenKYC, }) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
     const [showWidget, setShowWidget] = useState(false);
@@ -47,8 +47,6 @@ const MobileProfile = ({ data, setOpenKYC, }) => {
         setActiveTwo(false);
         setActive(false);
     };
-
-    const status = "approved"
 
     return (
         <div className='p-8 flex flex-col gap-2'>
@@ -109,7 +107,10 @@ const MobileProfile = ({ data, setOpenKYC, }) => {
                             {/* <RentInformation
                                 profile={data}
                             /> */}
-                            <RentPeriodForm />
+                            <RentPeriodForm
+                                profile={data}
+                                rentInfo={rentInfo}
+                            />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHistory
@@ -153,7 +154,7 @@ const MobileProfile = ({ data, setOpenKYC, }) => {
                                 )}
                             </div>
                             <h1 className="font-[700] flex gap-1 items-center my-2 text-[20px] text-GrayHomz">
-                                {data?.data?.fullName} <Verified />
+                                {data?.data?.fullName} {data?.data?.verification?.status === "approved" && <Verified />}
                             </h1>
                         </div>
                         <div className="mt-2 flex flex-col gap-2">
@@ -176,14 +177,14 @@ const MobileProfile = ({ data, setOpenKYC, }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className={`bg-[#FFFFFF] rounded-[8px] mt-2 p-4 text-sm font-normal ${status === "" ? "" : ""}`}>
+                        <div className={`bg-[#FFFFFF] rounded-[8px] mt-2 p-4 text-sm font-normal ${data?.data?.verification?.status ? "" : "hidden"}`}>
                             <p className="text-[13px] text-BlackHomz pb-2 w-[34%]">
                                 Tenant KYC
                             </p>
-                            <div className={`flex gap-2 ${status === "approved" ? "bg-successBg" : status === "pending" ? " bg-warningBg" : "bg-[#fffbfb]"} rounded-[4px] p-2 w-full`}>
-                                <button className={`w-[54%] h-[45px] rounded-[4px] flex justify-start items-center gap-2 ${status === "approved" ? "text-Success" : status === "pending" ? " text-warning" : "text-error"}`}>
-                                    {status === "approved" ? <TickSuccess /> : status === "pending" ? <WarningIcon /> : <WarningIcon className="#d92d20" />}
-                                    {status === "approved" ? "Approved" : status === "pending" ? "Pending" : "Rejected"}
+                            <div className={`flex gap-2 ${data?.data?.verification?.status === "approved" ? "bg-successBg" : data?.data?.verification?.status === "pending" ? " bg-warningBg" : "bg-[#fffbfb]"} rounded-[4px] p-2 w-full`}>
+                                <button className={`w-[54%] h-[45px] rounded-[4px] flex justify-start items-center gap-2 ${data?.data?.verification?.status === "approved" ? "text-Success" : data?.data?.verification?.status === "pending" ? " text-warning" : "text-error"}`}>
+                                    {data?.data?.verification?.status === "approved" ? <TickSuccess /> : data?.data?.verification?.status === "pending" ? <WarningIcon /> : <WarningIcon className="#d92d20" />}
+                                    {data?.data?.verification?.status === "approved" ? "Approved" : data?.data?.verification?.status === "pending" ? "Pending" : "Rejected"}
                                 </button>
                                 <button onClick={() => setOpenKYC(true)} className="w-[46%] px-1 h-[45px] rounded-[4px] bg-whiteblue text-BlueHomz flex justify-center items-center gap-2">
                                     View KYC

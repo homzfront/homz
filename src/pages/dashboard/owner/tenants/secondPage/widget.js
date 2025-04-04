@@ -5,7 +5,7 @@ import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
 import RentPeriodForm from "./components/rentPeriodForm";
 
-const Widget = ({ data }) => {
+const Widget = ({ data, rentInfo }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -65,10 +65,10 @@ const Widget = ({ data }) => {
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
             {/* <RentInfo profile={data} active={active} /> */}
-            <RentPeriodForm profile={data}/>
+            <RentPeriodForm rentInfo={rentInfo} profile={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <PaymentHis data={data} />
+            <PaymentHis data={data} rentInfo={rentInfo}/>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <Maintenance tenantData={data} />

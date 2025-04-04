@@ -20,16 +20,16 @@ import { toast } from "react-toastify";
 import { addDurationToDate, convertToNigeriaTime } from "@/utils/addDuration";
 import { createSpecificTenantRentInfo, updateSpecificTenantRentInfo } from "@/api/tenantSevice";
 import { debounce } from "lodash";
+import LoadingFormIII from "@/components/mainmenu/loadingFormIII";
 
 export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantData }) {
-  console.log(rentInfo?.upDateddata)
   const [showForm, setShowForm] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showData, setShowData] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showConfirmSuccessModal, setShowConfirmSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dontHideForm, setDontHideForm]  = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(null);
   const [formData, setFormData] = useState({
     propertyType: "",
@@ -46,9 +46,6 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
       },
     ],
   });
-
-  console.log(formData)
-  console.log(selectedPeriod)
 
   const [openDropDown, setOpenDropDown] = useState({});
 
@@ -111,18 +108,13 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
   const onSubmit = async () => {
     try {
       setLoading(true);
-      console.log(formData);
 
       const removedFormData = {
         ...formData,
         periods: formData?.periods?.filter((period) => period.id !== selectedPeriod.id),
       };
 
-      console.log(removedFormData);
-
       const cleanFormData = cleanObject(showDeleteModal ? removedFormData : formData);
-
-      console.log(cleanFormData)
 
       const hasActive = cleanFormData.periods.some(period => period.isActive); // Check if any period is active
 
@@ -133,8 +125,6 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           isActive: index === 0, // Set the first period to active
         }));
       }
-
-      console.log(cleanFormData);
 
       const activePeriod = cleanFormData.periods.find((data) => data.isActive === true);
 
@@ -152,7 +142,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           paymentStatus: paymentStatus?.toLowerCase(),
         })),
       };
-      console.log(finalFormData)
+
       if (rentInfo?.upDateddata) {
         const id = rentInfo?.upDateddata?._id;
         const { success, upDateddata, error } = await updateSpecificTenantRentInfo(id, finalFormData);
@@ -266,8 +256,9 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           button={"Close"}
           returnHome={() => {
             setShowConfirmSuccessModal(false);
-            setShowData(true);
-            setShowForm(false);
+            if (!dontHideForm) {
+              setShowForm(false);
+            }
           }}
         />
       </CustomizedModal>
@@ -282,7 +273,6 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           returnHome={() => {
             setShowConfirmDeleteModal(false);
             setShowForm(false);
-            setShowData(false);
           }}
         />
       </CustomizedModal>
@@ -523,10 +513,21 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                     </div>
                     <div className="flex justify-between mt-6 text-sm font-normal">
                       <div className='flex items-center gap-2'>
-                        <button className={`border border-BlueHomz text-BlueHomz hover:bg-whiteblue py-2 px-4 rounded-[4px]`}>
-                          Save
+                        <button
+                          onClick={() => {
+                            onSubmit()
+                            const addIndex = {
+                              ...period,
+                              index: index + 1
+                            }
+                            setSelectedPeriod(addIndex)
+                            setDontHideForm(true)
+                          }}
+                          className={`min-w-[68px] border border-BlueHomz text-BlueHomz hover:bg-whiteblue py-2 px-4 rounded-[4px] flex justify-center items-center ${loading ? "pointer-events-none" : ""}`}>
+                          {loading && selectedPeriod?.index === index + 1 ? <LoadingFormIII /> : "Save"}
                         </button>
                         <button
+                          onClick={() => toggleDropDown(index)}
                           className={`hover:text-white hover:bg-[#4bb2e5] text-BlueHomz rounded-[4px] px-4 py-2`}>
                           Cancel
                         </button>
@@ -591,6 +592,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                   <button
                     onClick={() => {
                       setShowSuccessModal(true)
+                      setDontHideForm(false)
                     }}
                     className="rounded-[4px] px-4 py-2 text-white bg-BlueHomz w-full md:w-auto hover:border hover:border-BlueHomz hover:bg-transparent hover:text-BlueHomz"
                   >

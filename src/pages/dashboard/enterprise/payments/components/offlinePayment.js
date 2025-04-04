@@ -19,14 +19,15 @@ const OfflinePayment = () => {
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
     const [updateForm, setUpdateForm] = useState(false);
-      const [showReceipt, setShowReceipt] = useState(false);
+    const [showReceipt, setShowReceipt] = useState(false);
     const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const dropdownRef = useRef(null);
     const { Refetch } = RefetchPayment();
     const {
         selectedProperty,
-        selectedDate
+        fromDate,
+        toDate,
     } = usePaymentFilterStore();
 
 
@@ -72,7 +73,7 @@ const OfflinePayment = () => {
         setSelectedDataId(id);
         setDeleteModal(!deleteModal)
     }
-    
+
     const fetchData = async (page) => {
         setLoading(true);
         try {
@@ -80,8 +81,8 @@ const OfflinePayment = () => {
             if (selectedProperty) {
                 query += `&property=${selectedProperty}`;
             }
-            if (selectedDate) {
-                query += `&date=${selectedDate}`;
+            if (fromDate && toDate) {
+                query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
             }
             const response = await api.get(query);
             const result = response?.data;
@@ -93,10 +94,10 @@ const OfflinePayment = () => {
             console.error("Error fetching data:", error);
         }
     };
-    
+
     useEffect(() => {
         fetchData(currentPage);
-    }, [currentPage, selectedProperty, selectedDate, Refetch]);
+    }, [currentPage, selectedProperty, fromDate, toDate, Refetch]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);
@@ -118,9 +119,9 @@ const OfflinePayment = () => {
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
 
     const showReceiptOffline = (id) => {
-    setSelectedDataId(id);
-    setShowReceipt(true)
-  }
+        setSelectedDataId(id);
+        setShowReceipt(true)
+    }
 
 
     return (
@@ -172,7 +173,7 @@ const OfflinePayment = () => {
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">{data?.estateId?.name}</td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rent)}
+                                            <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.rent)}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {changeBackendDateFormat(data?.dueDate)}
@@ -189,7 +190,7 @@ const OfflinePayment = () => {
                                             )}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                        <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amountPaid)}
+                                            <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amountPaid)}
                                         </td>
                                         <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                             {data?.description || "N/A"}

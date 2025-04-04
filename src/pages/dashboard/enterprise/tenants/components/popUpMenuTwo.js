@@ -5,6 +5,7 @@ import Delete from '@/components/icons/delete';
 import Reminder from '@/components/icons/reminder';
 import Access from '@/components/icons/access';
 import ArrowProfile from '@/components/icons/arrowProfile';
+import SimpleAvatar from '@/components/icons/simpleAvatar';
 
 function PopUpMenuTwo({
   data,
@@ -28,11 +29,11 @@ function PopUpMenuTwo({
         onMouseLeave={() => setActive(false)}
         href={`/dashboard/enterprise-property/tenants/profile/${data}`}>
         {active ? <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[140px] text-center">
-          <ArrowProfile className='#006AFF' classNameTwo="#006AFF" />
+          <SimpleAvatar className='#006AFF' classNameTwo="#006AFF" />
           View Profile
         </div> :
           <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1  rounded-sm w-[140px] text-center">
-            <ArrowProfile />
+            <SimpleAvatar />
             View Profile
           </div>
         }

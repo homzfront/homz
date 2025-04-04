@@ -7,8 +7,6 @@ import React from "react";
 
 const ProfileCard = ({ data, setOpenKYC }) => {
 
-  const status = "approved"
-
   return (
     <div className="w-[350px] h-auto py-4 px-6 shadow-md bg-white rounded-[12px]">
       <div className="w-full flex justify-center">
@@ -18,7 +16,7 @@ const ProfileCard = ({ data, setOpenKYC }) => {
             height={198}
             width={198}
             alt=""
-            layout="full" // Specify the desired height
+            layout="full"
             objectFit="cover"
             objectPosition="center"
             className="object-cover bg-center h-[198px] rounded-full"
@@ -37,10 +35,10 @@ const ProfileCard = ({ data, setOpenKYC }) => {
         )}
       </div>
       <div className="flex justify-center items-center gap-2 w-ful">
-        <h1 className="font-[700] my-4 text-[20px] text-GrayHomz">
+        <h1 className="font-[700] my-4 text-[20px] flex items-center gap-1 text-GrayHomz">
           {data?.data?.fullName}
         </h1>
-        <Verified />
+        {data?.data?.verification?.status === "approved" && <Verified />}
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between gap-3">
@@ -62,14 +60,14 @@ const ProfileCard = ({ data, setOpenKYC }) => {
           </p>
         </div>
       </div>
-      <div className={`bg-[#F6F6F6] rounded-[8px] mt-2 p-4 text-sm font-normal ${status === "" ? "" : ""}`}>
+      <div className={`bg-[#F6F6F6] rounded-[8px] mt-2 p-4 text-sm font-normal ${data?.data?.verification?.status ? "" : "hidden"}`}>
         <p className="text-[13px] text-BlackHomz pb-2 w-[34%]">
           Tenant KYC
         </p>
         <div className="flex gap-2 bg-white rounded-[4px] p-2 w-full">
-          <button className={`w-[56%] h-[45px] rounded-[4px] flex justify-start items-center gap-2 ${status === "approved" ? "text-Success" : status === "pending" ? " text-warning" : "text-error"}`}>
-            {status === "approved" ? <TickSuccess /> : status === "pending" ? <WarningIcon /> : <WarningIcon className="#d92d20" />}
-            {status === "approved" ? "Approved" : status === "pending" ? "Pending" : "Rejected"}
+          <button className={`w-[56%] h-[45px] rounded-[4px] flex justify-start items-center gap-2 ${data?.data?.verification?.status === "approved" ? "text-Success" : data?.data?.verification?.status === "pending" ? " text-warning" : "text-error"}`}>
+            {data?.data?.verification?.status === "approved" ? <TickSuccess /> : data?.data?.verification?.status === "pending" ? <WarningIcon /> : <WarningIcon className="#d92d20" />}
+            {data?.data?.verification?.status === "approved" ? "Approved" : data?.data?.verification?.status === "pending" ? "Pending" : "Rejected"}
           </button>
           <button onClick={() => setOpenKYC(true)} className="px-1 w-[44%] h-[45px] rounded-[4px] bg-whiteblue text-BlueHomz flex justify-center items-center gap-2">
             View KYC

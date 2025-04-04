@@ -187,11 +187,12 @@ export const updateSpecificTenantRentInfo = async (id, payload) => {
   }
 };
 
-export const updatePaymentStatusTenant = async ({ id, status, duration }) => {
+export const updatePaymentStatusTenant = async ({ id, status, duration, periods }) => {
   try {
     const response = await api.patch(`/rentInformation/${id}/status`, {
       paymentStatus: status,
-      duration
+      duration,
+      periods
     });
     return response.data;
   } catch (error) {

@@ -60,7 +60,6 @@ const Widget = ({
               rentInfo={rentInfo}
               fetchRentInformation={fetchRentInformation}
               reFetchSummaryData={reFetchSummaryData}
-              paymentData={paymentData}
             />
           )}
           {step === 2 && <Maintenance tenantData={tenantData} />}

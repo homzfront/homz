@@ -40,9 +40,6 @@ const PaymentHis = ({
   const periods = rentInfo?.upDateddata?.periods || [];
 
   const sortedPeriods = periods?.sort((a, b) => b.isActive - a.isActive);
-  console.log(selectedOption)
-  console.log(sortedPeriods);
-  console.log(rentInfo)
 
   React.useEffect(() => {
     fetchData(rentInfo?.upDateddata?.tenantId?._id, selectedOption?.startDate, selectedOption?.dueDate, selectedOption?.rent)
