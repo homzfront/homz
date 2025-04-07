@@ -20,9 +20,13 @@ import useCSVFileStore from "@/store/document/useCSVFileStore";
 import useTenantForInvite from "@/store/enterpriseStore/useTenantForInvite";
 import ExceedTenant from "../importTenant/components/ExceedTenant";
 import ImportSummary from "../importTenant/components/importSummary";
+import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
- const { setOpenMapping} = useCSVFileStore();
+  const { setEstateData } = useTenantOfAnEstate()
+  const { setOpenMapping } = useCSVFileStore();
   const { setTab } = useEditPropertyTab();
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -35,7 +39,8 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const [openBulkInvite, setOpenBulkInvite] = useState(false);
   const dropdownRef = useClickOutside(() => {
     setOpenMapping(false)
-    setOpenTenantInvite(false)});
+    setOpenTenantInvite(false)
+  });
   const [successfulModal, setSuccessfulModal] = useState(false);
   const [importData, setImportData] = useState(false);
   const { setCSVFile, CSVFile, setEstateId, response } = useCSVFileStore();
@@ -44,11 +49,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const [unimportedTenantModal, setUnimportedTenantModal] = useState(false);
   const [showMappingSummaryModal, setShowMappingSummaryModal] = useState(false);
   const [unimportedTenantRentModal, setUnimportedTenantRentModal] = useState(false);
-
-  console.log(showNumberOfHouseModal)
-  console.log(estateData)
-  console.log(CSVFile);
-  console.log(response?.data?.successfulUploads)
+  const router = useRouter()
 
   return (
     <div className="z-20 drop-down absolute text-GrayHomz py-2 font-[500] top-5 md:top-8 right-1 md:right-2 border h-auto w-[150px] md:w-[218px] rounded-lg bg-white flex flex-col items-center justify-around">
@@ -77,7 +78,13 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
         onMouseEnter={() => setActiveTwo(true)}
         onMouseLeave={() => setActiveTwo(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full ">
-        <Link className="w-full" href={`/dashboard/enterprise-property/estates/tenants/${estateData?._id}`}>
+        <div
+          onClick={() => {
+            setEstateData(estateData)
+            router.push(`/dashboard/enterprise-property/estates/tenants/${estateData?._id}`)
+          }}
+          className="w-full cursor-pointer"
+        >
           {activeTwo ?
             <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
               <PeopleTenant className='#006AFF' />
@@ -92,13 +99,15 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
               </p>
             </div>
           }
-        </Link>
+        </div>
       </div>
-      <div
+      {/* <div
         onMouseEnter={() => setActiveSeven(true)}
         onMouseLeave={() => setActiveSeven(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full cursor-pointer">
-        <div className="w-full" onClick={() => setOpenTenantInvite(true)}>
+        <div className="w-full"
+         onClick={() => setOpenTenantInvite(true)}
+         >
           {activeSeven ?
             <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
               <ImportIcon className='#006AFF' />
@@ -114,7 +123,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
             </div>
           }
         </div>
-      </div>
+      </div> */}
       {
         <CustomizedModal isOpen={openTenantInvite} onRequestClose={() => setOpenTenantInvite(false)}>
           <div ref={dropdownRef}>

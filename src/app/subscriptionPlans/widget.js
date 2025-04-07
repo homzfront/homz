@@ -19,6 +19,7 @@ const Widget = ({ data, profile }) => {
   const resetPropertyIds = useStorePropertyPromotionData(
     (state) => state.resetPropertyIds
   );
+  
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -74,7 +75,7 @@ const Widget = ({ data, profile }) => {
   };
 
   return (
-    <div className="w-full ">
+    <div>
       <div className="w-auto h-auto py-4">
         <div className="flex mt-1 sm:gap-2 justify-between gap-[10px] sm:w-fit  cursor-pointer sm:m-auto">
           {pages.map((page) => (
@@ -116,11 +117,14 @@ const Widget = ({ data, profile }) => {
         handleEvent={() => setModalIsOpen(false)}
         successText={`Your ${"[Monthly]"} promotion is currently running for this property`}
       />
+
+    
     </div>
   );
 };
 
 export default Widget;
+
 
 // const customTheme = {
 //   root: {

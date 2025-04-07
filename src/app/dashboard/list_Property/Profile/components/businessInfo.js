@@ -79,7 +79,16 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
       othersLinks: [...prevLinks.othersLinks, newLink.value],
     }));
   };
+  // const removeLink = (id) => {
+  //   const socialId = id - 4;
 
+  //   setSocialMediaLinks(socialMedia.filter((media, index) => index !== id+4));
+
+  //   setSocialLinks(prevLinks => ({
+  //     ...prevLinks,
+  //     othersLinks: prevLinks.othersLinks.filter((_, index) => index !== socialId)
+  //   }));
+  // };
   const removeLink = (id) => {
     // Update the socialMediaLinks state by removing the link with the matching id
     setSocialMediaLinks(socialMedia.filter((media) => media.id !== id));
@@ -259,6 +268,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
     }
   };
 
+  // console.log(businessCertificateUpload)
 
   const UploadBusCertificate = async (e) => {
     e.preventDefault();
@@ -509,7 +519,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
 
               <textarea
                 placeholder="Give a brief description about your business and services"
-                className={`h-[179px]  md:p-[12px] rounded-[4px] p-2 border border-[#A9A9A9] w-full text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
+                className={`h-[179px]  md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-full text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
                   !update &&
                   "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
                 }`}
@@ -746,7 +756,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
             card, National Identity card, international Passport)
           </p>
 
-          <div className="relative gap-[16px] py-[16px] px-[14px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full items-center justify-center">
+          <div className="relative gap-[16px] py-[16px] px-[14px] md:py-[16px] md:px-[24px] rounded-[8px] bg-[#E6E6E6] flex md:h-[74px] w-full">
             <Image
               src="/static/images/document-upload.svg"
               alt="upload-cloud"
@@ -761,7 +771,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       [{Business_Info?.businessInfo?.certificateName}]
                     </p>
                     <p
-                      className="text-[#006AFF] text-[13px] font-[500] leading-[19.5px] cursor-pointer "
+                      className="text-[#006AFF] text-[13px] font-[500] leading-[19.5px] cursor-pointer pb-5 sm:pb-0"
                       onClick={() =>
                         viewFileII(
                           Business_Info?.businessInfo?.certificateCAC?.url

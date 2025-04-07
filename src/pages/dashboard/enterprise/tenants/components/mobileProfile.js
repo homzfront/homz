@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { tenantOnboardingAccept, tenantOnboardingReject } from "@/api/tenantSevice";
 import TickSuccess from "@/components/icons/tickSuccess";
 import ArrowRightSmall from '@/components/icons/arrowRightSmall';
+import RentPeriodForm from '../secondPage/rentPeriodForm';
 
 const MobileProfile = ({
     tenantId,
@@ -218,14 +219,15 @@ const MobileProfile = ({
                     </div>
                     <div className="my-7 rounded-[12px] w-full">
                         <div className={`${active ? "inline" : "hidden"}`}>
-                            <RentInfo
+                            {/* <RentInfo
                                 profile={tenantData}
                                 fetchTenantData={fetchTenantData}
                                 tenantId={tenantId}
                                 rentInfo={rentInfo}
                                 fetchRentInformation={fetchRentInformation}
                                 reFetchSummaryData={reFetchSummaryData}
-                            />
+                            /> */}
+                            <RentPeriodForm fetchRentInformation={fetchRentInformation} rentInfo={rentInfo} tenantData={tenantData} />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHis

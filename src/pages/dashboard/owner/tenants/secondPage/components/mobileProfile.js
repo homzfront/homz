@@ -7,8 +7,13 @@ import RentInformation from './rentInformation';
 import PaymentHistory from './paymentHistory';
 import MaintenanceRequest from './maintenanceRequest';
 import { useSearchParams } from "next/navigation";
+import TickSuccess from '@/components/icons/tickSuccess';
+import WarningIcon from '@/components/icons/warningIcon';
+import Verified from '@/components/icons/verified';
+import RentPeriodForm from './rentPeriodForm';
+import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 
-const MobileProfile = ({ data }) => {
+const MobileProfile = ({ data, rentInfo, setOpenKYC, }) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
     const [showWidget, setShowWidget] = useState(false);
@@ -99,8 +104,12 @@ const MobileProfile = ({ data }) => {
                     </div>
                     <div className="my-7 rounded-[12px] w-full">
                         <div className={`${active ? "inline" : "hidden"}`}>
-                            <RentInformation
+                            {/* <RentInformation
                                 profile={data}
+                            /> */}
+                            <RentPeriodForm
+                                profile={data}
+                                rentInfo={rentInfo}
                             />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
@@ -144,8 +153,8 @@ const MobileProfile = ({ data }) => {
                                     </div>
                                 )}
                             </div>
-                            <h1 className="font-[700] my-2 text-[20px] text-GrayHomz">
-                                {data?.data?.fullName}
+                            <h1 className="font-[700] flex gap-1 items-center my-2 text-[20px] text-GrayHomz">
+                                {data?.data?.fullName} {data?.data?.verification?.status === "approved" && <Verified />}
                             </h1>
                         </div>
                         <div className="mt-2 flex flex-col gap-2">
@@ -166,6 +175,21 @@ const MobileProfile = ({ data }) => {
                                 <p className="text-[13px] font-[500] text-end text-BlackHomz break-words w-[62%]">
                                     {data?.data?.houseAddress}
                                 </p>
+                            </div>
+                        </div>
+                        <div className={`bg-[#FFFFFF] rounded-[8px] mt-2 p-4 text-sm font-normal ${data?.data?.verification?.status ? "" : "hidden"}`}>
+                            <p className="text-[13px] text-BlackHomz pb-2 w-[34%]">
+                                Tenant KYC
+                            </p>
+                            <div className={`flex gap-2 ${data?.data?.verification?.status === "approved" ? "bg-successBg" : data?.data?.verification?.status === "pending" ? " bg-warningBg" : "bg-[#fffbfb]"} rounded-[4px] p-2 w-full`}>
+                                <button className={`w-[54%] h-[45px] rounded-[4px] flex justify-start items-center gap-2 ${data?.data?.verification?.status === "approved" ? "text-Success" : data?.data?.verification?.status === "pending" ? " text-warning" : "text-error"}`}>
+                                    {data?.data?.verification?.status === "approved" ? <TickSuccess /> : data?.data?.verification?.status === "pending" ? <WarningIcon /> : <WarningIcon className="#d92d20" />}
+                                    {data?.data?.verification?.status === "approved" ? "Approved" : data?.data?.verification?.status === "pending" ? "Pending" : "Rejected"}
+                                </button>
+                                <button onClick={() => setOpenKYC(true)} className="w-[46%] px-1 h-[45px] rounded-[4px] bg-whiteblue text-BlueHomz flex justify-center items-center gap-2">
+                                    View KYC
+                                    <ArrowRightSmall className="#006AFF" />
+                                </button>
                             </div>
                         </div>
                     </div>

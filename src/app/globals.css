@@ -327,3 +327,16 @@ body::-webkit-scrollbar-thumb {
   font-family: "Arial", sans-serif;
 }
 
+.swiper-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.swiper {
+  width: 100%;
+  overflow: hidden !important;
+}
+
+.swiper-slide {
+  width: auto !important; /* Ensures it takes only the required space */
+}

@@ -9,7 +9,7 @@ import SkeletonLoader from "./skeletonLoader";
 import api from "@/utils/api";
 import useWalletPaymentStore from "@/store/enterpriseStore/useWalletPaymentStore";
 
-const WalletPayement = ({ TenantId, TenantData, reFetchSummaryData }) => {
+const WalletPayement = ({ TenantId, TenantData, reFetchSummaryData, selectedOption }) => {
     const {
         data: currentData,
         loading,
@@ -21,9 +21,9 @@ const WalletPayement = ({ TenantId, TenantData, reFetchSummaryData }) => {
 
     useEffect(() => {
         if (TenantId) {
-            fetchData(TenantId, currentPage);
+            fetchData(TenantId, currentPage, selectedOption?.startDate, selectedOption?.dueDate);
         }
-    }, [TenantId, currentPage, fetchData]);
+    }, [TenantId, currentPage, fetchData, selectedOption]);
 
     const handlePageClick = (page) => {
         setCurrentPage(page);

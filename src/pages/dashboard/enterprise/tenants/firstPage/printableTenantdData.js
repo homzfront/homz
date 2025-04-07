@@ -74,10 +74,14 @@ const PrintableTenantdData = ({ printableRef, Data }) => {
                                     {data?.phoneNumber}
                                 </div>
                                 <div className="table-cell text-GrayHomz w-[11%] font-[500] text-[11px] text-start">
-                                    {`${data?.rentInfo?.totalRent
-                                        ? addCommasToNumber(data?.rentInfo?.totalRent)
-                                        : "______"
-                                        }`}
+                                    {data?.rentInfo?.rent ? (
+                                        <>
+                                            <span style={{ fontFamily: "Arial" }}>₦</span>
+                                            {addCommasToNumber(data?.rentInfo?.rent)}
+                                        </>
+                                    ) : (
+                                        "______"
+                                    )}
                                 </div>
                                 <div
                                     className={`text-GrayHomz w-[13%] font-[500] text-[11px] text-start`}

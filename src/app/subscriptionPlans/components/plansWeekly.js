@@ -109,7 +109,7 @@ const Plans = ({
                     </div>
 
                     <Tooltip
-                      title={feature?.info && feature.info}
+                      title={feature.info}
                       position="left"
                       trigger="click"
                       arrow={true}

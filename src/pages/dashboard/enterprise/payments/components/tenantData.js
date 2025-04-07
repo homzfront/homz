@@ -26,7 +26,8 @@ const TenantData = () => {
   const { Refetch } = RefetchPayment();
   const {
     selectedProperty,
-    selectedDate
+    fromDate, 
+    toDate,
   } = usePaymentFilterStore();
 
 
@@ -88,8 +89,8 @@ const TenantData = () => {
       if (selectedProperty) {
         query += `&property=${selectedProperty}`;
       }
-      if (selectedDate) {
-        query += `&date=${selectedDate}`;
+      if (fromDate &&  toDate) {
+        query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
       }
       const response = await api.get(query);
       const result = response?.data;
@@ -104,7 +105,7 @@ const TenantData = () => {
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [currentPage, selectedProperty, selectedDate, Refetch]);
+  }, [currentPage, selectedProperty, fromDate, toDate, Refetch]);
 
   const handlePageClick = (page) => {
     setCurrentPage(page);

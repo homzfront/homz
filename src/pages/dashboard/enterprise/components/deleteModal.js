@@ -13,7 +13,7 @@ const DeleteModel = ({
     return (
         <div>
             <div className="absolute px-8 md:px-0 top-0 z-20 h-screen w-full  inset-0 flex items-center  bg-black bg-opacity-30">
-                <div className={`max-w-[464px] p-2 m-auto bg-white rounded-md ${loading ? "pointer-events-none" : ""}`}>
+                <div className={`max-w-[464px] min-w-[350px] md:min-w-[400px] p-2 m-auto bg-white rounded-md ${loading ? "pointer-events-none" : ""}`}>
                     <div className="flex flex-col justify-around items-center h-full p-6">
                         <div className="">
                             <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">

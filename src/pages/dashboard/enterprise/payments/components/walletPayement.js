@@ -22,8 +22,9 @@ const WalletPayement = () => {
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
     const {
         selectedProperty,
-        selectedDate
-    } = usePaymentFilterStore();
+        fromDate, 
+        toDate,
+      } = usePaymentFilterStore();
 
     const handleToggleMenu = (id) => {
         setPopUpMenuTwo(!popUpMenuTwo);
@@ -46,9 +47,9 @@ const WalletPayement = () => {
                 if (selectedProperty) {
                     query += `&property=${selectedProperty}`;
                 }
-                if (selectedDate) {
-                    query += `&date=${selectedDate}`;
-                }
+                if (fromDate &&  toDate) {
+                    query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
+                  }
                 const response = await api.get(query);
                 const result = response?.data;
                 setData(result?.data?.results);
@@ -60,7 +61,7 @@ const WalletPayement = () => {
             }
         };
         fetchData(currentPage);
-    }, [currentPage, selectedProperty, selectedDate]);
+    }, [currentPage, selectedProperty, fromDate, toDate]);
 
 
     const handlePageClick = (page) => {

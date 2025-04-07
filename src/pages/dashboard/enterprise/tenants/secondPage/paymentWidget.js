@@ -28,7 +28,8 @@ const Widget = ({
     tenantData,
     fetchRentInformation,
     rentInfo,
-    reFetchSummaryData
+    reFetchSummaryData,
+    selectedOption: selectedPeriodOption
 }) => {
     const [active, setActive] = useState(true);
     const [reachedLimit, setReachedLimit] = useState(null);
@@ -263,7 +264,7 @@ const Widget = ({
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-row w-full md:w-auto justify-between md:justify-normal md:gap-1 items-center">
+                    <div className={`flex flex-row w-full md:w-auto justify-between md:justify-normal md:gap-1 items-center ${selectedPeriodOption?.index === 0 ? "" : "hidden"}`}>
                         <div
                             onClick={openAddOfflinePayment}
                             className="flex flex-row gap-1 items-center cursor-pointer"
@@ -283,13 +284,13 @@ const Widget = ({
                 </div>
                 <div className=" my-5  rounded-[12px]">
                     <div className={`${active ? "inline" : "hidden"}`}>
-                        <AllData TenantId={tenantId} TenantData={tenantData} reFetchSummaryData={reFetchSummaryData} />
+                        <AllData selectedOption={selectedPeriodOption} TenantId={tenantId} TenantData={tenantData} reFetchSummaryData={reFetchSummaryData} />
                     </div>
                     <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <WalletPayement TenantId={tenantId} TenantData={tenantData} reFetchSummaryData={reFetchSummaryData} />
+                        <WalletPayement selectedOption={selectedPeriodOption} TenantId={tenantId} TenantData={tenantData} reFetchSummaryData={reFetchSummaryData} />
                     </div>
                     <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment TenantId={tenantId} TenantData={tenantData} reFetchSummaryData={reFetchSummaryData} />
+                        <OfflinePayment selectedOption={selectedPeriodOption} TenantId={tenantId} TenantData={tenantData} reFetchSummaryData={reFetchSummaryData} />
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
 import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
+import RentPeriodForm from "./rentPeriodForm";
 
 const Widget = ({
   tenantId,
@@ -12,75 +12,47 @@ const Widget = ({
   rentInfo,
   fetchRentInformation,
   reFetchSummaryData,
-  paymentData
+  paymentData,
 }) => {
-  const [active, setActive] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(false);
-  const [activeThree, setActiveThree] = useState(false);
+  const [step, setStep] = useState(0);
 
-  const handlePageChange = () => {
-    setActive(false);
-    setActiveTwo(false);
-    setActiveThree(false);
-  };
-
-  const handlePageChangeTwo = () => {
-    setActiveTwo(true);
-    setActive(true);
-    setActiveThree(false);
-  };
-
-  const handlePageChangeThree = () => {
-    setActiveThree(true);
-    setActiveTwo(false);
-    setActive(true);
-  };
   return (
     <div>
-      <div className=" inline-block min-w-[620px] w-[100%] h-auto p-4  shadow-md bg-white rounded-[12px]">
+      <div className="inline-block min-w-[620px] w-[100%] h-auto p-4 shadow-md bg-white rounded-[12px]">
         <div className="flex mt-5 gap-4 cursor-pointer w-full">
           <div
-            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${!active ? "bg-BlueHomz text-white " : ""
-              }`}
-            onClick={handlePageChange}
+            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${step === 0 ? "bg-BlueHomz text-white" : ""}`}
+            onClick={() => setStep(0)}
           >
             <p>Rent Information</p>
           </div>
           <div
-            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${activeTwo ? "bg-BlueHomz text-white " : ""
-              }`}
-            onClick={handlePageChangeTwo}
+            className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${step === 1 ? "bg-BlueHomz text-white" : ""}`}
+            onClick={() => setStep(1)}
           >
             <p>Payment History</p>
           </div>
           <div
-            className={`rounded-md h-[37px] flex flex-row gap-1 w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${activeThree ? "bg-BlueHomz text-white " : ""
-              }`}
-            onClick={handlePageChangeThree}
+            className={`rounded-md h-[37px] flex flex-row gap-1 w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${step === 2 ? "bg-BlueHomz text-white" : ""}`}
+            onClick={() => setStep(2)}
           >
             <p>Maintenance Request</p>
             <span
-              className={` rounded-[40%] w-[30px] ${activeThree
-                ? "bg-white text-GrayHomz"
-                : "bg-whiteblue text-BlueHomz "
-                }`}
+              className={`rounded-[40%] w-[30px] ${step === 2 ? "bg-white text-GrayHomz" : "bg-whiteblue text-BlueHomz"}`}
             >
               {tenantData?.data?.maintenanceRequests?.length}
             </span>
           </div>
         </div>
         <div className="mt-5 rounded-[12px]">
-          <div className={`${!active ? "inline" : "hidden"}`}>
-            <RentInfo
-              tenantId={tenantId}
-              profile={tenantData}
-              fetchTenantData={fetchTenantData}
-              rentInfo={rentInfo}
+          {step === 0 && (
+            <RentPeriodForm
               fetchRentInformation={fetchRentInformation}
-              reFetchSummaryData={reFetchSummaryData}
+              rentInfo={rentInfo}
+              tenantData={tenantData}
             />
-          </div>
-          <div className={`${activeTwo ? "inline" : "hidden"}`}>
+          )}
+          {step === 1 && (
             <PaymentHis
               tenantId={tenantId}
               tenantData={tenantData}
@@ -88,12 +60,9 @@ const Widget = ({
               rentInfo={rentInfo}
               fetchRentInformation={fetchRentInformation}
               reFetchSummaryData={reFetchSummaryData}
-              paymentData={paymentData}
             />
-          </div>
-          <div className={`${activeThree ? "inline" : "hidden"}`}>
-            <Maintenance tenantData={tenantData} />
-          </div>
+          )}
+          {step === 2 && <Maintenance tenantData={tenantData} />}
         </div>
       </div>
     </div>

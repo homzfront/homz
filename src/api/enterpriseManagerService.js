@@ -291,6 +291,32 @@ export const fetchSpecificTenantRentSummary = async (id, startDate, dueDate, ren
   }
 };
 
+export const fetchOwnerTenantRentSummary = async (id, startDate, dueDate, rent) => {
+  try {
+    let url = `/rentPayment/property-owner/tenant/${id}/summary`;
+    const params = [];
+
+    if (startDate) {
+      params.push(`startDate=${startDate}`);
+    }
+    if (dueDate) {
+      params.push(`dueDate=${dueDate}`);
+    }
+    if (rent) {
+      params.push(`rent=${rent}`);
+    }
+
+    if (params.length > 0) {
+      url += `?${params.join('&')}`;
+    }
+
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const enterpriseTenantForAnEstate = async (id) => {
   try {
     const response = await api.get(`/estates/${id}/tenants/enterprise`);

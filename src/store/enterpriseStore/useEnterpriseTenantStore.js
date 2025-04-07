@@ -5,30 +5,34 @@ import { create } from 'zustand';
 const useEnterpriseTenantStore = create((set, get) => ({
     data: null,
     loading: true,
+    active : 1, 
     totalPages: 0,
     currentPage: 1,
-    dueDatePage: false,
     totalCount: 0,
-    setDueDatePage: (value) => set({ dueDatePage: value }),
+    selectedStatus: null,
+    selectedDate: null,
     setCurrentPage: (page) => set({ currentPage: page }),
-    fetchData: async (page = 1, dueDate) => {
+    setSelectedStatus: (status) => set({ selectedStatus: status }),
+    setSelectedDate: (date) => set({ selectedDate: date }),
+    setActive:(date) => set({ active: date }),
+    fetchData: async (page = 1) => {
         set({ loading: true });
         try {
-            const { dueDatePage } = get();
+            const { active, selectedStatus, selectedDate } = get();
             const queryParams = new URLSearchParams({
                 limit: 8,
                 page,
-                ...(dueDatePage && dueDate && { isDueDateRecent: true }),
+                ...(active === 2 && { isDueDateRecent: true }),
+                ...(selectedStatus && { paymentStatus: selectedStatus.toLowerCase() }),
+                ...(selectedDate && { currentRentStartDate: selectedDate }),
             });
-
             const response = await api.get(`/tenants/enterprise?${queryParams.toString()}`);
             const result = response?.data;
-
             set({
-                data: result?.data?.results,
-                totalPages: result?.data?.totalPages,
+                data: result?.data?.length === 0 ? null : result?.data?.results,
+                totalPages: result?.data?.totalPages ?? 0,
                 loading: false,
-                totalCount: result?.data?.totalCount
+                totalCount: result?.data?.totalCount ?? 0
             });
         } catch (error) {
             set({ loading: false });

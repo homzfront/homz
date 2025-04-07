@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
+import RentPeriodForm from "./components/rentPeriodForm";
 
-const Widget = ({ data }) => {
+const Widget = ({ data, rentInfo }) => {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
@@ -53,8 +54,8 @@ const Widget = ({ data }) => {
             <p>Maintenance Request</p>
             <span
               className={` rounded-[40%] w-[30px] ${activeThree
-                  ? "bg-white text-GrayHomz"
-                  : "bg-whiteblue text-BlueHomz "
+                ? "bg-white text-GrayHomz"
+                : "bg-whiteblue text-BlueHomz "
                 }`}
             >
               {data?.data?.maintenanceRequests ? data?.data?.maintenanceRequests?.length : "0"}
@@ -63,10 +64,11 @@ const Widget = ({ data }) => {
         </div>
         <div className=" my-5  rounded-[12px]">
           <div className={`${!active ? "inline" : "hidden"}`}>
-            <RentInfo profile={data} active={active} />
+            {/* <RentInfo profile={data} active={active} /> */}
+            <RentPeriodForm rentInfo={rentInfo} profile={data} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
-            <PaymentHis data={data} />
+            <PaymentHis data={data} rentInfo={rentInfo}/>
           </div>
           <div className={`${activeThree ? "inline" : "hidden"}`}>
             <Maintenance tenantData={data} />
