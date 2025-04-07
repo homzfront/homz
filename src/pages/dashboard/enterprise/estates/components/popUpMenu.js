@@ -101,11 +101,13 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
           }
         </div>
       </div>
-      <div
+      {/* <div
         onMouseEnter={() => setActiveSeven(true)}
         onMouseLeave={() => setActiveSeven(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full cursor-pointer">
-        <div className="w-full" onClick={() => setOpenTenantInvite(true)}>
+        <div className="w-full"
+         onClick={() => setOpenTenantInvite(true)}
+         >
           {activeSeven ?
             <div className="px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
               <ImportIcon className='#006AFF' />
@@ -121,7 +123,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
             </div>
           }
         </div>
-      </div>
+      </div> */}
       {
         <CustomizedModal isOpen={openTenantInvite} onRequestClose={() => setOpenTenantInvite(false)}>
           <div ref={dropdownRef}>
