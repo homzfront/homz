@@ -26,6 +26,8 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [SMSContent, setSMSContent] = useState(data?.smsContent);
     const [inAppContent, setInAppContent] = useState(data?.inAppContent);
 
+    // console.log(data)
+
     const [copyToInApp, setCopyToInApp] = useState({
         propertyManager: data?.sendCopyToInApp?.propertyManager || false,
         propertyOwner: data?.sendCopyToInApp?.landlord || false,
@@ -34,7 +36,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [copyToEmail, setCopyToEmail] = useState({
         propertyManager: data?.sendCopyToEmail?.propertyManager || false,
         propertyOwner: data?.sendCopyToEmail?.landlord || false,
-    });
+    })
 
     const [copyToSMS, setCopyToSMS] = useState({
         propertyManager: data?.sendCopyToSMS?.propertyManager || false,
@@ -97,6 +99,8 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
             "content": inAppContent
         }
     };
+
+    // console.log(emailContent)
 
     useEffect(() => {
         if (selectedChannel?.length > 0) {
