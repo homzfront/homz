@@ -34,6 +34,17 @@ const YoutubeEmbed = ({ url, title }) => {
         title={title}
         className="absolute left-0 top-0 h-full w-full cursor-pointer"
       />
+      {/* <CldVideoPlayer
+  width="1620"
+  height="1080"
+  src="<Public ID>"
+  colors={{
+    accent: '#ff0000',
+    base: '#00ff00',
+    text: '#0000ff'
+  }}
+  fontFace="Source Serif Pro"
+/> */}
     </div>
   );
 };
