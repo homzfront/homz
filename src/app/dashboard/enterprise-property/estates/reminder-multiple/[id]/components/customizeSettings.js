@@ -34,7 +34,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [copyToEmail, setCopyToEmail] = useState({
         propertyManager: data?.sendCopyToEmail?.propertyManager || false,
         propertyOwner: data?.sendCopyToEmail?.landlord || false,
-    });
+    })
 
     const [copyToSMS, setCopyToSMS] = useState({
         propertyManager: data?.sendCopyToSMS?.propertyManager || false,
