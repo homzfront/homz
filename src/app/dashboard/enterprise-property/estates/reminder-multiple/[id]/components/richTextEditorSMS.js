@@ -64,37 +64,38 @@ const RichTextEditorSMS = ({ charLimit, text, editorHtml, setEditorHtml }) => {
   const handlePaste = (event) => {
     event.preventDefault();
     const clipboardData = (event.clipboardData || window.clipboardData).getData('Text');
-    const plainText = editorHtml.replace(/<[^>]+>/g, '');
-    if (plainText.length + clipboardData.length <= charLimit) {
-      setEditorHtml(editorHtml + clipboardData);
-      setCharCount(plainText.length + clipboardData.length);
-    } else {
-      const allowedText = clipboardData.slice(0, charLimit - plainText.length);
-      setEditorHtml(editorHtml + allowedText);
-      setCharCount(charLimit);
+    const editor = document.querySelector('.ql-editor');
+    const quillInstance = Quill.find(editor);
+  
+    const plainText = quillInstance.getText().trim();
+    const allowedText = clipboardData.slice(0, charLimit - plainText.length);
+  
+    if (allowedText.length > 0) {
+      const range = quillInstance.getSelection(true);
+      quillInstance.insertText(range.index, allowedText);
     }
   };
 
-  useEffect(() => {
-    const toolbar = document.querySelector('.ql-toolbar');
-    const editor = document.querySelector('.ql-container');
-    if (toolbar && editor) {
-      editor.parentNode.appendChild(toolbar);
-    }
+  // useEffect(() => {
+  //   const toolbar = document.querySelector('.ql-toolbar');
+  //   const editor = document.querySelector('.ql-container');
+  //   if (toolbar && editor) {
+  //     editor.parentNode.appendChild(toolbar);
+  //   }
 
-    const editorElement = document.querySelector('.ql-editor');
-    if (editorElement) {
-      editorElement.addEventListener('keydown', handleKeyDown);
-      editorElement.addEventListener('paste', handlePaste);
-    }
+  //   const editorElement = document.querySelector('.ql-editor');
+  //   if (editorElement) {
+  //     editorElement.addEventListener('keydown', handleKeyDown);
+  //     editorElement.addEventListener('paste', handlePaste);
+  //   }
 
-    return () => {
-      if (editorElement) {
-        editorElement.removeEventListener('keydown', handleKeyDown);
-        editorElement.removeEventListener('paste', handlePaste);
-      }
-    };
-  }, [editorHtml, charLimit]);
+  //   return () => {
+  //     if (editorElement) {
+  //       editorElement.removeEventListener('keydown', handleKeyDown);
+  //       editorElement.removeEventListener('paste', handlePaste);
+  //     }
+  //   };
+  // }, [editorHtml, charLimit]);
 
   const handleTagSelect = (tag) => {
     if (tag.length < charLeft) {

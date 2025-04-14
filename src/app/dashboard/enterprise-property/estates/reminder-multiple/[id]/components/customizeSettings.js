@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import DropDownChannel from './dropDownChannel';
 import CustomizeModal from '@/components/mainmenu/CustomizedModal';
 import Image from 'next/image';
-import RichTextEditorEmail from './richTextEditorEmail';
 import RichTextEditorSMS from './richTextEditorSMS';
 import RichTextEditorInApp from './richTextEditorInApp';
 import api from '@/utils/api';
 import { toast } from 'react-toastify';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import RichTextEditorEmail from './richTextEditorEmail';
 
 const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [channels, setChannels] = useState([]);
@@ -34,7 +34,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [copyToEmail, setCopyToEmail] = useState({
         propertyManager: data?.sendCopyToEmail?.propertyManager || false,
         propertyOwner: data?.sendCopyToEmail?.landlord || false,
-    });
+    })
 
     const [copyToSMS, setCopyToSMS] = useState({
         propertyManager: data?.sendCopyToSMS?.propertyManager || false,
@@ -177,6 +177,8 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
         }
     };
 
+    console.log(data?.emailContent)
+
     return (
         <div>
             <CustomizeModal isOpen={modalConfirmChanges}>
@@ -288,7 +290,9 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                         <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                         </div>
-                        <RichTextEditorEmail charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
+                        {/* <RichTextEditorEmail charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} /> */}
+                        <RichTextEditorSMS  charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
+                     
                         <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                             <div>Send copy to :</div>
                             <div className='flex gap-2'>
@@ -373,7 +377,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                             <div className='py-3 px-4 flex items-center border border-GrayHomz text-GrayHomz rounded-[4px]'>
                                 <p className='text-[14px] font-[400]'>{data?.in_app}</p>
                             </div>
-                            <RichTextEditorInApp charLimit={150} text={data?.inAppContent} editorHtml={inAppContent} setEditorHtml={setInAppContent} />
+                            <RichTextEditorSMS charLimit={150} text={data?.inAppContent} editorHtml={inAppContent} setEditorHtml={setInAppContent} />
                             <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                                 <div>Send copy to :</div>
                                 <div className='flex gap-2'>

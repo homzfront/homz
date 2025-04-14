@@ -259,6 +259,9 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
             if (!dontHideForm) {
               setShowForm(false);
             }
+            if(dontHideForm) {
+              toggleDropDown(selectedPeriod - 1)
+            }
           }}
         />
       </CustomizedModal>
@@ -464,7 +467,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                               placeholderText="Select Date"
                               className="w-[100%] h-[41px] px-4 py-2"
                             />
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                            <div className="bg-white z-[99] absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                               <DateIcon />
                             </div>
                           </div>
@@ -479,7 +482,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                               placeholderText="Select Date"
                               className="w-[100%] h-[41px] px-4 py-2"
                             />
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                            <div className="bg-white z-[99] absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                               <DateIcon />
                             </div>
                           </div>
@@ -493,7 +496,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                           value={period.rent}
                           onChange={(e) => handleInputChange(index, "rent", e.target.value)}
                           className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none"
-                          placeholder="e.g ₦1,000,000"
+                          placeholder="e.g 1000000"
                         />
                       </div>
 
