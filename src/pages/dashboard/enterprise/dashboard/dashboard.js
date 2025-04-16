@@ -198,8 +198,8 @@ const Dashboard = () => {
               modules={[Autoplay]}
               spaceBetween={20}
               slidesPerView="auto"  
-              loop={false}
-              freeMode={false}
+              loop={true}
+              freeMode={true}
               autoplay={{
                 delay: 0,
                 startDelay: 3000,

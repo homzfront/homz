@@ -33,6 +33,7 @@ import { checkPlanLimits } from '@/utils/checkPlanLimits';
 import ExpiredPlanModal from '../../components/expiredPlanModal';
 import { isTrialExpired } from '@/utils/compareTrialTime';
 import DocDocu from '@/components/icons/docDocu';
+import Search from '@/components/icons/search';
 
 const Tenants = () => {
 
@@ -506,7 +507,7 @@ const Tenants = () => {
 
               {
                 isOpenI &&
-                <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
+                <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px]'>
                   {
                     openColumns ?
                       <div className='text-sm text-GrayHomz font-medium'>
@@ -569,6 +570,17 @@ const Tenants = () => {
                             <p className='text-[13px] text-GrayHomz font-medium'>
                               Filter by:
                             </p>
+                            {/* Search Input */}
+                            <div className='mb-2 flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-2'>
+                              <Search />
+                              <input
+                                type='text'
+                                className='placeholder:text-[#A9A9A9] w-full outline-none'
+                                placeholder='email, address...'
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                              />
+                            </div>
                             <button onClick={() => setOpenStatusFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                               Status    <ArrowDown className="#4E4E4E" />
                             </button>
@@ -581,14 +593,26 @@ const Tenants = () => {
                                 value={selectedDate}
                                 onChange={(e) => setSelectedDate(e.target.value)}
                                 className="w-full py-2 outline-none"
-                                placeholder='Date'
+                                placeholder='Start Date'
+                              />
+                              {/* <span className='absolute'><DateIconTwo /></span> */}
+                            </button>
+                            <button
+                              className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                            >
+                              <input
+                                type='date'
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                className="w-full py-2 outline-none"
+                                placeholder='End Date'
                               />
                               {/* <span className='absolute'><DateIconTwo /></span> */}
                             </button>
 
-                            {/* <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                            Rent Period    <ArrowDown className="#4E4E4E" />
-                          </button> */}
+                            <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                              Rent Period    <ArrowDown className="#4E4E4E" />
+                            </button>
                             <button
                               onClick={() => setOpenColumns(true)}
                               className='mt-1 text-sm font-normal text-GrayHomz md:hidden flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>

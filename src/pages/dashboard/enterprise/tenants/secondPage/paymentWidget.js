@@ -26,6 +26,7 @@ import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
 const Widget = ({
     tenantId,
     tenantData,
+    periods,
     fetchRentInformation,
     rentInfo,
     reFetchSummaryData,
@@ -264,7 +265,7 @@ const Widget = ({
                             </div>
                         </div>
                     </div>
-                    <div className={`flex flex-row w-full md:w-auto justify-between md:justify-normal md:gap-1 items-center ${selectedPeriodOption?.index === 0 ? "" : "hidden"}`}>
+                    <div className={`flex flex-row w-full md:w-auto justify-between md:justify-normal md:gap-1 items-center`}>
                         <div
                             onClick={openAddOfflinePayment}
                             className="flex flex-row gap-1 items-center cursor-pointer"
@@ -301,6 +302,8 @@ const Widget = ({
                     reFetchSummaryData={reFetchSummaryData}
                     rentInfo={rentInfo}
                     setOfflinepay={setOfflinepay}
+                    periods={periods}
+                    selectedOption={selectedPeriodOption}
                     successfullModal={successfullModal}
                 />
             </CustomizedModal>

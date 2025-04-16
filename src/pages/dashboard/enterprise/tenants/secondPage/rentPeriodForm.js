@@ -244,7 +244,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
       [index]: !prevOpenDropDowns[index],
     }));
   };
-
+  
   return (
     <div className="mt-4 pt-4 border-t border-[#E6E6E6]">
       <CustomizedModal
@@ -258,9 +258,8 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
             setShowConfirmSuccessModal(false);
             if (!dontHideForm) {
               setShowForm(false);
-            }
-            if(dontHideForm) {
-              toggleDropDown(selectedPeriod - 1)
+            } else {
+              toggleDropDown(selectedPeriod?.index - 1)
             }
           }}
         />
