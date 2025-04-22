@@ -47,9 +47,6 @@ const Tenants = ({ id }) => {
     setSelectedStatus,
     setCurrentPage
   } = useTenantOfAnEstate();
-  React.useEffect(() => {
-    setTenantsData(data?.[0].data ?? null)
-  }, [data])
   // Extract all unique keys
   const [loading, setLoading] = React.useState(true)
   const [search, setSearch] = React.useState('');
@@ -60,6 +57,7 @@ const Tenants = ({ id }) => {
   const [openPurchasePlan, setOpenPurchasePlan] = React.useState(false);
   const [tenantsData, setTenantsData] = React.useState(null);
   const [widthRa, setWidth] = React.useState(0);
+  const [estateName, setEstateName] = React.useState(null)
   const {
     active: activeTab,
     setActive: setActiveTab,
@@ -73,7 +71,11 @@ const Tenants = ({ id }) => {
     fetchData: fetchProfileData,
     // loadingProfile,
   } = useProfileEnterpriseMe();
-
+  
+  React.useEffect(() => {
+    setTenantsData(data?.[0].data ?? null)
+    setEstateName(data?.[0]?.data?.[0].estateId.name)
+  }, [data])
   const router = useRouter();
 
   const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
@@ -179,6 +181,8 @@ const Tenants = ({ id }) => {
     setData(tenantData);
   }, [tenantData]);
 
+  console.log(tenantData)
+
   const pages = [
     {
       id: 1,
@@ -195,6 +199,7 @@ const Tenants = ({ id }) => {
           visibleColumns={visibleColumns}
           loading={loadingTable}
           mainTenantData={data}
+          singleEstate={true}
         />
       ),
     },
@@ -213,6 +218,7 @@ const Tenants = ({ id }) => {
           currentPage={currentPage}
           loading={loadingTable}
           mainTenantData={data}
+          singleEstate={true}
         />
       ),
     },
@@ -300,7 +306,7 @@ const Tenants = ({ id }) => {
     } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else {
-      setInviteTenant(true);
+    setInviteTenant(true);
     }
   };
 
@@ -325,7 +331,7 @@ const Tenants = ({ id }) => {
             href={"/dashboard/property-owner/estates"}
             className="text-[16px] truncate font-[400] text-GrayHomz"
           >
-            {estateData?.name ? estateData?.name : "Property Name"}<> </>/
+            {estateName ? estateName : "Property Name"}<> </>/
           </Link>
           <div className="text-[20px] font-[500] text-GrayHomz">
             Tenants <span className="bg-whiteblue p-1 rounded-[4px] text-BlueHomz text-[18px] font-normal">{tenantsData ? tenantsData?.length : 0}</span>
@@ -352,7 +358,7 @@ const Tenants = ({ id }) => {
           href={"/dashboard/enterprise-property/estates"}
           className="text-[16px] truncate font-[400] text-GrayHomz"
         >
-          {estateData?.name ? estateData?.name : "Property Name"}<> </>/
+          {estateName ? estateName : "Property Name"}<> </>/
         </Link>
         <div className="text-[20px] font-[500] text-GrayHomz">
           Tenants <span className="bg-whiteblue p-1 rounded-[4px] text-BlueHomz text-[18px] font-normal">{tenantsData ? tenantsData?.length : 0}</span>
@@ -367,17 +373,6 @@ const Tenants = ({ id }) => {
           />
         </div>
       )}
-      {/* {bulkInvite &&
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <SingleInvite
-            setSuccessfulModal={setSuccessfulModal}
-            setOpenSingleInvite={setBulkInvite}
-            setOpenTenantInvite={setOpenTenantInvite}
-            estateName={estateData?.name}
-            estateId={estateData?._id} /> :
-
-        </div>
-      } */}
       <CustomizedModal isOpen={reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan}>
         <ExpiredPlanModal
           header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
@@ -412,7 +407,7 @@ const Tenants = ({ id }) => {
       </CustomizedModal>
       {inviteTenant && (
         <div className="absolute top-0 z-20 h-screen w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <Modal dropdownRef={dropdownRef} />
+          <Modal dropdownRef={dropdownRef} setInviteTenant={setInviteTenant} estate_name={estateName} />
         </div>
       )}
       <div className="w-auto h-auto px-4">

@@ -15,6 +15,9 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import truncateText from "@/utils/truncateText";
 import PrintableTenantdData from "./printableTenantdData";
 import PopUpMenuTwo from '../components/popUpMenuTwo';
+import ModalTwo from '../components/modalTwo';
+import useTenantOfAnEstate from '@/store/enterpriseStore/useTenantOfAnEstate';
+import api from '@/utils/api';
 
 
 const Table = ({
@@ -27,16 +30,25 @@ const Table = ({
     printableRef,
     fetchDataAgain,
     visibleColumns,
-    mainTenantData
+    mainTenantData,
+    singleEstate
 }) => {
     const [selectedDataId, setSelectedDataId] = React.useState(null);
+    const { estateData } = useTenantOfAnEstate()
+    const [selectedData, setSelectedData] = React.useState(null);
     const [popUpMenuTwo, setPopUpMenuTwo] = React.useState(false);
+    const [successful, setSuccessful] = React.useState(false);
     const [openDropdowns, setOpenDropdowns] = React.useState({});
     const [selectedStatus, setSelectedStatus] = React.useState({});
     const [loadingRows, setLoadingRows] = React.useState({});
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
     const dropdownRefII = useClickOutside(() => setOpenDropdowns({}));
     const [hoveredRow, setHoveredRow] = React.useState(null);
+    const [email, setEmail] = React.useState("");
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [openInvite, setOpenInvite] = React.useState(false);
+    // const [activeFour, setActiveFour] = useState(false);
+    const dropdownRefYan = useClickOutside(() => setOpenInvite(false));
 
     const handleMouseEnter = (id) => {
         setHoveredRow(id);
@@ -91,9 +103,50 @@ const Table = ({
         setOpenDropdowns((prev) => ({ ...prev, [dataId]: !prev[dataId] }));
     };
 
-    const handleToggleMenu = (id) => {
+    const handleToggleMenu = (id, data) => {
         setPopUpMenuTwo(!popUpMenuTwo);
+        setSelectedData(data)
         setSelectedDataId(id);
+    };
+
+    const handleInvite = async () => {
+        // e.preventDefault();
+        if (isLoading) return;
+        setIsLoading(true);
+        try {
+            const response = await api.post(
+                `/tenants/invitation/estate/${estateData?._id}/send-email-tenant-upload/${selectedData?._id}`,
+                {
+                    estateName: selectedData?.estateId?.name,
+                    tenantName: selectedData?.fullName,
+                    tenantEmail: selectedData?.user?.email ? selectedData?.user?.email : email
+                }
+            );
+
+            if (response.data.statuscode === 201 || 200) {
+                // toast.success("update successful");
+                setSuccessful(true);
+            } else {
+                const error = response.data.message;
+                toast.error("update falied");
+            }
+        } catch (error) {
+            console.log(error?.response?.data?.message)
+            if (error && error?.response?.data?.error?.errors) {
+                // Assign backend errors to state
+                const error = error?.response?.data?.error?.errors
+                toast.error(error);
+            } else if (error && error?.response?.data?.message) {
+                // If there's a general message
+                const error = error?.response?.data?.message
+                toast.error(error);
+            } else {
+                // If the error is not in the expected format, rethrow it
+                throw error;
+            }
+        } finally {
+            setIsLoading(false)
+        }
     };
 
     // Map header keys to data keys
@@ -248,7 +301,7 @@ const Table = ({
             case 'Actions':
                 return (
                     <div className="relative bg-white w-[40%] pl-8">
-                        <button onClick={() => handleToggleMenu(row?._id)}>
+                        <button onClick={() => handleToggleMenu(row?._id, row)}>
                             <Image
                                 src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                 alt=""
@@ -259,7 +312,7 @@ const Table = ({
                             />
                         </button>
                         {popUpMenuTwo && selectedDataId === row?._id && (
-                            <PopUpMenuTwo dropdownRef={dropdownRef} data={row?._id} />
+                            <PopUpMenuTwo dropdownRef={dropdownRef} data={row?._id} email={row?.user?.email} handleInvite={handleInvite} loading={isLoading} singleEstate={singleEstate} setOpenInvite={setOpenInvite} />
                         )}
                     </div>
                 );
@@ -301,7 +354,47 @@ const Table = ({
                 </select>
             </div> */}
 
+            {
+                openInvite && (
+                    <div className="fixed top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                        <ModalTwo
+                            dropdownRef={dropdownRefYan}
+                            setEmail={setEmail}
+                            handleInvite={handleInvite}
+                            loading={isLoading}
+                            email={email}
+                        />
+                    </div>
+                )}
 
+            {successful &&
+                <div className="fixed top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                    <div className="md:max-w-[464px] bg-white rounded-[8px] ">
+                        <div className="md:w-[464px] px-8 py-6 flex flex-col justify-center items-center gap-5">
+                            <Image
+                                src={
+                                    "/static/dashboard/enterprisemanager/dashboard/Featured-icon.png"
+                                }
+                                alt=""
+                                height={48}
+                                width={48}
+                            />
+                            <h1 className="text-BlackHomz font-semibold text-[20px]">
+                                Success! Invitation Sent
+                            </h1>
+                            <p className='text-GrayHomz font-normal text-[16px]'>
+                                Your invitation link has been sent to <span className='font-medium'>[Tenant's Email]</span> to join <span className='font-medium'>[Property Name]</span>
+                            </p>
+                            <button
+                                onClick={() => setSuccessful(false)}
+                                className="h-[48px] rounded-md w-full hover:border hover:border-BlueHomz text-BlueHomz text-[16px] font-[700]"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
 
             <div className={`${widthRa >= 1440 ? "md:max-w-[1130px] " : widthRa >= 1375 ? "md:max-w-[1080px] " : "md:max-w-[1045px]"} max-w-[350px] w-full md:w-auto`}>
                 <div className={`w-full overflow-x-auto scrollbar-container`}>

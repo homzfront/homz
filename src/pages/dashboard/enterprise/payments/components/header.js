@@ -16,7 +16,7 @@ const Header = ({
     <div>
       <div className="hidden md:flex justify-between items-center">
         <div className="text-[20px] font-[500]">Payment Record</div>
-        <div className="flex gap-4 items-center">
+        {/* <div className="flex gap-4 items-center">
           <p className="text-[16px] font-[400] pr-2">Filter by:</p>
           <div className="flex items-center gap-2">
             <div className="w-[160px]">
@@ -31,8 +31,8 @@ const Header = ({
                 className="mr-2 text-BlackHomz"
               />
             </div>
-          </div>
-          <div className="flex w-full md:w-[320px] justify-between md:justify-normal md:gap-4">
+          </div> */}
+          {/* <div className="flex w-full md:w-[320px] justify-between md:justify-normal md:gap-4">
             <div className="h-[45px] flex flex-col  px-2 rounded-md border-BlackHomz border shadow-sm">
               <label
                 htmlFor="fromDate"
@@ -81,8 +81,8 @@ const Header = ({
               />
             </span>
             Reset
-          </button>
-        </div>
+          </button> */}
+        {/* </div> */}
       </div>
     </div>
 

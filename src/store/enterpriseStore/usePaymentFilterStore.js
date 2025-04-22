@@ -13,6 +13,8 @@ prevMonth.setMonth(today.getMonth() - 1);
 
 const usePaymentFilterStore = create((set) => ({
   selectedProperty: null,
+  selectedOption: null,
+  setSelectedOption: (date) => set({ selectedOption: date }),
   fromDate: formatDateII(prevMonth),  // Set default fromDate in the store
   toDate: formatDateII(today),       // Set default toDate in the store
   setSelectedProperty: (data) => set({ selectedProperty: data }),

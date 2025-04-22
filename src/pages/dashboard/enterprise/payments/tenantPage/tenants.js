@@ -4,9 +4,15 @@ import Box from '../../components/box'
 import Widget from "./widget";
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 import addCommasToNumber from '@/utils/addCommasToNumber';
+import usePaymentFilterStore from '@/store/enterpriseStore/usePaymentFilterStore';
+import { formatDateRange } from '@/utils/formatDateRange';
 
-const Tenants = () => {
+const Tenants = ({ property }) => {
   const { data, fetchData } = useEnterpriseRevenueStore();
+  const {
+    fromDate,
+    toDate,
+  } = usePaymentFilterStore();
 
   useEffect(() => {
     fetchData()
@@ -14,6 +20,12 @@ const Tenants = () => {
 
   return (
     <div className='w-full'>
+
+      {property &&
+        <p className="text-GrayHomz font-normal text-sm md:hidden">
+          {formatDateRange(toDate, fromDate)}
+        </p>
+      }
       <div className='mt-2 hidden md:flex items-center justify-between w-full'>
         <Box
           bgColor={"Success"}
@@ -55,7 +67,7 @@ const Tenants = () => {
           />
         </div>
       </div>
-      <div className="mt-2 md:hidden flex overflow-x-auto whitespace-nowrap gap-2">
+      <div className="mt-2 md:hidden grid grid-cols-2 gap-2">
         <div className="inline-block min-w-[75%]">
           <Box
             bgColor={"Success"}
@@ -99,7 +111,7 @@ const Tenants = () => {
         </div>
       </div>
       <div className={`md:mt-6`}>
-        <Widget />
+        <Widget property={property} />
       </div>
     </div>
   )

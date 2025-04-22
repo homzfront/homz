@@ -337,17 +337,6 @@ const Tenants = () => {
           />
         </div>
       )}
-      {/* {bulkInvite &&
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <SingleInvite
-            setSuccessfulModal={setSuccessfulModal}
-            setOpenSingleInvite={setBulkInvite}
-            setOpenTenantInvite={setOpenTenantInvite}
-            estateName={estateData?.name}
-            estateId={estateData?._id} /> :
-
-        </div>
-      } */}
       <CustomizedModal isOpen={reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan}>
         <ExpiredPlanModal
           header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
