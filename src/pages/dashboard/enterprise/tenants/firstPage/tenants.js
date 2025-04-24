@@ -51,13 +51,14 @@ const Tenants = () => {
     selectedStatus,
     setSelectedStatus,
     setCurrentPage,
+    search,
+    setSearch
   } = useEnterpriseTenantStore();
   React.useEffect(() => {
     setTenantsData(data?.[0].data ?? null)
   }, [data])
 
   const [loading, setLoading] = React.useState(true)
-  const [search, setSearch] = React.useState('');
   const [reachedLimit, setReachedLimit] = React.useState(null);
   const [visibleColumns, setVisibleColumns] = React.useState([]);
   const [maxPeriods, setMaxPeriods] = React.useState(0);
@@ -257,7 +258,7 @@ const Tenants = () => {
   const clear = () => {
     setSelectedStatus(null);
     setSelectedDate(null);
-    setSearch(null);
+    setSearch('');
   };
 
 
@@ -273,7 +274,7 @@ const Tenants = () => {
   React.useEffect(() => {
     fetchData(currentPage);
     setTab(null)
-  }, [currentPage, selectedDate, selectedStatus, active]);
+  }, [currentPage, selectedDate, selectedStatus, active, search]);
 
   const filteredColumns = allColumns?.filter((column) =>
     column?.toLowerCase()?.includes(search?.toLowerCase())

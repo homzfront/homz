@@ -31,9 +31,11 @@ const Payment = () => {
     setToDate,
     setSelectedProperty,
     setSelectedOption,
+    search, 
+    setSearch,
+    setPageNo
   } = usePaymentFilterStore();
 
-  const [search, setSearch] = React.useState('')
   const [isOpen, setIsOpen] = React.useState(false);
   const closeFilter = useClickOutside(() => setIsOpen(false));
   const [isOpenI, setIsOpenI] = React.useState(false);
@@ -59,6 +61,8 @@ const Payment = () => {
     setSelectedProperty(null);
     setFromDate(formatDateII(prevMonth));
     setToDate(formatDateII(today));
+    setSearch('')
+    setPageNo(1)
   };
 
   const options = [...new Set(estates?.map((item) => item?.name))];

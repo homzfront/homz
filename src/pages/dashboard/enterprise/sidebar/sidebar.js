@@ -25,6 +25,9 @@ import Down from "@/components/icons/Down";
 import keepFour from "@/utils/keepFour";
 import ManageTenant from "@/components/icons/dashboard/manageTenant";
 import DocumentInformation from "@/components/icons/dashboard/documentInformation";
+import Finance from "@/components/icons/dashboard/finance";
+import PaymentSub from "@/components/icons/dashboard/paymentSub";
+import Expenses from "@/components/icons/dashboard/expenses";
 
 const Sidebar = () => {
   const path = usePathname();
@@ -34,9 +37,11 @@ const Sidebar = () => {
   const { logout } = useProfileStore();
   const [logoutModal, setLogoutModal] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [selectedName, setSelecetedName] = useState(null);
 
-  const toggleSubMenu = () => {
+  const toggleSubMenu = (name) => {
     setSubMenuOpen(!subMenuOpen);
+    setSelecetedName(name)
   };
 
   const { request, tenantData, loading, fetchData } = useRequestEnterprise();
@@ -139,16 +144,42 @@ const Sidebar = () => {
       coming: null,
       active: false,
     },
+    // {
+    //   id: 5,
+    //   image: <Payment height="16" width="16" />,
+    //   image2: (
+    //     <Payment className="text-BlueHomz fill-white" height="16" width="16" />
+    //   ),
+    //   link: "/dashboard/enterprise-property/payments",
+    //   name: "Payments",
+    //   coming: null,
+    //   active: false,
+    // },
     {
       id: 5,
-      image: <Payment height="16" width="16" />,
+      image: <Finance />,
       image2: (
-        <Payment className="text-BlueHomz fill-white" height="16" width="16" />
+        <Finance className="#FFFFFF" />
       ),
-      link: "/dashboard/enterprise-property/payments",
-      name: "Payments",
+      link: "",
+      name: "Finance",
       coming: null,
       active: false,
+      submenu: true,
+      subMenuItems: [
+        {
+          title: "Payments",
+          link: "/dashboard/enterprise-property/payments",
+          image: <PaymentSub className="#202020" />,
+          image2: <PaymentSub />,
+        },
+        {
+          title: "Expenses",
+          link: "",
+          image: <Expenses />,
+          image2: <Expenses className="#006AFF" />,
+        },
+      ],
     },
     {
       id: 6,
@@ -213,6 +244,15 @@ const Sidebar = () => {
     },
   ];
 
+  const isActiveMenu = (data, pathname) => {
+    if (data.link === pathname) return true;
+    if (data.submenu && data.subMenuItems) {
+      return data.subMenuItems.some(item => item.link === pathname);
+    }
+    return false;
+  };
+
+  
   return (
     <div className="sidebar">
       <div className="shadow-lg">
@@ -230,30 +270,19 @@ const Sidebar = () => {
             {Data.map((data) =>
               data.submenu ? (
                 <>
-                  <button onClick={toggleSubMenu} key={data.id}>
+                  <button onClick={()=>toggleSubMenu(data.name)} key={data.id}>
                     <Link
                       href={data.link}
-                      className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                        pathname === "/dashboard/enterprise-property/tenants" 
-                        || pathname === "/dashboard/enterprise-property/tenants/access-records" 
-                          ? "bg-BlueHomz text-white"
-                          : " hover:bg-blue-100"
-                      } ${
-                        data.coming === null
-                          ? ""
-                          : "opacity-50 pointer-events-none"
-                      } `}
+                      className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-[16px] font-[500]
+                        ${isActiveMenu(data, pathname) ? "bg-BlueHomz text-white" : "hover:bg-blue-100 text-GrayHomz"}
+                        ${data.coming === null ? "" : "opacity-50 pointer-events-none"}
+                      `}                      
                     >
-                      { pathname === "/dashboard/enterprise-property/tenants" 
-                        || pathname === "/dashboard/enterprise-property/tenants/access-records"  ? (
-                        <div className={``}>{data.image2}</div>
-                      ) : (
-                        <div className={``}>{data.image}</div>
-                      )}
+                    {isActiveMenu(data, pathname) ? data.image2 : data.image}
                       <div className="flex items-center w-full justify-between">
                         <span className="">{data.name}</span>
                         <div
-                          onClick={toggleSubMenu}
+                          onClick={()=>toggleSubMenu(data.name)}
                           className={`${subMenuOpen ? "rotate-180" : ""} flex`}
                         >
                           <Down />
@@ -261,7 +290,7 @@ const Sidebar = () => {
                       </div>
                     </Link>
                   </button>
-                  {subMenuOpen && (
+                  {subMenuOpen && selectedName === data.name && (
                     <div className="flex items-center space-x-7 ml-[20px]">
                       <hr
                         style={{
@@ -277,19 +306,17 @@ const Sidebar = () => {
                             <Link
                               key={idx}
                               href={subItem.link}
-                              className={`flex flex-row space-x-2 items-center p-1 rounded-md ${
-                                subItem.link === pathname2
-                                  ? "text-BlueHomz"
-                                  : "text-GrayHomz"
+                              className={`flex flex-row space-x-2 items-center p-1 rounded-md ${subItem.link === pathname2
+                                ? "text-BlueHomz"
+                                : "text-GrayHomz"
                                 // : "hover:bg-blue-100 text-GrayHomz"
-                              }`}
+                                }`}
                             >
                               <div
                                 className={`flex flex-row items-center gap-[12px] 
-                                ${
-                                  subItem.link === "" &&
+                                ${subItem.link === "" &&
                                   "pointer-events-none opacity-50"
-                                }`}
+                                  }`}
                               >
                                 {subItem.link === pathname2 ? (
                                   <>{subItem.image2}</>
@@ -299,11 +326,10 @@ const Sidebar = () => {
                                 <span className=" text-[13px] font-[500] leading-[20px] text-left">
                                   {subItem.title} <br />
                                   <span
-                                    className={` ${
-                                      subItem.link === ""
-                                        ? "pointer-events-none opacity-50"
-                                        : "hidden"
-                                    }
+                                    className={` ${subItem.link === ""
+                                      ? "pointer-events-none opacity-50"
+                                      : "hidden"
+                                      }
                                 text-[10px] font-[400] text-Success`}
                                   >
                                     coming soon!
@@ -321,31 +347,27 @@ const Sidebar = () => {
                 <Link
                   key={data.id}
                   href={data.link}
-                  className={`h-[40px] px-2 flex justify-center items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${
-                    pathname === data.link
-                      ? "bg-BlueHomz text-white"
-                      : " hover:bg-blue-100"
-                  } ${
-                    data.coming === null ? "" : "opacity-50 pointer-events-none"
-                  } `}
+                  className={`h-[40px] px-2 flex justify-center items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] ${pathname === data.link
+                    ? "bg-BlueHomz text-white"
+                    : " hover:bg-blue-100"
+                    } ${data.coming === null ? "" : "opacity-50 pointer-events-none"
+                    } `}
                 >
                   {pathname === data.link ? (
                     <div
-                      className={`${
-                        data.name === "Document Generation"
-                          ? "pt-1 pl-[1px] w-[7%]"
-                          : ""
-                      }`}
+                      className={`${data.name === "Document Generation"
+                        ? "pt-1 pl-[1px] w-[7%]"
+                        : ""
+                        }`}
                     >
                       {data.image2}
                     </div>
                   ) : (
                     <div
-                      className={`${
-                        data.name === "Document Generation"
-                          ? "pt-1 pl-[1px] w-[7%]"
-                          : ""
-                      }`}
+                      className={`${data.name === "Document Generation"
+                        ? "pt-1 pl-[1px] w-[7%]"
+                        : ""
+                        }`}
                     >
                       {data.image}
                     </div>
@@ -353,9 +375,8 @@ const Sidebar = () => {
                   <div className="flex items-center w-full">
                     <span className={``}>{data.name}</span>
                     <p
-                      className={`${
-                        data?.active === "true" ? "bg-error" : "bg-transparent"
-                      } mt-1 ml-1 h-2 w-2 rounded-full`}
+                      className={`${data?.active === "true" ? "bg-error" : "bg-transparent"
+                        } mt-1 ml-1 h-2 w-2 rounded-full`}
                     ></p>
                   </div>
                 </Link>
@@ -368,11 +389,10 @@ const Sidebar = () => {
                 key={data.id}
                 href={data.link}
                 className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500] 
-                ${
-                  pathname === data.link
+                ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
-                } `}
+                  } `}
               >
                 {pathname === data.link ? (
                   <div>{data.image2}</div>
@@ -389,11 +409,10 @@ const Sidebar = () => {
                 key={data.id}
                 href={data.link}
                 className={`h-[40px] px-2 flex items-center rounded-md gap-[12px] text-GrayHomz text-[16px] font-[500]
-                ${
-                  pathname === data.link
+                ${pathname === data.link
                     ? "bg-BlueHomz text-white"
                     : "hover:text-white hover:bg-blue-300"
-                } `}
+                  } `}
               >
                 {pathname === data.link ? (
                   <div>{/* {data.image2} */}</div>

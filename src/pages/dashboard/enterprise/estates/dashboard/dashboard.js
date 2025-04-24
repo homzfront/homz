@@ -25,7 +25,8 @@ const Dashboard = ({ id }) => {
     Fetch(id)
   }, [id]);
 
-  const data = tenantData?.results?.[0]?.data;
+  const data = tenantData?.[0]?.data;
+  
   return (
     <div className="w-full">
       <div className="px-8 py-8">

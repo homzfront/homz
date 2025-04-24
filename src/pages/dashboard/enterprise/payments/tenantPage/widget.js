@@ -25,16 +25,16 @@ import formatDateII from "@/utils/formatDateII";
 import Reset from '@/components/icons/reset';
 import { formatDateRange } from "@/utils/formatDateRange";
 import Document from "@/components/icons/document";
+import addCommasToNumber from "@/utils/addCommasToNumber";
 
 const Widget = ({
-    property
+    property,
 }) => {
     const printRefAll = useRef();
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
     const { data, fetchData } = useExportRentPayment();
-    const [search, setSearch] = useState('')
     const [isOpen, setIsOpen] = React.useState(false);
     const closeFilter = useClickOutside(() => setIsOpen(false));
     const [isOpenI, setIsOpenI] = useState(false);
@@ -49,6 +49,15 @@ const Widget = ({
         setSelectedProperty,
         selectedOption,
         setSelectedOption,
+        search,
+        setSearch,
+        setActiveState,
+        allData,
+        walletData,
+        offlineData,
+        activeState,
+        pageNo,
+        setPageNo
     } = usePaymentFilterStore();
     // User-selected date range
     const today = new Date();
@@ -68,6 +77,8 @@ const Widget = ({
         setSelectedProperty(null);
         setFromDate(formatDateII(prevMonth));
         setToDate(formatDateII(today));
+        setSearch('')
+        setPageNo(1)
     };
 
     const options = [".CSV", ".XLSX", ".PDF"];
@@ -89,18 +100,21 @@ const Widget = ({
         setActive(true);
         setActiveTwo(false);
         setActiveThree(false);
+        setActiveState('one');
     };
 
     const handlePageChangeTwo = () => {
         setActiveTwo(true);
         setActive(false);
         setActiveThree(false);
+        setActiveState('two');
     };
 
     const handlePageChangeThree = () => {
         setActiveTwo(false);
         setActive(false);
         setActiveThree(true);
+        setActiveState('three');
     };
 
     const handlePrint = useReactToPrint({
@@ -109,53 +123,106 @@ const Widget = ({
         onAfterPrint: () => console.log("Document printed."),
     });
 
-    const DataTwo = data?.data;
+    const currentData =
+        activeState === 'one'
+            ? allData
+            : activeState === 'two'
+                ? walletData
+                : offlineData;
+    const DataTwo = currentData?.results
+    const summary = currentData?.summary
 
     const handleExportToExcel = () => {
-        const data = DataTwo.map((item) => ({
+        const summaryRow = {
+            "Total Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
+            "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
+            "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
+            "No of Transactions": summary?.totalTranscation,
+            "Tenant": "",
+            "Rent Amount": "",
+            "Due Date": "",
+            "Payment Status": "",
+            "Amount Paid": "",
+            "Description": "",
+            "Rent Duration": "",
+            "Payment Method": "",
+            "Payment Date": "",
+        };
+
+        const dataRows = DataTwo.map((item) => ({
+            "Total Revenue": "",
+            "Rent Collected": "",
+            "Pending Rent": "",
+            "No of Transactions": "",
             "Tenant": item.tenantId?.fullName,
-            "Rent Amount": addCommasToNumberTwo(item.rent),
+            "Rent Amount": addCommasToNumber(item.rent),
             "Due Date": changeBackendDateFormat(item.dueDate),
             "Payment Status": item.status === "success" ? "Paid" : "Pending",
-            "Amount Paid": addCommasToNumberTwo(item.amountPaid),
-            "Description": item.description || "N/A",
-            "Rent Duration": item.duration === 1 ? `${item.duration} year` : `${item.duration} years`,
-            "Payment Method": item?.paymentMethod || "N/A",
-            "Payment Date": item?.paidAt ? changeBackendDateFormat(item?.paidAt) : "N/A",
+            "Amount Paid": addCommasToNumber(item.amountPaid),
+            "Description": item.description || "",
+            "Rent Duration": item.duration === 1 ? `${item.duration} month` : `${item.duration} months`,
+            "Payment Method": item?.paymentMethod || "",
+            "Payment Date": item?.paidAt ? changeBackendDateFormat(item?.paidAt) : "",
         }));
 
-        const worksheet = XLSX.utils.json_to_sheet(data);
+        const fullData = [summaryRow, ...dataRows];
+
+        const worksheet = XLSX.utils.json_to_sheet(fullData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Rent Details");
+
         const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
         const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-        saveAs(blob, "Tenant_Rent_Payment_Report.xlsx");
+        saveAs(blob, `Tenant_Rent_Payment_Report_Page_${pageNo}.xlsx`);
     };
 
+
     const handleExportToCSV = () => {
-        const data = DataTwo.map((item) => ({
+        const summaryRow = {
+            "Total Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
+            "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
+            "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
+            "No of Transactions": summary?.totalTranscation,
+            "Tenant": "", // Empty in summary row
+            "Rent Amount": "",
+            "Due Date": "",
+            "Payment Status": "",
+            "Amount Paid": "",
+            "Description": "",
+            "Rent Duration": "",
+            "Payment Method": "",
+            "Payment Date": "",
+        };
+
+        const dataRows = DataTwo.map((item) => ({
+            "Total Revenue": "", // Empty in data rows
+            "Rent Collected": "",
+            "Pending Rent": "",
+            "No of Transactions": "",
             "Tenant": item.tenantId?.fullName,
-            "Rent Amount": addCommasToNumberTwo(item.rent),
+            "Rent Amount": addCommasToNumber(item.rent),
             "Due Date": changeBackendDateFormat(item.dueDate),
             "Payment Status": item.status === "success" ? "Paid" : "Pending",
-            "Amount Paid": addCommasToNumberTwo(item.amountPaid),
-            "Description": item.description || "N/A",
-            "Rent Duration": item.duration === 1 ? `${item.duration} year` : `${item.duration} years`,
-            "Payment Method": item?.paymentMethod || "N/A",
-            "Payment Date": item?.paidAt ? changeBackendDateFormat(item?.paidAt) : "N/A",
+            "Amount Paid": addCommasToNumber(item.amountPaid),
+            "Description": item.description || "",
+            "Rent Duration": item.duration === 1 ? `${item.duration} month` : `${item.duration} months`,
+            "Payment Method": item?.paymentMethod || "",
+            "Payment Date": item?.paidAt ? changeBackendDateFormat(item?.paidAt) : "",
         }));
 
-        const csv = Papa.unparse(data);
+        const csv = Papa.unparse([summaryRow, ...dataRows]);
+
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
-        link.setAttribute("download", "Tenant_Rent_Payment_Report.csv");
+        link.setAttribute("download", `Tenant_Rent_Payment_Report_Page_${pageNo}.csv`);
         link.style.visibility = "hidden";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
+
 
 
     return (
@@ -326,7 +393,13 @@ const Widget = ({
             <div style={{ display: 'none' }}>
                 <PrintableAll
                     printRef={printRefAll}
-                    data={DataTwo}
+                    allData={allData}
+                    toDate={toDate}
+                    fromDate={fromDate}
+                    walletData={walletData}
+                    offlineData={offlineData}
+                    activeState={activeState}
+                    currentPage={pageNo}
                 />
             </div>
         </div>

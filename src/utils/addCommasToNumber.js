@@ -1,6 +1,6 @@
 function addCommasToNumber(number) {
   if (number === "" || number === null || number === undefined) {
-    return "_______"; // Render the placeholder if the number is invalid
+    return ""; // Render the placeholder if the number is invalid
   } else {
     // Convert the number to a string
     const numberString = number.toString();

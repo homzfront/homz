@@ -181,8 +181,6 @@ const Tenants = ({ id }) => {
     setData(tenantData);
   }, [tenantData]);
 
-  console.log(tenantData)
-
   const pages = [
     {
       id: 1,

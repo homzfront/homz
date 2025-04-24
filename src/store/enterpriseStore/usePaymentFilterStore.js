@@ -14,6 +14,18 @@ prevMonth.setMonth(today.getMonth() - 1);
 const usePaymentFilterStore = create((set) => ({
   selectedProperty: null,
   selectedOption: null,
+  search: '',
+  activeState: 'one',
+  pageNo: 1,
+  setPageNo: (data) => set({ pageNo: data }),
+  setActiveState: (data) => set({ activeState: data }),
+  allData: null,
+  setAllData: (data) => set({ allData: data }),
+  offlineData: null,
+  setOfflineData: (data) => set({ offlineData: data }),
+  walletData: null,
+  setWalletData: (data) => set({ walletData: data }),
+  setSearch: (data) => set({ search: data }),
   setSelectedOption: (date) => set({ selectedOption: date }),
   fromDate: formatDateII(prevMonth),  // Set default fromDate in the store
   toDate: formatDateII(today),       // Set default toDate in the store

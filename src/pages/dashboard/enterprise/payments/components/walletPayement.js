@@ -13,7 +13,6 @@ import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore
 
 const WalletPayement = () => {
     const [currentData, setData] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
     const [selectedDataId, setSelectedDataId] = useState(null);
@@ -22,9 +21,13 @@ const WalletPayement = () => {
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
     const {
         selectedProperty,
-        fromDate, 
+        fromDate,
         toDate,
-      } = usePaymentFilterStore();
+        search,
+        setWalletData,
+        pageNo,
+        setPageNo
+    } = usePaymentFilterStore();
 
     const handleToggleMenu = (id) => {
         setPopUpMenuTwo(!popUpMenuTwo);
@@ -47,12 +50,16 @@ const WalletPayement = () => {
                 if (selectedProperty) {
                     query += `&property=${selectedProperty}`;
                 }
-                if (fromDate &&  toDate) {
+                if (fromDate && toDate) {
                     query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
-                  }
+                }
+                if (search) {
+                    query += `&search=${search}`
+                }
                 const response = await api.get(query);
                 const result = response?.data;
                 setData(result?.data?.results);
+                setWalletData(result?.data)
                 setTotalPages(result?.data?.totalPages);
                 setLoading(false);
             } catch (error) {
@@ -60,23 +67,23 @@ const WalletPayement = () => {
                 console.error("Error fetching data:", error);
             }
         };
-        fetchData(currentPage);
-    }, [currentPage, selectedProperty, fromDate, toDate]);
+        fetchData(pageNo);
+    }, [pageNo, selectedProperty, fromDate, toDate, search]);
 
 
     const handlePageClick = (page) => {
-        setCurrentPage(page);
+        setPageNo(page);
     };
 
     const handleNext = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+        if (pageNo < totalPages) {
+            setPageNo(pageNo + 1);
         }
     };
 
     const handlePrev = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (pageNo > 1) {
+            setPageNo(pageNo - 1);
         }
     };
 
@@ -192,7 +199,7 @@ const WalletPayement = () => {
             {currentData && currentData.length >= 1 && <div className="mt-6">
                 <Pagination
                     firstThreePages={firstThreePages}
-                    currentPage={currentPage}
+                    currentPage={pageNo}
                     totalPages={totalPages}
                     handleNext={handleNext}
                     handlePageClick={handlePageClick}

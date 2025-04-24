@@ -28,6 +28,10 @@ const OfflinePayment = () => {
         selectedProperty,
         fromDate,
         toDate,
+        search,
+        setOfflineData,
+        pageNo,
+        setPageNo
     } = usePaymentFilterStore();
 
 
@@ -84,9 +88,13 @@ const OfflinePayment = () => {
             if (fromDate && toDate) {
                 query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
             }
+            if (search) {
+                query +=  `&search=${search}`
+              }
             const response = await api.get(query);
             const result = response?.data;
             setData(result?.data?.results);
+            setOfflineData(result?.data)
             setTotalPages(result?.data?.totalPages);
             setLoading(false);
         } catch (error) {
@@ -96,22 +104,22 @@ const OfflinePayment = () => {
     };
 
     useEffect(() => {
-        fetchData(currentPage);
-    }, [currentPage, selectedProperty, fromDate, toDate, Refetch]);
+        fetchData(pageNo);
+    }, [pageNo, selectedProperty, fromDate, toDate, Refetch, search]);
 
     const handlePageClick = (page) => {
-        setCurrentPage(page);
+        setPageNo(page);
     };
 
     const handleNext = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+        if (pageNo < totalPages) {
+            setPageNo(pageNo + 1);
         }
     };
 
     const handlePrev = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (pageNo > 1) {
+            setPageNo(pageNo - 1);
         }
     };
 
@@ -245,7 +253,7 @@ const OfflinePayment = () => {
             {currentData && currentData.length >= 1 && <div className="mt-6">
                 <Pagination
                     firstThreePages={firstThreePages}
-                    currentPage={currentPage}
+                    currentPage={pageNo}
                     totalPages={totalPages}
                     handleNext={handleNext}
                     handlePageClick={handlePageClick}
