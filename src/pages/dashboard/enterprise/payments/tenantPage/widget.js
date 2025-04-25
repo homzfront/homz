@@ -26,6 +26,7 @@ import Reset from '@/components/icons/reset';
 import { formatDateRange } from "@/utils/formatDateRange";
 import Document from "@/components/icons/document";
 import addCommasToNumber from "@/utils/addCommasToNumber";
+import api from "@/utils/api";
 
 const Widget = ({
     property,
@@ -37,8 +38,10 @@ const Widget = ({
     const { data, fetchData } = useExportRentPayment();
     const [isOpen, setIsOpen] = React.useState(false);
     const closeFilter = useClickOutside(() => setIsOpen(false));
+    const [printData, setPrintData] = React.useState(null)
     const [isOpenI, setIsOpenI] = useState(false);
     const dropdownRef = useClickOutside(() => setIsOpenI(false));
+    const [isLoading, setIsLoading] = React.useState(false);
     const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false)
     const {
         selectedProperty,
@@ -123,14 +126,51 @@ const Widget = ({
         onAfterPrint: () => console.log("Document printed."),
     });
 
+
+    const fetchDataAOW = async (page = 1, limit = 6) => {
+        setIsLoading(true);
+        try {
+            let query = `rentPayment/enterprise?limit=${limit}&page=${page}`;
+
+            // Add payment method based on activeState
+            if (activeState === 'two') {
+                query += `&paymentMethod=wallet`;
+            } else if (activeState === 'three') {
+                query += `&paymentMethod=offline`;
+            }
+
+            // Optional filters
+            if (selectedProperty) {
+                query += `&property=${selectedProperty}`;
+            }
+            if (fromDate && toDate) {
+                query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
+            }
+            if (search) {
+                query += `&search=${search}`;
+            }
+
+            const response = await api.get(query);
+            const result = response?.data;
+            setPrintData(result?.data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const currentData =
         activeState === 'one'
             ? allData
             : activeState === 'two'
                 ? walletData
                 : offlineData;
-    const DataTwo = currentData?.results
     const summary = currentData?.summary
+
+    React.useEffect(() => {
+        if (summary?.totalTranscation) fetchDataAOW(1, summary?.totalTranscation);
+    }, [activeState, selectedProperty, fromDate, toDate, search, summary?.totalTranscation]);
 
     const handleExportToExcel = () => {
         const summaryRow = {
@@ -138,6 +178,7 @@ const Widget = ({
             "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
             "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
             "No of Transactions": summary?.totalTranscation,
+            "Transaction Date": `${fromDate} -${toDate}`,
             "Tenant": "",
             "Rent Amount": "",
             "Due Date": "",
@@ -149,7 +190,7 @@ const Widget = ({
             "Payment Date": "",
         };
 
-        const dataRows = DataTwo.map((item) => ({
+        const dataRows = printData?.results.map((item) => ({
             "Total Revenue": "",
             "Rent Collected": "",
             "Pending Rent": "",
@@ -183,6 +224,7 @@ const Widget = ({
             "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
             "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
             "No of Transactions": summary?.totalTranscation,
+            "Transaction Date": `${fromDate} -${toDate}`,
             "Tenant": "", // Empty in summary row
             "Rent Amount": "",
             "Due Date": "",
@@ -194,7 +236,7 @@ const Widget = ({
             "Payment Date": "",
         };
 
-        const dataRows = DataTwo.map((item) => ({
+        const dataRows = printData?.results.map((item) => ({
             "Total Revenue": "", // Empty in data rows
             "Rent Collected": "",
             "Pending Rent": "",
@@ -359,7 +401,7 @@ const Widget = ({
                             </button>
                             {
                                 isOpenI &&
-                                <div className={`absolute z-20 w-[140px] md:w-[200px] right-[13px] md:right-0 md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
+                                <div className={`${isLoading && "pointer-events-none animate-pulse"} absolute z-20 w-[140px] md:w-[200px] right-[13px] md:right-0 md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
                                     <p className='px-4 text-[13px] text-GrayHomz font-medium'>
                                         Export as:
                                     </p>
@@ -391,14 +433,9 @@ const Widget = ({
             </div>
             <div style={{ display: 'none' }}>
                 <PrintableAll
+                    data={printData?.results}
+                    summary={printData?.summary}
                     printRef={printRefAll}
-                    allData={allData}
-                    toDate={toDate}
-                    fromDate={fromDate}
-                    walletData={walletData}
-                    offlineData={offlineData}
-                    activeState={activeState}
-                    currentPage={pageNo}
                 />
             </div>
         </div>

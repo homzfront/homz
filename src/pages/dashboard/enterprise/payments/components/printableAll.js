@@ -5,32 +5,23 @@ import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Image from "next/image";
 import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 
 const PrintableAll = ({
+    data,
     printRef,
-    allData,
-    walletData,
-    offlineData,
-    activeState,
-    toDate,
-    fromDate,
-    currentPage
+    summary
 }) => {
-
-    const currentData =
-        activeState === 'one'
-            ? allData
-            : activeState === 'two'
-                ? walletData
-                : offlineData;
-
-    const summary = currentData?.summary
-    const data = currentData?.results
     const { data: enterprise, loading, fetchData } = useProfileEnterpriseMe();
 
     React.useEffect(() => {
         fetchData();
     }, []);
+
+    const {
+        fromDate,
+        toDate,
+    } = usePaymentFilterStore();
 
     return (
         <div ref={printRef} className="w-full max-w-6xl mx-auto font-sans bg-white border shadow p-4">
@@ -129,7 +120,7 @@ const PrintableAll = ({
             </div>
 
             {/* Footer */}
-            <div className="bg-gradient-to-r from-BlueHomz2 to- bg-BlueHomzDark text-white text-center p-2 mt-2 text-sm">Page {currentPage ?? 1}</div>
+            {/* <div className="bg-gradient-to-r from-BlueHomz2 to- bg-BlueHomzDark text-white text-center p-2 mt-2 text-sm">Page {currentPage ?? 1}</div> */}
         </div>
     );
 };
