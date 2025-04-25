@@ -227,7 +227,7 @@ const Widget = ({
 
     return (
         <div>
-            {DataTwo && <div className="w-full h-auto py-4">
+            <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
@@ -389,7 +389,6 @@ const Widget = ({
                     </div>
                 </div>
             </div>
-            }
             <div style={{ display: 'none' }}>
                 <PrintableAll
                     printRef={printRefAll}

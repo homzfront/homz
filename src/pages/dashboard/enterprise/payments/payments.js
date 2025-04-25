@@ -66,7 +66,7 @@ const Payment = () => {
   };
 
   const options = [...new Set(estates?.map((item) => item?.name))];
-
+  
   const optionsTwo = [".CSV", ".XLSX", ".PDF"];
 
   return (
