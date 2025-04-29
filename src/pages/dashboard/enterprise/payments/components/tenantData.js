@@ -272,7 +272,7 @@ const TenantData = () => {
                         {data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}
                       </td>
                       <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
-                        <button onClick={() => handleToggleMenu(data._id)}>
+                        <button onClick={() => { handleToggleMenu(data._id) }}>
                           <Image
                             src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                             alt="Options"

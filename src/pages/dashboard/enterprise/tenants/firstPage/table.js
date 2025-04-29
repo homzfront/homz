@@ -383,7 +383,7 @@ const Table = ({
                                 Success! Invitation Sent
                             </h1>
                             <p className='text-GrayHomz font-normal text-[16px]'>
-                                Your invitation link has been sent to <span className='font-medium'>{selectedData?.fullName ?? "[Tenant's Email]"}</span> to join <span className='font-medium'>{sselectedData?.estateId?.name ?? "[Property Name]"}</span>
+                                Your invitation link has been sent to <span className='font-medium'>{selectedData?.fullName ?? "[Tenant's Email]"}</span> to join <span className='font-medium'>{selectedData?.estateId?.name ?? "[Property Name]"}</span>
                             </p>
                             <button
                                 onClick={() => setSuccessful(false)}

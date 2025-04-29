@@ -65,7 +65,7 @@ const AllData = ({ TenantId, TenantData, reFetchSummaryData, selectedOption }) =
     }
 
     useEffect(() => {
-        if (TenantId) {
+        if (TenantId && selectedOption) {
             fetchData(TenantId, currentPage, selectedOption?.startDate, selectedOption?.dueDate);
         }
     }, [TenantId, currentPage, fetchData, Refetch, selectedOption]);
@@ -88,7 +88,8 @@ const AllData = ({ TenantId, TenantData, reFetchSummaryData, selectedOption }) =
 
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
-
+console.log(currentData)
+console.log(selectedOption)
 
     return (
         <div className="mt-6 w-full mx-auto">

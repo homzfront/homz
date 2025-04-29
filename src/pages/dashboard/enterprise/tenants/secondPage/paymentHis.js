@@ -42,7 +42,9 @@ const PaymentHis = ({
   const sortedPeriods = periods?.sort((a, b) => b.isActive - a.isActive);
 
   React.useEffect(() => {
+    if(rentInfo && selectedOption) {
     fetchData(rentInfo?.upDateddata?.tenantId?._id, selectedOption?.startDate, selectedOption?.dueDate, selectedOption?.rent)
+    }
   }, [selectedOption]);
 
   React.useEffect(() => {

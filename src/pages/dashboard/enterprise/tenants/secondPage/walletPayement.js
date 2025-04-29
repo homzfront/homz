@@ -20,7 +20,7 @@ const WalletPayement = ({ TenantId, TenantData, reFetchSummaryData, selectedOpti
     } = useWalletPaymentStore();
 
     useEffect(() => {
-        if (TenantId) {
+        if (TenantId && selectedOption) {
             fetchData(TenantId, currentPage, selectedOption?.startDate, selectedOption?.dueDate);
         }
     }, [TenantId, currentPage, fetchData, selectedOption]);
