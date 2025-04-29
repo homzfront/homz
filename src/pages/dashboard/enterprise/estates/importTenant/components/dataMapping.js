@@ -72,7 +72,8 @@ const DataMapping = ({ handlePageChange, setImportData, setShowMappingSummaryMod
         { id: 7, option: "Rent Amount" },
         { id: 8, option: "Rent Duration" },
         { id: 9, option: "Start Date" },
-        { id: 11, option: "Property Type" }
+        { id: 11, option: "Property Type" },
+        { id: 12, option: "Send Invitation" }
     ];
 
 

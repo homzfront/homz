@@ -5,26 +5,29 @@ import { create } from 'zustand';
 const useEnterpriseTenantStore = create((set, get) => ({
     data: null,
     loading: true,
-    active : 1, 
+    active: 1,
     totalPages: 0,
     currentPage: 1,
     totalCount: 0,
     selectedStatus: null,
     selectedDate: null,
+    search: '',
+    setSearch: (data) => set({ search: data }),
     setCurrentPage: (page) => set({ currentPage: page }),
     setSelectedStatus: (status) => set({ selectedStatus: status }),
     setSelectedDate: (date) => set({ selectedDate: date }),
-    setActive:(date) => set({ active: date }),
+    setActive: (date) => set({ active: date }),
     fetchData: async (page = 1) => {
         set({ loading: true });
         try {
-            const { active, selectedStatus, selectedDate } = get();
+            const { active, selectedStatus, selectedDate, search } = get();
             const queryParams = new URLSearchParams({
                 limit: 8,
                 page,
                 ...(active === 2 && { isDueDateRecent: true }),
                 ...(selectedStatus && { paymentStatus: selectedStatus.toLowerCase() }),
                 ...(selectedDate && { currentRentStartDate: selectedDate }),
+                ...(search && { search }),
             });
             const response = await api.get(`/tenants/enterprise?${queryParams.toString()}`);
             const result = response?.data;

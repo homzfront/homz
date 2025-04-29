@@ -17,6 +17,8 @@ const SetOfflineData = ({
     successfullModal,
     tenantId,
     tenant,
+    selectedOption,
+    periods
 }) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
     const [formData, setFormData] = useState({
@@ -75,6 +77,7 @@ const SetOfflineData = ({
         setRefetch(false)
         if (!validateForm()) return;
         setIsLoadingForm(true);
+        const { index, ...selectedOptionWithoutIndex } = selectedOption;
         try {
             const response = await api.post(
                 `/offlinePayment/enterprise/rent/tenant/${tenantId}`,
@@ -87,6 +90,8 @@ const SetOfflineData = ({
                     duration: formData.duration,
                     startDate: formData.startDate.toISOString(),
                     dueDate: formData.dueDate.toISOString(),
+                    // paymentStatus: "paid",
+                    ...selectedOptionWithoutIndex,
                 }
             );
 
@@ -128,16 +133,16 @@ const SetOfflineData = ({
     };
 
     useEffect(() => {
-        if (rentInfo?.upDateddata) {
+        if (selectedOption) {
             setFormData({
                 ...formData,
-                rent: new Intl.NumberFormat().format(rentInfo?.upDateddata.rent) || "",
-                startDate: new Date(rentInfo?.upDateddata.startDate),
-                dueDate: new Date(rentInfo?.upDateddata.dueDate),
-                duration: rentInfo?.upDateddata.duration || "",
+                rent: new Intl.NumberFormat().format(selectedOption?.rent) || "",
+                startDate: new Date(selectedOption?.startDate),
+                dueDate: new Date(selectedOption?.dueDate),
+                duration: selectedOption?.duration || "",
             });
         }
-    }, [rentInfo?.upDateddata]);
+    }, [selectedOption]);
 
     useEffect(() => {
         if (formData.duration && formData.startDate) {

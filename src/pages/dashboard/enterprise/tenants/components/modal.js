@@ -9,8 +9,9 @@ import Loading from "@/components/mainmenu/loading";
 import api from "@/utils/api";
 import estateStore from "@/store/enterpriseStore/estates";
 import useTabForAddProperty from "@/store/document/useTabForAddProperty";
+import LoadingFormII from "@/components/mainmenu/loadingFormII";
 
-const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property }) => {
+const Modal = ({ estate_name, setInviteTenant, dropdownRef, openRegistrationForm, property }) => {
   const { setTab } = useTabForAddProperty()
   const [dropdowns, setDropdowns] = useState({
     estateOptions: false,
@@ -113,9 +114,21 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property })
     }
   };
 
+  React.useEffect(()=> {
+    if (estate_name && estates) {
+      const currentEstate = estates?.filter((data)=> data?.name === estate_name)
+      console.log(currentEstate?.[0])
+      setSelectedOptions((prev) => ({
+        ...prev,
+        estate: currentEstate?.[0]?.name,
+        slug: currentEstate?.[0]?.slug
+      }));
+    }
+  },[estate_name, estates])
+
   return (
-    <div ref={dropdownRef} className="w-[340px] md:w-auto md:max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px]">
-      {loading || (loadingII && <Loading />)}
+    <div ref={dropdownRef} className={`w-[340px] md:w-auto md:max-w-[591px] px-[28px] py-[36px] h-auto bg-white rounded-[12px] ${loading && "pointer-events-none animate-pulse"}`}>
+      {/* {loading && <Loading />} */}
       {copied ? (
         <div className="md:max-w-[464px] m-auto">
           <div className="md:w-[464px] px-8 flex flex-col justify-center items-center gap-5">
@@ -157,7 +170,7 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property })
           </div>
           <div className="relative inline-block w-full">
             <div
-              className={`text-BlackHomz px-4 border h-[48px] mt-2 mb-1 p-3 rounded-md cursor-pointer ${dropdowns["estateOptions"] ? "border" : ""
+              className={`${estate_name && selectedOptions && "pointer-events-none"}  text-BlackHomz px-4 border h-[48px] mt-2 mb-1 p-3 rounded-md cursor-pointer ${dropdowns["estateOptions"] ? "border" : ""
                 }  ${showLinkBox ? "hidden" : ""}`}
               onClick={() => handleDropdownClick("estateOptions")}
             >
@@ -185,7 +198,7 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property })
               </div>
             </div>
             <div
-              className={`flex items-center gap-1 mt-4  ${showLinkBox ? "hidden" : ""
+              className={`flex items-center gap-1 mt-4  ${showLinkBox || (estate_name && selectedOptions) ? "hidden" : ""
                 }`}
             >
               <p className="text-[12px] md:text-[14px] font-[400] text-GrayHomz">
@@ -202,7 +215,7 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property })
               </Link>
             </div>
             {dropdowns["estateOptions"] && (
-              <div className="absolute top-14 w-full text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container">
+              <div className={`absolute top-14 w-full text-GrayHomz2 text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
                 {estates &&
                   estates.map((estate) => (
                     <div
@@ -219,10 +232,10 @@ const Modal = ({ setInviteTenant, dropdownRef, openRegistrationForm, property })
           <div>
             <button
               onClick={handleGetLink}
-              className={`mt-4 border rounded-md w-full h-[48px] py-[8px] px-4  text-[16px] font-[700] ${showLinkBox ? "hidden" : ""
-                } ${selectedOptions?.estate ? "text-white bg-BlueHomz" : "pointer-events-none text-BlueHomz bg-white"}`}
+              className={`${loadingII ? "pointer-events-none flex justify-center items-center" : "py-[8px]"} mt-4 border rounded-md w-full h-[48px]  px-4  text-[16px] font-[700] ${showLinkBox ? "hidden" : ""
+                } ${selectedOptions?.estate ? "text-white bg-BlueHomz" : "pointer-events-none text-GrayHomz5 bg-white"}`}
             >
-              Get Link
+             { loadingII? <LoadingFormII />:"Get Link"}
             </button>
           </div>
           {showLinkBox && (

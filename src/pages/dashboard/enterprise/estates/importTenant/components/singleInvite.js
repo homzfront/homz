@@ -10,6 +10,8 @@ import ArrowDown from "@/components/icons/arrowDown";
 import CloseSmall from "@/components/icons/closeSmall";
 import useTenantForInvite from "@/store/enterpriseStore/useTenantForInvite";
 import { formatDateIII } from "@/utils/formatDateIII";
+import Ticked from "@/components/icons/ticked";
+import UnTicked from "@/components/icons/unTicked";
 
 const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOpenTenantInvite, estateName }) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
@@ -17,6 +19,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
     const [arrowColor, setArrowColor] = useState(false);
     const { setTenantData } = useTenantForInvite()
     const [isValid, setIsValid] = useState(false);
+    const [sendEmail, setSendEmail] = useState(true);
     const [formData, setFormData] = useState({
         firstName: null,
         email: null,
@@ -84,12 +87,14 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                 rentDuration: formData?.rentDuration,
                 startDate: formData.startDate.toISOString(),
                 dueDate: formatDateIII(formData.dueDate),
-            }
+            },
+            sendTenantEmail: sendEmail,
         } : {
             tenantName: `${formData.firstName} ${formData?.lastName}`,
             email: formData.email,
             houseAddress: formData?.address,
             phoneNumber: formData?.PhoneNUmber,
+            sendTenantEmail: sendEmail,
         }
 
         const cleanFormData = Object.fromEntries(
@@ -348,6 +353,34 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                         {errors.PhoneNUmber}
                                     </span>
                                 )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-inputBg py-4 px-6 rounded-[8px]">
+                        <div className="flex gap-2 items-center">
+                            <div
+                                onClick={() => {
+                                    setSendEmail(!sendEmail)
+                                }}
+                                className="cursor-pointer"
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={sendEmail}
+                                    onChange={() => {
+                                        setSendEmail(!sendEmail)
+                                    }}
+                                    className="hidden"
+                                />
+                                {sendEmail ? <Ticked /> : <UnTicked />}
+                            </div>
+                            <div>
+                                <h2 className="text-sm font-medium text-BlackHomz">
+                                    Send Invitation Email
+                                </h2>
+                                <p className="text-[13px] font-normal text-GrayHomz">
+                                    Choose whether to send an invitation email to the tenant
+                                </p>
                             </div>
                         </div>
                     </div>

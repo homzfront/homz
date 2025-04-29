@@ -52,8 +52,6 @@ const TenantProfile = ({ id }) => {
     fetchData
   } = useRentSummaryTenant();
 
-  console.log(rentInfo)
-
   useEffect(() => {
     fetchData(id, rentInfo?.upDateddata?.startDate, rentInfo?.upDateddata?.dueDate, rentInfo?.upDateddata?.rent)
   }, [rentInfo]);
