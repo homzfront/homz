@@ -8,6 +8,8 @@ import api from '@/utils/api';
 import { toast } from 'react-toastify';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import RichTextEditorEmail from './richTextEditorEmail';
+import { formatMessageToJSON } from '@/utils/formatMessageToJSON';
+import { stripHtmlTags } from '@/utils/stripHtmlTags';
 
 const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
     const [channels, setChannels] = useState([]);
@@ -80,21 +82,21 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                 "propertyManager": copyToEmail?.propertyManager,
                 "landlord": copyToEmail?.propertyOwner,
             },
-            "content": emailContent
+            content: formatMessageToJSON(emailContent)
         },
         "smsMessage": {
             "sendCopyTo": {
                 "propertyManager": copyToSMS?.propertyManager,
                 "landlord": copyToSMS?.propertyOwner
             },
-            "content": SMSContent
+            content: stripHtmlTags(SMSContent)
         },
         "inAppMessage": {
             "sendCopyTo": {
                 "propertyManager": copyToInApp?.propertyManager,
                 "landlord": copyToInApp?.propertyOwner
             },
-            "content": inAppContent
+            content: stripHtmlTags(inAppContent)
         }
     };
 
@@ -177,7 +179,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
         }
     };
 
-    console.log(data?.emailContent)
+    // console.log(data?.emailContent)
 
     return (
         <div>
@@ -241,7 +243,7 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                         <button
                             onClick={restoreDefaultReminder}
                             className={`mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500] ${loadingII ? "pointer-events-none w-full flex justify-center" : ""} `}
-                            >
+                        >
                             {loadingII ? <LoadingFormII /> : "Proceed"}
                         </button>
                         <button
@@ -291,8 +293,8 @@ const CustomizeSettings = ({ setCustomizeSettings, data, fetchDataAgain }) => {
                             <p className='text-[14px] font-[400]'>{data?.emailReminder}</p>
                         </div>
                         {/* <RichTextEditorEmail charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} /> */}
-                        <RichTextEditorSMS  charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
-                     
+                        <RichTextEditorSMS charLimit={1200} text={data?.emailContent} setEditorHtml={setEmailContent} editorHtml={emailContent} />
+
                         <div className="mt-2 flex flex-col md:flex-row md:items-center gap-2 text-[13px] font-[400] text-GrayHomz">
                             <div>Send copy to :</div>
                             <div className='flex gap-2'>

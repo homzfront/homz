@@ -9,6 +9,7 @@ import Pagination from "@/components/general/pagination";
 import api from "@/utils/api";
 import useClickOutside from "@/utils/clickOutside";
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
+import { useDebounce } from "@/utils/deBounce";
 
 
 const WalletPayement = () => {
@@ -28,6 +29,10 @@ const WalletPayement = () => {
         pageNo,
         setPageNo
     } = usePaymentFilterStore();
+
+    const debouncedSearch = useDebounce(search, 500);
+    const debounceToDate = useDebounce(toDate, 500);
+    const debounceFromDate = useDebounce(fromDate, 500);
 
     const handleToggleMenu = (id) => {
         setPopUpMenuTwo(!popUpMenuTwo);
@@ -68,7 +73,7 @@ const WalletPayement = () => {
             }
         };
         fetchData(pageNo);
-    }, [pageNo, selectedProperty, fromDate, toDate, search]);
+    }, [pageNo, selectedProperty, debounceFromDate, debounceToDate, debouncedSearch]);
 
 
     const handlePageClick = (page) => {

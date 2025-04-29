@@ -43,7 +43,7 @@ const Tenants = ({ property }) => {
           bgColor={"Success"}
           textColor={"text-successBg"}
           textColor2={"text-successBg"}
-          type={"Total Renenue"}
+          type={"Total Expected Renenue"}
           money={addCommasToNumber(currentSummary?.totalPayment)}
           width='md:w-[200px]'
         />
@@ -86,7 +86,7 @@ const Tenants = ({ property }) => {
             bgColor={"Success"}
             textColor={"text-successBg"}
             textColor2={"text-successBg"}
-            type={"Total Revenue"}
+            type={"Total Expected Renenue"}
             money={addCommasToNumber(currentSummary?.totalPayment)}
           />
         </div>

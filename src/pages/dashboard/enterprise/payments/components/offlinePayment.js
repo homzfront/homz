@@ -9,6 +9,7 @@ import Pagination from "@/components/general/pagination";
 import api from "@/utils/api";
 import RefetchPayment from "@/store/enterpriseStore/paymentRefetch";
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
+import { useDebounce } from "@/utils/deBounce";
 
 const OfflinePayment = () => {
     const [currentData, setData] = useState(null);
@@ -34,6 +35,9 @@ const OfflinePayment = () => {
         setPageNo
     } = usePaymentFilterStore();
 
+    const debouncedSearch = useDebounce(search, 500);
+        const debounceToDate = useDebounce(toDate, 500);
+        const debounceFromDate = useDebounce(fromDate, 500);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -105,7 +109,7 @@ const OfflinePayment = () => {
 
     useEffect(() => {
         fetchData(pageNo);
-    }, [pageNo, selectedProperty, fromDate, toDate, Refetch, search]);
+    }, [pageNo, selectedProperty, debounceFromDate, debounceToDate, Refetch, debouncedSearch]);
 
     const handlePageClick = (page) => {
         setPageNo(page);

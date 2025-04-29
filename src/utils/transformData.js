@@ -24,7 +24,7 @@ export const transformData = (mappedData) => {
         const rentAmount = parseFloat(item["Rent Amount"]?.replace(/[^\d.]/g, "")) || null;
 
         // Convert rent duration to months (if it's specified in years)
-        const rentDuration = parseInt(item["Rent Duration"]?.split(" ")[0]) * 12 || null;
+        const rentDuration = parseInt(item["Rent Duration"]) || null;
 
         // Parse start date
         let startDate = "";
@@ -60,6 +60,7 @@ export const transformData = (mappedData) => {
             email: item["Email"] || "N/A",
             phoneNumber: item["Phone No"] || "N/A",
             houseAddress: item["Address"] || "N/A",
+            sendTenantEmail: item["Send Invitation"] === "Yes" ? true : false,
         };
 
         // Create the rentInfo object

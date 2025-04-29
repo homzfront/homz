@@ -58,7 +58,7 @@ const PrintableAll = ({
 
                 <div className="mt-4 bg-[#EEF5FF] p-4 text-BlackHomz text-xs font-normal">
                     <div className="flex justify-between p-2">
-                        <span className="">Total Revenue:</span>
+                        <span className="">Total Expected Revenue:</span>
                         <span className="text-GrayHomz">₦{addCommasToNumber(summary?.totalPayment)}</span>
                     </div>
                     <div className="flex justify-between mt-2 bg-white p-2">

@@ -131,7 +131,7 @@ const Table = ({
                 toast.error("update falied");
             }
         } catch (error) {
-            console.log(error?.response?.data?.message)
+            // console.log(error?.response?.data?.message)
             if (error && error?.response?.data?.error?.errors) {
                 // Assign backend errors to state
                 const error = error?.response?.data?.error?.errors

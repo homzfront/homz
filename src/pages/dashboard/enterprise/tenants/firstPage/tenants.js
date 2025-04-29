@@ -34,6 +34,7 @@ import ExpiredPlanModal from '../../components/expiredPlanModal';
 import { isTrialExpired } from '@/utils/compareTrialTime';
 import DocDocu from '@/components/icons/docDocu';
 import Search from '@/components/icons/search';
+import { useDebounce } from '@/utils/deBounce';
 
 const Tenants = () => {
 
@@ -54,6 +55,9 @@ const Tenants = () => {
     search,
     setSearch
   } = useEnterpriseTenantStore();
+
+  const debouncedSearch = useDebounce(search, 500);
+
   React.useEffect(() => {
     setTenantsData(data?.[0].data ?? null)
   }, [data])
@@ -273,8 +277,7 @@ const Tenants = () => {
 
   React.useEffect(() => {
     fetchData(currentPage);
-    setTab(null)
-  }, [currentPage, selectedDate, selectedStatus, active, search]);
+  }, [currentPage, selectedDate, selectedStatus, active, debouncedSearch]);
 
   const filteredColumns = allColumns?.filter((column) =>
     column?.toLowerCase()?.includes(search?.toLowerCase())
@@ -566,7 +569,7 @@ const Tenants = () => {
                               <input
                                 type='text'
                                 className='placeholder:text-[#A9A9A9] w-full outline-none'
-                                placeholder='email, address...'
+                                placeholder='name, email...'
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                               />
@@ -575,7 +578,7 @@ const Tenants = () => {
                               Status    <ArrowDown className="#4E4E4E" />
                             </button>
 
-                            <button
+                            {/* <button
                               className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
                             >
                               <input
@@ -584,10 +587,10 @@ const Tenants = () => {
                                 onChange={(e) => setSelectedDate(e.target.value)}
                                 className="w-full py-2 outline-none"
                                 placeholder='Start Date'
-                              />
-                              {/* <span className='absolute'><DateIconTwo /></span> */}
-                            </button>
-                            <button
+                              /> */}
+                            {/* <span className='absolute'><DateIconTwo /></span> */}
+                            {/* </button> */}
+                            {/* <button
                               className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
                             >
                               <input
@@ -596,12 +599,24 @@ const Tenants = () => {
                                 onChange={(e) => setSelectedDate(e.target.value)}
                                 className="w-full py-2 outline-none"
                                 placeholder='End Date'
+                              /> */}
+                            {/* <span className='absolute'><DateIconTwo /></span> */}
+                            {/* </button> */}
+
+                            {/* <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                              Rent Period    <ArrowDown className="#4E4E4E" />
+                            </button> */}
+                            <button
+                              className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                            >
+                              <input
+                                type='date'
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                className="w-full py-2 outline-none"
+                                placeholder='Date'
                               />
                               {/* <span className='absolute'><DateIconTwo /></span> */}
-                            </button>
-
-                            <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                              Rent Period    <ArrowDown className="#4E4E4E" />
                             </button>
                             <button
                               onClick={() => setOpenColumns(true)}

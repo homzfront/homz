@@ -27,6 +27,7 @@ import { formatDateRange } from "@/utils/formatDateRange";
 import Document from "@/components/icons/document";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import api from "@/utils/api";
+import { useDebounce } from "@/utils/deBounce";
 
 const Widget = ({
     property,
@@ -168,13 +169,17 @@ const Widget = ({
                 : offlineData;
     const summary = currentData?.summary
 
+    const debouncedSearch = useDebounce(search, 500);
+    const debounceToDate = useDebounce(toDate, 500);
+    const debounceFromDate = useDebounce(fromDate, 500);
+
     React.useEffect(() => {
         if (summary?.totalTranscation) fetchDataAOW(1, summary?.totalTranscation);
-    }, [activeState, selectedProperty, fromDate, toDate, search, summary?.totalTranscation]);
+    }, [activeState, selectedProperty, debounceFromDate, debounceToDate, debouncedSearch, summary?.totalTranscation]);
 
     const handleExportToExcel = () => {
         const summaryRow = {
-            "Total Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
+            "Total Expected Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
             "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
             "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
             "No of Transactions": summary?.totalTranscation,
@@ -191,7 +196,7 @@ const Widget = ({
         };
 
         const dataRows = printData?.results.map((item) => ({
-            "Total Revenue": "",
+            "Total Expected Revenue": "",
             "Rent Collected": "",
             "Pending Rent": "",
             "No of Transactions": "",
@@ -220,7 +225,7 @@ const Widget = ({
 
     const handleExportToCSV = () => {
         const summaryRow = {
-            "Total Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
+            "Total Expected Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
             "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
             "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
             "No of Transactions": summary?.totalTranscation,
@@ -237,7 +242,7 @@ const Widget = ({
         };
 
         const dataRows = printData?.results.map((item) => ({
-            "Total Revenue": "", // Empty in data rows
+            "Total Expected Revenue": "", // Empty in data rows
             "Rent Collected": "",
             "Pending Rent": "",
             "No of Transactions": "",
@@ -344,7 +349,7 @@ const Widget = ({
                                                     <input
                                                         type='text'
                                                         className='placeholder:text-[#A9A9A9] w-full outline-none'
-                                                        placeholder='email, address...'
+                                                        placeholder='name, email...'
                                                         value={search}
                                                         onChange={(e) => setSearch(e.target.value)}
                                                     />
