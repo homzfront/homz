@@ -123,8 +123,9 @@ const Widget = ({
 
     const handlePrint = useReactToPrint({
         content: () => printRefAll.current,
-        documentTitle: "Tenants_Rent_Payments",
+        documentTitle: "Rent Payments",
         onAfterPrint: () => console.log("Document printed."),
+        removeAfterPrint: true
     });
 
 

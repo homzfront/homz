@@ -24,7 +24,17 @@ const PrintableAll = ({
     } = usePaymentFilterStore();
 
     return (
-        <div ref={printRef} className="w-full max-w-6xl mx-auto font-sans bg-white border shadow p-4">
+        <div ref={printRef} className="w-full max-w-6xl mx-auto font-sans bg-white shadow">
+             {/* Add print styles */}
+             <style jsx>{`
+                @media print {
+                    @page {
+                        size: auto;
+                        padding: 10mm; 
+                        border: none;
+                    }
+                }
+            `}</style>
             {/* Header */}
             <div className="bg-gradient-to-r from-BlueHomz2 to- bg-BlueHomzDark text-white p-4 rounded-t-md flex gap-2 items-center">
                 <div>
@@ -43,7 +53,7 @@ const PrintableAll = ({
             </div>
 
             {/* Summary Section */}
-            <div className="mt-2 p-4">
+            <div className="mt-2 px-4 pt-4 pb-2">
                 <p className="flex flex-col">
                     <span className="font-semibold">Financial Statement:</span> {fromDate} - {toDate}
                 </p>
@@ -77,7 +87,7 @@ const PrintableAll = ({
             </div>
 
             {/* Table Section */}
-            <div className="overflow-x-auto mt-2">
+            <div className="overflow-x-auto mt-6">
                 <table className="min-w-full text-sm text-left border-t border-gray-300">
                     <thead className="bg-BlueHomz text-white text-[11px]">
                         <tr>
