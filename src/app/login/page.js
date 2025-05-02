@@ -16,8 +16,11 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
+import Image from "next/image";
+import { signIn, useSession } from "next-auth/react"
 
 const Login = () => {
+  const { data: session } = useSession();
   const { homePage } = useTabForDocuGen();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,11 +31,12 @@ const Login = () => {
   const router = useRouter();
   const { tab } = useOpenDueDate();
 
+  console.log("Session", session);
   useBodyScroll([loading])
 
-  // const handleGoogleSignIn = () => {
-  //   signIn('google');
-  // };
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "/" });
+  };
 
   useEffect(() => {
     let timer;
@@ -143,6 +147,20 @@ const Login = () => {
     setVisible(!visible);
   };
 
+  const handleLoginSuccess = async (credentialResponse) => {
+    const idToken = credentialResponse.credential;
+
+    try {
+      const response = await axios.post('http://localhost:4000/api/auth/google', {
+        idToken,
+      });
+
+      // Optionally store token or user data
+      console.log('User data from backend:', response.data);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  }
   return (
     <div className="">
       <ToastContainer
@@ -236,8 +254,8 @@ const Login = () => {
                 >
                   {loading ? <LoadingFormII /> : "Log In"}
                 </button>
-                {/* <div className="">
-                  <button   className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
+                <div className="">
+                  <button onClick={()=>handleGoogleSignIn()} className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
                     <Image
                       className=""
                       src={"/Social icon.png"}
@@ -247,7 +265,8 @@ const Login = () => {
                     />
                     Login In with google
                   </button>
-                </div> */}
+                </div>
+                {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
                 <p className="text-center font-[400] text-[14px]">
                   Don’t have an account?
                   <Link

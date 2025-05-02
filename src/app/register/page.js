@@ -14,6 +14,7 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import ReCaptcha from "@/components/auth/reCaptcha";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import Image from "next/image";
 
 const Register = () => {
   const router = useRouter();
@@ -240,7 +241,7 @@ const Register = () => {
                     {loading ? <LoadingFormII /> : "Get Started"}
                   </button>
                 }
-                {/* <div className="">
+                <div className="">
                   <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
                     <Image
                       className=""
@@ -251,7 +252,7 @@ const Register = () => {
                     />
                     Sign Up with google
                   </button>
-                </div> */}
+                </div>
                 <p className="text-center font-[400] text-[14px]">
                   Already have an account?
                   <Link
