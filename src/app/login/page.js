@@ -194,9 +194,9 @@ const Login = () => {
           const verificationResponse = await api.post("/auth/google/verification", verificationPayload);
           console.log("Verification response:", verificationResponse);
 
-          if (verificationResponse.data?.user?.isVerified) {
+          if (verificationResponse?.data?.data?.isVerified) {
             // Store JWT token from verification response
-            const token = verificationResponse.data.token;
+            const token = verificationResponse?.data?.data.token;
             localStorage.setItem('jwt', token);
 
             // 2. Then fetch user profile
