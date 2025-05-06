@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useProfileStore from "@/store/profile";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/utils/api";
 import useBodyScroll from "@/utils/useBodyScroll";
@@ -17,10 +17,10 @@ import LoadingProlonged from "@/components/general/loadingProlonged";
 import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react"
+import { signIn, useSession, signOut  } from "next-auth/react"
 
 const Login = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { homePage } = useTabForDocuGen();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,8 +35,10 @@ const Login = () => {
   useBodyScroll([loading])
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/" });
+    localStorage.setItem("fromGoogle", "true");
+    signIn("google", { callbackUrl: "/login" });
   };
+
 
   useEffect(() => {
     let timer;
@@ -161,6 +163,95 @@ const Login = () => {
       console.error('Login failed:', error);
     }
   }
+
+
+  console.log("Session data:", session);
+  console.log("Session status:", status);
+  const fromGoogle = localStorage.getItem("fromGoogle") === "true";
+
+  console.log("fromGoogle state:", fromGoogle);
+  useEffect(() => {
+    const verifySession = async () => {
+      if (status === "authenticated" && session && fromGoogle === true) {
+        try {
+          setLoading(true);
+
+          // Prepare the payload exactly as required by your backend
+          const verificationPayload = {
+            user: {
+              name: session.user?.name,
+              email: session.user?.email,
+              image: session.user?.image
+            },
+            accessToken: session.accessToken,
+            idToken: session.idToken,
+            expires: session.expires
+          };
+
+          console.log("Verification payload:", verificationPayload);
+
+          // 1. First verify with Google token
+          const verificationResponse = await api.post("/auth/google/verification", verificationPayload);
+          console.log("Verification response:", verificationResponse);
+
+          if (verificationResponse.data?.user?.isVerified) {
+            // Store JWT token from verification response
+            const token = verificationResponse.data.token;
+            localStorage.setItem('jwt', token);
+
+            // 2. Then fetch user profile
+            const profileResponse = await api.get("/user/profile");
+            console.log("Profile response:", profileResponse);
+
+            if (profileResponse.data?.user) {
+              const profileData = profileResponse.data;
+
+              // Update Zustand store
+              useProfileStore.setState({
+                user: token, // Using the token from verification
+                profile: profileData.user,
+                isLoggedIn: true,
+                loading: false,
+              });
+             
+              // Determine and navigate to appropriate dashboard
+              const navigateTo = determineUserDashboard(profileData.user);
+              router.push(navigateTo || "/");
+            }
+          }
+        } catch (error) {
+          console.log(error?.response?.data?.message);
+
+          const errors = error?.response?.data?.error?.errors;
+          const message = error?.response?.data?.message;
+
+          if (errors) {
+            console.log(errors);
+            // Show each error as a toast (or combine them into one string)
+            const combinedMessage = Object.values(errors).join(", ");
+            toast.error(combinedMessage);
+          } else if (message) {
+            console.log(message);
+            toast.error(message);
+            if (message.toLowerCase().includes("This email is already registered")) {
+            signOut({ callbackUrl: "/login" });
+            }
+          } else {
+            console.log("An unexpected error occurred:", error);
+            toast.error("An unexpected error occurred");
+          }
+        }
+        finally {
+          setLoading(false);
+          localStorage.removeItem("fromGoogle");
+        }
+      }
+    };
+
+    verifySession();
+  }, [session, status, router, setLoading, fromGoogle]);
+
+
   return (
     <div className="">
       <ToastContainer
@@ -252,10 +343,11 @@ const Login = () => {
                   className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""} `}
                   type="Submit"
                 >
-                  {loading ? <LoadingFormII /> : "Log In"}
+                  {loading && !fromGoogle ? <LoadingFormII /> : "Log In"}
                 </button>
-                <div className="">
-                  <button onClick={()=>handleGoogleSignIn()} className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
+              </form>
+                <div className="mt-[-10px]">
+                  <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
                     <Image
                       className=""
                       src={"/Social icon.png"}
@@ -263,7 +355,7 @@ const Login = () => {
                       height={"20"}
                       width={"20"}
                     />
-                    Login In with google
+                    {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : "Login In with google"}
                   </button>
                 </div>
                 {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
@@ -276,7 +368,6 @@ const Login = () => {
                     Create Account
                   </Link>
                 </p>
-              </form>
             </div>
           </div>
         </div>

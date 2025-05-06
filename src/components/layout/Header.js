@@ -25,7 +25,7 @@ const Header = () => {
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
-  const { fetchProfile, profile, loading, logout } = useProfileStore();
+  const { fetchProfile, profile, loading, logout, fromGoogle } = useProfileStore();
   const { data, fetchData } = useProfileListingMe();
   const path = usePathname();
   const pathname = keepThree(path);
@@ -329,25 +329,29 @@ const Header = () => {
           </div>
         ) : (
           <>
-            <Link
-              href="/login"
-              // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-              // href={""}
-              className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
-              Sign in
+            <div className={`${fromGoogle && "animate-pulse opacity-50"} flex items-center gap-2`}>
+              <Link
+                href="/login"
+                // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+                // href={""}
+                className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
+                Sign in
 
-            </Link>
-            <Link
-              href="/register"
-              //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""}`}
-            >
-              Create Account
-              {/* Join Waitlist */}
-            </Link>
+              </Link>
+              <Link
+                href="/register"
+                //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
+                className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""}`}
+              >
+                Create Account
+                {/* Join Waitlist */}
+              </Link>
+            </div>
           </>
-        )}
+        )
+        }
       </div>
+
       <div
         onClick={() => setOpen(!open)}
         className="md:hidden border absolute right-8 top-[48px] cursor-pointer"
