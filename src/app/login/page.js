@@ -213,10 +213,9 @@ const Login = () => {
                 isLoggedIn: true,
                 loading: false,
               });
-             
-              // Determine and navigate to appropriate dashboard
-              const navigateTo = determineUserDashboard(profileData.user);
-              router.push(navigateTo || "/");
+              // Navigation logic based on user roles and account status
+              const navigateTo = determineUserDashboard(profileData);
+              router.push(navigateTo ?? "/");
             }
           }
         } catch (error) {
