@@ -6,8 +6,10 @@ import BusinessLogo from './businessLogo/businessLogo';
 import BusinessInfo from './businessInfo/businessInfo';
 import AccountInfo from './accountInfo/accountInfo';
 import { useSearchParams } from 'next/navigation';
+import useProfileStore from '@/store/profile';
 
 const WidgetMobile = ({ data }) => {
+      const { profile } = useProfileStore.getState();
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
 
@@ -123,7 +125,7 @@ const WidgetMobile = ({ data }) => {
                     </button>
                     <button
                         onClick={handlePageChangeSix}
-                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeSix
+                        className={`${profile?.user?.google && "hidden"} py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeSix
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
