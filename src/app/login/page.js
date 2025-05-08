@@ -31,7 +31,7 @@ const Login = () => {
   const router = useRouter();
   const { tab } = useOpenDueDate();
 
-  console.log("Session", session);
+  // console.log("Session", session);
   useBodyScroll([loading])
 
   const handleGoogleSignIn = () => {
