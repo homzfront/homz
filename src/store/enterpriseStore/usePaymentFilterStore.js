@@ -13,6 +13,8 @@ prevMonth.setMonth(today.getMonth() - 1);
 
 const usePaymentFilterStore = create((set) => ({
   selectedProperty: null,
+  isLoading: false,
+  setIsLoading:(data) => set({ isLoading: data }),
   selectedOption: null,
   search: '',
   activeState: 'one',

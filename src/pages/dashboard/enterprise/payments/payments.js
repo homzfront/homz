@@ -19,8 +19,9 @@ import Ticked from "@/components/icons/ticked";
 import UnTicked from "@/components/icons/unTicked";
 import Document from "@/components/icons/document";
 import useClickOutside from "@/utils/clickOutside";
-import { formatDateRange } from "@/utils/formatDateRange";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Reset from "@/components/icons/reset";
+import IncludeAdditionalFee from "./components/includeAdditionalFee";
 
 const Payment = () => {
   const {
@@ -31,7 +32,7 @@ const Payment = () => {
     setToDate,
     setSelectedProperty,
     setSelectedOption,
-    search, 
+    search,
     setSearch,
     setPageNo
   } = usePaymentFilterStore();
@@ -43,6 +44,8 @@ const Payment = () => {
   const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false)
   const { data, fetchData } = useExportRentPayment();
   const { data: estates, loading, fetchData: fetchEnterpriseProperties } = estateStore();
+  const [showPop, setShowPop] = React.useState(false);
+  const [include, setInclude] = React.useState("");
   // User-selected date range
   const today = new Date();
 
@@ -66,7 +69,7 @@ const Payment = () => {
   };
 
   const options = [...new Set(estates?.map((item) => item?.name))];
-  
+
   const optionsTwo = [".CSV", ".XLSX", ".PDF"];
 
   return (
@@ -85,6 +88,9 @@ const Payment = () => {
           pauseOnHover
           theme="dark"
         />
+        <CustomizedModal isOpen={showPop} onRequestClose={() => setShowPop(false)}>
+          <IncludeAdditionalFee include={include} setInclude={setInclude} setShowPop={setShowPop} />
+        </CustomizedModal>
         <div className="w-full">
           <div className="relative md:hidden flex flex-row gap-2 items-center">
             {/* Search Input */}
@@ -173,28 +179,34 @@ const Payment = () => {
                 </div>
               }
             </div>
-              <div ref={dropdownRef}>
-                <button onClick={() => setIsOpenI(!isOpenI)} className="text-walletBg px-4 bg-BlueHomz h-[35px] flex gap-1 items-center rounded-[4px]">
-                  <Document className="#FFFFFF" />
-                </button>
-                {
-                  isOpenI &&
-                  <div className={`absolute z-20 w-[200px] right-0 top-[60px] md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
-                    <p className='px-4 text-[13px] text-GrayHomz font-medium'>
-                      Export as:
-                    </p>
-                    {optionsTwo.map((option, index) => (
-                      <div
-                        key={index}
-                        className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
-                        onClick={() => setSelectedOption(option)}
-                      >
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                }
-              </div>
+            <div ref={dropdownRef}>
+              <button
+                onClick={() => {
+                  // setIsOpenI(!isOpenI)
+                  setShowPop(true);
+                }}
+                className="text-walletBg px-4 bg-BlueHomz h-[35px] flex gap-1 items-center rounded-[4px]"
+              >
+                <Document className="#FFFFFF" />
+              </button>
+              {
+                isOpenI &&
+                <div className={`absolute z-20 w-[200px] right-0 top-[60px] md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
+                  <p className='px-4 text-[13px] text-GrayHomz font-medium'>
+                    Export as:
+                  </p>
+                  {optionsTwo.map((option, index) => (
+                    <div
+                      key={index}
+                      className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
+                      onClick={() => setSelectedOption(option)}
+                    >
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              }
+            </div>
           </div>
         </div>
         <Header
@@ -207,7 +219,7 @@ const Payment = () => {
           selectedProperty={selectedProperty}
           clear={clear}
         />
-        <Widget property={options} />
+        <Widget include={include} setInclude={setInclude} property={options} setShowPop={setShowPop} />
       </div>
     </Suspense>
   );

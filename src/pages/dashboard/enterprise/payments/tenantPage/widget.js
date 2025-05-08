@@ -28,9 +28,17 @@ import Document from "@/components/icons/document";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import api from "@/utils/api";
 import { useDebounce } from "@/utils/deBounce";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import CloseSmall from "@/components/icons/closeSmall";
+import ImportStatement from "@/components/icons/importStatement";
+import AddFee from "../components/addFee";
+
 
 const Widget = ({
     property,
+    setShowPop,
+    include,
+    setInclude
 }) => {
     const printRefAll = useRef();
     const [active, setActive] = useState(true);
@@ -44,6 +52,7 @@ const Widget = ({
     const dropdownRef = useClickOutside(() => setIsOpenI(false));
     const [isLoading, setIsLoading] = React.useState(false);
     const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false)
+    const [docHover, setDocHover] = React.useState(false);
     const {
         selectedProperty,
         fromDate,
@@ -271,10 +280,43 @@ const Widget = ({
         document.body.removeChild(link);
     };
 
-
-
     return (
         <div>
+            <CustomizedModal isOpen={include === "withoutFee"} onRequestClose={() => setInclude("")}>
+                <div className={`${isLoading && "pointer-events-none animate-pulse"} p-4 w-full md:w-[440px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[440px] overflow-y-auto scrollbar-container`}>
+                    <div className="w-full flex justify-between items-start">
+                        <div className="flex flex-col gap-1 w-[85%]">
+                            <p className="text-BlackHomz font-[500] text-[14px] md:text-[18px]">
+                                Export as:
+                            </p>
+                            <p className='text-sm text-GrayHomz font-normal'>
+                                Select your preferred format
+                            </p>
+                        </div>
+                        <div
+                            onClick={() => setInclude("")}
+                            className="cursor-pointer"
+                        >
+                            <CloseSmall />
+                        </div>
+                    </div>
+                    {options.map((option, index) => (
+                        <div
+                            key={index}
+                            onMouseEnter={() => setDocHover(true)}
+                            onMouseLeave={() => setDocHover(false)}
+                            className="mt-4 py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz my-2 rounded-md flex justify-between items-center"
+                            onClick={() => setSelectedOption(option)}
+                        >
+                            {option}
+                            {docHover && option === selectedOption ? <ImportStatement className="#FFFFFF" /> : <ImportStatement />}
+                        </div>
+                    ))}
+                </div>
+            </CustomizedModal>
+            <CustomizedModal isOpen={include === "withFee"} onRequestClose={() => setInclude("")}>
+                <AddFee setInclude={setInclude} />
+            </CustomizedModal>
             <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
@@ -400,29 +442,18 @@ const Widget = ({
                             onSelect={(option) => setSelectedOption(option)}
                             className={"text-[14px] font-[500]"}
                             width={"w-auto"}
-                        /> */}
+                            /> */}
                         <div ref={dropdownRef}>
-                            <button onClick={() => setIsOpenI(!isOpenI)} className="text-walletBg px-4 md:bg-BlueHomz h-[36px] flex gap-1 items-center rounded-[4px]">
+                            <button
+                                onClick={() => {
+                                    // setIsOpenI(!isOpenI)
+                                    setShowPop(true);
+                                }}
+                                className="text-walletBg px-4 md:bg-BlueHomz h-[36px] flex gap-1 items-center rounded-[4px]">
                                 <Document className="#FFFFFF" /> Generate Statement
                             </button>
-                            {
-                                isOpenI &&
-                                <div className={`${isLoading && "pointer-events-none animate-pulse"} absolute z-20 w-[140px] md:w-[200px] right-[13px] md:right-0 md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
-                                    <p className='px-4 text-[13px] text-GrayHomz font-medium'>
-                                        Export as:
-                                    </p>
-                                    {options.map((option, index) => (
-                                        <div
-                                            key={index}
-                                            className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
-                                            onClick={() => setSelectedOption(option)}
-                                        >
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-                            }
                         </div>
+
                     </div>
                 </div>
                 <div className="my-5 rounded-[12px]">
