@@ -74,8 +74,6 @@ const ViewProperty = ({ PropertyID }) => {
     }
   }, [propertyData]);
 
- 
-
   useEffect(() => {
     const property = Properties.find(({ _id }) => _id === parseInt(PropertyID));
     setPropertyData(property);
@@ -100,7 +98,7 @@ const ViewProperty = ({ PropertyID }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
-//  console.log(propertyData)
+  //  console.log(propertyData)
   return (
     <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10 px-6">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
@@ -384,8 +382,9 @@ const ViewProperty = ({ PropertyID }) => {
                       </span>
                     </p>
                   </div>
-                  <div className="sm:hidden mb-5">
+                  <div className="sm:hidden mb-5 space-y-2">
                     <OwnersCard propertyData={propertyData && propertyData} />
+                    <ViewMetrics />
                   </div>
                   <div className="space-y-4 mt-6">
                     <div className="flex items-start gap-[8px]">
@@ -447,6 +446,8 @@ const ViewProperty = ({ PropertyID }) => {
                 </div>
                 <div className="hidden sm:flex flex-col  gap-[24px]">
                   <OwnersCard propertyData={propertyData && propertyData} />
+
+                  <ViewMetrics property={propertyData && propertyData} />
                 </div>
               </section>
             )}
@@ -458,13 +459,37 @@ const ViewProperty = ({ PropertyID }) => {
 };
 
 export default ViewProperty;
-const otherPhotos = [
-  "/static/images/Photo.png",
-  "/static/images/imageHouseHP.png",
-  "/static/images/house2.png",
-  "/static/images/imageHouseHP.png",
-  "/static/images/house2.png",
-];
+const ViewMetrics = ({ property }) => {
+  return (
+    <div className="grid grid-cols-3 gap-[10px]">
+      <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
+        <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
+          [ {property?.totalViews} ]
+        </p>
+        <p className="font-[500] text-[13px] leading-[150%] text-[#006AFF]">
+          Views
+        </p>
+      </div>
+      <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
+        <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
+          [ {property?.totalCallClicks} ]
+        </p>
+        <p className="font-[500] text-[13px] leading-[150%] text-[#006AFF]">
+          Call Clicks
+        </p>
+      </div>
+      <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
+        <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
+          [ {property?.totalMessages} ]
+        </p>
+
+        <p className="font-[500] text-[13px] sm:leading-[150%] leading-[120%] text-[#006AFF]">
+          WhatsApp Messages
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const amenities = [
   "air conditioning",

@@ -6,7 +6,7 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import Link from "next/link";
 import whatsApp from "@/utils/whatsAppMessenger";
 
-const OwnersCard = ({ propertyData }) => {
+const OwnersCard = ({ propertyData, updateMetrics }) => {
   // const [copiedState, setCopiedState] = useState({
   //   phoneNumber: false,
   //   email: false,
@@ -63,6 +63,7 @@ const OwnersCard = ({ propertyData }) => {
           <Link
             href={`/marketer-business-page/${propertyData?.user?._id}?user=users`}
             className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
+            onClick={() => updateMetrics("call")}
           >
             <span>View more properties from this marketer</span>
             <Image
@@ -96,7 +97,10 @@ const OwnersCard = ({ propertyData }) => {
           {propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo && (
             <button
               className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-              onClick={() => setShowNumber(!showNumber)}
+              onClick={() => {
+                setShowNumber(!showNumber);
+                if (!showNumber) updateMetrics("call");
+              }}
             >
               {showNumber ? "Hide" : "Show"}
             </button>
@@ -115,12 +119,13 @@ const OwnersCard = ({ propertyData }) => {
           </p>
 
           <button
-            onClick={() =>
+            onClick={() => {
               whatsApp(
                 propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo,
                 propertyData?.slug
-              )
-            }
+              );
+              updateMetrics("message");
+            }}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
             title={
               propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo

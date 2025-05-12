@@ -4,15 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import trucateWord from "@/utils/trucateWord";
-import { useRouter } from "next/navigation";
-const MiniPropertyListings = ({
-  Properties,
-  width,
-  padding,
-  reset,
-  setLoadingII,
-}) => {
-  const router = useRouter();
+// import { useRouter } from "next/navigation";
+const MiniPropertyListings = ({ Properties, updateMetrics }) => {
+  // const router = useRouter();
   return (
     <div className={`w-full sm:mt-5`}>
       <div className="text-[16px] flex justify-between w-full ">
@@ -22,6 +16,7 @@ const MiniPropertyListings = ({
         <Link
           href="/user_homepage/PropertyListing"
           className="flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
+          onClick={() => updateMetrics("call")}
         >
           <span>View All</span>
           <Image
@@ -53,6 +48,7 @@ const MiniPropertyListings = ({
                       href={`/user_homepage/PreviewProperty/${property?.slug}`}
                       key={index}
                       className="w-full h-[181.77px] md:w-full"
+                      onClick={() => updateMetrics("call")}
                     >
                       <Image
                         src={img?.url}
@@ -68,6 +64,7 @@ const MiniPropertyListings = ({
                 <Link
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
                   className="w-full h-[181.77px] md:w-full"
+                  onClick={() => updateMetrics("call")}
                 >
                   <Image
                     src="/static/images/comingSoonImage.svg"
@@ -80,7 +77,10 @@ const MiniPropertyListings = ({
               )}
             </div>
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
-              <div className="flex justify-between">
+              <button
+                className="flex justify-between"
+                onClick={() => updateMetrics("call")}
+              >
                 <Link
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
                   className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center"
@@ -95,7 +95,7 @@ const MiniPropertyListings = ({
                 >
                   {capitalizeFirstLetter(property?.listingType)}
                 </Link>
-              </div>
+              </button>
 
               <p className="text-[9px] md:text-[10.1px] font-[400] text-[#006AFF]">
                 {capitalizeFirstLetter(property?.propertyType)}
@@ -106,7 +106,7 @@ const MiniPropertyListings = ({
                  `}
               >
                 <span className="pl-1">
-                <span style={{ fontFamily: "Arial", }}>₦</span>
+                  <span style={{ fontFamily: "Arial" }}>₦</span>
                   {property?.price
                     ? Number(property?.price).toLocaleString()
                     : ""}

@@ -1,24 +1,22 @@
 "use client";
-import Image from "next/image";
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useReducer
-} from "react";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import PromotionHooks from "@/utils/promoteProperty";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-import CardMenus from "./cardMenu";
-import formatDate from "@/utils/formatDate";
+import useIsMobile from "@/components/mainmenu/useMobileView";
+import PropertyInfo from "./propertyInfo";
 import Confirm from "@/components/mainmenu/actionModal";
 import {
   publishAndRepublishProperty,
   removeProperty,
 } from "@/api/propertyService";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Autoplay, Navigation } from "swiper/modules";
 
 const initialState = {
   publishedSuccess: false,
@@ -59,11 +57,13 @@ const PropertyCard = ({
   setErrorModal,
   setTabName,
   pageManagement,
+  metric,
+  partOfTheDashboard,
 }) => {
   const ITEMS_PER_PAGE = 8;
   const [publish, setPublish] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(Property?.length / ITEMS_PER_PAGE);
+  // const totalPages = Math.ceil(Property?.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentProperties = Array.isArray(Property)
@@ -84,30 +84,67 @@ const PropertyCard = ({
     "This property will no longer be visible to the public but will be saved in your drafts";
   let publishedText = "This property will be made visible to the public.";
   const popUp = useRef(null);
-  const router = useRouter();
+  // const router = useRouter();
   const [publishState, dispatch] = useReducer(reducer, initialState);
+  const isMobile = useIsMobile();
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popUp.current && !popUp.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-    };
+  const settings = {
+    dots: false,
+    arrows: true,
+    infinite: true,
+    autoplay: false,
+    slidesToShow: 1.5,
+    slidesToScroll: 1,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    // centerMode: true,
+    centerPadding: "10px",
+    className: "center",
 
-    if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1.5,
+          centerPadding: "20px",
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1.5,
+          centerPadding: "30px",
+        },
+      },
+    ],
+  };
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMenuOpen]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     const clickedOutsidePopup =
+  //       popUp.current && !popUp.current.contains(event.target);
+
+  //     const clickedInsideSwiper = event.target.closest(".swiper");
+
+  //     if (clickedOutsidePopup && !clickedInsideSwiper) {
+  //       setIsMenuOpen(false);
+  //     }
+  //   };
+
+  //   if (isMenuOpen) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [isMenuOpen]);
 
   const handleCheckboxChange = (propertyId, is_promoted, is_published) => {
     if (!is_published) {
-      setSelectedDataId(propertyId)
+      setSelectedDataId(propertyId);
       setNotPublished(true);
       return;
     }
@@ -140,10 +177,9 @@ const PropertyCard = ({
     setLoader(true);
     publishAndRepublishProperty(selectedDataId)
       .then((result) => {
-
         dispatch({ type: result.message });
         setPublisProperty(false);
-        setNotPublished(false)
+        setNotPublished(false);
         setLoader(false);
       })
       .catch((error) => {
@@ -166,6 +202,7 @@ const PropertyCard = ({
     const params = getParams();
     dispatch({ type: "Close Modal" });
     setTabName("unpublished");
+
     pageManagement(params.page, "unpublished");
     refreshData("unpublished");
   };
@@ -174,6 +211,7 @@ const PropertyCard = ({
     refreshData(params.propertyStatus);
     setTabName(params.propertyStatus);
     dispatch({ type: "Close Modal" });
+
     pageManagement(params.page, params.propertyStatus);
   };
   const handleStopPropertyPromotion = async (type) => {
@@ -244,215 +282,101 @@ const PropertyCard = ({
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const truncateText = (text, length) => {
-    return text.length > length ? text.substring(0, length) + "..." : text;
+  const getGridClass = (partOfTheDashboard) => {
+    if (partOfTheDashboard === "mostViewed") return "md:grid-cols-1 gap-3";
+    if (partOfTheDashboard === "viewAll")
+      return "sm:grid-cols-4 sm:gap-0 gap-5";
+    return "sm:grid-cols-4 gap-5";
   };
 
+  const getDisplayedProperties = (props, part) => {
+    // if (part === "mostViewed") return props.slice(0, 2);
+    if (part === "viewAll") return props.slice(0, 4);
+    return props;
+  };
+
+  const displayedProperties = getDisplayedProperties(
+    currentProperties,
+    partOfTheDashboard
+  );
   return (
-    <div className="w-full mt-6 md:justify-center md:items-center h-fit">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 h-fit">
-        {currentProperties &&
-          currentProperties.map((property, index) => (
-            <div
-              className=" relative flex flex-col h-[361px] w-full md:w-[234px] sm:h-[317px] rounded-[12px] shadow-md"
-              key={index}
-            >
-              <div className="cursor-pointer w-full md:w-[234px] h-[212px] sm:h-[168px] rounded-[12p] ">
-                <div className=" relative h-[212px] sm:h-[168px] md:h-full w-full">
-                  <Link
-                    className="cursor-pointer text-[14px] h-full w-full"
-                    href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
-                  >
-                    <Image
-                      src={
-                        property?.coverPhoto?.url
-                          ? property?.coverPhoto.url
-                          : "/static/images/comingSoonImage.svg"
-                      }
-                      alt=""
-                      width={264}
-                      height={168}
-                      className="w-[100%] h-full md:w-full object-cover relative z-0 rounded-t-[12px]"
-                    />
-                  </Link>
-
-                  {/* <p className="bg-[#CDEADD] rounded-full w-[24px] h-[24px] absolute  left-[305px] md:left-[205px] flex items-center justify-center top-[14px] ">
-                  <Image
-                    src="/static/images/green_verify.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                  />
-                </p> */}
-                  {property?.is_published && (
-                    <p className="bg-[#CDEADD] text-[#039855] rounded-[8px] py-[4px] px-[8px] absolute left-[75%] md:left-[150px] top-[14px] text-[11px] leading-[16.5px] font-[400]">
-                      Published
-                    </p>
-                  )}
-
-                  {/* <p className="bg-[#DC6803] text-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[96px] top-[12px] text-[11px] leading-[16.5px] font-[400]">Undergoing Review</p> */}
-                  {/* <p className="text-[#DC6803] bg-[#FCF3EB] rounded-[8px] py-[4px] px-[8px] absolute left-[250px] md:left-[165px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Drafts</p> */}
-                  {/* <p className="bg-[#FDF2F2] text-[#D92D20] rounded-[8px] py-[4px] px-[8px] absolute left-[215px] md:left-[120px] top-[14px] text-[11px] leading-[16.5px] font-[400]">Unpublished</p> */}
-                </div>
-              </div>
-              <div className="flex flex-col px-2 py-5 md:pt-2 gap-[5px] md:gap-[2px] h-fit rounded-b-[12px]">
-                <div className="flex justify-between items-center mb-2 text-[11px] md:text-[16px]">
-                  <Link
-                    href={`/dashboard/list_Property/PreviewProperty/${property?._id}`}
-                    className="text-[#006AFF] font-[700] leading-[13.86px] md:leading-[24px] text-center text-[16px]"
-                    title={property?.name ? property?.name : property?.title}
-                  >
-                    {truncateText(
-                      property?.name ? property?.name : property?.title,
-                      20
-                    )}
-                  </Link>
-                  <div className="relative">
-                    <Image
-                      src="/static/images/verticatDotsIcon.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className="h-[15px] w-[15px] md:w-[20px] md:h-[20px] cursor-pointer"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        handleMenuToggle(property?._id);
-                        setPublish(property?.is_published);
-                      }}
-                    />
-                    {isMenuOpen && selectedDataId === property?._id && (
-                      <CardMenus
-                        data={property}
-                        publish={publish}
-                        handleDeleteModal={handleDeleteModal}
-                        handleUnpublished={handleUnpublished}
-                        handlePublished={handlePublished}
-                        setIsMenuOpen={setIsMenuOpen}
-                        refs={popUp}
-                        promoted={property?.is_promoted}
-                        setStopPromotion={setStopPromotion}
-                        setOpenPlanModal={setOpenPlanModal}
-                        setPromotePropertry={setPromotePropertry}
-                        setErrorModal={setErrorModal}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                <p className="flex gap-1 items-center">
-                  <Image
-                    src="/static/images/Location_Vector.svg"
-                    alt=""
-                    width={12}
-                    height={15.85}
-                    className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px] "
-                  />
-                  <span className="text-[11px] font-[500]">
-                    {`${property?.area}, ${property?.state}`}
-                  </span>
-                </p>
-                <div className="flex justify-between items-center">
-                  <p className=" md:font-[700] leading-[11.34px] font-[500] md:leading-[13.86px]  font-['Plus Jakarta Sans'] text-[11px] flex items-center ">
-                    <Image
-                      src="/static/images/nairaIcon.svg"
-                      alt=""
-                      width={17}
-                      height={25}
-                      className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
-                    />
-                    <span className="pl-1">
-                      {Number(property?.price).toLocaleString()}{" "}
-                    </span>
-                    <span className="text-[16px] font-[400] md:text-[18px] md:font-[500] ml-1 pt-1 text-[#4E4E4E]">
-                      {capitalizeFirstLetter(property?.paymentType)}
-                    </span>
-                  </p>
-                </div>
-                <p
-                  className={`text-[13px] md:text-[11px]  leading-16.5px] ${
-                    property?.is_promoted || property?.is_promoted === null
-                      ? "mt-1"
-                      : "mt-6"
-                  }  `}
-                >
-                  <span className=" text-[#A9A9A9] font-[400]">
-                    {"Added: " + formatDate(property?.createdAt)}
-                  </span>
-                </p>
-                {property?.is_published && property?.is_promoted && (
-                  <button
-                    className="border w-fit border-[#006AFF] bg-[#EEF5FF] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px]"
-                    onClick={() => {
-                      setSelectedDataId(property?._id);
-                      setStopPromotion(true);
-                    }}
-                  >
-                    <Image
-                      src="/static/images/medal-star.svg"
-                      alt=""
-                      width={10}
-                      height={10}
-                    />
-                    <span className="font-[500] text-[11px] text-[#006AFF] leading-[16.5px]">
-                      Promoted
-                    </span>
-                  </button>
-                )}
-
-                {/* ) : (
-                <p className="border w-fit border-[#DC6803] bg-[#FCF3EB] font-[500] text-[11px] py-[2px] px-[6px] rounded-[4px] flex items-center gap-[2px] leading-[16.5px] text-[#DC6803]">
-                  <Image
-                    src="/static/images/orangePromote.svg"
-                    alt=""
-                    width={10}
-                    height={10}
-                  />
-                  <span className="md:inline-block hidden" >Promotion in review</span>
-                  <span className=" md:hidden" >In review</span>
-                </p> */}
-              </div>
-              {promoteOptions && (
-                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10 flex items-center justify-center rounded-[12px] ">
-                  <label
-                    className="absolute  top-[12px] left-[15px] flex items-center rounded-full cursor-pointer"
-                    htmlFor={`checkbox-${index}`}
-                  >
-                    <input
-                      type="checkbox"
-                      className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 bg-[#FFFFFF] before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#FFFFFF] hover:before:opacity-2"
-                      id={`checkbox-${index}`}
-                      onChange={() =>
-                        handleCheckboxChange(
-                          property?._id,
-                          property?.is_promoted,
-                          property?.is_published
-                        )
-                      }
-                      checked={selectedProperty.includes(property._id)}
-                    />
-                    <span className="absolute text-BlueHomz transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        ></path>
-                      </svg>
-                    </span>
-                  </label>
-                </div>
-              )}
-            </div>
-          ))}
+    // <>
+    <div
+      className={`w-full ${
+        metric ? "mt-2" : "mt-6"
+      }  md:justify-center md:items-center h-fit`}
+    >
+      {/* Desktop & Tablet View */}
+      <div
+        className={`${metric && isMobile ? "hidden" : "grid"}  ${getGridClass(
+          partOfTheDashboard
+        )} grid-cols-1 h-fit`}
+      >
+        {displayedProperties.map((property, index) => (
+          <PropertyInfo
+            property={property}
+            selectedProperty={selectedProperty}
+            promoteOptions={promoteOptions}
+            setOpenPlanModal={setOpenPlanModal}
+            setPromotePropertry={setPromotePropertry}
+            setErrorModal={setErrorModal}
+            metric={metric}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            handleCheckboxChange={handleCheckboxChange}
+            handleDeleteModal={handleDeleteModal}
+            handleUnpublished={handleUnpublished}
+            handlePublished={handlePublished}
+            handleMenuToggle={handleMenuToggle}
+            setSelectedDataId={setSelectedDataId}
+            setStopPromotion={setStopPromotion}
+            selectedDataId={selectedDataId}
+            publish={publish}
+            popUp={popUp}
+            setPublish={setPublish}
+            key={index}
+          />
+        ))}
       </div>
 
+      <div className={`${metric && isMobile ? "block" : "hidden"} `}>
+        <Swiper
+          modules={[Navigation, Autoplay]}
+          spaceBetween={10}
+          slidesPerView={2}
+          grabCursor={true}
+          navigation
+          className="w-full"
+        >
+          {displayedProperties.map((property, index) => (
+            <SwiperSlide key={index}>
+              <PropertyInfo
+                property={property}
+                selectedProperty={selectedProperty}
+                promoteOptions={promoteOptions}
+                setOpenPlanModal={setOpenPlanModal}
+                setPromotePropertry={setPromotePropertry}
+                setErrorModal={setErrorModal}
+                metric={metric}
+                isMenuOpen={isMenuOpen}
+                setIsMenuOpen={setIsMenuOpen}
+                handleCheckboxChange={handleCheckboxChange}
+                handleDeleteModal={handleDeleteModal}
+                handleUnpublished={handleUnpublished}
+                handlePublished={handlePublished}
+                handleMenuToggle={handleMenuToggle}
+                setSelectedDataId={setSelectedDataId}
+                setStopPromotion={setStopPromotion}
+                selectedDataId={selectedDataId}
+                publish={publish}
+                popUp={popUp}
+                setPublish={setPublish}
+                key={index}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
       {/* Delete a property */}
 
       <Confirm
@@ -488,7 +412,7 @@ const PropertyCard = ({
         title="This property is already promoted"
         handleEvent={() => setActivePromoted(false)}
       />
-    
+
       <Confirm
         title="This property must be published to promote."
         description="Publish the property to promote it. Would you like to proceed?"
@@ -561,3 +485,35 @@ const PropertyCard = ({
 };
 
 export default PropertyCard;
+
+{
+  /* <Slider {...settings} className="w-full rounded-[24px] space-x-3">
+          {displayedProperties.map((property, index) => (
+            <div key={index} className="w-full">
+              <PropertyInfo
+                property={property}
+                selectedProperty={selectedProperty}
+                promoteOptions={promoteOptions}
+                setOpenPlanModal={setOpenPlanModal}
+                setPromotePropertry={setPromotePropertry}
+                setErrorModal={setErrorModal}
+                metric={metric}
+                isMenuOpen={isMenuOpen}
+                setIsMenuOpen={setIsMenuOpen}
+                handleCheckboxChange={handleCheckboxChange}
+                handleDeleteModal={handleDeleteModal}
+                handleUnpublished={handleUnpublished}
+                handlePublished={handlePublished}
+                handleMenuToggle={handleMenuToggle}
+                setSelectedDataId={setSelectedDataId}
+                setStopPromotion={setStopPromotion}
+                selectedDataId={selectedDataId}
+                publish={publish}
+                popUp={popUp}
+                setPublish={setPublish}
+                key={index}
+              />
+            </div>
+          ))}
+        </Slider> */
+}
