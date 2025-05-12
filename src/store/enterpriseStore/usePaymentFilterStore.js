@@ -27,8 +27,8 @@ const usePaymentFilterStore = create((set) => ({
   setWalletData: (data) => set({ walletData: data }),
   setSearch: (data) => set({ search: data }),
   setSelectedOption: (date) => set({ selectedOption: date }),
-  fromDate: formatDateII(prevMonth),  // Set default fromDate in the store
-  toDate: formatDateII(today),       // Set default toDate in the store
+  fromDate: null,  // Set default fromDate in the store
+  toDate: null,       // Set default toDate in the store
   setSelectedProperty: (data) => set({ selectedProperty: data }),
   setFromDate: (date) => set({ fromDate: date }),  // Add setter for fromDate
   setToDate: (date) => set({ toDate: date }),      // Add setter for toDate
