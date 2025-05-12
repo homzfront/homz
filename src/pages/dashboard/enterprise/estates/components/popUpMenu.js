@@ -101,7 +101,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
           }
         </div>
       </div>
-      {/* <div
+      <div
         onMouseEnter={() => setActiveSeven(true)}
         onMouseLeave={() => setActiveSeven(false)}
         className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-GrayHomz hover:text-BlueHomz w-full cursor-pointer">
@@ -123,7 +123,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
             </div>
           }
         </div>
-      </div> */}
+      </div>
       {
         <CustomizedModal isOpen={openTenantInvite} onRequestClose={() => setOpenTenantInvite(false)}>
           <div ref={dropdownRef}>
