@@ -31,7 +31,7 @@ const Payment = () => {
     setToDate,
     setSelectedProperty,
     setSelectedOption,
-    search, 
+    search,
     setSearch,
     setPageNo
   } = usePaymentFilterStore();
@@ -52,21 +52,21 @@ const Payment = () => {
 
   useEffect(() => {
     fetchData();
-    setFromDate(formatDateII(prevMonth));
-    setToDate(formatDateII(today));
+    // setFromDate(formatDateII(prevMonth));
+    // setToDate(formatDateII(today));
     fetchEnterpriseProperties()
   }, []);
 
   const clear = () => {
     setSelectedProperty(null);
-    setFromDate(formatDateII(prevMonth));
-    setToDate(formatDateII(today));
+    setFromDate(null);
+    setToDate(null);
     setSearch('')
     setPageNo(1)
   };
 
   const options = [...new Set(estates?.map((item) => item?.name))];
-  
+
   const optionsTwo = [".CSV", ".XLSX", ".PDF"];
 
   return (
@@ -160,9 +160,9 @@ const Payment = () => {
                           {/* <span className='absolute'><DateIconTwo /></span> */}
                         </button>
 
-                        <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                        {/* <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                           {selectedProperty ? selectedProperty : "Property"}     <ArrowDown className="#4E4E4E" />
-                        </button>
+                        </button> */}
                         <button
                           onClick={() => clear()}
                           className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
@@ -173,28 +173,28 @@ const Payment = () => {
                 </div>
               }
             </div>
-              <div ref={dropdownRef}>
-                <button onClick={() => setIsOpenI(!isOpenI)} className="text-walletBg px-4 bg-BlueHomz h-[35px] flex gap-1 items-center rounded-[4px]">
-                  <Document className="#FFFFFF" />
-                </button>
-                {
-                  isOpenI &&
-                  <div className={`absolute z-20 w-[200px] right-0 top-[60px] md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
-                    <p className='px-4 text-[13px] text-GrayHomz font-medium'>
-                      Export as:
-                    </p>
-                    {optionsTwo.map((option, index) => (
-                      <div
-                        key={index}
-                        className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
-                        onClick={() => setSelectedOption(option)}
-                      >
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                }
-              </div>
+            <div ref={dropdownRef}>
+              <button onClick={() => setIsOpenI(!isOpenI)} className="text-walletBg px-4 bg-BlueHomz h-[35px] flex gap-1 items-center rounded-[4px]">
+                <Document className="#FFFFFF" />
+              </button>
+              {
+                isOpenI &&
+                <div className={`absolute z-20 w-[200px] right-0 top-[60px] md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
+                  <p className='px-4 text-[13px] text-GrayHomz font-medium'>
+                    Export as:
+                  </p>
+                  {optionsTwo.map((option, index) => (
+                    <div
+                      key={index}
+                      className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
+                      onClick={() => setSelectedOption(option)}
+                    >
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              }
+            </div>
           </div>
         </div>
         <Header

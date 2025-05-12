@@ -72,15 +72,13 @@ const Widget = ({
 
     React.useEffect(() => {
         fetchData();
-        setFromDate(formatDateII(prevMonth));
-        setToDate(formatDateII(today));
     }, []);
 
 
     const clear = () => {
         setSelectedProperty(null);
-        setFromDate(formatDateII(prevMonth));
-        setToDate(formatDateII(today));
+        setFromDate(null);
+        setToDate(null);
         setSearch('')
         setPageNo(1)
     };
@@ -381,10 +379,10 @@ const Widget = ({
                                                     />
                                                     {/* <span className='absolute'><DateIconTwo /></span> */}
                                                 </button>
-
+                                                {/* 
                                                 <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                                                     {selectedProperty ? selectedProperty : "Property"}     <ArrowDown className="#4E4E4E" />
-                                                </button>
+                                                </button> */}
                                                 <button
                                                     onClick={() => clear()}
                                                     className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
@@ -426,15 +424,21 @@ const Widget = ({
                     </div>
                 </div>
                 <div className="my-5 rounded-[12px]">
-                    <div className={`${active ? "inline" : "hidden"}`}>
-                        <TenantData />
-                    </div>
-                    <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                        <WalletPayement />
-                    </div>
-                    <div className={`${activeThree ? "inline" : "hidden"}`}>
-                        <OfflinePayment />
-                    </div>
+                    {active &&
+                        <div>
+                            <TenantData />
+                        </div>
+                    }
+                    {activeTwo &&
+                        <div>
+                            <WalletPayement />
+                        </div>
+                    }
+                    {activeThree &&
+                        <div>
+                            <OfflinePayment />
+                        </div>
+                    }
                 </div>
             </div>
             <div style={{ display: 'none' }}>
