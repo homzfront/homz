@@ -53,7 +53,7 @@ const PropertyForms = () => {
   };
   const handleSaved = async () => {
     setLoading(true);
-  
+
     try {
       // Filter out empty values from propertyDetails
       const filteredDetail = propertyDetails.reduce((acc, detail) => {
@@ -64,7 +64,7 @@ const PropertyForms = () => {
         });
         return acc;
       }, {});
-  
+
       const {
         title,
         installmentPayment,
@@ -98,13 +98,13 @@ const PropertyForms = () => {
         youtubeUrl,
         instagramUrl,
       } = filteredDetail;
-  
+
       const formData = new FormData();
-  
+
       // Append cover photo and other images
       formData.append("coverPhoto", coverPhoto);
       photos.forEach((photo) => formData.append("photos", photo));
-  
+
       // Payload fields to append
       const payload = {
         title,
@@ -137,19 +137,19 @@ const PropertyForms = () => {
         initialPayment,
         installmentPayment,
       };
-  
+
       // Append each field to formData
       Object.entries(payload).forEach(([key, value]) => {
         if (value) {
           formData.append(key, value);
         }
       });
-  
+
       // Append amenities
       amenities?.forEach((amenity, index) => {
         formData.append(`amenities[${index}]`, amenity);
       });
-  
+
       // Send API request
       const response = await api.post(
         "/properties/create/listing-property",
@@ -160,7 +160,7 @@ const PropertyForms = () => {
           },
         }
       );
-  
+
       // Handle success
       if (response.data.success) {
         setSuccessModalIsOpen(true);
@@ -172,14 +172,13 @@ const PropertyForms = () => {
         error?.response?.data?.error?.errors?.[0] ||
         error?.response?.data?.message ||
         "An error occurred";
-  
+
       console.error(errorMessage);
       toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-  
 
   const handleSubmit = (contactInfo) => {
     // setContactInfo(contactInfo);
@@ -255,10 +254,9 @@ const PropertyForms = () => {
     return () => clearTimeout(timer);
   }, [loading]);
 
-const closeModalDelay = () => {
-  setShowLongLoadingMessage(false);
-};
-
+  const closeModalDelay = () => {
+    setShowLongLoadingMessage(false);
+  };
 
   return (
     <div className=" dashboard md:pt-4">
@@ -437,15 +435,20 @@ const closeModalDelay = () => {
         <div className="hidden md:flex items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Information</p>
           <p>Payment Details</p>
-          <p className="pr-3">Media</p>
+          <p className="pl-10">
+            Media <span className="text-gray-400">(Optional)</span>
+          </p>
           <p>Contact Information</p>
         </div>
-        <div className="hidden items-center justify-between text-[#4E4E4E] text-[14px]">
+        {/* <div className="hidden items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Info</p>
           <p>Rental Info</p>
-          <p className="pl-4">Photo(s)</p>
+          <p className="pl-4">
+            Photo(s){" "}
+            <span className="text-gray-400 text-[12px]">(Optional)</span>
+          </p>
           <p>Contact Info</p>
-        </div>
+        </div> */}
       </div>
       <div className=" my-7  rounded-[12px] ">
         <div className={`${propertyInfoActive ? "inline" : "hidden"}`}>
@@ -535,7 +538,7 @@ const closeModalDelay = () => {
           </div>
 
           <Link
-            href={"/dashboard/list_Property/"}
+            href={"/dashboard/list_Property/properties"}
             className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px] flex justify-center items-center"
             onClick={() => {
               closeSuccessModal();

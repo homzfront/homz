@@ -13,6 +13,7 @@ const PropertyRequest = ({
   onRequestClose,
   setOpenPropertyReq,
   setOpenSuccessModal,
+  updateMetrics,
 }) => {
   const [tabSelected, setSelectedTab] = useState("propInfo");
   const [listingType, setListingType] = useState("");
@@ -199,6 +200,7 @@ const PropertyRequest = ({
           setOpenPropertyReq(false);
           setOpenSuccessModal(true);
           resetFields();
+          updateMetrics();
         }
       } catch (error) {
         setIsLoading(false);
@@ -216,9 +218,9 @@ const PropertyRequest = ({
 
   const items = propertyTypeItemsMap[propertyType] || [];
   return (
-    <div className="">
+    <div className=" inset-0 flex items-center justify-center">
       <CustomizedModal isOpen={isOpen} onRequestClose={onRequestClose}>
-        <div className="sm:w-[813px] mt-8 rounded-[12px] bg-white sm:p-[32px] px-[28px] py-[32px] flex gap-[4px] flex-col h-fit ">
+        <div className="sm:w-[813px] mx-auto my-8 rounded-[12px] bg-white sm:p-[32px] px-[28px] py-[32px] flex gap-[4px] flex-col max-h-[95vh] overflow-hidden">
           <section className="space-y-1 pb-[24px] border-b-[1px] border-[#A9A9A9] ">
             <div className="modal-header flex items-center justify-between">
               <p className="text-[20px] font-[700] leading-[25.2px] ">
@@ -604,7 +606,7 @@ const PropertyRequest = ({
 };
 
 export default PropertyRequest;
-const listingTypeValues = ["for rent", "for sale", "shortlet"];
+// const listingTypeValues = ["for rent", "for sale", "shortlet"];
 const landTypeValues = [
   "Commercial Land",
   "Industrial Land",

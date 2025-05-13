@@ -113,9 +113,9 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 onClick={() => setSelectedClicked(false)}
               >
                 {/* {selectedClicked && ( */}
-                  <option value="" disabled selected>
-                    Select Payment Type
-                  </option>
+                <option value="" disabled selected>
+                  Select Payment Type
+                </option>
                 {/* )} */}
                 {paymentTypeValues.map((type, index) => (
                   <option key={index} value={type}>
@@ -168,7 +168,8 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
                 htmlFor="maintenanceFee"
               >
-                How much is the maintenance fee?
+                How much is the service charge?{" "}
+                <span className="text-gray-500">(Optional)</span>
               </label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
@@ -210,7 +211,8 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
                 htmlFor="agencyFee"
               >
-                How much is the Agency fee?
+                How much is the Agency fee?{" "}
+                <span className="text-gray-500">(Optional)</span>
               </label>
               <br />
               <div className="flex relative items-center h-[43px] md:h-[45px] md:w-[300.67px] duoViewPoint w-[100%]">
@@ -304,7 +306,8 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
               className=" leading-[21px] text-[11px] md:text-[14px] font-[400] md:leading-[21px] text-[#4E4E4E]"
               htmlFor={`checkbox`}
             >
-              Installment Payment
+              Installment Payment{" "}
+              <span className="text-gray-500">(Optional)</span>
             </label>
           </div>
           <div
@@ -344,9 +347,9 @@ const RentDetails = ({ handleRentalInfo, previousBtn, setSaveToDraft }) => {
                 onClick={() => setDurationClicked(false)}
               >
                 {/* {durationClicked && ( */}
-                  <option value="" disabled selected>
-                    Select payment duration
-                  </option>
+                <option value="" disabled selected>
+                  Select payment duration
+                </option>
                 {/* )} */}
 
                 {[...Array(6).keys()].slice(1).map((num) => (
@@ -534,9 +537,9 @@ const FrequencySelect = ({
       onChange={(e) => setFrequency(e.target.value)}
     >
       {/* {selectedClicked && ( */}
-        <option value="" disabled selected>
-          Select Frequency
-        </option>
+      <option value="" disabled selected>
+        Select Frequency
+      </option>
       {/* )} */}
       {filteredFrequency.map((type, index) => (
         <option key={index} value={type}>

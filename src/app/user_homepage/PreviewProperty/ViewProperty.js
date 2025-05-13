@@ -24,10 +24,10 @@ import VideoFrame from "./videoFrame";
 import InstagramFrame from "./instagramView";
 import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
-// import { property } from "lodash";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-const ViewProperty = ({ PropertyID }) => {
+const ViewProperty = ({ PropertySlug }) => {
   const [combinedData, setCombinedData] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -36,6 +36,12 @@ const ViewProperty = ({ PropertyID }) => {
   const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [tabName, setTabName] = useState("Overview");
   const [viewportWidth, setViewportWidth] = useState(0);
+
+  const router = useRouter();
+  const pathSegments = window.location.pathname.split("/");
+  const slug = pathSegments[pathSegments.length - 1];
+
+  const propertySlug = PropertySlug ?? slug;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -62,12 +68,11 @@ const ViewProperty = ({ PropertyID }) => {
   let indexNumber = isMobileView ? 2 : 3;
 
   useBodyScroll([openSelectedImage]);
-  const router = useRouter();
   const goBack = () => {
     router.back();
   };
-  const [loading, setLoading] = useState(true);
-  const [propertyData, setPropertyData] = useState(null);
+
+  // const [propertyData, setPropertyData] = useState(null);
   const additionalDetails = ["fully furnished", "newly Built", "serviced"];
 
   const closeSaveToDraftModal = () => {
@@ -75,14 +80,18 @@ const ViewProperty = ({ PropertyID }) => {
     // router.back()
   };
 
-  useEffect(() => {
-    const propertyData = async () => {
-      const response = await fetchSinglePropertyPublic(PropertyID);
-      setPropertyData(response?.data);
-      setLoading(false);
-    };
-    propertyData();
-  }, [PropertyID]);
+  // Getting the property data
+  const { data: propertyData, isLoading: loading } = useQuery({
+    queryKey: ["property", propertySlug],
+    queryFn: async () => {
+      return await fetchSinglePropertyPublic(propertySlug);
+    },
+    placeholderData: keepPreviousData,
+    select: (property) => {
+      return property.data;
+    },
+    // enabled: true,
+  });
 
   useEffect(() => {
     if (propertyData && propertyData.coverPhoto && propertyData.photos) {
@@ -101,16 +110,32 @@ const ViewProperty = ({ PropertyID }) => {
     }
   }, [propertyData]);
 
-  const [properties, setProperties] = useState(null);
+  const { data: properties, isLoading: loading2 } = useQuery({
+    queryKey: ["publicProperty"],
+    queryFn: async () => {
+      return await api.get(`/public/properties/others`);
+    },
+    placeholderData: keepPreviousData,
+    select: (publicProperty) => {
+      return publicProperty.data.data;
+    },
+    // enabled: true,
+  });
+
+  // endpoint for the views, clicks, and whatsApp messages
+  const { mutate: updateMetrics } = useMutation({
+    mutationFn: async (type) => {
+      return await api.post(`/properties/metric/${propertySlug}`, {
+        type,
+      });
+    },
+  });
+
+  // this is to account for users coming to view the property page outside homz
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await api.get(`/public/properties/others`);
-      const propertyData = response?.data?.data || null;
-      setProperties(propertyData);
-      setLoading(false);
-    };
-    fetchData();
+    if (PropertySlug === null) {
+      updateMetrics("view");
+    }
   }, []);
 
   const openImageModal = (imageIndex, item) => {
@@ -133,6 +158,11 @@ const ViewProperty = ({ PropertyID }) => {
   //     window.open(url);
   //   }
   // };
+
+  const changeTabName = (name) => {
+    setTabName(name);
+    updateMetrics("call");
+  };
   const handleSharePage = async () => {
     const shareData = {
       title: document.title,
@@ -142,6 +172,7 @@ const ViewProperty = ({ PropertyID }) => {
 
     try {
       await navigator.share(shareData);
+      updateMetrics("call");
       // console.log("Page shared successfully!");
     } catch (err) {
       console.error("Error sharing the page:", err);
@@ -150,7 +181,7 @@ const ViewProperty = ({ PropertyID }) => {
   // console.log(propertyData)
   return (
     <div>
-      {loading ? (
+      {loading || loading2 ? (
         <LoadingII />
       ) : (
         propertyData && (
@@ -344,7 +375,8 @@ const ViewProperty = ({ PropertyID }) => {
                       </span>
                       <span className="sm:pl-1  leading-[20.16px] flex gap-[24px] sm:justify-between items-center">
                         <span className="font-[700]">
-                        <span style={{ fontFamily: "Arial", }}>₦</span> {Number(propertyData?.price).toLocaleString()}{" "}
+                          <span style={{ fontFamily: "Arial" }}>₦</span>{" "}
+                          {Number(propertyData?.price).toLocaleString()}{" "}
                           <span className="font-[400]  sm:hidden text-[#4E4E4E]">
                             per year
                           </span>
@@ -460,14 +492,20 @@ const ViewProperty = ({ PropertyID }) => {
                     />
                   </button>
                   <div className="sm:hidden mb-5 space-y-6">
-                    <OwnersCard propertyData={propertyData && propertyData} />
+                    <OwnersCard
+                      propertyData={propertyData && propertyData}
+                      updateMetrics={updateMetrics}
+                    />
                     <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
                       <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
                         Can’t find the property you are looking for?
                       </p>
                       <button
                         className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
-                        onClick={() => setOpenPropertyReq(true)}
+                        onClick={() => {
+                          setOpenPropertyReq(true);
+                          updateMetrics("call");
+                        }}
                       >
                         Post a property request
                       </button>
@@ -481,7 +519,7 @@ const ViewProperty = ({ PropertyID }) => {
                         className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
                           tabName === "Overview" && "bg-BlueHomz text-white"
                         }`}
-                        onClick={() => setTabName("Overview")}
+                        onClick={() => changeTabName("Overview")}
                       >
                         Overview
                       </button>
@@ -489,7 +527,7 @@ const ViewProperty = ({ PropertyID }) => {
                         className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
                           tabName === "Amenities" && "bg-BlueHomz text-white"
                         }`}
-                        onClick={() => setTabName("Amenities")}
+                        onClick={() => changeTabName("Amenities")}
                       >
                         Amenities
                       </button>
@@ -497,7 +535,7 @@ const ViewProperty = ({ PropertyID }) => {
                         className={`py-[8px] px-[12px] rounded-[4px] h-[37px] text-[14px] leading-[21px] font-[500] ${
                           tabName === "Map" && "bg-BlueHomz text-white"
                         }`}
-                        onClick={() => setTabName("Map")}
+                        onClick={() => changeTabName("Map")}
                       >
                         Map
                       </button>
@@ -542,33 +580,42 @@ const ViewProperty = ({ PropertyID }) => {
                   )}
 
                   {propertyData?.videoLinks?.instagramUrl && (
-                   <InstagramFrame url={propertyData?.videoLinks?.instagramUrl}/>
+                    <InstagramFrame
+                      url={propertyData?.videoLinks?.instagramUrl}
+                    />
                   )}
 
                   <ContactCard
                     contactData={propertyData}
                     setOpenPropertyReq={setOpenPropertyReq}
                     slug={propertyData?.slug}
+                    updateMetrics={updateMetrics}
                   />
                   <div className="w-full hidden sm:block">
                     <MiniPropertyListings
                       reset={linkToSearch}
-                      setLoadingII={setLoading}
                       Properties={properties}
                       padding={"md:px-0"}
+                      updateMetrics={updateMetrics}
                     />
                   </div>
                 </div>
                 <div className="flex flex-col  gap-[24px]">
                   <div className="hidden sm:block space-y-5">
-                    <OwnersCard propertyData={propertyData && propertyData} />
+                    <OwnersCard
+                      propertyData={propertyData && propertyData}
+                      updateMetrics={updateMetrics}
+                    />
                     <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
                       <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
                         Can’t find the property you are looking for?
                       </p>
                       <button
                         className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
-                        onClick={() => setOpenPropertyReq(true)}
+                        onClick={() => {
+                          setOpenPropertyReq(true);
+                          updateMetrics("call");
+                        }}
                       >
                         Post a property request
                       </button>
@@ -620,6 +667,7 @@ const ViewProperty = ({ PropertyID }) => {
                     <Link
                       href="/dashboard/list_Property/addProperty"
                       className="text-white bg-[#006AFF] py-[8px] text-center px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
+                      onClick={() => updateMetrics("call")}
                     >
                       Get Started
                     </Link>
@@ -628,9 +676,9 @@ const ViewProperty = ({ PropertyID }) => {
                   <div className="w-full sm:hidden">
                     <MiniPropertyListings
                       reset={linkToSearch}
-                      setLoadingII={setLoading}
                       Properties={properties}
                       padding={"md:px-0"}
+                      updateMetrics={updateMetrics}
                     />
                   </div>
                 </div>
@@ -643,6 +691,7 @@ const ViewProperty = ({ PropertyID }) => {
         isOpen={openPropertyReq}
         setOpenPropertyReq={setOpenPropertyReq}
         setOpenSuccessModal={setOpenSuccessModal}
+        updateMetrics={() => updateMetrics("call")}
       />
       <SuccessModal
         isOpen={OpenSuccessModal}

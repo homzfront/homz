@@ -11,7 +11,7 @@ import PropertyCard from "../components/propertyCard";
 import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from 'react';
+import { Suspense } from "react";
 import LoadingII from "@/components/mainmenu/loadingII";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import Reset from "@/components/icons/reset";
@@ -28,7 +28,9 @@ const UserHomePage = () => {
 
 const PreviewPropertyContent = () => {
   const urlParams = useSearchParams();
-  const defaultPage = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+  const defaultPage = urlParams.get("page")
+    ? parseInt(urlParams.get("page"))
+    : 1;
   const [currentPage, setCurrentPage] = useState(defaultPage);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [property, setProperty] = useState(null);
@@ -50,14 +52,12 @@ const PreviewPropertyContent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get(
-        `/public/properties/others`)
-      const propertyData = response?.data?.data || null
+      const response = await api.get(`/public/properties/others`);
+      const propertyData = response?.data?.data || null;
       setProperties(propertyData);
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
-
 
   const fetchProperties = async () => {
     setLoading(true);
@@ -69,7 +69,9 @@ const PreviewPropertyContent = () => {
     });
     if (query && urlParams.get("page")) {
       const response = await api.get(
-        `/public/properties?page=${urlParams.get("page")}&${new URLSearchParams(query).toString()}`
+        `/public/properties?page=${urlParams.get("page")}&${new URLSearchParams(
+          query
+        ).toString()}`
       );
       const data = response;
       if (data?.data?.data && data?.data?.message !== "No items found") {
@@ -80,7 +82,7 @@ const PreviewPropertyContent = () => {
         // setCurrentPage(urlParams.get("page"))
         const total = data.data.data.results[0]?.metadata[0]?.total || 0;
         setTotalPages(Math.ceil(total / 9));
-        setTotalData(data.data.data.results[0]?.metadata[0]?.total)
+        setTotalData(data.data.data.results[0]?.metadata[0]?.total);
       } else {
         setProperty(null);
         setTotalPages(0);
@@ -100,7 +102,7 @@ const PreviewPropertyContent = () => {
         setParams(false);
         const total = data.data.data.results[0]?.metadata[0]?.total || 0;
         setTotalPages(Math.ceil(total / 8));
-        setTotalData(data.data.data.results[0]?.metadata[0]?.total)
+        setTotalData(data.data.data.results[0]?.metadata[0]?.total);
       } else {
         setProperty(null);
         setTotalPages(0);
@@ -125,9 +127,9 @@ const PreviewPropertyContent = () => {
         "",
         `?page=${currentPage}&${new URLSearchParams(query).toString()}`
       );
-      fetchProperties()
+      fetchProperties();
     } else {
-      fetchProperties()
+      fetchProperties();
     }
   }, [filters, currentPage, urlParams]);
 
@@ -138,12 +140,12 @@ const PreviewPropertyContent = () => {
   const handleSearchChange = (e) => {
     const { value } = e.target;
     handleFilterChange("search", value);
-    setParams(true)
+    setParams(true);
   };
 
   const handleSearch = (query, label) => {
     handleFilterChange(label, query);
-    setParams(true)
+    setParams(true);
   };
 
   const reset = () => {
@@ -155,13 +157,16 @@ const PreviewPropertyContent = () => {
       maxPrice: null,
       numberOfBathrooms: null,
       state: null,
-    })
+    });
     setCurrentPage(1);
     setParams(true);
   };
 
   const firstThreePages = Array.from({ length: 3 }, (_, i) => i + 1);
-  const lastThreePages = Array.from({ length: totalPages - 1 }, (_, i) => totalPages - i)
+  const lastThreePages = Array.from(
+    { length: totalPages - 1 },
+    (_, i) => totalPages - i
+  )
     .filter((page) => page > 1 && page < totalPages)
     .reverse();
 
@@ -218,7 +223,7 @@ const PreviewPropertyContent = () => {
             height={16}
             className="cursor-pointer right-[15px] absolute"
             onClick={() => {
-              handleSearchChange
+              handleSearchChange;
             }}
           />
         </div>
@@ -227,10 +232,11 @@ const PreviewPropertyContent = () => {
             <Listing
               getState={handleSearch}
               className={"w-[150px]"}
-              selectOption={`${filters?.listingType === null
-                ? "Listing Type"
-                : capitalizeFirstLetter(filters?.listingType)
-                }`}
+              selectOption={`${
+                filters?.listingType === null
+                  ? "Listing Type"
+                  : capitalizeFirstLetter(filters?.listingType)
+              }`}
               classNameII={"text-GrayHomz border-GrayHomz"}
               classNameIII={"text-GrayHomz"}
               classNameIV={"text-GrayHomz"}
@@ -240,10 +246,11 @@ const PreviewPropertyContent = () => {
             <PropertyType
               getPropertyType={handleSearch}
               className={"w-[180px]"}
-              selectOption={`${filters?.propertyType === null
-                ? "Property Type"
-                : capitalizeFirstLetter(filters?.propertyType)
-                }`}
+              selectOption={`${
+                filters?.propertyType === null
+                  ? "Property Type"
+                  : capitalizeFirstLetter(filters?.propertyType)
+              }`}
               classNameII={"text-GrayHomz border-GrayHomz"}
               classNameIII={"text-GrayHomz"}
               classNameIV={"text-GrayHomz"}
@@ -253,10 +260,11 @@ const PreviewPropertyContent = () => {
             <Bedroom
               getBedrooms={handleSearch}
               className={"w-[180px]"}
-              selectOption={`${filters?.numberOfBathrooms === null
-                ? "No of bedrooms"
-                : `${filters?.numberOfBathrooms} Bedrooms`
-                }`}
+              selectOption={`${
+                filters?.numberOfBathrooms === null
+                  ? "No of bedrooms"
+                  : `${filters?.numberOfBathrooms} Bedrooms`
+              }`}
               classNameII={"text-GrayHomz border-GrayHomz"}
               classNameIII={"text-GrayHomz"}
               classNameIV={"text-GrayHomz"}
@@ -266,10 +274,11 @@ const PreviewPropertyContent = () => {
             <MinPrice
               getPrice={handleSearch}
               className={"w-[160px]"}
-              selectOption={`${filters?.minPrice === null
-                ? "Min Price"
-                : addCommasToNumberWithoutN(filters?.minPrice)
-                }`}
+              selectOption={`${
+                filters?.minPrice === null
+                  ? "Min Price"
+                  : addCommasToNumberWithoutN(filters?.minPrice)
+              }`}
               classNameII={"text-GrayHomz border-GrayHomz"}
               classNameIII={"text-GrayHomz"}
               classNameIV={"text-GrayHomz"}
@@ -279,10 +288,11 @@ const PreviewPropertyContent = () => {
             <MaxPrice
               getPrice={handleSearch}
               className={"w-[160px]"}
-              selectOption={`${filters?.maxPrice === null
-                ? "Max Price"
-                : addCommasToNumberWithoutN(filters?.maxPrice)
-                }`}
+              selectOption={`${
+                filters?.maxPrice === null
+                  ? "Max Price"
+                  : addCommasToNumberWithoutN(filters?.maxPrice)
+              }`}
               classNameII={"text-GrayHomz border-GrayHomz"}
               classNameIII={"text-GrayHomz"}
               classNameIV={"text-GrayHomz"}
@@ -321,7 +331,7 @@ const PreviewPropertyContent = () => {
             height={16}
             width={16}
             onClick={() => {
-              handleSearchChange
+              handleSearchChange;
             }}
           />
         </div>
@@ -380,20 +390,22 @@ const PreviewPropertyContent = () => {
               <PropertyType
                 getPropertyType={handleSearch}
                 className={"w-[150px]"}
-                selectOption={`${filters?.propertyType === null
-                  ? "Property Type"
-                  : capitalizeFirstLetter(filters?.propertyType)
-                  }`}
+                selectOption={`${
+                  filters?.propertyType === null
+                    ? "Property Type"
+                    : capitalizeFirstLetter(filters?.propertyType)
+                }`}
               />
             </div>
             <div>
               <Bedroom
                 getBedrooms={handleSearch}
                 className={"w-[150px]"}
-                selectOption={`${filters?.numberOfBathrooms === null
-                  ? "Number of bedrooms"
-                  : `${filters?.numberOfBathrooms} Bedrooms`
-                  }`}
+                selectOption={`${
+                  filters?.numberOfBathrooms === null
+                    ? "Number of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                }`}
               />
             </div>
           </div>
@@ -402,20 +414,22 @@ const PreviewPropertyContent = () => {
               <MinPrice
                 getPrice={handleSearch}
                 className={"w-[150px]"}
-                selectOption={`${filters?.minPrice === null
-                  ? "Min Price"
-                  : addCommasToNumberWithoutN(filters?.minPrice)
-                  }`}
+                selectOption={`${
+                  filters?.minPrice === null
+                    ? "Min Price"
+                    : addCommasToNumberWithoutN(filters?.minPrice)
+                }`}
               />
             </div>
             <div>
               <Listing
                 getState={handleSearch}
                 className={"w-[150px]"}
-                selectOption={`${filters?.listingType === null
-                  ? "Listing Type"
-                  : capitalizeFirstLetter(filters?.listingType)
-                  }`}
+                selectOption={`${
+                  filters?.listingType === null
+                    ? "Listing Type"
+                    : capitalizeFirstLetter(filters?.listingType)
+                }`}
               />
             </div>
           </div>
@@ -430,9 +444,7 @@ const PreviewPropertyContent = () => {
                 width={16}
                 height={16}
               />
-              <span className="">
-                Filter
-              </span>
+              <span className="">Filter</span>
             </button>
             <button
               className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"

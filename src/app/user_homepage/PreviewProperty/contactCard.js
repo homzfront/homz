@@ -3,7 +3,12 @@ import formatNumber from "@/utils/formatNumber";
 import Image from "next/image";
 import whatsApp from "@/utils/whatsAppMessenger";
 
-const ContactCard = ({ contactData, setOpenPropertyReq, slug }) => {
+const ContactCard = ({
+  contactData,
+  setOpenPropertyReq,
+  slug,
+  updateMetrics,
+}) => {
   // console.log(contactData);
   const [showNumber, setShowNumber] = useState(false);
 
@@ -21,7 +26,10 @@ const ContactCard = ({ contactData, setOpenPropertyReq, slug }) => {
           </p>
           <button
             className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-            onClick={() => setShowNumber(!showNumber)}
+            onClick={() => {
+              setShowNumber(!showNumber);
+              if (!showNumber) updateMetrics("call");
+            }}
           >
             Call Agent
           </button>
@@ -39,7 +47,10 @@ const ContactCard = ({ contactData, setOpenPropertyReq, slug }) => {
               <span>Whatsapp</span>
             </p>
             <button
-              onClick={() => whatsApp(contactData?.contacts?.whatsapp, slug)}
+              onClick={() => {
+                whatsApp(contactData?.contacts?.whatsapp, slug);
+                updateMetrics("message");
+              }}
               className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
               title={contactData?.contacts?.whatsapp}
             >
@@ -49,7 +60,10 @@ const ContactCard = ({ contactData, setOpenPropertyReq, slug }) => {
         )}
         <button
           className="text-white sm:w-[154px] h-[44px] bg-[#006AFF] py-[8px] px-[12px] rounded-[8px] flex items-center text-[11px] justify-center gap-1 leading-[16.5px] font-[400]"
-          onClick={() => setOpenPropertyReq(true)}
+          onClick={() => {
+            setOpenPropertyReq(true);
+            updateMetrics("call");
+          }}
         >
           <Image
             src="/static/images/call.svg"

@@ -19,7 +19,7 @@ const OwnersCard = ({ propertyData }) => {
     }
     window.open(`https://wa.me/${number}`);
   };
-    // console.log(propertyData)
+  // console.log(propertyData)
   // const handleCopyClick = async (text, identifier) => {
   //   try {
   //     await navigator.clipboard.writeText(text);
@@ -71,7 +71,9 @@ const OwnersCard = ({ propertyData }) => {
         <div className="">
           <p className="text-[18px] font-[500] text-GrayHomz flex items-center gap-[8px]">
             <span className="">
-              {capitalizeFirstLetter(propertyData?.lisitingPropertyId?.businessInfo?.businessName)}
+              {capitalizeFirstLetter(
+                propertyData?.lisitingPropertyId?.businessInfo?.businessName
+              )}
             </span>
             <Image
               src="/static/images/green_verify.svg"
@@ -80,7 +82,10 @@ const OwnersCard = ({ propertyData }) => {
               height={20}
             />
           </p>
-          <Link href={`/marketer-business-page/${propertyData?.user?._id}`} className="breakwords pl-2 flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer">
+          <Link
+            href={`/marketer-business-page/${propertyData?.user?._id}`}
+            className="breakwords pl-2 flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
+          >
             <span>View your page</span>
             <Image
               src="/static/images/send.svg"
@@ -98,10 +103,12 @@ const OwnersCard = ({ propertyData }) => {
       </p>
       <div className="flex gap-[12px] flex-col">
         <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
-        <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
-            {showNumber
-              ? propertyData?.contacts?.phoneNumber
-              : formatNumber(propertyData?.contacts?.phoneNumber)}
+          <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
+            {propertyData?.contacts?.phoneNumber
+              ? showNumber
+                ? propertyData?.contacts?.phoneNumber
+                : formatNumber(propertyData?.contacts?.phoneNumber)
+              : "----"}
           </p>
           <button
             className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
@@ -110,8 +117,8 @@ const OwnersCard = ({ propertyData }) => {
             {showNumber ? "Hide" : "Show"}
           </button>
         </div>
-        <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
-        <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
+        {/* <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px] ">
+          <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
             <Image
               src="/static/images/whatsapp.svg"
               alt=""
@@ -121,86 +128,14 @@ const OwnersCard = ({ propertyData }) => {
             />
             <span>Whatsapp</span>
           </p>
-        
+
           <button
             onClick={() => whatsApp(propertyData?.contacts?.whatsApp || "")}
             className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
           >
             Send Message
           </button>
-        </div>
-        {/* <div>
-          <p className="text-[13px] font-[400] text-BlackHomz">Phone Number</p>
-          <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-            <p className="text-[14px] font-[500] text-BlueHomz">
-              {propertyData?.contacts?.phoneNumber}
-            </p>
-            <Image
-              src={"/static/dashboard/enterprisemanager/propertyList/copy.png"}
-              width={16}
-              height={17}
-              alt=""
-              onClick={() =>
-                handleCopyClick(
-                  `${propertyData?.contacts?.phoneNumber}`,
-                  "phoneNumber"
-                )
-              }
-              className="cursor-pointer"
-            />
-          </div>
-          <div>
-            {copiedState.phoneNumber && (
-              <div className="italic text-[12px] text-Success">Copied</div>
-            )}
-          </div>
-        </div>
-        {propertyData?.contacts?.email && (
-          <div>
-            <p className="text-[13px] font-[400] text-BlackHomz">Email</p>
-            <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-              <p className="text-[14px] font-[500] text-BlueHomz">
-                {propertyData?.contacts?.email}
-              </p>
-              <Image
-                src={
-                  "/static/dashboard/enterprisemanager/propertyList/copy.png"
-                }
-                width={16}
-                height={17}
-                alt=""
-                onClick={() =>
-                  handleCopyClick(`${propertyData?.contacts?.email}`, "email")
-                }
-                className="cursor-pointer"
-              />
-            </div>
-            <div>
-              {copiedState.email && (
-                <div className="italic text-[12px] text-Success">Copied</div>
-              )}
-            </div>
-          </div>
-        )}
-        {propertyData?.contacts?.whatsapp && (
-          <div>
-            <p className="text-[13px] font-[400] text-BlackHomz">
-              WhatsApp Link
-            </p>
-            <div className="mt-2 bg-whiteblue md:w-[280px] h-[45px] flex items-center justify-between px-4 rounded-sm">
-              <p
-                onClick={() => {
-                  viewFile(propertyData?.contacts?.whatsapp);
-                }}
-                className="text-[14px] font-[500] text-BlueHomz underline cursor-pointer"
-              >
-                {propertyData?.contacts?.whatsapp
-                  ? `${propertyData?.contacts?.whatsapp}`
-                  : ""}
-              </p>
-            </div>
-          </div>
-        )} */}
+        </div> */}
       </div>
     </div>
   );
