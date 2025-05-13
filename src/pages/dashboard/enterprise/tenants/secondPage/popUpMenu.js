@@ -57,7 +57,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFe
       ref={dropdownRef}
       className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around">
       {/* View receipt */}
-      <div
+      {/* <div
         onMouseEnter={() => setActiveTwo(true)}
         onMouseLeave={() => setActiveTwo(false)}
         className={`md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
@@ -69,7 +69,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFe
             </p>
           </div>
         </button>
-      </div>
+      </div> */}
 
       {/* Update Record */}
       <div
