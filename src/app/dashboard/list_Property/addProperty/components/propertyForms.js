@@ -260,19 +260,6 @@ const PropertyForms = () => {
 
   return (
     <div className=" dashboard md:pt-4">
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeButton={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      /> */}
       <div
         onClick={goBack}
         className="flex items-center gap-2 cursor-pointer w-fit"
