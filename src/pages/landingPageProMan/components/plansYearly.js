@@ -283,7 +283,8 @@ const PlansYearly = ({ routeTo, profile }) => {
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -299,7 +300,8 @@ const PlansYearly = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -367,7 +369,8 @@ const PlansYearly = ({ routeTo, profile }) => {
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -383,7 +386,8 @@ const PlansYearly = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
