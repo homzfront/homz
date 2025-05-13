@@ -17,6 +17,7 @@ const HeaderAndFilter = ({
     isOpenTwo,
     closeAction,
     closeFilter,
+    setOpenCreateExpenses
 }) => {
     return (
         <div>
@@ -127,7 +128,7 @@ const HeaderAndFilter = ({
                             isOpenTwo &&
                             <div className='absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
                                 <div className='text-sm text-GrayHomz font-medium flex flex-col gap-0'>
-                                    <div className='flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                                    <div onClick={()=> setOpenCreateExpenses(true)} className='flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer'>
                                         <span className='w-3'>
                                             <AddNormal />
                                         </span>

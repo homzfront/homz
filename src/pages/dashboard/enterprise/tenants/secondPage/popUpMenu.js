@@ -72,7 +72,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFe
       </div>
 
       {/* Update Record */}
-      <div
+      {/* <div
         onMouseEnter={() => setActiveThree(true)}
         onMouseLeave={() => setActiveThree(false)}
         className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
@@ -84,7 +84,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFe
             </p>
           </div>
         </button>
-      </div>
+      </div> */}
 
       {/* Delete */}
       <div
