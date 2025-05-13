@@ -435,15 +435,20 @@ const PropertyForms = () => {
         <div className="hidden md:flex items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Information</p>
           <p>Payment Details</p>
-          <p className="pr-3">Media</p>
+          <p className="pl-10">
+            Media <span className="text-gray-400">(Optional)</span>
+          </p>
           <p>Contact Information</p>
         </div>
-        <div className="hidden items-center justify-between text-[#4E4E4E] text-[14px]">
+        {/* <div className="hidden items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Info</p>
           <p>Rental Info</p>
-          <p className="pl-4">Photo(s)</p>
+          <p className="pl-4">
+            Photo(s){" "}
+            <span className="text-gray-400 text-[12px]">(Optional)</span>
+          </p>
           <p>Contact Info</p>
-        </div>
+        </div> */}
       </div>
       <div className=" my-7  rounded-[12px] ">
         <div className={`${propertyInfoActive ? "inline" : "hidden"}`}>
