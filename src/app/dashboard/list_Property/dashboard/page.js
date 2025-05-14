@@ -85,21 +85,52 @@ const Dashboard = () => {
           {mostViewedLoader ? (
             <LoadingII />
           ) : (
-            <div className="sm:block hidden">
-              <PropertyCard
-                Property={mostViewedProperties}
-                setTabName={setTabName}
-                pageManagement={pageManagement}
-                promoteOptions={promoteOption}
-                setSelectedProperty={setSelectedOption}
-                selectedProperty={selectedOptions}
-                refreshData={refreshData}
-                setOpenPlanModal={setOpenPlanModal}
-                setPromotePropertry={setPromotePropertry}
-                setErrorModal={setErrorModal}
-                metric={true}
-                partOfTheDashboard="mostViewed"
-              />
+            <div
+              className={`sm:flex hidden ${
+                mostViewedProperties.length === 0 &&
+                "items-center justify-center bg-gray-50 rounded-xl shadow-inner"
+              } h-full w-full min-h-[250px] `}
+            >
+              {mostViewedProperties.length === 0 ? (
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-12 w-12 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 17h5l-1.405-1.405M4 4l16 16M6 6l4 4m4 4l4 4M5 13l4-4m4 4l4-4"
+                    />
+                  </svg>
+                  <p className="text-gray-600 text-xl font-semibold">
+                    No views yet
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Your property hasn't been visited yet. Promote it to gain
+                    visibility!
+                  </p>
+                </div>
+              ) : (
+                <PropertyCard
+                  Property={mostViewedProperties}
+                  setTabName={setTabName}
+                  pageManagement={pageManagement}
+                  promoteOptions={promoteOption}
+                  setSelectedProperty={setSelectedOption}
+                  selectedProperty={selectedOptions}
+                  refreshData={refreshData}
+                  setOpenPlanModal={setOpenPlanModal}
+                  setPromotePropertry={setPromotePropertry}
+                  setErrorModal={setErrorModal}
+                  metric={true}
+                  partOfTheDashboard="mostViewed"
+                />
+              )}
             </div>
           )}
         </div>
