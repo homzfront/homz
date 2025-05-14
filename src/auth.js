@@ -16,7 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
         }),
     ],
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.AUTH_SECRET,
     callbacks: {
         async jwt({ token, account, profile }) {
             // Store the id_token in the JWT
