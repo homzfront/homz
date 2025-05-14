@@ -165,11 +165,11 @@ const Login = () => {
   }
 
 
-  console.log("Session data:", session);
-  console.log("Session status:", status);
+  // console.log("Session data:", session);
+  // console.log("Session status:", status);
   const fromGoogle = localStorage.getItem("fromGoogle") === "true";
 
-  console.log("fromGoogle state:", fromGoogle);
+  // console.log("fromGoogle state:", fromGoogle);
   useEffect(() => {
     const verifySession = async () => {
       if (status === "authenticated" && session && fromGoogle === true) {
@@ -188,11 +188,11 @@ const Login = () => {
             expires: session.expires
           };
 
-          console.log("Verification payload:", verificationPayload);
+          // console.log("Verification payload:", verificationPayload);
 
           // 1. First verify with Google token
           const verificationResponse = await api.post("/auth/google/verification", verificationPayload);
-          console.log("Verification response:", verificationResponse);
+          // console.log("Verification response:", verificationResponse);
 
           if (verificationResponse?.data?.data?.isVerified) {
             // Store JWT token from verification response
@@ -201,7 +201,7 @@ const Login = () => {
 
             // 2. Then fetch user profile
             const profileResponse = await api.get("/user/profile");
-            console.log("Profile response:", profileResponse);
+            // console.log("Profile response:", profileResponse);
 
             if (profileResponse.data?.user) {
               const profileData = profileResponse.data;
@@ -219,18 +219,18 @@ const Login = () => {
             }
           }
         } catch (error) {
-          console.log(error?.response?.data?.message);
+          // console.log(error?.response?.data?.message);
 
           const errors = error?.response?.data?.error?.errors;
           const message = error?.response?.data?.message;
 
           if (errors) {
-            console.log(errors);
+            // console.log(errors);
             // Show each error as a toast (or combine them into one string)
             const combinedMessage = Object.values(errors).join(", ");
             toast.error(combinedMessage);
           } else if (message) {
-            console.log(message);
+            // console.log(message);
             toast.error(message);
             if (message.toLowerCase().includes("This email is already registered")) {
             signOut({ callbackUrl: "/login" });
