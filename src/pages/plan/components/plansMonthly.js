@@ -262,7 +262,7 @@ const Plans = ({ data, setLoadProfile }) => {
            ${loadingCard === plan.title ? "pointer-events-none w-full flex justify-center" : ""}
                ${plan.status === true
                       ? " hidden"
-                      : "bg-BlueHomz hover:bg-blue-400 text-white "
+                      : "bg-BlueHomz hover:bg-blue-400 text-white"
                     }`}
                 >
                   {loadingCard === plan.title ? <LoadingFormII /> : "Get Started"}
