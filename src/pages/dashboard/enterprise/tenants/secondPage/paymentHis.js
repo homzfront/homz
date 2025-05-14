@@ -14,7 +14,7 @@ const PaymentHis = ({
   tenantId,
   rentInfo,
   fetchRentInformation,
-  reFetchSummaryData,
+  // reFetchSummaryData,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedOption, setSelectedOption] = React.useState(null);
@@ -42,8 +42,11 @@ const PaymentHis = ({
   const sortedPeriods = periods?.sort((a, b) => b.isActive - a.isActive);
 
   React.useEffect(() => {
+    if(rentInfo && selectedOption) {
     fetchData(rentInfo?.upDateddata?.tenantId?._id, selectedOption?.startDate, selectedOption?.dueDate, selectedOption?.rent)
+    }
   }, [selectedOption]);
+
   React.useEffect(() => {
     if (rentInfo) {
       setSelectedOption({
@@ -53,7 +56,7 @@ const PaymentHis = ({
     }
   }, [rentInfo])
 
-
+const reFetchSummaryData = () => fetchData(rentInfo?.upDateddata?.tenantId?._id, selectedOption?.startDate, selectedOption?.dueDate, selectedOption?.rent)
 
   const boxes = [
     {
@@ -152,6 +155,7 @@ const PaymentHis = ({
         <Widget
           tenantData={tenantData}
           tenantId={tenantId}
+          periods={periods}
           rentInfo={rentInfo}
           fetchRentInformation={fetchRentInformation}
           reFetchSummaryData={reFetchSummaryData}

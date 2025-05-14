@@ -4,11 +4,12 @@ import ProfilePicture from './profilePicture/profilePicture';
 import ChangePassword from './changePassword/changePassword';
 import AccountInfo from './accountInfo/accountInfo';
 import { useSearchParams } from 'next/navigation';
+import useProfileStore from '@/store/profile';
 
 const WidgetMobile = ({ data }) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
-
+    const { profile } = useProfileStore.getState();
     const [active, setActive] = useState(tab ? tab !== 'personal' : false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(tab === 'acctInfo');
@@ -75,7 +76,7 @@ const WidgetMobile = ({ data }) => {
                     </button>
                     <button
                         onClick={handlePageChangeFour}
-                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFour
+                        className={`${profile?.user?.google && "hidden"} py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFour
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}

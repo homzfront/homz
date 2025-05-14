@@ -4,23 +4,47 @@ import Box from '../../components/box'
 import Widget from "./widget";
 import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 import addCommasToNumber from '@/utils/addCommasToNumber';
+import usePaymentFilterStore from '@/store/enterpriseStore/usePaymentFilterStore';
+import { formatDateRange } from '@/utils/formatDateRange';
 
-const Tenants = () => {
+const Tenants = ({ property }) => {
   const { data, fetchData } = useEnterpriseRevenueStore();
+  const {
+    fromDate,
+    toDate,
+    allData,
+    walletData,
+    offlineData,
+    activeState,
+  } = usePaymentFilterStore();
 
   useEffect(() => {
     fetchData()
   }, []);
 
+  const currentSummary =
+  activeState === 'one'
+    ? allData?.summary
+    : activeState === 'two'
+    ? walletData?.summary
+    : offlineData?.summary;
+
+
   return (
     <div className='w-full'>
+
+      {property &&
+        <p className="text-GrayHomz font-normal text-sm md:hidden">
+          {formatDateRange(toDate, fromDate)}
+        </p>
+      }
       <div className='mt-2 hidden md:flex items-center justify-between w-full'>
         <Box
           bgColor={"Success"}
           textColor={"text-successBg"}
           textColor2={"text-successBg"}
-          type={"Total Renenue"}
-          money={addCommasToNumber(data?.totalRevenue)}
+          type={"Total Expected Renenue"}
+          money={addCommasToNumber(currentSummary?.totalPayment)}
           width='md:w-[200px]'
         />
         <div className="flex items-center justify-between w-[78.5%]">
@@ -30,7 +54,7 @@ const Tenants = () => {
             textColor={"text-Success"}
             textColor2={"text-BlackHomz"}
             type={"Total Rent Collected"}
-            money={addCommasToNumber(data?.rentCollected)}
+            money={addCommasToNumber(currentSummary?.amountPaid)}
             width='md:w-[261.5px]'
           />
           <Box
@@ -39,7 +63,7 @@ const Tenants = () => {
             textColor={"text-warning2"}
             textColor2={"text-BlackHomz"}
             type={"Pending Rent"}
-            money={addCommasToNumber(data?.pendingRent)}
+            money={addCommasToNumber(currentSummary?.pendingPayment)}
             width='md:w-[261.5px]'
           />
           <Box
@@ -47,22 +71,23 @@ const Tenants = () => {
             border={"border-BlueHomz"}
             textColor={"text-BlueHomz"}
             textColor2={"text-BlackHomz"}
-            payDate={"January,2024"}
+            // payDate={"January,2024"}
             textColor3={"text-BlueHomz"}
-            type={"Expected Rent Next Month"}
-            money={addCommasToNumber(data?.rentExpectedNextMonth)}
+            type={"Number of Transactions"}
+            money={currentSummary?.totalTranscation}
             width='md:w-[261.5px]'
+            fromMaintain={true}
           />
         </div>
       </div>
-      <div className="mt-2 md:hidden flex overflow-x-auto whitespace-nowrap gap-2">
+      <div className="mt-2 md:hidden grid grid-cols-2 gap-2">
         <div className="inline-block min-w-[75%]">
           <Box
             bgColor={"Success"}
             textColor={"text-successBg"}
             textColor2={"text-successBg"}
-            type={"Total Revenue"}
-            money={addCommasToNumber(data?.totalRevenue)}
+            type={"Total Expected Renenue"}
+            money={addCommasToNumber(currentSummary?.totalPayment)}
           />
         </div>
         <div className="inline-block min-w-[75%]">
@@ -72,7 +97,7 @@ const Tenants = () => {
             textColor={"text-Success"}
             textColor2={"text-BlackHomz"}
             type={"Total Rent Collected"}
-            money={addCommasToNumber(data?.rentCollected)}
+            money={addCommasToNumber(currentSummary?.amountPaid)}
           />
         </div>
         <div className="inline-block min-w-[75%]">
@@ -82,7 +107,7 @@ const Tenants = () => {
             textColor={"text-warning2"}
             textColor2={"text-BlackHomz"}
             type={"Pending Rent"}
-            money={addCommasToNumber(data?.pendingRent)}
+            money={addCommasToNumber(currentSummary?.pendingPayment)}
           />
         </div>
         <div className="inline-block min-w-[75%]">
@@ -93,13 +118,17 @@ const Tenants = () => {
             textColor2={"text-BlackHomz"}
             // payDate={"January,2024"}
             textColor3={"text-BlueHomz"}
-            type={"Expected Rent Next Month"}
-            money={addCommasToNumber(data?.rentExpectedNextMonth)}
+            type={"Number of Transactions"}
+            money={currentSummary?.totalTranscation}
+            fromMaintain={true}
           />
         </div>
       </div>
       <div className={`md:mt-6`}>
-        <Widget />
+        <Widget 
+        property={property} 
+        // summary={data}
+         />
       </div>
     </div>
   )

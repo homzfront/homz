@@ -14,6 +14,9 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import ReCaptcha from "@/components/auth/reCaptcha";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
+import Image from "next/image";
+import { signIn, useSession, signOut } from "next-auth/react"
+
 
 const Register = () => {
   const router = useRouter();
@@ -28,6 +31,13 @@ const Register = () => {
   const [verified, setVerified] = useState(false);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
+
+  const handleGoogleSignIn = () => {
+    localStorage.setItem("fromGoogle", "true");
+    signIn("google", { callbackUrl: "/login" });
+  };
+
+  const fromGoogle = localStorage.getItem("fromGoogle") === "true";
   const handleCaptchaChange = () => {
     setVerified(true);
   };
@@ -240,28 +250,28 @@ const Register = () => {
                     {loading ? <LoadingFormII /> : "Get Started"}
                   </button>
                 }
-                {/* <div className="">
-                  <button className="border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz">
-                    <Image
-                      className=""
-                      src={"/Social icon.png"}
-                      alt="google"
-                      height={"20"}
-                      width={"20"}
-                    />
-                    Sign Up with google
-                  </button>
-                </div> */}
-                <p className="text-center font-[400] text-[14px]">
-                  Already have an account?
-                  <Link
-                    className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
-                    href={"/login"}
-                  >
-                    Login
-                  </Link>
-                </p>
               </form>
+              <div className="mt-[-10px]">
+                <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
+                  <Image
+                    className=""
+                    src={"/Social icon.png"}
+                    alt="google"
+                    height={"20"}
+                    width={"20"}
+                  />
+                  {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : " Sign Up with google"}
+                </button>
+              </div>
+              <p className="text-center font-[400] text-[14px]">
+                Already have an account?
+                <Link
+                  className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
+                  href={"/login"}
+                >
+                  Login
+                </Link>
+              </p>
             </div>
           </div>
         </div>

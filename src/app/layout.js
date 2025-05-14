@@ -6,6 +6,7 @@ import GoogleAnalytics from "@/utils/googleAnalytics";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Head from "next/head";
 import Script from "next/script";
+import { SessionProvider } from 'next-auth/react';
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -83,7 +84,8 @@ export default function RootLayout({ children }) {
 
         {/* Tanstack Query Client */}
         <TanstackProvider>
-          <main>{children}</main>
+          
+          <main> <SessionProvider>{children}</SessionProvider></main>
         </TanstackProvider>
       </body>
     </html>

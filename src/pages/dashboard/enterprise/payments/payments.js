@@ -11,6 +11,16 @@ import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 import formatDateII from "@/utils/formatDateII";
 import estateStore from "@/store/enterpriseStore/estates";
+import Search from "@/components/icons/search";
+import FilterIconBlue from "@/components/icons/filterIconBlue";
+import ArrowUpII from "@/components/icons/arrowUpII";
+import ArrowDown from "@/components/icons/arrowDown";
+import Ticked from "@/components/icons/ticked";
+import UnTicked from "@/components/icons/unTicked";
+import Document from "@/components/icons/document";
+import useClickOutside from "@/utils/clickOutside";
+import { formatDateRange } from "@/utils/formatDateRange";
+import Reset from "@/components/icons/reset";
 
 const Payment = () => {
   const {
@@ -20,8 +30,17 @@ const Payment = () => {
     toDate,
     setToDate,
     setSelectedProperty,
+    setSelectedOption,
+    search,
+    setSearch,
+    setPageNo
   } = usePaymentFilterStore();
 
+  const [isOpen, setIsOpen] = React.useState(false);
+  const closeFilter = useClickOutside(() => setIsOpen(false));
+  const [isOpenI, setIsOpenI] = React.useState(false);
+  const dropdownRef = useClickOutside(() => setIsOpenI(false));
+  const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false)
   const { data, fetchData } = useExportRentPayment();
   const { data: estates, loading, fetchData: fetchEnterpriseProperties } = estateStore();
   // User-selected date range
@@ -33,18 +52,22 @@ const Payment = () => {
 
   useEffect(() => {
     fetchData();
-    setFromDate(formatDateII(prevMonth));
-    setToDate(formatDateII(today));
+    // setFromDate(formatDateII(prevMonth));
+    // setToDate(formatDateII(today));
     fetchEnterpriseProperties()
   }, []);
 
   const clear = () => {
     setSelectedProperty(null);
-    setFromDate(formatDateII(prevMonth));
-    setToDate(formatDateII(today));
+    setFromDate(null);
+    setToDate(null);
+    setSearch('')
+    setPageNo(1)
   };
 
   const options = [...new Set(estates?.map((item) => item?.name))];
+
+  const optionsTwo = [".CSV", ".XLSX", ".PDF"];
 
   return (
     <Suspense fallback={<div><LoadingII /></div>}>
@@ -62,73 +85,117 @@ const Payment = () => {
           pauseOnHover
           theme="dark"
         />
-        <div className="flex justify-between md:hidden w-full">
-          <div className="flex flex-col items-start gap-2 mb-1 w-full">
-            <div className="flex items-center justify-between w-full">
-              <div className="w-[160px]">
-                <Dropdown
-                  options={options}
-                  onSelect={(option) => setSelectedProperty(option)}
-                  selectOption={
-                    selectedProperty === null
-                      ? "Property"
-                      : selectedProperty
-                  }
-                  className=""
-                />
-              </div>
-              <button
-                onClick={clear}
-                type="text"
-                className="border border-BlueHomz items-center text-[14px] font-[500] gap-4 flex text-BlueHomz px-[10px] h-[42px] rounded cursor-pointer"
-              >   <span>
-                  <Image
-                    src={
-                      "/static/dashboard/enterprisemanager/dashboard/repeat.png"
-                    }
-                    alt=""
-                    height={17}
-                    width={16}
-                  />
-                </span>
-              </button>
+        <div className="w-full">
+          <div className="relative md:hidden flex flex-row gap-2 items-center">
+            {/* Search Input */}
+            <div className='flex gap-2 items-center w-full h-[35px] border border-[#A9A9A9] rounded-[4px] p-2'>
+              <Search />
+              <input
+                type='text'
+                className='placeholder:text-[#A9A9A9] w-full outline-none'
+                placeholder='email, address...'
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
-            <div className="flex w-full md:w-[320px] md:justify-normal md:gap-4">
-              <div className="">
-                <label
-                  htmlFor="fromDate"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  From:
-                </label>
-                <input
-                  type="date"
-                  id="fromDate"
-                  value={fromDate}
-                  onChange={(e) => setFromDate(e.target.value)}
-                  required
-                  className="mt-1 h-[36px] px-2 block w-[87%] md:w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                />
+            <div ref={closeFilter}>
+              <div
+                onClick={() => {
+                  setIsOpen(!isOpen)
+                  setOpenPropertyFilter(false)
+                }}
+                className='cursor-pointer w-auto flex border border-BlueHomz px-3 py-2 rounded-[4px] items-center gap-1'>
+                <FilterIconBlue />
+                {isOpen ?
+                  <ArrowUpII className="#006AFF" /> :
+                  <ArrowDown className="#006AFF" />
+                }
               </div>
-              <div>
-                <label
-                  htmlFor="toDate"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  To:
-                </label>
-                <input
-                  type="date"
-                  id="toDate"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
-                  required
-                  className="mt-1 h-[36px] px-2 block w-[87%] md:w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                />
-              </div>
+              {
+                isOpen &&
+                <div className='absolute z-50 top-10 right-[50px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px]'>
+                  {
+                    openPropertyFilter ?
+                      <div className='text-sm text-GrayHomz font-medium'>
+                        {options.map((prop, index) => (
+                          <div
+                            key={index}
+                            className='flex gap-2 mt-1.5 items-center cursor-pointer'
+                            onClick={() => setSelectedProperty(selectedProperty === prop ? null : prop)}
+                          >
+                            {selectedProperty === prop ? <Ticked /> : <UnTicked />}
+                            {prop}
+                          </div>
+                        ))}
+                      </div> :
+                      <div>
+                        <p className='text-[13px] text-GrayHomz font-medium'>
+                          Filter by:
+                        </p>
+
+                        <button
+                          className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                        >
+                          <input
+                            type="date"
+                            id="fromPayDate"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            className="w-full py-2 outline-none"
+                            placeholder='Start Date'
+                          />
+                          {/* <span className='absolute'><DateIconTwo /></span> */}
+                        </button>
+                        <button
+                          className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                        >
+                          <input
+                            type="date"
+                            id="toPayDate"
+                            value={toDate}
+                            onChange={(e) => setToDate(e.target.value)}
+                            className="w-full py-2 outline-none"
+                            placeholder='End Date'
+                          />
+                          {/* <span className='absolute'><DateIconTwo /></span> */}
+                        </button>
+
+                        {/* <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                          {selectedProperty ? selectedProperty : "Property"}     <ArrowDown className="#4E4E4E" />
+                        </button> */}
+                        <button
+                          onClick={() => clear()}
+                          className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
+                          <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
+                        </button>
+                      </div>
+                  }
+                </div>
+              }
+            </div>
+            <div ref={dropdownRef}>
+              <button onClick={() => setIsOpenI(!isOpenI)} className="text-walletBg px-4 bg-BlueHomz h-[35px] flex gap-1 items-center rounded-[4px]">
+                <Document className="#FFFFFF" />
+              </button>
+              {
+                isOpenI &&
+                <div className={`absolute z-20 w-[200px] right-0 top-[60px] md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
+                  <p className='px-4 text-[13px] text-GrayHomz font-medium'>
+                    Export as:
+                  </p>
+                  {optionsTwo.map((option, index) => (
+                    <div
+                      key={index}
+                      className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
+                      onClick={() => setSelectedOption(option)}
+                    >
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              }
             </div>
           </div>
-
         </div>
         <Header
           options={options}
@@ -140,7 +207,7 @@ const Payment = () => {
           selectedProperty={selectedProperty}
           clear={clear}
         />
-        <Widget />
+        <Widget property={options} />
       </div>
     </Suspense>
   );

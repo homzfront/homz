@@ -50,7 +50,7 @@
 
 
 function changeBackendDateFormat(dateString) {
-  if (!dateString) return ;
+  if (!dateString) return "" ;
   const date = new Date(dateString);
 
   const day = date.getDate();

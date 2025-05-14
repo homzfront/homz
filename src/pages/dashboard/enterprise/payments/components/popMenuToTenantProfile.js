@@ -30,20 +30,15 @@ function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchDa
   const { fetchData } = useExportRentPayment();
   const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
 
-  // Validate data
-  if (!data?.tenantId || !data?.tenantId._id) {
-    // console.error('Invalid tenant data:', data);
-    return null; // Or render a fallback UI
-  }
 
-  const tenantId = data?.tenantId._id;
+  const tenantId =  data?.tenantId?.estateId
 
 
   const deletePayment = async () => {
     setRefetch(false);
     setLoading(true);
     const paymentId = data?._id
-    const tenantId = data?.tenantId?._id
+    const tenantId = data?.tenantId?.estateId
     try {
       const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
       if (response?.data?.success === true) {
@@ -73,7 +68,8 @@ function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchDa
 
       <div
         // ref={dropdownRef}
-        className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around">
+        className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around"
+        >
 
         {/* View Profile */}
         <div
