@@ -16,7 +16,6 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SubscriptionInfo from "./components/SubscriptionInfo";
 
-
 const Profile = () => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab");
@@ -38,9 +37,8 @@ const Profile = () => {
   const router = useRouter();
 
   // console.log(typeOfAction)
- 
+
   useEffect(() => {
-    
     fetchData();
   }, [fetchData]);
 
@@ -73,7 +71,7 @@ const Profile = () => {
         toast.error(error);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       handleError(error);
     } finally {
       setLoading(false);
@@ -112,23 +110,21 @@ const Profile = () => {
     setSubscription(false);
     setActiveFour(false);
     setPersonalActive(true);
-    tabManagement("personal")
+    tabManagement("personal");
   };
   const handleBusinessActive = () => {
     setActiveTwo(true);
     setPersonalActive(false);
     setActiveFour(false);
     setSubscription(false);
-    tabManagement("business")
-    
+    tabManagement("business");
   };
   const handleSubscription = () => {
     setActiveTwo(false);
     setSubscription(true);
     setPersonalActive(false);
     setActiveFour(false);
-    tabManagement("subscription")
-    
+    tabManagement("subscription");
   };
 
   const handleContactInfo = () => {
@@ -136,8 +132,7 @@ const Profile = () => {
     setActiveFour(true);
     setSubscription(false);
     setPersonalActive(false);
-    tabManagement("password")
-
+    tabManagement("password");
   };
 
   return (
@@ -224,8 +219,7 @@ const Profile = () => {
             />
           </div>
           <div className={`${subscription ? "block" : "hidden"}`}>
-            <SubscriptionInfo            
-            />
+            <SubscriptionInfo />
           </div>
 
           <div className={`${changePwdActive ? "block" : "hidden"}`}>
