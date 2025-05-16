@@ -199,7 +199,7 @@ const PropertyInfo = ({
                 height={10}
               />
               <span className="text-[11px] font-[400] text-[#4E4E4E]">
-                [ {property?.totalViews} ]
+                {property?.totalViews}
               </span>
             </span>
           )}

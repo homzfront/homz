@@ -3,13 +3,15 @@ import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import trucateWord from "@/utils/trucateWord";
 
 const MiniPropertyListings = ({
   Properties,
   width,
   padding,
   reset,
-  setLoadingII
+  setLoadingII,
+  updateMetrics,
 }) => {
   return (
     <div className={`w-full mt-5`}>
@@ -18,9 +20,10 @@ const MiniPropertyListings = ({
           Other properties
         </p>
       </div> */}
-      <div className="text-[16px] flex justify-between w-full ">
-      <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] ">
-        Similar properties</p>
+      <div className="text-[16px] flex justify-between w-full mb-4">
+        <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] ">
+          Similar properties
+        </p>
         <Link
           href="user_homepage/PropertyListing"
           className="hidden md:flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
@@ -35,16 +38,20 @@ const MiniPropertyListings = ({
           />
         </Link>
       </div>
-      <div className="flex w-[315px] flex-wrap md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
+      <div className="w-[315px] grid sm:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
         {Properties?.slice(0, 3)?.map((property, index) => (
-          <div
-            className={`flex flex-col w-[315px]  ${width ? width : " sm:w-[333px]"
-              }  h-fit rounded-[12px] shadow-md`}
+          <Link
+            href={`/user_homepage/PreviewProperty/${property?.slug}`}
+            onClick={() => updateMetrics("view")}
+            className={`flex flex-col w-[315px]  ${
+              width ? width : " sm:w-[333px]"
+            }  h-fit rounded-[12px] shadow-md`}
             key={index}
           >
             <div
-              className={`cursor-pointer ${width ? width : "sm:w-[333px]"
-                } sm:h-[252px] rounded-[10px] `}
+              className={`cursor-pointer ${
+                width ? width : "sm:w-[333px]"
+              } sm:h-[252px] rounded-[10px] `}
             >
               <Carousel
                 slide={false}
@@ -71,9 +78,13 @@ const MiniPropertyListings = ({
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
               <div className="flex justify-between">
                 <p className="text-[#006AFF] text-[20.66px] md:text-[21px] font-[700] leading-[28.98px] text-center">
-                  {capitalizeFirstLetter(property?.name || property?.title)}
+                  {trucateWord(
+                    capitalizeFirstLetter(property?.name || property?.title),
+                    15
+                  )}
                 </p>
-                <p className={`hidden sm:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
+                <p
+                  className={`hidden sm:flex h-[25px] items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
                 >
@@ -84,9 +95,11 @@ const MiniPropertyListings = ({
               <p className="text-[9px] md:text-[14px] font-[400] text-[#006AFF]">
                 {capitalizeFirstLetter(property?.propertyType)}
               </p>
-              <p className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
+              <p
+                className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center
                  ${property?.price ? "" : "hidden"}
-                 `}>
+                 `}
+              >
                 <Image
                   src="/static/images/nairaIcon.svg"
                   alt=""
@@ -95,7 +108,9 @@ const MiniPropertyListings = ({
                   className="h-[12px] w-[12px] md:w-[15px] md:h-[25px]"
                 />
                 <span className="pl-1">
-                  {property?.price ? Number(property?.price).toLocaleString() : ""}
+                  {property?.price
+                    ? Number(property?.price).toLocaleString()
+                    : ""}
                 </span>
               </p>
               <p className="flex gap-1 items-center">
@@ -107,7 +122,9 @@ const MiniPropertyListings = ({
                   className="h-[12px] w-[12px] md:w-[12px] md:h-[15.85px]"
                 />
                 <span className="text-[12.57px] md:text-[16px] font-[500]">
-                  {`${capitalizeFirstLetter(property?.area)}, ${capitalizeFirstLetter(property?.state)}`}
+                  {`${capitalizeFirstLetter(
+                    property?.area
+                  )}, ${capitalizeFirstLetter(property?.state)}`}
                 </span>
               </p>
               <div className=" flex justify-between mb-2">
@@ -122,7 +139,9 @@ const MiniPropertyListings = ({
                         className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className=" text-[8.98px] md:text-[10px]font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property?.numberOfRooms === 1 ? `${property?.numberOfRooms} bedroom` : `${property?.numberOfRooms} bedrooms`}
+                        {property?.numberOfRooms === 1
+                          ? `${property?.numberOfRooms} bedroom`
+                          : `${property?.numberOfRooms} bedrooms`}
                       </span>
                     </p>
                   )}
@@ -136,11 +155,17 @@ const MiniPropertyListings = ({
                         className="h-[12px] w-[14px] md:w-[17px] md:h-[11.9px]"
                       />
                       <span className="text-[8.98px] md:text-[10px] font-[500] leading-[15px] text-center font-['Plus Kakarta Sans']">
-                        {property?.numberOfBathrooms === 1 ? `${property?.numberOfBathrooms} bathroom` : `${property?.numberOfBathrooms} bathrooms`}
+                        {property?.numberOfBathrooms === 1
+                          ? `${property?.numberOfBathrooms} bathroom`
+                          : `${property?.numberOfBathrooms} bathrooms`}
                       </span>
                     </p>
                   )}
-                  <p className={`flex gap-1 items-center md:pt-4 ${property?.squareMeter ? "" : "hidden"}`}>
+                  <p
+                    className={`flex gap-1 items-center md:pt-4 ${
+                      property?.squareMeter ? "" : "hidden"
+                    }`}
+                  >
                     <Image
                       src="/static/images/sqrtFeet-vector.svg"
                       alt=""
@@ -152,10 +177,7 @@ const MiniPropertyListings = ({
                     </span>
                   </p>
                 </div>
-                <Link
-                  className="cursor-pointer"
-                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                >
+                <div className="cursor-pointer">
                   <Image
                     src="/static/images/arrow-in-circle.svg"
                     alt=""
@@ -163,19 +185,18 @@ const MiniPropertyListings = ({
                     height={40}
                     className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
                   />
-                </Link>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <button
         className="h-[48px] w-[189px] p-[12px] rounded-[4px] filterBorder text-[#006AFF] mx-auto block mt-10"
         onClick={() => {
           setLoadingII(true);
-          reset()
-        }
-        }
+          reset();
+        }}
       >
         View more properties
       </button>

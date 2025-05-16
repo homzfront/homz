@@ -11,6 +11,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 
 const Dashboard = () => {
   const [selectedOptions, setSelectedOption] = useState(null);
@@ -18,6 +19,23 @@ const Dashboard = () => {
   const [promoteOption, setPromotePropertry] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
   const [tabName, setTabName] = useState("");
+
+  const { data, fetchData } = useProfileListingMe();
+  const [isBusinessInfoUpdate, setIsBusinessInfoUpdate] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (data) {
+      const isMissingBusinessInfo =
+        !data.businessInfo?.businessPhoneNo ||
+        !data.socialMediaLinks?.whatsappLink;
+
+      setIsBusinessInfoUpdate(isMissingBusinessInfo);
+    }
+  }, [data]);
 
   // const MostViewedMobile = () => {
   //   const settings = {
@@ -79,7 +97,9 @@ const Dashboard = () => {
   const MostViewed = () => {
     return (
       <div
-        className={`grid sm:grid-cols-2 sm:gap-40 gap-6 ${!data && "mb-10"}`}
+        className={`grid sm:grid-cols-2 sm:gap-40 gap-6 ${
+          !otherProperties && "mb-10"
+        }`}
       >
         <MetricsCharts />
         <div className="sm:w-[408px] flex flex-col gap-2">
@@ -159,7 +179,7 @@ const Dashboard = () => {
           <LoadingII />
         ) : (
           <PropertyCard
-            Property={data}
+            Property={otherProperties}
             setTabName={setTabName}
             pageManagement={pageManagement}
             promoteOptions={promoteOption}
@@ -178,7 +198,11 @@ const Dashboard = () => {
   };
 
   // Fetch other properties
-  const { data, isLoading, refetch } = useQuery({
+  const {
+    data: otherProperties,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["properties"],
     queryFn: async () => {
       return await api.get(`/properties/user/me?page=1`);
@@ -228,10 +252,16 @@ const Dashboard = () => {
   // }, []);
 
   return (
-    <div className="w-full max-w-[1440px] px-6 sm:px-0 sm:w-full mx-auto flex flex-col gap-5 ">
-      <UpperMetrics />
-      <MostViewed loading={isLoading} />
-      {data && <OtherListedProperties loading={isLoading} />}
+    <div className="w-full max-w-[1440px] px-6 sm:px-0 sm:w-full flex items-center justify-center mx-auto">
+      {isLoading ? (
+        <LoadingII />
+      ) : (
+        <div className="w-full mx-auto flex flex-col gap-5 ">
+          <UpperMetrics isBusinessInfoUpdate={isBusinessInfoUpdate} />
+          <MostViewed loading={isLoading} />
+          {otherProperties && <OtherListedProperties loading={isLoading} />}
+        </div>
+      )}
     </div>
   );
 };
