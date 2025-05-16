@@ -33,6 +33,8 @@ import { checkPlanLimits } from '@/utils/checkPlanLimits';
 import ExpiredPlanModal from '../../components/expiredPlanModal';
 import { isTrialExpired } from '@/utils/compareTrialTime';
 import DocDocu from '@/components/icons/docDocu';
+import Search from '@/components/icons/search';
+import { useDebounce } from '@/utils/deBounce';
 
 const Tenants = () => {
 
@@ -50,13 +52,17 @@ const Tenants = () => {
     selectedStatus,
     setSelectedStatus,
     setCurrentPage,
+    search,
+    setSearch
   } = useEnterpriseTenantStore();
+
+  const debouncedSearch = useDebounce(search, 500);
+
   React.useEffect(() => {
     setTenantsData(data?.[0].data ?? null)
   }, [data])
 
   const [loading, setLoading] = React.useState(true)
-  const [search, setSearch] = React.useState('');
   const [reachedLimit, setReachedLimit] = React.useState(null);
   const [visibleColumns, setVisibleColumns] = React.useState([]);
   const [maxPeriods, setMaxPeriods] = React.useState(0);
@@ -256,7 +262,7 @@ const Tenants = () => {
   const clear = () => {
     setSelectedStatus(null);
     setSelectedDate(null);
-    setSearch(null);
+    setSearch('');
   };
 
 
@@ -271,8 +277,7 @@ const Tenants = () => {
 
   React.useEffect(() => {
     fetchData(currentPage);
-    setTab(null)
-  }, [currentPage, selectedDate, selectedStatus, active]);
+  }, [currentPage, selectedDate, selectedStatus, active, debouncedSearch]);
 
   const filteredColumns = allColumns?.filter((column) =>
     column?.toLowerCase()?.includes(search?.toLowerCase())
@@ -336,17 +341,6 @@ const Tenants = () => {
           />
         </div>
       )}
-      {/* {bulkInvite &&
-        <div className="absolute top-0 z-20 h-screen px-8 md:px-0 w-full inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <SingleInvite
-            setSuccessfulModal={setSuccessfulModal}
-            setOpenSingleInvite={setBulkInvite}
-            setOpenTenantInvite={setOpenTenantInvite}
-            estateName={estateData?.name}
-            estateId={estateData?._id} /> :
-
-        </div>
-      } */}
       <CustomizedModal isOpen={reachedLimit?.reachedMaxTenants && !reachedLimit?.expiredPlan && openPurchasePlan}>
         <ExpiredPlanModal
           header={reachedLimit?.enterprisePlanName === "Enterprise Basic" ? "Upgrade Your Plan" : "You’ve Hit Your Limit!"}
@@ -506,7 +500,7 @@ const Tenants = () => {
 
               {
                 isOpenI &&
-                <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
+                <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px]'>
                   {
                     openColumns ?
                       <div className='text-sm text-GrayHomz font-medium'>
@@ -569,10 +563,49 @@ const Tenants = () => {
                             <p className='text-[13px] text-GrayHomz font-medium'>
                               Filter by:
                             </p>
+                            {/* Search Input */}
+                            <div className='mb-2 flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-2'>
+                              <Search />
+                              <input
+                                type='text'
+                                className='placeholder:text-[#A9A9A9] w-full outline-none'
+                                placeholder='name, email...'
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                              />
+                            </div>
                             <button onClick={() => setOpenStatusFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                               Status    <ArrowDown className="#4E4E4E" />
                             </button>
 
+                            {/* <button
+                              className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                            >
+                              <input
+                                type='date'
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                className="w-full py-2 outline-none"
+                                placeholder='Start Date'
+                              /> */}
+                            {/* <span className='absolute'><DateIconTwo /></span> */}
+                            {/* </button> */}
+                            {/* <button
+                              className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                            >
+                              <input
+                                type='date'
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                className="w-full py-2 outline-none"
+                                placeholder='End Date'
+                              /> */}
+                            {/* <span className='absolute'><DateIconTwo /></span> */}
+                            {/* </button> */}
+
+                            {/* <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                              Rent Period    <ArrowDown className="#4E4E4E" />
+                            </button> */}
                             <button
                               className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
                             >
@@ -585,10 +618,6 @@ const Tenants = () => {
                               />
                               {/* <span className='absolute'><DateIconTwo /></span> */}
                             </button>
-
-                            {/* <button onClick={() => setOpenPeriod(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                            Rent Period    <ArrowDown className="#4E4E4E" />
-                          </button> */}
                             <button
                               onClick={() => setOpenColumns(true)}
                               className='mt-1 text-sm font-normal text-GrayHomz md:hidden flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>

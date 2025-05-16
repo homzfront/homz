@@ -65,7 +65,7 @@ const OfflinePayment = ({ TenantId, TenantData, reFetchSummaryData, selectedOpti
     }
 
     useEffect(() => {
-        if (TenantId) {
+        if (TenantId && selectedOption) {
             fetchData(TenantId, currentPage, selectedOption?.startDate, selectedOption?.dueDate);
         }
     }, [TenantId, currentPage, fetchData, Refetch, selectedOption]);

@@ -10,9 +10,11 @@ import api from '@/utils/api';
 import PaymentRefetchTenant from '@/store/enterpriseStore/paymentRefetchTenant';
 import useRentSummaryTenant from '@/store/enterpriseStore/rentSummaryTenant.js';
 import useExportEnterpriseSingleTenant from '@/store/enterpriseStore/exportEnterpriseSingleTenant.js';
+import DocSmall from '@/components/icons/docSmall.js';
 
 function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFetchSummaryData, setDeleteSuccessModal, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
   // Move all hooks to the top
+  const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState(false);
   const [successfulModal, setSuccessfulModal] = useState(false);
@@ -54,6 +56,21 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFe
     <div
       ref={dropdownRef}
       className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around">
+      {/* View receipt */}
+      {/* <div
+        onMouseEnter={() => setActiveTwo(true)}
+        onMouseLeave={() => setActiveTwo(false)}
+        className={`md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-BlueHomz w-full`}>
+        <button className="w-full" onClick={() => handleUpdateForm(data._id)}>
+          <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
+            <DocSmall className={activeTwo ? '#006AFF' : undefined} />
+            <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+            View receipt
+            </p>
+          </div>
+        </button>
+      </div> */}
+
       {/* Update Record */}
       <div
         onMouseEnter={() => setActiveThree(true)}
@@ -78,7 +95,7 @@ function PopUpMenu({ data, setDeleteModal, deleteModal, deleteSuccessModal, reFe
           <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
             <Delete className={activeFour ? '#D92D20' : undefined} classNameTwo={activeFour ? '#D92D20' : undefined} />
             <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-              Delete
+            Delete record
             </p>
           </div>
         </button>

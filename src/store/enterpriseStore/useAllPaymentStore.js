@@ -13,6 +13,7 @@ const useAllPaymentStore = create((set) => ({
         try {
             const response = await api.get(`/rentPayment/enterprise/tenant/${TenantId}?limit=3&page=${page}&startDate=${startDate}&dueDate=${dueDate}`);
             const result = response?.data;
+            console.log(response)
             set({
                 data: result?.data?.results,
                 totalPages: result?.data?.totalPages,
