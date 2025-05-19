@@ -1,5 +1,6 @@
 import Close from '@/components/icons/Close'
-import addCommasToNumber from '@/utils/addCommasToNumber'
+import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN'
+import changeBackendDateFormat from '@/utils/changeBackendDateFormat'
 import React from 'react'
 
 const AllDetails = ({ singleTableData, setOpenDetails }) => {
@@ -22,30 +23,30 @@ const AllDetails = ({ singleTableData, setOpenDetails }) => {
                 <div className='mt-4 bg-[#FCFCFC] rounded-[8px] p-3 flex flex-col gap-4'>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Expense</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.expenses}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.expenseName ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Amount</span>
                         <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>
                             <span style={{ fontFamily: "Arial" }}>₦</span>
-                            {addCommasToNumber(singleTableData?.amount)}
+                            {addCommasToNumberWithoutN(singleTableData?.amount)}
                         </span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Date</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.date}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{changeBackendDateFormat(singleTableData?.date)}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Category</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.category}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.expenseCategoryName  ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Description</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.description}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.description  ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Status</span>
-                        <span className={`${singleTableData?.status === "Unpaid" ? "text-[#DC6803]" : "text-Success"} text-[13px] w-[48%] flex justify-end`}>{singleTableData?.status}</span>
+                        <span className={`${singleTableData?.paymentStatus === "Unpaid" ? "text-[#DC6803]" : "text-Success"} text-[13px] w-[48%] flex justify-end`}>{singleTableData?.paymentStatus ?? "---------"}</span>
                     </div>
                 </div>
                 <div className='mt-4 bg-[#FCFCFC] rounded-[8px] p-3 flex flex-col gap-4'>
@@ -55,27 +56,27 @@ const AllDetails = ({ singleTableData, setOpenDetails }) => {
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Vendor Name</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendorName}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendor?.name ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Contact Person</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.contactPerson}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendor?.contactPerson ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Vendor Email</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendorEmail}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendor?.email ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Vendor Phone</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendorPhone}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendor?.phone ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Business Address</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.businessAddress}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendor?.businessAddress ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Payment Method</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.paymentMethod}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.vendor?.paymentMethod ?? "---------"}</span>
                     </div>
                 </div>
                 <div className='mt-4 bg-[#FCFCFC] rounded-[8px] p-3 flex flex-col gap-4'>
@@ -85,15 +86,15 @@ const AllDetails = ({ singleTableData, setOpenDetails }) => {
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Property Name</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.property}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.property?.propertyName ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Apartment</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.apartment}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.property?.apartment ?? "---------"}</span>
                     </div>
                     <div className='flex items-start justify-between font-normal'>
                         <span className='text-BlackHomz text-sm w-[48%]'>Tenant Name</span>
-                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.tenantName}</span>
+                        <span className='text-GrayHomz text-[13px] w-[48%] flex justify-end'>{singleTableData?.property?.tenantName ?? "---------"}</span>
                     </div>
                 </div>
             </div>

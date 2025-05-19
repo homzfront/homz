@@ -1,13 +1,17 @@
 import BackSmall from '@/components/icons/backSmall'
 import React from 'react'
-import { v4 as uuidv4 } from 'uuid';
 import DatePicker from "react-datepicker";
 import DateIcon from "@/components/icons/date";
 import Dropdown from "@/pages/dashboard/enterprise/components/dropDownTwo";
-import Upload from '@/components/icons/upload';
-import UploadWhite from '@/components/icons/uploadWhite';
+import "react-datepicker/dist/react-datepicker.css";
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import api from '@/utils/api';
+import ExpenseCategory from './expenseCategory';
+import Attachment from './attachment';
 
-const CreateExpenses = ({ setOpenCreateExpenses }) => {
+const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
     const [formData, setFormData] = React.useState({
         expenseName: "",
         amount: "",
@@ -24,29 +28,165 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
         propertyName: "",
         apartmentNumber: "",
         tenantName: "",
-        periods: [
-            {
-                id: uuidv4(),
-                isActive: true,
-                duration: "",
-                startDate: null,
-                dueDate: null,
-                rent: "",
-                paymentStatus: "",
-            },
-        ],
     });
 
-    const handleInputChange = (index, field, value) => {
-        const updatedPeriods = [...formData.periods];
-        updatedPeriods[index][field] = value;
-        setFormData((prevData) => ({
-            ...prevData,
-            periods: updatedPeriods,
-        }));
+    const [files, setFiles] = React.useState([]);
+    const fileInputRef = React.useRef(null);
+
+    const handleFileChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const newFile = e.target.files[0];
+            if (files.length < 3) {
+                setFiles([...files, newFile]);
+            }
+        }
     };
 
-    const options = ["Property Maintenance & Repairs", "Utilities & Services", "Security & Safety", "Administrative & Office Expenses", "Marketing & Advertising", "Taxes & Insurance", "Staff & Payroll", "Legal & Professional Services", "Mortgage & Loan Payments", "Miscellaneous Expenses"]
+    const removeFile = (index) => {
+        const updatedFiles = files.filter((_, i) => i !== index);
+        setFiles(updatedFiles);
+    };
+
+    const triggerFileInput = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const isFormValid = React.useMemo(() => {
+        return (
+            formData.expenseName.trim() !== "" &&
+            formData.amount !== "" &&
+            formData.date !== null &&
+            formData.expenseCategory.trim() !== "" &&
+            formData.paymentStatus.trim() !== ""
+            &&
+            formData.vendorName.trim() !== ""
+        );
+    }, [formData]);
+
+
+    const handleSubmitExpense = async () => {
+
+        setIsLoading(true)
+        setError(null)
+        // if (files.length === 0) {
+        //     setError('Please upload at least one file');
+        //     return;
+        // }
+        try {
+            // Prepare the data in the required format
+            const requestData = {
+                expenseName: formData.expenseName,
+                amount: Number(formData.amount),
+                date: formData.date ? formData.date.toISOString().split('T')[0] : null,
+                expenseCategory: formData.expenseCategory,
+                description: formData.description,
+                paymentStatus: formData.paymentStatus,
+                vendor: {
+                    name: formData.vendorName,
+                    contactPerson: formData.contactPerson,
+                    email: formData.vendorEmail,
+                    phone: formData.vendorPhone,
+                    businessAddress: formData.businessAddress,
+                    paymentMethod: formData.paymentMethod
+                },
+                property: {
+                    propertyName: formData.propertyName,
+                    apartment: formData.apartmentNumber,
+                    tenantName: formData.tenantName
+                }
+            };
+
+            // Remove empty optional fields
+            if (!requestData.description) delete requestData.description;
+
+            if (!requestData.vendor.name) {
+                delete requestData.vendor;
+            } else {
+                if (!requestData.vendor.contactPerson) delete requestData.vendor.contactPerson;
+                if (!requestData.vendor.email) delete requestData.vendor.email;
+                if (!requestData.vendor.phone) delete requestData.vendor.phone;
+                if (!requestData.vendor.businessAddress) delete requestData.vendor.businessAddress;
+                if (!requestData.vendor.paymentMethod) delete requestData.vendor.paymentMethod;
+            }
+
+            if (!requestData.property.propertyName) {
+                delete requestData.property;
+            } else {
+                if (!requestData.property.apartment) delete requestData.property.apartment;
+                if (!requestData.property.tenantName) delete requestData.property.tenantName;
+            }
+
+            // Submit to endpoint
+            const response = await api.post('/expense/enterprise/create',
+                requestData);
+
+            if (response && files.length !== 0) {
+                const expense_id = response?.data?.data?._id
+                const formData = new FormData();
+                files.forEach((file, index) => {
+                    formData.append(`attachments`, file);  // Using same field name for all files
+                    // Alternatively: formData.append(`file${index}`, file);
+                });
+
+                // Add any additional data if needed
+                formData.append('expense_id', expense_id);
+
+                // Make the API call
+                const responseTwo = await api.post(
+                    `/expense/enterprise/attachments/${expense_id}`,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                );
+
+                // Handle successful response
+                if (responseTwo.data) {
+                    // setError(`Successfully submitted ${files.length} file(s)`);
+                    // Optionally clear files after successful submission
+                    setFiles([]);
+                }
+            }
+
+            const resultExpense = await fetchExpense(1)
+            setOpenCreateExpenses(false)
+            // const data = await response.json();
+            // console.log('Expense submitted successfully:', response);
+            // Handle success (e.g., show success message, close modal, etc.)
+
+        }
+        catch (error) {
+            console.error('Error submitting expense:', error);
+
+            // Handle different error formats
+            if (error.response) {
+                // Axios-style error response
+                const errorData = error.response.data;
+
+                if (errorData?.error?.errors) {
+                    // Back-end validation errors
+                    setError(
+                        Object.values(errorData.error.errors).join(', ')
+                    );
+                } else if (errorData?.message) {
+                    // General error message
+                    setError(errorData.message);
+                } else {
+                    setError('Failed to submit expense. Please try again.');
+                }
+            } else {
+                // Network or other errors
+                setError(error.message || 'An unexpected error occurred');
+            }
+        } finally {
+            setIsLoading(false)
+        }
+    };
+
     const optionsTwo = ["Paid", "Unpaid"]
     const optionsThree = ["Bank Transfer", "Cash", "POS"]
 
@@ -89,10 +229,10 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                                         value={formData.amount}
                                         type='number'
                                         onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                                        className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent"
+                                        className="no-spinner mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent"
                                         placeholder="200000"
                                     />
-                                    <div className="font-sans z-[99] absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                    <div className={`font-sans z-[99] absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none  ${formData?.amount ? "text-BlackHomz" : "text-GrayHomz2"}`}>
                                         ₦
                                     </div>
                                 </div>
@@ -102,7 +242,7 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                                 <div className="relative w-full border border-[#a9a9a9] rounded-md h-[45px]">
                                     <DatePicker
                                         selected={formData.date}
-                                        onChange={(date) => handleInputChange(index, "date", date)}
+                                        onChange={(date) => setFormData({ ...formData, date })}
                                         dateFormat="d MMMM, yyyy"
                                         placeholderText="Select Date"
                                         className="w-[100%] h-[41px] px-4 py-2 bg-transparent"
@@ -113,21 +253,7 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className=''>
-                            <label className="block text-sm font-medium">
-                                Expense Category <span className="text-error">*</span>
-                            </label>
-                            <div className="w-full mt-0.5">
-                                <Dropdown
-                                    options={options}
-                                    selectOption="Select an option"
-                                    onSelect={(selectedOption) => handleInputChange(index, "expenseCategory", selectedOption)}
-                                    value={formData.expenseCategory}
-                                    border={"border-[#a9a9a9]"}
-                                    className={"w-full"}
-                                />
-                            </div>
-                        </div>
+                        <ExpenseCategory formData={formData} setFormData={setFormData} />
                         <div className=''>
                             <label className="block text-sm font-medium">
                                 Description <span className="font-normal text-GrayHomz">(optional)</span>
@@ -147,7 +273,7 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                                 <Dropdown
                                     options={optionsTwo}
                                     selectOption="Select an option"
-                                    onSelect={(selectedOption) => handleInputChange(index, "paymentStatus", selectedOption)}
+                                    onSelect={(selectedOption) => setFormData({ ...formData, paymentStatus: selectedOption })}
                                     value={formData.paymentStatus}
                                     border={"border-[#a9a9a9]"}
                                     className={"w-full"}
@@ -224,7 +350,7 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                                 <Dropdown
                                     options={optionsThree}
                                     selectOption="Select an option"
-                                    onSelect={(selectedOption) => handleInputChange(index, "paymentMethod", selectedOption)}
+                                    onSelect={(selectedOption) => setFormData({ ...formData, paymentMethod: selectedOption })}
                                     value={formData.paymentMethod}
                                     border={"border-[#a9a9a9]"}
                                     className={"w-full"}
@@ -233,35 +359,13 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-[#FCFCFC] p-4 rounded-[8px] text-BlackHomz">
-                        <p className="block text-sm font-medium">
-                            Attachment <span className="font-normal text-GrayHomz">(optional)</span>
-                        </p>
-                        <p className='text-GrayHomz text-[13px] font-normal'>
-                            Upload up to 3 file attachments
-                        </p>
-                        <div>
-                            <div className='mt-4 w-full bg-[#F6F6F6] border border-dashed border-[#D5D5D5] rounded-[12px] px-4 py-8'
-                            >
-                                <label htmlFor="firstGuarantorUpload" className="cursor-pointer flex flex-col justify-center items-center gap-2">
-                                    <UploadWhite />
-                                    <p className='text-sm font-medium text-BlackHomz text-center'>
-                                        Drop your file or click to upload
-                                    </p>
-                                    <p className='text-[13px] font-normal text-GrayHomz'>
-                                        PDF, JPG up to 2MB
-                                    </p>
-                                    <button
-                                        className={`mt-1 text-sm font-medium w-auto hover:text-white hover:bg-[#4bb2e5] text-BlueHomz border border-BlueHomz rounded-[4px] px-4 py-2`}
-                                    >
-                                       Select file
-                                    </button>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Attachment
+                    handleFileChange={handleFileChange}
+                    removeFile={removeFile}
+                    triggerFileInput={triggerFileInput}
+                    files={files}
+                    fileInputRef={fileInputRef}
+                />
                 <div className="bg-[#FCFCFC] p-4 rounded-[8px] text-BlackHomz">
                     <p className="block text-sm font-medium">
                         Property Information <span className="font-normal text-GrayHomz">(optional)</span>
@@ -303,25 +407,21 @@ const CreateExpenses = ({ setOpenCreateExpenses }) => {
                     </div>
                 </div>
             </div>
-            <div className="px-8 flex w-full flex-col-reverse md:flex-row justify-between gap-2 my-4 text-sm font-normal">
+            {error && <span className='px-12 text-xs font-normal text-error italic'>{error}</span>}
+            <div className={` ${isLoading && "pointer-events-none"} px-8 flex w-full flex-col-reverse md:flex-row justify-between gap-2 my-4 text-sm font-normal`}>
                 <div className="md:w-[50%]" />
                 <div className="md:w-[50%] flex flex-row gap-2 items-center justify-end">
                     <button
-                        // onClick={() => {
-                        //     setShowForm(false)
-                        // }}
-                        className={`w-auto hover:text-white hover:bg-[#4bb2e5] text-BlueHomz border border-BlueHomz rounded-[4px] px-4 py-2`}
+                        disabled={isLoading}
+                        className={`w-auto hover:text-white hover:bg-[#4bb2e5] text-BlueHomz border border-BlueHomz rounded-[4px] h-full max-h-[44px] px-4 py-2`}
                     >
                         Cancel
                     </button>
                     <button
-                        // onClick={() => {
-                        //     setShowSuccessModal(true)
-                        //     setDontHideForm(false)
-                        // }}
-                        className="rounded-[4px] px-4 py-2 text-white bg-BlueHomz w-auto hover:border hover:border-BlueHomz hover:bg-transparent hover:text-BlueHomz"
+                        onClick={handleSubmitExpense}
+                        className={`rounded-[4px] flex justify-center items-center w-full max-w-[140px] h-full max-h-[44px] py-2 ${!isFormValid ? "text-GrayHomz6 bg-GrayHomz5 hover:border pointer-events-none" : "text-white bg-BlueHomz hover:border hover:border-BlueHomz hover:bg-transparent hover:text-BlueHomz"} ${isLoading ? "w-full flex justify-center" : ""} `}
                     >
-                        Add Expense
+                        {isLoading ? <LoadingFormII /> : "Add Expense"}
                     </button>
                 </div>
             </div>

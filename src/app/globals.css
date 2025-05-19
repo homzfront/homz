@@ -354,4 +354,14 @@ body::-webkit-scrollbar-thumb {
    animation: fade-in-out 2s ease-in-out forwards;
  }
 
- 
+ /* Hide arrows in number input for Chrome, Safari, Edge, Opera */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in number input for Firefox */
+.no-spinner[type='number'] {
+  -moz-appearance: textfield;
+}

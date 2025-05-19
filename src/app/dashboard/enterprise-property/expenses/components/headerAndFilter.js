@@ -9,6 +9,8 @@ import FilterIconBlue from '@/components/icons/filterIconBlue';
 import Reset from '@/components/icons/reset';
 import BlueSearch from '@/components/icons/blueSearch';
 import DotsBlue from '@/components/icons/dotsBlue';
+import Ticked from '@/components/icons/ticked';
+import UnTicked from '@/components/icons/unTicked';
 
 const HeaderAndFilter = ({
     setIsOpen,
@@ -17,7 +19,24 @@ const HeaderAndFilter = ({
     isOpenTwo,
     closeAction,
     closeFilter,
-    setOpenCreateExpenses
+    setOpenCreateExpenses,
+    statusData,
+    openStatus,
+    setOpenStatus,
+    selectedStatus,
+    setSelectedStatus,
+    fromDate,
+    setFromDate,
+    toDate,
+    setToDate,
+    search,
+    setSearch,
+    clear,
+    setExpenseCate,
+    expenseCate,
+    categories,
+    selectedCate,
+    setSelectedCate
 }) => {
     return (
         <div>
@@ -41,6 +60,8 @@ const HeaderAndFilter = ({
                         <div
                             onClick={() => {
                                 setIsOpen(!isOpen)
+                                setExpenseCate(false)
+                                setOpenStatus(false)
                             }}
                             className='cursor-pointer w-auto border border-BlueHomz px-3 h-[38px] flex justify-center items-center rounded-[4px] gap-1'>
                             <FilterIconBlue />
@@ -54,54 +75,90 @@ const HeaderAndFilter = ({
                         {
                             isOpen &&
                             <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px]'>
-                                <div>
-                                    <p className='text-[13px] text-GrayHomz font-medium'>
-                                        Filter by:
-                                    </p>
-                                    {/* Search Input */}
-                                    <div className='mb-2 hidden md:flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-2'>
-                                        <BlueSearch />
-                                        <input
-                                            type='text'
-                                            className='placeholder:text-[#A9A9A9] w-full outline-none'
-                                            placeholder='Email, Expense, Property...'
-                                        />
-                                    </div>
-                                    <button className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                                        Expense Category   <ArrowDown className="#4E4E4E" />
-                                    </button>
-                                    <button className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
-                                        Status    <ArrowDown className="#4E4E4E" />
-                                    </button>
-                                    <button
-                                        className='relative mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
-                                    >
-                                        <input
-                                            type='date'
-                                            className="w-full py-2 outline-none"
-                                            placeholder='Start Date'
-                                        />
-                                        <span className='absolute top-2 right-3 bg-white p-1'><DateIconTwo /></span>
-                                    </button>
-                                    <button
-                                        className='relative mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
-                                    >
-                                        <input
-                                            type='date'
-                                            className="w-full py-2 outline-none"
-                                            placeholder='End Date'
-                                        />
-                                        <span className='absolute top-2 right-3 bg-white p-1'><DateIconTwo /></span>
-                                    </button>
-                                    <button
-                                        className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue hidden md:flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
-                                        <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
-                                    </button>
-                                    <button
-                                        className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue md:hidden flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
-                                        <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
-                                    </button>
-                                </div>
+                                {
+                                    expenseCate ?
+                                        <div className='text-sm text-GrayHomz font-medium'>
+                                            {categories?.map((prop, index) => (
+                                                <div
+                                                    key={index}
+                                                    className='flex gap-2 mt-1.5 items-center cursor-pointer'
+                                                    onClick={() => setSelectedCate(selectedCate === prop?.categoryName ? null : prop?.categoryName)}
+                                                >
+                                                    {selectedCate === prop?.categoryName ? <Ticked /> : <UnTicked />}
+                                                    {prop?.categoryName}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        : openStatus ?
+                                            <div className='text-sm text-GrayHomz font-medium'>
+                                                {statusData.map((prop, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className='flex gap-2 mt-1.5 items-center cursor-pointer'
+                                                        onClick={() => setSelectedStatus(selectedStatus === prop ? null : prop)}
+                                                    >
+                                                        {selectedStatus === prop ? <Ticked /> : <UnTicked />}
+                                                        {prop}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            : <div>
+                                                <p className='text-[13px] text-GrayHomz font-medium'>
+                                                    Filter by:
+                                                </p>
+                                                {/* Search Input */}
+                                                <div className='mb-2 hidden md:flex gap-2 items-center w-full border border-[#A9A9A9] rounded-[4px] p-2'>
+                                                    <BlueSearch />
+                                                    <input
+                                                        type='text'
+                                                        className='placeholder:text-[#A9A9A9] w-full outline-none'
+                                                        placeholder='Email, Expense, Property...'
+                                                        value={search}
+                                                        onChange={(e) => setSearch(e.target.value)}
+                                                    />
+                                                </div>
+                                                <button onClick={() => setExpenseCate(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                                                    {selectedCate ? selectedCate : "Expense Category"}      <ArrowDown className="#4E4E4E" />
+                                                </button>
+                                                <button onClick={() => setOpenStatus(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                                                    {selectedStatus ? selectedStatus : "Status"}      <ArrowDown className="#4E4E4E" />
+                                                </button>
+                                                <button
+                                                    className='relative mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                                                >
+                                                    <input
+                                                        type='date'
+                                                        className="w-full py-2 outline-none"
+                                                        placeholder='Start Date'
+                                                        value={fromDate}
+                                                        onChange={(e) => setFromDate(e.target.value)}
+                                                    />
+                                                    {/* <span className='absolute top-2 right-3 bg-white p-1'><DateIconTwo /></span> */}
+                                                </button>
+                                                <button
+                                                    className='relative mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 w-full border border-[#4E4E4E] rounded-[4px]'
+                                                >
+                                                    <input
+                                                        type='date'
+                                                        className="w-full py-2 outline-none"
+                                                        value={toDate}
+                                                        onChange={(e) => setToDate(e.target.value)}
+                                                        placeholder='End Date'
+                                                    />
+                                                    {/* <span className='absolute top-2 right-3 bg-white p-1'><DateIconTwo /></span> */}
+                                                </button>
+                                                <button
+                                                    onClick={() => clear()}
+                                                    className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue hidden md:flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
+                                                    <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
+                                                </button>
+                                                <button
+                                                    onClick={() => clear()}
+                                                    className='mt-1 text-sm font-normal text-BlueHomz bg-whiteblue md:hidden flex justify-between px-3 py-2 w-full border border-BlueHomz rounded-[4px]'>
+                                                    <span className='mx-auto flex gap-2 items-center'>Reset   <Reset className='#006aff' /></span>
+                                                </button>
+                                            </div>
+                                }
                             </div>
                         }
                     </div>
@@ -128,7 +185,7 @@ const HeaderAndFilter = ({
                             isOpenTwo &&
                             <div className='absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
                                 <div className='text-sm text-GrayHomz font-medium flex flex-col gap-0'>
-                                    <div onClick={()=> setOpenCreateExpenses(true)} className='flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer'>
+                                    <div onClick={() => setOpenCreateExpenses(true)} className='flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer'>
                                         <span className='w-3'>
                                             <AddNormal />
                                         </span>

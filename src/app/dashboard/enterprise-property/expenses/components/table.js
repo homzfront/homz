@@ -1,31 +1,17 @@
-import addCommasToNumber from '@/utils/addCommasToNumber';
 import React from 'react'
 import PopUpMenu from './popUpMenu';
 import Pagination from '@/components/general/pagination';
-import { generateExpenses } from './expensesData';
 import Image from 'next/image';
 import Ticked from '@/components/icons/ticked';
 import UnTicked from '@/components/icons/unTicked';
+import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
+import changeBackendDateFormat from '@/utils/changeBackendDateFormat';
 
-const Table = ({ loading = false, setSingleTableData, setOpenDetails }) => {
+const Table = ({ pageNo, setPageNo, totalPages, allData, loading = false, setSingleTableData, setOpenDetails }) => {
     const [popUpMenu, setPopUpMenu] = React.useState(false);
     const [selectedId, setSelectedId] = React.useState(null);
-    const [pageNo, setPageNo] = React.useState(1);
     const [selectedRows, setSelectedRows] = React.useState([]);
     const [selectAll, setSelectAll] = React.useState(false);
-
-    const itemsPerPage = 10; // Number of items to show per page
-
-    // Generate all data
-    const allData = generateExpenses(30);
-
-    // Calculate total pages
-    const totalPages = Math.ceil(allData.length / itemsPerPage);
-
-    // Get data for current page
-    const startIndex = (pageNo - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentPageData = allData.slice(startIndex, endIndex);
 
     const handlePageClick = (page) => {
         setPageNo(page);
@@ -43,9 +29,8 @@ const Table = ({ loading = false, setSingleTableData, setOpenDetails }) => {
         }
     };
 
-    const firstThreePages = [1, 2, 3].filter(page => page <= totalPages);
-    const lastThreePages = [totalPages - 2, totalPages - 1, totalPages]
-        .filter(page => page >= 1 && page <= totalPages);
+    const firstThreePages = [1, 2, 3];
+    const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
 
     const handleToggleMenu = (id, data) => {
         setSingleTableData(data)
@@ -83,42 +68,29 @@ const Table = ({ loading = false, setSingleTableData, setOpenDetails }) => {
     // Skeleton Loader Component
     const SkeletonLoader = () => {
         return (
-            <tr className="w-2 border-t-[1px] items-center">
-                <td className="py-[15px] pl-4">
+            <tr className="w-full border-t-[1px] flex items-center">
+                <td className="py-[15px] pl-4 w-[20%] md:w-[8%]">
                     <div className="h-5 w-5 bg-gray-200 rounded animate-pulse"></div>
                 </td>
-                <td className="flex items-center gap-1 pr-2 py-[15px]">
-                    <div className="h-[40px] w-[40px] flex justify-center items-center bg-gray-200 rounded-full animate-pulse"></div>
-                    <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+                <td className="flex items-center gap-1 pr-2 py-[15px] w-[35%] md:w-[14%]">
+                    <div className="h-4 w-24 bg-gray-200 rounded animate-pulse "></div>
                 </td>
-                <td className="py-[15px]">
+                <td className="py-[15px] w-[35%] md:w-[14%]">
                     <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
                 </td>
-                <td className="py-[15px]">
+                <td className="py-[15px] w-[14%] hidden md:block">
                     <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
                 </td>
-                <td className="py-[15px]">
+                <td className="py-[15px] w-[14%] hidden md:block">
                     <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
                 </td>
-                <td className="py-[15px]">
+                <td className="py-[15px] w-[14%] hidden md:block">
                     <div className="h-6 w-24 bg-gray-200 rounded-md animate-pulse"></div>
                 </td>
-                <td className="py-[15px]">
+                <td className="py-[15px] w-[14%] hidden md:block">
                     <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
                 </td>
-                <td className="py-[15px]">
-                    <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="py-[15px]">
-                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="py-[15px]">
-                    <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="py-[15px]">
-                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
+                <td className="w-[10%] md:w-[8%] py-[15px] pr-4 z-10">
                     <div className="h-5 w-5 bg-gray-200 rounded animate-pulse"></div>
                 </td>
             </tr>
@@ -150,25 +122,25 @@ const Table = ({ loading = false, setSingleTableData, setOpenDetails }) => {
                             ))}
                         </>
                     ) : (
-                        currentPageData &&
-                        currentPageData.map((data) => (
+                        allData?.results &&
+                        allData?.results?.map((data) => (
                             <div
                                 key={data?._id}
                                 className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50"
                             >
                                 <div onClick={() => handleRowSelect(data._id, data)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[500] text-[11px] flex-shrink-0 w-[20%] md:w-[8%]">{selectedRows.includes(data._id) ? <Ticked /> : <UnTicked />}</div>
                                 <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[500] text-[11px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                    <span>{data?.expenses}</span>
+                                    <span>{data?.expenseName}</span>
                                 </div>
                                 <div className="text-GrayHomz py-[15px] font-[500] text-[11px] flex-shrink-0 w-[35%] md:w-[14%]">
                                     <span style={{ fontFamily: "Arial" }}>₦</span>
-                                    {addCommasToNumber(data?.amount)}
+                                    {addCommasToNumberWithoutN(data?.amount)}
                                 </div>
                                 <div className="text-GrayHomz py-[15px] font-[500] text-[11px] flex-shrink-0 w-[14%] hidden md:block">
-                                    {data?.category}
+                                    {data?.expenseCategoryName}
                                 </div>
                                 <div className="text-GrayHomz py-[15px] font-[500] md:flex text-[11px] flex-shrink-0 w-[14%] hidden">
-                                    {data?.status === "Unpaid" ? (
+                                    {data?.paymentStatus === "Unpaid" ? (
                                         <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
                                             Unpaid
                                         </div>
@@ -179,10 +151,10 @@ const Table = ({ loading = false, setSingleTableData, setOpenDetails }) => {
                                     )}
                                 </div>
                                 <div className="text-GrayHomz py-[15px] font-[500] text-[11px] flex-shrink-0 w-[14%] hidden md:block">
-                                    {data?.date}
+                                    {changeBackendDateFormat(data?.date)}
                                 </div>
                                 <div className="text-GrayHomz py-[15px] font-[500] text-[11px] flex-shrink-0 w-[14%] hidden md:block">
-                                    {data.property}
+                                    {data?.property?.propertyName ?? "------------"}
                                 </div>
                                 <div className="relative py-[15px] md:pl-4 z-10 flex-shrink-0 w-[10%] md:w-[8%]">
                                     <button onClick={() => { handleToggleMenu(data._id, data) }}>
@@ -203,7 +175,7 @@ const Table = ({ loading = false, setSingleTableData, setOpenDetails }) => {
             </div>
 
             {/* Pagination */}
-            {allData && allData.length >= 1 && (
+            {allData?.results && allData?.results.length >= 1 && (
                 <div className="mt-6">
                     <Pagination
                         firstThreePages={firstThreePages}
