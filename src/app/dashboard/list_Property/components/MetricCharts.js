@@ -107,6 +107,7 @@ export default function PropertyStatsChart() {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -116,7 +117,6 @@ export default function PropertyStatsChart() {
           },
         },
       },
-
       tooltip: {
         titleFont: {
           style: "normal",
@@ -145,7 +145,7 @@ export default function PropertyStatsChart() {
   };
 
   return (
-    <div className="sm:p-4 b rounded-lg shadow sm:w-[590px] bg-black bg-opacity-40 z-10 flex items-center justify-center">
+    <div className="sm:p-4 b rounded-lg shadow sm:w-[570px] bg-black bg-opacity-40 z-10 flex items-center justify-center">
       {/* {isLoading ? (
         <div>Loading data...</div>
       ) : (
@@ -185,7 +185,7 @@ export default function PropertyStatsChart() {
           </select>
         </div>
 
-        <div className="h-full  w-full">
+        <div className="sm:h-[300px] h-full w-full">
           <Bar data={chartData} options={options} />
         </div>
       </div>

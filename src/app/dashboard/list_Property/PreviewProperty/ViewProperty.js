@@ -464,7 +464,7 @@ const ViewMetrics = ({ property }) => {
     <div className="grid grid-cols-3 gap-[10px]">
       <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
         <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
-          [ {property?.totalViews} ]
+          {property?.totalViews}
         </p>
         <p className="font-[500] text-[13px] leading-[150%] text-[#006AFF]">
           Views
@@ -472,7 +472,7 @@ const ViewMetrics = ({ property }) => {
       </div>
       <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
         <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
-          [ {property?.totalCallClicks} ]
+          {property?.totalCallClicks}
         </p>
         <p className="font-[500] text-[13px] leading-[150%] text-[#006AFF]">
           Call Clicks
@@ -480,7 +480,7 @@ const ViewMetrics = ({ property }) => {
       </div>
       <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
         <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
-          [ {property?.totalMessages} ]
+          {property?.totalMessages}
         </p>
 
         <p className="font-[500] text-[13px] sm:leading-[150%] leading-[120%] text-[#006AFF]">

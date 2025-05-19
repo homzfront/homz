@@ -11,6 +11,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 
 const Dashboard = () => {
   const [selectedOptions, setSelectedOption] = useState(null);
@@ -19,87 +20,140 @@ const Dashboard = () => {
   const [errorModal, setErrorModal] = useState(false);
   const [tabName, setTabName] = useState("");
 
-  const MostViewedMobile = () => {
-    const settings = {
-      dots: false,
-      arrows: true,
-      infinite: true,
-      autoplay: true,
-      slidesToShow: 2.5,
-      slidesToScroll: 1,
-      speed: 2000,
-      autoplaySpeed: 2000,
-      // centerMode: true,
-      centerPadding: "20px",
-      className: "center",
+  const { data, fetchData } = useProfileListingMe();
+  const [isBusinessInfoUpdate, setIsBusinessInfoUpdate] = useState(false);
 
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 2,
-            centerPadding: "20px",
-          },
-        },
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 1,
-            centerPadding: "10px",
-          },
-        },
-      ],
-    };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-    return (
-      <div className="sm:hidden block">
-        <Slider
-          {...settings}
-          className="w-full rounded-[24px] space-x-3"
-          aria-label="Featured Projects"
-        >
-          <PropertyCard
-            Property={data}
-            setTabName={setTabName}
-            pageManagement={pageManagement}
-            promoteOptions={promoteOption}
-            setSelectedProperty={setSelectedOption}
-            selectedProperty={selectedOptions}
-            refreshData={refreshData}
-            setOpenPlanModal={setOpenPlanModal}
-            setPromotePropertry={setPromotePropertry}
-            setErrorModal={setErrorModal}
-            metric={true}
-            partOfTheDashboard="mostViewed"
-          />
-        </Slider>
-      </div>
-    );
-  };
+  useEffect(() => {
+    if (data) {
+      const isMissingBusinessInfo =
+        !data.businessInfo?.businessPhoneNo ||
+        !data.socialMediaLinks?.whatsappLink;
+
+      setIsBusinessInfoUpdate(isMissingBusinessInfo);
+    }
+  }, [data]);
+
+  // const MostViewedMobile = () => {
+  //   const settings = {
+  //     dots: false,
+  //     arrows: true,
+  //     infinite: true,
+  //     autoplay: true,
+  //     slidesToShow: 2.5,
+  //     slidesToScroll: 1,
+  //     speed: 2000,
+  //     autoplaySpeed: 2000,
+  //     // centerMode: true,
+  //     centerPadding: "20px",
+  //     className: "center",
+  //     responsive: [
+  //       {
+  //         breakpoint: 1024,
+  //         settings: {
+  //           slidesToShow: 2,
+  //           centerPadding: "20px",
+  //         },
+  //       },
+  //       {
+  //         breakpoint: 768,
+  //         settings: {
+  //           slidesToShow: 1,
+  //           centerPadding: "10px",
+  //         },
+  //       },
+  //     ],
+  //   };
+
+  //   return (
+  //     <div className="sm:hidden block">
+  //       <Slider
+  //         {...settings}
+  //         className="w-full rounded-[24px] space-x-3"
+  //         aria-label="Featured Projects"
+  //       >
+  //         <PropertyCard
+  //           Property={data}
+  //           setTabName={setTabName}
+  //           pageManagement={pageManagement}
+  //           promoteOptions={promoteOption}
+  //           setSelectedProperty={setSelectedOption}
+  //           selectedProperty={selectedOptions}
+  //           refreshData={refreshData}
+  //           setOpenPlanModal={setOpenPlanModal}
+  //           setPromotePropertry={setPromotePropertry}
+  //           setErrorModal={setErrorModal}
+  //           metric={true}
+  //           partOfTheDashboard="mostViewed"
+  //         />
+  //       </Slider>
+  //     </div>
+  //   );
+  // };
+
   const MostViewed = () => {
     return (
-      <div className="grid sm:grid-cols-2 sm:gap-48 gap-6">
+      <div
+        className={`grid sm:grid-cols-2 sm:gap-40 gap-6 ${
+          !otherProperties && "mb-10"
+        }`}
+      >
         <MetricsCharts />
-        <div className="sm:w-[374px] flex flex-col gap-2">
+        <div className="sm:w-[408px] flex flex-col gap-2">
           <p className="">Most viewed properties</p>
           {mostViewedLoader ? (
             <LoadingII />
           ) : (
-            <div className="sm:block hidden">
-              <PropertyCard
-                Property={mostViewedProperties}
-                setTabName={setTabName}
-                pageManagement={pageManagement}
-                promoteOptions={promoteOption}
-                setSelectedProperty={setSelectedOption}
-                selectedProperty={selectedOptions}
-                refreshData={refreshData}
-                setOpenPlanModal={setOpenPlanModal}
-                setPromotePropertry={setPromotePropertry}
-                setErrorModal={setErrorModal}
-                metric={true}
-                partOfTheDashboard="mostViewed"
-              />
+            <div
+              className={`sm:flex hidden ${
+                mostViewedProperties &&
+                mostViewedProperties.length === 0 &&
+                "items-center justify-center bg-gray-50 rounded-xl shadow-inner"
+              } h-full w-full min-h-[250px] `}
+            >
+              {mostViewedProperties && mostViewedProperties.length === 0 ? (
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-12 w-12 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 17h5l-1.405-1.405M4 4l16 16M6 6l4 4m4 4l4 4M5 13l4-4m4 4l4-4"
+                    />
+                  </svg>
+                  <p className="text-gray-600 text-xl font-semibold">
+                    No views yet
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Your property hasn't been visited yet. Promote it to gain
+                    visibility!
+                  </p>
+                </div>
+              ) : (
+                <PropertyCard
+                  Property={mostViewedProperties}
+                  setTabName={setTabName}
+                  pageManagement={pageManagement}
+                  promoteOptions={promoteOption}
+                  setSelectedProperty={setSelectedOption}
+                  selectedProperty={selectedOptions}
+                  refreshData={refetchMetricData}
+                  setOpenPlanModal={setOpenPlanModal}
+                  setPromotePropertry={setPromotePropertry}
+                  setErrorModal={setErrorModal}
+                  metric={true}
+                  partOfTheDashboard="mostViewed"
+                />
+              )}
             </div>
           )}
         </div>
@@ -109,7 +163,7 @@ const Dashboard = () => {
 
   const OtherListedProperties = () => {
     return (
-      <div className="flex flex-col border-1 sm:h-[404px] rounded-[8px] border-[#E6E6E6]  bg-white">
+      <div className="flex flex-col border-1 sm:h-[404px] rounded-[8px] border-[#E6E6E6]  bg-white ">
         <div className="flex items-center justify-between sm:pr-7">
           <p className="text-[14px] font-[400]">Listed properties</p>
           <p>
@@ -125,7 +179,7 @@ const Dashboard = () => {
           <LoadingII />
         ) : (
           <PropertyCard
-            Property={data}
+            Property={otherProperties}
             setTabName={setTabName}
             pageManagement={pageManagement}
             promoteOptions={promoteOption}
@@ -144,7 +198,11 @@ const Dashboard = () => {
   };
 
   // Fetch other properties
-  const { data, isLoading, refetch } = useQuery({
+  const {
+    data: otherProperties,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["properties"],
     queryFn: async () => {
       return await api.get(`/properties/user/me?page=1`);
@@ -157,7 +215,11 @@ const Dashboard = () => {
   });
 
   // Fetch most visited properties
-  const { data: mostViewedProperties, isLoading: mostViewedLoader } = useQuery({
+  const {
+    data: mostViewedProperties,
+    isLoading: mostViewedLoader,
+    refetch: refetchMetricData,
+  } = useQuery({
     queryKey: ["mostViewed"],
     queryFn: async () => {
       return await api.get(`/properties/property/top-visited`);
@@ -190,10 +252,16 @@ const Dashboard = () => {
   // }, []);
 
   return (
-    <div className="w-full max-w-[1440px] px-6 sm:px-0 sm:w-full mx-auto flex flex-col gap-5 ">
-      <UpperMetrics />
-      <MostViewed loading={isLoading} />
-      <OtherListedProperties loading={isLoading} />
+    <div className="w-full max-w-[1440px] px-6 sm:px-0 sm:w-full flex items-center justify-center mx-auto">
+      {isLoading ? (
+        <LoadingII />
+      ) : (
+        <div className="w-full mx-auto flex flex-col gap-5 ">
+          <UpperMetrics isBusinessInfoUpdate={isBusinessInfoUpdate} />
+          <MostViewed loading={isLoading} />
+          {otherProperties && <OtherListedProperties loading={isLoading} />}
+        </div>
+      )}
     </div>
   );
 };

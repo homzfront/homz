@@ -97,6 +97,7 @@ const PropertyCard = ({
                 width={"md:w-[345px]"}
                 reset={reset}
                 setLoadingII={setLoadingII}
+                updateMetrics={updateMetrics}
               />
             </>
           ) : (

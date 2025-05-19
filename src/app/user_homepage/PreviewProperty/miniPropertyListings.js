@@ -10,9 +10,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
   return (
     <div className={`w-full sm:mt-5`}>
       <div className="text-[16px] flex justify-between w-full ">
-        <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] ">
-          Similar properties
-        </p>
+        <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] "></p>
         <Link
           href="/user_homepage/PropertyListing"
           className="flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
@@ -48,7 +46,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                       href={`/user_homepage/PreviewProperty/${property?.slug}`}
                       key={index}
                       className="w-full h-[181.77px] md:w-full"
-                      onClick={() => updateMetrics("call")}
+                      onClick={() => updateMetrics("view")}
                     >
                       <Image
                         src={img?.url}
@@ -64,7 +62,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 <Link
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
                   className="w-full h-[181.77px] md:w-full"
-                  onClick={() => updateMetrics("call")}
+                  onClick={() => updateMetrics("view")}
                 >
                   <Image
                     src="/static/images/comingSoonImage.svg"
@@ -79,7 +77,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
             <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
               <button
                 className="flex justify-between"
-                onClick={() => updateMetrics("call")}
+                onClick={() => updateMetrics("view")}
               >
                 <Link
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
@@ -180,6 +178,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 <Link
                   className="cursor-pointer"
                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  onClick={() => updateMetrics("view")}
                 >
                   <Image
                     src="/static/images/arrow-in-circle.svg"
