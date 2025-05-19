@@ -164,7 +164,7 @@ const Sidebar = () => {
       link: "",
       name: "Finance",
       coming: null,
-      active: false,
+      active: false, 
       submenu: true,
       subMenuItems: [
         {
