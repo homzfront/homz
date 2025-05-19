@@ -164,7 +164,7 @@ const Sidebar = () => {
       link: "",
       name: "Finance",
       coming: null,
-      active: false,
+      active: false, 
       submenu: true,
       subMenuItems: [
         {
@@ -175,7 +175,8 @@ const Sidebar = () => {
         },
         {
           title: "Expenses",
-          link: "/dashboard/enterprise-property/expenses",
+          link: "",
+          // link: "/dashboard/enterprise-property/expenses",
           image: <Expenses />,
           image2: <Expenses className="#006AFF" />,
         },
