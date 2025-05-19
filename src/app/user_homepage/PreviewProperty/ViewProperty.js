@@ -173,12 +173,10 @@ const ViewProperty = ({ PropertySlug }) => {
     try {
       await navigator.share(shareData);
       updateMetrics("call");
-      // console.log("Page shared successfully!");
     } catch (err) {
       console.error("Error sharing the page:", err);
     }
   };
-  // console.log(propertyData)
   return (
     <div>
       {loading || loading2 ? (
