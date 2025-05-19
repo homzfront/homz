@@ -45,7 +45,7 @@ const Table = ({ pageNo, setPageNo, totalPages, allData, loading = false, setSin
             setSelectedRows([]);
         } else {
             // Select all visible rows on current page
-            const allIds = currentPageData.map(item => item._id);
+            const allIds = allData?.results?.map(item => item._id);
             setSelectedRows(allIds);
         }
         setSelectAll(!selectAll);
@@ -63,6 +63,7 @@ const Table = ({ pageNo, setPageNo, totalPages, allData, loading = false, setSin
         });
         // Ensure selectAll is false if manually selecting rows
         setSelectAll(false);
+        setSingleTableData(data)
     };
 
     // Skeleton Loader Component

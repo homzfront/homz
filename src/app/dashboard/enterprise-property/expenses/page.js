@@ -11,7 +11,7 @@ import useExpenseStore from '../../../../store/enterpriseStore/useExpenseStore';
 import { useDebounce } from '@/utils/deBounce';
 import api from '@/utils/api';
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
-
+import PrintableAll from './components/printableAll';
 
 const Expenses = () => {
     const {
@@ -32,23 +32,30 @@ const Expenses = () => {
         pageNo,
         loadingCate,
         fetchCategory,
+        selectedOption,
+        setSelectedOption,
     } = useExpenseStore();
+        const printRefAll = React.useRef();
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [isOpenTwo, setIsOpenTwo] = React.useState(false);
     const [openStatusFilter, setOpenStatusFilter] = React.useState(false);
     const [openStatus, setOpenStatus] = React.useState(false);
     const [expenseCate, setExpenseCate] = React.useState(false);
+    const [isOpenDocu, setIsOpenDocu] = React.useState(false);
     const closeFilter = useClickOutside(() => {
         setIsOpen(false);
         setExpenseCate(false);
         setOpenStatus(false);
+        setIsOpenDocu(false);
     });
     const closeAction = useClickOutside(() => setIsOpenTwo(false));
     const [totalPages, setTotalPages] = React.useState(1);
     const [singleTableData, setSingleTableData] = React.useState(null);
     const [openDetails, setOpenDetails] = React.useState(false);
     const [openCreateExpenses, setOpenCreateExpenses] = React.useState(false);
+    const [printData, setPrintData] = React.useState(null);
+    const [deleteLoading, setDeleteLoading] = React.useState(false);
 
     const debouncedSearch = useDebounce(search, 500);
     const debounceToDate = useDebounce(toDate, 500);
@@ -87,6 +94,85 @@ const Expenses = () => {
         }
     };
 
+// Delete single expense
+const handleDeleteSingle = async (id) => {
+    if (!id) return;
+    
+    try {
+        setDeleteLoading(true);
+        await api.delete(`/expense/enterprise/single/remove/${id}`);
+        // Refresh data after deletion
+        await fetchExpense(pageNo);
+        // Remove from selected rows if it was selected
+        setSelectedRows(prev => prev.filter(item => item !== id));
+        // Clear singleTableData if it was the deleted item
+        if (singleTableData?._id === id) {
+            setSingleTableData(null);
+        }
+    } catch (error) {
+        console.error("Error deleting expense:", error);
+    } finally {
+        setDeleteLoading(false);
+    }
+};
+
+// Delete multiple expenses
+const handleDeleteMultiple = async () => {
+    if (selectedRows.length === 0) return;
+    
+    try {
+        setDeleteLoading(true);
+        await api.delete(`/expense/enterprise/delete-multiple`, {
+            data: {
+                expenseIds: selectedRows
+            }
+        });
+        // Refresh data after deletion
+        await fetchExpense(pageNo);
+        // Clear selections
+        setSelectedRows([]);
+        setSingleTableData(null);
+        setSelectAll(false);
+    } catch (error) {
+        console.error("Error deleting multiple expenses:", error);
+    } finally {
+        setDeleteLoading(false);
+    }
+};
+
+
+    const fetchExpensePrint = async (limit = 10, page) => {
+        if (fromDate && !toDate) return;
+        if (!fromDate && toDate) return;
+        try {
+            let query = `/expense/enterprise/get-all?limit=${limit}&page=${page}`;
+            if (selectedStatus) {
+                query += `&status=${encodeURIComponent(selectedStatus)}`;
+            }
+            if (selectedCate) {
+                query += `&category=${encodeURIComponent(selectedCate)}`;
+            }
+            if (fromDate && toDate) {
+                query += `&startDate=${encodeURIComponent(fromDate)}&endDate=${encodeURIComponent(toDate)}`;
+            }
+            if (search) {
+                query += `&search=${encodeURIComponent(search)}`;
+            }
+            const response = await api.get(query);
+            const result = response?.data;
+            setPrintData(result?.data)
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    console.log(printData)
+
+    React.useEffect(() => {
+        fetchExpensePrint(1000, 1);
+    }, [selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
+
+
     React.useEffect(() => {
         fetchExpense(pageNo);
     }, [pageNo, selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
@@ -100,10 +186,11 @@ const Expenses = () => {
         setPageNo(1)
     };
 
+    console.log(singleTableData)
     const StatusOption = ["Paid", "Unpaid"];
 
     return (
-        <div className=''>
+        <div className={ `${deleteLoading && "pointer-events-none animate-pulse"}`}>
             <CustomizedModal isOpen={openDetails} onRequestClose={() => setOpenDetails(false)}>
                 <AllDetails
                     singleTableData={singleTableData}
@@ -138,6 +225,12 @@ const Expenses = () => {
                         setSelectedCate={setSelectedCate}
                         selectedCate={selectedCate}
                         categories={categories}
+                        selectedOption={selectedOption}
+                        setSelectedOption={setSelectedOption}
+                        setIsOpenI={setIsOpenDocu}
+                        isOpenI={isOpenDocu}
+                        onDelete={onDelete}
+                        deleteLoading={deleteLoading}
                     />
                     <div className='flex gap-4 flex-col md:flex-row mt-4 w-full'>
                         <div className='flex gap-4 w-full'>
@@ -205,6 +298,13 @@ const Expenses = () => {
                     </div>
                 </div>
             }
+            <div style={{ display: 'none' }}>
+                <PrintableAll
+                    data={printData}
+                    summary={printData?.summary}
+                    printRef={printRefAll}
+                />
+            </div>
         </div>
     )
 }
