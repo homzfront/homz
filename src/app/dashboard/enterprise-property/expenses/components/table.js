@@ -7,7 +7,7 @@ import UnTicked from '@/components/icons/unTicked';
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
 import changeBackendDateFormat from '@/utils/changeBackendDateFormat';
 
-const Table = ({ handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loading = false, setSingleTableData, setOpenDetails }) => {
+const Table = ({ setOpenCreateExpenses, setOpenEdit, handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loading = false, setSingleTableData, setOpenDetails }) => {
     const [popUpMenu, setPopUpMenu] = React.useState(false);
     const [selectedId, setSelectedId] = React.useState(null);
     const [selectedRows, setSelectedRows] = React.useState([]);
@@ -37,34 +37,37 @@ const Table = ({ handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loa
         setSelectedId(id);
         setPopUpMenu(!popUpMenu);
     };
-
-
     const handleSelectAll = () => {
         if (selectAll) {
-            // If already selected all, deselect all
+            // Deselect all
             setSelectedRows([]);
         } else {
-            // Select all visible rows on current page
+            // Select all
             const allIds = allData?.results?.map(item => item._id);
             setSelectedRows(allIds);
         }
         setSelectAll(!selectAll);
     };
 
-    const handleRowSelect = (id, data) => {
+    const handleRowSelect = (id) => {
         setSelectedRows(prev => {
             if (prev.includes(id)) {
-                // If already selected, remove it
                 return prev.filter(item => item !== id);
             } else {
-                // If not selected, add it
                 return [...prev, id];
             }
         });
-        // Ensure selectAll is false if manually selecting rows
-        setSelectAll(false);
-        setSingleTableData(data)
+        setSelectAll(false); // When manually selecting, unset selectAll
     };
+
+    // 🔄 Automatically update selected data list
+    React.useEffect(() => {
+        const updatedData = allData?.results?.filter(item => selectedRows.includes(item._id)) || [];
+        setSingleTableData(updatedData);
+    }, [selectedRows, allData]);
+
+
+
 
     // Skeleton Loader Component
     const SkeletonLoader = () => {
@@ -124,7 +127,7 @@ const Table = ({ handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loa
                         </>
                     ) : (
                         allData?.results &&
-                        allData?.results?.map((data) => (
+                        allData?.results?.map((data, index) => (
                             <div
                                 key={data?._id}
                                 className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50"
@@ -167,7 +170,17 @@ const Table = ({ handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loa
                                             style={{ height: "auto", width: "auto" }}
                                         />
                                     </button>
-                                    {popUpMenu && selectedId === data._id && <PopUpMenu handleDeleteSingle={handleDeleteSingle} data={data} setOpenDetails={setOpenDetails} />}
+                                    {popUpMenu && selectedId === data._id &&
+                                        <PopUpMenu
+                                            setOpenCreateExpenses={setOpenCreateExpenses}
+                                            setOpenEdit={setOpenEdit}
+                                            handleDeleteSingle={handleDeleteSingle}
+                                            data={data}
+                                            setOpenDetails={setOpenDetails}
+                                            index={index}
+                                            totalLength={allData?.results?.length}
+                                        />
+                                    }
                                 </div>
                             </div>
                         ))

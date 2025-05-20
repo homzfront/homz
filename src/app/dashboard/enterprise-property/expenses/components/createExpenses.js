@@ -9,29 +9,51 @@ import api from '@/utils/api';
 import ExpenseCategory from './expenseCategory';
 import Attachment from './attachment';
 
-const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
+const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpenses }) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
     const [formData, setFormData] = React.useState({
-        expenseName: "",
-        amount: "",
-        date: null,
-        expenseCategory: "",
-        description: "",
-        paymentStatus: "",
-        paymentMethod: "",
-        businessAddress: "",
-        vendorPhone: "",
-        vendorEmail: "",
-        contactPerson: "",
-        vendorName: "",
-        propertyName: "",
-        apartmentNumber: "",
-        tenantName: "",
+        expenseName: update?.expenseName || "",
+        amount: update?.amount || "",
+        date: update?.date ? new Date(update.date) : null,
+        expenseCategory: update?.expenseCategoryName || "",
+        description: update?.description || "",
+        paymentStatus: update?.paymentStatus || "",
+        paymentMethod: update?.vendor?.paymentMethod || "",
+        businessAddress: update?.vendor?.businessAddress || "",
+        vendorPhone: update?.vendor?.phone || "",
+        vendorEmail: update?.vendor?.email || "",
+        contactPerson: update?.vendor?.contactPerson || "",
+        vendorName: update?.vendor?.name || "",
+        propertyName: update?.property?.propertyName || "",
+        apartmentNumber: update?.property?.apartment || "",
+        tenantName: update?.property?.tenantName || "",
     });
 
     const [files, setFiles] = React.useState([]);
     const fileInputRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (update) {
+            setFormData({
+                expenseName: update.expenseName || "",
+                amount: update.amount || "",
+                date: update.date ? new Date(update.date) : null,
+                expenseCategory: update.expenseCategoryName || "",
+                description: update.description || "",
+                paymentStatus: update.paymentStatus || "",
+                paymentMethod: update.vendor?.paymentMethod || "",
+                businessAddress: update.vendor?.businessAddress || "",
+                vendorPhone: update.vendor?.phone || "",
+                vendorEmail: update.vendor?.email || "",
+                contactPerson: update.vendor?.contactPerson || "",
+                vendorName: update.vendor?.name || "",
+                propertyName: update.property?.propertyName || "",
+                apartmentNumber: update.property?.apartment || "",
+                tenantName: update.property?.tenantName || "",
+            });
+        }
+    }, [update]);
 
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -59,21 +81,15 @@ const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
             formData.amount !== "" &&
             formData.date !== null &&
             formData.expenseCategory.trim() !== "" &&
-            formData.paymentStatus.trim() !== ""
-            &&
+            formData.paymentStatus.trim() !== "" &&
             formData.vendorName.trim() !== ""
         );
     }, [formData]);
 
-
     const handleSubmitExpense = async () => {
-
         setIsLoading(true)
         setError(null)
-        // if (files.length === 0) {
-        //     setError('Please upload at least one file');
-        //     return;
-        // }
+
         try {
             // Prepare the data in the required format
             const requestData = {
@@ -118,77 +134,66 @@ const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
                 if (!requestData.property.tenantName) delete requestData.property.tenantName;
             }
 
-            // Submit to endpoint
-            const response = await api.post('/expense/enterprise/create',
-                requestData);
+            let response = null;
+            if (update) {
+                // Use the same endpoint for update with PUT method
+                response = await api.patch(`/expense/enterprise/update/${update._id}`, requestData);
 
-            if (response && files.length !== 0) {
-                const expense_id = response?.data?.data?._id
-                const formData = new FormData();
-                files.forEach((file, index) => {
-                    formData.append(`attachments`, file);  // Using same field name for all files
-                    // Alternatively: formData.append(`file${index}`, file);
-                });
+            } else {
+                response = await api.post('/expense/enterprise/create', requestData);
+            }
 
-                // Add any additional data if needed
-                formData.append('expense_id', expense_id);
+            // Handle file uploads for both create and update
+            if (response && (files.length !== 0 || update)) {
+                const expense_id = update ? update._id : response?.data?.data?._id;
 
-                // Make the API call
-                const responseTwo = await api.post(
-                    `/expense/enterprise/attachments/${expense_id}`,
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
+                if (files.length > 0) {
+                    const formData = new FormData();
+                    files.forEach((file, index) => {
+                        formData.append(`attachments`, file);
+                    });
+                    formData.append('expense_id', expense_id);
+
+                    const responseTwo = await api.post(
+                        `/expense/enterprise/attachments/${expense_id}`,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
                         }
-                    }
-                );
+                    );
 
-                // Handle successful response
-                if (responseTwo.data) {
-                    // setError(`Successfully submitted ${files.length} file(s)`);
-                    // Optionally clear files after successful submission
-                    setFiles([]);
+                    if (responseTwo.data) {
+                        setFiles([]);
+                    }
                 }
             }
 
-            const resultExpense = await fetchExpense(1)
-            setOpenCreateExpenses(false)
-            // const data = await response.json();
-            // console.log('Expense submitted successfully:', response);
-            // Handle success (e.g., show success message, close modal, etc.)
-
-        }
-        catch (error) {
+            const resultExpense = await fetchExpense(1);
+            setOpenCreateExpenses(false);
+            setOpenEdit(null)
+        } catch (error) {
             console.error('Error submitting expense:', error);
-
-            // Handle different error formats
             if (error.response) {
-                // Axios-style error response
                 const errorData = error.response.data;
-
                 if (errorData?.error?.errors) {
-                    // Back-end validation errors
-                    setError(
-                        Object.values(errorData.error.errors).join(', ')
-                    );
+                    setError(Object.values(errorData.error.errors).join(', '));
                 } else if (errorData?.message) {
-                    // General error message
                     setError(errorData.message);
                 } else {
                     setError('Failed to submit expense. Please try again.');
                 }
             } else {
-                // Network or other errors
                 setError(error.message || 'An unexpected error occurred');
             }
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
 
-    const optionsTwo = ["Paid", "Unpaid"]
-    const optionsThree = ["Bank Transfer", "Cash", "POS"]
+    const optionsTwo = ["Paid", "Unpaid"];
+    const optionsThree = ["Bank Transfer", "Cash", "POS"];
 
     return (
         <div>
@@ -198,7 +203,7 @@ const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
             <div className='pb-6 pt-4 border-b border-[#E6E6E6] px-8'>
                 <div>
                     <p className='text-[20px] text-BlackHomz font-medium'>
-                        Add New Expense
+                        {update ? 'Edit Expense' : 'Add New Expense'}
                     </p>
                     <p className='mt-1 text-[18px] text-GrayHomz font-normal'>
                         Keep track of your property and business expenses effortlessly. Log every cost to stay on top of your finances.
@@ -242,7 +247,10 @@ const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
                                 <div className="relative w-full border border-[#a9a9a9] rounded-md h-[45px]">
                                     <DatePicker
                                         selected={formData.date}
-                                        onChange={(date) => setFormData({ ...formData, date })}
+                                        onChange={(date) => {
+                                            setOpenEdit(null)
+                                            setFormData({ ...formData, date })
+                                        }}
                                         dateFormat="d MMMM, yyyy"
                                         placeholderText="Select Date"
                                         className="w-[100%] h-[41px] px-4 py-2 bg-transparent"
@@ -421,7 +429,7 @@ const CreateExpenses = ({ fetchExpense, setOpenCreateExpenses }) => {
                         onClick={handleSubmitExpense}
                         className={`rounded-[4px] flex justify-center items-center w-full max-w-[140px] h-full max-h-[44px] py-2 ${!isFormValid ? "text-GrayHomz6 bg-GrayHomz5 hover:border pointer-events-none" : "text-white bg-BlueHomz hover:border hover:border-BlueHomz hover:bg-transparent hover:text-BlueHomz"} ${isLoading ? "w-full flex justify-center" : ""} `}
                     >
-                        {isLoading ? <LoadingFormII /> : "Add Expense"}
+                        {isLoading ? <LoadingFormII /> : update ? "Save Expense" : "Add Expense"}
                     </button>
                 </div>
             </div>

@@ -2,21 +2,15 @@
 import React from "react";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
-import EmptyAvatar from "@/components/icons/emptyAvatar";
 import Image from "next/image";
-import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
-import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 import useExpenseStore from "@/store/enterpriseStore/useExpenseStore";
 
 const PrintableAll = ({
     data,
     printRef,
-    summary
+    summary,
+    enterprise
 }) => {
-    const { data: enterprise, loading, fetchData } = useProfileEnterpriseMe();
-    React.useEffect(() => {
-        fetchData();
-    }, []);
 
     const {
         fromDate,
@@ -91,7 +85,7 @@ const PrintableAll = ({
                             <th className="px-4 py-2 border">Amount</th>
                             <th className="px-4 py-2 border">Category</th>
                             <th className="px-4 py-2 border">Date</th>
-                            <th className="px-4 py-2 border">PropertyProperty</th>
+                            <th className="px-4 py-2 border">Property</th>
                         </tr>
                     </thead>
                     <tbody>

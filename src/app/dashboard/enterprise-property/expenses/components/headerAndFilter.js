@@ -76,7 +76,7 @@ const HeaderAndFilter = ({
     
     const summary = printData?.summary
     const resultCount = printData?.resultCount
-
+    
     const handleExportToExcel = () => {
         const summaryRow = {
             "Total Expense Amount": addCommasToNumber(summary?.totalExpenseAmount),
@@ -121,9 +121,9 @@ const HeaderAndFilter = ({
 
     const handleExportToCSV = () => {
         const summaryRow = {
-            "Total Expense Amount": addCommasToNumber(summary?.totalExpenseAmount),
-            "Total Rent Collected": addCommasToNumber(summary?.totalRentCollected),
-            "Available Balance": addCommasToNumber(summary?.availableBalance),
+            "Total Expense Amount": summary?.totalExpenseAmount,
+            "Total Rent Collected": summary?.totalRentCollected,
+            "Available Balance": summary?.availableBalance,
             "Number of Expenses": resultCount,
             "Date Range": `${fromDate} - ${toDate}`,
             "Vendor": "",
@@ -292,6 +292,7 @@ const HeaderAndFilter = ({
                         <div
                             onClick={() => {
                                 setIsOpenTwo(!isOpenTwo)
+                                setIsOpenI(false)
                             }}
                             className='cursor-pointer w-auto text-sm text-BlueHomz font-medium border border-BlueHomz px-3 h-[38px] flex justify-center items-center rounded-[4px] gap-1'>
                             <span className='hidden md:block'>

@@ -12,6 +12,7 @@ import { useDebounce } from '@/utils/deBounce';
 import api from '@/utils/api';
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
 import PrintableAll from './components/printableAll';
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
 
 const Expenses = () => {
     const {
@@ -53,7 +54,7 @@ const Expenses = () => {
     const [totalPages, setTotalPages] = React.useState(1);
     const [singleTableData, setSingleTableData] = React.useState(null);
     const [openDetails, setOpenDetails] = React.useState(false);
-    const [openEditDetails, setOpenEditDetails] = React.useState(false);
+    const [openEdit, setOpenEdit] = React.useState(null);
     const [openCreateExpenses, setOpenCreateExpenses] = React.useState(false);
     const [printData, setPrintData] = React.useState(null);
     const [deleteLoading, setDeleteLoading] = React.useState(false);
@@ -61,9 +62,11 @@ const Expenses = () => {
     const debouncedSearch = useDebounce(search, 500);
     const debounceToDate = useDebounce(toDate, 500);
     const debounceFromDate = useDebounce(fromDate, 500);
+    const { data, fetchData } = useProfileEnterpriseMe();
 
     React.useEffect(() => {
         fetchCategory()
+        fetchData();
     }, [])
 
     const fetchExpense = async (page) => {
@@ -120,21 +123,19 @@ const Expenses = () => {
 
     // Delete multiple expenses
     const handleDeleteMultiple = async () => {
-        if (selectedRows.length === 0) return;
+        if (singleTableData.length === 0) return;
 
         try {
             setDeleteLoading(true);
             await api.delete(`/expense/enterprise/delete-multiple`, {
                 data: {
-                    expenseIds: selectedRows
+                    expenseIds: singleTableData.map(data => data._id)
                 }
             });
             // Refresh data after deletion
-            await fetchExpense(pageNo);
-            // Clear selections
-            setSelectedRows([]);
+            await fetchExpense(1);
             setSingleTableData(null);
-            setSelectAll(false);
+            setIsOpenTwo(false)
         } catch (error) {
             console.error("Error deleting multiple expenses:", error);
         } finally {
@@ -186,6 +187,8 @@ const Expenses = () => {
         setPageNo(1)
     };
 
+    console.log(singleTableData)
+
     const StatusOption = ["Paid", "Unpaid"];
 
     return (
@@ -197,7 +200,7 @@ const Expenses = () => {
                 />
             </CustomizedModal>
             {openCreateExpenses ?
-                <CreateExpenses fetchExpense={fetchExpense} setOpenCreateExpenses={setOpenCreateExpenses} />
+                <CreateExpenses update={openEdit} setOpenEdit={setOpenEdit} fetchExpense={fetchExpense} setOpenCreateExpenses={setOpenCreateExpenses} />
                 : <div className='px-8 py-7'>
                     <HeaderAndFilter
                         setIsOpen={setIsOpen}
@@ -297,6 +300,8 @@ const Expenses = () => {
                             pageNo={pageNo}
                             handleDeleteSingle={handleDeleteSingle}
                             fetchExpense={fetchExpense}
+                            setOpenCreateExpenses={setOpenCreateExpenses}
+                            setOpenEdit={setOpenEdit}
                         />
                     </div>
                 </div>
@@ -306,6 +311,7 @@ const Expenses = () => {
                     data={printData}
                     summary={printData?.summary}
                     printRef={printRefAll}
+                    enterprise={data}
                 />
             </div>
         </div>
