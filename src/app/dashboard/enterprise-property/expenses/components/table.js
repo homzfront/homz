@@ -7,7 +7,17 @@ import UnTicked from '@/components/icons/unTicked';
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
 import changeBackendDateFormat from '@/utils/changeBackendDateFormat';
 
-const Table = ({ setOpenCreateExpenses, setOpenEdit, handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loading = false, setSingleTableData, setOpenDetails }) => {
+const Table = ({
+    setOpenCreateExpenses,
+    setOpenEdit,
+    handleDeleteSingle,
+    pageNo,
+    setPageNo,
+    totalPages,
+    allData,
+    loading = false,
+    setSingleTableData,
+    setOpenDetails }) => {
     const [popUpMenu, setPopUpMenu] = React.useState(false);
     const [selectedId, setSelectedId] = React.useState(null);
     const [selectedRows, setSelectedRows] = React.useState([]);
