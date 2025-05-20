@@ -17,7 +17,7 @@ import LoadingProlonged from "@/components/general/loadingProlonged";
 import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 import Image from "next/image";
-import { signIn, useSession, signOut  } from "next-auth/react"
+import { signIn, useSession, signOut } from "next-auth/react"
 
 const Login = () => {
   const { data: session, status } = useSession();
@@ -233,7 +233,7 @@ const Login = () => {
             // console.log(message);
             toast.error(message);
             if (message.toLowerCase().includes("This email is already registered")) {
-            signOut({ callbackUrl: "/login" });
+              signOut({ callbackUrl: "/login" });
             }
           } else {
             console.log("An unexpected error occurred:", error);
@@ -344,6 +344,18 @@ const Login = () => {
                 >
                   {loading && !fromGoogle ? <LoadingFormII /> : "Log In"}
                 </button>
+              </form>
+              <div className="mt-[-10px]">
+                {/* <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
+                    <Image
+                      className=""
+                      src={"/Social icon.png"}
+                      alt="google"
+                      height={"20"}
+                      width={"20"}
+                      />
+                    {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : "Login In with google"}
+                    </button> */}
                 <p className="text-center font-[400] text-[14px]">
                   Don’t have an account?
                   <Link
@@ -353,20 +365,8 @@ const Login = () => {
                     Create Account
                   </Link>
                 </p>
-              </form>
-                {/* <div className="mt-[-10px]">
-                  <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
-                    <Image
-                      className=""
-                      src={"/Social icon.png"}
-                      alt="google"
-                      height={"20"}
-                      width={"20"}
-                    />
-                    {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : "Login In with google"}
-                  </button>
-                </div> */}
-                {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
+              </div>
+              {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
             </div>
           </div>
         </div>
