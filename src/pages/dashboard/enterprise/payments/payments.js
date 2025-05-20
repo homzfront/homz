@@ -191,6 +191,7 @@ const Payment = () => {
                     >
                       {option}
                     </div>
+                    
                   ))}
                 </div>
               }
