@@ -14,7 +14,6 @@ const PrintableAll = ({
     summary
 }) => {
     const { data: enterprise, loading, fetchData } = useProfileEnterpriseMe();
-    console.log(data?.results)
     React.useEffect(() => {
         fetchData();
     }, []);

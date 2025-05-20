@@ -7,7 +7,7 @@ import UnTicked from '@/components/icons/unTicked';
 import addCommasToNumberWithoutN from '@/utils/addCommasToNumberWithoutN';
 import changeBackendDateFormat from '@/utils/changeBackendDateFormat';
 
-const Table = ({ pageNo, setPageNo, totalPages, allData, loading = false, setSingleTableData, setOpenDetails }) => {
+const Table = ({ handleDeleteSingle, pageNo, setPageNo, totalPages, allData, loading = false, setSingleTableData, setOpenDetails }) => {
     const [popUpMenu, setPopUpMenu] = React.useState(false);
     const [selectedId, setSelectedId] = React.useState(null);
     const [selectedRows, setSelectedRows] = React.useState([]);
@@ -167,7 +167,7 @@ const Table = ({ pageNo, setPageNo, totalPages, allData, loading = false, setSin
                                             style={{ height: "auto", width: "auto" }}
                                         />
                                     </button>
-                                    {popUpMenu && selectedId === data._id && <PopUpMenu setOpenDetails={setOpenDetails} />}
+                                    {popUpMenu && selectedId === data._id && <PopUpMenu handleDeleteSingle={handleDeleteSingle} data={data} setOpenDetails={setOpenDetails} />}
                                 </div>
                             </div>
                         ))

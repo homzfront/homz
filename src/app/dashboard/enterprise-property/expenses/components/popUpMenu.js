@@ -4,7 +4,7 @@ import Delete from '@/components/icons/delete';
 import EditBlue from '@/components/icons/editBlue';
 import Eyes from '@/components/icons/eyes';
 
-function PopUpMenu({ data, setOpenDetails }) {
+function PopUpMenu({ handleDeleteSingle, data, setOpenDetails }) {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -64,7 +64,7 @@ function PopUpMenu({ data, setOpenDetails }) {
                     onMouseEnter={() => setActiveThree(true)}
                     onMouseLeave={() => setActiveThree(false)}
                     className={`md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-[#D92D20] w-full`}>
-                    <button className="w-full">
+                    <button  onClick={()=>handleDeleteSingle(data?._id)} className="w-full">
                         <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
                             <Delete className={activeThree ? '#D92D20' : undefined} classNameTwo={activeThree ? '#D92D20' : undefined} />
                             <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">

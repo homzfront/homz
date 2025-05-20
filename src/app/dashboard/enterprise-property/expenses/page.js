@@ -35,7 +35,7 @@ const Expenses = () => {
         selectedOption,
         setSelectedOption,
     } = useExpenseStore();
-        const printRefAll = React.useRef();
+    const printRefAll = React.useRef();
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [isOpenTwo, setIsOpenTwo] = React.useState(false);
@@ -53,6 +53,7 @@ const Expenses = () => {
     const [totalPages, setTotalPages] = React.useState(1);
     const [singleTableData, setSingleTableData] = React.useState(null);
     const [openDetails, setOpenDetails] = React.useState(false);
+    const [openEditDetails, setOpenEditDetails] = React.useState(false);
     const [openCreateExpenses, setOpenCreateExpenses] = React.useState(false);
     const [printData, setPrintData] = React.useState(null);
     const [deleteLoading, setDeleteLoading] = React.useState(false);
@@ -94,51 +95,52 @@ const Expenses = () => {
         }
     };
 
-// Delete single expense
-const handleDeleteSingle = async (id) => {
-    if (!id) return;
-    
-    try {
-        setDeleteLoading(true);
-        await api.delete(`/expense/enterprise/single/remove/${id}`);
-        // Refresh data after deletion
-        await fetchExpense(pageNo);
-        // Remove from selected rows if it was selected
-        setSelectedRows(prev => prev.filter(item => item !== id));
-        // Clear singleTableData if it was the deleted item
-        if (singleTableData?._id === id) {
-            setSingleTableData(null);
-        }
-    } catch (error) {
-        console.error("Error deleting expense:", error);
-    } finally {
-        setDeleteLoading(false);
-    }
-};
+    // Delete single expense
+    const handleDeleteSingle = async (id) => {
+        console.log(id)
+        if (!id) return;
 
-// Delete multiple expenses
-const handleDeleteMultiple = async () => {
-    if (selectedRows.length === 0) return;
-    
-    try {
-        setDeleteLoading(true);
-        await api.delete(`/expense/enterprise/delete-multiple`, {
-            data: {
-                expenseIds: selectedRows
+        try {
+            setDeleteLoading(true);
+            await api.delete(`/expense/enterprise/single/remove/${id}`);
+            // Refresh data after deletion
+            await fetchExpense(pageNo);
+            // Remove from selected rows if it was selected
+            setSelectedRows(prev => prev.filter(item => item !== id));
+            // Clear singleTableData if it was the deleted item
+            if (singleTableData?._id === id) {
+                setSingleTableData(null);
             }
-        });
-        // Refresh data after deletion
-        await fetchExpense(pageNo);
-        // Clear selections
-        setSelectedRows([]);
-        setSingleTableData(null);
-        setSelectAll(false);
-    } catch (error) {
-        console.error("Error deleting multiple expenses:", error);
-    } finally {
-        setDeleteLoading(false);
-    }
-};
+        } catch (error) {
+            console.error("Error deleting expense:", error);
+        } finally {
+            setDeleteLoading(false);
+        }
+    };
+
+    // Delete multiple expenses
+    const handleDeleteMultiple = async () => {
+        if (selectedRows.length === 0) return;
+
+        try {
+            setDeleteLoading(true);
+            await api.delete(`/expense/enterprise/delete-multiple`, {
+                data: {
+                    expenseIds: selectedRows
+                }
+            });
+            // Refresh data after deletion
+            await fetchExpense(pageNo);
+            // Clear selections
+            setSelectedRows([]);
+            setSingleTableData(null);
+            setSelectAll(false);
+        } catch (error) {
+            console.error("Error deleting multiple expenses:", error);
+        } finally {
+            setDeleteLoading(false);
+        }
+    };
 
 
     const fetchExpensePrint = async (limit = 10, page) => {
@@ -166,8 +168,6 @@ const handleDeleteMultiple = async () => {
         }
     };
 
-    console.log(printData)
-
     React.useEffect(() => {
         fetchExpensePrint(1000, 1);
     }, [selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
@@ -186,11 +186,10 @@ const handleDeleteMultiple = async () => {
         setPageNo(1)
     };
 
-    console.log(singleTableData)
     const StatusOption = ["Paid", "Unpaid"];
 
     return (
-        <div className={ `${deleteLoading && "pointer-events-none animate-pulse"}`}>
+        <div className={`${deleteLoading && "pointer-events-none animate-pulse"}`}>
             <CustomizedModal isOpen={openDetails} onRequestClose={() => setOpenDetails(false)}>
                 <AllDetails
                     singleTableData={singleTableData}
@@ -229,8 +228,11 @@ const handleDeleteMultiple = async () => {
                         setSelectedOption={setSelectedOption}
                         setIsOpenI={setIsOpenDocu}
                         isOpenI={isOpenDocu}
-                        onDelete={onDelete}
                         deleteLoading={deleteLoading}
+                        printRefAll={printRefAll}
+                        onDelete={handleDeleteMultiple}
+                        printData={printData}
+                        pageNo={pageNo}
                     />
                     <div className='flex gap-4 flex-col md:flex-row mt-4 w-full'>
                         <div className='flex gap-4 w-full'>
@@ -293,6 +295,7 @@ const handleDeleteMultiple = async () => {
                             setOpenDetails={setOpenDetails}
                             setPageNo={setPageNo}
                             pageNo={pageNo}
+                            handleDeleteSingle={handleDeleteSingle}
                             fetchExpense={fetchExpense}
                         />
                     </div>
