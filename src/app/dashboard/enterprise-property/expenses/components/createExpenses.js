@@ -58,7 +58,7 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
             const newFile = e.target.files[0];
-            if (files.length < 3) {
+            if (files.length < 5) {
                 setFiles([...files, newFile]);
             }
         }
@@ -81,15 +81,27 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
             formData.amount !== "" &&
             formData.date !== null &&
             formData.expenseCategory.trim() !== "" &&
-            formData.paymentStatus.trim() !== "" &&
-            formData.vendorName.trim() !== ""
+            formData.paymentStatus.trim() !== ""
         );
     }, [formData]);
 
     const handleSubmitExpense = async () => {
         setIsLoading(true)
         setError(null)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
 
+        if (formData.vendorEmail && !emailRegex.test(formData.vendorEmail)) {
+            setIsLoading(false)
+            throw new Error('Please enter a valid email address.');
+            return;
+        }
+
+        if (formData.vendorPhone && !phoneRegex.test(formData.vendorPhone)) {
+            setIsLoading(false)
+            throw new Error('Please enter a valid phone number.');
+            return;
+        }
         try {
             // Prepare the data in the required format
             const requestData = {
@@ -137,7 +149,7 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
             let response = null;
             if (update) {
                 // Use the same endpoint for update with PUT method
-                response = await api.patch(`/expense/enterprise/update/${update._id}`, requestData);
+                response = await api.patch(`/expense/enterprise/single/update/${update._id}`, requestData);
 
             } else {
                 response = await api.post('/expense/enterprise/create', requestData);
@@ -173,6 +185,23 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
             const resultExpense = await fetchExpense(1);
             setOpenCreateExpenses(false);
             setOpenEdit(null)
+            setFormData({
+                expenseName: "",
+                amount: "",
+                date: null,
+                expenseCategory: "",
+                description: "",
+                paymentStatus: "",
+                paymentMethod: "",
+                businessAddress: "",
+                vendorPhone: "",
+                vendorEmail: "",
+                contactPerson: "",
+                vendorName: "",
+                propertyName: "",
+                apartmentNumber: "",
+                tenantName: "",
+            })
         } catch (error) {
             console.error('Error submitting expense:', error);
             if (error.response) {
@@ -197,7 +226,10 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
 
     return (
         <div>
-            <button onClick={() => setOpenCreateExpenses(false)} className='text-sm font-normal text-GrayHomz2 flex items-center gap-1 px-8 mt-6'>
+            <button onClick={() => {
+                setOpenCreateExpenses(false)
+                setOpenEdit(null)
+            }} className='text-sm font-normal text-GrayHomz2 flex items-center gap-1 px-8 mt-6'>
                 <BackSmall /> Back
             </button>
             <div className='pb-6 pt-4 border-b border-[#E6E6E6] px-8'>
@@ -421,6 +453,10 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
                 <div className="md:w-[50%] flex flex-row gap-2 items-center justify-end">
                     <button
                         disabled={isLoading}
+                        onClick={() => {
+                            setOpenCreateExpenses(false)
+                            setOpenEdit(null)
+                        }}
                         className={`w-auto hover:text-white hover:bg-[#4bb2e5] text-BlueHomz border border-BlueHomz rounded-[4px] h-full max-h-[44px] px-4 py-2`}
                     >
                         Cancel

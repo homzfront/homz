@@ -42,7 +42,7 @@ const PrintableAll = ({
                 </div>
                 <div className="flex flex-col">
                     <h3 className="text-[13px] font-bold">{enterprise?.businessName ?? "Property Management"}</h3>
-                    <p className="text-[13px] font-medium">Financial Statement</p>
+                    <p className="text-[13px] font-medium">Expense report</p>
                 </div>
             </div>
 

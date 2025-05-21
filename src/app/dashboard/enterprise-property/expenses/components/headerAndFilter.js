@@ -73,10 +73,10 @@ const HeaderAndFilter = ({
         }
         setSelectedOption(null);
     }, [selectedOption])
-    
+
     const summary = printData?.summary
     const resultCount = printData?.resultCount
-    
+
     const handleExportToExcel = () => {
         const summaryRow = {
             "Total Expense Amount": addCommasToNumber(summary?.totalExpenseAmount),
@@ -182,7 +182,7 @@ const HeaderAndFilter = ({
                     />
                 </div>
                 <div className='relative flex justify-end md:justify-normal md:items-center gap-2'>
-                    <div >
+                    <div ref={closeFilter}>
                         <div
                             onClick={() => {
                                 setIsOpen(!isOpen)
@@ -200,10 +200,10 @@ const HeaderAndFilter = ({
                         </div>
                         {
                             isOpen &&
-                            <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px]'>
+                            <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-auto scrollbar-container'>
                                 {
                                     expenseCate ?
-                                        <div className='text-sm text-GrayHomz font-medium'>
+                                        <div className='text-sm text-GrayHomz font-medium overflow-auto scrollbar-container'>
                                             {categories?.map((prop, index) => (
                                                 <div
                                                     key={index}
@@ -288,7 +288,7 @@ const HeaderAndFilter = ({
                             </div>
                         }
                     </div>
-                    <div >
+                    <div ref={closeAction}>
                         <div
                             onClick={() => {
                                 setIsOpenTwo(!isOpenTwo)
@@ -308,11 +308,10 @@ const HeaderAndFilter = ({
                                 }
                             </span>
                         </div>
-                        <div
-                            className={`${(!isOpenI && !isOpenTwo) && "hidden"} absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container`}
-                        >
-                            {isOpenI ? (
-                                <>
+                        {
+                            isOpenTwo &&
+                            <div className={`absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container`} >
+                                {isOpenI ?
                                     <div className={`font-[500] text-BlackHomz text-[14px]`}>
                                         <p className="px-4 text-[13px] text-GrayHomz font-medium">Export as:</p>
                                         {optionsTwo.map((option, index) => (
@@ -322,58 +321,55 @@ const HeaderAndFilter = ({
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setSelectedOption(option);
-                                                    // setIsOpenI(false); // Optionally close menu after selection
                                                 }}
                                             >
                                                 {option}
                                             </div>
                                         ))}
                                     </div>
-                                </>
-                            ) : isOpenTwo ? (
-                                <div className={`text-sm text-GrayHomz font-medium flex flex-col gap-0`}>
-                                    <div
-                                        onClick={() => setOpenCreateExpenses(true)}
-                                        className="flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer"
-                                    >
-                                        <span className="w-3">
-                                            <AddNormal />
-                                        </span>
-                                        <span className="min-w-[80%]">New Expense</span>
-                                    </div>
-                                    <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
-                                        <span className="w-3">
-                                            <DocDocuSmall />
-                                        </span>
-                                        <span
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setIsOpenTwo(false);
-                                                setIsOpenI(true);
-                                            }}
-                                            className="min-w-[80%]"
+                                    :
+                                    <div className={`text-sm text-GrayHomz font-medium flex flex-col gap-0`}>
+                                        <div
+                                            onClick={() => setOpenCreateExpenses(true)}
+                                            className="flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer"
                                         >
-                                            Generate Statement
-                                        </span>
+                                            <span className="w-3">
+                                                <AddNormal />
+                                            </span>
+                                            <span className="min-w-[80%]">New Expense</span>
+                                        </div>
+                                        <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
+                                            <span className="w-3">
+                                                <DocDocuSmall />
+                                            </span>
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setIsOpenI(true);
+                                                }}
+                                                className="min-w-[80%]"
+                                            >
+                                                Generate Statement
+                                            </span>
+                                        </div>
+                                        <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
+                                            <span className="w-3">
+                                                <DeleteIcon />
+                                            </span>
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    onDelete();
+                                                }}
+                                                className="min-w-[80%] text-error"
+                                            >
+                                                Delete
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
-                                        <span className="w-3">
-                                            <DeleteIcon />
-                                        </span>
-                                        <span
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onDelete();
-                                            }}
-                                            className="min-w-[80%] text-error"
-                                        >
-                                            Delete
-                                        </span>
-                                    </div>
-                                </div>
-                            ) : null}
-                        </div>
-
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -38,7 +38,7 @@ const StatCard = ({
             {/* Amount */}
             <div className={`text-sm md:text-[20px] font-bold text-BlackHomz`}>
                 {!hideCurrencySymbol && <span className="font-sans mr-0.5 font-normal">₦</span>}
-                {amount}
+                {amount === "_______" ? "0.00" : amount}
             </div>
         </div>
     );

@@ -4,19 +4,17 @@ import Delete from '@/components/icons/delete';
 import EditBlue from '@/components/icons/editBlue';
 import Eyes from '@/components/icons/eyes';
 
-function PopUpMenu({ index, totalLength, setOpenCreateExpenses, setOpenEdit, handleDeleteSingle, data, setOpenDetails }) {
+function PopUpMenu({ dropdownRef, index, totalLength, setOpenCreateExpenses, setOpenEdit, handleDeleteSingle, data, setOpenDetails }) {
     const [active, setActive] = useState(false);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
-    const isNearBottom = index >= totalLength - 2;
     return (
         <div>
 
 
             <div
-                // ref={dropdownRef}
-                className={` ${ isNearBottom ? "top-[-80px] right-[30px] md:right-[67px]" : "top-9 md:top-11 right-[30px] md:right-[67px]"} 
-                drop-down absolute z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] border py-2 rounded-md bg-white flex flex-col items-center justify-around`}
+                ref={dropdownRef}
+                className={`top-9 md:top-11 right-[30px] md:right-[67px] drop-down absolute z-[999999999] w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] border py-2 rounded-md bg-white flex flex-col items-center justify-around`}
             >
 
                 {/* View All Details */}

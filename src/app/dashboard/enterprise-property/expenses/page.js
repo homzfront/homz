@@ -48,9 +48,11 @@ const Expenses = () => {
         setIsOpen(false);
         setExpenseCate(false);
         setOpenStatus(false);
-        setIsOpenDocu(false);
     });
-    const closeAction = useClickOutside(() => setIsOpenTwo(false));
+    const closeAction = useClickOutside(() => {
+        setIsOpenTwo(false)
+        setIsOpenDocu(false)
+    });
     const [totalPages, setTotalPages] = React.useState(1);
     const [singleTableData, setSingleTableData] = React.useState(null);
     const [openDetails, setOpenDetails] = React.useState(false);
@@ -186,8 +188,6 @@ const Expenses = () => {
         setSearch('')
         setPageNo(1)
     };
-
-    console.log(singleTableData)
 
     const StatusOption = ["Paid", "Unpaid"];
 
