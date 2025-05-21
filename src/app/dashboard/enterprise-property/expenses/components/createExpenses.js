@@ -12,6 +12,30 @@ import Attachment from './attachment';
 const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpenses }) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
+    const [errors, setErrors] = React.useState({});
+    const [touched, setTouched] = React.useState({});
+
+    const handleBlur = (field) => {
+        setTouched((prev) => ({ ...prev, [field]: true }));
+
+        // Example simple validation
+        if (field === 'vendorEmail') {
+            if (formData.vendorEmail && !/\S+@\S+\.\S+/.test(formData.vendorEmail)) {
+                setErrors((prev) => ({ ...prev, vendorEmail: 'Invalid email format' }));
+            } else {
+                setErrors((prev) => ({ ...prev, vendorEmail: '' }));
+            }
+        } else if (field === 'vendorPhone') {
+            if (formData.vendorPhone && !/^\+?[0-9\s\-()]{7,20}$/.test(formData.vendorPhone)) {
+                setErrors((prev) => ({ ...prev, vendorPhone: 'Please enter a valid phone number.' }));
+            } else {
+                setErrors((prev) => ({ ...prev, vendorPhone: '' }));
+            }
+        } else {
+            setErrors((prev) => ({ ...prev, [field]: '' }));
+        }
+
+    };
     const [formData, setFormData] = React.useState({
         expenseName: update?.expenseName || "",
         amount: update?.amount || "",
@@ -334,31 +358,35 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
                             <input
                                 value={formData.vendorName}
                                 onChange={(e) => setFormData({ ...formData, vendorName: e.target.value })}
-                                className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent"
+                                className="mt-0.5 w-full h-[45px] px-3 border  rounded-[4px] outline-none bg-transparent"
                                 placeholder="e.g, Exquisite Electricals Ltd"
                             />
                         </div>
-                        <div className=''>
+                        <div>
                             <label className="block text-sm font-medium">
                                 Contact Person <span className="font-normal text-GrayHomz">(optional)</span>
                             </label>
                             <input
                                 value={formData.contactPerson}
                                 onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
-                                className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent"
+                                className={`mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent`}
                                 placeholder="e.g Samuel Davids"
                             />
                         </div>
-                        <div className=''>
+                        <div>
                             <label className="block text-sm font-medium">
                                 Vendor Email <span className="font-normal text-GrayHomz">(optional)</span>
                             </label>
                             <input
                                 value={formData.vendorEmail}
                                 onChange={(e) => setFormData({ ...formData, vendorEmail: e.target.value })}
-                                className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent"
+                                onBlur={() => handleBlur('vendorEmail')}
+                                className={`mt-0.5 w-full h-[45px] px-3 border ${errors.vendorEmail && touched.vendorEmail ? 'border-red-500' : 'border-[#a9a9a9]'} rounded-[4px] outline-none bg-transparent`}
                                 placeholder="e.g Exquisiteelectricals@gmail.com"
                             />
+                            {errors.vendorEmail && touched.vendorEmail && (
+                                <p className="text-sm text-red-500 mt-1">{errors.vendorEmail}</p>
+                            )}
                         </div>
                         <div className=''>
                             <label className="block text-sm font-medium">
@@ -367,9 +395,13 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
                             <input
                                 value={formData.vendorPhone}
                                 onChange={(e) => setFormData({ ...formData, vendorPhone: e.target.value })}
-                                className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent"
+                                onBlur={() => handleBlur('vendorPhone')}
+                                className={`mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none bg-transparent ${errors.vendorPhone && touched.vendorPhone ? 'border-red-500' : 'border-[#a9a9a9]'}`}
                                 placeholder="e.g 07035400000"
                             />
+                            {errors.vendorPhone && touched.vendorPhone && (
+                                <p className="text-sm text-red-500 mt-1">{errors.vendorPhone}</p>
+                            )}
                         </div>
                         <div className=''>
                             <label className="block text-sm font-medium">
