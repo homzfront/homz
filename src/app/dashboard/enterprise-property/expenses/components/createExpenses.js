@@ -93,13 +93,13 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
 
         if (formData.vendorEmail && !emailRegex.test(formData.vendorEmail)) {
             setIsLoading(false)
-            throw new Error('Please enter a valid email address.');
+            setError('Please enter a valid email address.');
             return;
         }
 
         if (formData.vendorPhone && !phoneRegex.test(formData.vendorPhone)) {
             setIsLoading(false)
-            throw new Error('Please enter a valid phone number.');
+            setError('Please enter a valid phone number.');
             return;
         }
         try {
