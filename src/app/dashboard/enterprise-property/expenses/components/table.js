@@ -37,7 +37,7 @@ const Table = ({
         selectedCate,
         search,
     } = useExpenseStore();
-    
+
     // Virtualizer instance
     const rowVirtualizer = useVirtualizer({
         count: hasMore ? allData?.data?.results?.length + 1 : allData?.data?.results?.length,
@@ -45,7 +45,7 @@ const Table = ({
         estimateSize: () => 60,
         overscan: 5,
     });
-    
+
     // Load more when scrolling near bottom
     React.useEffect(() => {
         const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
@@ -126,39 +126,6 @@ const Table = ({
             </div>
         </div>
     );
-    /**
-    |--------------------------------------
-    | Empty state
-    |--------------------------------------
-    */
-    if (!loading && !allData && !hasMore) {
-        return (
-            // Empty state
-            <div className='h-[50vh] flex items-center justify-center'>
-                <div className='flex flex-col gap-2 items-center'>
-                    <EmptyDocuBig />
-                    <>
-                        <p className='text-[16px] font-medium text-[#141313]'>No Expense Record</p>
-
-                        {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
-                            <p className='text-sm font-normal text-[#141313]'>
-                                You’re yet to add an expense record. All expense records will be displayed here.
-                            </p>
-                        )}
-
-                        {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
-                            <button
-                                onClick={() => setOpenCreateExpenses(true)}
-                                className='text-BlueHomz text-[16px] font-normal flex items-center gap-1'
-                            >
-                                <span className='text-[20px] mt-[-7px]'>+</span>Add New Record
-                            </button>
-                        )}
-                    </>
-                </div>
-            </div>
-        )
-    }
 
     return (
         <div className="mt-6 w-full mx-auto flex flex-col" style={{ height: '70vh' }}>
@@ -189,94 +156,139 @@ const Table = ({
                         position: 'relative',
                     }}
                 >
-                    {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                        const isLoaderRow = virtualRow.index >= allData?.data?.results?.length;
-                        const data = allData?.data?.results?.[virtualRow.index];
-                        console.log(data)
-                        return (
+                    {loading ? (
+                        Array.from({ length: 5 }).map((_, index) => (
                             <div
-                                key={virtualRow.key}
+                                key={`skeleton-${index}`}
                                 style={{
                                     position: 'absolute',
-                                    top: 0,
+                                    top: `${index * 60}px`,
                                     left: 0,
                                     width: '100%',
-                                    height: `${virtualRow.size}px`,
-                                    transform: `translateY(${virtualRow.start}px)`,
+                                    height: '60px',
                                 }}
                             >
-                                {loading ? (
-                                    <SkeletonLoader />
-                                ) : isLoaderRow ? (
-                                    hasMore ? (
-                                        <div className="w-full flex justify-center py-4">
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
-                                        </div>
-                                    ) : (
-                                        <div className="w-full flex justify-center py-4 text-gray-500 text-sm">
-                                            No more items to load
-                                        </div>
-                                    )
-                                ) : (
-                                    <div className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50">
-                                        <div onClick={() => handleRowSelect(data?._id, data)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[400] text-[13px] flex-shrink-0 w-[20%] md:w-[8%]">
-                                            {selectedRows.includes(data?._id) ? <Ticked /> : <UnTicked />}
-                                        </div>
-                                        <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                            <span>{data?.expenseName}</span>
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                            <span style={{ fontFamily: "Arial" }}>₦</span>
-                                            {addCommasToNumberWithoutN(data?.amount)}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                            {data?.expenseCategoryName}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] md:flex text-[13px] flex-shrink-0 w-[14%] hidden">
-                                            {data?.paymentStatus === "Unpaid" ? (
-                                                <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
-                                                    Unpaid
-                                                </div>
-                                            ) : (
-                                                <div className="bg-successBg text-Success rounded-md py-1 px-3 flex items-center justify-center">
-                                                    Paid
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                            {changeBackendDateFormat(data?.date)}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                            {data?.property?.propertyName ?? "------------"}
-                                        </div>
-                                        <div className="relative py-[15px] md:pl-4 z-10 w-[10%] md:w-[8%]">
-                                            <button onClick={() => { handleToggleMenu(data._id, data) }}>
-                                                <Image
-                                                    src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                                    alt="Options"
-                                                    height={21}
-                                                    width={20}
-                                                    style={{ height: "auto", width: "auto" }}
-                                                />
-                                            </button>
-                                            {popUpMenu && selectedId === data?._id &&
-                                                <PopUpMenu
-                                                    setOpenCreateExpenses={setOpenCreateExpenses}
-                                                    setOpenEdit={setOpenEdit}
-                                                    handleDeleteSingle={handleDeleteSingle}
-                                                    data={data}
-                                                    setOpenDetails={setOpenDetails}
-                                                    index={virtualRow.index}
-                                                    dropdownRef={dropdownRef}
-                                                    totalLength={allData?.results?.length}
-                                                />
-                                            }
-                                        </div>
-                                    </div>
-                                )}
+                                <SkeletonLoader />
                             </div>
-                        );
-                    })}
+                        ))
+                    ) : allData?.data?.results?.length ? (
+                        rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                            const isLoaderRow = virtualRow.index >= allData?.data?.results?.length;
+                            const data = allData?.data?.results?.[virtualRow.index];
+
+                            return (
+                                <div
+                                    key={virtualRow.key}
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '100%',
+                                        height: `${virtualRow.size}px`,
+                                        transform: `translateY(${virtualRow.start}px)`,
+                                    }}
+                                >
+                                    {isLoaderRow ? (
+                                        hasMore ? (
+                                            <div className="w-full flex justify-center py-4">
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
+                                            </div>
+                                        ) : (
+                                            <div className="w-full flex justify-center py-4 text-gray-500 text-sm">
+                                                No more items to load
+                                            </div>
+                                        )
+                                    ) : (
+                                        <div className="w-full border-t-[1px] flex items-center min-h-[60px] z-[0px]">
+                                            <div onClick={() => handleRowSelect(data?._id)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[400] text-[13px] flex-shrink-0 w-[20%] md:w-[8%]">
+                                                {selectedRows.includes(data?._id) ? <Ticked /> : <UnTicked />}
+                                            </div>
+                                            <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
+                                                <span>{data?.expenseName}</span>
+                                            </div>
+                                            <div className="pl-2 text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
+                                                <span style={{ fontFamily: "Arial" }}>₦</span>
+                                                {addCommasToNumberWithoutN(data?.amount)}
+                                            </div>
+                                            <div className="pl-2 text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                                {data?.expenseCategoryName}
+                                            </div>
+                                            <div className="pl-3 text-GrayHomz py-[15px] font-[400] md:flex text-[13px] flex-shrink-0 w-[14%] hidden">
+                                                {data?.paymentStatus === "Unpaid" ? (
+                                                    <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
+                                                        Unpaid
+                                                    </div>
+                                                ) : (
+                                                    <div className="bg-successBg text-Success rounded-md py-1 px-3 flex items-center justify-center">
+                                                        Paid
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="pl-3 text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                                {changeBackendDateFormat(data?.date)}
+                                            </div>
+                                            <div className="pl-4 text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                                {data?.property?.propertyName ?? "------------"}
+                                            </div>
+                                            <div className="relative py-[15px] md:pl-4 z-10 w-[10%] md:w-[8%]">
+                                                <button onClick={() => { handleToggleMenu(data._id, data) }}>
+                                                    <Image
+                                                        src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                                        alt="Options"
+                                                        height={21}
+                                                        width={20}
+                                                        style={{ height: "auto", width: "auto" }}
+                                                    />
+                                                </button>
+                                                {popUpMenu && selectedId === data?._id &&
+                                                    <PopUpMenu
+                                                        setOpenCreateExpenses={setOpenCreateExpenses}
+                                                        setOpenEdit={setOpenEdit}
+                                                        handleDeleteSingle={handleDeleteSingle}
+                                                        data={data}
+                                                        setOpenDetails={setOpenDetails}
+                                                        index={virtualRow.index}
+                                                        dropdownRef={dropdownRef}
+                                                        totalLength={allData?.results?.length}
+                                                    />
+                                                }
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <div className='h-[50vh] flex items-center justify-center' style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                        }}>
+                            <div className='flex flex-col gap-2 items-center'>
+                                <EmptyDocuBig />
+                                <>
+                                    <p className='text-[16px] font-medium text-[#141313]'>No Expense Record</p>
+
+                                    {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
+                                        <p className='text-sm font-normal text-[#141313]'>
+                                            You're yet to add an expense record. All expense records will be displayed here.
+                                        </p>
+                                    )}
+
+                                    {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
+                                        <button
+                                            onClick={() => setOpenCreateExpenses(true)}
+                                            className='text-BlueHomz text-[16px] font-normal flex items-center gap-1'
+                                        >
+                                            <span className='text-[20px] mt-[-7px]'>+</span>Add New Record
+                                        </button>
+                                    )}
+                                </>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

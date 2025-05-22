@@ -85,15 +85,15 @@ const Expenses = () => {
         }
     }
 
-    React.useEffect(async () => {
+    React.useEffect(() => {
         if (!categories || categories?.length === 0 || categories === undefined || categories === null) {
-            const result = await handleCreateExpenseCategory()
-            fetchCategory()
+            handleCreateExpenseCategory()
+            
         }
     }, [categories]);
 
 
-    const fetchExpense = async (limit, isLoadMore = false) => {
+   const fetchExpense = async (limit, isLoadMore = false) => {
         if (fromDate && !toDate) return;
         if (!fromDate && toDate) return;
 
@@ -132,10 +132,10 @@ const Expenses = () => {
             } else {
                 setAllData(result);
             }
-
+            
             // Check if we've reached the end based on total count
             setHasMore(result?.data?.results?.length < (result?.data?.totalCount || 0));
-
+         
             if (!isLoadMore) {
                 setIsLoading(false);
             } else {

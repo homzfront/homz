@@ -91,18 +91,17 @@ const Sidebar = () => {
       image2: (
         <Tenants className="text-white fill-white" height="16" width="16" />
       ),
-      link: "",
+      link: "/dashboard/enterprise-property/tenants",
       name: "Tenants",
       coming: null,
       active: false,
-      submenu: true,
-      subMenuItems: [
-        {
-          title: "Manage Tenants",
-          link: "/dashboard/enterprise-property/tenants",
-          image: <ManageTenant />,
-          image2: <ManageTenant className="#006AFF" />,
-        },
+      // subMenuItems: [
+      //   {
+      //     title: "Manage Tenants",
+      //     link: "/dashboard/enterprise-property/tenants",
+      //     image: <ManageTenant />,
+      //     image2: <ManageTenant className="#006AFF" />,
+      //   },
         // {
         //   title: "Access Control",
         //   // link: "/dashboard/enterprise-property/tenants/access-records",
@@ -117,7 +116,7 @@ const Sidebar = () => {
         //   image: <TenantPoll />,
         //   image2: <TenantPoll className="#006AFF" />,
         // },
-      ],
+      // ],
     },
     {
       id: 3,

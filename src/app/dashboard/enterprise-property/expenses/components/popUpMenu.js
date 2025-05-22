@@ -9,12 +9,9 @@ function PopUpMenu({ dropdownRef, index, totalLength, setOpenCreateExpenses, set
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
     return (
-        <div>
-
-
             <div
                 ref={dropdownRef}
-                className={`top-9 md:top-11 right-[30px] md:right-[67px] drop-down absolute z-[999999999] w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] border py-2 rounded-md bg-white flex flex-col items-center justify-around`}
+                className={`z-[929203990] top-9 md:top-11 right-[30px] md:right-[67px] drop-down absolute w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] border py-2 rounded-md bg-white flex flex-col items-center justify-around`}
             >
 
                 {/* View All Details */}
@@ -73,7 +70,6 @@ function PopUpMenu({ dropdownRef, index, totalLength, setOpenCreateExpenses, set
                     </button>
                 </div>
             </div>
-        </div>
     );
 }
 
