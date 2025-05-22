@@ -138,7 +138,7 @@ const Expenses = () => {
 
     React.useEffect(() => {
         // Always fetch with current limit when filters change
-        fetchExpense(currentLimit);yy
+        fetchExpense(currentLimit);
     }, [selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
 
 
