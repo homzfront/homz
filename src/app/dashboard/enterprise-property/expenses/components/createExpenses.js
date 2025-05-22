@@ -206,7 +206,7 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
                 }
             }
 
-            const resultExpense = await fetchExpense(1);
+            const resultExpense = await fetchExpense(10);
             setOpenCreateExpenses(false);
             setOpenEdit(null)
             setFormData({

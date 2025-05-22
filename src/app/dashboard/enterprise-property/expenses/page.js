@@ -47,6 +47,7 @@ const Expenses = () => {
     const [isFetchingMore, setIsFetchingMore] = React.useState(false);
     const [currentLimit, setCurrentLimit] = React.useState(10);
     const [observer, setObserver] = React.useState(null);
+    const tableRef = React.useRef(null);
     const [loadingMore, setLoadingMore] = React.useState(false);
 
     const closeFilter = useClickOutside(() => {
@@ -76,20 +77,39 @@ const Expenses = () => {
         fetchData();
     }, [])
 
-    const fetchExpense = async (limit, isLoadMore = false) => {
+    const handleCreateExpenseCategory = async () => {
+        try {
+            const result = await api.post("/expense/enterprise/initialize-category")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    React.useEffect(() => {
+        if (!categories || categories?.length === 0 || categories === undefined || categories === null) {
+            handleCreateExpenseCategory()
+        }
+    }, [categories]);
+
+
+   const fetchExpense = async (limit, isLoadMore = false) => {
         if (fromDate && !toDate) return;
         if (!fromDate && toDate) return;
 
         if (!isLoadMore) {
             setIsLoading(true);
             setCurrentLimit(10); // Reset to initial limit when not loading more
+            // Reset scroll position when filters change
+            if (tableRef.current) {
+                tableRef.current.scrollTo(0, 0);
+            }
         } else {
             setIsFetchingMore(true);
             setCurrentLimit(prev => prev + 10); // Increase limit by 10 each time
         }
 
         try {
-            let query = `/expense/enterprise/get-all?limit=${limit}&page=1`; // Always page=1
+            let query = `/expense/enterprise/get-all?limit=${limit}`;
             if (selectedStatus) {
                 query += `&status=${encodeURIComponent(selectedStatus)}`;
             }
@@ -105,16 +125,16 @@ const Expenses = () => {
 
             const response = await api.get(query);
             const result = response?.data;
-
+console.log(result)
             if (isLoadMore) {
-                setAllData(result?.data || []);
+                setAllData(result);
             } else {
-                setAllData(result?.data || []);
+                setAllData(result);
             }
-
-
+            
             // Check if we've reached the end based on total count
-            setHasMore(allData.length < (result?.data?.totalCount || 0));
+            setHasMore(result?.data?.results?.length < (result?.data?.totalCount || 0));
+            console.log(hasMore)?.data
 
             if (!isLoadMore) {
                 setIsLoading(false);
@@ -132,10 +152,18 @@ const Expenses = () => {
     };
 
     const fetchMoreData = async () => {
-        if (isFetchingMore || !hasMore) return;
-        await fetchExpense(currentLimit + 10, true); // Increase limit by 10
+        if (loadingMore || !hasMore) return;
+        setLoadingMore(true);
+        try {
+            await fetchExpense(currentLimit + 10, true);
+        } catch (error) {
+            console.error("Error loading more data:", error);
+        } finally {
+            setLoadingMore(false);
+        }
     };
 
+console.log(allData)
     React.useEffect(() => {
         // Always fetch with current limit when filters change
         fetchExpense(currentLimit);
@@ -151,7 +179,7 @@ const Expenses = () => {
             setDeleteLoading(true);
             await api.delete(`/expense/enterprise/single/remove/${id}`);
             // Refresh data after deletion
-            await fetchExpense(pageNo);
+            await fetchExpense(10);
             // Remove from selected rows if it was selected
             setSelectedRows(prev => prev.filter(item => item !== id));
             // Clear singleTableData if it was the deleted item
@@ -177,7 +205,7 @@ const Expenses = () => {
                 }
             });
             // Refresh data after deletion
-            await fetchExpense(1);
+            await fetchExpense(10);
             setSingleTableData(null);
             setIsOpenTwo(false)
         } catch (error) {
@@ -282,7 +310,7 @@ const Expenses = () => {
                             <StatCard
                                 bgColor="bg-[#FDF2F2]"
                                 title="Total Expenses"
-                                amount={addCommasToNumberWithoutN(allData?.summary?.totalExpenseAmount)}
+                                amount={addCommasToNumberWithoutN(allData?.data?.summary?.totalExpenseAmount)}
                                 percentage="12%"
                                 isPositive={true}
                                 borderColor="border-[#D92D20]"
@@ -293,7 +321,7 @@ const Expenses = () => {
                             <StatCard
                                 bgColor="bg-[#CDEADD]"
                                 title="Total Rent Collected"
-                                amount={addCommasToNumberWithoutN(allData?.summary?.totalRentCollected)}
+                                amount={addCommasToNumberWithoutN(allData?.data?.summary?.totalRentCollected)}
                                 percentage="40%"
                                 isPositive={true}
                                 borderColor="border-[#039855]"
@@ -305,7 +333,7 @@ const Expenses = () => {
                                 <StatCard
                                     bgColor="bg-[#EEF5FF]"
                                     title="Available Balance"
-                                    amount={addCommasToNumberWithoutN(allData?.summary?.availableBalance)}
+                                    amount={addCommasToNumberWithoutN(allData?.data?.summary?.availableBalance)}
                                     percentage="60%"
                                     isPositive={true}
                                     borderColor="border-[#006AFF]"
@@ -344,6 +372,7 @@ const Expenses = () => {
                             observer={observer}
                             setObserver={setObserver}
                             loadingMore={loadingMore}
+                            tableRef={tableRef}
                             setLoadingMore={setLoadingMore}
                         />
                     </div>

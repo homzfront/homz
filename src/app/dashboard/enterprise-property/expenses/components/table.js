@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import PopUpMenu from './popUpMenu';
-import Pagination from '@/components/general/pagination';
 import Image from 'next/image';
 import Ticked from '@/components/icons/ticked';
 import UnTicked from '@/components/icons/unTicked';
@@ -21,15 +21,14 @@ const Table = ({
     fetchMoreData,
     hasMore,
     loadingMore,
-    setLoadingMore,
-    observer,
-    setObserver
+    tableRef
 }) => {
     const [popUpMenu, setPopUpMenu] = React.useState(false);
     const [selectedId, setSelectedId] = React.useState(null);
     const [selectedRows, setSelectedRows] = React.useState([]);
     const [selectAll, setSelectAll] = React.useState(false);
     const dropdownRef = useClickOutside(() => setPopUpMenu(false));
+    const parentRef = React.useRef(null);
 
     const {
         fromDate,
@@ -38,59 +37,51 @@ const Table = ({
         selectedCate,
         search,
     } = useExpenseStore();
-    // Infinite scroll observer
 
-
-    const observerRef = React.useRef(null);
+    console.log(allData)
     
-    // Create a stable reset function
-    const resetObserver = React.useCallback(() => {
-        if (observerRef.current) {
-            observerRef.current.disconnect();
-            observerRef.current = null;
+    // Virtualizer instance
+    const rowVirtualizer = useVirtualizer({
+        count: hasMore ? allData?.data?.results?.length + 1 : allData?.data?.results?.length,
+        getScrollElement: () => tableRef.current,
+        estimateSize: () => 60,
+        overscan: 5,
+    });
+    
+    console.log(rowVirtualizer)
+    // Load more when scrolling near bottom
+    React.useEffect(() => {
+        const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+        if (!lastItem) return;
+
+        if (
+            lastItem.index >= allData?.data?.results?.length - 1 &&
+            hasMore &&
+            !loadingMore
+        ) {
+            fetchMoreData();
         }
-    }, []);
+    }, [
+        rowVirtualizer.getVirtualItems(),
+        allData?.data?.results?.length,
+        hasMore,
+        loadingMore,
+    ]);
 
-    const lastItemRef = React.useCallback(node => {
-        // Always clean up previous observer
-        resetObserver();
 
-        if (loading || loadingMore || !node || !hasMore) return;
+    console.log( rowVirtualizer.getVirtualItems())
 
-        const newObserver = new IntersectionObserver(
-            entries => {
-                if (entries[0].isIntersecting && hasMore && !loadingMore) {
-                    setLoadingMore(true);
-                    fetchMoreData().finally(() => setLoadingMore(false));
-                }
-            }, 
-            { threshold: 0.5 }
-        );
-
-        observerRef.current = newObserver;
-        newObserver.observe(node);
-
-        // Cleanup function
-        return () => {
-            if (observerRef.current) {
-                observerRef.current.disconnect();
-            }
-        };
-    }, [loading, loadingMore, hasMore, fetchMoreData, resetObserver]);
-    
     const handleToggleMenu = (id, data) => {
-        setSingleTableData(data)
+        setSingleTableData(data);
         setSelectedId(id);
         setPopUpMenu(!popUpMenu);
     };
 
     const handleSelectAll = () => {
         if (selectAll) {
-            // Deselect all
             setSelectedRows([]);
         } else {
-            // Select all
-            const allIds = allData?.results?.map(item => item._id);
+            const allIds = allData?.data?.results?.map(item => item._id);
             setSelectedRows(allIds);
         }
         setSelectAll(!selectAll);
@@ -104,170 +95,198 @@ const Table = ({
                 return [...prev, id];
             }
         });
-        setSelectAll(false); // When manually selecting, unset selectAll
+        setSelectAll(false);
     };
 
-    // 🔄 Automatically update selected data list
     React.useEffect(() => {
-        const updatedData = allData?.results?.filter(item => selectedRows.includes(item._id)) || [];
+        const updatedData = allData?.data?.results?.filter(item => selectedRows.includes(item._id)) || [];
         setSingleTableData(updatedData);
     }, [selectedRows, allData]);
 
-
-
-
     // Skeleton Loader Component
-    const SkeletonLoader = () => {
+    const SkeletonLoader = () => (
+        <div className="w-full border-t-[1px] flex items-center min-h-[60px]">
+            <div className="py-[15px] pl-4 w-[20%] md:w-[8%]">
+                <div className="h-5 w-5 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div className="flex items-center gap-1 pr-2 py-[15px] w-[35%] md:w-[14%]">
+                <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div className="py-[15px] w-[35%] md:w-[14%]">
+                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div className="py-[15px] w-[14%] hidden md:block">
+                <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div className="py-[15px] w-[14%] hidden md:block">
+                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div className="py-[15px] w-[14%] hidden md:block">
+                <div className="h-6 w-24 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            <div className="py-[15px] w-[14%] hidden md:block">
+                <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div className="w-[10%] md:w-[8%] py-[15px] pr-4 z-10">
+                <div className="h-5 w-5 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+        </div>
+    );
+    /**
+    |--------------------------------------
+    | Empty state
+    |--------------------------------------
+    */
+    if (!loading && !allData && !hasMore) {
         return (
-            <tr className="w-full border-t-[1px] flex items-center">
-                <td className="py-[15px] pl-4 w-[20%] md:w-[8%]">
-                    <div className="h-5 w-5 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="flex items-center gap-1 pr-2 py-[15px] w-[35%] md:w-[14%]">
-                    <div className="h-4 w-24 bg-gray-200 rounded animate-pulse "></div>
-                </td>
-                <td className="py-[15px] w-[35%] md:w-[14%]">
-                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="py-[15px] w-[14%] hidden md:block">
-                    <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="py-[15px] w-[14%] hidden md:block">
-                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="py-[15px] w-[14%] hidden md:block">
-                    <div className="h-6 w-24 bg-gray-200 rounded-md animate-pulse"></div>
-                </td>
-                <td className="py-[15px] w-[14%] hidden md:block">
-                    <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-                <td className="w-[10%] md:w-[8%] py-[15px] pr-4 z-10">
-                    <div className="h-5 w-5 bg-gray-200 rounded animate-pulse"></div>
-                </td>
-            </tr>
-        );
-    };
+            // Empty state
+            <div className='h-[50vh] flex items-center justify-center'>
+                <div className='flex flex-col gap-2 items-center'>
+                    <EmptyDocuBig />
+                    <>
+                        <p className='text-[16px] font-medium text-[#141313]'>No Expense Record</p>
+
+                        {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
+                            <p className='text-sm font-normal text-[#141313]'>
+                                You’re yet to add an expense record. All expense records will be displayed here.
+                            </p>
+                        )}
+
+                        {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
+                            <button
+                                onClick={() => setOpenCreateExpenses(true)}
+                                className='text-BlueHomz text-[16px] font-normal flex items-center gap-1'
+                            >
+                                <span className='text-[20px] mt-[-7px]'>+</span>Add New Record
+                            </button>
+                        )}
+                    </>
+                </div>
+            </div>
+        )
+    }
 
     return (
-        <div className="mt-6 w-full mx-auto">
-            {/* Table Header */}
-            <div className="w-full border rounded-t-[8px]">
-                <div className="bg-whiteblue h-[50px] text-[13px] font-semibold text-BlackHomz flex items-center">
-                    <div onClick={handleSelectAll} className="cursor-pointer text-left pl-4 flex-shrink-0 w-[20%] md:w-[8%]"> {selectAll ? <Ticked /> : <UnTicked />}</div>
-                    <div className="text-left flex-shrink-0 w-[35%] md:w-[14%]">Expense</div>
-                    <div className="text-left flex-shrink-0 w-[35%] md:w-[14%]">Amount</div>
-                    <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Category</div>
-                    <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Status</div>
-                    <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Date</div>
-                    <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Property</div>
-                    <div className="flex-shrink-0 w-[10%] md:w-[8%]"><span className='hidden md:block'>Action</span></div>
+        <div className="mt-6 w-full mx-auto flex flex-col" style={{ height: '70vh' }}>
+            {/* Fixed Header */}
+            <div className="bg-whiteblue min-h-[50px] text-[13px] font-semibold text-BlackHomz flex items-center border rounded-t-[8px]">
+                <div onClick={handleSelectAll} className="cursor-pointer text-left pl-4 flex-shrink-0 w-[20%] md:w-[8%]">
+                    {selectAll ? <Ticked /> : <UnTicked />}
                 </div>
-                {/* Table Body */}
-                <div className="w-full">
-                    {loading ? (
-                        // Show skeleton loaders when loading
-                        <>
-                            {[...Array(6)].map((_, index) => (
-                                <SkeletonLoader key={index} />
-                            ))}
-                        </>
-                    ) :
-                        !allData?.results && !loading ?
-                            // Empty state
-                            <div className='h-[50vh] flex items-center justify-center'>
-                                <div className='flex flex-col gap-2 items-center'>
-                                    <EmptyDocuBig />
-                                    <>
-                                        <p className='text-[16px] font-medium text-[#141313]'>No Expense Record</p>
+                <div className="text-left flex-shrink-0 w-[35%] md:w-[14%]">Expense</div>
+                <div className="text-left flex-shrink-0 w-[35%] md:w-[14%]">Amount</div>
+                <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Category</div>
+                <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Status</div>
+                <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Date</div>
+                <div className="text-left flex-shrink-0 w-[14%] hidden md:block">Property</div>
+                <div className="flex-shrink-0 w-[10%] md:w-[8%]">
+                    <span className='hidden md:block'>Action</span>
+                </div>
+            </div>
 
-                                        {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
-                                            <p className='text-sm font-normal text-[#141313]'>
-                                                You’re yet to add an expense record. All expense records will be displayed here.
-                                            </p>
-                                        )}
-
-                                        {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && (
-                                            <button
-                                                onClick={() => setOpenCreateExpenses(true)}
-                                                className='text-BlueHomz text-[16px] font-normal flex items-center gap-1'
-                                            >
-                                                <span className='text-[20px] mt-[-7px]'>+</span>Add New Record
-                                            </button>
-                                        )}
-                                    </>
-                                </div>
-                            </div>
-                            : (
-                                allData?.results &&
-                                allData?.results?.map((data, index) => {
-                                    // Add ref to the last item for infinite scroll
-                                    const isLastItem = index === allData.results.length - 1;
-
-                                    return (
-                                        <div
-                                            key={data?._id}
-                                            ref={isLastItem ? lastItemRef : null}
-                                            className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50"
-                                        >
-                                            <div onClick={() => handleRowSelect(data._id, data)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[400] text-[13px] flex-shrink-0 w-[20%] md:w-[8%]">{selectedRows.includes(data._id) ? <Ticked /> : <UnTicked />}</div>
-                                            <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                                <span>{data?.expenseName}</span>
-                                            </div>
-                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                                <span style={{ fontFamily: "Arial" }}>₦</span>
-                                                {addCommasToNumberWithoutN(data?.amount)}
-                                            </div>
-                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                                {data?.expenseCategoryName}
-                                            </div>
-                                            <div className="text-GrayHomz py-[15px] font-[400] md:flex text-[13px] flex-shrink-0 w-[14%] hidden">
-                                                {data?.paymentStatus === "Unpaid" ? (
-                                                    <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
-                                                        Unpaid
-                                                    </div>
-                                                ) : (
-                                                    <div className="bg-successBg text-Success rounded-md py-1 px-3 flex items-center justify-center">
-                                                        Paid
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                                {changeBackendDateFormat(data?.date)}
-                                            </div>
-                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                                {data?.property?.propertyName ?? "------------"}
-                                            </div>
-                                            <div className="relative py-[15px] md:pl-4 z-10 w-[10%] md:w-[8%]">
-                                                <button onClick={() => { handleToggleMenu(data._id, data) }}>
-                                                    <Image
-                                                        src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                                        alt="Options"
-                                                        height={21}
-                                                        width={20}
-                                                        style={{ height: "auto", width: "auto" }}
-                                                    />
-                                                </button>
-                                                {popUpMenu && selectedId === data._id &&
-                                                    <PopUpMenu
-                                                        setOpenCreateExpenses={setOpenCreateExpenses}
-                                                        setOpenEdit={setOpenEdit}
-                                                        handleDeleteSingle={handleDeleteSingle}
-                                                        data={data}
-                                                        setOpenDetails={setOpenDetails}
-                                                        index={index}
-                                                        dropdownRef={dropdownRef}
-                                                        totalLength={allData?.results?.length}
-                                                    />
-                                                }
-                                            </div>
+            {/* Virtualized Scrollable Body */}
+            <div
+                ref={tableRef}
+                className="w-full border border-t-0 rounded-b-[8px] overflow-y-auto"
+            >
+                <div
+                    style={{
+                        height: `${rowVirtualizer.getTotalSize()}px`,
+                        position: 'relative',
+                    }}
+                >
+                    {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                        const isLoaderRow = virtualRow.index >= allData?.data?.results?.length;
+                        const data = allData?.data?.results?.[virtualRow.index];
+                        console.log(data)
+                        return (
+                            <div
+                                key={virtualRow.key}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: `${virtualRow.size}px`,
+                                    transform: `translateY(${virtualRow.start}px)`,
+                                }}
+                            >
+                                {loading ? (
+                                    <SkeletonLoader />
+                                ) : isLoaderRow ? (
+                                    hasMore ? (
+                                        <div className="w-full flex justify-center py-4">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
+                                        </div>
+                                    ) : (
+                                        <div className="w-full flex justify-center py-4 text-gray-500 text-sm">
+                                            No more items to load
                                         </div>
                                     )
-                                })
-                            )}
+                                ) : (
+                                    <div className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50">
+                                        <div onClick={() => handleRowSelect(data?._id, data)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[400] text-[13px] flex-shrink-0 w-[20%] md:w-[8%]">
+                                            {selectedRows.includes(data?._id) ? <Ticked /> : <UnTicked />}
+                                        </div>
+                                        <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
+                                            <span>{data?.expenseName}</span>
+                                        </div>
+                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
+                                            <span style={{ fontFamily: "Arial" }}>₦</span>
+                                            {addCommasToNumberWithoutN(data?.amount)}
+                                        </div>
+                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                            {data?.expenseCategoryName}
+                                        </div>
+                                        <div className="text-GrayHomz py-[15px] font-[400] md:flex text-[13px] flex-shrink-0 w-[14%] hidden">
+                                            {data?.paymentStatus === "Unpaid" ? (
+                                                <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
+                                                    Unpaid
+                                                </div>
+                                            ) : (
+                                                <div className="bg-successBg text-Success rounded-md py-1 px-3 flex items-center justify-center">
+                                                    Paid
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                            {changeBackendDateFormat(data?.date)}
+                                        </div>
+                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                            {data?.property?.propertyName ?? "------------"}
+                                        </div>
+                                        <div className="relative py-[15px] md:pl-4 z-10 w-[10%] md:w-[8%]">
+                                            <button onClick={() => { handleToggleMenu(data._id, data) }}>
+                                                <Image
+                                                    src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                                    alt="Options"
+                                                    height={21}
+                                                    width={20}
+                                                    style={{ height: "auto", width: "auto" }}
+                                                />
+                                            </button>
+                                            {popUpMenu && selectedId === data?._id &&
+                                                <PopUpMenu
+                                                    setOpenCreateExpenses={setOpenCreateExpenses}
+                                                    setOpenEdit={setOpenEdit}
+                                                    handleDeleteSingle={handleDeleteSingle}
+                                                    data={data}
+                                                    setOpenDetails={setOpenDetails}
+                                                    index={virtualRow.index}
+                                                    dropdownRef={dropdownRef}
+                                                    totalLength={allData?.results?.length}
+                                                />
+                                            }
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Table
+export default Table;
