@@ -37,8 +37,6 @@ const Table = ({
         selectedCate,
         search,
     } = useExpenseStore();
-
-    console.log(allData)
     
     // Virtualizer instance
     const rowVirtualizer = useVirtualizer({
@@ -48,7 +46,6 @@ const Table = ({
         overscan: 5,
     });
     
-    console.log(rowVirtualizer)
     // Load more when scrolling near bottom
     React.useEffect(() => {
         const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
@@ -67,9 +64,6 @@ const Table = ({
         hasMore,
         loadingMore,
     ]);
-
-
-    console.log( rowVirtualizer.getVirtualItems())
 
     const handleToggleMenu = (id, data) => {
         setSingleTableData(data);

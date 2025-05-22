@@ -353,7 +353,7 @@ const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpens
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <div className=''>
                             <label className="block text-sm font-medium">
-                                Vendor Name <span className="text-error">*</span>
+                                Vendor Name
                             </label>
                             <input
                                 value={formData.vendorName}

@@ -85,14 +85,15 @@ const Expenses = () => {
         }
     }
 
-    React.useEffect(() => {
+    React.useEffect(async () => {
         if (!categories || categories?.length === 0 || categories === undefined || categories === null) {
-            handleCreateExpenseCategory()
+            const result = await handleCreateExpenseCategory()
+            fetchCategory()
         }
     }, [categories]);
 
 
-   const fetchExpense = async (limit, isLoadMore = false) => {
+    const fetchExpense = async (limit, isLoadMore = false) => {
         if (fromDate && !toDate) return;
         if (!fromDate && toDate) return;
 
@@ -125,16 +126,15 @@ const Expenses = () => {
 
             const response = await api.get(query);
             const result = response?.data;
-console.log(result)
+
             if (isLoadMore) {
                 setAllData(result);
             } else {
                 setAllData(result);
             }
-            
+
             // Check if we've reached the end based on total count
             setHasMore(result?.data?.results?.length < (result?.data?.totalCount || 0));
-            console.log(hasMore)?.data
 
             if (!isLoadMore) {
                 setIsLoading(false);
@@ -163,7 +163,6 @@ console.log(result)
         }
     };
 
-console.log(allData)
     React.useEffect(() => {
         // Always fetch with current limit when filters change
         fetchExpense(currentLimit);
