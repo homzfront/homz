@@ -14,13 +14,16 @@ const Table = ({
     setOpenCreateExpenses,
     setOpenEdit,
     handleDeleteSingle,
-    pageNo,
-    setPageNo,
-    totalPages,
     allData,
     loading = false,
     setSingleTableData,
     setOpenDetails,
+    fetchMoreData,
+    hasMore,
+    loadingMore,
+    setLoadingMore,
+    observer,
+    setObserver
 }) => {
     const [popUpMenu, setPopUpMenu] = React.useState(false);
     const [selectedId, setSelectedId] = React.useState(null);
@@ -35,30 +38,52 @@ const Table = ({
         selectedCate,
         search,
     } = useExpenseStore();
-    const handlePageClick = (page) => {
-        setPageNo(page);
-    };
+    // Infinite scroll observer
 
-    const handleNext = () => {
-        if (pageNo < totalPages) {
-            setPageNo(pageNo + 1);
+
+    const observerRef = React.useRef(null);
+    
+    // Create a stable reset function
+    const resetObserver = React.useCallback(() => {
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+            observerRef.current = null;
         }
-    };
+    }, []);
 
-    const handlePrev = () => {
-        if (pageNo > 1) {
-            setPageNo(pageNo - 1);
-        }
-    };
+    const lastItemRef = React.useCallback(node => {
+        // Always clean up previous observer
+        resetObserver();
 
-    const firstThreePages = [1, 2, 3];
-    const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+        if (loading || loadingMore || !node || !hasMore) return;
 
+        const newObserver = new IntersectionObserver(
+            entries => {
+                if (entries[0].isIntersecting && hasMore && !loadingMore) {
+                    setLoadingMore(true);
+                    fetchMoreData().finally(() => setLoadingMore(false));
+                }
+            }, 
+            { threshold: 0.5 }
+        );
+
+        observerRef.current = newObserver;
+        newObserver.observe(node);
+
+        // Cleanup function
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+        };
+    }, [loading, loadingMore, hasMore, fetchMoreData, resetObserver]);
+    
     const handleToggleMenu = (id, data) => {
         setSingleTableData(data)
         setSelectedId(id);
         setPopUpMenu(!popUpMenu);
     };
+
     const handleSelectAll = () => {
         if (selectAll) {
             // Deselect all
@@ -122,7 +147,6 @@ const Table = ({
             </tr>
         );
     };
-    console.log(selectedCate)
 
     return (
         <div className="mt-6 w-full mx-auto">
@@ -175,82 +199,73 @@ const Table = ({
                             </div>
                             : (
                                 allData?.results &&
-                                allData?.results?.map((data, index) => (
-                                    <div
-                                        key={data?._id}
-                                        className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50"
-                                    >
-                                        <div onClick={() => handleRowSelect(data._id, data)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[400] text-[13px] flex-shrink-0 w-[20%] md:w-[8%]">{selectedRows.includes(data._id) ? <Ticked /> : <UnTicked />}</div>
-                                        <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                            <span>{data?.expenseName}</span>
+                                allData?.results?.map((data, index) => {
+                                    // Add ref to the last item for infinite scroll
+                                    const isLastItem = index === allData.results.length - 1;
+
+                                    return (
+                                        <div
+                                            key={data?._id}
+                                            ref={isLastItem ? lastItemRef : null}
+                                            className="w-full border-t-[1px] flex items-center min-h-[60px] hover:bg-gray-50"
+                                        >
+                                            <div onClick={() => handleRowSelect(data._id, data)} className="cursor-pointer text-GrayHomz pr-2 py-[15px] pl-4 font-[400] text-[13px] flex-shrink-0 w-[20%] md:w-[8%]">{selectedRows.includes(data._id) ? <Ticked /> : <UnTicked />}</div>
+                                            <div className="flex items-center gap-1 py-[15px] text-GrayHomz4 font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
+                                                <span>{data?.expenseName}</span>
+                                            </div>
+                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
+                                                <span style={{ fontFamily: "Arial" }}>₦</span>
+                                                {addCommasToNumberWithoutN(data?.amount)}
+                                            </div>
+                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                                {data?.expenseCategoryName}
+                                            </div>
+                                            <div className="text-GrayHomz py-[15px] font-[400] md:flex text-[13px] flex-shrink-0 w-[14%] hidden">
+                                                {data?.paymentStatus === "Unpaid" ? (
+                                                    <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
+                                                        Unpaid
+                                                    </div>
+                                                ) : (
+                                                    <div className="bg-successBg text-Success rounded-md py-1 px-3 flex items-center justify-center">
+                                                        Paid
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                                {changeBackendDateFormat(data?.date)}
+                                            </div>
+                                            <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
+                                                {data?.property?.propertyName ?? "------------"}
+                                            </div>
+                                            <div className="relative py-[15px] md:pl-4 z-10 w-[10%] md:w-[8%]">
+                                                <button onClick={() => { handleToggleMenu(data._id, data) }}>
+                                                    <Image
+                                                        src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
+                                                        alt="Options"
+                                                        height={21}
+                                                        width={20}
+                                                        style={{ height: "auto", width: "auto" }}
+                                                    />
+                                                </button>
+                                                {popUpMenu && selectedId === data._id &&
+                                                    <PopUpMenu
+                                                        setOpenCreateExpenses={setOpenCreateExpenses}
+                                                        setOpenEdit={setOpenEdit}
+                                                        handleDeleteSingle={handleDeleteSingle}
+                                                        data={data}
+                                                        setOpenDetails={setOpenDetails}
+                                                        index={index}
+                                                        dropdownRef={dropdownRef}
+                                                        totalLength={allData?.results?.length}
+                                                    />
+                                                }
+                                            </div>
                                         </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[35%] md:w-[14%]">
-                                            <span style={{ fontFamily: "Arial" }}>₦</span>
-                                            {addCommasToNumberWithoutN(data?.amount)}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                            {data?.expenseCategoryName}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] md:flex text-[13px] flex-shrink-0 w-[14%] hidden">
-                                            {data?.paymentStatus === "Unpaid" ? (
-                                                <div className="bg-warningBg text-warning rounded-md py-1 px-3 flex items-center justify-center">
-                                                    Unpaid
-                                                </div>
-                                            ) : (
-                                                <div className="bg-successBg text-Success rounded-md py-1 px-3 flex items-center justify-center">
-                                                    Paid
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                            {changeBackendDateFormat(data?.date)}
-                                        </div>
-                                        <div className="text-GrayHomz py-[15px] font-[400] text-[13px] flex-shrink-0 w-[14%] hidden md:block">
-                                            {data?.property?.propertyName ?? "------------"}
-                                        </div>
-                                        <div className="relative py-[15px] md:pl-4 z-10 w-[10%] md:w-[8%]">
-                                            <button onClick={() => { handleToggleMenu(data._id, data) }}>
-                                                <Image
-                                                    src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
-                                                    alt="Options"
-                                                    height={21}
-                                                    width={20}
-                                                    style={{ height: "auto", width: "auto" }}
-                                                />
-                                            </button>
-                                            {popUpMenu && selectedId === data._id &&
-                                                <PopUpMenu
-                                                    setOpenCreateExpenses={setOpenCreateExpenses}
-                                                    setOpenEdit={setOpenEdit}
-                                                    handleDeleteSingle={handleDeleteSingle}
-                                                    data={data}
-                                                    setOpenDetails={setOpenDetails}
-                                                    index={index}
-                                                    dropdownRef={dropdownRef}
-                                                    totalLength={allData?.results?.length}
-                                                />
-                                            }
-                                        </div>
-                                    </div>
-                                ))
+                                    )
+                                })
                             )}
                 </div>
             </div>
-
-            {/* Pagination */}
-            {allData?.results && allData?.results.length >= 1 && (
-                <div className="mt-6">
-                    <Pagination
-                        firstThreePages={firstThreePages}
-                        currentPage={pageNo}
-                        totalPages={totalPages}
-                        handleNext={handleNext}
-                        handlePageClick={handlePageClick}
-                        handlePrev={handlePrev}
-                        lastThreePages={lastThreePages}
-                    />
-                </div>
-            )}
         </div>
     )
 }

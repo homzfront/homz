@@ -40,10 +40,15 @@ const Expenses = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [isOpenTwo, setIsOpenTwo] = React.useState(false);
-    const [openStatusFilter, setOpenStatusFilter] = React.useState(false);
     const [openStatus, setOpenStatus] = React.useState(false);
     const [expenseCate, setExpenseCate] = React.useState(false);
     const [isOpenDocu, setIsOpenDocu] = React.useState(false);
+    const [hasMore, setHasMore] = React.useState(true);
+    const [isFetchingMore, setIsFetchingMore] = React.useState(false);
+    const [currentLimit, setCurrentLimit] = React.useState(10);
+    const [observer, setObserver] = React.useState(null);
+    const [loadingMore, setLoadingMore] = React.useState(false);
+
     const closeFilter = useClickOutside(() => {
         setIsOpen(false);
         setExpenseCate(false);
@@ -53,7 +58,7 @@ const Expenses = () => {
         setIsOpenTwo(false)
         setIsOpenDocu(false)
     });
-    const [totalPages, setTotalPages] = React.useState(1);
+
     const [singleTableData, setSingleTableData] = React.useState(null);
     const [openDetails, setOpenDetails] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(null);
@@ -71,12 +76,20 @@ const Expenses = () => {
         fetchData();
     }, [])
 
-    const fetchExpense = async (page) => {
+    const fetchExpense = async (limit, isLoadMore = false) => {
         if (fromDate && !toDate) return;
         if (!fromDate && toDate) return;
-        setIsLoading(true);
+
+        if (!isLoadMore) {
+            setIsLoading(true);
+            setCurrentLimit(10); // Reset to initial limit when not loading more
+        } else {
+            setIsFetchingMore(true);
+            setCurrentLimit(prev => prev + 10); // Increase limit by 10 each time
+        }
+
         try {
-            let query = `/expense/enterprise/get-all?limit=10&page=${page}`;
+            let query = `/expense/enterprise/get-all?limit=${limit}&page=1`; // Always page=1
             if (selectedStatus) {
                 query += `&status=${encodeURIComponent(selectedStatus)}`;
             }
@@ -89,16 +102,45 @@ const Expenses = () => {
             if (search) {
                 query += `&search=${encodeURIComponent(search)}`;
             }
+
             const response = await api.get(query);
             const result = response?.data;
-            setAllData(result?.data)
-            setTotalPages(result?.data?.totalPages);
-            setIsLoading(false);
+
+            if (isLoadMore) {
+                setAllData(result?.data || []);
+            } else {
+                setAllData(result?.data || []);
+            }
+
+
+            // Check if we've reached the end based on total count
+            setHasMore(allData.length < (result?.data?.totalCount || 0));
+
+            if (!isLoadMore) {
+                setIsLoading(false);
+            } else {
+                setIsFetchingMore(false);
+            }
         } catch (error) {
-            setIsLoading(false);
+            if (!isLoadMore) {
+                setIsLoading(false);
+            } else {
+                setIsFetchingMore(false);
+            }
             console.error("Error fetching data:", error);
         }
     };
+
+    const fetchMoreData = async () => {
+        if (isFetchingMore || !hasMore) return;
+        await fetchExpense(currentLimit + 10, true); // Increase limit by 10
+    };
+
+    React.useEffect(() => {
+        // Always fetch with current limit when filters change
+        fetchExpense(currentLimit);yy
+    }, [selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
+
 
     // Delete single expense
     const handleDeleteSingle = async (id) => {
@@ -176,10 +218,6 @@ const Expenses = () => {
     }, [selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
 
 
-    React.useEffect(() => {
-        fetchExpense(pageNo);
-    }, [pageNo, selectedStatus, selectedCate, debounceFromDate, debounceToDate, debouncedSearch]);
-
     const clear = () => {
         setSelectedStatus(null);
         setSelectedCate(null);
@@ -187,6 +225,8 @@ const Expenses = () => {
         setToDate(null);
         setSearch('')
         setPageNo(1)
+        fetchExpense(10);
+        setHasMore(true);
     };
 
     const StatusOption = ["Paid", "Unpaid"];
@@ -292,16 +332,19 @@ const Expenses = () => {
                     <div className='mt-4'>
                         <Table
                             allData={allData}
-                            totalPages={totalPages}
                             loading={isLoading}
                             setSingleTableData={setSingleTableData}
                             setOpenDetails={setOpenDetails}
-                            setPageNo={setPageNo}
-                            pageNo={pageNo}
                             handleDeleteSingle={handleDeleteSingle}
                             fetchExpense={fetchExpense}
                             setOpenCreateExpenses={setOpenCreateExpenses}
                             setOpenEdit={setOpenEdit}
+                            fetchMoreData={fetchMoreData}
+                            hasMore={hasMore}
+                            observer={observer}
+                            setObserver={setObserver}
+                            loadingMore={loadingMore}
+                            setLoadingMore={setLoadingMore}
                         />
                     </div>
                 </div>
