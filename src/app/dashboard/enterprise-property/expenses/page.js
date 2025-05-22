@@ -225,7 +225,7 @@ const Expenses = () => {
         setToDate(null);
         setSearch('')
         setPageNo(1)
-        fetchExpense(10);
+        // fetchExpense(10);
         setHasMore(true);
     };
 
