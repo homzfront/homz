@@ -8,12 +8,18 @@ import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import api from '@/utils/api';
 import ExpenseCategory from './expenseCategory';
 import Attachment from './attachment';
+import useExpenseStore from '@/store/enterpriseStore/useExpenseStore';
 
 const CreateExpenses = ({ setOpenEdit, update, fetchExpense, setOpenCreateExpenses }) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
     const [errors, setErrors] = React.useState({});
     const [touched, setTouched] = React.useState({});
+    const { fetchCategory } = useExpenseStore();
+
+    React.useEffect(() => {
+        fetchCategory();
+    }, [])
 
     const handleBlur = (field) => {
         setTouched((prev) => ({ ...prev, [field]: true }));

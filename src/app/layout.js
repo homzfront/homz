@@ -7,6 +7,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import Head from "next/head";
 import Script from "next/script";
 import { SessionProvider } from 'next-auth/react';
+import ViewportTracker from "@/utils/useWidth";
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -84,9 +85,15 @@ export default function RootLayout({ children }) {
 
         {/* Tanstack Query Client */}
         <TanstackProvider>
-          
+
           <main> <SessionProvider>{children}</SessionProvider></main>
         </TanstackProvider>
+        {/**
+				|--------------------------------------------------
+				| Get view port width
+				|--------------------------------------------------
+				*/}
+        <ViewportTracker />
       </body>
     </html>
   );

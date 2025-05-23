@@ -34,6 +34,8 @@ const Expenses = () => {
         loadingCate,
         fetchCategory,
         selectedOption,
+        singleTableData,
+        setSingleTableData,
         setSelectedOption,
     } = useExpenseStore();
     const printRefAll = React.useRef();
@@ -60,12 +62,23 @@ const Expenses = () => {
         setIsOpenDocu(false)
     });
 
-    const [singleTableData, setSingleTableData] = React.useState(null);
     const [openDetails, setOpenDetails] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(null);
     const [openCreateExpenses, setOpenCreateExpenses] = React.useState(false);
     const [printData, setPrintData] = React.useState(null);
     const [deleteLoading, setDeleteLoading] = React.useState(false);
+    const [resetTwo, setResetTwo] = React.useState(false);
+
+    React.useEffect(() => {
+        if (resetTwo) {
+            const timer = setTimeout(() => {
+                setResetTwo(false);
+            }, 2000); // 2000 milliseconds = 2 seconds
+
+            // Cleanup function to clear the timeout if the component unmounts
+            return () => clearTimeout(timer);
+        }
+    }, [resetTwo]);
 
     const debouncedSearch = useDebounce(search, 500);
     const debounceToDate = useDebounce(toDate, 500);
@@ -88,12 +101,12 @@ const Expenses = () => {
     React.useEffect(() => {
         if (!categories || categories?.length === 0 || categories === undefined || categories === null) {
             handleCreateExpenseCategory()
-            
+
         }
     }, [categories]);
 
 
-   const fetchExpense = async (limit, isLoadMore = false) => {
+    const fetchExpense = async (limit, isLoadMore = false) => {
         if (fromDate && !toDate) return;
         if (!fromDate && toDate) return;
 
@@ -132,10 +145,10 @@ const Expenses = () => {
             } else {
                 setAllData(result);
             }
-            
+
             // Check if we've reached the end based on total count
             setHasMore(result?.data?.results?.length < (result?.data?.totalCount || 0));
-         
+
             if (!isLoadMore) {
                 setIsLoading(false);
             } else {
@@ -171,7 +184,6 @@ const Expenses = () => {
 
     // Delete single expense
     const handleDeleteSingle = async (id) => {
-        console.log(id)
         if (!id) return;
 
         try {
@@ -246,6 +258,7 @@ const Expenses = () => {
 
 
     const clear = () => {
+        setResetTwo(true);
         setSelectedStatus(null);
         setSelectedCate(null);
         setFromDate(null);
@@ -262,7 +275,7 @@ const Expenses = () => {
         <div className={`${deleteLoading && "pointer-events-none animate-pulse"}`}>
             <CustomizedModal isOpen={openDetails} onRequestClose={() => setOpenDetails(false)}>
                 <AllDetails
-                    singleTableData={singleTableData}
+                    singleTableData={openEdit}
                     setOpenDetails={setOpenDetails}
                 />
             </CustomizedModal>
@@ -373,6 +386,8 @@ const Expenses = () => {
                             loadingMore={loadingMore}
                             tableRef={tableRef}
                             setLoadingMore={setLoadingMore}
+                            resetTwo={resetTwo}
+                            singleTableData={singleTableData}
                         />
                     </div>
                 </div>

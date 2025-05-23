@@ -5,6 +5,8 @@ const useExpenseStore = create((set) => ({
     categories: null,
     loadingCate: true,
     selectedOption: null,
+    singleTableData: null,
+    setSingleTableData: (data) => set({ singleTableData: data }),
     fetchCategory: async () => {
         try {
             const response = await fetchCategory();
