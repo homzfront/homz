@@ -355,7 +355,7 @@ const Table = ({
                                         <p className='text-[16px] font-medium text-[#141313]'>No Expense Record</p>
 
                                         {(!search && !fromDate && !toDate && !selectedStatus && !selectedCate) && !resetTwo && (
-                                            <p className='text-sm font-normal text-[#141313]'>
+                                            <p className='text-sm font-normal text-[#141313] text-center'>
                                                 You're yet to add an expense record. All expense records will be displayed here.
                                             </p>
                                         )}

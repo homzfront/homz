@@ -179,6 +179,8 @@ const HeaderAndFilter = ({
                         type='text'
                         className='placeholder:text-[#A9A9A9] w-full outline-none placeholder:text-[13px] text-[13px]'
                         placeholder='Email, Expense, Property...'
+                        onChange={(e) => setSearch(e.target.value)}
+                        value={search}
                     />
                 </div>
                 <div className='relative flex justify-end md:justify-normal md:items-center gap-2'>
