@@ -221,7 +221,7 @@ const WalletPayement = () => {
                                                 {data?.description || "N/A"}
                                             </td>
                                             <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                                {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
+                                                {data.duration === 1 ? `${data.duration} month` : `${data.duration} months`}
                                             </td>
                                             <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                                 {data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}

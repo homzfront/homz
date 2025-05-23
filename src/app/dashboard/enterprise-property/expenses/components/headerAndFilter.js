@@ -2,7 +2,6 @@ import React from 'react'
 import AddNormal from '@/components/icons/addNormal';
 import ArrowDown from '@/components/icons/arrowDown';
 import ArrowUpII from '@/components/icons/arrowUpII';
-import DateIconTwo from '@/components/icons/dateIconTwo';
 import DeleteIcon from '@/components/icons/deleteIcon';
 import DocDocuSmall from '@/components/icons/docDocuSmall';
 import FilterIconBlue from '@/components/icons/filterIconBlue';
@@ -11,6 +10,12 @@ import BlueSearch from '@/components/icons/blueSearch';
 import DotsBlue from '@/components/icons/dotsBlue';
 import Ticked from '@/components/icons/ticked';
 import UnTicked from '@/components/icons/unTicked';
+import { useReactToPrint } from "react-to-print";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
+import Papa from "papaparse";
+import addCommasToNumber from '@/utils/addCommasToNumber';
 
 const HeaderAndFilter = ({
     setIsOpen,
@@ -36,8 +41,129 @@ const HeaderAndFilter = ({
     expenseCate,
     categories,
     selectedCate,
-    setSelectedCate
+    setSelectedCate,
+    setSelectedOption,
+    selectedOption,
+    setIsOpenI,
+    isOpenI,
+    printData,
+    onDelete,
+    pageNo,
+    printRefAll
 }) => {
+    const optionsTwo = [".CSV", ".XLSX", ".PDF"];
+
+
+    const handlePrint = useReactToPrint({
+        content: () => printRefAll.current,
+        documentTitle: "Expenses",
+        onAfterPrint: () => console.log("Document printed."),
+        removeAfterPrint: true
+    });
+
+    React.useEffect(() => {
+        if (selectedOption === ".CSV") {
+            handleExportToCSV();
+        }
+        if (selectedOption === ".XLSX") {
+            handleExportToExcel();
+        }
+        if (selectedOption === ".PDF") {
+            handlePrint();
+        }
+        setSelectedOption(null);
+    }, [selectedOption])
+
+    const summary = printData?.summary
+    const resultCount = printData?.resultCount
+
+    const handleExportToExcel = () => {
+        const summaryRow = {
+            "Total Expense Amount": addCommasToNumber(summary?.totalExpenseAmount),
+            "Total Rent Collected": addCommasToNumber(summary?.totalRentCollected),
+            "Available Balance": addCommasToNumber(summary?.availableBalance),
+            "Number of Expenses": resultCount,
+            "Date Range": `${fromDate} - ${toDate}`,
+            "Vendor": "",
+            "Expense Name": "",
+            "Amount": "",
+            "Date": "",
+            "Category": "",
+            "Payment Status": "",
+            "Enterprise Name": "",
+        };
+
+        const dataRows = printData?.results.map((item) => ({
+            "Total Expense Amount": "",
+            "Total Rent Collected": "",
+            "Available Balance": "",
+            "Number of Expenses": "",
+            "Date Range": "",
+            "Vendor": item.vendor?.name || "",
+            "Expense Name": item.expenseName || "",
+            "Amount": addCommasToNumber(item.amount),
+            "Date": changeBackendDateFormat(item.date),
+            "Category": item.expenseCategoryName || "",
+            "Payment Status": item.paymentStatus || "",
+            "Enterprise Name": item.enterPrise?.fullName || "",
+        }));
+
+        const fullData = [summaryRow, ...dataRows];
+
+        const worksheet = XLSX.utils.json_to_sheet(fullData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Expense Details");
+
+        const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+        const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+        saveAs(blob, `Expense_Report_Page_${pageNo}.xlsx`);
+    };
+
+    const handleExportToCSV = () => {
+        const summaryRow = {
+            "Total Expense Amount": summary?.totalExpenseAmount,
+            "Total Rent Collected": summary?.totalRentCollected,
+            "Available Balance": summary?.availableBalance,
+            "Number of Expenses": resultCount,
+            "Date Range": `${fromDate} - ${toDate}`,
+            "Vendor": "",
+            "Expense Name": "",
+            "Amount": "",
+            "Date": "",
+            "Category": "",
+            "Payment Status": "",
+            "Enterprise Name": "",
+        };
+
+        const dataRows = printData?.results.map((item) => ({
+            "Total Expense Amount": "",
+            "Total Rent Collected": "",
+            "Available Balance": "",
+            "Number of Expenses": "",
+            "Date Range": "",
+            "Vendor": item.vendor?.name || "",
+            "Expense Name": item.expenseName || "",
+            "Amount": addCommasToNumber(item.amount),
+            "Date": changeBackendDateFormat(item.date),
+            "Category": item.expenseCategoryName || "",
+            "Payment Status": item.paymentStatus || "",
+            "Enterprise Name": item.enterPrise?.fullName || "",
+        }));
+
+        const csv = Papa.unparse([summaryRow, ...dataRows]);
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Expense_Report_Page_${pageNo}.csv`);
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
     return (
         <div>
             <h2 className='md:hidden mb-4 font-normal text-[16px] text-BlackHomz'>
@@ -74,10 +200,10 @@ const HeaderAndFilter = ({
                         </div>
                         {
                             isOpen &&
-                            <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px]'>
+                            <div className='absolute z-50 top-10 right-[50px] md:right-[104px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-auto scrollbar-container'>
                                 {
                                     expenseCate ?
-                                        <div className='text-sm text-GrayHomz font-medium'>
+                                        <div className='text-sm text-GrayHomz font-medium overflow-auto scrollbar-container'>
                                             {categories?.map((prop, index) => (
                                                 <div
                                                     key={index}
@@ -166,6 +292,7 @@ const HeaderAndFilter = ({
                         <div
                             onClick={() => {
                                 setIsOpenTwo(!isOpenTwo)
+                                setIsOpenI(false)
                             }}
                             className='cursor-pointer w-auto text-sm text-BlueHomz font-medium border border-BlueHomz px-3 h-[38px] flex justify-center items-center rounded-[4px] gap-1'>
                             <span className='hidden md:block'>
@@ -183,33 +310,64 @@ const HeaderAndFilter = ({
                         </div>
                         {
                             isOpenTwo &&
-                            <div className='absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container'>
-                                <div className='text-sm text-GrayHomz font-medium flex flex-col gap-0'>
-                                    <div onClick={() => setOpenCreateExpenses(true)} className='flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer'>
-                                        <span className='w-3'>
-                                            <AddNormal />
-                                        </span>
-                                        <span className='min-w-[80%]'>
-                                            New Expense
-                                        </span>
+                            <div className={`absolute z-50 top-10 right-[0px] bg-white min-w-[220px] p-2 border border-[#A9A9A9] rounded-[8px] max-h-[300px] overflow-y-auto scrollbar-container`} >
+                                {isOpenI ?
+                                    <div className={`font-[500] text-BlackHomz text-[14px]`}>
+                                        <p className="px-4 text-[13px] text-GrayHomz font-medium">Export as:</p>
+                                        {optionsTwo.map((option, index) => (
+                                            <div
+                                                key={index}
+                                                className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedOption(option);
+                                                }}
+                                            >
+                                                {option}
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className='flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
-                                        <span className='w-3'>
-                                            <DocDocuSmall />
-                                        </span>
-                                        <span className='min-w-[80%]'>
-                                            Generate Statement
-                                        </span>
+                                    :
+                                    <div className={`text-sm text-GrayHomz font-medium flex flex-col gap-0`}>
+                                        <div
+                                            onClick={() => setOpenCreateExpenses(true)}
+                                            className="flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer"
+                                        >
+                                            <span className="w-3">
+                                                <AddNormal />
+                                            </span>
+                                            <span className="min-w-[80%]">New Expense</span>
+                                        </div>
+                                        <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
+                                            <span className="w-3">
+                                                <DocDocuSmall />
+                                            </span>
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setIsOpenI(true);
+                                                }}
+                                                className="min-w-[80%]"
+                                            >
+                                                Generate Statement
+                                            </span>
+                                        </div>
+                                        <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
+                                            <span className="w-3">
+                                                <DeleteIcon />
+                                            </span>
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    onDelete();
+                                                }}
+                                                className="min-w-[80%] text-error"
+                                            >
+                                                Delete
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className='flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer'>
-                                        <span className='w-3'>
-                                            <DeleteIcon />
-                                        </span>
-                                        <span className='min-w-[80%] text-error'>
-                                            Delete
-                                        </span>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         }
                     </div>

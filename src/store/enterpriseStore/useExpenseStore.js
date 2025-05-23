@@ -4,6 +4,9 @@ import { create } from 'zustand'
 const useExpenseStore = create((set) => ({
     categories: null,
     loadingCate: true,
+    selectedOption: null,
+    singleTableData: null,
+    setSingleTableData: (data) => set({ singleTableData: data }),
     fetchCategory: async () => {
         try {
             const response = await fetchCategory();
@@ -21,6 +24,7 @@ const useExpenseStore = create((set) => ({
     allData: null,
     setAllData: (data) => set({ allData: data }),
     setSearch: (data) => set({ search: data }),
+    setSelectedOption: (date) => set({ selectedOption: date }),
     fromDate: null,  // Set default fromDate in the store
     toDate: null,
     setSelectedStatus: (data) => set({ selectedStatus: data }),

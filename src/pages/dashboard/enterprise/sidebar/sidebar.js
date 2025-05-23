@@ -91,33 +91,32 @@ const Sidebar = () => {
       image2: (
         <Tenants className="text-white fill-white" height="16" width="16" />
       ),
-      link: "",
+      link: "/dashboard/enterprise-property/tenants",
       name: "Tenants",
       coming: null,
       active: false,
-      submenu: true,
-      subMenuItems: [
-        {
-          title: "Manage Tenants",
-          link: "/dashboard/enterprise-property/tenants",
-          image: <ManageTenant />,
-          image2: <ManageTenant className="#006AFF" />,
-        },
-        {
-          title: "Access Control",
-          // link: "/dashboard/enterprise-property/tenants/access-records",
-          link: "",
-          image: <AccessRecord />,
-          image2: <AccessRecord className="#006AFF" />,
-        },
-        {
-          title: "Tenant Poll",
-          // link: "/dashboard/enterprise-property/tenants/tenant-poll",
-          link: "",
-          image: <TenantPoll />,
-          image2: <TenantPoll className="#006AFF" />,
-        },
-      ],
+      // subMenuItems: [
+      //   {
+      //     title: "Manage Tenants",
+      //     link: "/dashboard/enterprise-property/tenants",
+      //     image: <ManageTenant />,
+      //     image2: <ManageTenant className="#006AFF" />,
+      //   },
+        // {
+        //   title: "Access Control",
+        //   // link: "/dashboard/enterprise-property/tenants/access-records",
+        //   link: "",
+        //   image: <AccessRecord />,
+        //   image2: <AccessRecord className="#006AFF" />,
+        // },
+        // {
+        //   title: "Tenant Poll",
+        //   // link: "/dashboard/enterprise-property/tenants/tenant-poll",
+        //   link: "",
+        //   image: <TenantPoll />,
+        //   image2: <TenantPoll className="#006AFF" />,
+        // },
+      // ],
     },
     {
       id: 3,
@@ -175,7 +174,7 @@ const Sidebar = () => {
         {
           title: "Expenses",
           link: "",
-          // link: "/dashboard/enterprise-property/expenses",
+          link: "/dashboard/enterprise-property/expenses",
           image: <Expenses />,
           image2: <Expenses className="#006AFF" />,
         },
