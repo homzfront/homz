@@ -51,7 +51,7 @@ const Widget = ({
     const [isOpenI, setIsOpenI] = useState(false);
     const dropdownRef = useClickOutside(() => setIsOpenI(false));
     const [isLoading, setIsLoading] = React.useState(false);
-    const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false)
+    const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false);
     const [docHover, setDocHover] = React.useState(false);
     const {
         selectedProperty,
@@ -70,7 +70,9 @@ const Widget = ({
         offlineData,
         activeState,
         pageNo,
-        setPageNo
+        setPageNo,
+        fee,
+        setFee
     } = usePaymentFilterStore();
     // User-selected date range
     const today = new Date();
@@ -178,7 +180,6 @@ const Widget = ({
                 ? walletData
                 : offlineData;
     const summary = currentData?.summary
-
     const debouncedSearch = useDebounce(search, 500);
     const debounceToDate = useDebounce(toDate, 500);
     const debounceFromDate = useDebounce(fromDate, 500);
@@ -187,13 +188,18 @@ const Widget = ({
         if (summary?.totalTranscation) fetchDataAOW(1, summary?.totalTranscation);
     }, [activeState, selectedProperty, debounceFromDate, debounceToDate, debouncedSearch, summary?.totalTranscation]);
 
+
+
     const handleExportToExcel = () => {
+        // Create summary row with all possible fee-related fields
         const summaryRow = {
             "Total Expected Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
             "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
             "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
+            "Total Fees": fee?.data?.totalFeeList ? `${addCommasToNumber(fee?.data?.totalFeeList)}` : "",
+            "Total (After Fees)": fee?.data?.totalAfterFees ? `${addCommasToNumber(fee?.data?.totalAfterFees)}` : "",
             "No of Transactions": summary?.totalTranscation,
-            "Transaction Date": `${fromDate} -${toDate}`,
+            "Transaction Date": `${fromDate} - ${toDate}`,
             "Tenant": "",
             "Rent Amount": "",
             "Due Date": "",
@@ -205,10 +211,27 @@ const Widget = ({
             "Payment Date": "",
         };
 
+        // Add fee breakdown to the summary row if fees exist
+        if (fee?.data?.fees?.length > 0) {
+            fee?.data.fees.forEach((feeItem, index) => {
+                const feeName = `${feeItem.name} ${feeItem.amountPct}%`;
+                summaryRow[feeName] = `${addCommasToNumber(feeItem?.amountN)}`;
+            });
+        }
+
         const dataRows = printData?.results.map((item) => ({
             "Total Expected Revenue": "",
             "Rent Collected": "",
             "Pending Rent": "",
+            "Total Fees": "",
+            "Total (After Fees)": "",
+            // Add empty values for each fee column if fees exist
+            ...(fee?.data?.fees?.length > 0 ?
+                fee?.data.fees.reduce((acc, feeItem) => {
+                    acc[`${feeItem.name} ${feeItem.amountPct}%`] = "";
+                    return acc;
+                }, {})
+                : {}),
             "No of Transactions": "",
             "Tenant": item.tenantId?.fullName,
             "Rent Amount": addCommasToNumber(item.rent),
@@ -234,13 +257,16 @@ const Widget = ({
 
 
     const handleExportToCSV = () => {
+        // Create summary row with all possible fee-related fields
         const summaryRow = {
-            "Total Expected Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
-            "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
-            "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
+            "Total Expected Revenue": `${summary?.totalPayment}`,
+            "Rent Collected": `${summary?.amountPaid}`,
+            "Pending Rent": `${summary?.pendingPayment}`,
+            "Total Fees": fee?.data?.totalFeeList ? `${fee?.data?.totalFeeList}` : "",
+            "Total (After Fees)": fee?.data?.totalAfterFees ? `${fee?.data?.totalAfterFees}` : "",
             "No of Transactions": summary?.totalTranscation,
-            "Transaction Date": `${fromDate} -${toDate}`,
-            "Tenant": "", // Empty in summary row
+            "Transaction Date": `${fromDate} - ${toDate}`,
+            "Tenant": "",
             "Rent Amount": "",
             "Due Date": "",
             "Payment Status": "",
@@ -251,16 +277,33 @@ const Widget = ({
             "Payment Date": "",
         };
 
+        // Add fee breakdown to the summary row if fees exist
+        if (fee?.data?.fees?.length > 0) {
+            fee?.data.fees.forEach((feeItem, index) => {
+                const feeName = `${feeItem.name} ${feeItem.amountPct}%`;
+                summaryRow[feeName] = `${feeItem?.amountN}`;
+            });
+        }
+
         const dataRows = printData?.results.map((item) => ({
-            "Total Expected Revenue": "", // Empty in data rows
+            "Total Expected Revenue": "",
             "Rent Collected": "",
             "Pending Rent": "",
+            "Total Fees": "",
+            "Total (After Fees)": "",
+            // Add empty values for each fee column if fees exist
+            ...(fee?.data?.fees?.length > 0 ?
+                fee?.data.fees.reduce((acc, feeItem) => {
+                    acc[`${feeItem.name} ${feeItem.amountPct}%`] = "";
+                    return acc;
+                }, {})
+                : {}),
             "No of Transactions": "",
             "Tenant": item.tenantId?.fullName,
-            "Rent Amount": addCommasToNumber(item.rent),
+            "Rent Amount": item.rent,
             "Due Date": changeBackendDateFormat(item.dueDate),
             "Payment Status": item.status === "success" ? "Paid" : "Pending",
-            "Amount Paid": addCommasToNumber(item.amountPaid),
+            "Amount Paid": item.amountPaid,
             "Description": item.description || "",
             "Rent Duration": item.duration === 1 ? `${item.duration} month` : `${item.duration} months`,
             "Payment Method": item?.paymentMethod || "",
@@ -294,7 +337,10 @@ const Widget = ({
                             </p>
                         </div>
                         <div
-                            onClick={() => setInclude("")}
+                            onClick={() => {
+                                setInclude("")
+                                setFee(null);
+                            }}
                             className="cursor-pointer"
                         >
                             <CloseSmall />
@@ -315,7 +361,7 @@ const Widget = ({
                 </div>
             </CustomizedModal>
             <CustomizedModal isOpen={include === "withFee"} onRequestClose={() => setInclude("")}>
-                <AddFee setInclude={setInclude} />
+                <AddFee totalRentCollected={summary?.amountPaid} setInclude={setInclude} />
             </CustomizedModal>
             <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
@@ -472,6 +518,7 @@ const Widget = ({
                 <PrintableAll
                     data={printData?.results}
                     summary={printData?.summary}
+                    fee={fee?.data ?? null}
                     printRef={printRefAll}
                 />
             </div>

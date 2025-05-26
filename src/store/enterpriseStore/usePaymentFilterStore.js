@@ -34,6 +34,8 @@ const usePaymentFilterStore = create((set) => ({
   setSelectedProperty: (data) => set({ selectedProperty: data }),
   setFromDate: (date) => set({ fromDate: date }),  // Add setter for fromDate
   setToDate: (date) => set({ toDate: date }),      // Add setter for toDate
+  fee: null,
+  setFee: (data) => set({ fee: data }),
 }));
 
 export default usePaymentFilterStore;

@@ -36,8 +36,8 @@ const OfflinePayment = () => {
     } = usePaymentFilterStore();
 
     const debouncedSearch = useDebounce(search, 500);
-        const debounceToDate = useDebounce(toDate, 500);
-        const debounceFromDate = useDebounce(fromDate, 500);
+    const debounceToDate = useDebounce(toDate, 500);
+    const debounceFromDate = useDebounce(fromDate, 500);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -83,6 +83,8 @@ const OfflinePayment = () => {
     }
 
     const fetchData = async (page) => {
+        if (fromDate && !toDate) return;
+        if (!fromDate && toDate) return;
         setLoading(true);
         try {
             let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=offline`;

@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import CloseSmall from '@/components/icons/closeSmall';
 import DeleteRed from '@/components/icons/deleteRed';
+import { toast } from 'react-toastify';
+import LoadingFormII from '@/components/mainmenu/loadingFormII';
+import api from '@/utils/api';
+import usePaymentFilterStore from '@/store/enterpriseStore/usePaymentFilterStore';
 
-const AddFee = ({ setInclude }) => {
+const AddFee = ({ setInclude, totalRentCollected }) => {
     const [fees, setFees] = useState([
-        { name: 'Management fee', amount: 700000, percent: 10 },
+        { name: '', amount: null, percent: null },
     ]);
+    console.log(fees)
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { fee, setFee } = usePaymentFilterStore();
+    console.log(fee);
 
     const addFee = () => {
         setFees([...fees, { name: '', amount: '', percent: '' }]);
@@ -19,13 +27,104 @@ const AddFee = ({ setInclude }) => {
 
     const handleFeeChange = (index, field, value) => {
         const updatedFees = [...fees];
-        updatedFees[index][field] = value;
+
+        // For name field, just update it directly
+        if (field === 'name') {
+            updatedFees[index][field] = value;
+            setFees(updatedFees);
+            return;
+        }
+
+        // If the value is empty, clear both amount and percent fields
+        if (value === '') {
+            updatedFees[index][field] = '';
+            if (field === 'amount') updatedFees[index]['percent'] = '';
+            if (field === 'percent') updatedFees[index]['amount'] = '';
+            setFees(updatedFees);
+            return;
+        }
+
+        // Parse the value as a number
+        const numericValue = parseFloat(value);
+        if (isNaN(numericValue)) return;
+
+        // Update the changed field
+        updatedFees[index][field] = numericValue;
+
+        // Calculate the other field based on which one was changed
+        if (field === 'amount') {
+            // Calculate percentage based on amount
+            updatedFees[index]['percent'] = parseFloat(((numericValue / totalRentCollected) * 100).toFixed(2));
+        } else if (field === 'percent') {
+            // Calculate amount based on percentage
+            updatedFees[index]['amount'] = parseFloat(((numericValue / 100) * totalRentCollected).toFixed(2));
+        }
+
         setFees(updatedFees);
     };
 
     const calculateTotalAfterFees = () => {
         const totalAmount = fees.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
-        return 7000000 - totalAmount;
+        return totalRentCollected - totalAmount;
+    };
+
+    const calculateTotalFees = () => {
+        return fees.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
+    };
+
+    const prepareDataForApi = () => {
+        const totalAfterFees = calculateTotalAfterFees();
+        const totalFeeList = calculateTotalFees();
+
+        const formattedFees = fees.map(fee => ({
+            name: fee.name,
+            amountN: Number(fee.amount) || 0,
+            amountPct: Number(fee.percent) || 0
+        }));
+
+        return {
+            totalRentCollected,
+            totalAfterFees,
+            totalFeeList,
+            fees: formattedFees
+        };
+    };
+
+    const handleSubmit = async () => {
+        setIsSubmitting(true);
+        try {
+            const dataToSend = prepareDataForApi();
+
+            // Validate data before sending
+            if (dataToSend.fees.some(fee => !fee.name)) {
+                alert('Please fill in all fee names');
+                return;
+            }
+
+            const response = await api.post('/rentPayment/enterprise/fee/create', dataToSend);
+
+            if (response.status === 200 || response.status === 201) {
+                // Handle success
+                toast.success('Fees submitted successfully!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                setInclude('withoutFee');
+                setFee(response.data);
+            } else {
+                // Handle error
+                console.error('Error submitting fees:', response.data);
+            }
+        } catch (error) {
+            console.error('API Error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -46,7 +145,7 @@ const AddFee = ({ setInclude }) => {
                     <div className='flex gap-4 items-center'>
                         <label className='w-[40%]'>Total Rent Collected</label>
                         <input
-                            value="₦7,000,000"
+                            value={`₦${totalRentCollected.toLocaleString()}`}
                             readOnly
                             className="w-[60%] bg-GrayHomz6 px-4 py-2 rounded text-sm"
                         />
@@ -101,7 +200,7 @@ const AddFee = ({ setInclude }) => {
                                     <DeleteRed />    Remove fee
                                 </button>
                             )}<span className='text-error'>
-</span>                        </div>
+                            </span>                        </div>
                     </div>
                 ))}
 
@@ -116,14 +215,14 @@ const AddFee = ({ setInclude }) => {
                     <div className='flex gap-4 items-center'>
                         <label className='w-[40%]'>Total Fees</label>
                         <input
-                            value={calculateTotalAfterFees()}
+                            value={`₦${calculateTotalFees().toLocaleString()}`}
                             readOnly
                             className="w-[60%] bg-GrayHomz6 px-4 py-2 rounded text-sm"
                         />
                     </div>
                 </div>
 
-                <div className="mt-6 flex justify-between gap-4">
+                <div className={`mt-6 flex justify-between gap-4 ${isSubmitting && "pointer-events-none"}`}>
                     <button
                         onClick={() => setInclude('')}
                         className="border border-BlueHomz text-BlueHomz px-4 py-2 rounded w-[40%]"
@@ -131,9 +230,9 @@ const AddFee = ({ setInclude }) => {
                         Back
                     </button>
                     <button
-                        onClick={() => setInclude('withoutFee')}
-                        className="bg-BlueHomz text-white px-4 py-2 rounded w-[60%]">
-                        Generate Statement
+                        onClick={handleSubmit}
+                        className={`bg-BlueHomz text-white px-4 py-2 rounded w-[60%] ${isSubmitting ? 'w-full flex justify-center' : ''}`}>
+                        {isSubmitting ? <LoadingFormII /> : 'Generate Statement'}
                     </button>
                 </div>
             </div>
