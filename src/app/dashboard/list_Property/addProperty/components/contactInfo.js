@@ -16,7 +16,7 @@ const ContactInfo = ({
   const [error2, setError2] = useState(null);
   const [isFocus, setFocus] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  
+
   const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
 
   const onSubmit = () => {
@@ -70,7 +70,9 @@ const ContactInfo = ({
               </div>
             )}
             <div>
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">
+                Email <span className="text-gray-500">(Optional)</span>
+              </label>
               <br />
               <input
                 value={email}
@@ -80,7 +82,10 @@ const ContactInfo = ({
               />
             </div>
             <div>
-              <label htmlFor="whatsapp"> WhatsApp</label>
+              <label htmlFor="whatsapp">
+                {" "}
+                WhatsApp <span className="text-gray-500">(Optional)</span>
+              </label>
               <br />
               <input
                 placeholder="Enter WhatsApp Number"

@@ -4,11 +4,9 @@ import React from "react";
 import Header from "./components/header";
 import HeaderMobile from "./components/mobile_header";
 import SideNav from "./components/sideNav";
-import WithAuth from '@/components/auth/withAuth';
-
+import WithAuth from "@/components/auth/withAuth";
 
 const RootLayout = ({ children }) => {
-
   return (
     <div className="gap-3 md:gap-0 dashboard_main z-30">
       <SideNav />
@@ -23,7 +21,6 @@ const RootLayout = ({ children }) => {
       </main>
     </div>
   );
-}
-
+};
 
 export default WithAuth(RootLayout);

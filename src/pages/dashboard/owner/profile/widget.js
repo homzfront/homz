@@ -5,6 +5,7 @@ import { useState } from "react";
 import ProfilePicture from "./profilePicture/profilePicture.js";
 import AccountInfo from "./accountInfo/accountInfo.js";
 import { useSearchParams } from "next/navigation";
+import useProfileStore from "@/store/profile.js";
 
 
 const Widget = ({ data }) => {
@@ -14,6 +15,7 @@ const Widget = ({ data }) => {
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(tab === 'acctInfo');
   const [activeFour, setActiveFour] = useState(false);
+  const { profile } = useProfileStore.getState();
 
   const handlePageChange = () => {
     setActive(false);
@@ -74,7 +76,7 @@ const Widget = ({ data }) => {
               <p className="text-[14px] font-500">Account Information</p>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-2 justify-center">
+          <div className={`${profile?.user?.google && "hidden"} flex flex-col items-center gap-2 justify-center`}>
             <div
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeFour ? "bg-BlueHomz text-white" : "text-BlackHomz "
                 }`}

@@ -102,7 +102,7 @@ const OwnersCard = ({ data }) => {
             Website
           </p>
           <p
-            className="text-[#006AFF] font-[400] sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] text-left w-[180px] cursor-pointer"
+            className="text-[#006AFF] font-[400] sm:text-[13px] leading-[16.5px] text-[12px] sm:leading-[19.5px] text-left w-[180px] max-w-[180px] cursor-pointer break-words"
             onClick={() => viewLinks(data?.websiteUrl)}
           >
             {data?.websiteUrl}

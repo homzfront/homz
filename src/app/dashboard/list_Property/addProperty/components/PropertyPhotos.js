@@ -7,7 +7,6 @@ import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 import displayHousePictures from "@/utils/displayHousePictures";
 import { validateUrl } from "@/utils/validateUrl";
 
-
 const PropertyPhoto = ({
   BackToRentalsInfo,
   handlePagePropertyPhoto,
@@ -45,7 +44,7 @@ const PropertyPhoto = ({
     setCoverPicture(null);
     setFileUpload(false);
   };
-   
+
   const submitData = () => {
     const validHousesFiles = housesFiles.filter((file) => file !== null);
     setVideoLinksData(videoLinks);
@@ -53,7 +52,7 @@ const PropertyPhoto = ({
     setUploadedCoverPhoto(coverPhoto);
     handlePagePropertyPhoto();
   };
-  
+
   const fileUploads = useRef([]);
 
   const uploadCoverPhoto = (e) => {
@@ -107,7 +106,9 @@ const PropertyPhoto = ({
   return (
     <div className=" w-full mt-6">
       <div className="flex flex-col gap-2 md:w-full w-[100%] fields">
-        <h1 className="text-[23px] font-[700] text-BlueHomz">Media</h1>
+        <h1 className="text-[23px] font-[700] text-BlueHomz">
+          Media <span className="text-[20px]">(Optional)</span>
+        </h1>
 
         <p className="text-[18px] flex sm:flex-row  sm:items-center items-start flex-col gap-1 font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
           <span>Add Photos</span>

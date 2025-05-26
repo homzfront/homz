@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import PropertyCard from "./components/propertyCard";
+import PropertyCard from "../../components/propertyCard";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import Dropdown from "./components/dropDownFilter";
+import Dropdown from "../../components/dropDownFilter";
 // import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import BusinessAlert from "@/components/icons/businessAlert";
 import useClickOutside from "@/utils/clickOutside";
@@ -168,12 +168,10 @@ const ListedProperties = ({
   const closeSaveToDraftModal = () => {
     setSuccessModalIsOpen(false);
     cancelSelectedOption();
-    
   };
 
   const openMobileModal = () => {
     setMobileModalIsOpen(true);
-  
   };
   const closeMobileModal = () => {
     setMobileModalIsOpen(false);
@@ -240,7 +238,7 @@ const ListedProperties = ({
     return filterParams;
   };
   const refetchData = (propertyStatus) => {
-    const filterParams = filterQueryParams(propertyStatus);
+    // const filterParams = filterQueryParams(propertyStatus);
     refreshData(propertyStatus);
   };
 
@@ -395,6 +393,8 @@ const ListedProperties = ({
         setOpenPlanModal={setOpenPlanModal}
         setPromotePropertry={setPromotePropertry}
         setErrorModal={setErrorModal}
+        metric={false}
+        partOfTheDashboard="allListings"
       />
       <div className="mt-16">
         <Button

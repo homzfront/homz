@@ -17,7 +17,7 @@ import LoadingProlonged from "@/components/general/loadingProlonged";
 import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 import Image from "next/image";
-import { signIn, useSession, signOut  } from "next-auth/react"
+import { signIn, useSession, signOut } from "next-auth/react"
 
 const Login = () => {
   const { data: session, status } = useSession();
@@ -31,7 +31,7 @@ const Login = () => {
   const router = useRouter();
   const { tab } = useOpenDueDate();
 
-  console.log("Session", session);
+  // console.log("Session", session);
   useBodyScroll([loading])
 
   const handleGoogleSignIn = () => {
@@ -165,11 +165,11 @@ const Login = () => {
   }
 
 
-  console.log("Session data:", session);
-  console.log("Session status:", status);
+  // console.log("Session data:", session);
+  // console.log("Session status:", status);
   const fromGoogle = localStorage.getItem("fromGoogle") === "true";
 
-  console.log("fromGoogle state:", fromGoogle);
+  // console.log("fromGoogle state:", fromGoogle);
   useEffect(() => {
     const verifySession = async () => {
       if (status === "authenticated" && session && fromGoogle === true) {
@@ -188,11 +188,11 @@ const Login = () => {
             expires: session.expires
           };
 
-          console.log("Verification payload:", verificationPayload);
+          // console.log("Verification payload:", verificationPayload);
 
           // 1. First verify with Google token
           const verificationResponse = await api.post("/auth/google/verification", verificationPayload);
-          console.log("Verification response:", verificationResponse);
+          // console.log("Verification response:", verificationResponse);
 
           if (verificationResponse?.data?.data?.isVerified) {
             // Store JWT token from verification response
@@ -201,7 +201,7 @@ const Login = () => {
 
             // 2. Then fetch user profile
             const profileResponse = await api.get("/user/profile");
-            console.log("Profile response:", profileResponse);
+            // console.log("Profile response:", profileResponse);
 
             if (profileResponse.data?.user) {
               const profileData = profileResponse.data;
@@ -219,21 +219,21 @@ const Login = () => {
             }
           }
         } catch (error) {
-          console.log(error?.response?.data?.message);
+          // console.log(error?.response?.data?.message);
 
           const errors = error?.response?.data?.error?.errors;
           const message = error?.response?.data?.message;
 
           if (errors) {
-            console.log(errors);
+            // console.log(errors);
             // Show each error as a toast (or combine them into one string)
             const combinedMessage = Object.values(errors).join(", ");
             toast.error(combinedMessage);
           } else if (message) {
-            console.log(message);
+            // console.log(message);
             toast.error(message);
             if (message.toLowerCase().includes("This email is already registered")) {
-            signOut({ callbackUrl: "/login" });
+              signOut({ callbackUrl: "/login" });
             }
           } else {
             console.log("An unexpected error occurred:", error);
@@ -345,19 +345,17 @@ const Login = () => {
                   {loading && !fromGoogle ? <LoadingFormII /> : "Log In"}
                 </button>
               </form>
-                <div className="mt-[-10px]">
-                  <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
+              <div className="mt-[-10px]">
+                {/* <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
                     <Image
                       className=""
                       src={"/Social icon.png"}
                       alt="google"
                       height={"20"}
                       width={"20"}
-                    />
+                      />
                     {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : "Login In with google"}
-                  </button>
-                </div>
-                {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
+                    </button> */}
                 <p className="text-center font-[400] text-[14px]">
                   Don’t have an account?
                   <Link
@@ -367,6 +365,8 @@ const Login = () => {
                     Create Account
                   </Link>
                 </p>
+              </div>
+              {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
             </div>
           </div>
         </div>

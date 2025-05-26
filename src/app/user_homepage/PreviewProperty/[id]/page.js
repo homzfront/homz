@@ -4,19 +4,18 @@ import ViewProperty from "../ViewProperty";
 import LoadingII from "@/components/mainmenu/loadingII";
 
 const PreviewProperty = ({ params }) => {
-  const { id } = params;
-  
+  const { slug } = params;
   return (
     <div className="w-full max-w-[1440px] m-auto">
       <Suspense fallback={<LoadingII />}>
-        <PreviewPropertyContent id={id} />
+        <PreviewPropertyContent slug={slug} />
       </Suspense>
     </div>
   );
 };
 
-const PreviewPropertyContent = ({ id }) => {
-  return <ViewProperty PropertyID={id || null} />;
+const PreviewPropertyContent = ({ slug }) => {
+  return <ViewProperty PropertySlug={slug || null} />;
 };
 
 export default PreviewProperty;

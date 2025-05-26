@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Skeleton from "react-loading-skeleton";
 import trucateWord from "@/utils/trucateWord";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/utils/api";
 
 const PropertyCard = ({
   Property,
@@ -28,6 +30,15 @@ const PropertyCard = ({
 }) => {
   // console.log(Property);
   const currentProperties = Property;
+
+  // endpoint for the views, clicks, and whatsApp messages
+  const { mutate: updateMetrics } = useMutation({
+    mutationFn: async ({ type, id }) => {
+      return await api.post(`/properties/metric/${id}`, {
+        type,
+      });
+    },
+  });
   return (
     <div className="w-full">
       {loadingII ? (
@@ -86,6 +97,7 @@ const PropertyCard = ({
                 width={"md:w-[345px]"}
                 reset={reset}
                 setLoadingII={setLoadingII}
+                updateMetrics={updateMetrics}
               />
             </>
           ) : (
@@ -117,6 +129,12 @@ const PropertyCard = ({
                                       <Link
                                         className="cursor-pointer "
                                         href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                        onClick={() =>
+                                          updateMetrics({
+                                            type: "view",
+                                            id: property?._id,
+                                          })
+                                        }
                                       >
                                         <Image
                                           src={img?.url}
@@ -133,6 +151,12 @@ const PropertyCard = ({
                                 <Link
                                   className="cursor-pointer "
                                   href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                  onClick={() =>
+                                    updateMetrics({
+                                      type: "view",
+                                      id: property?._id,
+                                    })
+                                  }
                                 >
                                   <Image
                                     src="/static/images/comingSoonImage.svg"
@@ -171,35 +195,34 @@ const PropertyCard = ({
                           )}
                           {/* )} */}
                         </div>
-                        <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
+                        <Link
+                          className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]"
+                          href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                          onClick={() =>
+                            updateMetrics({ type: "view", id: property?._id })
+                          }
+                        >
                           <div className="flex justify-between">
-                            <Link
-                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                              className="text-[#006AFF] text-[19.66px] sm:text-[22px] font-[700] leading-[28.98px] text-center"
-                            >
+                            <p className="text-[#006AFF] text-[19.66px] sm:text-[22px] font-[700] leading-[28.98px] text-center">
                               {trucateWord(
                                 capitalizeFirstLetter(
                                   property?.name || property?.title
                                 ),
                                 15
                               )}
-                            </Link>
-                            <Link
-                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                            </p>
+                            <p
                               className={` w-auto h-[25px] flex items-center justify-center text-[11px] font-[400] px-[12px] rounded-[4px] text-white bg-[#006AFF] ${
                                 property?.listingType ? "" : "hidden"
                               }`}
                             >
                               {capitalizeFirstLetter(property?.listingType)}
-                            </Link>
+                            </p>
                           </div>
 
-                          <Link
-                            href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                            className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]"
-                          >
+                          <p className="text-[12.57px] md:text-[14px] font-[400] text-[#006AFF]">
                             {capitalizeFirstLetter(property?.propertyType)}
-                          </Link>
+                          </p>
                           <p
                             className={`font-[700] leading-[24px]  font-['Plus Jakarta Sans'] text-[11px] md:text-[16px] flex items-center ${
                               property?.price ? "" : "hidden"
@@ -282,10 +305,7 @@ const PropertyCard = ({
                                 </span>
                               </p>
                             </div>
-                            <Link
-                              className="cursor-pointer "
-                              href={`/user_homepage/PreviewProperty/${property?.slug}`}
-                            >
+                            <p className="cursor-pointer ">
                               <Image
                                 src="/static/images/arrow-in-circle.svg"
                                 alt=""
@@ -293,9 +313,9 @@ const PropertyCard = ({
                                 height={40}
                                 className="h-[35.92px] w-[35.92px] md:w-[40px] md:h-[40px]"
                               />
-                            </Link>
+                            </p>
                           </div>
-                        </div>
+                        </Link>
                       </div>
                     ))}
                 </div>

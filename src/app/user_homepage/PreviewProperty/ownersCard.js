@@ -6,7 +6,7 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import Link from "next/link";
 import whatsApp from "@/utils/whatsAppMessenger";
 
-const OwnersCard = ({ propertyData }) => {
+const OwnersCard = ({ propertyData, updateMetrics }) => {
   // const [copiedState, setCopiedState] = useState({
   //   phoneNumber: false,
   //   email: false,
@@ -63,6 +63,7 @@ const OwnersCard = ({ propertyData }) => {
           <Link
             href={`/marketer-business-page/${propertyData?.user?._id}?user=users`}
             className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
+            onClick={() => updateMetrics("call")}
           >
             <span>View more properties from this marketer</span>
             <Image
@@ -80,60 +81,67 @@ const OwnersCard = ({ propertyData }) => {
         properties are premium...
       </p>
 
-      <div className="flex gap-[12px] flex-col">
-        <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
-          <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
-            {propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
-              ? showNumber
+      {propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo && (
+        <div className="flex gap-[12px] flex-col">
+          <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
+            <p className="text-[#006AFF] text-[13px] font-[400] leading-[19.5px]">
+              {showNumber
                 ? propertyData?.lisitingPropertyId?.businessInfo
                     ?.businessPhoneNo
                 : formatNumber(
                     propertyData?.lisitingPropertyId?.businessInfo
                       ?.businessPhoneNo
-                  )
-              : "---"}
-          </p>
-          {propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo && (
+                  )}
+            </p>
+            {propertyData?.lisitingPropertyId?.businessInfo
+              ?.businessPhoneNo && (
+              <button
+                className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+                onClick={() => {
+                  setShowNumber(!showNumber);
+                  if (!showNumber) updateMetrics("call");
+                }}
+              >
+                {showNumber ? "Hide" : "Show"}
+              </button>
+            )}
+          </div>
+
+          <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
+            <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
+              <Image
+                src="/static/images/whatsapp.svg"
+                alt=""
+                width={16}
+                height={16}
+                className="h-[16px] w-[16px]"
+              />
+              <span>Whatsapp</span>
+            </p>
+
             <button
-              className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-              onClick={() => setShowNumber(!showNumber)}
+              onClick={() => {
+                whatsApp(
+                  propertyData?.lisitingPropertyId?.businessInfo
+                    ?.businessPhoneNo,
+                  propertyData?.slug
+                );
+                updateMetrics("message");
+              }}
+              className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+              title={
+                propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
+              }
             >
-              {showNumber ? "Hide" : "Show"}
+              Send Message
             </button>
-          )}
-        </div>
-        <div className="bg-[#F6F6F6] h-[44px] w-[100%] flex items-center justify-between p-[12px] rounded-[8px]">
-          <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">
-            <Image
-              src="/static/images/whatsapp.svg"
-              alt=""
-              width={16}
-              height={16}
-              className="h-[16px] w-[16px]"
-            />
-            <span>Whatsapp</span>
-          </p>
+          </div>
 
-          <button
-            onClick={() =>
-              whatsApp(
-                propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo,
-                propertyData?.slug
-              )
-            }
-            className="text-white bg-[#039855] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
-            title={
-              propertyData?.lisitingPropertyId?.businessInfo?.businessPhoneNo
-            }
-          >
-            Send Message
-          </button>
-        </div>
-
-        {/* {propertyData?.contacts?.whatsapp
+          {/* {propertyData?.contacts?.whatsapp
                           ? `${propertyData?.contacts?.whatsapp}`
                           : ""} */}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

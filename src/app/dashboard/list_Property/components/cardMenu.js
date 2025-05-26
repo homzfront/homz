@@ -20,6 +20,7 @@ function CardMenus({
   promoted,
   setPromotePropertry,
   setErrorModal,
+  metric,
 }) {
   const router = useRouter();
   const [isLoading, setLoader] = useState(false);
@@ -88,6 +89,7 @@ function CardMenus({
       <Link
         href={`/dashboard/list_Property/edit_property/${data?._id}`}
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
+        onClick={() => setIsMenuOpen(false)}
       >
         <Image
           src="/static/images/new_edit-2.svg"
@@ -98,10 +100,25 @@ function CardMenus({
         />
         <span>Edit details</span>
       </Link>
+      <Link
+        href={`/dashboard/list_Property/PreviewProperty/${data?._id}`}
+        className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
+        onClick={() => setIsMenuOpen(false)}
+      >
+        <Image
+          src="/static/images/eye.svg"
+          alt=""
+          width={16}
+          height={16}
+          className="h-[13px] w-[13px] md:w-[16px] md:h-[16px] cursor-pointer"
+        />
+        <span>See Public View</span>
+      </Link>
       <button
         className=" flex gap-3 items-center text-[14px] font-[500] leading-[21px] text-[#4E4E4E] p-[8px] hover:bg-gray-100 w-full"
         onClick={(e) => {
           handleDeleteModal(data?._id);
+          setIsMenuOpen(false);
         }}
       >
         <Image
@@ -117,11 +134,12 @@ function CardMenus({
         className={` flex gap-3 items-center text-[14px] font-[500] leading-[21px] ${
           publish ? "text-[#D92D20]" : "text-[#006AFF]"
         } p-[8px] hover:bg-gray-100 w-full`}
-        onClick={() =>
+        onClick={() => {
           publish
             ? handleUnpublished(data?._id, promoted)
-            : handlePublished(data?._id)
-        }
+            : handlePublished(data?._id);
+          setIsMenuOpen(false);
+        }}
       >
         <Image
           src={`/static/images/${publish ? "stop-circle.svg" : "send-2.svg"}`}
@@ -137,7 +155,10 @@ function CardMenus({
           {promoted ? (
             <button
               className="w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center justify-start rounded-[8px] text-[#DC6803] bg-[#FCF3EB] flex-shrink-0 "
-              onClick={() => setStopPromotion(true)}
+              onClick={() => {
+                setStopPromotion(true);
+                setIsMenuOpen(false);
+              }}
             >
               <Image
                 src="/static/images/orangePromotoStop.svg"
@@ -153,7 +174,10 @@ function CardMenus({
               className={`w-full flex gap-[10px] h-[37px] md:px-[8px] text-[14px] items-center ${
                 isLoading ? "justify-center" : "justify-start"
               }  rounded-[8px] text-white bg-[#DC6803] flex-shrink-0 `}
-              onClick={handlePromoteProperty}
+              onClick={() => {
+                handlePromoteProperty();
+                setIsMenuOpen(false);
+              }}
             >
               {!isLoading ? (
                 <>

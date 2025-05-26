@@ -2,7 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import ConfirmModalI from "../components/confirmModalI";
+// import ConfirmModalI from "../components/confirmModalI";
+import Dashboard from "@/components/icons/dashboard/dashboard";
 import useProfileStore from "@/store/profile";
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
@@ -15,6 +16,18 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 const Data = [
   {
     id: 1,
+    image: <Dashboard height="16" width="16" />,
+    image2: (
+      <Dashboard className="text-white fill-white" height="16" width="16" />
+    ),
+    link: "/dashboard/list_Property",
+    name: "Dashboard",
+
+    coming: null,
+    active: false,
+  },
+  {
+    id: 2,
     image: <PropertyListing height="16" width="16" />,
     image2: (
       <PropertyListing
@@ -23,7 +36,7 @@ const Data = [
         width="16"
       />
     ),
-    link: "/dashboard/list_Property",
+    link: "/dashboard/list_Property/properties",
     name: "Property Listing",
     pathII: "/dashboard/list_Property/addProperty",
     pathIII: "/dashboard/list_Property/PreviewProperty",
@@ -32,7 +45,7 @@ const Data = [
     active: false,
   },
   {
-    id: 2,
+    id: 3,
     image: <Profile height="16" width="16" />,
     image2: (
       <Profile className="text-white fill-white" height="16" width="16" />

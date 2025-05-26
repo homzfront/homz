@@ -9,11 +9,12 @@ import PendingCard from './personalInfo/components/pendingCard';
 import RejectedCard from './personalInfo/components/rejectedCard';
 import useTenantActiveKYC from '@/store/tenantKYC/useTenantActiveKYC';
 import SuccessCard from './personalInfo/components/successCard';
+import useProfileStore from '@/store/profile';
 
 const WidgetMobile = ({ data }) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab");
-
+    const { profile } = useProfileStore.getState();
     const [active, setActive] = useState(tab ? tab !== 'personal' : false);
     const [activeTwo, setActiveTwo] = useState(tab === "personalInfo");
     const [activeThree, setActiveThree] = useState(false);
@@ -104,7 +105,7 @@ const WidgetMobile = ({ data }) => {
                     </button> */}
                     <button
                         onClick={handlePageChangeFive}
-                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFive
+                        className={`${profile?.user?.google && "hidden"} py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFive
                             ? "inline-block shadow-md bg-[#006AFF] text-white "
                             : "bg-[#EEF5FF] text-[#006AFF]"
                             }`}
@@ -118,7 +119,7 @@ const WidgetMobile = ({ data }) => {
                     <RentInformation data={data} />
                 </div>
                 <div className={`h-auto ${activeTwo ? "inline" : "hidden"}`}>
-                    {data?.verification?.status === 'approved' ? <SuccessCard data={data}/> : data?.verification?.status === 'pending' ? <PendingCard /> : data?.verification?.status === 'rejected' ? <RejectedCard text={data?.verification?.rejectionReason} /> : null}
+                    {data?.verification?.status === 'approved' ? <SuccessCard data={data} /> : data?.verification?.status === 'pending' ? <PendingCard /> : data?.verification?.status === 'rejected' ? <RejectedCard text={data?.verification?.rejectionReason} /> : null}
                     <PersonalInfo data={data} />
                 </div>
                 <div className={`${activeThree ? "inline" : "hidden"}`}>

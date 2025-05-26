@@ -11,10 +11,11 @@ import PropertyCard from "../components/propertyCard";
 import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from 'react';
+import { Suspense } from "react";
 import LoadingII from "@/components/mainmenu/loadingII";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import Reset from "@/components/icons/reset";
+import Head from "next/head";
 
 const UserHomePage = () => {
   return (
@@ -28,7 +29,9 @@ const UserHomePage = () => {
 
 const PreviewPropertyContent = () => {
   const urlParams = useSearchParams();
-  const defaultPage = urlParams.get("page") ? parseInt(urlParams.get("page")) : 1;
+  const defaultPage = urlParams.get("page")
+    ? parseInt(urlParams.get("page"))
+    : 1;
   const [currentPage, setCurrentPage] = useState(defaultPage);
   const [mobileModalIsOpen, setMobileModalIsOpen] = useState(false);
   const [property, setProperty] = useState(null);
@@ -50,15 +53,25 @@ const PreviewPropertyContent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get(
-        `/public/properties/others`)
-      const propertyData = response?.data?.data || null
+      const response = await api.get(`/public/properties/others`);
+      const propertyData = response?.data?.data || null;
       setProperties(propertyData);
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
 
+  useEffect(() => {
+    // Only runs on this page
+    if (typeof window !== 'undefined' && window.gtag) {
+      gtag('config', process.env.NEXT_PUBLIC_GA_ID, {
+        page_path: window.location.pathname,
+        custom_dimension1: 'Listed Properties Page', // Example custom dimension
+        debug_mode: true
+      });
+    }
+  }, []);
 
+console.log(window.gtag)
   const fetchProperties = async () => {
     setLoading(true);
     const query = {};
@@ -69,7 +82,9 @@ const PreviewPropertyContent = () => {
     });
     if (query && urlParams.get("page")) {
       const response = await api.get(
-        `/public/properties?page=${urlParams.get("page")}&${new URLSearchParams(query).toString()}`
+        `/public/properties?page=${urlParams.get("page")}&${new URLSearchParams(
+          query
+        ).toString()}`
       );
       const data = response;
       if (data?.data?.data && data?.data?.message !== "No items found") {
@@ -80,7 +95,7 @@ const PreviewPropertyContent = () => {
         // setCurrentPage(urlParams.get("page"))
         const total = data.data.data.results[0]?.metadata[0]?.total || 0;
         setTotalPages(Math.ceil(total / 9));
-        setTotalData(data.data.data.results[0]?.metadata[0]?.total)
+        setTotalData(data.data.data.results[0]?.metadata[0]?.total);
       } else {
         setProperty(null);
         setTotalPages(0);
@@ -100,7 +115,7 @@ const PreviewPropertyContent = () => {
         setParams(false);
         const total = data.data.data.results[0]?.metadata[0]?.total || 0;
         setTotalPages(Math.ceil(total / 8));
-        setTotalData(data.data.data.results[0]?.metadata[0]?.total)
+        setTotalData(data.data.data.results[0]?.metadata[0]?.total);
       } else {
         setProperty(null);
         setTotalPages(0);
@@ -125,9 +140,9 @@ const PreviewPropertyContent = () => {
         "",
         `?page=${currentPage}&${new URLSearchParams(query).toString()}`
       );
-      fetchProperties()
+      fetchProperties();
     } else {
-      fetchProperties()
+      fetchProperties();
     }
   }, [filters, currentPage, urlParams]);
 
@@ -138,12 +153,12 @@ const PreviewPropertyContent = () => {
   const handleSearchChange = (e) => {
     const { value } = e.target;
     handleFilterChange("search", value);
-    setParams(true)
+    setParams(true);
   };
 
   const handleSearch = (query, label) => {
     handleFilterChange(label, query);
-    setParams(true)
+    setParams(true);
   };
 
   const reset = () => {
@@ -155,13 +170,16 @@ const PreviewPropertyContent = () => {
       maxPrice: null,
       numberOfBathrooms: null,
       state: null,
-    })
+    });
     setCurrentPage(1);
     setParams(true);
   };
 
   const firstThreePages = Array.from({ length: 3 }, (_, i) => i + 1);
-  const lastThreePages = Array.from({ length: totalPages - 1 }, (_, i) => totalPages - i)
+  const lastThreePages = Array.from(
+    { length: totalPages - 1 },
+    (_, i) => totalPages - i
+  )
     .filter((page) => page > 1 && page < totalPages)
     .reverse();
 
@@ -199,215 +217,34 @@ const PreviewPropertyContent = () => {
   };
 
   return (
-    <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
-      <div className="hidden sm:flex justify-between items-center w-full px-[76px]">
-        <div className="relative flex items-center w-[20%] h-[44px] py-[12px]  mr-1">
-          <input
-            type="text"
-            id="searchState_Area"
-            name="searchState_Area"
-            className="w-full h-[45px] border border-GrayHomz pl-2 rounded-[6px] placeholder:text-GrayHomz outline-none"
-            placeholder="Search by state or area"
-            value={filters.search}
-            onChange={handleSearchChange}
-          />
-          <Image
-            src="/static/images/search-normal.svg"
-            alt=""
-            width={16}
-            height={16}
-            className="cursor-pointer right-[15px] absolute"
-            onClick={() => {
-              handleSearchChange
-            }}
-          />
-        </div>
-        <div className="flex gap-1 w-[80%]">
-          <div>
-            <Listing
-              getState={handleSearch}
-              className={"w-[150px]"}
-              selectOption={`${filters?.listingType === null
-                ? "Listing Type"
-                : capitalizeFirstLetter(filters?.listingType)
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
+    <>
+      <Head>
+        <title>Listed Properties Page</title>
+      </Head>
+      <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
+        <div className="hidden sm:flex justify-between items-center w-full px-[76px]">
+          <div className="relative flex items-center w-[20%] h-[44px] py-[12px]  mr-1">
+            <input
+              type="text"
+              id="searchState_Area"
+              name="searchState_Area"
+              className="w-full h-[45px] border border-GrayHomz pl-2 rounded-[6px] placeholder:text-GrayHomz outline-none"
+              placeholder="Search by state or area"
+              value={filters.search}
+              onChange={handleSearchChange}
             />
-          </div>
-          <div>
-            <PropertyType
-              getPropertyType={handleSearch}
-              className={"w-[180px]"}
-              selectOption={`${filters?.propertyType === null
-                ? "Property Type"
-                : capitalizeFirstLetter(filters?.propertyType)
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
-            />
-          </div>
-          <div>
-            <Bedroom
-              getBedrooms={handleSearch}
-              className={"w-[180px]"}
-              selectOption={`${filters?.numberOfBathrooms === null
-                ? "No of bedrooms"
-                : `${filters?.numberOfBathrooms} Bedrooms`
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
-            />
-          </div>
-          <div>
-            <MinPrice
-              getPrice={handleSearch}
-              className={"w-[160px]"}
-              selectOption={`${filters?.minPrice === null
-                ? "Min Price"
-                : addCommasToNumberWithoutN(filters?.minPrice)
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
-            />
-          </div>
-          <div>
-            <MaxPrice
-              getPrice={handleSearch}
-              className={"w-[160px]"}
-              selectOption={`${filters?.maxPrice === null
-                ? "Max Price"
-                : addCommasToNumberWithoutN(filters?.maxPrice)
-                }`}
-              classNameII={"text-GrayHomz border-GrayHomz"}
-              classNameIII={"text-GrayHomz"}
-              classNameIV={"text-GrayHomz"}
-            />
-          </div>
-          <button
-            className="border border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded cursor-pointer h-[44px]"
-            onClick={reset}
-          >
-            <span>
-              <Image
-                src={"/static/dashboard/enterprisemanager/dashboard/repeat.png"}
-                alt=""
-                height={17}
-                width={16}
-              />
-            </span>
-            <span className="ml-1"> Reset</span>
-          </button>
-        </div>
-      </div>
-      <div className="flex justify-between sm:hidden w-full px-6 pl-">
-        <div className="searchPane relative w-[86%] rounded-[4px]">
-          <input
-            type="text"
-            className="border h-[46px] pl-8 rounded-[4px] w-full"
-            id="search"
-            placeholder="Search by state or area"
-            value={filters.search}
-            onChange={handleSearchChange}
-          />
-          <Image
-            src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
-            alt=""
-            className="absolute top-[14.8px] left-3"
-            height={16}
-            width={16}
-            onClick={() => {
-              handleSearchChange
-            }}
-          />
-        </div>
-        <div className=" rounded-[4px] p-[10px] border hover:border-blue-600">
-          <button onClick={openMobileModal}>
             <Image
-              src="/static/images/filter.svg"
+              src="/static/images/search-normal.svg"
               alt=""
               width={16}
               height={16}
+              className="cursor-pointer right-[15px] absolute"
+              onClick={() => {
+                handleSearchChange;
+              }}
             />
-          </button>
-        </div>
-      </div>
-      <div className="w-[337px] md:mt-3 md:w-full ">
-        <PropertyCard
-          Property={property}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          handleNext={handleNextPage}
-          handlePageClick={handlePageClick}
-          handlePrev={handlePrevPage}
-          totalData={totalData}
-          loading={loading}
-          firstThreePages={firstThreePages}
-          lastThreePages={lastThreePages}
-          loadingII={loadingII}
-          reset={reset}
-          setLoadingII={setLoadingII}
-          properties={properties}
-        />
-      </div>
-      <CustomizedModal
-        isOpen={mobileModalIsOpen}
-        onRequestClose={closeMobileModal}
-      >
-        <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
-          <div className=" flex items-center justify-between">
-            <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
-              Filter by
-            </p>
-
-            <div>
-              <button onClick={closeMobileModal} className="cursor-pointer">
-                <Image
-                  src="/static/images/close-square.svg"
-                  height={24}
-                  width={24}
-                  alt=""
-                />
-              </button>
-            </div>
           </div>
-          <div className="flex justify-between">
-            <div>
-              <PropertyType
-                getPropertyType={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${filters?.propertyType === null
-                  ? "Property Type"
-                  : capitalizeFirstLetter(filters?.propertyType)
-                  }`}
-              />
-            </div>
-            <div>
-              <Bedroom
-                getBedrooms={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${filters?.numberOfBathrooms === null
-                  ? "Number of bedrooms"
-                  : `${filters?.numberOfBathrooms} Bedrooms`
-                  }`}
-              />
-            </div>
-          </div>
-          <div className="flex justify-between">
-            <div className="">
-              <MinPrice
-                getPrice={handleSearch}
-                className={"w-[150px]"}
-                selectOption={`${filters?.minPrice === null
-                  ? "Min Price"
-                  : addCommasToNumberWithoutN(filters?.minPrice)
-                  }`}
-              />
-            </div>
+          <div className="flex gap-1 w-[80%]">
             <div>
               <Listing
                 getState={handleSearch}
@@ -416,39 +253,223 @@ const PreviewPropertyContent = () => {
                   ? "Listing Type"
                   : capitalizeFirstLetter(filters?.listingType)
                   }`}
+                classNameII={"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
               />
             </div>
-          </div>
-          <div className="w-full flex flex-row gap-4">
+            <div>
+              <PropertyType
+                getPropertyType={handleSearch}
+                className={"w-[180px]"}
+                selectOption={`${filters?.propertyType === null
+                  ? "Property Type"
+                  : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
+                classNameII={"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
+              />
+            </div>
+            <div>
+              <Bedroom
+                getBedrooms={handleSearch}
+                className={"w-[180px]"}
+                selectOption={`${filters?.numberOfBathrooms === null
+                  ? "No of bedrooms"
+                  : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
+                classNameII={"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
+              />
+            </div>
+            <div>
+              <MinPrice
+                getPrice={handleSearch}
+                className={"w-[160px]"}
+                selectOption={`${filters?.minPrice === null
+                  ? "Min Price"
+                  : addCommasToNumberWithoutN(filters?.minPrice)
+                  }`}
+                classNameII={"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
+              />
+            </div>
+            <div>
+              <MaxPrice
+                getPrice={handleSearch}
+                className={"w-[160px]"}
+                selectOption={`${filters?.maxPrice === null
+                  ? "Max Price"
+                  : addCommasToNumberWithoutN(filters?.maxPrice)
+                  }`}
+                classNameII={"text-GrayHomz border-GrayHomz"}
+                classNameIII={"text-GrayHomz"}
+                classNameIV={"text-GrayHomz"}
+              />
+            </div>
             <button
-              className="border w-[70%] h-[42px] p-[12px] border-BlueHomz text-white bg-BlueHomz items-center text-[14px] font-[500] flex justify-center gap-2 rounded-[4px] cursor-pointer mt-4"
-              onClick={closeMobileModal}
+              className="border border-BlueHomz items-center w-[73px] text-[14px] font-[500] flex text-BlueHomz px-[7px] p-1 rounded cursor-pointer h-[44px]"
+              onClick={reset}
             >
+              <span>
+                <Image
+                  src={"/static/dashboard/enterprisemanager/dashboard/repeat.png"}
+                  alt=""
+                  height={17}
+                  width={16}
+                />
+              </span>
+              <span className="ml-1"> Reset</span>
+            </button>
+          </div>
+        </div>
+        <div className="flex justify-between sm:hidden w-full px-6 pl-">
+          <div className="searchPane relative w-[86%] rounded-[4px]">
+            <input
+              type="text"
+              className="border h-[46px] pl-8 rounded-[4px] w-full"
+              id="search"
+              placeholder="Search by state or area"
+              value={filters.search}
+              onChange={handleSearchChange}
+            />
+            <Image
+              src={"/static/dashboard/enterprisemanager/header/search-normal.png"}
+              alt=""
+              className="absolute top-[14.8px] left-3"
+              height={16}
+              width={16}
+              onClick={() => {
+                handleSearchChange;
+              }}
+            />
+          </div>
+          <div className=" rounded-[4px] p-[10px] border hover:border-blue-600">
+            <button onClick={openMobileModal}>
               <Image
-                src="/static/images/white-search.svg"
+                src="/static/images/filter.svg"
                 alt=""
                 width={16}
                 height={16}
               />
-              <span className="">
-                Filter
-              </span>
-            </button>
-            <button
-              className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"
-              onClick={reset}
-            >
-              <span>
-                <Reset className="#006AFF" />
-              </span>
-              <span className="text-[14px] leading-[17.64px]  text-[500] text-BlueHomz">
-                Reset
-              </span>
             </button>
           </div>
         </div>
-      </CustomizedModal>
-    </div>
+        <div className="w-[337px] md:mt-3 md:w-full ">
+          <PropertyCard
+            Property={property}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handleNext={handleNextPage}
+            handlePageClick={handlePageClick}
+            handlePrev={handlePrevPage}
+            totalData={totalData}
+            loading={loading}
+            firstThreePages={firstThreePages}
+            lastThreePages={lastThreePages}
+            loadingII={loadingII}
+            reset={reset}
+            setLoadingII={setLoadingII}
+            properties={properties}
+          />
+        </div>
+        <CustomizedModal
+          isOpen={mobileModalIsOpen}
+          onRequestClose={closeMobileModal}
+        >
+          <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
+            <div className=" flex items-center justify-between">
+              <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
+                Filter by
+              </p>
+
+              <div>
+                <button onClick={closeMobileModal} className="cursor-pointer">
+                  <Image
+                    src="/static/images/close-square.svg"
+                    height={24}
+                    width={24}
+                    alt=""
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div>
+                <PropertyType
+                  getPropertyType={handleSearch}
+                  className={"w-[150px]"}
+                  selectOption={`${filters?.propertyType === null
+                    ? "Property Type"
+                    : capitalizeFirstLetter(filters?.propertyType)
+                    }`}
+                />
+              </div>
+              <div>
+                <Bedroom
+                  getBedrooms={handleSearch}
+                  className={"w-[150px]"}
+                  selectOption={`${filters?.numberOfBathrooms === null
+                    ? "Number of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                    }`}
+                />
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="">
+                <MinPrice
+                  getPrice={handleSearch}
+                  className={"w-[150px]"}
+                  selectOption={`${filters?.minPrice === null
+                    ? "Min Price"
+                    : addCommasToNumberWithoutN(filters?.minPrice)
+                    }`}
+                />
+              </div>
+              <div>
+                <Listing
+                  getState={handleSearch}
+                  className={"w-[150px]"}
+                  selectOption={`${filters?.listingType === null
+                    ? "Listing Type"
+                    : capitalizeFirstLetter(filters?.listingType)
+                    }`}
+                />
+              </div>
+            </div>
+            <div className="w-full flex flex-row gap-4">
+              <button
+                className="border w-[70%] h-[42px] p-[12px] border-BlueHomz text-white bg-BlueHomz items-center text-[14px] font-[500] flex justify-center gap-2 rounded-[4px] cursor-pointer mt-4"
+                onClick={closeMobileModal}
+              >
+                <Image
+                  src="/static/images/white-search.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+                <span className="">Filter</span>
+              </button>
+              <button
+                className="border w-[30%] h-[42px] p-[12px] border-BlueHomz bg-white items-center text-[14px] font-[500] flex justify-center gap-1 rounded-[4px] cursor-pointer mt-4"
+                onClick={reset}
+              >
+                <span>
+                  <Reset className="#006AFF" />
+                </span>
+                <span className="text-[14px] leading-[17.64px]  text-[500] text-BlueHomz">
+                  Reset
+                </span>
+              </button>
+            </div>
+          </div>
+        </CustomizedModal>
+      </div>
+    </>
   );
 };
 

@@ -272,7 +272,8 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -289,7 +290,8 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -351,7 +353,8 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                   <div key={i} className="flex flex-row items-center gap-2 text-[14px]">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -368,7 +371,8 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels")  ||
+feature === "Early rent incentives for renters"  ||
                         (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
