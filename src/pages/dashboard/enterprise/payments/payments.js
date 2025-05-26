@@ -33,7 +33,6 @@ const Payment = () => {
     setSelectedProperty,
     setSelectedOption,
     search,
-    search,
     setSearch,
     setPageNo
   } = usePaymentFilterStore();
