@@ -10,10 +10,9 @@ const AddFee = ({ setInclude, totalRentCollected }) => {
     const [fees, setFees] = useState([
         { name: '', amount: null, percent: null },
     ]);
-    console.log(fees)
+
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const { fee, setFee } = usePaymentFilterStore();
-    console.log(fee);
+    const { setFee, fetchFeeList } = usePaymentFilterStore();
 
     const addFee = () => {
         setFees([...fees, { name: '', amount: '', percent: '' }]);
@@ -114,6 +113,7 @@ const AddFee = ({ setInclude, totalRentCollected }) => {
                     draggable: true,
                     progress: undefined,
                 });
+                const resultList = await fetchFeeList()
                 setInclude('withoutFee');
                 setFee(response.data);
             } else {

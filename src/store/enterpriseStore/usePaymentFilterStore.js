@@ -1,3 +1,4 @@
+import api from '@/utils/api';
 import { create } from 'zustand';
 
 // Helper function to format date (assuming formatDateII exists)
@@ -14,7 +15,7 @@ prevMonth.setMonth(today.getMonth() - 1);
 const usePaymentFilterStore = create((set) => ({
   selectedProperty: null,
   isLoading: false,
-  setIsLoading:(data) => set({ isLoading: data }),
+  setIsLoading: (data) => set({ isLoading: data }),
   selectedOption: null,
   search: '',
   activeState: 'one',
@@ -36,6 +37,21 @@ const usePaymentFilterStore = create((set) => ({
   setToDate: (date) => set({ toDate: date }),      // Add setter for toDate
   fee: null,
   setFee: (data) => set({ fee: data }),
+  loadingFee: false,
+  setLoadingFee: (data) => set({ loadingFee: data }),
+  feeData: null,
+
+  fetchFeeList: async () => {
+    set({ loadingFee: true });
+    try {
+      let query = `/rentPayment/enterprise/fee/all`;
+      const response = await api.get(query);
+      set({ feeData: response.data, loadingFee: false });
+    } catch (error) {
+      console.error("Error fetching fee list:", error);
+      set({ loadingFee: false });
+    }
+  }
 }));
 
 export default usePaymentFilterStore;

@@ -21,7 +21,6 @@ import ArrowDown from "@/components/icons/arrowDown";
 import FilterIconBlue from "@/components/icons/filterIconBlue";
 import useClickOutside from '@/utils/clickOutside';
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
-import formatDateII from "@/utils/formatDateII";
 import Reset from '@/components/icons/reset';
 import { formatDateRange } from "@/utils/formatDateRange";
 import Document from "@/components/icons/document";
@@ -31,7 +30,8 @@ import { useDebounce } from "@/utils/deBounce";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import CloseSmall from "@/components/icons/closeSmall";
 import ImportStatement from "@/components/icons/importStatement";
-import AddFee from "../components/addFee";
+import AddFee from '@/pages/dashboard/enterprise/payments/components/addFee';
+import FeeList from "../components/feeList";
 
 
 const Widget = ({
@@ -44,6 +44,7 @@ const Widget = ({
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
+    const [activeFour, setActiveFour] = useState(false);
     const { data, fetchData } = useExportRentPayment();
     const [isOpen, setIsOpen] = React.useState(false);
     const closeFilter = useClickOutside(() => setIsOpen(false));
@@ -113,6 +114,7 @@ const Widget = ({
         setActive(true);
         setActiveTwo(false);
         setActiveThree(false);
+        setActiveFour(false);
         setActiveState('one');
     };
 
@@ -120,6 +122,7 @@ const Widget = ({
         setActiveTwo(true);
         setActive(false);
         setActiveThree(false);
+        setActiveFour(false);
         setActiveState('two');
     };
 
@@ -127,8 +130,17 @@ const Widget = ({
         setActiveTwo(false);
         setActive(false);
         setActiveThree(true);
+        setActiveFour(false);
         setActiveState('three');
     };
+
+    const handlePageChangeFour = () => {
+        setActiveTwo(false);
+        setActiveFour(true);
+        setActive(false);
+        setActiveThree(false);
+        setActiveState('four');
+    }
 
     const handlePrint = useReactToPrint({
         content: () => printRefAll.current,
@@ -389,6 +401,14 @@ const Widget = ({
                                 <p className="text-[14px] font-500">Offline Payments</p>
                             </div>
                         </div>
+                        <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
+                            <div
+                                className={`flex flex-col py-2 px-4 items-center justify-center hover:text-BlueHomz ${activeFour ? "border-b-[2px] border-BlueHomz text-BlueHomz" : "text-BlackHomz "}`}
+                                onClick={handlePageChangeFour}
+                            >
+                                <p className="text-[14px] font-500">Statement History</p>
+                            </div>
+                        </div>
                     </div>
                     <div className="relative hidden md:flex flex-row flex-wrap gap-1 items-center">
                         {property &&
@@ -514,6 +534,11 @@ const Widget = ({
                     {activeThree &&
                         <div>
                             <OfflinePayment />
+                        </div>
+                    }
+                    {activeFour &&
+                        <div>
+                            <FeeList />
                         </div>
                     }
                 </div>
