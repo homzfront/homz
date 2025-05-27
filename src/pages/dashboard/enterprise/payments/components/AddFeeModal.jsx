@@ -6,7 +6,7 @@ import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import api from '@/utils/api';
 import usePaymentFilterStore from '@/store/enterpriseStore/usePaymentFilterStore';
 
-const AddFee = ({ setInclude, totalRentCollected }) => {
+const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
     const [fees, setFees] = useState([
         { name: '', amount: null, percent: null },
     ]);
@@ -63,19 +63,20 @@ const AddFee = ({ setInclude, totalRentCollected }) => {
     };
 
     const calculateTotalAfterFees = () => {
-        const totalAmount = fees.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
+        const totalAmount = fees && fees?.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
         return totalRentCollected - totalAmount;
     };
 
     const calculateTotalFees = () => {
-        return fees.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
+        if (!fees || fees.length === 0) return 0;
+        return fees?.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
     };
 
     const prepareDataForApi = () => {
         const totalAfterFees = calculateTotalAfterFees();
         const totalFeeList = calculateTotalFees();
 
-        const formattedFees = fees.map(fee => ({
+        const formattedFees = fees?.map(fee => ({
             name: fee.name,
             amountN: Number(fee.amount) || 0,
             amountPct: Number(fee.percent) || 0
@@ -95,7 +96,7 @@ const AddFee = ({ setInclude, totalRentCollected }) => {
             const dataToSend = prepareDataForApi();
 
             // Validate data before sending
-            if (dataToSend.fees.some(fee => !fee.name)) {
+            if (dataToSend?.fees.some(fee => !fee.name)) {
                 alert('Please fill in all fee names');
                 return;
             }
@@ -240,4 +241,4 @@ const AddFee = ({ setInclude, totalRentCollected }) => {
     );
 };
 
-export default AddFee;
+export default AddFeeModalModal;

@@ -30,8 +30,8 @@ import { useDebounce } from "@/utils/deBounce";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import CloseSmall from "@/components/icons/closeSmall";
 import ImportStatement from "@/components/icons/importStatement";
-import AddFee from '@/pages/dashboard/enterprise/payments/components/addFee';
 import FeeList from "../components/feeList";
+import AddFeeModalModal from "../components/AddFeeModal";
 
 
 const Widget = ({
@@ -371,7 +371,7 @@ const Widget = ({
                 </div>
             </CustomizedModal>
             <CustomizedModal isOpen={include === "withFee"} onRequestClose={() => setInclude("")}>
-                <AddFee totalRentCollected={summary?.amountPaid} setInclude={setInclude} />
+                <AddFeeModalModal totalRentCollected={summary?.amountPaid ?? 0} setInclude={setInclude} />
             </CustomizedModal>
             <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
