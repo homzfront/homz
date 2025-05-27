@@ -3,13 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import TenantData from "../components/tenantData";
 import WalletPayement from "../components/walletPayement";
 import OfflinePayment from "../components/offlinePayment";
-import Send from "@/components/icons/send";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
-import DropDownBlue from "../components/dropDownBlue";
 import Papa from "papaparse";
 import PrintableAll from "../components/printableAll";
 import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
@@ -31,7 +28,7 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import CloseSmall from "@/components/icons/closeSmall";
 import ImportStatement from "@/components/icons/importStatement";
 import FeeList from "../components/feeList";
-import AddFeeModalModal from "../components/AddFeeModal";
+import FeeManagementModal from "./feeManagementModal";
 
 
 const Widget = ({
@@ -371,7 +368,7 @@ const Widget = ({
                 </div>
             </CustomizedModal>
             <CustomizedModal isOpen={include === "withFee"} onRequestClose={() => setInclude("")}>
-                <AddFeeModalModal totalRentCollected={summary?.amountPaid ?? 0} setInclude={setInclude} />
+                <FeeManagementModal totalRentCollected={summary?.amountPaid || 0} setInclude={setInclude} />
             </CustomizedModal>
             <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">

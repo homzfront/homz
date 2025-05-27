@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 import LoadingFormII from '@/components/mainmenu/loadingFormII';
 import api from '@/utils/api';
 import usePaymentFilterStore from '@/store/enterpriseStore/usePaymentFilterStore';
+import PropTypes from 'prop-types';
 
-const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
+const FeeManagementModal = ({ totalRentCollected = 0, setInclude }) => {
     const [fees, setFees] = useState([
         { name: '', amount: null, percent: null },
     ]);
@@ -19,6 +20,7 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
     };
 
     const removeFee = (index) => {
+        if (fees.length <= 1) return; // Don't remove the last fee
         const newFees = [...fees];
         newFees.splice(index, 1);
         setFees(newFees);
@@ -51,10 +53,10 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
         updatedFees[index][field] = numericValue;
 
         // Calculate the other field based on which one was changed
-        if (field === 'amount') {
+        if (field === 'amount' && totalRentCollected > 0) {
             // Calculate percentage based on amount
             updatedFees[index]['percent'] = parseFloat(((numericValue / totalRentCollected) * 100).toFixed(2));
-        } else if (field === 'percent') {
+        } else if (field === 'percent' && totalRentCollected > 0) {
             // Calculate amount based on percentage
             updatedFees[index]['amount'] = parseFloat(((numericValue / 100) * totalRentCollected).toFixed(2));
         }
@@ -63,13 +65,13 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
     };
 
     const calculateTotalAfterFees = () => {
-        const totalAmount = fees && fees?.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
+        const totalAmount = fees?.reduce((sum, fee) => sum + Number(fee.amount || 0), 0) || 0;
         return totalRentCollected - totalAmount;
     };
 
     const calculateTotalFees = () => {
         if (!fees || fees.length === 0) return 0;
-        return fees?.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
+        return fees.reduce((sum, fee) => sum + Number(fee.amount || 0), 0);
     };
 
     const prepareDataForApi = () => {
@@ -97,14 +99,14 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
 
             // Validate data before sending
             if (dataToSend?.fees.some(fee => !fee.name)) {
-                alert('Please fill in all fee names');
+                toast.error('Please fill in all fee names');
+                setIsSubmitting(false);
                 return;
             }
 
             const response = await api.post('/rentPayment/enterprise/fee/create', dataToSend);
 
             if (response.status === 200 || response.status === 201) {
-                // Handle success
                 toast.success('Fees submitted successfully!', {
                     position: "top-right",
                     autoClose: 3000,
@@ -114,15 +116,16 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
                     draggable: true,
                     progress: undefined,
                 });
-                const resultList = await fetchFeeList()
+                const resultList = await fetchFeeList();
                 setInclude('withoutFee');
                 setFee(response.data);
             } else {
-                // Handle error
                 console.error('Error submitting fees:', response.data);
+                toast.error('Failed to submit fees');
             }
         } catch (error) {
             console.error('API Error:', error);
+            toast.error('An error occurred while submitting fees');
         } finally {
             setIsSubmitting(false);
         }
@@ -170,42 +173,50 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
                                 onChange={(e) => handleFeeChange(index, 'name', e.target.value)}
                                 placeholder="e.g Management fee"
                                 className="w-[60%] border border-[#E6E6E6] px-4 py-2 rounded"
+                                required
                             />
                         </div>
                         <div className="flex gap-4 items-center">
                             <label className='w-[40%]'>Amount (₦) <span className='text-error'>*</span></label>
                             <input
-                                value={fee.amount}
+                                value={fee.amount || ''}
                                 onChange={(e) => handleFeeChange(index, 'amount', e.target.value)}
                                 type="number"
                                 placeholder="e.g 700000"
                                 className="w-[60%] border border-[#E6E6E6] px-4 py-2 rounded"
+                                min="0"
+                                required
                             />
                         </div>
                         <div className="flex gap-4 items-center">
                             <label className='w-[40%]'>Amount (%) <span className='text-error'>*</span></label>
                             <input
-                                value={fee.percent}
+                                value={fee.percent || ''}
                                 onChange={(e) => handleFeeChange(index, 'percent', e.target.value)}
                                 type="number"
                                 placeholder="e.g 10"
                                 className="w-[60%] border border-[#E6E6E6] px-4 py-2 rounded"
+                                min="0"
+                                max="100"
+                                required
                             />
                         </div>
                         <div className='w-full flex justify-end'>
                             {index !== 0 && (
                                 <button
+                                    type="button"
                                     onClick={() => removeFee(index)}
                                     className="text-sm text-red-500 flex item-center gap-1"
                                 >
-                                    <DeleteRed />    Remove fee
+                                    <DeleteRed /> Remove fee
                                 </button>
-                            )}<span className='text-error'>
-                            </span>                        </div>
+                            )}
+                        </div>
                     </div>
                 ))}
 
                 <button
+                    type="button"
                     onClick={addFee}
                     className="text-BlueHomz mt-2 text-sm font-medium flex gap-1 items-center"
                 >
@@ -225,14 +236,19 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
 
                 <div className={`mt-6 flex justify-between gap-4 ${isSubmitting && "pointer-events-none"}`}>
                     <button
+                        type="button"
                         onClick={() => setInclude('')}
                         className="border border-BlueHomz text-BlueHomz px-4 py-2 rounded w-[40%]"
+                        disabled={isSubmitting}
                     >
                         Back
                     </button>
                     <button
+                        type="button"
                         onClick={handleSubmit}
-                        className={`bg-BlueHomz text-white px-4 py-2 rounded w-[60%] ${isSubmitting ? 'w-full flex justify-center' : ''}`}>
+                        disabled={isSubmitting}
+                        className={`bg-BlueHomz text-white px-4 py-2 rounded w-[60%] ${isSubmitting ? 'w-full flex justify-center' : ''}`}
+                    >
                         {isSubmitting ? <LoadingFormII /> : 'Generate Statement'}
                     </button>
                 </div>
@@ -241,4 +257,13 @@ const AddFeeModalModal = ({ setInclude, totalRentCollected }) => {
     );
 };
 
-export default AddFeeModalModal;
+FeeManagementModal.propTypes = {
+    totalRentCollected: PropTypes.number,
+    setInclude: PropTypes.func.isRequired
+};
+
+FeeManagementModal.defaultProps = {
+    totalRentCollected: 0
+};
+
+export default FeeManagementModal;

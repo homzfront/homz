@@ -88,7 +88,7 @@ const PrintableAll = ({
                         <span className="text-GrayHomz">₦{addCommasToNumber(fee?.totalFeeList)}</span>
                     </div>}
                     {fee?.totalAfterFees && <div className="flex justify-between mt-2 p-2">
-                        <span className="">Total(AfterFees):</span>
+                        <span className="">Total (AfterFees):</span>
                         <span className="text-GrayHomz">₦{addCommasToNumber(fee?.totalAfterFees)}</span>
                     </div>}
                     {fee?.fees.length > 0 &&

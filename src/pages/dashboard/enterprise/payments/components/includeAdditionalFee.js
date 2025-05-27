@@ -24,19 +24,16 @@ const IncludeAdditionalFee = ({ setShowPop, include, setInclude }) => {
                         <CloseSmall />
                     </div>
                 </div>
-                <div className="mt-6 flex gap-2 items-center">
+                <div onClick={() => {
+                    setIncludeHi("withFee")
+                }} className="mt-6 flex gap-2 items-center cursor-pointer">
                     <div
-                        onClick={() => {
-                            setIncludeHi("withFee")
-                        }}
+
                         className="cursor-pointer"
                     >
                         <input
                             type="checkbox"
                             checked={includeHi}
-                            onChange={() => {
-                                setIncludeHi("withFee")
-                            }}
                             className="hidden"
                         />
                         {includeHi === "withFee" ? <Ticked /> : <UnTicked />}
@@ -47,19 +44,15 @@ const IncludeAdditionalFee = ({ setShowPop, include, setInclude }) => {
                         </h2>
                     </div>
                 </div>
-                <div className="mt-2 flex gap-2 items-center">
+                <div onClick={() => {
+                    setIncludeHi("withoutFee")
+                }} className="mt-2 flex gap-2 items-center cursor-pointer">
                     <div
-                        onClick={() => {
-                            setIncludeHi("withoutFee")
-                        }}
-                        className="cursor-pointer"
                     >
                         <input
                             type="checkbox"
                             checked={includeHi}
-                            onChange={() => {
-                                setIncludeHi("withoutFee")
-                            }}
+
                             className="hidden"
                         />
                         {includeHi === "withoutFee" ? <Ticked /> : <UnTicked />}
