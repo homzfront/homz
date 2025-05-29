@@ -51,15 +51,12 @@ const allPages = [
 const Widget = ({ data }) => {
   const { profile } = useProfileStore.getState();
   const urlParams = useSearchParams();
+  const pages = profile?.user?.google
+  ? allPages.filter((page) => page.id !== 6)
+  : allPages;
   const initialTab = urlParams.get("tab");
   const initialActiveTab = initialTab ? pages.find(page => page.key === initialTab)?.id : 1;
-
   const [active, setActive] = useState(initialActiveTab);
-
-  const pages = profile?.user?.google
-    ? allPages.filter((page) => page.id !== 6)
-    : allPages;
-
   useEffect(() => {
     if (initialTab) {
       const page = pages.find(page => page.key === initialTab);
