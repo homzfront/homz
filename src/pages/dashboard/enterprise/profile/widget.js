@@ -48,6 +48,7 @@ const allPages = [
   },
 ];
 
+
 const Widget = ({ data }) => {
   const { profile } = useProfileStore.getState();
   const urlParams = useSearchParams();
