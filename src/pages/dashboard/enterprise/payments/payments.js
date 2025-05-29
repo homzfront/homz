@@ -33,6 +33,7 @@ const Payment = () => {
     setSelectedProperty,
     setSelectedOption,
     search,
+    search,
     setSearch,
     setPageNo
   } = usePaymentFilterStore();
@@ -57,11 +58,15 @@ const Payment = () => {
     fetchData();
     // setFromDate(formatDateII(prevMonth));
     // setToDate(formatDateII(today));
+    // setFromDate(formatDateII(prevMonth));
+    // setToDate(formatDateII(today));
     fetchEnterpriseProperties()
   }, []);
 
   const clear = () => {
     setSelectedProperty(null);
+    setFromDate(null);
+    setToDate(null);
     setFromDate(null);
     setToDate(null);
     setSearch('')
@@ -168,7 +173,9 @@ const Payment = () => {
                         </button>
 
                         {/* <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
+                        {/* <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                           {selectedProperty ? selectedProperty : "Property"}     <ArrowDown className="#4E4E4E" />
+                        </button> */}
                         </button> */}
                         <button
                           onClick={() => clear()}

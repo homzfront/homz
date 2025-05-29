@@ -8,7 +8,9 @@ import Payment from "./payment/payment.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import AccountInfo from "./accountInfo/accountInfo.js";
 import useProfileStore from "@/store/profile.js";
+import useProfileStore from "@/store/profile.js";
 
+const allPages = [
 const allPages = [
   {
     id: 1,

@@ -49,7 +49,7 @@ const PrintableAll = ({
             {/* Summary Section */}
             <div className="mt-2 px-4 pt-4 pb-2">
                 <p className="flex flex-col">
-                    <span className="font-semibold">Expense report:</span> {fromDate} - {toDate}
+                    <span className="font-semibold">Financial Statement:</span> {fromDate} - {toDate}
                 </p>
                 <div className="flex justify-between items-end">
                     <p className="flex flex-col">
