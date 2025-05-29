@@ -3,13 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import TenantData from "../components/tenantData";
 import WalletPayement from "../components/walletPayement";
 import OfflinePayment from "../components/offlinePayment";
-import Send from "@/components/icons/send";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import addCommasToNumberTwo from "@/utils/addCommasToNumberTwo;";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
-import DropDownBlue from "../components/dropDownBlue";
 import Papa from "papaparse";
 import PrintableAll from "../components/printableAll";
 import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
@@ -21,21 +18,30 @@ import ArrowDown from "@/components/icons/arrowDown";
 import FilterIconBlue from "@/components/icons/filterIconBlue";
 import useClickOutside from '@/utils/clickOutside';
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
-import formatDateII from "@/utils/formatDateII";
 import Reset from '@/components/icons/reset';
 import { formatDateRange } from "@/utils/formatDateRange";
 import Document from "@/components/icons/document";
 import addCommasToNumber from "@/utils/addCommasToNumber";
 import api from "@/utils/api";
 import { useDebounce } from "@/utils/deBounce";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import CloseSmall from "@/components/icons/closeSmall";
+import ImportStatement from "@/components/icons/importStatement";
+import FeeList from "../components/feeList";
+import FeeManagementModal from "./feeManagementModal";
+
 
 const Widget = ({
     property,
+    setShowPop,
+    include,
+    setInclude
 }) => {
     const printRefAll = useRef();
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
+    const [activeFour, setActiveFour] = useState(false);
     const { data, fetchData } = useExportRentPayment();
     const [isOpen, setIsOpen] = React.useState(false);
     const closeFilter = useClickOutside(() => setIsOpen(false));
@@ -43,7 +49,8 @@ const Widget = ({
     const [isOpenI, setIsOpenI] = useState(false);
     const dropdownRef = useClickOutside(() => setIsOpenI(false));
     const [isLoading, setIsLoading] = React.useState(false);
-    const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false)
+    const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false);
+    const [docHover, setDocHover] = React.useState(false);
     const {
         selectedProperty,
         fromDate,
@@ -61,7 +68,9 @@ const Widget = ({
         offlineData,
         activeState,
         pageNo,
-        setPageNo
+        setPageNo,
+        fee,
+        setFee
     } = usePaymentFilterStore();
     // User-selected date range
     const today = new Date();
@@ -102,6 +111,7 @@ const Widget = ({
         setActive(true);
         setActiveTwo(false);
         setActiveThree(false);
+        setActiveFour(false);
         setActiveState('one');
     };
 
@@ -109,6 +119,7 @@ const Widget = ({
         setActiveTwo(true);
         setActive(false);
         setActiveThree(false);
+        setActiveFour(false);
         setActiveState('two');
     };
 
@@ -116,8 +127,17 @@ const Widget = ({
         setActiveTwo(false);
         setActive(false);
         setActiveThree(true);
+        setActiveFour(false);
         setActiveState('three');
     };
+
+    const handlePageChangeFour = () => {
+        setActiveTwo(false);
+        setActiveFour(true);
+        setActive(false);
+        setActiveThree(false);
+        setActiveState('four');
+    }
 
     const handlePrint = useReactToPrint({
         content: () => printRefAll.current,
@@ -167,7 +187,6 @@ const Widget = ({
                 ? walletData
                 : offlineData;
     const summary = currentData?.summary
-
     const debouncedSearch = useDebounce(search, 500);
     const debounceToDate = useDebounce(toDate, 500);
     const debounceFromDate = useDebounce(fromDate, 500);
@@ -176,13 +195,18 @@ const Widget = ({
         if (summary?.totalTranscation) fetchDataAOW(1, summary?.totalTranscation);
     }, [activeState, selectedProperty, debounceFromDate, debounceToDate, debouncedSearch, summary?.totalTranscation]);
 
+
+
     const handleExportToExcel = () => {
+        // Create summary row with all possible fee-related fields
         const summaryRow = {
             "Total Expected Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
             "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
             "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
+            "Total Fees": fee?.data?.totalFeeList ? `${addCommasToNumber(fee?.data?.totalFeeList)}` : "",
+            "Total (After Fees)": fee?.data?.totalAfterFees ? `${addCommasToNumber(fee?.data?.totalAfterFees)}` : "",
             "No of Transactions": summary?.totalTranscation,
-            "Transaction Date": `${fromDate} -${toDate}`,
+            "Transaction Date": `${fromDate} - ${toDate}`,
             "Tenant": "",
             "Rent Amount": "",
             "Due Date": "",
@@ -194,10 +218,27 @@ const Widget = ({
             "Payment Date": "",
         };
 
+        // Add fee breakdown to the summary row if fees exist
+        if (fee?.data?.fees?.length > 0) {
+            fee?.data.fees.forEach((feeItem, index) => {
+                const feeName = `${feeItem.name} ${feeItem.amountPct}%`;
+                summaryRow[feeName] = `${addCommasToNumber(feeItem?.amountN)}`;
+            });
+        }
+
         const dataRows = printData?.results.map((item) => ({
             "Total Expected Revenue": "",
             "Rent Collected": "",
             "Pending Rent": "",
+            "Total Fees": "",
+            "Total (After Fees)": "",
+            // Add empty values for each fee column if fees exist
+            ...(fee?.data?.fees?.length > 0 ?
+                fee?.data.fees.reduce((acc, feeItem) => {
+                    acc[`${feeItem.name} ${feeItem.amountPct}%`] = "";
+                    return acc;
+                }, {})
+                : {}),
             "No of Transactions": "",
             "Tenant": item.tenantId?.fullName,
             "Rent Amount": addCommasToNumber(item.rent),
@@ -223,13 +264,16 @@ const Widget = ({
 
 
     const handleExportToCSV = () => {
+        // Create summary row with all possible fee-related fields
         const summaryRow = {
-            "Total Expected Revenue": `${addCommasToNumber(summary?.totalPayment)}`,
-            "Rent Collected": `${addCommasToNumber(summary?.amountPaid)}`,
-            "Pending Rent": `${addCommasToNumber(summary?.pendingPayment)}`,
+            "Total Expected Revenue": `${summary?.totalPayment}`,
+            "Rent Collected": `${summary?.amountPaid}`,
+            "Pending Rent": `${summary?.pendingPayment}`,
+            "Total Fees": fee?.data?.totalFeeList ? `${fee?.data?.totalFeeList}` : "",
+            "Total (After Fees)": fee?.data?.totalAfterFees ? `${fee?.data?.totalAfterFees}` : "",
             "No of Transactions": summary?.totalTranscation,
-            "Transaction Date": `${fromDate} -${toDate}`,
-            "Tenant": "", // Empty in summary row
+            "Transaction Date": `${fromDate} - ${toDate}`,
+            "Tenant": "",
             "Rent Amount": "",
             "Due Date": "",
             "Payment Status": "",
@@ -240,16 +284,33 @@ const Widget = ({
             "Payment Date": "",
         };
 
+        // Add fee breakdown to the summary row if fees exist
+        if (fee?.data?.fees?.length > 0) {
+            fee?.data.fees.forEach((feeItem, index) => {
+                const feeName = `${feeItem.name} ${feeItem.amountPct}%`;
+                summaryRow[feeName] = `${feeItem?.amountN}`;
+            });
+        }
+
         const dataRows = printData?.results.map((item) => ({
-            "Total Expected Revenue": "", // Empty in data rows
+            "Total Expected Revenue": "",
             "Rent Collected": "",
             "Pending Rent": "",
+            "Total Fees": "",
+            "Total (After Fees)": "",
+            // Add empty values for each fee column if fees exist
+            ...(fee?.data?.fees?.length > 0 ?
+                fee?.data.fees.reduce((acc, feeItem) => {
+                    acc[`${feeItem.name} ${feeItem.amountPct}%`] = "";
+                    return acc;
+                }, {})
+                : {}),
             "No of Transactions": "",
             "Tenant": item.tenantId?.fullName,
-            "Rent Amount": addCommasToNumber(item.rent),
+            "Rent Amount": item.rent,
             "Due Date": changeBackendDateFormat(item.dueDate),
             "Payment Status": item.status === "success" ? "Paid" : "Pending",
-            "Amount Paid": addCommasToNumber(item.amountPaid),
+            "Amount Paid": item.amountPaid,
             "Description": item.description || "",
             "Rent Duration": item.duration === 1 ? `${item.duration} month` : `${item.duration} months`,
             "Payment Method": item?.paymentMethod || "",
@@ -269,10 +330,46 @@ const Widget = ({
         document.body.removeChild(link);
     };
 
-
-
     return (
         <div>
+            <CustomizedModal isOpen={include === "withoutFee"} onRequestClose={() => setInclude("")}>
+                <div className={`${isLoading && "pointer-events-none animate-pulse"} p-4 w-full md:w-[440px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[440px] overflow-y-auto scrollbar-container`}>
+                    <div className="w-full flex justify-between items-start">
+                        <div className="flex flex-col gap-1 w-[85%]">
+                            <p className="text-BlackHomz font-[500] text-[14px] md:text-[18px]">
+                                Export as:
+                            </p>
+                            <p className='text-sm text-GrayHomz font-normal'>
+                                Select your preferred format
+                            </p>
+                        </div>
+                        <div
+                            onClick={() => {
+                                setInclude("")
+                                setFee(null);
+                            }}
+                            className="cursor-pointer"
+                        >
+                            <CloseSmall />
+                        </div>
+                    </div>
+                    {options.map((option, index) => (
+                        <div
+                            key={index}
+                            onMouseEnter={() => setDocHover(true)}
+                            onMouseLeave={() => setDocHover(false)}
+                            className="mt-4 py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz my-2 rounded-md flex justify-between items-center"
+                            onClick={() => setSelectedOption(option)}
+                        >
+                            {option}
+                            {docHover && option === selectedOption ? <ImportStatement className="#FFFFFF" /> : <ImportStatement />}
+                        </div>
+                    ))}
+                </div>
+            </CustomizedModal>
+            <CustomizedModal isOpen={include === "withFee"} onRequestClose={() => setInclude("")}>
+                <FeeManagementModal totalRentCollected={summary?.amountPaid || 0} setInclude={setInclude} />
+            </CustomizedModal>
             <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
                     <div className="flex gap-4 w-auto items-center">
@@ -299,6 +396,14 @@ const Widget = ({
                                 onClick={handlePageChangeThree}
                             >
                                 <p className="text-[14px] font-500">Offline Payments</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
+                            <div
+                                className={`flex flex-col py-2 px-4 items-center justify-center hover:text-BlueHomz ${activeFour ? "border-b-[2px] border-BlueHomz text-BlueHomz" : "text-BlackHomz "}`}
+                                onClick={handlePageChangeFour}
+                            >
+                                <p className="text-[14px] font-500">Statement History</p>
                             </div>
                         </div>
                     </div>
@@ -398,29 +503,18 @@ const Widget = ({
                             onSelect={(option) => setSelectedOption(option)}
                             className={"text-[14px] font-[500]"}
                             width={"w-auto"}
-                        /> */}
+                            /> */}
                         <div ref={dropdownRef}>
-                            <button onClick={() => setIsOpenI(!isOpenI)} className="text-walletBg px-4 md:bg-BlueHomz h-[36px] flex gap-1 items-center rounded-[4px]">
+                            <button
+                                onClick={() => {
+                                    // setIsOpenI(!isOpenI)
+                                    setShowPop(true);
+                                }}
+                                className="text-walletBg px-4 md:bg-BlueHomz h-[36px] flex gap-1 items-center rounded-[4px]">
                                 <Document className="#FFFFFF" /> Generate Statement
                             </button>
-                            {
-                                isOpenI &&
-                                <div className={`${isLoading && "pointer-events-none animate-pulse"} absolute z-20 w-[140px] md:w-[200px] right-[13px] md:right-0 md:top-[50px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[240px] overflow-y-auto scrollbar-container`}>
-                                    <p className='px-4 text-[13px] text-GrayHomz font-medium'>
-                                        Export as:
-                                    </p>
-                                    {options.map((option, index) => (
-                                        <div
-                                            key={index}
-                                            className="py-2 bg-[#F6F6F6] px-4 cursor-pointer hover:text-white hover:bg-BlueHomz m-2 rounded-md"
-                                            onClick={() => setSelectedOption(option)}
-                                        >
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-                            }
                         </div>
+
                     </div>
                 </div>
                 <div className="my-5 rounded-[12px]">
@@ -439,12 +533,18 @@ const Widget = ({
                             <OfflinePayment />
                         </div>
                     }
+                    {activeFour &&
+                        <div>
+                            <FeeList />
+                        </div>
+                    }
                 </div>
             </div>
             <div style={{ display: 'none' }}>
                 <PrintableAll
                     data={printData?.results}
                     summary={printData?.summary}
+                    fee={fee?.data ?? null}
                     printRef={printRefAll}
                 />
             </div>

@@ -7,7 +7,7 @@ import addCommasToNumber from '@/utils/addCommasToNumber';
 import usePaymentFilterStore from '@/store/enterpriseStore/usePaymentFilterStore';
 import { formatDateRange } from '@/utils/formatDateRange';
 
-const Tenants = ({ property }) => {
+const Tenants = ({ include, setInclude, property, setShowPop }) => {
   const { data, fetchData } = useEnterpriseRevenueStore();
   const {
     fromDate,
@@ -23,11 +23,11 @@ const Tenants = ({ property }) => {
   }, []);
 
   const currentSummary =
-  activeState === 'one'
-    ? allData?.summary
-    : activeState === 'two'
-    ? walletData?.summary
-    : offlineData?.summary;
+    activeState === 'one'
+      ? allData?.summary
+      : activeState === 'two'
+        ? walletData?.summary
+        : offlineData?.summary;
 
 
   return (
@@ -125,10 +125,12 @@ const Tenants = ({ property }) => {
         </div>
       </div>
       <div className={`md:mt-6`}>
-        <Widget 
-        property={property} 
-        // summary={data}
-         />
+        <Widget
+          property={property}
+          setShowPop={setShowPop}
+          include={include} 
+          setInclude={setInclude}
+        />
       </div>
     </div>
   )

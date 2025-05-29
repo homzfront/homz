@@ -49,6 +49,8 @@ const WalletPayement = () => {
 
     useEffect(() => {
         const fetchData = async (page) => {
+            if (fromDate && !toDate) return;
+            if (!fromDate && toDate) return;
             setLoading(true);
             try {
                 let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=wallet`;

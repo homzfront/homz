@@ -18,6 +18,7 @@ import PopUpMenuTwo from '../components/popUpMenuTwo';
 import ModalTwo from '../components/modalTwo';
 import useTenantOfAnEstate from '@/store/enterpriseStore/useTenantOfAnEstate';
 import api from '@/utils/api';
+import { useRouter } from 'next/navigation';
 
 
 const Table = ({
@@ -49,6 +50,8 @@ const Table = ({
     const [openInvite, setOpenInvite] = React.useState(false);
     // const [activeFour, setActiveFour] = useState(false);
     const dropdownRefYan = useClickOutside(() => setOpenInvite(false));
+
+    const router = useRouter()
 
     const handleMouseEnter = (id) => {
         setHoveredRow(id);
@@ -301,7 +304,9 @@ const Table = ({
             case 'Actions':
                 return (
                     <div className="relative bg-white w-[40%] pl-8">
-                        <button onClick={() => handleToggleMenu(row?._id, row)}>
+                        <button onClick={() => {
+                            handleToggleMenu(row?._id, row)
+                            }}>
                             <Image
                                 src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                 alt=""
@@ -417,11 +422,13 @@ const Table = ({
                                 {tenantData && tenantData?.map((row, rowIndex) => (
                                     <div
                                         key={row?._id || rowIndex}
-                                        className="relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
+                                        className="hover:bg-GrayHomz6 cursor-pointer relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
                                         style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                                     >
                                         {visibleColumns && visibleColumns?.map(header => (
-                                            <div key={`${row?._id}-${header}`} className="">
+                                            <div key={`${row?._id}-${header}`}
+                                              onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                                                className="">
                                                 {renderCellContent(header, row)}
                                             </div>
                                         ))}
@@ -452,7 +459,7 @@ const Table = ({
                     />
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
