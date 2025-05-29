@@ -88,8 +88,6 @@ const Widget = ({
         setSelectedProperty(null);
         setFromDate(null);
         setToDate(null);
-        setFromDate(null);
-        setToDate(null);
         setSearch('')
         setPageNo(1)
     };
@@ -487,10 +485,8 @@ const Widget = ({
                                                     {/* <span className='absolute'><DateIconTwo /></span> */}
                                                 </button>
                                                 {/* 
-                                                {/* 
                                                 <button onClick={() => setOpenPropertyFilter(true)} className='mt-1 text-sm font-normal text-GrayHomz flex justify-between px-3 py-2 w-full border border-[#4E4E4E] rounded-[4px]'>
                                                     {selectedProperty ? selectedProperty : "Property"}     <ArrowDown className="#4E4E4E" />
-                                                </button> */}
                                                 </button> */}
                                                 <button
                                                     onClick={() => clear()}

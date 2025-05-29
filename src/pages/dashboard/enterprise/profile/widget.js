@@ -11,7 +11,6 @@ import useProfileStore from "@/store/profile.js";
 import useProfileStore from "@/store/profile.js";
 
 const allPages = [
-const allPages = [
   {
     id: 1,
     name: "Business Information",
