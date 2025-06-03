@@ -351,7 +351,7 @@ const HeaderAndFilter = ({
                                                 }}
                                                 className="min-w-[80%]"
                                             >
-                                                Generate Statement
+                                                Generate Report
                                             </span>
                                         </div>
                                         <div className="flex gap-2 mt-1.5 items-center hover:bg-whiteblue p-2 cursor-pointer">
