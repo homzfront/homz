@@ -11,6 +11,8 @@ import Skeleton from "react-loading-skeleton";
 import trucateWord from "@/utils/trucateWord";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/utils/api";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
+import PropertyRequest from "@/components/mainmenu/propertyRequest";
 
 const PropertyCard = ({
   Property,
@@ -30,6 +32,8 @@ const PropertyCard = ({
 }) => {
   // console.log(Property);
   const currentProperties = Property;
+  const [openPropertyReq, setOpenPropertyReq] = useState(false);
+  const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
 
   // endpoint for the views, clicks, and whatsApp messages
   const { mutate: updateMetrics } = useMutation({
@@ -39,6 +43,11 @@ const PropertyCard = ({
       });
     },
   });
+
+  const closeSaveToDraftModal = () => {
+    setOpenSuccessModal(false);
+    // router.back()
+  };
   return (
     <div className="w-full">
       {loadingII ? (
@@ -83,15 +92,27 @@ const PropertyCard = ({
                       >
                         Explore properties
                       </button>
-                      <Link href={"/contact-page"}>
-                        <button className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]">
-                          Contact Us
-                        </button>
-                      </Link>
+
+                      <button
+                        className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]"
+                        onClick={() => setOpenPropertyReq(true)}
+                      >
+                        Contact Us
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
+              <PropertyRequest
+                isOpen={openPropertyReq}
+                setOpenPropertyReq={setOpenPropertyReq}
+                setOpenSuccessModal={setOpenSuccessModal}
+              />
+              <SuccessModal
+                isOpen={OpenSuccessModal}
+                title="Property Request Sent Successfully"
+                handleEvent={closeSaveToDraftModal}
+              />
               <MiniPropertyListing
                 Properties={properties}
                 width={"md:w-[345px]"}
@@ -103,7 +124,7 @@ const PropertyCard = ({
           ) : (
             <>
               <div className="flex items-center justify-center w-full px- flex-col ">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full ">
+                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-[30px]  mb-3 w-full ">
                   {Property &&
                     currentProperties?.map((property, index) => (
                       <div
@@ -128,7 +149,7 @@ const PropertyCard = ({
                                     >
                                       <Link
                                         className="cursor-pointer "
-                                        href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                        href={`/search-page/PreviewProperty/${property?.slug}`}
                                         onClick={() =>
                                           updateMetrics({
                                             type: "view",
@@ -150,7 +171,7 @@ const PropertyCard = ({
                               ) : (
                                 <Link
                                   className="cursor-pointer "
-                                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                                  href={`/search-page/PreviewProperty/${property?.slug}`}
                                   onClick={() =>
                                     updateMetrics({
                                       type: "view",
@@ -197,7 +218,7 @@ const PropertyCard = ({
                         </div>
                         <Link
                           className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]"
-                          href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                          href={`/search-page/PreviewProperty/${property?.slug}`}
                           onClick={() =>
                             updateMetrics({ type: "view", id: property?._id })
                           }

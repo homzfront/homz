@@ -6,8 +6,7 @@ import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import trucateWord from "@/utils/trucateWord";
 
-
-const FeaturedCard = () => {
+const FeaturedCard = ({ updateMetrics }) => {
   const [featuredData, setFeaturedData] = useState(null);
 
   useEffect(() => {
@@ -19,7 +18,6 @@ const FeaturedCard = () => {
     fetchData();
   }, []);
 
-
   return (
     <div className="flex flex-col items-center gap-[16px] rounded-[12px] bg-[#006AFF] text-white py-[20px] px-[20px] w-[100%] sm:h-[600px] h-[443px]">
       <div className=" flex justify-between w-full   flex-nowrap">
@@ -27,7 +25,7 @@ const FeaturedCard = () => {
           Featured Properties
         </p>
         <Link
-          href="/user_homepage/PropertyListing"
+          href="/search-page/PropertyListing"
           className="flex items-center gap-2 rounded px-2 py-1 sm:text-[13px] text-[11.5px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
@@ -62,9 +60,10 @@ const FeaturedCard = () => {
                     {property?.property?.photos &&
                       property?.property?.photos.map((img, index) => (
                         <Link
-                          href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
+                          href={`/search-page/PreviewProperty/${property?.property?.slug}`}
                           key={index}
                           className="w-full sm:w-[320px]  h-full"
+                          onClick={() => updateMetrics("call")}
                         >
                           <Image
                             src={img?.url}
@@ -83,8 +82,9 @@ const FeaturedCard = () => {
                 <div className="flex w-full flex-col sm:px-6 py-4 px-3 justify-between h-fit rounded-b-[12px] gap-[7.43px] sm:gap-[12px]">
                   <div className="flex w-full justify-between items-center">
                     <Link
-                      href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
+                      href={`/search-page/PreviewProperty/${property?.property?.slug}`}
                       className="text-BlueHomz sm:text-[23px] font-[700] text-[16.59px] sm:leading-[28.98px] leading-[20.9px]"
+                      onClick={() => updateMetrics("call")}
                     >
                       {trucateWord(
                         capitalizeFirstLetter(
@@ -106,7 +106,8 @@ const FeaturedCard = () => {
                   )}
                   {property?.property?.price && (
                     <p className=" text-BlackHomz text-[11.54px] sm:text-[16px] font-[700] w-fit">
-                     <span style={{ fontFamily: "Arial", }}>₦</span> {Number(property?.property?.price).toLocaleString()}
+                      <span style={{ fontFamily: "Arial" }}>₦</span>{" "}
+                      {Number(property?.property?.price).toLocaleString()}
                     </p>
                   )}
                   <p className="flex gap-1 items-center sm:text-[14px] text-[10.1px] font-[500] text-BlackHomz  w-fit">
@@ -165,7 +166,8 @@ const FeaturedCard = () => {
                       )}
                     </div>
                     <Link
-                      href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
+                      href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                      onClick={() => updateMetrics("call")}
                     >
                       <button className="">
                         <Image
@@ -184,7 +186,7 @@ const FeaturedCard = () => {
           ))}
         </Carousel>
       </div>
-      {/* <Link href="user_homepage/PropertyListing">
+      {/* <Link href="search-page/PropertyListing">
         <button className="md:hidden mt-10 mb-8 border border-white px-4 py-2 rounded text-[13px] font-[500] flex gap-1 items-center">
           <span>View All</span>
           <Image

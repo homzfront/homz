@@ -12,6 +12,7 @@ import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import api from "@/utils/api";
 import lowerCaseData from "@/utils/lowerCaseData";
 import Slider from "react-slick";
+import { useMutation } from "@tanstack/react-query";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -52,8 +53,6 @@ const customTheme = {
   },
 };
 
-
-
 const HomePage = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [landlord, setLandlords] = useState(true);
@@ -71,6 +70,15 @@ const HomePage = () => {
     maxPrice: null,
     numberOfBathrooms: null,
     listingType: rent ? "for rent" : null,
+  });
+
+  // endpoint for the views, clicks, and whatsApp messages
+  const { mutate: updateMetrics } = useMutation({
+    mutationFn: async (type) => {
+      return await api.post(`/properties/metric/${propertySlug}`, {
+        type,
+      });
+    },
   });
 
   const handleOpen = (e) => {
@@ -101,8 +109,8 @@ const HomePage = () => {
     setSale(false);
     setShortlist(false);
     setLand(false);
-    if (lowerCaseData(e.target.innerText) === 'rent') {
-      handleFilterChange("listingType", 'for rent');
+    if (lowerCaseData(e.target.innerText) === "rent") {
+      handleFilterChange("listingType", "for rent");
     } else {
       handleFilterChange("listingType", lowerCaseData(e.target.innerText));
     }
@@ -113,8 +121,8 @@ const HomePage = () => {
     setSale(true);
     setShortlist(false);
     setLand(false);
-    if (lowerCaseData(e.target.innerText) === 'buy') {
-      handleFilterChange("listingType", 'for sale');
+    if (lowerCaseData(e.target.innerText) === "buy") {
+      handleFilterChange("listingType", "for sale");
     } else {
       handleFilterChange("listingType", lowerCaseData(e.target.innerText));
     }
@@ -150,7 +158,7 @@ const HomePage = () => {
   };
 
   const link = () => {
-    let link
+    let link;
     const query = {};
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
@@ -158,23 +166,24 @@ const HomePage = () => {
       }
     });
     if (filters) {
-      link = `/user_homepage/PropertyListing/?page=1&${new URLSearchParams(query).toString()}`
+      link = `/search-page/PropertyListing/?page=1&${new URLSearchParams(
+        query
+      ).toString()}`;
       return link;
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get(
-        `/public/properties/featured`)
-      const propertyData = response?.data?.data || null
+      const response = await api.get(`/public/properties/featured`);
+      const propertyData = response?.data?.data || null;
       setFeaturedData(propertyData);
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
 
   function getWindowDimensions() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const { innerWidth: width } = window;
       return width;
     }
@@ -184,7 +193,7 @@ const HomePage = () => {
   const [windowWidth, setWindowWidth] = useState(getWindowDimensions());
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       function handleResize() {
         setWindowWidth(getWindowDimensions());
       }
@@ -194,7 +203,7 @@ const HomePage = () => {
   }, []);
 
   const slidesToShow = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       if (window.innerWidth > 1320) return 3;
       if (window.innerWidth < 1000) return 1;
       if (window.innerWidth < 1321 && window.innerWidth > 999) return 2;
@@ -236,7 +245,9 @@ const HomePage = () => {
     <div className="md:w-full mx-auto mt-10 md:mt-20 ">
       <div className="sm:hidden bg-[url('/static/images/Fine_Building.jpeg')] bg-cover h-[510px] py-8 px-6 flex flex-col justify-between">
         <div className="bg-whiteblue p-2 w-[200px] rounded-[4px]">
-          <p className="text-[13px] font-[400] text-BlueHomz">One-Stop real estate solution</p>
+          <p className="text-[13px] font-[400] text-BlueHomz">
+            One-Stop real estate solution
+          </p>
         </div>
         <p className="text-[29px] font-[700] text-white leading-tight">
           Find & Manage Properties on Homz
@@ -245,33 +256,41 @@ const HomePage = () => {
           <div className="text-[13px] font-[500] w-full flex ">
             <button
               onClick={handleRent}
-              className={`w-[25%] h-[38px] rounded-tl-[4px] rounded-bl-[4px] ${rent
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] rounded-tl-[4px] rounded-bl-[4px] ${
+                rent
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Rent
             </button>
             <button
               onClick={handleSale}
-              className={`w-[25%] h-[38px] ${sale
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] ${
+                sale
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Buy
             </button>
             <button
               onClick={handleShortlist}
-              className={`w-[25%] h-[38px] ${shortlist
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] ${
+                shortlist
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Shortlet
             </button>
             <button
               onClick={handleLand}
-              className={`w-[25%] h-[38px] rounded-tr-[4px] rounded-br-[4px] ${land
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] rounded-tr-[4px] rounded-br-[4px] ${
+                land
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Land
             </button>
@@ -301,10 +320,11 @@ const HomePage = () => {
               <PropertyType
                 getPropertyType={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.propertyType === null
-                  ? "Type"
-                  : capitalizeFirstLetter(filters?.propertyType)
-                  }`}
+                selectOption={`${
+                  filters?.propertyType === null
+                    ? "Type"
+                    : capitalizeFirstLetter(filters?.propertyType)
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -315,10 +335,11 @@ const HomePage = () => {
               <Bedroom
                 getBedrooms={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.numberOfBathrooms === null
-                  ? "No of bedrooms"
-                  : `${filters?.numberOfBathrooms} Bedrooms`
-                  }`}
+                selectOption={`${
+                  filters?.numberOfBathrooms === null
+                    ? "No of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -329,10 +350,11 @@ const HomePage = () => {
               <MinPrice
                 getPrice={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.minPrice === null
-                  ? "Min Price"
-                  : addCommasToNumberWithoutN(filters?.minPrice)
-                  }`}
+                selectOption={`${
+                  filters?.minPrice === null
+                    ? "Min Price"
+                    : addCommasToNumberWithoutN(filters?.minPrice)
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -343,10 +365,11 @@ const HomePage = () => {
               <MaxPrice
                 getPrice={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.maxPrice === null
-                  ? "Max Price"
-                  : addCommasToNumberWithoutN(filters?.maxPrice)
-                  }`}
+                selectOption={`${
+                  filters?.maxPrice === null
+                    ? "Max Price"
+                    : addCommasToNumberWithoutN(filters?.maxPrice)
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -367,7 +390,9 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
-      <div className={`hidden sm:flex flex-col justify-center items-center relative px-8 md:px-0`}>
+      <div
+        className={`hidden sm:flex flex-col justify-center items-center relative px-8 md:px-0`}
+      >
         <div className="flex md:items-center md:justify-between relative w-[330px] md:w-full">
           <div className="flex flex-col items-start w-[310px] md:w-[580px] gap-3 md:gap-2 md:pb-[165px] md:pl-20">
             <p className="md:h-[43px] p-[8px] text-center text-[13px] md:text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[400] md:font-[500] md:leading-[27px]">
@@ -378,7 +403,9 @@ const HomePage = () => {
               <h1 className="hidden md:block text-[37px] lg:text-[41px] font-[700] leading-tight">
                 Find, Manage, Appraise Your Property With Homz
               </h1>
-              <span className="md:hidden text-[29px] font-[700] leading-tight">Find & Manage Properties on Homz</span>
+              <span className="md:hidden text-[29px] font-[700] leading-tight">
+                Find & Manage Properties on Homz
+              </span>
             </div>
           </div>
           <div className="hidden md:block">
@@ -394,46 +421,51 @@ const HomePage = () => {
         <div className="md:absolute w-[330px] h-full mt-[20px] md:mt-0 px-[24px] border-[2px] border-BlueHomz flex flex-col justify-between bottom-12 md:bottom-[140px] lg:bottom-[155px] md:left-20 max-w-[882px] md:w-[655px] lg:w-full md:h-[144px] md:px-[20px] py-[24px] rounded-[12px] bg-[#EEF5FF] md:bg-opacity-75">
           <div className="flex md:gap-[8px] flex-wrap gap-[14px] ">
             <button
-              className={`md:text-[14px] text-[13px] text-center font-[500] cursor-pointer h-[44px] p-[12px] ${rent
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] `}
+              className={`md:text-[14px] text-[13px] text-center font-[500] cursor-pointer h-[44px] p-[12px] ${
+                rent
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] `}
               onClick={handleRent}
             >
               <span className="hidden md:block">For Rent</span>
               <span className="md:hidden">Rent</span>
             </button>
             <button
-              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${sale
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#333b46] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
+              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${
+                sale
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#333b46] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleSale}
             >
               <span className="hidden md:block">For Sale</span>
               <span className="md:hidden">Buy</span>
-
             </button>
             <button
-              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${shortlist
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
+              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${
+                shortlist
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleShortlist}
             >
               Shortlet
             </button>
             <button
-              className={`md:text-[14px] text-[13px] font-[500] cursor-pointer h-[44px] p-[12px] ${land
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center `}
+              className={`md:text-[14px] text-[13px] font-[500] cursor-pointer h-[44px] p-[12px] ${
+                land
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center `}
               onClick={handleLand}
             >
               Land
             </button>
-            <Link href={link() !== null ? link() : ""}
-              className=" md:w-[100px] lg:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] border border-[#006AFF] gap-[8px] text-BlueHomz hover:bg-BlueHomz3 items-center rounded-[4px] text-[16px] font-[600]">
+            <Link
+              href={link() !== null ? link() : ""}
+              className=" md:w-[100px] lg:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] border border-[#006AFF] gap-[8px] text-BlueHomz hover:bg-BlueHomz3 items-center rounded-[4px] text-[16px] font-[600]"
+            >
               <Image
                 src="/static/images/search-normal.svg"
                 alt=""
@@ -441,7 +473,6 @@ const HomePage = () => {
                 height={16}
               />
               <span className="">Search</span>
-
             </Link>
             <div className="relative w-full md:hidden">
               <input
@@ -453,7 +484,10 @@ const HomePage = () => {
                 value={filters.search}
                 onChange={handleSearchChange}
               />
-              <Link href={link() !== null ? link() : ""} className={`${openFilter ? "hidden" : ""}`}>
+              <Link
+                href={link() !== null ? link() : ""}
+                className={`${openFilter ? "hidden" : ""}`}
+              >
                 <Image
                   src="/static/images/search-normal.svg"
                   alt=""
@@ -483,10 +517,11 @@ const HomePage = () => {
                 <PropertyType
                   getPropertyType={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.propertyType === null
-                    ? "Property Type"
-                    : capitalizeFirstLetter(filters?.propertyType)
-                    }`}
+                  selectOption={`${
+                    filters?.propertyType === null
+                      ? "Property Type"
+                      : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -497,10 +532,11 @@ const HomePage = () => {
                 <Bedroom
                   getBedrooms={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.numberOfBathrooms === null
-                    ? "No of bedrooms"
-                    : `${filters?.numberOfBathrooms} Bedrooms`
-                    }`}
+                  selectOption={`${
+                    filters?.numberOfBathrooms === null
+                      ? "No of bedrooms"
+                      : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -511,10 +547,11 @@ const HomePage = () => {
                 <MinPrice
                   getPrice={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.minPrice === null
-                    ? "Min Price"
-                    : addCommasToNumberWithoutN(filters?.minPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.minPrice === null
+                      ? "Min Price"
+                      : addCommasToNumberWithoutN(filters?.minPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -525,10 +562,11 @@ const HomePage = () => {
                 <MaxPrice
                   getPrice={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.maxPrice === null
-                    ? "Max Price"
-                    : addCommasToNumberWithoutN(filters?.maxPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.maxPrice === null
+                      ? "Max Price"
+                      : addCommasToNumberWithoutN(filters?.maxPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -588,10 +626,11 @@ const HomePage = () => {
                 <PropertyType
                   getPropertyType={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.propertyType === null
-                    ? "Property Type"
-                    : capitalizeFirstLetter(filters?.propertyType)
-                    }`}
+                  selectOption={`${
+                    filters?.propertyType === null
+                      ? "Property Type"
+                      : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -602,10 +641,11 @@ const HomePage = () => {
                 <Bedroom
                   getBedrooms={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.numberOfBathrooms === null
-                    ? "No of bedrooms"
-                    : `${filters?.numberOfBathrooms} Bedrooms`
-                    }`}
+                  selectOption={`${
+                    filters?.numberOfBathrooms === null
+                      ? "No of bedrooms"
+                      : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -616,10 +656,11 @@ const HomePage = () => {
                 <MinPrice
                   getPrice={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.minPrice === null
-                    ? "Min Price"
-                    : addCommasToNumberWithoutN(filters?.minPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.minPrice === null
+                      ? "Min Price"
+                      : addCommasToNumberWithoutN(filters?.minPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -630,10 +671,11 @@ const HomePage = () => {
                 <MaxPrice
                   getPrice={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.maxPrice === null
-                    ? "Max Price"
-                    : addCommasToNumberWithoutN(filters?.maxPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.maxPrice === null
+                      ? "Max Price"
+                      : addCommasToNumberWithoutN(filters?.maxPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -684,24 +726,27 @@ const HomePage = () => {
           <div className="md:pt-20 md:w-[416px] w-[330px] pt-0 md:pb-[48px] pb-0  ">
             <div className="flex gap-3 flex-wrap">
               <button
-                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${landlord
-                  ? "bg-[#006AFF] text-white"
-                  : "bg-white text-[#006AFF"
-                  }`}
+                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${
+                  landlord
+                    ? "bg-[#006AFF] text-white"
+                    : "bg-white text-[#006AFF"
+                }`}
                 onClick={handleLandlords}
               >
                 For Landlords
               </button>
               <button
-                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${manager ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
-                  }`}
+                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${
+                  manager ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
+                }`}
                 onClick={handleManager}
               >
                 For Property Managers
               </button>
               <button
-                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${tenant ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
-                  } `}
+                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${
+                  tenant ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
+                } `}
                 onClick={handleTenants}
               >
                 For Tenants
@@ -893,7 +938,7 @@ const HomePage = () => {
         <div className="text-[23px] md:text-[34px] font-[700] flex justify-between w-full px-8 md:px-24">
           <h4>Featured Listed Properties</h4>
           <Link
-            href="user_homepage/PropertyListing"
+            href="search-page/PropertyListing"
             className="hidden md:flex items-center gap-1 border border-white rounded px-2 py-1"
           >
             <span className="text-[16px] font-[500]">View All</span>
@@ -916,260 +961,302 @@ const HomePage = () => {
         </p> */}
         <div className="w-full max-w-[1440px] my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
           <div className="w-full">
-            {
-              featuredData?.length < 4 ?
-                <Slider {...sliderSettingsII}>
-                  {featuredData?.map((property, idx) => (
-                    <div className="w-full" key={idx}>
-                      <div className="w-[290px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
-                        <div className="cursor-pointer w-[373px] h-[252px]">
-                          <Carousel
-                            slide={false}
-                            theme={customTheme}
-                            className="w-[290px] sm:w-[373px] h-[252px]"
-                          >
-                            {property?.property?.photos &&
-                              property?.property?.photos.map((img, index) => (
-                                <div key={index} className="w-[290px] sm:w-[373px] h-[252px]">
-                                  <Image
-                                    src={img?.url}
-                                    alt=""
-                                    width={373}
-                                    height={252}
-                                    className="w-[290px] sm:w-[373px] h-[252px] rounded-lg object-cover"
-                                  />
-                                </div>
-                              ))}
-                          </Carousel>
+            {featuredData?.length < 4 ? (
+              <Slider {...sliderSettingsII}>
+                {featuredData?.map((property, idx) => (
+                  <div className="w-full" key={idx}>
+                    <div className="w-[290px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
+                      <div className="cursor-pointer w-[373px] h-[252px]">
+                        <Carousel
+                          slide={false}
+                          theme={customTheme}
+                          className="w-[290px] sm:w-[373px] h-[252px]"
+                        >
+                          {property?.property?.photos &&
+                            property?.property?.photos.map((img, index) => (
+                              <div
+                                key={index}
+                                className="w-[290px] sm:w-[373px] h-[252px]"
+                              >
+                                <Image
+                                  src={img?.url}
+                                  alt=""
+                                  width={373}
+                                  height={252}
+                                  className="w-[290px] sm:w-[373px] h-[252px] rounded-lg object-cover"
+                                />
+                              </div>
+                            ))}
+                        </Carousel>
+                      </div>
+                      <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
+                        <div className="flex justify-between items-center">
+                          <p className="text-BlueHomz text-[23px] w-[75%] truncate text-start font-[700]">
+                            {capitalizeFirstLetter(
+                              property?.property?.name ||
+                                property?.property?.title
+                            )}
+                          </p>
+                          {property?.property?.listingType && (
+                            <div className="bg-BlueHomz rounded-[4px] flex justify-center items-center w-[68px] h-[25px]">
+                              <p className="text-white text-[11px] font-[400]">
+                                {capitalizeFirstLetter(
+                                  property?.property?.listingType
+                                )}
+                              </p>
+                            </div>
+                          )}
                         </div>
-                        <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
-                          <div className="flex justify-between items-center">
-                            <p className="text-BlueHomz text-[23px] w-[75%] truncate text-start font-[700]">
-                              {capitalizeFirstLetter(property?.property?.name || property?.property?.title)}
-                            </p>
-                            {property?.property?.listingType && (
-                              <div className="bg-BlueHomz rounded-[4px] flex justify-center items-center w-[68px] h-[25px]">
-                                <p className="text-white text-[11px] font-[400]">
-                                  {capitalizeFirstLetter(property?.property?.listingType)}
-                                </p>
+                        {property?.property?.propertyType && (
+                          <p className="text-blue-600 text-[14px] font-[400]">
+                            {capitalizeFirstLetter(
+                              property?.property?.propertyType
+                            )}
+                          </p>
+                        )}
+                        {property?.property?.price && (
+                          <p className="text-[16px] font-[700] flex items-center">
+                            <Image
+                              src="/static/images/nairaIcon.svg"
+                              alt=""
+                              width={15}
+                              height={25}
+                              className="h-6 w-4"
+                            />
+                            <span className="pl-1 text-BlackHomz">
+                              {Number(
+                                property?.property?.price
+                              ).toLocaleString()}
+                            </span>
+                          </p>
+                        )}
+                        <p className="flex gap-1 items-center text-[14px] font-[500] text-BlackHomz">
+                          <Image
+                            src="/static/images/Location_Vector.svg"
+                            alt=""
+                            width={12}
+                            height={16}
+                            className="h-4 w-3"
+                          />
+                          {`${capitalizeFirstLetter(
+                            property?.property?.area
+                          )}, ${capitalizeFirstLetter(
+                            property?.property?.state
+                          )}`}
+                        </p>
+                        <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
+                          <div className="flex gap-4 items-center text-xs md:text-sm text-gray-800">
+                            {property?.property?.numberOfRooms && (
+                              <div className="flex items-center gap-1">
+                                <Image
+                                  src="/static/images/bed_Vector.svg"
+                                  alt=""
+                                  width={17}
+                                  height={12}
+                                  className="h-4 w-4"
+                                />
+                                {property?.property?.numberOfRooms === 1
+                                  ? `${property?.property?.numberOfRooms} bedroom`
+                                  : `${property?.property?.numberOfRooms} bedrooms`}
+                              </div>
+                            )}
+                            {property?.property?.numberOfBathrooms && (
+                              <div className="flex items-center gap-1">
+                                <Image
+                                  src="/static/images/shower_Vector.svg"
+                                  alt=""
+                                  width={17}
+                                  height={12}
+                                  className="h-4 w-4"
+                                />
+                                {property?.property?.numberOfBathrooms === 1
+                                  ? `${property?.property?.numberOfBathrooms} bathroom`
+                                  : `${property?.property?.numberOfBathrooms} bathrooms`}
+                              </div>
+                            )}
+                            {property?.property?.squareMeter && (
+                              <div className="flex items-center gap-1">
+                                <Image
+                                  src="/static/images/sqrtFeet-vector.svg"
+                                  alt=""
+                                  width={21}
+                                  height={12}
+                                  className="h-4 w-5"
+                                />
+                                {property?.property?.squareMeter} Sqft
                               </div>
                             )}
                           </div>
-                          {property?.property?.propertyType && (
-                            <p className="text-blue-600 text-[14px] font-[400]">
-                              {capitalizeFirstLetter(property?.property?.propertyType)}
-                            </p>
-                          )}
-                          {property?.property?.price && (
-                            <p className="text-[16px] font-[700] flex items-center">
+                          <Link
+                            href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                            onClick={() => updateMetrics("call")}
+                          >
+                            <button className="">
                               <Image
-                                src="/static/images/nairaIcon.svg"
+                                src="/static/images/arrow-in-circle.svg"
                                 alt=""
-                                width={15}
-                                height={25}
-                                className="h-6 w-4"
+                                width={40}
+                                height={40}
+                                className="h-10 w-10"
                               />
-                              <span className="pl-1 text-BlackHomz">
-                                {Number(property?.property?.price).toLocaleString()}
-                              </span>
-                            </p>
-                          )}
-                          <p className="flex gap-1 items-center text-[14px] font-[500] text-BlackHomz">
-                            <Image
-                              src="/static/images/Location_Vector.svg"
-                              alt=""
-                              width={12}
-                              height={16}
-                              className="h-4 w-3"
-                            />
-                            {`${capitalizeFirstLetter(property?.property?.area)}, ${capitalizeFirstLetter(property?.property?.state)}`}
-                          </p>
-                          <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
-                            <div className="flex gap-4 items-center text-xs md:text-sm text-gray-800">
-                              {property?.property?.numberOfRooms && (
-                                <div className="flex items-center gap-1">
-                                  <Image
-                                    src="/static/images/bed_Vector.svg"
-                                    alt=""
-                                    width={17}
-                                    height={12}
-                                    className="h-4 w-4"
-                                  />
-                                  {property?.property?.numberOfRooms === 1 ? `${property?.property?.numberOfRooms} bedroom` : `${property?.property?.numberOfRooms} bedrooms`}
-                                </div>
-                              )}
-                              {property?.property?.numberOfBathrooms && (
-                                <div className="flex items-center gap-1">
-                                  <Image
-                                    src="/static/images/shower_Vector.svg"
-                                    alt=""
-                                    width={17}
-                                    height={12}
-                                    className="h-4 w-4"
-                                  />
-                                  {property?.property?.numberOfBathrooms === 1 ? `${property?.property?.numberOfBathrooms} bathroom` : `${property?.property?.numberOfBathrooms} bathrooms`}
-                                </div>
-                              )}
-                              {property?.property?.squareMeter && (
-                                <div className="flex items-center gap-1">
-                                  <Image
-                                    src="/static/images/sqrtFeet-vector.svg"
-                                    alt=""
-                                    width={21}
-                                    height={12}
-                                    className="h-4 w-5"
-                                  />
-                                  {property?.property?.squareMeter} Sqft
-                                </div>
-                              )}
-                            </div>
-                            <Link href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}>
-                              <button className="">
-                                <Image
-                                  src="/static/images/arrow-in-circle.svg"
-                                  alt=""
-                                  width={40}
-                                  height={40}
-                                  className="h-10 w-10"
-                                />
-                              </button>
-                            </Link>
-                          </div>
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </Slider>
-                :
-                <Slider {...sliderSettings}>
-                  {featuredData?.map((property, idx) => (
-                    <div className="w-full mb-8" key={idx}>
-                      <div className="w-[290px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
-                        <div className="cursor-pointer w-[373px] h-[252px]">
-                          <Carousel
-                            slide={false}
-                            theme={customTheme}
-                            className="w-[290px] sm:w-[373px] h-[252px]"
-                          >
-                            {property?.property?.photos &&
-                              property?.property?.photos.map((img, index) => (
-                                <div key={index} className="w-[290px] sm:w-[373px] h-[252px]">
-                                  <Image
-                                    src={img?.url}
-                                    alt=""
-                                    width={373}
-                                    height={252}
-                                    className="w-[290px] sm:w-[373px] h-[252px] rounded-lg object-cover"
-                                  />
-                                </div>
-                              ))}
-                          </Carousel>
+                  </div>
+                ))}
+              </Slider>
+            ) : (
+              <Slider {...sliderSettings}>
+                {featuredData?.map((property, idx) => (
+                  <div className="w-full mb-8" key={idx}>
+                    <div className="w-[290px] sm:w-[373px] h-[458px] bg-white  rounded-lg shadow-md mx-auto">
+                      <div className="cursor-pointer w-[373px] h-[252px]">
+                        <Carousel
+                          slide={false}
+                          theme={customTheme}
+                          className="w-[290px] sm:w-[373px] h-[252px]"
+                        >
+                          {property?.property?.photos &&
+                            property?.property?.photos.map((img, index) => (
+                              <div
+                                key={index}
+                                className="w-[290px] sm:w-[373px] h-[252px]"
+                              >
+                                <Image
+                                  src={img?.url}
+                                  alt=""
+                                  width={373}
+                                  height={252}
+                                  className="w-[290px] sm:w-[373px] h-[252px] rounded-lg object-cover"
+                                />
+                              </div>
+                            ))}
+                        </Carousel>
+                      </div>
+                      <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
+                        <div className="flex justify-between items-center">
+                          <p className="text-BlueHomz w-[75%] truncate text-start text-[23px] font-[700]">
+                            {capitalizeFirstLetter(
+                              property?.property?.name ||
+                                property?.property?.title
+                            )}
+                          </p>
+                          {property?.property?.listingType && (
+                            <div className="bg-BlueHomz rounded-[4px] flex justify-center items-center w-[68px] h-[25px]">
+                              <p className="text-white text-[11px] font-[400]">
+                                {capitalizeFirstLetter(
+                                  property?.property?.listingType
+                                )}
+                              </p>
+                            </div>
+                          )}
                         </div>
-                        <div className="flex flex-col px-6 py-4 justify-between h-[206px]">
-                          <div className="flex justify-between items-center">
-                            <p className="text-BlueHomz w-[75%] truncate text-start text-[23px] font-[700]">
-                              {capitalizeFirstLetter(property?.property?.name || property?.property?.title)}
-                            </p>
-                            {property?.property?.listingType && (
-                              <div className="bg-BlueHomz rounded-[4px] flex justify-center items-center w-[68px] h-[25px]">
-                                <p className="text-white text-[11px] font-[400]">
-                                  {capitalizeFirstLetter(property?.property?.listingType)}
-                                </p>
+                        {property?.property?.propertyType && (
+                          <p className="text-blue-600 text-[14px] font-[400]">
+                            {capitalizeFirstLetter(
+                              property?.property?.propertyType
+                            )}
+                          </p>
+                        )}
+                        {property?.property?.price && (
+                          <p className="text-[16px] font-[700] flex items-center">
+                            <Image
+                              src="/static/images/nairaIcon.svg"
+                              alt=""
+                              width={15}
+                              height={25}
+                              className="h-6 w-4"
+                            />
+                            <span className="pl-1 text-BlackHomz">
+                              {Number(
+                                property?.property?.price
+                              ).toLocaleString()}
+                            </span>
+                          </p>
+                        )}
+                        <p className="flex gap-1 items-center text-[14px] font-[500] text-BlackHomz">
+                          <Image
+                            src="/static/images/Location_Vector.svg"
+                            alt=""
+                            width={12}
+                            height={16}
+                            className="h-4 w-3"
+                          />
+                          {`${capitalizeFirstLetter(
+                            property?.property?.area
+                          )}, ${capitalizeFirstLetter(
+                            property?.property?.state
+                          )}`}
+                        </p>
+                        <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
+                          <div className="flex gap-4 items-center text-xs md:text-sm text-gray-800">
+                            {property?.property?.numberOfRooms && (
+                              <div className="flex items-center gap-1">
+                                <Image
+                                  src="/static/images/bed_Vector.svg"
+                                  alt=""
+                                  width={17}
+                                  height={12}
+                                  className="h-4 w-4"
+                                />
+                                {property?.property?.numberOfRooms === 1
+                                  ? `${property?.property?.numberOfRooms} bedroom`
+                                  : `${property?.property?.numberOfRooms} bedrooms`}
+                              </div>
+                            )}
+                            {property?.property?.numberOfBathrooms && (
+                              <div className="flex items-center gap-1">
+                                <Image
+                                  src="/static/images/shower_Vector.svg"
+                                  alt=""
+                                  width={17}
+                                  height={12}
+                                  className="h-4 w-4"
+                                />
+                                {property?.property?.numberOfBathrooms === 1
+                                  ? `${property?.property?.numberOfBathrooms} bathroom`
+                                  : `${property?.property?.numberOfBathrooms} bathrooms`}
+                              </div>
+                            )}
+                            {property?.property?.squareMeter && (
+                              <div className="flex items-center gap-1">
+                                <Image
+                                  src="/static/images/sqrtFeet-vector.svg"
+                                  alt=""
+                                  width={21}
+                                  height={12}
+                                  className="h-4 w-5"
+                                />
+                                {property?.property?.squareMeter} Sqft
                               </div>
                             )}
                           </div>
-                          {property?.property?.propertyType && (
-                            <p className="text-blue-600 text-[14px] font-[400]">
-                              {capitalizeFirstLetter(property?.property?.propertyType)}
-                            </p>
-                          )}
-                          {property?.property?.price && (
-                            <p className="text-[16px] font-[700] flex items-center">
+                          <Link
+                            href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                            onClick={() => updateMetrics("call")}
+                          >
+                            <button className="">
                               <Image
-                                src="/static/images/nairaIcon.svg"
+                                src="/static/images/arrow-in-circle.svg"
                                 alt=""
-                                width={15}
-                                height={25}
-                                className="h-6 w-4"
+                                width={40}
+                                height={40}
+                                className="h-10 w-10"
                               />
-                              <span className="pl-1 text-BlackHomz">
-                                {Number(property?.property?.price).toLocaleString()}
-                              </span>
-                            </p>
-                          )}
-                          <p className="flex gap-1 items-center text-[14px] font-[500] text-BlackHomz">
-                            <Image
-                              src="/static/images/Location_Vector.svg"
-                              alt=""
-                              width={12}
-                              height={16}
-                              className="h-4 w-3"
-                            />
-                            {`${capitalizeFirstLetter(property?.property?.area)}, ${capitalizeFirstLetter(property?.property?.state)}`}
-                          </p>
-                          <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
-                            <div className="flex gap-4 items-center text-xs md:text-sm text-gray-800">
-                              {property?.property?.numberOfRooms && (
-                                <div className="flex items-center gap-1">
-                                  <Image
-                                    src="/static/images/bed_Vector.svg"
-                                    alt=""
-                                    width={17}
-                                    height={12}
-                                    className="h-4 w-4"
-                                  />
-                                  {property?.property?.numberOfRooms === 1 ? `${property?.property?.numberOfRooms} bedroom` : `${property?.property?.numberOfRooms} bedrooms`}
-                                </div>
-                              )}
-                              {property?.property?.numberOfBathrooms && (
-                                <div className="flex items-center gap-1">
-                                  <Image
-                                    src="/static/images/shower_Vector.svg"
-                                    alt=""
-                                    width={17}
-                                    height={12}
-                                    className="h-4 w-4"
-                                  />
-                                  {property?.property?.numberOfBathrooms === 1 ? `${property?.property?.numberOfBathrooms} bathroom` : `${property?.property?.numberOfBathrooms} bathrooms`}
-                                </div>
-                              )}
-                              {property?.property?.squareMeter && (
-                                <div className="flex items-center gap-1">
-                                  <Image
-                                    src="/static/images/sqrtFeet-vector.svg"
-                                    alt=""
-                                    width={21}
-                                    height={12}
-                                    className="h-4 w-5"
-                                  />
-                                  {property?.property?.squareMeter} Sqft
-                                </div>
-                              )}
-                            </div>
-                            <Link href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}>
-                              <button className="">
-                                <Image
-                                  src="/static/images/arrow-in-circle.svg"
-                                  alt=""
-                                  width={40}
-                                  height={40}
-                                  className="h-10 w-10"
-                                />
-                              </button>
-                            </Link>
-                          </div>
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </Slider>
-
-            }
+                  </div>
+                ))}
+              </Slider>
+            )}
           </div>
         </div>
-        <Link
-          href="user_homepage/PropertyListing"
-        >
+        <Link href="search-page/PropertyListing">
           <button className="md:hidden mb-8 border border-white px-4 py-2 rounded text-[14px] font-[500] flex gap-1 items-center">
             <span>View All</span>
             <Image
@@ -1196,7 +1283,7 @@ const HomePage = () => {
           </p>
           <div className="flex gap-2 mt-2">
             <Link
-              href="user_homepage/PropertyListing"
+              href="search-page/PropertyListing"
               className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]"
             >
               Explore properties
@@ -1215,7 +1302,10 @@ const HomePage = () => {
           </Link>
         </div>
         <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
-          <span className="">Hear from our satisfied clients who found their dream apartments with Homz.</span>
+          <span className="">
+            Hear from our satisfied clients who found their dream apartments
+            with Homz.
+          </span>
         </p>
         <div>
           <div className="mt-2 md:mt-8 px-12 md:px-0 md:mb-0 mb-6">
@@ -1300,4 +1390,3 @@ const Testimonials = [
       "We highly recommend Homz Company to anyone looking for reliable real estate management services. Their team's dedication and attention to detail are truly commendable.",
   },
 ];
-

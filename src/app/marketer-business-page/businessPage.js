@@ -3,14 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import MiniPropertyListings from "./miniPropertyListings";
-import timeAgo from "@/utils/timeAgo";
+// import timeAgo from "@/utils/timeAgo";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 // import { fetchSinglePropertyPublic } from "@/api/propertyService";
 import api from "@/utils/api";
 import LoadingII from "@/components/mainmenu/loadingII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import OwnersCard from "./ownersCard";
-import RequestCard from "../user_homepage/PreviewProperty/requestCard";
+import RequestCard from "../search-page/PreviewProperty/requestCard";
 import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";
@@ -177,7 +177,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       }
     });
     if (filters) {
-      link = `/user_homepage/PropertyListing/?page=1&${new URLSearchParams(
+      link = `/search-page/PropertyListing/?page=1&${new URLSearchParams(
         query
       ).toString()}`;
       return link;

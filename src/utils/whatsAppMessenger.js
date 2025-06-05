@@ -2,7 +2,7 @@ export default function whatsApp(number, slug) {
   // console.log(number);
   const defaultMessage = encodeURIComponent(
     `Hello, I would like to get more information on this property you
-     listed on homz.ng https://homz.ng/user_homepage/PreviewProperty/${slug}.`
+     listed on homz.ng https://homz.ng/search-page/PreviewProperty/${slug}.`
   );
   if (number.startsWith("0")) {
     number = number.substring(1);

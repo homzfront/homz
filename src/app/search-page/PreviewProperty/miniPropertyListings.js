@@ -12,7 +12,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
       <div className="text-[16px] flex justify-between w-full ">
         <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] "></p>
         <Link
-          href="/user_homepage/PropertyListing"
+          href="/search-page/PropertyListing"
           className="flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
           onClick={() => updateMetrics("call")}
         >
@@ -43,7 +43,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 >
                   {property?.photos.map((img, index) => (
                     <Link
-                      href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                      href={`/search-page/PreviewProperty/${property?.slug}`}
                       key={index}
                       className="w-full h-[181.77px] md:w-full"
                       onClick={() => updateMetrics("view")}
@@ -60,7 +60,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 </Carousel>
               ) : (
                 <Link
-                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  href={`/search-page/PreviewProperty/${property?.slug}`}
                   className="w-full h-[181.77px] md:w-full"
                   onClick={() => updateMetrics("view")}
                 >
@@ -80,13 +80,13 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 onClick={() => updateMetrics("view")}
               >
                 <Link
-                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  href={`/search-page/PreviewProperty/${property?.slug}`}
                   className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center"
                 >
                   {trucateWord(capitalizeFirstLetter(property?.title), 12)}
                 </Link>
                 <Link
-                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  href={`/search-page/PreviewProperty/${property?.slug}`}
                   className={`hidden sm:flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
@@ -177,7 +177,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 </div>
                 <Link
                   className="cursor-pointer"
-                  href={`/user_homepage/PreviewProperty/${property?.slug}`}
+                  href={`/search-page/PreviewProperty/${property?.slug}`}
                   onClick={() => updateMetrics("view")}
                 >
                   <Image
