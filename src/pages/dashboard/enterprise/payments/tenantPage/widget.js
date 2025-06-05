@@ -372,7 +372,7 @@ const Widget = ({
             </CustomizedModal>
             <div className="w-full h-auto py-4">
                 <div className="mt-5 flex flex-row items-end md:items-center justify-between">
-                    <div className="flex gap-4 w-auto items-center">
+                    <div className="flex flex-wrap gap-4 w-auto items-center">
                         <div className="flex flex-col items-center gap-2 justify-center cursor-pointer">
                             <div
                                 className={`flex flex-col items-center py-2 px-4 justify-center hover:text-BlueHomz ${active ? "border-b-[2px] border-BlueHomz text-BlueHomz" : "text-BlackHomz "}`}

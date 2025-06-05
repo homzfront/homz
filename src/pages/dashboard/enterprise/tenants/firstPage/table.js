@@ -221,7 +221,8 @@ const Table = ({
         switch (header) {
             case 'Tenant':
                 return (
-                    <div className="flex items-center gap-1 text-GrayHomz4 font-[500]">
+                    <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                        className="flex items-center gap-1 text-GrayHomz4 font-[500]">
                         {!row?.coverPhoto?.url ? (
                             <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                 <EmptyAvatar />
@@ -245,7 +246,8 @@ const Table = ({
 
             case 'Address':
                 return (
-                    <div onMouseEnter={() => handleMouseEnter(row?._id)}
+                    <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                        onMouseEnter={() => handleMouseEnter(row?._id)}
                         onMouseLeave={handleMouseLeave}
                         className="w-full relative">
                         {truncateText(row?.estateId?.address, 45)}
@@ -306,7 +308,7 @@ const Table = ({
                     <div className="relative bg-white w-[40%] pl-8">
                         <button onClick={() => {
                             handleToggleMenu(row?._id, row)
-                            }}>
+                        }}>
                             <Image
                                 src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                 alt=""
@@ -427,7 +429,6 @@ const Table = ({
                                     >
                                         {visibleColumns && visibleColumns?.map(header => (
                                             <div key={`${row?._id}-${header}`}
-                                              onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
                                                 className="">
                                                 {renderCellContent(header, row)}
                                             </div>
