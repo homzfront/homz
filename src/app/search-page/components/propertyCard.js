@@ -97,7 +97,7 @@ const PropertyCard = ({
                         className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]"
                         onClick={() => setOpenPropertyReq(true)}
                       >
-                        Contact Us
+                        Post a Property Request
                       </button>
                     </div>
                   </div>
