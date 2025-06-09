@@ -53,17 +53,17 @@ const SelectPlan = () => {
       url: notVerified ? `/verify-email` : "/plan/manage-property",
       active: true
     },
-    {
-      id: 2,
-      image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271951/public/images/Image11_xoqxov.png",
-      title: "Tenant",
-      content:
-        "As a tenant, pay rent, request maintenance services in one place.",
-      link: "/dashboard/tenant/dashboard",
-      name: "TENANT",
-      url: notVerified ? `/verify-email` : "/plan/tenant-management",
-      active: true
-    },
+    // {
+    //   id: 2,
+    //   image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271951/public/images/Image11_xoqxov.png",
+    //   title: "Tenant",
+    //   content:
+    //     "As a tenant, pay rent, request maintenance services in one place.",
+    //   link: "/dashboard/tenant/dashboard",
+    //   name: "TENANT",
+    //   url: notVerified ? `/verify-email` : "/plan/tenant-management",
+    //   active: true
+    // },
     {
       id: 3,
       image: "https://res.cloudinary.com/dniaq8eiz/image/upload/v1713271952/public/images/Image12_oajsqe.png",

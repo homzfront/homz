@@ -90,9 +90,9 @@ const ChangePassword = () => {
       } else {
         toast.error("Update failed");
         setPasswordError(
-            "Error changing password",
-            error.response?.data?.message
-          );
+          "Error changing password",
+          error.response?.data?.message
+        );
       }
       setShowDialogue(false);
     }
@@ -108,6 +108,7 @@ const ChangePassword = () => {
           placeholder={"Enter your current password"}
           setError={setPasswordError}
           autoComplete={""}
+          id={"reset-password-one-prop"}
         />
         <InputVisible
           password={newPassword}
@@ -115,7 +116,8 @@ const ChangePassword = () => {
           label={"New Password"}
           placeholder={"Enter New password"}
           setError={setPasswordError}
-          autoComplete={"new-password"}
+          autoComplete={""}
+          id={"reset-password-two-prop"}
         />
         <div>
           <p className="mt-[-5px] text-GrayHomz2 text-[13px] font-[400]">
@@ -129,7 +131,8 @@ const ChangePassword = () => {
           label={"Re-enter Password"}
           placeholder={"Re-enter  password"}
           setError={setPasswordError}
-          autoComplete={"new-password"}
+          autoComplete={""}
+          id={"reset-password-three-prop"}
         />
         {passwordError && (
           <div className="text-error italic text-[11px]">{passwordError}</div>
