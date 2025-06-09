@@ -342,8 +342,7 @@ const DocumentGeneration = () => {
 
   const goToplan = () => {
     router.push("/plans")
-  }
-
+  };
 
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
