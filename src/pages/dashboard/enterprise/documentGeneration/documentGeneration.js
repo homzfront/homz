@@ -497,8 +497,19 @@ const DocumentGeneration = () => {
                 </p>
                 <div
                   onClick={() => {
-                    setDocumentCreation(!documentCreation)
-                    setTab(null);
+                    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+                      setOpenPurchasePlan(!openPurchasePlan)
+                    } else if (reachedLimit?.expiredPlan) {
+                      setOpenPurchasePlan(!openPurchasePlan)
+                    } else {
+                      setDocumentCreation(!documentCreation)
+                      setTab(null);
+                      clearFormForNewUpload();
+                      resetReceiptFormData();
+                      resetAgreementFormData();
+                      setDocType(null);
+                      setFormName(null);
+                    }
                   }}
                 >
                   <AddBigBlue />

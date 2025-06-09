@@ -20,12 +20,12 @@ const PropertySlider = ({
   console.log("width:", width)
 
   const slidesToShow = () => {
-  if (isSingleSlide) return 1;
-  if (width > 1320) return 3;
-  if (width <= 1000) return 1;
-  if (width > 1000 && width <= 1320) return 2;
-  return 1;
-};
+    if (isSingleSlide) return 1;
+    if (width > 1320) return 3;
+    if (width <= 1000) return 1;
+    if (width > 1000 && width <= 1320) return 2;
+    return 1;
+  };
 
 
   const sliderSettings = {
@@ -49,11 +49,15 @@ const PropertySlider = ({
     centerPadding: "0%",
   };
 
-  const clampedWidth = Math.min(width || 1200, 1280); // fallback + upper bound
+  const slidesToShowCount = slidesToShow();
+  const slideWidth = width <= "640" ? 290 : 373 + 16;
+  const totalSliderWidth = slidesToShowCount * slideWidth;
+
+  console.log('slidesToShow:', slidesToShow(), 'width:', width);
 
 
   return (
-    <div style={{ maxWidth: `${clampedWidth}px` }} className="mx-auto w-full">
+    <div style={{ width: totalSliderWidth, maxWidth: '100%' }} className="mx-auto">
       <Slider {...(isSingleSlide ? singleSlideSettings : sliderSettings)}>
         {properties?.map((property, idx) => (
           <div className="w-full mb-8" key={idx}>
