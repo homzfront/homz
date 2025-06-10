@@ -1062,7 +1062,7 @@ const HomePage = () => {
           <div className="flex gap-2 mt-2">
             <Link
               href="user_homepage/PropertyListing"
-              className="w-[170px] flex justify-center items-center md:h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
+              className="w-[170px] flex justify-center items-center h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
             >
               Explore properties
             </Link>
