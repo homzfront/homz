@@ -51,7 +51,7 @@ const RentSecond = () => {
           </span>
         </div>
       </div> */}
-      {/* <div className="border rounded-[12px] border-lightblue bg-BlueHomz3 h-[120px] w-[342px] p-[20px]">
+      <div className="border rounded-[12px] border-lightblue bg-BlueHomz3 h-[120px] w-[342px] p-[20px]">
         <p className="text-BlueHomz">Wallet Balance</p>
         <Link href={"/dashboard/tenant/finance"} className="w-full flex justify-end">
           <Image
@@ -62,7 +62,7 @@ const RentSecond = () => {
           />
         </Link >
         <p className="text-[16px] font-[500] text-BlackHomz"><span style={{ fontFamily: "Arial"}}>₦</span>{addCommasToNumber(walletBalance?.data?.balance?.availableBalance)}</p>
-      </div> */}
+      </div>
     </div>
   );
 };

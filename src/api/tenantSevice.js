@@ -177,8 +177,6 @@ export const createSpecificTenantRentInfo = async (id, payload) => {
 };
 
 export const updateSpecificTenantRentInfo = async (id, payload) => {
-  console.log(id)
-  console.log(payload)
   try {
     const response = await api.patch(`/rentInformation/${id}/enterprise`, payload);
     return { success: true, upDateddata: response?.data.data };
