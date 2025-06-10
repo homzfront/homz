@@ -21,9 +21,9 @@ const PropertySlider = ({
 
   const slidesToShow = () => {
     if (isSingleSlide) return 1;
-    if (width > 1320) return 3;
+    if (width > 1260) return 3;
     if (width <= 1000) return 1;
-    if (width > 1000 && width <= 1320) return 2;
+    if (width > 1000 && width <= 1260) return 2;
     return 1;
   };
 
@@ -53,29 +53,27 @@ const PropertySlider = ({
   const slideWidth = width <= "640" ? 290 : 373 + 16;
   const totalSliderWidth = slidesToShowCount * slideWidth;
 
-  console.log('slidesToShow:', slidesToShow(), 'width:', width);
-
 
   return (
     <div style={{ width: totalSliderWidth, maxWidth: '100%' }} className="mx-auto">
       <Slider {...(isSingleSlide ? singleSlideSettings : sliderSettings)}>
         {properties?.map((property, idx) => (
           <div className="w-full mb-8" key={idx}>
-            <div className="w-[290px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
+            <div className="w-[290px] sm:w-[360px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
               <div className="cursor-pointer w-[373px] h-[252px]">
                 <Carousel
                   slide={false}
                   theme={carouselTheme}
-                  className="w-[290px] sm:w-[373px] h-[252px]"
+                  className="w-[290px] sm:w-[360px] h-[252px]"
                 >
                   {property?.property?.photos?.map((img, index) => (
-                    <div key={index} className="w-[290px] sm:w-[373px] h-[252px]">
+                    <div key={index} className="w-[290px] sm:w-[360px] h-[252px]">
                       <Image
                         src={img?.url}
                         alt=""
                         width={373}
                         height={252}
-                        className="w-[290px] sm:w-[373px] h-[252px] rounded-lg object-cover"
+                        className="w-[290px] sm:w-[360px] h-[252px] rounded-lg object-cover"
                       />
                     </div>
                   ))}

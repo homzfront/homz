@@ -130,7 +130,7 @@ const SidebarMobile = ({ setOpen, user }) => {
             <p className="">Access Control</p>
           </Link>
         )} */}
-        {/* <Link
+        <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/tenant/finance"}
           className={`w-full h-[45px] rounded-[4px] items-center flex gap-2 justify-start px-4 
@@ -152,7 +152,7 @@ const SidebarMobile = ({ setOpen, user }) => {
             )}
           </div>
           <p className="">Finance</p>
-        </Link> */}
+        </Link>
         <Link
           onClick={() => setOpen(false)}
           href={"/dashboard/tenant/maintenance"}
