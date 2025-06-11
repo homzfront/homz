@@ -150,7 +150,7 @@ const ViewProperty = ({ PropertySlug }) => {
   };
 
   const linkToSearch = () => {
-    router.push("/user_homepage/PropertyListing");
+    router.push("/search-page/PropertyListing");
   };
 
   // const viewFile = (url) => {
@@ -642,7 +642,7 @@ const ViewProperty = ({ PropertySlug }) => {
                       Get Started
                     </Link>
                   </div>
-                  <FeaturedCard />
+                  <FeaturedCard updateMetrics={updateMetrics} />
                   <div className="sm:hidden flex flex-col gap-4 h-fit border rounded-[12px] p-[20px] w-[100%] bg-[#202020]">
                     <p className="text-[16px] leading-[24px] flex items-center gap-2 font-[500] text-white">
                       <Image

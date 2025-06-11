@@ -46,13 +46,14 @@ const Header = () => {
     setSubMenuOpen(false);
   };
 
-
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   function hasListPropertyAccount(profile) {
-    return profile?.accounts?.some(account => account.name === 'LIST_PROPERTY');
+    return profile?.accounts?.some(
+      (account) => account.name === "LIST_PROPERTY"
+    );
   }
 
   useEffect(() => {
@@ -79,11 +80,13 @@ const Header = () => {
       if (profile) {
         setHasListProperty(hasListPropertyAccount(profile));
       }
-    }
-    DataAgain()
-  }, [hasListProperty])
+    };
+    DataAgain();
+  }, [hasListProperty]);
 
-  const url = !profile ? "/register" : hasListProperty
+  const url = !profile
+    ? "/register"
+    : hasListProperty
     ? "/dashboard/list_Property/addProperty"
     : "/switch-profile";
 
@@ -98,7 +101,7 @@ const Header = () => {
         // If the input is an object with an 'email' property, use that email
         email = userOrEmail.email;
       } else if (userOrEmail?.user?.email) {
-        email = userOrEmail?.user?.email
+        email = userOrEmail?.user?.email;
       }
 
       // Split the email address by "@" to get an array
@@ -118,10 +121,9 @@ const Header = () => {
     if (typeof user === "string") {
       user = profile;
     } else if (profile && profile?.isVerified) {
-      user = profile
-    }
-    else if (profile?.user && profile?.user?.isVerified) {
-      user = profile?.user
+      user = profile;
+    } else if (profile?.user && profile?.user?.isVerified) {
+      user = profile?.user;
     }
     if (user?.isVerified && user?.accounts.length === 0) {
       return "/select-plan";
@@ -134,9 +136,9 @@ const Header = () => {
     } else if (user?.accounts?.[0].name === "LIST_PROPERTY") {
       return "/dashboard/list_Property";
     } else {
-      return '/switch-profile';
+      return "/switch-profile";
     }
-  };
+  }
 
   useEffect(() => {
     let timer;
@@ -159,23 +161,24 @@ const Header = () => {
     setShowLongLoadingMessage(false);
   };
 
-
   return (
     <div className="text-BlackHomz px-6 font-normal w-[147px] md:w-full md:flex justify-between text-[16px] max-w-[1160px] items-center  md:m-auto pt-12 shadow-m">
       <CustomizedModal isOpen={showLongLoadingMessage}>
         <LoadingProlonged closeModal={closeModal} />
       </CustomizedModal>
-      {
-        openModalForBusi &&
-        <div
-          className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
-          <div ref={dropdownRef} className="bg-white w-[320px] md:w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around">
+      {openModalForBusi && (
+        <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-30">
+          <div
+            ref={dropdownRef}
+            className="bg-white w-[320px] md:w-[464px] h-[290px] rounded-[12px] flex flex-col p-8 items-center justify-around"
+          >
             <BusinessAlert />
             <p className="text-[16px] md:text-[20px] font-[700] text-BlackHomz">
               Update Business Information
             </p>
             <p className="text-[14px] md:text-[16px] font-[400] text-GrayHomz text-center">
-              Kindly upload your business certification in order to list more properties
+              Kindly upload your business certification in order to list more
+              properties
             </p>
             <Link
               href={"/dashboard/list_Property/Profile?tab=business"}
@@ -187,7 +190,7 @@ const Header = () => {
             </Link>
           </div>
         </div>
-      }
+      )}
       <Link href={"/"}>
         <Image
           src={"/Homz_Logo_Blue.png"}
@@ -198,34 +201,62 @@ const Header = () => {
         />
       </Link>
       <nav
-        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${open ? "block" : "hidden md:flex"
-          }`}
+        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${
+          open ? "block" : "hidden md:flex"
+        }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
-          <Link href={"/"} className={`hover:text-blue-400 ${pathname === "/" || pathname === "/user_homepage/PropertyListing" || pathname === "/user_homepage/PreviewProperty" || pathname === "/user_homepage" ? "text-BlueHomz" : ""}`}>
+          <Link
+            href={"/"}
+            className={`hover:text-blue-400 ${
+              pathname === "/" ||
+              pathname === "/search-page/PropertyListing" ||
+              pathname === "/search-page/PreviewProperty" ||
+              pathname === "/search-page"
+                ? "text-BlueHomz"
+                : ""
+            }`}
+          >
             Home
           </Link>
           <Link
             href={"/landlord"}
-            className={`hover:text-blue-400   ${pathname === "/landlord" ? "text-BlueHomz" : ""}`}
+            className={`hover:text-blue-400   ${
+              pathname === "/landlord" ? "text-BlueHomz" : ""
+            }`}
             onClick={() => setOpen(false)}
           >
             Management
           </Link>
           <div className="relative flex items-center gap-1">
             <Link
-              href={`${(pathname !== "/enterprise" || pathname !== "/document-generation") ? "/enterprise" : ""}`}
-              className={`${pathname === "/document-generation" || pathname === "/enterprise" ? "text-BlueHomz" : ""} hover:text-blue-400`}
+              href={`${
+                pathname !== "/enterprise" ||
+                pathname !== "/document-generation"
+                  ? "/enterprise"
+                  : ""
+              }`}
+              className={`${
+                pathname === "/document-generation" ||
+                pathname === "/enterprise"
+                  ? "text-BlueHomz"
+                  : ""
+              } hover:text-blue-400`}
               onClick={() => setOpen(false)}
             >
-              {
-                pathname === "/document-generation" ? "Document Generation" : pathname === "/enterprise" ?
-                  "Enterprise" : "Enterprise"}
+              {pathname === "/document-generation"
+                ? "Document Generation"
+                : pathname === "/enterprise"
+                ? "Enterprise"
+                : "Enterprise"}
             </Link>
-            <div onClick={toggleSubMenu} className={`mt-0.5 cursor-pointer flex`}>
+            <div
+              onClick={toggleSubMenu}
+              className={`mt-0.5 cursor-pointer flex`}
+            >
               {subMenuOpen ? <ArrowUpII /> : <Down />}
             </div>
-            {subMenuOpen &&
+            {subMenuOpen && (
               <div
                 className={`absolute px-3 top-5 md:top-7 py-3 flex  flex-col gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
                    w-[210px]  sm:w-[240px] border z-[99999] bg-white
@@ -237,20 +268,21 @@ const Header = () => {
                   href={"/enterprise"}
                   className="w-full"
                 >
-                  {active ?
+                  {active ? (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag className='#006AFF' />
+                      <EnterpriseBag className="#006AFF" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
                         Enterprise
                       </p>
-                    </div> :
+                    </div>
+                  ) : (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
                       <EnterpriseBag />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
                         Enterprise
                       </p>
                     </div>
-                  }
+                  )}
                 </Link>
                 <Link
                   onMouseEnter={() => setActiveTwo(true)}
@@ -258,39 +290,46 @@ const Header = () => {
                   href={"/document-generation"}
                   className="w-full"
                 >
-                  {activeTwo ?
+                  {activeTwo ? (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseDoc className='#006AFF' />
+                      <EnterpriseDoc className="#006AFF" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
                         Document Generation
                       </p>
-                    </div> :
+                    </div>
+                  ) : (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
                       <EnterpriseDoc />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
                         Document Generation
                       </p>
                     </div>
-                  }
+                  )}
                 </Link>
               </div>
-            }
+            )}
           </div>
           <Link
             href={"/tenant"}
             // href={""}
-            className={`hover:text-blue-400 ${pathname === "/tenant" ? "text-BlueHomz" : ""}`}
+            className={`hover:text-blue-400 ${
+              pathname === "/tenant" ? "text-BlueHomz" : ""
+            }`}
             onClick={() => setOpen(false)}
           >
             Tenant
           </Link>
-          {data?.properties?.length > 0 && (data?.businessInfo?.isVerified === 'unverified' || data?.businessInfo?.isVerified === 'pending' || data?.businessInfo?.isVerified === 'rejected') ?
+          {data?.properties?.length > 0 &&
+          (data?.businessInfo?.isVerified === "unverified" ||
+            data?.businessInfo?.isVerified === "pending" ||
+            data?.businessInfo?.isVerified === "rejected") ? (
             <div
               className="hover:text-blue-400 cursor-pointer"
-              onClick={handleOpenModal}>
+              onClick={handleOpenModal}
+            >
               List A Property
             </div>
-            :
+          ) : (
             <Link
               href={url}
               className="hover:text-blue-400 "
@@ -298,34 +337,42 @@ const Header = () => {
             >
               List A Property
             </Link>
-          }
+          )}
         </div>
       </nav>
       <div
-        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${open ? "block" : "hidden md:flex"
-          } `}
+        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${
+          open ? "block" : "hidden md:flex"
+        } `}
       >
         {isLoading ? (
           <div className="w-full justify-center items-center">
-            {
-              profile ?
-                <div className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"}`}>
-                  <Link href={profile ? determineUserDashboard(profile) : "/"}>
-                    <p className={`w-full ${open ? "text-[12px] " : ""}`}>Hi, {extractUsername(profile)}!</p>
-                  </Link>
-                  <button
-                    onClick={() => logout(logout)}
-                    className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px]" : ""}`}
-                  >
-                    Logout
-                  </button>
-                  {/* Add more user information or actions as needed */}
-                </div>
-                :
-                <div className="w-full justify-center items-center">
-                  {/* <LoadingTable />  */}
-                </div>
-            }
+            {profile ? (
+              <div
+                className={`flex items-center ${
+                  open ? "flex  flex-col gap-4 items-start" : "gap-2"
+                }`}
+              >
+                <Link href={profile ? determineUserDashboard(profile) : "/"}>
+                  <p className={`w-full ${open ? "text-[12px] " : ""}`}>
+                    Hi, {extractUsername(profile)}!
+                  </p>
+                </Link>
+                <button
+                  onClick={() => logout(logout)}
+                  className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${
+                    open ? "text-[12px]" : ""
+                  }`}
+                >
+                  Logout
+                </button>
+                {/* Add more user information or actions as needed */}
+              </div>
+            ) : (
+              <div className="w-full justify-center items-center">
+                {/* <LoadingTable />  */}
+              </div>
+            )}
           </div>
         ) : (
           <>
@@ -333,14 +380,16 @@ const Header = () => {
               href="/login"
               // href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
               // href={""}
-              className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}>
+              className={`hover:text-blue-400 ${open ? "text-[12px]" : ""}`}
+            >
               Sign in
-
             </Link>
             <Link
               href="/register"
               //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""}`}
+              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${
+                open ? "text-[12px] " : ""
+              }`}
             >
               Create Account
               {/* Join Waitlist */}

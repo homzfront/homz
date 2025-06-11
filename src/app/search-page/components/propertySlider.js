@@ -79,7 +79,9 @@ const PropertySlider = ({
                 <div className="flex justify-between items-center">
                   <p className="text-BlueHomz w-[75%] truncate text-start text-[23px] font-[700]">
                     {capitalizeFirstLetter(
-                      property?.property?.name || property?.property?.title || ""
+                      property?.property?.name ||
+                        property?.property?.title ||
+                        ""
                     )}
                   </p>
                   {property?.property?.listingType && (
@@ -119,7 +121,9 @@ const PropertySlider = ({
                   />
                   {`${capitalizeFirstLetter(
                     property?.property?.area || ""
-                  )}, ${capitalizeFirstLetter(property?.property?.state || "")}`}
+                  )}, ${capitalizeFirstLetter(
+                    property?.property?.state || ""
+                  )}`}
                 </p>
                 <div className="flex justify-between items-center text-[10px] font-[500] text-BlackHomz">
                   <div className="flex gap-4 items-center text-xs md:text-sm text-gray-800">
@@ -165,7 +169,8 @@ const PropertySlider = ({
                     )}
                   </div>
                   <Link
-                    href={`/user_homepage/PreviewProperty/${property?.property?.slug}`}
+                    href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                    onClick={() => updateMetrics("call")}
                   >
                     <button className="">
                       <Image
@@ -184,7 +189,6 @@ const PropertySlider = ({
         ))}
       </Slider>
     </div>
-
   );
 };
 

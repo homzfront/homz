@@ -12,7 +12,7 @@ const ChangePassword = () => {
   const [reEnterPassword, setReEnterPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [update, setUpdate] = useState(false);
+
   const [showNewPassword, setshowNewPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -20,11 +20,11 @@ const ChangePassword = () => {
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
   const toggleReEnterPasswordVisibility = () => {
-    setShowRePassword(!showRePassword)
-  }
+    setShowRePassword(!showRePassword);
+  };
   const toggleNewPasswordVisibility = () => {
     setshowNewPassword(!showNewPassword);
   };
@@ -57,7 +57,9 @@ const ChangePassword = () => {
     }
 
     if (newPassword !== reEnterPassword) {
-      setPasswordError("The entered passwords do not match. Please make sure your passwords match.");
+      setPasswordError(
+        "The entered passwords do not match. Please make sure your passwords match."
+      );
       setLoading(false);
       setSaveModalIsOpen(false);
       return;
@@ -70,7 +72,7 @@ const ChangePassword = () => {
         newPassword: reEnterPassword,
       };
 
-      const { success, upDateddata, error } = await updatePassword(updatedData);
+      const { success, error } = await updatePassword(updatedData);
 
       if (success) {
         // console.log("Form successfully updated", upDateddata);
@@ -114,9 +116,9 @@ const ChangePassword = () => {
     }
   };
 
-  const handleUpdate = () => {
-    setSaveModalIsOpen(true);
-  };
+  // const handleUpdate = () => {
+  //   setSaveModalIsOpen(true);
+  // };
 
   const closeModal = () => {
     setSaveModalIsOpen(false);
@@ -130,17 +132,18 @@ const ChangePassword = () => {
   return (
     <div className="w-full">
       <div className="w-full flex flex-wrap gap-7 pt-8 md:pt-0 md:px-4">
-        <div
-          className="w-full flex flex-col md:w-full md:gap-[28px] gap-[24px]"
-        >
+        <div className="w-full flex flex-col md:w-full md:gap-[28px] gap-[24px]">
           <div className="w-full space-y-1">
-            <label for="currentPwd" className="text-[13px] md:text-[14px] font-[500] text-GrayHomz">
+            <label
+              for="currentPwd"
+              className="text-[13px] md:text-[14px] font-[500] text-GrayHomz"
+            >
               Current Password
             </label>
             <br />
             <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
-                disabled={!update || loading}
+                disabled={loading}
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -174,11 +177,16 @@ const ChangePassword = () => {
             </div>
           </div>
           <div className=" space-y-1">
-            <label for="newPwd" className="text-[13px] md:text-[14px] font-[500] text-GrayHomz">Enter New Password</label>
+            <label
+              for="newPwd"
+              className="text-[13px] md:text-[14px] font-[500] text-GrayHomz"
+            >
+              Enter New Password
+            </label>
             <br />
             <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
-                disabled={!update || loading}
+                disabled={loading}
                 onChange={(e) => {
                   setNewPassword(e.target.value);
                   setPasswordError(null);
@@ -211,11 +219,16 @@ const ChangePassword = () => {
             </div>
           </div>
           <div className=" space-y-1">
-            <label for="confirmNewPwd" className="text-[13px] md:text-[14px] font-[500] text-GrayHomz">Re-enter Password</label>
+            <label
+              for="confirmNewPwd"
+              className="text-[13px] md:text-[14px] font-[500] text-GrayHomz"
+            >
+              Re-enter Password
+            </label>
             <br />
             <div className=" relative flex items-center h-[43px] md:h-[45px] md:w-[473px]  rounded-[4px]  border w-[100%]">
               <input
-                disabled={!update || loading}
+                disabled={loading}
                 type={showRePassword ? "text" : "password"}
                 onChange={(e) => {
                   setReEnterPassword(e.target.value);
@@ -247,54 +260,36 @@ const ChangePassword = () => {
               </p>
             </div>
             {passwordError && (
-              <div className="text-error italic text-[11px]">{passwordError}</div>
+              <div className="text-error italic text-[11px]">
+                {passwordError}
+              </div>
             )}
           </div>
           <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
-          <div className="flex flex-col ">
-            {update ? (
+            <div className="flex flex-col ">
               <button
-              onClick={() => setSaveModalIsOpen(true)}
+                onClick={() => setSaveModalIsOpen(true)}
                 className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 type="submit"
               >
-                Save Update
+                Update
               </button>
-            ) : (
-              <p
-                className="flex cursor-pointer border justify-center md:w-[130px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setUpdate(true)}
-              >
-                Click to update
-              </p>
-            )}
+            </div>
           </div>
-        </div>
 
-        <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
-          <div className="flex flex-col w-full">
-            {update ? (
+          <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
+            <div className="flex flex-col w-full">
               <button
-              onClick={() => setSaveModalIsOpen(true)}
+                onClick={() => setSaveModalIsOpen(true)}
                 className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
                 type="submit"
               >
-                Save Update
+                Update
               </button>
-            ) : (
-              <p
-                className="flex cursor-pointer border justify-center w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setUpdate(true)}
-              >
-                 Click to update
-              </p>
-            )}
+            </div>
           </div>
-        </div>
         </div>
         <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
           <div className="bg-white border w-[333px] flex flex-col md:w-[464px] py-[24px] px-[16px] md:p-[32px] rounded-[12px] gap-[18px] items-center justify-center">
@@ -304,10 +299,18 @@ const ChangePassword = () => {
             <p className=" hidden md:block leading-[19.5px] text-[16px] font-[400] md:leading-[24px] text-center">
               Proceed with saving changes?
             </p>
-            <div className={`flex flex-wrap md:flex-col gap-[16px] ${loading ? "pointer-events-none" : ""}`}>
+            <div
+              className={`flex flex-wrap md:flex-col gap-[16px] ${
+                loading ? "pointer-events-none" : ""
+              }`}
+            >
               <button
                 className={`bg-BlueHomz2 w-[137.5px] text-white rounded-[4px] border  md:w-[400px] h-[42px] md:h-[48px] text-center
-                  ${loading ? "pointer-events-none w-full flex justify-center" : ""} 
+                  ${
+                    loading
+                      ? "pointer-events-none w-full flex justify-center"
+                      : ""
+                  } 
                   `}
                 onClick={updateDone}
               >
@@ -347,7 +350,6 @@ const ChangePassword = () => {
               className="bg-BlueHomz2 text-white rounded-[4px] border h-[48px] p-[12px]"
               onClick={() => {
                 closeSuccessModal();
-                setUpdate(false);
               }}
             >
               Close

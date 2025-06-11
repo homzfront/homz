@@ -200,7 +200,7 @@ const PropertyRequest = ({
           setOpenPropertyReq(false);
           setOpenSuccessModal(true);
           resetFields();
-          updateMetrics();
+          updateMetrics && updateMetrics();
         }
       } catch (error) {
         setIsLoading(false);

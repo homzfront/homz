@@ -14,18 +14,18 @@ const Footer = () => {
       <div className=" items-center flex justify-center flex-col m-auto max-w-[1165px]">
         <div className="flex md:text-sm lg:w-full xl:w-[1165px] flex-col lg:flex-row items-center justify-center  lg:flex lg:items-start">
           <div className="max-w-[338px] md:max-w-full lg:w-auto">
-            <Link href={'/'}>
+            <Link href={"/"}>
               <Image
                 src={"/Homz_colorless.png"}
                 alt="HOMZ"
                 height={27}
                 width={131}
                 style={{ width: "131px", height: "27px" }}
-
               />
             </Link>
             <h6 className="mt-7">
-              Your Trusted Partner in Real Estate - Simplifying Property Transactions for Landlords, Managers and Tenants
+              Your Trusted Partner in Real Estate - Simplifying Property
+              Transactions for Landlords, Managers and Tenants
             </h6>
             <div className="mt-8 md:mt-3 lg:mt-8  ">
               <p className="mb-1">Follow Us</p>
@@ -46,14 +46,11 @@ const Footer = () => {
             </div>
             <div className="md:mt-3 lg:mt-8 mt-8 flex flex-col gap-2">
               <p>
-                Address: 1st Floor, Marina Hub Suite, Foresight House, 163/165, Broad Street, Lagos Nigeria.
+                Address: 1st Floor, Marina Hub Suite, Foresight House, 163/165,
+                Broad Street, Lagos Nigeria.
               </p>
-              <p>
-                Contact: 09160002460
-              </p>
-              <p>
-                WhatsApp: 09160002460
-              </p>
+              <p>Contact: 09160002460</p>
+              <p>WhatsApp: 09160002460</p>
             </div>
             <div className="md:mt-3 lg:mt-8 mt-8">
               <p className="mb-3 lg:max-w-[280px] ">
@@ -75,13 +72,11 @@ const Footer = () => {
           {/* <div className="flex md:text-sm pr-[160px] pl-0 lg:pl-14 sm:pr-0 gap-4 md:gap-0   md:max-w-full max-w-[338px]  flex-col mt-10 lg:mt-[-10px]  md:grid md:grid-cols-2 xl:grid-cols-4"> */}
           <div className="flex w-full mt-4 lg:mt-0 justify-start lg:justify-center">
             <div className="leading-loose pl-0 ">
-              <h2 className="font-[700] text-[16px] lg:mb-3">
-                Useful Links
-              </h2>
+              <h2 className="font-[700] text-[16px] lg:mb-3">Useful Links</h2>
               <Link href={"/about-us"}>
                 <p>About Us</p>
               </Link>
-              <Link href={"/user_homepage/PropertyListing?page=1"}>
+              <Link href={"/search-page/PropertyListing?page=1"}>
                 <p>Properties</p>
               </Link>
               <Link href={"/privacy-policy"}>

@@ -25,7 +25,7 @@ const MiniPropertyListings = ({
           Similar properties
         </p>
         <Link
-          href="user_homepage/PropertyListing"
+          href="search-page/PropertyListing"
           className="hidden md:flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
@@ -41,7 +41,7 @@ const MiniPropertyListings = ({
       <div className="w-[315px] grid sm:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <Link
-            href={`/user_homepage/PreviewProperty/${property?.slug}`}
+            href={`/search-page/PreviewProperty/${property?.slug}`}
             onClick={() => updateMetrics("view")}
             className={`flex flex-col w-[315px]  ${
               width ? width : " sm:w-[333px]"

@@ -6,7 +6,6 @@ import MinPrice from "./components/minPrice";
 import PropertyType from "./components/propertyType";
 import Image from "next/image";
 import Link from "next/link";
-import { Carousel } from "flowbite-react";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import api from "@/utils/api";
@@ -54,8 +53,6 @@ const customTheme = {
   },
 };
 
-
-
 const HomePage = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [landlord, setLandlords] = useState(true);
@@ -81,7 +78,7 @@ const HomePage = () => {
 
   // Scroll function
   const scrollToRef = (ref) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+    ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleOpen = (e) => {
@@ -112,8 +109,8 @@ const HomePage = () => {
     setSale(false);
     setShortlist(false);
     setLand(false);
-    if (lowerCaseData(e.target.innerText) === 'rent') {
-      handleFilterChange("listingType", 'for rent');
+    if (lowerCaseData(e.target.innerText) === "rent") {
+      handleFilterChange("listingType", "for rent");
     } else {
       handleFilterChange("listingType", lowerCaseData(e.target.innerText));
     }
@@ -124,8 +121,8 @@ const HomePage = () => {
     setSale(true);
     setShortlist(false);
     setLand(false);
-    if (lowerCaseData(e.target.innerText) === 'buy') {
-      handleFilterChange("listingType", 'for sale');
+    if (lowerCaseData(e.target.innerText) === "buy") {
+      handleFilterChange("listingType", "for sale");
     } else {
       handleFilterChange("listingType", lowerCaseData(e.target.innerText));
     }
@@ -161,7 +158,7 @@ const HomePage = () => {
   };
 
   const link = () => {
-    let link
+    let link;
     const query = {};
     Object.keys(filters).forEach((key) => {
       if (filters[key]) {
@@ -169,22 +166,65 @@ const HomePage = () => {
       }
     });
     if (filters) {
-      link = `/user_homepage/PropertyListing/?page=1&${new URLSearchParams(query).toString()}`
+      link = `/search-page/PropertyListing/?page=1&${new URLSearchParams(
+        query
+      ).toString()}`;
       return link;
     }
   };
 
   useEffect(() => {
-    fetchFeaturedData()
+    const fetchData = async () => {
+      const response = await api.get(`/public/properties/featured`);
+      const propertyData = response?.data?.data || null;
+    };
+    fetchData();
+    fetchFeaturedData();
   }, []);
 
   function getWindowDimensions() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const { innerWidth: width } = window;
       return width;
     }
     return null;
   }
+
+  const [windowWidth, setWindowWidth] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      function handleResize() {
+        setWindowWidth(getWindowDimensions());
+      }
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+
+  const slidesToShow = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth > 1320) return 3;
+      if (window.innerWidth < 1000) return 1;
+      if (window.innerWidth < 1321 && window.innerWidth > 999) return 2;
+    }
+    return 1;
+  };
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
+    slidesToShow: slidesToShow(), // Adjusted based on screen size
+    className: "center",
+    centerMode: true,
+    centerPadding: "0",
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: null,
+    nextArrow: null,
+  };
 
   const sliderSettingsII = {
     dots: false,
@@ -205,7 +245,9 @@ const HomePage = () => {
     <div className="md:w-full mx-auto mt-10 md:mt-20 ">
       <div className="sm:hidden bg-[url('/static/images/Fine_Building.jpeg')] bg-cover h-[510px] py-8 px-6 flex flex-col justify-between">
         <div className="bg-whiteblue p-2 w-[200px] rounded-[4px]">
-          <p className="text-[13px] font-[400] text-BlueHomz">One-Stop real estate solution</p>
+          <p className="text-[13px] font-[400] text-BlueHomz">
+            One-Stop real estate solution
+          </p>
         </div>
         <p className="text-[29px] font-[700] text-white leading-tight">
           Find & Manage Properties on Homz
@@ -214,33 +256,41 @@ const HomePage = () => {
           <div className="text-[13px] font-[500] w-full flex ">
             <button
               onClick={handleRent}
-              className={`w-[25%] h-[38px] rounded-tl-[4px] rounded-bl-[4px] ${rent
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] rounded-tl-[4px] rounded-bl-[4px] ${
+                rent
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Rent
             </button>
             <button
               onClick={handleSale}
-              className={`w-[25%] h-[38px] ${sale
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] ${
+                sale
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Buy
             </button>
             <button
               onClick={handleShortlist}
-              className={`w-[25%] h-[38px] ${shortlist
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] ${
+                shortlist
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Shortlet
             </button>
             <button
               onClick={handleLand}
-              className={`w-[25%] h-[38px] rounded-tr-[4px] rounded-br-[4px] ${land
-                ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
-                : "bg-[#FFFFFF]"} text-BlueHomz`}
+              className={`w-[25%] h-[38px] rounded-tr-[4px] rounded-br-[4px] ${
+                land
+                  ? " hover:bg-[#559CFF] bg-BlueHomz text-white"
+                  : "bg-[#FFFFFF]"
+              } text-BlueHomz`}
             >
               Land
             </button>
@@ -270,10 +320,11 @@ const HomePage = () => {
               <PropertyType
                 getPropertyType={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.propertyType === null
-                  ? "Type"
-                  : capitalizeFirstLetter(filters?.propertyType)
-                  }`}
+                selectOption={`${
+                  filters?.propertyType === null
+                    ? "Type"
+                    : capitalizeFirstLetter(filters?.propertyType)
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -284,10 +335,11 @@ const HomePage = () => {
               <Bedroom
                 getBedrooms={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.numberOfBathrooms === null
-                  ? "No of bedrooms"
-                  : `${filters?.numberOfBathrooms} Bedrooms`
-                  }`}
+                selectOption={`${
+                  filters?.numberOfBathrooms === null
+                    ? "No of bedrooms"
+                    : `${filters?.numberOfBathrooms} Bedrooms`
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -298,10 +350,11 @@ const HomePage = () => {
               <MinPrice
                 getPrice={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.minPrice === null
-                  ? "Min Price"
-                  : addCommasToNumberWithoutN(filters?.minPrice)
-                  }`}
+                selectOption={`${
+                  filters?.minPrice === null
+                    ? "Min Price"
+                    : addCommasToNumberWithoutN(filters?.minPrice)
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -312,10 +365,11 @@ const HomePage = () => {
               <MaxPrice
                 getPrice={handleSearch}
                 className={"w-[100%]"}
-                selectOption={`${filters?.maxPrice === null
-                  ? "Max Price"
-                  : addCommasToNumberWithoutN(filters?.maxPrice)
-                  }`}
+                selectOption={`${
+                  filters?.maxPrice === null
+                    ? "Max Price"
+                    : addCommasToNumberWithoutN(filters?.maxPrice)
+                }`}
                 classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                 classNameIII={"text-GrayHomz2"}
                 classNameIV={"text-GrayHomz2"}
@@ -336,7 +390,9 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
-      <div className={`hidden sm:flex flex-col justify-center items-center relative px-8 md:px-0`}>
+      <div
+        className={`hidden sm:flex flex-col justify-center items-center relative px-8 md:px-0`}
+      >
         <div className="flex md:items-center md:justify-between relative w-[330px] md:w-full">
           <div className="flex flex-col items-start w-[310px] md:w-[680px] gap-3 md:gap-4 md:pb-[165px] md:pl-20">
             <p className="md:h-[43px] p-[8px] text-center text-[13px] md:text-[18px] rounded-[12px] bg-[#EEF5FF] text-[#006AFF] font-[400] md:font-[500] md:leading-[27px]">
@@ -347,6 +403,9 @@ const HomePage = () => {
               <h1 className="text-[37px] lg:text-[41px] font-[700] leading-tight">
                 Find & Manage your Property
               </h1>
+              <span className="md:hidden text-[29px] font-[700] leading-tight">
+                Find & Manage Properties on Homz
+              </span>
             </div>
           </div>
           <div className="hidden md:block">
@@ -362,46 +421,51 @@ const HomePage = () => {
         <div className="md:absolute w-[330px] h-full mt-[20px] md:mt-0 px-[24px] border-[2px] border-BlueHomz flex flex-col justify-between bottom-12 md:bottom-[50px] xl:bottom-[70px] md:left-20 max-w-[882px] md:w-[655px] lg:w-full md:h-[144px] sm:mb-4 lg:mb-0 md:px-[20px] py-[24px] rounded-[12px] bg-[#EEF5FF] md:bg-opacity-75">
           <div className="flex md:gap-[8px] flex-wrap gap-[14px] ">
             <button
-              className={`md:text-[14px] text-[13px] text-center font-[500] cursor-pointer h-[44px] p-[12px] ${rent
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] `}
+              className={`md:text-[14px] text-[13px] text-center font-[500] cursor-pointer h-[44px] p-[12px] ${
+                rent
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] `}
               onClick={handleRent}
             >
               <span className="hidden md:block">For Rent</span>
               <span className="md:hidden">Rent</span>
             </button>
             <button
-              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${sale
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#333b46] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
+              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${
+                sale
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#333b46] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleSale}
             >
               <span className="hidden md:block">For Sale</span>
               <span className="md:hidden">Buy</span>
-
             </button>
             <button
-              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${shortlist
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
+              className={`md:text-[14px] font-[500] text-[13px] cursor-pointer h-[44px] p-[12px] ${
+                shortlist
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center`}
               onClick={handleShortlist}
             >
               Shortlet
             </button>
             <button
-              className={`md:text-[14px] text-[13px] font-[500] cursor-pointer h-[44px] p-[12px] ${land
-                ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
-                : "bg-[#FFFFFF]"
-                } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center `}
+              className={`md:text-[14px] text-[13px] font-[500] cursor-pointer h-[44px] p-[12px] ${
+                land
+                  ? " hover:bg-[#559CFF] bg-BlueHomz md:bg-[#0058D4] md:hover:bg-[#0058D4] text-white"
+                  : "bg-[#FFFFFF]"
+              } text-[#006AFF] hover:bg-[#006AFF] gap-[8px] w-[132px] h-[37px] md:h-[44px] hover:text-white items-center rounded-[4px] md:w-[100px] lg:w-[126.25px] text-center `}
               onClick={handleLand}
             >
               Land
             </button>
-            <Link href={link() !== null ? link() : ""}
-              className=" md:w-[100px] lg:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] border border-[#006AFF] gap-[8px] text-BlueHomz hover:bg-BlueHomz3 items-center rounded-[4px] text-[16px] font-[600]">
+            <Link
+              href={link() !== null ? link() : ""}
+              className=" md:w-[100px] lg:w-[126.25px] hidden md:flex cursor-pointer h-[44px] p-[12px] border border-[#006AFF] gap-[8px] text-BlueHomz hover:bg-BlueHomz3 items-center rounded-[4px] text-[16px] font-[600]"
+            >
               <Image
                 src="/static/images/search-normal.svg"
                 alt=""
@@ -409,7 +473,6 @@ const HomePage = () => {
                 height={16}
               />
               <span className="">Search</span>
-
             </Link>
             <div className="relative w-full md:hidden">
               <input
@@ -421,7 +484,10 @@ const HomePage = () => {
                 value={filters.search}
                 onChange={handleSearchChange}
               />
-              <Link href={link() !== null ? link() : ""} className={`${openFilter ? "hidden" : ""}`}>
+              <Link
+                href={link() !== null ? link() : ""}
+                className={`${openFilter ? "hidden" : ""}`}
+              >
                 <Image
                   src="/static/images/search-normal.svg"
                   alt=""
@@ -451,10 +517,11 @@ const HomePage = () => {
                 <PropertyType
                   getPropertyType={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.propertyType === null
-                    ? "Property Type"
-                    : capitalizeFirstLetter(filters?.propertyType)
-                    }`}
+                  selectOption={`${
+                    filters?.propertyType === null
+                      ? "Property Type"
+                      : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -465,10 +532,11 @@ const HomePage = () => {
                 <Bedroom
                   getBedrooms={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.numberOfBathrooms === null
-                    ? "No of bedrooms"
-                    : `${filters?.numberOfBathrooms} Bedrooms`
-                    }`}
+                  selectOption={`${
+                    filters?.numberOfBathrooms === null
+                      ? "No of bedrooms"
+                      : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -479,10 +547,11 @@ const HomePage = () => {
                 <MinPrice
                   getPrice={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.minPrice === null
-                    ? "Min Price"
-                    : addCommasToNumberWithoutN(filters?.minPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.minPrice === null
+                      ? "Min Price"
+                      : addCommasToNumberWithoutN(filters?.minPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -493,10 +562,11 @@ const HomePage = () => {
                 <MaxPrice
                   getPrice={handleSearch}
                   className={"w-[100%]"}
-                  selectOption={`${filters?.maxPrice === null
-                    ? "Max Price"
-                    : addCommasToNumberWithoutN(filters?.maxPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.maxPrice === null
+                      ? "Max Price"
+                      : addCommasToNumberWithoutN(filters?.maxPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -556,10 +626,11 @@ const HomePage = () => {
                 <PropertyType
                   getPropertyType={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.propertyType === null
-                    ? "Property Type"
-                    : capitalizeFirstLetter(filters?.propertyType)
-                    }`}
+                  selectOption={`${
+                    filters?.propertyType === null
+                      ? "Property Type"
+                      : capitalizeFirstLetter(filters?.propertyType)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -570,10 +641,11 @@ const HomePage = () => {
                 <Bedroom
                   getBedrooms={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.numberOfBathrooms === null
-                    ? "No of bedrooms"
-                    : `${filters?.numberOfBathrooms} Bedrooms`
-                    }`}
+                  selectOption={`${
+                    filters?.numberOfBathrooms === null
+                      ? "No of bedrooms"
+                      : `${filters?.numberOfBathrooms} Bedrooms`
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -584,10 +656,11 @@ const HomePage = () => {
                 <MinPrice
                   getPrice={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.minPrice === null
-                    ? "Min Price"
-                    : addCommasToNumberWithoutN(filters?.minPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.minPrice === null
+                      ? "Min Price"
+                      : addCommasToNumberWithoutN(filters?.minPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -598,10 +671,11 @@ const HomePage = () => {
                 <MaxPrice
                   getPrice={handleSearch}
                   className={"w-[100px] lg:w-[142px]"}
-                  selectOption={`${filters?.maxPrice === null
-                    ? "Max Price"
-                    : addCommasToNumberWithoutN(filters?.maxPrice)
-                    }`}
+                  selectOption={`${
+                    filters?.maxPrice === null
+                      ? "Max Price"
+                      : addCommasToNumberWithoutN(filters?.maxPrice)
+                  }`}
                   classNameII={"border-BlueHomz4 text-GrayHomz2 bg-white"}
                   classNameIII={"text-GrayHomz2"}
                   classNameIV={"text-GrayHomz2"}
@@ -623,22 +697,26 @@ const HomePage = () => {
           <div className="hidden sm:flex flex-wrap gap-2 items-center mt-4">
             <button
               onClick={() => scrollToRef(rentalPropertiesRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
+            >
               Rental Properties
             </button>
             <button
               onClick={() => scrollToRef(propertiesForSaleRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
+            >
               Properties For Sale
             </button>
             <button
               onClick={() => scrollToRef(landsRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
+            >
               Lands
             </button>
             <button
               onClick={() => scrollToRef(shortletRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-2 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
+            >
               Shortlet
             </button>
           </div>
@@ -655,12 +733,14 @@ const HomePage = () => {
             </button>
             <button
               onClick={() => scrollToRef(landsRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
+            >
               Lands
             </button>
             <button
               onClick={() => scrollToRef(shortletRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
+            >
               Shortlet
             </button>
           </div>
@@ -684,7 +764,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
@@ -712,7 +792,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
@@ -740,7 +820,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
@@ -768,7 +848,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
@@ -820,24 +900,27 @@ const HomePage = () => {
           <div className="md:pt-20 md:w-[416px] w-[330px] pt-0 md:pb-[48px] pb-0  ">
             <div className="flex gap-3 flex-wrap">
               <button
-                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${landlord
-                  ? "bg-[#006AFF] text-white"
-                  : "bg-white text-[#006AFF"
-                  }`}
+                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${
+                  landlord
+                    ? "bg-[#006AFF] text-white"
+                    : "bg-white text-[#006AFF"
+                }`}
                 onClick={handleLandlords}
               >
                 For Landlords
               </button>
               <button
-                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${manager ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
-                  }`}
+                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${
+                  manager ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
+                }`}
                 onClick={handleManager}
               >
                 For Property Managers
               </button>
               <button
-                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${tenant ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
-                  } `}
+                className={` h-[36px] py-[8px] px-[16px] rounded-[4px] text-[13px] ${
+                  tenant ? "bg-[#006AFF] text-white" : "bg-white text-[#006AFF"
+                } `}
                 onClick={handleTenants}
               >
                 For Tenants
@@ -1036,7 +1119,7 @@ const HomePage = () => {
           </p>
           <div className="flex gap-2 mt-2">
             <Link
-              href="user_homepage/PropertyListing"
+              href="search-page/PropertyListing"
               className="w-[170px] flex justify-center items-center h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
             >
               Explore properties
@@ -1055,7 +1138,10 @@ const HomePage = () => {
           </Link>
         </div>
         <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
-          <span className="">Hear from our satisfied clients who found their dream apartments with Homz.</span>
+          <span className="">
+            Hear from our satisfied clients who found their dream apartments
+            with Homz.
+          </span>
         </p>
         <div>
           <div className="mt-2 md:mt-8 px-12 md:px-0 md:mb-0 mb-6">
@@ -1140,4 +1226,3 @@ const Testimonials = [
       "We highly recommend Homz Company to anyone looking for reliable real estate management services. Their team's dedication and attention to detail are truly commendable.",
   },
 ];
-
