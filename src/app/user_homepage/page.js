@@ -645,12 +645,12 @@ const HomePage = () => {
           <div className="grid sm:hidden grid-cols-2 gap-3 items-center mt-6">
             <button
               onClick={() => scrollToRef(rentalPropertiesRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz truncate bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
               Rental Properties
             </button>
             <button
               onClick={() => scrollToRef(propertiesForSaleRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
+              className="text-[13px] font-normal text-BlueHomz truncate bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
               Properties For Sale
             </button>
             <button
@@ -665,7 +665,7 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="">
           {featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length > 0 &&
             <div ref={rentalPropertiesRef} className="mt-8">
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
@@ -684,14 +684,8 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-                {featuredData?.length < 4 ? (
-                  <PropertySlider
-                    properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
-                    isSingleSlide={true}
-                    carouselTheme={customTheme}
-                  />
-                ) : (
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
                     carouselTheme={customTheme}
@@ -718,14 +712,8 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-                {featuredData?.length < 4 ? (
-                  <PropertySlider
-                    properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
-                    isSingleSlide={true}
-                    carouselTheme={customTheme}
-                  />
-                ) : (
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
                     carouselTheme={customTheme}
@@ -752,14 +740,8 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-                {featuredData?.length < 4 ? (
-                  <PropertySlider
-                    properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
-                    isSingleSlide={true}
-                    carouselTheme={customTheme}
-                  />
-                ) : (
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
                     carouselTheme={customTheme}
@@ -786,14 +768,8 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-                {featuredData?.length < 4 ? (
-                  <PropertySlider
-                    properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
-                    isSingleSlide={true}
-                    carouselTheme={customTheme}
-                  />
-                ) : (
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
                     carouselTheme={customTheme}
@@ -926,7 +902,7 @@ const HomePage = () => {
                     />
                   </Link>
                 </div>
-              )}
+              )} truncate
               {/* Managers section */}
               {manager && (
                 <div className="flex flex-col gap-5">

@@ -10,23 +10,26 @@ import { Carousel } from "flowbite-react";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import useViewportStore from "@/store/useViewportState";
 
-
 const PropertySlider = ({
   properties,
-  isSingleSlide = false,
   carouselTheme,
 }) => {
   const { width } = useViewportStore()
-  console.log("width:", width)
 
   const slidesToShow = () => {
-    if (isSingleSlide) return 1;
+    // Handle cases where property length determines slides
+    if (properties?.length === 1) return 1;
+    if (properties?.length === 2) return 2;
+    if (properties?.length === 3) return 3;
+
+    // Fall back to responsive behavior
     if (width > 1260) return 3;
     if (width <= 1000) return 1;
     if (width > 1000 && width <= 1260) return 2;
+
+    // Default fallback
     return 1;
   };
-
 
   const sliderSettings = {
     dots: false,
@@ -43,21 +46,14 @@ const PropertySlider = ({
     nextArrow: null,
   };
 
-  const singleSlideSettings = {
-    ...sliderSettings,
-    slidesToShow: 1,
-    centerPadding: "0%",
-  };
-
   const slidesToShowCount = slidesToShow();
   const slideWidth = width <= "640" ? 290 : 373 + 16;
   const totalSliderWidth = slidesToShowCount * slideWidth;
 
-
   return (
-    <div style={{ width: totalSliderWidth, maxWidth: '100%' }} className="mx-auto">
-      <Slider {...(isSingleSlide ? singleSlideSettings : sliderSettings)}>
-        {properties?.map((property, idx) => (
+    <div style={{ width: totalSliderWidth, maxWidth: '100%' }} className={`${properties?.length > 2 ? "mx-auto" : width > 1380 ? "ml-[4%]" : "mx-auto lg:mx-0"}`}>
+      <Slider {...(sliderSettings)}>
+        {properties?.map?.((property, idx) => (
           <div className="w-full mb-8" key={idx}>
             <div className="w-[290px] sm:w-[360px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
               <div className="cursor-pointer w-[373px] h-[252px]">
