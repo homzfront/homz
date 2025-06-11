@@ -4,7 +4,7 @@ import Tenants from "../tenantPage/tenants.js";
 import Wallet from "../wallet/wallet.js";
 import { useSearchParams } from "next/navigation.js";
 
-const Widget = ({property}) => {
+const Widget = ({ include, setInclude, property, setShowPop }) => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab")
 
@@ -48,7 +48,7 @@ const Widget = ({property}) => {
         </div>
         <div className=" my-5 rounded-[12px]">
           <div className={`${active ? "inline" : "hidden"}`}>
-            <Tenants property={property}/>
+            <Tenants include={include} setInclude={setInclude} setShowPop={setShowPop} property={property} />
           </div>
           <div className={`${activeTwo ? "inline" : "hidden"}`}>
             <Wallet />

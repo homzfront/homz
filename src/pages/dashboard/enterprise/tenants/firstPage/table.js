@@ -18,6 +18,7 @@ import PopUpMenuTwo from '../components/popUpMenuTwo';
 import ModalTwo from '../components/modalTwo';
 import useTenantOfAnEstate from '@/store/enterpriseStore/useTenantOfAnEstate';
 import api from '@/utils/api';
+import { useRouter } from 'next/navigation';
 
 
 const Table = ({
@@ -49,6 +50,8 @@ const Table = ({
     const [openInvite, setOpenInvite] = React.useState(false);
     // const [activeFour, setActiveFour] = useState(false);
     const dropdownRefYan = useClickOutside(() => setOpenInvite(false));
+
+    const router = useRouter()
 
     const handleMouseEnter = (id) => {
         setHoveredRow(id);
@@ -218,7 +221,8 @@ const Table = ({
         switch (header) {
             case 'Tenant':
                 return (
-                    <div className="flex items-center gap-1 text-GrayHomz4 font-[500]">
+                    <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                        className="flex items-center gap-1 text-GrayHomz4 font-[500]">
                         {!row?.coverPhoto?.url ? (
                             <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                 <EmptyAvatar />
@@ -242,7 +246,8 @@ const Table = ({
 
             case 'Address':
                 return (
-                    <div onMouseEnter={() => handleMouseEnter(row?._id)}
+                    <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                        onMouseEnter={() => handleMouseEnter(row?._id)}
                         onMouseLeave={handleMouseLeave}
                         className="w-full relative">
                         {truncateText(row?.estateId?.address, 45)}
@@ -301,7 +306,9 @@ const Table = ({
             case 'Actions':
                 return (
                     <div className="relative bg-white w-[40%] pl-8">
-                        <button onClick={() => handleToggleMenu(row?._id, row)}>
+                        <button onClick={() => {
+                            handleToggleMenu(row?._id, row)
+                        }}>
                             <Image
                                 src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                 alt=""
@@ -417,11 +424,12 @@ const Table = ({
                                 {tenantData && tenantData?.map((row, rowIndex) => (
                                     <div
                                         key={row?._id || rowIndex}
-                                        className="relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
+                                        className="hover:bg-GrayHomz6 cursor-pointer relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
                                         style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                                     >
                                         {visibleColumns && visibleColumns?.map(header => (
-                                            <div key={`${row?._id}-${header}`} className="">
+                                            <div key={`${row?._id}-${header}`}
+                                                className="">
                                                 {renderCellContent(header, row)}
                                             </div>
                                         ))}
@@ -452,7 +460,7 @@ const Table = ({
                     />
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

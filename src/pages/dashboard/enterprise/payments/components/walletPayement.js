@@ -49,6 +49,8 @@ const WalletPayement = () => {
 
     useEffect(() => {
         const fetchData = async (page) => {
+            if (fromDate && !toDate) return;
+            if (!fromDate && toDate) return;
             setLoading(true);
             try {
                 let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=wallet`;
@@ -221,7 +223,7 @@ const WalletPayement = () => {
                                                 {data?.description || "N/A"}
                                             </td>
                                             <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                                {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
+                                                {data.duration === 1 ? `${data.duration} month` : `${data.duration} months`}
                                             </td>
                                             <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                                 {data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}

@@ -90,6 +90,8 @@ const TenantData = () => {
   }
 
   const fetchData = async (page) => {
+    if (fromDate && !toDate) return;
+    if (!fromDate && toDate) return;
     setLoading(true);
     try {
       let query = `rentPayment/enterprise?limit=6&page=${page}`;
@@ -179,6 +181,8 @@ const TenantData = () => {
     );
   };
 
+  console.log(currentData)
+
   return (
     <div className="mt-6 w-full mx-auto">
       <div className="border overflow-x-auto scrollbar-container">
@@ -263,7 +267,7 @@ const TenantData = () => {
                         {data?.description || "N/A"}
                       </td>
                       <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                        {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
+                        {data.duration === 1 ? `${data.duration} month` : `${data.duration} months`}
                       </td>
                       <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                         {data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}

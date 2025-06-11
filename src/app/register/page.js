@@ -301,8 +301,8 @@ const Register = () => {
                   </button>
                 }
               </form>
-              {/* <div className="mt-[-10px]">
-                <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
+              <div className="mt-[-10px]">
+                {/* <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
                   <Image
                     className=""
                     src={"/Social icon.png"}
@@ -311,17 +311,17 @@ const Register = () => {
                     width={"20"}
                   />
                   {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : " Sign Up with google"}
-                </button>
-              </div> */}
-              <p className="text-center font-[400] text-[14px]">
-                Already have an account?
-                <Link
-                  className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
-                  href={"/login"}
-                >
-                  Login
-                </Link>
-              </p>
+                </button> */}
+                <p className="text-center font-[400] text-[14px]">
+                  Already have an account?
+                  <Link
+                    className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
+                    href={"/login"}
+                  >
+                    Login
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>

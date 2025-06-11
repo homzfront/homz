@@ -30,15 +30,14 @@ function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchDa
   const { fetchData } = useExportRentPayment();
   const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
 
-
-  const tenantId =  data?.tenantId?.estateId
+  const tenantId =  data?.tenantId?._id
 
 
   const deletePayment = async () => {
     setRefetch(false);
     setLoading(true);
     const paymentId = data?._id
-    const tenantId = data?.tenantId?.estateId
+    const tenantId = data?.tenantId?._id
     try {
       const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
       if (response?.data?.success === true) {
