@@ -6,13 +6,11 @@ import MinPrice from "./components/minPrice";
 import PropertyType from "./components/propertyType";
 import Image from "next/image";
 import Link from "next/link";
-import { Carousel } from "flowbite-react";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import api from "@/utils/api";
 import lowerCaseData from "@/utils/lowerCaseData";
 import Slider from "react-slick";
-import { useMutation } from "@tanstack/react-query";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useFeatureStore } from "@/store/useFeatureStore";
@@ -179,7 +177,6 @@ const HomePage = () => {
     const fetchData = async () => {
       const response = await api.get(`/public/properties/featured`);
       const propertyData = response?.data?.data || null;
-      setFeaturedData(propertyData);
     };
     fetchData();
     fetchFeaturedData();
@@ -769,7 +766,7 @@ const HomePage = () => {
                 Rental Properties
               </p>
               <Link
-                href="user_homepage/PropertyListing?page=1&listingType=for+rent"
+                href="search-page/PropertyListing?page=1&listingType=for+rent"
                 className="flex items-center gap-1"
               >
                 <span className="text-sm sm:text-[16px] font-[400]">
@@ -818,7 +815,7 @@ const HomePage = () => {
                 Properties For Sale
               </p>
               <Link
-                href="user_homepage/PropertyListing?page=1&listingType=for+sale"
+                href="search-page/PropertyListing?page=1&listingType=for+sale"
                 className="flex items-center gap-1"
               >
                 <span className="text-sm sm:text-[16px] font-[400]">
@@ -865,7 +862,7 @@ const HomePage = () => {
                 Lands
               </p>
               <Link
-                href="user_homepage/PropertyListing?page=1&listingType=land"
+                href="search-page/PropertyListing?page=1&listingType=land"
                 className="flex items-center gap-1"
               >
                 <span className="text-sm sm:text-[16px] font-[400]">
@@ -913,7 +910,7 @@ const HomePage = () => {
                 Shortlet
               </p>
               <Link
-                href="user_homepage/PropertyListing?page=1&listingType=shortlet"
+                href="search-page/PropertyListing?page=1&listingType=shortlet"
                 className="flex items-center gap-1"
               >
                 <span className="text-sm sm:text-[16px] font-[400]">
@@ -1208,7 +1205,7 @@ const HomePage = () => {
           </p>
           <div className="flex gap-2 mt-2">
             <Link
-              href="user_homepage/PropertyListing"
+              href="search-page/PropertyListing"
               className="w-[170px] flex justify-center items-center h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
             >
               Explore properties
