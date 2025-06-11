@@ -985,7 +985,7 @@ const HomePage = () => {
                     />
                   </Link>
                 </div>
-              )} truncate
+              )}
               {/* Managers section */}
               {manager && (
                 <div className="flex flex-col gap-5">
