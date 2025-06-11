@@ -860,7 +860,7 @@ const HomePage = () => {
           }
         </div>
       </div>
-      <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-8 pt-8 mt-6 pb-12">
+      <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-8 pt-8 pb-12">
         <p className="w-[202px] text-[13px] md:w-[300px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
           Designed for stress-free living
         </p>
