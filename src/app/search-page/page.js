@@ -764,7 +764,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
@@ -792,7 +792,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
@@ -820,7 +820,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
@@ -848,7 +848,7 @@ const HomePage = () => {
                   />
                 </Link>
               </div>
-              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
                 {(
                   <PropertySlider
                     properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
