@@ -29,7 +29,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showConfirmSuccessModal, setShowConfirmSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dontHideForm, setDontHideForm]  = useState(false);
+  const [dontHideForm, setDontHideForm] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(null);
   const [formData, setFormData] = useState({
     propertyType: "",
@@ -111,7 +111,9 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
 
       const removedFormData = {
         ...formData,
-        periods: formData?.periods?.filter((period) => period.id !== selectedPeriod.id),
+        periods: formData?.periods?.filter((period) =>
+          selectedPeriod ? period.id !== selectedPeriod.id : true
+        ),
       };
 
       const cleanFormData = cleanObject(showDeleteModal ? removedFormData : formData);
@@ -244,7 +246,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
       [index]: !prevOpenDropDowns[index],
     }));
   };
-  
+
   return (
     <div className="mt-4 pt-4 border-t border-[#E6E6E6]">
       <CustomizedModal
@@ -374,12 +376,22 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                     Apartment No<span className="text-error">*</span>
                   </label>
                   <input
+                    type="number"
+                    min="1"
                     value={formData.apartmentNumber}
-                    onChange={(e) => setFormData({ ...formData, apartmentNumber: e.target.value })}
-                    className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none"
-                    placeholder="e.g Apartment 1"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Only update if value is empty or a positive number
+                      if (value === '' || /^[1-9]\d*$/.test(value)) {
+                        setFormData({ ...formData, apartmentNumber: value });
+                      }
+                    }}
+                    className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                    placeholder="e.g. 1"
+                    required
                   />
                 </div>
+
               </div>
             </div>
             {formData?.periods?.map((period, index) => {

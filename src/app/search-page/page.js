@@ -686,18 +686,12 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center md:items-start md:justify-start bg-[#006AFF] text-white py-5 md:py-10 w-full max-w-[1440px] mx-auto h-auto">
+      <div className="bg-[#006AFF] text-white py-5 md:py-10 w-full max-w-[1440px] mx-auto h-auto">
         <div className="text-[23px] md:text-[34px] font-[700] w-full px-8 md:px-24">
           <div>
             <h4>Featured Listed Properties</h4>
-            <p className="hidden sm:block text-[18px] font-normal mt-2">
-              Below are the list of the different houses that we currently have
-              on the platform. <br />
-              Select any of these to view the house details and the features.
-            </p>
-            <p className="sm:hidden text-[16px] font-normal mt-2">
-              Browse through house listings on our platform for details and
-              features.
+            <p className="text-[16px] sm:text-[18px] font-normal mt-2">
+              View featured listings across property categories
             </p>
           </div>
           <div className="hidden sm:flex flex-wrap gap-2 items-center mt-4">
@@ -729,14 +723,12 @@ const HomePage = () => {
           <div className="grid sm:hidden grid-cols-2 gap-3 items-center mt-6">
             <button
               onClick={() => scrollToRef(rentalPropertiesRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
-            >
+              className="text-[13px] font-normal text-BlueHomz truncate bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
               Rental Properties
             </button>
             <button
               onClick={() => scrollToRef(propertiesForSaleRef)}
-              className="text-[13px] font-normal text-BlueHomz bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white"
-            >
+              className="text-[13px] font-normal text-BlueHomz truncate bg-white px-4 py-3 rounded-[4px] hover:bg-BlueHomz2 hover:text-white">
               Properties For Sale
             </button>
             <button
@@ -753,198 +745,120 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        {featuredData?.filter(
-          (data) => data?.property?.listingType === "for rent"
-        )?.length > 0 && (
-          <div ref={rentalPropertiesRef} className="mt-8">
-            <div
-              className={`flex justify-between items-center px-8 md:px-24 ${
-                !featuredData && "hidden"
-              }`}
-            >
-              <p className="text-[20px] sm:text-[23px] font-medium text-white">
-                Rental Properties
-              </p>
-              <Link
-                href="search-page/PropertyListing?page=1&listingType=for+rent"
-                className="flex items-center gap-1"
-              >
-                <span className="text-sm sm:text-[16px] font-[400]">
-                  View All
-                </span>
-                <Image
-                  src="/static/images/white-right-arrow.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-4 h-4"
-                />
-              </Link>
+        <div className="">
+          {featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length > 0 &&
+            <div ref={rentalPropertiesRef} className="mt-8">
+              <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
+                <p className="text-[20px] sm:text-[23px] font-medium text-white">Rental Properties</p>
+                <Link
+                  href="user_homepage/PropertyListing?page=1&listingType=for+rent"
+                  className="flex items-center gap-1"
+                >
+                  <span className="text-sm sm:text-[16px] font-[400]">View All</span>
+                  <Image
+                    src="/static/images/white-right-arrow.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </Link>
+              </div>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
+                  <PropertySlider
+                    properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
+                    carouselTheme={customTheme}
+                  />
+                )}
+              </div>
             </div>
-            <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-              {featuredData?.length < 4 ? (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "for rent"
-                  )}
-                  isSingleSlide={true}
-                  carouselTheme={customTheme}
-                />
-              ) : (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "for rent"
-                  )}
-                  carouselTheme={customTheme}
-                />
-              )}
+          }
+          {featuredData?.filter((data) => data?.property?.listingType === "for sale")?.length > 0 &&
+            <div ref={propertiesForSaleRef} className="mt-8">
+              <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
+                <p className="text-[20px] sm:text-[23px] font-medium text-white"> Properties For Sale</p>
+                <Link
+                  href="user_homepage/PropertyListing?page=1&listingType=for+sale"
+                  className="flex items-center gap-1"
+                >
+                  <span className="text-sm sm:text-[16px] font-[400]">View All</span>
+                  <Image
+                    src="/static/images/white-right-arrow.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </Link>
+              </div>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
+                  <PropertySlider
+                    properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
+                    carouselTheme={customTheme}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        {featuredData?.filter(
-          (data) => data?.property?.listingType === "for sale"
-        )?.length > 0 && (
-          <div ref={propertiesForSaleRef} className="mt-8">
-            <div
-              className={`flex justify-between items-center px-8 md:px-24 ${
-                !featuredData && "hidden"
-              }`}
-            >
-              <p className="text-[20px] sm:text-[23px] font-medium text-white">
-                {" "}
-                Properties For Sale
-              </p>
-              <Link
-                href="search-page/PropertyListing?page=1&listingType=for+sale"
-                className="flex items-center gap-1"
-              >
-                <span className="text-sm sm:text-[16px] font-[400]">
-                  View All
-                </span>
-                <Image
-                  src="/static/images/white-right-arrow.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-4 h-4"
-                />
-              </Link>
+          }
+          {featuredData?.filter((data) => data?.property?.listingType === "land")?.length > 0 &&
+            <div ref={landsRef} className="mt-8">
+              <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
+                <p className="text-[20px] sm:text-[23px] font-medium text-white">Lands</p>
+                <Link
+                  href="user_homepage/PropertyListing?page=1&listingType=land"
+                  className="flex items-center gap-1"
+                >
+                  <span className="text-sm sm:text-[16px] font-[400]">View All</span>
+                  <Image
+                    src="/static/images/white-right-arrow.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </Link>
+              </div>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
+                  <PropertySlider
+                    properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
+                    carouselTheme={customTheme}
+                  />
+                )}
+              </div>
             </div>
-            <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-              {featuredData?.length < 4 ? (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "for sale"
-                  )}
-                  isSingleSlide={true}
-                  carouselTheme={customTheme}
-                />
-              ) : (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "for sale"
-                  )}
-                  carouselTheme={customTheme}
-                />
-              )}
+          }
+          {featuredData?.filter((data) => data?.property?.listingType === "shortlet")?.length > 0 &&
+            <div ref={shortletRef} className="mt-8">
+              <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
+                <p className="text-[20px] sm:text-[23px] font-medium text-white">Shortlet</p>
+                <Link
+                  href="user_homepage/PropertyListing?page=1&listingType=shortlet"
+                  className="flex items-center gap-1"
+                >
+                  <span className="text-sm sm:text-[16px] font-[400]">View All</span>
+                  <Image
+                    src="/static/images/white-right-arrow.svg"
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </Link>
+              </div>
+              <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet") < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
+                {(
+                  <PropertySlider
+                    properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
+                    carouselTheme={customTheme}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        {featuredData?.filter((data) => data?.property?.listingType === "land")
-          ?.length > 0 && (
-          <div ref={landsRef} className="mt-8">
-            <div
-              className={`flex justify-between items-center px-8 md:px-24 ${
-                !featuredData && "hidden"
-              }`}
-            >
-              <p className="text-[20px] sm:text-[23px] font-medium text-white">
-                Lands
-              </p>
-              <Link
-                href="search-page/PropertyListing?page=1&listingType=land"
-                className="flex items-center gap-1"
-              >
-                <span className="text-sm sm:text-[16px] font-[400]">
-                  View All
-                </span>
-                <Image
-                  src="/static/images/white-right-arrow.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-4 h-4"
-                />
-              </Link>
-            </div>
-            <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-              {featuredData?.length < 4 ? (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "land"
-                  )}
-                  isSingleSlide={true}
-                  carouselTheme={customTheme}
-                />
-              ) : (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "land"
-                  )}
-                  carouselTheme={customTheme}
-                />
-              )}
-            </div>
-          </div>
-        )}
-        {featuredData?.filter(
-          (data) => data?.property?.listingType === "shortlet"
-        )?.length > 0 && (
-          <div ref={shortletRef} className="mt-8">
-            <div
-              className={`flex justify-between items-center px-8 md:px-24 ${
-                !featuredData && "hidden"
-              }`}
-            >
-              <p className="text-[20px] sm:text-[23px] font-medium text-white">
-                Shortlet
-              </p>
-              <Link
-                href="search-page/PropertyListing?page=1&listingType=shortlet"
-                className="flex items-center gap-1"
-              >
-                <span className="text-sm sm:text-[16px] font-[400]">
-                  View All
-                </span>
-                <Image
-                  src="/static/images/white-right-arrow.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-4 h-4"
-                />
-              </Link>
-            </div>
-            <div className="w-full my-6 flex flex-col justify-center items-center px-8 md:px-[80px]">
-              {featuredData?.length < 4 ? (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "shortlet"
-                  )}
-                  isSingleSlide={true}
-                  carouselTheme={customTheme}
-                />
-              ) : (
-                <PropertySlider
-                  properties={featuredData?.filter(
-                    (data) => data?.property?.listingType === "shortlet"
-                  )}
-                  carouselTheme={customTheme}
-                />
-              )}
-            </div>
-          </div>
-        )}
+          }
+        </div>
       </div>
       <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-8 pt-8 mt-6 pb-12">
         <p className="w-[202px] text-[13px] md:w-[300px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
@@ -1071,7 +985,7 @@ const HomePage = () => {
                     />
                   </Link>
                 </div>
-              )}
+              )} truncate
               {/* Managers section */}
               {manager && (
                 <div className="flex flex-col gap-5">

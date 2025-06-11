@@ -9,20 +9,25 @@ import Link from "next/link";
 import { Carousel } from "flowbite-react";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import useViewportStore from "@/store/useViewportState";
-import { useMutation } from "@tanstack/react-query";
 
 const PropertySlider = ({
   properties,
-  isSingleSlide = false,
   carouselTheme,
 }) => {
-  const { width } = useViewportStore();
+  const { width } = useViewportStore()
 
   const slidesToShow = () => {
-    if (isSingleSlide) return 1;
-    if (width > 1320) return 3;
+    // Handle cases where property length determines slides
+    if (properties?.length === 1) return 1;
+    if (properties?.length === 2) return 2;
+    if (properties?.length === 3) return 3;
+
+    // Fall back to responsive behavior
+    if (width > 1260) return 3;
     if (width <= 1000) return 1;
-    if (width > 1000 && width <= 1320) return 2;
+    if (width > 1000 && width <= 1260) return 2;
+
+    // Default fallback
     return 1;
   };
 
@@ -41,51 +46,30 @@ const PropertySlider = ({
     nextArrow: null,
   };
 
-  const singleSlideSettings = {
-    ...sliderSettings,
-    slidesToShow: 1,
-    centerPadding: "0%",
-  };
-
   const slidesToShowCount = slidesToShow();
   const slideWidth = width <= "640" ? 290 : 373 + 16;
   const totalSliderWidth = slidesToShowCount * slideWidth;
 
-  // endpoint for the views, clicks, and whatsApp messages
-  const { mutate: updateMetrics } = useMutation({
-    mutationFn: async (type) => {
-      return await api.post(`/properties/metric/${propertySlug}`, {
-        type,
-      });
-    },
-  });
-
   return (
-    <div
-      style={{ width: totalSliderWidth, maxWidth: "100%" }}
-      className="mx-auto"
-    >
-      <Slider {...(isSingleSlide ? singleSlideSettings : sliderSettings)}>
-        {properties?.map((property, idx) => (
+    <div style={{ width: totalSliderWidth, maxWidth: '100%' }} className={`${properties?.length > 2 ? "mx-auto" : width > 1380 ? "ml-[4%]" : "mx-auto lg:mx-0"}`}>
+      <Slider {...(sliderSettings)}>
+        {properties?.map?.((property, idx) => (
           <div className="w-full mb-8" key={idx}>
-            <div className="w-[290px] sm:w-[373px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
+            <div className="w-[290px] sm:w-[360px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
               <div className="cursor-pointer w-[373px] h-[252px]">
                 <Carousel
                   slide={false}
                   theme={carouselTheme}
-                  className="w-[290px] sm:w-[373px] h-[252px]"
+                  className="w-[290px] sm:w-[360px] h-[252px]"
                 >
                   {property?.property?.photos?.map((img, index) => (
-                    <div
-                      key={index}
-                      className="w-[290px] sm:w-[373px] h-[252px]"
-                    >
+                    <div key={index} className="w-[290px] sm:w-[360px] h-[252px]">
                       <Image
                         src={img?.url}
                         alt=""
                         width={373}
                         height={252}
-                        className="w-[290px] sm:w-[373px] h-[252px] rounded-lg object-cover"
+                        className="w-[290px] sm:w-[360px] h-[252px] rounded-lg object-cover"
                       />
                     </div>
                   ))}
