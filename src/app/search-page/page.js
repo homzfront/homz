@@ -751,7 +751,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Rental Properties</p>
                 <Link
-                  href="user_homepage/PropertyListing?page=1&listingType=for+rent"
+                  href="search-page/PropertyListing?page=1&listingType=for+rent"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -779,7 +779,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white"> Properties For Sale</p>
                 <Link
-                  href="user_homepage/PropertyListing?page=1&listingType=for+sale"
+                  href="search-page/PropertyListing?page=1&listingType=for+sale"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -807,7 +807,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Lands</p>
                 <Link
-                  href="user_homepage/PropertyListing?page=1&listingType=land"
+                  href="search-page/PropertyListing?page=1&listingType=land"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -835,7 +835,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Shortlet</p>
                 <Link
-                  href="user_homepage/PropertyListing?page=1&listingType=shortlet"
+                  href="search-page/PropertyListing?page=1&listingType=shortlet"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
