@@ -71,7 +71,7 @@ const Tenants = ({ id }) => {
     fetchData: fetchProfileData,
     // loadingProfile,
   } = useProfileEnterpriseMe();
-  
+
   React.useEffect(() => {
     setTenantsData(data?.[0].data ?? null)
     setEstateName(data?.[0]?.data?.[0].estateId.name)
@@ -181,6 +181,11 @@ const Tenants = ({ id }) => {
     setData(tenantData);
   }, [tenantData]);
 
+  // In parent component
+  const handleFetchData = () => {
+    fetchData(currentPage, id);
+  };
+
   const pages = [
     {
       id: 1,
@@ -189,7 +194,7 @@ const Tenants = ({ id }) => {
         <Table
           tenantData={RefinedData}
           widthRa={widthRa}
-          fetchDataAgain={fetchData}
+          fetchDataAgain={handleFetchData}
           printableRef={printableRef}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
@@ -208,7 +213,7 @@ const Tenants = ({ id }) => {
         <Table
           tenantData={RefinedData}
           widthRa={widthRa}
-          fetchDataAgain={fetchData}
+          fetchDataAgain={handleFetchData}
           printableRef={printableRef}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
@@ -304,7 +309,7 @@ const Tenants = ({ id }) => {
     } else if (reachedLimit?.expiredPlan) {
       setOpenPurchasePlan(!openPurchasePlan);
     } else {
-    setInviteTenant(true);
+      setInviteTenant(true);
     }
   };
 
