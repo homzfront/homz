@@ -17,15 +17,15 @@ function PopUpMenuTwo({
   email,
   loading,
   handleInvite,
-  // handleDelete,
+  setDeleteModal,
   dropdownRef,
   singleEstate,
-  setOpenInvite
+  setOpenInvite,
 }) {
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  // const [activeFour, setActiveFour] = useState(false);
+  const [activeFour, setActiveFour] = useState(false);
 
   if (!data) {
     return null;
@@ -76,24 +76,25 @@ function PopUpMenuTwo({
           }
         </button>
       }
-      {/* {singleEstate &&
-        <button
-          onMouseEnter={() => setActiveThree(true)}
-          onMouseLeave={() => setActiveThree(false)}
-        >
-          {activeThree ?
-            <div className="hover:bg-whiteblue  hover:text-error flex items-center px-4 h-[40px] gap-1 rounded-sm w-[150px] text-center">
-              <DeleteIcon />
-              Remove Tenant
-            </div>
-            :
-            <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1 rounded-sm w-[150px] text-center">
-              <DeleteIcon className='#292D32' />
-              Remove Tenant
-            </div>
-          }
-        </button>
-      } */}
+      {/* {singleEstate && */}
+      <button
+        onMouseEnter={() => setActiveThree(true)}
+        onMouseLeave={() => setActiveThree(false)}
+        onClick={() => setDeleteModal(true)}
+      >
+        {activeThree ?
+          <div className="hover:bg-whiteblue  hover:text-error flex items-center px-4 h-[40px] gap-1 rounded-sm w-[150px] text-center">
+            <DeleteIcon />
+            Remove Tenant
+          </div>
+          :
+          <div className="hover:bg-whiteblue  hover:text-BlueHomz flex items-center px-4 h-[40px] gap-1 rounded-sm w-[150px] text-center">
+            <DeleteIcon className='#292D32' />
+            Remove Tenant
+          </div>
+        }
+      </button>
+      {/* } */}
 
       {/* <button
         onClick={() => handleDelete(data)}

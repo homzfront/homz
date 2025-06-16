@@ -19,6 +19,8 @@ import ModalTwo from '../components/modalTwo';
 import useTenantOfAnEstate from '@/store/enterpriseStore/useTenantOfAnEstate';
 import api from '@/utils/api';
 import { useRouter } from 'next/navigation';
+import CustomModal from '@/components/mainmenu/CustomizedModal';
+import DeleteModel from '../../components/deleteModal';
 
 
 const Table = ({
@@ -48,7 +50,9 @@ const Table = ({
     const [email, setEmail] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const [openInvite, setOpenInvite] = React.useState(false);
+    const [deleteModal, setDeleteModal] = React.useState(false);
     // const [activeFour, setActiveFour] = useState(false);
+    const [isDeleting, setIsDeleting] = React.useState(false);
     const dropdownRefYan = useClickOutside(() => setOpenInvite(false));
 
     const router = useRouter()
@@ -151,6 +155,35 @@ const Table = ({
             setIsLoading(false)
         }
     };
+
+
+    const handleDelete = async () => {
+        if (isDeleting) return;
+        setIsDeleting(true);
+
+        try {
+            const response = await api.delete(`/tenants/${selectedData?._id}/enterprise/remove/management`);
+
+            if (response) {
+                response.data.message ?
+                    toast.success(response.data.message)
+                    : toast.success(`${selectedData?.fullName} deleted successfully`);
+            }
+            fetchDataAgain();
+            setDeleteModal(false)
+        } catch (error) {
+            console.error("Delete error:", error);
+
+            const errorMessage = error?.response?.data?.error?.errors
+                || error?.response?.data?.message
+                || "An unexpected error occurred";
+
+            toast.error(errorMessage);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
 
     // Map header keys to data keys
     const headerToDataKey = {
@@ -319,7 +352,16 @@ const Table = ({
                             />
                         </button>
                         {popUpMenuTwo && selectedDataId === row?._id && (
-                            <PopUpMenuTwo dropdownRef={dropdownRef} data={row?._id} email={row?.user?.email} handleInvite={handleInvite} loading={isLoading} singleEstate={singleEstate} setOpenInvite={setOpenInvite} />
+                            <PopUpMenuTwo
+                                setDeleteModal={setDeleteModal}
+                                dropdownRef={dropdownRef}
+                                data={row?._id}
+                                email={row?.user?.email}
+                                handleInvite={handleInvite}
+                                loading={isLoading}
+                                singleEstate={singleEstate}
+                                setOpenInvite={setOpenInvite}
+                            />
                         )}
                     </div>
                 );
@@ -336,7 +378,7 @@ const Table = ({
     };
 
     return (
-        <div className='w-full'>
+        <div className={`w-full ${isDeleting && "pointer-events-none animate-pulse"}`}>
             {/* Column visibility dropdown */}
             {/* <div className="mb-4">
                 <label className="mr-2">Visible Columns:</label>
@@ -360,6 +402,22 @@ const Table = ({
                     ))}
                 </select>
             </div> */}
+            {
+                deleteModal &&
+                <CustomModal onRequestClose={() => setDeleteModal(false)} isOpen={deleteModal}>
+                    <DeleteModel
+                        header={"Remove Tenant?"}
+                        body={"Are you sure you want to remove this tenant? This action cannot be undone and all associated records will be removed."}
+                        button={"Yes, Remove Tenant"}
+                        buttonTwo={"Cancel"}
+                        background_color='bg-[#D92D20]'
+                        returnHome={handleDelete}
+                        classNameII='border-none text-GrayHomz hover:border hover:border-GrayHomz'
+                        returnHomeTwo={() => setDeleteModal(false)}
+                        loading={isDeleting}
+                    />
+                </CustomModal>
+            }
 
             {
                 openInvite && (

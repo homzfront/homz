@@ -8,7 +8,9 @@ const DeleteModel = ({
     returnHomeTwo,
     button,
     buttonTwo,
-    loading
+    loading,
+    background_color = "bg-BlueHomz",
+    classNameII = "border border-BlueHomz text-BlueHomz"
 }) => {
     return (
         <div>
@@ -32,7 +34,7 @@ const DeleteModel = ({
                         <button
                             onClick={
                                 returnHome}
-                            className={`mt-2 h-[48px] rounded-md w-full bg-BlueHomz text-white text-[16px] font-[500] ${loading ? "w-full flex justify-center" : ""}`}
+                            className={`mt-2 h-[48px] rounded-md w-full ${background_color} text-white text-[16px] font-[500] ${loading ? "w-full flex justify-center" : ""}`}
                         >
                             {loading ? <LoadingFormII /> : button}
                         </button>
@@ -40,7 +42,7 @@ const DeleteModel = ({
                             onClick={
                                 returnHomeTwo
                             }
-                            className="mt-4 h-[48px] rounded-md w-full border border-BlueHomz text-BlueHomz text-[16px] font-[500]"
+                            className={`mt-4 h-[48px] rounded-md w-full ${classNameII} text-[16px] font-[500]`}
                         >
                             {buttonTwo}
                         </button>
