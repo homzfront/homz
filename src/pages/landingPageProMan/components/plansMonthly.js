@@ -28,10 +28,10 @@ const Plans = ({ routeTo, profile }) => {
       title: 'Enterprise Basic',
       billing: "Billed Monthly",
       features: [
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
@@ -39,7 +39,9 @@ const Plans = ({ routeTo, profile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "monthly"
@@ -51,16 +53,18 @@ const Plans = ({ routeTo, profile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "monthly"
@@ -72,16 +76,18 @@ const Plans = ({ routeTo, profile }) => {
       features: [
         "Up to 30 properties",
         "Up to 5 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "monthly"
@@ -93,16 +99,18 @@ const Plans = ({ routeTo, profile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "monthly"
@@ -114,16 +122,18 @@ const Plans = ({ routeTo, profile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: true,
       interval: "monthly"
@@ -282,7 +292,7 @@ const Plans = ({ routeTo, profile }) => {
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -300,7 +310,7 @@ const Plans = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -368,7 +378,7 @@ const Plans = ({ routeTo, profile }) => {
                   <div key={i} className="text-[14px] flex flex-row items-center gap-2">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -386,7 +396,7 @@ const Plans = ({ routeTo, profile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")

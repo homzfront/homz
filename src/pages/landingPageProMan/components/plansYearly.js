@@ -29,10 +29,10 @@ const PlansYearly = ({ routeTo, profile }) => {
       title: 'Enterprise Basic',
       billing: "Billed Annually",
       features: [
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
@@ -40,7 +40,9 @@ const PlansYearly = ({ routeTo, profile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "annually"
@@ -52,16 +54,18 @@ const PlansYearly = ({ routeTo, profile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "annually"
@@ -73,16 +77,18 @@ const PlansYearly = ({ routeTo, profile }) => {
       features: [
         "Up to 30 Properties",
         "Up to 5 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "annually"
@@ -94,16 +100,18 @@ const PlansYearly = ({ routeTo, profile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "annually"
@@ -115,16 +123,18 @@ const PlansYearly = ({ routeTo, profile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: true,
       interval: "annually"
@@ -282,9 +292,9 @@ const PlansYearly = ({ routeTo, profile }) => {
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                        (feature === "Whitelabels")  ||
-feature === "Early rent incentives for renters"  ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
+                        (feature === "Whitelabels") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -300,9 +310,9 @@ feature === "Early rent incentives for renters"  ||
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels")  ||
-feature === "Early rent incentives for renters"  ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (feature === "Whitelabels") ||
+                        feature === "Early rent incentives for renters" ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -368,9 +378,9 @@ feature === "Early rent incentives for renters"  ||
                   <div key={i} className="text-[14px] flex flex-row items-center gap-2">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                        (feature === "Whitelabels")  ||
-feature === "Early rent incentives for renters"  ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
+                        (feature === "Whitelabels") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -386,9 +396,9 @@ feature === "Early rent incentives for renters"  ||
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels")  ||
-feature === "Early rent incentives for renters"  ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (feature === "Whitelabels") ||
+                        feature === "Early rent incentives for renters" ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
