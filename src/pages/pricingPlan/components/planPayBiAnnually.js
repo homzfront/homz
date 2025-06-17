@@ -28,10 +28,10 @@ const PlanPayBiAnnually = ({ profile }) => {
       title: 'Enterprise Basic',
       billing: "Billed Bi-Annually.",
       features: [
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
@@ -39,7 +39,9 @@ const PlanPayBiAnnually = ({ profile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "bi-annually"
@@ -51,16 +53,18 @@ const PlanPayBiAnnually = ({ profile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "bi-annually"
@@ -72,16 +76,18 @@ const PlanPayBiAnnually = ({ profile }) => {
       features: [
         "Up to 30 properties",
         "Up to 5 users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "bi-annually"
@@ -93,16 +99,18 @@ const PlanPayBiAnnually = ({ profile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: false,
       interval: "bi-annually"
@@ -114,16 +122,18 @@ const PlanPayBiAnnually = ({ profile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Accounts & reporting",
+        "Financial mangement & statement generation",
         "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder"
       ],
       status: true,
       interval: "bi-annually"
@@ -278,7 +288,7 @@ const PlanPayBiAnnually = ({ profile }) => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -296,7 +306,7 @@ const PlanPayBiAnnually = ({ profile }) => {
                     </div>
                     <p
                       className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -362,7 +372,7 @@ const PlanPayBiAnnually = ({ profile }) => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2 text-[14px]">
                     <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
@@ -380,7 +390,7 @@ const PlanPayBiAnnually = ({ profile }) => {
                     </div>
                     <p
                       className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
