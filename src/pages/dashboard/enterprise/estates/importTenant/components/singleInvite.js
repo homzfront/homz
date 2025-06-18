@@ -437,11 +437,11 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                 </label>
                                 <div className="w-full md:w-[52%] mt-2">
                                     <input
-                                        type="text"
+                                        type="number"
                                         value={formData.apartmentNumber}
                                         onChange={(e) => handleInputChange("apartmentNumber", e.target.value)}
-                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
-                                        placeholder="e.g Apartment 46"
+                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        placeholder="e.g 46"
                                     />
                                     {errors.apartmentNumber && (
                                         <span className="text-error text-[11px] italic">

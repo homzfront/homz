@@ -117,6 +117,7 @@ const TenantProfile = ({ id }) => {
                   rentInfo={rentInfo}
                   tenantData={tenantData}
                   fetchTenantData={fetchTenantData}
+                  setRentInfo={setRentInfo}
                   fetchRentInformation={fetchRentInformation}
                   reFetchSummaryData={reFetchSummaryData}
                   paymentData={paymentData}
@@ -129,6 +130,7 @@ const TenantProfile = ({ id }) => {
               tenantId={id}
               rentInfo={rentInfo}
               tenantData={tenantData}
+              setRentInfo={setRentInfo}
               fetchTenantData={fetchTenantData}
               fetchRentInformation={fetchRentInformation}
               reFetchSummaryData={reFetchSummaryData}

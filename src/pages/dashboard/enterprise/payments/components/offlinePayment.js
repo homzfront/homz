@@ -10,6 +10,12 @@ import api from "@/utils/api";
 import RefetchPayment from "@/store/enterpriseStore/paymentRefetch";
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 import { useDebounce } from "@/utils/deBounce";
+import useEnterpriseRevenueStore from "@/store/enterpriseStore/enterpriseRevenue";
+import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
+import DeleteModel from "../../components/deleteModal";
+import ConfirmModal from "../../components/confirmModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import { toast } from 'react-toastify';
 
 const OfflinePayment = () => {
     const [currentData, setData] = useState(null);
@@ -24,7 +30,11 @@ const OfflinePayment = () => {
     const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const dropdownRef = useRef(null);
-    const { Refetch } = RefetchPayment();
+    const { Refetch, setRefetch } = RefetchPayment();
+    const { fetchData: fetchExpoRent } = useExportRentPayment();
+    const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
     const {
         selectedProperty,
         fromDate,
@@ -137,6 +147,45 @@ const OfflinePayment = () => {
         setShowReceipt(true)
     }
 
+
+    const deletePayment = async () => {
+        setRefetch(false);
+        setIsDeleting(true);
+        const paymentId = selectedData?._id
+        const tenantId = selectedData?.tenantId?._id
+        try {
+            const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${selectedData?.reference}`)
+            if (response?.data?.success === true) {
+                setDeleteSuccessModal(true);
+                setDeleteModal(false)
+                setTimeout(async () => {
+                    // setPageNo(1)
+                    await fetchData(1);
+                    await fetchExpoRent();
+                    await fetchRevData();
+                }, 200);
+
+            } else {
+            }
+        } catch (error) {
+            console.log(error?.response?.data?.message)
+            if (error && error?.response?.data?.error?.errors) {
+                // Assign backend errors to state
+                toast.error(error?.response?.data?.error?.errors);
+            } else if (error && error?.response?.data?.message) {
+                // If there's a general message
+                toast.error(error?.response?.data?.message);
+            } else {
+                // If the error is not in the expected format, rethrow it
+                throw error;
+            }
+        }
+        finally {
+            setIsDeleting(false);
+        }
+    };
+
+
     // Skeleton Loader Component
     const SkeletonLoader = () => {
         return (
@@ -181,6 +230,32 @@ const OfflinePayment = () => {
 
     return (
         <div className="mt-6 w-full mx-auto">
+            {deleteSuccessModal &&
+                <CustomizedModal isOpen={deleteSuccessModal}>
+                    <ConfirmModal
+                        header={`Offline Payment Record Deleted Successfully`}
+                        button={"Close"}
+                        returnHome={() => {
+                            setDeleteModal(false)
+                            setDeleteSuccessModal(false)
+                            setSelectedData(null)
+                        }}
+                    />
+                </CustomizedModal>
+            }
+            {deleteModal &&
+                <CustomizedModal isOpen={deleteModal}>
+                    <DeleteModel
+                        loading={isDeleting}
+                        header={"Delete Payment Record?"}
+                        body={`You are about to delete this offline payment record for ${selectedData?.tenantId?.fullName}`}
+                        button={"Proceed"}
+                        buttonTwo={"Cancel"}
+                        returnHome={deletePayment}
+                        returnHomeTwo={() => setDeleteModal(false)}
+                    />
+                </CustomizedModal>
+            }
             <div className="border overflow-x-auto scrollbar-container">
                 <div className="w-[500%] md:w-[150%]">
                     <table border="1" className="w-full">
@@ -272,7 +347,12 @@ const OfflinePayment = () => {
                                                 {data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}
                                             </td>
                                             <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
-                                                <button onClick={() => handleToggleMenu(data._id)}>
+                                                <button
+                                                    onClick={() => {
+                                                        handleToggleMenu(data._id)
+                                                        setSelectedData(data)
+                                                    }}
+                                                >
                                                     <Image
                                                         src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                                         alt="Options"
@@ -283,23 +363,18 @@ const OfflinePayment = () => {
                                                 </button>
                                                 {popUpMenuTwo && selectedDataId === data._id && (
                                                     <PopUpMenuTwo
+                                                        showReceipt={showReceipt}
+                                                        setShowReceipt={setShowReceipt}
+                                                        fetchData={fetchData}
+                                                        showReceiptOffline={showReceiptOffline}
                                                         data={data}
                                                         handleDataToggle={handleDataToggle}
                                                         setPopUpMenu={setPopUpMenu}
                                                         popUpMenu={popUpMenu}
-                                                        dropdownRef={dropdownRef}
+                                                        handleDelete={handleDelete}
                                                         handleUpdateForm={handleUpdateForm}
                                                         setUpdateForm={setUpdateForm}
                                                         updateForm={updateForm}
-                                                        setDeleteModal={setDeleteModal}
-                                                        deleteModal={deleteModal}
-                                                        setDeleteSuccessModal={setDeleteSuccessModal}
-                                                        deleteSuccessModal={deleteSuccessModal}
-                                                        handleDelete={handleDelete}
-                                                        fetchData={fetchData}
-                                                        setShowReceipt={setShowReceipt}
-                                                        showReceiptOffline={showReceiptOffline}
-                                                        showReceipt={showReceipt}
                                                     />
                                                 )}
                                             </td>

@@ -22,26 +22,26 @@ const PlansYearly = ({ profile }) => {
   const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment, error, setError, openErrorAgain, setOpenErrorAgain, setOpenAgain, openAgain } = useOpenPaymentType();
 
 
-  const pricingPlans = [
+ const pricingPlans = [
     {
       price: '55,000',
       title: 'Enterprise Basic',
       billing: "Billed Annually",
       features: [
         "Document generation (Reciept, Lease Agreements & Quit notices)",
+        "Rent reminder",
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Whitelabels",
         "Early rent incentives for renters",
         "Training & data migration",
         "Expense management",
-        "Rent reminder"
       ],
       status: false,
       interval: "annually"
@@ -53,18 +53,18 @@ const PlansYearly = ({ profile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Early rent incentives for renters",
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "annually"
@@ -74,20 +74,20 @@ const PlansYearly = ({ profile }) => {
       title: "Enterprise Plus",
       billing: "Billed Annually",
       features: [
-        "Up to 30 Properties",
+        "Up to 30 properties",
         "Up to 5 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Early rent incentives for renters",
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "annually"
@@ -99,18 +99,18 @@ const PlansYearly = ({ profile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
         "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Whitelabels",
+        "Early rent incentives for renters",
       ],
       status: false,
       interval: "annually"
@@ -122,18 +122,18 @@ const PlansYearly = ({ profile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
         "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Early rent incentives for renters",
+        "Whitelabels",
       ],
       status: true,
       interval: "annually"

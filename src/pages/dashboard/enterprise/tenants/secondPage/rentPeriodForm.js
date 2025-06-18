@@ -1,62 +1,43 @@
-import React, { useState } from "react";
-import ArrowRightBlueLight from "@/components/icons/arrowRightBlueLight";
-import PlusBlue from "@/components/icons/plusBlue";
-import ArrowLeftBrown from "@/components/icons/arrowLeftBrown";
-import Ticked from "@/components/icons/ticked";
-import UnTicked from "@/components/icons/unTicked";
-import ArrowUpII from "@/components/icons/arrowUpII";
-import ArrowDown from "@/components/icons/arrowDown";
-import DatePicker from "react-datepicker";
-import DateIcon from "@/components/icons/date";
-import Dropdown from "../../components/dropDownTwo";
-import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import AcAndRejModel from "../../components/acAndRejModel";
-import ConfirmModalIII from "../../components/confirmModalII";
-import DeleteModel from "../../components/deleteModal";
-import Tower from "@/components/icons/tower";
-import { v4 as uuidv4 } from 'uuid';
-import { cleanObject } from "@/utils/cleanObject";
-import { toast } from "react-toastify";
-import { addDurationToDate, convertToNigeriaTime } from "@/utils/addDuration";
-import { createSpecificTenantRentInfo, updateSpecificTenantRentInfo } from "@/api/tenantSevice";
-import { debounce } from "lodash";
-import LoadingFormIII from "@/components/mainmenu/loadingFormIII";
+  import React, { useState } from "react";
+  import ArrowRightBlueLight from "@/components/icons/arrowRightBlueLight";
+  import PlusBlue from "@/components/icons/plusBlue";
+  import ArrowLeftBrown from "@/components/icons/arrowLeftBrown";
+  import Ticked from "@/components/icons/ticked";
+  import UnTicked from "@/components/icons/unTicked";
+  import ArrowUpII from "@/components/icons/arrowUpII";
+  import ArrowDown from "@/components/icons/arrowDown";
+  import DatePicker from "react-datepicker";
+  import DateIcon from "@/components/icons/date";
+  import Dropdown from "../../components/dropDownTwo";
+  import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+  import AcAndRejModel from "../../components/acAndRejModel";
+  import ConfirmModalIII from "../../components/confirmModalII";
+  import DeleteModel from "../../components/deleteModal";
+  import Tower from "@/components/icons/tower";
+  import { v4 as uuidv4 } from 'uuid';
+  import { cleanObject } from "@/utils/cleanObject";
+  import { toast } from "react-toastify";
+  import { addDurationToDate, convertToNigeriaTime } from "@/utils/addDuration";
+  import { createSpecificTenantRentInfo, getSpecificTenantRentInfo, updateSpecificTenantRentInfo } from "@/api/tenantSevice";
+  import { debounce } from "lodash";
+  import LoadingFormIII from "@/components/mainmenu/loadingFormIII";
 
-export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantData }) {
-  const [showForm, setShowForm] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [showConfirmSuccessModal, setShowConfirmSuccessModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [dontHideForm, setDontHideForm] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState(null);
-  const [formData, setFormData] = useState({
-    propertyType: "",
-    apartmentNumber: "",
-    periods: [
-      {
-        id: uuidv4(),
-        isActive: true,
-        duration: "",
-        startDate: null,
-        dueDate: null,
-        rent: "",
-        paymentStatus: "",
-      },
-    ],
-  });
-
-  const [openDropDown, setOpenDropDown] = useState({});
-
-  const addNewPeriod = () => {
-    setFormData((prevData) => ({
-      ...prevData,
+  export default function RentPeriodForm({ fetchRentInformation, fetchTenantData, setRentInfo, rentInfo, tenantData }) {
+    const [showForm, setShowForm] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+    const [showConfirmSuccessModal, setShowConfirmSuccessModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [dontHideForm, setDontHideForm] = useState(false);
+    const [selectedPeriod, setSelectedPeriod] = useState(null);
+    const [formData, setFormData] = useState({
+      propertyType: "",
+      apartmentNumber: "",
       periods: [
-        ...prevData.periods,
         {
           id: uuidv4(),
-          isActive: false,
+          isActive: true,
           duration: "",
           startDate: null,
           dueDate: null,
@@ -64,205 +45,225 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           paymentStatus: "",
         },
       ],
-    }));
-  };
-
-  const removeNewPeriod = (periodId) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      periods: prevData.periods.filter((period) => period.id !== periodId),
-    }));
-  };
-
-  const handleInputChange = (index, field, value) => {
-    const updatedPeriods = [...formData.periods];
-    updatedPeriods[index][field] = value;
-
-    // Calculate dueDate if startDate or duration changes
-    if (field === "startDate" || field === "duration") {
-      const startDate = updatedPeriods[index].startDate;
-      const duration = updatedPeriods[index].duration;
-
-      if (startDate && duration) {
-        updatedPeriods[index].dueDate = addDurationToDate(startDate, duration);
-      }
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      periods: updatedPeriods,
-    }));
-  };
-
-  const handleToggleClick = (index) => {
-    const updatedPeriods = formData.periods.map((period, i) => ({
-      ...period,
-      isActive: i === index,
-    }));
-    setFormData((prevData) => ({
-      ...prevData,
-      periods: updatedPeriods,
-    }));
-  };
-
-  const onSubmit = async () => {
-    try {
-      setLoading(true);
-
-      const removedFormData = {
-        ...formData,
-        periods: formData?.periods?.filter((period) =>
-          selectedPeriod ? period.id !== selectedPeriod.id : true
-        ),
-      };
-
-      const cleanFormData = cleanObject(showDeleteModal ? removedFormData : formData);
-
-      const hasActive = cleanFormData.periods.some(period => period.isActive); // Check if any period is active
-
-      // If no period is active, set the first one to active
-      if (!hasActive && cleanFormData.periods.length > 0) {
-        cleanFormData.periods = cleanFormData.periods.map((period, index) => ({
-          ...period,
-          isActive: index === 0, // Set the first period to active
-        }));
-      }
-
-      const activePeriod = cleanFormData.periods.find((data) => data.isActive === true);
-
-      const finalFormData = {
-        ...cleanFormData,
-        property: tenantData?.data?.estateId?.name,
-        duration: activePeriod?.duration,
-        startDate: activePeriod?.startDate ? convertToNigeriaTime(activePeriod.startDate) : null, // Move and convert startDate
-        dueDate: activePeriod?.dueDate,
-        rent: activePeriod?.rent,
-        paymentStatus: activePeriod?.paymentStatus?.toLowerCase(),
-        periods: cleanFormData.periods.map(({ id, startDate, paymentStatus, ...rest }) => ({
-          ...rest,
-          startDate: convertToNigeriaTime(startDate),
-          paymentStatus: paymentStatus?.toLowerCase(),
-        })),
-      };
-
-      if (rentInfo?.upDateddata) {
-        const id = rentInfo?.upDateddata?._id;
-        const { success, upDateddata, error } = await updateSpecificTenantRentInfo(id, finalFormData);
-        if (success) {
-          setLoading(false);
-          setShowSuccessModal(false);
-          if (showDeleteModal) {
-            setShowConfirmDeleteModal(true);
-            setShowDeleteModal(false);
-          } else {
-            setShowConfirmSuccessModal(true)
-          }
-        } else {
-          toast.error(error?.msg);
-          setLoading(false);
-          toast.error(error?.error?.message);
-        }
-      } else {
-        const id = tenantData?.data?._id;
-        const { success, upDateddata, error } = await createSpecificTenantRentInfo(id, finalFormData);
-
-        if (success) {
-          setLoading(false);
-          setShowConfirmSuccessModal(true);
-          setShowSuccessModal(false);
-        } else {
-          toast.error(error?.msg);
-          setLoading(false);
-          toast.error(error?.error?.message);
-        }
-      }
-      fetchRentInformation()
-    } catch (error) {
-      setLoading(false);
-      toast.error("Update failed");
-    }
-  };
-
-  const options = ["Pending", "Paid", "Over Due"];
-
-
-  const calculateDueDates = debounce(() => {
-    const updatedPeriods = formData?.periods?.map((period) => {
-      if (period.startDate && period.duration) {
-        return {
-          ...period,
-          dueDate: addDurationToDate(period.startDate, period.duration),
-        };
-      }
-      return period;
     });
 
-    setFormData((prevData) => ({
-      ...prevData,
-      periods: updatedPeriods,
-    }));
-  }, 300);
+    const [openDropDown, setOpenDropDown] = useState({});
 
-
-  React.useEffect(() => {
-    calculateDueDates();
-    return () => calculateDueDates.cancel();
-  }, [formData?.periods?.map((period) => [period.startDate, period.duration])]);
-
-
-  React.useEffect(() => {
-    if (tenantData && formData.propertyName !== tenantData?.data?.estateId?.name) {
+    const addNewPeriod = () => {
       setFormData((prevData) => ({
         ...prevData,
-        propertyName: tenantData?.data?.estateId?.name,
+        periods: [
+          ...prevData.periods,
+          {
+            id: uuidv4(),
+            isActive: false,
+            duration: "",
+            startDate: null,
+            dueDate: null,
+            rent: "",
+            paymentStatus: "",
+          },
+        ],
       }));
-    }
-  }, [tenantData?.data?.estateId]);
+    };
 
-  React.useEffect(() => {
-    if (rentInfo?.upDateddata) {
-      const { estateId, propertyType, apartmentNumber, periods } = rentInfo?.upDateddata;
+    const removeNewPeriod = (periodId) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        periods: prevData.periods.filter((period) => period.id !== periodId),
+      }));
+    };
 
-      setFormData({
-        propertyName: estateId?.name || '',
-        propertyType: propertyType || '',
-        apartmentNumber: apartmentNumber?.toString() || '',
-        periods: periods?.map((period) => ({
-          id: uuidv4(),
-          isActive: period.isActive || false,
-          duration: period.duration?.toString() || '',
-          startDate: convertToNigeriaTime(period.startDate),
-          dueDate: convertToNigeriaTime(period.dueDate),
-          rent: period.rent?.toString() || '',
-          paymentStatus: period.paymentStatus || '',
-        })),
-      });
-    }
-  }, [rentInfo]);
+    const handleInputChange = (index, field, value) => {
+      const updatedPeriods = [...formData.periods];
+      updatedPeriods[index][field] = value;
 
-  const toggleDropDown = (index) => {
-    setOpenDropDown((prevOpenDropDowns) => ({
-      ...prevOpenDropDowns,
-      [index]: !prevOpenDropDowns[index],
-    }));
-  };
+      // Calculate dueDate if startDate or duration changes
+      if (field === "startDate" || field === "duration") {
+        const startDate = updatedPeriods[index].startDate;
+        const duration = updatedPeriods[index].duration;
 
-  return (
-    <div className="mt-4 pt-4 border-t border-[#E6E6E6]">
-      <CustomizedModal
-        isOpen={showConfirmSuccessModal}
-        onRequestClose={() => setShowConfirmSuccessModal(false)}
-      >
-        <ConfirmModalIII
-          header={`Rental Property Information ${rentInfo?.upDateddata ? "Updated" : "Added"} Successfully`}
-          button={"Close"}
-          returnHome={() => {
-            setShowConfirmSuccessModal(false);
-            if (!dontHideForm) {
-              setShowForm(false);
+        if (startDate && duration) {
+          updatedPeriods[index].dueDate = addDurationToDate(startDate, duration);
+        }
+      }
+
+      setFormData((prevData) => ({
+        ...prevData,
+        periods: updatedPeriods,
+      }));
+    };
+
+    const handleToggleClick = (index) => {
+      const updatedPeriods = formData.periods.map((period, i) => ({
+        ...period,
+        isActive: i === index,
+      }));
+      setFormData((prevData) => ({
+        ...prevData,
+        periods: updatedPeriods,
+      }));
+    };
+
+    const onSubmit = async () => {
+      try {
+        setLoading(true);
+
+        const removedFormData = {
+          ...formData,
+          periods: formData?.periods?.filter((period) =>
+            selectedPeriod ? period.id !== selectedPeriod.id : true
+          ),
+        };
+
+        const cleanFormData = cleanObject(showDeleteModal ? removedFormData : formData);
+
+        const hasActive = cleanFormData.periods.some(period => period.isActive); // Check if any period is active
+
+        // If no period is active, set the first one to active
+        if (!hasActive && cleanFormData.periods.length > 0) {
+          cleanFormData.periods = cleanFormData.periods.map((period, index) => ({
+            ...period,
+            isActive: index === 0, // Set the first period to active
+          }));
+        }
+
+        const activePeriod = cleanFormData.periods.find((data) => data.isActive === true);
+
+        const finalFormData = {
+          ...cleanFormData,
+          property: tenantData?.data?.estateId?.name,
+          duration: activePeriod?.duration,
+          startDate: activePeriod?.startDate ? convertToNigeriaTime(activePeriod.startDate) : null, // Move and convert startDate
+          dueDate: activePeriod?.dueDate,
+          rent: activePeriod?.rent,
+          paymentStatus: activePeriod?.paymentStatus?.toLowerCase(),
+          periods: cleanFormData.periods.map(({ id, startDate, paymentStatus, ...rest }) => ({
+            ...rest,
+            startDate: convertToNigeriaTime(startDate),
+            paymentStatus: paymentStatus?.toLowerCase(),
+          })),
+        };
+
+        if (rentInfo?.upDateddata) {
+          const id = rentInfo?.upDateddata?._id;
+          const { success, upDateddata, error } = await updateSpecificTenantRentInfo(id, finalFormData);
+          if (success) {
+            setLoading(false);
+            setShowSuccessModal(false);
+            if (showDeleteModal) {
+              setShowConfirmDeleteModal(true);
+              setShowDeleteModal(false);
             } else {
-              toggleDropDown(selectedPeriod?.index - 1)
+              setShowConfirmSuccessModal(true)
             }
+          } else {
+            toast.error(error?.msg);
+            setLoading(false);
+            toast.error(error?.error?.message);
+          }
+        } else {
+          const id = tenantData?.data?._id;
+          const { success, upDateddata, error } = await createSpecificTenantRentInfo(id, finalFormData);
+          if (success) {
+            await fetchTenantData()
+            await fetchRentInformation()
+            setLoading(false);
+            setShowConfirmSuccessModal(true);
+            setShowSuccessModal(false);
+          } else {
+            toast.error(error?.msg);
+            setLoading(false);
+            toast.error(error?.error?.message);
+          }
+        }
+      } catch (error) {
+        setLoading(false);
+        toast.error("Update failed");
+      }
+    };
+
+    const options = ["Pending", "Paid", "Over Due"];
+
+
+    const calculateDueDates = debounce(() => {
+      const updatedPeriods = formData?.periods?.map((period) => {
+        if (period.startDate && period.duration) {
+          return {
+            ...period,
+            dueDate: addDurationToDate(period.startDate, period.duration),
+          };
+        }
+        return period;
+      });
+
+      setFormData((prevData) => ({
+        ...prevData,
+        periods: updatedPeriods,
+      }));
+    }, 300);
+
+
+    React.useEffect(() => {
+      calculateDueDates();
+      return () => calculateDueDates.cancel();
+    }, [formData?.periods?.map((period) => [period.startDate, period.duration])]);
+
+
+    React.useEffect(() => {
+      if (rentInfo && tenantData && formData.propertyName !== tenantData?.data?.estateId?.name) {
+        setFormData((prevData) => ({
+          ...prevData,
+          propertyName: tenantData?.data?.estateId?.name,
+        }));
+      }
+    }, [tenantData?.data?.estateId]);
+
+
+    React.useEffect(() => {
+      if (rentInfo?.upDateddata) {
+        const { estateId, propertyType, apartmentNumber, periods } = rentInfo?.upDateddata;
+
+        setFormData({
+          propertyName: estateId?.name || '',
+          propertyType: propertyType || '',
+          apartmentNumber: apartmentNumber?.toString() || '',
+          periods: periods?.map((period) => ({
+            id: uuidv4(),
+            isActive: period.isActive || false,
+            duration: period.duration?.toString() || '',
+            startDate: convertToNigeriaTime(period.startDate),
+            dueDate: convertToNigeriaTime(period.dueDate),
+            rent: period.rent?.toString() || '',
+            paymentStatus: period.paymentStatus || '',
+          })),
+        });
+      }
+    }, [rentInfo]);
+
+    const toggleDropDown = (index) => {
+      setOpenDropDown((prevOpenDropDowns) => ({
+        ...prevOpenDropDowns,
+        [index]: !prevOpenDropDowns[index],
+      }));
+    };
+
+    return (
+      <div className="mt-4 pt-4 border-t border-[#E6E6E6]">
+        <CustomizedModal
+          isOpen={showConfirmSuccessModal}
+          onRequestClose={() => setShowConfirmSuccessModal(false)}
+        >
+          <ConfirmModalIII
+            header={`Rental Property Information ${rentInfo?.upDateddata ? "Updated" : "Added"} Successfully`}
+            button={"Close"}
+            returnHome={async() => {
+              setShowConfirmSuccessModal(false);
+              if (!dontHideForm) {
+                setShowForm(false);
+              } else {
+                toggleDropDown(selectedPeriod?.index - 1)
+              }
           }}
         />
       </CustomizedModal>
@@ -328,7 +329,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           <div
             onClick={() => {
               setShowForm(true)
-              addNewPeriod()
+              // addNewPeriod()
             }}
             className="mt-4 p-4 bg-whiteblue rounded-[8px] flex items-center justify-between cursor-pointer"
           >

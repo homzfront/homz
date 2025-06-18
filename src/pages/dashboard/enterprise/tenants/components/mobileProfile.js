@@ -22,6 +22,7 @@ const MobileProfile = ({
     tenantData,
     fetchTenantData,
     fetchRentInformation,
+    setRentInfo,
     reFetchSummaryData,
     paymentData,
     openKYC,
@@ -219,15 +220,13 @@ const MobileProfile = ({
                     </div>
                     <div className="my-7 rounded-[12px] w-full">
                         <div className={`${active ? "inline" : "hidden"}`}>
-                            {/* <RentInfo
-                                profile={tenantData}
+                            <RentPeriodForm
                                 fetchTenantData={fetchTenantData}
-                                tenantId={tenantId}
-                                rentInfo={rentInfo}
                                 fetchRentInformation={fetchRentInformation}
-                                reFetchSummaryData={reFetchSummaryData}
-                            /> */}
-                            <RentPeriodForm fetchRentInformation={fetchRentInformation} rentInfo={rentInfo} tenantData={tenantData} />
+                                setRentInfo={setRentInfo}
+                                rentInfo={rentInfo}
+                                tenantData={tenantData}
+                            />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
                             <PaymentHis

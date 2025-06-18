@@ -32,19 +32,19 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
       billing: "Billed Bi-Annually.",
       features: [
         "Document generation (Reciept, Lease Agreements & Quit notices)",
+        "Rent reminder",
         "Up to 10 Properties",
         "Up to 2 users",
         "Financial mangement & statement generation",
-        "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Whitelabels",
         "Early rent incentives for renters",
         "Training & data migration",
         "Expense management",
-        "Rent reminder"
       ],
       status: false,
       interval: "bi-annually"
@@ -57,17 +57,17 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
         "Up to 10 Properties",
         "Up to 2 users",
         "Financial mangement & statement generation",
-        "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Early rent incentives for renters",
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "bi-annually"
@@ -80,17 +80,17 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
         "Up to 30 properties",
         "Up to 5 users",
         "Financial mangement & statement generation",
-        "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Early rent incentives for renters",
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "bi-annually"
@@ -103,17 +103,17 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
         "Up to 100 properties",
         "Unlimited",
         "Financial mangement & statement generation",
-        "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
         "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Whitelabels",
+        "Early rent incentives for renters",
       ],
       status: false,
       interval: "bi-annually"
@@ -126,22 +126,23 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
         "Unlimited Properties",
         "Unlimited Users",
         "Financial mangement & statement generation",
-        "Whitelabels",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
         "Training & data migration",
         "Expense management",
-        "Rent reminder"
+        "Rent reminder",
+        "Early rent incentives for renters",
+        "Whitelabels",
       ],
       status: true,
       interval: "bi-annually"
     },
   ];
+
 
   function isValidUrl(url) {
     const regex = /^(http|https):\/\/[^\s]+/;
@@ -277,15 +278,14 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
-                    <div className={`h-[14px] w-[16px] ${
-                     (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                      (feature === "Whitelabels") ||
-                      feature === "Early rent incentives for renters" ||
-                      (plan.title === "Enterprise Plus" && feature === "Training & data migration")
-                      || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
-                      ? "opacity-[20%]" // Apply a different color class here
-                      : "bg-green-200"
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
+                        (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels") ||
+                        feature === "Early rent incentives for renters" ||
+                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                        ? "opacity-[20%]" // Apply a different color class here
+                        : "bg-green-200"
                       } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
@@ -299,7 +299,7 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
                       className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
-                       (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -358,15 +358,14 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex text-[14px] flex-row items-center gap-2">
-                    <div className={`h-[14px] w-[16px] ${
-                     (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                      (feature === "Whitelabels") ||
-                      feature === "Early rent incentives for renters" ||
-                      (plan.title === "Enterprise Plus" && feature === "Training & data migration")
-                      || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
-                      ? "opacity-[20%]" // Apply a different color class here
-                      : "bg-green-200"
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
+                        (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (feature === "Whitelabels") ||
+                        feature === "Early rent incentives for renters" ||
+                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                        ? "opacity-[20%]" // Apply a different color class here
+                        : "bg-green-200"
                       } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
@@ -380,7 +379,7 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
                       className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
-                       (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
