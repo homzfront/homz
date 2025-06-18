@@ -284,7 +284,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]" // Apply a different color class here
@@ -302,7 +302,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -365,7 +365,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]" // Apply a different color class here
@@ -383,7 +383,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (feature === "Whitelabels") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && feature !== "Document generation (Reciept, Lease Agreements & Quit notices)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
