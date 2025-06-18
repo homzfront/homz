@@ -299,7 +299,7 @@ const Plans = ({ routeTo, profile }) => {
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
                         : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                        } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
@@ -385,7 +385,7 @@ const Plans = ({ routeTo, profile }) => {
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
                         : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                        } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}

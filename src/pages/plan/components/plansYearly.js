@@ -289,7 +289,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]" // Apply a different color class here
                         : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                        } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
@@ -370,7 +370,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]" // Apply a different color class here
                         : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                        } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
