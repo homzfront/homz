@@ -379,15 +379,10 @@ export default function RentPeriodForm({ fetchRentInformation, fetchTenantData, 
                     Apartment No<span className="text-error">*</span>
                   </label>
                   <input
-                    type="number"
-                    min="1"
+                    type="text"
                     value={formData.apartmentNumber}
                     onChange={(e) => {
-                      const value = e.target.value;
-                      // Only update if value is empty or a positive number
-                      if (value === '' || /^[1-9]\d*$/.test(value)) {
-                        setFormData({ ...formData, apartmentNumber: value });
-                      }
+                       setFormData({ ...formData, apartmentNumber: e.target.value });
                     }}
                     className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                     placeholder="e.g. 1"

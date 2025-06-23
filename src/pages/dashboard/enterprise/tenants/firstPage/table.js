@@ -293,7 +293,7 @@ const Table = ({
                 );
 
             case 'Apartment No':
-                return row?.rentInfo?.apartmentNumber ? `Apartment ${row?.rentInfo.apartmentNumber}` : "______";
+                return row?.rentInfo?.apartmentNumber ? `${row?.rentInfo.apartmentNumber}` : "______";
 
             case 'Current Rent Period':
                 const currentPeriod = row?.rentInfo?.startDate === undefined ? null : row?.rentInfo;

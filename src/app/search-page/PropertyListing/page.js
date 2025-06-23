@@ -71,7 +71,7 @@ const PreviewPropertyContent = () => {
     }
   }, []);
 
-console.log(window.gtag)
+// console.log(window.gtag)
   const fetchProperties = async () => {
     setLoading(true);
     const query = {};
