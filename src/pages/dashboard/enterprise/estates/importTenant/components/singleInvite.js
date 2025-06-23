@@ -69,7 +69,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                     `/tenants/invitation/estate/${estateId}/check-exist-tenant`,
                     payload
                 );
-                if(result?.data?.data?.isExist === 'true')   setIsTenantAvailableData(result?.data?.data)
+                if (result?.data?.data?.isExist === 'true') setIsTenantAvailableData(result?.data?.data)
                 // Handle result (e.g., update state if email exists)
             } catch (error) {
                 console.error(error);
@@ -328,23 +328,28 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                 >
                     <div className="bg-inputBg py-4 px-6 rounded-[8px] flex flex-col items-center gap-3 md:gap-2">
                         {/* Email */}
-                        <div className="w-full flex flex-col md:flex-row items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
-                                Email <span className="text-red-600">*</span>
-                            </label>
-                            <div className="w-full md:w-[52%] mt-2">
-                                <input
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => handleInputChange("email", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
-                                    placeholder="e.g FemiJegede@gmail.com"
-                                />
-                                {errors.email && (
-                                    <span className="text-error text-[11px] italic">
-                                        {errors.email}
-                                    </span>
-                                )}
+                        <div>
+                            <span className="font-[300] text-[#E6E6E6] text-[11px] md:text-[13px] text-justify">
+                                Note: If an email exists, the user details will be pre-filled automatically.
+                            </span>
+                            <div className="w-full flex flex-col md:flex-row items-center justify-between">
+                                <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
+                                    Email <span className="text-red-600">*</span>
+                                </label>
+                                <div className="w-full md:w-[52%] mt-2">
+                                    <input
+                                        type="email"
+                                        value={formData.email}
+                                        onChange={(e) => handleInputChange("email", e.target.value)}
+                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
+                                        placeholder="e.g FemiJegede@gmail.com"
+                                    />
+                                    {errors.email && (
+                                        <span className="text-error text-[11px] italic">
+                                            {errors.email}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         {/* Tenant Name */}
@@ -359,7 +364,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("firstName", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="First Name"
-                                    disabled={isTenantAvailableData}
+                                    disabled={formData.firstName && isTenantAvailableData}
                                 />
                                 <input
                                     type="text"
@@ -367,7 +372,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("lastName", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="Last Name"
-                                    disabled={isTenantAvailableData}
+                                    disabled={formData.lastName && isTenantAvailableData}
                                 />
                                 {(errors.firstName || errors.lastName) && (
                                     <span className="text-error text-[11px] italic">
@@ -388,7 +393,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("address", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="e.g Plot 22, Alapere Street, Alagomeji Area, Yaba, Lagos"
-                                    disabled={isTenantAvailableData}
+                                    disabled={formData.address  && isTenantAvailableData}
                                 />
                                 {errors.address && (
                                     <span className="text-error text-[11px] italic">
@@ -409,7 +414,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("PhoneNUmber", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="e.g 0701 234 5678"
-                                    disabled={isTenantAvailableData}
+                                    disabled={formData.PhoneNUmber && isTenantAvailableData}
                                 />
                                 {errors.PhoneNUmber && (
                                     <span className="text-error text-[11px] italic">
