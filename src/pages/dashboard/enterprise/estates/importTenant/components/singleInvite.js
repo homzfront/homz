@@ -393,7 +393,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("address", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="e.g Plot 22, Alapere Street, Alagomeji Area, Yaba, Lagos"
-                                    disabled={formData.address  && isTenantAvailableData}
+                                    // disabled={formData.address  && isTenantAvailableData}
                                 />
                                 {errors.address && (
                                     <span className="text-error text-[11px] italic">
@@ -414,7 +414,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("PhoneNUmber", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="e.g 0701 234 5678"
-                                    disabled={formData.PhoneNUmber && isTenantAvailableData}
+                                    // disabled={formData.PhoneNUmber && isTenantAvailableData}
                                 />
                                 {errors.PhoneNUmber && (
                                     <span className="text-error text-[11px] italic">
