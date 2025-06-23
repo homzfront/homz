@@ -329,7 +329,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                     <div className="bg-inputBg py-4 px-6 rounded-[8px] flex flex-col items-center gap-3 md:gap-2">
                         {/* Email */}
                         <div>
-                            <span className="font-[300] text-[#E6E6E6] text-[11px] md:text-[13px] text-justify">
+                            <span className="font-[300] text-BlackHomz text-[11px] md:text-[13px] text-justify">
                                 Note: If an email exists, the user details will be pre-filled automatically.
                             </span>
                             <div className="w-full flex flex-col md:flex-row items-center justify-between">
