@@ -22,24 +22,26 @@ const PlansYearly = ({ profile }) => {
   const { setIsOpenModal, isAnnaullyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment, error, setError, openErrorAgain, setOpenErrorAgain, setOpenAgain, openAgain } = useOpenPaymentType();
 
 
-  const pricingPlans = [
+ const pricingPlans = [
     {
       price: '55,000',
       title: 'Enterprise Basic',
       billing: "Billed Annually",
       features: [
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
+        "Rent reminder",
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Whitelabels",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
       ],
       status: false,
       interval: "annually"
@@ -51,16 +53,18 @@ const PlansYearly = ({ profile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Expense management",
+        "Rent reminder",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "annually"
@@ -70,18 +74,20 @@ const PlansYearly = ({ profile }) => {
       title: "Enterprise Plus",
       billing: "Billed Annually",
       features: [
-        "Up to 30 Properties",
+        "Up to 30 properties",
         "Up to 5 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Expense management",
+        "Rent reminder",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "annually"
@@ -93,16 +99,18 @@ const PlansYearly = ({ profile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder",
+        "Whitelabels",
         "Early rent incentives for renters",
-        "Training & data migration"
       ],
       status: false,
       interval: "annually"
@@ -114,16 +122,18 @@ const PlansYearly = ({ profile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder",
         "Early rent incentives for renters",
-        "Training & data migration"
+        "Whitelabels",
       ],
       status: true,
       interval: "annually"
@@ -278,12 +288,12 @@ const PlansYearly = ({ profile }) => {
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
                         : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                        } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
@@ -295,7 +305,7 @@ const PlansYearly = ({ profile }) => {
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -362,12 +372,12 @@ const PlansYearly = ({ profile }) => {
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
                         : "bg-green-200"
-                        } flex justify-center border rounded-full`}
+                        } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
@@ -379,7 +389,7 @@ const PlansYearly = ({ profile }) => {
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
                         (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"

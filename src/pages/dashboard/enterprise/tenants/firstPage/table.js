@@ -293,7 +293,7 @@ const Table = ({
                 );
 
             case 'Apartment No':
-                return row?.rentInfo?.apartmentNumber ? `Apartment ${row?.rentInfo.apartmentNumber}` : "______";
+                return row?.rentInfo?.apartmentNumber ? `${row?.rentInfo.apartmentNumber}` : "______";
 
             case 'Current Rent Period':
                 const currentPeriod = row?.rentInfo?.startDate === undefined ? null : row?.rentInfo;
@@ -338,7 +338,7 @@ const Table = ({
 
             case 'Actions':
                 return (
-                    <div className="relative bg-white w-[40%] pl-8">
+                    <div className="relative bg-transparent w-[40%] pl-8">
                         <button onClick={() => {
                             handleToggleMenu(row?._id, row)
                         }}>
