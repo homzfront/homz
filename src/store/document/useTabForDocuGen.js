@@ -1,4 +1,4 @@
-import HomePage from "@/app/search-page/page";
+import HomePage from "@/app/properties/page";
 import { create } from "zustand";
 
 const useTabForDocuGen = create((set) => ({

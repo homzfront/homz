@@ -10,7 +10,7 @@ import api from "@/utils/api";
 import LoadingII from "@/components/mainmenu/loadingII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import OwnersCard from "./ownersCard";
-import RequestCard from "../search-page/PreviewProperty/requestCard";
+import RequestCard from "../properties/PreviewProperty/requestCard";
 import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";

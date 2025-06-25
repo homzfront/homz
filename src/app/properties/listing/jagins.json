@@ -1,0 +1,1028 @@
+{
+    "filters": {
+        "search": null,
+        "propertyType": null,
+        "listingType": null,
+        "minPrice": null,
+        "maxPrice": null,
+        "numberOfBathrooms": null
+    },
+    "Property": [
+        {
+            "_id": "6823aec524b05db22df1b113",
+            "user": {
+                "_id": "664b620e2c37593f3ad4ee4f",
+                "email": "kingdom.kashtian@floodouts.com",
+                "accounts": [
+                    {
+                        "_id": "6581d99ebdbefd0b7f041cca",
+                        "name": "MANAGE_PROPERTY",
+                        "createdAt": "2023-12-19T17:57:50.441Z",
+                        "updatedAt": "2023-12-19T17:57:50.441Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p3905-half-duplex-for-for-sale-ogun-ifo",
+            "title": "Half Duplex ",
+            "price": 65000000,
+            "propertyType": "Houses",
+            "description": "Great place",
+            "listingType": "for sale",
+            "state": "Ogun",
+            "area": "Ifo",
+            "numberOfRooms": 5,
+            "numberOfBathrooms": 5,
+            "numberOfToilets": 6,
+            "photos": [
+                {
+                    "asset_id": "ab93b23f3b36c9fa859fbd6604754b4f",
+                    "publicId": "properties/photos/Half Duplex -p3905-1747168965555/gdfpvfznptho8imlk50y",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/photos/Half%20Duplex%20-p3905-1747168965555/gdfpvfznptho8imlk50y.jpg",
+                    "folder": "properties/photos/Half Duplex -p3905-1747168965555"
+                },
+                {
+                    "asset_id": "6e33e603a7a50dc6ed24d16ec259bdd1",
+                    "publicId": "properties/photos/Half Duplex -p3905-1747168965555/eoiimgkyeigfosvgaxlm",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/photos/Half%20Duplex%20-p3905-1747168965555/eoiimgkyeigfosvgaxlm.jpg",
+                    "folder": "properties/photos/Half Duplex -p3905-1747168965555"
+                },
+                {
+                    "asset_id": "f7158b58380e24dbeeb682171628aa4f",
+                    "publicId": "properties/photos/Half Duplex -p3905-1747168965555/iod97vey8ljfmifgxywi",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/photos/Half%20Duplex%20-p3905-1747168965555/iod97vey8ljfmifgxywi.jpg",
+                    "folder": "properties/photos/Half Duplex -p3905-1747168965555"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "a9dfd49d8d5d8e6cfba1881d0f2def40",
+                "publicId": "properties/coverImages/Half Duplex -p3905-1747168965555/pkn3n0sfpvcavvy5hv7a",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/coverImages/Half%20Duplex%20-p3905-1747168965555/pkn3n0sfpvcavvy5hv7a.jpg",
+                "folder": "properties/coverImages/Half Duplex -p3905-1747168965555"
+            },
+            "totalFee": 65000000,
+            "contacts": {
+                "phoneNumber": "09032873498"
+            },
+            "createdAt": "2025-05-13T20:42:45.156Z",
+            "updatedAt": "2025-05-30T07:16:15.526Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "67a11a787d26449ae9981646",
+            "user": {
+                "_id": "67a117ce9e9d792f7545e0c0",
+                "email": "nk98m@e-record.com",
+                "accounts": [
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p2524-4-bedroom-for-rent-lagos-ikeja",
+            "title": "4 bedroom",
+            "squareMeter": null,
+            "price": 2000000,
+            "propertyType": "Flats & Apartments",
+            "description": "Newly built 3 bedroom apartment",
+            "listingType": "for rent",
+            "state": "Lagos",
+            "area": "Ikeja",
+            "numberOfRooms": 3,
+            "numberOfBathrooms": 3,
+            "numberOfToilets": 4,
+            "photos": [
+                {
+                    "asset_id": "9e1effd89e047f8fd8b9cb93507d9b73",
+                    "publicId": "properties/photos/3 Bedroom-p2524-1738611321083/q2svbubh39qbxz7flnzx",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1738611322/properties/photos/3%20Bedroom-p2524-1738611321083/q2svbubh39qbxz7flnzx.jpg",
+                    "folder": "properties/photos/3 Bedroom-p2524-1738611321083"
+                },
+                {
+                    "asset_id": "3cc5a4b110505bc7d910e04f73c0ad99",
+                    "publicId": "properties/photos/3 Bedroom-p2524-1738611321083/arawefdmbgr6fhsjs3av",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1738611322/properties/photos/3%20Bedroom-p2524-1738611321083/arawefdmbgr6fhsjs3av.jpg",
+                    "folder": "properties/photos/3 Bedroom-p2524-1738611321083"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "0cc04da8067af3ccc38a3202674f8024",
+                "publicId": "properties/coverImages/3 Bedroom-p2524-1738611321083/gscrtznkpxtnoabx6drn",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1738611321/properties/coverImages/3%20Bedroom-p2524-1738611321083/gscrtznkpxtnoabx6drn.jpg",
+                "folder": "properties/coverImages/3 Bedroom-p2524-1738611321083"
+            },
+            "maintenanceFee": 40000,
+            "totalFee": 2190000,
+            "agencyFee": 150000,
+            "contacts": {
+                "email": "nk98m@e-record.com",
+                "phoneNumber": "09054356743"
+            },
+            "createdAt": "2025-02-03T19:35:20.668Z",
+            "updatedAt": "2025-02-03T19:41:08.866Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "670794c301015320d26e3f17",
+            "user": {
+                "_id": "670793b53facfc28ee665e2e",
+                "email": "donato.hamed@frontads.org",
+                "accounts": [
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p5211-four-bedroom-flat-for-for-sale-bayelsa-nembe",
+            "title": "Four Bedroom flat",
+            "price": 20000000,
+            "propertyType": "Commercial Property",
+            "description": "Flat and beautiful",
+            "listingType": "for sale",
+            "state": "Bayelsa",
+            "area": "Nembe",
+            "numberOfRooms": 8,
+            "numberOfBathrooms": 8,
+            "numberOfToilets": 8,
+            "photos": [
+                {
+                    "asset_id": "d3d05c291d08640b13d49489f9f6d47d",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/s3vmxr7jyfpxuhot5rxq",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550079/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/s3vmxr7jyfpxuhot5rxq.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                },
+                {
+                    "asset_id": "ff02729bc41c797e9a778b9d215c313e",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/tewbn9meptprh447snin",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550081/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/tewbn9meptprh447snin.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                },
+                {
+                    "asset_id": "dfeb0de5f08a8787ff7a8a6e048b8512",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/ecdetepvizal2btyslih",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550080/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/ecdetepvizal2btyslih.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                },
+                {
+                    "asset_id": "4b1c559a9e2f6b5a3f54a1e84ee02968",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/s1ad7lef4by4kydahw2b",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550083/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/s1ad7lef4by4kydahw2b.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "bb1f93c448bb843efe23a60b4b2062ea",
+                "publicId": "properties/coverImages/Four Bedroom flatLavida estate-1728550072748/xibsjooeum9ydppunx7u",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550077/properties/coverImages/Four%20Bedroom%20flatLavida%20estate-1728550072748/xibsjooeum9ydppunx7u.png",
+                "folder": "properties/coverImages/Four Bedroom flatLavida estate-1728550072748"
+            },
+            "totalFee": 20000000,
+            "contacts": {
+                "phoneNumber": "08039939922"
+            },
+            "createdAt": "2024-10-10T08:48:03.375Z",
+            "updatedAt": "2024-10-10T08:48:03.375Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "6703cc006644f518357ed65e",
+            "user": {
+                "_id": "66c456e75fb6a8b68891a367",
+                "email": "jermell.jaeven@frontbridges.com",
+                "accounts": [
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p6873-6-bedrooms-flat-for-for-sale-anambra-awka-south",
+            "title": "6 bedrooms flat",
+            "price": 50000000,
+            "propertyType": "Houses",
+            "description": "great",
+            "listingType": "for sale",
+            "state": "Anambra",
+            "area": "Awka South",
+            "numberOfRooms": 6,
+            "numberOfBathrooms": 6,
+            "numberOfToilets": 8,
+            "photos": [
+                {
+                    "asset_id": "c0925732c631beb9447928cfafe30be8",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/pldtcjn0yft8t0xwad88",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302083/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/pldtcjn0yft8t0xwad88.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                },
+                {
+                    "asset_id": "d421b3db5694c58c5b216768fc1297f8",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/xgbo2cvkdjq29jm1fvhv",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302083/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/xgbo2cvkdjq29jm1fvhv.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                },
+                {
+                    "asset_id": "f43fee3b4e123ac61d02a7596b684ba4",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/epbbs3pnnxwfhpfsbski",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302083/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/epbbs3pnnxwfhpfsbski.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                },
+                {
+                    "asset_id": "338f61fa2b40c79d0cfe3614203182c1",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/ejaytdctbpygufo7vlk1",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302083/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/ejaytdctbpygufo7vlk1.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                },
+                {
+                    "asset_id": "66a04547e7a3c39126df500d916e7e1a",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/siqziitxk2tygq7wgppp",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302084/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/siqziitxk2tygq7wgppp.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                },
+                {
+                    "asset_id": "4550910662a9cfb66cd18ae036aefdcf",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/ghvamy53ijwrstgzlhhg",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302083/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/ghvamy53ijwrstgzlhhg.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                },
+                {
+                    "asset_id": "8991d677056aeecc5207e7e195270078",
+                    "publicId": "properties/photos/6 bedrooms flat-p6873-1728302080964/o4dwjm0honywdluppk4u",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302083/properties/photos/6%20bedrooms%20flat-p6873-1728302080964/o4dwjm0honywdluppk4u.jpg",
+                    "folder": "properties/photos/6 bedrooms flat-p6873-1728302080964"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "7238436a93957767cb54f495c2416e08",
+                "publicId": "properties/coverImages/6 bedrooms flat-p6873-1728302080964/vzbudbv6zju09rdqmkxu",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728302082/properties/coverImages/6%20bedrooms%20flat-p6873-1728302080964/vzbudbv6zju09rdqmkxu.png",
+                "folder": "properties/coverImages/6 bedrooms flat-p6873-1728302080964"
+            },
+            "totalFee": 50000000,
+            "contacts": {
+                "phoneNumber": "09087654321"
+            },
+            "createdAt": "2024-10-07T11:54:40.570Z",
+            "updatedAt": "2024-10-07T11:54:44.648Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "6703cabe6644f518357ed5ce",
+            "user": {
+                "_id": "66c456e75fb6a8b68891a367",
+                "email": "jermell.jaeven@frontbridges.com",
+                "accounts": [
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p5122-3-bedroom-for-for-rent-bauchi-damban",
+            "title": "3 bedroom",
+            "price": 2000000,
+            "propertyType": "Houses",
+            "description": "great",
+            "listingType": "for rent",
+            "state": "Bauchi",
+            "area": "Damban",
+            "numberOfRooms": 3,
+            "numberOfBathrooms": 3,
+            "numberOfToilets": 4,
+            "photos": [
+                {
+                    "asset_id": "445705f492d326fbaacb3738c5901442",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/xgkgydbvzvyii8qfqpyw",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301761/properties/photos/3%20bedroom-p5122-1728301758981/xgkgydbvzvyii8qfqpyw.png",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                },
+                {
+                    "asset_id": "148f10b94a398c89895d1affc008ed65",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/arru0qnofn3qe0ly6z5g",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301760/properties/photos/3%20bedroom-p5122-1728301758981/arru0qnofn3qe0ly6z5g.jpg",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                },
+                {
+                    "asset_id": "6e6ccd0014063cad8440e1a7b4666d13",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/selqirydxotpfqsqvhu4",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301761/properties/photos/3%20bedroom-p5122-1728301758981/selqirydxotpfqsqvhu4.jpg",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                },
+                {
+                    "asset_id": "416aec831bb0e1d718433ecb7a6a22ae",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/fvpaqk0bvdjzdxwh0dam",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301761/properties/photos/3%20bedroom-p5122-1728301758981/fvpaqk0bvdjzdxwh0dam.jpg",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                },
+                {
+                    "asset_id": "9fa222cd268fda6c42a3768bbc952542",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/eozrjgcdgcwzaiayjobv",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301761/properties/photos/3%20bedroom-p5122-1728301758981/eozrjgcdgcwzaiayjobv.jpg",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                },
+                {
+                    "asset_id": "5f62ab3380bc33684e3a5669e9ed2b22",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/cztbuq8jp0eii8vjszmi",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301761/properties/photos/3%20bedroom-p5122-1728301758981/cztbuq8jp0eii8vjszmi.jpg",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                },
+                {
+                    "asset_id": "12d242071d6fe127759053fc73fb3954",
+                    "publicId": "properties/photos/3 bedroom-p5122-1728301758981/oa5adx5zhlgee3ehpwij",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301761/properties/photos/3%20bedroom-p5122-1728301758981/oa5adx5zhlgee3ehpwij.jpg",
+                    "folder": "properties/photos/3 bedroom-p5122-1728301758981"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "c12531eb55e94fc14c0a6a0e025c262f",
+                "publicId": "properties/coverImages/3 bedroom-p5122-1728301758981/afoapbxal1ptwptgyh4r",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301759/properties/coverImages/3%20bedroom-p5122-1728301758981/afoapbxal1ptwptgyh4r.png",
+                "folder": "properties/coverImages/3 bedroom-p5122-1728301758981"
+            },
+            "totalFee": 2000000,
+            "contacts": {
+                "phoneNumber": "08077866894"
+            },
+            "createdAt": "2024-10-07T11:49:18.590Z",
+            "updatedAt": "2024-10-07T11:49:22.323Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "6703c8d66644f518357ed5a0",
+            "user": {
+                "_id": "66c456e75fb6a8b68891a367",
+                "email": "jermell.jaeven@frontbridges.com",
+                "accounts": [
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p6412-5-bedroom-flat-for-for-rent-edo-oredo",
+            "title": "5 bedroom flat",
+            "price": 3500000,
+            "propertyType": "Flats & Apartments",
+            "description": "nice place",
+            "listingType": "for rent",
+            "state": "Edo",
+            "area": "Oredo",
+            "numberOfRooms": 5,
+            "numberOfBathrooms": 5,
+            "numberOfToilets": 6,
+            "photos": [
+                {
+                    "asset_id": "904cbffd7cf668b2e10c686d04dded8b",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/vlzknurqi5vnebfea2b8",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301274/properties/photos/5%20bedroom%20flat-p6412-1728301271230/vlzknurqi5vnebfea2b8.jpg",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                },
+                {
+                    "asset_id": "31b908e81e43d728b04df2494172472d",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/xoffxk8ci6o5ivopal31",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301273/properties/photos/5%20bedroom%20flat-p6412-1728301271230/xoffxk8ci6o5ivopal31.jpg",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                },
+                {
+                    "asset_id": "400eff0363a6dcdb5b42ecff4a633825",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/yfoge2x676jbqjpqacuv",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301273/properties/photos/5%20bedroom%20flat-p6412-1728301271230/yfoge2x676jbqjpqacuv.jpg",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                },
+                {
+                    "asset_id": "babf25c36988f77fa0282c267e7fcee0",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/syoywko9dprkrdpv1lbw",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301274/properties/photos/5%20bedroom%20flat-p6412-1728301271230/syoywko9dprkrdpv1lbw.jpg",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                },
+                {
+                    "asset_id": "38ff0eb82bd5634a2eaacfb5c07ca58b",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/b8zwyggbnb763jpfrmzg",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301273/properties/photos/5%20bedroom%20flat-p6412-1728301271230/b8zwyggbnb763jpfrmzg.jpg",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                },
+                {
+                    "asset_id": "841991dd1140a70820730c3316f64862",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/jx7whlzdzmlqhmwwqqcu",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301273/properties/photos/5%20bedroom%20flat-p6412-1728301271230/jx7whlzdzmlqhmwwqqcu.jpg",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                },
+                {
+                    "asset_id": "c4082264dbd1d12fcfeb4c98c0f19c6b",
+                    "publicId": "properties/photos/5 bedroom flat-p6412-1728301271230/gnhp8tuyltrpzhceslly",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301274/properties/photos/5%20bedroom%20flat-p6412-1728301271230/gnhp8tuyltrpzhceslly.png",
+                    "folder": "properties/photos/5 bedroom flat-p6412-1728301271230"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "02a1e75762959240a8f837b532297b4d",
+                "publicId": "properties/coverImages/5 bedroom flat-p6412-1728301271230/rmdmonuhae6sjoflggxq",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728301272/properties/coverImages/5%20bedroom%20flat-p6412-1728301271230/rmdmonuhae6sjoflggxq.jpg",
+                "folder": "properties/coverImages/5 bedroom flat-p6412-1728301271230"
+            },
+            "maintenanceFee": 170000,
+            "totalFee": 3870000,
+            "agencyFee": 200000,
+            "contacts": {
+                "phoneNumber": "09032271283"
+            },
+            "createdAt": "2024-10-07T11:41:10.755Z",
+            "updatedAt": "2024-10-07T11:41:14.918Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "66feb695a9820a734029f1cb",
+            "user": {
+                "_id": "66aa411482845df1a8a9c759",
+                "email": "stan.jordy@frontbridges.com",
+                "accounts": [
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p2226-10-bedroom-for-shortlet-ogun-mowe",
+            "title": "10 bedroom",
+            "price": 2342,
+            "propertyType": "detached bungalow",
+            "description": "this is a beutifull home",
+            "listingType": "shortlet",
+            "state": "ogun",
+            "area": "mowe",
+            "numberOfRooms": 10,
+            "numberOfBathrooms": 11,
+            "numberOfToilets": 1,
+            "photos": [
+                {
+                    "asset_id": "e8f2dea96db5f548d3eab406a9d87b2a",
+                    "publicId": "properties/photos/10 bedroom-p2226-1727968917715/mrw6urwrq6t0e9t6sfqj",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1727968922/properties/photos/10%20bedroom-p2226-1727968917715/mrw6urwrq6t0e9t6sfqj.png",
+                    "folder": "properties/photos/10 bedroom-p2226-1727968917715"
+                }
+            ],
+            "coverPhoto": null,
+            "maintenanceFee": 15000,
+            "totalFee": 500000,
+            "agencyFee": 12000,
+            "contacts": {
+                "phoneNumber": "08103244768",
+                "email": "i@gmail.com",
+                "whatsapp": "https://wa.me/1234567890"
+            },
+            "createdAt": "2024-10-03T15:21:57.335Z",
+            "updatedAt": "2025-05-16T12:21:50.133Z",
+            "isPublished": true,
+            "is_promoted": true,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "66feb671a9820a734029f1bd",
+            "user": {
+                "_id": "66aa411482845df1a8a9c759",
+                "email": "stan.jordy@frontbridges.com",
+                "accounts": [
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p7376-10-bedroom-for-shortlet-ogun-mowe",
+            "title": "10 bedroom",
+            "price": 2342,
+            "propertyType": "detached bungalow",
+            "description": "this is a beutifull home",
+            "listingType": "shortlet",
+            "state": "ogun",
+            "area": "mowe",
+            "numberOfRooms": 10,
+            "numberOfBathrooms": 11,
+            "numberOfToilets": 1,
+            "photos": [
+                {
+                    "asset_id": "2b2b81616f4e4b09f03bb61ff6eb6e6c",
+                    "publicId": "properties/photos/10 bedroom-p7376-1727968881446/dkrxwcers7gy22eixe2f",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1727968890/properties/photos/10%20bedroom-p7376-1727968881446/dkrxwcers7gy22eixe2f.png",
+                    "folder": "properties/photos/10 bedroom-p7376-1727968881446"
+                }
+            ],
+            "coverPhoto": {
+                "asset_id": "2e0cdd1a8ba3b17e408929486bfb4e80",
+                "publicId": "properties/coverImages/10 bedroom-p7376-1727968881446/locg9vime2swhefd57ax",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1727968883/properties/coverImages/10%20bedroom-p7376-1727968881446/locg9vime2swhefd57ax.png",
+                "folder": "properties/coverImages/10 bedroom-p7376-1727968881446"
+            },
+            "maintenanceFee": 15000,
+            "totalFee": 500000,
+            "agencyFee": 12000,
+            "contacts": {
+                "phoneNumber": "08103244768",
+                "email": "i@gmail.com",
+                "whatsapp": "https://wa.me/1234567890"
+            },
+            "createdAt": "2024-10-03T15:21:21.026Z",
+            "updatedAt": "2024-12-07T10:16:16.009Z",
+            "isPublished": true,
+            "is_promoted": true,
+            "is_published": true,
+            "is_verified": false
+        },
+        {
+            "_id": "66feb62ca9820a734029f1af",
+            "user": {
+                "_id": "66aa411482845df1a8a9c759",
+                "email": "stan.jordy@frontbridges.com",
+                "accounts": [
+                    {
+                        "_id": "6581de1bb4b898bbea201be3",
+                        "name": "TENANT",
+                        "createdAt": "2023-12-19T18:16:59.445Z",
+                        "updatedAt": "2023-12-19T18:16:59.445Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "6582a1d15a7ac5beea8ab39d",
+                        "name": "ENTERPRISE_PLAN",
+                        "createdAt": "2023-12-20T08:12:01.600Z",
+                        "updatedAt": "2023-12-20T08:12:01.600Z",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "661ddb15e27dbe23f7811c67",
+                        "name": "LIST_PROPERTY",
+                        "is_deleted": false,
+                        "createdAt": "2024-04-16T01:57:41.036Z",
+                        "updatedAt": "2024-04-16T01:57:41.036Z",
+                        "__v": 0
+                    }
+                ]
+            },
+            "slug": "p1656-10-bedroom-for-shortlet-ogun-mowe",
+            "title": "10 bedroom",
+            "price": 2342,
+            "propertyType": "detached bungalow",
+            "description": "this is a beutifull home",
+            "listingType": "shortlet",
+            "state": "ogun",
+            "area": "mowe",
+            "numberOfRooms": 10,
+            "numberOfBathrooms": 11,
+            "numberOfToilets": 1,
+            "photos": [],
+            "maintenanceFee": 15000,
+            "totalFee": 500000,
+            "agencyFee": 12000,
+            "contacts": {
+                "phoneNumber": "08103244768",
+                "email": "i@gmail.com",
+                "whatsapp": "https://wa.me/1234567890"
+            },
+            "createdAt": "2024-10-03T15:20:12.254Z",
+            "updatedAt": "2024-10-03T15:20:12.254Z",
+            "isPublished": true,
+            "is_promoted": false,
+            "is_published": true,
+            "is_verified": false
+        }
+    ],
+    "currentPage": 1,
+    "totalPages": 26,
+    "totalData": 229,
+    "loading": false,
+    "firstThreePages": [
+        1,
+        2,
+        3
+    ],
+    "lastThreePages": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+    ],
+    "loadingII": false,
+    "properties": [
+        {
+            "contacts": {
+                "phoneNumber": "09032873498"
+            },
+            "totalMessages": 0,
+            "deleted": false,
+            "_id": "6823aec524b05db22df1b113",
+            "user": {
+                "isWelcomeEmailSent": false,
+                "deleted": false,
+                "_id": "664b620e2c37593f3ad4ee4f",
+                "email": "kingdom.kashtian@floodouts.com",
+                "isVerified": true,
+                "is_deleted": false,
+                "lastLogin": "2025-06-16T10:57:13.884Z",
+                "latestLogin": "2025-06-17T19:25:34.000Z",
+                "createdAt": "2024-05-20T14:45:34.555Z",
+                "updatedAt": "2025-06-17T19:25:34.029Z",
+                "isOnline": false
+            },
+            "lisitingPropertyId": "664c67b9a7ecea203991a6a0",
+            "slug": "p3905-half-duplex-for-for-sale-ogun-ifo",
+            "description": "Great place",
+            "state": "Ogun",
+            "area": "Ifo",
+            "street": "3, danguje street, ",
+            "listingId": "p3905",
+            "listingType": "for sale",
+            "title": "Half Duplex ",
+            "propertyType": "Houses",
+            "subType": "Semi-detached Duplex",
+            "numberOfRooms": 5,
+            "numberOfBathrooms": 5,
+            "numberOfToilets": 6,
+            "amenities": [
+                "tiled floor",
+                "water heater",
+                "washing machine",
+                "constant electricity",
+                "bathtub",
+                "schools nearby",
+                "airport nearby",
+                "fence",
+                "drainage",
+                "public transit",
+                "road access",
+                "pool"
+            ],
+            "photos": [
+                {
+                    "asset_id": "ab93b23f3b36c9fa859fbd6604754b4f",
+                    "publicId": "properties/photos/Half Duplex -p3905-1747168965555/gdfpvfznptho8imlk50y",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/photos/Half%20Duplex%20-p3905-1747168965555/gdfpvfznptho8imlk50y.jpg",
+                    "folder": "properties/photos/Half Duplex -p3905-1747168965555"
+                },
+                {
+                    "asset_id": "6e33e603a7a50dc6ed24d16ec259bdd1",
+                    "publicId": "properties/photos/Half Duplex -p3905-1747168965555/eoiimgkyeigfosvgaxlm",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/photos/Half%20Duplex%20-p3905-1747168965555/eoiimgkyeigfosvgaxlm.jpg",
+                    "folder": "properties/photos/Half Duplex -p3905-1747168965555"
+                },
+                {
+                    "asset_id": "f7158b58380e24dbeeb682171628aa4f",
+                    "publicId": "properties/photos/Half Duplex -p3905-1747168965555/iod97vey8ljfmifgxywi",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/photos/Half%20Duplex%20-p3905-1747168965555/iod97vey8ljfmifgxywi.jpg",
+                    "folder": "properties/photos/Half Duplex -p3905-1747168965555"
+                }
+            ],
+            "folder": "Half Duplex p3905",
+            "paymentType": "outright payment",
+            "price": 65000000,
+            "totalFee": 65000000,
+            "newlyBuilt": true,
+            "serviced": false,
+            "is_published": true,
+            "is_verified": false,
+            "is_promoted": false,
+            "is_deleted": false,
+            "createdAt": "2025-05-13T20:42:45.156Z",
+            "updatedAt": "2025-05-30T07:16:15.526Z",
+            "__v": 0,
+            "coverPhoto": {
+                "asset_id": "a9dfd49d8d5d8e6cfba1881d0f2def40",
+                "publicId": "properties/coverImages/Half Duplex -p3905-1747168965555/pkn3n0sfpvcavvy5hv7a",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1747168966/properties/coverImages/Half%20Duplex%20-p3905-1747168965555/pkn3n0sfpvcavvy5hv7a.jpg",
+                "folder": "properties/coverImages/Half Duplex -p3905-1747168965555"
+            },
+            "totalViews": 5,
+            "totalCallClicks": 4
+        },
+        {
+            "contacts": {
+                "email": "nk98m@e-record.com",
+                "phoneNumber": "09054356743"
+            },
+            "videoLinks": {
+                "youtubeUrl": "https://www.youtube.com/shorts/fvzY_M2Rk8s"
+            },
+            "totalViews": 0,
+            "totalCallClicks": 0,
+            "totalMessages": 0,
+            "deleted": false,
+            "_id": "67a11a787d26449ae9981646",
+            "user": {
+                "deleted": false,
+                "_id": "67a117ce9e9d792f7545e0c0",
+                "email": "nk98m@e-record.com",
+                "isVerified": true,
+                "isOnline": false,
+                "isWelcomeEmailSent": true,
+                "is_deleted": false,
+                "lastLogin": "2025-02-11T09:30:28.162Z",
+                "latestLogin": "2025-06-17T19:39:42.151Z",
+                "createdAt": "2025-02-03T19:23:58.228Z",
+                "updatedAt": "2025-06-17T19:39:42.177Z"
+            },
+            "lisitingPropertyId": "67a118c27d26449ae99815e9",
+            "slug": "p2524-4-bedroom-for-rent-lagos-ikeja",
+            "description": "Newly built 3 bedroom apartment",
+            "state": "Lagos",
+            "area": "Ikeja",
+            "street": "3, clement avenue, akugbe",
+            "listingId": "p2524",
+            "listingType": "for rent",
+            "title": "4 bedroom",
+            "propertyType": "Flats & Apartments",
+            "subType": "block of flat",
+            "numberOfRooms": 3,
+            "numberOfBathrooms": 3,
+            "numberOfToilets": 4,
+            "amenities": [
+                "garage",
+                "gym",
+                "pool",
+                "generator",
+                "airport nearby",
+                "fence",
+                "supermarket nearby",
+                "bathtub",
+                "constant electricity"
+            ],
+            "photos": [
+                {
+                    "asset_id": "9e1effd89e047f8fd8b9cb93507d9b73",
+                    "publicId": "properties/photos/3 Bedroom-p2524-1738611321083/q2svbubh39qbxz7flnzx",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1738611322/properties/photos/3%20Bedroom-p2524-1738611321083/q2svbubh39qbxz7flnzx.jpg",
+                    "folder": "properties/photos/3 Bedroom-p2524-1738611321083"
+                },
+                {
+                    "asset_id": "3cc5a4b110505bc7d910e04f73c0ad99",
+                    "publicId": "properties/photos/3 Bedroom-p2524-1738611321083/arawefdmbgr6fhsjs3av",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1738611322/properties/photos/3%20Bedroom-p2524-1738611321083/arawefdmbgr6fhsjs3av.jpg",
+                    "folder": "properties/photos/3 Bedroom-p2524-1738611321083"
+                }
+            ],
+            "folder": "3 Bedroomp2524",
+            "paymentType": "yearly",
+            "price": 2000000,
+            "maintenanceFee": 40000,
+            "totalFee": 2190000,
+            "agencyFee": 150000,
+            "newlyBuilt": false,
+            "serviced": false,
+            "is_published": true,
+            "is_verified": false,
+            "is_promoted": false,
+            "is_deleted": false,
+            "createdAt": "2025-02-03T19:35:20.668Z",
+            "updatedAt": "2025-02-03T19:41:08.866Z",
+            "__v": 0,
+            "coverPhoto": {
+                "asset_id": "0cc04da8067af3ccc38a3202674f8024",
+                "publicId": "properties/coverImages/3 Bedroom-p2524-1738611321083/gscrtznkpxtnoabx6drn",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1738611321/properties/coverImages/3%20Bedroom-p2524-1738611321083/gscrtznkpxtnoabx6drn.jpg",
+                "folder": "properties/coverImages/3 Bedroom-p2524-1738611321083"
+            },
+            "squareMeter": null
+        },
+        {
+            "contacts": {
+                "phoneNumber": "08039939922"
+            },
+            "totalViews": 0,
+            "totalCallClicks": 0,
+            "totalMessages": 0,
+            "deleted": false,
+            "_id": "670794c301015320d26e3f17",
+            "user": {
+                "deleted": false,
+                "_id": "670793b53facfc28ee665e2e",
+                "email": "donato.hamed@frontads.org",
+                "isVerified": true,
+                "isOnline": false,
+                "isWelcomeEmailSent": true,
+                "is_deleted": false,
+                "lastLogin": "2024-10-10T08:43:33.078Z",
+                "latestLogin": "2024-10-10T08:44:53.262Z",
+                "createdAt": "2024-10-10T08:43:33.080Z",
+                "updatedAt": "2024-10-10T08:45:22.614Z"
+            },
+            "lisitingPropertyId": "6707942201015320d26e3ea4",
+            "slug": "p5211-four-bedroom-flat-for-for-sale-bayelsa-nembe",
+            "description": "Flat and beautiful",
+            "state": "Bayelsa",
+            "area": "Nembe",
+            "street": "Lavida estate",
+            "listingId": "p5211",
+            "listingType": "for sale",
+            "title": "Four Bedroom flat",
+            "propertyType": "Commercial Property",
+            "subType": "Office space",
+            "numberOfRooms": 8,
+            "numberOfBathrooms": 8,
+            "numberOfToilets": 8,
+            "amenities": [],
+            "coverPhoto": {
+                "asset_id": "bb1f93c448bb843efe23a60b4b2062ea",
+                "publicId": "properties/coverImages/Four Bedroom flatLavida estate-1728550072748/xibsjooeum9ydppunx7u",
+                "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550077/properties/coverImages/Four%20Bedroom%20flatLavida%20estate-1728550072748/xibsjooeum9ydppunx7u.png",
+                "folder": "properties/coverImages/Four Bedroom flatLavida estate-1728550072748"
+            },
+            "photos": [
+                {
+                    "asset_id": "d3d05c291d08640b13d49489f9f6d47d",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/s3vmxr7jyfpxuhot5rxq",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550079/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/s3vmxr7jyfpxuhot5rxq.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                },
+                {
+                    "asset_id": "ff02729bc41c797e9a778b9d215c313e",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/tewbn9meptprh447snin",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550081/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/tewbn9meptprh447snin.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                },
+                {
+                    "asset_id": "dfeb0de5f08a8787ff7a8a6e048b8512",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/ecdetepvizal2btyslih",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550080/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/ecdetepvizal2btyslih.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                },
+                {
+                    "asset_id": "4b1c559a9e2f6b5a3f54a1e84ee02968",
+                    "publicId": "properties/photos/Four Bedroom flatLavida estate-1728550077042/s1ad7lef4by4kydahw2b",
+                    "url": "https://res.cloudinary.com/dqkrpsv4e/image/upload/v1728550083/properties/photos/Four%20Bedroom%20flatLavida%20estate-1728550077042/s1ad7lef4by4kydahw2b.png",
+                    "folder": "properties/photos/Four Bedroom flatLavida estate-1728550077042"
+                }
+            ],
+            "folder": "Four Bedroom flatLavida estate",
+            "paymentType": "outright payment",
+            "price": 20000000,
+            "totalFee": 20000000,
+            "newlyBuilt": false,
+            "serviced": false,
+            "is_published": true,
+            "is_verified": false,
+            "is_promoted": false,
+            "is_deleted": false,
+            "createdAt": "2024-10-10T08:48:03.375Z",
+            "updatedAt": "2024-10-10T08:48:03.375Z",
+            "__v": 0
+        }
+    ]
+}

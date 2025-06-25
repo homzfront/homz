@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Bedroom from "../components/bedrooms";
-import PropertyType from "../components/propertyType";
-import MaxPrice from "../components/maxPrice";
-import MinPrice from "../components/minPrice";
+import Bedroom from "./bedrooms";
+import PropertyType from "./propertyType";
+import MaxPrice from "./maxPrice";
+import MinPrice from "./minPrice";
 import Image from "next/image";
-import Listing from "../components/listing";
+import Listing from "./listing";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
-import PropertyCard from "../components/propertyCard";
+import PropertyCard from "./propertyCard";
 import api from "@/utils/api";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { useSearchParams } from "next/navigation";
@@ -17,7 +17,7 @@ import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import Reset from "@/components/icons/reset";
 import Head from "next/head";
 
-const UserHomePage = () => {
+const Header = ({}) => {
   return (
     <div className="w-full max-w-[1440px] m-auto">
       <Suspense fallback={<LoadingII />}>
@@ -70,8 +70,13 @@ const PreviewPropertyContent = () => {
       });
     }
   }, []);
-
-// console.log(window.gtag)
+  const query = {};
+  Object.keys(filters).forEach((key) => {
+    if (filters[key]) {
+      query[key] = filters[key];
+    }
+  });
+  console.log("query:", new URLSearchParams(query))
   const fetchProperties = async () => {
     setLoading(true);
     const query = {};
@@ -145,6 +150,7 @@ const PreviewPropertyContent = () => {
       fetchProperties();
     }
   }, [filters, currentPage, urlParams]);
+  console.log(filters)
 
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
@@ -159,6 +165,11 @@ const PreviewPropertyContent = () => {
   const handleSearch = (query, label) => {
     handleFilterChange(label, query);
     setParams(true);
+  };
+
+  const handleListingType = (query, label) => {
+    console.log(query)
+    console.log(label)
   };
 
   const reset = () => {
@@ -247,7 +258,7 @@ const PreviewPropertyContent = () => {
           <div className="flex gap-1 w-[80%]">
             <div>
               <Listing
-                getState={handleSearch}
+                getState={handleListingType}
                 className={"w-[150px]"}
                 selectOption={`${filters?.listingType === null
                   ? "Listing Type"
@@ -358,24 +369,7 @@ const PreviewPropertyContent = () => {
             </button>
           </div>
         </div>
-        <div className="w-[337px] md:mt-3 md:w-full ">
-          <PropertyCard
-            Property={property}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            handleNext={handleNextPage}
-            handlePageClick={handlePageClick}
-            handlePrev={handlePrevPage}
-            totalData={totalData}
-            loading={loading}
-            firstThreePages={firstThreePages}
-            lastThreePages={lastThreePages}
-            loadingII={loadingII}
-            reset={reset}
-            setLoadingII={setLoadingII}
-            properties={properties}
-          />
-        </div>
+   
         <CustomizedModal
           isOpen={mobileModalIsOpen}
           onRequestClose={closeMobileModal}
@@ -473,4 +467,4 @@ const PreviewPropertyContent = () => {
   );
 };
 
-export default UserHomePage;
+export default Header;
