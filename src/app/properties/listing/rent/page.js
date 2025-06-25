@@ -2,13 +2,11 @@
 import React from 'react'
 import PropertyCard from '../../components/propertyCard';
 import { PropertyContext } from '@/store/propertyContext';
-import LoadingII from '@/components/mainmenu/loadingII';
 
 const Rent = () => {
   const context = React.useContext(PropertyContext);
   return (
     <div className="w-[337px] md:mt-3 md:w-full ">
-        <Suspense fallback={<LoadingII />}>
       <PropertyCard
         Property={context.Property}
         currentPage={context.currentPage}
@@ -25,7 +23,6 @@ const Rent = () => {
         setLoadingII={context.setLoadingII}
         properties={context.properties}
       />
-      </Suspense>
     </div>
   );
 
