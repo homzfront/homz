@@ -53,7 +53,7 @@ const customTheme = {
   },
 };
 
-export const metadata = {
+const metadata = {
   title: 'Explore Properties Across Nigeria',
   description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.', // ← Your custom tag
   openGraph: {
