@@ -254,7 +254,7 @@ const Layout = ({ children }) => {
     const closeMobileModal = () => {
         setMobileModalIsOpen(false);
     };
-    console.log(filters?.listingType)
+    // console.log(filters?.listingType)
 
     return (
         <div className="w-full max-w-[1440px] m-auto">
