@@ -167,10 +167,10 @@ const PopUpPayment = ({ profile }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex gap-1 items-center mt-4'>
+                            {/* <div className='flex gap-1 items-center mt-4'>
                                 <Referral />
                                 <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code? <button onClick={() => setReferralModal(true)} className='text-BlueHomz'>Proceed here</button></h3>
-                            </div>
+                            </div> */}
                         </div>
             }
         </div>
