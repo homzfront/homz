@@ -8,6 +8,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Papa from "papaparse";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import PrintableAll from "../components/printableAll";
 import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
 import BlueSearch from "@/components/icons/blueSearch";
@@ -29,6 +30,11 @@ import CloseSmall from "@/components/icons/closeSmall";
 import ImportStatement from "@/components/icons/importStatement";
 import FeeList from "../components/feeList";
 import FeeManagementModal from "./feeManagementModal";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import { isTrialExpired } from "@/utils/compareTrialTime";
+import ExpiredPlanModal from "../../components/expiredPlanModal";
+import { useRouter } from "next/navigation";
 
 
 const Widget = ({
@@ -38,6 +44,7 @@ const Widget = ({
     setInclude
 }) => {
     const printRefAll = useRef();
+    const router = useRouter();
     const [active, setActive] = useState(true);
     const [activeTwo, setActiveTwo] = useState(false);
     const [activeThree, setActiveThree] = useState(false);
@@ -51,6 +58,8 @@ const Widget = ({
     const [isLoading, setIsLoading] = React.useState(false);
     const [openPropertyFilter, setOpenPropertyFilter] = React.useState(false);
     const [docHover, setDocHover] = React.useState(false);
+    const [openPurchasePlan, setOpenPurchasePlan] = useState(false);
+    const [reachedLimit, setReachedLimit] = useState(null);
     const {
         selectedProperty,
         fromDate,
@@ -72,16 +81,34 @@ const Widget = ({
         fee,
         setFee
     } = usePaymentFilterStore();
+    const { data: user, fetchData: fetchProfileData } = useProfileEnterpriseMe();
+    const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+        useEnterprisePlans();
+
+    React.useEffect(() => {
+        fetchProfileData()
+        fetchEnterprisePlans()
+        fetchData();
+    }, []);
+
+
+    useEffect(() => {
+        const values = checkPlanLimits(
+            enterprisePlans,
+            user?.planName,
+            user?.estates?.length,
+            user?.propertyOwners?.length,
+            user?.tenants?.length,
+            user?.IsExpired
+        );
+        setReachedLimit(values);
+    }, [enterprisePlans, user]);
     // User-selected date range
     const today = new Date();
 
     // Calculate the date one month later
     const prevMonth = new Date();
     prevMonth.setMonth(today.getMonth() - 1);
-
-    React.useEffect(() => {
-        fetchData();
-    }, []);
 
 
     const clear = () => {
@@ -194,7 +221,6 @@ const Widget = ({
     React.useEffect(() => {
         if (summary?.totalTranscation) fetchDataAOW(1, summary?.totalTranscation);
     }, [activeState, selectedProperty, debounceFromDate, debounceToDate, debouncedSearch, summary?.totalTranscation]);
-
 
 
     const handleExportToExcel = () => {
@@ -330,8 +356,43 @@ const Widget = ({
         document.body.removeChild(link);
     };
 
+    
+    const goToplan = () => {
+        router.push("/plans")
+    }
+
     return (
         <div>
+            <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
+                <ExpiredPlanModal
+                    header={"Your Trial Has Ended"}
+                    body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+                    button={"Buy Plan"}
+                    buttonTwo={"close"}
+                    returnHome={goToplan}
+                    returnHomeTwo={() => setOpenPurchasePlan(false)}
+                />
+            </CustomizedModal>
+            <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
+                <ExpiredPlanModal
+                    header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+                    body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+                    button={"Upgrade Plan"}
+                    buttonTwo={"close"}
+                    returnHome={goToplan}
+                    returnHomeTwo={() => setOpenPurchasePlan(false)}
+                />
+            </CustomizedModal>
+            <CustomizedModal isOpen={openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.enterprisePlanName === "Enterprise Basic"}>
+                <ExpiredPlanModal
+                    header={"Upgrade Your Plan"}
+                    body={"Kindly upgrade your plan now to unlock access to this feature."}
+                    button={"Upgrade Plan"}
+                    buttonTwo={"close"}
+                    returnHome={goToplan}
+                    returnHomeTwo={() => setOpenPurchasePlan(false)}
+                />
+            </CustomizedModal>
             <CustomizedModal isOpen={include === "withoutFee"} onRequestClose={() => setInclude("")}>
                 <div className={`${isLoading && "pointer-events-none animate-pulse"} p-4 w-full md:w-[440px] font-[500] text-BlackHomz text-[14px] bg-white rounded-md shadow-md max-h-[440px] overflow-y-auto scrollbar-container`}>
                     <div className="w-full flex justify-between items-start">
@@ -507,8 +568,15 @@ const Widget = ({
                         <div ref={dropdownRef}>
                             <button
                                 onClick={() => {
-                                    // setIsOpenI(!isOpenI)
-                                    setShowPop(true);
+                                    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+                                        setOpenPurchasePlan(!openPurchasePlan)
+                                    } else if (reachedLimit?.expiredPlan) {
+                                        setOpenPurchasePlan(!openPurchasePlan)
+                                    } else if (reachedLimit?.enterprisePlanName === "Enterprise Basic") {
+                                        setOpenPurchasePlan(!openPurchasePlan)
+                                    } else {
+                                        setShowPop(true);
+                                    }
                                 }}
                                 className="text-walletBg px-4 md:bg-BlueHomz h-[36px] flex gap-1 items-center rounded-[4px]">
                                 <Document className="#FFFFFF" /> Generate Statement

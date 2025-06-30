@@ -15,7 +15,14 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import changeBackendDateFormat from "@/utils/changeBackendDateFormat";
 import Papa from "papaparse";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import addCommasToNumber from '@/utils/addCommasToNumber';
+import useProfileEnterpriseMe from '@/store/enterpriseStore/useProfileEnterpriseMe';
+import useEnterprisePlans from '@/store/enterpriseStore/enterprisePlans';
+import { checkPlanLimits } from '@/utils/checkPlanLimits';
+import ExpiredPlanModal from '@/pages/dashboard/enterprise/components/expiredPlanModal';
+import { useRouter } from 'next/navigation';
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
 const HeaderAndFilter = ({
     setIsOpen,
@@ -52,7 +59,32 @@ const HeaderAndFilter = ({
     printRefAll
 }) => {
     const optionsTwo = [".CSV", ".XLSX", ".PDF"];
+    const router = useRouter();
+    const [openPurchasePlan, setOpenPurchasePlan] = React.useState(false);
+    const [reachedLimit, setReachedLimit] = React.useState(null);
 
+    const { data: user, fetchData: fetchProfileData } = useProfileEnterpriseMe();
+    const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+        useEnterprisePlans();
+
+
+    React.useEffect(() => {
+        fetchProfileData()
+        fetchEnterprisePlans()
+    }, []);
+
+
+    React.useEffect(() => {
+        const values = checkPlanLimits(
+            enterprisePlans,
+            user?.planName,
+            user?.estates?.length,
+            user?.propertyOwners?.length,
+            user?.tenants?.length,
+            user?.IsExpired
+        );
+        setReachedLimit(values);
+    }, [enterprisePlans, user]);
 
     const handlePrint = useReactToPrint({
         content: () => printRefAll.current,
@@ -163,9 +195,43 @@ const HeaderAndFilter = ({
         document.body.removeChild(link);
     };
 
+    const goToplan = () => {
+        router.push("/plans")
+    }
+
 
     return (
         <div>
+            <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
+                <ExpiredPlanModal
+                    header={"Your Trial Has Ended"}
+                    body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+                    button={"Buy Plan"}
+                    buttonTwo={"close"}
+                    returnHome={goToplan}
+                    returnHomeTwo={() => setOpenPurchasePlan(false)}
+                />
+            </CustomizedModal>
+            <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
+                <ExpiredPlanModal
+                    header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+                    body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+                    button={"Upgrade Plan"}
+                    buttonTwo={"close"}
+                    returnHome={goToplan}
+                    returnHomeTwo={() => setOpenPurchasePlan(false)}
+                />
+            </CustomizedModal>
+            <CustomizedModal isOpen={openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.enterprisePlanName === "Enterprise Basic"}>
+                <ExpiredPlanModal
+                    header={"Upgrade Your Plan"}
+                    body={"Kindly upgrade your plan now to unlock access to this feature."}
+                    button={"Upgrade Plan"}
+                    buttonTwo={"close"}
+                    returnHome={goToplan}
+                    returnHomeTwo={() => setOpenPurchasePlan(false)}
+                />
+            </CustomizedModal>
             <h2 className='md:hidden mb-4 font-normal text-[16px] text-BlackHomz'>
                 Expenses
             </h2>
@@ -332,7 +398,17 @@ const HeaderAndFilter = ({
                                     :
                                     <div className={`text-sm text-GrayHomz font-medium flex flex-col gap-0`}>
                                         <div
-                                            onClick={() => setOpenCreateExpenses(true)}
+                                            onClick={() => {
+                                                if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+                                                    setOpenPurchasePlan(!openPurchasePlan)
+                                                } else if (reachedLimit?.expiredPlan) {
+                                                    setOpenPurchasePlan(!openPurchasePlan)
+                                                } else if (reachedLimit?.enterprisePlanName === "Enterprise Basic") {
+                                                    setOpenPurchasePlan(!openPurchasePlan)
+                                                } else {
+                                                    setOpenCreateExpenses(true)
+                                                }
+                                            }}
                                             className="flex gap-2 items-center hover:bg-whiteblue p-2 cursor-pointer"
                                         >
                                             <span className="w-3">
@@ -347,7 +423,15 @@ const HeaderAndFilter = ({
                                             <span
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setIsOpenI(true);
+                                                    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+                                                        setOpenPurchasePlan(!openPurchasePlan)
+                                                    } else if (reachedLimit?.expiredPlan) {
+                                                        setOpenPurchasePlan(!openPurchasePlan)
+                                                    } else if (reachedLimit?.enterprisePlanName === "Enterprise Basic") {
+                                                        setOpenPurchasePlan(!openPurchasePlan)
+                                                    } else {
+                                                        setIsOpenI(true);
+                                                    }
                                                 }}
                                                 className="min-w-[80%]"
                                             >
