@@ -44,7 +44,7 @@ const Plans = ({ profile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Whitelabels",
-        "Early rent incentives for renters",
+
         "Training & data migration",
         "Expense management",
       ],
@@ -67,7 +67,7 @@ const Plans = ({ profile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -90,7 +90,7 @@ const Plans = ({ profile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -115,7 +115,7 @@ const Plans = ({ profile }) => {
         "Expense management",
         "Rent reminder",
         "Whitelabels",
-        "Early rent incentives for renters",
+
       ],
       status: false,
       interval: "monthly"
@@ -137,7 +137,7 @@ const Plans = ({ profile }) => {
         "Training & data migration",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
       ],
       status: true,
@@ -291,9 +291,10 @@ const Plans = ({ profile }) => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      className={`h-[14px] w-[16px]${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -309,8 +310,9 @@ const Plans = ({ profile }) => {
                     </div>
                     <p
                       className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -375,9 +377,10 @@ const Plans = ({ profile }) => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2 text-[14px]">
                     <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -392,9 +395,10 @@ const Plans = ({ profile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"

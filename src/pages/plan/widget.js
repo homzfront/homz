@@ -27,7 +27,7 @@ const Widget = ({ data, setLoadProfile }) => {
         <CustomizedModal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
           <PopUpPayment />
         </CustomizedModal>
-        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[450px] cursor-pointer m-auto">
+        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[500px] cursor-pointer m-auto">
           {pages.map((page) => (
             <div
               key={page.id}
@@ -37,12 +37,12 @@ const Widget = ({ data, setLoadProfile }) => {
             >
               <p className="text-[14px] font-500">
                 {page.name}
-                {page.name === "Pay Yearly" && (
+                {(page.name === "Pay Yearly" || page.name === "Pay bi-annually") && (
                   <span
                     className={`ml-1 py-1 px-2 rounded-md font-normal text-[11px] ${active === page.id ? "bg-white text-BlueHomz" : "bg-BlueHomz text-white"
                       }`}
                   >
-                    Save 20%
+                    {page === "Pay Yearly" ? "Save 20%" : "Save 10%"}
                   </span>
                 )}
               </p>
