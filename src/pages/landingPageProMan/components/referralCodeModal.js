@@ -23,6 +23,19 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
   const debounceTimer = useRef(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const router = useRouter();
+  const [data, setData] = useState(null)
+
+  const goBack = () => {
+    router.back();
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedData = localStorage.getItem('enterData');
+      setData(JSON.parse(storedData));
+    }
+    fetchData()
+  }, []);
 
   const findMatchingPlan = () => {
     const selectedPlan =
@@ -91,7 +104,7 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
       }
 
       // Corrected payload structure
-      const payload = {
+      let payload = {
         planName: matchingPlan?.planName || "Enterprise Plus", // Use from state or default
         interval: matchingPlan?.planInterval || "annually", // Use from state or default
         subscriptionType: "one-time", // Hardcoded as per requirement
@@ -99,7 +112,14 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
         planId: matchingPlan._id // From matching plan
       };
       let response = null;
-      if (fromSIgnUp) {
+      if (fromSIgnUp && data) {
+        payload = {
+          ...payload,
+          fullName: data?.fullName,
+          businessName: data?.businessName,
+          phoneNumber: String(data?.phoneNumber),
+        };
+
         response = await api.post(
           '/enterprisePlan/create/subscription/one-time-with-discount/signup',
           payload,
