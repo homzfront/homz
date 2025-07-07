@@ -17,24 +17,19 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [discountDetails, setDiscountDetails] = useState(null);
-  const { setError: openWarning } = useOpenPaymentType();
   const { data: enterprisePlans } = useEnterprisePlans();
   const { isMonthlyData, isAnnaullyData, isBiAnnaullyData } = useOpenPaymentType();
   const debounceTimer = useRef(null);
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] =   useState(false);
   const router = useRouter();
   const [data, setData] = useState(null)
-
-  const goBack = () => {
-    router.back();
-  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedData = localStorage.getItem('enterData');
       setData(JSON.parse(storedData));
     }
-    fetchData()
+    // fetchData()
   }, []);
 
   const findMatchingPlan = () => {
@@ -105,8 +100,8 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
 
       // Corrected payload structure
       let payload = {
-        planName: matchingPlan?.planName || "Enterprise Plus", // Use from state or default
-        interval: matchingPlan?.planInterval || "annually", // Use from state or default
+        planName: matchingPlan?.planName || "", // Use from state or default
+        interval: matchingPlan?.planInterval || "", // Use from state or default
         subscriptionType: "one-time", // Hardcoded as per requirement
         discountCode: code.trim().toUpperCase(), // From input field
         planId: matchingPlan._id // From matching plan
