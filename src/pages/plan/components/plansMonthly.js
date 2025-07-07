@@ -41,7 +41,7 @@ const Plans = ({ data, setLoadProfile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Whitelabels",
-        "Early rent incentives for renters",
+
         "Training & data migration",
         "Expense management",
       ],
@@ -64,7 +64,7 @@ const Plans = ({ data, setLoadProfile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -87,7 +87,7 @@ const Plans = ({ data, setLoadProfile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -112,7 +112,7 @@ const Plans = ({ data, setLoadProfile }) => {
         "Expense management",
         "Rent reminder",
         "Whitelabels",
-        "Early rent incentives for renters",
+
       ],
       status: false,
       interval: "monthly"
@@ -134,7 +134,7 @@ const Plans = ({ data, setLoadProfile }) => {
         "Training & data migration",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
       ],
       status: true,
@@ -279,9 +279,9 @@ const Plans = ({ data, setLoadProfile }) => {
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
-                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                      (feature === "Whitelabels") ||
+                    <div className={`h-[14px] w-[16px]${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                      (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                       feature === "Early rent incentives for renters" ||
                       (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                       || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -297,10 +297,10 @@ const Plans = ({ data, setLoadProfile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels") ||
+                      className={`${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -359,9 +359,9 @@ const Plans = ({ data, setLoadProfile }) => {
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex text-[14px] flex-row items-center gap-2">
-                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                      (feature === "Whitelabels") ||
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                      (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                       feature === "Early rent incentives for renters" ||
                       (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                       || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
@@ -377,10 +377,10 @@ const Plans = ({ data, setLoadProfile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels") ||
+                      className={`${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"

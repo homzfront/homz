@@ -39,7 +39,7 @@ const PlanPayBiAnnually = ({ profile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Whitelabels",
-        "Early rent incentives for renters",
+
         "Training & data migration",
         "Expense management",
       ],
@@ -62,7 +62,7 @@ const PlanPayBiAnnually = ({ profile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -85,7 +85,7 @@ const PlanPayBiAnnually = ({ profile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -110,7 +110,7 @@ const PlanPayBiAnnually = ({ profile }) => {
         "Expense management",
         "Rent reminder",
         "Whitelabels",
-        "Early rent incentives for renters",
+
       ],
       status: false,
       interval: "bi-annually"
@@ -132,7 +132,7 @@ const PlanPayBiAnnually = ({ profile }) => {
         "Training & data migration",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
       ],
       status: true,
@@ -289,13 +289,15 @@ const PlanPayBiAnnually = ({ profile }) => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Training & data migration")
-                        || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
-                        ? "opacity-[20%]"
-                        : "bg-green-200"
+                      className={`h-[14px] w-[16px] 
+                     ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                          (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                          (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                          feature === "Early rent incentives for renters" ||
+                          (plan.title === "Enterprise Plus" && feature === "Training & data migration")
+                          || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
+                          ? "opacity-[20%]"
+                          : "bg-green-200"
                         } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
@@ -306,9 +308,10 @@ const PlanPayBiAnnually = ({ profile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -373,9 +376,10 @@ const PlanPayBiAnnually = ({ profile }) => {
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2 text-[14px]">
                     <div
-                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]"
@@ -390,9 +394,10 @@ const PlanPayBiAnnually = ({ profile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                      className={`${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"

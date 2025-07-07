@@ -42,7 +42,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
         "Manage tenant applications",
         "Advertise vacant properties",
         "Whitelabels",
-        "Early rent incentives for renters",
+
         "Training & data migration",
         "Expense management",
       ],
@@ -65,7 +65,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -88,7 +88,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
         "Advertise vacant properties",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
         "Training & data migration",
       ],
@@ -113,7 +113,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
         "Expense management",
         "Rent reminder",
         "Whitelabels",
-        "Early rent incentives for renters",
+
       ],
       status: false,
       interval: "annually"
@@ -135,14 +135,14 @@ const PlansYearly = ({ data, setLoadProfile }) => {
         "Training & data migration",
         "Expense management",
         "Rent reminder",
-        "Early rent incentives for renters",
+
         "Whitelabels",
       ],
       status: true,
       interval: "annually"
     },
   ];
-  
+
   // Optional URL validation function (consider using a more robust library)
   function isValidUrl(url) {
     const regex = /^(http|https):\/\/[^\s]+/; // Basic URL format validation
@@ -282,9 +282,9 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                   <div key={i} className="flex flex-row items-center gap-2">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]" // Apply a different color class here
@@ -299,10 +299,10 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                       />
                     </div>
                     <p
-                      className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels") ||
+                      className={`${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -363,9 +363,9 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                   <div key={i} className="flex flex-row items-center gap-2 text-[14px]">
                     <div
                       className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "opacity-[20%]" // Apply a different color class here
@@ -381,9 +381,9 @@ const PlansYearly = ({ data, setLoadProfile }) => {
                     </div>
                     <p
                       className={` ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
                         feature === "Early rent incentives for renters" ||
-                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)" && feature !== "Rent reminder")) ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"

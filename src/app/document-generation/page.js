@@ -311,7 +311,7 @@ const DocumentGene = () => {
                                 <Complaint />
                             </div>
                             <p className='text-[20px] font-[500] text-white'>
-                                Complaint
+                                compliant 
                             </p>
                         </div>
                     </div>
@@ -349,7 +349,7 @@ const DocumentGene = () => {
                         <Complaint />
                     </div>
                     <p className='text-[20px] font-[500] text-white'>
-                        Complaint
+                        Compliant
                     </p>
                 </div>
                 <div className='flex gap-2 items-center'>

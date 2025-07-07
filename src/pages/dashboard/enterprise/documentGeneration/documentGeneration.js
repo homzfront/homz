@@ -350,7 +350,7 @@ const DocumentGeneration = () => {
         < CustomizedModal isOpen={selectFormat} >
           <DownloadConfirmModal
             header={"Download Successful"}
-            body={`Your ${typeForDownload === "Invoice and Receipt" ? "Receipt" : typeForDownload} has successfully been downloaded to your device`}
+            body={`Your ${(typeForDownload || DocType) === "Invoice and Receipt" ? "Receipt" : typeForDownload || DocType} has successfully been downloaded to your device`}
             button={"My documents"}
             buttonTwo={"Generate New Doc"}
             returnHome={openDocumentPage}

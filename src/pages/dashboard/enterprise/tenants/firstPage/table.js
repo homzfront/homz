@@ -255,7 +255,7 @@ const Table = ({
             case 'Tenant':
                 return (
                     <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
-                        className="flex items-center gap-1 text-GrayHomz4 font-[500]">
+                        className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px]">
                         {!row?.coverPhoto?.url ? (
                             <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                 <EmptyAvatar />
@@ -466,7 +466,7 @@ const Table = ({
                     <div className="w-[800%] md:w-[450%]">
                         <div className="w-full border rounded-t-[12px]">
                             {/* Table Headers */}
-                            <div className="bg-whiteblue h-[60px] text-[11px] grid justify-center items-center font-[500] text-BlackHomz px-2 rounded-t-[12px]"
+                            <div className="bg-whiteblue h-[60px] grid justify-center items-center text-[13px] font-[500] text-BlackHomz px-2 rounded-t-[12px]"
                                 style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                             >
                                 {visibleColumns && visibleColumns?.map(header => (
@@ -478,7 +478,7 @@ const Table = ({
 
 
                             {/* Table Body */}
-                            <div className='text-[11px] font-normal text-GrayHomz'>
+                            <div className='text-GrayHomz font-[500] text-[11px]'>
                                 {tenantData && tenantData?.map((row, rowIndex) => (
                                     <div
                                         key={row?._id || rowIndex}
