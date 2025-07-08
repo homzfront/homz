@@ -10,14 +10,17 @@ import GreenActive from '@/components/icons/greenActive'
 import Referral from '@/components/icons/referral'
 import ReferralCodeModal from './referralCodeModal'
 import useEnterprisePlans from '@/store/enterpriseStore/enterprisePlans'
+import { useRouter } from 'next/navigation'
 
 const PopUpPayment = ({ profile }) => {
+    console.log(profile)
+    const router = useRouter();
     const [openProcess, setOpenProcess] = React.useState(false);
     const { fetchData: fetchEnterprisePlans } =
         useEnterprisePlans();
     const [referralModal, setReferralModal] = React.useState(false);
     const [isOpen, setIsOpen] = React.useState(true);
-    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError, setOpenErrorAgain, openAgain, setOpenAgain, openErrorAgain } = useOpenPaymentType();
+    const { isMonthlyData, setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError, setOpenErrorAgain, openAgain, setOpenAgain, openErrorAgain } = useOpenPaymentType();
     const active = (
         <div className='ml-2 h-[28px] w-[72px] bg-[#ABDDC6] flex justify-center items-center font-medium text-[13px] text-[#039855] gap-0.5 rounded-[4px]'>
             <p>Active</p>
@@ -174,10 +177,21 @@ const PopUpPayment = ({ profile }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex gap-1 items-center mt-4'>
+                            {!isMonthlyData && <div className='flex gap-1 items-center mt-4'>
                                 <Referral />
-                                <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code? <button onClick={() => setReferralModal(true)} className='text-BlueHomz'>Proceed here</button></h3>
+                                <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code?
+                                    <button
+                                        onClick={() => {
+                                            if (profile) {
+                                                setReferralModal(true);
+                                            }
+                                            else {
+                                                router.push('/register')
+                                            }
+                                        }} className='text-BlueHomz'>Proceed here</button>
+                                </h3>
                             </div>
+                            }
                         </div>
             }
         </div>

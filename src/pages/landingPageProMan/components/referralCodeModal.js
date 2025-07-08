@@ -17,7 +17,6 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [discountDetails, setDiscountDetails] = useState(null);
-  const { setError: openWarning } = useOpenPaymentType();
   const { data: enterprisePlans } = useEnterprisePlans();
   const { isMonthlyData, isAnnaullyData, isBiAnnaullyData } = useOpenPaymentType();
   const debounceTimer = useRef(null);
@@ -25,17 +24,14 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
   const router = useRouter();
   const [data, setData] = useState(null)
 
-  const goBack = () => {
-    router.back();
-  };
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedData = localStorage.getItem('enterData');
       setData(JSON.parse(storedData));
     }
-    fetchData()
+    // fetchData()
   }, []);
+
 
   const findMatchingPlan = () => {
     const selectedPlan =
@@ -49,6 +45,7 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
         plan.interval === selectedPlan.planInterval
     );
   };
+
   const validateDiscountCode = async () => {
     if (!code.trim()) {
       setIsApplied(false);
@@ -105,8 +102,8 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
 
       // Corrected payload structure
       let payload = {
-        planName: matchingPlan?.planName || "Enterprise Plus", // Use from state or default
-        interval: matchingPlan?.planInterval || "annually", // Use from state or default
+        planName: (matchingPlan?.planName ?? matchingPlan?.plan_name) || "", // Use from state or default
+        interval: (matchingPlan?.planInterval ?? matchingPlan?.interval) || "", // Use from state or default
         subscriptionType: "one-time", // Hardcoded as per requirement
         discountCode: code.trim().toUpperCase(), // From input field
         planId: matchingPlan._id // From matching plan
@@ -150,7 +147,7 @@ const ReferralCodeModal = ({ setReferralModal, fromSIgnUp }) => {
         // Handle redirection to payment URL
         const authorizationUrl = responseData?.data?.paystackResponse?.data?.authorization_url;
         // const paystackAuthorizationUrl = responseData?.data?.paystackResponse?.data?.authorization_url;
-
+        // console.log(authorizationUrl)
         if (authorizationUrl) {
           router.push(authorizationUrl);
           // } else if (isValidUrl(paystackAuthorizationUrl)) {
