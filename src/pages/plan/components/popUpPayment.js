@@ -9,12 +9,13 @@ import Referral from '@/components/icons/referral'
 import useEnterprisePlans from '@/store/enterpriseStore/enterprisePlans'
 import ReferralCodeModal from '@/pages/landingPageProMan/components/referralCodeModal'
 
+
 const PopUpPayment = () => {
     const [openProcess, setOpenProcess] = React.useState(false);
     const { fetchData: fetchEnterprisePlans } =
         useEnterprisePlans();
     const [referralModal, setReferralModal] = React.useState(false);
-    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment } = useOpenPaymentType();
+    const { isMonthlyData, setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment } = useOpenPaymentType();
 
     React.useEffect(() => {
         fetchEnterprisePlans()
@@ -111,10 +112,16 @@ const PopUpPayment = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='flex gap-1 items-center mt-4'>
-                            <Referral />
-                            <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code? <button onClick={() => setReferralModal(true)} className='text-BlueHomz'>Proceed here</button></h3>
-                        </div>
+                         {!isMonthlyData && <div className='flex gap-1 items-center mt-4'>
+                                <Referral />
+                                <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code?
+                                    <button
+                                        onClick={() => {
+                                                setReferralModal(true);
+                                        }} className='text-BlueHomz'>Proceed here</button>
+                                </h3>
+                            </div>
+                            }
                     </div>
             }
         </div>

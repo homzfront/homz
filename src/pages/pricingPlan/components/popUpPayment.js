@@ -10,14 +10,16 @@ import useOpenPaymentType from '@/store/enterpriseStore/useOpenPaymentType'
 import useEnterprisePlans from '@/store/enterpriseStore/enterprisePlans'
 import ReferralCodeModal from '@/pages/landingPageProMan/components/referralCodeModal'
 import Referral from '@/components/icons/referral'
+import { useRouter } from 'next/navigation'
 
 const PopUpPayment = ({ profile }) => {
+    const router = useRouter();
     const [openProcess, setOpenProcess] = React.useState(false);
     const [isOpen, setIsOpen] = React.useState(true);
     const { fetchData: fetchEnterprisePlans } =
         useEnterprisePlans();
     const [referralModal, setReferralModal] = React.useState(false);
-    const { setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError, setOpenErrorAgain, openAgain, setOpenAgain, openErrorAgain } = useOpenPaymentType();
+    const { isMonthlyData, setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError, setOpenErrorAgain, openAgain, setOpenAgain, openErrorAgain } = useOpenPaymentType();
 
     const active = (
         <div className='ml-2 h-[28px] w-[72px] bg-[#ABDDC6] flex justify-center items-center font-medium text-[13px] text-[#039855] gap-0.5 rounded-[4px]'>
@@ -130,7 +132,7 @@ const PopUpPayment = ({ profile }) => {
                             <div className='mt-4 flex flex-col gap-2'>
                                 <div onClick={() => setOpenCardPayment(true)} className='cursor-pointer bg-whiteblue p-2 rounded-[4px] flex justify-between items-start'>
                                     <div className='flex items-center gap-2'>
-                                         <div className='w-[49.5px] h-[49.5px] flex justify-center items-center min-w-[49.5px] min-h-[49.5px]'>
+                                        <div className='w-[49.5px] h-[49.5px] flex justify-center items-center min-w-[49.5px] min-h-[49.5px]'>
                                             <PlanCard />
                                         </div>
                                         <div>
@@ -174,10 +176,21 @@ const PopUpPayment = ({ profile }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex gap-1 items-center mt-4'>
+                            {!isMonthlyData && <div className='flex gap-1 items-center mt-4'>
                                 <Referral />
-                                <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code? <button onClick={() => setReferralModal(true)} className='text-BlueHomz'>Proceed here</button></h3>
+                                <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code?
+                                    <button
+                                        onClick={() => {
+                                            if (profile) {
+                                                setReferralModal(true);
+                                            }
+                                            else {
+                                                router.push('/register')
+                                            }
+                                        }} className='text-BlueHomz'>Proceed here</button>
+                                </h3>
                             </div>
+                            }
                         </div>
             }
         </div>
