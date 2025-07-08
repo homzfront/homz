@@ -176,6 +176,7 @@ const PopUpPayment = ({ profile }) => {
                                     </div>
                                 </div>
                             </div>
+                            
                             {!isMonthlyData && <div className='flex gap-1 items-center mt-4'>
                                 <Referral />
                                 <h3 className='text-[16px] text-GrayHomz font-normal'>Have a referral code?
