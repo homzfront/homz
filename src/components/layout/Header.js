@@ -17,11 +17,14 @@ import LoadingProlonged from "@/components/general/loadingProlonged";
 import EnterpriseDoc from "../icons/enterpriseDoc";
 import EnterpriseBag from "../icons/enterpriseBag";
 import ArrowUpII from "../icons/arrowUpII";
+import PropertyManagement from "../icons/dashboard/propertyManagement";
+import PropertyListing from "../icons/dashboard/propertyListing";
 
 const Header = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
+  const [activeThree, setActiveThree] = useState(false);
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
@@ -87,8 +90,8 @@ const Header = () => {
   const url = !profile
     ? "/register"
     : hasListProperty
-    ? "/dashboard/list_Property/addProperty"
-    : "/switch-profile";
+      ? "/dashboard/list_Property/addProperty"
+      : "/switch-profile";
 
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
@@ -201,54 +204,51 @@ const Header = () => {
         />
       </Link>
       <nav
-        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${
-          open ? "block" : "hidden md:flex"
-        }`}
+        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${open ? "block" : "hidden md:flex"
+          }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
           <Link
             href={"/"}
-            className={`hover:text-blue-400 ${
-              pathname === "/" ||
+            className={`hover:text-blue-400 ${pathname === "/" ||
               pathname === "/search-page/PropertyListing" ||
               pathname === "/search-page/PreviewProperty" ||
               pathname === "/search-page"
-                ? "text-BlueHomz"
-                : ""
-            }`}
+              ? "text-BlueHomz"
+              : ""
+              }`}
           >
             Home
           </Link>
           <Link
             href={"/landlord"}
-            className={`hover:text-blue-400   ${
-              pathname === "/landlord" ? "text-BlueHomz" : ""
-            }`}
+            className={`hover:text-blue-400   ${pathname === "/landlord" ? "text-BlueHomz" : ""
+              }`}
             onClick={() => setOpen(false)}
           >
             Management
           </Link>
           <div className="relative flex items-center gap-1">
             <Link
-              href={`${
-                pathname !== "/enterprise" ||
-                pathname !== "/document-generation"
-                  ? "/enterprise"
-                  : ""
-              }`}
-              className={`${
-                pathname === "/document-generation" ||
-                pathname === "/enterprise"
-                  ? "text-BlueHomz"
-                  : ""
-              } hover:text-blue-400`}
+              href={`${pathname !== "/enterprise" ||
+                pathname !== "/document-generation" || pathname !== "/estate-management"
+                ? "/enterprise"
+                : ""
+                }`}
+              className={`${pathname === "/document-generation" ||
+                pathname === "/enterprise" || pathname === "/estate-management"
+                ? "text-BlueHomz"
+                : ""
+                } hover:text-blue-400`}
               onClick={() => setOpen(false)}
             >
               {pathname === "/document-generation"
                 ? "Document Generation"
                 : pathname === "/enterprise"
-                ? "Enterprise"
-                : "Enterprise"}
+                  ? "Property Management"
+                  : pathname === "/estate-management" ?
+                    "Estate Management"
+                    : "Products"}
             </Link>
             <div
               onClick={toggleSubMenu}
@@ -270,16 +270,20 @@ const Header = () => {
                 >
                   {active ? (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag className="#006AFF" />
+                      <PropertyListing
+                        className="text-BlueHomz fill-white"
+                        height="24"
+                        width="24"
+                      />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
-                        Enterprise
+                        Property Management
                       </p>
                     </div>
                   ) : (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag />
+                      <PropertyListing height="24" width="24" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-                        Enterprise
+                        Property Management
                       </p>
                     </div>
                   )}
@@ -287,10 +291,36 @@ const Header = () => {
                 <Link
                   onMouseEnter={() => setActiveTwo(true)}
                   onMouseLeave={() => setActiveTwo(false)}
-                  href={"/document-generation"}
+                  href={"/estate-management"}
                   className="w-full"
                 >
                   {activeTwo ? (
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <PropertyManagement
+                        className="fill-BlueHomz text-white"
+                        height="24"
+                        width="24"
+                      />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
+                        Estate Management
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <PropertyManagement className="fill-BlackHomz" height="24" width="24" />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                        Estate Management
+                      </p>
+                    </div>
+                  )}
+                </Link>
+                <Link
+                  onMouseEnter={() => setActiveThree(true)}
+                  onMouseLeave={() => setActiveThree(false)}
+                  href={"/document-generation"}
+                  className="w-full"
+                >
+                  {activeThree ? (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
                       <EnterpriseDoc className="#006AFF" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
@@ -312,17 +342,16 @@ const Header = () => {
           <Link
             href={"/tenant"}
             // href={""}
-            className={`hover:text-blue-400 ${
-              pathname === "/tenant" ? "text-BlueHomz" : ""
-            }`}
+            className={`hover:text-blue-400 ${pathname === "/tenant" ? "text-BlueHomz" : ""
+              }`}
             onClick={() => setOpen(false)}
           >
             Tenant
           </Link>
           {data?.properties?.length > 0 &&
-          (data?.businessInfo?.isVerified === "unverified" ||
-            data?.businessInfo?.isVerified === "pending" ||
-            data?.businessInfo?.isVerified === "rejected") ? (
+            (data?.businessInfo?.isVerified === "unverified" ||
+              data?.businessInfo?.isVerified === "pending" ||
+              data?.businessInfo?.isVerified === "rejected") ? (
             <div
               className="hover:text-blue-400 cursor-pointer"
               onClick={handleOpenModal}
@@ -341,17 +370,15 @@ const Header = () => {
         </div>
       </nav>
       <div
-        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${
-          open ? "block" : "hidden md:flex"
-        } `}
+        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${open ? "block" : "hidden md:flex"
+          } `}
       >
         {isLoading ? (
           <div className="w-full justify-center items-center">
             {profile ? (
               <div
-                className={`flex items-center ${
-                  open ? "flex  flex-col gap-4 items-start" : "gap-2"
-                }`}
+                className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"
+                  }`}
               >
                 <Link href={profile ? determineUserDashboard(profile) : "/"}>
                   <p className={`w-full ${open ? "text-[12px] " : ""}`}>
@@ -360,9 +387,8 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={() => logout(logout)}
-                  className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${
-                    open ? "text-[12px]" : ""
-                  }`}
+                  className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px]" : ""
+                    }`}
                 >
                   Logout
                 </button>
@@ -387,9 +413,8 @@ const Header = () => {
             <Link
               href="/register"
               //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${
-                open ? "text-[12px] " : ""
-              }`}
+              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""
+                }`}
             >
               Create Account
               {/* Join Waitlist */}

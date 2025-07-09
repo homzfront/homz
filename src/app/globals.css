@@ -202,6 +202,15 @@ body::-webkit-scrollbar-thumb {
   ); /* Adjust percentages as needed */
 }
 
+.image-clipIII {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 60%,
+    0 60%
+  ); /* Adjust percentages as needed */
+}
+
 /* Custom Select Wrapper */
 .custom-select-wrapper {
   position: relative;
