@@ -9,7 +9,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
@@ -226,29 +226,54 @@ const Plans = ({ profile }) => {
   }, [openAgain])
 
   return (
-    <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px] w-full">
+    <div className="mt-[60px] w-full m-auto px-4 md:px-6 flex flex-col items-center gap-[60px]">
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={10}
-          slidesPerView={1}
-          autoplay={{
-            delay: 3000, // Delay in milliseconds
-            disableOnInteraction: false, // Keeps autoplay running even after interaction
+   <Swiper
+          // Add to modules:
+          modules={[Navigation, Pagination]}
+
+          // Add to Swiper props:
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+            el: '.swiper-pagination', // Add this if you want a custom class
           }}
-          navigation
+          touchRatio={0.8}
+          resistanceRatio={0.7}
+          spaceBetween={20}  // Increased space between slides
+          slidesPerView={1} // Always show 1 slide on mobile
+          centeredSlides={true} // Center the active slide
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
           breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 }
+            // When window width is >= 640px
+            640: {
+              slidesPerView: 1,
+              spaceBetween: 20
+            },
+            // When window width is >= 768px
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            // When window width is >= 1024px
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 20
+            },
+            // When window width is >= 1280px
+            1280: {
+              slidesPerView: 4,
+              spaceBetween: 20
+            }
           }}
+          className="pb-8" // Add padding for navigation
         >
           {pricingPlans.map((plan, index) => (
-            <SwiperSlide key={index}>
-              <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
-              >
+            <SwiperSlide key={index} className="!h-auto py-4"> {/* Added !h-auto and padding */}
+              <div className="flex flex-col justify-around p-6 mx-2 text-[16px] font-[400] w-full max-w-[280px] h-full min-h-[860px] border shadow-lg rounded-2xl hover:border hover:border-BlueHomz hover:bg-whiteblue">
                 <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
@@ -326,6 +351,8 @@ const Plans = ({ profile }) => {
               </div>
             </SwiperSlide>
           ))}
+          <div className="swiper-button-prev !text-BlueHomz"></div>
+          <div className="swiper-button-next !text-BlueHomz"></div>
         </Swiper>
       </div>
       <div className={`text-GrayHomz w-full ${isAt1295px ? "" : "hidden"}`}>
