@@ -30,7 +30,7 @@ const PricingPlan = () => {
   }, []);
 
   return (
-    <div className="max-w-[1440px] w-full px-8 py-4 m-auto">
+    <div className="max-w-[1440px] w-full px-4 md:px-8 py-4 m-auto">
       <ToastContainer
         position="top-center"
         autoClose={2000}
@@ -46,13 +46,13 @@ const PricingPlan = () => {
       />
       <div
         onClick={goBack}
-        className="flex justify-start gap-1 items-center cursor-pointer">
+        className="px-4 flex justify-start gap-1 items-center cursor-pointer">
         <ArrowLeftBlue />
         <p className="text-BlueHomz4 text-[16px] font-[500]">
           Go back
         </p>
       </div>
-      <div className="flex flex-col justify-center items-center">
+      <div className="px-4 flex flex-col justify-center items-center">
         <div className="max-w-[897px] m-auto mb-10 flex flex-col items-center gap-3">
           <h2 className="  text-BlueHomz text-[18px]  text-center font-[500]">
             Pricing
