@@ -91,14 +91,8 @@ const Login = () => {
       if (response.status === 201) {
         const data = response.data.data.token;
         localStorage.setItem("jwt", data);
-        localStorage.setItem("jwt", data);
-
         const profileResponse = await api.get("/user/profile");
         if (profileResponse?.data?.user?.isVerified === true) {
-          if (
-            profileResponse.status === 200 ||
-            profileResponse.status === 201
-          ) {
           if (
             profileResponse.status === 200 ||
             profileResponse.status === 201
@@ -143,8 +137,9 @@ const Login = () => {
         } else {
           router.push(`/verify-email`);
           if (typeof window !== "undefined") {
-          if (typeof window !== "undefined") {
-            localStorage.setItem("email", response?.data?.data?.email);
+            if (typeof window !== "undefined") {
+              localStorage.setItem("email", response?.data?.data?.email);
+            }
           }
         }
       } else {
@@ -154,7 +149,7 @@ const Login = () => {
       setLoginError(error.response?.data?.message);
       setLoading(false);
     }
-  };
+  }
 
   const closeModal = () => {
     setShowLongLoadingMessage(false);
@@ -174,30 +169,18 @@ const Login = () => {
           idToken,
         }
       );
-      const response = await axios.post(
-        "http://localhost:4000/api/auth/google",
-        {
-          idToken,
-        }
-      );
 
       // Optionally store token or user data
       console.log("User data from backend:", response.data);
-      console.log("User data from backend:", response.data);
     } catch (error) {
-      console.error("Login failed:", error);
       console.error("Login failed:", error);
     }
   };
-  };
 
   // console.log("Session data:", session);
-  // console.log("Session status:", status);
-  // console.log("Session data:", session);
-  // console.log("Session status:", status);
+  // console.log("Session status:", status);\
   const fromGoogle = localStorage.getItem("fromGoogle") === "true";
 
-  // console.log("fromGoogle state:", fromGoogle);
   // console.log("fromGoogle state:", fromGoogle);
   useEffect(() => {
     const verifySession = async () => {
@@ -211,23 +194,15 @@ const Login = () => {
               name: session.user?.name,
               email: session.user?.email,
               image: session.user?.image,
-              image: session.user?.image,
             },
             accessToken: session.accessToken,
             idToken: session.idToken,
             expires: session.expires,
-            expires: session.expires,
           };
 
           // console.log("Verification payload:", verificationPayload);
-          // console.log("Verification payload:", verificationPayload);
 
           // 1. First verify with Google token
-          const verificationResponse = await api.post(
-            "/auth/google/verification",
-            verificationPayload
-          );
-          // console.log("Verification response:", verificationResponse);
           const verificationResponse = await api.post(
             "/auth/google/verification",
             verificationPayload
@@ -238,11 +213,9 @@ const Login = () => {
             // Store JWT token from verification response
             const token = verificationResponse?.data?.data.token;
             localStorage.setItem("jwt", token);
-            localStorage.setItem("jwt", token);
 
             // 2. Then fetch user profile
             const profileResponse = await api.get("/user/profile");
-            // console.log("Profile response:", profileResponse);
             // console.log("Profile response:", profileResponse);
 
             if (profileResponse.data?.user) {
@@ -262,25 +235,18 @@ const Login = () => {
           }
         } catch (error) {
           // console.log(error?.response?.data?.message);
-          // console.log(error?.response?.data?.message);
 
           const errors = error?.response?.data?.error?.errors;
           const message = error?.response?.data?.message;
 
           if (errors) {
             // console.log(errors);
-            // console.log(errors);
             // Show each error as a toast (or combine them into one string)
             const combinedMessage = Object.values(errors).join(", ");
             toast.error(combinedMessage);
           } else if (message) {
             // console.log(message);
-            // console.log(message);
             toast.error(message);
-            if (
-              message.toLowerCase().includes("This email is already registered")
-            ) {
-              signOut({ callbackUrl: "/login" });
             if (
               message.toLowerCase().includes("This email is already registered")
             ) {
@@ -290,7 +256,6 @@ const Login = () => {
             console.log("An unexpected error occurred:", error);
             toast.error("An unexpected error occurred");
           }
-        } finally {
         } finally {
           setLoading(false);
           localStorage.removeItem("fromGoogle");
@@ -405,8 +370,6 @@ const Login = () => {
               </form>
               <div className="mt-[-10px]">
                 {/* <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
-              <div className="mt-[-10px]">
-                {/* <button onClick={() => handleGoogleSignIn()} className={`border flex justify-center items-center gap-3 font-[700] text-[16px] text-BlueHomz w-full sm:w-[360px] border-BlueHomz hover:border-BlackHomz  rounded-[8px] h-[47px] hover:text-BlackHomz ${loading ? "pointer-events-none w-full flex justify-center" : ""}`}>
                     <Image
                       className=""
                       src={"/Social icon.png"}
@@ -416,7 +379,6 @@ const Login = () => {
                       />
                       />
                     {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : "Login In with google"}
-                    </button> */}
                     </button> */}
                 <p className="text-center font-[400] text-[14px]">
                   Don’t have an account?
@@ -429,14 +391,12 @@ const Login = () => {
                 </p>
               </div>
               {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
-              </div>
-              {/* <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('Login Failed')} /> */}
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default Login;
