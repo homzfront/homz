@@ -61,17 +61,17 @@ const Widget = ({ routeTo }) => {
         theme="dark"
       />
       <div className="w-auto h-auto py-4">
-        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[450px] cursor-pointer m-auto">
+        <div className="flex mt-1 gap-3 justify-center sm:gap-2 flex-wrap sm:flex-nowrap sm:justify-between w-full sm:w-[500px] cursor-pointer m-auto">
           {pages.map((page, index) => (
             <div
               key={index}
               className={`mt-2 sm:mt-0 ${page === "Pay Yearly" ? "" : ""} flex flex-col items-center py-2 px-3 justify-center rounded-md ${active === index ? "bg-BlueHomz text-white" : "bg-whiteblue text-BlueHomz "
                 }`}
-                onClick={() => {
-                  setActive(index)
-                }}
+              onClick={() => {
+                setActive(index)
+              }}
             >
-              <p className={`text-[14px] font-500 ${page === "Pay Yearly" ? "flex items-center gap-1" : ""}`}>{page} <span className={`${page === "Pay Yearly" ? " bg-BlueHomz  py-1 px-2 rounded-md  font-normal text-[11px]" : "hidden"} ${active === index ? "bg-white text-BlueHomz" : "text-white"}`}>Save 20%</span></p>
+              <p className={`text-[14px] font-500 ${page === "Pay Yearly" || page === "Pay bi-annually" ? "flex items-center gap-1" : ""}`}>{page} <span className={`${page === "Pay Yearly" || page === "Pay bi-annually" ? " bg-BlueHomz  py-1 px-2 rounded-md  font-normal text-[11px]" : "hidden"} ${active === index ? "bg-white text-BlueHomz" : "text-white"}`}>{page === "Pay Yearly" ? "Save 20%" : "Save 10%"}</span></p>
             </div>
           ))}
         </div>
