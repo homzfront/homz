@@ -1,5 +1,4 @@
 
-
 "use client";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
@@ -91,6 +90,7 @@ const Login = () => {
       if (response.status === 201) {
         const data = response.data.data.token;
         localStorage.setItem("jwt", data);
+
         const profileResponse = await api.get("/user/profile");
         if (profileResponse?.data?.user?.isVerified === true) {
           if (
@@ -106,10 +106,6 @@ const Login = () => {
             } else if (referalReturnPage) {
               router.push("/plans");
             } else if (tab === "dueDate") {
-              router.push(
-                "/dashboard/enterprise-property/tenants?dueDate=true"
-              );
-            } else if (!homePage && navigateTo) {
               router.push(
                 "/dashboard/enterprise-property/tenants?dueDate=true"
               );
@@ -137,9 +133,7 @@ const Login = () => {
         } else {
           router.push(`/verify-email`);
           if (typeof window !== "undefined") {
-            if (typeof window !== "undefined") {
-              localStorage.setItem("email", response?.data?.data?.email);
-            }
+            localStorage.setItem("email", response?.data?.data?.email);
           }
         }
       } else {
@@ -149,7 +143,7 @@ const Login = () => {
       setLoginError(error.response?.data?.message);
       setLoading(false);
     }
-  }
+  };
 
   const closeModal = () => {
     setShowLongLoadingMessage(false);
@@ -178,7 +172,7 @@ const Login = () => {
   };
 
   // console.log("Session data:", session);
-  // console.log("Session status:", status);\
+  // console.log("Session status:", status);
   const fromGoogle = localStorage.getItem("fromGoogle") === "true";
 
   // console.log("fromGoogle state:", fromGoogle);
@@ -314,8 +308,6 @@ const Login = () => {
                       onChange={(e) => {
                         setEmail(e.target.value);
                         setLoginError("");
-                        setEmail(e.target.value);
-                        setLoginError("");
                       }}
                       placeholder="Enter your email"
                       autoComplete="email"
@@ -330,8 +322,6 @@ const Login = () => {
                       type={visible ? "text" : "password"}
                       value={password}
                       onChange={(e) => {
-                        setPassword(e.target.value);
-                        setLoginError("");
                         setPassword(e.target.value);
                         setLoginError("");
                       }}
@@ -377,7 +367,6 @@ const Login = () => {
                       height={"20"}
                       width={"20"}
                       />
-                      />
                     {loading && fromGoogle ? <LoadingFormII className="#006aff" /> : "Login In with google"}
                     </button> */}
                 <p className="text-center font-[400] text-[14px]">
@@ -396,7 +385,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Login;
