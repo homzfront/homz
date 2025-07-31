@@ -11,9 +11,10 @@ import Referral from '@/components/icons/referral'
 import ReferralCodeModal from './referralCodeModal'
 import useEnterprisePlans from '@/store/enterpriseStore/enterprisePlans'
 import { useRouter } from 'next/navigation'
+import useReferalReturnPage from '@/store/enterpriseStore/useReferalReturnPage'
 
 const PopUpPayment = ({ profile }) => {
-    console.log(profile)
+    const { setReferalReturnPage } = useReferalReturnPage()
     const router = useRouter();
     const [openProcess, setOpenProcess] = React.useState(false);
     const { fetchData: fetchEnterprisePlans } =
@@ -186,6 +187,7 @@ const PopUpPayment = ({ profile }) => {
                                                 setReferralModal(true);
                                             }
                                             else {
+                                                setReferalReturnPage(true);
                                                 router.push('/register')
                                             }
                                         }} className='text-BlueHomz'>Proceed here</button>
