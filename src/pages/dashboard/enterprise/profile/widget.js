@@ -7,8 +7,9 @@ import PersonalInfo from "./personalInfo/personalInfo.js";
 import Payment from "./payment/payment.js";
 import ChangePassword from "./changePassword/changePassword.js";
 import AccountInfo from "./accountInfo/accountInfo.js";
+import useProfileStore from "@/store/profile.js";
 
-const pages = [
+const allPages = [
   {
     id: 1,
     name: "Business Information",
@@ -47,13 +48,16 @@ const pages = [
   },
 ];
 
+
 const Widget = ({ data }) => {
+  const { profile } = useProfileStore.getState();
   const urlParams = useSearchParams();
+  const pages = profile?.user?.google
+  ? allPages.filter((page) => page.id !== 6)
+  : allPages;
   const initialTab = urlParams.get("tab");
   const initialActiveTab = initialTab ? pages.find(page => page.key === initialTab)?.id : 1;
-
   const [active, setActive] = useState(initialActiveTab);
-
   useEffect(() => {
     if (initialTab) {
       const page = pages.find(page => page.key === initialTab);

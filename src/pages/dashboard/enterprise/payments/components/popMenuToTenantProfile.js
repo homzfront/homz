@@ -9,15 +9,22 @@ import Update from '@/components/icons/update';
 import Delete from '@/components/icons/delete';
 import PopUpUpdateMenu from './popUpUpdateMenu';
 import ConfirmModal from '../../components/confirmModal';
-import DeleteModel from '../../components/deleteModal';
-import api from '@/utils/api';
-import RefetchPayment from '@/store/enterpriseStore/paymentRefetch';
-import useExportRentPayment from '@/store/enterpriseStore/exportRentPayment';
-import useEnterpriseRevenueStore from '@/store/enterpriseStore/enterpriseRevenue';
 import Document from '@/components/icons/document';
 import Receipt from './receipt';
 
-function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchData: fetchTableData, data, setDeleteModal, deleteModal, deleteSuccessModal, setDeleteSuccessModal, handleDataToggle, setPopUpMenu, popUpMenu, handleDelete, dropdownRef, handleUpdateForm, setUpdateForm, updateForm }) {
+function PopUpMenuTwo({
+  showReceipt,
+  setShowReceipt,
+  showReceiptOffline,
+  fetchData: fetchTableData,
+  data,
+  handleDataToggle,
+  setPopUpMenu,
+  popUpMenu,
+  handleDelete,
+  handleUpdateForm,
+  setUpdateForm,
+  updateForm }) {
   // Move all hooks to the top
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -25,51 +32,15 @@ function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchDa
   const [activeFour, setActiveFour] = useState(false);
   const [activeFive, setActiveFive] = useState(false);
   const [successfulModal, setSuccessfulModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { setRefetch } = RefetchPayment();
-  const { fetchData } = useExportRentPayment();
-  const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
 
-
-  const tenantId =  data?.tenantId?.estateId
-
-
-  const deletePayment = async () => {
-    setRefetch(false);
-    setLoading(true);
-    const paymentId = data?._id
-    const tenantId = data?.tenantId?.estateId
-    try {
-      const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${data?.reference}`)
-      if (response?.data?.success === true) {
-        setRefetch(true);
-        setDeleteSuccessModal(true);
-        fetchData();
-        fetchRevData();
-      } else {
-      }
-    } catch (error) {
-      if (error && error?.response?.data?.error?.errors) {
-      }
-      else if (error && error?.response?.data?.message) {
-      } else {
-        throw error
-      }
-    }
-    finally {
-      setLoading(false);
-    }
-  };
-
+  const tenantId = data?.tenantId?._id
 
   return (
     <div>
-
-
       <div
         // ref={dropdownRef}
         className="drop-down absolute top-11 z-100 w-[150px] md:w-[180px] text-GrayHomz font-[500] text-[13px] right-[67px] border py-2 rounded-md bg-white flex flex-col items-center justify-around"
-        >
+      >
 
         {/* View Profile */}
         <div
@@ -140,7 +111,7 @@ function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchDa
         <div
           onMouseEnter={() => setActiveFive(true)}
           onMouseLeave={() => setActiveFive(false)}
-          className={`${data?.paymentMethod !== "offline" ? "hidden" : ""} md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-[#D92D20] w-full`}>
+          className={`md:h-[30px] h-auto rounded-md flex gap-1 items-center py-1 px-2 text-GrayHomz hover:text-[#D92D20] w-full`}>
           <button className="w-full" onClick={() => handleDelete(data?._id)}>
             <div className={`px-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md`}>
               <Delete className={activeFive ? '#D92D20' : undefined} classNameTwo={activeFour ? '#D92D20' : undefined} />
@@ -186,31 +157,7 @@ function PopUpMenuTwo({ showReceipt, setShowReceipt, showReceiptOffline, fetchDa
           />
         </CustomizedModal>
       )}
-      {deleteModal && (
-        <CustomizedModal isOpen={deleteModal}>
-          {
-            deleteSuccessModal ?
-              <ConfirmModal
-                header={`Offline Payment Record Deleted Successfully`}
-                button={"Close"}
-                returnHome={() => {
-                  setDeleteModal(false)
-                  setDeleteSuccessModal(false)
-                }}
-              />
-              :
-              <DeleteModel
-                loading={loading}
-                header={"Delete Payment Record?"}
-                body={`You are about to delete this offline payment record for ${data?.tenantId?.fullName}`}
-                button={"Proceed"}
-                buttonTwo={"Cancel"}
-                returnHome={deletePayment}
-                returnHomeTwo={() => setDeleteModal(false)}
-              />
-          }
-        </CustomizedModal>
-      )}
+
     </div>
   );
 }

@@ -18,18 +18,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { cleanObject } from "@/utils/cleanObject";
 import { toast } from "react-toastify";
 import { addDurationToDate, convertToNigeriaTime } from "@/utils/addDuration";
-import { createSpecificTenantRentInfo, updateSpecificTenantRentInfo } from "@/api/tenantSevice";
+import { createSpecificTenantRentInfo, getSpecificTenantRentInfo, updateSpecificTenantRentInfo } from "@/api/tenantSevice";
 import { debounce } from "lodash";
 import LoadingFormIII from "@/components/mainmenu/loadingFormIII";
 
-export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantData }) {
+export default function RentPeriodForm({ fetchRentInformation, fetchTenantData, setRentInfo, rentInfo, tenantData }) {
   const [showForm, setShowForm] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showConfirmSuccessModal, setShowConfirmSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dontHideForm, setDontHideForm]  = useState(false);
+  const [dontHideForm, setDontHideForm] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(null);
   const [formData, setFormData] = useState({
     propertyType: "",
@@ -111,7 +111,9 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
 
       const removedFormData = {
         ...formData,
-        periods: formData?.periods?.filter((period) => period.id !== selectedPeriod.id),
+        periods: formData?.periods?.filter((period) =>
+          selectedPeriod ? period.id !== selectedPeriod.id : true
+        ),
       };
 
       const cleanFormData = cleanObject(showDeleteModal ? removedFormData : formData);
@@ -147,6 +149,8 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
         const id = rentInfo?.upDateddata?._id;
         const { success, upDateddata, error } = await updateSpecificTenantRentInfo(id, finalFormData);
         if (success) {
+          await fetchTenantData()
+          await fetchRentInformation()
           setLoading(false);
           setShowSuccessModal(false);
           if (showDeleteModal) {
@@ -163,8 +167,9 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
       } else {
         const id = tenantData?.data?._id;
         const { success, upDateddata, error } = await createSpecificTenantRentInfo(id, finalFormData);
-
         if (success) {
+          await fetchTenantData()
+          await fetchRentInformation()
           setLoading(false);
           setShowConfirmSuccessModal(true);
           setShowSuccessModal(false);
@@ -174,7 +179,6 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           toast.error(error?.error?.message);
         }
       }
-      fetchRentInformation()
     } catch (error) {
       setLoading(false);
       toast.error("Update failed");
@@ -209,13 +213,14 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
 
 
   React.useEffect(() => {
-    if (tenantData && formData.propertyName !== tenantData?.data?.estateId?.name) {
+    if (rentInfo && tenantData && formData.propertyName !== tenantData?.data?.estateId?.name) {
       setFormData((prevData) => ({
         ...prevData,
         propertyName: tenantData?.data?.estateId?.name,
       }));
     }
   }, [tenantData?.data?.estateId]);
+
 
   React.useEffect(() => {
     if (rentInfo?.upDateddata) {
@@ -244,7 +249,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
       [index]: !prevOpenDropDowns[index],
     }));
   };
-  
+
   return (
     <div className="mt-4 pt-4 border-t border-[#E6E6E6]">
       <CustomizedModal
@@ -254,7 +259,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
         <ConfirmModalIII
           header={`Rental Property Information ${rentInfo?.upDateddata ? "Updated" : "Added"} Successfully`}
           button={"Close"}
-          returnHome={() => {
+          returnHome={async () => {
             setShowConfirmSuccessModal(false);
             if (!dontHideForm) {
               setShowForm(false);
@@ -326,7 +331,7 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
           <div
             onClick={() => {
               setShowForm(true)
-              addNewPeriod()
+              // addNewPeriod()
             }}
             className="mt-4 p-4 bg-whiteblue rounded-[8px] flex items-center justify-between cursor-pointer"
           >
@@ -374,12 +379,17 @@ export default function RentPeriodForm({ fetchRentInformation, rentInfo, tenantD
                     Apartment No<span className="text-error">*</span>
                   </label>
                   <input
+                    type="text"
                     value={formData.apartmentNumber}
-                    onChange={(e) => setFormData({ ...formData, apartmentNumber: e.target.value })}
-                    className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none"
-                    placeholder="e.g Apartment 1"
+                    onChange={(e) => {
+                       setFormData({ ...formData, apartmentNumber: e.target.value });
+                    }}
+                    className="mt-0.5 w-full h-[45px] px-3 border border-[#a9a9a9] rounded-[4px] outline-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                    placeholder="e.g. 1"
+                    required
                   />
                 </div>
+
               </div>
             </div>
             {formData?.periods?.map((period, index) => {

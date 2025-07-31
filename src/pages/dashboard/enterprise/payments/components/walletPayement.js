@@ -10,6 +10,13 @@ import api from "@/utils/api";
 import useClickOutside from "@/utils/clickOutside";
 import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore";
 import { useDebounce } from "@/utils/deBounce";
+import useEnterpriseRevenueStore from "@/store/enterpriseStore/enterpriseRevenue";
+import useExportRentPayment from "@/store/enterpriseStore/exportRentPayment";
+import DeleteModel from "../../components/deleteModal";
+import ConfirmModal from "../../components/confirmModal";
+import CustomizedModal from "@/components/mainmenu/CustomizedModal";
+import RefetchPayment from "@/store/enterpriseStore/paymentRefetch";
+import { toast } from 'react-toastify';
 
 
 const WalletPayement = () => {
@@ -20,6 +27,14 @@ const WalletPayement = () => {
     const [popUpMenu, setPopUpMenu] = useState(false);
     const [popUpMenuTwo, setPopUpMenuTwo] = useState(false);
     const dropdownRef = useClickOutside(() => setPopUpMenuTwo(false));
+    const { Refetch, setRefetch } = RefetchPayment();
+    const { fetchData: fetchExpoRent } = useExportRentPayment();
+    const { fetchData: fetchRevData } = useEnterpriseRevenueStore();
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteSuccessModal, setDeleteSuccessModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [showReceipt, setShowReceipt] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
     const {
         selectedProperty,
         fromDate,
@@ -45,35 +60,41 @@ const WalletPayement = () => {
     const handleDataToggle = (id) => {
         setSelectedDataId(id);
         setPopUpMenu(!popUpMenu);
+        if (showReceipt) {
+            setShowReceipt(false)
+        }
+    };
+
+    const fetchData = async (page) => {
+        if (fromDate && !toDate) return;
+        if (!fromDate && toDate) return;
+        setLoading(true);
+        try {
+            let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=wallet`;
+            if (selectedProperty) {
+                query += `&property=${selectedProperty}`;
+            }
+            if (fromDate && toDate) {
+                query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
+            }
+            if (search) {
+                query += `&search=${search}`
+            }
+            const response = await api.get(query);
+            const result = response?.data;
+            setData(result?.data?.results);
+            setWalletData(result?.data)
+            setTotalPages(result?.data?.totalPages);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.error("Error fetching data:", error);
+        }
     };
 
     useEffect(() => {
-        const fetchData = async (page) => {
-            setLoading(true);
-            try {
-                let query = `rentPayment/enterprise?limit=6&page=${page}&paymentMethod=wallet`;
-                if (selectedProperty) {
-                    query += `&property=${selectedProperty}`;
-                }
-                if (fromDate && toDate) {
-                    query += `&startRangeDate=${fromDate}&endRangeDate=${toDate}`;
-                }
-                if (search) {
-                    query += `&search=${search}`
-                }
-                const response = await api.get(query);
-                const result = response?.data;
-                setData(result?.data?.results);
-                setWalletData(result?.data)
-                setTotalPages(result?.data?.totalPages);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-                console.error("Error fetching data:", error);
-            }
-        };
         fetchData(pageNo);
-    }, [pageNo, selectedProperty, debounceFromDate, debounceToDate, debouncedSearch]);
+    }, [pageNo, selectedProperty, Refetch, debounceFromDate, debounceToDate, debouncedSearch]);
 
 
     const handlePageClick = (page) => {
@@ -94,6 +115,55 @@ const WalletPayement = () => {
 
     const firstThreePages = [1, 2, 3];
     const lastThreePages = [totalPages - 2, totalPages - 1, totalPages];
+
+    const showReceiptOffline = (id) => {
+        setSelectedDataId(id);
+        setShowReceipt(true)
+    }
+
+    const deletePayment = async () => {
+        setRefetch(false);
+        setIsDeleting(true);
+        const paymentId = selectedData?._id
+        const tenantId = selectedData?.tenantId?._id
+        try {
+            const response = await api.delete(`/offlinePayment/enterprise/rent/tenant/${tenantId}/remove/${paymentId}/reference/${selectedData?.reference}`)
+            if (response?.data?.success === true) {
+                setDeleteSuccessModal(true);
+                setDeleteModal(false)
+                setTimeout(async () => {
+                    // setPageNo(1)
+                    await fetchData(1);
+                    await fetchExpoRent();
+                    await fetchRevData();
+                }, 200);
+
+            } else {
+            }
+        } catch (error) {
+            console.log(error?.response?.data?.message)
+            if (error && error?.response?.data?.error?.errors) {
+                // Assign backend errors to state
+                toast.error(error?.response?.data?.error?.errors);
+            } else if (error && error?.response?.data?.message) {
+                // If there's a general message
+                toast.error(error?.response?.data?.message);
+            } else {
+                // If the error is not in the expected format, rethrow it
+                throw error;
+            }
+        }
+        finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleDelete = (id) => {
+        setSelectedDataId(id);
+        setDeleteModal(true)
+    }
+
+
 
     // Skeleton Loader Component
     const SkeletonLoader = () => {
@@ -139,6 +209,32 @@ const WalletPayement = () => {
 
     return (
         <div className="mt-6 w-full mx-auto">
+            {deleteSuccessModal &&
+                <CustomizedModal isOpen={deleteSuccessModal}>
+                    <ConfirmModal
+                        header={`Offline Payment Record Deleted Successfully`}
+                        button={"Close"}
+                        returnHome={() => {
+                            setDeleteModal(false)
+                            setDeleteSuccessModal(false)
+                            setSelectedData(null)
+                        }}
+                    />
+                </CustomizedModal>
+            }
+            {deleteModal &&
+                <CustomizedModal isOpen={deleteModal}>
+                    <DeleteModel
+                        loading={isDeleting}
+                        header={"Delete Payment Record?"}
+                        body={`You are about to delete this offline payment record for ${selectedData?.tenantId?.fullName}`}
+                        button={"Proceed"}
+                        buttonTwo={"Cancel"}
+                        returnHome={deletePayment}
+                        returnHomeTwo={() => setDeleteModal(false)}
+                    />
+                </CustomizedModal>
+            }
             <div className="border overflow-x-auto scrollbar-container">
                 <div className="w-[500%] md:w-[150%]">
                     <table border="1" className="w-full">
@@ -221,7 +317,7 @@ const WalletPayement = () => {
                                                 {data?.description || "N/A"}
                                             </td>
                                             <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
-                                                {data.duration === 1 ? `${data.duration} year` : `${data.duration} years`}
+                                                {data.duration === 1 ? `${data.duration} month` : `${data.duration} months`}
                                             </td>
                                             <td className="text-GrayHomz py-[15px] font-[500] text-[11px]">
                                                 {data?.paymentMethod && `${data?.paymentMethod}(${(data?.modeOfTransaction)})`}
@@ -230,7 +326,11 @@ const WalletPayement = () => {
                                                 {data?.paidAt ? changeBackendDateFormat(data?.paidAt) : "N/A"}
                                             </td>
                                             <td className="sticky right-[-24px] md:right-0 bg-white py-[15px] pr-4 z-10">
-                                                <button onClick={() => handleToggleMenu(data._id)}>
+                                                <button
+                                                    onClick={() => {
+                                                        handleToggleMenu(data._id)
+                                                        setSelectedData(data)
+                                                    }}>
                                                     <Image
                                                         src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                                         alt="Options"
@@ -241,11 +341,15 @@ const WalletPayement = () => {
                                                 </button>
                                                 {popUpMenuTwo && selectedDataId === data._id && (
                                                     <PopUpMenuTwo
+                                                        showReceipt={showReceipt}
+                                                        setShowReceipt={setShowReceipt}
+                                                        fetchData={fetchData}
+                                                        showReceiptOffline={showReceiptOffline}
                                                         data={data}
                                                         handleDataToggle={handleDataToggle}
                                                         setPopUpMenu={setPopUpMenu}
                                                         popUpMenu={popUpMenu}
-                                                        dropdownRef={dropdownRef}
+                                                        handleDelete={handleDelete}
                                                     />
                                                 )}
                                             </td>

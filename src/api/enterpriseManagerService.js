@@ -448,6 +448,15 @@ export const fetchKYCNINData = async () => {
   }
 };
 
+export const fetchCategory = async () => {
+  try {
+    const response = await api.get(`/expense/enterprise/get-all-categories`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const enterpriseWalletCreation = async (pincode, confirmPincode) => {
   try {

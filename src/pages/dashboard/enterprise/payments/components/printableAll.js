@@ -10,9 +10,13 @@ import usePaymentFilterStore from "@/store/enterpriseStore/usePaymentFilterStore
 const PrintableAll = ({
     data,
     printRef,
-    summary
+    summary,
+    fee
 }) => {
     const { data: enterprise, loading, fetchData } = useProfileEnterpriseMe();
+    const lastFeeIndex = fee?.fees?.length - 1;
+    const isLastFeeWhite = lastFeeIndex % 2 === 0;
+
 
     React.useEffect(() => {
         fetchData();
@@ -23,10 +27,16 @@ const PrintableAll = ({
         toDate,
     } = usePaymentFilterStore();
 
+
+    const propertyNames = data && data?.map(item => item?.estateId?.name).filter(Boolean);
+    const uniqueProperties = [...new Set(propertyNames)];
+    const displayProperty = uniqueProperties.length === 1 ? uniqueProperties[0] : "All Properties";
+
+
     return (
         <div ref={printRef} className="w-full max-w-6xl mx-auto font-sans bg-white shadow">
-             {/* Add print styles */}
-             <style jsx>{`
+            {/* Add print styles */}
+            <style jsx>{`
                 @media print {
                     @page {
                         size: auto;
@@ -55,11 +65,11 @@ const PrintableAll = ({
             {/* Summary Section */}
             <div className="mt-2 px-4 pt-4 pb-2">
                 <p className="flex flex-col">
-                    <span className="font-semibold">Financial Statement:</span> {fromDate} - {toDate}
+                    <span className="font-semibold">Financial Statement:</span> {fromDate && toDate ? `${fromDate} - ${toDate}` : "Entire history"}
                 </p>
                 <div className="flex justify-between items-end">
                     <p className="flex flex-col">
-                        <span className="font-semibold">Property:</span> All Properties
+                        <span className="font-semibold">Property:</span> {displayProperty}
                     </p>
                     <p className="">
                         <span className="font-semibold">Date Generated:</span> {changeBackendDateFormat(new Date())}
@@ -79,8 +89,24 @@ const PrintableAll = ({
                         <span className="">Pending Rent:</span>
                         <span className="text-GrayHomz">₦{addCommasToNumber(summary?.pendingPayment)}</span>
                     </div>
-                    <div className="flex justify-between mt-2 bg-white p-2">
-                        <span className="">No of Transactions:</span>
+                    {fee?.totalFeeList && <div className="flex justify-between mt-2 bg-white p-2">
+                        <span className="">Total Fees:</span>
+                        <span className="text-GrayHomz">₦{addCommasToNumber(fee?.totalFeeList)}</span>
+                    </div>}
+                    {fee?.totalAfterFees && <div className="flex justify-between mt-2 p-2">
+                        <span className="">Total (AfterFees):</span>
+                        <span className="text-GrayHomz">₦{addCommasToNumber(fee?.totalAfterFees)}</span>
+                    </div>}
+                    {fee?.fees.length > 0 &&
+                        fee?.fees?.map((fee, index) => (
+                            <div className={`flex justify-between mt-2 p-2 ${index % 2 === 0 ? "bg-white" : ""}`} key={fee._id}>
+                                <span className="">{fee.name} {fee.amountPct}%</span>
+                                <span className="text-GrayHomz">₦{addCommasToNumber(fee?.amountN)}</span>
+                            </div>
+                        ))
+                    }
+                    <div className={`flex justify-between mt-2 p-2 ${!isLastFeeWhite ? "bg-white" : ""}`}>
+                        <span>No of Transactions:</span>
                         <span className="text-GrayHomz">{summary?.totalTranscation}</span>
                     </div>
                 </div>

@@ -18,6 +18,9 @@ import PopUpMenuTwo from '../components/popUpMenuTwo';
 import ModalTwo from '../components/modalTwo';
 import useTenantOfAnEstate from '@/store/enterpriseStore/useTenantOfAnEstate';
 import api from '@/utils/api';
+import { useRouter } from 'next/navigation';
+import CustomModal from '@/components/mainmenu/CustomizedModal';
+import DeleteModel from '../../components/deleteModal';
 
 
 const Table = ({
@@ -47,8 +50,12 @@ const Table = ({
     const [email, setEmail] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const [openInvite, setOpenInvite] = React.useState(false);
+    const [deleteModal, setDeleteModal] = React.useState(false);
     // const [activeFour, setActiveFour] = useState(false);
+    const [isDeleting, setIsDeleting] = React.useState(false);
     const dropdownRefYan = useClickOutside(() => setOpenInvite(false));
+
+    const router = useRouter()
 
     const handleMouseEnter = (id) => {
         setHoveredRow(id);
@@ -149,6 +156,35 @@ const Table = ({
         }
     };
 
+
+    const handleDelete = async () => {
+        if (isDeleting) return;
+        setIsDeleting(true);
+
+        try {
+            const response = await api.delete(`/tenants/${selectedData?._id}/enterprise/remove/management`);
+
+            if (response) {
+                response.data.message ?
+                    toast.success(response.data.message)
+                    : toast.success(`${selectedData?.fullName} deleted successfully`);
+            }
+            fetchDataAgain();
+            setDeleteModal(false)
+        } catch (error) {
+            console.error("Delete error:", error);
+
+            const errorMessage = error?.response?.data?.error?.errors
+                || error?.response?.data?.message
+                || "An unexpected error occurred";
+
+            toast.error(errorMessage);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+
     // Map header keys to data keys
     const headerToDataKey = {
         "Tenant": "fullName",
@@ -218,7 +254,8 @@ const Table = ({
         switch (header) {
             case 'Tenant':
                 return (
-                    <div className="flex items-center gap-1 text-GrayHomz4 font-[500]">
+                    <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                        className="flex items-center gap-1 text-GrayHomz4 font-[500] text-[11px]">
                         {!row?.coverPhoto?.url ? (
                             <div className="max-w-[40%] h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                                 <EmptyAvatar />
@@ -242,7 +279,8 @@ const Table = ({
 
             case 'Address':
                 return (
-                    <div onMouseEnter={() => handleMouseEnter(row?._id)}
+                    <div onClick={() => router.push(`/dashboard/enterprise-property/tenants/profile/${row?._id}`)}
+                        onMouseEnter={() => handleMouseEnter(row?._id)}
                         onMouseLeave={handleMouseLeave}
                         className="w-full relative">
                         {truncateText(row?.estateId?.address, 45)}
@@ -255,7 +293,7 @@ const Table = ({
                 );
 
             case 'Apartment No':
-                return row?.rentInfo?.apartmentNumber ? `Apartment ${row?.rentInfo.apartmentNumber}` : "______";
+                return row?.rentInfo?.apartmentNumber ? `${row?.rentInfo.apartmentNumber}` : "______";
 
             case 'Current Rent Period':
                 const currentPeriod = row?.rentInfo?.startDate === undefined ? null : row?.rentInfo;
@@ -300,8 +338,10 @@ const Table = ({
 
             case 'Actions':
                 return (
-                    <div className="relative bg-white w-[40%] pl-8">
-                        <button onClick={() => handleToggleMenu(row?._id, row)}>
+                    <div className="relative bg-transparent w-[40%] pl-8">
+                        <button onClick={() => {
+                            handleToggleMenu(row?._id, row)
+                        }}>
                             <Image
                                 src="/static/dashboard/enterprisemanager/dashboard/dots-vertical.png"
                                 alt=""
@@ -312,7 +352,16 @@ const Table = ({
                             />
                         </button>
                         {popUpMenuTwo && selectedDataId === row?._id && (
-                            <PopUpMenuTwo dropdownRef={dropdownRef} data={row?._id} email={row?.user?.email} handleInvite={handleInvite} loading={isLoading} singleEstate={singleEstate} setOpenInvite={setOpenInvite} />
+                            <PopUpMenuTwo
+                                setDeleteModal={setDeleteModal}
+                                dropdownRef={dropdownRef}
+                                data={row?._id}
+                                email={row?.user?.email}
+                                handleInvite={handleInvite}
+                                loading={isLoading}
+                                singleEstate={singleEstate}
+                                setOpenInvite={setOpenInvite}
+                            />
                         )}
                     </div>
                 );
@@ -329,7 +378,7 @@ const Table = ({
     };
 
     return (
-        <div className='w-full'>
+        <div className={`w-full ${isDeleting && "pointer-events-none animate-pulse"}`}>
             {/* Column visibility dropdown */}
             {/* <div className="mb-4">
                 <label className="mr-2">Visible Columns:</label>
@@ -353,6 +402,22 @@ const Table = ({
                     ))}
                 </select>
             </div> */}
+            {
+                deleteModal &&
+                <CustomModal onRequestClose={() => setDeleteModal(false)} isOpen={deleteModal}>
+                    <DeleteModel
+                        header={"Remove Tenant?"}
+                        body={"Are you sure you want to remove this tenant? This action cannot be undone and all associated records will be removed."}
+                        button={"Yes, Remove Tenant"}
+                        buttonTwo={"Cancel"}
+                        background_color='bg-[#D92D20]'
+                        returnHome={handleDelete}
+                        classNameII='border-none text-GrayHomz hover:border hover:border-GrayHomz'
+                        returnHomeTwo={() => setDeleteModal(false)}
+                        loading={isDeleting}
+                    />
+                </CustomModal>
+            }
 
             {
                 openInvite && (
@@ -401,7 +466,7 @@ const Table = ({
                     <div className="w-[800%] md:w-[450%]">
                         <div className="w-full border rounded-t-[12px]">
                             {/* Table Headers */}
-                            <div className="bg-whiteblue h-[60px] text-[11px] grid justify-center items-center font-[500] text-BlackHomz px-2 rounded-t-[12px]"
+                            <div className="bg-whiteblue h-[60px] grid justify-center items-center text-[13px] font-[500] text-BlackHomz px-2 rounded-t-[12px]"
                                 style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                             >
                                 {visibleColumns && visibleColumns?.map(header => (
@@ -413,15 +478,16 @@ const Table = ({
 
 
                             {/* Table Body */}
-                            <div className='text-[11px] font-normal text-GrayHomz'>
+                            <div className='text-GrayHomz font-[500] text-[11px]'>
                                 {tenantData && tenantData?.map((row, rowIndex) => (
                                     <div
                                         key={row?._id || rowIndex}
-                                        className="relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
+                                        className="hover:bg-GrayHomz6 cursor-pointer relative border-b-[1px] grid justify-center items-center w-full px-2 h-[60px]"
                                         style={{ gridTemplateColumns: `repeat(${visibleColumns?.length}, minmax(100px, 1fr))` }}
                                     >
                                         {visibleColumns && visibleColumns?.map(header => (
-                                            <div key={`${row?._id}-${header}`} className="">
+                                            <div key={`${row?._id}-${header}`}
+                                                className="">
                                                 {renderCellContent(header, row)}
                                             </div>
                                         ))}
@@ -452,7 +518,7 @@ const Table = ({
                     />
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -10,12 +10,13 @@ import useTenantActiveKYC from "@/store/tenantKYC/useTenantActiveKYC.js";
 import PendingCard from "./personalInfo/components/pendingCard.js";
 import RejectedCard from "./personalInfo/components/rejectedCard.js";
 import SuccessCard from "./personalInfo/components/successCard.js";
+import useProfileStore from "@/store/profile.js";
 
 
 const Widget = ({ data }) => {
   const urlParams = useSearchParams();
   const tab = urlParams.get("tab")
-
+  const { profile } = useProfileStore.getState();
   const [active, setActive] = useState(tab ? tab !== 'personal' : false);
   const [activeTwo, setActiveTwo] = useState(tab === "personalInfo");
   const [activeThree, setActiveThree] = useState(false);
@@ -111,7 +112,7 @@ const Widget = ({ data }) => {
               <p className="text-[14px] font-500">Account Information</p>
             </div>
           </div> */}
-          <div className="flex flex-col items-center gap-2 justify-center">
+          <div className={`flex flex-col items-center gap-2 justify-center ${profile?.user?.google && "hidden"}`}>
             <div
               className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${activeFive ? "bg-BlueHomz text-white" : "text-BlackHomz "
                 }`}

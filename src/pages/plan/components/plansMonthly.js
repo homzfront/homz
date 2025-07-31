@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
@@ -30,18 +30,20 @@ const Plans = ({ data, setLoadProfile }) => {
       title: 'Enterprise Basic',
       billing: "Billed Monthly",
       features: [
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
+        "Rent reminder",
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
+        "Whitelabels",
+
+        "Training & data migration",
+        "Expense management",
       ],
       status: false,
       interval: "monthly"
@@ -53,16 +55,18 @@ const Plans = ({ data, setLoadProfile }) => {
       features: [
         "Up to 10 Properties",
         "Up to 2 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
+        "Expense management",
+        "Rent reminder",
+
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "monthly"
@@ -74,16 +78,18 @@ const Plans = ({ data, setLoadProfile }) => {
       features: [
         "Up to 30 properties",
         "Up to 5 users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
+        "Expense management",
+        "Rent reminder",
+
+        "Whitelabels",
+        "Training & data migration",
       ],
       status: false,
       interval: "monthly"
@@ -95,16 +101,18 @@ const Plans = ({ data, setLoadProfile }) => {
       features: [
         "Up to 100 properties",
         "Unlimited",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder",
+        "Whitelabels",
+
       ],
       status: false,
       interval: "monthly"
@@ -116,16 +124,18 @@ const Plans = ({ data, setLoadProfile }) => {
       features: [
         "Unlimited Properties",
         "Unlimited Users",
-        "Accounts & reporting",
-        "Whitelabels",
+        "Financial mangement & statement generation",
         "Maintenance management",
         "Property information",
         "Tenant Management",
-        "Documents (receipts)",
+        "Document generation (Reciept, Lease Agreements & Quit notices)",
         "Manage tenant applications",
         "Advertise vacant properties",
-        "Early rent incentives for renters",
-        "Training & data migration"
+        "Training & data migration",
+        "Expense management",
+        "Rent reminder",
+
+        "Whitelabels",
       ],
       status: true,
       interval: "monthly"
@@ -209,30 +219,55 @@ const Plans = ({ data, setLoadProfile }) => {
   }, [openCardPayment, openTransferPayment])
 
   return (
-    <div className="mt-[60px] m-auto px-6 flex flex-col items-center gap-[60px]">
-      
+    <div className="mt-[60px] w-full m-auto px-4 md:px-6 flex flex-col items-center gap-[60px]">
+
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={10}
-          slidesPerView={1}
-          autoplay={{
-            delay: 3000, // Delay in milliseconds
-            disableOnInteraction: false, // Keeps autoplay running even after interaction
+          <Swiper
+          // Add to modules:
+          modules={[Navigation, Pagination]}
+
+          // Add to Swiper props:
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+            el: '.swiper-pagination', // Add this if you want a custom class
           }}
-          navigation
+          touchRatio={0.8}
+          resistanceRatio={0.7}
+          spaceBetween={20}  // Increased space between slides
+          slidesPerView={1} // Always show 1 slide on mobile
+          centeredSlides={true} // Center the active slide
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
           breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 }
+            // When window width is >= 640px
+            640: {
+              slidesPerView: 1,
+              spaceBetween: 20
+            },
+            // When window width is >= 768px
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            // When window width is >= 1024px
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 20
+            },
+            // When window width is >= 1280px
+            1280: {
+              slidesPerView: 4,
+              spaceBetween: 20
+            }
           }}
+          className="pb-8" // Add padding for navigation
         >
           {pricingPlans.map((plan, index) => (
-            <SwiperSlide key={index}>
-              <div
-                className="flex flex-col justify-around p-6 text-[16px] font-[400] sm:w-[280px]  lg:w-[290px] h-[860px] border shadow-lg rounded-2xl"
-              >
+            <SwiperSlide key={index} className="!h-auto py-4"> {/* Added !h-auto and padding */}
+              <div className="flex flex-col justify-around p-6 mx-2 text-[16px] font-[400] w-full max-w-[280px] h-full min-h-[860px] border shadow-lg rounded-2xl hover:border hover:border-BlueHomz hover:bg-whiteblue">
                 <h1 className="text-[23px] text-center font-[700] text-BlackHomz">
                   <span className={`font-sans ${plan.price === "Contact Sales" ? "hidden" : ""}`}>₦</span>{plan.price}
                 </h1>
@@ -269,14 +304,15 @@ const Plans = ({ data, setLoadProfile }) => {
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex flex-row items-center gap-2">
-                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                      (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    <div className={`h-[14px] w-[16px]${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                      (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                      feature === "Early rent incentives for renters" ||
                       (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                       || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                       ? "opacity-[20%]" // Apply a different color class here
                       : "bg-green-200"
-                      } flex justify-center border rounded-full`}
+                      } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
@@ -286,9 +322,10 @@ const Plans = ({ data, setLoadProfile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      className={`${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"
@@ -302,6 +339,8 @@ const Plans = ({ data, setLoadProfile }) => {
               </div>
             </SwiperSlide>
           ))}
+          <div className="swiper-button-prev !text-BlueHomz"></div>
+          <div className="swiper-button-next !text-BlueHomz"></div>
         </Swiper>
       </div>
       <div className={`text-GrayHomz w-full ${isAt1295px ? "" : "hidden"}`}>
@@ -347,14 +386,15 @@ const Plans = ({ data, setLoadProfile }) => {
                 </button>
                 {plan.features.map((feature, i) => (
                   <div key={i} className="flex text-[14px] flex-row items-center gap-2">
-                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
-                      (plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                      (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
+                    <div className={`h-[14px] w-[16px] ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                      (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                      (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                      feature === "Early rent incentives for renters" ||
                       (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                       || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                       ? "opacity-[20%]" // Apply a different color class here
                       : "bg-green-200"
-                      } flex justify-center border rounded-full`}
+                      } flex justify-center border rounded-full min-w-[16px]`}
                     >
                       <Image
                         height={10.5}
@@ -364,9 +404,10 @@ const Plans = ({ data, setLoadProfile }) => {
                       />
                     </div>
                     <p
-                      className={`  ${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Plus" && feature === "Whitelabels") ||
-                        (plan.title === "Enterprise Basic" && feature !== "Documents (receipts)") ||
+                      className={`${(plan.title === "Enterprise Starter" && feature === "Whitelabels") ||
+                        (plan.title === "Enterprise Basic" && (feature !== "Document generation (Reciept, Lease Agreements & Quit notices)")) ||
+                        (feature === "Whitelabels" && plan.title !== "Premium Plan") ||
+                        feature === "Early rent incentives for renters" ||
                         (plan.title === "Enterprise Plus" && feature === "Training & data migration")
                         || (plan.title === "Enterprise Starter" && feature === "Training & data migration")
                         ? "text-GrayHomz5"

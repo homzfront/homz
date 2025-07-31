@@ -20,7 +20,11 @@ const PopUpPayment = ({ profile }) => {
     const { fetchData: fetchEnterprisePlans } =
         useEnterprisePlans();
     const [referralModal, setReferralModal] = React.useState(false);
+    const { fetchData: fetchEnterprisePlans } =
+        useEnterprisePlans();
+    const [referralModal, setReferralModal] = React.useState(false);
     const [isOpen, setIsOpen] = React.useState(true);
+    const { isMonthlyData, setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError, setOpenErrorAgain, openAgain, setOpenAgain, openErrorAgain } = useOpenPaymentType();
     const { isMonthlyData, setIsOpenModal, setOpenCardPayment, setIsMonthlyData, setIsBiAnnaullyData, setIsAnnaullyData, setOpenTransferPayment, error, setError, setOpenErrorAgain, openAgain, setOpenAgain, openErrorAgain } = useOpenPaymentType();
     const active = (
         <div className='ml-2 h-[28px] w-[72px] bg-[#ABDDC6] flex justify-center items-center font-medium text-[13px] text-[#039855] gap-0.5 rounded-[4px]'>
@@ -35,9 +39,16 @@ const PopUpPayment = ({ profile }) => {
         fetchEnterprisePlans()
     }, []);
 
+
+    React.useEffect(() => {
+        fetchEnterprisePlans()
+    }, []);
+
     return (
         <div className='rounded-[12px] bg-white p-4'>
+        <div className='rounded-[12px] bg-white p-4'>
             {error ?
+                <div className="bg-white w-[620px] rounded-[12px] p-6 flex flex-col gap-2">
                 <div className="bg-white w-[620px] rounded-[12px] p-6 flex flex-col gap-2">
                     <p className="text-[20px] text-BlackHomz font-[700] text-center">
                         Pay with Bank Transfer
@@ -69,12 +80,14 @@ const PopUpPayment = ({ profile }) => {
                                 setOpenAgain(false)
                             }}
                             className="mt-4 h-[48px] rounded-md w-full hover:border hover:border-BlueHomz text-BlueHomz text-[16px] font-[500]"
+                            className="mt-4 h-[48px] rounded-md w-full hover:border hover:border-BlueHomz text-BlueHomz text-[16px] font-[500]"
                         >
                             Go Back
                         </button>
                     </div>
                 </div> :
                 openProcess ?
+                    <div className='w-[460px] font-normal text-GrayHomz flex flex-col gap-4'>
                     <div className='w-[460px] font-normal text-GrayHomz flex flex-col gap-4'>
                         <div className="flex flex-col gap-4 justify-center items-center text-center">
                             <Warning />

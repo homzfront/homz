@@ -73,7 +73,7 @@ const ChangePassword = () => {
         setShowDialogue(false);
       }
     } catch (error) {
-         // console.error("Update error", error);
+      // console.error("Update error", error);
       //
       setLoading(false);
       if (
@@ -90,9 +90,9 @@ const ChangePassword = () => {
       } else {
         toast.error("Update failed");
         setPasswordError(
-            "Error changing password",
-            error.response?.data?.message
-          );
+          "Error changing password",
+          error.response?.data?.message
+        );
       }
       setShowDialogue(false);
     }
@@ -106,7 +106,8 @@ const ChangePassword = () => {
           setPassword={setPassword}
           label={"Password"}
           placeholder={"Enter your current password"}
-          setError={setPasswordError}  
+          setError={setPasswordError}
+          id={"reset-password"}
           autoComplete={""}
         />
         <InputVisible
@@ -115,7 +116,8 @@ const ChangePassword = () => {
           label={"New Password"}
           placeholder={"Enter New password"}
           setError={setPasswordError}
-          autoComplete={"new-password"}
+          autoComplete={""}
+          id={"reset-password-two"}
         />
         <div>
           <p className="mt-[-5px] text-GrayHomz2 text-[13px] font-[400]">
@@ -128,8 +130,9 @@ const ChangePassword = () => {
           setPassword={setReEnterPassword}
           label={"Re-enter Password"}
           placeholder={"Re-enter  password"}
-          setError={setPasswordError}         
-           autoComplete={"new-password"}
+          setError={setPasswordError}
+          autoComplete={""}
+              id={"reset-password-three"}
         />
         {passwordError && (
           <div className="text-error italic text-[11px]">{passwordError}</div>

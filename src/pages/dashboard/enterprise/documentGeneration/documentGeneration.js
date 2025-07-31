@@ -342,8 +342,7 @@ const DocumentGeneration = () => {
 
   const goToplan = () => {
     router.push("/plans")
-  }
-
+  };
 
   return (
     <div className="overflow-y-auto h-screen scrollbar-container">
@@ -351,7 +350,7 @@ const DocumentGeneration = () => {
         < CustomizedModal isOpen={selectFormat} >
           <DownloadConfirmModal
             header={"Download Successful"}
-            body={`Your ${typeForDownload === "Invoice and Receipt" ? "Receipt" : typeForDownload} has successfully been downloaded to your device`}
+            body={`Your ${(typeForDownload || DocType) === "Invoice and Receipt" ? "Receipt" : typeForDownload || DocType} has successfully been downloaded to your device`}
             button={"My documents"}
             buttonTwo={"Generate New Doc"}
             returnHome={openDocumentPage}
@@ -497,8 +496,19 @@ const DocumentGeneration = () => {
                 </p>
                 <div
                   onClick={() => {
-                    setDocumentCreation(!documentCreation)
-                    setTab(null);
+                    if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+                      setOpenPurchasePlan(!openPurchasePlan)
+                    } else if (reachedLimit?.expiredPlan) {
+                      setOpenPurchasePlan(!openPurchasePlan)
+                    } else {
+                      setDocumentCreation(!documentCreation)
+                      setTab(null);
+                      clearFormForNewUpload();
+                      resetReceiptFormData();
+                      resetAgreementFormData();
+                      setDocType(null);
+                      setFormName(null);
+                    }
                   }}
                 >
                   <AddBigBlue />

@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const PersonalInfo = ({ handleUpdate, data }) => {
-  const [update, setUpdate] = useState(false);
   const [ImageSrc, setImageSrc] = useState("");
   const [profileFoto, setProfileFoto] = useState(null);
   const ProfilePhoto = useRef(null);
@@ -58,20 +57,20 @@ const PersonalInfo = ({ handleUpdate, data }) => {
     }
   };
   const uploadProfilePhoto = () => {
-    // console.log(ProfilePhoto.current);
+    console.log(ProfilePhoto.current);
     if (ProfilePhoto.current) {
       ProfilePhoto.current.click();
     }
   };
   const onSubmit = () => {
-    if(error2 || error){
+    if (error2 || error) {
       return;
     }
-    setUpdate(false);
+    // setUpdate(false);
     const data = {
       fullName,
       phoneNumber,
-      whatsApp:whatsappFormatted,
+      whatsApp: whatsappFormatted,
       houseAddress,
       coverPhoto: profileFoto,
     };
@@ -82,16 +81,11 @@ const PersonalInfo = ({ handleUpdate, data }) => {
     <div className="w-full">
       <div className="w-full flex flex-col md:w-full md:px-6">
         <div className="flex w-full md:gap-[78px] gap-8 mt-5 flex-col md:flex-row">
-          <div
-            className={`flex md:flex-col flex-row gap-[28px] items-center w-full
-          ${!update ? "pointer-events-none" : ""} 
-          `}
-          >
+          <div className="flex md:flex-col flex-row gap-[28px] items-center w-full">
             <div>
               <input
                 type="file"
                 name="ProfilePhoto"
-                disabled={!update}
                 ref={ProfilePhoto}
                 onChange={displayProfilePhoto}
                 style={{ display: "none" }}
@@ -125,20 +119,15 @@ const PersonalInfo = ({ handleUpdate, data }) => {
                   height={20}
                 />
               </p>
-              <p className="text-[#006AFF] font-[600] leading-[17.64px]">
-                <span
-                  className="hidden md:block cursor-pointer"
-                  onClick={uploadProfilePhoto}
-                >
+              <button
+                className="text-[#006AFF] font-[600] leading-[17.64px] cursor-pointer"
+                onClick={uploadProfilePhoto}
+              >
+                <span className="hidden md:block ">
                   Click to upload profile photo
                 </span>
-                <span
-                  className="md:hidden cursor-pointer"
-                  onClick={uploadProfilePhoto}
-                >
-                  Upload profile photo
-                </span>
-              </p>
+                <span className="md:hidden">Upload profile photo</span>
+              </button>
               <p className="hidden md:block text-[#4E4E4E] font-[600] leading-[21px]">
                 or drag and drop
               </p>
@@ -161,14 +150,11 @@ const PersonalInfo = ({ handleUpdate, data }) => {
               </label>
               <br />
               <input
-                disabled={!update}
                 placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black
+                `}
               />
             </div>
 
@@ -182,7 +168,6 @@ const PersonalInfo = ({ handleUpdate, data }) => {
               </label>
               <br />
               <input
-                disabled={!update}
                 placeholder="Enter Phone Number"
                 type="text"
                 value={phoneNumber}
@@ -190,17 +175,13 @@ const PersonalInfo = ({ handleUpdate, data }) => {
                   setPhoneNumber(e.target.value);
                   setError2("");
                 }}
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black
+                `}
                 onBlur={(e) => {
                   let phoneNo = e.target.value;
                   if (!phoneFormat.test(phoneNo)) {
-                  setError2("Invalid Phone number");
+                    setError2("Invalid Phone number");
                   }
-                 
-
                 }}
               />
             </div>
@@ -223,10 +204,8 @@ const PersonalInfo = ({ handleUpdate, data }) => {
                 readOnly
                 value={data?.user?.email}
                 placeholder="Enter Email"
-                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={` h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500]  placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black
+                `}
               />
             </div>
             <div className="w-full">
@@ -239,14 +218,11 @@ const PersonalInfo = ({ handleUpdate, data }) => {
               </label>
               <br />
               <input
-                disabled={!update}
                 placeholder="House Address"
                 value={houseAddress}
                 onChange={(e) => setHouseAddress(e.target.value)}
-                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={`h-[43px] md:h-[45px] md:w-[473px] md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black
+                `}
               />
             </div>
             {/* <div className="w-full">
@@ -292,7 +268,7 @@ const PersonalInfo = ({ handleUpdate, data }) => {
                 }}
               />
             </div> */}
-              {/* {errors.WhatsAppLink && (
+            {/* {errors.WhatsAppLink && (
                 <p className="errorMsg">WhatsApp Link is required</p>
               )} */}
             {/* {error && (
@@ -304,47 +280,27 @@ const PersonalInfo = ({ handleUpdate, data }) => {
         </div>
         <div className="hidden md:flex md:justify-end justify-center mt-16 md:mt-12 ">
           <div className="flex flex-col ">
-            {update ? (
-              <button
-                onClick={onSubmit}
-                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+            <button
+              onClick={onSubmit}
+              className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                type="submit"
-              >
-                Save Update
-              </button>
-            ) : (
-              <p
-                className="flex cursor-pointer border justify-center   w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setUpdate(true)}
-              >
-                Click to update
-              </p>
-            )}
+              type="submit"
+            >
+              Update
+            </button>
           </div>
         </div>
 
         <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
           <div className="flex flex-col w-full">
-            {update ? (
-              <button
-                onClick={onSubmit}
-                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+            <button
+              onClick={onSubmit}
+              className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                type="submit"
-              >
-                Save Update
-              </button>
-            ) : (
-              <p
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setUpdate(true)}
-              >
-                Update
-              </p>
-            )}
+              type="submit"
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>

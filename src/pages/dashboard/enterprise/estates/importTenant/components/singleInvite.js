@@ -15,6 +15,8 @@ import UnTicked from "@/components/icons/unTicked";
 
 const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOpenTenantInvite, estateName }) => {
     const [isLoadingForm, setIsLoadingForm] = useState(false);
+    const [isCheckingUser, setIsCheckingUser] = useState(false);
+    const [isTenantAvailableData, setIsTenantAvailableData] = useState(null);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [arrowColor, setArrowColor] = useState(false);
     const { setTenantData } = useTenantForInvite()
@@ -23,13 +25,13 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
     const [formData, setFormData] = useState({
         firstName: null,
         email: null,
-        apartmentNumber: null,
         address: null,
+        lastName: null,
         PhoneNUmber: null,
         rentAmount: null,
+        apartmentNumber: null,
         rentDuration: null,
         startDate: null,
-        lastName: null,
         propertyType: null,
         dueDate: null,
     });
@@ -46,6 +48,63 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
             setErrors((prevErrors) => ({ ...prevErrors, [field]: null }));
         }
     };
+
+    // Debounce function
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return function (...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    };
+
+    // Debounced version of CheckUserEmail
+    const debouncedCheckUserEmail = React.useCallback(
+        debounce(async (email) => {
+            if (!email) return;
+            try {
+                setIsCheckingUser(true);
+                const payload = { tenantEmail: email };
+                const result = await api.post(
+                    `/tenants/invitation/estate/${estateId}/check-exist-tenant`,
+                    payload
+                );
+                if (result?.data?.data?.isExist === 'true') setIsTenantAvailableData(result?.data?.data)
+                // Handle result (e.g., update state if email exists)
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsCheckingUser(false);
+            }
+        }, 800), // 500ms delay
+        [estateId]
+    );
+
+    // Update useEffect to use the debounced function
+    React.useEffect(() => {
+        debouncedCheckUserEmail(formData.email);
+        // Cleanup on unmount
+        return () => debouncedCheckUserEmail.cancel?.();
+    }, [formData.email, debouncedCheckUserEmail]);
+
+
+    React.useEffect(() => {
+        if (isTenantAvailableData) {
+            // Split fullName into firstName and lastName
+            const [firstName, ...lastNameParts] = isTenantAvailableData.tenant.fullName.split(' ');
+            const lastName = lastNameParts.join(' ');
+
+            setFormData(prev => ({
+                ...prev,
+                firstName: firstName || null,
+                lastName: lastName || null,
+                address: isTenantAvailableData.tenant.houseAddress || null,
+                PhoneNUmber: isTenantAvailableData.tenant.phoneNumber || null,
+                // You can add more fields here if needed
+            }));
+        }
+    }, [isTenantAvailableData]);
+
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -244,7 +303,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
     }, [formData.rentDuration, formData.startDate])
 
     return (
-        <div className="max-h-[600px]">
+        <div className={`max-h-[600px] ${isCheckingUser && "pointer-events-none animate-pulse"}`}>
             <div className="w-[350px] md:w-[500px] h-auto bg-white rounded-[12px] p-6 overflow-y-auto">
                 <div className="w-full flex justify-between items-start">
                     <div className="flex flex-col w-[85%]">
@@ -268,6 +327,31 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                         }`}
                 >
                     <div className="bg-inputBg py-4 px-6 rounded-[8px] flex flex-col items-center gap-3 md:gap-2">
+                        {/* Email */}
+                        <div>
+                            <span className="font-[300] text-BlackHomz text-[11px] md:text-[13px] text-justify">
+                                Note: If an email exists, the user details will be pre-filled automatically.
+                            </span>
+                            <div className="w-full flex flex-col md:flex-row items-center justify-between">
+                                <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
+                                    Email <span className="text-red-600">*</span>
+                                </label>
+                                <div className="w-full md:w-[52%] mt-2">
+                                    <input
+                                        type="email"
+                                        value={formData.email}
+                                        onChange={(e) => handleInputChange("email", e.target.value)}
+                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
+                                        placeholder="e.g FemiJegede@gmail.com"
+                                    />
+                                    {errors.email && (
+                                        <span className="text-error text-[11px] italic">
+                                            {errors.email}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
                         {/* Tenant Name */}
                         <div className="w-full flex flex-col md:flex-row items-start justify-between">
                             <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px] md:mt-1">
@@ -280,6 +364,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("firstName", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="First Name"
+                                    disabled={formData.firstName && isTenantAvailableData}
                                 />
                                 <input
                                     type="text"
@@ -287,30 +372,11 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("lastName", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="Last Name"
+                                    disabled={formData.lastName && isTenantAvailableData}
                                 />
                                 {(errors.firstName || errors.lastName) && (
                                     <span className="text-error text-[11px] italic">
                                         {errors.fristName || errors.lastName}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                        {/* Email */}
-                        <div className="w-full flex flex-col md:flex-row items-center justify-between">
-                            <label className="text-BlackHomz font-[400] w-full md:w-[40%] text-[12px] md:text-[14px]">
-                                Email <span className="text-red-600">*</span>
-                            </label>
-                            <div className="w-full md:w-[52%] mt-2">
-                                <input
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => handleInputChange("email", e.target.value)}
-                                    className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
-                                    placeholder="e.g FemiJegede@gmail.com"
-                                />
-                                {errors.email && (
-                                    <span className="text-error text-[11px] italic">
-                                        {errors.email}
                                     </span>
                                 )}
                             </div>
@@ -327,6 +393,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("address", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="e.g Plot 22, Alapere Street, Alagomeji Area, Yaba, Lagos"
+                                    // disabled={formData.address  && isTenantAvailableData}
                                 />
                                 {errors.address && (
                                     <span className="text-error text-[11px] italic">
@@ -347,6 +414,7 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                     onChange={(e) => handleInputChange("PhoneNUmber", e.target.value)}
                                     className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
                                     placeholder="e.g 0701 234 5678"
+                                    // disabled={formData.PhoneNUmber && isTenantAvailableData}
                                 />
                                 {errors.PhoneNUmber && (
                                     <span className="text-error text-[11px] italic">
@@ -440,8 +508,8 @@ const SingleInvite = ({ setSuccessfulModal, setOpenSingleInvite, estateId, setOp
                                         type="text"
                                         value={formData.apartmentNumber}
                                         onChange={(e) => handleInputChange("apartmentNumber", e.target.value)}
-                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400]"
-                                        placeholder="e.g Apartment 46"
+                                        className="w-full h-[45px] py-3 px-6 rounded-md bg-white text-[12px] md:text-[14px] placeholder:text-GrayHomz2 placeholder:text-[12px] md:placeholder:text-[14px] font-[400] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        placeholder="e.g B46"
                                     />
                                     {errors.apartmentNumber && (
                                         <span className="text-error text-[11px] italic">

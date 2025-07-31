@@ -3,7 +3,7 @@ import { enterpriseMe } from '@/api/enterpriseManagerService';
 
 
 const useProfileEnterpriseMe = create((set) => ({
-    data: [],
+    data: null,
     loading: true,
     fetchData: async () => {
       try {

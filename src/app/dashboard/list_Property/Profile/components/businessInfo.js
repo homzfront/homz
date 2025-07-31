@@ -12,7 +12,6 @@ import ThreeDotsLoader from "@/components/mainmenu/ThreeDotsLoader";
 import { useRouter } from "next/navigation";
 
 const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
-  const [update, setUpdate] = useState(false);
   const [ImageSrc, setImageSrc] = useState("");
   const [businessLogo, setBusinessLogo] = useState(null);
   const BusinessPhotoRef = useRef(null);
@@ -332,19 +331,14 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
   };
 
   const onSubmit = (user_id) => {
-    if (!update) {
-      startTransition(() => {
-        router.push(`/marketer-business-page/${user_id}`);
-      });
-    } else {
-      handleUpdateData();
-    }
+    startTransition(() => {
+      router.push(`/marketer-business-page/${user_id}`);
+    });
   };
   const handleUpdateData = () => {
     if (error2 || error) {
       return;
     }
-    setUpdate(false);
 
     const data = {
       businessName,
@@ -386,7 +380,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
           setFocus(true);
         } else {
           setError2("");
-         
         }
       }
     }
@@ -428,11 +421,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 />
               </p>
             </div>
-            <div
-              className={`flex sm:flex-row flex-col sm:gap-[10px] gap-2 items-center rounded-[12px] justify-center sm:border  sm:shadow-sm sm:p-[16px]
-              ${!update ? "pointer-events-none" : ""} 
-            `}
-            >
+            <div className="flex sm:flex-row flex-col sm:gap-[10px] gap-2 items-center rounded-[12px] justify-center sm:border  sm:shadow-sm sm:p-[16px]">
               <p className=" w-[40px] h-[40px] rounded-[28px] bg-[#F2F4F7]  hidden sm:flex items-center justify-center cursor-pointer">
                 <Image
                   onClick={uploadProfilePhoto}
@@ -476,13 +465,10 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 <br />
                 <input
                   placeholder="Business Name"
-                  disabled={!update}
                   value={businessName}
                   onChange={(e) => setBusinessName(e.target.value)}
-                  className={`h-[45px] sm:w-[280.5px] md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-[100%] text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                    !update &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                  className={`h-[45px] sm:w-[280.5px] md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-[100%] text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black
+                  `}
                 />
               </div>
 
@@ -497,14 +483,11 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 <input
                   type="email"
                   name="businessEmail"
-                  disabled={!update}
                   value={businessEmail}
                   onChange={(e) => setBusinessEmail(e.target.value)}
                   placeholder="Enter Business Email"
-                  className={`duoViewPoint h-[45px] sm:w-[280.5px]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
-                    !update &&
-                    "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                  }`}
+                  className={`duoViewPoint h-[45px] sm:w-[280.5px]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black
+               `}
                 />
               </div>
             </div>
@@ -519,15 +502,11 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
 
               <textarea
                 placeholder="Give a brief description about your business and services"
-                className={`h-[179px]  md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-full text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={`h-[179px]  md:p-[12px] rounded-[4px] pl-2 border border-[#A9A9A9] w-full text-[13px] md:text-[14px] font-[500] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black`}
                 value={businessDescription}
                 onChange={(e) => setBusinessDescription(e.target.value)}
                 id="businessDescription"
                 name="businessDescription"
-                disabled={!update}
               ></textarea>
             </div>
           </div>
@@ -554,11 +533,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                   setPhoneNumber(e.target.value);
                   setError("");
                 }}
-                disabled={!update}
-                className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black`}
                 onBlur={() => {
                   if (phoneNumber !== "") {
                     if (!phoneFormat.test(phoneNumber)) {
@@ -588,13 +563,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 type="text"
                 name="businessAddress"
                 value={businessAddress}
-                disabled={!update}
                 onChange={(e) => setBusinessAddress(e.target.value)}
                 placeholder="e.g OB 327, Sunny Place Plaza, Agege, Lagos"
-                className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black`}
               />
             </div>
             <div className="space-y-2 h-fit">
@@ -609,13 +580,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 type="text"
                 name="website"
                 value={businessWebsite}
-                disabled={!update}
                 onChange={(e) => setBusinessWebsite(e.target.value)}
                 placeholder="e.g www.Homz.ng"
-                className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9]  text-GrayHomz placeholder:text-[13px] ${
-                  !update &&
-                  "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                }`}
+                className={` h-[45px] sm:w-[100%]  md:p-[12px] rounded-[4px] pl-2 border w-[100%] text-[13px] md:text-[14px] font-[500] border-[#A9A9A9] placeholder:text-[13px] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black`}
               />
             </div>
           </div>
@@ -628,7 +595,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
               <button
                 className="sm:border h-[40px] text-[14px] font-[500] gap-1 border-[#006AFF] text-[#006AFF] flex items-center justify-center rounded-[4px] py-[8px] px-[12px]"
                 onClick={addLink}
-                disabled={!update}
               >
                 <Image
                   src="/static/images/addButton2.svg"
@@ -640,7 +606,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                 <span>Add link</span>
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-[16px] max-h-[225px] overflow-y-auto overflow-x-hidden sm:py-6 px-[12px] sm:px-0 ">
+            <div className="grid grid-cols-2 gap-[19px] max-h-[225px] overflow-y-auto overflow-x-hidden sm:py-6 px-[12px] sm:px-0 ">
               {socialMedia.slice(0, 4).map((social) => (
                 <div key={social.id} className="space-y-2 h-fit">
                   <label
@@ -657,10 +623,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                         ? "Enter whatsApp No"
                         : social.placeholder
                     )}
-                    className={`h-[45px] sm:w-[213px] md:p-[8px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%] ${
-                      !update &&
-                      "bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black"
-                    }`}
+                    className={`h-[45px] sm:w-[213px] md:p-[8px] rounded-[4px] pl-2 border placeholder:text-[13px] w-[100%] bg-[#E6E6E6] text-[#A9A9A9] md:bg-inherit md:text-black`}
                     type="text"
                     value={social.value}
                     // value={
@@ -672,7 +635,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                     //       : whatsappFormatted || social.value
                     //     : social.value
                     // }
-                    disabled={!update}
+
                     onChange={(e) => {
                       handleInputChange(social.id, social.name, e.target.value);
                       setError2("");
@@ -698,7 +661,6 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       className="h-[45px] sm:w-[217px] md:p-[8px] rounded-[4px] pl-2 pr-10 border placeholder:text-[13px] w-[100%]"
                       placeholder={media.placeholder}
                       value={media.value}
-                      disabled={!update}
                       onChange={(e) =>
                         handleInputChange(media.id, media.name, e.target.value)
                       }
@@ -708,13 +670,9 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
                       alt="Cancel"
                       width={16}
                       height={16}
-                      disabled={!update}
-                      className={`absolute top-4 transform -translate-y-1/2 right-1 ${
-                        update
-                          ? "hover:opacity-100 cursor-pointer"
-                          : "opacity-30"
-                      }`}
-                      onClick={() => update && removeLink(media.id)}
+                      className={`absolute top-4 transform -translate-y-1/2 right-1 hover:opacity-100 cursor-pointer opacity-30
+            `}
+                      onClick={() => removeLink(media.id)}
                     />
                   </div>
                 ))}
@@ -992,47 +950,27 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
 
         <div className="hidden md:flex md:justify-end justify-center mt-18 md:mt-12 ">
           <div className="flex flex-col ">
-            {update ? (
-              <button
-                onClick={handleUpdateData}
-                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+            <button
+              onClick={handleUpdateData}
+              className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                type="submit"
-              >
-                Save Update
-              </button>
-            ) : (
-              <p
-                className="flex cursor-pointer border justify-center   w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setUpdate(true)}
-              >
-                Click to update
-              </p>
-            )}
+              type="submit"
+            >
+              Update
+            </button>
           </div>
         </div>
 
         <div className="md:hidden flex w-full justify-center mt-16 md:mt-12 ">
           <div className="flex flex-col w-full">
-            {update ? (
-              <button
-                onClick={handleUpdateData}
-                className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
+            <button
+              onClick={handleUpdateData}
+              className="flex  border justify-center  md:w-[120px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
                  rounded-[4px]"
-                type="submit"
-              >
-                Save Update
-              </button>
-            ) : (
-              <p
-                className="flex cursor-pointer border justify-center  md:w-[77px] w-[100%]  items-center text-[14px] font-[500] py-[8px] px-[12px] text-white border-white bg-BlueHomz
-                 rounded-[4px]"
-                onClick={() => setUpdate(true)}
-              >
-                Update
-              </p>
-            )}
+              type="submit"
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>

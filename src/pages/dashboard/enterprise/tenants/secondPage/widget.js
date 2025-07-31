@@ -11,6 +11,7 @@ const Widget = ({
   fetchTenantData,
   rentInfo,
   fetchRentInformation,
+  setRentInfo,
   reFetchSummaryData,
   paymentData,
 }) => {
@@ -49,6 +50,8 @@ const Widget = ({
             <RentPeriodForm
               fetchRentInformation={fetchRentInformation}
               rentInfo={rentInfo}
+              fetchTenantData={fetchTenantData}
+              setRentInfo={setRentInfo}
               tenantData={tenantData}
             />
           )}

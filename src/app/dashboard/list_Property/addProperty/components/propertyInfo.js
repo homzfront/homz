@@ -181,7 +181,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
                   className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
                   htmlFor="units"
                 >
-                  Units
+                  Units <span className="text-gray-500">(Optional)</span>
                 </label>
                 <br />
                 <input
@@ -290,10 +290,11 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
 
               <div className="sm:pt-6 pt-2 mt-2">
                 <p
-                  className="border bg-[#006AFF] rounded-[4px] text-white flex items-center justify-center px-[8px] py-[12px] font-[400] leading-[21px] text-[14px] w-[100%] h-[37px] cursor-pointer"
+                  className="border bg-[#006AFF] rounded-[4px] text-white flex items-center justify-center px-[5px] py-[12px] font-[400] leading-[21px] text-[14px] w-[100%] h-[37px] cursor-pointer"
                   onClick={() => setOpenAmeni(true)}
                 >
-                  Click to Select Amenities
+                  Select Amenities{" "}
+                  <span className="text-[12px]"> (Optional)</span>
                 </p>
               </div>
             </div>
