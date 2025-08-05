@@ -8,8 +8,7 @@ import Dropdown from "@/pages/dashboard/enterprise/components/dropDownTwo";
 import ArrowDownDashes from "@/components/icons/arrowDownDashes";
 import useRentSummaryTenant from "@/store/propertyOwnerStore/useRentSummaryTenant";
 
-const PaymentHis = (data, rentInfo) => {
-  const tenantId = data?.data?.data?._id
+const PaymentHis = ({ data, rentInfo, tenantId }) => {
   const {
     data: paymentData,
     loading,
@@ -26,7 +25,7 @@ const PaymentHis = (data, rentInfo) => {
   const sortedPeriods = periods?.sort((a, b) => b.isActive - a.isActive);
 
   React.useEffect(() => {
-    fetchDataSummary(rentInfo?.upDateddata?.tenantId?._id, selectedOption?.startDate, selectedOption?.dueDate, selectedOption?.rent)
+    fetchDataSummary(tenantId, selectedOption?.startDate, selectedOption?.dueDate, selectedOption?.rent)
   }, [selectedOption]);
 
   React.useEffect(() => {
@@ -40,9 +39,8 @@ const PaymentHis = (data, rentInfo) => {
   useEffect(() => {
     fetchData(tenantId)
   }, [data])
-
+  
   const allData = paymentData?.data ? paymentData?.data : []
-
   // Total rent for all entries
   let totalRent = 0;
   for (const entry of allData) {
@@ -57,6 +55,13 @@ const PaymentHis = (data, rentInfo) => {
     }
   }
 
+
+  const totalRentFromActivePeriods =
+    summary?.data?.pendingRent?.periods
+      // ?.filter(period => period.isActive)
+      ?.reduce((sum, period) => sum + period.rent, 0) || 0;
+
+  const pendingRent = totalRentFromActivePeriods - summary?.data?.totalAmountPaid;
 
   const boxes = [
     {
@@ -75,13 +80,13 @@ const PaymentHis = (data, rentInfo) => {
       textColor2: "text-BlackHomz",
       border: "border-white",
       type: "Pending Rent",
-      money: `${summary?.data?.pendingRent === null
+      money: `${!pendingRent
         ? "0"
-        : addCommasToNumber(summary?.data?.pendingRent)
+        : addCommasToNumber(pendingRent)
         }`,
       dueDate: `${summary?.data?.pendingRent === null
         ? ""
-        : `Due date: ${changeBackendDateFormat(summary?.data?.dueDate)}`
+        : `Due date: ${changeBackendDateFormat(summary?.data?.pendingRent?.dueDate)}`
         }`,
     },
     // {
@@ -99,6 +104,8 @@ const PaymentHis = (data, rentInfo) => {
     { id: 2, label: "Period 2" },
     { id: 3, label: "Period 1" },
   ];
+
+
 
   return (
     <div className="mt-4 pt-4 border-t border-[#E6E6E6]">

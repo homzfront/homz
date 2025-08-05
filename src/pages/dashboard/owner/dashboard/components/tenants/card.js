@@ -15,9 +15,7 @@ const TenantsCard = () => {
     fetchData(); // Fetch data on component mount
   }, []);
 
-  const Data = data
-
-  console.log(Data)
+  const Data = data?.[0]?.data;
 
   return (
     <div className="rounded-[12px] border md:w-[55%] h-[514px] overflow-auto scrollbar-container">

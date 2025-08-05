@@ -260,7 +260,7 @@ const Tenants = () => {
         theme="dark"
       />
       <div className='w-full flex justify-start px-4 mb-2'>
-        <p className='font-medium text-[20px] text-GrayHomz flex gap-1 items-center'>Tenants <span className='px-2 py-0.5 bg-whiteblue rounded-[8px] text-BlueHomz'>{tenantsData?.length}</span></p>
+        <p className='font-medium text-[20px] text-GrayHomz flex gap-1 items-center'>Tenants <span className='px-2 py-0.5 bg-whiteblue rounded-[8px] text-BlueHomz'>{totalCount}</span></p>
       </div>
       <div className="w-auto h-auto px-4">
         <div className='flex flex-col-reverse gap-2 md:gap-0 md:flex-row md:justify-between md:items-center'>
