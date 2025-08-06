@@ -18,9 +18,9 @@ const Dashboard = ({ id }) => {
   const goBack = () => {
     route.back();
   };
-
+  
   useEffect(() => {
-    fetchEstateData(id);
+    fetchEstateData(1, id);
     fetchData(id);
   }, []);
 
@@ -39,7 +39,7 @@ const Dashboard = ({ id }) => {
                 href={"/dashboard/property-owner/estates"}
                 className="text-[16px] truncate font-[400] text-GrayHomz"
               >
-                {tenants?.[0]?.estateId?.name ? tenants?.[0]?.estateId?.name : "Property Name"}<> </>/
+                {data?.name ? data?.name : "Property Name"}<> </>/
               </Link>
               <div className="text-[20px] font-[500] text-GrayHomz">
                 Dashboard
@@ -65,7 +65,7 @@ const Dashboard = ({ id }) => {
               href={"/dashboard/property-owner/estates"}
               className="text-[16px] truncate font-[400] text-GrayHomz"
             >
-              {tenants?.[0]?.estateId?.name ? tenants?.[0]?.estateId?.name : "Property Name"}<> </>/
+                {data?.name ? data?.name : "Property Name"}<> </>/
             </Link>
             <div className="text-[20px] font-[500] text-GrayHomz">
               Dashboard
@@ -81,7 +81,7 @@ const Dashboard = ({ id }) => {
           </div>
         </div>
         <div className="mt-8 flex flex-col md:flex-row gap-5">
-          <TenantsCard tenants={tenants} />
+          <TenantsCard tenants={tenants?.[0]?.data} />
           <Maintenance id={id} />
         </div>
       </div>

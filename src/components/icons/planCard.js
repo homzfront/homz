@@ -3,12 +3,12 @@ import React from 'react'
 const PlanCard = () => {
   return (
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4.67969 16.3797L16.6297 4.42969" stroke="#EEF5FF" strokeWidth="1.93834" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M11.8516 18.7781L13.0516 17.5781" stroke="#EEF5FF" strokeWidth="1.93834" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M14.5391 16.0853L16.9291 13.6953" stroke="#EEF5FF" strokeWidth="1.93834" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M4.35127 10.7375L10.9913 4.09754C13.1113 1.97754 14.1713 1.96754 16.2713 4.06754L21.1813 8.97754C23.2813 11.0775 23.2713 12.1375 21.1513 14.2575L14.5113 20.8975C12.3913 23.0175 11.3313 23.0275 9.23127 20.9275L4.32127 16.0175C2.22127 13.9175 2.22127 12.8675 4.35127 10.7375Z" stroke="#EEF5FF" strokeWidth="1.93834" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M2.75 22.5H22.75" stroke="#EEF5FF" strokeWidth="1.93834" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>    
+      <path d="M4.17969 16.6297L16.1297 4.67969" stroke="#006AFF" strokeWidth="1.93834" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11.3516 19.0281L12.5516 17.8281" stroke="#006AFF" strokeWidth="1.93834" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14.0391 16.3353L16.4291 13.9453" stroke="#006AFF" strokeWidth="1.93834" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M3.85127 10.9875L10.4913 4.34754C12.6113 2.22754 13.6713 2.21754 15.7713 4.31754L20.6813 9.22754C22.7813 11.3275 22.7713 12.3875 20.6513 14.5075L14.0113 21.1475C11.8913 23.2675 10.8313 23.2775 8.73127 21.1775L3.82127 16.2675C1.72127 14.1675 1.72127 13.1175 3.85127 10.9875Z" stroke="#006AFF" strokeWidth="1.93834" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2.25 22.75H22.25" stroke="#006AFF" strokeWidth="1.93834" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }
 

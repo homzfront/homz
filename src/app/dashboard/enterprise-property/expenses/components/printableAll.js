@@ -15,12 +15,18 @@ const PrintableAll = ({
     const {
         fromDate,
         toDate,
-    } =  useExpenseStore();
+    } = useExpenseStore();
+
+
+    const propertyNames = data && data?.results?.map(item => item?.property?.propertyName).filter(Boolean);
+    const uniqueProperties = [...new Set(propertyNames)];
+    const displayProperty = uniqueProperties.length === 1 ? uniqueProperties[0] : "All Properties";
+
 
     return (
         <div ref={printRef} className="w-full max-w-6xl mx-auto font-sans bg-white shadow">
-             {/* Add print styles */}
-             <style jsx>{`
+            {/* Add print styles */}
+            <style jsx>{`
                 @media print {
                     @page {
                         size: auto;
@@ -49,11 +55,11 @@ const PrintableAll = ({
             {/* Summary Section */}
             <div className="mt-2 px-4 pt-4 pb-2">
                 <p className="flex flex-col">
-                    <span className="font-semibold">Expense report:</span> {fromDate} - {toDate}
+                    <span className="font-semibold">Expense report:</span> {fromDate && toDate ? `${fromDate} - ${toDate}` : "Entire history"}
                 </p>
                 <div className="flex justify-between items-end">
                     <p className="flex flex-col">
-                        <span className="font-semibold">Property:</span> All Properties
+                        <span className="font-semibold">Property:</span> {displayProperty}
                     </p>
                     <p className="">
                         <span className="font-semibold">Date Generated:</span> {changeBackendDateFormat(new Date())}
@@ -92,14 +98,14 @@ const PrintableAll = ({
                         {data && data?.results?.map((item, i) => (
                             <tr key={item._id} className={i % 2 === 0 ? "bg-white" : "bg-[#F6F6F6]"}>
                                 <td className="px-4 py-2 border flex items-center gap-2 text-[10px]">
-                                   {item?.expenseName}
+                                    {item?.expenseName}
                                 </td>
                                 <td className="px-4 py-2 border text-[10px]">₦{addCommasToNumber(item?.amount)}</td>
                                 <td className="px-4 py-2 border text-[10px]">{item?.category || "N/A"}</td>
                                 <td className="px-4 py-2 border text-[10px]">
                                     {item?.date ? changeBackendDateFormat(item?.date) : "N/A"}
                                 </td>
-                                  <td className="px-4 py-2 border text-[10px]">
+                                <td className="px-4 py-2 border text-[10px]">
                                     {item?.property?.propertyName}
                                 </td>
                             </tr>

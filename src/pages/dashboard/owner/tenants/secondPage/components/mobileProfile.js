@@ -3,8 +3,6 @@ import MobileBackButton from '@/components/icons/mobileBackButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
-import RentInformation from './rentInformation';
-import PaymentHistory from './paymentHistory';
 import MaintenanceRequest from './maintenanceRequest';
 import { useSearchParams } from "next/navigation";
 import TickSuccess from '@/components/icons/tickSuccess';
@@ -12,8 +10,9 @@ import WarningIcon from '@/components/icons/warningIcon';
 import Verified from '@/components/icons/verified';
 import RentPeriodForm from './rentPeriodForm';
 import ArrowRightSmall from '@/components/icons/arrowRightSmall';
+import PaymentHis from '../paymentHis';
 
-const MobileProfile = ({ data, rentInfo, setOpenKYC, }) => {
+const MobileProfile = ({ data, rentInfo, setOpenKYC, tenantId}) => {
     const urlParams = useSearchParams();
     const tab = urlParams.get("tab")
     const [showWidget, setShowWidget] = useState(false);
@@ -113,8 +112,10 @@ const MobileProfile = ({ data, rentInfo, setOpenKYC, }) => {
                             />
                         </div>
                         <div className={`${activeTwo ? "inline" : "hidden"}`}>
-                            <PaymentHistory
+                            <PaymentHis
                                 data={data}
+                                rentInfo={rentInfo}
+                                tenantId={tenantId}
                             />
                         </div>
                         <div className={`${activeThree ? "inline" : "hidden"} w-full`}>

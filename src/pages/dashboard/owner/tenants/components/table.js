@@ -12,7 +12,6 @@ import EmptyAvatar from "@/components/icons/emptyAvatar";
 
 const Table = ({ tenantData, datas }) => {
   const data = datas?.data
-
   const ITEMS_PER_PAGE = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,10 +48,10 @@ const Table = ({ tenantData, datas }) => {
           <table border="1" className="w-full ">
             <thead className="">
               <tr className="bg-whiteblue h-[50px] text-[11px] md:text-[13px]  font-[500] text-BlackHomz">
-                <th className="text-left pl-6 hidden md:table-cell ">Name</th>
+                <th className="text-left pl-6 hidden md:table-cell">Name</th>
                 <th className="text-left pl-4 md:pl-0 w-[25%] md:w-auto">Due Date</th>
                 <th className="text-left w-[25%] md:w-auto">Rent Paid</th>
-                <th className="text-left w-[25%] md:w-auto">Property Type</th>
+                <th className="text-left w-[25%] md:w-auto hidden md:table-cell">Property Type</th>
                 <th className="text-left w-[25%] md:w-auto">Status</th>
               </tr>
             </thead>
@@ -60,14 +59,14 @@ const Table = ({ tenantData, datas }) => {
               {currentData?.map((data) => (
                 <tr key={data._id} className=" w-2 border-t-[1px] items-center">
                   <td className="md:flex items-center gap-1 pr-2 pl-6 text-GrayHomz4 font-[500] text-[11px] hidden">
-                    {tenantData?.data?.data?.coverPhoto?.url === null ||
-                      tenantData?.data?.data?.coverPhoto?.url === undefined ? (
+                    {tenantData?.data?.coverPhoto?.url === null ||
+                      tenantData?.data?.coverPhoto?.url === undefined ? (
                         <div className="h-[40px] w-[40px] flex justify-center items-center bg-avatarBg rounded-full">
                         <EmptyAvatar />
                       </div>
                     ) : (
                       <Image
-                        src={tenantData?.data?.data?.coverPhoto?.url}
+                        src={tenantData?.data?.coverPhoto?.url}
                         alt=""
                         width={40}
                         height={40}
@@ -78,15 +77,15 @@ const Table = ({ tenantData, datas }) => {
                         priority
                       />
                     )}
-                    <span className="py-[15px]">  {tenantData?.data?.data?.fullName}</span>
+                    <span className="py-[15px]">  {tenantData?.data?.fullName}</span>
                   </td>
                   <td className="text-GrayHomz pl-4 md:pl-0 py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
                     {changeBackendDateFormat(data?.dueDate)}
                   </td>
                   <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
-                  <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.totalRent)}
+                  <span style={{ fontFamily: "Arial", }}>₦</span>{addCommasToNumber(data?.amountPaid)}
                   </td>
-                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto">
+                  <td className="text-GrayHomz py-[15px] pr-2 font-[500] text-[11px] w-[25%] md:w-auto hidden md:block">
                     {data?.propertyType}
                   </td>
                   <td

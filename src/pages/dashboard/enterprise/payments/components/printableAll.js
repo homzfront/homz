@@ -27,6 +27,12 @@ const PrintableAll = ({
         toDate,
     } = usePaymentFilterStore();
 
+
+    const propertyNames = data && data?.map(item => item?.estateId?.name).filter(Boolean);
+    const uniqueProperties = [...new Set(propertyNames)];
+    const displayProperty = uniqueProperties.length === 1 ? uniqueProperties[0] : "All Properties";
+
+
     return (
         <div ref={printRef} className="w-full max-w-6xl mx-auto font-sans bg-white shadow">
             {/* Add print styles */}
@@ -59,11 +65,11 @@ const PrintableAll = ({
             {/* Summary Section */}
             <div className="mt-2 px-4 pt-4 pb-2">
                 <p className="flex flex-col">
-                    <span className="font-semibold">Financial Statement:</span> {fromDate} - {toDate}
+                    <span className="font-semibold">Financial Statement:</span> {fromDate && toDate ? `${fromDate} - ${toDate}` : "Entire history"}
                 </p>
                 <div className="flex justify-between items-end">
                     <p className="flex flex-col">
-                        <span className="font-semibold">Property:</span> All Properties
+                        <span className="font-semibold">Property:</span> {displayProperty}
                     </p>
                     <p className="">
                         <span className="font-semibold">Date Generated:</span> {changeBackendDateFormat(new Date())}

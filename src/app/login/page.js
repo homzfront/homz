@@ -1,3 +1,4 @@
+
 "use client";
 import BashedEye from "@/components/icons/BashedEye";
 import Eye from "@/components/icons/Eye";
@@ -18,6 +19,7 @@ import useTabForDocuGen from "@/store/document/useTabForDocuGen";
 import useOpenDueDate from "@/store/enterpriseStore/useOpenDueDate";
 import Image from "next/image";
 import { signIn, useSession, signOut } from "next-auth/react";
+import useReferalReturnPage from "@/store/enterpriseStore/useReferalReturnPage";
 
 const Login = () => {
   const { data: session, status } = useSession();
@@ -30,7 +32,8 @@ const Login = () => {
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(true);
   const router = useRouter();
   const { tab } = useOpenDueDate();
-
+  const { referalReturnPage } = useReferalReturnPage()
+  console.log(referalReturnPage)
   // console.log("Session", session);
   useBodyScroll([loading]);
 
@@ -101,6 +104,8 @@ const Login = () => {
             const navigateTo = determineUserDashboard(profileData);
             if (homePage) {
               router.push("/dashboard/enterprise-property/documentGeneration");
+            } else if (referalReturnPage) {
+              router.push("/plans");
             } else if (tab === "dueDate") {
               router.push(
                 "/dashboard/enterprise-property/tenants?dueDate=true"
@@ -255,7 +260,7 @@ const Login = () => {
 
     verifySession();
   }, [session, status, router, setLoading, fromGoogle]);
-
+  
   return (
     <div className="">
       <ToastContainer
@@ -290,9 +295,8 @@ const Login = () => {
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div
-                  className={`flex flex-col gap-4 ${
-                    loading ? "pointer-events-none" : ""
-                  }`}
+                  className={`flex flex-col gap-4 ${loading ? "pointer-events-none" : ""
+                    }`}
                 >
                   <div className="flex flex-col gap-2 items-start">
                     <label className="text-center text-[14px] font-[500] text-BlackHomz">
@@ -346,11 +350,10 @@ const Login = () => {
                   </Link>
                 </div>
                 <button
-                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${
-                    loading
-                      ? "pointer-events-none w-full flex justify-center"
-                      : ""
-                  } `}
+                  className={`bg-BlueHomz mt-3 text-white font-[700] text-[16px] w-full sm:w-[360px] rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz ${loading
+                    ? "pointer-events-none w-full flex justify-center"
+                    : ""
+                    } `}
                   type="Submit"
                 >
                   {loading && !fromGoogle ? <LoadingFormII /> : "Log In"}

@@ -77,7 +77,7 @@ const TenantProfile = ({ id }) => {
                   <ProfileCard data={data} setOpenKYC={setOpenKYC} />
                 </div>
                 <div className="w-[65%]">
-                  <Widget rentInfo={rentInfo} data={data} />
+                  <Widget rentInfo={rentInfo} data={data} tenantId={id} />
                 </div>
               </div>
             </div>
@@ -85,6 +85,7 @@ const TenantProfile = ({ id }) => {
               <MobileProfile
                 data={data}
                 rentInfo={rentInfo}
+                tenantId={id}
                 setOpenKYC={setOpenKYC} />
             </div>
           </div>

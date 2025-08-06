@@ -22,6 +22,11 @@ import useClickOutside from "@/utils/clickOutside";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import Reset from "@/components/icons/reset";
 import IncludeAdditionalFee from "./components/includeAdditionalFee";
+import ExpiredPlanModal from "../components/expiredPlanModal";
+import useProfileEnterpriseMe from "@/store/enterpriseStore/useProfileEnterpriseMe";
+import useEnterprisePlans from "@/store/enterpriseStore/enterprisePlans";
+import { checkPlanLimits } from "@/utils/checkPlanLimits";
+import { isTrialExpired } from "@/utils/compareTrialTime";
 
 const Payment = () => {
   const {
@@ -46,6 +51,30 @@ const Payment = () => {
   const { data: estates, loading, fetchData: fetchEnterpriseProperties } = estateStore();
   const [showPop, setShowPop] = React.useState(false);
   const [include, setInclude] = React.useState("");
+  const [openPurchasePlan, setOpenPurchasePlan] = React.useState(false);
+      const [reachedLimit, setReachedLimit] = useState(null);
+
+  const { data: user, fetchData: fetchProfileData } = useProfileEnterpriseMe();
+  const { data: enterprisePlans, fetchData: fetchEnterprisePlans } =
+    useEnterprisePlans();
+
+  React.useEffect(() => {
+    fetchProfileData()
+    fetchEnterprisePlans()
+  }, []);
+
+
+  useEffect(() => {
+    const values = checkPlanLimits(
+      enterprisePlans,
+      user?.planName,
+      user?.estates?.length,
+      user?.propertyOwners?.length,
+      user?.tenants?.length,
+      user?.IsExpired
+    );
+    setReachedLimit(values);
+  }, [enterprisePlans, user]);
   // User-selected date range
   const today = new Date();
 
@@ -73,6 +102,11 @@ const Payment = () => {
 
   const optionsTwo = [".CSV", ".XLSX", ".PDF"];
 
+
+  const goToplan = () => {
+    router.push("/plans")
+  }
+
   return (
     <Suspense fallback={<div><LoadingII /></div>}>
       <div className="w-full p-8">
@@ -89,6 +123,36 @@ const Payment = () => {
           pauseOnHover
           theme="dark"
         />
+        <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.enterprisePlanName === "Enterprise Free" && !reachedLimit?.expiredPlan && isTrialExpired(user?.trialEndDate)}>
+          <ExpiredPlanModal
+            header={"Your Trial Has Ended"}
+            body={"Don’t miss out! Buy a plan now to continue enjoying uninterrupted access to all features."}
+            button={"Buy Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </CustomizedModal>
+        <CustomizedModal isOpen={openPurchasePlan && reachedLimit?.expiredPlan}>
+          <ExpiredPlanModal
+            header={`${reachedLimit?.enterprisePlanName} Plan Expired`}
+            body={`Your ${reachedLimit?.enterprisePlanName} ${reachedLimit?.interval} plan has expired. Renew now to continue enjoying all features!`}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </CustomizedModal>
+        <CustomizedModal isOpen={openPurchasePlan && !reachedLimit?.expiredPlan && reachedLimit?.enterprisePlanName === "Enterprise Basic"}>
+          <ExpiredPlanModal
+            header={"Upgrade Your Plan"}
+            body={"Kindly upgrade your plan now to unlock access to this feature."}
+            button={"Upgrade Plan"}
+            buttonTwo={"close"}
+            returnHome={goToplan}
+            returnHomeTwo={() => setOpenPurchasePlan(false)}
+          />
+        </CustomizedModal>
         <CustomizedModal isOpen={showPop} onRequestClose={() => setShowPop(false)}>
           <IncludeAdditionalFee include={include} setInclude={setInclude} setShowPop={setShowPop} />
         </CustomizedModal>
@@ -183,8 +247,15 @@ const Payment = () => {
             <div ref={dropdownRef}>
               <button
                 onClick={() => {
-                  // setIsOpenI(!isOpenI)
-                  setShowPop(true);
+                  if (isTrialExpired(user?.trialEndDate) && ((user?.planName === "Enterprise Free") || (user?.planName === "Enterprise Trial"))) {
+                    setOpenPurchasePlan(!openPurchasePlan)
+                  } else if (reachedLimit?.expiredPlan) {
+                    setOpenPurchasePlan(!openPurchasePlan)
+                  } else if (reachedLimit?.enterprisePlanName === "Enterprise Basic") {
+                    setOpenPurchasePlan(!openPurchasePlan)
+                  } else {
+                    setShowPop(true);
+                  }
                 }}
                 className="text-walletBg px-4 bg-BlueHomz h-[35px] flex gap-1 items-center rounded-[4px]"
               >
