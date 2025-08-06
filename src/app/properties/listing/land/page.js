@@ -1,37 +1,56 @@
-"use client"
-export const dynamic = 'force-dynamic' // add this line at the top
-export const revalidate = 0 // optional: prevent any caching
-import React, { Suspense } from 'react'
+"use client";
+import React from 'react';
 import PropertyCard from '../../components/propertyCard';
-import { PropertyContext } from '@/store/propertyContext';
-import LoadingII from '@/components/mainmenu/loadingII';
+import usePropertyStore from '@/store/usePropertyStore';
+import ParamsComponent from '../../components/paramsComponent';
+import { usePropertyActions } from '@/hooks/usePropertyAction';
 
 const Land = () => {
+  const {
+    property,
+    currentPage,
+    totalPages,
+    handleNextPage,
+    handlePageClick,
+    handlePrevPage,
+    totalData,
+    loading,
+    loadingII,
+    setLoadingII,
+    properties,
+  } = usePropertyStore();
 
-  const context = React.useContext(PropertyContext);
+  const {
+    firstThreePages,
+    lastThreePages,
+    reset,
+    handleListingType,
+  } = usePropertyActions();
+
   return (
-    <Suspense fallback={<LoadingII />}>
-      <div className="w-[337px] md:mt-3 md:w-full ">
+    <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
+      <ParamsComponent reset={reset} handleListingType={handleListingType} />
+
+      <div className="w-[337px] md:mt-3 md:w-full">
         <PropertyCard
-          Property={context.Property}
-          currentPage={context.currentPage}
-          totalPages={context.totalPages}
-          handleNext={context.handleNext}
-          handlePageClick={context.handlePageClick}
-          handlePrev={context.handlePrev}
-          totalData={context.totalData}
-          loading={context.loading}
-          firstThreePages={context.firstThreePages}
-          lastThreePages={context.lastThreePages}
-          loadingII={context.loadingII}
-          reset={context.reset}
-          setLoadingII={context.setLoadingII}
-          properties={context.properties}
+          Property={property}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handleNext={handleNextPage}
+          handlePageClick={handlePageClick}
+          handlePrev={handlePrevPage}
+          totalData={totalData}
+          loading={loading}
+          firstThreePages={firstThreePages}
+          lastThreePages={lastThreePages}
+          loadingII={loadingII}
+          reset={reset}
+          setLoadingII={setLoadingII}
+          properties={properties}
         />
       </div>
-    </Suspense>
+    </div>
   );
+};
 
-}
-
-export default Land
+export default Land;
