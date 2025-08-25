@@ -3,7 +3,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-export const usePropertyActions = () => {
+export const usePropertyActions = ({ isSlug = false } = {}) => {
     const router = useRouter();
     const urlParams = useSearchParams();
     const pathname = usePathname();
@@ -18,6 +18,7 @@ export const usePropertyActions = () => {
         fetchProperties,
         filters,
         reset: resetFilter,
+        handleFilterChange,
     } = usePropertyStore();
 
     const handleListingType = (query) => {
@@ -50,11 +51,21 @@ export const usePropertyActions = () => {
 
     React.useEffect(() => {
         let listing = '';
+        const pathSegments = pathname.split('/').filter(Boolean);
         if (pathname.includes('/rent')) listing = 'for rent';
         if (pathname.includes('/sales')) listing = 'for sale';
         if (pathname.includes('/land')) listing = 'land';
         if (pathname.includes('/shortlet')) listing = 'shortlet';
         setListingType(listing);
+        if (pathSegments[3] || pathSegments[4]) {
+
+            handleFilterChange("search", pathSegments[3]);
+
+            // Set propertyType filter from 5th segment if it exists
+            if (pathSegments[4]) {
+                handleFilterChange("propertyType", pathSegments[4]);
+            }
+        }
     }, [pathname]);
 
     const updatedFilters = React.useMemo(() => {
@@ -99,21 +110,35 @@ export const usePropertyActions = () => {
         setQueryParams(query);
     }, [query, setQueryParams]);
 
+    // This effect handles both fetching properties and URL updates
     React.useEffect(() => {
-        const params = new URLSearchParams();
-        if (Object.keys(queryParams).length > 0) {
-            params.set('page', currentPage);
-        }
-        Object.entries(queryParams).forEach(([key, value]) => {
-            if (key !== 'page') {
-                params.set(key, value);
+        const fetchDataAndUpdateUrl = async () => {
+            await fetchProperties();
+
+            // Only update URL after successful fetch if no slug present
+            if (!isSlug) {
+                const params = new URLSearchParams();
+
+                if (Object.keys(queryParams).length > 0) {
+                    params.set('page', currentPage);
+                }
+
+                Object.entries(queryParams).forEach(([key, value]) => {
+                    if (key !== 'page') {
+                        params.set(key, value);
+                    }
+                });
+
+                if (Object.keys(queryParams).length > 0 || currentPage !== 1) {
+                    const newUrl = `${pathname}?${params.toString()}`;
+                    router.push(newUrl, { scroll: false });
+                }
+
+                setShouldUpdateUrl(false);
             }
-        });
-        if (Object.keys(queryParams).length > 0 || currentPage !== 1) {
-            const newUrl = `${pathname}?${params.toString()}`;
-            router.push(newUrl, { scroll: false });
-        }
-        fetchProperties();
+        };
+
+        fetchDataAndUpdateUrl();
     }, [currentPage, queryParams, fetchProperties, pathname, router]);
 
     return {
