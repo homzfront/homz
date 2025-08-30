@@ -170,7 +170,7 @@ const PropertySlider = ({
                   </div>
                   <Link
                     href={`/properties/PreviewProperty/${property?.property?.slug}`}
-                    onClick={() => updateMetrics("call")}
+                    // onClick={() => updateMetrics("call")}
                   >
                     <button className="">
                       <Image
