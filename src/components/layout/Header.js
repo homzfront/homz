@@ -210,9 +210,9 @@ const Header = () => {
             href={"/"}
             className={`hover:text-blue-400 ${
               pathname === "/" ||
-              pathname === "/search-page/PropertyListing" ||
-              pathname === "/search-page/PreviewProperty" ||
-              pathname === "/search-page"
+              pathname === "/properties/PropertyListing" ||
+              pathname === "/properties/PreviewProperty" ||
+              pathname === "/properties"
                 ? "text-BlueHomz"
                 : ""
             }`}

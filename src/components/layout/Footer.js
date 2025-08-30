@@ -9,14 +9,6 @@ import TwitterWhite from "../icons/twitterWhite";
 import DateFooter from "../auth/dateFooter";
 
 const Footer = () => {
-  const propertyLinks = [
-    { title: "Houses for rent in Lagos", path: "/properties/listing/rent/lagos" },
-    { title: "Houses for sale in Lagos", path: "/properties/listing/sales/lagos" },
-    { title: "Land for sale in Lagos", path: "/properties/listing/land/lagos" },
-    { title: "Mini flats for rent in Lagos", path: "/properties/listing/rent/lagos/mini-flat" },
-    { title: "Self contain for rent in Lagos", path: "/properties/listing/rent/lagos/self-contain" },
-  ];
-
   return (
     <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10  mt-36 bg-black text-white">
       <div className=" items-center flex justify-center flex-col m-auto max-w-[1165px]">
@@ -84,7 +76,7 @@ const Footer = () => {
               <Link href={"/about-us"}>
                 <p>About Us</p>
               </Link>
-              <Link href={"/search-page/PropertyListing?page=1"}>
+              <Link href={"/properties/PropertyListing?page=1"}>
                 <p>Properties</p>
               </Link>
               <Link href={"/privacy-policy"}>
@@ -123,19 +115,19 @@ const Footer = () => {
               <p>Port Harcourt</p>
               <p>Kano</p>
               <p>Asaba</p>
-            </div> */}
-            <div className="leading-loose mt-0 md:mt-2 xl:mt-0 flex flex-col ml-4">
-              <h2 className="font-[700] text-[16px]  mb-2 md:mb-4">
-                Popular Property
-              </h2>
-              <div className=" flex flex-col">
-                {propertyLinks.map((prop) => (
-                  <Link key={prop.title} href={prop.path}>
-                    {prop.title}
-                  </Link>
-                ))}
-              </div>
             </div>
+            <div className="leading-loose mt-0 md:mt-2 xl:mt-0 ">
+              <h2 className="font-[700] text-[16px]  mb-2 md:mb-4">
+                Popular Lands for sale
+              </h2>
+              <p>Lands in Lagos</p>
+              <p>Lands in Asaba</p>
+              <p>Lands in Kano</p>
+              <p>Lands in Abuja</p>
+              <p>Lands in Imo</p>
+              <p>Lands in Ogun</p>
+              <p>Lands in Oyo</p>
+            </div> */}
           </div>
         </div>
         <div className="mt-10 m-auto lg:max-w-full max-w-[338px] md:text-sm lg:text-center">

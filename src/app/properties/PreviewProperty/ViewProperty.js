@@ -150,7 +150,7 @@ const ViewProperty = ({ PropertySlug }) => {
   };
 
   const linkToSearch = () => {
-    router.push("/search-page/PropertyListing");
+    router.push("/properties/PropertyListing");
   };
 
   // const viewFile = (url) => {

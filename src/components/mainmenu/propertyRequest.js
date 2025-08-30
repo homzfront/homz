@@ -245,7 +245,7 @@ const PropertyRequest = ({
               onClick={() => {
                 setSelectedTab("propInfo");
               }}
-              className={`py-[8px] w-[160px] h-[37px] sm:w-full px-[12px] font-[500] rounded-[4px] md:text-[14px] text-[13px] ${
+              className={`py-[8px] sm:h-[37px] sm:w-full px-[12px] font-[500] rounded-[4px] md:text-[14px] text-[12px] ${
                 tabSelected === "propInfo"
                   ? " shadow-md bg-[#006AFF] text-white "
                   : "bg-[#EEF5FF] text-[#006AFF] "
@@ -259,7 +259,7 @@ const PropertyRequest = ({
               onClick={() => {
                 setSelectedTab("contactInfo");
               }}
-              className={`py-[8px] px-[12px] rounded-[4px] w-[135px] h-[37px] font-[500] sm:w-full  md:text-[14px] text-[13px] ${
+              className={`py-[8px] px-[12px] rounded-[4px] sm:h-[37px] font-[500] sm:w-full  md:text-[14px] text-[12px] ${
                 tabSelected === "contactInfo"
                   ? "shadow-md bg-[#006AFF] text-white "
                   : "bg-[#EEF5FF] text-[#006AFF] "
@@ -273,7 +273,7 @@ const PropertyRequest = ({
             className="flex flex-col  gap-[48px] max-h-[479px] overflow-y-auto px-4"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div id="propInfo" className="flex flex-col gap-[18px] ">
+            <div id="propInfo" className="flex flex-wrap flex-col ssm:gap-[18px] ">
               <div className="space-y-2">
                 <label
                   className="text-[14px] font-[500] text-BlackHomz"

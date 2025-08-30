@@ -82,19 +82,19 @@ const PropertyCard = ({
                     <p className="text-[16px] leading-[20.16px] font-[400] px-3  md:hidden text-white ">
                       Explore similar properties
                     </p>
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex flex-col sm:flex-row w-full sm:w-auto px-4 sm:px-0 gap-2 mt-2">
                       <button
                         onClick={() => {
                           setLoadingII(true);
                           reset();
                         }}
-                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-[12px]"
+                        className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-2 sm:p-[12px]"
                       >
                         Explore properties
                       </button>
 
                       <button
-                        className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-[12px] rounded-[4px]"
+                        className=" md:h-[48px] border border-r-white text-white bg-[#006AFF] md:text-[16px] md:font-[500] md:leading-[24px] p-2 sm:p-[12px] rounded-[4px]"
                         onClick={() => setOpenPropertyReq(true)}
                       >
                         Post a Property Request
@@ -114,7 +114,6 @@ const PropertyCard = ({
                 handleEvent={closeSaveToDraftModal}
               />
               <MiniPropertyListing
-                Properties={properties}
                 width={"md:w-[345px]"}
                 reset={reset}
                 setLoadingII={setLoadingII}

@@ -177,7 +177,7 @@ const MarketerBusinessPage = ({ marketerId }) => {
       }
     });
     if (filters) {
-      link = `/search-page/PropertyListing/?page=1&${new URLSearchParams(
+      link = `/properties/PropertyListing/?page=1&${new URLSearchParams(
         query
       ).toString()}`;
       return link;

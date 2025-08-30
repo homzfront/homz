@@ -11,6 +11,7 @@ const usePropertyStore = create((set, get) => ({
     property: null,
     loadingII: true,
     properties: null,
+    otherProperties: null,
     filters: {
         search: '',
         propertyType: null,
@@ -43,6 +44,24 @@ const usePropertyStore = create((set, get) => ({
         });
     },
 
+    
+    fetchOtherProperties: async () => {
+        set({ loading: true });
+        try {
+            const response = await api.get('/public/properties?limit=3');
+            const data = response.data;
+            if (data?.data && data?.message !== 'No items found') {
+                const otherPropertyData = data?.data?.results[0]?.data || null;
+                set({ otherProperties: otherPropertyData, loading: false });
+            } else {
+                set({ otherProperties: null, loading: false });
+            }
+        } catch (error) {
+            console.error('Error fetching other properties:', error);
+            set({ otherProperties: null, loading: false });
+        }
+    },
+    
     // Functions
     fetchProperties: async () => {
         const { filters, currentPage } = get();

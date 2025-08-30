@@ -25,7 +25,7 @@ const FeaturedCard = ({ updateMetrics }) => {
           Featured Properties
         </p>
         <Link
-          href="/search-page/PropertyListing"
+          href="/properties/PropertyListing"
           className="flex items-center gap-2 rounded px-2 py-1 sm:text-[13px] text-[11.5px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
@@ -60,7 +60,7 @@ const FeaturedCard = ({ updateMetrics }) => {
                     {property?.property?.photos &&
                       property?.property?.photos.map((img, index) => (
                         <Link
-                          href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                          href={`/properties/PreviewProperty/${property?.property?.slug}`}
                           key={index}
                           className="w-full sm:w-[320px]  h-full"
                           onClick={() => updateMetrics("call")}
@@ -82,7 +82,7 @@ const FeaturedCard = ({ updateMetrics }) => {
                 <div className="flex w-full flex-col sm:px-6 py-4 px-3 justify-between h-fit rounded-b-[12px] gap-[7.43px] sm:gap-[12px]">
                   <div className="flex w-full justify-between items-center">
                     <Link
-                      href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                      href={`/properties/PreviewProperty/${property?.property?.slug}`}
                       className="text-BlueHomz sm:text-[23px] font-[700] text-[16.59px] sm:leading-[28.98px] leading-[20.9px]"
                       onClick={() => updateMetrics("call")}
                     >
@@ -166,7 +166,7 @@ const FeaturedCard = ({ updateMetrics }) => {
                       )}
                     </div>
                     <Link
-                      href={`/search-page/PreviewProperty/${property?.property?.slug}`}
+                      href={`/properties/PreviewProperty/${property?.property?.slug}`}
                       onClick={() => updateMetrics("call")}
                     >
                       <button className="">
@@ -186,7 +186,7 @@ const FeaturedCard = ({ updateMetrics }) => {
           ))}
         </Carousel>
       </div>
-      {/* <Link href="search-page/PropertyListing">
+      {/* <Link href="properties/PropertyListing">
         <button className="md:hidden mt-10 mb-8 border border-white px-4 py-2 rounded text-[13px] font-[500] flex gap-1 items-center">
           <span>View All</span>
           <Image
