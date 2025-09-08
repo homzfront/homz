@@ -178,38 +178,42 @@ const HomePage = () => {
 
   const link = () => {
     const query = {};
+
+    // Build query object excluding empty values and listingType
     Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
+      if (filters[key] && key !== "listingType") {
         query[key] = filters[key];
       }
     });
 
-    let basePath = '/properties/listing';
-    
+    let basePath = "";
+
     // Determine the listing type path segment
     if (listingTypeW) {
       switch (listingTypeW) {
-        case 'for rent':
-          basePath += '/rent';
+        case "for rent":
+          basePath += "/rent";
           break;
-        case 'for sale':
-          basePath += '/sales';
+        case "for sale":
+          basePath += "/sales";
           break;
-        case 'land':
-          basePath += '/land';
+        case "land":
+          basePath += "/land";
           break;
-        case 'shortlet':
-          basePath += '/shortlet';
+        case "shortlet":
+          basePath += "/shortlet";
           break;
         default:
           break;
       }
     }
 
-    // Only add query params if they exist
-    const queryString = Object.keys(query).length > 0
-      ? `?page=1&${new URLSearchParams(query).toString()}`
-      : `?page=1`;
+    // Only add query params if they exist (❌ no page)
+    const queryString =
+      Object.keys(query).length > 0
+        ? `?${new URLSearchParams(query).toString()}`
+        : "";
+
     return `${basePath}${queryString}`;
   };
 
@@ -771,7 +775,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Rental Properties</p>
                 <Link
-                  href="/properties/listing/rent?page=1"
+                  href="/rent?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -799,7 +803,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white"> Properties For Sale</p>
                 <Link
-                  href="/properties/listing/sales?page=1"
+                  href="/sales?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -827,7 +831,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Lands</p>
                 <Link
-                  href="/properties/listing/land?page=1"
+                  href="/land?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -855,7 +859,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Shortlet</p>
                 <Link
-                  href="/properties/listing/shortlet?page=1"
+                  href="/shortlet?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -1136,7 +1140,7 @@ const HomePage = () => {
           </p>
           <div className="flex gap-2 mt-2">
             <Link
-              href="/properties/listing"
+              href=""
               className="w-[170px] flex justify-center items-center h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
             >
               Explore properties

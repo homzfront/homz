@@ -211,7 +211,7 @@ const Header = () => {
             className={`hover:text-blue-400 ${
               pathname === "/" ||
               pathname === "/properties/PropertyListing" ||
-              pathname === "/properties/PreviewProperty" ||
+              pathname === "/property" ||
               pathname === "/properties"
                 ? "text-BlueHomz"
                 : ""
@@ -226,7 +226,7 @@ const Header = () => {
             }`}
             onClick={() => setOpen(false)}
           >
-            Management
+            Landlord
           </Link>
           <div className="relative flex items-center gap-1">
             <Link
@@ -247,8 +247,8 @@ const Header = () => {
               {pathname === "/document-generation"
                 ? "Document Generation"
                 : pathname === "/enterprise"
-                ? "Enterprise"
-                : "Enterprise"}
+                ? "Property Management"
+                : "Property Management"}
             </Link>
             <div
               onClick={toggleSubMenu}
@@ -272,14 +272,14 @@ const Header = () => {
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
                       <EnterpriseBag className="#006AFF" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
-                        Enterprise
+                        Property Management
                       </p>
                     </div>
                   ) : (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
                       <EnterpriseBag />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-                        Enterprise
+                        Property Management
                       </p>
                     </div>
                   )}

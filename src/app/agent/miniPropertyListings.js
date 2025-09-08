@@ -41,7 +41,7 @@ const MiniPropertyListings = ({
                   >
                     {property?.photos.map((img, index) => (
                       <Link
-                        href={`/properties/PreviewProperty/${property?.slug}`}
+                        href={`/property/${property?.slug}`}
                         key={index}
                         className="w-full h-[181.77px] md:w-full"
                       >
@@ -57,7 +57,7 @@ const MiniPropertyListings = ({
                   </Carousel>
                 ) : (
                   <Link
-                    href={`/properties/PreviewProperty/${property?.slug}`}
+                    href={`/property/${property?.slug}`}
                     className="w-full h-[181.77px] md:w-full"
                   >
                     <Image
@@ -73,7 +73,7 @@ const MiniPropertyListings = ({
               <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[6px]">
                 <div className="flex justify-between">
                   <Link
-                    href={`/properties/PreviewProperty/${property?.slug}`}
+                    href={`/property/${property?.slug}`}
                     className="text-[#006AFF]  sm:text-[16.59px] font-[700] leading-[20.9px] text-center"
                   >
                     {trucateWord(
@@ -82,7 +82,7 @@ const MiniPropertyListings = ({
                     )}
                   </Link>
                   <Link
-                    href={`/properties/PreviewProperty/${property?.slug}`}
+                    href={`/property/${property?.slug}`}
                     className={`flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
@@ -173,7 +173,7 @@ const MiniPropertyListings = ({
                   </div>
                   <Link
                     className="cursor-pointer"
-                    href={`/properties/PreviewProperty/${property?.slug}`}
+                    href={`/property/${property?.slug}`}
                   >
                     <Image
                       src="/static/images/arrow-in-circle.svg"

@@ -332,7 +332,7 @@ const BusinessInfo = ({ Business_Info, handleUpdate, mainSavedButton }) => {
 
   const onSubmit = (user_id) => {
     startTransition(() => {
-      router.push(`/marketer-business-page/${user_id}`);
+      router.push(`/agent/${user_id}`);
     });
   };
   const handleUpdateData = () => {

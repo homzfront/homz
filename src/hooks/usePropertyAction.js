@@ -22,28 +22,29 @@ export const usePropertyActions = () => {
 
     const handleListingType = (query) => {
         if (query === 'for rent') {
-            router.push('/properties/listing/rent');
+            router.push('/rent');
         } else if (query === 'for sale') {
-            router.push('/properties/listing/sales');
+            router.push('/sales');
         } else if (query === 'land') {
-            router.push('/properties/listing/land');
+            router.push('/land');
         } else {
-            router.push('/properties/listing/shortlet');
+            router.push('/shortlet');
         }
     };
 
     const reset = () => {
         setResetting(true);
         resetFilter();
-        setListingType('');
+        // setListingType('for rent');
         setQueryParams({});
+        //   router.push('/rent');
     };
 
     React.useEffect(() => {
         if (resetting && Object.keys(queryParams).length === 0) {
-            setListingType('');
+            // setListingType('');
             setQueryParams({});
-            router.push('/properties/listing/?page=1');
+            // router.push('/rent');
             setResetting(false);
         }
     }, [resetting, queryParams, router]);
@@ -101,20 +102,32 @@ export const usePropertyActions = () => {
 
     React.useEffect(() => {
         const params = new URLSearchParams();
-        if (Object.keys(queryParams).length > 0) {
-            params.set('page', currentPage);
-        }
+
+        // Add all queryParams except page and listingType
         Object.entries(queryParams).forEach(([key, value]) => {
-            if (key !== 'page') {
+            if (key !== "page" && key !== "listingType") {
                 params.set(key, value);
             }
         });
-        if (Object.keys(queryParams).length > 0 || currentPage !== 1) {
+
+        // ✅ Only add page if not 1
+        if (currentPage !== 1) {
+            params.set("page", String(currentPage));
+        }
+
+        // Build URL only if there are params
+        const hasParams = params.toString().length > 0;
+        if (hasParams) {
             const newUrl = `${pathname}?${params.toString()}`;
             router.push(newUrl, { scroll: false });
+        } else {
+            // If no params, just use pathname
+            router.push(pathname, { scroll: false });
         }
+
         fetchProperties();
     }, [currentPage, queryParams, fetchProperties, pathname, router]);
+
 
     return {
         handleListingType,

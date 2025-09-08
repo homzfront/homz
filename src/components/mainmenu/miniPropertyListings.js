@@ -46,7 +46,7 @@ const MiniPropertyListings = ({
       <div className="w-[315px] grid sm:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <Link
-            href={`/properties/PreviewProperty/${property?.slug}`}
+            href={`/property/${property?.slug}`}
             onClick={() => updateMetrics("view")}
             className={`flex flex-col w-[315px]  ${width ? width : " sm:w-[333px]"
               }  h-fit rounded-[12px] shadow-md`}

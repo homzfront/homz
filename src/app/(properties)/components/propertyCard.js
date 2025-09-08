@@ -148,7 +148,7 @@ const PropertyCard = ({
                                     >
                                       <Link
                                         className="cursor-pointer "
-                                        href={`/properties/PreviewProperty/${property?.slug}`}
+                                        href={`/property/${property?.slug}`}
                                         onClick={() =>
                                           updateMetrics({
                                             type: "view",
@@ -170,7 +170,7 @@ const PropertyCard = ({
                               ) : (
                                 <Link
                                   className="cursor-pointer "
-                                  href={`/properties/PreviewProperty/${property?.slug}`}
+                                  href={`/property/${property?.slug}`}
                                   onClick={() =>
                                     updateMetrics({
                                       type: "view",
@@ -217,7 +217,7 @@ const PropertyCard = ({
                         </div>
                         <Link
                           className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]"
-                          href={`/properties/PreviewProperty/${property?.slug}`}
+                          href={`/property/${property?.slug}`}
                           onClick={() =>
                             updateMetrics({ type: "view", id: property?._id })
                           }
