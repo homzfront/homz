@@ -85,7 +85,7 @@ const Header = () => {
   }, [hasListProperty]);
 
   const url = !profile
-    ? "/register"
+    ? "/listing-signup"
     : hasListProperty
     ? "/dashboard/list_Property/addProperty"
     : "/switch-profile";

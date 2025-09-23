@@ -1,4 +1,5 @@
 import React from 'react'
+import AtIcon from '../icons/atIcon';
 
 const DateFooter = () => {
     const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());
@@ -11,8 +12,8 @@ const DateFooter = () => {
         }
     }, []);
     return (
-        <span className="">
-            &copy; {currentYear} Homz.ng. All rights reserved
+        <span className="flex gap-1 items-center">
+            <AtIcon /> {currentYear} Homz.ng. All rights reserved
         </span>
     )
 }
