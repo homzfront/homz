@@ -16,6 +16,7 @@ import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import Image from "next/image";
 import { signIn, useSession, signOut } from "next-auth/react";
+import ListingAuth from "@/components/auth/listingAuth";
 
 const Register = () => {
   const router = useRouter();
@@ -146,13 +147,21 @@ const Register = () => {
       <CustomizedModal isOpen={showLongLoadingMessage}>
         <LoadingProlonged closeModal={closeModal} />
       </CustomizedModal>
-      <div className="flex m-auto max-w-[100%] sm:max-w-[1440px] h-[1024px]">
-        <div className="w-[644px] hidden lg:flex flex-col py-8 justify-around bg-[url('/Background_image2.png')] bg-BlueHomz">
-          <SliderAuth />
+
+      <div className="flex flex-col lg:flex-row m-auto max-w-full sm:max-w-[1440px] h-auto max-h-[1024px]">
+        {/* Mobile/tablet auth section - shows at top */}
+        <div className="lg:hidden w-full">
+          <ListingAuth />
         </div>
-        <div className="sm:w-[794px] w-full flex flex-col justify-around items-center">
-          <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
-            <div className="flex flex-col gap-6 m-auto  max-w-[380px]">
+        
+        {/* Desktop auth section */}
+        <div className="w-[50%] hidden lg:flex flex-coljustify-around h-screen max-h-screen">
+          <ListingAuth />
+        </div>
+        
+        <div className="lg:w-[50%] px-6 flex items-center justify-center lg:min-h-screen">
+          <div className="w-full flex justify-center items-center">
+            <div className="flex flex-col justify-center gap-6 w-full max-w-[360px] my-5 lg:my-0">
               <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
                 Create Account
               </h1>
