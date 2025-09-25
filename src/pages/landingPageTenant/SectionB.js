@@ -22,7 +22,7 @@ const SectionB = () => {
   const cards = [
     {
       icon: <Card />,
-      title: "Pay rent",
+      title: "Streamlined Rent Payments and Financial Management",
       description:
         "Seamlessly manage your finance, save and pay your rent with a click, making life as a tenant hassle-free.",
     },
@@ -34,7 +34,7 @@ const SectionB = () => {
     // },
     {
       icon: <MessageTwo />,
-      title: "Interact with property management",
+      title: "Direct Communication with Property Management",
       description:
         "Connect with property management effortlessly, ensuring your concerns and inquiries are addressed promptly."
     },
@@ -63,9 +63,9 @@ const SectionB = () => {
                   <>{card.icon}</>
                 </div>
                 <div className="flex mt-5 gap-1 flex-col">
-                  <p className="font-[700] text-[20px] text-BlackHomz">
+                  <h2 className="font-[700] text-[20px] text-BlackHomz">
                     {card.title}
-                  </p>
+                  </h2>
                   <p className="font-[400] text-[18px] text-GrayHomz">
                     {card.description}
                   </p>
@@ -87,9 +87,9 @@ const SectionB = () => {
                     <>{card.icon}</>
                   </div>
                   <div className="flex flex-col justify-between items-center h-max">
-                    <p className="font-[700] text-[20px] text-center text-BlackHomz">
+                    <h2 className="font-[700] text-[20px] text-center text-BlackHomz">
                       {card.title}
-                    </p>
+                    </h2>
                     <p className="font-[400] text-[16px] text-center text-GrayHomz">
                       {card.description}
                     </p>

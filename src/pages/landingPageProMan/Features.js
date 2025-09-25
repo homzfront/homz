@@ -28,25 +28,25 @@ const Features = ({ routeTo, profile }) => {
   const cards = [
     {
       icon: <PeopleWhite />,
-      title: "Manage all renters in one place",
+      title: "Manage All Your Renters in One Central Platform",
       description:
         "Effortlessly streamline your operations by managing all renters in one centralized platform.",
     },
     {
       icon: <MoneySend />,
-      title: "Offer incentive for timely payment",
+      title: "Incentivize Timely Rent Payments",
       description:
         "Boost cash flow seamlessly by offering enticing incentives for on-time rent payments.",
     },
     {
       icon: <WalletCheckWhite />,
-      title: "Manage your finance",
+      title: "Streamlined Financial Management",
       description:
         "Gain financial clarity with our intuitive platform, managing your property's finances has never been easier.",
     },
     {
       icon: <MessagesWhite />,
-      title: "Manage Complaints From Tenants",
+      title: "Comprehensive Property Management Features",
       description:
         "Efficiently address and resolve Tenant concerns with our streamlined complaint management system.",
     },
@@ -92,9 +92,9 @@ const Features = ({ routeTo, profile }) => {
               </>
             </div>
             <div className="h-[75%] mt-2 flex flex-col gap-1 justify-between items-center">
-              <p className="font-[700] text-[20px] text-center text-BlackHomz">
+              <h2 className="font-[700] text-[20px] text-center text-BlackHomz">
                 {card.title}
-              </p>
+              </h2>
               <p className="font-[400] h-[80%] text-[18px] text-center text-GrayHomz">
                 {card.description}
               </p>
@@ -117,9 +117,9 @@ const Features = ({ routeTo, profile }) => {
                 </>
               </div>
               <div className="flex flex-col justify-between items-center h-max">
-                <p className="font-[700] text-[20px] text-center text-BlackHomz">
+                <h2 className="font-[700] text-[20px] text-center text-BlackHomz">
                   {card.title}
-                </p>
+                </h2>
                 <p className="font-[400] text-[16px] text-center text-GrayHomz">
                   {card.description}
                 </p>

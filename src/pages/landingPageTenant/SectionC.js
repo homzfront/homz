@@ -9,13 +9,13 @@ const SectionC = ({routeTo, profile}) => {
   const cards = [
     {
       icon: <CardCoin />,
-      title: "Pay bills",
+      title: "Easy Bill Payments and Maintenance Requests",
       description:
         "Easily pay your light and estate bills with just a few clicks.",
     },
     {
       icon: <Settings />,
-      title: "Get access to maintenance services on the go",
+      title: "Access Maintenance Services On-the-Go",
       description:
         "Access maintenance services on the go with our software, ensuring your living space is cared for effortlessly."
     },
@@ -39,9 +39,9 @@ const SectionC = ({routeTo, profile}) => {
                 </>
               </div>
               <div className="flex mt-5 gap-1 flex-col">
-                <p className="font-[700] text-[20px] text-BlackHomz">
+                <h2 className="font-[700] text-[20px] text-BlackHomz">
                   {card.title}
-                </p>
+                </h2>
                 <p className="font-[400] text-[18px] text-GrayHomz">
                   {card.description}
                 </p>

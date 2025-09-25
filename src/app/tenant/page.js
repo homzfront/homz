@@ -9,6 +9,20 @@ import FAQs from '@/pages/landingPageTenant/FAQs';
 import useProfileStore from '@/store/profile';
 import determineRoute from '@/utils/determineRoute';
 
+export const metadata = {
+  title: "Tenant Portal - Pay Rent, Request Maintenance | Homz.ng",
+  description: "Enjoy convenient tenant services with Homz.ng. Pay rent online, request maintenance, communicate with landlords, and manage your tenancy all in one secure platform.",
+  openGraph: {
+    title: "Tenant Portal - Pay Rent, Request Maintenance | Homz.ng",
+    description: "Enjoy convenient tenant services with Homz.ng. Pay rent online, request maintenance, communicate with landlords, and manage your tenancy all in one secure platform.",
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Tenant Portal - Pay Rent, Request Maintenance | Homz.ng",
+    description: "Enjoy convenient tenant services with Homz.ng. Pay rent online, request maintenance, communicate with landlords, and manage your tenancy all in one secure platform.",
+  }
+};
+
 const LandingPageTenant = () => {
   const { isLoggedIn, profile } = useProfileStore();
   const tenant = "/dashboard/tenant/dashboard"
