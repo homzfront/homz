@@ -18,7 +18,7 @@ import Image from "next/image";
 import { signIn, useSession, signOut } from "next-auth/react";
 import ListingAuth from "@/components/auth/listingAuth";
 
-const Register = () => {
+const ListingRegister = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -339,4 +339,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ListingRegister;

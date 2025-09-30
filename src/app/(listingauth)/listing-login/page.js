@@ -22,7 +22,7 @@ import { signIn, useSession, signOut } from "next-auth/react";
 import useReferalReturnPage from "@/store/enterpriseStore/useReferalReturnPage";
 import ListingAuth from "@/components/auth/listingAuth";
 
-const Login = () => {
+const ListingLogin = () => {
   const { data: session, status } = useSession();
   const { homePage } = useTabForDocuGen();
   const [email, setEmail] = useState("");
@@ -397,4 +397,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ListingLogin;
