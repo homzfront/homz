@@ -31,6 +31,7 @@ const ListingLogin = () => {
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(true);
+  const [fromGoogle, setFromGoogle] = useState(false);
   const router = useRouter();
   const { tab } = useOpenDueDate();
   const { referalReturnPage } = useReferalReturnPage()
@@ -39,6 +40,7 @@ const ListingLogin = () => {
   useBodyScroll([loading]);
 
   const handleGoogleSignIn = () => {
+    setFromGoogle(true);
     localStorage.setItem("fromGoogle", "true");
     signIn("google", { callbackUrl: "/login" });
   };
@@ -175,9 +177,13 @@ const ListingLogin = () => {
 
   // console.log("Session data:", session);
   // console.log("Session status:", status);
-  const fromGoogle = localStorage.getItem("fromGoogle") === "true";
 
   // console.log("fromGoogle state:", fromGoogle);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setFromGoogle(localStorage.getItem("fromGoogle") === "true");
+    }
+  }, []);
   useEffect(() => {
     const verifySession = async () => {
       if (status === "authenticated" && session && fromGoogle === true) {
@@ -254,6 +260,7 @@ const ListingLogin = () => {
           }
         } finally {
           setLoading(false);
+          setFromGoogle(false);
           localStorage.removeItem("fromGoogle");
         }
       }

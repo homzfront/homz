@@ -30,16 +30,23 @@ const ListingRegister = () => {
   const [loading, setLoading] = useState(false);
   const [verified, setVerified] = useState(false);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
+  const [fromGoogle, setFromGoogle] = useState(false);
 
   const handleGoogleSignIn = () => {
+    setFromGoogle(true);
     localStorage.setItem("fromGoogle", "true");
     signIn("google", { callbackUrl: "/login" });
   };
 
-  const fromGoogle = localStorage.getItem("fromGoogle") === "true";
   const handleCaptchaChange = () => {
     setVerified(true);
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setFromGoogle(localStorage.getItem("fromGoogle") === "true");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
