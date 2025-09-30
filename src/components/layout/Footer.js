@@ -21,7 +21,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10  mt-36 bg-black text-white">
+    <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10 bg-black text-white">
       <div className=" items-center flex justify-center flex-col m-auto max-w-[1165px]">
         <div className="flex md:text-sm lg:w-full xl:w-[1165px] flex-col lg:flex-row items-center justify-center gap-0 md:gap-4 lg:flex lg:items-start">
           <div className="max-w-[338px] md:max-w-full lg:w-auto">

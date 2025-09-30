@@ -10,6 +10,7 @@ import ContactCard from '@/pages/landingPageProMan/ContactCard';
 import FAQs from '@/pages/landingPageProMan/FAQs';
 import useProfileStore from '@/store/profile';
 import determineRoute from '@/utils/determineRoute';
+import Testimonial from '@/pages/landingPageProOwn/Testimonial';
 
 const LandingPagePM = () => {
   const { isLoggedIn, profile } = useProfileStore();
@@ -23,8 +24,8 @@ const LandingPagePM = () => {
       <Features routeTo={page} profile={profile} />
       <Pricing routeTo={page} profile={profile} />
       <AllInOne />
-      <Contact routeTo={page} profile={profile} />
-      <ContactCard routeTo={page} profile={profile} />
+      {/* <Contact routeTo={page} profile={profile} /> */}
+      <Testimonial routeTo={page} profile={profile} />
       <FAQs />
     </div>
   )

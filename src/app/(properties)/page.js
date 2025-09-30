@@ -1148,8 +1148,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full md:h-[491px] min-h-[500px] lg:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
-        <div className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[24px] font-[700] leading-[28.98px]  flex justify-between items-center text-[#0058D4]">
+      <div className="w-full min-h-[500px] lg:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
+        <div className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[24px] font-[700] leading-[28.98px] flex justify-between items-center text-[#0058D4]">
           <h5 className="">Don’t Just Take Our Word For It</h5>
           <Link
             href="/contact-page"
@@ -1158,92 +1158,58 @@ const HomePage = () => {
             Contact Us
           </Link>
         </div>
-        <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
+        <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-GrayHomz font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
           <span className="">
-            Hear from our satisfied clients who found their dream apartments
-            with Homz.
+            Hear from amazing clients who have gotten apartments of their dreams on  Homz
           </span>
         </p>
         <div>
-          <div className="mt-2 md:mt-8 px-12 md:px-0 md:mb-0 mb-6">
-            <Slider {...sliderSettingsII}>
-              {Testimonials.map((testimonial, index) => (
-                <div
-                  className="flex flex-col gap-4 items-center justify-center w-[277px] h-[230px] md:h-[275px] lg:h-[220px] md:mb-4 pt-2 bg-white md:w-full py-6 md:py-[20px] px-[14px] rounded-[12px]"
-                  key={index}
-                >
-                  <div className="flex flex-col justify-between items-center mt-2 md:mt-0 h-full">
-                    <p className="text-[16px] md:text-[20px] leading-[20.16px] text-center text-BlackHomz md:text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] ">
-                      {testimonial.Testimony}
-                    </p>
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="text-[13px] md:text-[14px] md:font-[400] md:leading-[24px] text-[#202020]">
-                        {testimonial.Name}
+          <div className="px-[8%] md:px-0">
+            <div
+              className="mx-auto md:mx-0 w-full flex flex-col gap-8 md:gap-6 items-start justify-start bg-white p-4 md:p-8 rounded-[16px] mt-8"
+            >
+              <div className="flex flex-col gap-4 md:gap-2">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, index) => {
+                    return (
+                      <span key={index} className="text-BlueHomz text-2xl">
+                        &#9733;
                       </span>
-                      <span className="text-[11px] md:text-[13px] md:font-[500] md:leading-[19.5px] text-[#A9A9A9]">
-                        {testimonial.Type}
-                      </span>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </Slider>
+                <p className="text-[16px] md:text-[20px] leading-[20.16px] text-BlackHomz md:text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] md:text-justify">
+                  Homz.ng has completely transformed the way we manage our properties. Before now, rent payments, and maintenance requests was stressful and time-consuming. With Homz, everything is now in one place; from automated rent reminders to seamless rent collection and transparent reporting.
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 items-start">
+                <span className="text-[16px] md:text-[20px] font-[600] text-[#202020]">
+                  SijiDaniels Consulting Limited
+                </span>
+                <span className="text-[14px] md:text-[16px] md:font-[400] text-GrayHomz">
+                  Property Management Company
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-        <Link
-          href="/contact-page"
-          className="md:hidden mt-4 mx-auto flex items-center justify-center border border-[#006AFF]  text-[#006AFF] w-[110px] h-[48px] font-[500] rounded-[4px] text-[16px] "
-        >
-          Contact Us
-        </Link>
+        <div className="px-[8%] w-full">
+          <Link
+            href="/contact-page"
+            className="md:hidden mt-4 w-full flex items-center justify-center bg-[#006AFF]  text-white h-[48px] font-[500] rounded-[4px] text-[16px] "
+          >
+            Contact Us
+          </Link>
+          <Link
+            href="/rent"
+            className="md:hidden mt-4 w-full flex items-center justify-center border border-[#006AFF]  text-[#006AFF] h-[48px] font-[500] rounded-[4px] text-[16px] "
+          >
+            Explore properties
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
 export default HomePage;
-
-const Testimonials = [
-  {
-    _id: 1,
-    Name: "Fatima Sani",
-    Type: "Client",
-    Testimony:
-      "Homz Company has been instrumental in streamlining our real estate management system. Their expertise and dedication have significantly improved our operations.",
-  },
-  {
-    _id: 2,
-    Name: "Okechukwu Okocha",
-    Type: "Client",
-    Testimony:
-      "We are extremely satisfied with the services provided by Homz Company. Their innovative solutions have helped us effectively manage our real estate assets.",
-  },
-  {
-    _id: 3,
-    Name: "Alice Johnson",
-    Type: "Client",
-    Testimony:
-      "Homz Company's commitment to excellence is commendable. Their real estate management system has transformed our processes and improved our overall efficiency.",
-  },
-  {
-    _id: 4,
-    Name: "Dotun Odubote",
-    Type: "Client",
-    Testimony:
-      "We have been working with Homz Company for several years now, and they continue to exceed our expectations. Their professionalism and expertise in real estate management are unparalleled.",
-  },
-  {
-    _id: 5,
-    Name: "Emmanuel Sambo",
-    Type: "Client",
-    Testimony:
-      "Homz Company has been an invaluable partner in our real estate endeavors. Their cutting-edge solutions have allowed us to stay ahead in the competitive market.",
-  },
-  {
-    _id: 6,
-    Name: "Michael Wilson",
-    Type: "Client",
-    Testimony:
-      "We highly recommend Homz Company to anyone looking for reliable real estate management services. Their team's dedication and attention to detail are truly commendable.",
-  },
-];
