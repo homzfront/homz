@@ -1165,8 +1165,8 @@ const HomePage = () => {
         </h2>
         <Slider {...logoSliderSettings} className="w-full mt-8">
           {
-            images.map((data) => (
-              <div className="flex justify-center">
+            images.map((data, index) => (
+              <div key={index} className="flex justify-center">
                 <Image
                   src={data}
                   alt="img"
