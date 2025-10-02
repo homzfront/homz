@@ -8,6 +8,7 @@ import ContactCard from '@/pages/landingPageProOwn/ContactCard';
 import FAQs from '@/pages/landingPageProOwn/FAQs';
 import useProfileStore from '@/store/profile';
 import determineRoute from '@/utils/determineRoute';
+import Testimonial from '@/pages/landingPageProOwn/Testimonial';
 
 const LandingPagePO = () => {
   const { isLoggedIn, profile } = useProfileStore();
@@ -19,8 +20,8 @@ const LandingPagePO = () => {
       <Hero routeTo={page} profile={profile} />
       <Features/>
       <HowItWorks routeTo={page} profile={profile} />
-      <Contact routeTo={page} profile={profile} />
-      <ContactCard routeTo={page} profile={profile} />
+      {/* <Contact routeTo={page} profile={profile} /> */}
+      <Testimonial routeTo={page} profile={profile} />
       <FAQs />
     </div>
   )

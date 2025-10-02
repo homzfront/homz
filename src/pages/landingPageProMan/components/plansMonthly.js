@@ -18,10 +18,19 @@ import { cancelEnterprisePlanSub } from "@/api/tenantSevice";
 const Plans = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
   const [loadingCard, setLoadingCard] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter()
   const isAt1295px = useIsUserAt1295px();
   const { setIsOpenModal, isMonthlyData, setIsMonthlyData, openCardPayment, setOpenCardPayment, setIsBiAnnaullyData, setIsAnnaullyData, openTransferPayment, setOpenTransferPayment, error, setError, openErrorAgain, setOpenErrorAgain, setOpenAgain, openAgain } = useOpenPaymentType();
 
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const pricingPlans = [
     {
       price: '5,500',
@@ -242,7 +251,7 @@ const Plans = ({ routeTo, profile }) => {
           resistanceRatio={0.7}
           spaceBetween={20}  // Increased space between slides
           slidesPerView={1} // Always show 1 slide on mobile
-          centeredSlides={true} // Center the active slide
+          centeredSlides={isMobile} // Center the active slide on mobile
           navigation={{
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',

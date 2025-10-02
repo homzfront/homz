@@ -43,7 +43,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 >
                   {property?.photos.map((img, index) => (
                     <Link
-                      href={`/properties/PreviewProperty/${property?.slug}`}
+                      href={`/property/${property?.slug}`}
                       key={index}
                       className="w-full h-[181.77px] md:w-full"
                       onClick={() => updateMetrics("view")}
@@ -60,7 +60,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 </Carousel>
               ) : (
                 <Link
-                  href={`/properties/PreviewProperty/${property?.slug}`}
+                  href={`/property/${property?.slug}`}
                   className="w-full h-[181.77px] md:w-full"
                   onClick={() => updateMetrics("view")}
                 >
@@ -80,13 +80,13 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 onClick={() => updateMetrics("view")}
               >
                 <Link
-                  href={`/properties/PreviewProperty/${property?.slug}`}
+                  href={`/property/${property?.slug}`}
                   className="text-[#006AFF]  md:text-[16.59px] font-[700] leading-[20.9px] text-center"
                 >
                   {trucateWord(capitalizeFirstLetter(property?.title), 12)}
                 </Link>
                 <Link
-                  href={`/properties/PreviewProperty/${property?.slug}`}
+                  href={`/property/${property?.slug}`}
                   className={`hidden sm:flex h-[17.77px] items-center justify-center text-[7.93px] leading-[11.9px] font-[400] px-[8.66px] py-[2.89px] rounded-[4px] text-white bg-[#006AFF]
                  ${property?.listingType ? "" : "hidden"}
                    `}
@@ -177,7 +177,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
                 </div>
                 <Link
                   className="cursor-pointer"
-                  href={`/properties/PreviewProperty/${property?.slug}`}
+                  href={`/property/${property?.slug}`}
                   onClick={() => updateMetrics("view")}
                 >
                   <Image

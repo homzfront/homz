@@ -8,19 +8,20 @@ import ContactCard from '@/pages/landingPageTenant/ContactCard';
 import FAQs from '@/pages/landingPageTenant/FAQs';
 import useProfileStore from '@/store/profile';
 import determineRoute from '@/utils/determineRoute';
+import Testimonial from '@/pages/landingPageTenant/Testimonial';
 
 const LandingPageTenant = () => {
   const { isLoggedIn, profile } = useProfileStore();
   const tenant = "/dashboard/tenant/dashboard"
   const page = determineRoute(profile, tenant);
-  
+
   return (
     <div>
       <SectionA routeTo={page} profile={profile} />
       <SectionB />
       <SectionC routeTo={page} profile={profile} />
-      <Contact routeTo={page} profile={profile} />
-      <ContactCard routeTo={page} profile={profile} />
+      {/* <Contact routeTo={page} profile={profile} /> */}
+      <Testimonial routeTo={page} profile={profile} />
       <FAQs />
     </div>
   )

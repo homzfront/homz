@@ -1,6 +1,6 @@
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
-import HomePage from "./properties/page";
+import HomePage from "./(properties)/page";
 
 export default function Home() {
   return (

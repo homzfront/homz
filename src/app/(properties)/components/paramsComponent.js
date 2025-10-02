@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import Bedroom from "../components/bedrooms";
-import PropertyType from "../components/propertyType";
-import MaxPrice from "../components/maxPrice";
-import MinPrice from "../components/minPrice";
+import Bedroom from "./bedrooms";
+import PropertyType from "./propertyType";
+import MaxPrice from "./maxPrice";
+import MinPrice from "./minPrice";
 import Image from "next/image";
-import Listing from "../components/listing";
+import Listing from "./listing";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import addCommasToNumberWithoutN from "@/utils/addCommasToNumberWithoutN";
 import Reset from "@/components/icons/reset";

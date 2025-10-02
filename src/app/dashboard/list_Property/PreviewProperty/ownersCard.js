@@ -83,7 +83,7 @@ const OwnersCard = ({ propertyData }) => {
             />
           </p>
           <Link
-            href={`/marketer-business-page/${propertyData?.user?._id}`}
+            href={`/agent/${propertyData?.user?._id}`}
             className="breakwords pl-2 flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
           >
             <span>View your page</span>

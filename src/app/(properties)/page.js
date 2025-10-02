@@ -96,6 +96,10 @@ const HomePage = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const images = [
+    "/seyi.jpg", "/ateef.png", "/sijiDaniels.png", "/sam.png", "/advocate.png"
+  ]
+
   const handleOpen = (e) => {
     e.preventDefault();
     setOpenFilter(!openFilter);
@@ -178,38 +182,42 @@ const HomePage = () => {
 
   const link = () => {
     const query = {};
+
+    // Build query object excluding empty values and listingType
     Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
+      if (filters[key] && key !== "listingType") {
         query[key] = filters[key];
       }
     });
 
-    let basePath = '/properties/listing';
-    
+    let basePath = "";
+
     // Determine the listing type path segment
     if (listingTypeW) {
       switch (listingTypeW) {
-        case 'for rent':
-          basePath += '/rent';
+        case "for rent":
+          basePath += "/rent";
           break;
-        case 'for sale':
-          basePath += '/sales';
+        case "for sale":
+          basePath += "/sales";
           break;
-        case 'land':
-          basePath += '/land';
+        case "land":
+          basePath += "/land";
           break;
-        case 'shortlet':
-          basePath += '/shortlet';
+        case "shortlet":
+          basePath += "/shortlet";
           break;
         default:
           break;
       }
     }
 
-    // Only add query params if they exist
-    const queryString = Object.keys(query).length > 0
-      ? `?page=1&${new URLSearchParams(query).toString()}`
-      : `?page=1`;
+    // Only add query params if they exist (❌ no page)
+    const queryString =
+      Object.keys(query).length > 0
+        ? `?${new URLSearchParams(query).toString()}`
+        : "";
+
     return `${basePath}${queryString}`;
   };
 
@@ -275,6 +283,32 @@ const HomePage = () => {
     className: "center",
     centerMode: true,
     centerPadding: "0%",
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: null,
+    nextArrow: null,
+  };
+
+  const logoSlidesToShow = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth > 1270) return 5;
+      if (window.innerWidth > 1024) return 4;
+      if (window.innerWidth > 768) return 3;
+      return 1;
+    }
+    return 1;
+  };
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const logoSliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
+    slidesToShow: logoSlidesToShow(),
+    centerMode: isMobile,
+    centerPadding: isMobile ? "10%" : "0",
     autoplay: true,
     autoplaySpeed: 3000,
     prevArrow: null,
@@ -771,7 +805,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Rental Properties</p>
                 <Link
-                  href="/properties/listing/rent?page=1"
+                  href="/rent?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -799,7 +833,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white"> Properties For Sale</p>
                 <Link
-                  href="/properties/listing/sales?page=1"
+                  href="/sales?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -827,7 +861,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Lands</p>
                 <Link
-                  href="/properties/listing/land?page=1"
+                  href="/land?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -855,7 +889,7 @@ const HomePage = () => {
               <div className={`flex justify-between items-center px-8 md:px-24 ${!featuredData && "hidden"}`}>
                 <p className="text-[20px] sm:text-[23px] font-medium text-white">Shortlet</p>
                 <Link
-                  href="/properties/listing/shortlet?page=1"
+                  href="/shortlet?page=1"
                   className="flex items-center gap-1"
                 >
                   <span className="text-sm sm:text-[16px] font-[400]">View All</span>
@@ -1125,6 +1159,25 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <div className="px-[8%] bg-white py-[40px] md:py-[80px] flex flex-col items-center gap-6 justify-center w-full">
+        <h2 className="text-[20px] md:text-[26px] text-GrayHomz font-semibold text-center">
+          We’re Proudly serving forward-thinking companies
+        </h2>
+        <Slider {...logoSliderSettings} className="w-full mt-8">
+          {
+            images.map((data) => (
+              <div className="flex justify-center">
+                <Image
+                  src={data}
+                  alt="img"
+                  height={95}
+                  width={240}
+                />
+              </div>
+            ))
+          }
+        </Slider>
+      </div>
       <div className="h-auto md:h-[303px] py-[20px] md:py-0 w-full bg-center bg-cover bg-[url('/Background-image.png')] bg-black">
         <div className="h-[239px] md:h-[303px]  flex flex-col items-center gap-[15px] justify-center mb-2">
           <p className="hidden md:block  px-4 text-center md:text-[36px] font-[700] md:leading-[45.36px] text-white">
@@ -1136,7 +1189,7 @@ const HomePage = () => {
           </p>
           <div className="flex gap-2 mt-2">
             <Link
-              href="/properties/listing"
+              href=""
               className="w-[170px] flex justify-center items-center h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
             >
               Explore properties
@@ -1144,8 +1197,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full md:h-[491px] min-h-[500px] lg:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
-        <div className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[24px] font-[700] leading-[28.98px]  flex justify-between items-center text-[#0058D4]">
+      <div className="w-full min-h-[500px] lg:py-[72px] py-8 md:px-[140px] bg-[#EEF5FF] flex flex-col gap-3 md:gap-0">
+        <div className="text-left text-[20px] mx-auto md:mx-0 w-[296px] md:w-full md:text-[24px] font-[700] leading-[28.98px] flex justify-between items-center text-[#0058D4]">
           <h5 className="">Don’t Just Take Our Word For It</h5>
           <Link
             href="/contact-page"
@@ -1154,92 +1207,58 @@ const HomePage = () => {
             Contact Us
           </Link>
         </div>
-        <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-[#006AFF] font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
+        <p className="text-center md:text-start md:text-[20px] leading-[20.16px] text-GrayHomz font-[400] md:font-[500] md:leading-[25px] lg:w-[754px] md:w-[550px] w-[308px] mx-auto md:mx-0">
           <span className="">
-            Hear from our satisfied clients who found their dream apartments
-            with Homz.
+            Hear from amazing clients who have gotten apartments of their dreams on  Homz
           </span>
         </p>
         <div>
-          <div className="mt-2 md:mt-8 px-12 md:px-0 md:mb-0 mb-6">
-            <Slider {...sliderSettingsII}>
-              {Testimonials.map((testimonial, index) => (
-                <div
-                  className="flex flex-col gap-4 items-center justify-center w-[277px] h-[230px] md:h-[275px] lg:h-[220px] md:mb-4 pt-2 bg-white md:w-full py-6 md:py-[20px] px-[14px] rounded-[12px]"
-                  key={index}
-                >
-                  <div className="flex flex-col justify-between items-center mt-2 md:mt-0 h-full">
-                    <p className="text-[16px] md:text-[20px] leading-[20.16px] text-center text-BlackHomz md:text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] ">
-                      {testimonial.Testimony}
-                    </p>
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="text-[13px] md:text-[14px] md:font-[400] md:leading-[24px] text-[#202020]">
-                        {testimonial.Name}
+          <div className="px-[8%] md:px-0">
+            <div
+              className="mx-auto md:mx-0 w-full flex flex-col gap-8 md:gap-6 items-start justify-start bg-white p-4 md:p-8 rounded-[16px] mt-8"
+            >
+              <div className="flex flex-col gap-4 md:gap-2">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, index) => {
+                    return (
+                      <span key={index} className="text-BlueHomz text-2xl">
+                        &#9733;
                       </span>
-                      <span className="text-[11px] md:text-[13px] md:font-[500] md:leading-[19.5px] text-[#A9A9A9]">
-                        {testimonial.Type}
-                      </span>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </Slider>
+                <p className="text-[16px] md:text-[20px] leading-[20.16px] text-BlackHomz md:text-[#4E4E4E] font-[400] md:font-[500] md:leading-[40.32px] md:text-justify">
+                  Homz.ng has completely transformed the way we manage our properties. Before now, rent payments, and maintenance requests was stressful and time-consuming. With Homz, everything is now in one place; from automated rent reminders to seamless rent collection and transparent reporting.
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 items-start">
+                <span className="text-[16px] md:text-[20px] font-[600] text-[#202020]">
+                  SijiDaniels Consulting Limited
+                </span>
+                <span className="text-[14px] md:text-[16px] md:font-[400] text-GrayHomz">
+                  Property Management Company
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-        <Link
-          href="/contact-page"
-          className="md:hidden mt-4 mx-auto flex items-center justify-center border border-[#006AFF]  text-[#006AFF] w-[110px] h-[48px] font-[500] rounded-[4px] text-[16px] "
-        >
-          Contact Us
-        </Link>
+        <div className="px-[8%] w-full">
+          <Link
+            href="/contact-page"
+            className="md:hidden mt-4 w-full flex items-center justify-center bg-[#006AFF]  text-white h-[48px] font-[500] rounded-[4px] text-[16px] "
+          >
+            Contact Us
+          </Link>
+          <Link
+            href="/rent"
+            className="md:hidden mt-4 w-full flex items-center justify-center border border-[#006AFF]  text-[#006AFF] h-[48px] font-[500] rounded-[4px] text-[16px] "
+          >
+            Explore properties
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
 export default HomePage;
-
-const Testimonials = [
-  {
-    _id: 1,
-    Name: "Fatima Sani",
-    Type: "Client",
-    Testimony:
-      "Homz Company has been instrumental in streamlining our real estate management system. Their expertise and dedication have significantly improved our operations.",
-  },
-  {
-    _id: 2,
-    Name: "Okechukwu Okocha",
-    Type: "Client",
-    Testimony:
-      "We are extremely satisfied with the services provided by Homz Company. Their innovative solutions have helped us effectively manage our real estate assets.",
-  },
-  {
-    _id: 3,
-    Name: "Alice Johnson",
-    Type: "Client",
-    Testimony:
-      "Homz Company's commitment to excellence is commendable. Their real estate management system has transformed our processes and improved our overall efficiency.",
-  },
-  {
-    _id: 4,
-    Name: "Dotun Odubote",
-    Type: "Client",
-    Testimony:
-      "We have been working with Homz Company for several years now, and they continue to exceed our expectations. Their professionalism and expertise in real estate management are unparalleled.",
-  },
-  {
-    _id: 5,
-    Name: "Emmanuel Sambo",
-    Type: "Client",
-    Testimony:
-      "Homz Company has been an invaluable partner in our real estate endeavors. Their cutting-edge solutions have allowed us to stay ahead in the competitive market.",
-  },
-  {
-    _id: 6,
-    Name: "Michael Wilson",
-    Type: "Client",
-    Testimony:
-      "We highly recommend Homz Company to anyone looking for reliable real estate management services. Their team's dedication and attention to detail are truly commendable.",
-  },
-];

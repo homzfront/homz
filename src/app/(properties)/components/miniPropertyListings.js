@@ -154,7 +154,7 @@ const MiniPropertyListings = ({
                 </div>
                 <Link
                   className="cursor-pointer"
-                  href={`/properties/PreviewProperty/${property?.slug}`}
+                  href={`/property/${property?.slug}`}
                 >
                   <Image
                     src="/static/images/arrow-in-circle.svg"

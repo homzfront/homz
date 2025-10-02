@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
-import PropertyCard from '../components/propertyCard';
+import PropertyCard from '../../components/propertyCard';
 import usePropertyStore from '@/store/usePropertyStore';
-import ParamsComponent from '../components/paramsComponent';
+import ParamsComponent from '../../components/paramsComponent';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
 
 const UserHomePage = () => {

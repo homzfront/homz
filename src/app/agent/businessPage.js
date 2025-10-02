@@ -10,16 +10,18 @@ import api from "@/utils/api";
 import LoadingII from "@/components/mainmenu/loadingII";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import OwnersCard from "./ownersCard";
-import RequestCard from "../properties/PreviewProperty/requestCard";
+import RequestCard from "../(properties)/property/requestCard";
 import MarketerImage from "./imageUpload";
 import Dropdown from "./dropDownFilter";
 import ThreeDots from "../../components/mainmenu/ThreeDotsLoader";
 import { listingMarketerProfile } from "@/api/listingServices";
 import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
+import usePropertyListedAllStore from "@/store/property";
 
-const MarketerBusinessPage = ({ marketerId }) => {
+const MarketerBusinessPage = () => {
   // console.log(marketerId)
+  const { marketerId } = usePropertyListedAllStore();
   const [tabName, setTabName] = useState("properties");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [selectedRooms, setSelectedRooms] = useState("");
@@ -148,11 +150,9 @@ const MarketerBusinessPage = ({ marketerId }) => {
   const handleSearch = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    let query = `/properties/${marketerId}/marketerproperties?numberOfBathrooms=${
-      selectedRooms && selectedRooms
-    }&propertyType=${selectedProperty && selectedProperty}&state=${
-      searchQuery && searchQuery
-    }`;
+    let query = `/properties/${marketerId}/marketerproperties?numberOfBathrooms=${selectedRooms && selectedRooms
+      }&propertyType=${selectedProperty && selectedProperty}&state=${searchQuery && searchQuery
+      }`;
     setTimeout(async () => {
       try {
         const filteredData = await fetchPropertyData(query);
@@ -315,21 +315,19 @@ const MarketerBusinessPage = ({ marketerId }) => {
             <section className="flex justify-between items-center filter sm:mt-10 sm:border-t sm:pt-5">
               <div className="flex items-center sm:gap-[16px] gap-2 ">
                 <button
-                  className={`flex text-[12.5px] sm:text-[14px] py-2 px-4 leading-[21px]  items-center justify-center font-[500] h-[37px] rounded-[4px] ${
-                    tabName === "properties"
+                  className={`flex text-[12.5px] sm:text-[14px] py-2 px-4 leading-[21px]  items-center justify-center font-[500] h-[37px] rounded-[4px] ${tabName === "properties"
                       ? "bg-BlueHomz text-white"
                       : "text-[#006AFF] hover:bg-blue-200 bg-[#EEF5FF]"
-                  }`}
+                    }`}
                   onClick={() => setTabName("properties")}
                 >
                   Properties
                   {/* className="bg-white py-[2px] px-[10px] flex justify-center items-center rounded-[16px] ml-2" */}
                   <span
-                    className={`sm:py-[2px] sm:px-[10px] px-[7px] py-[1px] flex justify-center items-center text-[11px] leading-[16.5px] font-[400] rounded-[16px] ml-2 ${
-                      tabName != "properties"
+                    className={`sm:py-[2px] sm:px-[10px] px-[7px] py-[1px] flex justify-center items-center text-[11px] leading-[16.5px] font-[400] rounded-[16px] ml-2 ${tabName != "properties"
                         ? "bg-BlueHomz text-white"
                         : "text-BlackHomz hover:bg-blue-200 bg-[#EEF5FF]"
-                    }`}
+                      }`}
                   >
                     <span className="">
                       {(properties && properties.length) || "0"}
@@ -339,11 +337,10 @@ const MarketerBusinessPage = ({ marketerId }) => {
                 {/* className="border-[#006AFF] w-fit text-[14px] text-[#006AFF] font-[400] h-[37px] px-[12px] py-[8px] rounded-[4px] border text-center flex items-center gap-2" */}
                 <button
                   onClick={() => setTabName("profile")}
-                  className={`flex text-[12.5px] sm:text-[14px] py-2 px-4 leading-[21px] items-center justify-center rounded-[4px] h-[37px] font-[500] ${
-                    tabName === "profile"
+                  className={`flex text-[12.5px] sm:text-[14px] py-2 px-4 leading-[21px] items-center justify-center rounded-[4px] h-[37px] font-[500] ${tabName === "profile"
                       ? "bg-BlueHomz text-white"
                       : "text-[#006AFF] hover:bg-blue-200 bg-[#EEF5FF]"
-                  }`}
+                    }`}
                 >
                   Company Profile
                 </button>
