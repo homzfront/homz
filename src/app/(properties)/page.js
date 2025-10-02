@@ -96,6 +96,10 @@ const HomePage = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const images = [
+    "/seyi.jpg", "/ateef.png", "/sijiDaniels.png", "/sam.png", "/advocate.png"
+  ]
+
   const handleOpen = (e) => {
     e.preventDefault();
     setOpenFilter(!openFilter);
@@ -279,6 +283,32 @@ const HomePage = () => {
     className: "center",
     centerMode: true,
     centerPadding: "0%",
+    autoplay: true,
+    autoplaySpeed: 3000,
+    prevArrow: null,
+    nextArrow: null,
+  };
+
+  const logoSlidesToShow = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth > 1270) return 5;
+      if (window.innerWidth > 1024) return 4;
+      if (window.innerWidth > 768) return 3;
+      return 1;
+    }
+    return 1;
+  };
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const logoSliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
+    slidesToShow: logoSlidesToShow(),
+    centerMode: isMobile,
+    centerPadding: isMobile ? "10%" : "0",
     autoplay: true,
     autoplaySpeed: 3000,
     prevArrow: null,
@@ -1128,6 +1158,25 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="px-[8%] bg-white py-[40px] md:py-[80px] flex flex-col items-center gap-6 justify-center w-full">
+        <h2 className="text-[20px] md:text-[26px] text-GrayHomz font-semibold text-center">
+          We’re Proudly serving forward-thinking companies
+        </h2>
+        <Slider {...logoSliderSettings} className="w-full mt-8">
+          {
+            images.map((data) => (
+              <div className="flex justify-center">
+                <Image
+                  src={data}
+                  alt="img"
+                  height={95}
+                  width={240}
+                />
+              </div>
+            ))
+          }
+        </Slider>
       </div>
       <div className="h-auto md:h-[303px] py-[20px] md:py-0 w-full bg-center bg-cover bg-[url('/Background-image.png')] bg-black">
         <div className="h-[239px] md:h-[303px]  flex flex-col items-center gap-[15px] justify-center mb-2">
