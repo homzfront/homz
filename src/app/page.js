@@ -3,6 +3,7 @@ import Header from "../components/layout/Header";
 import HomePage from "./(properties)/page";
 
 export default function Home() {
+  
   return (
     <div>
       <Header />
