@@ -1,11 +1,13 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import usePropertyStore from '@/store/usePropertyStore';
 import PropertyCard from '../../components/propertyCard';
 import ParamsComponent from '../../components/paramsComponent';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
 
 const Rent = () => {
+  const searchParams = useSearchParams();
   const {
     property,
     currentPage,
@@ -18,7 +20,30 @@ const Rent = () => {
     loadingII,
     setLoadingII,
     properties,
+    initializeFromUrl,
+    setFilters,
+    filters,
   } = usePropertyStore();
+
+  // Initialize filters from URL params (from homepage search)
+  useEffect(() => {
+    const urlFilters = {
+      search: searchParams.get('search') || '',
+      propertyType: searchParams.get('propertyType') || null,
+      minPrice: searchParams.get('minPrice') || null,
+      maxPrice: searchParams.get('maxPrice') || null,
+      numberOfBathrooms: searchParams.get('numberOfBathrooms') || null,
+      listingType: 'for rent',
+    };
+    
+    // Only initialize if there are actual search params or if filters are empty
+    const hasSearchParams = Array.from(searchParams.entries()).length > 0;
+    const filtersAreEmpty = !filters.listingType || filters.listingType !== 'for rent';
+    
+    if (hasSearchParams || filtersAreEmpty) {
+      initializeFromUrl(urlFilters, false); // Not a footer route
+    }
+  }, [searchParams, initializeFromUrl, filters.listingType]);
 
   const {
     firstThreePages,

@@ -1,13 +1,15 @@
 "use client";
 import React, { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import PropertyCard from '../../components/propertyCard';
+import { useRouter } from 'next/navigation';
 import usePropertyStore from '@/store/usePropertyStore';
-import ParamsComponent from '../../components/paramsComponent';
+import PropertyCard from '../../../../components/propertyCard';
+import ParamsComponent from '../../../../components/paramsComponent';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
+import { parseUrlToFilters, generatePageMetadata } from '@/utils/urlParamsParser';
 
-const Sales = () => {
-  const searchParams = useSearchParams();
+const RentByLocationAndType = ({ params }) => {
+  const router = useRouter();
+  
   const {
     property,
     currentPage,
@@ -21,35 +23,25 @@ const Sales = () => {
     setLoadingII,
     properties,
     initializeFromUrl,
-    filters,
   } = usePropertyStore();
-
-  // Initialize filters from URL params (from homepage search)
-  useEffect(() => {
-    const urlFilters = {
-      search: searchParams.get('search') || '',
-      propertyType: searchParams.get('propertyType') || null,
-      minPrice: searchParams.get('minPrice') || null,
-      maxPrice: searchParams.get('maxPrice') || null,
-      numberOfBathrooms: searchParams.get('numberOfBathrooms') || null,
-      listingType: 'for sale',
-    };
-    
-    // Only initialize if there are actual search params or if filters are empty
-    const hasSearchParams = Array.from(searchParams.entries()).length > 0;
-    const filtersAreEmpty = !filters.listingType || filters.listingType !== 'for sale';
-    
-    if (hasSearchParams || filtersAreEmpty) {
-      initializeFromUrl(urlFilters, false); // Not a footer route
-    }
-  }, [searchParams, initializeFromUrl, filters.listingType]);
 
   const {
     firstThreePages,
     lastThreePages,
-    reset,
+    reset: baseReset,
     handleListingType,
   } = usePropertyActions();
+
+  // Custom reset for dynamic pages - redirect to base rent page
+  const reset = () => {
+    router.push('/rent');
+  };
+
+  // Initialize filters based on URL parameters
+  useEffect(() => {
+    const urlFilters = parseUrlToFilters(params, 'rent');
+    initializeFromUrl(urlFilters, true); // Mark as footer route
+  }, [params, initializeFromUrl]);
 
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
@@ -77,4 +69,4 @@ const Sales = () => {
   );
 };
 
-export default Sales;
+export default RentByLocationAndType;

@@ -295,9 +295,9 @@ const HomePage = () => {
 
   const logoSlidesToShow = () => {
     if (typeof window !== "undefined") {
-      if (window.innerWidth > 1270) return 5;
-      if (window.innerWidth > 1024) return 4;
-      if (window.innerWidth > 768) return 3;
+      if (window.innerWidth > 1270) return 3.5; // Show partial slides to force sliding
+      if (window.innerWidth > 1024) return 3;
+      if (window.innerWidth > 768) return 2.5;
       return 1;
     }
     return 1;
@@ -308,15 +308,21 @@ const HomePage = () => {
   const logoSliderSettings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 2000,
     slidesToScroll: 1,
     slidesToShow: logoSlidesToShow(),
-    centerMode: isMobile,
-    centerPadding: isMobile ? "10%" : "0",
+    centerMode: true,
+    centerPadding: isMobile ? "10%" : "20%",
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 0,
     prevArrow: null,
     nextArrow: null,
+    cssEase: "linear",
+    pauseOnHover: false,
+    pauseOnFocus: false,
+    variableWidth: false,
+    useTransform: true,
+    swipeToSlide: true,
   };
 
   return (
