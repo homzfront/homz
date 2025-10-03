@@ -32,20 +32,6 @@ import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import ExpiredPlanModal from '@/pages/dashboard/enterprise/components/expiredPlanModal';
 import VideoModal from '@/components/general/videoModal'
 
-export const metadata = {
-  title: "Generate Property Documents Online - Tenancy Agreements",
-  description: "Create professional property documents instantly. Generate tenancy agreements, rent receipts, and quit notices with our compliant document generation tool. Try it free.",
-  openGraph: {
-    title: "Generate Property Documents Online - Tenancy Agreements",
-    description: "Create professional property documents instantly. Generate tenancy agreements, rent receipts, and quit notices with our compliant document generation tool. Try it free.",
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Generate Property Documents Online - Tenancy Agreements",
-    description: "Create professional property documents instantly. Generate tenancy agreements, rent receipts, and quit notices with our compliant document generation tool. Try it free.",
-  }
-};
-
 const videoUrl = "https://youtu.be/biBbcYaJboQ?si=KVIXlliYFGPHpdap"
 const videoUrl2 = "https://youtu.be/bITV-yk-l1M?si=q2KPHzw-3GN9Kugs"
 const videoUrl3 = "https://youtu.be/ZiELgNXtz4Y?si=9n5wEQpNmMxjfoxJ"
