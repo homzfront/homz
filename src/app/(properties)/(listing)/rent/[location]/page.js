@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import usePropertyStore from '@/store/usePropertyStore';
 import PropertyCard from '../../../components/propertyCard';
 import ParamsComponent from '../../../components/paramsComponent';
+
+import PropertyBanner from '@/components/properties/PropertyBanner';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
 import { parseUrlToFilters, generatePageMetadata } from '@/utils/urlParamsParser';
 
@@ -23,6 +25,8 @@ const RentByLocation = ({ params }) => {
     setLoadingII,
     properties,
     initializeFromUrl,
+    showBanner,
+    bannerData,
   } = usePropertyStore();
 
   const {
@@ -45,6 +49,14 @@ const RentByLocation = ({ params }) => {
 
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
+      {showBanner && bannerData && (
+        <PropertyBanner 
+          location={bannerData.location}
+          propertyType={bannerData.propertyType}
+          listingType={bannerData.listingType}
+        />
+      )}
+      
       <ParamsComponent reset={reset} handleListingType={handleListingType} />
 
       <div className="w-[337px] md:mt-3 md:w-full">

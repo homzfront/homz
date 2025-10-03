@@ -13,6 +13,8 @@ const usePropertyStore = create((set, get) => ({
     properties: null,
     otherProperties: null,
     isFooterRoute: false, // Flag to prevent URL param updates
+    showBanner: false, // Flag to show the property banner
+    bannerData: null, // Store banner information
     filters: {
         search: '',
         propertyType: null,
@@ -30,6 +32,8 @@ const usePropertyStore = create((set, get) => ({
     setTotalData: (total) => set({ totalData: total }),
     setLoadingII: (loadingII) => set({ loadingII }),
     setIsFooterRoute: (isFooter) => set({ isFooterRoute: isFooter }),
+    setShowBanner: (show) => set({ showBanner: show }),
+    setBannerData: (data) => set({ bannerData: data }),
 
     // Initialize filters from URL and fetch properties
     initializeFromUrl: async (newFilters, isFromFooter = false) => {
@@ -68,7 +72,9 @@ const usePropertyStore = create((set, get) => ({
             currentPage: 1,
             loading: true,
             loadingII: true,
-            isFooterRoute: isFromFooter && !hasUrlParams
+            isFooterRoute: isFromFooter && !hasUrlParams,
+            showBanner: isFromFooter && !hasUrlParams, // Show banner for clean footer routes
+            bannerData: isFromFooter && !hasUrlParams ? newFilters : null
         });
         // The fetchProperties will be called by the usePropertyActions hook
     },

@@ -233,7 +233,7 @@ const Header = () => {
               href={`${
                 pathname !== "/enterprise" ||
                 pathname !== "/document-generation"
-                  ? "/enterprise"
+                  ? ""
                   : ""
               }`}
               className={`${
@@ -247,8 +247,8 @@ const Header = () => {
               {pathname === "/document-generation"
                 ? "Document Generation"
                 : pathname === "/enterprise"
-                ? "Property Management"
-                : "Property Management"}
+                ? "Products"
+                : "Products"}
             </Link>
             <div
               onClick={toggleSubMenu}

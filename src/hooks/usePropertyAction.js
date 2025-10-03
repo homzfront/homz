@@ -21,6 +21,7 @@ export const usePropertyActions = () => {
         reset: resetFilter,
         isFooterRoute,
         setIsFooterRoute,
+        setShowBanner,
     } = usePropertyStore();
 
     const handleListingType = (query) => {
@@ -140,6 +141,7 @@ export const usePropertyActions = () => {
             routeType = 'base';
             shouldUpdateUrl = true;
             setIsFooterRoute(false); // Never a footer route
+            setShowBanner(false); // Hide banner for homepage searches
         } else if (isDynamicRoute) {
             // Dynamic routes (/rent/lagos, /rent/lagos/mini-flat) - Footer routes
             routeType = 'dynamic';
@@ -148,6 +150,7 @@ export const usePropertyActions = () => {
                 // If we already have URL params, preserve them (came from homepage or user added filters)
                 shouldUpdateUrl = true;
                 setIsFooterRoute(false); // Act like normal route with params
+                setShowBanner(false); // Hide banner when params exist
             } else {
                 // No URL params - check if user has added manual filters
                 const hasManualFilters = Object.keys(queryParams).some(key => {
@@ -170,11 +173,12 @@ export const usePropertyActions = () => {
                 });
                 
                 if (hasManualFilters) {
-                    // User added filters - show URL params
+                    // User added filters - show URL params and hide banner
                     shouldUpdateUrl = true;
                     setIsFooterRoute(false);
+                    setShowBanner(false);
                 } else {
-                    // Clean footer route - no URL params
+                    // Clean footer route - no URL params, banner can be shown
                     shouldUpdateUrl = false;
                     setIsFooterRoute(true);
                 }
@@ -184,6 +188,7 @@ export const usePropertyActions = () => {
             routeType = 'other';
             shouldUpdateUrl = true;
             setIsFooterRoute(false);
+            setShowBanner(false); // Hide banner for other routes
         }
 
         // Update URL if allowed
