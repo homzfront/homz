@@ -238,9 +238,13 @@ const HomePage = () => {
     return null;
   }
 
-  const [windowWidth, setWindowWidth] = useState(getWindowDimensions());
+  const [windowWidth, setWindowWidth] = useState(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+    setWindowWidth(getWindowDimensions());
+    
     if (typeof window !== "undefined") {
       function handleResize() {
         setWindowWidth(getWindowDimensions());
@@ -820,7 +824,7 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {(
+                    {isClient && (
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
                         carouselTheme={customTheme}
@@ -848,7 +852,7 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {(
+                    {isClient && (
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
                         carouselTheme={customTheme}
@@ -876,7 +880,7 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {(
+                    {isClient && (
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
                         carouselTheme={customTheme}
@@ -904,7 +908,7 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {(
+                    {isClient && (
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
                         carouselTheme={customTheme}
@@ -1164,10 +1168,25 @@ const HomePage = () => {
             <h2 className="text-[20px] md:text-[26px] text-GrayHomz font-semibold text-center">
               We’re Proudly serving forward-thinking companies
             </h2>
-            <Slider {...logoSliderSettings} className="w-full mt-8">
-              {
-                images.map((data, index) => (
-                  <div key={index} className="flex justify-center">
+            {isClient ? (
+              <Slider {...logoSliderSettings} className="w-full mt-8">
+                {
+                  images.map((data, index) => (
+                    <div key={index} className="flex justify-center px-2">
+                      <Image
+                        src={data}
+                        alt="img"
+                        height={95}
+                        width={240}
+                      />
+                    </div>
+                  ))
+                }
+              </Slider>
+            ) : (
+              <div className="w-full mt-8 flex justify-center gap-4 overflow-hidden">
+                {images.slice(0, 3).map((data, index) => (
+                  <div key={index} className="flex justify-center px-2">
                     <Image
                       src={data}
                       alt="img"
@@ -1175,9 +1194,9 @@ const HomePage = () => {
                       width={240}
                     />
                   </div>
-                ))
-              }
-            </Slider>
+                ))}
+              </div>
+            )}
           </div>
           <div className="h-auto md:h-[303px] py-[20px] md:py-0 w-full bg-center bg-cover bg-[url('/Background-image.png')] bg-black">
             <div className="h-[239px] md:h-[303px]  flex flex-col items-center gap-[15px] justify-center mb-2">
