@@ -46,8 +46,10 @@ let address="ikeja lagos"
   }, [addressData]);
 
   const onLoad = useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
+    if (typeof window !== 'undefined' && window.google) {
+      const bounds = new window.google.maps.LatLngBounds(center);
+      map.fitBounds(bounds);
+    }
     setMap(map);
   }, [center]);
 

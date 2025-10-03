@@ -35,14 +35,14 @@ const InternationalPassport = ({ passportProfile, customerReference, applicantDa
     useBodyScroll([isOpen]);
 
     const viewFile = (file) => {
-        if (file) {
+        if (file && typeof window !== 'undefined') {
             const fileURL = URL.createObjectURL(file);
             window.open(fileURL);
         }
     };
 
     const viewFileII = (file) => {
-        if (file) {
+        if (file && typeof window !== 'undefined') {
             window.open(file);
         }
     };

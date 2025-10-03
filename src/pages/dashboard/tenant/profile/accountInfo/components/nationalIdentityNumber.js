@@ -44,14 +44,14 @@ const NationalIdentityNumber = ({ nationalProfile, fetchData }) => {
     useBodyScroll([isOpen]);
 
     const viewFile = (file) => {
-        if (file) {
+        if (file && typeof window !== 'undefined') {
             const fileURL = URL.createObjectURL(file);
             window.open(fileURL);
         }
     };
 
     const viewFileII = (file) => {
-        if (file) {
+        if (file && typeof window !== 'undefined') {
             window.open(file);
         }
     };
@@ -152,14 +152,16 @@ const NationalIdentityNumber = ({ nationalProfile, fetchData }) => {
                                     onClick={() => {
                                         const base64Image = nationalProfile?.nin_data?.photo;
 
-                                        if (base64Image) {
+                                        if (base64Image && typeof window !== 'undefined') {
                                             // Convert Base64 to a Data URL
                                             const imageUrl = `data:image/jpeg;base64,${base64Image}`;
 
                                             // Open the image in a new tab
                                             const newTab = window.open();
-                                            newTab.document.write(`<img src="${imageUrl}" style="width:100%; height:auto;" />`);
-                                            newTab.document.close();
+                                            if (newTab) {
+                                                newTab.document.write(`<img src="${imageUrl}" style="width:100%; height:auto;" />`);
+                                                newTab.document.close();
+                                            }
 
                                             // Create a temporary link to download the image
                                             const link = document.createElement("a");

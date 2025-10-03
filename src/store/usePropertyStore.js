@@ -75,7 +75,9 @@ const usePropertyStore = create((set, get) => ({
         });
 
         try {
-            const urlParams = new URLSearchParams(window.location.search);
+            const urlParams = typeof window !== 'undefined' 
+                ? new URLSearchParams(window.location.search)
+                : new URLSearchParams();
             const page = urlParams.get("page") || currentPage;
 
             const response = await api.get(
@@ -111,7 +113,9 @@ const usePropertyStore = create((set, get) => ({
                 loadingII: false,
             });
         }
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
     },
 
     handleFilterChange: (key, value) => {

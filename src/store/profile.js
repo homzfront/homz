@@ -52,7 +52,9 @@ const useProfileStore = create((set) => ({
         useLandlordLogin.getState().clearRouteTo()
       }
       
-      window.location.href = '/';
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     } catch (error) {
       // console.error('Error logging out:', error);
     }
