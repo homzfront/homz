@@ -9,7 +9,7 @@ const Hero = ({ routeTo, profile }) => {
         <div className="max-w-[1160px] mx-auto py-24 px-8">
           <div className="flex flex-col items-center text-white">
             <h1 className="text-center text-[24px] lg:text-[41px] font-bold">
-              Effortless Property Ownership Starts Here
+              Professional Property Management Software for Nigerian Landlords
             </h1>
             <p className="max-w-[894px] text-center mt-6 text-[16px] lg:text-xl font-medium">
               Enjoy timely rent, verified Tenants, and a dedicated dashboard for monitoring your properties with our comprehensive management services.

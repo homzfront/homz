@@ -102,13 +102,12 @@ const Section = (routeTo, profile) => {
     <div className=" flex flex-col mt-16 max-w-[1160px] m-auto px-6 gap-14 py-4">
       <div>
         <div className="flex flex-col justify-center items-center">
-          <p className=" hidden sm:inline text-[41px] font-[700] text-center leading-tight text-BlackHomz">
-            All-in-one account portal to manage and monitor your property and
-            schedule maintenance.
-          </p>
-          <p className="text-[29px] sm:hidden font-[700] text-center">
-            All-In-One Portal For Property Management
-          </p>
+          <h1 className=" hidden sm:inline text-[41px] font-[700] text-center leading-tight text-BlackHomz">
+            All-In-One Property Management Software for Professional Managers
+          </h1>
+          <h1 className="text-[29px] sm:hidden font-[700] text-center">
+            All-In-One Property Management Software for Professional Managers
+          </h1>
           <p className="text-[18px] sm:text-[20px] max-w-[1024px] font-[500] mt-2 text-center text-GrayHomz">
             Elevate your property management game with our intuitive and
             efficient software solution. Seamlessly manage your renter database,
