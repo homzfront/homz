@@ -7,7 +7,7 @@ const SectionA = ({ routeTo, profile }) => {
     <div className="max-w-[1160px] m-auto px-6 mt-20 justify-center gap-8 sm:flex-row h-auto sm:h-[540px] flex flex-col">
       <div className="sm:w-[50%] flex flex-col gap-4 justify-center mt-0">
         <h1 className="text-[29px] sm:text-[41px] leading-snug sm:text-start text-center font-[700] text-BlackHomz">
-          Enjoy The Convenience <br /> You Deserve As A Tenant.
+          The Convenient Tenant Experience You Deserve
         </h1>
         <p className="text-[18px] sm:text-[20px] max-w-[735px] sm:text-start text-center font-[500] text-GrayHomz">
           Streamline rent payments, savings, maintenance requests, and

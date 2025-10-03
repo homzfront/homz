@@ -32,6 +32,20 @@ import { checkPlanLimits } from "@/utils/checkPlanLimits";
 import ExpiredPlanModal from '@/pages/dashboard/enterprise/components/expiredPlanModal';
 import VideoModal from '@/components/general/videoModal'
 
+export const metadata = {
+  title: "Generate Property Documents Online - Tenancy Agreements",
+  description: "Create professional property documents instantly. Generate tenancy agreements, rent receipts, and quit notices with our compliant document generation tool. Try it free.",
+  openGraph: {
+    title: "Generate Property Documents Online - Tenancy Agreements",
+    description: "Create professional property documents instantly. Generate tenancy agreements, rent receipts, and quit notices with our compliant document generation tool. Try it free.",
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Generate Property Documents Online - Tenancy Agreements",
+    description: "Create professional property documents instantly. Generate tenancy agreements, rent receipts, and quit notices with our compliant document generation tool. Try it free.",
+  }
+};
+
 const videoUrl = "https://youtu.be/biBbcYaJboQ?si=KVIXlliYFGPHpdap"
 const videoUrl2 = "https://youtu.be/bITV-yk-l1M?si=q2KPHzw-3GN9Kugs"
 const videoUrl3 = "https://youtu.be/ZiELgNXtz4Y?si=9n5wEQpNmMxjfoxJ"
@@ -39,21 +53,21 @@ const videoUrl3 = "https://youtu.be/ZiELgNXtz4Y?si=9n5wEQpNmMxjfoxJ"
 const DocSolution = [
     {
         id: 1,
-        title: "Tenancy Agreement",
-        body: "Generate comprehensive  and customizable tenancy agreements.",
+        title: "Tenancy Agreements",
+        body: "Generate comprehensive and customizable tenancy agreements.",
         image: < DocDocu />,
         video: <VideoModal videoUrl={videoUrl} />
     },
     {
         id: 2,
-        title: "Receipts",
+        title: "Rent Receipts and Invoices",
         body: "Create and send professional rent invoices and receipts.",
         image: < DocReceipt />,
         video: <VideoModal videoUrl={videoUrl2} />
     },
     {
         id: 3,
-        title: "Quit Notice",
+        title: "Quit Notices",
         body: "Handle tenant eviction processes with legally compliant notices.",
         image: < QuickNotice />,
         video: <VideoModal videoUrl={videoUrl3} />
@@ -63,17 +77,17 @@ const DocSolution = [
 const DocSolutionII = [
     {
         id: 1,
-        title: "Choose Document",
+        title: "Choose Your Document Type",
         body: "Pick the type of document you need to generate.",
     },
     {
         id: 2,
-        title: "Fill in Details",
+        title: "Fill in Property Details",
         body: "Enter the necessary information to customize your document.",
     },
     {
         id: 3,
-        title: "Review & Generate",
+        title: "Review and Generate",
         body: "Review the pre-filled document, make any edits, and generate your document.",
     }
 ]
@@ -225,9 +239,9 @@ const DocumentGene = () => {
                                     </div>
                                 </div>
                                 <div className='text-center md:text-start flex flex-col gap-2'>
-                                    <p className='text-[25px] lg:text-[41px] font-[700] text-BlackHomz leading-tight'>
-                                        One-Click Property documents generation
-                                    </p>
+                                    <h1 className='text-[25px] lg:text-[41px] font-[700] text-BlackHomz leading-tight'>
+                                        Generate Professional Property Documents in One Click
+                                    </h1>
                                     <p className='text-[18px] lg:text-[20px] font-[500] text-GrayHomz'>
                                         Easily create and manage all essential property-related documents in one place.
                                     </p>
@@ -364,9 +378,9 @@ const DocumentGene = () => {
             <div ref={docSolutionRef} className='my-[60px] md:my-14 w-full'>
                 <div className='flex justify-center w-full'>
                     <div className='flex flex-col justify-center w-full px-8'>
-                        <p className='text-[23px] lg:text-[36px] font-[700] text-BlackHomz text-center'>
-                            Comprehensive Document Solutions
-                        </p>
+                        <h2 className='text-[23px] lg:text-[36px] font-[700] text-BlackHomz text-center'>
+                            Create Legally Compliant Property Documents
+                        </h2>
                         <p className='text-[18px] lg:text-[20px] font-[500] text-GrayHomz text-center'>
                             Meticulously designed to simplify and streamline your document creation process.
                         </p>
@@ -386,9 +400,9 @@ const DocumentGene = () => {
                                         <div className='w-[45px] h-[45px] rounded-full bg-white flex justify-center items-center'>
                                             {data.image}
                                         </div>
-                                        <p className='text-[20px] font-[600] text-BlackHomz group-hover:text-white text-center'>
+                                        <h3 className='text-[20px] font-[600] text-BlackHomz group-hover:text-white text-center'>
                                             {data.title}
-                                        </p>
+                                        </h3>
                                         <p className='text-[18px] font-[400] text-GrayHomz group-hover:text-white text-center'>
                                             {data.body}
                                         </p>
@@ -435,9 +449,9 @@ const DocumentGene = () => {
                             </div>
                         </div>
                         <p className='text-[18px] font-[500] text-BlueHomz'>How It Works</p>
-                        <p className='text-[23px] md:text-[36px] font-[700] text-BlackHomz text-center lg:w-[550px] leading-tight mt-2'>
-                            Seamless Document Generation in Just a Few Steps
-                        </p>
+                        <h2 className='text-[23px] md:text-[36px] font-[700] text-BlackHomz text-center lg:w-[550px] leading-tight mt-2'>
+                            How Our Document Generation Works
+                        </h2>
                         <p className='text-[18px] md:text-[20px] font-[500] text-GrayHomz text-center lg:w-[680px] mt-2'>
                             Effortlessly create, customize, and manage essential property-related documents with our intuitive workflow.
                         </p>
@@ -453,7 +467,7 @@ const DocumentGene = () => {
                                 <div className='w-[45px] h-[45px] text-[20px] font-[700] text-white rounded-full bg-BlueHomz flex justify-center items-center'>
                                     {data.id}
                                 </div>
-                                <p className='text-[20px] font-[600] text-BlackHomz text-center'>{data.title}</p>
+                                <h3 className='text-[20px] font-[600] text-BlackHomz text-center'>{data.title}</h3>
                                 <p className='text-[18px] font-[400] text-GrayHomz text-center'>{data.body}</p>
                             </div>
                         </div>
