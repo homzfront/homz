@@ -14,6 +14,8 @@ const StartConversation = () => {
 
   // useEffect to handle scrolling
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     document.body.style.overflow = startConvo ? "hidden" : "auto";
     if (startConvo) {
       // Scroll to the top of the page

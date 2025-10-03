@@ -17,10 +17,12 @@ const Withdraw = ({ illuminateWallet }) => {
 
   // useEffect to handle scrolling
   useEffect(() => {
-    document.body.style.overflow = fillBankDetails ? "hidden" : "auto";
-    if (fillBankDetails) {
-      // Scroll to the top of the page
-      window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      document.body.style.overflow = fillBankDetails ? "hidden" : "auto";
+      if (fillBankDetails) {
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
+      }
     }
   }, [fillBankDetails]);
 

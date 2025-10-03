@@ -7,7 +7,7 @@ const TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
 
 const GoogleAnalytics = () => {
   useEffect(() => {
-    if (!window.location.href.includes('localhost')) { 
+    if (typeof window !== 'undefined' && !window.location.href.includes('localhost')) { 
       ReactGA.initialize(TRACKING_ID, { debug: true }); 
       ReactGA.pageview(window.location.pathname + window.location.search);
     }

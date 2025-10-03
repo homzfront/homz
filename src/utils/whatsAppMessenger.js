@@ -13,5 +13,7 @@ export default function whatsApp(number, slug) {
   let urlApi = `whatsapp://send?text=${defaultMessage}&phone=${
     "+234" + number
   }`;
-  window.open(urlApi, "_blank", "noopener,noreferrer");
+  if (typeof window !== 'undefined') {
+    window.open(urlApi, "_blank", "noopener,noreferrer");
+  }
 }

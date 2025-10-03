@@ -410,3 +410,67 @@ export const getRentHisOwner = async () => {
     return { success: false, error: error?.response.data };
   }
 };
+
+// Missing function exports - Adding stub implementations
+export const fetchOwnerKYCData = async () => {
+  try {
+    const response = await api.get(`/profile/property-owner/kyc`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchOwnerKYCNINData = async () => {
+  try {
+    const response = await api.get(`/profile/property-owner/kyc-nin`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const enterpriseWalletOwnerCreation = async (data) => {
+  try {
+    const response = await api.post(`/wallet/create/property-owner`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const WalletTopUp = async (data) => {
+  try {
+    const response = await api.post(`/wallet/topup/property-owner`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const uploadLandlordKYC = async (data) => {
+  try {
+    const response = await api.post(`/profile/property-owner/kyc`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const uploadNINLandlordKYC = async (data) => {
+  try {
+    const response = await api.post(`/profile/property-owner/kyc-nin`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const propertyOwnerWalletActivities = async () => {
+  try {
+    const response = await api.get(`/wallet/activities/property-owner`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
