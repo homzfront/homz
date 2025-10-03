@@ -13,11 +13,11 @@ import WhatsappWhite from "../icons/whatsappWhite";
 
 const Footer = () => {
   const propertyLinks = [
-    { title: "Houses for rent in Lagos", path: "/properties/listing/rent/lagos" },
-    { title: "Houses for sale in Lagos", path: "/properties/listing/sales/lagos" },
-    { title: "Land for sale in Lagos", path: "/properties/listing/land/lagos" },
-    { title: "Mini flats for rent in Lagos", path: "/properties/listing/rent/lagos/mini-flat" },
-    { title: "Self contain for rent in Lagos", path: "/properties/listing/rent/lagos/self-contain" },
+    { title: "Houses for rent in Lagos", path: "/rent/lagos" },
+    { title: "Houses for sale in Lagos", path: "/sales/lagos" },
+    { title: "Land for sale in Lagos", path: "/land/lagos" },
+    { title: "Mini flats for rent in Lagos", path: "/rent/lagos/mini-flat" },
+    { title: "Self contain for rent in Lagos", path: "/rent/lagos/self-contain" },
   ];
 
   return (

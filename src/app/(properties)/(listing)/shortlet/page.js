@@ -1,11 +1,13 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import PropertyCard from '../../components/propertyCard';
 import usePropertyStore from '@/store/usePropertyStore';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
 import ParamsComponent from '../../components/paramsComponent';
 
 const Shortlet = () => {
+  const searchParams = useSearchParams();
   const {
     property,
     currentPage,
@@ -19,7 +21,28 @@ const Shortlet = () => {
     setLoadingII,
     properties,
     filters,
+    initializeFromUrl,
   } = usePropertyStore();
+
+  // Initialize filters from URL params (from homepage search)
+  useEffect(() => {
+    const urlFilters = {
+      search: searchParams.get('search') || '',
+      propertyType: searchParams.get('propertyType') || null,
+      minPrice: searchParams.get('minPrice') || null,
+      maxPrice: searchParams.get('maxPrice') || null,
+      numberOfBathrooms: searchParams.get('numberOfBathrooms') || null,
+      listingType: 'shortlet',
+    };
+    
+    // Only initialize if there are actual search params or if filters are empty
+    const hasSearchParams = Array.from(searchParams.entries()).length > 0;
+    const filtersAreEmpty = !filters.listingType || filters.listingType !== 'shortlet';
+    
+    if (hasSearchParams || filtersAreEmpty) {
+      initializeFromUrl(urlFilters, false); // Not a footer route
+    }
+  }, [searchParams, initializeFromUrl, filters.listingType]);
 
   const {
     firstThreePages,
