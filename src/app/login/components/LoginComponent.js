@@ -360,19 +360,13 @@ const LoginComponent = () => {
                 </button>
               </form>
               <div className="mt-[-10px]">
-                <h2 className="text-center font-[400] text-[14px]">
-                  Login to Your Homz Account
-                </h2>
-                <h3 className="text-center font-[400] text-[14px]">
-                  Forgot Your Password?
-                </h3>
                 <h3 className="text-center font-[400] text-[14px]">
                   Don't have an account?
                   <Link
                     className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
                     href={"/register"}
                   >
-                    New to Homz? Create an Account
+                    Create an Account
                   </Link>
                 </h3>
               </div>

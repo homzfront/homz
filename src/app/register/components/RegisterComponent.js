@@ -310,24 +310,6 @@ const RegisterComponent = () => {
                 }
               </form>
               <div className="mt-[-10px]">
-                <h2 className="text-center font-[400] text-[14px]">
-                  Create Your Free Homz Account
-                </h2>
-                <h2 className="text-center font-[400] text-[14px]">
-                  Choose Your Account Type
-                </h2>
-                <h3 className="text-center font-[400] text-[14px]">
-                  For Landlords
-                </h3>
-                <h3 className="text-center font-[400] text-[14px]">
-                  For Property Managers
-                </h3>
-                <h3 className="text-center font-[400] text-[14px]">
-                  For Tenants
-                </h3>
-                <h2 className="text-center font-[400] text-[14px]">
-                  Why Join Homz.ng?
-                </h2>
                 <p className="text-center font-[400] text-[14px]">
                   Already have an account?
                   <Link
