@@ -153,11 +153,11 @@ const RegisterComponent = () => {
         <div className="sm:w-[794px] w-full flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 w-[320px] sm:w-full py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[380px]">
-              <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
-                Start Managing Your Properties Professionally
+               <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
+                Create Account
               </h1>
               <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
-                Join thousands of landlords and property managers using Homz.ng
+                Your All-In-One property portal in just one click!
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div
