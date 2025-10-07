@@ -389,7 +389,7 @@ const ListingLogin = () => {
                   Don’t have an account?
                   <Link
                     className="text-center font-[700] text-[14px] text-BlueHomz  ml-1"
-                    href={"/listing-signup"}
+                    href={"/list-a-property"}
                   >
                     Create Account
                   </Link>

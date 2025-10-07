@@ -12,16 +12,16 @@ import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import useClickOutside from "@/utils/clickOutside";
 import BusinessAlert from "../icons/businessAlert";
 import Down from "../icons/Down";
+import PropertyManagement from "../icons/dashboard/propertyManagement.js";
+import PropertyListing from "../icons/dashboard/propertyListing.js";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import EnterpriseDoc from "../icons/enterpriseDoc";
-import EnterpriseBag from "../icons/enterpriseBag";
 import ArrowUpII from "../icons/arrowUpII";
+import ArrowRightSmall from "../icons/arrowRightSmall";
 
 const Header = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
-  const [active, setActive] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(false);
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
@@ -33,22 +33,18 @@ const Header = () => {
   const [hasListProperty, setHasListProperty] = useState(false);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
+  const productRef = useClickOutside(() => setSubMenuOpen(false));
   const handleOpenModal = () => {
     setOpenModalForBusi(true);
-  };
-
-  const [activeItem, setActiveItem] = useState("/enterprise");
-
-  const toggleSubMenu = () => setSubMenuOpen(!subMenuOpen);
-
-  const handleSelect = (path) => {
-    setActiveItem(path);
-    setSubMenuOpen(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const community_link = process.env.NEXT_PUBLIC_COMMUNITY_URL
+
+  const toggleSubMenu = () => setSubMenuOpen(!subMenuOpen);
 
   function hasListPropertyAccount(profile) {
     return profile?.accounts?.some(
@@ -85,10 +81,10 @@ const Header = () => {
   }, [hasListProperty]);
 
   const url = !profile
-    ? "/listing-signup"
+    ? "/list-a-property"
     : hasListProperty
-    ? "/dashboard/list_Property/addProperty"
-    : "/switch-profile";
+      ? "/dashboard/list_Property/addProperty"
+      : "/switch-profile";
 
   // Function to extract username from email address
   const extractUsername = (userOrEmail) => {
@@ -201,128 +197,169 @@ const Header = () => {
         />
       </Link>
       <nav
-        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${
-          open ? "block" : "hidden md:flex"
-        }`}
+        className={` sm:my-0 my-4 flex gap-14 md:items-center items-start flex-col md:flex-row ${open ? "block" : "hidden md:flex"
+          }`}
       >
         <div className="mt-5 text-[12px] lg:text-[16px] md:mt-0 flex gap-4 md:gap-5 lg:gap-10  flex-col md:flex-row">
           <Link
             href={"/"}
-            className={`hover:text-blue-400 ${
-              pathname === "/" ||
+            className={`hover:text-blue-400 ${pathname === "/" ||
               pathname === "/properties/PropertyListing" ||
               pathname === "/property" ||
               pathname === "/properties"
-                ? "text-BlueHomz"
-                : ""
-            }`}
+              ? "text-BlueHomz"
+              : ""
+              }`}
           >
             Home
           </Link>
           <Link
             href={"/landlord"}
-            className={`hover:text-blue-400   ${
-              pathname === "/landlord" ? "text-BlueHomz" : ""
-            }`}
+            className={`hover:text-blue-400   ${pathname === "/landlord" ? "text-BlueHomz" : ""
+              }`}
             onClick={() => setOpen(false)}
           >
             Landlord
           </Link>
           <div className="relative flex items-center gap-1">
-            <Link
-              href={`${
-                pathname !== "/enterprise" ||
-                pathname !== "/document-generation"
-                  ? ""
-                  : ""
-              }`}
-              className={`${
-                pathname === "/document-generation" ||
+            <button
+              onClick={() => {
+                toggleSubMenu();
+                setOpen(false)
+              }}
+              className={`${pathname === "/document-generation" ||
                 pathname === "/enterprise"
-                  ? "text-BlueHomz"
-                  : ""
-              } hover:text-blue-400`}
-              onClick={() => setOpen(false)}
+                ? "text-BlueHomz"
+                : ""
+                } hover:text-blue-400`}
             >
-              {pathname === "/document-generation"
-                ? "Document Generation"
-                : pathname === "/enterprise"
-                ? "Products"
-                : "Products"}
-            </Link>
-            <div
+              Products
+            </button>
+            <button
               onClick={toggleSubMenu}
               className={`mt-0.5 cursor-pointer flex`}
             >
               {subMenuOpen ? <ArrowUpII /> : <Down />}
-            </div>
+            </button>
             {subMenuOpen && (
               <div
-                className={`absolute px-3 top-5 md:top-7 py-3 flex  flex-col gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
-                   w-[210px]  sm:w-[240px] border z-[99999] bg-white
+                ref={productRef}
+                className={`absolute px-3 top-5 left-[80%] md:left-1/2 transform -translate-x-[40%] md:top-7 py-3 flex flex-col md:flex-row gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
+                 md:border z-[99999] bg-white md:shadow-lg
                 `}
               >
-                <Link
-                  onMouseEnter={() => setActive(true)}
-                  onMouseLeave={() => setActive(false)}
-                  href={"/enterprise"}
-                  className="w-full"
-                >
-                  {active ? (
-                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag className="#006AFF" />
-                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
-                        Property Management
-                      </p>
+                {/* Mobile: simplified list (icons + titles only) */}
+                <div className="md:hidden relative w-full">
+                  <div className="absolute left-10 top-0 bottom-2 w-px bg-BlackHomz" />
+                  <Link href={"/enterprise"} className="block w-full">
+                    <div
+                      className={`flex items-center gap-3 py-3 pl-14 hover:bg-whiteblue rounded-[6px] ${
+                        pathname === "/enterprise" ? "text-BlueHomz" : ""
+                      }`}
+                      onClick={() => setSubMenuOpen(false)}
+                    >
+                      <PropertyListing width="14" height="14" className="text-BlueHomz fill-BlueHomz" />
+                      <span className="flex-1 text-[12px] min-w-[180px]">Property Management</span>
                     </div>
-                  ) : (
-                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag />
-                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-                        Property Management
-                      </p>
+                  </Link>
+                  <Link href={community_link} className="block w-full">
+                    <div className={`flex items-center gap-3 py-3 pl-14 pr-2 hover:bg-whiteblue rounded-[6px]`}>
+                      <PropertyManagement width="14" height="14" className="text-[#039855] fill-[#039855]" />
+                      <span className="flex-1 text-[12px] min-w-[180px]">Estate Management</span>
                     </div>
-                  )}
-                </Link>
-                <Link
-                  onMouseEnter={() => setActiveTwo(true)}
-                  onMouseLeave={() => setActiveTwo(false)}
-                  href={"/document-generation"}
-                  className="w-full"
-                >
-                  {activeTwo ? (
-                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseDoc className="#006AFF" />
-                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
-                        Document Generation
-                      </p>
+                  </Link>
+                  <Link href={"/document-generation"} className="block w-full">
+                    <div
+                      className={`flex items-center gap-3 py-3 pl-14 pr-2 hover:bg-whiteblue rounded-[6px] ${
+                        pathname === "/document-generation" ? "text-[#DC6803]" : ""
+                      }`}
+                      onClick={() => setSubMenuOpen(false)}
+                    >
+                      <EnterpriseDoc h="14" w="14" className="#DC6803" />
+                      <span className="flex-1 text-[12px] min-w-[180px]">Document Generation</span>
                     </div>
-                  ) : (
-                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseDoc />
-                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
-                        Document Generation
-                      </p>
+                  </Link>
+                </div>
+
+                {/* Desktop/Tablet: existing detailed cards */}
+                <div className="hidden md:flex md:flex-row gap-2">
+                  <Link href={"/enterprise"} className="w-full md:min-w-[400px]">
+                    <div className="p-4 hover:bg-whiteblue flex gap-2 items-start md:bg-[#F8FBFF] bg-transparent rounded-[4px] h-auto md:h-[160px]">
+                      <button className="flex justify-center items-center rounded-full bg-BlueHomz h-[44px] min-w-[44px]">
+                        <PropertyListing className="text-BlueHomz fill-white" />
+                      </button>
+                      <div className="flex flex-col justify-between h-full">
+                        <div>
+                          <p className="text-[14px] md:text-[16px] lg:text-[18px] font-bold text-GrayHomz">
+                            Property Management
+                          </p>
+                          <h3 className="hidden md:block text-GrayHomz text-xs md:text-sm lg:text-base font-normal mt-1">
+                            Easily manage properties, tenants, and rent payments from one intuitive dashboard.
+                          </h3>
+                        </div>
+                        <button className="hidden md:flex mt-2 text-BlueHomz text-xs md:text-sm lg:text-base font-normal items-center gap-1 self-start">
+                          Explore <ArrowRightSmall className="#006AFF" />
+                        </button>
+                      </div>
                     </div>
-                  )}
-                </Link>
+                  </Link>
+                  <Link href={community_link} className="w-full md:min-w-[400px]">
+                    <div className="p-4 hover:bg-whiteblue flex gap-2 items-start md:bg-[#EFFFF8] bg-transparent rounded-[4px] h-auto md:h-[160px]">
+                      <button className="flex justify-center items-center rounded-full bg-Success h-[44px] min-w-[44px]">
+                        <PropertyManagement className="text-[#039855] fill-white" />
+                      </button>
+                      <div className="flex flex-col justify-between h-full">
+                        <div>
+                          <p className="text-[14px] md:text-[16px] lg:text-[18px] font-bold text-GrayHomz">
+                            Community & Estate Management
+                          </p>
+                          <h3 className="hidden md:block text-GrayHomz text-xs md:text-sm lg:text-base font-normal mt-1">
+                            Create and manage estates, bill tenants, and control visitor access with ease.
+                          </h3>
+                        </div>
+                        <button className="hidden md:flex mt-2 text-Success text-xs md:text-sm lg:text-base font-normal items-center gap-1 self-start">
+                          Explore <ArrowRightSmall className="#039855" />
+                        </button>
+                      </div>
+                    </div>
+                  </Link>
+                  <Link href={"/document-generation"} className="w-full md:min-w-[400px]">
+                    <div className="p-4 hover:bg-whiteblue flex gap-2 items-start md:bg-[#FFFBF8] bg-transparent rounded-[4px] h-auto md:h-[160px]">
+                      <button className="flex justify-center items-center rounded-full bg-[#DC6803] h-[44px] min-w-[44px]">
+                        <EnterpriseDoc h="20" w="20" className="#EEF5FF" />
+                      </button>
+                      <div className="flex flex-col justify-between h-full">
+                        <div>
+                          <p className="text-[14px] md:text-[16px] lg:text-[18px] font-bold text-GrayHomz">
+                            Document Generation
+                          </p>
+                          <h3 className="hidden md:block text-GrayHomz text-xs md:text-sm lg:text-base font-normal mt-1">
+                            Generate professional property documents, agreements, and legal forms instantly.
+                          </h3>
+                        </div>
+                        <button className="hidden md:flex mt-2 text-[#DC6803] text-xs md:text-sm lg:text-base font-normal items-center gap-1 self-start">
+                          Explore <ArrowRightSmall className="#DC6803" />
+                        </button>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
           <Link
             href={"/tenant"}
             // href={""}
-            className={`hover:text-blue-400 ${
-              pathname === "/tenant" ? "text-BlueHomz" : ""
-            }`}
+            className={`hover:text-blue-400 ${pathname === "/tenant" ? "text-BlueHomz" : ""
+              }`}
             onClick={() => setOpen(false)}
           >
             Tenant
           </Link>
           {data?.properties?.length > 0 &&
-          (data?.businessInfo?.isVerified === "unverified" ||
-            data?.businessInfo?.isVerified === "pending" ||
-            data?.businessInfo?.isVerified === "rejected") ? (
+            (data?.businessInfo?.isVerified === "unverified" ||
+              data?.businessInfo?.isVerified === "pending" ||
+              data?.businessInfo?.isVerified === "rejected") ? (
             <div
               className="hover:text-blue-400 cursor-pointer"
               onClick={handleOpenModal}
@@ -341,17 +378,15 @@ const Header = () => {
         </div>
       </nav>
       <div
-        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${
-          open ? "block" : "hidden md:flex"
-        } `}
+        className={`mt-[20px] md:mt-0 md:text-[12px] lg:text-[16px] ml-0 md:ml-[-20px] lg:ml-0  md:flex md:justify-center space-y-4 md:space-y-0 items-center md:space-x-4 space-x-0  ${open ? "block" : "hidden md:flex"
+          } `}
       >
         {isLoading ? (
           <div className="w-full justify-center items-center">
             {profile ? (
               <div
-                className={`flex items-center ${
-                  open ? "flex  flex-col gap-4 items-start" : "gap-2"
-                }`}
+                className={`flex items-center ${open ? "flex  flex-col gap-4 items-start" : "gap-2"
+                  }`}
               >
                 <Link href={profile ? determineUserDashboard(profile) : "/"}>
                   <p className={`w-full ${open ? "text-[12px] " : ""}`}>
@@ -360,9 +395,8 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={() => logout(logout)}
-                  className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${
-                    open ? "text-[12px]" : ""
-                  }`}
+                  className={`w-[110px] rounded-[4px] px-2 text-white bg-BlueHomz h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px]" : ""
+                    }`}
                 >
                   Logout
                 </button>
@@ -387,9 +421,8 @@ const Header = () => {
             <Link
               href="/register"
               //  href={"https://forms.gle/aCwKh8aW7goPoRGWA"}
-              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${
-                open ? "text-[12px] " : ""
-              }`}
+              className={`  w-[147px] rounded-[4px]  text-white bg-BlueHomz items-center flex justify-center h-[48px] py-1 hover:bg-blue-400 ${open ? "text-[12px] " : ""
+                }`}
             >
               Create Account
               {/* Join Waitlist */}

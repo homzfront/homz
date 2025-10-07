@@ -1215,7 +1215,7 @@ const HomePage = () => {
               </p>
               <div className="flex gap-2 mt-2">
                 <Link
-                  href=""
+                  href="/all"
                   className="w-[170px] flex justify-center items-center h-[48px] border border-r-white text-white bg-[#006AFF] text-[14px] md:text-[16px] md:font-[500] md:leading-[24px] rounded-[4px]"
                 >
                   Explore properties

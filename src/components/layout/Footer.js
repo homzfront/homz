@@ -71,7 +71,7 @@ const Footer = () => {
               <Link href={"/about-us"}>
                 <p>About Us</p>
               </Link>
-              <Link href={"/properties/PropertyListing?page=1"}>
+              <Link href={"/all"}>
                 <p>Properties</p>
               </Link>
               <Link href={"/privacy-policy"}>

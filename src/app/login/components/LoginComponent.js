@@ -287,8 +287,8 @@ const LoginComponent = () => {
         <div className="sm:w-[794px] w-full px-6 flex flex-col justify-around items-center">
           <div className="h-[85%] px-6 W-[320px] sm:w-full py-4">
             <div className="flex flex-col gap-6 m-auto  max-w-[360px]">
-              <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
-                Access Your Property Management Dashboard
+             <h1 className="text-start  text-[36px] font-[700] text-BlackHomz">
+                Welcome Back
               </h1>
               <p className="mt-[-10px] text-[16px] font-[400] text-GrayHomz">
                 Welcome back, please enter your details.
