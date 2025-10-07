@@ -42,10 +42,10 @@ const Header = () => {
     fetchData();
   }, []);
 
-  const community_link = process.env.NEXT_PUBLIC_COMMUNITY_URL
+  const community_link = process.env.NEXT_PUBLIC_COMMUNITY_URL || "https://community.homz.ng/"
 
   const toggleSubMenu = () => setSubMenuOpen(!subMenuOpen);
-
+  
   function hasListPropertyAccount(profile) {
     return profile?.accounts?.some(
       (account) => account.name === "LIST_PROPERTY"
