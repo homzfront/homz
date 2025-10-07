@@ -12,6 +12,8 @@ import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
 import useClickOutside from "@/utils/clickOutside";
 import BusinessAlert from "../icons/businessAlert";
 import Down from "../icons/Down";
+import PropertyManagement from "../icons/dashboard/PropertyManagement";
+import PropertyListing from "../icons/dashboard/PropertyListing";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import EnterpriseDoc from "../icons/enterpriseDoc";
@@ -22,6 +24,7 @@ const Header = () => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [active, setActive] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
+  const [activeThree, setActiveThree] = useState(false);
   const [openModalForBusi, setOpenModalForBusi] = useState(false);
   const dropdownRef = useClickOutside(() => setOpenModalForBusi(false)); // Use the custom hook
   const [open, setOpen] = useState(false);
@@ -85,7 +88,7 @@ const Header = () => {
   }, [hasListProperty]);
 
   const url = !profile
-    ? "/listing-signup"
+    ? "/list-a-property"
     : hasListProperty
     ? "/dashboard/list_Property/addProperty"
     : "/switch-profile";
@@ -270,14 +273,36 @@ const Header = () => {
                 >
                   {active ? (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag className="#006AFF" />
+                      <PropertyManagement className="#006AFF" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
                         Property Management
                       </p>
                     </div>
                   ) : (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseBag />
+                      <PropertyManagement />
+                      <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+                        Property Management
+                      </p>
+                    </div>
+                  )}
+                </Link>
+                                <Link
+                  onMouseEnter={() => setActive(true)}
+                  onMouseLeave={() => setActive(false)}
+                  href={"/enterprise"}
+                  className="w-full"
+                >
+                  {active ? (
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <PropertyListing className="#006AFF" />
+                          <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
+                            Property Management
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
+                      <PropertyListing />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
                         Property Management
                       </p>
@@ -292,14 +317,14 @@ const Header = () => {
                 >
                   {activeTwo ? (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseDoc className="#006AFF" />
+                      <EnterpriseDoc h="20" w="20" className="#006AFF" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 text-[#006AFF]">
                         Document Generation
                       </p>
                     </div>
                   ) : (
                     <div className="p-2 hover:bg-whiteblue flex gap-1 items-center h-full w-full rounded-md">
-                      <EnterpriseDoc />
+                      <EnterpriseDoc h="20" w="20" />
                       <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
                         Document Generation
                       </p>
