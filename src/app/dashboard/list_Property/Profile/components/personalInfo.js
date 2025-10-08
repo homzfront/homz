@@ -16,12 +16,12 @@ const PersonalInfo = ({ handleUpdate, data }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [whatsApp, setWhatsApp] = useState("");
   const [whatsappFormatted, setWhatsAppFormatted] = useState("");
-  const [isFocus, setFocus] = useState(false);
+  // const [isFocus, setFocus] = useState(false);
   const phoneFormat = /^((\+234)+|0)[7-9]{1}[0-9]{9}$/;
 
-  function addLeadingZero(number) {
-    return number?.toString()?.startsWith("0") ? number : "0" + number;
-  }
+  // function addLeadingZero(number) {
+  //   return number?.toString()?.startsWith("0") ? number : "0" + number;
+  // }
   // console.log(data)
   useEffect(() => {
     if (data) {

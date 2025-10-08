@@ -176,7 +176,7 @@ export default function PropertyStatsChart() {
             className="p-2 border rounded"
             disabled
           >
-            <option value="">All Months</option>
+            <option value="All Months">All Months</option>
             {months.map((month) => (
               <option key={month.value} value={month.value}>
                 {month.label}
