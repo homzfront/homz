@@ -18,6 +18,7 @@ import {
   startOfYear,
   endOfYear,
 } from "date-fns";
+import { useMutation } from "@tanstack/react-query";
 
 // Register ChartJS components
 ChartJS.register(
@@ -50,8 +51,16 @@ export default function PropertyStatsChart() {
 
   //   fetchData();
   // }, []);
-
+  const { mutate: fetchMetrics } = useMutation({
+    mutationFn: async (year, month) => {
+      return await api.post(`/properties/metrics-summary`, {
+        year,
+        month,
+      });
+    },
+  });
   const filteredData = data.map((property) => {
+    const metrics = fetchMetrics(selectedYear, selectedMonth);
     const filteredStats = property.stats.filter((stat) => {
       const date = parseISO(stat.date);
       const yearMatches = date.getFullYear() === selectedYear;
@@ -59,6 +68,7 @@ export default function PropertyStatsChart() {
         selectedMonth === null || date.getMonth() === selectedMonth;
       return yearMatches && monthMatches;
     });
+    console.log(metrics);
     return {
       ...property,
       stats: filteredStats,
