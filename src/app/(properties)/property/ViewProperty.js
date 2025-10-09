@@ -50,7 +50,7 @@ const ViewProperty = ({ PropertySlug }) => {
       };
       setViewportWidth(window.innerWidth);
       window.addEventListener("resize", handleResize);
-      // Cleanup event listener on component unmount
+
       return () => {
         window.removeEventListener("resize", handleResize);
       };
@@ -72,12 +72,10 @@ const ViewProperty = ({ PropertySlug }) => {
     router.back();
   };
 
-  // const [propertyData, setPropertyData] = useState(null);
   const additionalDetails = ["fully furnished", "newly Built", "serviced"];
 
   const closeSaveToDraftModal = () => {
     setOpenSuccessModal(false);
-    // router.back()
   };
 
   // Getting the property data
@@ -105,8 +103,6 @@ const ViewProperty = ({ PropertySlug }) => {
         })
       );
       setCombinedData(combinedData);
-    } else {
-      // console.error("Invalid or missing data structure.");
     }
   }, [propertyData]);
 
