@@ -7,7 +7,7 @@ import PropertyCard from "../components/propertyCard";
 import Link from "next/link";
 import LoadingII from "../components/loading";
 import api from "@/utils/api";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -101,7 +101,7 @@ const Dashboard = () => {
           !otherProperties && "mb-10"
         }`}
       >
-        <MetricsCharts />
+        <MetricsCharts dateJoined={data?.createdAt} />
         <div className="sm:w-[408px] flex flex-col gap-2">
           <p className="">Most viewed properties</p>
           {mostViewedLoader ? (
@@ -147,7 +147,7 @@ const Dashboard = () => {
                   setSelectedProperty={setSelectedOption}
                   selectedProperty={selectedOptions}
                   refreshData={refetchMetricData}
-                  setOpenPlanModal={setOpenPlanModal}
+                  // setOpenPlanModal={setOpenPlanModal}
                   setPromotePropertry={setPromotePropertry}
                   setErrorModal={setErrorModal}
                   metric={true}
