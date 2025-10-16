@@ -126,7 +126,7 @@ const ParamsComponent = ({ reset, handleListingType}) => {
                     </button>
                 </div>
             </div>
-            <div className="flex justify-between sm:hidden w-full px-6 pl-">
+            <div className="flex justify-between sm:hidden w-full px-6">
                 <div className="searchPane relative w-[86%] rounded-[4px]">
                     <input
                         type="text"

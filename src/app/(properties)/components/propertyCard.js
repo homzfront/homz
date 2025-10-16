@@ -105,7 +105,7 @@ const PropertyCard = ({
       {loadingII ? (
         <LoadingII />
       ) : (
-        <div className="w-full flex flex-col gap-[17px] md:px-[76px] ">
+        <div className="w-full flex flex-col gap-[17px] px-6 md:px-[76px]">
           <div className="flex flex-col md:gap-1 gap-[-10px] w-full sm:items-start ">
             <h1 className="md:text-[23px] font-[700] leading-[28.98px] text-[#4E4E4E] md:mb-1">
               {Property && Property.length > 0
@@ -185,14 +185,14 @@ const PropertyCard = ({
                     Property &&
                     currentProperties?.map((property, index) => (
                       <motion.div
-                        className="flex flex-col w-[325px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
+                        className="flex flex-col w-full sm:w-[325px] md:w-[363px] md:h-[458px] rounded-[12px] shadow-md"
                         key={property._id || index}
                         variants={cardVariants}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.3 }}
                       >
-                        <div className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] relative">
+                        <div className="cursor-pointer w-full h-[226.33px] md:h-[252px] rounded-t-[12px] relative overflow-hidden">
                           {loading ? (
                             <Skeleton height={252} count={5} />
                           ) : (
@@ -201,15 +201,15 @@ const PropertyCard = ({
                                 <Carousel
                                   slide={false}
                                   theme={customTheme}
-                                  className="w-full h-[226.33px] md:h-full md:w-full"
+                                  className="w-full h-full"
                                 >
                                   {property?.photos.map((img, index) => (
                                     <div
                                       key={index}
-                                      className="w-full h-[226.33px] border border-BlueHomz md:h-full md:w-full"
+                                      className="w-full h-full"
                                     >
                                       <Link
-                                        className="cursor-pointer "
+                                        className="cursor-pointer block w-full h-full"
                                         href={`/property/${property?.slug}`}
                                         onClick={() =>
                                           updateMetrics({
@@ -223,7 +223,7 @@ const PropertyCard = ({
                                           alt=""
                                           width={363}
                                           height={252}
-                                          className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                          className="w-full h-full object-cover relative z-0"
                                         />
                                       </Link>
                                     </div>
@@ -231,7 +231,7 @@ const PropertyCard = ({
                                 </Carousel>
                               ) : (
                                 <Link
-                                  className="cursor-pointer "
+                                  className="cursor-pointer block w-full h-full"
                                   href={`/property/${property?.slug}`}
                                   onClick={() =>
                                     updateMetrics({
@@ -245,7 +245,7 @@ const PropertyCard = ({
                                     alt=""
                                     width={363}
                                     height={252}
-                                    className="w-full h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                                    className="w-full h-full object-cover relative z-0"
                                   />
                                 </Link>
                               )}
@@ -278,7 +278,7 @@ const PropertyCard = ({
                           {/* )} */}
                         </div>
                         <Link
-                          className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]"
+                          className="flex flex-col px-4 pt-4 md:pt-5 gap-[5px] md:gap-[10px]"
                           href={`/property/${property?.slug}`}
                           onClick={() =>
                             updateMetrics({ type: "view", id: property?._id })

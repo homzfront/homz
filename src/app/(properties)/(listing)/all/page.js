@@ -65,7 +65,7 @@ const UserHomePage = () => {
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
       <ParamsComponent reset={reset} handleListingType={handleListingType} />
 
-      <div className="w-[337px] md:mt-3 md:w-full">
+      <div className="w-full md:mt-3">
         <PropertyCard
           Property={property}
           currentPage={currentPage}
