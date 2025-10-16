@@ -4,15 +4,48 @@ import React, { useState } from "react";
 import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import MiniPropertyListing from "../../../components/mainmenu/miniPropertyListings";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import LoadingII from "@/components/mainmenu/loadingII";
 import Skeleton from "react-loading-skeleton";
+import PropertySkeletonLoader from "@/components/general/skeletonLoader";
 import trucateWord from "@/utils/trucateWord";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/utils/api";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import PropertyRequest from "@/components/mainmenu/propertyRequest";
+import { motion } from "framer-motion";
+import usePropertyStore from "@/store/usePropertyStore";
+
+// Animation variants for Framer Motion
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 50, // Coming from bottom
+    scale: 0.95,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
 
 const PropertyCard = ({
   Property,
@@ -31,6 +64,8 @@ const PropertyCard = ({
   properties,
 }) => {
   // console.log(Property);
+  const router = useRouter();
+  const { setFilters, setCurrentPage } = usePropertyStore();
   const currentProperties = Property;
   const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
@@ -43,6 +78,23 @@ const PropertyCard = ({
       });
     },
   });
+
+  // Handler for "Explore Properties" button
+  const handleExploreProperties = () => {
+    setLoadingII(true);
+    // Reset all filters
+    setFilters({
+      search: '',
+      propertyType: null,
+      minPrice: null,
+      maxPrice: null,
+      numberOfBathrooms: null,
+      listingType: null, // null for /all page
+    });
+    setCurrentPage(1);
+    // Navigate to /all
+    router.push('/all');
+  };
 
   const closeSaveToDraftModal = () => {
     setOpenSuccessModal(false);
@@ -84,10 +136,7 @@ const PropertyCard = ({
                     </p>
                     <div className="flex flex-col sm:flex-row w-full sm:w-auto px-4 sm:px-0 gap-2 mt-2">
                       <button
-                        onClick={() => {
-                          setLoadingII(true);
-                          reset();
-                        }}
+                        onClick={handleExploreProperties}
                         className=" rounded-[4px] md:h-[48px] bg-white text-[#006AFF] md:text-[16px] md:font-[700] md:leading-[24px] p-2 sm:p-[12px]"
                       >
                         Explore properties
@@ -123,12 +172,25 @@ const PropertyCard = ({
           ) : (
             <>
               <div className="flex items-center justify-center w-full px- flex-col ">
-                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-[30px]  mb-3 w-full ">
-                  {Property &&
+                <motion.div 
+                  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  key={currentPage}
+                >
+                  {loading ? (
+                    <PropertySkeletonLoader count={9} />
+                  ) : (
+                    Property &&
                     currentProperties?.map((property, index) => (
-                      <div
+                      <motion.div
                         className="flex flex-col w-[325px]  md:w-[363px]  md:h-[458px] rounded-[12px] shadow-md"
-                        key={index}
+                        key={property._id || index}
+                        variants={cardVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.3 }}
                       >
                         <div className="cursor-pointer md:w-[363px] md:h-[252px] rounded-[10px] relative">
                           {loading ? (
@@ -275,7 +337,7 @@ const PropertyCard = ({
                               )}, ${capitalizeFirstLetter(property?.state)}`}
                             </span>
                           </p>
-                          <div className="h-full flex justify-between mb-2">
+                          <div className="h-full flex justify-between mb-4">
                             <div className="flex  gap-4">
                               {property?.numberOfRooms && (
                                 <p className="flex gap-1 items-center md:pt-4">
@@ -336,9 +398,10 @@ const PropertyCard = ({
                             </p>
                           </div>
                         </Link>
-                      </div>
-                    ))}
-                </div>
+                      </motion.div>
+                    ))
+                  )}
+                </motion.div>
                 {
                   <Button
                     currentPage={currentPage}

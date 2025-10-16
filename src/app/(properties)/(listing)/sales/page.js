@@ -10,6 +10,7 @@ const Sales = () => {
   const searchParams = useSearchParams();
   const {
     property,
+    filters,
     currentPage,
     totalPages,
     handleNextPage,
@@ -20,11 +21,18 @@ const Sales = () => {
     loadingII,
     setLoadingII,
     properties,
-    initializeFromUrl,
-    filters,
+    setFilters,
+    setCurrentPage,
   } = usePropertyStore();
 
-  // Initialize filters from URL params (from homepage search)
+  const {
+    firstThreePages,
+    lastThreePages,
+    reset,
+    handleListingType,
+  } = usePropertyActions();
+
+  // Initialize filters from URL params (BASE route behavior)
   useEffect(() => {
     const urlFilters = {
       search: searchParams.get('search') || '',
@@ -35,21 +43,23 @@ const Sales = () => {
       listingType: 'for sale',
     };
     
-    // Only initialize if there are actual search params or if filters are empty
-    const hasSearchParams = Array.from(searchParams.entries()).length > 0;
-    const filtersAreEmpty = !filters.listingType || filters.listingType !== 'for sale';
+    const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
+    const fromHome = searchParams.get('fromHome');
     
-    if (hasSearchParams || filtersAreEmpty) {
-      initializeFromUrl(urlFilters, false); // Not a footer route
+    // Only update if values actually changed
+    const filtersChanged = JSON.stringify(filters) !== JSON.stringify(urlFilters);
+    const pageChanged = currentPage !== pageFromUrl;
+    
+    if (filtersChanged || fromHome === 'true') {
+      console.log('[Sales Page] Filters changed or coming from home, updating...');
+      setFilters(urlFilters);
     }
-  }, [searchParams, initializeFromUrl, filters.listingType]);
-
-  const {
-    firstThreePages,
-    lastThreePages,
-    reset,
-    handleListingType,
-  } = usePropertyActions();
+    if (pageChanged) {
+      console.log('[Sales Page] Page changed, updating...');
+      setCurrentPage(pageFromUrl);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]); // Only depend on searchParams to prevent infinite loops
 
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">
