@@ -67,7 +67,7 @@ const PropertySkeletonLoader = ({ count }) => {
                   <Skeleton width={65} height={10} />
                 </div>
                 {/* Square feet */}
-                <div className="flex gap-1 items-center">
+                <div className="hidden md:flex gap-1 items-center">
                   <Skeleton width={14} height={12} className="md:w-[21px] md:h-[11.86px]" />
                   <Skeleton width={50} height={10} />
                 </div>
