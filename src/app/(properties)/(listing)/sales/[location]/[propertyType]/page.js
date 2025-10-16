@@ -5,13 +5,14 @@ import usePropertyStore from '@/store/usePropertyStore';
 import PropertyCard from '../../../../components/propertyCard';
 import ParamsComponent from '../../../../components/paramsComponent';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
-import { parseUrlToFilters, generatePageMetadata } from '@/utils/urlParamsParser';
+import { parseUrlToFilters } from '@/utils/urlParamsParser';
 
 const SalesByLocationAndType = ({ params }) => {
   const router = useRouter();
   
   const {
     property,
+    filters,
     currentPage,
     totalPages,
     handleNextPage,
@@ -22,26 +23,33 @@ const SalesByLocationAndType = ({ params }) => {
     loadingII,
     setLoadingII,
     properties,
-    initializeFromUrl,
+    setFilters,
+    setCurrentPage,
   } = usePropertyStore();
 
   const {
     firstThreePages,
     lastThreePages,
-    reset: baseReset,
+    reset,
     handleListingType,
+    setRouteFilters,
   } = usePropertyActions();
 
-  // Custom reset for dynamic pages - redirect to base sales page
-  const reset = () => {
-    router.push('/sales');
-  };
-
-  // Initialize filters based on URL parameters
+  // Initialize filters from route params (DYNAMIC route behavior)
   useEffect(() => {
-    const urlFilters = parseUrlToFilters(params, 'sales');
-    initializeFromUrl(urlFilters, true); // Mark as footer route
-  }, [params, initializeFromUrl]);
+    const routeFilters = parseUrlToFilters(params, 'sales');
+    
+    // Only update if values actually changed
+    const filtersChanged = JSON.stringify(filters) !== JSON.stringify(routeFilters);
+    
+    if (filtersChanged) {
+      console.log('[Sales/Location/PropertyType Page] Filters changed, updating...');
+      setFilters(routeFilters);
+      setCurrentPage(1); // Always start at page 1
+      setRouteFilters(routeFilters);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]); // Only depend on params to prevent infinite loops
 
   return (
     <div className="max-w-[1440px] md:w-full mx-auto mt-10 md:mt-20 flex flex-col items-center gap-[2.8rem] mb-10">

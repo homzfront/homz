@@ -1,28 +1,32 @@
 import usePropertyStore from '@/store/usePropertyStore';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import {
+    getRouteType,
+    getBasePath,
+    hasManualFilters,
+    buildQueryString,
+    getListingTypeFromPath
+} from '@/utils/routeHelpers';
 
 export const usePropertyActions = () => {
     const router = useRouter();
-    const urlParams = useSearchParams();
     const pathname = usePathname();
-    const [listingType, setListingType] = React.useState('');
-    const [queryParams, setQueryParams] = React.useState({});
-    const [resetting, setResetting] = React.useState(false);
     const [isResetting, setIsResetting] = React.useState(false);
+    const [routeFilters, setRouteFilters] = React.useState(null);
 
     const {
         setFilters,
+        setCurrentPage,
         currentPage,
         totalPages,
         fetchProperties,
         filters,
-        reset: resetFilter,
-        isFooterRoute,
-        setIsFooterRoute,
+        isFetching,
     } = usePropertyStore();
 
+    // Handle listing type change (navigate to base route)
     const handleListingType = (query) => {
         if (query === 'for rent') {
             router.push('/rent');
@@ -35,56 +39,34 @@ export const usePropertyActions = () => {
         }
     };
 
+    // Context-aware reset function - Always go to /all page
     const reset = () => {
-        // Set resetting flag to prevent useEffects
         setIsResetting(true);
-        
-        // Clear everything immediately
-        resetFilter();
-        setQueryParams({});
-        setIsFooterRoute(false); // Clear footer route flag
-        
-        // Use setTimeout to ensure state is cleared before navigation
+
+        // Clear all filters including listing type
+        const resetFilters = {
+            search: '',
+            propertyType: null,
+            minPrice: null,
+            maxPrice: null,
+            numberOfBathrooms: null,
+            listingType: null, // Clear listing type to show all properties
+        };
+
+        // Set the reset filters
+        setFilters(resetFilters);
+        setCurrentPage(1);
+
+        // Always navigate to /all page on reset
+        router.push('/all');
+
+        // Reset flag after navigation
         setTimeout(() => {
-            // Redirect to base listing page based on current path
-            if (pathname.includes('/rent')) {
-                router.push('/rent');
-            } else if (pathname.includes('/sales')) {
-                router.push('/sales');
-            } else if (pathname.includes('/land')) {
-                router.push('/land');
-            } else if (pathname.includes('/shortlet')) {
-                router.push('/shortlet');
-            }
             setIsResetting(false);
-        }, 10);
+        }, 100);
     };
 
-
-
-    React.useEffect(() => {
-        let listing = '';
-        if (pathname.includes('/rent')) listing = 'for rent';
-        if (pathname.includes('/sales')) listing = 'for sale';
-        if (pathname.includes('/land')) listing = 'land';
-        if (pathname.includes('/shortlet')) listing = 'shortlet';
-        setListingType(listing);
-    }, [pathname]);
-
-    const updatedFilters = React.useMemo(() => {
-        if (!listingType) return filters;
-        return { ...filters, listingType };
-    }, [listingType, filters]);
-
-    React.useEffect(() => {
-        if (
-            listingType &&
-            JSON.stringify(updatedFilters) !== JSON.stringify(filters)
-        ) {
-            setFilters(updatedFilters);
-        }
-    }, [updatedFilters, filters, setFilters, listingType]);
-
+    // Pagination helpers
     const { firstThreePages, lastThreePages } = React.useMemo(() => {
         const firstThree = Array.from({ length: Math.min(3, totalPages) }, (_, i) => i + 1);
         const lastThree = Array.from(
@@ -97,131 +79,100 @@ export const usePropertyActions = () => {
         return { firstThreePages: firstThree, lastThreePages: lastThree };
     }, [totalPages]);
 
-    // Memoized query computation
-    const query = React.useMemo(() => {
-        const result = {};
-        Object.keys(filters).forEach((key) => {
-            if (filters[key] !== null && filters[key] !== '') {
-                result[key] = filters[key];
-            }
-        });
-        return result;
-    }, [filters]);
-
-    // Update queryParams when query changes (skip if resetting)
+    // Detect if user has added manual filters on dynamic routes
     React.useEffect(() => {
-        if (!isResetting) {
-            setQueryParams(query);
+        if (isResetting || isFetching) return;
+
+        const routeType = getRouteType(pathname);
+
+        // Only check for manual filters on DYNAMIC routes
+        if (routeType === 'DYNAMIC' && routeFilters) {
+            const userAddedFilters = hasManualFilters(filters, routeFilters);
+
+            if (userAddedFilters) {
+                // User added manual filters - redirect to base route with all filters
+                const basePath = getBasePath(pathname);
+                const queryString = buildQueryString(filters, currentPage);
+                const newUrl = queryString ? `${basePath}?${queryString}` : basePath;
+
+                console.log('[usePropertyAction] Redirecting to BASE route with filters:', newUrl);
+                router.push(newUrl);
+            }
         }
-    }, [query, setQueryParams, isResetting]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filters, currentPage, pathname, isResetting, isFetching]); // Removed routeFilters and router to prevent loops
+
+    // Handle URL params for BASE routes
+    const lastUrlRef = React.useRef(null);
 
     React.useEffect(() => {
-        // Skip everything if we're in the middle of resetting
-        if (isResetting) {
-            return;
-        }
+        if (isResetting || isFetching) return;
 
-        // Analyze current route structure
-        const pathSegments = pathname.split('/').filter(segment => segment !== '');
-        const isBaseRoute = pathSegments.length === 1 && ['rent', 'sales', 'land', 'shortlet'].includes(pathSegments[0]); // e.g., /rent, /sales (base listing pages)
-        const isDynamicRoute = pathSegments.length > 1; // e.g., /rent/lagos, /rent/lagos/mini-flat
-        
-        // Check if we have URL parameters (indicates came from homepage search or manual filters)
-        const currentUrlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-        const hasExistingUrlParams = currentUrlParams.toString().length > 0;
-        
-        // Determine route type and URL parameter strategy
-        let shouldUpdateUrl = false;
-        let routeType = 'unknown';
-        
-        if (isBaseRoute) {
-            // Base routes (/rent, /sales, /land, /shortlet) - ALWAYS show URL params
-            // These are where homepage searches land
-            routeType = 'base';
-            shouldUpdateUrl = true;
-            setIsFooterRoute(false); // Never a footer route
-        } else if (isDynamicRoute) {
-            // Dynamic routes (/rent/lagos, /rent/lagos/mini-flat) - Footer routes
-            routeType = 'dynamic';
-            
-            if (hasExistingUrlParams) {
-                // If we already have URL params, preserve them (came from homepage or user added filters)
-                shouldUpdateUrl = true;
-                setIsFooterRoute(false); // Act like normal route with params
-            } else {
-                // No URL params - check if user has added manual filters
-                const hasManualFilters = Object.keys(queryParams).some(key => {
-                    const value = queryParams[key];
-                    if (!value || value === '' || value === null || value === undefined) return false;
-                    
-                    // These are always considered manual user interactions
-                    if (['propertyType', 'minPrice', 'maxPrice', 'numberOfBathrooms'].includes(key)) {
-                        return true;
-                    }
-                    
-                    // Search that's different from the URL location is manual
-                    if (key === 'search') {
-                        const urlLocation = pathSegments[1]; // e.g., 'lagos' from /rent/lagos
-                        const expectedSearch = urlLocation ? urlLocation.charAt(0).toUpperCase() + urlLocation.slice(1) : '';
-                        return value !== expectedSearch;
-                    }
-                    
-                    return false;
-                });
-                
-                if (hasManualFilters) {
-                    // User added filters - show URL params
-                    shouldUpdateUrl = true;
-                    setIsFooterRoute(false);
-                } else {
-                    // Clean footer route - no URL params
-                    shouldUpdateUrl = false;
-                    setIsFooterRoute(true);
-                }
-            }
-        } else {
-            // Other routes - default behavior
-            routeType = 'other';
-            shouldUpdateUrl = true;
-            setIsFooterRoute(false);
-        }
+        const routeType = getRouteType(pathname);
 
-        // Update URL if allowed
-        if (shouldUpdateUrl) {
-            const params = new URLSearchParams();
+        // Only update URL params on BASE routes
+        if (routeType === 'BASE') {
+            const queryString = buildQueryString(filters, currentPage);
+            const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
 
-            // Add all queryParams except page and listingType
-            Object.entries(queryParams).forEach(([key, value]) => {
-                if (key !== "page" && key !== "listingType" && value !== null && value !== '' && value !== undefined) {
-                    params.set(key, value);
-                }
-            });
-
-            // Add page if not 1
-            if (currentPage !== 1) {
-                params.set("page", String(currentPage));
-            }
-
-            // Build final URL
-            const hasParams = params.toString().length > 0;
-            const newUrl = hasParams ? `${pathname}?${params.toString()}` : pathname;
-            
             // Only push if URL actually changed
-            const currentUrl = `${pathname}${window.location.search}`;
-            if (newUrl !== currentUrl) {
-                router.push(newUrl, { scroll: false });
-            }
-        } else {
-            // Clean footer route - ensure no params in URL
-            const currentUrl = `${pathname}${window.location.search}`;
-            if (currentUrl !== pathname) {
-                router.push(pathname, { scroll: false });
+            if (typeof window !== 'undefined') {
+                const currentUrl = `${pathname}${window.location.search}`;
+                
+                // Check if we have the fromHome parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const hasFromHome = urlParams.has('fromHome');
+                
+                // If we have fromHome, remove it from the new URL
+                if (hasFromHome) {
+                    const cleanParams = new URLSearchParams(queryString);
+                    cleanParams.delete('fromHome');
+                    const cleanQueryString = cleanParams.toString();
+                    const cleanUrl = cleanQueryString ? `${pathname}?${cleanQueryString}` : pathname;
+                    // console.log('[usePropertyAction] Cleaning fromHome parameter:', cleanUrl);
+                    lastUrlRef.current = cleanUrl;
+                    router.push(cleanUrl, { scroll: false });
+                } else if (newUrl !== currentUrl && lastUrlRef.current !== newUrl) {
+                    // console.log('[usePropertyAction] Updating URL:', newUrl);
+                    lastUrlRef.current = newUrl;
+                    router.push(newUrl, { scroll: false });
+                }
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filters, currentPage, pathname, isResetting, isFetching]); // Removed router to prevent loops
 
-        // Always fetch properties (unless resetting)
-        fetchProperties();
-    }, [currentPage, queryParams, fetchProperties, pathname, router, isResetting, setIsFooterRoute]);
+    // Fetch properties with debouncing - Single source of truth for fetching
+    // Use a ref to track the last fetch parameters
+    const lastFetchRef = React.useRef({ filters: null, page: null });
+
+    React.useEffect(() => {
+        if (isResetting || isFetching) return;
+
+        // Create stable strings for comparison
+        const filtersString = JSON.stringify(filters);
+        const currentPageString = String(currentPage);
+
+        // Only fetch if filters or page actually changed
+        if (
+            lastFetchRef.current.filters === filtersString &&
+            lastFetchRef.current.page === currentPageString
+        ) {
+            return; // No changes, skip fetch
+        }
+
+        // Debounce fetch to prevent rapid consecutive calls
+        const timeoutId = setTimeout(() => {
+            lastFetchRef.current = {
+                filters: filtersString,
+                page: currentPageString,
+            };
+            fetchProperties();
+        }, 150); // 150ms debounce
+
+        return () => clearTimeout(timeoutId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filters, currentPage, isResetting, isFetching]); // fetchProperties intentionally excluded to prevent infinite loop
 
 
     return {
@@ -229,5 +180,6 @@ export const usePropertyActions = () => {
         reset,
         firstThreePages,
         lastThreePages,
+        setRouteFilters, // Export to allow pages to set route-based filters
     };
 };

@@ -183,12 +183,17 @@ const HomePage = () => {
   const link = () => {
     const query = {};
 
-    // Build query object excluding empty values and listingType
+    // Build query object excluding empty values, null, and listingType
     Object.keys(filters).forEach((key) => {
-      if (filters[key] && key !== "listingType") {
-        query[key] = filters[key];
+      const value = filters[key];
+      // Include if value exists, is not empty string, is not null, and is not listingType
+      if (value && value !== '' && value !== null && key !== "listingType") {
+        query[key] = value;
       }
     });
+
+    // Add a marker to indicate coming from homepage
+    query.fromHome = 'true';
 
     let basePath = "";
 
@@ -212,13 +217,15 @@ const HomePage = () => {
       }
     }
 
-    // Only add query params if they exist (❌ no page)
+    // Only add query params if they exist
     const queryString =
       Object.keys(query).length > 0
         ? `?${new URLSearchParams(query).toString()}`
         : "";
 
-    return `${basePath}${queryString}`;
+    const finalUrl = `${basePath}${queryString}`;
+
+    return finalUrl;
   };
 
   useEffect(() => {
@@ -230,68 +237,7 @@ const HomePage = () => {
     fetchFeaturedData();
   }, []);
 
-  function getWindowDimensions() {
-    if (typeof window !== "undefined") {
-      const { innerWidth: width } = window;
-      return width;
-    }
-    return null;
-  }
-
-  const [windowWidth, setWindowWidth] = useState(null);
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-    setWindowWidth(getWindowDimensions());
-    
-    if (typeof window !== "undefined") {
-      function handleResize() {
-        setWindowWidth(getWindowDimensions());
-      }
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
-
-  const slidesToShow = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth > 1320) return 3;
-      if (window.innerWidth < 1000) return 1;
-      if (window.innerWidth < 1321 && window.innerWidth > 999) return 2;
-    }
-    return 1;
-  };
-
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: slidesToShow(), // Adjusted based on screen size
-    className: "center",
-    centerMode: true,
-    centerPadding: "0",
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: null,
-    nextArrow: null,
-  };
-
-  const sliderSettingsII = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: 1,
-    className: "center",
-    centerMode: true,
-    centerPadding: "0%",
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: null,
-    nextArrow: null,
-  };
 
   const logoSlidesToShow = () => {
     if (typeof window !== "undefined") {

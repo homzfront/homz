@@ -8,11 +8,11 @@ const usePropertyStore = create((set, get) => ({
     totalPages: 0,
     totalData: 0,
     loading: false,
+    isFetching: false,
     property: null,
     loadingII: true,
     properties: null,
     otherProperties: null,
-    isFooterRoute: false, // Flag to prevent URL param updates
     filters: {
         search: '',
         propertyType: null,
@@ -29,53 +29,11 @@ const usePropertyStore = create((set, get) => ({
     setTotalPages: (total) => set({ totalPages: total }),
     setTotalData: (total) => set({ totalData: total }),
     setLoadingII: (loadingII) => set({ loadingII }),
-    setIsFooterRoute: (isFooter) => set({ isFooterRoute: isFooter }),
+    setIsFetching: (isFetching) => set({ isFetching }),
 
-    // Initialize filters from URL and fetch properties
-    initializeFromUrl: async (newFilters, isFromFooter = false) => {
-        const { filters: currentFilters } = get();
-        
-        // Check if we have URL params (came from homepage search)
-        const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-        const hasUrlParams = urlParams.toString().length > 0;
-        
-        let finalFilters;
-        
-        if (hasUrlParams) {
-            // We have URL params - likely came from homepage search
-            // Parse existing URL params and merge with route-based filters
-            const urlFilters = {};
-            
-            // Extract filters from URL params
-            for (const [key, value] of urlParams.entries()) {
-                if (['search', 'propertyType', 'minPrice', 'maxPrice', 'numberOfBathrooms'].includes(key)) {
-                    urlFilters[key] = value;
-                }
-            }
-            
-            // Merge URL params with new filters, prioritizing URL params (from homepage)
-            finalFilters = {
-                ...newFilters,
-                ...urlFilters, // URL params take precedence
-            };
-        } else {
-            // No URL params - clean initialization from footer route
-            finalFilters = newFilters;
-        }
-        
-        set({ 
-            filters: finalFilters, 
-            currentPage: 1,
-            loading: true,
-            loadingII: true,
-            isFooterRoute: isFromFooter && !hasUrlParams
-        });
-        // The fetchProperties will be called by the usePropertyActions hook
-    },
-
-    // Reset function
-    reset: async () => {
-        await set({
+    // Reset function - clears all filters and page
+    reset: () => {
+        set({
             currentPage: 1,
             filters: {
                 search: '',
@@ -83,7 +41,7 @@ const usePropertyStore = create((set, get) => ({
                 minPrice: null,
                 maxPrice: null,
                 numberOfBathrooms: null,
-                listingType: '',
+                listingType: null,
             },
         });
     },
@@ -108,8 +66,15 @@ const usePropertyStore = create((set, get) => ({
     
     // Functions
     fetchProperties: async () => {
-        const { filters, currentPage } = get();
-        set({ loading: true });
+        const { filters, currentPage, isFetching } = get();
+        
+        // Prevent overlapping requests
+        if (isFetching) {
+            console.log('Fetch already in progress, skipping...');
+            return;
+        }
+
+        set({ loading: true, isFetching: true });
 
         const query = {};
         Object.keys(filters).forEach((key) => {
@@ -137,6 +102,7 @@ const usePropertyStore = create((set, get) => ({
                     property: propertyData,
                     loading: false,
                     loadingII: false,
+                    isFetching: false,
                     totalPages: Math.ceil(total / 9),
                     totalData: total,
                 });
@@ -146,6 +112,7 @@ const usePropertyStore = create((set, get) => ({
                     totalPages: 0,
                     loading: false,
                     loadingII: false,
+                    isFetching: false,
                 });
             }
         } catch (error) {
@@ -155,6 +122,7 @@ const usePropertyStore = create((set, get) => ({
                 totalPages: 0,
                 loading: false,
                 loadingII: false,
+                isFetching: false,
             });
         }
         if (typeof window !== 'undefined') {
