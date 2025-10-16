@@ -48,7 +48,19 @@ const UpperMetrics = ({ isBusinessInfoUpdate }) => {
   }));
   return (
     <div className="w-full mx-auto space-y-5">
-      <p className="font-[500] text-[20px] py-2">Dashboard</p>
+      <div className="font-[500] text-[20px] py-2 flex justify-start gap-2">
+        <p className=""> Dashboard </p>
+        <Link href="/dashboard/list_Property/addProperty" className="">
+          <Image
+            alt=""
+            height={35}
+            width={35}
+            src={
+              "/static/dashboard/enterprisemanager/dashboard/add-square-blue.png"
+            }
+          />
+        </Link>{" "}
+      </div>
       {isBusinessInfoUpdate && (
         <div className="flex gap-2 items-center sm:pr-6">
           <div className="sm:block hidden">
