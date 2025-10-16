@@ -43,7 +43,7 @@ const MiniPropertyListings = ({
           />
         </Link>
       </div>
-      <div className="w-full sm:w-[325px] md:w-[363px] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
+      <div className="w-full sm:w-[325px] md:w-[363px] grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:justify-start  mx-auto md:mx-0">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <Link
             href={`/property/${property?.slug}`}

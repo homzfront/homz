@@ -7,7 +7,7 @@ const PropertySkeletonLoader = ({ count }) => {
     <>
       {Array.from({ length: count }).map((_, index) => (
         <div
-          className="flex flex-col w-[325px] md:w-[363px] md:h-[458px] rounded-[12px] shadow-md"
+          className="flex flex-col w-full sm:w-[325px] md:w-[363px] md:h-[458px] rounded-[12px] shadow-md"
           key={index}
         >
           {/* Image carousel section */}
