@@ -173,7 +173,7 @@ const PropertyCard = ({
             <>
               <div className="flex items-center justify-center w-full px- flex-col ">
                 <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full"
+                  className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full"
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
