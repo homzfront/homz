@@ -21,7 +21,7 @@ const PropertySkeletonLoader = ({ count }) => {
           </div>
 
           {/* Content section */}
-          <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
+          <div className="flex flex-col px-4 pt-4 md:pt-5 gap-[5px] md:gap-[10px]">
             {/* Title and listing type badge */}
             <div className="flex justify-between items-start">
               <Skeleton 
