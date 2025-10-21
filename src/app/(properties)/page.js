@@ -53,20 +53,6 @@ const customTheme = {
   },
 };
 
-const metadata = {
-  title: 'Explore Properties Across Nigeria',
-  description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.', // ← Your custom tag
-  openGraph: {
-    title: 'Explore Properties Across Nigeria',
-    description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Explore Properties Across Nigeria',
-    description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.',
-  }
-}
-
 const HomePage = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [landlord, setLandlords] = useState(true);
@@ -90,7 +76,7 @@ const HomePage = () => {
   const landsRef = useRef(null);
   const shortletRef = useRef(null);
   const { featuredData, fetchFeaturedData } = useFeatureStore();
-
+  
   // Scroll function
   const scrollToRef = (ref) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
@@ -229,15 +215,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(`/public/properties/featured`);
-      const propertyData = response?.data?.data || null;
-    };
-    fetchData();
     fetchFeaturedData();
   }, []);
-
-  const [isClient, setIsClient] = useState(false);
 
   const logoSlidesToShow = () => {
     if (typeof window !== "undefined") {
@@ -776,12 +755,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -804,12 +783,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -832,12 +811,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -860,12 +839,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -1120,7 +1099,6 @@ const HomePage = () => {
             <h2 className="text-[20px] md:text-[26px] text-GrayHomz font-semibold text-center">
               We’re Proudly serving forward-thinking companies
             </h2>
-            {isClient ? (
               <Slider {...logoSliderSettings} className="w-full mt-8">
                 {
                   images.map((data, index) => (
@@ -1135,20 +1113,6 @@ const HomePage = () => {
                   ))
                 }
               </Slider>
-            ) : (
-              <div className="w-full mt-8 flex justify-center gap-4 overflow-hidden">
-                {images.slice(0, 3).map((data, index) => (
-                  <div key={index} className="flex justify-center px-2">
-                    <Image
-                      src={data}
-                      alt="img"
-                      height={95}
-                      width={240}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
           <div className="h-auto md:h-[303px] py-[20px] md:py-0 w-full bg-center bg-cover bg-[url('/Background-image.png')] bg-black">
             <div className="h-[239px] md:h-[303px]  flex flex-col items-center gap-[15px] justify-center mb-2">
