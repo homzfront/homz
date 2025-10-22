@@ -218,26 +218,29 @@ const HomePage = () => {
     fetchFeaturedData();
   }, []);
 
+  const [isClient, setIsClient] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   const logoSlidesToShow = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth > 1270) return 3.5; // Show partial slides to force sliding
-      if (window.innerWidth > 1024) return 3;
-      if (window.innerWidth > 768) return 2.5;
-      return 1;
-    }
+    if (!isClient) return 1;
+    if (window.innerWidth > 1270) return 3.5;
+    if (window.innerWidth > 1024) return 3;
+    if (window.innerWidth > 768) return 2.5;
     return 1;
   };
-
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const logoSliderSettings = {
     dots: false,
     infinite: true,
     speed: 2000,
     slidesToScroll: 1,
-    slidesToShow: logoSlidesToShow(),
-    centerMode: true,
-    centerPadding: isMobile ? "10%" : "20%",
+  slidesToShow: logoSlidesToShow(),
+  centerMode: true,
+  centerPadding: isMobile ? "10%" : "20%",
     autoplay: true,
     autoplaySpeed: 0,
     prevArrow: null,
