@@ -260,14 +260,10 @@ const PropertyInfo = ({
       </div>
       {promoteOptions && (
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10 flex items-center justify-center rounded-[12px] ">
-          <label
-            className="absolute  top-[12px] left-[15px] flex items-center rounded-full cursor-pointer"
-            htmlFor={`checkbox-${index}`}
-          >
+          <label className="absolute  top-[12px] left-[15px] flex items-center rounded-full cursor-pointer">
             <input
               type="checkbox"
               className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-[#D0D5DD] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 bg-[#FFFFFF] before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-[#EEF5FF] checked:before:bg-[#FFFFFF] hover:before:opacity-2"
-              id={`checkbox-${index}`}
               onChange={() =>
                 handleCheckboxChange(
                   property?._id,

@@ -1,23 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import UpperMetrics from "../components/metricsCards";
 import MetricsCharts from "../components/MetricCharts";
 import PropertyCard from "../components/propertyCard";
 import Link from "next/link";
 import LoadingII from "../components/loading";
 import api from "@/utils/api";
+import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
+
 // import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
   const [selectedOptions, setSelectedOption] = useState(null);
   const [openPlanModal, setOpenPlanModal] = useState(false);
   const [promoteOption, setPromotePropertry] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
+  const [loading, setLoader] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const [tabName, setTabName] = useState("");
 
   const { data, fetchData } = useProfileListingMe();
@@ -36,7 +43,18 @@ const Dashboard = () => {
       setIsBusinessInfoUpdate(isMissingBusinessInfo);
     }
   }, [data]);
-
+  const handleSelectPlan = async () => {
+    try {
+      startTransition(() => {
+        router.push(`/subscriptionPlans`);
+      });
+    } catch (error) {
+      console.error("Error", error.response?.data || error.message);
+      return (
+        error.response?.data || { message: "An unexpected error occurred." }
+      );
+    }
+  };
   // const MostViewedMobile = () => {
   //   const settings = {
   //     dots: false,
@@ -147,7 +165,7 @@ const Dashboard = () => {
                   setSelectedProperty={setSelectedOption}
                   selectedProperty={selectedOptions}
                   refreshData={refetchMetricData}
-                  // setOpenPlanModal={setOpenPlanModal}
+                  setOpenPlanModal={setOpenPlanModal}
                   setPromotePropertry={setPromotePropertry}
                   setErrorModal={setErrorModal}
                   metric={true}
@@ -262,6 +280,21 @@ const Dashboard = () => {
           {otherProperties && <OtherListedProperties loading={isLoading} />}
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={openPlanModal}
+        title="No Active Plan"
+        confirmatoryText={`You do not have an active subscription plan yet`}
+        handleEvent={handleSelectPlan}
+        cancel={() => {
+          setLoader(false);
+          setOpenPlanModal(false);
+        }}
+        optionText="Proceed to subscribe?"
+        optionText2="Cancel"
+        isLoading={loading}
+        // color="text-[#D92D20]"
+      />
     </div>
   );
 };
