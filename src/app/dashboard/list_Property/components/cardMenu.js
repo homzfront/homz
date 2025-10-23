@@ -48,8 +48,9 @@ function CardMenus({
 
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      console.log(response);
-      const { status } = !response?.data?.data?.status || {};
+      // console.log(response);
+
+      const { status } = response?.data?.data || {};
 
       if (
         response.message === "An unexpected error occurred." ||
@@ -59,7 +60,6 @@ function CardMenus({
         setErrorModal(true);
         return;
       }
-
       if (!status) {
         localStorage.setItem("prp_tygf2ty", data._id);
         localStorage.setItem("prp_xry_pl#a$n", "single");
@@ -69,7 +69,6 @@ function CardMenus({
 
       if (promoted) {
         setModalIsOpen(true);
-        setLoader(false);
       } else {
         setPromotePropertry(true);
         setPropertyId(data._id);
