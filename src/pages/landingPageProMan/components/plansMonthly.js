@@ -14,6 +14,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 import { cancelEnterprisePlanSub } from "@/api/tenantSevice";
+import api from "@/utils/api";
 
 const Plans = ({ routeTo, profile }) => {
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ const Plans = ({ routeTo, profile }) => {
 
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -175,6 +176,20 @@ const Plans = ({ routeTo, profile }) => {
         let response;
         if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
           profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+          const selectedPlan = pricingPlans.find(p => p.title === planTitle);
+          const amount = selectedPlan.price !== "Contact Sales" ? parseInt(selectedPlan.price.replace(/,/g, '')) : 0;
+          const duration = interval === "bi-annually" ? "Bi-Annual" : "Monthly";
+          const payload = {
+            amount,
+            plan: planTitle,
+            duration,
+            discount: {
+              type: "percentage",
+              value: 10
+            }
+          };
+          await api.post('/invoice/create-invoice', payload);
+
           response = await updateEnterPriseSub({
             planName: planTitle,
             interval,

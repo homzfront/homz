@@ -1,4 +1,5 @@
 import { updateEnterPriseSub } from "@/api/planEnterprise";
+import api from "@/utils/api";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import Image from "next/image";
 import Link from "next/link";
@@ -175,6 +176,19 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
         let response;
         if (profile?.planName === "Enterprise Basic" || profile?.planName === "Enterprise Starter" || profile.PlanStatus === "none" ||
           profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+          const selectedPlan = pricingPlans.find(p => p.title === planTitle);
+          const amount = selectedPlan.price !== "Contact Sales" ? parseInt(selectedPlan.price.replace(/,/g, '')) : 0;
+          const duration = interval === "bi-annually" ? "Bi-Annual" : "Annual";
+          const payload = {
+            amount,
+            plan: planTitle,
+            duration,
+            discount: {
+              type: "percentage",
+              value: 10
+            }
+          };
+          await api.post('/invoice/create-invoice', payload);
           response = await updateEnterPriseSub({
             planName: planTitle,
             interval,
@@ -193,7 +207,7 @@ const PlanPayBiAnnually = ({ routeTo, profile }) => {
           }
         } else {
           if (response.error) {
-            // console.log(response.error)
+            console.log(response.error)
             if (response.error === "you need to disable you active recurring subscribetion before procedding for a one time payment") {
               setError(response.error)
               setIsOpenModal(true)

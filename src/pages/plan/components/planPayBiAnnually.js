@@ -14,6 +14,7 @@ import 'swiper/css/autoplay';
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 import { planEnterPriseSub } from "@/api/planEnterprise";
+import api from "@/utils/api";
 
 const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
   const [loading, setLoading] = useState(false);
@@ -169,6 +170,19 @@ const PlanPayBiAnnually = ({ data, setLoadProfile }) => {
     };
 
     try {
+      const selectedPlan = pricingPlans.find(p => p.title === planTitle);
+      const amount = selectedPlan.price !== "Contact Sales" ? parseInt(selectedPlan.price.replace(/,/g, '')) : 0;
+      const duration = interval === "bi-annually" ? "Bi-Annual" : "Annual";
+      const payload = {
+        amount,
+        plan: planTitle,
+        duration,
+        discount: {
+          type: "percentage",
+          value: 10
+        }
+      };
+      await api.post('/invoice/create-invoice', payload);
       let response;
       response = await planEnterPriseSub(planDetails);
       if (response.success) {

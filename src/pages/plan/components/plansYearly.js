@@ -14,6 +14,7 @@ import 'swiper/css/autoplay';
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
+import api from "@/utils/api";
 
 const PlansYearly = ({ data, setLoadProfile }) => {
   const [loadingCard, setLoadingCard] = useState(null);
@@ -169,6 +170,19 @@ const PlansYearly = ({ data, setLoadProfile }) => {
     };
 
     try {
+      const selectedPlan = pricingPlans.find(p => p.title === planTitle);
+      const amount = selectedPlan.price !== "Contact Sales" ? parseInt(selectedPlan.price.replace(/,/g, '')) : 0;
+      const duration = interval === "bi-annually" ? "Bi-Annual" : "Annual";
+      const payload = {
+        amount,
+        plan: planTitle,
+        duration,
+        discount: {
+          type: "percentage",
+          value: 10
+        }
+      };
+      await api.post('/invoice/create-invoice', payload);
       let response;
       response = await planEnterPriseSub(planDetails);
 
@@ -222,7 +236,7 @@ const PlansYearly = ({ data, setLoadProfile }) => {
   return (
     <div className="mt-[60px] w-full m-auto px-4 md:px-6 flex flex-col items-center gap-[60px]">
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
-   <Swiper
+        <Swiper
           // Add to modules:
           modules={[Navigation, Pagination]}
 
