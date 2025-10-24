@@ -172,17 +172,15 @@ const List_Property = () => {
     }
   };
   const handlePromoteOptions = async () => {
-    setLoader2(true);
-    setPropertyPlanType("");
-
     try {
+      setLoader2(true);
+      setPropertyPlanType("");
+
       const response = await PromotionHooks.checkCurrentSubscription();
-      // console.log(response)
-      const { status, subscription_code } = response?.data?.data || {};
+      const { status, isExpired } = response?.data?.data || {};
       const errorMessage = response?.message;
 
-      if (subscription_code) {
-        // console.log("Subscription is active");
+      if (status) {
         setLoader2(false);
 
         if (selectedProperty.length > 0) {
@@ -191,15 +189,25 @@ const List_Property = () => {
         } else {
           setOptions(true);
         }
-      } else if (errorMessage === "An unexpected error occurred.") {
-        setLoader2(false);
-        setErrorModal(true);
-      } else if (!status) {
+        return;
+      }
+
+      if (!status || isExpired) {
         setLoader2(false);
         setOpenPlanModal(true);
+        return;
       }
+
+      if (errorMessage === "An unexpected error occurred.") {
+        setLoader2(false);
+        setErrorModal(true);
+        return;
+      }
+
+      setLoader2(false);
+      setErrorModal(true);
     } catch (error) {
-      console.error("Error", error.response?.data || error.message);
+      console.error("Error:", error.response?.data || error.message);
       setLoader2(false);
       setErrorModal(true);
     }
@@ -211,7 +219,7 @@ const List_Property = () => {
 
     const propertyId = singlePropertyId || id;
     const promotionPlan = propertyPlan || plan;
-    const promotionDate = "2024-04-10";
+    const promotionDate = new Date().toISOString().split("T")[0];
 
     try {
       const results = await PromotionHooks.promoteProperty(
@@ -249,9 +257,9 @@ const List_Property = () => {
   };
   const handleClick = async () => {
     // Prefetch the page right before navigation
-    await router.prefetch("/dashboard/list_Property/properties");
+    router.prefetch("/dashboard/list_Property/properties");
     setPaymentSuccessfulModal(false);
-    router.push("/dashboard/list_Property/properties");
+    // router.push("/dashboard/list_Property/properties");
     localStorage.removeItem("prp_tygf2ty");
     localStorage.removeItem("prp_xry_pl#a$n");
   };

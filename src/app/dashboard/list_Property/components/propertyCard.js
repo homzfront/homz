@@ -5,6 +5,7 @@ import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import useIsMobile from "@/components/mainmenu/useMobileView";
 import PropertyInfo from "./propertyInfo";
+import usePropertyPromotionsData from "@/store/propertyPromotions";
 import Confirm from "@/components/mainmenu/actionModal";
 import {
   publishAndRepublishProperty,
@@ -13,7 +14,7 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Autoplay, Navigation } from "swiper/modules";
@@ -53,7 +54,7 @@ const PropertyCard = ({
   promoteOptions,
   refreshData,
   setOpenPlanModal,
-  setPromotePropertry,
+  // setPromotePropertry,
   setErrorModal,
   setTabName,
   pageManagement,
@@ -61,6 +62,10 @@ const PropertyCard = ({
   partOfTheDashboard,
 }) => {
   const ITEMS_PER_PAGE = 8;
+  const singlePropertyId = usePropertyPromotionsData((state) => state.singleId);
+  const propertyPlan = usePropertyPromotionsData(
+    (state) => state.propertyPlanType
+  );
   const [publish, setPublish] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   // const totalPages = Math.ceil(Property?.length / ITEMS_PER_PAGE);
@@ -84,9 +89,11 @@ const PropertyCard = ({
     "This property will no longer be visible to the public but will be saved in your drafts";
   let publishedText = "This property will be made visible to the public.";
   const popUp = useRef(null);
-  // const router = useRouter();
+
   const [publishState, dispatch] = useReducer(reducer, initialState);
   const isMobile = useIsMobile();
+  const [promoteProperty, setPromotePropertry] = useState(false);
+  const [promotePropertySuccess, setPromotePropertrySuccess] = useState(false);
 
   const settings = {
     dots: false,
@@ -142,6 +149,58 @@ const PropertyCard = ({
   //   };
   // }, [isMenuOpen]);
 
+  // const refreshData = async (stat) => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const pageNumber = urlParams.get("page");
+  //   const res = await filterData(pageNumber, stat);
+  //   if (stat === "all" && res?.data?.totalCount === 0) {
+  //     sessionStorage.setItem("initialDataStatus", false); // Set to false if no data
+  //   }
+  // };
+  const handlePropertyPromotion = async () => {
+    setLoader(true);
+    var status = false;
+
+    const propertyId = singlePropertyId || id;
+    const promotionPlan = propertyPlan || plan;
+    const promotionDate = new Date().toISOString().split("T")[0];
+
+    try {
+      const results = await PromotionHooks.promoteProperty(
+        promotionDate,
+        propertyId,
+        promotionPlan,
+        selectedProperty
+      );
+      // console.log(results);
+      setLoader(false);
+
+      if (results?.status) {
+        setPromotePropertrySuccess(true);
+
+        status = true;
+      } else if (
+        results?.message ===
+        "You have reached the limit of the listings for your current plan."
+      ) {
+        setLimitModal(true);
+      } else if (results.message === "Network Error") {
+        setErrorModal(true);
+      }
+      setPromotePropertry(false);
+    } catch (error) {
+      console.error("Error promoting the property:", error);
+      setLoader(false);
+      status = false;
+    }
+    return status;
+  };
+
+  const closePromotionModal = () => {
+    const params = getParams();
+    refreshData(params.propertyStatus);
+    setPromotePropertrySuccess(false);
+  };
   const handleCheckboxChange = (propertyId, is_promoted, is_published) => {
     if (!is_published) {
       setSelectedDataId(propertyId);
@@ -479,6 +538,28 @@ const PropertyCard = ({
         isOpen={promotionStoppedModal}
         title="Promotion Stopped Successfully"
         handleEvent={closeSuccessModal}
+      />
+
+      <ConfirmationModal
+        isOpen={promoteProperty}
+        title="Promote Property?"
+        confirmatoryText="You are about to promote this property on Homz"
+        handleEvent={handlePropertyPromotion}
+        cancel={() => {
+          setLoader(false);
+          setPromotePropertry(false);
+        }}
+        optionText="Proceed"
+        optionText2="Cancel"
+        isLoading={isLoading}
+        // color="text-[#D92D20]"
+      />
+      <SuccessModal
+        isOpen={promotePropertySuccess}
+        title="Promotion is Active"
+        handleEvent={closePromotionModal}
+        successText="Your promotion is currently running for this property"
+        // optionalText="View listed properties"
       />
     </div>
   );

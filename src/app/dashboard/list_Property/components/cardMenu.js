@@ -22,7 +22,7 @@ function CardMenus({
   setErrorModal,
   metric,
 }) {
-  const router = useRouter();
+  // const router = useRouter();
   const [isLoading, setLoader] = useState(false);
   const [isPending, startTransition] = useTransition();
   const setPropertyId = usePropertyPromotionData(
@@ -45,29 +45,35 @@ function CardMenus({
 
   const handlePromoteProperty = async () => {
     setLoader(true);
+
     try {
       const response = await PromotionHooks.checkCurrentSubscription();
-      // console.log(response?.data?.data?.IsExpired);
-      if (!response?.data?.data?.status) {
-        localStorage.setItem("prp_tygf2ty", data._id);
-        localStorage.setItem("prp_xry_pl#a$n", "single");
-        setOpenPlanModal(true);
-      } else if (
+      // console.log(response);
+
+      const { status } = response?.data?.data || {};
+
+      if (
         response.message === "An unexpected error occurred." ||
         response.message === "Network Error"
       ) {
         setLoader(false);
         setErrorModal(true);
+        return;
+      }
+      if (!status) {
+        localStorage.setItem("prp_tygf2ty", data._id);
+        localStorage.setItem("prp_xry_pl#a$n", "single");
+        setOpenPlanModal(true);
+        return;
+      }
+
+      if (promoted) {
+        setModalIsOpen(true);
       } else {
-        if (promoted) {
-          setModalIsOpen(true);
-          setLoader(false);
-        } else {
-          setPromotePropertry(true);
-          setPropertyId(data._id);
-          setPropertyPlanType("single");
-          setLoader(false);
-        }
+        setPromotePropertry(true);
+        setPropertyId(data._id);
+        setPropertyPlanType("single");
+        setLoader(false);
       }
     } catch (error) {
       console.error("Error", error.response?.data || error.message);
@@ -188,7 +194,7 @@ function CardMenus({
                     width={16}
                     className=""
                   />
-                  <span>Promotion options</span>
+                  <span>Promotion Property</span>
                 </>
               ) : (
                 <ThreeDotsLoader color="#ffffff" />
