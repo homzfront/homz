@@ -13,6 +13,7 @@ import 'swiper/css/autoplay';
 import useIsUserAt1295px from "@/utils/useIsUserAt1295px";
 import useOpenPaymentType from "@/store/enterpriseStore/useOpenPaymentType.js";
 import { cancelEnterprisePlanSub } from "@/api/tenantSevice";
+import api from "@/utils/api";
 
 const PlansYearly = ({ profile }) => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const PlansYearly = ({ profile }) => {
 
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -173,6 +174,16 @@ const PlansYearly = ({ profile }) => {
       let response;
       if (profile.PlanStatus === "none" || profile?.planName === "Enterprise Starter" || profile?.planName === "Enterprise Basic" ||
         profile?.planName === "Enterprise Free" || profile?.planName === "Enterprise Plus" || profile?.planName === "Enterprise Premium" || profile.planName === "Enterprise Trial") {
+        const payload = {
+          amount,
+          plan: planTitle,
+          duration,
+          discount: {
+            type: "percentage",
+            value: 10
+          }
+        };
+        await api.post('/invoice/create-invoice', payload);
         response = await updateEnterPriseSub({
           planName: planTitle,
           interval,
@@ -234,7 +245,7 @@ const PlansYearly = ({ profile }) => {
   return (
     <div className="mt-[60px] w-full m-auto px-4 md:px-6 flex flex-col items-center gap-[60px]">
       <div className={`text-GrayHomz w-full ${isAt1295px ? "hidden" : ""}`}>
-   <Swiper
+        <Swiper
           // Add to modules:
           modules={[Navigation, Pagination]}
 
