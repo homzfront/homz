@@ -1,31 +1,29 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import pic from "/public/static/images/coverPhoto.png";
 import add from "/public/static/images/add.svg";
 import Image from "next/image";
-import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
+// import MiniOtherPhotosFrame from "@/components/mainmenu/miniPhotoFrame";
 import displayHousePictures from "@/utils/displayHousePictures";
-import { validateUrl } from "@/utils/validateUrl";
+// import { validateUrl } from "@/utils/validateUrl";
 
-const PropertyPhoto = ({
-  BackToRentalsInfo,
-  handlePagePropertyPhoto,
-  setUploadedCoverPhoto,
-  setUploadedOtherPhotos,
-  setSaveToDraft,
-  setVideoLinksData,
-}) => {
+const PropertyPhoto = forwardRef((props, ref) => {
   const [ImageSrc, setImageScr] = useState(pic);
   const fileUpload = useRef(null);
   const [coverPhoto, setCoverPicture] = useState(null);
   const [fileUploaded, setFileUpload] = useState(false);
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
-  const [houses, setHouses] = useState(Array(7).fill(null));
+  const [houses, setHouses] = useState(Array(10).fill(null));
   const [housesFiles, setHousesFiles] = useState(Array(7).fill(null));
   const [errorMsg, setErrorMsg] = useState(Array(7).fill(""));
   const [coverPhotoErrorMsg, setCoverPhotoErrorMsg] = useState("");
-  const [error1, setError1] = useState("");
-  const [error2, setError2] = useState("");
+  const [open, setOpen] = useState(false);
   const [videoLinks, setVideoLinks] = useState({
     youtubeUrl: "",
     instagramUrl: "",
@@ -47,11 +45,14 @@ const PropertyPhoto = ({
 
   const submitData = () => {
     const validHousesFiles = housesFiles.filter((file) => file !== null);
-    setVideoLinksData(videoLinks);
-    setUploadedOtherPhotos(validHousesFiles);
-    setUploadedCoverPhoto(coverPhoto);
-    handlePagePropertyPhoto();
+    props.setVideoLinksData(videoLinks);
+    props.setUploadedOtherPhotos(validHousesFiles);
+    props.setUploadedCoverPhoto(coverPhoto);
   };
+
+  useImperativeHandle(ref, () => ({
+    submitData,
+  }));
 
   const fileUploads = useRef([]);
 
@@ -104,119 +105,54 @@ const PropertyPhoto = ({
     videoLinks.instagramUrl !== "";
   // console.log(houses);
   return (
-    <div className=" w-full mt-6">
-      <div className="flex flex-col gap-2 md:w-full w-[100%] fields">
-        <h1 className="text-[23px] font-[700] text-BlueHomz">
+    <div className=" w-full ">
+      <button
+        onClick={() => setOpen(!open)}
+        className={` w-full ${
+          !open ? "text-[#4E4E4E] bg-[#F6F6F6]" : "bg-[#006AFF] text-white"
+        }  p-[16px] sm:p-[24px] flex justify-between items-center rounded-[8px] mb-1`}
+      >
+        <p className="text-[20px] font-[700] ">
           Media <span className="text-[20px]">(Optional)</span>
-        </h1>
-
-        <p className="text-[18px] flex sm:flex-row  sm:items-center items-start flex-col gap-1 font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
-          <span>Add Photos</span>
-          <span className="text-[11px] md:text-[13px] font-[400] text-GrayHomz2 leading-[13.86px] md:leading-[19.5px]">
-            (Supported formats are .jpg and .png, and file size must not exceed
-            5 MB)
-          </span>
         </p>
-      </div>
-      <main className="border-b pb-7 mt-5">
-        <div
-          className={`flex sm:flex-row flex-col sm:flex-nowrap flex-wrap gap-[0px] md:gap-[15px] h-fit `}
-        >
-          <div className="md:space-y-4 h-fit  w-fit sm:mr-[32px] flex gap-[15px]">
-            <div className="">
-              <label
-                for="CoverPhoto "
-                className="text-[13px] font-[500] leading-[19.5px] mb-3"
-              >
-                Cover photo
-              </label>
-              <br />
-
-              <div
-                className={`relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
-              >
-                <form
-                  enctype="multipart/form-data"
-                  method="put"
-                  // action="/api/updateUser/"
+        <Image
+          src={`/static/images/${open ? "white-arrow2" : "black-arrow2"}.svg`}
+          height={24}
+          width={24}
+          className={`cursor-pointer w-[15.48px] h-[7.1px]`}
+          alt="img"
+        />
+      </button>
+      <div
+        className={`bg-[#F6F6F6] h-fit sm:p-[24px] p-[16px] ${
+          open ? "block" : "hidden"
+        }`}
+      >
+        <div className="flex flex-col gap-4 md:w-full w-[100%] fields">
+          <p className="text-[18px] flex  items-start flex-col gap-2 font-[400] text-[#4E4E4E] leading-[19.5px] md:text-[18px] md:leading-[27px]">
+            <span>Add Photos</span>
+            <span className="text-[11px] md:text-[13px] font-[400] text-GrayHomz2 leading-[13.86px] md:leading-[19.5px]">
+              (Supported formats are .jpg and .png, and file size must not
+              exceed 5 MB)
+            </span>
+          </p>
+        </div>
+        <main className="border-b pb-7 mt-5">
+          <div
+            className={`flex  flex-col sm:flex-nowrap flex-wrap gap-[0px] md:gap-[15px] h-fit `}
+          >
+            <div className="md:space-y-4 h-fit  w-fit sm:mr-[32px] flex gap-[15px]">
+              <div className="">
+                <label
+                  for="CoverPhoto "
+                  className="text-[13px] font-[500] leading-[19.5px] mb-3"
                 >
-                  <input
-                    type="file"
-                    name="coverPhoto"
-                    // accept="image/*"
-                    ref={fileUpload}
-                    id="coverPhoto"
-                    onChange={displayCoverPhoto}
-                    style={{ display: "none" }}
-                    accept="image/jpg, image/png, image/jpeg"
-                  />
-                  {fileUploaded ? (
-                    <>
-                      <Image
-                        onClick={uploadCoverPhoto}
-                        src={fileUploaded && ImageSrc}
-                        alt="Cover  Photo"
-                        className=" md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
-                        width={120}
-                        height={120}
-                      />
-                      {fileUploaded && (
-                        <Image
-                          src={"/trush-square.png"}
-                          height={24}
-                          width={24}
-                          className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
-                          alt="img"
-                          onClick={deleteCoverPhoto}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <Image
-                      onClick={uploadCoverPhoto}
-                      src={add}
-                      alt="Cover Photo"
-                      className=" rounded-[14.13px]"
-                      width={38}
-                      height={38}
-                    />
-                  )}
-                </form>
-              </div>
-              <p className="text-[11px] text-red-600">
-                {coverPhotoErrorMsg ? coverPhotoErrorMsg : ""}
-              </p>
-            </div>
-            <div className="sm:hidden">
-              <MiniOtherPhotosFrame
-                houses={houses}
-                add={add}
-                displayHousePic={displayHousePic}
-                uploadFile2={uploadFile2}
-                errorMsg={errorMsg}
-                fileUploads={fileUploads}
-                deleteFile={deleteFile}
-              />
-            </div>
-          </div>
+                  Cover photo
+                </label>
+                <br />
 
-          <div className="hidden sm:block w-fit  ">
-            <label
-              for="others"
-              className="text-[13px] font-[500] leading-[19.5px]"
-            >
-              Other photos
-            </label>
-            {/* <br /> */}
-            {/* // Render each house dynamically */}
-
-            <div
-              className={`h-fit sm:grid sm:grid-cols-6 flex  flex-wrap gap-[15px] sm:gap-[20px] sm:w-full w-fit mt-2 sm:mt-0`}
-            >
-              {houses.map((house, index) => (
                 <div
-                  className={`relative md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
-                  key={index}
+                  className={`relative md:w-[110px] md:h-[110px] w-[90px] h-[90px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer mt-2 md:mt-0 `}
                 >
                   <form
                     enctype="multipart/form-data"
@@ -225,124 +161,177 @@ const PropertyPhoto = ({
                   >
                     <input
                       type="file"
-                      name="HousePic"
-                      ref={(el) => (fileUploads.current[index] = el)}
-                      id={`uploadImage${index}`}
-                      onChange={(e) => displayHousePic(e, index)}
+                      name="coverPhoto"
+                      // accept="image/*"
+                      ref={fileUpload}
+                      id="coverPhoto"
+                      onChange={displayCoverPhoto}
                       style={{ display: "none" }}
                       accept="image/jpg, image/png, image/jpeg"
                     />
-                    {house ? (
+                    {fileUploaded ? (
                       <>
                         <Image
-                          onClick={() => uploadFile2(index)}
-                          src={house}
-                          alt="photos"
-                          className=" md:w-[120px] md:h-[120px] w-[96px] h-[96px] rounded-[14.13px]"
+                          onClick={uploadCoverPhoto}
+                          src={fileUploaded && ImageSrc}
+                          alt="Cover  Photo"
+                          className=" md:w-[110px] md:h-[110px] w-[90px] h-[90px] rounded-[14.13px]"
                           width={120}
                           height={120}
                         />
-                        {house && (
+                        {fileUploaded && (
                           <Image
                             src={"/trush-square.png"}
                             height={24}
                             width={24}
-                            className="cursor-pointer  absolute z-10 sm:bottom-[-22px]"
+                            className="cursor-pointer mt-2 absolute z-10 bottom-[-19px] sm:bottom-[-22px]"
                             alt="img"
-                            onClick={() => deleteFile(index)}
+                            onClick={deleteCoverPhoto}
                           />
                         )}
                       </>
                     ) : (
                       <Image
+                        onClick={uploadCoverPhoto}
                         src={add}
-                        alt="Photo"
-                        className="w-[38px] h-[38px] rounded-[14.13px]"
-                        onClick={() => uploadFile2(index)}
-                        width={48}
-                        height={48}
+                        alt="Cover Photo"
+                        className=" rounded-[14.13px]"
+                        width={38}
+                        height={38}
                       />
                     )}
                   </form>
-                  <p className="text-[11px] text-red-600 pl-3">
-                    {errorMsg[index]}
-                  </p>
                 </div>
-              ))}
+                <p className="text-[11px] text-red-600">
+                  {coverPhotoErrorMsg ? coverPhotoErrorMsg : ""}
+                </p>
+              </div>
+            </div>
+
+            <div className="block w-fit  mt-3">
+              <label
+                for="others"
+                className="text-[13px] font-[500] leading-[19.5px]"
+              >
+                Other photos
+              </label>
+
+              <div
+                className={`h-fit grid sm:grid-cols-4 grid-cols-3 fle flex-wrap gap-[15px] sm:gap-[20px] sm:w-full w-fit mt-2 sm:mt-0`}
+              >
+                {houses.map((house, index) => (
+                  <div
+                    className={`relative md:w-[110px] md:h-[110px] w-[90px] h-[90px] rounded-[14.13px] bg-[#EEF5FF] flex items-center justify-center cursor-pointer flex-col photos `}
+                    key={index}
+                  >
+                    <form
+                      enctype="multipart/form-data"
+                      method="put"
+                      // action="/api/updateUser/"
+                    >
+                      <input
+                        type="file"
+                        name="HousePic"
+                        ref={(el) => (fileUploads.current[index] = el)}
+                        id={`uploadImage${index}`}
+                        onChange={(e) => displayHousePic(e, index)}
+                        style={{ display: "none" }}
+                        accept="image/jpg, image/png, image/jpeg"
+                      />
+                      {house ? (
+                        <>
+                          <Image
+                            onClick={() => uploadFile2(index)}
+                            src={house}
+                            alt="photos"
+                            className=" md:w-[110px] md:h-[110px] w-[90px] h-[90px] rounded-[14.13px]"
+                            width={110}
+                            height={110}
+                          />
+                          {house && (
+                            <Image
+                              src={"/trush-square.png"}
+                              height={24}
+                              width={24}
+                              className="cursor-pointer  absolute z-10 sm:bottom-[-22px]"
+                              alt="img"
+                              onClick={() => deleteFile(index)}
+                            />
+                          )}
+                        </>
+                      ) : (
+                        <Image
+                          src={add}
+                          alt="Photo"
+                          className="w-[38px] h-[38px] rounded-[14.13px]"
+                          onClick={() => uploadFile2(index)}
+                          width={48}
+                          height={48}
+                        />
+                      )}
+                    </form>
+                    <p className="text-[11px] text-red-600 pl-3">
+                      {errorMsg[index]}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          {/* mobile view  */}
-          <div className="sm:hidden mt-[7px]">
-            <MiniOtherPhotosFrame
-              houses={houses}
-              add={add}
-              displayHousePic={displayHousePic}
-              uploadFile2={uploadFile2}
-              errorMsg={errorMsg}
-              fileUploads={fileUploads}
-              secondDisplay={true}
-              deleteFile={deleteFile}
+        </main>
+        <section className="flex flex-col gap-[24px] mt-8">
+          <p className="text-[14px] md:text-[18px] font-[400] text-black leading-[13.86px] md:leading-[19.5px]">
+            Add video links of your property
+          </p>
+          <div className="">
+            <label
+              className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
+              htmlFor="youTube"
+            >
+              YouTube video link
+            </label>
+            <br />
+
+            <input
+              placeholder="Youtube.com/agent"
+              className="h-[45px] p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
+              type="text"
+              name="youTube"
+              onChange={(e) =>
+                setVideoLinks({ ...videoLinks, youtubeUrl: e.target.value })
+              }
             />
           </div>
-        </div>
-      </main>
-      <section className="flex flex-col gap-[24px] mt-8">
-        <p className="text-[14px] md:text-[18px] font-[400] text-black leading-[13.86px] md:leading-[19.5px]">
-          Add video links of your property
-        </p>
-        <div className="">
-          <label
-            className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
-            htmlFor="youTube"
-          >
-            YouTube video link
-          </label>
-          <br />
+          <div className="">
+            <label
+              className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
+              htmlFor="Instagram"
+            >
+              Instagram link
+            </label>
+            <br />
 
-          <input
-            placeholder="Youtube.com/agent"
-            className="h-[45px] p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
-            type="text"
-            name="youTube"
-            onChange={(e) =>
-              setVideoLinks({ ...videoLinks, youtubeUrl: e.target.value })
-            }
-          />
-          {error1 && (
-            <div className="italic text-error text-[11px] font-[400]">
-              {error1}
-            </div>
-          )}
-        </div>
-        <div className="">
-          <label
-            className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
-            htmlFor="Instagram"
-          >
-            Instagram link
-          </label>
-          <br />
-
-          <input
-            placeholder="Instagram.com/agent"
-            className="h-[45px] p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
-            type="text"
-            name="Instagram"
-            onChange={(e) =>
-              setVideoLinks({ ...videoLinks, instagramUrl: e.target.value })
-            }
-          />
-          {error2 && (
-            <div className="italic text-error text-[11px] font-[400]">
-              {error2}
-            </div>
-          )}
-        </div>
-      </section>
-      <div className="flex mb-0 flex-row justify-between sm:mt-20 mt-10  md:px-0 paginate">
+            <input
+              placeholder="Instagram.com/agent"
+              className="h-[45px] p-[12px] rounded-[4px] border text-[13px] md:text-[14px] font-[500] text-GrayHomz w-[100%] placeholder:text-[13px]"
+              type="text"
+              name="Instagram"
+              onChange={(e) =>
+                setVideoLinks({ ...videoLinks, instagramUrl: e.target.value })
+              }
+            />
+            {/* {props.error2 && (
+              <div className="italic text-error text-[11px] font-[400]">
+                {props.error2}
+              </div>
+            )} */}
+          </div>
+        </section>
+      </div>
+      {/* <div className="hidden mb-0 flex-row justify-between sm:mt-20 mt-10  md:px-0 paginate">
         <div>
           <button
-            onClick={BackToRentalsInfo}
+            onClick={props.BackToRentalsInfo}
             // className="text-[14px] font-[500] p-4 rounded-md text-BlueHomz border border-BlueHomz flex h-[36px w-[36px] md:w-[100px] justify-center items-center"
             className="text-[14px] font-[500] md:py-[8px] md:px-[12px] rounded-[4px] md:text-BlueHomz border text-[#D5D5D5]  h-[39px] w-[45px] md:h-full md:w-full flex items-center justify-center gap-1 "
           >
@@ -380,9 +369,9 @@ const PropertyPhoto = ({
               />
               <span>Save to draft</span>
             </button> */}
-            <button
+      {/* <button
               className={`border border-BlueHomz text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz`}
-              onClick={handlePagePropertyPhoto}
+              onClick={props.handlePagePropertyPhoto}
             >
               Skip
             </button>
@@ -416,8 +405,8 @@ const PropertyPhoto = ({
               )}
             </button>
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* // </div>  */}
       {/* <button
         className={`sm:hidden flex gap-2 items-center text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-[#c0bfbf] mx-auto my-5 mb-2`}
         // onClick={() => setSaveToDraft(true)}
@@ -432,6 +421,6 @@ const PropertyPhoto = ({
       </button> */}
     </div>
   );
-};
+});
 
 export default PropertyPhoto;

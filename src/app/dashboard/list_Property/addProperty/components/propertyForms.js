@@ -14,13 +14,13 @@ import { useRouter } from "next/navigation";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
+import ContactInfoMedia from "./ContactInfoMedia";
 
 const PropertyForms = () => {
   const router = useRouter();
   const [propertyInfoActive, setPropertyInfoActive] = useState(true);
   const [activeTwo, setActiveTwo] = useState(false);
   const [activeThree, setActiveThree] = useState(false);
-  const [activeFour, setActiveFour] = useState(false);
   const [loading, setLoading] = useState(false);
   const [propertyInfo, setPropertyInfo] = useState([]);
   const [rentalInfo, setRentalInfo] = useState([]);
@@ -200,7 +200,7 @@ const PropertyForms = () => {
     setPropertyInfo(data);
     setPropertyInfoActive(false);
     setActiveThree(false);
-    setActiveFour(false);
+    // setActiveFour(false);
   };
 
   const handlePropertyInfoActive = () => {
@@ -214,23 +214,12 @@ const PropertyForms = () => {
     setActiveTwo(false);
     setRentalInfo(data);
     setPropertyInfoActive(false);
-    setActiveFour(false);
-  };
-
-  const handlePropertyPhotos = () => {
-    setActiveThree(false);
-    setActiveFour(true);
+    // setActiveFour(false);
   };
 
   const BackToRentalsInfo = () => {
     setActiveThree(false);
     setActiveTwo(true);
-  };
-
-  const BackToPropertyPhotos = () => {
-    setActiveThree(true);
-    setSaveModalIsOpen(false);
-    setActiveFour(false);
   };
 
   const goBack = () => {
@@ -295,7 +284,7 @@ const PropertyForms = () => {
           <span
             className={`${
               propertyInfoActive &&
-              "inline-block p-1 rounded-full bg-white shadow-md"
+              "flex items-center sm:py-[4px] sm:px-1 p-1 rounded-[24px] bg-white shadow-md"
             }`}
           >
             <Image
@@ -311,7 +300,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
+                className="md:hidden rounded-full h-[20px] w-[20px]"
               />
             ) : (
               <Image
@@ -319,15 +308,16 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
+                className="md:hidden rounded-full h-[10px] w-[24px]"
               />
             )}
           </span>
 
-          <hr className="h-[1px] w-[25%] px-2 md:px-0 md:w-[30%] bottom-0 bg-gray-600" />
+          <hr className="h-[1px]  px-2 md:px-0 w-full  md:w-[45%]  bottom-0 bg-gray-600" />
           <span
             className={`${
-              activeTwo && "inline-block p-1 rounded-full bg-white shadow-md"
+              activeTwo &&
+              "flex items-center sm:p-[4px] p-1 rounded-[24px] bg-white shadow-md"
             }`}
           >
             <Image
@@ -343,7 +333,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
+                className="md:hidden rounded-full h-[20px] w-[20px]"
               />
             ) : (
               <Image
@@ -351,15 +341,16 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
+                className="md:hidden rounded-full h-[10px] w-[24px]"
               />
             )}
           </span>
 
-          <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
+          <hr className="h-[1px]  px-2 md:px-0 w-full md:w-[45%] bottom-0 bg-gray-600" />
           <span
             className={`${
-              activeThree && "inline-block p-1 rounded-full bg-white shadow-md"
+              activeThree &&
+              "flex items-center  p-1 sm:p-[4px] rounded-[24px] bg-white shadow-md"
             }`}
           >
             <Image
@@ -375,7 +366,7 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
+                className="md:hidden rounded-full h-[20px] w-[20px]"
               />
             ) : (
               <Image
@@ -383,11 +374,11 @@ const PropertyForms = () => {
                 width={18}
                 height={16}
                 alt=""
-                className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
+                className="md:hidden rounded-full h-[10px] w-[24px]"
               />
             )}
           </span>
-          <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
+          {/* <hr className="h-[1px] w-[25%] px-2 md:px-0  md:w-[30%] bottom-0 bg-gray-600" />
           <span
             className={`${
               activeFour && "inline-block p-1 rounded-full bg-white shadow-md"
@@ -399,8 +390,8 @@ const PropertyForms = () => {
               height={16}
               alt=""
               className="hidden md:block rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
-            />
-            {!activeFour ? (
+            /> */}
+          {/* {!activeFour ? (
               <Image
                 src="/static/images/roundBlue-circle.svg"
                 width={18}
@@ -416,26 +407,17 @@ const PropertyForms = () => {
                 alt=""
                 className="md:hidden rounded-full h-[12px] w-[12px] md:w-[18px] md:h-[10px]"
               />
-            )}
-          </span>
+            )} */}
+          {/* </span> */}
         </div>
         <div className="hidden md:flex items-center justify-between text-[#4E4E4E] text-[14px]">
           <p>Property Information</p>
           <p>Payment Details</p>
-          <p className="pl-10">
+          {/* <p className="pl-10">
             Media <span className="text-gray-400">(Optional)</span>
-          </p>
-          <p>Contact Information</p>
+          </p> */}
+          <p>Contact Information & Media</p>
         </div>
-        {/* <div className="hidden items-center justify-between text-[#4E4E4E] text-[14px]">
-          <p>Property Info</p>
-          <p>Rental Info</p>
-          <p className="pl-4">
-            Photo(s){" "}
-            <span className="text-gray-400 text-[12px]">(Optional)</span>
-          </p>
-          <p>Contact Info</p>
-        </div> */}
       </div>
       <div className=" my-7  rounded-[12px] ">
         <div className={`${propertyInfoActive ? "inline" : "hidden"}`}>
@@ -454,22 +436,30 @@ const PropertyForms = () => {
         </div>
 
         <div className={`${activeThree ? "inline" : "hidden"}`}>
-          <PropertyPhoto
+          <ContactInfoMedia
+            BackToRentalsInfo={BackToRentalsInfo}
+            setUploadedCoverPhoto={setUploadedCoverPhoto}
+            setUploadedOtherPhotos={setUploadedOtherPhotos}
+            setSaveToDraft={setSaveToDraft}
+            setVideoLinksData={setVideoLinksData}
+            handleSubmitData={handleSubmit}
+          />
+          {/* <PropertyPhoto
             BackToRentalsInfo={BackToRentalsInfo}
             handlePagePropertyPhoto={handlePropertyPhotos}
             setUploadedCoverPhoto={setUploadedCoverPhoto}
             setUploadedOtherPhotos={setUploadedOtherPhotos}
             setSaveToDraft={setSaveToDraft}
             setVideoLinksData={setVideoLinksData}
-          />
+          /> */}
         </div>
-        <div className={`${activeFour ? "inline" : "hidden"}`}>
+        {/* <div className={`${activeFour ? "inline" : "hidden"}`}>
           <ContactInfo
             BackToPropertyPhotos={BackToPropertyPhotos}
             handleSubmitData={handleSubmit}
             setSaveToDraft={setSaveToDraft}
           />
-        </div>
+        </div> */}
       </div>
       <CustomizedModal isOpen={saveModalIsOpen} onRequestClose={closeModal}>
         <div
