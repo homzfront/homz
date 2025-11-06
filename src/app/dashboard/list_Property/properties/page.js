@@ -362,12 +362,15 @@ const List_Property = () => {
             } flex w-full sm:items-center sm:gap- mt-[-15px] md:mt-0 mb-6 pt-2 md:mb-0`}
           >
             <div className=" sm:ml- border-b-[1px] flex gap- items-center sm:mb-4 justify-between w-full py-[16px] sm:px-4">
-              <p>
-                <span className="sm:font-[500] text-[16px] leading-[20.16px] font-[400] sm:leading-[30px] md:text-[20px]">
+              <p className="flex gap-2 items-center">
+                <span className="hidden sm:block font-[500]   leading-[30px] text-[20px]">
                   Listed Properties
                 </span>
+                <span className="sm:hidden block text-[16px] leading-[20.16px] font-[400] p-2">
+                  Properties
+                </span>
 
-                <span className="text-[#006AFF] md:text-[18px] bg-[#EEF5FF] px-[8px] h-[28px] md:h-[35px] py-[4px] rounded-[8px] ml-2">
+                <span className="text-[#006AFF] md:text-[18px] font-[400] flex items-center bg-[#EEF5FF] p-1 rounded-[8px] ">
                   {property?.data?.totalCount || 0}
                 </span>
               </p>
