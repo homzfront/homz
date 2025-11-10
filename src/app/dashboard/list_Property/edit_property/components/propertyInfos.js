@@ -5,6 +5,9 @@ import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import api from "@/utils/api";
 import _ from "lodash";
 import Amenities from "./Amenities";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import he from "he";
 
 const PropertyInfo = ({
   property,
@@ -58,10 +61,14 @@ const PropertyInfo = ({
       setFormData((prevState) => ({
         ...prevState,
         ...property,
+        description: property.description
+          ? he.decode(property.description)
+          : "",
         newlyBuilt: property?.newlyBuilt || false,
         serviced: property?.serviced || false,
         amenities: property.amenities || [],
       }));
+
       setPropertyStatus((prev) => ({
         ...prev,
         newlyBuilt: property.newlyBuilt || false,
@@ -71,11 +78,14 @@ const PropertyInfo = ({
   }, [property]);
 
   useEffect(() => {
-    // Compare formData and originalFormData
-    const isFormDataChanged = !_.isEqual(formData, originalFormData.current);
-    setSaveUpdate(isFormDataChanged);
-    if (isFormDataChanged) setData(formData);
-  }, [formData, originalFormData, setSaveUpdate]);
+    const handler = setTimeout(() => {
+      const isChanged = !_.isEqual(formData, originalFormData.current);
+      setSaveUpdate(isChanged);
+      if (isChanged) setData(formData);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [formData]);
 
   const fetchStates = async () => {
     try {
@@ -110,7 +120,6 @@ const PropertyInfo = ({
           };
         }
       } else {
-        // Handle other input types
         return {
           ...prevState,
           [name]: value,
@@ -120,34 +129,23 @@ const PropertyInfo = ({
   };
 
   const onSubmit = (e) => {
-    // if (data === null) {
-    //   setEditMode(false);
-    // console.log(formData);
-    // } else {
-    //   console.log(data)
-    // }
     handleUpdate(e, formData);
   };
 
   const fetchAreas = async (stateSelected) => {
     try {
       const Areas = await api.post("/state/area", { state: stateSelected });
-      // console.log(Areas.data.data);
+
       setAreas(Areas.data.data);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
-  
-  //
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between flex-col md:flex-row ">
-        <div
-          // onSubmit={onSubmit}
-          className=" flex flex-col sm:w-full sm:gap-[20px] gap-[17px]"
-        >
+        <div className=" flex flex-col sm:w-full sm:gap-[20px] gap-[17px]">
           <div>
             <label
               className="text-[13px] md:text-[14px] font-[500] text-BlackHomz"
@@ -369,20 +367,28 @@ const PropertyInfo = ({
                   Property Description <span className="text-error">*</span>
                 </label>
               </div>
-              <textarea
-                onChange={handleChange}
-                onClick={(e) => setDescriptionClicked(true)}
-                className={`mt-1 h-[151px] md:h-[90px] rounded-md w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] placeholder:text-[13px]  ${
-                  descriptionClicked
-                    ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E] scrollbar-container"
-                    : "bg-[#E6E6E6] text-[#A9A9A9]"
-                } `}
-                placeholder="Give short description of your property."
-                // value={description}
-                id="description"
-                name="description"
-                value={formData?.description}
-              ></textarea>
+              <div
+                onClick={() => setDescriptionClicked(true)}
+                className={`rounded-md border transition-colors h-fit`}
+              >
+                <ReactQuill
+                  value={formData.description || ""}
+                  onChange={(value) => {
+                    if (descriptionClicked) {
+                      handleChange({
+                        target: { name: "description", value },
+                      });
+                    }
+                  }}
+                  theme="snow"
+                  placeholder="Give a short description of your property..."
+                  className={`bg-white rounded-md h-fit] ${
+                    descriptionClicked
+                      ? "bg-inherit text-[#4E4E4E] border border-[#4E4E4E] scrollbar-container"
+                      : "bg-[#E6E6E6] text-[#A9A9A9]"
+                  }`}
+                />
+              </div>
             </div>
             {formData?.propertyType === "Land" && (
               <div className="sm:pt-6  sm:w-[349px] inline-block w-[100%]">

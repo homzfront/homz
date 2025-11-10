@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
@@ -30,11 +30,18 @@ const PropertyCard = ({
   setLoadingII,
   properties,
 }) => {
-  // console.log(Property);
   const currentProperties = Property;
   const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
+  const [email, setEmail] = useState("");
 
+  useEffect(() => {
+    const profileString = localStorage.getItem("profile");
+    if (profileString) {
+      const profile = JSON.parse(profileString);
+      setEmail(profile.email || "");
+    }
+  }, []);
   // endpoint for the views, clicks, and whatsApp messages
   const { mutate: updateMetrics } = useMutation({
     mutationFn: async ({ type, id }) => {
@@ -43,6 +50,12 @@ const PropertyCard = ({
       });
     },
   });
+
+  const checkToUpdateMetrics = (type) => {
+    if (currentProperties && currentProperties?.user?.email !== email) {
+      updateMetrics(type);
+    }
+  };
 
   const closeSaveToDraftModal = () => {
     setOpenSuccessModal(false);
@@ -117,7 +130,7 @@ const PropertyCard = ({
                 width={"md:w-[345px]"}
                 reset={reset}
                 setLoadingII={setLoadingII}
-                updateMetrics={updateMetrics}
+                updateMetrics={checkToUpdateMetrics}
               />
             </>
           ) : (
@@ -150,7 +163,7 @@ const PropertyCard = ({
                                         className="cursor-pointer "
                                         href={`/property/${property?.slug}`}
                                         onClick={() =>
-                                          updateMetrics({
+                                          checkToUpdateMetrics({
                                             type: "view",
                                             id: property?._id,
                                           })
@@ -172,7 +185,7 @@ const PropertyCard = ({
                                   className="cursor-pointer "
                                   href={`/property/${property?.slug}`}
                                   onClick={() =>
-                                    updateMetrics({
+                                    checkToUpdateMetrics({
                                       type: "view",
                                       id: property?._id,
                                     })
@@ -219,7 +232,10 @@ const PropertyCard = ({
                           className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]"
                           href={`/property/${property?.slug}`}
                           onClick={() =>
-                            updateMetrics({ type: "view", id: property?._id })
+                            checkToUpdateMetrics({
+                              type: "view",
+                              id: property?._id,
+                            })
                           }
                         >
                           <div className="flex justify-between">
