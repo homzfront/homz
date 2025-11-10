@@ -31,8 +31,6 @@ const ContactCard = ({
               setShowNumber(!showNumber);
 
               if (!showNumber) {
-                updateMetrics("call");
-
                 let phone = contactData?.contacts?.phoneNumber?.replace(
                   /\s+/g,
                   ""
@@ -51,9 +49,11 @@ const ContactCard = ({
 
                 if (isMobile) {
                   window.location.href = `tel:${phone}`;
+                  updateMetrics("call");
                 } else {
                   const whatsappURL = `https://wa.me/${phone.replace("+", "")}`;
                   window.open(whatsappURL, "_blank");
+                  updateMetrics("message");
                 }
               }
             }}
