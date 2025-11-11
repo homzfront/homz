@@ -9,7 +9,7 @@ const ContactCard = ({
   slug,
   updateMetrics,
 }) => {
-  // console.log(contactData);
+  console.log(contactData);
   const [showNumber, setShowNumber] = useState(false);
 
   return (
@@ -51,9 +51,8 @@ const ContactCard = ({
                   window.location.href = `tel:${phone}`;
                   updateMetrics("call");
                 } else {
-                  const whatsappURL = `https://wa.me/${phone.replace("+", "")}`;
-                  window.open(whatsappURL, "_blank");
                   updateMetrics("message");
+                  whatsApp(phone, contactData?.slug);
                 }
               }
             }}
