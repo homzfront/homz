@@ -24,7 +24,7 @@ const ParamsComponent = ({ reset, handleListingType}) => {
   
     return (
         <>
-            <div className="hidden sm:flex justify-between items-center w-full px-[76px]">
+            <div className="hidden xl:flex justify-between items-center w-full px-[76px]">
                 <div className="relative flex items-center w-[20%] h-[44px] py-[12px]  mr-1">
                     <input
                         type="text"
@@ -126,7 +126,7 @@ const ParamsComponent = ({ reset, handleListingType}) => {
                     </button>
                 </div>
             </div>
-            <div className="flex justify-between sm:hidden w-full px-6 pl-">
+            <div className="flex justify-between xl:hidden w-full px-6 md:px-[76px]">
                 <div className="searchPane relative w-[86%] rounded-[4px]">
                     <input
                         type="text"
@@ -161,7 +161,7 @@ const ParamsComponent = ({ reset, handleListingType}) => {
                 isOpen={mobileModalIsOpen}
                 onRequestClose={closeMobileModal}
             >
-                <div className="bg-white border flex flex-col w-[350px] h-[320px]  py-[24px] px-4 rounded-[12px] gap-[18px]">
+                <div className="bg-white border flex flex-col w-[350px] h-[320px py-[24px] px-4 rounded-[12px] gap-[18px]">
                     <div className=" flex items-center justify-between">
                         <p className="text-[#4E4E4E] text-[14px] leading-[21px] font-[500] mb-2 pt-2">
                             Filter by

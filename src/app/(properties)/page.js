@@ -53,20 +53,6 @@ const customTheme = {
   },
 };
 
-const metadata = {
-  title: 'Explore Properties Across Nigeria',
-  description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.', // ← Your custom tag
-  openGraph: {
-    title: 'Explore Properties Across Nigeria',
-    description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Explore Properties Across Nigeria',
-    description: 'Browse verified homes, land, and shortlets for sale or rent in top Nigerian locations.',
-  }
-}
-
 const HomePage = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [landlord, setLandlords] = useState(true);
@@ -90,7 +76,7 @@ const HomePage = () => {
   const landsRef = useRef(null);
   const shortletRef = useRef(null);
   const { featuredData, fetchFeaturedData } = useFeatureStore();
-
+  
   // Scroll function
   const scrollToRef = (ref) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
@@ -183,12 +169,17 @@ const HomePage = () => {
   const link = () => {
     const query = {};
 
-    // Build query object excluding empty values and listingType
+    // Build query object excluding empty values, null, and listingType
     Object.keys(filters).forEach((key) => {
-      if (filters[key] && key !== "listingType") {
-        query[key] = filters[key];
+      const value = filters[key];
+      // Include if value exists, is not empty string, is not null, and is not listingType
+      if (value && value !== '' && value !== null && key !== "listingType") {
+        query[key] = value;
       }
     });
+
+    // Add a marker to indicate coming from homepage
+    query.fromHome = 'true';
 
     let basePath = "";
 
@@ -212,107 +203,44 @@ const HomePage = () => {
       }
     }
 
-    // Only add query params if they exist (❌ no page)
+    // Only add query params if they exist
     const queryString =
       Object.keys(query).length > 0
         ? `?${new URLSearchParams(query).toString()}`
         : "";
 
-    return `${basePath}${queryString}`;
+    const finalUrl = `${basePath}${queryString}`;
+
+    return finalUrl;
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(`/public/properties/featured`);
-      const propertyData = response?.data?.data || null;
-    };
-    fetchData();
     fetchFeaturedData();
   }, []);
 
-  function getWindowDimensions() {
-    if (typeof window !== "undefined") {
-      const { innerWidth: width } = window;
-      return width;
-    }
-    return null;
-  }
-
-  const [windowWidth, setWindowWidth] = useState(null);
   const [isClient, setIsClient] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     setIsClient(true);
-    setWindowWidth(getWindowDimensions());
-    
-    if (typeof window !== "undefined") {
-      function handleResize() {
-        setWindowWidth(getWindowDimensions());
-      }
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
-  const slidesToShow = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth > 1320) return 3;
-      if (window.innerWidth < 1000) return 1;
-      if (window.innerWidth < 1321 && window.innerWidth > 999) return 2;
-    }
-    return 1;
-  };
-
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: slidesToShow(), // Adjusted based on screen size
-    className: "center",
-    centerMode: true,
-    centerPadding: "0",
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: null,
-    nextArrow: null,
-  };
-
-  const sliderSettingsII = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    slidesToShow: 1,
-    className: "center",
-    centerMode: true,
-    centerPadding: "0%",
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: null,
-    nextArrow: null,
-  };
-
   const logoSlidesToShow = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth > 1270) return 3.5; // Show partial slides to force sliding
-      if (window.innerWidth > 1024) return 3;
-      if (window.innerWidth > 768) return 2.5;
-      return 1;
-    }
+    if (!isClient) return 1;
+    if (window.innerWidth > 1270) return 3.5;
+    if (window.innerWidth > 1024) return 3;
+    if (window.innerWidth > 768) return 2.5;
     return 1;
   };
-
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const logoSliderSettings = {
     dots: false,
     infinite: true,
     speed: 2000,
     slidesToScroll: 1,
-    slidesToShow: logoSlidesToShow(),
-    centerMode: true,
-    centerPadding: isMobile ? "10%" : "20%",
+  slidesToShow: logoSlidesToShow(),
+  centerMode: true,
+  centerPadding: isMobile ? "10%" : "20%",
     autoplay: true,
     autoplaySpeed: 0,
     prevArrow: null,
@@ -830,12 +758,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for rent")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "for rent")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -858,12 +786,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "for sale")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "for sale")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -886,12 +814,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "land")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "land")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -914,12 +842,12 @@ const HomePage = () => {
                     </Link>
                   </div>
                   <div className={`w-full my-6 px-8 md:px-[80px] ${featuredData?.filter((data) => data?.property?.listingType === "shortlet")?.length < 3 ? "flex justify-start items-start" : " flex flex-col justify-center items-center"}`}>
-                    {isClient && (
+                    {/* {isClient && ( */}
                       <PropertySlider
                         properties={featuredData?.filter((data) => data?.property?.listingType === "shortlet")}
                         carouselTheme={customTheme}
                       />
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               }
@@ -1174,7 +1102,6 @@ const HomePage = () => {
             <h2 className="text-[20px] md:text-[26px] text-GrayHomz font-semibold text-center">
               We’re Proudly serving forward-thinking companies
             </h2>
-            {isClient ? (
               <Slider {...logoSliderSettings} className="w-full mt-8">
                 {
                   images.map((data, index) => (
@@ -1189,20 +1116,6 @@ const HomePage = () => {
                   ))
                 }
               </Slider>
-            ) : (
-              <div className="w-full mt-8 flex justify-center gap-4 overflow-hidden">
-                {images.slice(0, 3).map((data, index) => (
-                  <div key={index} className="flex justify-center px-2">
-                    <Image
-                      src={data}
-                      alt="img"
-                      height={95}
-                      width={240}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
           <div className="h-auto md:h-[303px] py-[20px] md:py-0 w-full bg-center bg-cover bg-[url('/Background-image.png')] bg-black">
             <div className="h-[239px] md:h-[303px]  flex flex-col items-center gap-[15px] justify-center mb-2">

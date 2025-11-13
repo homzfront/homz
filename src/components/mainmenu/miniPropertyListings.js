@@ -43,42 +43,41 @@ const MiniPropertyListings = ({
           />
         </Link>
       </div>
-      <div className="w-[315px] grid sm:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:w-full md:justify-start  mx-auto md:mx-0">
+      <div className="w-full sm:w-[325px] md:w-[363px] grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:gap-[50px] gap-[36px] mb-3 md:justify-start  mx-auto md:mx-0">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <Link
             href={`/property/${property?.slug}`}
             onClick={() => updateMetrics("view")}
-            className={`flex flex-col w-[315px]  ${width ? width : " sm:w-[333px]"
-              }  h-fit rounded-[12px] shadow-md`}
+            className={`flex flex-col w-full h-fit rounded-[12px] shadow-md`}
             key={index}
           >
             <div
-              className={`cursor-pointer ${width ? width : "sm:w-[333px]"
-                } sm:h-[252px] rounded-[10px] `}
+              className={`cursor-pointer ${width ? width : "w-full"
+                } h-[226.33px] md:h-[252px] rounded-[10px] overflow-hidden`}
             >
               <Carousel
                 slide={false}
                 theme={customTheme}
-                className="w-[315px] h-[226.33px] md:h-full md:w-full"
+                className="w-full h-full"
               >
                 {property?.photos &&
                   property?.photos.map((img, index) => (
                     <div
                       key={index}
-                      className="w-[315px] h-full md:h-full md:w-full"
+                      className="h-full w-full"
                     >
                       <Image
                         src={img?.url}
                         alt=""
                         width={393}
                         height={252}
-                        className="w-[335px] h-[226.33px] md:h-full md:w-full object-cover realtive z-0"
+                        className="h-full w-full object-cover relative z-0"
                       />
                     </div>
                   ))}
               </Carousel>
             </div>
-            <div className="flex flex-col px-4 pt-2 md:pt-5 gap-[5px] md:gap-[10px]">
+            <div className="flex flex-col px-4 pt-4 md:pt-5 gap-[5px] md:gap-[10px]">
               <div className="flex justify-between">
                 <p className="text-[#006AFF] text-[20.66px] md:text-[21px] font-[700] leading-[28.98px] text-center">
                   {trucateWord(

@@ -244,7 +244,7 @@ const Header = () => {
             {subMenuOpen && (
               <div
                 ref={productRef}
-                className={`absolute px-3 top-5 left-[80%] md:left-1/2 transform -translate-x-[40%] md:top-7 py-3 flex flex-col md:flex-row gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
+                className={`absolute px-3 top-5 left-[80%] md:left-[35%] transform -translate-x-[40%] md:top-7 py-3 flex flex-col md:flex-row gap-2 items-start justify-center rounded-[10px] text-[12px] md:text-[14px] text-BlackHomz
                  md:border z-[99999] bg-white md:shadow-lg
                 `}
               >

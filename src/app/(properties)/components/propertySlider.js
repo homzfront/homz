@@ -53,8 +53,8 @@ const PropertySlider = ({
   return (
     <div style={{ width: totalSliderWidth, maxWidth: '100%' }} className={`${properties?.length > 2 ? "mx-auto" : width > 1380 ? "ml-[4%]" : "mx-auto lg:mx-0"}`}>
       <Slider {...(sliderSettings)}>
-        {properties?.map?.((property, idx) => (
-          <div className="w-full mb-8" key={idx}>
+        {properties?.map?.((property) => (
+          <div className="w-full mb-8" key={property?.property?._id || property?.property?.slug || Math.random()}>
             <div className="w-[290px] sm:w-[360px] h-[458px] bg-white rounded-lg shadow-md mx-auto">
               <div className="cursor-pointer w-[373px] h-[252px]">
                 <Carousel
