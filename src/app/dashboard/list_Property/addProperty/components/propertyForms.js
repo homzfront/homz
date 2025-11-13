@@ -425,6 +425,7 @@ const PropertyForms = () => {
             handlePropertyInfo={handlePropertyInfo}
             setSaveToDraft={setSaveToDraft}
             setAmenities={setAmenities}
+            cancel={goBack}
           />
         </div>
         <div className={`${activeTwo ? "inline" : "hidden"}`}>

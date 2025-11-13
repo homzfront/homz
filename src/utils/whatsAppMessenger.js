@@ -2,7 +2,7 @@ export default function whatsApp(number, slug) {
   // console.log(number);
   const defaultMessage = encodeURIComponent(
     `Hello, I would like to get more information on this property you
-     listed on homz.ng https://homz.ng/property/${slug}.`
+     listed on Homz https://homz.ng/property/${slug}.`
   );
   if (number.startsWith("0")) {
     number = number.substring(1);
@@ -13,7 +13,7 @@ export default function whatsApp(number, slug) {
   let urlApi = `whatsapp://send?text=${defaultMessage}&phone=${
     "+234" + number
   }`;
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     window.open(urlApi, "_blank", "noopener,noreferrer");
   }
 }

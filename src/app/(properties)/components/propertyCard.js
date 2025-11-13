@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../components/mainmenu/button";
 import { Carousel } from "flowbite-react";
 import Link from "next/link";
@@ -31,8 +31,8 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     y: 50, // Coming from bottom
     scale: 0.95,
   },
@@ -63,13 +63,18 @@ const PropertyCard = ({
   setLoadingII,
   properties,
 }) => {
-  // console.log(Property);
-  const router = useRouter();
-  const { setFilters, setCurrentPage } = usePropertyStore();
   const currentProperties = Property;
   const [openPropertyReq, setOpenPropertyReq] = useState(false);
   const [OpenSuccessModal, setOpenSuccessModal] = useState(false);
+  const [email, setEmail] = useState("");
 
+  useEffect(() => {
+    const profileString = localStorage.getItem("profile");
+    if (profileString) {
+      const profile = JSON.parse(profileString);
+      setEmail(profile.email || "");
+    }
+  }, []);
   // endpoint for the views, clicks, and whatsApp messages
   const { mutate: updateMetrics } = useMutation({
     mutationFn: async ({ type, id }) => {
@@ -79,21 +84,10 @@ const PropertyCard = ({
     },
   });
 
-  // Handler for "Explore Properties" button
-  const handleExploreProperties = () => {
-    setLoadingII(true);
-    // Reset all filters
-    setFilters({
-      search: '',
-      propertyType: null,
-      minPrice: null,
-      maxPrice: null,
-      numberOfBathrooms: null,
-      listingType: null, // null for /all page
-    });
-    setCurrentPage(1);
-    // Navigate to /all
-    router.push('/all');
+  const checkToUpdateMetrics = (type) => {
+    if (currentProperties && currentProperties?.user?.email !== email) {
+      updateMetrics(type);
+    }
   };
 
   const closeSaveToDraftModal = () => {
@@ -166,13 +160,13 @@ const PropertyCard = ({
                 width={"md:w-[345px]"}
                 reset={reset}
                 setLoadingII={setLoadingII}
-                updateMetrics={updateMetrics}
+                updateMetrics={checkToUpdateMetrics}
               />
             </>
           ) : (
             <>
               <div className="flex items-center justify-center w-full px- flex-col ">
-                <motion.div 
+                <motion.div
                   className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[30px]  mb-3 w-full"
                   variants={containerVariants}
                   initial="hidden"
@@ -204,15 +198,12 @@ const PropertyCard = ({
                                   className="w-full h-full"
                                 >
                                   {property?.photos.map((img, index) => (
-                                    <div
-                                      key={index}
-                                      className="w-full h-full"
-                                    >
+                                    <div key={index} className="w-full h-full">
                                       <Link
                                         className="cursor-pointer block w-full h-full"
                                         href={`/property/${property?.slug}`}
                                         onClick={() =>
-                                          updateMetrics({
+                                          checkToUpdateMetrics({
                                             type: "view",
                                             id: property?._id,
                                           })
@@ -234,7 +225,7 @@ const PropertyCard = ({
                                   className="cursor-pointer block w-full h-full"
                                   href={`/property/${property?.slug}`}
                                   onClick={() =>
-                                    updateMetrics({
+                                    checkToUpdateMetrics({
                                       type: "view",
                                       id: property?._id,
                                     })
@@ -281,7 +272,10 @@ const PropertyCard = ({
                           className="flex flex-col px-4 pt-4 md:pt-5 gap-[5px] md:gap-[10px]"
                           href={`/property/${property?.slug}`}
                           onClick={() =>
-                            updateMetrics({ type: "view", id: property?._id })
+                            checkToUpdateMetrics({
+                              type: "view",
+                              id: property?._id,
+                            })
                           }
                         >
                           <div className="flex justify-between">

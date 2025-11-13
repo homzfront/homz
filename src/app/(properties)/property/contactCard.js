@@ -9,7 +9,7 @@ const ContactCard = ({
   slug,
   updateMetrics,
 }) => {
-  // console.log(contactData);
+  console.log(contactData);
   const [showNumber, setShowNumber] = useState(false);
 
   return (
@@ -24,16 +24,43 @@ const ContactCard = ({
               ? contactData?.contacts?.phoneNumber
               : formatNumber(contactData?.contacts?.phoneNumber)}
           </p>
+
           <button
-            className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px]  text-[11px] leading-[16.5px] font-[400]"
+            className="text-white bg-[#006AFF] py-[4px] px-[12px] rounded-[8px] text-[11px] leading-[16.5px] font-[400]"
             onClick={() => {
               setShowNumber(!showNumber);
-              if (!showNumber) updateMetrics("call");
+
+              if (!showNumber) {
+                let phone = contactData?.contacts?.phoneNumber?.replace(
+                  /\s+/g,
+                  ""
+                );
+                if (phone && !phone.startsWith("+234")) {
+                  if (phone.startsWith("0")) {
+                    phone = `+234${phone.slice(1)}`;
+                  } else {
+                    phone = `+234${phone}`;
+                  }
+                }
+
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(
+                  navigator.userAgent
+                );
+
+                if (isMobile) {
+                  window.location.href = `tel:${phone}`;
+                  updateMetrics("call");
+                } else {
+                  updateMetrics("message");
+                  whatsApp(phone, contactData?.slug);
+                }
+              }
             }}
           >
             Call Agent
           </button>
         </div>
+
         {contactData?.contacts?.whatsapp && (
           <div className="bg-white sm:w-[280px] h-[44px] flex items-center justify-between p-[12px] rounded-[8px]">
             <p className="text-[#039855] text-[13px] flex gap-2 font-[400] leading-[19.5px]">

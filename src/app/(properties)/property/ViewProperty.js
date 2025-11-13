@@ -26,6 +26,10 @@ import PropertyRequest from "@/components/mainmenu/propertyRequest";
 import SuccessModal from "@/components/mainmenu/SuccessModal";
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import DOMPurify from "isomorphic-dompurify";
+import he from "he";
+// import { property } from "lodash";
+// import { Warning } from "postcss";
 
 const ViewProperty = ({ PropertySlug }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -37,6 +41,7 @@ const ViewProperty = ({ PropertySlug }) => {
   const [tabName, setTabName] = useState("Overview");
   const [viewportWidth, setViewportWidth] = useState(0);
 
+  const [email, setEmail] = useState("");
   const router = useRouter();
   const pathSegments = window.location.pathname.split("/");
   const slug = pathSegments[pathSegments.length - 1];
@@ -78,6 +83,14 @@ const ViewProperty = ({ PropertySlug }) => {
     setOpenSuccessModal(false);
   };
 
+  useEffect(() => {
+    const profileString = localStorage.getItem("profile");
+    if (profileString) {
+      const profile = JSON.parse(profileString);
+      setEmail(profile.email || "");
+    }
+  }, []);
+
   // Getting the property data
   const { data: propertyData, isLoading: loading } = useQuery({
     queryKey: ["property", propertySlug],
@@ -118,7 +131,7 @@ const ViewProperty = ({ PropertySlug }) => {
     // enabled: true,
   });
 
-  // endpoint for the views, clicks, and whatsApp messages
+  // // endpoint for the views, clicks, and whatsApp messages
   const { mutate: updateMetrics } = useMutation({
     mutationFn: async (type) => {
       return await api.post(`/properties/metric/${propertySlug}`, {
@@ -127,12 +140,18 @@ const ViewProperty = ({ PropertySlug }) => {
     },
   });
 
-  // this is to account for users coming to view the property page outside homz
-  useEffect(() => {
-    if (PropertySlug === null) {
-      updateMetrics("view");
+  const checkToUpdateMetrics = (type) => {
+    if (propertyData && propertyData.user?.email !== email) {
+      updateMetrics(type);
     }
-  }, []);
+  };
+  // this is to account for users coming to view the property page outside homz
+
+  useEffect(() => {
+    if (propertyData) {
+      checkToUpdateMetrics("view");
+    }
+  }, [propertyData, email, propertySlug]);
 
   const openImageModal = (imageIndex, item) => {
     setSelectedImage({ index: imageIndex, data: combinedData, item: item });
@@ -157,7 +176,7 @@ const ViewProperty = ({ PropertySlug }) => {
 
   const changeTabName = (name) => {
     setTabName(name);
-    updateMetrics("call");
+    checkToUpdateMetrics("call");
   };
   const handleSharePage = async () => {
     const shareData = {
@@ -168,11 +187,12 @@ const ViewProperty = ({ PropertySlug }) => {
 
     try {
       await navigator.share(shareData);
-      updateMetrics("call");
+      checkToUpdateMetrics("call");
     } catch (err) {
       console.error("Error sharing the page:", err);
     }
   };
+
   return (
     <div>
       {loading || loading2 ? (
@@ -344,7 +364,7 @@ const ViewProperty = ({ PropertySlug }) => {
                         className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                       />
                       <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E]">
-                        {propertyData?.address}, {propertyData?.area},{" "}
+                        {propertyData?.street}, {propertyData?.area},{" "}
                         {propertyData?.state}
                       </span>
                     </p>
@@ -454,7 +474,7 @@ const ViewProperty = ({ PropertySlug }) => {
                         className="h-[16px] w-[16px]"
                       />
                       <span className="leading-[21px] text-[14px] font-[500] text-[#4E4E4E] min-w-[246px]">
-                        {propertyData?.address}, {propertyData?.area},{" "}
+                        {propertyData?.street} , {propertyData?.area},{" "}
                         {propertyData?.state}
                       </span>
                     </p>
@@ -488,7 +508,7 @@ const ViewProperty = ({ PropertySlug }) => {
                   <div className="sm:hidden mb-5 space-y-6">
                     <OwnersCard
                       propertyData={propertyData && propertyData}
-                      updateMetrics={updateMetrics}
+                      updateMetrics={checkToUpdateMetrics}
                     />
                     <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
                       <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
@@ -498,7 +518,7 @@ const ViewProperty = ({ PropertySlug }) => {
                         className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
                         onClick={() => {
                           setOpenPropertyReq(true);
-                          updateMetrics("call");
+                          checkToUpdateMetrics("call");
                         }}
                       >
                         Post a property request
@@ -537,9 +557,14 @@ const ViewProperty = ({ PropertySlug }) => {
                     <div className="">
                       {tabName === "Overview" && (
                         <>
-                          <p className="break-words leading-[21px] font-[500] text-[14px] text-[#4E4E4E] ">
-                            {propertyData?.description}
-                          </p>
+                          <div
+                            className="prose prose-lg max-w-none break-words leading-[21px] font-[500] sm:text-[14px] text-[13px] text-[#4E4E4E] pb-1"
+                            dangerouslySetInnerHTML={{
+                              __html: DOMPurify.sanitize(
+                                he.decode(propertyData?.description)
+                              ),
+                            }}
+                          ></div>
                           <div className="hidden sm:block">
                             <TipsFrame />
                           </div>
@@ -583,14 +608,14 @@ const ViewProperty = ({ PropertySlug }) => {
                     contactData={propertyData}
                     setOpenPropertyReq={setOpenPropertyReq}
                     slug={propertyData?.slug}
-                    updateMetrics={updateMetrics}
+                    updateMetrics={checkToUpdateMetrics}
                   />
                   <div className="w-full hidden sm:block">
                     <MiniPropertyListings
                       reset={linkToSearch}
                       Properties={properties}
                       padding={"md:px-0"}
-                      updateMetrics={updateMetrics}
+                      updateMetrics={checkToUpdateMetrics}
                     />
                   </div>
                 </div>
@@ -598,7 +623,7 @@ const ViewProperty = ({ PropertySlug }) => {
                   <div className="hidden sm:block space-y-5">
                     <OwnersCard
                       propertyData={propertyData && propertyData}
-                      updateMetrics={updateMetrics}
+                      updateMetrics={checkToUpdateMetrics}
                     />
                     <div className=" flex flex-col gap-4 h-fit border border-[#559CFF] rounded-[12px] p-[20px] w-[100%] bg-[#EEF5FF]">
                       <p className="breakwords font-[400] text-[#006AFF] leading-[19.5px] text-[13px] ">
@@ -608,7 +633,7 @@ const ViewProperty = ({ PropertySlug }) => {
                         className="text-white bg-[#006AFF] py-[8px] px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
                         onClick={() => {
                           setOpenPropertyReq(true);
-                          updateMetrics("call");
+                          checkToUpdateMetrics("call");
                         }}
                       >
                         Post a property request
@@ -638,7 +663,7 @@ const ViewProperty = ({ PropertySlug }) => {
                       Get Started
                     </Link>
                   </div>
-                  <FeaturedCard updateMetrics={updateMetrics} />
+                  <FeaturedCard updateMetrics={checkToUpdateMetrics} />
                   <div className="sm:hidden flex flex-col gap-4 h-fit border rounded-[12px] p-[20px] w-[100%] bg-[#202020]">
                     <p className="text-[16px] leading-[24px] flex items-center gap-2 font-[500] text-white">
                       <Image
@@ -661,7 +686,7 @@ const ViewProperty = ({ PropertySlug }) => {
                     <Link
                       href="/dashboard/list_Property/addProperty"
                       className="text-white bg-[#006AFF] py-[8px] text-center px-[12px] rounded-[4px]  text-[14px] leading-[16.5px] font-[400]"
-                      onClick={() => updateMetrics("call")}
+                      onClick={() => checkToUpdateMetrics("call")}
                     >
                       Get Started
                     </Link>
@@ -672,7 +697,7 @@ const ViewProperty = ({ PropertySlug }) => {
                       reset={linkToSearch}
                       Properties={properties}
                       padding={"md:px-0"}
-                      updateMetrics={updateMetrics}
+                      updateMetrics={checkToUpdateMetrics}
                     />
                   </div>
                 </div>
@@ -685,7 +710,7 @@ const ViewProperty = ({ PropertySlug }) => {
         isOpen={openPropertyReq}
         setOpenPropertyReq={setOpenPropertyReq}
         setOpenSuccessModal={setOpenSuccessModal}
-        updateMetrics={() => updateMetrics("call")}
+        updateMetrics={() => checkToUpdateMetrics("call")}
       />
       <SuccessModal
         isOpen={OpenSuccessModal}

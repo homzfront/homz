@@ -11,11 +11,13 @@ import useBodyScroll from "@/utils/useBodyScroll";
 import { useRouter } from "next/navigation";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 // import GoogleMap from "@/utils/googleMap";
+import DOMPurify from "isomorphic-dompurify";
 import OwnersCard from "./ownersCard";
 import Amenities from "@/components/mainmenu/amenities";
 import ExtraDetails from "@/components/mainmenu/extraDetails";
 import { Carousel } from "flowbite-react";
 import MapFrame from "@/utils/map";
+import he from "he";
 
 const ViewProperty = ({ PropertyID }) => {
   const [combinedData, setCombinedData] = useState([]);
@@ -98,7 +100,8 @@ const ViewProperty = ({ PropertyID }) => {
     setSelectedImage(null);
     setOpenSelectedImage(false);
   };
-  //  console.log(propertyData)
+  // console.log(propertyData);
+
   return (
     <div className="mt-[-10px] md:mt-0 md:pt-0 pb-10 px-6">
       <div className="flex md:justify-between items-center gap-[16px] md:gap-0">
@@ -263,7 +266,7 @@ const ViewProperty = ({ PropertyID }) => {
                         className="h-[16px] w-[16px] md:w-[24px] md:h-[24px] "
                       />
                       <span className="md:leading-[21px] leading-[17.64px] text-[14px] font-[500] text-[#4E4E4E]">
-                        {propertyData?.address}, {propertyData?.area},{" "}
+                        {propertyData?.street}, {propertyData?.area},{" "}
                         {propertyData?.state}
                       </span>
                     </p>
@@ -366,7 +369,8 @@ const ViewProperty = ({ PropertyID }) => {
                         className="h-[16px] w-[16px]"
                       />
                       <span className="leading-[21px] text-[14px] font-[500] text-[#4E4E4E] min-w-[246px]">
-                        {propertyData?.area}, {propertyData?.state}
+                        {propertyData?.street}, {propertyData?.area},{" "}
+                        {propertyData?.state}
                       </span>
                     </p>
                     <p className="flex gap-1 items-center">
@@ -416,9 +420,15 @@ const ViewProperty = ({ PropertyID }) => {
                     <div className="">
                       {tabName === "Overview" && (
                         <>
-                          <p className="break-words leading-[21px] font-[500] sm:text-[14px] text-[13px] text-[#4E4E4E] pb-1">
-                            {propertyData?.description}
-                          </p>
+                          <div
+                            className="prose prose-lg max-w-none break-words leading-[21px] font-[500] sm:text-[14px] text-[13px] text-[#4E4E4E] pb-1"
+                            dangerouslySetInnerHTML={{
+                              __html: DOMPurify.sanitize(
+                                he.decode(propertyData?.description)
+                              ),
+                            }}
+                          ></div>
+
                           <ExtraDetails
                             additionalDetails={additionalDetails}
                             propertyData={propertyData}

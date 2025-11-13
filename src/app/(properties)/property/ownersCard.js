@@ -15,7 +15,7 @@ const OwnersCard = ({ propertyData, updateMetrics }) => {
   // });
   const [showNumber, setShowNumber] = useState(false);
   const { setMarketerId } = usePropertyListedAllStore();
-  console.log(propertyData);
+
   return (
     <div
       className=" flex flex-col gap-4 md:h-fit border rounded-[12px] p-[20px] w-[100%] mt-4 sm:mt-0"
@@ -66,8 +66,8 @@ const OwnersCard = ({ propertyData, updateMetrics }) => {
             href={`/agent/${propertyData?.lisitingPropertyId?.businessInfo?.businessName}`}
             className="breakwords flex items-center gap-2 font-[400] text-[#006AFF] leading-[19.5px] text-[11.5px] cursor-pointer"
             onClick={() => {
-              updateMetrics("call")
-              setMarketerId(propertyData?.user?._id)
+              updateMetrics("call");
+              setMarketerId(propertyData?.user?._id);
             }}
           >
             <span>View more properties from this marketer</span>

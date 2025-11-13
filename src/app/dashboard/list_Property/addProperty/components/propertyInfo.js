@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import api from "/src/utils/api";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Amenities from "./Amenities";
 import MenuItems from "@/components/mainmenu/menuItems";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function capitalizeFirstLetter(word) {
   if (word.length === 0) {
@@ -12,9 +14,14 @@ function capitalizeFirstLetter(word) {
   }
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
-const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
+const PropertyInfo = ({
+  handlePropertyInfo,
+  setSaveToDraft,
+  setAmenities,
+  cancel,
+}) => {
   const [propertyType, setPropertyType] = useState("");
-  const [listingType, setListingType] = useState("");
+  // const [listingType, setListingType] = useState("");
   const [listingClicked, setListingClicked] = useState(true);
   const [stateClicked, setStateClicked] = useState(true);
   const [areaClicked, setAreaClicked] = useState(true);
@@ -46,14 +53,14 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
       const Areas = await api.post("/state/area", { state: stateSelected });
       setAreas(Areas?.data?.data);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
-  // console.log(amenities)
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors, isValid },
   } = useForm({
@@ -61,8 +68,6 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
   });
 
   const onSubmit = (data) => {
-    // reset();
-    // console.log(data)
     handlePropertyInfo(data);
   };
 
@@ -306,21 +311,28 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
                   Property Description <span className="text-error">*</span>
                 </label>
               </div>
-              <textarea
-                {...register("description", {
-                  required: "Property description is required.",
-                })}
-                className="mt-1 h-[151px] md:h-[90px] rounded-md border w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] scrollbar-container"
-                placeholder="Give short description of your property."
-                // value={description}
-                id="description"
-                name="description"
-              ></textarea>
-              {errors.description && (
-                <p className="italic text-error text-[11px] font-[400]">
-                  {errors.description.message}
-                </p>
-              )}
+
+              <div className="mt-1 h-fit rounded-md border w-full p-2 md:p-4 text-top placeholder:font-[500] placeholder:text-GrayHomz2 text-[13px] md:text-[14px] font-[500] text-GrayHomz placeholder:text-[13px] scrollbar-container">
+                <Controller
+                  name="description"
+                  control={control}
+                  rules={{ required: "Description is required" }}
+                  render={({ field }) => (
+                    <ReactQuill
+                      {...field}
+                      theme="snow"
+                      placeholder="Give short description of your property"
+                      className="bg-white h-fit"
+                      onChange={(value) => field.onChange(value)}
+                    />
+                  )}
+                />
+                {errors.description && (
+                  <p className="italic text-error text-[11px] font-[400]">
+                    {errors.description.message}
+                  </p>
+                )}
+              </div>
             </div>
             {propertyType === "Land" && (
               <div className="sm:mt-  sm:w-[349px] inline-block w-[100%]">
@@ -397,7 +409,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
             <div>
               <button
                 className="text-[14px] font-[500] py-[8px] px-[12px] rounded-[4px] text-BlueHomz border border-BlueHomz  sm:w-full w-[120px]"
-                // onClick={handleShowCancelDialogue}
+                onClick={cancel}
               >
                 Cancel
               </button>
@@ -484,20 +496,7 @@ const PropertyInfo = ({ handlePropertyInfo, setSaveToDraft, setAmenities }) => {
 
 export default PropertyInfo;
 
-const propertyTypeValues = [
-  "boys quarters",
-  "mini-flat",
-  "penthouse",
-  "self contain",
-  "studio apartment",
-  "block of flats",
-  "detached bungalow",
-  "semi-detached bungalow",
-  "terraced bungalow",
-  "detached duplex",
-  "semi-detached duplex",
-  "terraced duplex",
-];
+//
 const listingTypeValues = ["for rent", "for sale", "shortlet"];
 const landTypeValues = [
   "Commercial Land",
