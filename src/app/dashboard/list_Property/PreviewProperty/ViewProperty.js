@@ -388,7 +388,7 @@ const ViewProperty = ({ PropertyID }) => {
                   </div>
                   <div className="sm:hidden mb-5 space-y-2">
                     <OwnersCard propertyData={propertyData && propertyData} />
-                    <ViewMetrics />
+                    <ViewMetrics property={propertyData && propertyData} />
                   </div>
                   <div className="space-y-4 mt-6">
                     <div className="flex items-start gap-[8px]">
@@ -470,11 +470,12 @@ const ViewProperty = ({ PropertyID }) => {
 
 export default ViewProperty;
 const ViewMetrics = ({ property }) => {
+  // console.log(property);
   return (
     <div className="grid grid-cols-3 gap-[10px]">
       <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
         <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
-          {property?.totalViews}
+          {Number(property?.totalViews) || 0}
         </p>
         <p className="font-[500] text-[13px] leading-[150%] text-[#006AFF]">
           Views
@@ -482,7 +483,7 @@ const ViewMetrics = ({ property }) => {
       </div>
       <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
         <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
-          {property?.totalCallClicks}
+          {Number(property?.totalCallClicks) || 0}
         </p>
         <p className="font-[500] text-[13px] leading-[150%] text-[#006AFF]">
           Call Clicks
@@ -490,7 +491,7 @@ const ViewMetrics = ({ property }) => {
       </div>
       <div className="sm:w-[100px] w-full sm:h-[92px] h-[73px] bg-[#EEF5FF] rounded-[8px] gap-[10px] flex flex-col items-start justify-start p-2">
         <p className="sm:text-[16px] text-[14px] font-[500] leading-[150%] text-[#202020]">
-          {property?.totalMessages}
+          {Number(property?.totalMessages) || 0}
         </p>
 
         <p className="font-[500] text-[13px] sm:leading-[150%] leading-[120%] text-[#006AFF]">
