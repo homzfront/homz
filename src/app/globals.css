@@ -264,24 +264,21 @@ body::-webkit-scrollbar-thumb {
   page-break-before: always; /* or 'page-break-after' depending on where you want the break */
 }
 
-
 .teste {
-  background:  blue; 
+  background: blue;
 
   .mySwiper {
-    background: red; 
+    background: red;
 
     .swiper {
-      background: yellow; 
+      background: yellow;
     }
 
     .swiper-slide {
       display: none;
     }
-
   }
 }
-
 
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
@@ -341,20 +338,48 @@ body::-webkit-scrollbar-thumb {
   width: auto !important; /* Ensures it takes only the required space */
 }
 
+.slick-slide {
+  padding-right: 12px;
+}
 
+.slick-list {
+  padding-left: 10px !important;
+}
 
- /* Add these styles to your global CSS */
- @keyframes fade-in-out {
-   0% { opacity: 0; transform: translateY(10px); }
-   10% { opacity: 1; transform: translateY(0); }
-   90% { opacity: 1; transform: translateY(0); }
-   100% { opacity: 0; transform: translateY(-10px); }
- }
- .animate-fade-in-out {
-   animation: fade-in-out 2s ease-in-out forwards;
- }
+@media (max-width: 768px) {
+  .slick-slide {
+    padding-right: 16px;
+  }
 
- /* Hide arrows in number input for Chrome, Safari, Edge, Opera */
+  .slick-list {
+    padding-left: 12px !important;
+  }
+}
+
+/* Add these styles to your global CSS */
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+.animate-fade-in-out {
+  animation: fade-in-out 2s ease-in-out forwards;
+}
+
+/* Hide arrows in number input for Chrome, Safari, Edge, Opera */
 .no-spinner::-webkit-outer-spin-button,
 .no-spinner::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -362,6 +387,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* Hide arrows in number input for Firefox */
-.no-spinner[type='number'] {
+.no-spinner[type="number"] {
   -moz-appearance: textfield;
 }
