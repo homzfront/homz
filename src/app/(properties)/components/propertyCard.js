@@ -83,7 +83,7 @@ const PropertyCard = ({
       });
     },
   });
-
+  const router = useRouter();
   const checkToUpdateMetrics = (type) => {
     if (currentProperties && currentProperties?.user?.email !== email) {
       updateMetrics(type);
@@ -93,6 +93,10 @@ const PropertyCard = ({
   const closeSaveToDraftModal = () => {
     setOpenSuccessModal(false);
     // router.back()
+  };
+
+  const handleExploreProperties = () => {
+    router.push("/all");
   };
   return (
     <div className="w-full">

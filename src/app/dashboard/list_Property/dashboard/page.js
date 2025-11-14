@@ -9,7 +9,7 @@ import LoadingII from "../components/loading";
 import api from "@/utils/api";
 import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
 
-// import Slider from "react-slick";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -28,6 +28,7 @@ const Dashboard = () => {
   const [tabName, setTabName] = useState("");
 
   const { data, fetchData } = useProfileListingMe();
+  const list = Array.isArray(data) ? data : data ? [data] : [];
   const [isBusinessInfoUpdate, setIsBusinessInfoUpdate] = useState(false);
 
   useEffect(() => {
@@ -55,58 +56,52 @@ const Dashboard = () => {
       );
     }
   };
-  // const MostViewedMobile = () => {
+  // const MostViewedMobile = ({ mostViewedProperties }) => {
+  //   const slides = Array.from({ length: 2 });
   //   const settings = {
   //     dots: false,
-  //     arrows: true,
+  //     arrows: false,
   //     infinite: true,
   //     autoplay: true,
-  //     slidesToShow: 2.5,
+  //     speed: 500,
+  //     autoplaySpeed: 2500,
+  //     slidesToShow: 1.1,
   //     slidesToScroll: 1,
-  //     speed: 2000,
-  //     autoplaySpeed: 2000,
-  //     // centerMode: true,
-  //     centerPadding: "20px",
-  //     className: "center",
+  //     centerMode: true,
+  //     centerPadding: "0px",
   //     responsive: [
   //       {
   //         breakpoint: 1024,
-  //         settings: {
-  //           slidesToShow: 2,
-  //           centerPadding: "20px",
-  //         },
+  //         settings: { slidesToShow: 2.2 },
   //       },
   //       {
   //         breakpoint: 768,
-  //         settings: {
-  //           slidesToShow: 1,
-  //           centerPadding: "10px",
-  //         },
+  //         settings: { slidesToShow: 1.15 },
   //       },
   //     ],
   //   };
 
   //   return (
-  //     <div className="sm:hidden block">
-  //       <Slider
-  //         {...settings}
-  //         className="w-full rounded-[24px] space-x-3"
-  //         aria-label="Featured Projects"
-  //       >
-  //         <PropertyCard
-  //           Property={data}
-  //           setTabName={setTabName}
-  //           pageManagement={pageManagement}
-  //           promoteOptions={promoteOption}
-  //           setSelectedProperty={setSelectedOption}
-  //           selectedProperty={selectedOptions}
-  //           refreshData={refreshData}
-  //           setOpenPlanModal={setOpenPlanModal}
-  //           setPromotePropertry={setPromotePropertry}
-  //           setErrorModal={setErrorModal}
-  //           metric={true}
-  //           partOfTheDashboard="mostViewed"
-  //         />
+  //     <div className="">
+  //       <Slider {...settings} className="w-full rounded-[24px] space-x-3">
+  //         {slides.map((_, i) => (
+  //           <div key={i}>
+  //             <PropertyCard
+  //               Property={mostViewedProperties}
+  //               metric={true}
+  //               partOfTheDashboard="mostViewed"
+  //               setTabName={setTabName}
+  //               pageManagement={pageManagement}
+  //               promoteOptions={promoteOption}
+  //               setSelectedProperty={setSelectedOption}
+  //               selectedProperty={selectedOptions}
+  //               refreshData={refreshData}
+  //               setOpenPlanModal={setOpenPlanModal}
+  //               setPromotePropertry={setPromotePropertry}
+  //               setErrorModal={setErrorModal}
+  //             />
+  //           </div>
+  //         ))}
   //       </Slider>
   //     </div>
   //   );
@@ -121,58 +116,60 @@ const Dashboard = () => {
       >
         <MetricsCharts dateJoined={data?.createdAt} />
         <div className="sm:w-[408px] flex flex-col gap-2">
-          <p className="">Most viewed properties</p>
+          <p className="hidden sm:block">Most viewed properties</p>
           {mostViewedLoader ? (
             <LoadingII />
           ) : (
-            <div
-              className={`sm:flex hidden ${
-                mostViewedProperties &&
-                mostViewedProperties.length === 0 &&
-                "items-center justify-center bg-gray-50 rounded-xl shadow-inner"
-              } h-full w-full min-h-[250px] `}
-            >
-              {mostViewedProperties && mostViewedProperties.length === 0 ? (
-                <div className="flex flex-col items-center text-center space-y-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 17h5l-1.405-1.405M4 4l16 16M6 6l4 4m4 4l4 4M5 13l4-4m4 4l4-4"
-                    />
-                  </svg>
-                  <p className="text-gray-600 text-xl font-semibold">
-                    No views yet
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Your property hasn't been visited yet. Promote it to gain
-                    visibility!
-                  </p>
-                </div>
-              ) : (
-                <PropertyCard
-                  Property={mostViewedProperties}
-                  setTabName={setTabName}
-                  pageManagement={pageManagement}
-                  promoteOptions={promoteOption}
-                  setSelectedProperty={setSelectedOption}
-                  selectedProperty={selectedOptions}
-                  refreshData={refetchMetricData}
-                  setOpenPlanModal={setOpenPlanModal}
-                  setPromotePropertry={setPromotePropertry}
-                  setErrorModal={setErrorModal}
-                  metric={true}
-                  partOfTheDashboard="mostViewed"
-                />
-              )}
-            </div>
+            <>
+              <div
+                className={`sm:flex hidden ${
+                  mostViewedProperties &&
+                  mostViewedProperties.length === 0 &&
+                  "items-center justify-center bg-gray-50 rounded-xl shadow-inner"
+                } h-full w-full min-h-[250px] `}
+              >
+                {mostViewedProperties && mostViewedProperties.length === 0 ? (
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-12 w-12 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 17h5l-1.405-1.405M4 4l16 16M6 6l4 4m4 4l4 4M5 13l4-4m4 4l4-4"
+                      />
+                    </svg>
+                    <p className="text-gray-600 text-xl font-semibold">
+                      No views yet
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Your property hasn't been visited yet. Promote it to gain
+                      visibility!
+                    </p>
+                  </div>
+                ) : (
+                  <PropertyCard
+                    Property={mostViewedProperties}
+                    setTabName={setTabName}
+                    pageManagement={pageManagement}
+                    promoteOptions={promoteOption}
+                    setSelectedProperty={setSelectedOption}
+                    selectedProperty={selectedOptions}
+                    refreshData={refetchMetricData}
+                    setOpenPlanModal={setOpenPlanModal}
+                    setPromotePropertry={setPromotePropertry}
+                    setErrorModal={setErrorModal}
+                    metric={true}
+                    partOfTheDashboard="mostViewed"
+                  />
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -277,6 +274,7 @@ const Dashboard = () => {
         <div className="w-full mx-auto flex flex-col gap-5 ">
           <UpperMetrics isBusinessInfoUpdate={isBusinessInfoUpdate} />
           <MostViewed loading={isLoading} />
+          {/* <MostViewedMobile mostViewedProperties={mostViewedProperties || []} /> */}
           {otherProperties && <OtherListedProperties loading={isLoading} />}
         </div>
       )}
