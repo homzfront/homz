@@ -181,7 +181,7 @@ const PropertyForms = () => {
   };
 
   const handleSubmit = (contactInfo) => {
-    // setContactInfo(contactInfo);
+    
     setPropertyDetails((preDetails) => [
       {
         // ...preDetails,
