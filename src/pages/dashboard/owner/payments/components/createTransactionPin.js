@@ -127,7 +127,7 @@ const CreateTransactionPin = ({ handlePageChangeTwo, closeForm, fetchDataAgain }
                                     <input
                                         type="text"
                                         name="username" // Ensure a name attribute for password managers
-                                        autocomplete="username"
+                                        autoComplete="username"
                                         value={username}
                                         className='hidden'
                                         hidden // Hide visually but still accessible to screen readers

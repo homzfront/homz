@@ -85,10 +85,10 @@ const Features = () => {
                   </>
                 </div>
                 <div className="flex flex-col gap-1 justify-between h-max">
-                  <h2 className={`font-[600] h-[60px] text-[20px] text-BlackHomz ${card?.title === "Receive Rent Payments On Time Every Month" ? "w-[60%]" : ""} `}>
+                  <h2 className={`font-[600] text-[20px] text-BlackHomz ${card?.title === "Receive Rent Payments On Time Every Month" ? "w-[60%]" : ""} `}>
                     {card.title}
                   </h2>
-                  <p className="font-[400] h-[140px] text-[18px] text-GrayHomz">
+                  <p className="font-[400] text-[18px] text-GrayHomz">
                     {card.description}
                   </p>
                 </div>

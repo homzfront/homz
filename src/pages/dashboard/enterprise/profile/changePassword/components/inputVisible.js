@@ -24,7 +24,7 @@ const InputVisible = ({
         <input
           type="text"
           name="username" // Ensure a name attribute for password managers
-          autocomplete="username"
+          autoComplete="username"
           value={username}
           hidden // Hide visually but still accessible to screen readers
         />
