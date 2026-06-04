@@ -59,9 +59,11 @@ const Widget = ({ returnToStartRegistration, fetchData }) => {
     setLoading(true); // Set loading to true when submitting the form
 
     const formData = new FormData();
-    formData.append("coverPhoto", uploadedImage);
-    formData.append("photos", uploadedImage2);
-    formData.append("photos", uploadedImage3);
+    // Only append images that are actual File objects — appending null sends
+    // the string "null" to the server which saves a broken image reference
+    if (uploadedImage instanceof File) formData.append("coverPhoto", uploadedImage);
+    if (uploadedImage2 instanceof File) formData.append("photos", uploadedImage2);
+    if (uploadedImage3 instanceof File) formData.append("photos", uploadedImage3);
     formData.append("area", selectedArea?.label);
     formData.append("state", selectedState?.label);
     formData.append("address", address);

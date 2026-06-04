@@ -50,8 +50,18 @@ const PropertyPhoto = forwardRef((props, ref) => {
     props.setUploadedCoverPhoto(coverPhoto);
   };
 
+  const getMediaData = () => {
+    const validHousesFiles = housesFiles.filter((file) => file !== null);
+    return {
+      coverPhoto,
+      otherPhotos: validHousesFiles,
+      videoLinks,
+    };
+  };
+
   useImperativeHandle(ref, () => ({
     submitData,
+    getMediaData,
   }));
 
   const fileUploads = useRef([]);

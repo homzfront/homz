@@ -30,10 +30,16 @@ const ContactInfoMedia = ({
     data.phoneNumber = phoneNumber;
     data.email = email;
     data.whatsapp = whatsappFormatted;
+
     if (mediaRef.current) {
-      mediaRef.current.submitData();
+      // Use getMediaData to read photo data synchronously — avoids the async
+      // state timing bug where setUploadedCoverPhoto/setUploadedOtherPhotos
+      // wouldn't be reflected in the parent before handleSaved fired
+      const { coverPhoto, otherPhotos, videoLinks } = mediaRef.current.getMediaData();
+      handleSubmitData(data, coverPhoto, otherPhotos, videoLinks);
+    } else {
+      handleSubmitData(data, null, [], null);
     }
-    handleSubmitData(data);
   };
   return (
     <div className="flex gap-4 flex-col">

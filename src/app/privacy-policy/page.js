@@ -48,6 +48,14 @@ const PrivacyPolicy = () => {
                     </div>
                     <div>
                         <label className='text-[20px] font-[700] text-BlueHomz2'>
+                            Biometric Data and Facial Recognition
+                        </label>
+                        <p className='text-[18px] font-[400] leading-loose'>
+                            We may collect facial images and related biometric verification data for identity verification, fraud prevention, and account security purposes. This information is securely stored, encrypted, and used only for verification and security-related functions. We do not sell facial or biometric data to third parties.
+                        </p>
+                    </div>
+                    <div>
+                        <label className='text-[20px] font-[700] text-BlueHomz2'>
                             How We Use Information
                         </label>
                         <p className='text-[18px] font-[400] leading-loose'>
@@ -221,4 +229,4 @@ const PrivacyPolicy = () => {
 
 }
 
-export default PrivacyPolicy; 
+export default PrivacyPolicy;

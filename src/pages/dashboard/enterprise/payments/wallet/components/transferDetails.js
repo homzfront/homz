@@ -303,7 +303,7 @@ const TransferDetails = ({
               <input
                 type="text"
                 name="username"
-                autocomplete="username"
+                autoComplete="username"
                 value={username}
                 className="hidden"
                 hidden

@@ -23,7 +23,11 @@ export const listingMarketerProfile = async (id) => {
 export const updatePersonalInfoLister = async (data) => {
   // console.log(data)
   const formData = new FormData();
-  formData.append("coverPhoto", data?.coverPhoto);
+  // Only append coverPhoto if it's an actual File — appending null sends the
+  // string "null" to the server which wipes the existing profile image
+  if (data?.coverPhoto instanceof File) {
+    formData.append("coverPhoto", data.coverPhoto);
+  }
   formData.append("fullName", data?.fullName);
   formData.append("whatsappLink", data?.whatsApp);
   formData.append("phoneNumber", data?.phoneNumber);

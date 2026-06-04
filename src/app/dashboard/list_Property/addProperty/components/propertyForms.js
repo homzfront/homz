@@ -26,6 +26,10 @@ const PropertyForms = () => {
   const [rentalInfo, setRentalInfo] = useState([]);
   const [coverPhoto, setUploadedCoverPhoto] = useState(null);
   const [photos, setUploadedOtherPhotos] = useState([]);
+  // Refs to hold photo data synchronously at submit time, bypassing async state
+  const coverPhotoRef = React.useRef(null);
+  const otherPhotosRef = React.useRef([]);
+  const videoLinksRef = React.useRef(null);
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
@@ -101,9 +105,9 @@ const PropertyForms = () => {
 
       const formData = new FormData();
 
-      // Append cover photo and other images
-      formData.append("coverPhoto", coverPhoto);
-      photos.forEach((photo) => formData.append("photos", photo));
+      // Append cover photo and other images from refs (synchronous, not async state)
+      formData.append("coverPhoto", coverPhotoRef.current);
+      otherPhotosRef.current.forEach((photo) => formData.append("photos", photo));
 
       // Payload fields to append
       const payload = {
@@ -180,15 +184,18 @@ const PropertyForms = () => {
     }
   };
 
-  const handleSubmit = (contactInfo) => {
-    
+  const handleSubmit = (contactInfo, coverPhotoData, otherPhotosData, videoLinksData) => {
+    // Store photos in refs so handleSaved can read them synchronously
+    coverPhotoRef.current = coverPhotoData || null;
+    otherPhotosRef.current = otherPhotosData || [];
+    videoLinksRef.current = videoLinksData || null;
+
     setPropertyDetails((preDetails) => [
       {
-        // ...preDetails,
         ...propertyInfo,
         ...rentalInfo,
         ...contactInfo,
-        ...videoLinks,
+        ...videoLinksData,
         amenities,
       },
     ]);

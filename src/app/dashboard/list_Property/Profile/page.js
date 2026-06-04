@@ -28,6 +28,7 @@ const Profile = () => {
   const [changePwdActive, setActiveFour] = useState(tab === "password");
   const [loading, setLoading] = useState(false);
   const [personalInfo, setPersonalInfo] = useState([]);
+  const personalInfoRef = React.useRef(null); // holds data synchronously for handleSaved
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [mainSavedModalIsOpen, setMainSavedModalIsOpen] = useState(false);
   const [saveModalIsOpen, setSaveModalIsOpen] = useState(false);
@@ -57,12 +58,14 @@ const Profile = () => {
 
     setLoading(true);
 
-    const updateInfo = personalInfo?.businessName
+    // Read from ref (synchronous) instead of state (async) to guarantee latest data
+    const currentInfo = personalInfoRef.current || personalInfo;
+    const updateInfo = currentInfo?.businessName
       ? updateBusinessInfoLister
       : updatePersonalInfoLister;
 
     try {
-      const { success, error } = await updateInfo(personalInfo);
+      const { success, error } = await updateInfo(currentInfo);
 
       if (success) {
         setSuccessModalIsOpen(true);
@@ -100,6 +103,7 @@ const Profile = () => {
 
   const handleUpdateDetails = (data, typeOfAction) => {
     // console.log(data)
+    personalInfoRef.current = data; // store synchronously so handleSaved reads correct data
     setPersonalInfo(data);
     setTypeOfAction(typeOfAction);
     setSaveModalIsOpen(true);
