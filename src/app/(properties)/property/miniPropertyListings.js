@@ -26,7 +26,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
           />
         </Link>
       </div>
-      <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px] my-4 sm:w-[235px] w-full">
+      <div className="flex justify-between items-center sm:flex-nowrap flex-wrap md:gap-[16.43px] gap-[12px] my-4 w-full">
         {Properties?.slice(0, 3)?.map((property, index) => (
           <div
             className={`flex flex-col sm:w-[231px] h-fit rounded-[12px] shadow-md w-full`}
