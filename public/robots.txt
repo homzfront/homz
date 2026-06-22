@@ -6,8 +6,21 @@ Allow: /
 User-agent: BadBot
 Disallow: /
 
+# *
+User-agent: *
+Disallow: /dashboard
+Disallow: /landingPageProMan
+Disallow: /landingPageProOwn
+Disallow: /landingPageTenant
+Disallow: /pricingPlan
+Disallow: /plan
+Disallow: /selectStateAndArea
+Disallow: /tenantManagementPlan
+Disallow: /aboutUs
+Disallow: /contactPage
+
 # Host
-Host: http://www.homz.ng
+Host: https://www.homz.ng
 
 # Sitemaps
-Sitemap: http://www.homz.ng/sitemap.xml
+Sitemap: https://www.homz.ng/sitemap.xml

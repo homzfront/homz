@@ -10,6 +10,6 @@ const Layout = ({ children }) => {
             </Suspense>
         </div>
     );
-};//commit
+};
 
 export default Layout;
