@@ -3,18 +3,23 @@ import Hero from '@/pages/aboutUs/Hero';
 import Meet from '@/pages/aboutUs/Meet';
 
 export const metadata = {
-  title: "About us",
-    description: 'Learn more about our mission to simplify real estate search and management in Nigeria.', // ← Your custom tag
+  title: "About Homz.ng | Simplifying Real Estate Management in Nigeria",
+  description:
+    "Learn about Homz.ng, Nigeria's real estate management platform helping landlords, tenants, agents and property managers simplify property search, listings, rentals and management.",
+
   openGraph: {
-    title: 'About us',
-    description: 'Learn more about our mission to simplify real estate search and management in Nigeria.',
+    title: "About Homz.ng | Simplifying Real Estate Management in Nigeria",
+    description:
+      "Learn about Homz.ng, Nigeria's real estate management platform helping landlords, tenants, agents and property managers simplify property search, listings, rentals and management.",
   },
+
   twitter: {
-    card: 'summary_large_image',
-    title: 'About us',
-    description: 'Learn more about our mission to simplify real estate search and management in Nigeria.',
-  }
-}
+    card: "summary_large_image",
+    title: "About Homz.ng | Simplifying Real Estate Management in Nigeria",
+    description:
+      "Learn about Homz.ng, Nigeria's real estate management platform helping landlords, tenants, agents and property managers simplify property search, listings, rentals and management.",
+  },
+};
 
 const AboutUs = () => {
   return (

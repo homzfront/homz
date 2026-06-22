@@ -5,7 +5,8 @@ import usePropertyStore from '@/store/usePropertyStore';
 import PropertyCard from '../../../components/propertyCard';
 import ParamsComponent from '../../../components/paramsComponent';
 import { usePropertyActions } from '@/hooks/usePropertyAction';
-import { parseUrlToFilters } from '@/utils/urlParamsParser';
+import Link from 'next/link';
+import { parseUrlToFilters, parseLocation, PROPERTY_TYPE_LINKS } from '@/utils/urlParamsParser';
 
 const RentByLocation = ({ params }) => {
   const router = useRouter();
@@ -73,6 +74,22 @@ const RentByLocation = ({ params }) => {
           properties={properties}
         />
       </div>
+      <div className="w-[337px] md:w-full px-0">
+  <p className="text-[14px] font-medium text-[#202020] mb-2">
+    Popular searches in {parseLocation(params.location)}
+  </p>
+  <div className="flex flex-wrap gap-2">
+    {PROPERTY_TYPE_LINKS.map((type) => (
+      <Link
+        key={type.slug}
+        href={`/rent/${params.location}/${type.slug}`}
+        className="text-[13px] text-BlueHomz bg-[#EEF5FF] hover:bg-BlueHomz hover:text-white transition-colors px-3 py-1.5 rounded-[4px]"
+      >
+        {type.label}
+      </Link>
+    ))}
+  </div>
+</div>
     </div>
   );
 };

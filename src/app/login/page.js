@@ -4,6 +4,10 @@ import LoginComponent from './components/LoginComponent';
 export const metadata = {
   title: "Log in to Your Homz Account - Property Management Portal",
   description: "Access your Homz.ng property management account. Log in to manage properties, collect rent, communicate with tenants, and access your dashboard. Secure login portal.",
+  robots: {
+    index: false,
+    follow: false,
+  },
   openGraph: {
     title: "Log in to Your Homz Account - Property Management Portal",
     description: "Access your Homz.ng property management account. Log in to manage properties, collect rent, communicate with tenants, and access your dashboard. Secure login portal.",

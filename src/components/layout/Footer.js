@@ -13,12 +13,15 @@ import WhatsappWhite from "../icons/whatsappWhite";
 
 const Footer = () => {
   const propertyLinks = [
-    { title: "Houses for rent in Lagos", path: "/rent/lagos" },
-    { title: "Houses for sale in Lagos", path: "/sales/lagos" },
-    { title: "Land for sale in Lagos", path: "/land/lagos" },
-    { title: "Mini flats for rent in Lagos", path: "/rent/lagos/mini-flat" },
-    { title: "Self contain for rent in Lagos", path: "/rent/lagos/self-contain" },
-  ];
+  { title: "Houses for rent in Lagos", path: "/rent/lagos" },
+  { title: "Houses for sale in Lagos", path: "/sales/lagos" },
+  { title: "Land for sale in Lagos", path: "/land/lagos" },
+  { title: "Mini flats for rent in Lagos", path: "/rent/lagos/mini-flat" },
+  { title: "Self contain for rent in Lagos", path: "/rent/lagos/self-contain" },
+  { title: "Houses for rent in Abuja", path: "/rent/abuja" },
+  { title: "Houses for sale in Abuja", path: "/sales/abuja" },
+  { title: "Houses for rent in Oyo", path: "/rent/oyo" },
+];
 
   return (
     <div className="h-auto max-w-[1440px] m-auto font-[400] text-[14px]  px-8  sm:px-[140px] py-10 bg-black text-white">
@@ -99,18 +102,35 @@ const Footer = () => {
                 ))}
               </div>
             </div>
-            <div className="leading-loose mt-0 md:mt-2 xl:mt-0 ">
-              <h2 className="font-[700] text-[16px] lg:mb-3">
-                Contact
-              </h2>
-              <div className="flex flex-col gap-2 w-[200px]">
-                <p className="flex items-start gap-2">
-                  <span className="flex-1 mt-1"><LocationWhite /></span> Address: 1st Floor, Marina Hub Suite, Foresight House, 163/165,
-                  Broad Street, Lagos Nigeria.
-                </p>
-                <p className="flex items-start gap-2"><span className="mt-1"><PhoneWhite /></span> Contact: 09160002460</p>
-                <p className="flex items-start gap-2"><span className="mt-1"><WhatsappWhite /></span> WhatsApp: 09160002460</p>
-              </div>
+            <div className="leading-loose mt-0 md:mt-2 xl:mt-0">
+  <h2 className="font-[700] text-[16px] lg:mb-3">
+    Contact Homz.ng
+  </h2>
+
+  <div className="flex flex-col gap-2 w-[200px]">
+
+    <p className="flex items-start gap-2">
+      <span className="flex-1 mt-1">
+        <LocationWhite />
+      </span>
+      Lagos, Nigeria
+    </p>
+
+    <p className="flex items-start gap-2">
+      <span className="mt-1">
+        <PhoneWhite />
+      </span>
+      09160002460
+    </p>
+
+    <p className="flex items-start gap-2">
+      <span className="mt-1">
+        <WhatsappWhite />
+      </span>
+      WhatsApp Support
+    </p>
+
+  </div>
             </div>
             <div className="leading-loose mt-0 md:mt-2 xl:mt-0 ">
               <h2 className="font-[700] text-[16px] lg:mb-3">

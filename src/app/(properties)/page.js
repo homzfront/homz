@@ -16,6 +16,27 @@ import "slick-carousel/slick/slick-theme.css";
 import { useFeatureStore } from "@/store/useFeatureStore";
 import PropertySlider from "./components/propertySlider";
 
+// States with dedicated listing pages today (matches src/app/dashboard/list_Property/components/state.js
+// and the STATES list in src/app/sitemap.js). Add to both lists together as more states are supported.
+const BROWSE_STATES = [
+  { label: "Lagos", slug: "lagos" },
+  { label: "Abuja", slug: "abuja" },
+  { label: "Oyo", slug: "oyo" },
+  { label: "Edo", slug: "edo" },
+  { label: "Kano", slug: "kano" },
+  { label: "Kwara", slug: "kwara" },
+  { label: "Calabar", slug: "calabar" },
+  { label: "Ondo", slug: "ondo" },
+  { label: "Port Harcourt", slug: "port-harcourt" },
+];
+
+const BROWSE_LOCATION_TABS = [
+  { label: "For Rent", path: "rent" },
+  { label: "For Sale", path: "sales" },
+  { label: "Land", path: "land" },
+  { label: "Shortlet", path: "shortlet" },
+];
+
 const customTheme = {
   root: {
     base: "relative h-full w-full",
@@ -70,6 +91,7 @@ const HomePage = () => {
     numberOfBathrooms: null,
     listingType: rent ? "for rent" : null,
   });
+  const [browseLocationTab, setBrowseLocationTab] = useState("rent");
   const [listingTypeW, setListingTypeW] = React.useState("for rent")
   const rentalPropertiesRef = useRef(null);
   const propertiesForSaleRef = useRef(null);
@@ -853,6 +875,40 @@ const HomePage = () => {
               }
             </div>
           </div>
+          <div className="w-full max-w-[1440px] mx-auto px-8 md:px-24 py-8 md:py-12">
+  <h4 className="text-[23px] md:text-[34px] font-[700] text-[#202020]">
+    Browse Properties by Location
+  </h4>
+  <p className="text-[16px] sm:text-[18px] font-normal mt-2 text-GrayHomz">
+    Find houses, land and shortlets in Nigeria&apos;s most searched cities and states
+  </p>
+  <div className="flex flex-wrap gap-2 items-center mt-6">
+    {BROWSE_LOCATION_TABS.map((tab) => (
+      <button
+        key={tab.path}
+        onClick={() => setBrowseLocationTab(tab.path)}
+        className={`text-[13px] font-normal px-4 py-2 rounded-[4px] border border-BlueHomz ${
+          browseLocationTab === tab.path
+            ? "bg-BlueHomz text-white"
+            : "bg-white text-BlueHomz"
+        }`}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-6">
+    {BROWSE_STATES.map((state) => (
+      <Link
+        key={state.slug}
+        href={`/${browseLocationTab}/${state.slug}`}
+        className="text-[14px] font-medium text-[#202020] bg-[#EEF5FF] hover:bg-BlueHomz hover:text-white transition-colors px-4 py-3 rounded-[4px] text-center truncate"
+      >
+        {state.label}
+      </Link>
+    ))}
+  </div>
+</div>
           <div className="md:w-full bg-[#EEF5FF]  overflow-hidden flex flex-col gap-[15px] md:py-[64px] md:px-[87px] px-8 pt-8 pb-12">
             <p className="w-[202px] text-[13px] md:w-[300px] font-[400] leading-[16.38px] md:h-[43px] p-[8px]  text-center md:text-[18px] rounded-[4px] bg-[#039855] text-[#CDEADD] md:font-[500] md:leading-[27px] mx-auto">
               Designed for stress-free living

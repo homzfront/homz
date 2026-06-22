@@ -1,476 +1,83 @@
-import api from "@/utils/api";
+import { fetchPropertyListedAll } from "@/api/propertyService";
 
-export const fetchPropertyListedAll = async () => {
-  try {
-    const response = await api.get("/properties");
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
-export const fetchSingleProperty = async (id) => {
-  try {
-    const response = await api.get(`/properties/single/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export default async function sitemap() {
 
-export const fetchSinglePropertyPublic = async (slug) => {
-  try {
-    const response = await api.get(`/public/properties/single/${slug}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+  const baseUrl = "https://www.homz.ng";
 
-export const propertyForMe = async (page, propertyStatus = {}) => {
-  const { is_promoted, is_published, is_unpublished } = propertyStatus;
-  try {
-    let query = `/properties/user/me?page=${page || 1}`;
 
-    if (is_published) {
-      query += `&is_published=true`;
-    } else if (is_promoted) {
-      query += `&is_promoted=true`;
-    } else if (is_unpublished) {
-      query += `&is_unpublished=true`;
-    }
-
-    const response = await api.get(query);
-    // console.log(response)
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching property data:", error);
-    return error;
-  }
-};
-
-export const addBankPropertyOwner = async (details) => {
-  try {
-    const response = await api.post(`/bank/add/property-owner`, details);
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error?.response.data };
-  }
-};
-
-export const bankInfoPropertyOwner = async () => {
-  try {
-    const response = await api.get(`/bank/info/property-owner`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const withdrawPropertyOwner = async (details) => {
-  try {
-    const response = await api.post(`/bank/withdraw/property-owner`, details);
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error?.response.data.message };
-  }
-};
-
-export const updateContactInfo = async (propertyId, updatedData) => {
-  try {
-    const response = await api.patch(
-      `/properties/${propertyId}/contact-detail`,
-      updatedData
-    );
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error };
-  }
-};
-
-export const updatePropertyDetails = async (id, updatedData) => {
-  // console.log(updatedData)
+  let properties = [];
 
   try {
-    const response = await api.patch(
-      `/properties/${id}/property-detail`,
-      updatedData
-    );
-    // console.log(response);
-    return { success: true, upDateddata: response.data.data };
+
+    const response = await fetchPropertyListedAll();
+
+    properties = response?.data || response || [];
+
   } catch (error) {
-    // console.log(error);
-    return { success: false, error: error };
+
+    console.log("Sitemap property fetch error:", error);
+
   }
-};
 
-export const updatePropertyCoverPhoto = async (estateId, uploadedImage) => {
-  const formData = new FormData();
-  formData.append("coverPhoto", uploadedImage);
 
-  // Convert FormData to object
-  const formDataObject = {};
-  formData.forEach((value, key) => {
-    formDataObject[key] = value;
-  });
+  const staticPages = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      priority: 1,
+    },
 
-  try {
-    const headers = {
-      "Content-Type": "multipart/form-data",
-      // add other headers as needed
-    };
-    const response = await api.patch(
-      `/properties/${estateId}/cover-photo`,
-      formData,
-      { headers }
-    );
-    // console.log(response);
-    if (response.data.statuscode === 201 || 200) {
-      return { success: true, updatedImage: response };
-    } else {
-      const error = response.data.message;
-    }
-  } catch (error) {
-    // console.log(error);
-    return { success: false, error: error?.response.data.message };
-  }
-};
+    {
+      url: `${baseUrl}/about-us`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-export const updatePropertyOtherPhoto = async (
-  id,
-  uploadedImage,
-  publicIds
-) => {
-  const formData = new FormData();
-  uploadedImage.forEach((photo) => formData.append("photos", photo));
-  publicIds.forEach((publicId) => formData.append("publicIds", publicId));
+    {
+      url: `${baseUrl}/contact-page`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-  // formData.append("photos", uploadedImage);
-  // formData.append("photoPublicIds", publicId);
-  // console.log(publicIds)
+    {
+      url: `${baseUrl}/rent`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-  // Convert FormData to object
-  const formDataObject = {};
-  formData.forEach((value, key) => {
-    formDataObject[key] = value;
-  });
+    {
+      url: `${baseUrl}/sales/lagos`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-  try {
-    const headers = {
-      "Content-Type": "multipart/form-data",
-      // add other headers as needed
-    };
-    const response = await api.patch(
-      `/properties/${id}/property/photos`,
-      formData,
-      { headers }
-    );
-    // console.log(response);
-    if (response.data.statuscode === 201 || 200) {
-      return { success: true, updatedImage: response };
-    } else {
-      const error = response.data.message;
-    }
-  } catch (error) {
-    // console.log(error);
-    return { success: false, error: error?.response.data.message };
-  }
-};
+    {
+      url: `${baseUrl}/land/lagos`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-export const rentDetails = async (id, updatedData) => {
-  try {
-    const response = await api.patch(
-      `/properties/${id}/rent-detail`,
-      updatedData
-    );
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error };
-  }
-};
+    {
+      url: `${baseUrl}/enterprise`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+  ];
 
-export const propertyMe = async () => {
-  try {
-    const response = await api.get("/manageProperty/me");
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-export const publishAndRepublishProperty = async (propertyId) => {
-  try {
-    const response = await api.patch(
-      `/properties/property/${propertyId}/toggle`
-    );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-export const removeProperty = async (propertyId) => {
-  try {
-    const response = await api.delete(`/properties/${propertyId}/property`);
-    return response.data;
-  } catch (error) {
-    // console.log(error);
-    throw error;
-  }
-};
-export const removePropertyPhotos = async (propertyId, publicId) => {
-  try {
-    const response = await api.delete(
-      `/properties/${propertyId}/photos?publicId=${publicId}`
-    );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-export const removeCoverPhoto = async (propertyId, publicId) => {
-  try {
-    const response = await api.delete(`/properties/${propertyId}/cover-photo`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
-export const updatePersonalInformation = async (updatedData) => {
-  try {
-    const response = await api.patch(
-      `/manageProperty/personalInformation`,
-      updatedData
-    );
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error?.response.data.message };
-  }
-};
+  const propertyPages = properties.map((property) => ({
+    url: `${baseUrl}/property/${property.id}`,
+    lastModified: new Date(
+      property.updatedAt || Date.now()
+    ),
+    priority: 0.7,
+  }));
 
-export const updateProfilePicture = async (uploadedImage) => {
-  const formData = new FormData();
-  formData.append("coverPhoto", uploadedImage);
 
-  // Convert FormData to object
-  const formDataObject = {};
-  formData.forEach((value, key) => {
-    formDataObject[key] = value;
-  });
+  return [
+    ...staticPages,
+    ...propertyPages,
+  ];
 
-  try {
-    const headers = {
-      "Content-Type": "multipart/form-data",
-      // add other headers as needed
-    };
-    const response = await api.patch("/manageProperty/coverPhoto", formData, {
-      headers,
-    });
-
-    if (response.data.statuscode === 201 || 200) {
-      return { success: true, updatedImage: response };
-    } else {
-      const error = response.data.message;
-    }
-  } catch (error) {
-    return { success: false, error: error?.response.data.message };
-  }
-};
-
-export const updatePassword = async (updatedData) => {
-  try {
-    const response = await api.patch(`/auth/change/password`, updatedData);
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error?.response.data.message };
-  }
-};
-
-export const createPropertyOwnerWallet = async (BVNDetails) => {
-  const { bvn, bvnDateOfBirth, pinCode } = BVNDetails;
-  try {
-    const response = await api.post(`/wallet/create/property-owner`, {
-      bvn,
-      bvnDateOfBirth,
-      pincode: pinCode,
-    });
-    return { success: true, upDateddata: response?.data.data };
-  } catch (error) {
-    return { success: false, error: error?.response?.data }; // Adjusted this line
-  }
-};
-
-export const propertyOwnerWallet = async () => {
-  try {
-    const response = await api.get(`/wallet/getWallet/property-owner`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const propertyOwnerWalletBalance = async () => {
-  try {
-    const response = await api.get(`/wallet/balance/property-owner`);
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error("Error wallet:", error);
-    throw error;
-  }
-};
-
-export const ownerGetOtpPincode = async (password) => {
-  try {
-    const response = await api.post(`/wallet/pincode/otp/property-owner`, {
-      password,
-    });
-    return { success: true, upDateddata: response.data };
-  } catch (error) {
-    return { success: false, error: error?.response?.data?.message };
-  }
-};
-
-export const ownerUpdatePincode = async (password, otp, pincode) => {
-  try {
-    const response = await api.post(`/wallet/pincode/update/property-owner`, {
-      password,
-      otp,
-      pincode,
-    });
-    return { success: true, upDateddata: response.data };
-  } catch (error) {
-    return { success: false, error: error?.response?.data?.message };
-  }
-};
-
-export const propertyOwnerStatistics = async () => {
-  try {
-    const response = await api.get(`/estates/me/manageProperty/statistics`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const propertyOwnerRevenue = async () => {
-  try {
-    const response = await api.get(
-      `/estates/me/property-owner/calculate-revenue`
-    );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetchOwnerEstatesMe = async () => {
-  try {
-    const response = await api.get("/estates/me/property-owner");
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const ownerRentPayemntInfo = async () => {
-  try {
-    const response = await api.get(`/rentPayment/property-owner`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetchSpecificTenantRentPaymentOwner = async (id) => {
-  try {
-    const response = await api.get(`/rentPayment/property-owner/tenant/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const ownerPinCreation = async (password, rePassword) => {
-  try {
-    const response = await api.post(`/wallet/pincode/create/property-owner`, {
-      pincode: password,
-      confirmPincode: rePassword,
-    });
-    return { success: true, upDateddata: response.data };
-  } catch (error) {
-    return { success: false, error: error?.response?.data?.message };
-  }
-};
-
-export const getRentHisOwner = async () => {
-  try {
-    const response = await api.get(`/rentPayment/property-owner`);
-    return { success: true, upDateddata: response.data.data };
-  } catch (error) {
-    return { success: false, error: error?.response.data };
-  }
-};
-
-// Missing function exports - Adding stub implementations
-export const fetchOwnerKYCData = async () => {
-  try {
-    const response = await api.get(`/profile/property-owner/kyc`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const fetchOwnerKYCNINData = async () => {
-  try {
-    const response = await api.get(`/profile/property-owner/kyc-nin`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const enterpriseWalletOwnerCreation = async (data) => {
-  try {
-    const response = await api.post(`/wallet/create/property-owner`, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const WalletTopUp = async (data) => {
-  try {
-    const response = await api.post(`/wallet/topup/property-owner`, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const uploadLandlordKYC = async (data) => {
-  try {
-    const response = await api.post(`/profile/property-owner/kyc`, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const uploadNINLandlordKYC = async (data) => {
-  try {
-    const response = await api.post(`/profile/property-owner/kyc-nin`, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const propertyOwnerWalletActivities = async () => {
-  try {
-    const response = await api.get(`/wallet/activities/property-owner`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+}

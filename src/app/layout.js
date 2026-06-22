@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { TanstackProvider } from "./providers/TanstackProvider";
 import GoogleAnalytics from "@/utils/googleAnalytics";
 import { GoogleTagManager } from "@next/third-parties/google";
-import Head from "next/head";
 import Script from "next/script";
 import { SessionProvider } from 'next-auth/react';
 import ViewportTracker from "@/utils/useWidth";
@@ -21,11 +20,21 @@ const FacebookPixel = dynamic(() => import("@/libs/FBpixels"), {
 export const metadata = {
   metadataBase: new URL("https://www.homz.ng"),
   title: {
-    default: "Homz.ng - The Best Real Estate Management Solution for Landlords, Tenants and Property Managers",
+    default: "Homz.ng | Real Estate Management Platform for Landlords & Tenants",
     template: "Homz - %s",
   },
+ 
   description:
-    "Homz.ng is a comprehensive software solution simplifying real estate management. Find, manage, appraise, rent or sell properties with ease. Try Homz.ng today.",
+      "Homz.ng is Nigeria's real estate management platform for landlords, tenants, property managers and businesses. List properties, manage rentals, and simplify real estate operations in one place.",
+
+   keywords: [
+  "real estate Nigeria",
+  "property management software",
+  "landlord management",
+  "property listing Nigeria",
+  "rent property Nigeria",
+  "Homz.ng"
+],
   manifest: "/manifest.json",
   icons: {
     icon: "/icons/icon-192x192.png",
@@ -210,11 +219,31 @@ export const metadata = {
     ],
   },
   twitter: {
-    card: "summary_large_image",
-  },
+  card: "summary_large_image",
+  title: "Homz.ng | Real Estate Management Platform",
+  description:
+    "Manage properties, listings, rentals and real estate operations with Homz.ng.",
+},
   openGraph: {
-    site_name: "Homz.ng",
-    url: "https://www.homz.ng",
+  site_name: "Homz.ng",
+  url: "https://www.homz.ng",
+  title: "Homz.ng | Real Estate Management Platform for Landlords & Tenants",
+  description:
+    "Homz.ng is Nigeria's real estate management platform for landlords, tenants, property managers and businesses.",
+  images: [
+    {
+      url: "/Homz_colorless.png",
+      width: 1200,
+      height: 630,
+      alt: "Homz.ng",
+    },
+  ],
+},
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE,
+    other: {
+      "facebook-domain-verification": process.env.NEXT_PUBLIC_FACEBOOK_META,
+    },
   },
 };
 
@@ -230,19 +259,7 @@ export function generateViewport() {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
-        {process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE && (
-          <meta
-            name="google-site-verification"
-            content={process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE}
-          />
-        )}
-        {process.env.NEXT_PUBLIC_FACEBOOK_META && (
-          <meta
-            name="facebook-domain-verification"
-            content={process.env.NEXT_PUBLIC_FACEBOOK_META}
-          />
-        )}
+      <body className={plus_Jakarta_Sans.className}>
         <noscript>
           <img
             height="1"
@@ -252,19 +269,17 @@ export default function RootLayout({ children }) {
             alt="Facebook pixel tracking"
           />
         </noscript>
-      </Head>
-      <body className={plus_Jakarta_Sans.className}>
         {/* Third-Party Integrations */}
         <FacebookPixel />
         <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER} />
 
         {/* Tawk.to Script */}
-<Script
-  id="tawk-to"
-  strategy="afterInteractive"
-  dangerouslySetInnerHTML={{
-    __html: `
+        <Script
+          id="tawk-to"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
       try {
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         (function(){
@@ -286,9 +301,10 @@ export default function RootLayout({ children }) {
 
         {/* Tanstack Query Client */}
         <TanstackProvider>
-
-          <main> <SessionProvider>{children}</SessionProvider></main>
-        </TanstackProvider>
+  <SessionProvider>
+    <main>{children}</main>
+  </SessionProvider>
+</TanstackProvider>
         {/**
 				|--------------------------------------------------
 				| Get view port width
