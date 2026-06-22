@@ -20,10 +20,10 @@ const Hero = () => {
       Content: "Featured Agents",
     },
     {
-      id: 4,
-      value: "5+",
-      Content: "Years in Business",
-    },
+  id: 4,
+  value: "24/7",
+  Content: "Property Support",
+}
   ];
 
   return (
@@ -46,7 +46,7 @@ const Hero = () => {
         <div className="w-[100%]">
           <Image
             src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713180995/public/images/Duplex_hqrjun.jpg"}
-            alt=""
+            alt="Luxury duplex property managed by Homz.ng"
             width={524}
             height={615}
             layout="full" // Specify the desired height
@@ -82,15 +82,14 @@ const Hero = () => {
       <div className="mt-[100px] flex flex-col md:flex-row-reverse gap-[72px] justify-between">
         <div className="flex flex-col gap-2 justify-around w-[100%]">
           <h1 className="text-[24px] sm:text-[60px] font-[700] ">Our Story</h1>
-          <p className="text-[13px] sm:text-[20px] font-[400] max-w-">
-            Finding a home is just the beginning of the homz.ng experience.
-            Whether it’s dreaming of your next rental buying your new home or
-            selling a home, we provide customers with an end-to-end home journey
-            experience that can include your brand. Whether it’s dreaming of
-            your next rental buying your new home or selling a home, we provide
-            customers with an end-to-end home journey experience that can
-            include your brand.
-          </p>
+          <p className="text-[13px] sm:text-[20px] font-[400]">
+  Homz.ng was built to make real estate simpler. We connect property owners,
+  managers and tenants through technology that makes searching, listing and
+  managing properties easier.
+
+  Whether you are looking for a rental, buying a home, or managing properties,
+  Homz provides an end-to-end experience designed around your real estate needs.
+</p>
           <Link href={"/contact-page"}>
             <button className="mb-10 hidden sm:inline w-[133px] h-[49px] bg-BlueHomz font-[700]   hover:bg-white hover:border hover:border-BlueHomz hover:text-BlueHomz rounded-md text-white ">
               Contact Us
@@ -100,7 +99,7 @@ const Hero = () => {
         <div className="w-[100%]">
           <Image src={"https://res.cloudinary.com/dniaq8eiz/image/upload/v1713184903/public/images/Houses_n5exgy.jpg"}
             width={524}
-            alt="img"
+            alt="Modern homes and properties listed on Homz.ng"
             height={460}
             layout="full" // Specify the desired height
             objectFit="cover"

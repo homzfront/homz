@@ -16,6 +16,7 @@ import Message from "@/components/icons/message";
 import Phone from "@/components/icons/phone";
 import Whatsapp from "@/components/icons/whatsapp";
 import Link from "next/link";
+import LocationWhite from "@/components/icons/locationWhite";
 
 const ContactDoc = () => {
   const options = [
@@ -135,8 +136,8 @@ const ContactDoc = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
         <div className="max-w-[420px] gap-6 pt-4 flex flex-col">
           <h1 className="text-[60px] font-[700] leading-tight text-BlackHomz">
-            We'd Love to Hear From You
-          </h1>
+  Contact Homz.ng for Real Estate Solutions
+</h1>
           <p className="text-[20px] mt-2 font-[400] text-GrayHomz ">
             Any questions or remarks? Just send us a message. Fill up the form
             and our team will get back to you.
@@ -149,9 +150,12 @@ const ContactDoc = () => {
             </div>
             <div className="flex gap-5 flex-col">
               <div className="flex gap-2 pl-4">
-                <p className="text-[20px] font-[500] text-GrayHomz ">
-                  +2349160002460
-                </p>
+                <Link
+  href="tel:+2349160002460"
+  className="text-[20px] font-[500] text-GrayHomz"
+>
+  +2349160002460
+</Link>
                 <div
                   onClick={() => handleCopyClick("+2349160002460", "copiedII")}
                   className="relative"
@@ -172,6 +176,18 @@ const ContactDoc = () => {
               </div>
             </div>
           </div>
+          <div className="hidden mt-1 sm:flex gap-8">
+  <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
+    <LocationWhite />
+  </div>
+
+  <p className="text-[20px] font-[500] text-GrayHomz">
+    Office Address:
+    <br />
+    1st Floor, Marina Hub Suite, Foresight House,
+    163/165 Broad Street, Lagos Nigeria.
+  </p>
+</div>
           <div className="hidden mt-1 sm:flex gap-8">
             <div className="rounded-full h-[40px] w-[40px] flex justify-center items-center bg-blue-100">
               <div className="h-[24px] w-[24px] flex justify-center items-center">
@@ -208,13 +224,13 @@ const ContactDoc = () => {
             <div className="hidden sm:flex gap-2">
               <p
                 onClick={() => {
-                  viewFile("https:/wa.me/2349160002460")
+                  viewFile("https://wa.me/2349160002460")
                 }}
                 className="text-[20px] font-[500] underline text-GrayHomz cursor-pointer">
                 +2349160002460
               </p>
               <div
-                onClick={() => handleCopyClick("https:/wa.me/2349160002460", "copiedV")}
+                onClick={() => handleCopyClick("https://wa.me/2349160002460", "copiedV")}
                 className="relative"
               >
                 <Image
@@ -448,13 +464,13 @@ const ContactDoc = () => {
             <div className="flex sm:hidden gap-2">
               <p
                 onClick={() => {
-                  viewFile("https:/wa.me/2349160002460")
+                  viewFile("https://wa.me/2349160002460")
                 }}
                 className="text-[20px] font-[500] underline text-GrayHomz cursor-pointer">
                 +2349160002460
               </p>
               <div
-                onClick={() => handleCopyClick("https:/wa.me/2349160002460", "copiedV")}
+                onClick={() => handleCopyClick("https://wa.me/2349160002460", "copiedV")}
                 className="relative"
               >
                 <Image

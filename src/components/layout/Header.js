@@ -1,11 +1,10 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "../icons/Menu";
 import Close from "../icons/Close";
 import Image from "next/image";
 import useProfileStore from "@/store/profile";
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import keepThree from "@/utils/keepThree";
 import useProfileListingMe from "@/store/listingStore/useProfileListingMe";

@@ -4,6 +4,9 @@ import Header from "@/components/layout/Header";
 export const metadata = {
   title: "Property Management Software for Managers - Homz Enterprise",
   description: "Scale your property management business with Homz Enterprise. Manage multiple properties, tenants, and finances in one platform. Transparent pricing with up to 20% savings.",
+  alternates: {
+    canonical: "/enterprise",
+  },
   openGraph: {
     title: "Property Management Software for Managers - Homz Enterprise",
     description: "Scale your property management business with Homz Enterprise. Manage multiple properties, tenants, and finances in one platform. Transparent pricing with up to 20% savings.",

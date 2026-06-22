@@ -6,15 +6,18 @@
  * Maps URL slugs to proper property types
  */
 const propertyTypeMapping = {
-  'mini-flat': 'mini flat',
+  'boys-quarters': 'boys quarters',
+  'mini-flat': 'mini-flat',
+  'penthouse': 'penthouse',
   'self-contain': 'self contain',
-  'duplex': 'duplex',
-  'bungalow': 'bungalow',
-  'apartment': 'apartment',
-  'house': 'house',
-  'office-space': 'office space',
-  'shop': 'shop',
-  'warehouse': 'warehouse',
+  'studio-apartment': 'studio apartment',
+  'block-of-flats': 'block of flats',
+  'detached-bungalow': 'detached bungalow',
+  'semi-detached-bungalow': 'semi-detached bungalow',
+  'terraced-bungalow': 'terraced bungalow',
+  'detached-duplex': 'detached duplex',
+  'semi-detached-duplex': 'semi-detached duplex',
+  'terraced-duplex': 'terraced duplex',
 };
 
 /**
@@ -26,6 +29,16 @@ const listingTypeMapping = {
   'land': 'land',
   'shortlet': 'shortlet',
 };
+
+export const PROPERTY_TYPE_SLUGS = Object.keys(propertyTypeMapping);
+/**
+ * {label, slug} pairs for rendering "Popular searches" links on location pages,
+ * e.g. /rent/abuja showing links to /rent/abuja/mini-flat, /rent/abuja/self-contain, etc.
+ */
+export const PROPERTY_TYPE_LINKS = PROPERTY_TYPE_SLUGS.map((slug) => ({
+  slug,
+  label: propertyTypeMapping[slug].replace(/\b\w/g, (c) => c.toUpperCase()),
+}));
 
 /**
  * Converts URL slug to proper case for location
@@ -49,8 +62,7 @@ export const parseLocation = (locationSlug) => {
  */
 export const parsePropertyType = (propertyTypeSlug) => {
   if (!propertyTypeSlug) return null;
-  
-  return propertyTypeMapping[propertyTypeSlug.toLowerCase()] || propertyTypeSlug.replace('-', ' ');
+  return propertyTypeMapping[propertyTypeSlug.toLowerCase()] || propertyTypeSlug.replace(/-/g, ' ');
 };
 
 /**
@@ -100,30 +112,84 @@ export const parseUrlToFilters = (params, basePath) => {
  * @returns {object} - Metadata object
  */
 export const generatePageMetadata = (params, basePath) => {
-  const location = params.location ? parseLocation(params.location) : '';
-  const propertyType = params.propertyType ? parsePropertyType(params.propertyType) : '';
-  
-  let title = '';
-  let description = '';
+  const location = params?.location ? parseLocation(params.location) : '';
+  const rawType = params?.propertyType ? parsePropertyType(params.propertyType) : '';
+  const propertyType = rawType ? rawType.replace(/\b\w/g, (c) => c.toUpperCase()) : '';
+  const pluralType = propertyType.endsWith('s') ? propertyType : `${propertyType}s`;
 
-  // Generate title based on parameters
-  if (propertyType && location) {
-    const actionText = basePath === 'rent' ? 'for Rent' : basePath === 'sales' ? 'for Sale' : basePath;
-    title = `${propertyType.charAt(0).toUpperCase() + propertyType.slice(1)}s ${actionText} in ${location} - Homz`;
-    description = `Find verified ${propertyType}s ${actionText.toLowerCase()} in ${location}. Browse quality properties with transparent pricing on Homz.`;
-  } else if (location) {
-    const actionText = basePath === 'rent' ? 'for Rent' : basePath === 'sales' ? 'for Sale' : basePath;
-    title = `Properties ${actionText} in ${location} - Homz`;
-    description = `Discover quality properties ${actionText.toLowerCase()} in ${location}. Browse verified listings with transparent pricing on Homz.`;
-  } else {
-    const actionText = basePath === 'rent' ? 'for Rent' : basePath === 'sales' ? 'for Sale' : basePath;
-    title = `Properties ${actionText} - Homz`;
-    description = `Browse verified properties ${actionText.toLowerCase()} across Nigeria. Find your ideal home with transparent pricing on Homz.`;
-  }
+  const copy = {
+    rent: {
+      withTypeLocation: {
+        title: `${pluralType} for Rent in ${location} | Homz.ng`,
+        description: `Browse verified ${rawType}s for rent in ${location}, Nigeria. Compare prices and photos, and reach landlords directly on Homz.ng.`,
+      },
+      withLocation: {
+        title: `Houses & Apartments for Rent in ${location} | Homz.ng`,
+        description: `Find verified houses, flats and apartments for rent in ${location}, Nigeria. Transparent pricing and direct landlord contact on Homz.ng.`,
+      },
+      base: {
+        title: 'Houses & Apartments for Rent in Nigeria | Homz.ng',
+        description: 'Browse verified houses, flats and apartments for rent across Nigeria. Transparent pricing and direct landlord contact on Homz.ng.',
+      },
+    },
+    sales: {
+      withTypeLocation: {
+        title: `${pluralType} for Sale in ${location} | Homz.ng`,
+        description: `Browse verified ${rawType}s for sale in ${location}, Nigeria. Compare prices and photos on Homz.ng, Nigeria's trusted property platform.`,
+      },
+      withLocation: {
+        title: `Properties for Sale in ${location} | Homz.ng`,
+        description: `Find verified houses, flats and duplexes for sale in ${location}, Nigeria. Transparent pricing on Homz.ng.`,
+      },
+      base: {
+        title: 'Properties for Sale in Nigeria | Homz.ng',
+        description: 'Browse verified houses, flats and duplexes for sale across Nigeria. Transparent pricing on Homz.ng.',
+      },
+    },
+    land: {
+      withTypeLocation: {
+        title: `${pluralType} Land for Sale in ${location} | Homz.ng`,
+        description: `Browse verified ${rawType} land for sale in ${location}, Nigeria on Homz.ng.`,
+      },
+      withLocation: {
+        title: `Land for Sale in ${location} | Homz.ng`,
+        description: `Find verified plots of land for sale in ${location}, Nigeria. Transparent pricing and direct seller contact on Homz.ng.`,
+      },
+      base: {
+        title: 'Land for Sale in Nigeria | Homz.ng',
+        description: 'Browse verified plots of land for sale across Nigeria. Transparent pricing and direct seller contact on Homz.ng.',
+      },
+    },
+    shortlet: {
+      withTypeLocation: {
+        title: `${pluralType} Shortlets in ${location} | Homz.ng`,
+        description: `Book verified ${rawType} shortlets in ${location}, Nigeria. Compare prices and photos on Homz.ng.`,
+      },
+      withLocation: {
+        title: `Shortlet Apartments in ${location} | Homz.ng`,
+        description: `Find verified shortlet apartments in ${location}, Nigeria. Book short-term stays with transparent pricing on Homz.ng.`,
+      },
+      base: {
+        title: 'Shortlet Apartments in Nigeria | Homz.ng',
+        description: 'Browse verified shortlet apartments across Nigeria. Book short-term stays with transparent pricing on Homz.ng.',
+      },
+    },
+  };
+
+  const pathCopy = copy[basePath] || copy.rent;
+  const key = propertyType && location ? 'withTypeLocation' : location ? 'withLocation' : 'base';
+  const { title, description } = pathCopy[key];
+
+  const keywords = propertyType && location
+    ? [`${rawType} ${basePath} in ${location}`, `${pluralType.toLowerCase()} in ${location}`, `${location} real estate`, 'Homz.ng']
+    : location
+    ? [`properties in ${location}`, `${location} real estate`, 'Homz.ng']
+    : ['real estate Nigeria', 'property listings Nigeria', 'Homz.ng'];
 
   return {
     title,
     description,
+    keywords,
     openGraph: {
       title,
       description,
