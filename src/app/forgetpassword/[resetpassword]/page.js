@@ -1,3 +1,13 @@
+import { redirect } from "next/navigation";
+
+export default function ResetPasswordDynamicPage({ params }) {
+  if (params.resetpassword === "resetpassword") {
+    redirect("/forgetpassword/resetpassword");
+  }
+
+  redirect("/forgetpassword");
+}
+
 // "use client";
 // import BashedEye from "@/components/icons/BashedEye";
 // import Eye from "@/components/icons/Eye";
