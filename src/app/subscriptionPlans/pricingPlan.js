@@ -19,6 +19,7 @@ const PricingPlan = () => {
   };
   
   const [data, setData] = useState(null);
+  const [isRenewalFlow, setIsRenewalFlow] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("enterData");
@@ -27,6 +28,13 @@ const PricingPlan = () => {
   }, []);
  
   const { data: profile, loading, fetchData } = useProfileListingMe();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      setIsRenewalFlow(params.get("upgrade") === "true");
+    }
+  }, []);
 
   useLayoutEffect(() => {
     fetchData();
@@ -82,6 +90,12 @@ const PricingPlan = () => {
           Choose the Perfect Promotion Plan to Attract More Buyers and Renters
         </p>
       </div>
+
+      {isRenewalFlow && (
+        <div className="mx-auto mb-4 max-w-3xl rounded-lg border border-[#559CFF]/30 bg-[#EEF5FF] px-4 py-3 text-center text-sm text-[#0F3D7A]">
+          Your current plan has expired. Renew it or choose a higher tier to keep your dashboard features active.
+        </div>
+      )}
 
       <div>
         <Widget data={data} profile={profile}  />

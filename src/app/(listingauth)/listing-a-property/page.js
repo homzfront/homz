@@ -91,12 +91,13 @@ const ListingLogin = () => {
         password,
       });
 
-      if (response.status === 201) {
-        const data = response.data.data.token;
-        localStorage.setItem("jwt", data);
+      if (response.data?.statuscode === 201) {
+        const { token, email: responseEmail, isVerified } = response.data.data;
 
-        const profileResponse = await api.get("/user/profile");
-        if (profileResponse?.data?.user?.isVerified === true) {
+        if (isVerified) {
+          localStorage.setItem("jwt", token);
+
+          const profileResponse = await api.get("/user/profile");
           if (
             profileResponse.status === 200 ||
             profileResponse.status === 201
@@ -120,7 +121,7 @@ const ListingLogin = () => {
             }
 
             useProfileStore.setState({
-              user: data,
+              user: token,
               profile: profileData,
               isLoggedIn: true,
               loading: false,
@@ -133,18 +134,29 @@ const ListingLogin = () => {
             }, 5000); // 5 seconds
           } else {
             setLoginError(profileResponse.data.message);
+            setLoading(false);
           }
         } else {
           router.push(`/verify-email`);
           if (typeof window !== "undefined") {
-            localStorage.setItem("email", response?.data?.data?.email);
+            localStorage.setItem("email", responseEmail || email);
           }
+          setLoading(false);
         }
       } else {
         setLoginError(response.data.message);
+        setLoading(false);
       }
     } catch (error) {
-      setLoginError(error.response?.data?.message);
+      const message = error.response?.data?.message;
+      if (error.response?.status === 403 && message?.toLowerCase().includes("not verified")) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("email", email);
+        }
+        router.push(`/verify-email`);
+      } else {
+        setLoginError(message || "Login failed. Please try again.");
+      }
       setLoading(false);
     }
   };

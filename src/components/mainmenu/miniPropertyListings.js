@@ -30,7 +30,7 @@ const MiniPropertyListings = ({
           Similar properties
         </p>
         <Link
-          href="properties/PropertyListing"
+          href="/all?page=1"
           className="hidden md:flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>

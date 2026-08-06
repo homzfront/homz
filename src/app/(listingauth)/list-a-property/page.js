@@ -80,8 +80,7 @@ const ListingRegister = () => {
       });
 
       if (response.data.statuscode === 201) {
-        const data = response?.data?.data?.token;
-        localStorage.setItem("jwt", data);
+        // Do NOT persist JWT before email verification.
         router.push(`/verify-email`);
         if (typeof window !== "undefined") {
           localStorage.setItem("email", formData.email);

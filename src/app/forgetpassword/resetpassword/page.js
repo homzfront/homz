@@ -1,17 +1,17 @@
 ﻿import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 
-const ForgotPasswordClient = dynamic(
-  () => import("@/app/forgetpassword/ForgotPasswordClient"),
+const ResetPasswordClient = dynamic(
+  () => import("@/app/forgetpassword/resetpassword/ResetPasswordClient"),
   { ssr: false }
 );
 
-const ForgotPasswordPage = () => {
+const ResetPasswordPage = () => {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-      <ForgotPasswordClient />
+      <ResetPasswordClient />
     </Suspense>
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

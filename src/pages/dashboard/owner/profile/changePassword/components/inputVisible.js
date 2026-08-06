@@ -18,7 +18,7 @@ const InputVisible = ({
   };
 
   return (
-    <form> {/* Enclose the input fields in a form for accessibility */}
+    <>
       <div className="relative flex flex-col gap-2 items-start">
         {/* Username field (optionally hidden) */}
         <input
@@ -51,7 +51,7 @@ const InputVisible = ({
           )}
         </div>
       </div>
-    </form>
+    </>
   );
 };
 

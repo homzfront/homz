@@ -12,7 +12,7 @@ const MiniPropertyListings = ({ Properties, updateMetrics }) => {
       <div className="text-[16px] flex justify-between w-full ">
         <p className="text-[#4E4E4E] md:text-[20px] font-[400] md:leading-[24px] "></p>
         <Link
-          href="/properties/PropertyListing"
+          href="/all?page=1"
           className="flex text-BlueHomz items-center gap-2 rounded px-2 py-1 text-[14px] font-[400] leading-[19.5px]"
           onClick={() => updateMetrics("call")}
         >
