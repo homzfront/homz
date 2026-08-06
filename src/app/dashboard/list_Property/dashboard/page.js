@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 const Dashboard = () => {
   const [selectedOptions, setSelectedOption] = useState(null);
   const [openPlanModal, setOpenPlanModal] = useState(false);
+  const [planModalMode, setPlanModalMode] = useState("inactive");
   const [promoteOption, setPromotePropertry] = useState(null);
   const [errorModal, setErrorModal] = useState(false);
   const [loading, setLoader] = useState(false);
@@ -47,7 +48,11 @@ const Dashboard = () => {
   const handleSelectPlan = async () => {
     try {
       startTransition(() => {
-        router.push(`/subscriptionPlans`);
+        router.push(
+          planModalMode === "expired"
+            ? `/subscriptionPlans?upgrade=true`
+            : `/subscriptionPlans`
+        );
       });
     } catch (error) {
       console.error("Error", error.response?.data || error.message);
@@ -281,14 +286,18 @@ const Dashboard = () => {
 
       <ConfirmationModal
         isOpen={openPlanModal}
-        title="No Active Plan"
-        confirmatoryText={`You do not have an active subscription plan yet`}
+        title={planModalMode === "expired" ? "Renew or upgrade your plan" : "No Active Plan"}
+        confirmatoryText={
+          planModalMode === "expired"
+            ? "Your subscription has expired. Renew your current plan or upgrade to another option so your dashboard features stay active."
+            : "You do not have an active subscription plan yet"
+        }
         handleEvent={handleSelectPlan}
         cancel={() => {
           setLoader(false);
           setOpenPlanModal(false);
         }}
-        optionText="Proceed to subscribe?"
+        optionText={planModalMode === "expired" ? "Renew / Upgrade Plan" : "Proceed to subscribe?"}
         optionText2="Cancel"
         isLoading={loading}
         // color="text-[#D92D20]"

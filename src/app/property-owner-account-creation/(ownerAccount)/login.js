@@ -6,11 +6,13 @@ import LoadingForm from "@/components/mainmenu/loadingForm";
 import useLandlordLogin from "@/store/landlordLogin/landlordLogin";
 import api from "@/utils/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = ({ setShowLogin, data }) => {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -52,19 +54,34 @@ const Login = ({ setShowLogin, data }) => {
         password: password,
       });
 
-      if (response.data.statuscode === 201) {
-        toast.success("Login successful");
-        const data = response.data.data.token;
-        localStorage.setItem('jwt', data)
-        setLoading(false);
-        setShowLogin(false);
+      if (response.data?.statuscode === 201) {
+        const { token, isVerified } = response.data.data;
+        if (isVerified) {
+          toast.success("Login successful");
+          localStorage.setItem('jwt', token);
+          setLoading(false);
+          setShowLogin(false);
+        } else {
+          router.push(`/verify-email`);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("email", data.email);
+          }
+        }
       } else {
         const error = response.data.message;
         setLoginError(error);
         setLoading(false);
       }
     } catch (error) {
-      setLoginError(error.response?.data?.message);
+      const message = error.response?.data?.message;
+      if (error.response?.status === 403 && message?.toLowerCase().includes("not verified")) {
+        router.push(`/verify-email`);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("email", data.email);
+        }
+      } else {
+        setLoginError(message || "Login failed. Please try again.");
+      }
       setLoading(false);
     }
   };

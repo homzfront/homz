@@ -44,8 +44,10 @@ const Table = ({
     } = useExpenseStore();
 
     // Virtualizer instance
+    const itemCount = allData?.data?.results?.length ?? 0;
+
     const rowVirtualizer = useVirtualizer({
-        count: hasMore ? allData?.data?.results?.length + 1 : allData?.data?.results?.length,
+        count: hasMore ? itemCount + 1 : itemCount,
         getScrollElement: () => tableRef.current,
         estimateSize: () => 60,
         overscan: 5,
@@ -53,19 +55,19 @@ const Table = ({
 
     // Load more when scrolling near bottom
     React.useEffect(() => {
-        const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+        const virtualItems = rowVirtualizer.getVirtualItems();
+        const lastItem = virtualItems && virtualItems.length ? virtualItems[virtualItems.length - 1] : null;
         if (!lastItem) return;
 
         if (
-            lastItem.index >= allData?.data?.results?.length - 1 &&
+            lastItem.index >= itemCount - 1 &&
             hasMore &&
             !loadingMore
         ) {
             fetchMoreData();
         }
     }, [
-        rowVirtualizer.getVirtualItems(),
-        allData?.data?.results?.length,
+        itemCount,
         hasMore,
         loadingMore,
     ]);

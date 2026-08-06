@@ -109,25 +109,25 @@ const Footer = () => {
 
   <div className="flex flex-col gap-2 w-[200px]">
 
-    <p className="flex items-start gap-2">
-      <span className="flex-1 mt-1">
+    <p className="flex items-center gap-2">
+      <span className="mt-1">
         <LocationWhite />
       </span>
-      Lagos, Nigeria
+      <span>Lagos, Nigeria</span>
     </p>
 
-    <p className="flex items-start gap-2">
+    <p className="flex items-center gap-2">
       <span className="mt-1">
         <PhoneWhite />
       </span>
-      09160002460
+      <span>09160002460</span>
     </p>
 
-    <p className="flex items-start gap-2">
+    <p className="flex items-center gap-2">
       <span className="mt-1">
         <WhatsappWhite />
       </span>
-      WhatsApp Support
+      <span>WhatsApp Support</span>
     </p>
 
   </div>

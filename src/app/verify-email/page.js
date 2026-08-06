@@ -11,6 +11,7 @@ import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
 import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import useProfileStore from "@/store/profile";
+import determineUserDashboard from "@/utils/determineUserDashboard";
 import CustomizedModal from "@/components/mainmenu/CustomizedModal";
 import LoadingProlonged from "@/components/general/loadingProlonged";
 
@@ -26,13 +27,13 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(false);
   const [resend, setResend] = useState(false);
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(0);
   const { profile } = useProfileStore();
   const [showLongLoadingMessage, setShowLongLoadingMessage] = useState(false);
 
   const startTimer = () => {
-    setSeconds(60)
-    setTimer(true)
+    setSeconds(60);
+    setTimer(true);
   };
 
   useEffect(() => {
@@ -42,18 +43,6 @@ const VerifyEmail = () => {
       startTimer();
     }
   }, []);
-
-  useEffect(() => {
-    if (email !== null && profile?.isVerified === false) {
-      (async () => {
-        const response = await api.get("/user/profile");
-        if (response?.data?.user?.isVerified === false) {
-          await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
-          startTimer();
-        }
-      })();
-    }
-  }, [email])
 
   useEffect(() => {
     let countdownInterval;
@@ -78,23 +67,35 @@ const VerifyEmail = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await api.post("/auth/verification", { email, pincode: otp.join("") });
+      const response = await api.post("/auth/verification", { email, pincode: otp.join("") });
+      const token = response?.data?.data?.token;
+      if (typeof window !== "undefined" && token) {
+        localStorage.setItem("jwt", token);
+      }
       setVerificationSuccess(true);
       setError(false);
       setError2("");
+
+      // Persist profile and route after verification
+      const profileResponse = await api.get("/user/profile");
+      if (profileResponse.status === 200 || profileResponse.status === 201) {
+        const profileData = profileResponse.data;
+        useProfileStore.setState({
+          user: token,
+          profile: profileData,
+          isLoggedIn: true,
+          loading: false,
+        });
+        const navigateTo = determineUserDashboard(profileData);
+        router.push(navigateTo ?? "/");
+        return;
+      }
+
       setLoading(false);
     } catch (error) {
-      setError2(error.response.data.error);
+      setError2(error.response?.data?.error || error.response?.data?.message || "Verification failed. Please try again.");
       setError(true);
       setLoading(false);
-
-      if (error.response) {
-        setError2(error.response.data.error);
-      } else if (error.request) {
-        setError2("No response received from the server");
-      } else {
-        setError2("Error occurred while making the request");
-      }
     }
   };
 
@@ -102,7 +103,7 @@ const VerifyEmail = () => {
     e.preventDefault();
     setResend(true);
     try {
-      await api.post("/auth/requestnewopt", { email, pincode: otp.join("") });
+      await api.post("/auth/requestnewopt", { email });
       toast.success('OTP SENT');
       startTimer();
       setResend(false);
@@ -116,6 +117,8 @@ const VerifyEmail = () => {
 
   const handleEmailVerification = (e) => {
     e.preventDefault();
+    // After successful email verification, continue to the 'How Would You
+    // Like To Use Homz?' flow so users can choose their plan/profile.
     router.push("/select-plan");
   };
 
@@ -246,29 +249,17 @@ const VerifyEmail = () => {
                     )}
                   </div>
                   <div className="flex gap-2 items-center">
-                    <p className={`${timer ? "pointer-events-none" : ""} text-center font-[400] text-[12px] md:text-[14px]`}>
+                    <p className="text-center font-[400] text-[12px] md:text-[14px]">
                       Didn't receive the email?
                     </p>
-                    {
-                      timer ?
-                        <div
-                          className={`text-GrayHomz6 pointer-events-none text-center font-[700] text-[12px] md:text-[14px] ml-1`}
-                        >
-                          Click to resend
-                        </div> :
-                        <button
-                          onClick={ResendOtp}
-                          className={`${resend ? "pointer-events-none" : ""} text-BlueHomz text-center font-[700] text-[12px] md:text-[14px] ml-1`}
-                          href={""}
-                        >
-                          Click to resend
-                        </button>
-                    }
-                    {timer && (
-                      <div className="flex justify-center items-center">
-                        <p className="text-[12px] text-BlueHomz font-[400]">{seconds} Seconds</p>
-                      </div>
-                    )}
+                    <button
+                      type="button"
+                      onClick={ResendOtp}
+                      disabled={timer || resend}
+                      className={`ml-1 font-[700] text-[12px] md:text-[14px] ${timer || resend ? "text-GrayHomz6 pointer-events-none" : "text-BlueHomz"}`}
+                    >
+                      {timer ? `Resend in ${seconds}s` : "Click to resend"}
+                    </button>
                   </div>
                   <div className="flex justify-center gap-1">
                     <Image

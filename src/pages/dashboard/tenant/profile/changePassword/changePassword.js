@@ -51,8 +51,8 @@ const ChangePassword = () => {
     try {
       const updatedData = {
         currentPassword: password,
-        confirmPassword: newPassword,
-        newPassword: reEnterPassword,
+        newPassword: newPassword,
+        confirmPassword: reEnterPassword,
       };
 
       const { success, upDateddata, error } = await updatePassword(updatedData);
@@ -81,18 +81,16 @@ const ChangePassword = () => {
         error.response.data.error.errors.length > 0
       ) {
         const errorMessage = error.response.data.error.errors[0];
-        setPasswordError("Error message:", errorMessage);
+        setPasswordError(errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else if (error?.response?.data?.message) {
         const errorMessage = error.response.data.message;
-        setPasswordError("Unexpected status code:", errorMessage);
+        setPasswordError(errorMessage);
         toast.error(`Update failed: ${errorMessage}`);
       } else {
+        const fallback = error?.response?.data?.message || "Error changing password";
         toast.error("Update failed");
-        setPasswordError(
-          "Error changing password",
-          error.response?.data?.message
-        );
+        setPasswordError(fallback);
       }
       setShowDialogue(false);
     }

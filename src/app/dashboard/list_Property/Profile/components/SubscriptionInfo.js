@@ -36,6 +36,12 @@ const SubscriptionInfo = () => {
     return formattedDate;
   };
 
+  const isSubscriptionExpired = Boolean(
+    data?.IsExpired ||
+      ["expired", "inactive"].includes(String(data?.status || "").toLowerCase())
+  );
+  const hasSubscription = Boolean(data?.subscription_code || data?.plan?.plan_code);
+
   const {
     isIdle,
     mutate,
@@ -71,14 +77,16 @@ const SubscriptionInfo = () => {
       <div className="flex items-center justify-between flex-wrap h-fit py-[16px] px-[20px] sm:gap-[32px] gap-[20px] bg-[#F6F6F6] rounded-[8px]">
         <div className="space-y-1">
           <p className="">{`You’re currently on the ${
-            data?.plan?.name &&
-            !data?.IsExpired &&
-            (data?.status === "success" ||
-              data?.status === "active" ||
-              data?.status === "non-renewing")
+            !isSubscriptionExpired && data?.plan?.name
               ? data?.plan?.name
               : "Free Plan"
           }`}</p>
+
+          {isSubscriptionExpired && (
+            <p className="text-[#D92D20] text-[12px] font-[600]">
+              Your subscription has expired. Renew it or upgrade to keep your dashboard features active.
+            </p>
+          )}
 
           {data?.plan?.plan_code &&
             !data?.IsExpired &&
@@ -97,13 +105,13 @@ const SubscriptionInfo = () => {
         <div className="flex gap-[12px] flex-wrap w-full sm:w-fit">
           <Link
             href={
-              data?.subscription_code
+              isSubscriptionExpired || hasSubscription
                 ? "/subscriptionPlans?upgrade=true"
                 : "/subscriptionPlans"
             }
-            className="bg-[#006AFF] text-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-[115px] justify-center"
+            className="bg-[#006AFF] text-white py-[8px] px-[12px] h-[37px] rounded-[4px] flex items-center w-full sm:w-[140px] justify-center"
           >
-            Upgrade Plan
+            {isSubscriptionExpired ? "Renew / Upgrade" : "Upgrade Plan"}
           </Link>
 
           {!data?.IsExpired &&

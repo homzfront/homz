@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,26 +11,39 @@ import api from "@/utils/api";
 import SliderAuth from "@/components/auth/slider";
 
 const ForgotPassword = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [sentEmail, setSentMail] = useState(false);
   const [emailError, setEmailError] = useState(false);
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    if (token) {
+      router.replace(`/forgetpassword/resetpassword?token=${token}`);
+    }
+  }, [router, searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await api.post(
-        "/auth/forgotpassword",
+        "/auth/forgotPassword",
         { email }
       );
 
-      if (response.data.statuscode === 200 || 201) {
+      if (response.data.statuscode === 200 || response.data.statuscode === 201) {
         setSentMail(true);
       } else {
-        setEmailError(response.data.message);
+        setEmailError("If the email exists, you will receive a reset link shortly.");
       }
     } catch (error) {
-      setEmailError(error.response?.data?.message);
+      // Log the backend error for debugging, but show a generic success
+      // message to the user so the UX is consistent and doesn't leak
+      // account existence information.
+      console.error("Forgot password request failed:", error);
+      setSentMail(true);
     }
   };
 
@@ -38,18 +52,20 @@ const ForgotPassword = () => {
 
     try {
       const response = await api.post(
-        "/auth/forgotpassword",
+        "/auth/forgotPassword",
         { email }
       );
 
-      if (response.data.statuscode === 200 || 201) {
+      if (response.data.statuscode === 200 || response.data.statuscode === 201) {
         setSentMail(true);
-        toast.success("reset password link sent to your mail.");
+        toast.success("If the email exists, a reset link has been sent.");
       } else {
-        toast.error(response.data.message);
+        toast.success("If the email exists, a reset link has been sent.");
       }
     } catch (error) {
-      setEmailError(error.response?.data?.message);
+      console.error("Forgot password resend failed:", error);
+      setSentMail(true);
+      toast.success("If the email exists, a reset link has been sent.");
     }
   };
 
@@ -111,7 +127,7 @@ const ForgotPassword = () => {
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="mt-7 bg-BlueHomz text-white font-[700] text-[16px] w-full rounded-[4px] h-[47px] hover:bg-white hover:text-BlueHomz hover:border hover:border-BlueHomz"
+                    className="mt-7 bg-BlueHomz text-white font-[700] text-[16px] w-full rounded-[4px] h-[47px] hover:bg-blue-700"
                   >
                     Send Reset Link
                   </button>
@@ -125,13 +141,7 @@ const ForgotPassword = () => {
                     </Link>
                   </p>
                   <div className="mt-4 flex justify-center gap-1">
-                    <Image
-                      src={"/arrow-left.png"}
-                      className=""
-                      height={17}
-                      width={16}
-                      alt="img"
-                    />
+                    <Image src="/arrow-left.png" className="" height={17} width={16} alt="img" />
                     <Link
                       href={"/login"}
                       className="text-center text-[14px] font-[700]"
@@ -164,13 +174,7 @@ const ForgotPassword = () => {
                     </button>
                   </p>
                   <div className="mt-4 flex justify-center gap-1">
-                    <Image
-                      src={"/arrow-left.png"}
-                      className=""
-                      height={17}
-                      width={16}
-                      alt="img"
-                    />
+                    <Image src="/arrow-left.png" className="" height={17} width={16} alt="img" />
                     <Link
                       href={"/login"}
                       className="text-center text-[14px] font-[700]"

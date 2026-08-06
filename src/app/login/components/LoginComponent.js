@@ -87,60 +87,70 @@ const LoginComponent = () => {
         password,
       });
 
-      if (response.status === 201) {
-        const data = response.data.data.token;
-        localStorage.setItem("jwt", data);
+      const authData = response.data?.data || {};
+      const responseStatus = response.data?.statuscode;
+
+      if (responseStatus === 200 || responseStatus === 201 || authData?.token) {
+        const { token, email: responseEmail } = authData;
+        if (!token) {
+          setLoginError("Login succeeded but no auth token was returned.");
+          setLoading(false);
+          return;
+        }
+
+        localStorage.setItem("jwt", token);
 
         const profileResponse = await api.get("/user/profile");
-        if (profileResponse?.data?.user?.isVerified === true) {
-          if (
-            profileResponse.status === 200 ||
-            profileResponse.status === 201
-          ) {
-            const profileData = profileResponse.data;
+        if (
+          profileResponse.status === 200 ||
+          profileResponse.status === 201
+        ) {
+          const profileData = profileResponse.data;
 
-            // Navigation logic based on user roles and account status
-            const navigateTo = determineUserDashboard(profileData);
-            if (homePage) {
-              router.push("/dashboard/enterprise-property/documentGeneration");
-            } else if (referalReturnPage) {
-              router.push("/plans");
-            } else if (tab === "dueDate") {
-              router.push(
-                "/dashboard/enterprise-property/tenants?dueDate=true"
-              );
-            } else if (!homePage && navigateTo) {
-              router.push(navigateTo);
-            } else {
-              router.push("/");
-            }
-
-            useProfileStore.setState({
-              user: data,
-              profile: profileData,
-              isLoggedIn: true,
-              loading: false,
-            });
-
-            setTimeout(() => {
-              setEmail("");
-              setPassword("");
-              setLoading(false);
-            }, 5000); // 5 seconds
+          const navigateTo = determineUserDashboard(profileData);
+          if (homePage) {
+            router.push("/dashboard/enterprise-property/documentGeneration");
+          } else if (referalReturnPage) {
+            router.push("/plans");
+          } else if (tab === "dueDate") {
+            router.push(
+              "/dashboard/enterprise-property/tenants?dueDate=true"
+            );
+          } else if (!homePage && navigateTo) {
+            router.push(navigateTo);
           } else {
-            setLoginError(profileResponse.data.message);
+            router.push("/");
           }
+
+          useProfileStore.setState({
+            user: token,
+            profile: profileData,
+            isLoggedIn: true,
+            loading: false,
+          });
+
+          setTimeout(() => {
+            setEmail("");
+            setPassword("");
+            setLoading(false);
+          }, 5000); // 5 seconds
         } else {
-          router.push(`/verify-email`);
-          if (typeof window !== "undefined") {
-            localStorage.setItem("email", response?.data?.data?.email);
-          }
+          setLoginError(profileResponse.data.message);
+          setLoading(false);
         }
       } else {
         setLoginError(response.data.message);
       }
     } catch (error) {
-      setLoginError(error.response?.data?.message);
+      const message = error.response?.data?.message;
+      if (error.response?.status === 403 && message?.toLowerCase().includes("not verified")) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("email", email);
+        }
+        router.push(`/verify-email`);
+      } else {
+        setLoginError(message || "Login failed. Please try again.");
+      }
       setLoading(false);
     }
   };

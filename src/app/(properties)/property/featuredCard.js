@@ -25,7 +25,7 @@ const FeaturedCard = ({ updateMetrics }) => {
           Featured Properties
         </p>
         <Link
-          href="/properties/PropertyListing"
+          href="/all?page=1"
           className="flex items-center gap-2 rounded px-2 py-1 sm:text-[13px] text-[11.5px] font-[400] leading-[19.5px]"
         >
           <span>View All</span>
