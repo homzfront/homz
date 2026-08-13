@@ -18,6 +18,23 @@ export const fetchEstatesSpecificUSer = async (id) => {
   }
 };
 
+// NOTE: this hits the backend's `deleteEstateById` controller, which is a HARD delete —
+// it removes the Estate document and its Cloudinary photos, but does not touch tenants,
+// rentInfo, or payment records tied to it. Please confirm the exact route path against
+// your backend's estate routes file before shipping (inferred here from the `/estates/:id`
+// convention used by fetchEstatesSpecificUSer above).
+export const deleteEstateById = async (estateId) => {
+  try {
+    const response = await api.delete(`/estates/${estateId}`);
+    return { success: true, data: response.data };
+  } catch (error) {
+    return {
+      success: false,
+      error: error?.response?.data?.error || error?.response?.data?.message || "Something went wrong",
+    };
+  }
+};
+
 export const fetchEstateRentReminders = async (id) => {
   try {
     const response = await api.get(`/rentReminder/${id}/estate`);

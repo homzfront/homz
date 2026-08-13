@@ -2,6 +2,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PopUpMenu from "./popUpMenu";
 import useClickOutside from "@/utils/clickOutside";
+import ConfirmationModal from "@/components/mainmenu/ConfirmationModal";
+import SuccessModal from "@/components/mainmenu/SuccessModal";
+import { deleteEstateById } from "@/api/estateService";
+import estateStore from "@/store/enterpriseStore/estates";
 
 const Card = ({
   value1,
@@ -19,11 +23,40 @@ const Card = ({
 }) => {
   const [popUpMenuVisible, setPopUpMenuVisible] = useState(false);
   const [openTenantInvite, setOpenTenantInvite] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
+  const [deleteErrorOpen, setDeleteErrorOpen] = useState(false);
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
   const dropdownRef = useClickOutside(() => setPopUpMenuVisible(false)); // Use the custom hook
+  const { fetchData } = estateStore();
 
   const handleToggleMenuClick = () => {
     handleToggleMenu(data);
     setPopUpMenuVisible(!popUpMenuVisible);
+  };
+
+  const handleDeleteClick = () => {
+    setPopUpMenuVisible(false);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    setIsDeleting(true);
+    const result = await deleteEstateById(estateData?._id);
+    setIsDeleting(false);
+    setDeleteConfirmOpen(false);
+    if (result.success) {
+      setDeleteSuccessOpen(true);
+    } else {
+      setDeleteErrorMessage(result.error);
+      setDeleteErrorOpen(true);
+    }
+  };
+
+  const closeDeleteSuccessModal = () => {
+    setDeleteSuccessOpen(false);
+    fetchData();
   };
 
   return (
@@ -67,6 +100,7 @@ const Card = ({
               data={data}
               estateName={value2}
               estateData={estateData}
+              onDeleteClick={handleDeleteClick}
             />}
           </div>
           <div className="flex items-center gap-2">
@@ -97,6 +131,30 @@ const Card = ({
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={deleteConfirmOpen}
+        title="Delete Property?"
+        confirmatoryText={`This will permanently remove "${value2}" and its photos. Tenant and payment records tied to this property will NOT be deleted and may become harder to trace — please make sure this is really what you want before proceeding.`}
+        handleEvent={handleConfirmDelete}
+        cancel={() => setDeleteConfirmOpen(false)}
+        optionText="Yes, Delete"
+        optionText2="No, go back"
+        color="text-[#D92D20]"
+        isLoading={isDeleting}
+      />
+      <SuccessModal
+        isOpen={deleteSuccessOpen}
+        title="Property Deleted Successfully"
+        handleEvent={closeDeleteSuccessModal}
+      />
+      <SuccessModal
+        isOpen={deleteErrorOpen}
+        title="Couldn't Delete Property"
+        successText={deleteErrorMessage}
+        handleEvent={() => setDeleteErrorOpen(false)}
+        error
+      />
     </div>
   );
 };

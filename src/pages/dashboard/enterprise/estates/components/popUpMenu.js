@@ -6,6 +6,7 @@ import Info from "@/components/icons/info";
 import PeopleTenant from "@/components/icons/people-tenant";
 import PropertyInfo from "@/components/icons/propertyInfo";
 import Reminder from "@/components/icons/reminder";
+import DeleteRed from "@/components/icons/deleteRed";
 import useEditPropertyTab from "@/store/enterpriseStore/useEditPropertyTab";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +25,7 @@ import useTenantOfAnEstate from "@/store/enterpriseStore/useTenantOfAnEstate";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 
-const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
+const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite, onDeleteClick }) => {
   const { setEstateData } = useTenantOfAnEstate()
   const { setOpenMapping } = useCSVFileStore();
   const { setTab } = useEditPropertyTab();
@@ -35,6 +36,7 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
   const [activeFive, setActiveFive] = useState(false);
   const [activeSix, setActiveSix] = useState(false);
   const [activeSeven, setActiveSeven] = useState(false);
+  const [activeEight, setActiveEight] = useState(false);
   const [openSingleInvite, setOpenSingleInvite] = useState(false);
   const [openBulkInvite, setOpenBulkInvite] = useState(false);
   const dropdownRef = useClickOutside(() => {
@@ -334,6 +336,24 @@ const PopUpMenu = ({ estateData, openTenantInvite, setOpenTenantInvite }) => {
             </div>
           }
         </Link>
+      </div>
+      <div
+        onMouseEnter={() => setActiveEight(true)}
+        onMouseLeave={() => setActiveEight(false)}
+        className=" md:h-[30px] h-auto rounded-md flex gap-1 items-center px-2 text-[#D92D20] w-full cursor-pointer">
+        <div
+          className="w-full"
+          onClick={() => {
+            onDeleteClick && onDeleteClick(estateData);
+          }}
+        >
+          <div className={`px-2 flex gap-1 items-center h-full w-full rounded-md ${activeEight ? "bg-[#FDF2F2]" : ""}`}>
+            <DeleteRed />
+            <p className="text-[11px] md:text-[13px] font-[500] py-1 px-2 ">
+              Delete Property
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
