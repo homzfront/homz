@@ -1,6 +1,5 @@
 import api from "@/utils/api";
 
-// Matches backend routes/digest.routes.ts mounted at /digest
 
 export const getDigestSettings = async () => {
   try {
