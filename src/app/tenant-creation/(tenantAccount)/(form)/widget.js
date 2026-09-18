@@ -89,7 +89,7 @@ const Widget = ({ data }) => {
               href={"/dashboard/tenant/dashboard"}
               className="h-[48px] rounded-md w-full  text-BlueHomz flex justify-center items-center text-[16px] font-[700]"
             >
-              Skin for now, complete later
+              Skip for now, complete later
             </Link>
           </div>
         </div>
