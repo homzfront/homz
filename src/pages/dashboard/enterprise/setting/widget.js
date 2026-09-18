@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import ManageUsers from "./manageUsers/manageUsers.js";
 // import Estate from "./estates/estates.js";
 // import Tenants from "./tenants/tenants.js";
-// import Notifications from "./notifications/notifications.js";
+import Notifications from "./notifications/notifications.js";
 
 const pages = [
   { id: 1, name: "Manage Landlords", component: <ManageUsers typeOfUser="landlords"/> },
+  { id: 2, name: "Notifications", component: <Notifications /> },
   // { id: 2, name: "Manage Security Personnel", component: <ManageUsers/> },
   // { id: 2, name: "Properties", component: <Estate /> },
   // { id: 3, name: "Tenants", component: <Tenants /> },
-  // { id: 4, name: "Notifications", component: <Notifications /> },
 ];
 
 const Widget = () => {
