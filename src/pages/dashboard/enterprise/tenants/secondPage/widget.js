@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import RentReviewPanel from "./rentReviewPanel";
+import InspectionPanel from "./inspectionPanel";
 import RentInfo from "./rentInfo";
 import PaymentHis from "./paymentHis";
 import Maintenance from "./maintenance";
@@ -44,17 +46,26 @@ const Widget = ({
               {tenantData?.data?.maintenanceRequests?.length}
             </span>
           </div>
+          <div
+  className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${step === 3 ? "bg-BlueHomz text-white" : ""}`}
+  onClick={() => setStep(3)}
+>
+  <p>Inspection</p>
+</div>
         </div>
         <div className="mt-5 rounded-[12px]">
           {step === 0 && (
-            <RentPeriodForm
-              fetchRentInformation={fetchRentInformation}
-              rentInfo={rentInfo}
-              fetchTenantData={fetchTenantData}
-              setRentInfo={setRentInfo}
-              tenantData={tenantData}
-            />
-          )}
+  <>
+    <RentReviewPanel tenantId={tenantId} rentInfo={rentInfo} />
+    <RentPeriodForm
+      fetchRentInformation={fetchRentInformation}
+      rentInfo={rentInfo}
+      fetchTenantData={fetchTenantData}
+      setRentInfo={setRentInfo}
+      tenantData={tenantData}
+    />
+  </>
+)}
           {step === 1 && (
             <PaymentHis
               tenantId={tenantId}
@@ -66,6 +77,7 @@ const Widget = ({
             />
           )}
           {step === 2 && <Maintenance tenantData={tenantData} />}
+          {step === 3 && <InspectionPanel tenantId={tenantId} />}
         </div>
       </div>
     </div>
