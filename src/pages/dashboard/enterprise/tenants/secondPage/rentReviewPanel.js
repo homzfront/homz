@@ -10,18 +10,35 @@ import LoadingFormII from "@/components/mainmenu/loadingFormII";
 import DateIcon from "@/components/icons/date";
 import processNumber from "@/utils/processNumber";
 import useRentReviewTenant from "@/store/enterpriseStore/rentReview";
-import { createRentReview, updateRentReview, cancelRentReview } from "@/api/rentReviewService";
+import {
+  previewRentReviewLetter,
+  createRentReview,
+  updateRentReview,
+  cancelRentReview,
+} from "@/api/rentReviewService";
 
-// Slots into the "Rent Information" tab (see widget.js) alongside RentPeriodForm — spec §2.5:
-// "Tenant Profile → Rent Details tab: 'Review Rent' action + scheduled review badge."
+// A few starting-point drafts the manager can pick and then edit for the Reason field — the
+// full letter (generated in the next step) can also be edited freely before sending.
+const REASON_TEMPLATES = [
+  "Annual rent review in line with current market rates for similar properties in the area.",
+  "Rent adjustment following recent property upgrades and improvements.",
+  "Rent review to reflect increases in maintenance and operating costs.",
+];
+
 const RentReviewPanel = ({ tenantId, rentInfo }) => {
   const { data, loading, fetchData, getActiveReview } = useRentReviewTenant();
   const activeReview = getActiveReview();
 
   const [showForm, setShowForm] = useState(false);
+  // "fields" -> "letter": only the create flow goes through the letter step; editing an
+  // existing scheduled review stays on "fields" (edits don't re-send a letter, see backend note).
+  const [formStep, setFormStep] = useState("fields");
+
   const [newRent, setNewRent] = useState("");
   const [effectiveDate, setEffectiveDate] = useState(null);
-  const [note, setNote] = useState("");
+  const [reason, setReason] = useState("");
+  const [letterBody, setLetterBody] = useState("");
+
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [confirm, setConfirm] = useState(false);
@@ -36,39 +53,51 @@ const RentReviewPanel = ({ tenantId, rentInfo }) => {
     if (isEditing) {
       setNewRent(activeReview.newRent || "");
       setEffectiveDate(activeReview.effectiveDate ? new Date(activeReview.effectiveDate) : null);
-      setNote(activeReview.note || "");
+      setReason(activeReview.reason || "");
     } else {
       setNewRent("");
       setEffectiveDate(null);
-      setNote("");
+      setReason("");
     }
+    setLetterBody("");
+    setFormStep("fields");
     setError(null);
     setShowForm(true);
   };
 
   const closeForm = () => setShowForm(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (submitting) return;
+  const applyTemplate = (template) => {
+    setReason(template);
+    setError(null);
+  };
 
+  const validateFields = () => {
     if (!newRent || !effectiveDate) {
       setError("New rent amount and effective date are required");
       toast.error("New rent amount and effective date are required");
-      return;
+      return false;
     }
+    if (!reason || !reason.trim()) {
+      setError("A reason for the rent review is required");
+      toast.error("A reason for the rent review is required");
+      return false;
+    }
+    return true;
+  };
+
+  // Editing an existing review: no letter step, just save the fields directly (see backend note
+  // on why letterBody isn't touched on edit).
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    if (submitting || !validateFields()) return;
 
     setSubmitting(true);
-    const payload = {
+    const { success, error: apiError } = await updateRentReview(activeReview._id, {
       newRent: processNumber(newRent),
       effectiveDate,
-      note,
-    };
-
-    const { success, error: apiError } = isEditing
-      ? await updateRentReview(activeReview._id, payload)
-      : await createRentReview(tenantId, payload);
-
+      reason,
+    });
     setSubmitting(false);
 
     if (success) {
@@ -77,6 +106,65 @@ const RentReviewPanel = ({ tenantId, rentInfo }) => {
       fetchData(tenantId);
     } else {
       const message = apiError?.msg || "Could not save rent review";
+      setError(message);
+      toast.error(message);
+    }
+  };
+
+  // Creating a new review: generate the letter from the fields, move to the letter step.
+  const handleGenerateLetter = async (e) => {
+    e.preventDefault();
+    if (submitting || !validateFields()) return;
+
+    setSubmitting(true);
+    const { success, data: previewData, error: apiError } = await previewRentReviewLetter(tenantId, {
+      newRent: processNumber(newRent),
+      effectiveDate,
+      reason,
+    });
+    setSubmitting(false);
+
+    if (success) {
+      setLetterBody(previewData?.letterBody || "");
+      setFormStep("letter");
+      setError(null);
+    } else {
+      const message = apiError?.msg || "Could not generate the letter";
+      setError(message);
+      toast.error(message);
+    }
+  };
+
+  const handleBackToFields = () => {
+    setFormStep("fields");
+    setError(null);
+  };
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+
+    if (!letterBody || !letterBody.trim()) {
+      setError("The letter cannot be empty");
+      toast.error("The letter cannot be empty");
+      return;
+    }
+
+    setSubmitting(true);
+    const { success, error: apiError } = await createRentReview(tenantId, {
+      newRent: processNumber(newRent),
+      effectiveDate,
+      reason,
+      letterBody,
+    });
+    setSubmitting(false);
+
+    if (success) {
+      setShowForm(false);
+      setConfirm(true);
+      fetchData(tenantId);
+    } else {
+      const message = apiError?.msg || "Could not schedule rent review";
       setError(message);
       toast.error(message);
     }
@@ -122,10 +210,7 @@ const RentReviewPanel = ({ tenantId, rentInfo }) => {
           <div className="flex gap-3 shrink-0">
             {activeReview.status === "scheduled" && (
               <>
-                <button
-                  onClick={openForm}
-                  className="text-[13px] font-[600] underline"
-                >
+                <button onClick={openForm} className="text-[13px] font-[600] underline">
                   Edit
                 </button>
                 <button
@@ -149,13 +234,13 @@ const RentReviewPanel = ({ tenantId, rentInfo }) => {
         </button>
       )}
 
-      {showForm && (
+      {showForm && formStep === "fields" && (
         <CustomizedModal isOpen={showForm} onRequestClose={closeForm}>
           <div className="bg-white rounded-md w-full max-w-[480px] p-6">
             <h2 className="text-[18px] font-[700] text-BlackHomz mb-4">
               {isEditing ? "Edit Rent Review" : "Review Rent"}
             </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form onSubmit={isEditing ? handleUpdateSubmit : handleGenerateLetter} className="flex flex-col gap-4">
               {currentRent && (
                 <p className="text-[13px] text-GrayHomz2">
                   Current rent: ₦{Number(currentRent).toLocaleString()}
@@ -194,13 +279,35 @@ const RentReviewPanel = ({ tenantId, rentInfo }) => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-[500]">Note (optional)</label>
+                <label className="text-[14px] font-[500]">
+                  Reason <span className="text-error">*</span>
+                </label>
+                <div className="flex flex-col gap-2">
+                  {REASON_TEMPLATES.map((template, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start justify-between gap-3 border border-GrayHomz2 rounded-md px-3 py-2"
+                    >
+                      <p className="text-[13px] text-GrayHomz2">{template}</p>
+                      <button
+                        type="button"
+                        onClick={() => applyTemplate(template)}
+                        className="text-[12px] font-[600] text-BlueHomz shrink-0 whitespace-nowrap"
+                      >
+                        Use this
+                      </button>
+                    </div>
+                  ))}
+                </div>
                 <textarea
                   className="px-4 py-2 border rounded-md w-full text-[14px] placeholder:text-GrayHomz2"
                   rows={3}
-                  placeholder="Reason for review"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="Why is this rent being reviewed?"
+                  value={reason}
+                  onChange={(e) => {
+                    setReason(e.target.value);
+                    setError(null);
+                  }}
                 />
               </div>
               {error && <span className="text-[12px] text-error italic">{error}</span>}
@@ -216,7 +323,51 @@ const RentReviewPanel = ({ tenantId, rentInfo }) => {
                   type="submit"
                   className="h-[44px] w-full bg-BlueHomz text-white rounded-md text-[14px] font-[500] flex justify-center items-center"
                 >
-                  {submitting ? <LoadingFormII /> : isEditing ? "Save Changes" : "Schedule Review"}
+                  {submitting ? (
+                    <LoadingFormII />
+                  ) : isEditing ? (
+                    "Save Changes"
+                  ) : (
+                    "Next: Preview Letter"
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </CustomizedModal>
+      )}
+
+      {showForm && formStep === "letter" && (
+        <CustomizedModal isOpen={showForm} onRequestClose={closeForm}>
+          <div className="bg-white rounded-md w-full max-w-[640px] p-6">
+            <h2 className="text-[18px] font-[700] text-BlackHomz mb-2">Review the Letter</h2>
+            <p className="text-[13px] text-GrayHomz2 mb-4">
+              This is what will be sent to the tenant. Edit anything you'd like to change before sending.
+            </p>
+            <form onSubmit={handleSend} className="flex flex-col gap-4">
+              <textarea
+                className="px-4 py-3 border rounded-md w-full text-[14px] font-mono leading-relaxed"
+                rows={18}
+                value={letterBody}
+                onChange={(e) => {
+                  setLetterBody(e.target.value);
+                  setError(null);
+                }}
+              />
+              {error && <span className="text-[12px] text-error italic">{error}</span>}
+              <div className="flex gap-3 mt-2">
+                <button
+                  type="button"
+                  onClick={handleBackToFields}
+                  className="h-[44px] w-full border rounded-md text-[14px] font-[500]"
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="h-[44px] w-full bg-BlueHomz text-white rounded-md text-[14px] font-[500] flex justify-center items-center"
+                >
+                  {submitting ? <LoadingFormII /> : "Send & Schedule Review"}
                 </button>
               </div>
             </form>

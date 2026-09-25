@@ -50,7 +50,7 @@ const Widget = ({
   className={`rounded-md h-[37px] w-[auto] px-4 text-[14px] font-[500] py-2 text-center ${step === 3 ? "bg-BlueHomz text-white" : ""}`}
   onClick={() => setStep(3)}
 >
-  <p>Inspection</p>
+  <p>Routine Inspection</p>
 </div>
         </div>
         <div className="mt-5 rounded-[12px]">

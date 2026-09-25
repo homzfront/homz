@@ -134,7 +134,7 @@ const InspectionPanel = ({ tenantId }) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-[16px] font-[700] text-BlackHomz">Inspection</h2>
+        <h2 className="text-[16px] font-[700] text-BlackHomz">Routine Inspection</h2>
         {!scheduled && (
           <button
             onClick={() => openForm(false)}

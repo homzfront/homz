@@ -1,6 +1,15 @@
 import api from "@/utils/api";
 
-// Matches backend routes/rentReview.routes.ts mounted at /rentReview (see backend delivery notes)
+// Matches backend routes/rentReview.routes.ts mounted at /rentReview
+
+export const previewRentReviewLetter = async (tenantId, payload) => {
+  try {
+    const response = await api.post(`/rentReview/${tenantId}/preview`, payload);
+    return { success: true, data: response?.data.data };
+  } catch (error) {
+    return { success: false, error: error?.response?.data };
+  }
+};
 
 export const createRentReview = async (tenantId, payload) => {
   try {
