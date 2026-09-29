@@ -55,3 +55,33 @@ export const cancelRentReview = async (id, cancelReason) => {
     return { success: false, error: error?.response?.data };
   }
 };
+
+export const updateRentReviewBranding = async ({ letterHeader, signature }) => {
+  try {
+    const formData = new FormData();
+
+    if (letterHeader) {
+      formData.append("letterHeader", letterHeader);
+    }
+
+    if (signature) {
+      formData.append("signature", signature);
+    }
+
+    const response = await api.patch("/rentReview/branding", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return {
+      success: true,
+      data: response?.data?.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error?.response?.data,
+    };
+  }
+};
