@@ -15,6 +15,8 @@ import { tenantOnboardingAccept, tenantOnboardingReject } from "@/api/tenantSevi
 import TickSuccess from "@/components/icons/tickSuccess";
 import ArrowRightSmall from '@/components/icons/arrowRightSmall';
 import RentPeriodForm from '../secondPage/rentPeriodForm';
+import RentReviewPanel from '../secondPage/rentReviewPanel';
+import InspectionPanel from '../secondPage/inspectionPanel';
 
 const MobileProfile = ({
     tenantId,
@@ -36,6 +38,7 @@ const MobileProfile = ({
     const [active, setActive] = useState(tab ? tab === 'rentInfo' : true);
     const [activeTwo, setActiveTwo] = useState(tab === 'paymentHis');
     const [activeThree, setActiveThree] = useState(tab === 'maintenance');
+    const [activeFour, setActiveFour] = useState(tab === 'inspection');
     const [isAccepting, setIsAccepting] = React.useState(false)
     const [isRejecting, setIsRejecting] = React.useState(false)
     const [reason, setReason] = React.useState("")
@@ -102,6 +105,7 @@ const MobileProfile = ({
     const handleRent = () => {
         setActiveTwo(false);
         setActiveThree(false);
+        setActiveFour(false);
         setActive(true);
     };
 
@@ -109,10 +113,19 @@ const MobileProfile = ({
         setActiveTwo(true);
         setActive(false);
         setActiveThree(false);
+        setActiveFour(false);
     };
 
     const handleMaintain = () => {
         setActiveThree(true);
+        setActiveTwo(false);
+        setActive(false);
+        setActiveFour(false);
+    };
+
+    const handleInspection = () => {
+        setActiveFour(true);
+        setActiveThree(false);
         setActiveTwo(false);
         setActive(false);
     };
@@ -216,10 +229,20 @@ const MobileProfile = ({
                                     {tenantData?.data?.maintenanceRequests ? tenantData?.data?.maintenanceRequests?.length : "0"}
                                 </span>
                             </button>
+                            <button
+                                onClick={handleInspection}
+                                className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeFour
+                                    ? "inline-block shadow-md bg-[#006AFF] text-white "
+                                    : "bg-[#EEF5FF] text-[#006AFF]"
+                                    }`}
+                            >
+                                Routine Inspection
+                            </button>
                         </div>
                     </div>
                     <div className="my-7 rounded-[12px] w-full">
                         <div className={`${active ? "inline" : "hidden"}`}>
+                            <RentReviewPanel tenantId={tenantId} rentInfo={rentInfo} />
                             <RentPeriodForm
                                 fetchTenantData={fetchTenantData}
                                 fetchRentInformation={fetchRentInformation}
@@ -242,6 +265,9 @@ const MobileProfile = ({
                             <Maintenance
                                 tenantData={tenantData}
                             />
+                        </div>
+                        <div className={`${activeFour ? "inline" : "hidden"} w-full`}>
+                            <InspectionPanel tenantId={tenantId} />
                         </div>
                     </div>
                 </div>
@@ -362,12 +388,24 @@ const MobileProfile = ({
                                 <RightArrow />
                             </div>
                         </div>
-                        <div className='px-4 h-[60px] flex items-center justify-between w-full'>
+                        <div className='px-4 h-[60px] flex items-center border-GrayHomz2 border-b-[1px] justify-between w-full'>
                             Maintenance request
                             <div
                                 onClick={() => {
                                     setShowWidget(true)
                                     handleMaintain()
+                                }}
+                                className='cursor-pointer'
+                            >
+                                <RightArrow />
+                            </div>
+                        </div>
+                        <div className='px-4 h-[60px] flex items-center justify-between w-full'>
+                            Routine Inspection
+                            <div
+                                onClick={() => {
+                                    setShowWidget(true)
+                                    handleInspection()
                                 }}
                                 className='cursor-pointer'
                             >
