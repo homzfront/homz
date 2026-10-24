@@ -237,9 +237,7 @@ const Estate = () => {
               />
               Add New Property
             </button>
-            {/* <VideoModal
-              videoUrl={videoLink}
-            /> */}
+         
           </div>
         </div>
       )}
