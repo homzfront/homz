@@ -1,8 +1,10 @@
 import { create } from 'zustand'
-import { getInspectionsByTenant } from '@/api/inspectionService';
+import { getInspectionsByTenant, getInspectionsByEstate } from '@/api/inspectionService';
 
-// Holds the inspection history for one tenant, plus a convenience getter for the
-// currently scheduled one — the panel needs that for the badge/date-time display (spec §3.5).
+// Holds the inspections for one property, plus a convenience getter for the currently
+// scheduled one. Two ways in:
+//  - fetchByEstate(estateId): the property page's Routine Inspection tab (manage them)
+//  - fetchData(tenantId): the tenant profile's read-only tab (shows the tenant's property)
 const useInspectionTenant = create((set, get) => ({
   data: [],
   loading: true,
@@ -11,6 +13,16 @@ const useInspectionTenant = create((set, get) => ({
     set({ loading: true });
     try {
       const response = await getInspectionsByTenant(tenantId);
+      set({ data: response?.data || [], loading: false });
+    } catch (error) {
+      set({ loading: false });
+    }
+  },
+  fetchByEstate: async (estateId) => {
+    if (!estateId) return;
+    set({ loading: true });
+    try {
+      const response = await getInspectionsByEstate(estateId);
       set({ data: response?.data || [], loading: false });
     } catch (error) {
       set({ loading: false });

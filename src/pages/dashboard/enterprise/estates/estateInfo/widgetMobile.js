@@ -4,6 +4,7 @@ import Photos from "./components/photos.js";
 import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 import BankAccountDetails from './components/bankAccountDetails.js';
+import PropertyInspectionPanel from './components/propertyInspectionPanel.js';
 import useEditPropertyTab from '@/store/enterpriseStore/useEditPropertyTab.js';
 
 const WidgetMobile = ({ data, id }) => {
@@ -13,8 +14,20 @@ const WidgetMobile = ({ data, id }) => {
     const [activeThree, setActiveThree] = useState(false);
     const [activeFour, setActiveFour] = useState((tab === 'document'));
     const [activeFive, setActiveFive] = useState((tab === 'bank')); 
+    const [activeSix, setActiveSix] = useState((tab === 'inspection'));
+
+    const handlePageChangeSix = () => {
+      setActiveSix(true);
+      setActiveFive(false);
+      setActiveFour(false);
+      setActiveThree(false);
+      setActiveTwo(false);
+      setActive(true);
+      setTab(null);
+    };
 
     const handlePageChange = () => {
+      setActiveSix(false);
         setActive(false);
         setActiveTwo(false);
         setActiveThree(false);
@@ -24,6 +37,7 @@ const WidgetMobile = ({ data, id }) => {
     };
 
     const handlePageChangeTwo = () => {
+      setActiveSix(false);
         setActiveTwo(true);
         setActive(true);
         setActiveThree(false);
@@ -33,6 +47,7 @@ const WidgetMobile = ({ data, id }) => {
     };
 
     const handlePageChangeThree = () => {
+      setActiveSix(false);
         setActiveThree(true);
         setActiveTwo(false);
         setActive(true);
@@ -41,6 +56,7 @@ const WidgetMobile = ({ data, id }) => {
     };
 
     const handlePageChangeFour = () => {
+      setActiveSix(false);
         setActiveFour(true);
         setActiveThree(false);
         setActiveTwo(false);
@@ -50,6 +66,7 @@ const WidgetMobile = ({ data, id }) => {
     };
 
     const handlePageChangeFive = () => {
+      setActiveSix(false);
         setActiveFour(false);
         setActiveThree(false);
         setActiveTwo(false);
@@ -107,6 +124,15 @@ const WidgetMobile = ({ data, id }) => {
                     >
                         Bank Account Details
                     </button>
+                    <button
+                        onClick={handlePageChangeSix}
+                        className={`py-[8px] px-[12px] rounded-[4px] text-[11px] ${activeSix
+                            ? "inline-block shadow-md bg-[#006AFF] text-white "
+                            : "bg-[#EEF5FF] text-[#006AFF]"
+                            }`}
+                    >
+                        Routine Inspection
+                    </button>
                 </div>
             </div>
             <div className="my-7 rounded-[12px] w-full">
@@ -125,6 +151,9 @@ const WidgetMobile = ({ data, id }) => {
                 <div className={`${activeFive ? "inline" : "hidden"}`}>
                     <BankAccountDetails data={data} />
                 </div>
+          <div className={`${activeSix ? "inline" : "hidden"}`}>
+            <PropertyInspectionPanel estateId={id} />
+          </div>
             </div>
         </div>
     )
