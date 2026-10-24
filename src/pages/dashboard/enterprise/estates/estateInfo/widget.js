@@ -6,6 +6,7 @@ import ContactInfo from "./components/contactInfo.js";
 import Documents from "./components/documents.js";
 import Image from "next/image.js";
 import BankAccountDetails from "./components/bankAccountDetails.js";
+import PropertyInspectionPanel from './components/propertyInspectionPanel.js';
 import useEditPropertyTab from "@/store/enterpriseStore/useEditPropertyTab.js";
 const Widget = ({ data, isLoading, id }) => {
   const { tab, setTab } = useEditPropertyTab();
@@ -14,8 +15,20 @@ const Widget = ({ data, isLoading, id }) => {
   const [activeThree, setActiveThree] = useState(false);
   const [activeFour, setActiveFour] = useState((tab === 'document'));
   const [activeFive, setActiveFive] = useState((tab === 'bank')); 
+  const [activeSix, setActiveSix] = useState((tab === 'inspection'));
+
+  const handlePageChangeSix = () => {
+    setActiveSix(true);
+    setActiveFive(false);
+    setActiveFour(false);
+    setActiveThree(false);
+    setActiveTwo(false);
+    setActive(true);
+    setTab(null);
+  };
 
   const handlePageChange = () => {
+    setActiveSix(false);
     setActive(false);
     setActiveTwo(false);
     setActiveThree(false);
@@ -25,6 +38,7 @@ const Widget = ({ data, isLoading, id }) => {
   };
 
   const handlePageChangeTwo = () => {
+    setActiveSix(false);
     setActiveTwo(true);
     setActive(true);
     setActiveThree(false);
@@ -34,6 +48,7 @@ const Widget = ({ data, isLoading, id }) => {
   };
 
   const handlePageChangeThree = () => {
+    setActiveSix(false);
     setActiveThree(true);
     setActiveTwo(false);
     setActive(true);
@@ -43,6 +58,7 @@ const Widget = ({ data, isLoading, id }) => {
   };
 
   const handlePageChangeFour = () => {
+    setActiveSix(false);
     setActiveFour(true);
     setActiveThree(false);
     setActiveTwo(false);
@@ -52,6 +68,7 @@ const Widget = ({ data, isLoading, id }) => {
   };
 
   const handlePageChangeFive = () => {
+    setActiveSix(false);
     setActiveFour(false);
     setActiveThree(false);
     setActiveTwo(false);
@@ -65,7 +82,7 @@ const Widget = ({ data, isLoading, id }) => {
     <div >
       <div className="w-full h-auto pb-4">
         <div className="w-full mt-5 flex justify-between items-center px-8">
-          <div className=" flex  gap-4 justify-between w-[800px] cursor-pointer">
+          <div className=" flex  gap-4 justify-between w-[1000px] max-w-full cursor-pointer">
             <div
               className={`flex flex-col items-center py-2 px-4 justify-center rounded-md ${
                 !active ? "bg-BlueHomz text-white" : "text-BlackHomz "
@@ -116,6 +133,16 @@ const Widget = ({ data, isLoading, id }) => {
                 <p className="text-[14px] font-500">Bank Account Details</p>
               </div>
             </div>
+            <div className="flex flex-col items-center gap-2 justify-center">
+              <div
+                className={`flex flex-col py-2 px-4 items-center justify-center rounded-md ${
+                  activeSix ? "bg-BlueHomz text-white" : "text-BlackHomz "
+                }`}
+                onClick={() => handlePageChangeSix()}
+              >
+                <p className="text-[14px] font-500">Routine Inspection</p>
+              </div>
+            </div>
           </div>
           {/* <button className="flex items-center gap-1">
             <Image
@@ -144,6 +171,9 @@ const Widget = ({ data, isLoading, id }) => {
           </div>
           <div className={`${activeFive ? "inline" : "hidden"}`}>
             <BankAccountDetails data={data}/>
+          </div>
+          <div className={`${activeSix ? "inline" : "hidden"}`}>
+            <PropertyInspectionPanel estateId={id} />
           </div>
         </div>
       </div>
