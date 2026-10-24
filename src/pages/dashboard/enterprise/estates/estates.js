@@ -51,7 +51,6 @@ const Estate = () => {
   const videoLink = "https://www.youtube.com/watch?v=fgd0aj8xrAA&ab_channel=HomzNG";
 
 
-  // useEffect to handle scrolling
   useBodyScroll([inviteTenant, loading]);
 
   useEffect(() => {
